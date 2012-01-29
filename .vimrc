@@ -728,6 +728,36 @@ command! -nargs=0 SD :VCSDiff HEAD
 let g:Powerline_symbols = 'fancy'
 
 "-----------------------------------------------------------------------------
+" JpFormat.vim
+" 現在行を整形
+nnoremap <silent> gl :JpFormat<CR>
+" 現在行が整形対象外でも強制的に整形
+nnoremap <silent> gL :JpFormat!<CR>
+" 自動整形のON/OFF切替
+" 30gc の様にカウント指定すると、折り返し文字数を指定されたカウントに変更します。
+nnoremap <silent> gc :JpFormatToggle<CR>
+
+" カーソル位置の分割行をまとめてヤンク
+nnoremap <silent> gY :JpYank<CR>
+" カーソル位置の分割行をまとめて連結
+nnoremap <silent> gJ :JpJoin<CR>
+
+" 整形に gqを使うかどうかをトグルする
+nnoremap <silent> gC :JpFormatGqToggle<CR>
+" 外部ビューアを起動する
+nnoremap <silent> <F8> :JpExtViewer<CR>
+" txtファイルで「連結マーカー+改行」が有ったら自動整形を有効にする
+au BufRead *.txt  silent! call JpSetAutoFormat()
+
+" 日本語の行の連結時には空白を入力しない。
+set formatoptions+=mM
+" iText Expressで開く
+let ExtViewer_txt = '!open -a "iText Express" "%f"'
+" 外部ビューアに渡すファイル名
+let EV_Tempname_txt = '/tmp/.evtemp'
+
+
+"-----------------------------------------------------------------------------
 " Ricty 使うようになったらいらなくなった
 " 全角スペース・行末のスペース・タブの可視化
 if has('syntax')
