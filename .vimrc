@@ -211,7 +211,7 @@ map # <Plug>(visualstar-#)N
 "nnoremap <silent> cy ce<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "vnoremap <silent> cy c<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
-set number
+"set number
 set encoding=utf-8
 set termencoding=utf-8
 set hls
