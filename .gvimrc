@@ -72,8 +72,6 @@ endif
 set showtabline=2
 set printfont=Consolas:h9
 set printoptions=number:y
-set ambiwidth=double
-"set ambiwidth=single
 set visualbell
 set iminsert=0
 set imsearch=-1

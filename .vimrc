@@ -272,6 +272,8 @@ set background=dark
 set nrformats=
 " ウィンドウタイトルを更新しない
 set notitle
+" 全角文字は全角用フォントで表示
+set ambiwidth=double
 "colo calmar256-light
 "colo xorium
 "colo desertEx
