@@ -32,8 +32,8 @@ elseif is_win
 	call vundle#rc('$HOME/.vim/bundle/')
 endif
 
-Bundle 'Shougo/unite.vim'
 Bundle 'Shougo/vimfiler'
+Bundle 'Shougo/unite.vim'
 Bundle 'Shougo/vimproc'
 Bundle 'Shougo/vimshell'
 Bundle 'Shougo/neocomplcache'
