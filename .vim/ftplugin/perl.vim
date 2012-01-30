@@ -1,1 +1,1 @@
-setl mp=perl -c %:p
+setl mp=perl\ -c\ %:p
