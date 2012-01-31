@@ -1,0 +1,108 @@
+" <C-H>への対応
+"noremap <C-H> <BS>
+" : と ; の入れ替え
+noremap : ;
+noremap ; :
+" 「戻る」と「進む」
+noremap <C-1> <C-o>
+noremap <C-2> <C-i>
+" タブへ移動
+noremap <C-3> gT
+noremap <C-4> gt
+" タブを移動
+noremap <C-S-3> ;tabmove! -1<CR>
+noremap <C-S-4> ;tabmove! +1<CR>
+" コマンドライン
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-h> <BS>
+cnoremap <A-f> <C-Right>
+cnoremap <A-b> <C-Left>
+" マッピング
+noremap m :mark 
+" タブグループ
+"nnoremap <C-;> <C-`>
+"nnoremap <C-'> <C-S-`>
+" タブ切り替え
+nnoremap # :b #<CR>
+" メール表示
+nnoremap <C-m> :buffer mail<CR>
+"
+set go-=br
+set go-=T
+
+" スクロール量
+set scroll=5
+" タブは表示
+set showtabline=always
+" ヒントに使う文字
+set hintkeys=HJKLASDFGYUIOPQWERTNMZXCVB
+" GVimへのパス
+"set editor=X:/Utilities/vim/gvim.exe
+set editor="/Applications/MacVim.app/Contents/MacOS/Vim -g -f"
+
+" Gmail 対応
+"set passkeys+=mail.google.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
+" Gmail の方で、転送を w|W に、ゴミ箱へ移動を $ に変更した。
+" ` と ~ を追加
+set passkeys+=mail.google.com:'`~!$*+-./<C-Down><C-s><Enter>?INU[]acewjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
+"set passkeys+=www.google.com/calendar:'kpjnrt12345dwmxace<Backspace><Delete><C-z>z/+q<C-p>s<C-?>?'
+set passkeys+=www.google.com/calendar:'kpjnrt12345dwmxace<Backspace><Delete><C-z>z/+qs<C-?>?'
+
+" http://vimperator.g.hatena.ne.jp/teramako/20090311/1236776437
+" ime-controller.jsの代わり
+style -name commandline-ime chrome://* #dactyl-commandline-command input {ime-mode: inactive;}
+
+" カラースキーム
+" 参照 : http://d.hatena.ne.jp/tlync/20090222/1235313891
+" リンク先のカラースキームファイルを以下のファイル名で保存する。
+" $HOME/pentadactyl/colors/vimplight.penta
+colorscheme desert
+
+" copy.js
+javascript <<EOM
+dactyl.globalVariables.copy_templates = [
+    { label: 'titleAndURL', value: '%TITLE%\n%URL%', map: ',Y' }
+    ,{ label: 'title', value: '%TITLE%', map: ',y' }
+    ,{ label: 'anchor', value: '<a href="%URL%">%TITLE%</a>' }
+    ,{ label: 'selanchor',  value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' }
+	,{ label: 'markdown', value: '[%TITLE%](%URL% "%TITLE%")', map: ',M' }
+    ,{ label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
+    ,{ label: 'htmlblockquote2',
+        value: '<blockquote>\n<p>%TITLE%<br />\n<a href="%URL%">%URL%</a></p>\n</blockquote>',
+        map:',q' }
+    ,{ label: 'ASIN', value: 'copy ASIN code from Amazon',
+        custom: function(){return content.document.getElementById('ASIN').value;} }
+];
+EOM
+
+" はてなブックマーク
+javascript <<JS
+if ( typeof hBookmark != 'undefined' )
+    dactyl.loadScript(
+        'chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js',
+        {__proto__: this} ); 
+JS
+
+" Instapaper
+js <<EOF
+commands.addUserCommand(['readlater', 'rl'],
+    'Send current page to Instapaper',
+    function (args) {
+        try {
+            let doc = content.document;
+            dactyl.assert(doc.body);
+            doc.title = '(Saving...) ' + doc.title;
+            doc.body.appendChild(util.xmlToDom( /* instapaper api url */
+                String(<script type="application/javascript"
+                src="http://www.instapaper.com/j/gvo5f1niyk"/>),
+                doc));
+        } catch(e) {
+            dactyl.echoerr('Please wait until the page has loaded. : ' + e);
+        }
+    }, {}, true);
+EOF
