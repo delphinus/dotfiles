@@ -29,7 +29,7 @@ elseif is_office
 	let g:bundle_dir = expand('$H/.vim/bundle')
 elseif is_win
 	set rtp+=$HOME/.vim/vundle
-	let g:bundle_dir = expand('$H/.vim/bundle')
+	let g:bundle_dir = expand('$HOME/.vim/bundle')
 endif
 
 if ! isdirectory(g:bundle_dir)
