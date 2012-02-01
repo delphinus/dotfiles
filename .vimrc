@@ -22,48 +22,55 @@ filetype off
 
 if is_remora || is_office_cygwin || is_backup
 	set rtp+=~/.vim/vundle
-	call vundle#rc('$HOME/.vim/bundle/')
+	let g:bundle_dir = expand('~/.vim/bundle')
 elseif is_office 
 	set rtp-=$HOME/.vim
 	set rtp+=$H/.vim/vundle/
-	call vundle#rc('$H/.vim/bundle/')
+	let g:bundle_dir = expand('$H/.vim/bundle')
 elseif is_win
 	set rtp+=$HOME/.vim/vundle
-	call vundle#rc('$HOME/.vim/bundle/')
+	let g:bundle_dir = expand('$H/.vim/bundle')
 endif
 
-Bundle 'Shougo/vimfiler'
-Bundle 'Shougo/unite.vim'
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/vimshell'
-Bundle 'Shougo/neocomplcache'
+if ! isdirectory(g:bundle_dir)
+	call mkdir(g:bundle_dir)
+endif
+
+call vundle#rc(g:bundle_dir)
+
+Bundle 'bcat/abbott.vim'
 Bundle 'fuenor/qfixhowm'
 Bundle 'fuenor/vim-make-syntax'
 Bundle 'fuenor/JpFormat.vim'
 Bundle 'h1mesuke/unite-outline'
-Bundle 'bcat/abbott.vim'
-Bundle 'rainux/vim-desert-warm-256'
-Bundle 'pix/vim-align'
-Bundle 'vim-jp/vimdoc-ja'
 Bundle 'jelera/vim-javascript-syntax'
+Bundle 'gregsexton/VimCalc'
+Bundle 'houtsnip/vim-emacscommandline'
+Bundle 'godlygeek/csapprox'
 "Bundle 'Lokaltog/vim-powerline'
 Bundle 'delphinus35/vim-powerline'
-Bundle 'unite-colorscheme'
-Bundle 'ref.vim'
-Bundle 'Color-Sampler-Pack'
-Bundle 'Perl-MooseX.Declare-Syntax'
-Bundle 'vcscommand.vim'
-Bundle 'Gundo'
-Bundle 'CSApprox'
-Bundle 'calendar.vim--Matsumoto'
-Bundle 'visualstar.vim'
-"Bundle 'VimCalc'
-Bundle 'emacscommandline'
-Bundle 'Indent-Guides'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'pix/vim-align'
+Bundle 'rainux/vim-desert-warm-256'
+Bundle 'Shougo/unite.vim'
+Bundle 'Shougo/vimfiler'
+Bundle 'Shougo/vimproc'
+Bundle 'Shougo/vimshell'
+Bundle 'Shougo/neocomplcache'
+Bundle 'thinca/vim-quickrun'
+Bundle 'thinca/vim-ref'
+Bundle 'thinca/vim-visualstar'
+Bundle 'ujihisa/unite-colorscheme'
+Bundle 'vim-jp/vimdoc-ja'
+Bundle 'vim-scripts/calendar.vim--Matsumoto'
+Bundle 'vim-scripts/Color-Sampler-Pack'
+Bundle 'vim-scripts/compilerjsl.vim'
+Bundle 'vim-scripts/DrawIt'
+Bundle 'vim-scripts/Gundo'
+Bundle 'vim-scripts/Perl-MooseX.Declare-Syntax'
+Bundle 'vim-scripts/vcscommand.vim'
+
 "Bundle 'surround.vim'
-Bundle 'compilerjsl.vim'
-Bundle 'quickrun.vim'
-Bundle 'DrawIt'
 "Bundle 'neon-PK'
 
 filetype plugin indent on
