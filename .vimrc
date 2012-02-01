@@ -39,6 +39,9 @@ endif
 call vundle#rc(g:bundle_dir)
 
 Bundle 'bcat/abbott.vim'
+Bundle 'basyura/TweetVim'
+Bundle 'basyura/bitly.vim'
+Bundle 'basyura/twibill.vim'
 Bundle 'fuenor/qfixhowm'
 Bundle 'fuenor/vim-make-syntax'
 Bundle 'fuenor/JpFormat.vim'
@@ -51,6 +54,7 @@ Bundle 'jnurmine/Zenburn'
 "Bundle 'Lokaltog/vim-powerline'
 Bundle 'delphinus35/vim-powerline'
 Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'mattn/webapi-vim'
 Bundle 'pix/vim-align'
 Bundle 'rainux/vim-desert-warm-256'
 Bundle 'Shougo/unite.vim'
@@ -61,6 +65,7 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'thinca/vim-quickrun'
 Bundle 'thinca/vim-ref'
 Bundle 'thinca/vim-visualstar'
+Bundle 'tyru/open-browser.vim'
 Bundle 'ujihisa/unite-colorscheme'
 Bundle 'vim-jp/vimdoc-ja'
 Bundle 'vim-scripts/calendar.vim--Matsumoto'
@@ -767,6 +772,28 @@ set formatoptions+=mM
 let ExtViewer_txt = '!open -a "iText Express" "%f"'
 " 外部ビューアに渡すファイル名
 let EV_Tempname_txt = '/tmp/.evtemp'
+
+"-----------------------------------------------------------------------------
+" TweetVim
+" タイムライン選択用の Unite を起動する
+nnoremap <silent> t :Unite tweetvim<CR>
+" 発言用バッファを表示する
+nnoremap <silent> s :TweetVimSay<CR>
+
+if is_remora || is_office_cygwin || is_backup
+	let g:tweetvim_config_dir = expand('~/.tweetvim')
+elseif is_office
+	let g:tweetvim_config_dir = expand('$H/.tweetvim')
+elseif is_win
+	let g:tweetvim_config_dir = expand('$HOME/.tweetvim')
+endif
+
+" スクリーン名のキャッシュを利用して、neocomplcache で補完する
+if !exists('g:neocomplcache_dictionary_filetype_lists')
+  let g:neocomplcache_dictionary_filetype_lists = {}
+endif
+let neco_dic = g:neocomplcache_dictionary_filetype_lists
+let neco_dic.tweetvim_say = g:tweetvim_config_dir . '/screen_name'
 
 
 "-----------------------------------------------------------------------------
