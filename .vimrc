@@ -47,6 +47,7 @@ Bundle 'jelera/vim-javascript-syntax'
 Bundle 'gregsexton/VimCalc'
 Bundle 'houtsnip/vim-emacscommandline'
 Bundle 'godlygeek/csapprox'
+Bundle 'jnurmine/Zenburn'
 "Bundle 'Lokaltog/vim-powerline'
 Bundle 'delphinus35/vim-powerline'
 Bundle 'nathanaelkane/vim-indent-guides'
@@ -292,7 +293,9 @@ set ambiwidth=double
 "hi CursorLine term=none ctermbg=238
 "colo abbott
 "colo desert-warm-256
-colo neon-PK
+"colo neon-PK
+"colo rhinestones
+colo zenburn
 filetype plugin on
 
 "-----------------------------------------------------------------------------
