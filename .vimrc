@@ -301,6 +301,7 @@ set ambiwidth=double
 "colo desert-warm-256
 "colo neon-PK
 "colo rhinestones
+"colo papayawhip
 colo zenburn
 filetype plugin on
 
@@ -795,6 +796,9 @@ if !exists('g:neocomplcache_dictionary_filetype_lists')
 endif
 let neco_dic = g:neocomplcache_dictionary_filetype_lists
 let neco_dic.tweetvim_say = g:tweetvim_config_dir . '/screen_name'
+
+" 1 ページあたりのツイート取得件数
+let g:tweetvim_tweet_per_page = 100
 
 
 "-----------------------------------------------------------------------------
