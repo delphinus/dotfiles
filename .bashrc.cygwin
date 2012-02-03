@@ -1,0 +1,43 @@
+# base-files version 4.0-4
+# ~/.bashrc: executed by bash(1) for interactive shells.
+
+# The latest version as installed by the Cygwin Setup program can
+# always be found at /etc/defaults/etc/skel/.bashrc
+
+# Modifying /etc/skel/.bashrc directly will prevent
+# setup from updating it.
+
+# The copy in your home directory (~/.bashrc) is yours, please
+# feel free to customise it to create a shell
+# environment to your liking.  If you feel a change
+# would be benificial to all, please feel free to send
+# a patch to the cygwin mailing list.
+
+# User dependent .bashrc file
+
+# If not running interactively, don't do anything
+[[ "$-" != *i* ]] && return
+
+# Shell Options
+#
+# See man bash for more options...
+#
+# Don't wait for job termination notification
+# set -o notify
+#
+
+function parse_git_dirty {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)] /"
+}
+
+# User specific aliases and functions
+PS1='\e[1;36m$(parse_git_branch)\e[1;32m[\u@\h \w] \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
+
+alias ls='ls -F --color'
+alias ll='ls -F -l'
+alias l.='ls -F -d .*'
+
+mount -c /
