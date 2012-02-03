@@ -82,4 +82,5 @@ set linespace=0
 "colo desert-warm-256
 "colo bubblegum
 "colo neon-PK
-colo zenburn
+"colo zenburn
+colo papayawhip
