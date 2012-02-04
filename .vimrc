@@ -804,6 +804,12 @@ let g:tweetvim_tweet_per_page = 100
 
 
 "-----------------------------------------------------------------------------
+" vim-pastefire
+nnoremap <Leader>p :Pastefire 
+vnoremap <Leader>p :PastefireRange<CR>
+
+
+"-----------------------------------------------------------------------------
 " Ricty 使うようになったらいらなくなった
 " 全角スペース・行末のスペース・タブの可視化
 if has('syntax')
