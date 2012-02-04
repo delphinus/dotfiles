@@ -461,11 +461,11 @@ let g:quickrun_no_default_key_mappings=1
 " 必要なモジュールをロード
 let g:quickrun_config = {
 \   'perl' : {
-\       'exec' : 'perl -M5.12.0 -MYAML -Mutf8 %s',
+\       'exec' : 'perl -MYAML -M"HTTP::Date qw!str2time time2iso!" -Mutf8 %s',
 \       'command' : 'perl',
-\       'comopt' : '-M5.12.0 -MYAML -Mutf8',
+\       'comopt' : '-MYAML -M"HTTP::Date qw!str2time time2iso!" -Mutf8',
 \       'eval' : 1,
-\       'eval_template': 'no strict;binmode STDOUT,":encoding(utf8)";$e=eval{%s};say$e?Dump($e):$@',
+\       'eval_template': 'no strict;binmode STDOUT,":encoding(utf8)";$e=eval{%s};print$e?Dump($e):$@',
 \   }
 \}
 " ビジュアルモードで選択した部分を実行
