@@ -783,6 +783,10 @@ let EV_Tempname_txt = '/tmp/.evtemp'
 nnoremap <silent> t :Unite tweetvim<CR>
 " 発言用バッファを表示する
 nnoremap <silent> s :TweetVimSay<CR>
+" mentions を表示する
+nnoremap <silent> <Leader>re   :<C-u>TweetVimMentions<CR>
+" 特定のリストのタイムラインを表示する
+nnoremap <silent> <Leader>tl   :<C-u>TweetVimListStatuses list<CR>
 
 if is_remora || is_office_cygwin || is_backup
 	let g:tweetvim_config_dir = expand('~/.tweetvim')
