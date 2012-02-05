@@ -805,8 +805,8 @@ let g:tweetvim_tweet_per_page = 100
 
 "-----------------------------------------------------------------------------
 " vim-pastefire
-nnoremap <Leader>p :Pastefire 
-vnoremap <Leader>p :PastefireRange<CR>
+nnoremap <Leader>pf :Pastefire 
+vnoremap <Leader>pf :PastefireRange<CR>
 
 
 "-----------------------------------------------------------------------------
