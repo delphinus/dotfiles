@@ -51,9 +51,11 @@ Bundle 'gregsexton/VimCalc'
 Bundle 'houtsnip/vim-emacscommandline'
 Bundle 'godlygeek/csapprox'
 Bundle 'jnurmine/Zenburn'
+Bundle 'delphinus35/vim-pastefire'
 "Bundle 'Lokaltog/vim-powerline'
 Bundle 'delphinus35/vim-powerline'
 Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'mattn/gist-vim'
 "Bundle 'mattn/webapi-vim'
 Bundle 'basyura/webapi-vim'
 Bundle 'pix/vim-align'
@@ -66,6 +68,7 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'thinca/vim-quickrun'
 Bundle 'thinca/vim-ref'
 Bundle 'thinca/vim-visualstar'
+Bundle 'tyru/current-func-info.vim'
 Bundle 'tyru/open-browser.vim'
 Bundle 'ujihisa/unite-colorscheme'
 Bundle 'vim-jp/vimdoc-ja'
@@ -459,11 +462,11 @@ let g:quickrun_no_default_key_mappings=1
 " 必要なモジュールをロード
 let g:quickrun_config = {
 \   'perl' : {
-\       'exec' : 'perl -M5.12.0 -MYAML -Mutf8 %s',
+\       'exec' : 'perl -MYAML -M"HTTP::Date qw!str2time time2iso!" -Mutf8 %s',
 \       'command' : 'perl',
-\       'comopt' : '-M5.12.0 -MYAML -Mutf8',
+\       'comopt' : '-MYAML -M"HTTP::Date qw!str2time time2iso!" -Mutf8',
 \       'eval' : 1,
-\       'eval_template': 'no strict;binmode STDOUT,":encoding(utf8)";$e=eval{%s};say$e?Dump($e):$@',
+\       'eval_template': 'no strict;binmode STDOUT,":encoding(utf8)";$e=eval{%s};print$e?Dump($e):$@',
 \   }
 \}
 " ビジュアルモードで選択した部分を実行
@@ -781,6 +784,10 @@ let EV_Tempname_txt = '/tmp/.evtemp'
 nnoremap <silent> t :Unite tweetvim<CR>
 " 発言用バッファを表示する
 nnoremap <silent> s :TweetVimSay<CR>
+" mentions を表示する
+nnoremap <silent> <Leader>re   :<C-u>TweetVimMentions<CR>
+" 特定のリストのタイムラインを表示する
+nnoremap <silent> <Leader>tl   :<C-u>TweetVimListStatuses list<CR>
 
 if is_remora || is_office_cygwin || is_backup
 	let g:tweetvim_config_dir = expand('~/.tweetvim')
@@ -799,6 +806,12 @@ let neco_dic.tweetvim_say = g:tweetvim_config_dir . '/screen_name'
 
 " 1 ページあたりのツイート取得件数
 let g:tweetvim_tweet_per_page = 100
+
+
+"-----------------------------------------------------------------------------
+" vim-pastefire
+nnoremap <Leader>pf :Pastefire 
+vnoremap <Leader>pf :PastefireRange<CR>
 
 
 "-----------------------------------------------------------------------------
