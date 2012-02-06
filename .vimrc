@@ -460,11 +460,15 @@ command! CD :cd %:h
 " 他のと干渉するのでマッピングはしない
 let g:quickrun_no_default_key_mappings=1
 " 必要なモジュールをロード
+let g:quickrun_perl_modules = '-MYAML -M"HTTP::Date qw!str2time time2iso!" -MDateTime -Mutf8'
+if is_office
+	let g:quickrun_perl_modules .= ' -MGameConf'
+endif
 let g:quickrun_config = {
 \   'perl' : {
-\       'exec' : 'perl -MYAML -M"HTTP::Date qw!str2time time2iso!" -Mutf8 %s',
+\       'exec' : '%c %o %s',
 \       'command' : 'perl',
-\       'comopt' : '-MYAML -M"HTTP::Date qw!str2time time2iso!" -Mutf8',
+\       'cmdopt' : '%{g:quickrun_perl_modules}',
 \       'eval' : 1,
 \       'eval_template': 'no strict;binmode STDOUT,":encoding(utf8)";$e=eval{%s};print$e?Dump($e):$@',
 \   }
