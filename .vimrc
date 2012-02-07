@@ -304,8 +304,8 @@ set ambiwidth=double
 "colo desert-warm-256
 "colo neon-PK
 "colo rhinestones
-"colo zenburn
-colo papayawhip
+colo zenburn
+"colo papayawhip
 filetype plugin on
 
 "-----------------------------------------------------------------------------
