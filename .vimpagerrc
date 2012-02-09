@@ -1,0 +1,156 @@
+scriptencoding 'utf-8'
+let g:is_remora_cx = hostname() == 'remora.cx'
+let g:is_remora = hostname() =~ '^remora'
+let g:is_backup = hostname() == 'backup.remora.cx'
+let g:is_office = len($H) > 0 && has('unix')
+let g:is_office_win = len($USERDOMAIN) && has('win32')
+let g:is_office_cygwin = len($USERDOMAIN) && has('win32unix')
+let g:is_xerxes = hostname() == 'xerxes'
+let g:is_remora_air2_win = hostname() == 'remora-air2-win'
+let g:is_unix = is_remora || is_backup || is_office || is_office_cygwin
+let g:is_win = is_office_win || is_xerxes || is_remora_air2_win
+
+" シェルの位置を元に戻す
+if is_office
+	set shell=/bin/sh
+elseif is_office_win
+	set shell=$SYSTEMROOT\system32\cmd.exe
+endif
+
+set nocompatible
+filetype off
+
+if is_remora || is_office_cygwin || is_backup
+	set rtp+=~/.vim/vundle
+	let g:bundle_dir = expand('~/.vim/bundle')
+elseif is_office 
+	set rtp-=$HOME/.vim
+	set rtp+=$H/.vim/vundle/
+	let g:bundle_dir = expand('$H/.vim/bundle')
+elseif is_win
+	set rtp+=$HOME/.vim/vundle
+	let g:bundle_dir = expand('$HOME/.vim/bundle')
+endif
+
+if ! isdirectory(g:bundle_dir)
+	call mkdir(g:bundle_dir)
+endif
+
+call vundle#rc(g:bundle_dir)
+
+Bundle 'houtsnip/vim-emacscommandline'
+Bundle 'godlygeek/csapprox'
+Bundle 'jnurmine/Zenburn'
+Bundle 'delphinus35/vim-pastefire'
+"Bundle 'Lokaltog/vim-powerline'
+Bundle 'delphinus35/vim-powerline'
+Bundle 'mattn/gist-vim'
+Bundle 'thinca/vim-visualstar'
+Bundle 'tyru/current-func-info.vim'
+Bundle 'vim-scripts/Color-Sampler-Pack'
+
+filetype plugin indent on
+
+if is_remora || is_office_win || is_office_cygwin
+	set rtp+=~/.vim/
+elseif is_office
+	set rtp^=$H/.vim/
+endif
+
+syntax on
+
+let mapleader='`'
+
+nnoremap k gk
+nnoremap j gj
+nnoremap <C-D> 3<C-D>
+nnoremap <C-U> 3<C-U>
+nmap <ESC><ESC> ;nohlsearch<CR><ESC>
+noremap ; :
+noremap : ;
+map * <Plug>(visualstar-*)N
+map # <Plug>(visualstar-#)N
+
+set encoding=utf-8
+set termencoding=utf-8
+set hls
+if is_office
+	set fileencoding=eucjp
+else
+	set fileencoding=utf-8
+endif
+set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
+set dir=/tmp
+if is_office
+	set backupdir=$H/tmp
+	set undodir=$H/tmp
+else
+	set backupdir=/tmp
+	set undodir=/tmp
+endif
+set mouse=
+set display=lastline,uhex
+set cul
+set clipboard=autoselectml
+set grepprg=ack
+set diffopt=filler,vertical
+set synmaxcol=0
+set notitle
+set ambiwidth=double
+colo zenburn
+filetype plugin on
+
+set laststatus=2
+
+"-----------------------------------------------------------------------------
+" ヘルプ
+function! s:VertHelp(word)
+  exec 'vertical help ' . a:word
+  exec 'vertical resize 80'
+  exec 'setl wfw'
+endfunction
+command! -nargs=? H call s:VertHelp(<f-args>)
+autocmd FileType help nnoremap <buffer>q :q<CR>
+
+"-----------------------------------------------------------------------------
+" ファイルのあるディレクトリに移動
+command! CD :cd %:h
+
+"-----------------------------------------------------------------------------
+" Teamplte::Toolkit 設定
+au BufNewFile,BufRead *.tt2 setf tt2html
+au BufNewFile,BufRead *.tt setf tt2html
+
+"-----------------------------------------------------------------------------
+" pentadactylrc 設定
+au BufNewFile,BufRead .pentadactylrc setf pentadactyl
+
+"-----------------------------------------------------------------------------
+" yank to remote clipboard
+if is_unix
+	let s:tmpdir = &backupdir
+	let s:home = is_office ? expand('$H') : expand('$HOME')
+	let g:y2r_config = {
+	\	'tmp_file': s:tmpdir . '/exchange-file',
+	\	'key_file' : s:home . '/.exchange.key',
+	\	'host' : 'localhost',
+	\	'port' : 52224,
+	\}
+
+	function! Yank2Remote()
+		call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
+		let s:params = ['cat %s %s | nc -w1 %s %s']
+		for s:item in ['key_file', 'tmp_file', 'host', 'port']
+		let s:params += [shellescape(g:y2r_config[s:item])]
+		endfor
+		let s:ret = system(call(function('printf'), s:params))
+		echo 'paste to remote'
+	endfunction
+	nnoremap <silent> <unique> <Leader>y :call Yank2Remote()<CR>
+endif
+
+"-----------------------------------------------------------------------------
+" vim-powerline
+let g:Powerline_symbols = 'fancy'
+
+" vim:ft=vim:
