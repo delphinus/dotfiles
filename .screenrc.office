@@ -1,0 +1,33 @@
+activity ''
+altscreen on
+attrcolor b ".I"
+autodetach on
+bell ''
+bell_msg "Bell in window %"
+bufferfile '/home/game/users/jinnouchi.yasushi/tmp/exchange-file'
+defbce on
+deflog on
+defmonitor on
+defmousetrack on
+defscrollback 1000
+escape ^Zz
+logfile "$HOME/.screen/screen-%Y%m%d-%n.log"
+#sorendition "= Rk"
+rendition bell "=ub" "RY"
+rendition monitor "=b" "BW"
+rendition silence "=u" "WK"
+rendition so "=" "Rk"
+shell /home/game/users/jinnouchi.yasushi/bin/bs
+shelltitle '$ |bash'
+startup_message off
+term xterm-256color
+termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+#termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+vbell off
+
+#caption always "%{= Rk} %?%F%{b kr}%? %?%h%:%t (screen #%n)%? %{-} %?%P%{b kr} *** コピー / ペーストモード *** %{-}%?"
+#caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** コピー / ペーストモード *** %{-}%?"
+caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** Copy Mode *** %{-}%?"
+hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-040=%{b km} %l %{.b} %Y/%m/%d %C %A "
+
+bind ^] eval 'writebuf' 'exec sh -c "cat /home/game/users/jinnouchi.yasushi/.exchange.key /home/game/users/jinnouchi.yasushi/tmp/exchange-file | nc -w1 localhost 52224"' 'echo "paste to remote"'
