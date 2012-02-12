@@ -14,8 +14,8 @@ alias l.='ls -vGF -d .*'
 alias vi='/Applications/MacVim.app/Contents/MacOS/Vim'
 alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
 alias gvim='open -a /Applications/MacVim.app "$@"'
-#export PAGER='vimpager'
-export PAGER=less
+export PAGER='vimpager'
+#export PAGER=less
 alias vp='vimpager'
 export EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 export VISUAL='/Applications/MacVim.app/Contents/MacOS/Vim'
@@ -42,7 +42,7 @@ export PATH="$HOME/build/rakudo-star-2011.04/install/bin:/usr/local/mysql/bin:$H
 export PROMPT_COMMAND="echo -ne '\033k\033\'"
 export proxy=http://localhost:3128/
 export http_proxy=$proxy
-export ftp_proxy=$proxy
+export ALL_PROXY=$proxy
 source $HOME/perl5/perlbrew/etc/bashrc
 source $HOME/.pythonbrew/etc/bashrc
 source $HOME/bin/bash_completion_tmux.sh
