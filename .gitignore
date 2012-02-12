@@ -1,3 +1,6 @@
+.DS_Store
+.DAV
 /.vim/bundle/
 /.vim/ftplugin/html.vim
+/.pentadactyl/info
 
