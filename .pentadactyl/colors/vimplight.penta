@@ -1,0 +1,86 @@
+" ======= vimperator colorscheme ========
+" name:   vimplight
+" author: Takuya Fujimura
+" blog:   http://d.hatena.co.jp/tlync
+" mail:   takuya.fujimura@gmail.com
+" tested: vimperator 2.1, firefox 3.5 beta4, mac osx
+" =======================================
+"--------------------------------------------------
+" Hint
+"--------------------------------------------------
+"hi Hint font-family: monospace; font-size: 11px; padding: 0 0.25em; margin: -0.5em 0 0 -1em; background-color: #f07e00; border: 1px #ff7d00 solid; -moz-border-radius: 4px; color: white; font-weight: bolder; opacity: 0.9;
+hi Hint font-family: Ricty,monospace; font-size: 11px; padding: 0 0.25em; margin: -0.5em 0 0 -1em; background-color: #f07e00; border: 1px #ff7d00 solid; -moz-border-radius: 4px; color: white; font-weight: bolder; opacity: 0.9;
+"hi Hint font-family: Osaka-UI!important; font-size: 12px!important; padding: 0.25em 0.25em 0!important; margin: -0.5em 0 0 -1em!important; background-color: #f07e00!important; border: 1px #ff7d00 solid!important; -moz-border-radius: 4px!important; color: white!important; font-weight: bolder!important; opacity: 0.9!important;
+hi HintElem background-color: #fdffc3; color: #222;
+hi HintActive background-color: #ffdcdc; border: 1px #ef6f6f dotted; -moz-border-radius: 3px; padding: 0.1em; font-weight: bold;
+
+"--------------------------------------------------
+" Tab (for Tree Style Tab)
+"--------------------------------------------------
+hi TabNumber    font-size: 9px; padding-left: 6px; 
+hi TabText     text-align: left;
+ 
+"--------------------------------------------------
+" Status Line
+"--------------------------------------------------
+"hi StatusLine height: 23px; -moz-appearance: statusbar;
+hi StatusLine font-family: Osaka-UI; font-size: 12px; height: 23px; -moz-appearance: statusbar;
+hi StatusLineSecure font-family: Osaka-UI; font-size: 12px; height: 23px; -moz-appearance: statusbar;
+hi StatusLineBroken font-family: Osaka-UI; font-size: 12px; height: 23px; -moz-appearance: statusbar;
+hi StatusLineExtended font-family: Osaka-UI; font-size: 12px; height: 23px; -moz-appearance: statusbar;
+
+" for Firefox 3.0.x
+" hi StatusLine font-family: "Lucida Grande", monospace; font-size: 11px; color: #262626; background: url("chrome://global/skin/statusbar-background.gif") #949393 repeat-x top left; border-top: 1px solid #888; height: 22px; padding-left: 0.5em;
+" hi StatusLineSecure font-size: 11px; color: #262626; background: url("chrome://global/skin/statusbar-background.gif") #949393 repeat-x top left; border-top: 1px solid #888; height: 22px; padding-left: 0.5em;
+" hi StatusLineBroken font-size: 11px; color: #d00f0f; background: url("chrome://global/skin/statusbar-background.gif") #949393 repeat-x top left; border-top: 1px solid #888; height: 22px; padding-left: 0.5em;
+" hi StatusLineExtended font-size: 11px; color: #d00f0f; background: url("chrome://global/skin/statusbar-background.gif") #949393 repeat-x top left; border-top: 1px solid #888; height: 22px; padding-left: 0.5em;
+
+"--------------------------------------------------
+" Command Line
+"--------------------------------------------------
+"hi CmdLine font-family: monospace; font-size: 12px; background: #000; padding: 0.2em 0.5em; background: #111;
+hi CmdLine font-family: Osaka-UI; font-size: 12px; background: #000; padding: 0.2em 0.5em; background: #111;
+hi CmdOutput  font-family: Osaka-UI; font-size: 12px; 
+ 
+hi Normal  font-family: Osaka-UI; font-size: 12px; color: #f0f0f0; background: #111;
+hi NonText font-family: Osaka-UI; font-size: 12px;  color: #444;
+"hi Title font-size: 11px; color: #555; font-weight: bold; letter-spacing: -0.04em; text-indent: 0.5em; line-height: 1.5em;
+hi Title font-family: Osaka-UI; font-size: 12px; 11px; color: #555; font-weight: bold; letter-spacing: -0.04em; text-indent: 0.5em; line-height: 1.5em;
+hi Question font-size: 11px; color: #4377c6;
+hi Preview font-size: 11px; color: #555;
+hi Tag color: #555;
+hi Filter color: #3f6ecd;
+"hi LineNr
+hi URL font-family: Osaka-UI; font-size: 12px; 
+ 
+hi Message font-family: Osaka-UI; color: #f0f0f0; background: #111; font-size: 12px; padding-left: 0.5em 1em; line-height: 1.3em;
+hi ModeMsg font-family: Osaka-UI; color: #555; padding-left: 0.5em; font-size: 12px;
+hi MoreMsg font-family: Osaka-UI; color: #555; padding-left: 0.5em; font-size: 12px;
+hi CompMsg font-family: Osaka-UI; color: #555; text-decoration: none; font-size: 12px; padding: 0.25em 0.8em;
+hi InfoMsg font-family: Osaka-UI; color: #f0f0f0; font-size: 12px; padding-left: 0.5em;
+hi WarningMsg font-family: Osaka-UI; color: #d00f0f; font-size: 12px; padding-left: 0.5em;
+hi ErrorMsg font-family: Osaka-UI; color: #d00f0f; font-size: 12px; padding-left: 0.5em;
+ 
+hi CompGroup padding-bottom: 0.5em;
+hi CompTitle font-size: 12px; color: #555; font-weight: bold; letter-spacing: -0.04em;
+hi CompResult padding-left: 0.7em;
+hi CompItem[selected] background: #292929;
+hi CompIcon margin-right: 8px;
+hi CompDesc color: #666;
+ 
+hi GradientLeft background-color: #333;
+hi GradientRight background-color: #111;
+ 
+hi Indicator color: #444;
+hi FrameIndicator background-color: #fdffc3; border: 2px solid yellow;
+ 
+"--------------------------------------------------
+" JavaScript Objects
+"--------------------------------------------------
+hi Function color: #2a449a;
+"hi Boolean
+"hi String
+"hi Number
+"hi Object
+"hi Null
+"set vim:syn=vim

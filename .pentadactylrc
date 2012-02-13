@@ -38,12 +38,18 @@ set go-=T
 " スクロール量
 set scroll=5
 " タブは表示
-set showtabline=always
+set showtabline=never
 " ヒントに使う文字
 set hintkeys=HJKLASDFGYUIOPQWERTNMZXCVB
 " GVimへのパス
 "set editor=X:/Utilities/vim/gvim.exe
 set editor="/Applications/MacVim.app/Contents/MacOS/Vim -g -f"
+
+" ツールバーとタブをトグル
+" http://d.hatena.ne.jp/oogatta/20110910/1315653308
+map <C-S-t> ;toolbartoggle ナビゲーションツールバー<CR>
+" タブをトグル
+map <C-t> ;se stal!=always,never<CR>
 
 " Gmail 対応
 "set passkeys+=mail.google.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
@@ -63,6 +69,11 @@ style -name commandline-ime chrome://* #dactyl-commandline-command input {ime-mo
 " $HOME/pentadactyl/colors/vimplight.penta
 colorscheme desert
 
+" tab-options-plugin
+" http://dactyl.sourceforge.net/pentadactyl/plugins#tab-options-plugin
+" 他部を開くときはいかなる場合も現在のタブの右側
+set tabopen=link:right,orphan:right,external:right
+
 " copy.js
 javascript <<EOM
 dactyl.globalVariables.copy_templates = [
@@ -70,7 +81,7 @@ dactyl.globalVariables.copy_templates = [
     ,{ label: 'title', value: '%TITLE%', map: ',y' }
     ,{ label: 'anchor', value: '<a href="%URL%">%TITLE%</a>' }
     ,{ label: 'selanchor',  value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' }
-	,{ label: 'markdown', value: '[%TITLE%](%URL% "%TITLE%")', map: ',M' }
+    ,{ label: 'markdown', value: '[%TITLE%](%URL% "%TITLE%")', map: ',M' }
     ,{ label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
     ,{ label: 'htmlblockquote2',
         value: '<blockquote>\n<p>%TITLE%<br />\n<a href="%URL%">%URL%</a></p>\n</blockquote>',
