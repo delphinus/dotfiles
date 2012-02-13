@@ -307,6 +307,9 @@ set nrformats=
 set notitle
 " 全角文字は全角用フォントで表示
 set ambiwidth=double
+" マウスホイールを有効化
+set ttymouse=xterm2
+set mouse=a
 "colo calmar256-light
 "colo xorium
 "colo desertEx
