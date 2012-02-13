@@ -40,7 +40,7 @@ call vundle#rc(g:bundle_dir)
 
 Bundle 'houtsnip/vim-emacscommandline'
 Bundle 'godlygeek/csapprox'
-Bundle 'jnurmine/Zenburn'
+Bundle 'jelera/vim-gummybears-colorscheme'
 Bundle 'delphinus35/vim-pastefire'
 "Bundle 'Lokaltog/vim-powerline'
 Bundle 'delphinus35/vim-powerline'
@@ -97,7 +97,7 @@ set diffopt=filler,vertical
 set synmaxcol=0
 set notitle
 set ambiwidth=double
-colo zenburn
+colo gummybears
 filetype plugin on
 
 set laststatus=2
