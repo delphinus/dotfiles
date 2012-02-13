@@ -88,7 +88,8 @@ else
 	set backupdir=/tmp
 	set undodir=/tmp
 endif
-set mouse=
+set ttymouse=xterm2
+set mouse=a
 set display=lastline,uhex
 set cul
 set clipboard=autoselectml
