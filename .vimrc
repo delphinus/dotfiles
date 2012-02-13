@@ -177,21 +177,21 @@ endfunction
 if is_unix
 	"let &t_SI .= "\<Esc>]50;CursorShape=1\x7"
 	"let &t_EI .= "\<Esc>]50;CursorShape=0\x7"
-	let &t_SI .= "\e[3 q"
-	let &t_EI .= "\e[1 q"
-	let &t_SI .= "\e[?2004h"
-	let &t_EI .= "\e[?2004l"
-	let &pastetoggle = "\e[201~"
+	"let &t_SI .= "\e[3 q"
+	"let &t_EI .= "\e[1 q"
+	"let &t_SI .= "\e[?2004h"
+	"let &t_EI .= "\e[?2004l"
+	"let &pastetoggle = "\e[201~"
 
-	function XTermPasteBegin(ret)
-		set paste
-		return a:ret
-	endfunction
+	"function XTermPasteBegin(ret)
+		"set paste
+		"return a:ret
+	"endfunction
 
-	inoremap <special> <expr> <Esc>[200~ :XTermPasteBegin('')
+	"inoremap <special> <expr> <Esc>[200~ :XTermPasteBegin('')
 
-	let &t_SI = "\eP" . &t_SI
-	let &t_EI .= "\e\\"
+	"let &t_SI = "\eP" . &t_SI
+	"let &t_EI .= "\e\\"
 	"inoremap <Esc> <Esc>gg`]
 endif
 
