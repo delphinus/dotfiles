@@ -9,7 +9,7 @@ defbce on
 deflog on
 defmonitor on
 defmousetrack on
-defscrollback 1000
+defscrollback 10000
 escape ^Zz
 logfile "$HOME/.screen/screen-%Y%m%d-%n.log"
 #sorendition "= Rk"
@@ -27,7 +27,9 @@ vbell off
 
 #caption always "%{= Rk} %?%F%{b kr}%? %?%h%:%t (screen #%n)%? %{-} %?%P%{b kr} *** コピー / ペーストモード *** %{-}%?"
 #caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** コピー / ペーストモード *** %{-}%?"
-#caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** Copy Mode *** %{-}%?"
+caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** Copy Mode *** %{-}%?"
 hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-040=%{b km} %l %{.b} %Y/%m/%d %C %A "
 
 bind ^] eval 'writebuf' 'exec sh -c "cat /home/game/users/jinnouchi.yasushi/.exchange.key /home/game/users/jinnouchi.yasushi/tmp/exchange-file | nc -w1 localhost 52224"' 'echo "paste to remote"'
+
+# vim:se ft=screen:
