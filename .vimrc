@@ -47,6 +47,7 @@ Bundle 'fuenor/vim-make-syntax'
 Bundle 'fuenor/JpFormat.vim'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'jelera/vim-javascript-syntax'
+Bundle 'jelera/vim-gummybears-colorscheme'
 Bundle 'gregsexton/VimCalc'
 Bundle 'houtsnip/vim-emacscommandline'
 Bundle 'godlygeek/csapprox'
@@ -327,8 +328,9 @@ set mouse=a
 "colo desert-warm-256
 "colo neon-PK
 "colo rhinestones
-colo zenburn
+"colo zenburn
 "colo papayawhip
+colo gummybears
 filetype plugin on
 
 "-----------------------------------------------------------------------------
