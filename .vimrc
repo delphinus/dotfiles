@@ -306,7 +306,11 @@ set nrformats=
 " ウィンドウタイトルを更新しない
 set notitle
 " 全角文字は全角用フォントで表示
-set ambiwidth=double
+if is_office
+	set ambiwidth=single
+else
+	set ambiwidth=double
+endif
 " マウスホイールを有効化
 set ttymouse=xterm2
 set mouse=a
