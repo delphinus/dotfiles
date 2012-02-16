@@ -85,3 +85,25 @@ command! -nargs=0 DO :diffoff!
 " SVN 設定
 command! -nargs=0 SD :VCSDiff HEAD
 
+"-----------------------------------------------------------------------------
+" 一つ分のエントリを選択
+function! SelectOneEntry()
+	" save cursor position
+	let save_cursor = getpos('.')
+	" save search pattern
+	let save_search = @/
+
+	JpJoinAll
+	call search('^= ', 'b')
+	let start = getpos('.')
+	call search('\[\d\{4}-\d\d-\d\d \d\d:\d\d\]')
+	let end = getpos('.')
+	let lines = getline(start[1] + 1, end[1] - 1)
+	let @* = join(lines, "\n")
+	normal u
+
+	" restore cursor position
+	call setpos('.', save_cursor)
+	" restore search pattern
+	let @/ = save_search
+endfunction
