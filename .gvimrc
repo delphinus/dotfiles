@@ -9,18 +9,18 @@ if is_win
 	" markdown 形式から trac 形式に変換する
 	if has('perl')
 		function! MarkdownToTrac()
+			call SelectOneEntry()
 		perl << EOP
 			use Encode;
 			use Win32::Clipboard;
 
 			# 文書のエンコーディング
 			$enc = find_encoding(VIM::Eval('&fenc'));
-			# クリップボードは cp932 で書き込む
-			$cp932 = find_encoding('cp932');
 
 			# バッファ全体を得る
-			$_ = join "\n", map { $cp932->encode($enc->decode($_)) }
-				$curbuf->Get(1 .. $curbuf->Count);
+			#$_ = join "\n", map { $cp932->encode($enc->decode($_)) }
+			#$curbuf->Get(1 .. $curbuf->Count);
+			$_ = decode(utf8 => VIM::Eval('@*'));
 
 			# タイトルを削除
 			s!^= .*!!;
@@ -40,13 +40,15 @@ if is_win
 			s!^(?=\*\s+)!  !gm;
 
 			# 強調を変換
-			s!__([^_\t]+)__!'''\1'''!g;
+			s!__([^\t]+?)__!'''\1'''!g;
 
 			# コードブロックを変換
 			s!(?:^\t.*\n)+!
 				($str = $&) =~ s/^\t//gm;
 				"{{{\n$str}}}\n";
 			!egmx;
+
+			$_ = encode(cp932 => $_);
 
 			# クリップボードにセット
 			Win32::Clipboard()->Set($_);
@@ -83,4 +85,5 @@ set linespace=0
 "colo bubblegum
 "colo neon-PK
 "colo zenburn
-colo papayawhip
+"colo papayawhip
+colo gummybears

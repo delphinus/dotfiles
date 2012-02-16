@@ -100,7 +100,7 @@ function! SelectOneEntry()
 	let end = getpos('.')
 	let lines = getline(start[1] + 1, end[1] - 1)
 	let @* = join(lines, "\n")
-	"normal u
+	normal u
 
 	" restore cursor position
 	call setpos('.', save_cursor)
