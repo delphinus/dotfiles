@@ -83,4 +83,5 @@ set linespace=0
 "colo bubblegum
 "colo neon-PK
 "colo zenburn
-colo papayawhip
+"colo papayawhip
+colo gummybears
