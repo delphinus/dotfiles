@@ -2,9 +2,9 @@
 " 他のと干渉するのでマッピングはしない
 let g:quickrun_no_default_key_mappings=1
 " 必要なモジュールをロード
-let g:quickrun_perl_modules = '-MYAML -M"HTTP::Date qw!str2time time2iso!" -MDateTime -Mutf8'
+let g:quickrun_perl_modules = '-MYAML -M"HTTP::Date qw.str2time time2iso." -MDateTime -Mutf8'
 if is_office
-	let g:quickrun_perl_modules .= ' -MGameConf'
+	let g:quickrun_perl_modules .= ' -MGameConf -M"Ope::Common::Smart::AD_Common qw.get_ds."'
 endif
 let g:quickrun_config = {
 \   'perl' : {
