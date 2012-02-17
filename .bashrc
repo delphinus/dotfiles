@@ -40,9 +40,9 @@ export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
 export PATH="$HOME/build/rakudo-star-2011.04/install/bin:/usr/local/mysql/bin:$HOME/Dropbox/bin:$HOME/bin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin"
 export PROMPT_COMMAND="echo -ne '\033k\033\'"
-export proxy=http://localhost:3128/
-export http_proxy=$proxy
-export ALL_PROXY=$proxy
+#export proxy=http://127.0.0.1:8123/
+#export http_proxy=$proxy
+#export ALL_PROXY=$proxy
 source $HOME/perl5/perlbrew/etc/bashrc
 source $HOME/.pythonbrew/etc/bashrc
 source $HOME/bin/bash_completion_tmux.sh

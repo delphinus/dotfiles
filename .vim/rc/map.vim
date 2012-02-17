@@ -43,6 +43,9 @@ nnoremap * *N
 nnoremap # #N
 map * <Plug>(visualstar-*)N
 map # <Plug>(visualstar-#)N
+" IMEがONの時IMEをOFFにしてfコマンド実行
+nnoremap <silent> f :set iminsert=0<CR>f
+nnoremap <silent> F :set iminsert=0<CR>F
 " 4-6
 "nnoremap <silent> cy ce<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "vnoremap <silent> cy c<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
