@@ -67,6 +67,12 @@ call s:loadrc('gist')
 call s:loadrc('jsl')
 " DrawIt 設定
 call s:loadrc('drawit')
+" Chalice 設定
+call s:loadrc('chalice')
+" vim-funlib 設定
+call s:loadrc('funlib')
+" errormarker 設定
+call s:loadrc('errormarker')
 
 " 無効化したもの
 "call s:loadrc('disabled')

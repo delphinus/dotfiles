@@ -107,3 +107,5 @@ function! SelectOneEntry()
 	" restore search pattern
 	let @/ = save_search
 endfunction
+
+command! -nargs=0 SE :call SelectOneEntry()
