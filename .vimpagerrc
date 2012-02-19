@@ -46,6 +46,7 @@ Bundle 'delphinus35/vim-pastefire'
 Bundle 'delphinus35/vim-powerline'
 Bundle 'mattn/gist-vim'
 Bundle 'thinca/vim-visualstar'
+Bundle 'tpope/vim-fugitive'
 Bundle 'tyru/current-func-info.vim'
 Bundle 'vim-scripts/Color-Sampler-Pack'
 
