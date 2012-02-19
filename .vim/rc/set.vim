@@ -1,73 +1,97 @@
-"set number
-set encoding=utf-8
-set termencoding=utf-8
-set hls
+" エンコーディング {{{
+set encoding=utf-8         " 内部エンコーディング
+set termencoding=utf-8     " ターミナルのエンコーディング
 if is_office
-	set fileencoding=eucjp
+    set fileencoding=eucjp " 新規ファイルのエンコーディング
 else
-	set fileencoding=utf-8
+    set fileencoding=utf-8
 endif
+                           " ファイルエンコーディング
 set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
-set noexpandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set dir=/tmp
+" }}}
+
+" タブ {{{
 if is_office
-	set backupdir=$H/tmp
-	set undodir=$H/tmp
+    set noexpandtab " タブをスペースに展開する
 else
-	set backupdir=/tmp
-	set undodir=/tmp
+    set expandtab
 endif
-set undofile
-set ruler
-set scrolloff=3
-set ignorecase smartcase
-set autoindent
-set smartindent
-set textwidth=0
-"set formatoptions=croqwanmB
+set tabstop=4       " 画面上でタブ文字が占める幅
+set softtabstop=4   " タブキーやバックスペースキーでカーソルが動く幅
+set shiftwidth=4    " 自動インデントや <<, >> でずれる幅
+set smarttab        " スマートなタブ切り替え
+" }}}
+
+" ディレクトリ {{{
+set undofile             " アンドゥファイルを保存する
+if is_office
+    set dir=$H/tmp       " スワップファイルの作成場所
+    set backupdir=$H/tmp " バックアップファイルの作成場所
+    set undodir=$H/tmp   " アンドゥファイルの作成場所
+else
+    set dir=/tmp
+    set backupdir=/tmp
+    set undodir=/tmp
+endif
+" }}}
+
+" 検索 {{{
+set ignorecase " 検索時に大文字・小文字を区別しない
+set smartcase  " 検索パターンの大文字・小文字自動認識
+set hlsearch   " 検索パターンを強調表示
+set incsearch  " インクリメンタルサーチ
+" }}}
+
+" インデントと整形 {{{
+set autoindent       " 自動インデント
+set smartindent      " スマートなインデント
+set textwidth=0      " 自動改行はオフ
+set formatoptions+=n " テキスト整形オプション
+                     " 括弧付きの連番を認識する
 set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
-set smarttab
-set showcmd
-set showmode
-set fileformats=unix,dos
-set fileformat=unix
-set sessionoptions+=resize
-set incsearch
-set showmatch
-set title
-set mouse=
-set display=lastline,uhex
-set cul
-set backspace=indent,eol,start
-set clipboard=autoselectml
-" grepコマンドとしてack（App::Ackのフロントエンド）を使用する
-set grepprg=ack
-" diffコマンド設定
-set diffopt=filler,vertical
-" 構文強調表示桁数の制限を解除
-set synmaxcol=0
-" 空白の可視化
-set list
+" }}}
+
+" 画面表示 {{{
+set cursorline           " カーソル行を強調表示する
+set showcmd              " コマンド、及び選択範囲の表示
+set noshowmode           " 【挿入】【ビジュアル】といった文字列を画面最下段に表示しない
+set showmatch            " 対応する括弧を自動的に装飾して表示
+set display=lastline     " 画面最下行もできるだけ表示する
+set notitle              " ウィンドウタイトルを更新しない
+set list                 " 空白の可視化
 set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
-" unite.vim + 日本語ヘルプでフリーズするときの対策
-set notagbsearch
-set background=dark
-" 5-5 10進数で数字の上げ下げ
-set nrformats=
-" ウィンドウタイトルを更新しない
-set notitle
-" 全角文字は全角用フォントで表示
 if is_office
-	set ambiwidth=single
+    set ambiwidth=single " 全角文字は半角用フォントで表示
 else
-	set ambiwidth=double
+    set ambiwidth=double
 endif
-" マウスホイールを有効化
-set ttymouse=xterm2
-set mouse=a
+" }}}
+
+" マウス {{{
+set mouse=a " マウスを全ての場面で使う
+set ttymouse=xterm2 " マウスホイールを有効化
+set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
+" }}}
+
+set scrolloff=3                " 上下の画面の端にカーソルを寄せない。
+set sidescrolloff=5            " 左右の画面の端にカーソルを寄せない。
+
+set fileformat=unix            " 改行コード指定
+set fileformats=unix,dos       " 改行コード自動認識
+
+set backspace=indent,eol,start " バックスペースを行を超えて有効にする
+
+set grepprg=ack                " grep コマンドとして ack を使用する
+
+set diffopt=filler,vertical    " diffコマンド設定
+
+set synmaxcol=0                " 構文強調表示桁数の制限を解除
+
+set notagbsearch               " unite.vim + 日本語ヘルプでフリーズするときの対策
+
+set nrformats=                 " 5-5 10進数で数字の上げ下げ
+
+set background=dark            " 暗い背景色
 "colo calmar256-light
 "colo xorium
 "colo desertEx
@@ -84,5 +108,5 @@ set mouse=a
 "colo zenburn
 "colo papayawhip
 colo gummybears
-filetype plugin on
 
+" vim:et:fdm=marker:
