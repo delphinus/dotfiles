@@ -29,6 +29,8 @@ nnoremap <S-C-CR> :simalt ~n<CR>
 "cnoremap <ESC>f <C-Right>
 "cnoremap <ESC>b <C-Left>
 inoremap # X#
+" j 2 回で ESC
+inoremap jj <Esc>
 " Gundo
 nnoremap <F5> :GundoToggle<CR>
 " Mac OSXでのvim環境整理。.vimrcやらオヌヌメPlug inやらまとめ。
