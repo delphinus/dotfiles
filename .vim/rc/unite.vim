@@ -1,7 +1,7 @@
 "-----------------------------------------------------------------------------
 "" Unite.vimの設定
 "" 開始と同時に挿入モード
-let g:unite_enable_start_insert=1
+"let g:unite_enable_start_insert=1
 "" 縦に分割して表示
 "let g:unite_enable_split_vertically=0
 "" 横幅は60
