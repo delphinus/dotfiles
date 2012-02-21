@@ -58,6 +58,7 @@ set noshowmode           " 【挿入】【ビジュアル】といった文字�
 set showmatch            " 対応する括弧を自動的に装飾して表示
 set display=lastline     " 画面最下行もできるだけ表示する
 set notitle              " ウィンドウタイトルを更新しない
+set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
 set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
 if is_office
