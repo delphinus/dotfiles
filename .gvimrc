@@ -63,8 +63,8 @@ elseif is_remora_cx
 	set guifont=Envy_Code_R_for_Powerline:h16
 	set guifontwide=Ricty_Envy:h16
 else
-	set guifont=Envy_Code_R_for_Powerline:h14
-	set guifontwide=Ricty:h14
+	set guifont=Envy_Code_R_for_Powerline:h13
+	set guifontwide=Ricty:h13
 endif
 if is_remora
 	set antialias
