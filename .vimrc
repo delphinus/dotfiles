@@ -73,6 +73,8 @@ call s:loadrc('chalice')
 call s:loadrc('funlib')
 " errormarker 設定
 call s:loadrc('errormarker')
+" EasyMotion 設定
+call s:loadrc('easymotion')
 
 " 無効化したもの
 "call s:loadrc('disabled')
