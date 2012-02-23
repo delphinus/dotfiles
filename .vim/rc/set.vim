@@ -60,7 +60,7 @@ set display=lastline     " 画面最下行もできるだけ表示する
 set notitle              " ウィンドウタイトルを更新しない
 set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
-set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
+set listchars=tab:‣\ ,trail:‗,eol:↲,extends:»,precedes:«,nbsp:¯
 if is_office
     set ambiwidth=single " 全角文字は半角用フォントで表示
 else
