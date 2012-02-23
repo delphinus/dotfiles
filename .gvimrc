@@ -4,7 +4,7 @@ if is_win
 	set dir=C:\cygwin\tmp
 	set backupdir=C:\cygwin\tmp
 	set undodir=C:\cygwin\tmp
-	set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
+    "set listchars=tab:»\ ,trail:‗,eol:↲,extends:»,precedes:«,nbsp:¯
 
 	" markdown 形式から trac 形式に変換する
 	if has('perl')

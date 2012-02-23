@@ -61,11 +61,7 @@ set notitle              " ウィンドウタイトルを更新しない
 set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
-if is_office
-    set ambiwidth=single " 全角文字は半角用フォントで表示
-else
-    set ambiwidth=double
-endif
+set ambiwidth=single     " できるだけ半角文字用フォントを使う
 " }}}
 
 " マウス {{{
