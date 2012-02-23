@@ -75,6 +75,7 @@ Bundle 'vim-scripts/Perl-MooseX.Declare-Syntax'
 Bundle 'vim-scripts/vcscommand.vim'
 Bundle 'ynkdir/vim-funlib'
 
+Bundle 'vba-hicolors'
 Bundle 'vba-indguide'
 
 "Bundle 'surround.vim'

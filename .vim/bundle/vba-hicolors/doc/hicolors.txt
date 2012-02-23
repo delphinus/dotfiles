@@ -1,0 +1,23 @@
+vim: ft=hicolors
+*hicolors*
+AltAltUnique  DiffChange  lCursor     Question        StatusLineNC  User2
+AltConstant   DiffDelete  LineNr      Red             StorageClass  User3
+AltFunction   DiffText    Magenta     Repeat          String        User4
+AltType       Directory   MatchParen  Scrollbar       Structure     User5
+AltUnique     Error       Menu        Search          Subtitle      User6
+Blue          ErrorMsg    ModeMsg     SignColumn      TabLine       User7
+Boolean       Exception   MoreMsg     Special         TabLineFill   User8
+Comment       Float       NonText     SpecialChar     TabLineSel    User9
+Constant      FoldColumn  Normal      SpecialComment  Tag           VertSplit
+Cursor        Folded      Operator    SpecialKey      Title         Visual
+CursorColumn  Function    Pmenu       SpellBad        Todo          VisualNOS
+CursorLine    Green       PmenuSbar   SpellCap        Type          WarningMsg
+Cyan          Identifier  PmenuSel    SpellLocal      Typedef       White
+Debug         Ignore      PmenuThumb  SpellRare       Underlined    WildMenu
+Delimiter     IncSearch   PreCondit   Statement       Unique        Yellow
+DiffAdd       Label       PreProc     StatusLine      User1
+
+    leftmouse,?    : help for given colorname if any is available
+                     use ctrl-o to return
+    rightmouse,<cr>: brings up the color editor
+    see |hicolorshelp| for help with hicolors itself
