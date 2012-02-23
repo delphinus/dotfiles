@@ -1,6 +1,8 @@
 .DS_Store
 .DAV
-/.vim/bundle/
+tags
+/.vim/bundle/*
+!/.vim/bundle/vba-indguide
 /.vim/ftplugin/html.vim
 /.pentadactyl/info
 

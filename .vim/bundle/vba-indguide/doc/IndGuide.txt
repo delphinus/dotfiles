@@ -1,0 +1,97 @@
+*IndGuide.txt*	Indentation Guide				Feb 22, 2012
+
+Author:  Charles E. Campbell, Jr.  <NdrOchip@ScampbellPfamily.AbizM>
+	  (remove NOSPAM from Campbell's email first)
+Copyright: (c) 2012 by Charles E. Campbell, Jr.	*IndGuide-copyright*
+           The VIM LICENSE applies to IndGuide.vim and IndGuide.txt
+           (see |copyright|) except use "IndGuide instead of "Vim".
+	   NO WARRANTY, EXPRESS OR IMPLIED.  USE AT-YOUR-OWN-RISK.
+
+==============================================================================
+1. Contents				*IndGuide* *IndGuide-contents* {{{1
+
+	1. Contents......................................: |IndGuide-contents|
+	2. Relative Numbering Manual.....................: |IndGuide-manual|
+	3. Relative Numbering History....................: |IndGuide-history|
+
+==============================================================================
+2. Relative Numbering Manual				*IndGuide-manual* {{{1
+
+ENABLING AND DISABLING RELATIVE NUMBERING
+				*:IndGuide*
+    The IndGuide (indentation guide) plugin provides a command: >
+    	:IndGuide[!]
+<   The :IndGuide command enables indentation guide signs
+    The :IndGuide! command disables indentation guide signs
+
+                            *:IG*
+    If :IG hasn't been previously defined, then one may also use >
+    	:IG
+<   to toggle relative numbering.
+
+    The IndGuide plugin reports on its enabled/disabled status with >
+        indguidemode=1 : IndGuide mode is enabled
+        indguidemode=0 : IndGuide mode is disabled
+<    This variable is used for reporting and to control :IG based toggling.
+
+YOUR VIM MUST HAVE SIGNS FOR THIS PLUGIN
+    To use this plugin your vim must have been compiled with the "huge" feature
+    set (so as to have +signs in the :version listing).  Typically that means
+    having used >
+
+    	configure --with-features=huge
+<
+    To determine if your copy of vim has signs, you may: >
+        :echo has("signs")
+<   If it shows "1", then your vim supports signs.
+
+    Alternatively, you may inquire of vim with: >
+    	:version
+<   and if +signs appears in the listing, then, again, your vim supports
+    signs.  If it lists -signs, then unfortunately your vim does not do so.
+
+MODFIYING THE INDENTATION GUIDE HIGHLIGHTING
+    The indenation guide signs are highlighted with >
+
+    hi default HL_IndGuide gui=none ctermfg=gray ctermbg=black guifg=gray50 guibg=black
+
+<   This information is provided so that you may know what to specify to use
+    your preferences in indentation guide highlighting.  One way to get your
+    preferred colorization in is to put lines like the following into
+    .vim/after/plugin/IndGuide.vim: >
+
+    au FileType * hi HL_IndGuide gui=none ctermfg=yellow  ctermbg=black guifg=yellow  guibg=black
+<
+
+CHANGING INDGUIDE'S SYMBOLS
+    There are four symbols used by IndGuide; you may change none, any, or all
+    of them by setting them in your .vimrc.  The variables are: >
+
+        Global Variable   Symbol   Meaning
+	---------------   ------   -------
+    	g:indguide_more     ⍈      indentation is increasing on next line
+	g:indguide_stay     │      indentation level staying the same
+	g:indguide_less     ├      indentattion level has decreased
+	g:indguide_stop     └      indentation level dropped to zero
+<
+    (the symbols make sense for fileformat utf-8)
+
+HOW TO START WITH INDENTATION GUIDE MODE ENABLED
+   Using >
+    Unix: ~/.vim/after/plugin/IndGuide.vim
+    Windows: $HOME\_vimfiles\after\plugin\IndGuide.vim
+<  place the following line: >
+    call IndGuide#IndGuideCtrl(1)
+<
+
+==============================================================================
+3. Indentation Guide History				*IndGuide-history* {{{1
+	1: Feb 22, 2012		* (epoch) released, based upon my RltvNmbr
+				  plugin
+				* :IG was making signs, but wasn't removing
+				  them properly.  Fixed.
+
+==============================================================================
+Modelines: {{{1
+vim:tw=78:ts=8:ft=help:fdm=marker:
+
