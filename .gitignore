@@ -2,7 +2,7 @@
 .DAV
 tags
 /.vim/bundle/*
-!/.vim/bundle/vba-indguide
+!/.vim/bundle/vba*
 /.vim/ftplugin/html.vim
 /.pentadactyl/info
 
