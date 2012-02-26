@@ -62,6 +62,7 @@ set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 set ambiwidth=single     " できるだけ半角文字用フォントを使う
+set colorcolumn=81       " 81文字目にマーカーを引く
 " }}}
 
 " マウス {{{
