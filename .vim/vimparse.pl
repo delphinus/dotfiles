@@ -1,4 +1,4 @@
-#!/usr/bin/env perl -w
+#!/usr/bin/env perl
 
 # vimparse.pl - Reformats the error messages of the Perl interpreter for use
 # with the quickfix mode of Vim
@@ -65,7 +65,7 @@ use strict;
 use Cwd qw!getcwd!;
 use Getopt::Std;
 use Path::Class qw!file!;
-use Project::Libs;
+#use Project::Libs;
 
 use vars qw/$opt_c $opt_f $opt_h/; # needed for Getopt in combination with use strict 'vars'
 
@@ -89,14 +89,21 @@ my $handle = (defined $opt_f ? \*FILE : \*STDOUT);
 (my $file = shift) or &usage; # display usage if no filename is supplied
 my $args = (@ARGV ? ' ' . join ' ', @ARGV : '');
 
-my $current_dir = getcwd;
-my @inc = Project::Libs::find_inc(file($file)->dir->stringify,
-    [qw!libs lib!], ());
-my $path = '';
-$path .= join '', map {"-I$_"} @inc if scalar @inc;
-chdir $current_dir;
+my @lines;
+eval 'require Project::Libs';
+if ($@) {
+	@lines = `perl @{[defined $opt_c ? '-c ' : '' ]} -w "$file$args" 2>&1`;
 
-my @lines = `perl @{[defined $opt_c ? '-c' : '']} -w $path "$file$args" 2>&1`;
+} else {
+	my $current_dir = getcwd;
+	my @inc = Project::Libs::find_inc(file($file)->dir->stringify,
+		[qw!libs lib!], ());
+	my $path = '';
+	$path .= join '', map {"-I$_"} @inc if scalar @inc;
+	chdir $current_dir;
+
+	@lines = `perl @{[defined $opt_c ? '-c' : '']} -w $path "$file$args" 2>&1`;
+}
 
 my $errors = 0;
 foreach my $line (@lines) {
