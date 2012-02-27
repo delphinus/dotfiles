@@ -52,7 +52,7 @@ set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\
 " }}}
 
 " 画面表示 {{{
-set cursorline           " カーソル行を強調表示する
+set nocursorline         " カーソル行を強調表示しない
 set showcmd              " コマンド、及び選択範囲の表示
 set noshowmode           " 【挿入】【ビジュアル】といった文字列を画面最下段に表示しない
 set showmatch            " 対応する括弧を自動的に装飾して表示
@@ -62,6 +62,7 @@ set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 set ambiwidth=single     " できるだけ半角文字用フォントを使う
+set cmdheight=2          " 画面最下段のコマンド表示行数
 " }}}
 
 " マウス {{{
