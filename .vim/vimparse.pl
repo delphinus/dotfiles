@@ -71,7 +71,7 @@ use vars qw/$opt_c $opt_f $opt_h/; # needed for Getopt in combination with use s
 
 use constant VERSION => 0.2;
 
-getopts('cf:h');
+getopts('cwf:h');
 
 &usage if $opt_h; # not necessarily needed, but good for further extension
 
@@ -92,7 +92,7 @@ my $args = (@ARGV ? ' ' . join ' ', @ARGV : '');
 my @lines;
 eval 'require Project::Libs';
 if ($@) {
-	@lines = `perl @{[defined $opt_c ? '-c ' : '' ]} -w "$file$args" 2>&1`;
+	@lines = `perl @{[defined $opt_c ? '-c ' : '' ]} "$file$args" 2>&1`;
 
 } else {
 	my $current_dir = getcwd;
@@ -102,7 +102,7 @@ if ($@) {
 	$path .= join '', map {"-I$_"} @inc if scalar @inc;
 	chdir $current_dir;
 
-	@lines = `perl @{[defined $opt_c ? '-c' : '']} -w $path "$file$args" 2>&1`;
+	@lines = `perl @{[defined $opt_c ? '-c' : '']} $path "$file$args" 2>&1`;
 }
 
 my $errors = 0;
@@ -148,7 +148,8 @@ sub usage {
 Usage:
 	$0 [-c] [-f <errorfile>] <programfile> [programargs]
 
-		-c	compile only, don't run (executes 'perl -wc')
+		-c	compile only, don't run (executes 'perl -c')
+		-w	force `use warnings'
 		-f	write errors to <errorfile>
 
 Examples:
