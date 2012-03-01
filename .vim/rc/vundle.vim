@@ -74,6 +74,7 @@ Bundle 'vim-scripts/Gundo'
 Bundle 'vim-scripts/Perl-MooseX.Declare-Syntax'
 Bundle 'vim-scripts/vcscommand.vim'
 Bundle 'ynkdir/vim-funlib'
+Bundle 'zip-yankring'
 
 Bundle 'vba-hicolors'
 Bundle 'vba-indguide'

@@ -3,6 +3,7 @@
 tags
 /.vim/bundle/*
 !/.vim/bundle/vba*
+!/.vim/bundle/zip*
 /.vim/ftplugin/html.vim
 /.pentadactyl/info
 

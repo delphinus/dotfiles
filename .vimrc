@@ -75,6 +75,8 @@ call s:loadrc('funlib')
 call s:loadrc('errormarker')
 " EasyMotion 設定
 call s:loadrc('easymotion')
+" YankRing 設定
+call s:loadrc('yankring')
 
 " 無効化したもの
 "call s:loadrc('disabled')
