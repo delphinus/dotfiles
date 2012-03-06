@@ -57,7 +57,7 @@ set showcmd              " コマンド、及び選択範囲の表示
 set noshowmode           " 【挿入】【ビジュアル】といった文字列を画面最下段に表示しない
 set showmatch            " 対応する括弧を自動的に装飾して表示
 set display=lastline     " 画面最下行もできるだけ表示する
-set notitle              " ウィンドウタイトルを更新する
+set title                " ウィンドウタイトルを更新する
 set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
