@@ -1,7 +1,5 @@
 let mapleader='`'
 
-nnoremap <Leader>f :VimFiler<CR>
-nnoremap <F12> :VimFiler<CR>
 "nnoremap <Leader>t :TlistToggle<CR>
 "nnoremap <Leader>T :TlistUpdate<CR>
 "nnoremap <C-X><C-N> gt

@@ -13,6 +13,11 @@ autocmd FileType help nnoremap <buffer>q :q<CR>
 " ファイルのあるディレクトリに移動
 command! CD :cd %:h
 
+"-----------------------------------------------------------------------------
+" scp
+command! -nargs=1 Scp :!scp % <args>:%:p
+
+"-----------------------------------------------------------------------------
 " http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
 " toggles the quickfix window.
 let g:jah_Quickfix_Win_Height=10
