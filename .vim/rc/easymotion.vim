@@ -1,4 +1,4 @@
-hi EasyMotionTarget ctermbg=none ctermfg=green
-hi EasyMotionShade  ctermbg=none ctermfg=blue
-"hi link EasyMotionTarget ErrorMsg
-"hi link EasyMotionShade  Comment
+if !has('gui')
+    hi EasyMotionTarget ctermbg=none ctermfg=green
+    hi EasyMotionShade  ctermbg=none ctermfg=blue
+endif
