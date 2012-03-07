@@ -61,7 +61,7 @@ set title                " ウィンドウタイトルを更新する
 set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
-set ambiwidth=double     " アスキー文字以外は全角文字っぽく扱う
+set ambiwidth=single     " できるだけ半角文字幅で扱う
 set cmdheight=2          " 画面最下段のコマンド表示行数
 " }}}
 
