@@ -78,6 +78,7 @@ call s:loadrc('easymotion')
 " YankRing 設定
 call s:loadrc('yankring')
 " シンタックスチェック
+"call s:loadrc('syntastic')
 " http://d.hatena.ne.jp/osyo-manga/20110921/1316605254
 "call s:loadrc('syntaxcheck')
 
