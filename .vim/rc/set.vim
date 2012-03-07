@@ -89,6 +89,10 @@ set notagbsearch               " unite.vim + 日本語ヘルプでフリーズ�
 
 set nrformats=                 " 5-5 10進数で数字の上げ下げ
 
+set timeout                    " キーのタイムアウト時間設定
+set timeoutlen=300
+set ttimeoutlen=-1
+
 set background=dark            " 暗い背景色
 "colo calmar256-light
 "colo xorium
