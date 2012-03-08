@@ -77,6 +77,8 @@ call s:loadrc('errormarker')
 call s:loadrc('easymotion')
 " YankRing 設定
 call s:loadrc('yankring')
+" cmdline-completion 設定
+call s:loadrc('cmdline-completion')
 " シンタックスチェック
 "call s:loadrc('syntastic')
 " http://d.hatena.ne.jp/osyo-manga/20110921/1316605254
