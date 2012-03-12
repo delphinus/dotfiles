@@ -61,11 +61,12 @@ set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 set cmdheight=2          " 画面最下段のコマンド表示行数
+set title                " ウィンドウタイトルを更新する
+set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
+                         " タイトル文字列指定
 if g:is_remora
-    set notitle          " ウィンドウタイトルを更新しない
     set ambiwidth=double " アスキー文字以外は全角文字として扱う
 else
-    set title            " ウィンドウタイトルを更新する
     set ambiwidth=single " できるだけ半角文字幅で扱う
 endif
 " }}}
