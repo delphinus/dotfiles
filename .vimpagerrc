@@ -23,7 +23,7 @@ filetype off
 if is_remora || is_office_cygwin || is_backup
 	set rtp+=~/.vim/vundle
 	let g:bundle_dir = expand('~/.vim/bundle')
-elseif is_office 
+elseif is_office
 	set rtp-=$HOME/.vim
 	set rtp+=$H/.vim/vundle/
 	let g:bundle_dir = expand('$H/.vim/bundle')
@@ -97,7 +97,8 @@ set clipboard=autoselectml
 set grepprg=ack
 set diffopt=filler,vertical
 set synmaxcol=0
-set notitle
+set title
+set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=double
 colo gummybears
 filetype plugin on
