@@ -75,7 +75,7 @@ function! GetTitleString()
     let str2 = ''
     for char in split(str, '\zs')
         if char2nr(char) > 255
-            let str2 = str2 . 'X'
+            let str2 = str2 . '░'
         else
             let str2 = str2 . char
         endif
