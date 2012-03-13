@@ -70,7 +70,16 @@ function! GetTitleString()
     let filename = len(filename) ? filename : 'NEW FILE'
     let dir = expand('%:p:s!' . $H . '!$H!:~:.:h')
     let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
-    return filename . ' ' . modified . readonly . modifiable . dir
+    let str = filename . ' ' . modified . readonly . modifiable . dir
+    let str2 = ''
+    for char in split(str, '\zs')
+        if char2nr(char) > 255
+            let str2 = str2 . 'X'
+        else
+            let str2 = str2 . char
+        endif
+    endfor
+    return str2
 endfunction
 set titlestring=%{GetTitleString()}
                          " タイトル文字列指定
