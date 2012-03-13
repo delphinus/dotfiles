@@ -62,7 +62,17 @@ set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 set cmdheight=2          " 画面最下段のコマンド表示行数
 set title                " ウィンドウタイトルを更新する
-set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
+function! GetTitleString()
+    let modified = getbufvar('', '&mod') ? '+' : ''
+    let readonly = getbufvar('', '&ro') ? '=' : ''
+    let modifiable = getbufvar('', '&ma') ? '' : '-'
+    let filename = expand('%:t')
+    let filename = len(filename) ? filename : 'NEW FILE'
+    let dir = expand('%:p:s!' . $H . '!$H!:~:.:h')
+    let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
+    return filename . ' ' . modified . readonly . modifiable . dir
+endfunction
+set titlestring=%{GetTitleString()}
                          " タイトル文字列指定
 if g:is_remora
     set ambiwidth=double " アスキー文字以外は全角文字として扱う
