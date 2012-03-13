@@ -68,7 +68,8 @@ function! GetTitleString()
     let modifiable = getbufvar('', '&ma') ? '' : '-'
     let filename = expand('%:t')
     let filename = len(filename) ? filename : 'NEW FILE'
-    let dir = expand('%:p:s!' . $H . '!$H!:~:.:h')
+    let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
+    let dir = expand('%:p' . sub_home . ':~:.:h')
     let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
     return filename . ' ' . modified . readonly . modifiable . dir
 endfunction
