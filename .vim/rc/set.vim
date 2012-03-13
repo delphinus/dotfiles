@@ -72,12 +72,12 @@ function! GetTitleString()
     let dir = expand('%:p' . sub_home . ':~:.:h')
     let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
     let str = filename . ' ' . modified . readonly . modifiable . dir
-    if has('win32')
-        let str2 = str
-    else
+    let str2 = str
+    if !has('win32')
+        let str2 = ''
         for char in split(str, '\zs')
             if char2nr(char) > 255
-                let str2 = str2 . '░'
+                let str2 = str2 . '_'
             else
                 let str2 = str2 . char
             endif
