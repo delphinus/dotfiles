@@ -41,3 +41,4 @@ alias ll='ls -F -l'
 alias l.='ls -F -d .*'
 
 mount -c /
+source ~/perl5/perlbrew/etc/bashrc
