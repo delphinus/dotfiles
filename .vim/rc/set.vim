@@ -122,6 +122,8 @@ set timeout                    " キーのタイムアウト時間設定
 set timeoutlen=300
 set ttimeoutlen=-1
 
+set virtualedit=block          " ビジュアルブロックモードのみ、カーソルを自由移動させる
+
 set background=dark            " 暗い背景色
 "colo calmar256-light
 "colo xorium
