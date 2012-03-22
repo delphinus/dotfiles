@@ -87,4 +87,5 @@ set ambiwidth=single
 "colo neon-PK
 "colo zenburn
 "colo papayawhip
-colo gummybears
+"colo gummybears
+colo void
