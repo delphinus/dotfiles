@@ -140,6 +140,7 @@ set background=dark            " 暗い背景色
 "colo rhinestones
 "colo zenburn
 "colo papayawhip
-colo gummybears
+"colo gummybears
+colo void
 
 " vim:et:fdm=marker:
