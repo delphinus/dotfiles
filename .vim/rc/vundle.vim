@@ -5,9 +5,11 @@ elseif is_office_win
 	set shell=$SYSTEMROOT\system32\cmd.exe
 endif
 
+" Vundle 設定開始
 set nocompatible
 filetype off
 
+" Vundle へのパス
 if is_remora || is_office_cygwin || is_backup
 	set rtp+=~/.vim/vundle
 elseif is_office 
@@ -17,8 +19,10 @@ elseif is_win
 	set rtp+=$HOME/.vim/vundle
 endif
 
+" プラグイン保存パス
 let g:bundle_dir = g:vim_home . '/bundle'
 
+" ディレクトリが存在しなければ作成
 if ! isdirectory(g:bundle_dir)
 	call mkdir(g:bundle_dir)
 endif
@@ -84,6 +88,7 @@ Bundle 'ynkdir/vim-funlib'
 
 Bundle 'vba-hicolors'
 Bundle 'vba-indguide'
+Bundle 'vba-csv'
 
 Bundle 'zip-yankring'
 
