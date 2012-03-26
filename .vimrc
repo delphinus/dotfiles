@@ -83,6 +83,8 @@ call s:loadrc('cmdline-completion')
 call s:loadrc('syntastic')
 " http://d.hatena.ne.jp/osyo-manga/20110921/1316605254
 "call s:loadrc('syntaxcheck')
+" CSV 設定
+call s:loadrc('csv')
 
 " 無効化したもの
 "call s:loadrc('disabled')
