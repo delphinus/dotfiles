@@ -88,6 +88,7 @@ Bundle 'ynkdir/vim-funlib'
 
 Bundle 'vba-hicolors'
 Bundle 'vba-indguide'
+Bundle 'vba-csv'
 
 Bundle 'zip-yankring'
 
