@@ -1,7 +1,7 @@
 " Vim color file
 " Maintainer:	Andrew Lyon <orthecreedence@gmail.com>
 " Last Change:	2012-03-21 06:01:00 PST
-" Version:	2.0
+" Version:	2.1
 
 " Note that this color scheme is loosely based off of desert.vim (Hans Fugal
 " <hans@fugal.net>) mixed with some of slate.vim (Ralph Amissah
@@ -52,8 +52,8 @@ hi WarningMsg	guifg=salmon
 "hi Tooltip
 
 " syntax highlighting groups
-hi Comment	guifg=grey50
-hi Constant	guifg=#e09085
+hi Comment	guifg=grey50 ctermfg=darkcyan
+hi Constant	guifg=#e09085 ctermfg=brown
 hi Identifier	guifg=#d0d0b0
 hi Statement	guifg=#ccaa88 gui=bold cterm=bold term=bold
 "hi Statement	guifg=darkkhaki
@@ -66,6 +66,10 @@ hi Ignore	guifg=grey40
 "hi Error
 hi Todo		guifg=orangered guibg=yellow2
 hi Todo		guifg=orange guibg=gray40
+
+" Fuf/menu stuff
+hi Pmenu		guifg=#aadddd guibg=#333333
+hi PmenuSel		guifg=#ddeeee guibg=#335533
 
 " color terminal definitions
 hi SpecialKey	ctermfg=darkgreen
@@ -92,8 +96,6 @@ hi DiffAdd	ctermbg=4
 hi DiffChange	ctermbg=5
 hi DiffDelete	cterm=bold ctermfg=4 ctermbg=6
 hi DiffText	cterm=bold ctermbg=1
-hi Comment	ctermfg=darkcyan
-hi Constant	ctermfg=brown
 hi Special	ctermfg=5
 hi Identifier	ctermfg=6
 hi Statement	ctermfg=3
