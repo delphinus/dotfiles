@@ -17,7 +17,8 @@ if is_office
 	let g:unite_data_directory = expand('$H/.unite')
 endif
 noremap <C-P> :Unite buffer_tab file_mru<CR>
-noremap <C-N> :UniteWithBufferDir -buffer-name=files file<CR>
+noremap <C-N> :UniteWithBufferDir -buffer-name=files file file/new<CR>
+noremap <Leader>ur :Unite file_rec/async<CR>
 noremap <C-Z> :Unite outline<CR>
 noremap <C-T> :Unite tab<CR>
 noremap <Leader>uc :Unite colorscheme -auto-preview<CR>
