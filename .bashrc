@@ -33,6 +33,10 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)] /"
 }
 
+if [ -f ~/bin/git-completion.bash ]; then
+    . ~/bin/git-completion.bash
+fi
+
 # User specific aliases and functions
 PS1='\e[1;36m$(parse_git_branch)\e[1;32m[\u@\h \w] \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
 
