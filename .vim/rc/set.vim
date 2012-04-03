@@ -71,6 +71,7 @@ function! GetTitleString()
     let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
     let dir = expand('%:p' . sub_home . ':~:.:h')
     let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
+    let dir = substitute(dir, 'svn/game/', '', '')
     let str = filename . ' ' . modified . readonly . modifiable . dir
     let str2 = str
     if !has('win32')
