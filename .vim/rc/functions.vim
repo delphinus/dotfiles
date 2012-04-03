@@ -104,7 +104,7 @@ function! SelectOneEntry()
 	call search('\[\d\{4}-\d\d-\d\d \d\d:\d\d\]')
 	let end = getpos('.')
 	let lines = getline(start[1] + 1, end[1] - 1)
-	let @* = join(lines, "\n")
+	let @" = join(lines, "\n")
 	normal u
 
 	" restore cursor position

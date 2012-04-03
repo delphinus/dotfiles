@@ -6,59 +6,6 @@ if is_win
 	set undodir=C:\cygwin\tmp
     "set listchars=tab:»\ ,trail:‗,eol:↲,extends:»,precedes:«,nbsp:¯
 
-	" markdown 形式から trac 形式に変換する
-	if has('perl')
-		function! MarkdownToTrac()
-			call SelectOneEntry()
-		perl << EOP
-			use Encode;
-			use Win32::Clipboard;
-
-			# 文書のエンコーディング
-			$enc = find_encoding(VIM::Eval('&fenc'));
-
-			# バッファ全体を得る
-			#$_ = join "\n", map { $cp932->encode($enc->decode($_)) }
-			#$curbuf->Get(1 .. $curbuf->Count);
-			$_ = decode(utf8 => VIM::Eval('@*'));
-
-			# タイトルを削除
-			s!^= .*!!;
-
-			# 最終行のライムスタンプを削除
-			s!^\[\d{4}-\d\d-\d\d \d\d:\d\d\]\n\n?!!m;
-
-			# <H> タグ変換
-			s!^(#+) (.*)!'=' x length($1) . " $2 " . '=' x length($1)!egm;
-
-			# リンクを変換
-			s!\[([^]]+)\]\((\S+)(?: "([^"]+)")?\)![\2 \1]!g;
-			s!<((?:(?:ht|f)tps?|mailto)://\S+)>![\1]!g;
-			s!<([.a-zA-Z0-9]+@[.a-zA-Z0-9]+)>![mailto:\1]!g;
-
-			# リストを変換
-			s!^(?=\*\s+)!  !gm;
-
-			# 強調を変換
-			s!__([^\t]+?)__!'''\1'''!g;
-
-			# コードブロックを変換
-			s!(?:^\t.*\n)+!
-				($str = $&) =~ s/^\t//gm;
-				"{{{\n$str}}}\n";
-			!egmx;
-
-			$_ = encode(cp932 => $_);
-
-			# クリップボードにセット
-			Win32::Clipboard()->Set($_);
-
-			VIM::Msg('convert markdown to trac');
-EOP
-		endfunction
-		nnoremap <Leader>mt :call MarkdownToTrac()<CR>
-	endif
-
 elseif is_remora_cx
 	set guifont=Envy_Code_R_for_Powerline:h16
 	set guifontwide=Ricty_Envy:h16

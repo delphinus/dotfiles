@@ -85,6 +85,8 @@ call s:loadrc('syntastic')
 "call s:loadrc('syntaxcheck')
 " CSV 設定
 call s:loadrc('csv')
+" markdown 設定
+call s:loadrc('markdown')
 
 " 無効化したもの
 "call s:loadrc('disabled')
