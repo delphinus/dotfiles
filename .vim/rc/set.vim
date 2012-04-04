@@ -62,18 +62,28 @@ set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 set cmdheight=2          " 画面最下段のコマンド表示行数
 set title                " ウィンドウタイトルを更新する
+
 function! GetTitleString()
+    " 各種フラグ
     let modified = getbufvar('', '&mod') ? '+' : ''
     let readonly = getbufvar('', '&ro') ? '=' : ''
     let modifiable = getbufvar('', '&ma') ? '' : '-'
+    let flag = modified . readonly . modifiable
+    let flag = len(flag) ? ' ' . flag : ''
+    " ファイル名
     let filename = expand('%:t')
+    " ファイル名がない場合
     let filename = len(filename) ? filename : 'NEW FILE'
+    " $H が設定してある場合は、パス内を置換する
     let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
     let dir = expand('%:p' . sub_home . ':~:.:h')
-    let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
+    " 'svn/game/' を消す
     let dir = substitute(dir, 'svn/game/', '', '')
-    let str = filename . ' ' . modified . readonly . modifiable . dir
-    let str2 = str
+    " dir を括弧で括る
+    let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
+    " 表示文字列を作成
+    let str = filename . flag . dir
+    " win32 の時、タイトルバーに 2 バイト文字があったら化けるので対処する
     if !has('win32')
         let str2 = ''
         for char in split(str, '\zs')
@@ -83,9 +93,11 @@ function! GetTitleString()
                 let str2 = str2 . char
             endif
         endfor
+        let str = str2
     endif
-    return str2
+    return str
 endfunction
+
 set titlestring=%{GetTitleString()}
                          " タイトル文字列指定
 if g:is_remora
