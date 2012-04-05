@@ -87,6 +87,8 @@ call s:loadrc('syntastic')
 call s:loadrc('csv')
 " markdown 設定
 call s:loadrc('markdown')
+" Clam 設定
+call s:loadrc('clam')
 
 " 無効化したもの
 "call s:loadrc('disabled')

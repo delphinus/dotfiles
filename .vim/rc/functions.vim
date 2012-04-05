@@ -15,7 +15,7 @@ command! CD :cd %:h
 
 "-----------------------------------------------------------------------------
 " scp
-command! -nargs=1 Scp :!scp % <args>:%:p
+command! -nargs=1 Scp :Clam scp % <args>:%:p
 
 "-----------------------------------------------------------------------------
 " http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
