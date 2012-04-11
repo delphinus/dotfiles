@@ -35,4 +35,5 @@ set ambiwidth=single
 "colo zenburn
 "colo papayawhip
 "colo gummybears
-colo void
+"colo void
+colo badwolf
