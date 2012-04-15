@@ -33,7 +33,7 @@ nnoremap # :b #<CR>
 nnoremap <C-m> :buffer mail<CR>
 "
 set go-=br
-set go-=T
+"set go-=T
 
 " スクロール量
 set scroll=5
