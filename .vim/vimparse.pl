@@ -97,9 +97,9 @@ if ($@) {
 } else {
 	my $current_dir = getcwd;
 	my @inc = Project::Libs::find_inc(file($file)->dir->stringify,
-		[qw!libs lib!], ());
+		['', qw!libs lib!], ());
 	my $path = '';
-	$path .= join '', map {"-I$_"} @inc if scalar @inc;
+	$path .= join ' ', @inc if scalar @inc;
 	chdir $current_dir;
 
 	@lines = `perl @{[defined $opt_c ? '-c' : '']} $path "$file$args" 2>&1`;
