@@ -68,8 +68,10 @@ if is_unix
 	\	'port' : 52224,
 	\}
 
-	function! Yank2Remote()
-		call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
+	function! Yank2Remote(...)
+        if !a:0
+            call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
+        endif
 		let s:params = ['cat %s %s | nc -w1 %s %s']
 		for s:item in ['key_file', 'tmp_file', 'host', 'port']
 		let s:params += [shellescape(g:y2r_config[s:item])]
