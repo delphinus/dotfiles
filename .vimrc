@@ -29,71 +29,71 @@ function s:loadrc(file)
 endfunction
 
 " プラグインの読み込み
-call s:loadrc('vundle')
+source ~/.vim/rc/vundle.vim
 " マッピング
-call s:loadrc('map')
+source ~/.vim/rc/map.vim
 " オプション設定
-call s:loadrc('set')
+source ~/.vim/rc/set.vim
 " ユーティリティ関数
-call s:loadrc('functions')
+source ~/.vim/rc/functions.vim
 
 " QFixMemo 設定
-call s:loadrc('qfixmemo')
+source ~/.vim/rc/qfixmemo.vim
 " QuickRun 設定
-call s:loadrc('quickrun')
+source ~/.vim/rc/quickrun.vim
 " Perl 設定
-call s:loadrc('perl')
+source ~/.vim/rc/perl.vim
 " Ref 設定
-call s:loadrc('ref')
+source ~/.vim/rc/ref.vim
 " Netrw 設定
-call s:loadrc('netrw')
+source ~/.vim/rc/netrw.vim
 " Unite 設定
-call s:loadrc('unite')
+source ~/.vim/rc/unite.vim
 " VimFiler 設定
-call s:loadrc('vimfiler')
+source ~/.vim/rc/vimfiler.vim
 " neocomplcache 設定
-call s:loadrc('neocomplcache')
+source ~/.vim/rc/neocomplcache.vim
 " VimShell 設定
-call s:loadrc('vimshell')
+source ~/.vim/rc/vimshell.vim
 " Powerline 設定
-call s:loadrc('powerline')
+source ~/.vim/rc/powerline.vim
 " JpFormat 設定
-call s:loadrc('jpformat')
+source ~/.vim/rc/jpformat.vim
 " TweetVim 設定
-call s:loadrc('tweetvim')
+source ~/.vim/rc/tweetvim.vim
 " Gist 設定
-call s:loadrc('gist')
+source ~/.vim/rc/gist.vim
 " jsl 設定
-call s:loadrc('jsl')
+source ~/.vim/rc/jsl.vim
 " DrawIt 設定
-call s:loadrc('drawit')
+source ~/.vim/rc/drawit.vim
 " Chalice 設定
-call s:loadrc('chalice')
+source ~/.vim/rc/chalice.vim
 " vim-funlib 設定
-call s:loadrc('funlib')
+source ~/.vim/rc/funlib.vim
 " errormarker 設定
-call s:loadrc('errormarker')
+source ~/.vim/rc/errormarker.vim
 " EasyMotion 設定
-call s:loadrc('easymotion')
+source ~/.vim/rc/easymotion.vim
 " YankRing 設定
-call s:loadrc('yankring')
+source ~/.vim/rc/yankring.vim
 " cmdline-completion 設定
-call s:loadrc('cmdline-completion')
+source ~/.vim/rc/cmdline-completion.vim
 " シンタックスチェック
-call s:loadrc('syntastic')
+source ~/.vim/rc/syntastic.vim
 " http://d.hatena.ne.jp/osyo-manga/20110921/1316605254
-"call s:loadrc('syntaxcheck')
+"source ~/.vim/rc/syntaxcheck.vim
 " CSV 設定
-call s:loadrc('csv')
+source ~/.vim/rc/csv.vim
 " markdown 設定
-call s:loadrc('markdown')
+source ~/.vim/rc/markdown.vim
 " Clam 設定
-call s:loadrc('clam')
+source ~/.vim/rc/clam.vim
 
 " 無効化したもの
-"call s:loadrc('disabled')
+"source ~/.vim/rc/disabled.vim
 " ステータスバー設定
-"call s:loadrc('statusbar')
+"source ~/.vim/rc/statusbar.vim
 " タブ設定
-"call s:loadrc('tab')
+"source ~/.vim/rc/tab.vim
 
