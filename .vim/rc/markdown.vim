@@ -47,13 +47,13 @@ if has('perl')
         s|(?:^\t.*\n)+|
             my ($str) = $&;
             $str =~ s/^\t//gm;
-            my ($kind) = $str =~ /^#!(.*)/;
+            my ($kind) = $str =~ /^#!(.*)\n/;
             if (0 < length $kind) {
-                $str = "$&$'";
+                $str = $';
             } else {
                 $kind = 'plain';
             }
-            "{code:$plain}\n${str}{code}\n";
+            "{code:$kind}\n${str}{code}\n";
         |egm;
 
         # クリップボードにセット
