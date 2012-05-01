@@ -19,7 +19,7 @@ if has('perl')
         s!^\[\d{4}-\d\d-\d\d \d\d:\d\d]\n\n?\z!!m;
 
         # <H> タグ変換
-        s!^(#+) (.*)!'h' . length($1) . ". $2"!egm;
+        s!^(#+) (.*)!'h' . (length($1) + 1) . ". $2"!egm;
 
         # リンクを変換
         my $url = qr!(?:(?:ht|f)tps?|mailto)://[-.,:?&;%#/\w\d]+!;
