@@ -17,6 +17,7 @@ alias gvim='open -a /Applications/MacVim.app "$@"'
 export PAGER='vimpager'
 #export PAGER=less
 alias vp='vimpager'
+alias perldoc='perldocjp -J'
 export EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 export VISUAL='/Applications/MacVim.app/Contents/MacOS/Vim'
 export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
