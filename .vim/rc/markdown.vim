@@ -45,7 +45,7 @@ if has('perl')
 
         # コードブロックを変換
         s|(?:^\t.*\n)+|
-            my ($str) = $&;
+            my $str = $&;
             $str =~ s/^\t//gm;
             my ($kind) = $str =~ /^#!(.*)\n/;
             if (0 < length $kind) {
@@ -55,6 +55,14 @@ if has('perl')
             }
             "{code:$kind}\n${str}{code}\n";
         |egm;
+
+        # 引用を変換
+        s!(?:^> .*\n?)+!
+            my $str = $&;
+            $str =~ s/^> //gm;
+            substr($str, -1, 1) eq "\n" or $str .= "\n";
+            "{quote}\n${str}{quote}\n";
+        !egm;
 
         # クリップボードにセット
         my ($success, $filename) = VIM::Eval('g:y2r_config.tmp_file');
