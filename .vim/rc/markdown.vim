@@ -51,7 +51,7 @@ if has('perl')
             if (0 < length $kind) {
                 $str = $';
             } else {
-                $kind = 'plain';
+                $kind = 'none';
             }
             "{code:$kind}\n${str}{code}\n";
         |egm;
