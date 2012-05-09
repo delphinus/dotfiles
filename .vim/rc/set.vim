@@ -137,8 +137,9 @@ set ttimeoutlen=-1
 
 set virtualedit=block          " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-set background=dark            " 暗い背景色
-"colo calmar256-light
+"set background=dark            " 暗い背景色
+set background=light           " 明るい背景色
+colo calmar256-light
 "colo xorium
 "colo desertEx
 "colo werks
@@ -155,6 +156,6 @@ set background=dark            " 暗い背景色
 "colo papayawhip
 "colo gummybears
 "colo void256
-colo badwolf
+"colo badwolf
 
 " vim:et:fdm=marker:

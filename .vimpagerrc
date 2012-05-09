@@ -100,7 +100,7 @@ set synmaxcol=0
 set title
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=double
-colo gummybears
+colo calmar256-light
 filetype plugin on
 
 set laststatus=2
