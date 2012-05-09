@@ -89,6 +89,14 @@ call s:loadrc('csv')
 call s:loadrc('markdown')
 " Clam 設定
 call s:loadrc('clam')
+" TimeTap 設定
+call s:loadrc('timetap')
+
+" オフィス専用設定
+let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
+if is_office && filereadable(g:office_vimrc)
+	execute 'source ' . g:office_vimrc
+endif
 
 " 無効化したもの
 "call s:loadrc('disabled')

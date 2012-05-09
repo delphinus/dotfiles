@@ -19,7 +19,7 @@ if has('perl')
         s!^\[\d{4}-\d\d-\d\d \d\d:\d\d]\n\n?\z!!m;
 
         # <H> タグ変換
-        s!^(#+) (.*)!'h' . length($1) . ". $2"!egm;
+        s!^(#+) (.*)!'h' . (length($1) + 1) . ". $2"!egm;
 
         # リンクを変換
         my $url = qr!(?:(?:ht|f)tps?|mailto)://[-.,:?&;%#/\w\d]+!;
@@ -45,16 +45,24 @@ if has('perl')
 
         # コードブロックを変換
         s|(?:^\t.*\n)+|
-            my ($str) = $&;
+            my $str = $&;
             $str =~ s/^\t//gm;
-            my ($kind) = $str =~ /^#!(.*)/;
+            my ($kind) = $str =~ /^#!(.*)\n/;
             if (0 < length $kind) {
-                $str = "$&$'";
+                $str = $';
             } else {
-                $kind = 'plain';
+                $kind = 'none';
             }
-            "{code:$plain}\n${str}{code}\n";
+            "{code:$kind}\n${str}{code}\n";
         |egm;
+
+        # 引用を変換
+        s!(?:^> .*\n?)+!
+            my $str = $&;
+            $str =~ s/^> //gm;
+            substr($str, -1, 1) eq "\n" or $str .= "\n";
+            "{quote}\n${str}{quote}\n";
+        !egm;
 
         # クリップボードにセット
         my ($success, $filename) = VIM::Eval('g:y2r_config.tmp_file');
