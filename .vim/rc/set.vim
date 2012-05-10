@@ -70,6 +70,8 @@ function! GetTitleString()
     let modifiable = getbufvar('', '&ma') ? '' : '-'
     let flag = modified . readonly . modifiable
     let flag = len(flag) ? ' ' . flag : ''
+    " ホスト名
+    let host = hostname() . ':'
     " ファイル名
     let filename = expand('%:t')
     " ファイル名がない場合
@@ -82,7 +84,7 @@ function! GetTitleString()
     " dir を括弧で括る
     let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
     " 表示文字列を作成
-    let str = filename . flag . dir
+    let str = host . filename . flag . dir
     " win32 の時、タイトルバーに 2 バイト文字があったら化けるので対処する
     if !has('win32')
         let str2 = ''
