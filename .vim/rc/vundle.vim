@@ -29,6 +29,7 @@ endif
 
 call vundle#rc(g:bundle_dir)
 
+Bundle 'altercation/vim-colors-solarized'
 Bundle 'bcat/abbott.vim'
 Bundle 'basyura/TweetVim'
 Bundle 'basyura/bitly.vim'

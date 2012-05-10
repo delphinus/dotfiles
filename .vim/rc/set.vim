@@ -59,7 +59,7 @@ set showmatch            " 対応する括弧を自動的に装飾して表示
 set display=lastline     " 画面最下行もできるだけ表示する
 set laststatus=2         " ステータスラインは常に表示
 set list                 " 空白の可視化
-set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
+set listchars=tab:▓█,trail:▓,eol:↲,extends:»,precedes:«,nbsp:¯
 set cmdheight=2          " 画面最下段のコマンド表示行数
 set title                " ウィンドウタイトルを更新する
 
@@ -113,33 +113,35 @@ set ttymouse=xterm2 " マウスホイールを有効化
 set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
 " }}}
 
-set scrolloff=3                " 上下の画面の端にカーソルを寄せない。
-set sidescrolloff=5            " 左右の画面の端にカーソルを寄せない。
+set scrolloff=3                   " 上下の画面の端にカーソルを寄せない。
+set sidescrolloff=5               " 左右の画面の端にカーソルを寄せない。
 
-set fileformat=unix            " 改行コード指定
-set fileformats=unix,dos       " 改行コード自動認識
+set fileformat=unix               " 改行コード指定
+set fileformats=unix,dos          " 改行コード自動認識
 
-set backspace=indent,eol,start " バックスペースを行を超えて有効にする
+set backspace=indent,eol,start    " バックスペースを行を超えて有効にする
 
-set grepprg=ack                " grep コマンドとして ack を使用する
+set grepprg=ack                   " grep コマンドとして ack を使用する
 
-set diffopt=filler,vertical    " diffコマンド設定
+set diffopt=filler,vertical       " diffコマンド設定
 
-set synmaxcol=0                " 構文強調表示桁数の制限を解除
+set synmaxcol=0                   " 構文強調表示桁数の制限を解除
 
-set notagbsearch               " unite.vim + 日本語ヘルプでフリーズするときの対策
+set notagbsearch                  " unite.vim + 日本語ヘルプでフリーズするときの対策
 
-set nrformats=                 " 5-5 10進数で数字の上げ下げ
+set nrformats=                    " 5-5 10進数で数字の上げ下げ
 
-set timeout                    " キーのタイムアウト時間設定
+set timeout                       " キーのタイムアウト時間設定
 set timeoutlen=300
 set ttimeoutlen=-1
 
-set virtualedit=block          " ビジュアルブロックモードのみ、カーソルを自由移動させる
+set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-"set background=dark            " 暗い背景色
-set background=light           " 明るい背景色
-colo calmar256-light
+set background=dark               " 暗い背景色
+let g:solarized_termcolors=256    " solarized 256 色対応
+let g:solarized_visibility='high' " 不可視文字を高コントラストで表示する
+colo solarized
+"colo calmar256-light
 "colo xorium
 "colo desertEx
 "colo werks

@@ -1,4 +1,4 @@
-scriptencoding 'utf-8'
+scriptencoding utf-8
 let g:is_remora_cx = hostname() == 'remora.cx'
 let g:is_remora = hostname() =~ '^remora'
 let g:is_backup = hostname() == 'backup.remora.cx'
@@ -38,17 +38,15 @@ endif
 
 call vundle#rc(g:bundle_dir)
 
+Bundle 'altercation/vim-colors-solarized'
 Bundle 'houtsnip/vim-emacscommandline'
 Bundle 'godlygeek/csapprox'
-Bundle 'jelera/vim-gummybears-colorscheme'
 Bundle 'delphinus35/vim-pastefire'
-"Bundle 'Lokaltog/vim-powerline'
 Bundle 'delphinus35/vim-powerline'
 Bundle 'mattn/gist-vim'
 Bundle 'thinca/vim-visualstar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tyru/current-func-info.vim'
-Bundle 'vim-scripts/Color-Sampler-Pack'
 
 filetype plugin indent on
 
@@ -100,7 +98,12 @@ set synmaxcol=0
 set title
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=double
-colo calmar256-light
+set list                 " 空白の可視化
+set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
+set background=dark               " 暗い背景色
+let g:solarized_termcolors=256    " solarized 256 色対応
+let g:solarized_visibility='high' " 不可視文字を高コントラストで表示する
+colo solarized
 filetype plugin on
 
 set laststatus=2
