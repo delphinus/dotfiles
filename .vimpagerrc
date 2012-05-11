@@ -44,6 +44,7 @@ Bundle 'godlygeek/csapprox'
 Bundle 'delphinus35/vim-pastefire'
 Bundle 'delphinus35/vim-powerline'
 Bundle 'mattn/gist-vim'
+Bundle 'sjl/badwolf'
 Bundle 'thinca/vim-visualstar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tyru/current-func-info.vim'
@@ -100,10 +101,7 @@ set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=double
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
-set background=dark               " 暗い背景色
-let g:solarized_termcolors=256    " solarized 256 色対応
-let g:solarized_visibility='high' " 不可視文字を高コントラストで表示する
-colo solarized
+colo badwolf
 filetype plugin on
 
 set laststatus=2
