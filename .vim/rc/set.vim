@@ -139,8 +139,7 @@ set ttimeoutlen=-1
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-set background=light              " 明るい背景色
-let g:solarized_termcolors=256    " solarized 256 色対応
+set background=dark               " 暗い背景色
 let g:solarized_visibility='high' " 不可視文字を高コントラストで表示する
 colo solarized
 "colo calmar256-light
