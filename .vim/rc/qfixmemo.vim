@@ -98,3 +98,24 @@ function! SelectOneEntry()
 endfunction
 
 command! -nargs=0 SE :call SelectOneEntry()
+
+"-----------------------------------------------------------------------------
+" 一つ前と同じタイトルでエントリを作成
+function! CopyTitleFromPrevEntry()
+	let save_register = @"
+
+	call QFixMRUMoveCursor('prev')
+	let title = getline('.')
+	let title = substitute(title, '^= ', '', '')
+	let @" = title
+	call QFixMRUMoveCursor('next')
+	call qfixmemo#Template('next')
+	stopinsert
+	normal! p
+	normal! o
+	startinsert
+
+	let @" = save_register
+endfunction
+
+nnoremap g,M :<C-U>call CopyTitleFromPrevEntry()<CR>
