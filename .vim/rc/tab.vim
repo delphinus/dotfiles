@@ -32,25 +32,27 @@ function! MyTabLine()
 endfunction
 
 function! MyTabLabel(n)
-  let buflist = tabpagebuflist(a:n)
-  let winnr = tabpagewinnr(a:n)
-  " SVN のホームディレクトリを消す
-  let altbuf = substitute(bufname(buflist[winnr - 1]), '^/home/game/svn/game/', '', '')
-  " $H や $HOME を消す
-  if g:is_office || g:is_office_cygwin || g:is_remora
-	let altbuf = substitute(altbuf, expand('$H/'), '', '')
-	let altbuf = substitute(altbuf, expand('$HOME/'), '', '')
-  elseif g:is_office_win
-	let altbuf = substitute(altbuf, substitute(substitute(expand('$HOME\'), '^c:', '', ''), '\\', '\\\\', 'g'), '', '')
-endif
-  " ディレクトリ名を縮める
-  "let altbuf = substitute(altbuf, '\v%(\/)@<=(.).{-}%(\/)@=', '\1', 'g')
-  " 拡張子を取る
-  "let altbuf = substitute(altbuf, '\v%([^/])@<=\.[^.]+$', '', '')
-  " [ref] 対応
-  let altbuf = substitute(altbuf, '\[ref-.*:\(.*\)\]', '[\1]', 'g')
-  let altbuf = '|' . altbuf . '|'
-  return altbuf
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    " $H や $HOME を消す
+    if g:is_office || g:is_office_cygwin || g:is_remora
+        " git のホームディレクトリを消す
+        let altbuf = substitute(bufname(buflist[winnr - 1]), '^git/mobage-core/', '', '')
+        let my_home = substitute(expand('$H'), expand('$HOME/'), '', '')
+        let altbuf = substitute(altbuf, my_home, '$H', '')
+        let altbuf = substitute(altbuf, expand('$H/'), '$H', '')
+        let altbuf = substitute(altbuf, expand('$HOME/'), '~', '')
+    elseif g:is_office_win
+        let altbuf = substitute(altbuf, substitute(substitute(expand('$HOME\'), '^c:', '', ''), '\\', '\\\\', 'g'), '', '')
+    endif
+    " カレントタブ以外はパスを短くする
+    if tabpagenr() != a:n
+        let altbuf = pathshorten(altbuf)
+    endif
+    " [ref] 対応
+    let altbuf = substitute(altbuf, '\[ref-.*:\(.*\)\]', '[\1]', 'g')
+    let altbuf = '|' . altbuf . '|'
+    return altbuf
 endfunction
 
 
