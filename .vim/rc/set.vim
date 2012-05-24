@@ -62,7 +62,8 @@ set list                 " 空白の可視化
 if is_remora
     set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
 else
-    set listchars=tab:▓█,trail:▓,eol:↲,extends:»,precedes:«,nbsp:¯
+    "set listchars=tab:▓█,trail:▓,eol:↲,extends:»,precedes:«,nbsp:¯
+    set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 endif
 set cmdheight=2          " 画面最下段のコマンド表示行数
 set title                " ウィンドウタイトルを更新する
@@ -143,9 +144,10 @@ set ttimeoutlen=-1
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-set background=dark               " 暗い背景色
-let g:solarized_visibility='high' " 不可視文字を高コントラストで表示する
-colo solarized
+set background=light              " 明るい背景色
+colo festoon
+"let g:solarized_visibility='normal'"不可視文字を高コントラストで表示する
+"colo solarized
 "colo calmar256-light
 "colo xorium
 "colo desertEx
@@ -164,5 +166,6 @@ colo solarized
 "colo gummybears
 "colo void256
 "colo badwolf
+"colo werks
 
 " vim:et:fdm=marker:
