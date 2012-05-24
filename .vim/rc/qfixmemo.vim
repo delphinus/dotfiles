@@ -77,3 +77,45 @@ function! QFixMemoBufWritePre()
   " ファイル末の空行を削除
   call qfixmemo#DeleteNullLines()
 endfunction
+
+"-----------------------------------------------------------------------------
+" 一つ分のエントリを選択
+function! SelectOneEntry()
+	" save cursor position
+	let save_cursor = getpos('.')
+
+	JpJoinAll
+	call QFixMRUMoveCursor('prev')
+	let start = getpos('.')
+	call QFixMRUMoveCursor('next')
+	let end = getpos('.')
+	let lines = getline(start[1] + 1, end[1] - 2)
+	let @" = join(lines, "\n")
+	normal u
+
+	" restore cursor position
+	call setpos('.', save_cursor)
+endfunction
+
+command! -nargs=0 SE :call SelectOneEntry()
+
+"-----------------------------------------------------------------------------
+" 一つ前と同じタイトルでエントリを作成
+function! CopyTitleFromPrevEntry()
+	let save_register = @"
+
+	call QFixMRUMoveCursor('prev')
+	let title = getline('.')
+	let title = substitute(title, '^= ', '', '')
+	let @" = title
+	call QFixMRUMoveCursor('next')
+	call qfixmemo#Template('next')
+	stopinsert
+	normal! p
+	normal! o
+	startinsert
+
+	let @" = save_register
+endfunction
+
+nnoremap g,M :<C-U>call CopyTitleFromPrevEntry()<CR>
