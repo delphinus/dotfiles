@@ -39,7 +39,7 @@ if [ -f ~/bin/git-completion.bash ]; then
 fi
 
 # User specific aliases and functions
-PS1='\e[1;36m$(parse_git_branch)\e[1;32m[\u@\h \w] \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
+PS1='\e[1;45m$(parse_git_branch)\e[m\e[1;47m[\u@\h \w]\e[m \e[1;31m\D{%x %p%l:%M}\e[m\n\$ '
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
