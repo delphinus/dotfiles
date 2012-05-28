@@ -21,19 +21,12 @@ noremap <C-N> :UniteWithBufferDir -buffer-name=files file file/new<CR>
 noremap <Leader>ur :Unite file_rec/async<CR>
 noremap <C-Z> :Unite outline<CR>
 noremap <C-T> :Unite tab<CR>
-noremap <Leader>uc :Unite colorscheme -auto-preview<CR>
+noremap <Leader>uu :Unite bookmark<CR>
+noremap <Leader>uc :Unite colorscheme<CR>
 noremap <Leader>ul :Unite locate<CR>
 noremap <Leader>uv :Unite buffer -input=vimshell<CR>
 noremap <Leader>vu :Unite buffer -input=vimshell<CR>
 autocmd FileType unite call s:unite_my_settings()
-autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-autocmd FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-autocmd FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
-autocmd FileType unite inoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
-autocmd FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-autocmd FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 call unite#set_substitute_pattern('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#set_substitute_pattern('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
 call unite#set_substitute_pattern('files', '^@', '\=getcwd()."/*"', 1)
@@ -49,8 +42,23 @@ if has('win32') || has('win64')
   call unite#set_substitute_pattern('files', '^;p', 'C:/Program Files/')
 endif
 call unite#set_substitute_pattern('files', '^;v', '~/.vim/')
+
 function! s:unite_my_settings()
-  " Overwrite settings.
+    " 上下に分割して開く
+    nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+    inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+    " 左右に分割して開く
+    nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+    inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+    " タブで開く
+    nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
+    inoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
+    " vimfiler で開く
+    nnoremap <silent> <buffer> <expr> <C-O> unite#do_action('vimfiler')
+    inoremap <silent> <buffer> <expr> <C-O> unite#do_action('vimfiler')
+    " 終了
+    nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+    inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 endfunction
 
 
