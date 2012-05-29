@@ -145,12 +145,7 @@ set ttimeoutlen=-1
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
 set background=light              " 明るい背景色
-if is_remora
-    colo festoon
-else
-    let g:solarized_visibility='normal'"不可視文字を高コントラストで表示する
-    colo solarized
-endif
+colo festoon
 "colo calmar256-light
 "colo xorium
 "colo desertEx
