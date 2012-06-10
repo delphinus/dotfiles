@@ -1,0 +1,23 @@
+# http://www.asahi-net.or.jp/~wg5k-ickw/html/online/gdb-4.18/gdb_19.html
+# ベルを鳴らさない
+set bell-style none
+# ファイル名補完に大文字小文字を区別しない
+set completion-ignore-case on
+# vi モード
+set editing-mode vi
+# ~ を展開する
+set expand-tilde on
+# 補完候補を水平に表示
+set print-completions-horizontally on
+# 候補をいきなり表示する
+set show-all-if-ambiguous on
+# 補完候補に追加情報を表示する
+set visible-stats on
+
+# Match all files
+set match-hidden-files on
+
+# 'Magic Space'
+# Insert a space character then performs
+# a history expansion in the line
+Space: magic-space
