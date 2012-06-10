@@ -48,9 +48,9 @@ if is_office
 endif
 
 "-----------------------------------------------------------------------------
-" Teamplte::Toolkit 設定
-au BufNewFile,BufRead *.tt2 setf tt2html
-au BufNewFile,BufRead *.tt setf tt2html
+" Templte::Toolkit 設定
+autocmd BufNewFile,BufRead *.tt2 setf tt2html
+autocmd BufNewFile,BufRead *.tt setf tt2html
 
 "-----------------------------------------------------------------------------
 " pentadactylrc 設定
@@ -91,3 +91,8 @@ command! -nargs=0 DO :diffoff!
 "-----------------------------------------------------------------------------
 " SVN 設定
 command! -nargs=0 SD :VCSDiff HEAD
+
+"-----------------------------------------------------------------------------
+" Objective-C 設定
+autocmd BufNewFile,BufRead *.m setf objc
+autocmd BufNewFile,BufRead *.h setf objc
