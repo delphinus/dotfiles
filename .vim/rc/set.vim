@@ -58,6 +58,7 @@ set noshowmode           " 【挿入】【ビジュアル】といった文字�
 set showmatch            " 対応する括弧を自動的に装飾して表示
 set display=lastline     " 画面最下行もできるだけ表示する
 set laststatus=2         " ステータスラインは常に表示
+set number               " 行番号を表示する
 set list                 " 空白の可視化
 if is_remora
     set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
@@ -146,7 +147,7 @@ set virtualedit=block             " ビジュアルブロックモードのみ�
 
 set background=light              " 明るい背景色
 "colo festoon
-colo calmar256-light
+"colo calmar256-light
 "colo xorium
 "colo desertEx
 "colo werks
@@ -164,6 +165,9 @@ colo calmar256-light
 "colo gummybears
 "colo void256
 "colo badwolf
-"colo werks
+"colo zenburn
+
+let g:solarized_visibility='normal'"不可視文字を高コントラストで表示する
+colo solarized
 
 " vim:et:fdm=marker:
