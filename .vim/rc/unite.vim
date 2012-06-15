@@ -43,6 +43,10 @@ if has('win32') || has('win64')
 endif
 call unite#set_substitute_pattern('files', '^;v', '~/.vim/')
 
+" vcscommand.vim の diff buffer を消す
+call unite#custom_filters('buffer,buffer_tab',
+            \ ['matcher_default', 'sorter_default', 'converter_erase_diff_buffer'])
+
 function! s:unite_my_settings()
     " 上下に分割して開く
     nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
