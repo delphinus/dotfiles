@@ -5,7 +5,7 @@ if [ -f /etc/bashrc ]; then
         . /etc/bashrc
 fi
 
-export TERM=xterm-256color
+#export TERM=xterm-256color
 
 alias ls='ls -vGF'
 alias ll='ls -vGF -l'
