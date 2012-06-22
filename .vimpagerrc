@@ -10,6 +10,8 @@ let g:is_remora_air2_win = hostname() == 'remora-air2-win'
 let g:is_unix = is_remora || is_backup || is_office || is_office_cygwin
 let g:is_win = is_office_win || is_xerxes || is_remora_air2_win
 
+set t_Co=256
+
 " シェルの位置を元に戻す
 if is_office
 	set shell=/bin/sh
@@ -38,16 +40,15 @@ endif
 
 call vundle#rc(g:bundle_dir)
 
-Bundle 'altercation/vim-colors-solarized'
 Bundle 'houtsnip/vim-emacscommandline'
 Bundle 'godlygeek/csapprox'
 Bundle 'delphinus35/vim-pastefire'
 Bundle 'delphinus35/vim-powerline'
 Bundle 'mattn/gist-vim'
-Bundle 'sjl/badwolf'
 Bundle 'thinca/vim-visualstar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tyru/current-func-info.vim'
+Bundle 'vim-scripts/Color-Sampler-Pack'
 
 filetype plugin indent on
 
@@ -101,8 +102,8 @@ set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=double
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
-colo badwolf
 filetype plugin on
+colo desertEx
 
 set laststatus=2
 

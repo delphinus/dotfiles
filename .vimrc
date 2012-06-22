@@ -34,6 +34,8 @@ call s:loadrc('vundle')
 call s:loadrc('map')
 " オプション設定
 call s:loadrc('set')
+" ターミナル固有の設定
+call s:loadrc('term')
 " ユーティリティ関数
 call s:loadrc('functions')
 
@@ -91,6 +93,8 @@ call s:loadrc('markdown')
 call s:loadrc('clam')
 " TimeTap 設定
 call s:loadrc('timetap')
+" Tagbar 設定
+call s:loadrc('tagbar')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'

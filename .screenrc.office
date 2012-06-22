@@ -20,7 +20,7 @@ rendition so "=" "Rk"
 shell /home/game/users/jinnouchi.yasushi/bin/bs
 shelltitle "$ |$HOSTNAME"
 startup_message off
-term xterm-256color
+#term xterm-256color
 termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 #termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 vbell off
@@ -28,7 +28,7 @@ vbell off
 #caption always "%{= Rk} %?%F%{b kr}%? %?%h%:%t (screen #%n)%? %{-} %?%P%{b kr} *** コピー / ペーストモード *** %{-}%?"
 #caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** コピー / ペーストモード *** %{-}%?"
 caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** Copy Mode *** %{-}%?"
-hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-040=%{b km} %l %{.b} %Y/%m/%d %C %A "
+hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-040=%{b km} %l %{.b} %Y/%m/%d %C:%s %A "
 
 bind ^] eval 'writebuf' 'exec sh -c "cat /home/game/users/jinnouchi.yasushi/.exchange.key /home/game/users/jinnouchi.yasushi/tmp/exchange-file | nc -w1 localhost 52224"' 'echo "paste to remote"'
 
@@ -102,5 +102,42 @@ bind -c region 3  eval 'split -v'         'command -c region' 'echo "[Region] (s
 # greedy continuous resize region
 bind -c region ^E eval 'resize ='         'command -c region' 'echo "[Region] (resize =)"'
 bind -c region ^X eval 'resize max'       'command -c region' 'echo "[Region] (resize max)"'
+
+
+# 開発版GNU Screenのlayoutを使ってみよう - Keep It Simple, Stupid
+# http://yskwkzhr.blogspot.jp/2011/12/guide-to-using-gnu-screen-layouts.html
+
+# trigger for layout sub-commands
+bind ^Y eval 'command -c layout' 'layout show'
+bind y  eval 'command -c layout' 'layout show'
+
+# create/remove layout
+bind -c layout c eval 'layout new'    'layout show'
+bind -c layout X eval 'layout remove' 'layout show'
+
+# change the current layout title or number
+bind -c layout A colon 'layout title '
+bind -c layout N colon 'layout number '
+
+# switch to the layout identified by number or title (not prefix of a title)
+bind -c layout \' eval 'layout select' 'layout show'
+
+# switch to other layout
+bind -c layout n eval 'layout next'     'layout show'
+bind -c layout p eval 'layout prev'     'layout show'
+bind -c layout 0 eval 'layout select 0' 'layout show'
+bind -c layout 1 eval 'layout select 1' 'layout show'
+bind -c layout 2 eval 'layout select 2' 'layout show'
+bind -c layout 3 eval 'layout select 3' 'layout show'
+bind -c layout 4 eval 'layout select 4' 'layout show'
+bind -c layout 5 eval 'layout select 5' 'layout show'
+bind -c layout 6 eval 'layout select 6' 'layout show'
+bind -c layout 7 eval 'layout select 7' 'layout show'
+bind -c layout 8 eval 'layout select 8' 'layout show'
+bind -c layout 9 eval 'layout select 9' 'layout show'
+
+# continuous switch to other layout
+bind -c layout ^N eval 'layout next' 'command -c layout' 'layout show'
+bind -c layout ^P eval 'layout prev' 'command -c layout' 'layout show'
 
 # vim:se ft=screen:
