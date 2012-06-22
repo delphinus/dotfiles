@@ -22,24 +22,20 @@ export EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 export VISUAL='/Applications/MacVim.app/Contents/MacOS/Vim'
 export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 
-# http://henrik.nyh.se/2008/12/git-dirty-prompt
-# http://www.simplisticcomplexity.com/2008/03/13/show-your-git-branch-name-in-your-prompt/
-# username@Machine ~/dev/dir[master]$ # clean working directory
-# username@Machine ~/dev/dir[master*]$ # dirty working directory
-
-function parse_git_dirty {
-  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
-}
-function parse_git_branch {
-  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)] /"
-}
-
-if [ -f ~/bin/git-completion.bash ]; then
-    . ~/bin/git-completion.bash
+if [ -f $H/bin/git-completion.bash ]; then
+    . $H/bin/git-completion.bash
+    # unstated (*) stated (+)
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    # stashed ($)
+    export GIT_PS1_SHOWSTASHSTATE=1
+    # untracked (%)
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    # upstream (<=>)
+    export GIT_PS1_SHOWUPSTREAM="verbose"
+    PS1='\e[1;45m$(__git_ps1 "[%s] ")\e[1;47m[\u@\h \w]\e[m \e[1;31m\D{%x %p%l:%M}\e[m\n\$ '
+else
+    PS1='\e[1;47m[\u@\h \w] \e[1;31m\D{%x %p%l:%M}\e[m\n\$ '
 fi
-
-# User specific aliases and functions
-PS1='\e[1;45m$(parse_git_branch)\e[m\e[1;47m[\u@\h \w]\e[m \e[1;31m\D{%x %p%l:%M}\e[m\n\$ '
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
