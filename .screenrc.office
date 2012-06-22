@@ -20,7 +20,7 @@ rendition so "=" "Rk"
 shell /home/game/users/jinnouchi.yasushi/bin/bs
 shelltitle "$ |$HOSTNAME"
 startup_message off
-term xterm-256color
+#term xterm-256color
 termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 #termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 vbell off

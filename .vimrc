@@ -34,6 +34,8 @@ call s:loadrc('vundle')
 call s:loadrc('map')
 " オプション設定
 call s:loadrc('set')
+" ターミナル固有の設定
+call s:loadrc('term')
 " ユーティリティ関数
 call s:loadrc('functions')
 

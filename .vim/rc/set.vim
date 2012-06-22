@@ -61,14 +61,6 @@ set display=lastline     " 画面最下行もできるだけ表示する
 set laststatus=2         " ステータスラインは常に表示
 set number               " 行番号を表示する
 set list                 " 空白の可視化
-if &term =~ 'screen'
-  "let &t_SI .= "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  "let &t_EI .= "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-  let &t_SI .= "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI .= "\<Esc>]50;CursorShape=0\x7"
-endif
-inoremap <Esc> <Esc>gg`]
 
 if is_remora
     set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
