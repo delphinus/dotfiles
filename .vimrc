@@ -91,6 +91,8 @@ call s:loadrc('markdown')
 call s:loadrc('clam')
 " TimeTap 設定
 call s:loadrc('timetap')
+" Tagbar 設定
+call s:loadrc('tagbar')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
