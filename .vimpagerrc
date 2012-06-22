@@ -10,6 +10,8 @@ let g:is_remora_air2_win = hostname() == 'remora-air2-win'
 let g:is_unix = is_remora || is_backup || is_office || is_office_cygwin
 let g:is_win = is_office_win || is_xerxes || is_remora_air2_win
 
+set t_Co=256
+
 " シェルの位置を元に戻す
 if is_office
 	set shell=/bin/sh
@@ -101,7 +103,7 @@ set ambiwidth=double
 set list                 " 空白の可視化
 set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 filetype plugin on
-colo calmar256-light
+colo desertEx
 
 set laststatus=2
 
