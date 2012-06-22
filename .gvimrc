@@ -1,5 +1,5 @@
 if is_win
-	set guifont=Envy_Code_R_for_Powerline:h10
+	set guifont=Verily_Serif_Mono:h9
 	set guifontwide=Ricty:h10
 	set dir=C:\cygwin\tmp
 	set backupdir=C:\cygwin\tmp
@@ -38,4 +38,5 @@ set ambiwidth=single
 "colo void
 "colo badwolf
 set background=light              " 明るい背景色
-colo festoon
+"colo festoon
+colo solarized
