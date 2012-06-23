@@ -22,8 +22,10 @@ export EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 export VISUAL='/Applications/MacVim.app/Contents/MacOS/Vim'
 export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 
-if [ -f $H/bin/git-completion.bash ]; then
-    . $H/bin/git-completion.bash
+git_completion_path='/usr/local/etc/bash_completion.d/git-completion.bash'
+
+if [ -f $git_completion_path ]; then
+    . $git_completion_path
     # unstated (*) stated (+)
     export GIT_PS1_SHOWDIRTYSTATE=1
     # stashed ($)
