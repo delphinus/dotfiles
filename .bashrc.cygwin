@@ -34,7 +34,24 @@ function parse_git_branch {
 }
 
 # User specific aliases and functions
-PS1='\e[1;36m$(parse_git_branch)\e[1;32m[\u@\h \w] \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
+#PS1='\e[1;36m$(parse_git_branch)\e[1;32m[\u@\h \w] \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
+
+git_completion_path='/home/jinnouchi.yasushi/bin/git-completion.bash'
+
+if [ -f $git_completion_path ]; then
+    . $git_completion_path
+    # unstated (*) stated (+)
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    # stashed ($)
+    export GIT_PS1_SHOWSTASHSTATE=1
+    # untracked (%)
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    # upstream (<=>)
+    export GIT_PS1_SHOWUPSTREAM="verbose"
+    PS1='\e[1;36m$(__git_ps1 "[%s] ")\e[1;32m[\u@\h \w]\e[m \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
+else
+    PS1='\e[1;32m[\u@\h \w] \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
+fi
 
 alias ls='ls -F --color'
 alias ll='ls -F -l'
