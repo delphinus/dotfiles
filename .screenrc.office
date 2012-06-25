@@ -18,7 +18,7 @@ rendition monitor "=b" "BW"
 rendition silence "=u" "WK"
 rendition so "=" "Rk"
 shell /home/game/users/jinnouchi.yasushi/bin/bs
-shelltitle "$ |$HOSTNAME"
+shelltitle "(|"
 startup_message off
 #term xterm-256color
 termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
