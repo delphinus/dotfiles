@@ -47,6 +47,10 @@ call unite#set_substitute_pattern('files', '^;v', '~/.vim/')
 call unite#custom_filters('buffer,buffer_tab',
             \ ['matcher_default', 'sorter_default', 'converter_erase_diff_buffer'])
 
+" 大文字小文字を区別しない
+call unite#set_profile('files', 'ignorecase', 1)
+call unite#set_profile('file_mru', 'ignorecase', 1)
+
 function! s:unite_my_settings()
     " 上下に分割して開く
     nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
