@@ -101,7 +101,10 @@ set title
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=double
 set list                 " 空白の可視化
-set listchars=tab:►\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
+set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
+set tabstop=4       " 画面上でタブ文字が占める幅
+set softtabstop=4   " タブキーやバックスペースキーでカーソルが動く幅
+set shiftwidth=4    " 自動インデントや <<, >> でずれる幅
 filetype plugin on
 colo desertEx
 
