@@ -62,6 +62,9 @@ set laststatus=2         " ステータスラインは常に表示
 set number               " 行番号を表示する
 set list                 " 空白の可視化
 
+" 挿入モードの時のみ、カーソル行をハイライトする
+autocmd InsertEnter,InsertLeave * set cul!
+
 if is_remora
     set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
 else
