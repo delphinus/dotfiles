@@ -78,8 +78,8 @@ syn keyword pentadactylOption activate act altwildmode awim autocomplete au
     \ extendedhinttags eht fileencoding fenc findcase fc findflags ff
     \ followhints fh guioptions go helpfile hf hintinputs hin hintkeys hk
     \ hintmatching hm hinttags ht hinttimeout hto history hi iskeyword isk
-    \ jumptags jt linenumbers ln loadplugins lpl mapleader ml maxitems messages
-    \ msgs newtab nextpattern pageinfo pa passkeys pk passunknown pu popups pps
+    \ jumptags jt linenumbers ln loadplugins lpl maxitems messages msgs newtab
+    \ nextpattern pageinfo pa passkeys pk passunknown pu popups pps
     \ previouspattern runtimepath rtp sanitizeitems si sanitizeshutdown ss
     \ sanitizetimespan sts scroll scr scrollsteps scs scrolltime sct shell sh
     \ shellcmdflag shcf showmode smd showstatuslinks ssli showtabline stal
