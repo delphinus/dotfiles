@@ -89,10 +89,6 @@ command! -nargs=0 DT :diffthis
 command! -nargs=0 DO :diffoff!
 
 "-----------------------------------------------------------------------------
-" SVN 設定
-command! -nargs=0 SD :VCSDiff HEAD
-
-"-----------------------------------------------------------------------------
 " Objective-C 設定
 autocmd BufNewFile,BufRead *.m setf objc
 autocmd BufNewFile,BufRead *.h setf objc
