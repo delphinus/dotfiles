@@ -59,3 +59,4 @@ alias l.='ls -F -d .*'
 
 mount -c /
 source ~/perl5/perlbrew/etc/bashrc
+[[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
