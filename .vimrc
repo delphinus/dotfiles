@@ -95,6 +95,8 @@ call s:loadrc('clam')
 call s:loadrc('timetap')
 " Tagbar 設定
 call s:loadrc('tagbar')
+" vcscommand.vim 設定
+call s:loadrc('vcscommand')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
@@ -107,5 +109,5 @@ endif
 " ステータスバー設定
 "call s:loadrc('statusbar')
 " タブ設定
-"call s:loadrc('tab')
+call s:loadrc('tab')
 
