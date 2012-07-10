@@ -1,5 +1,5 @@
 if is_win
-	set guifont=Ricty_Discord:h10
+	set guifont=Envy_Code_R_for_Powerline:h10
 	set guifontwide=Ricty:h10
 	set dir=C:\cygwin\tmp
 	set backupdir=C:\cygwin\tmp

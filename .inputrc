@@ -1,17 +1,17 @@
 # http://www.asahi-net.or.jp/~wg5k-ickw/html/online/gdb-4.18/gdb_19.html
-# ¥Ù¥ë¤òÌÄ¤é¤µ¤Ê¤¤
+# ãƒ™ãƒ«ã‚’é³´ã‚‰ã•ãªã„
 set bell-style none
-# ¥Õ¥¡¥¤¥ëÌ¾Êä´°¤ËÂçÊ¸»ú¾®Ê¸»ú¤ò¶èÊÌ¤·¤Ê¤¤
+# ãƒ•ã‚¡ã‚¤ãƒ«åè£œå®Œã«å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„
 set completion-ignore-case on
-# vi ¥â¡¼¥É
+# vi ãƒ¢ãƒ¼ãƒ‰
 set editing-mode vi
-# ~ ¤òÅ¸³«¤¹¤ë
+# ~ ã‚’å±•é–‹ã™ã‚‹
 set expand-tilde on
-# Êä´°¸õÊä¤ò¿åÊ¿¤ËÉ½¼¨
+# è£œå®Œå€™è£œã‚’æ°´å¹³ã«è¡¨ç¤º
 set print-completions-horizontally on
-# ¸õÊä¤ò¤¤¤­¤Ê¤êÉ½¼¨¤¹¤ë
+# å€™è£œã‚’ã„ããªã‚Šè¡¨ç¤ºã™ã‚‹
 set show-all-if-ambiguous on
-# Êä´°¸õÊä¤ËÄÉ²Ã¾ğÊó¤òÉ½¼¨¤¹¤ë
+# è£œå®Œå€™è£œã«è¿½åŠ æƒ…å ±ã‚’è¡¨ç¤ºã™ã‚‹
 set visible-stats on
 
 # Match all files
