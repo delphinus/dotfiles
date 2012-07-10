@@ -17,7 +17,9 @@ set visible-stats on
 # Match all files
 set match-hidden-files on
 
-# 'Magic Space'
-# Insert a space character then performs
-# a history expansion in the line
-Space: magic-space
+$if Bash
+    # 'Magic Space'
+    # Insert a space character then performs
+    # a history expansion in the line
+    Space: magic-space
+$endif

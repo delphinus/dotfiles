@@ -151,7 +151,11 @@ set ttimeoutlen=-1
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-set background=light              " 明るい背景色
+if g:is_remora_cx
+    set background=dark           " 暗い背景色
+else
+    set background=light          " 明るい背景色
+endif
 "colo festoon
 "colo calmar256-light
 "colo xorium
