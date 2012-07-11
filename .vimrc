@@ -1,6 +1,6 @@
 scriptencoding 'utf-8'
 
-let g:is_remora_cx = hostname() == 'remora.cx'
+let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
 let g:is_backup = hostname() == 'backup.remora.cx'
 let g:is_office = len($H) > 0 && has('unix')
