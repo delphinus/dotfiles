@@ -34,6 +34,7 @@ endfunction
 function! MyTabLabel(n)
     let buflist = tabpagebuflist(a:n)
     let winnr = tabpagewinnr(a:n)
+    let altbuf = ''
     " $H や $HOME を消す
     if g:is_office || g:is_office_cygwin || g:is_remora
         " git のホームディレクトリを消す
