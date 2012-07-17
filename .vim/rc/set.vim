@@ -151,11 +151,12 @@ set ttimeoutlen=-1
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-if g:is_remora_cx
-    set background=dark           " 暗い背景色
-else
-    set background=light          " 明るい背景色
-endif
+set background=dark                 " 暗い背景色
+let g:solarized_termcolors=256      " 256 色表示
+let g:solarized_termtrans=1         " 背景を透過する
+let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
+colo solarized
+
 "colo festoon
 "colo calmar256-light
 "colo xorium
@@ -176,8 +177,5 @@ endif
 "colo void256
 "colo badwolf
 "colo zenburn
-
-let g:solarized_visibility='normal'"不可視文字を高コントラストで表示する
-colo solarized
 
 " vim:et:fdm=marker:
