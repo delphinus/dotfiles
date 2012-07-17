@@ -37,6 +37,7 @@ set ambiwidth=single
 "colo gummybears
 "colo void
 "colo badwolf
-set background=light              " 明るい背景色
 "colo festoon
-colo solarized
+"colo solarized
+set background=dark
+colo briofita
