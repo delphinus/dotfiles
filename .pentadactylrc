@@ -1,36 +1,36 @@
 " <C-H>への対応
-"noremap <C-H> <BS>
+"map -builtin <C-H> <BS>
 " : と ; の入れ替え
-noremap : ;
-noremap ; :
+map -builtin : ;
+map -builtin ; :
 " 「戻る」と「進む」
-noremap <C-1> <C-o>
-noremap <C-2> <C-i>
+map -builtin <C-1> <C-o>
+map -builtin <C-2> <C-i>
 " タブへ移動
-noremap <C-3> gT
-noremap <C-4> gt
+map -builtin <C-3> gT
+map -builtin <C-4> gt
 " タブを移動
-noremap <C-S-3> ;tabmove! -1<CR>
-noremap <C-S-4> ;tabmove! +1<CR>
+map -builtin <C-S-3> ;tabmove! -1<CR>
+map -builtin <C-S-4> ;tabmove! +1<CR>
 " コマンドライン
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-f> <Right>
-cnoremap <C-b> <Left>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-h> <BS>
-cnoremap <A-f> <C-Right>
-cnoremap <A-b> <C-Left>
+cmap -builtin <C-p> <Up>
+cmap -builtin <C-n> <Down>
+cmap -builtin <C-f> <Right>
+cmap -builtin <C-b> <Left>
+cmap -builtin <C-a> <Home>
+cmap -builtin <C-e> <End>
+cmap -builtin <C-h> <BS>
+cmap -builtin <A-f> <C-Right>
+cmap -builtin <A-b> <C-Left>
 " マッピング
-noremap m :mark 
+map -builtin m :mark 
 " タブグループ
-"nnoremap <C-;> <C-`>
-"nnoremap <C-'> <C-S-`>
+"nmap -builtin <C-;> <C-`>
+"nmap -builtin <C-'> <C-S-`>
 " タブ切り替え
-nnoremap # :b #<CR>
+nmap -builtin # :b #<CR>
 " メール表示
-nnoremap <C-m> :buffer mail<CR>
+nmap -builtin <C-m> :buffer mail<CR>
 "
 set go-=br
 set go+=N

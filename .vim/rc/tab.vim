@@ -2,6 +2,8 @@
 " タブバー設定
 "-----------------------------------------------------------------------------
 
+set showtabline=2 " タブは常に表示
+
 set tabline=%!MyTabLine()
 function! MyTabLine()
   let s = ''
