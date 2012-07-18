@@ -6,8 +6,8 @@
 "              As 'Briofita' is akin to 'Bryophyta', so should it be pronounced.
 " Author:      Sergio Nobre <sergio.o.nobre@gmail.com>
 " License:     Vim License
-" Version:     1.0
-" Last Change: Monday, July 16th, 2012
+" Version:     1.2
+" Last Change: Tuesday, July 17th, 2012
 " Inspiration: Tweaks on the Moss vimscript to fit personal preferences are in
 "              the origins of this colorscheme. (Moss, by Chunlin Li, 
 "              http://www.vim.org/scripts/script.php?script_id=2779, is a 'dark 
@@ -20,6 +20,8 @@
 " =============================================================================
 " General Notes: {{{1
 " History:   {{{2
+"   Version 1.2 -  Improved option *choice_for_colorcolumn.
+"   Version 1.1 -  Bug fix on option *choice_for_cursorline.
 "   Version 1.0 -  Still a work in progress, with the following features,
 "   constraints or limitations:
 "       * it was designed only for Vim GUI (gvim); terminals are not supported;
@@ -62,30 +64,50 @@ if !exists("s:Briofita_cursorcolors")
             \   3        : "Navy",
             \   4        : "DarkMagenta",
             \   5        : "SaddleBrown",
-            \   6        : "#333399",
+            \   6        : "#333399", 
             \   7        : "#3A5022",
             \   8        : "Black",
             \   9        : "" 
             \ }
 endif
 " Global Variables Initialization: check, or set their default values  {{{1
-let s:maxx = len(s:Briofita_cursorcolors)-1
-if !exists("t:Briofita_choice_for_cursorline")
-    let  t:Briofita_choice_for_cursorline = 0
+" FIXME simplify/optimize these IFs
+let s:maxx = len(s:Briofita_cursorcolors)-1 " maximun key
+if !exists("g:Briofita_choice_for_cursorline") 
+    if !exists("t:Briofita_choice_for_cursorline")
+        let t:Briofita_choice_for_cursorline = 0
+    endif
+else
+    if g:Briofita_choice_for_cursorline >= s:maxx
+        let g:Briofita_choice_for_cursorline = 0 " enable rotation
+    endif
 endif
-if (t:Briofita_choice_for_cursorline < s:maxx)
-    " FIXME why not keep the original value? (check the IFs elsewhere in this code)
-    " FIXME this explains why setting zero == setting one (change this?)
-    let t:Briofita_choice_for_cursorline += 1
-else 
-    " NOTE default zero == default one
-    let t:Briofita_choice_for_cursorline = 1
+if !exists("t:Briofita_choice_for_cursorline") 
+    if exists("g:Briofita_choice_for_cursorline") 
+        if g:Briofita_choice_for_cursorline < 0
+            let t:Briofita_choice_for_cursorline = 0
+        else
+            let t:Briofita_choice_for_cursorline = g:Briofita_choice_for_cursorline
+        endif
+    else
+        let t:Briofita_choice_for_cursorline = 0
+    endif
 endif
-"
+if exists("g:Briofita_choice_for_cursorline") 
+    if g:Briofita_choice_for_cursorline >= 0
+        if g:Briofita_choice_for_cursorline != t:Briofita_choice_for_cursorline
+            let t:Briofita_choice_for_cursorline = g:Briofita_choice_for_cursorline
+        endif
+    endif
+endif
+if (t:Briofita_choice_for_cursorline < 0)
+    let t:Briofita_choice_for_cursorline = 0
+elseif (t:Briofita_choice_for_cursorline >= s:maxx) " the last entry is just a sentinel
+    let t:Briofita_choice_for_cursorline = 0
+endif
 if !exists("g:Briofita_choice_for_colorcolumn")
     let g:Briofita_choice_for_colorcolumn = 0
 endif
-
 if !exists("g:Briofita_choice_for_search")
     let g:Briofita_choice_for_search = 0
 endif
@@ -105,12 +127,12 @@ else
     endif
 endif
 
-if !exists("g:Briofita_choice_for_cursorlinenr")
-    let g:Briofita_choice_for_cursorlinenr = 0
-elseif g:Briofita_choice_for_cursorlinenr>1
-    let g:Briofita_choice_for_cursorlinenr = 1
-elseif g:Briofita_choice_for_cursorlinenr<0
-    let g:Briofita_choice_for_cursorlinenr = 0
+if !exists("t:Briofita_choice_for_cursorlinenr")
+    let t:Briofita_choice_for_cursorlinenr = 0
+elseif t:Briofita_choice_for_cursorlinenr>1
+    let t:Briofita_choice_for_cursorlinenr = 1
+elseif t:Briofita_choice_for_cursorlinenr<0
+    let t:Briofita_choice_for_cursorlinenr = 0
 endif
 
 " ColorDictParser Function: used to create the colors dictionary {{{1
@@ -871,55 +893,50 @@ elseif g:Briofita_choice_for_normalcolor==2 " try this when the other options do
     highlight Normal guifg=#D6B883 guibg=#062926 gui=NONE
 endif
 "
-" CursorLineNr Color: defined per global var g:Briofita_choice_for_cursorlinenr  {{{1
+" CursorLineNr Color: defined per global var t:Briofita_choice_for_cursorlinenr  {{{1
 " ------------------   CURSOR LINE NR COLOR ----------------------------------
-"
-if g:Briofita_choice_for_cursorlinenr==0 " orange
+if t:Briofita_choice_for_cursorlinenr==0 " orange
     highlight CursorLineNr guifg=Orange guibg=bg gui=bold
-elseif g:Briofita_choice_for_cursorlinenr==1 " yellow
+elseif t:Briofita_choice_for_cursorlinenr==1 " yellow
     highlight CursorLineNr guifg=Yellow guibg=bg gui=bold
 endif
 "
 " CursorLine And Cursorcolumn Colors: selected based on the Cursorcolors dictionary  {{{1
 " ------------------   CURSOR LINE + CURSOR COLUMN COLORS -----------------------------
-if t:Briofita_choice_for_cursorline >= (s:maxx-4)
-    if t:Briofita_choice_for_cursorline >= (s:maxx-1)
-        " try this if the current line becomes unrecognizable due to some syntax you are using
-        " this option just underlines the current line; background is black
-        let t:Briofita_choice_for_cursorline = s:maxx
-        highlight CursorLine   gui=underline guifg=green guibg=black
-        highlight CursorColumn gui=NONE      guifg=NONE  guibg=black
-    else
-        " try this if the current line becomes unrecognizable due to some syntax you are using
-        " this option keeps the colored background, but uses white for foreground text
-        execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
-        execute "highlight CursorLine   gui=bold guifg=white guibg=".thecolor
-        execute "highlight CursorColumn gui=NONE guifg=NONE  guibg=".thecolor
-    endif
+let thecolor = s:Briofita_cursorcolors[0] " FIXME WBYL: exception in 'execute' below?
+" FIXME hardcoded index constants like 8, 9 ...
+if t:Briofita_choice_for_cursorline == 8  " special
+    " great READABILITY at the cost of showing NO SYNTAX: green fg; black bg; underline
+    execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
+    execute "highlight CursorLine   gui=underline guifg=green guibg=".thecolor
+elseif (t:Briofita_choice_for_cursorline == 6) || (t:Briofita_choice_for_cursorline == 7) " special
+    " good READABILITY at the cost of showing NO SYNTAX: bold; white fg; colored bg
+    execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
+    execute "highlight CursorLine   gui=bold guifg=white guibg=".thecolor
 else " DEFAULT 
-    "  set your 'choice' global var so that, here, it indexes the *cursorcolors array to get the color
-    "  see the *cursorcolors array in the beginning of this source file
     execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
     execute "highlight CursorLine   gui=bold        guifg=NONE guibg=".thecolor
-    execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
 endif
+execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
 "
 " ColorColumn Color: defined per global var g:Briofita_choice_for_colorcolumn {{{1
 " ------------------   COLOR COLUMN COLOR -------------------------------------
 if g:Briofita_choice_for_colorcolumn==0
      highlight ColorColumn gui=NONE guifg=NONE guibg=#004F4F
 elseif g:Briofita_choice_for_colorcolumn==1
-     if t:Briofita_choice_for_cursorline < s:maxx
-        " FIXME indexing with constant 1 instead of with t:Briofita_choice_for_cursorline
-        execute 'let thecolor = "'.s:Briofita_cursorcolors[g:Briofita_choice_for_colorcolumn].'"'
+	 " colorcolumn will use the same color as cursorlines if these in range [0...7]
+	 " FIXME hardcoded constants...
+     if (t:Briofita_choice_for_cursorline >= 0) && (t:Briofita_choice_for_cursorline <= 7)
+        execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
         execute "highlight ColorColumn gui=NONE guifg=NONE  guibg=".thecolor
      else
-        highlight ColorColumn   gui=NONE guifg=NONE guibg=#004F4F
+		" if cursorline is black, make the colorcolumn almost invisible (ie make it == bg)
+        highlight ColorColumn   gui=NONE guifg=NONE guibg=bg
      endif
 elseif g:Briofita_choice_for_colorcolumn==2
+	 " this is the DEFAULT for colorcolumn
      highlight ColorColumn gui=NONE guifg=PaleGreen2 guibg=#294C44
-else
-     let g:Briofita_choice_for_colorcolumn=3
+" else other value: do not touch ColorColumn; user may have manually set something
 endif
 
 let &cpo = save_cpo
