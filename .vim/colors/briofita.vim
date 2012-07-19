@@ -6,8 +6,8 @@
 "              As 'Briofita' is akin to 'Bryophyta', so should it be pronounced.
 " Author:      Sergio Nobre <sergio.o.nobre@gmail.com>
 " License:     Vim License
-" Version:     1.2
-" Last Change: Tuesday, July 17th, 2012
+" Version:     1.4
+" Last Change: Tuesday, July 18th, 2012
 " Inspiration: Tweaks on the Moss vimscript to fit personal preferences are in
 "              the origins of this colorscheme. (Moss, by Chunlin Li, 
 "              http://www.vim.org/scripts/script.php?script_id=2779, is a 'dark 
@@ -20,6 +20,8 @@
 " =============================================================================
 " General Notes: {{{1
 " History:   {{{2
+"   Version 1.4 -  Bug fix on option for CursorLineNr.
+"   Version 1.3 -  Improved defaults logic.
 "   Version 1.2 -  Improved option *choice_for_colorcolumn.
 "   Version 1.1 -  Bug fix on option *choice_for_cursorline.
 "   Version 1.0 -  Still a work in progress, with the following features,
@@ -127,12 +129,12 @@ else
     endif
 endif
 
-if !exists("t:Briofita_choice_for_cursorlinenr")
-    let t:Briofita_choice_for_cursorlinenr = 0
-elseif t:Briofita_choice_for_cursorlinenr>1
-    let t:Briofita_choice_for_cursorlinenr = 1
-elseif t:Briofita_choice_for_cursorlinenr<0
-    let t:Briofita_choice_for_cursorlinenr = 0
+if !exists("g:Briofita_choice_for_cursorlinenr")
+    let g:Briofita_choice_for_cursorlinenr = 0
+elseif g:Briofita_choice_for_cursorlinenr>1
+    let g:Briofita_choice_for_cursorlinenr = 1
+elseif g:Briofita_choice_for_cursorlinenr<0
+    let g:Briofita_choice_for_cursorlinenr = 0
 endif
 
 " ColorDictParser Function: used to create the colors dictionary {{{1
@@ -866,7 +868,8 @@ highlight fountainSceneHeading guifg=bg guibg=LightCyan4 gui=undercurl guisp=Sea
 "
 " Search Color: defined per global var g:Briofita_choice_for_search  {{{1
 " ------------------   SEARCH COLOR ------------------------------------------
-if (g:Briofita_choice_for_search==1) " search has a bright-red background
+if (g:Briofita_choice_for_search==0) || (g:Briofita_choice_for_search==1) 
+    " search has a bright-red background
     highlight DiffText gui=reverse,bold,underline guifg=#556B2F guibg=#E7F56B
     highlight Search gui=underline guifg=#E7F56B guibg=#E22A37
 elseif (g:Briofita_choice_for_search==2) " search has a sort of dark-red background
@@ -875,12 +878,16 @@ elseif (g:Briofita_choice_for_search==2) " search has a sort of dark-red backgro
 elseif (g:Briofita_choice_for_search==3) " search has a sort of light-(yellow/green) background
     highlight DiffText gui=bold,underline guifg=#AD2728 guibg=#e7f56b
     highlight Search gui=underline guifg=bg guibg=#9BA31C
+elseif (g:Briofita_choice_for_search==4) " option 4: similar to 3 above, but brighter
+    highlight DiffText gui=bold,underline guifg=#E7F56B guibg=#E22A37
+    highlight Search gui=underline guifg=#556B2F guibg=#E7F56B
 elseif (g:Briofita_choice_for_search==5) " search is just underlined rosy?tomato? text 
     highlight DiffText gui=bold,underline guifg=#AD2728 guibg=#e7f56b
     highlight Search gui=bold,underline   guifg=#FF88AA guibg=bg
-else " this is option 4: search is similar to 3 above, but brighter
-    highlight DiffText gui=bold,underline guifg=#E7F56B guibg=#E22A37
-    highlight Search gui=underline guifg=#556B2F guibg=#E7F56B
+else " default is the same as 0 or 1
+    " search has a bright-red background
+    highlight DiffText gui=reverse,bold,underline guifg=#556B2F guibg=#E7F56B
+    highlight Search gui=underline guifg=#E7F56B guibg=#E22A37
 endif
 " 
 " Normal Color: defined per global var g:Briofita_choice_for_normalcolor  {{{1
@@ -891,33 +898,44 @@ elseif g:Briofita_choice_for_normalcolor==1 " comes from moss colorscheme; sort 
     highlight Normal guifg=PowderBlue guibg=#062926 gui=NONE
 elseif g:Briofita_choice_for_normalcolor==2 " try this when the other options do not fit well some weird syntax; golden?
     highlight Normal guifg=#D6B883 guibg=#062926 gui=NONE
+else " default is the same as 0
+    highlight Normal guifg=#C6B6FE guibg=#062926 gui=NONE
 endif
 "
-" CursorLineNr Color: defined per global var t:Briofita_choice_for_cursorlinenr  {{{1
+" CursorLineNr Color: defined per global var g:Briofita_choice_for_cursorlinenr  {{{1
 " ------------------   CURSOR LINE NR COLOR ----------------------------------
-if t:Briofita_choice_for_cursorlinenr==0 " orange
+if g:Briofita_choice_for_cursorlinenr==0 " orange
     highlight CursorLineNr guifg=Orange guibg=bg gui=bold
-elseif t:Briofita_choice_for_cursorlinenr==1 " yellow
+elseif g:Briofita_choice_for_cursorlinenr==1 " yellow
     highlight CursorLineNr guifg=Yellow guibg=bg gui=bold
+else " default is the same as 0
+    highlight CursorLineNr guifg=Orange guibg=bg gui=bold
 endif
 "
 " CursorLine And Cursorcolumn Colors: selected based on the Cursorcolors dictionary  {{{1
 " ------------------   CURSOR LINE + CURSOR COLUMN COLORS -----------------------------
 let thecolor = s:Briofita_cursorcolors[0] " FIXME WBYL: exception in 'execute' below?
 " FIXME hardcoded index constants like 8, 9 ...
-if t:Briofita_choice_for_cursorline == 8  " special
-    " great READABILITY at the cost of showing NO SYNTAX: green fg; black bg; underline
-    execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
+if (t:Briofita_choice_for_cursorline == 8)
+    " special: great READABILITY at the cost of showing NO SYNTAX: green fg; black bg; underline
+    execute 'let thecolor = "'.s:Briofita_cursorcolors[8].'"'
     execute "highlight CursorLine   gui=underline guifg=green guibg=".thecolor
-elseif (t:Briofita_choice_for_cursorline == 6) || (t:Briofita_choice_for_cursorline == 7) " special
-    " good READABILITY at the cost of showing NO SYNTAX: bold; white fg; colored bg
+    execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
+elseif (t:Briofita_choice_for_cursorline == 6) || (t:Briofita_choice_for_cursorline == 7)
+    " special: good READABILITY at the cost of showing NO SYNTAX: bold; white fg; colored bg
     execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
     execute "highlight CursorLine   gui=bold guifg=white guibg=".thecolor
-else " DEFAULT 
+    execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
+elseif (t:Briofita_choice_for_cursorline >= 1) && (t:Briofita_choice_for_cursorline <= 5)
     execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
     execute "highlight CursorLine   gui=bold        guifg=NONE guibg=".thecolor
+    execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
+else " DEFAULT  = 0
+    " FIXME similar to options >=1 && <= 5 ? 
+    execute 'let thecolor = "'.s:Briofita_cursorcolors[0].'"'
+    execute "highlight CursorLine   gui=bold        guifg=NONE guibg=".thecolor
+    execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
 endif
-execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
 "
 " ColorColumn Color: defined per global var g:Briofita_choice_for_colorcolumn {{{1
 " ------------------   COLOR COLUMN COLOR -------------------------------------
@@ -934,9 +952,9 @@ elseif g:Briofita_choice_for_colorcolumn==1
         highlight ColorColumn   gui=NONE guifg=NONE guibg=bg
      endif
 elseif g:Briofita_choice_for_colorcolumn==2
-	 " this is the DEFAULT for colorcolumn
      highlight ColorColumn gui=NONE guifg=PaleGreen2 guibg=#294C44
-" else other value: do not touch ColorColumn; user may have manually set something
+else " DEFAULT is the same as 2
+     highlight ColorColumn gui=NONE guifg=PaleGreen2 guibg=#294C44
 endif
 
 let &cpo = save_cpo
