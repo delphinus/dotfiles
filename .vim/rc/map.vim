@@ -52,3 +52,13 @@ nnoremap <silent> F :set iminsert=0<CR>F
 "nnoremap <silent> cy ce<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "vnoremap <silent> cy c<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
+
+" Alt キーを Meta キーとして使う
+let c='a'
+while c <= 'z'
+	exec "set <M-".c.">=\e".c
+	exec "map \e".c." <M-".c.">"
+	exec "set <M-S-".c.">=\e".toupper(c)
+	exec "map \e".toupper(c)." <M-S-".c.">"
+	let c=nr2char(1 + char2nr(c))
+endwhile
