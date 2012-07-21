@@ -13,7 +13,7 @@ else
     set guifont=Envy_Code_R_for_Powerline:h13
     set guifontwide=Ricty:h13
 endif
-if is_remora || has('mac')
+if is_remora && has('mac')
     set antialias
     set fuoptions=maxvert,maxhorz
     au GUIEnter * set fullscreen

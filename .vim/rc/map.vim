@@ -54,7 +54,7 @@ nnoremap <silent> F :set iminsert=0<CR>F
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 
 " Alt キーを Meta キーとして使う
-if ! has('gui_running')
+if !has('gui_running')
     let c='a'
     while c <= 'z'
         exec "set <M-".c.">=\e".c
