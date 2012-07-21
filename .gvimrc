@@ -1,22 +1,25 @@
-if is_win
-	set guifont=Envy_Code_R_for_Powerline:h10
-	set guifontwide=Ricty:h10
-	set dir=C:\cygwin\tmp
-	set backupdir=C:\cygwin\tmp
-	set undodir=C:\cygwin\tmp
+if has('win32')
+    set guifont=Envy_Code_R_for_Powerline:h10
+    set guifontwide=Ricty:h10
+    set dir=C:\cygwin\tmp
+    set backupdir=C:\cygwin\tmp
+    set undodir=C:\cygwin\tmp
     "set listchars=tab:»\ ,trail:‗,eol:↲,extends:»,precedes:«,nbsp:¯
 
 elseif is_remora_cx
-	set guifont=Envy_Code_R_for_Powerline:h16
-	set guifontwide=Ricty_Envy:h16
+    set guifont=Envy_Code_R_for_Powerline:h16
+    set guifontwide=Ricty_Envy:h16
 else
-	set guifont=Envy_Code_R_for_Powerline:h13
-	set guifontwide=Ricty:h13
+    set guifont=Envy_Code_R_for_Powerline:h13
+    set guifontwide=Ricty:h13
 endif
-if is_remora
-	set antialias
-	set fuoptions=maxvert,maxhorz
-	au GUIEnter * set fullscreen
+if is_remora || has('mac')
+    set antialias
+    set fuoptions=maxvert,maxhorz
+    au GUIEnter * set fullscreen
+endif
+if has('mac')
+    set macmeta
 endif
 set showtabline=2
 set printfont=Consolas:h9
