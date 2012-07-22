@@ -55,15 +55,6 @@ nnoremap <silent> F :set iminsert=0<CR>F
 
 " Alt キーを Meta キーとして使う
 if !has('gui_running')
-    let c='a'
-    while c <= 'z'
-        exec "set <M-".c.">=\e".c
-        exec "imap \e".c." <M-".c.">"
-        exec "set <M-S-".c.">=\e".toupper(c)
-        exec "imap \e".toupper(c)." <M-S-".c.">"
-        let c=nr2char(1 + char2nr(c))
-    endwhile
-
     set <M-p>=<ESC>p
     nmap <ESC>p <M-p>
     set <M-S-p>=<ESC>P
