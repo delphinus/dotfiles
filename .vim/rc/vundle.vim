@@ -104,11 +104,7 @@ Bundle 'vba-hicolors'
 Bundle 'vba-indguide'
 Bundle 'vba-csv'
 Bundle 'vba-ZoomWin'
-
-"Bundle 'zip-yankring'
-
-"Bundle 'surround.vim'
-"Bundle 'neon-PK'
+Bundle 'vba-LineJuggler'
 
 filetype plugin indent on
 

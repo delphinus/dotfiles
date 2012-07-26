@@ -1,0 +1,168 @@
+*LineJuggler.txt*       Duplicate and move around lines.
+
+			LINE JUGGLER    by Ingo Karkat
+							     *LineJuggler.vim*
+description			|LineJuggler-description|
+usage				|LineJuggler-usage|
+installation			|LineJuggler-installation|
+configuration			|LineJuggler-configuration|
+limitations			|LineJuggler-limitations|
+known problems			|LineJuggler-known-problems|
+todo				|LineJuggler-todo|
+history				|LineJuggler-history|
+
+==============================================================================
+DESCRIPTION					     *LineJuggler-description*
+
+This plugin offers mappings to quickly duplicate and move lines to above /
+below the current line. A [count] either specifies the number of lines, or the
+relative visible target line, therefore it's especially easy to clone lines
+when 'relativenumber' is set.
+The mappings can save you several keystrokes over an explicit |dd|/
+|yy|[{motion}, ...]|p| sequence in cases where the other lines are nearby and
+visible in the current window.
+
+Oftentimes, duplication in source code is a code smell. Please use this plugin
+responsibly ;-)
+
+RELATED WORKS								     *
+
+- Idea, design and implementation of the [<Space> and [e mappings are based on
+  Tim Pope's unimpaired.vim plugin (vimscript #1590). In addition, unimpaired
+  provides other, unrelated functionality (all via [... / ]... mappings), but
+  doesn't offer customization of the mappings.
+
+==============================================================================
+USAGE							   *LineJuggler-usage*
+
+						       *[<Space>* *v_[<Space>*
+[<Space>                Add [count] blank lines above the current line / above
+			the start of the selection.
+						       *]<Space>* *v_]<Space>*
+]<Space>                Add [count] blank lines below the current line / below
+			the end of the selection.
+
+								   *[e* *v_[e*
+[e                      Move the current line / selection [count] lines above.
+								   *]e* *v_]e*
+]e                      Move the current line / selection [count] lines below.
+
+								   *[E* *v_[E*
+[E                      Exchange the current line / selection with the closed
+			fold / same amount of visible lines located [count]
+			lines above.				   *]E* *v_]E*
+]E                      Exchange the current line / selection with the closed
+			fold / same amount of visible lines located [count]
+			lines below.
+								   *[d* *v_[d*
+[d			Duplicate the current line / selection to [count]
+			lines above the current line / above the start of the
+			selection.				   *]d* *v_]d*
+]d			Duplicate the current line / selection to [count]
+			lines below the current line / below the end of the
+			selection.
+
+									  *[D*
+[D			Duplicate the current  / [count] lines to above the
+			current line.					*v_[D*
+{Visual}[D		Duplicate the selection [count] times above the
+			selection.					  *]D*
+]D			Duplicate the current  / [count] lines to below that
+			range.						*v_]D*
+{Visual}]D		Duplicate the selection [count] times below the
+			selection.
+
+									  *[f*
+[f			Fetch the line [count] visible lines below the current
+			line and duplicate it below the current line.	  *]f*
+]f			Fetch the line [count] visible lines above the current
+			line and duplicate it below the current line.	*v_[f*
+{Visual}[f		Fetch the same number of visible lines starting from
+			the line [count] lines below the current line and
+			duplicate them above the start of the selection.*v_]f*
+{Visual}]f		Fetch the same number of visible lines starting from
+			the line [count] lines above the current line and
+			duplicate them below the end of the selection.
+									  *[r*
+[r			Fetch the line [count] visible lines below the current
+			line and replace the current line with it.	  *]r*
+]r			Fetch the line [count] visible lines above the current
+			line and replace the current line with it.	*v_[r*
+{Visual}[r		Replace the selection with the same number of visible
+			lines fetched starting from the line [count] lines
+			below the current line.				*v_]r*
+{Visual}]r		Replace the selection with the same number of visible
+			lines fetched starting from the line [count] lines
+			above the current line.
+
+
+			When the cursor is on / the selection contains a
+			closed fold, the entire set of folded lines is used.
+			All mappings treat closed folds as a fixed entity, so
+			they will never move / duplicate into a closed fold,
+			always over it.
+			A [count] specifies visible lines, closed folds are
+			counted as one line, so you can use the
+			'relativenumber' column to easily reach a target.
+			(Except for |v_[d| and |v_]d| when at the opposite
+			side of the selection.)
+
+==============================================================================
+INSTALLATION					    *LineJuggler-installation*
+
+This script is packaged as a |vimball|. If you have the "gunzip" decompressor
+in your PATH, simply edit the *.vba.gz package in Vim; otherwise, decompress
+the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
+vimball or via the |:UseVimball| command. >
+    vim LineJuggler.vba.gz
+    :so %
+To uninstall, use the |:RmVimball| command.
+
+DEPENDENCIES					    *LineJuggler-dependencies*
+
+- Requires Vim 7.0 or higher.
+- repeat.vim (vimscript #2136) plugin (optional)
+- visualrepeat.vim (vimscript #3848) plugin (optional)
+
+==============================================================================
+CONFIGURATION					   *LineJuggler-configuration*
+
+If you want to use different mappings, map your keys to the
+<Plug>(LineJuggler...) mapping targets _before_ sourcing this script (e.g. in
+your |vimrc|): >
+    nmap <silent> <C-Up>   <Plug>(LineJugglerBlankUp)
+    nmap <silent> <C-Down> <Plug>(LineJugglerBlankDown)
+    vmap <silent> <C-Up>   <Plug>(LineJugglerBlankUp)
+    vmap <silent> <C-Down> <Plug>(LineJugglerBlankDown)
+<
+==============================================================================
+LIMITATIONS					     *LineJuggler-limitations*
+
+KNOWN PROBLEMS					  *LineJuggler-known-problems*
+
+TODO							    *LineJuggler-todo*
+
+IDEAS							   *LineJuggler-ideas*
+
+==============================================================================
+HISTORY							 *LineJuggler-history*
+
+1.10    23-Jul-2012
+CHG: Split [f and {Visual}[f behaviors into two families of mappings:
+a) [f to fetch below current line and {Visual}[f to fetch selected number of
+   lines above/below selection
+b) [r to fetch and replace current line / selection.
+
+1.00	20-Jul-2012
+Initial release.
+
+0.01	12-Mar-2012
+Started development.
+
+==============================================================================
+Copyright: (C) 2012 Ingo Karkat
+The VIM LICENSE applies to this script; see |copyright|.
+
+Maintainer:	Ingo Karkat <ingo@karkat.de>
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
