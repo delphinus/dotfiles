@@ -4,7 +4,8 @@
 " Maintainer:	Jozsef Bakosi <jbakosi@gmail.com>
 " Last Change:	$Date: 2011/01/04 $
 
-hi StatusLine           color: #000 !important; background: -moz-linear-gradient(top,silver,dimgray)!important; font-weight: bold !important; border-top: 1px solid black !important;
+"hi StatusLine           color: #000 !important; background: -moz-linear-gradient(top,silver,dimgray)!important; font-weight: bold !important; border-top: 1px solid black !important;
+hi StatusLine           color: #fff !important; text-shadow: 1px 1px 3px #000 !important; background: transparent!important; font-weight: bold !important; border-top: 1px solid black !important;
 hi Normal               color: #ffffff; background: #333333; font-weight: bold !important;
 hi CompItem[selected]   color: #f0e685; background: #6b8e23; 
 hi CompDesc             color: #c6c6c6; width: 50%; font-weight: normal !important;
