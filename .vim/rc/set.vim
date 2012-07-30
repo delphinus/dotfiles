@@ -13,6 +13,8 @@ set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 " タブ {{{
 if is_office
     set noexpandtab " タブをスペースに展開する
+elseif is_office_alt
+    set expandtab
 else
     set expandtab
 endif
@@ -154,15 +156,15 @@ set virtualedit=block             " ビジュアルブロックモードのみ�
 
 set background=dark               " 暗い背景色
 
-" solarized で表示がおかしくなる端末があるので、環境変数で判断する
-if $VIM_COLO_ZEN
-    colo zenburn
-else
-    let g:solarized_termcolors=256      " 256 色表示
-    let g:solarized_termtrans=1         " 背景を透過する
-    let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
-    colo solarized
+" 一部の端末は明るい背景
+if is_office_alt
+    set background=light              " 明るい背景色
 endif
+
+let g:solarized_termcolors=256      " 256 色表示
+let g:solarized_termtrans=1         " 背景を透過する
+let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
+colo solarized
 
 "colo festoon
 "colo calmar256-light
