@@ -152,11 +152,17 @@ set ttimeoutlen=-1
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-set background=dark                 " 暗い背景色
-let g:solarized_termcolors=256      " 256 色表示
-let g:solarized_termtrans=1         " 背景を透過する
-let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
-colo solarized
+set background=dark               " 暗い背景色
+
+" solarized で表示がおかしくなる端末があるので、環境変数で判断する
+if $VIM_COLO_ZEN
+    colo zenburn
+else
+    let g:solarized_termcolors=256      " 256 色表示
+    let g:solarized_termtrans=1         " 背景を透過する
+    let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
+    colo solarized
+endif
 
 "colo festoon
 "colo calmar256-light
