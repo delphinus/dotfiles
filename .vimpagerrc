@@ -76,7 +76,7 @@ set encoding=utf-8
 set termencoding=utf-8
 set hls
 if is_office
-	set fileencoding=eucjp
+	"set fileencoding=eucjp
 else
     "set fileencoding=utf-8
 endif
