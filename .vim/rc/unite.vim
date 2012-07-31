@@ -1,20 +1,10 @@
 "-----------------------------------------------------------------------------
-"" Unite.vimの設定
-"" 開始と同時に挿入モード
-"let g:unite_enable_start_insert=1
-"" 縦に分割して表示
-"let g:unite_enable_split_vertically=0
-"" 横幅は60
-"let g:unite_winwidth=80
 "" 時刻表示形式 → (月) 01/02 午後 03:45
 let g:unite_source_file_mru_time_format='(%a) %m/%d %p %I:%M '
-"" zip, asp ファイルが多すぎて遅くなるので除外
-"let g:unite_source_file_ignore_pattern='\%(^\|/\)\.$\|\~$\|\.\%(o|exe|dll|bak|sw[po]\)$\|\.asp$\|\.zip$'
-"" // が頭に来るパスを除外
-"let g:unite_source_file_mru_ignore_pattern='\~$\|\.\%(o|exe|dll|bak|sw[po]\)$\|\%(^\|/\)\.\%(hg\|git\|bzr\|svn\)\%($\|/\)\|^\%(//\|\\\\\|/mnt/\|/media/\|/Volumes/\)'
+
 " データファイル
 if is_office
-	let g:unite_data_directory = expand('$H/.unite')
+    let g:unite_data_directory = expand('$H/.unite')
 endif
 noremap <C-P> :Unite buffer_tab file_mru<CR>
 noremap <C-N> :UniteWithBufferDir -buffer-name=files file file/new<CR>
@@ -35,13 +25,17 @@ call unite#set_substitute_pattern('files', '^\~', escape($HOME, '\'), -2)
 call unite#set_substitute_pattern('files', '\\\@<! ', '\\ ', -20)
 call unite#set_substitute_pattern('files', '\\ \@!', '/', -30)
 if is_office
-	call unite#set_substitute_pattern('files', '^;h', '\=$H."/"')
-	call unite#set_substitute_pattern('files', '^;s', '/home/game/svn/game/')
+    call unite#set_substitute_pattern('files', '^;h', '\=$H."/"')
+    call unite#set_substitute_pattern('files', '^;j', '\=$J."/"')
+    call unite#set_substitute_pattern('files', '^;d', '\=$D."/"')
+    call unite#set_substitute_pattern('files', '^;p', '\=$P."/"')
+    call unite#set_substitute_pattern('files', '^;v', '\=$H/.vim/')
+else
+    call unite#set_substitute_pattern('files', '^;v', '~/.vim/')
 endif
 if has('win32') || has('win64')
   call unite#set_substitute_pattern('files', '^;p', 'C:/Program Files/')
 endif
-call unite#set_substitute_pattern('files', '^;v', '~/.vim/')
 
 " vcscommand.vim の diff buffer を消す
 call unite#custom_filters('buffer,buffer_tab',
