@@ -6,6 +6,7 @@ let g:is_backup = hostname() == 'backup.remora.cx'
 let g:is_office = len($H) > 0 && has('unix')
 let g:is_office_win = len($USERDOMAIN) && has('win32')
 let g:is_office_cygwin = len($USERDOMAIN) && has('win32unix')
+let g:is_office_alt = is_office && $VIM_ENV_ALT
 let g:is_xerxes = hostname() == 'xerxes'
 let g:is_remora_air2_win = hostname() == 'remora-air2-win'
 let g:is_unix = is_remora || is_backup || is_office || is_office_cygwin
