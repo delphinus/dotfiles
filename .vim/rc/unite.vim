@@ -29,7 +29,7 @@ if is_office
     call unite#set_substitute_pattern('files', '^;j', '\=$J."/"')
     call unite#set_substitute_pattern('files', '^;d', '\=$D."/"')
     call unite#set_substitute_pattern('files', '^;p', '\=$P."/"')
-    call unite#set_substitute_pattern('files', '^;v', '\=$H/.vim/')
+    call unite#set_substitute_pattern('files', '^;v', '\=$H."/.vim/"')
 else
     call unite#set_substitute_pattern('files', '^;v', '~/.vim/')
 endif
