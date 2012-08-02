@@ -11,10 +11,10 @@ set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 " }}}
 
 " タブ {{{
-if is_office
-    set noexpandtab " タブをスペースに展開する
-elseif is_office_alt
+if is_office_alt
     set expandtab
+elseif is_office
+    set noexpandtab " タブをスペースに展開する
 else
     set expandtab
 endif

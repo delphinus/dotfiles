@@ -69,8 +69,10 @@
 
 use strict;
 use Cwd qw!getcwd!;
+use FindBin;
 use Getopt::Std;
 use Path::Class qw!file!;
+use lib "$ENV{H}/perllib";
 #use Project::Libs;
 
 use vars qw/$opt_I $opt_c $opt_w $opt_f $opt_h/; # needed for Getopt in combination with use strict 'vars'
@@ -93,18 +95,19 @@ if (defined $opt_f) {
 my $handle = (defined $opt_f ? \*FILE : \*STDOUT);
 
 (my $file = shift) or &usage; # display usage if no filename is supplied
+$file = getcwd() . "/$file";
 my $args = (@ARGV ? ' ' . join ' ', @ARGV : '');
 
 my $path = '';
 eval 'require Project::Libs';
 unless ($@) {
-	my $current_dir = getcwd;
+	my $current_dir = $FindBin::Bin;
 	my @inc = Project::Libs::find_inc(file($file)->dir->stringify,
 		['', qw!libs lib!], ());
 	$path .= join ' ', map {"-I$_"} @inc if scalar @inc;
 	chdir $current_dir;
-
 }
+
 my @error_lines = `perl @{[defined $opt_I ? "-I$opt_I" : '']} $path @{[defined $opt_c ? '-c ' : '' ]} @{[defined $opt_w ? '-X ' : '-w ']} "$file$args" 2>&1`;
 
 my @lines = map { "E:$_" } @error_lines;

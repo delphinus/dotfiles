@@ -1,4 +1,4 @@
-" Vim Colorscheme header {{{1
+" Briofita colorscheme header {{{1
 " =============================================================================
 " Name:        Briofita
 " Scriptname:  briofita.vim
@@ -6,8 +6,8 @@
 "              As 'Briofita' is akin to 'Bryophyta', so should it be pronounced.
 " Author:      Sergio Nobre <sergio.o.nobre@gmail.com>
 " License:     Vim License
-" Version:     1.4
-" Last Change: Tuesday, July 18th, 2012
+" Version:     1.5.0
+" Last Change: Wednesday, August 1st, 2012
 " Inspiration: Tweaks on the Moss vimscript to fit personal preferences are in
 "              the origins of this colorscheme. (Moss, by Chunlin Li, 
 "              http://www.vim.org/scripts/script.php?script_id=2779, is a 'dark 
@@ -15,16 +15,28 @@
 "              I adapted the color dictionary used in Distinguished, a script 
 "              by Kim Silkebækken. Besides these, several other favourite schemes 
 "              have influenced either the design or the coding style.
+" Usage:       For details on usage refer to the Briofita WEB PAGE at Vim online:
+"              http://www.vim.org/scripts/script.php?script_id=4136
 " Feedback:    Any feedback is welcome! In e-mails, please prepend [VIM] in the 
 "              subject title; otherwise it may be treated as spam. 
 " =============================================================================
-" General Notes: {{{1
-" History:   {{{2
-"   Version 1.4 -  Bug fix on option for CursorLineNr.
-"   Version 1.3 -  Improved defaults logic.
-"   Version 1.2 -  Improved option *choice_for_colorcolumn.
-"   Version 1.1 -  Bug fix on option *choice_for_cursorline.
-"   Version 1.0 -  Still a work in progress, with the following features,
+
+" General Notes:                                                         {{{1
+" Versions:                                                              {{{2
+" Version 1.5.0 - Improved color highlights of a few elements.           {{{3
+"                 Added an informative function, g:BriofitaVersion(*).
+"                 Has a new function g:BriofitaNoDistraction(*) and a new parameter 
+"                 variable 't:Briofita_no_distraction_mode' that triggers 
+"                 distractionless mode; and ColorColumn option now accepts 3, 
+"                 meaning 'do not set usual ColorColumn highlight' for that mode. 
+"                 All options were normalized so that defaults are now zero. Parameter 
+"                 variables are reset to default value if outside the proper range.
+" Version 1.4   - Bug fix on option for CursorLineNr.                     {{{3
+" Version 1.3   - Improved defaults logic.                                {{{3
+" Version 1.2   - Improved option *choice_for_colorcolumn.                {{{3
+" Version 1.1   - Bug fix on option *choice_for_cursorline.               {{{3
+" First Release:                                                          {{{2
+" Version 1.0   - Still a work in progress, with the following features,
 "   constraints or limitations:
 "       * it was designed only for Vim GUI (gvim); terminals are not supported;
 "       * it is intended for use in Vim versions >= 7.3; and it was tested with gVim 7.3 
@@ -38,14 +50,15 @@
 "       * a few highlights may be changed via global options.
 " ===============================================================================
 "
-" Initialization: check Vim version, set color name, etc. {{{1
+" Setup: check Vim version, set color name, etc.                          {{{1
 
 let this_color = "briofita"
 
-if (!has('gui_running')) || (&t_Co != 0) || (!version >= 703)
+if (!has('gui_running')) || (!v:version >= 703)
     echoerr "Colorscheme ".this_color." was designed only for Vim versions >= 7.3.0 in GUI mode." 
     finish
 endif
+let s:briofitaVersion= "1.5.0"
 set background=dark
 hi clear
 if exists("syntax_on")
@@ -57,7 +70,7 @@ let save_cpo = &cpo
 set cpo&vim
 
 " Cursorcolors Dictionary: cursor colors selectable via global variable option {{{1
-" related to the global var for 'choice' of cursorline; see usage at the end of this source
+" related to the var for 'choice' of cursorline; see usage at the end of this source
 if !exists("s:Briofita_cursorcolors")
         let s:Briofita_cursorcolors={
             \   0        : "#333399",
@@ -72,9 +85,21 @@ if !exists("s:Briofita_cursorcolors")
             \   9        : "" 
             \ }
 endif
-" Global Variables Initialization: check, or set their default values  {{{1
-" FIXME simplify/optimize these IFs
+" Global Variables Initialization: check, or set their values            {{{1
+" FIXME simplify/optimize these IFs; are max values tests needed at this point? 
 let s:maxx = len(s:Briofita_cursorcolors)-1 " maximun key
+if exists("t:Briofita_no_distraction_mode") 
+    " NOTE Since v1.5.0 this variable commands non-distractionless mode.
+    " NOTE For the NORMAL behavior to take place this t: variable should NOT exist!
+    " NOTE So, if you use this mode in a tabpage and later use the normal mode on it
+    " NOTE remember to DELETE this t:var! ie issue an UNLET command on it!
+    " NOTE But it is more practical to close! that tab and work in a new one!
+    if t:Briofita_no_distraction_mode < 0
+        let t:Briofita_no_distraction_mode = 0
+    elseif t:Briofita_no_distraction_mode > 1
+        let t:Briofita_no_distraction_mode = 0
+    endif
+endif
 if !exists("g:Briofita_choice_for_cursorline") 
     if !exists("t:Briofita_choice_for_cursorline")
         let t:Briofita_choice_for_cursorline = 0
@@ -113,31 +138,100 @@ endif
 if !exists("g:Briofita_choice_for_search")
     let g:Briofita_choice_for_search = 0
 endif
-if g:Briofita_choice_for_search>5
-        let g:Briofita_choice_for_search = 0
-elseif g:Briofita_choice_for_search<0
-        let g:Briofita_choice_for_search = 0
-endif
-
 if !exists("g:Briofita_choice_for_normalcolor")
     let g:Briofita_choice_for_normalcolor = 0
-else
-    if g:Briofita_choice_for_normalcolor>2
-        let g:Briofita_choice_for_normalcolor = 0
-    elseif g:Briofita_choice_for_normalcolor<0
-        let g:Briofita_choice_for_normalcolor = 0
-    endif
 endif
-
 if !exists("g:Briofita_choice_for_cursorlinenr")
     let g:Briofita_choice_for_cursorlinenr = 0
-elseif g:Briofita_choice_for_cursorlinenr>1
-    let g:Briofita_choice_for_cursorlinenr = 1
-elseif g:Briofita_choice_for_cursorlinenr<0
-    let g:Briofita_choice_for_cursorlinenr = 0
 endif
 
-" ColorDictParser Function: used to create the colors dictionary {{{1
+" BriofitaVersion Function: returns info string with version # and some parms.  {{{1
+function! g:BriofitaVersion() 
+    " if Briofita is not the current colorscheme: just return name and version
+    let info  = "'Briofita v".s:briofitaVersion
+    if g:colors_name=="briofita"
+        " if it is the current colorscheme: show parameter variables
+        let info .= " *ColorColumn=". g:Briofita_choice_for_colorcolumn
+        let info .= " *CursorLineNr=".g:Briofita_choice_for_cursorlinenr
+        let info .= " *Normal=".      g:Briofita_choice_for_normalcolor
+        let info .= " *Search=".      g:Briofita_choice_for_search
+        let info .= " *Search=".      g:Briofita_choice_for_search
+        let culglb = 1
+        if exists("g:Briofita_choice_for_cursorline")
+            if g:Briofita_choice_for_cursorline < 0
+                let culglb = 0 " not a global setting; but tabpage-local
+            endif
+        endif
+        if culglb
+            let info .= " *CursorLine="
+        else
+            let info .= " tabpg(".printf("%03d",tabpagenr()).")::CursorLine="
+        endif
+        let info .= t:Briofita_choice_for_cursorline
+        if exists("t:Briofita_no_distraction_mode")
+            let info .= " tabpg(".printf("%03d",tabpagenr()).")::NoDistractionMode"
+            let info .= printf("(%d)",t:Briofita_no_distraction_mode)
+        else
+            let info .= " tabpg(".printf("%03d",tabpagenr()).")::NormalMode"
+        endif
+    else 
+        let info .= " (non-current color)"
+    endif
+    let info .= "'"
+    return(info)
+endfunction
+
+" BriofitaNoDistraction Function: a distractionless editing mode         {{{1
+function! g:BriofitaNoDistraction(style) 
+    " NOTE This option has been designed to support distractionless editing
+    " NOTE and it internally overrides a few other options.
+    " NOTE Ideally this mode is to be used when you have installed some 
+    " NOTE distractionless editing PLUGIN; because here we ONLY set highlights 
+    " NOTE while a PLUGIN will have other, complementary, settings.
+    if a:style == 0
+        " Briofita normal background and foreground
+        let nodstBG1 = "#062926"
+        let nodstFG1 = "#062926"
+        let normFG   = "#C6B6FE"
+    else 
+        " a typical distractionless editing background
+        let nodstBG1 = "Black"
+        let nodstFG1 = "Black"
+        " blue foreground
+        let normFG   = "#49bef3"
+    endif 
+    execute "highlight NonText     gui=NONE guifg=".nodstFG1." guibg=".nodstBG1
+    execute "highlight VertSplit   gui=NONE guifg=".nodstFG1." guibg=".nodstBG1
+    execute "highlight FoldColumn                              guibg=".nodstBG1
+    execute "highlight signColumn                              guibg=".nodstBG1
+    "execute "hi ight Color Column gui=NONE guifg=PaleGreen3   guibg=".nodstBG1
+    execute "highlight ColorColumn gui=NONE guifg=NONE guibg=NONE"
+    execute 'let usrFG = "#401340"'
+    execute 'let usrBG = "#401340"'
+    execute "highlight User1   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute "highlight User2   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute "highlight User3   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute "highlight User4   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute "highlight User5   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute "highlight User6   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute "highlight User7   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute "highlight User8   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute "highlight User9   gui=NONE   guifg=".usrFG." guibg=".usrBG
+    execute 'let statFG = "#401340"'
+    execute 'let statBG = "#401340"'
+    execute "highlight StatusLine   gui=NONE   guifg=".statFG." guibg=".statBG
+    execute "highlight StatusLineNC gui=NONE   guifg=".statFG." guibg=".statBG
+    execute "highlight Normal gui=NONE   guifg=".normFG." guibg=".nodstBG1
+    execute 'let culBG = "'.s:Briofita_cursorcolors[2].'"'  
+    execute "highlight CursorLine   gui=bold guifg=NONE guibg=".culBG
+    execute "highlight CursorColumn gui=NONE guifg=NONE guibg=".culBG
+    " global var below is a 'request' to not later change ColorColumn
+    let g:Briofita_choice_for_colorcolumn=3
+    unlet normFG culBG statFG statBG usrFG usrBG nodstBG1 nodstFG1
+    return
+endfunction
+
+" ColorDictParser Function: used to create the colors dictionary         {{{1
 function! s:ColorDictParser(color_dict) " Color dictionary parser 
     " NOTE This is a modified version of the corresponding function of 
     " NOTE vimscript # 3529 (Distinguished colorscheme) developed by Kim Silkebækken.
@@ -149,7 +243,7 @@ function! s:ColorDictParser(color_dict) " Color dictionary parser
     endfor
 endfunction
 "
-" Color Dictionary Initialization: defines mosts of the colors used in the colorscheme  {{{1
+" Color Dictionary Initialization: defines most of the colors used in the colorscheme  {{{1
 "       |-------------------|-----------|-------------|-----------------|
 "       | Highlight group   |Foreground |Background   |   Attributes    |
 "       |-------------------|-----------|-------------|-----------------|
@@ -336,7 +430,7 @@ call s:ColorDictParser({
     \   "helpNote"                              : [ "PaleGreen1", "DarkSlateGray",  "italic,bold"],
     \   "helpOption"                            : [ "#C59F6F", "",  ""],
     \   "helpSectionDelim"                      : [ "#6CB02D", "",  ""],
-    \   "helpSpecial"                           : [ "SeaGreen1", "#4C826D",  ""],
+    \   "helpSpecial"                           : [ "SeaGreen1", "#305244",  ""],
     \   "helpVim"                               : [ "Wheat", "#2D7067",  "italic,underline"],
     \   "hsStatement"                           : [ "DarkSlateGray2", "SeaGreen",  ""],
     \   "hsStructure"                           : [ "DarkSlateGray2", "SeaGreen",  ""],
@@ -765,7 +859,7 @@ call s:ColorDictParser({
     \   "Typedef"                               : [ "DeepSkyBlue2", "",  ""],
     \   "Underlined"                            : [ "SkyBlue2", "",  "UNDERLINE"],
     \   "vertSplit"                             : [ "RoyalBlue", "#573D8C",  "bold"],
-    \   "vimAuGroup"                            : [ "OliveDrab3", "",  ""],
+    \   "vimAuGroup"                            : [ "SlateBlue2", "",  ""],
     \   "vimAutoCmd"                            : [ "SeaGreen2", "",  ""],
     \   "vimAutoCmdSfxList"                     : [ "#85B2FE", "",  ""],
     \   "vimAutoevent"                          : [ "#32C5B0", "",  ""],
@@ -859,19 +953,18 @@ call s:ColorDictParser({
     \ })
 "
 " Undercurl Colors: a few colors are set here, outside of the color dictionary  {{{1
-highlight SpellBad      guifg=#cc6666 guibg=bg gui=undercurl guisp=#EEAA11
-highlight SpellRare     guifg=fg      guibg=bg gui=undercurl guisp=#CCFFCC
-highlight SpellCap      guifg=fg      guibg=bg gui=undercurl guisp=#D200F7
-highlight SpellLocal    guifg=fg      guibg=bg gui=undercurl guisp=#75FF66
-highlight netrwList     guifg=#88CB35 guibg=bg gui=undercurl guisp=SkyBlue2
-highlight fountainSceneHeading guifg=bg guibg=LightCyan4 gui=undercurl guisp=SeaShell3
+highlight SpellRare            guifg=fg      guibg=bg     gui=undercurl guisp=#CCFFCC
+highlight SpellLocal           guifg=fg      guibg=bg     gui=undercurl guisp=#75FF66
+highlight SpellCap             guifg=#cc6666 guibg=bg     gui=undercurl guisp=#D200F7
+highlight SpellBad             guifg=#cc6666 guibg=bg     gui=undercurl guisp=#EEAA11
+highlight netrwList            guifg=#88CB35 guibg=bg     gui=undercurl guisp=SkyBlue2
+highlight fountainSceneHeading guifg=#D6B883 guibg=Grey40 gui=undercurl guisp=SeaShell3
 "
-" Search Color: defined per global var g:Briofita_choice_for_search  {{{1
+" Parameterized Highlight Settings: defaults highlights come after non-default ones {{{1
+" Search Color: selection logic per global parameter Briofita_choice_for_search {{{2
 " ------------------   SEARCH COLOR ------------------------------------------
-if (g:Briofita_choice_for_search==0) || (g:Briofita_choice_for_search==1) 
-    " search has a bright-red background
-    highlight DiffText gui=reverse,bold,underline guifg=#556B2F guibg=#E7F56B
-    highlight Search gui=underline guifg=#E7F56B guibg=#E22A37
+if (g:Briofita_choice_for_search==1) 
+    let g:Briofita_choice_for_search=0 " 0 and 1 equivalent: this may change in a future version
 elseif (g:Briofita_choice_for_search==2) " search has a sort of dark-red background
     highlight DiffText gui=reverse,bold,underline guifg=#556B2F guibg=#E7F56B
     highlight Search gui=underline guifg=#E7F56B guibg=#AD2728
@@ -884,82 +977,101 @@ elseif (g:Briofita_choice_for_search==4) " option 4: similar to 3 above, but bri
 elseif (g:Briofita_choice_for_search==5) " search is just underlined rosy?tomato? text 
     highlight DiffText gui=bold,underline guifg=#AD2728 guibg=#e7f56b
     highlight Search gui=bold,underline   guifg=#FF88AA guibg=bg
-else " default is the same as 0 or 1
-    " search has a bright-red background
+else " any other setting: changed to default zero
+    let g:Briofita_choice_for_search=0   " make it easier to create a rotation scheme
+endif
+if (g:Briofita_choice_for_search==0) " DEFAULT = search has a bright-red background
     highlight DiffText gui=reverse,bold,underline guifg=#556B2F guibg=#E7F56B
     highlight Search gui=underline guifg=#E7F56B guibg=#E22A37
 endif
 " 
-" Normal Color: defined per global var g:Briofita_choice_for_normalcolor  {{{1
+" Normal Color: selection logic per global parameter Briofita_choice_for_normalcolor  {{{2
 " ------------------   NORMAL COLOR ------------------------------------------
-if g:Briofita_choice_for_normalcolor==0 " default; sort of light-purple? cyan?
-    highlight Normal guifg=#C6B6FE guibg=#062926 gui=NONE
-elseif g:Briofita_choice_for_normalcolor==1 " comes from moss colorscheme; sort of light-green
+if g:Briofita_choice_for_normalcolor==1 " comes from moss colorscheme; sort of light-green
     highlight Normal guifg=PowderBlue guibg=#062926 gui=NONE
-elseif g:Briofita_choice_for_normalcolor==2 " try this when the other options do not fit well some weird syntax; golden?
+elseif g:Briofita_choice_for_normalcolor==2 " try when other options do not fit well with some weird syntax; golden?
     highlight Normal guifg=#D6B883 guibg=#062926 gui=NONE
-else " default is the same as 0
+else " any other setting: changed to default zero
+    let g:Briofita_choice_for_normalcolor=0 " make it easier to create a rotation scheme
+endif
+if g:Briofita_choice_for_normalcolor==0 " DEFAULT
     highlight Normal guifg=#C6B6FE guibg=#062926 gui=NONE
 endif
 "
-" CursorLineNr Color: defined per global var g:Briofita_choice_for_cursorlinenr  {{{1
+" CursorLineNr Color: selection logic per global parameter Briofita_choice_for_cursorlinenr  {{{2
 " ------------------   CURSOR LINE NR COLOR ----------------------------------
-if g:Briofita_choice_for_cursorlinenr==0 " orange
-    highlight CursorLineNr guifg=Orange guibg=bg gui=bold
-elseif g:Briofita_choice_for_cursorlinenr==1 " yellow
+if g:Briofita_choice_for_cursorlinenr==1 " yellow
     highlight CursorLineNr guifg=Yellow guibg=bg gui=bold
-else " default is the same as 0
+else " any other setting: changed to default zero
+    let g:Briofita_choice_for_cursorlinenr=0 " make it easier to create a rotation scheme
+endif
+" NOTE code separation performed to have a uniform structure among all the branches (change?)
+if g:Briofita_choice_for_cursorlinenr==0 " DEFAULT; orange
     highlight CursorLineNr guifg=Orange guibg=bg gui=bold
 endif
 "
-" CursorLine And Cursorcolumn Colors: selected based on the Cursorcolors dictionary  {{{1
+" CursorLine And Cursorcolumn Colors: selection logic                     {{{2
 " ------------------   CURSOR LINE + CURSOR COLUMN COLORS -----------------------------
 let thecolor = s:Briofita_cursorcolors[0] " FIXME WBYL: exception in 'execute' below?
-" FIXME hardcoded index constants like 8, 9 ...
-if (t:Briofita_choice_for_cursorline == 8)
-    " special: great READABILITY at the cost of showing NO SYNTAX: green fg; black bg; underline
-    execute 'let thecolor = "'.s:Briofita_cursorcolors[8].'"'
-    execute "highlight CursorLine   gui=underline guifg=green guibg=".thecolor
+" FIXME hardcoded key constants ...
+if (t:Briofita_choice_for_cursorline >= 1) && (t:Briofita_choice_for_cursorline <= 5)
+    execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
+    execute "highlight CursorLine   gui=bold        guifg=NONE guibg=".thecolor
     execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
 elseif (t:Briofita_choice_for_cursorline == 6) || (t:Briofita_choice_for_cursorline == 7)
     " special: good READABILITY at the cost of showing NO SYNTAX: bold; white fg; colored bg
     execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
     execute "highlight CursorLine   gui=bold guifg=white guibg=".thecolor
     execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
-elseif (t:Briofita_choice_for_cursorline >= 1) && (t:Briofita_choice_for_cursorline <= 5)
-    execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
-    execute "highlight CursorLine   gui=bold        guifg=NONE guibg=".thecolor
+elseif (t:Briofita_choice_for_cursorline == 8)
+    " special: great READABILITY at the cost of showing NO SYNTAX: green fg; black bg; underline
+    execute 'let thecolor = "'.s:Briofita_cursorcolors[8].'"'
+    execute "highlight CursorLine   gui=underline guifg=green guibg=".thecolor
     execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
-else " DEFAULT  = 0
-    " FIXME similar to options >=1 && <= 5 ? 
+else " any other setting: changed to default zero
+    let t:Briofita_choice_for_cursorline=0 " make it easier to create a rotation scheme
+endif
+if (t:Briofita_choice_for_cursorline == 0) " DEFAULT 
     execute 'let thecolor = "'.s:Briofita_cursorcolors[0].'"'
     execute "highlight CursorLine   gui=bold        guifg=NONE guibg=".thecolor
     execute "highlight CursorColumn gui=NONE        guifg=NONE guibg=".thecolor
 endif
 "
-" ColorColumn Color: defined per global var g:Briofita_choice_for_colorcolumn {{{1
+" ColorColumn Color: selection logic per global parameter Briofita_choice_for_colorcolumn {{{2
 " ------------------   COLOR COLUMN COLOR -------------------------------------
-if g:Briofita_choice_for_colorcolumn==0
-     highlight ColorColumn gui=NONE guifg=NONE guibg=#004F4F
-elseif g:Briofita_choice_for_colorcolumn==1
-	 " colorcolumn will use the same color as cursorlines if these in range [0...7]
-	 " FIXME hardcoded constants...
-     if (t:Briofita_choice_for_cursorline >= 0) && (t:Briofita_choice_for_cursorline <= 7)
-        execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
-        execute "highlight ColorColumn gui=NONE guifg=NONE  guibg=".thecolor
-     else
-		" if cursorline is black, make the colorcolumn almost invisible (ie make it == bg)
-        highlight ColorColumn   gui=NONE guifg=NONE guibg=bg
-     endif
-elseif g:Briofita_choice_for_colorcolumn==2
+if g:Briofita_choice_for_colorcolumn!=3
+    " choice == 3 means: color column was set before; a request not to change it at this point
+    if g:Briofita_choice_for_colorcolumn==1
+         " color column will use the same color as cursorlines if these in range [0...7]
+         " FIXME hardcoded constants...
+         if (t:Briofita_choice_for_cursorline >= 0) && (t:Briofita_choice_for_cursorline <= 7)
+            execute 'let thecolor = "'.s:Briofita_cursorcolors[t:Briofita_choice_for_cursorline].'"'
+            execute "highlight ColorColumn gui=NONE guifg=NONE  guibg=".thecolor
+         else
+            " make the color column almost invisible (ie make it == bg)
+            highlight ColorColumn   gui=NONE guifg=NONE guibg=bg
+         endif
+    elseif g:Briofita_choice_for_colorcolumn==2
+         " version 1.5.0: this background, which used to be 0, is now 2
+         highlight ColorColumn gui=NONE guifg=NONE guibg=#004F4F
+    else " any other setting: back to default zero
+        let g:Briofita_choice_for_colorcolumn=0 " make it easier to create a rotation scheme
+    endif
+endif
+if g:Briofita_choice_for_colorcolumn==0 " DEFAULT since ver.1.5.0
+     " changed in version 1.5.0: number code for default, which used to be 2, is now 0
      highlight ColorColumn gui=NONE guifg=PaleGreen2 guibg=#294C44
-else " DEFAULT is the same as 2
-     highlight ColorColumn gui=NONE guifg=PaleGreen2 guibg=#294C44
+endif
+
+" No Distraction Mode: tab-parameter variable is tested here             {{{2
+if exists("t:Briofita_no_distraction_mode") 
+    " distractionless editing mode
+    call g:BriofitaNoDistraction(t:Briofita_no_distraction_mode) 
 endif
 
 let &cpo = save_cpo
 
-" ICursor: defined here (guicursor) {{{1
+" ICursor: forced here to avoid a noxious hidden cursor I sometimes get with other colorschemes  {{{1
 set guicursor+=i-ci:ver30-iCursor-blinkwait300-blinkon200-blinkoff150
 
 " Modeline:  {{{1

@@ -1,11 +1,9 @@
 let mapleader='`'
 
-"nnoremap <Leader>t :TlistToggle<CR>
-"nnoremap <Leader>T :TlistUpdate<CR>
-"nnoremap <C-X><C-N> gt
-"nnoremap <C-X><C-P> gT
-nnoremap <C-X><C-F> :tabm +1<CR>
-nnoremap <C-X><C-B> :tabm -1<CR>
+nnoremap <M-t> gt
+nnoremap <M-r> gT
+nnoremap <M-S-t> :tabm +1<CR>
+nnoremap <M-S-r> :tabm -1<CR>
 nnoremap <F1> :mak!<CR>
 nnoremap <F2> :QFix<CR>
 nnoremap k gk
@@ -20,12 +18,6 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <S-CR> :simalt ~x<CR>
 nnoremap <C-CR> :simalt ~r<CR>
 nnoremap <S-C-CR> :simalt ~n<CR>
-"cnoremap <C-F> <Right>
-"cnoremap <C-B> <Left>
-"cnoremap <C-A> <Home>
-"cnoremap <C-E> <End>
-"cnoremap <ESC>f <C-Right>
-"cnoremap <ESC>b <C-Left>
 inoremap # X#
 " j 2 回で ESC
 inoremap jj <Esc>
@@ -55,8 +47,11 @@ nnoremap <silent> F :set iminsert=0<CR>F
 
 " Alt キーを Meta キーとして使う
 if !has('gui_running')
-    set <M-p>=<ESC>p
-    nmap <ESC>p <M-p>
-    set <M-S-p>=<ESC>P
-    nmap <ESC>P <M-S-p>
+    let alt_keys=['p', 'r', 't']
+    for k in alt_keys
+        execute "set <M-" . k . ">=<ESC>" . k
+        execute "nmap <ESC>" . k . " <M-" . k . ">"
+        execute "set <M-S-" . k . ">=<ESC>" . toupper(k)
+        execute "nmap <ESC>" . toupper(k) . " <M-S-" . k . ">"
+    endfor
 endif
