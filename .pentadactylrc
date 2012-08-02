@@ -59,6 +59,8 @@ map <C-t> ;se stal!=always,never<CR>
 set passkeys+=mail.google.com:'`~!$*+-./<C-Down><C-s><Enter>?INU[]acewjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
 "set passkeys+=www.google.com/calendar:'kpjnrt12345dwmxace<Backspace><Delete><C-z>z/+q<C-p>s<C-?>?'
 set passkeys+=www.google.com/calendar:'kpjnrt12345dwmxace<Backspace><Delete><C-z>z/+qs<C-?>?'
+" live.com
+set passkeys+=live.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
 
 " http://vimperator.g.hatena.ne.jp/teramako/20090311/1236776437
 " ime-controller.jsの代わり
@@ -72,7 +74,7 @@ colorscheme desert
 
 " tab-options-plugin
 " http://dactyl.sourceforge.net/pentadactyl/plugins#tab-options-plugin
-" 他部を開くときはいかなる場合も現在のタブの右側
+" タブを開くときはいかなる場合も現在のタブの右側
 set tabopen=link:right,orphan:right,external:right
 
 " copy.js
