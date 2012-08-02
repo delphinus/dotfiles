@@ -46,8 +46,11 @@ nnoremap <silent> F :set iminsert=0<CR>F
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 
 " Alt キーを Meta キーとして使う
-if !has('gui_running')
-    let alt_keys=['p', 'r', 't']
+let alt_keys=['p', 'r', 't']
+if has('mac')
+    let alt_keys = alt_keys + ['y']
+endif
+if has('mac') || !has('gui_running')
     for k in alt_keys
         execute "set <M-" . k . ">=<ESC>" . k
         execute "nmap <ESC>" . k . " <M-" . k . ">"

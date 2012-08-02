@@ -98,6 +98,8 @@ call s:loadrc('timetap')
 call s:loadrc('tagbar')
 " vcscommand.vim 設定
 call s:loadrc('vcscommand')
+" pb.vim 設定
+call s:loadrc('pb')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
