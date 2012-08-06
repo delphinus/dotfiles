@@ -1,4 +1,5 @@
 if has('mac')
-    nnoremap <M-y> :Pbyank<CR>
-    nnoremap <M-S-y> :Pbpaste<CR>
+    nmap <C-y> :Pbyank<CR>:echo 'yanked!'<CR>
+    vmap <C-y> ;Pbyank<CR>:echo 'yanked!'<CR>
+    nmap <C-S-y> :Pbpaste<CR>:echo 'pasted!'<CR>
 endif
