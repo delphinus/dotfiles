@@ -29,6 +29,7 @@ endif
 
 call vundle#rc(g:bundle_dir)
 
+Bundle 'airblade/vim-rooter'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'bcat/abbott.vim'
 Bundle 'basyura/TweetVim'
@@ -67,10 +68,11 @@ Bundle 'pix/vim-align'
 Bundle 'rainux/vim-desert-warm-256'
 Bundle 'rainerborene/vim-timetap'
 Bundle 'rkitover/perl-vim-mxd'
+"Bundle 'petdance/vim-perl'
 Bundle 'rkitover/vimpager'
 Bundle 'scrooloose/nerdtree'
-"Bundle 'scrooloose/syntastic'
-Bundle 'delphinus35/syntastic'
+Bundle 'scrooloose/syntastic'
+"Bundle 'delphinus35/syntastic'
 Bundle 'Shougo/unite.vim'
 Bundle 'Shougo/vimfiler'
 Bundle 'Shougo/vimproc'
