@@ -70,6 +70,9 @@ if has('perl')
             "{quote}\n${str}{quote}\n";
         !egm;
 
+        # 画像ファイル名処理
+        s!(?<=\d{4}-\d\d-\d\d)-(?=\d{6}\.(?:png|jpg))!_!g;
+
         # クリップボードにセット
         my ($success, $filename) = VIM::Eval('g:y2r_config.tmp_file');
         my $fh = file($filename)->openw;

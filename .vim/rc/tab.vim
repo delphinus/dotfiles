@@ -33,14 +33,20 @@ function! MyTabLine()
   return s
 endfunction
 
+let g:use_Powerline_dividers = 1
+
 function! MyTabLabel(n)
     let buflist = tabpagebuflist(a:n)
     let winnr = tabpagewinnr(a:n)
-    let altbuf = ''
+    let altbuf = bufname(buflist[winnr - 1])
+    " howm は特別
+    if match(altbuf, '/howm/') > 0
+        let altbuf = substitute(altbuf, '.*/\([^/]*\)$', '\1', '')
+    endif
     " $H や $HOME を消す
     if g:is_office || g:is_office_cygwin || g:is_remora
         " git のホームディレクトリを消す
-        let altbuf = substitute(bufname(buflist[winnr - 1]), '^git/mobage-core/', '', '')
+        let altbuf = substitute(altbuf, '^git\(repos\)\?/[^/]*/\(app/\)\?', '', '')
         let my_home = substitute(expand('$H'), expand('$HOME/'), '', '')
         let altbuf = substitute(altbuf, my_home, '$H', '')
         let altbuf = substitute(altbuf, expand('$H/'), '$H', '')
@@ -54,7 +60,14 @@ function! MyTabLabel(n)
     endif
     " [ref] 対応
     let altbuf = substitute(altbuf, '\[ref-.*:\(.*\)\]', '[\1]', 'g')
-    let altbuf = '|' . altbuf . '|'
+    if g:use_Powerline_dividers
+        let dividers = g:Pl#Parser#Symbols[g:Powerline_symbols].dividers
+        let left_div = nr2char(get(dividers[3], 0, 124))
+        let right_div = nr2char(get(dividers[1], 0, 124))
+        let altbuf = left_div . altbuf . right_div
+    else
+        let altbuf = '|' . altbuf . '|'
+    endif
     return altbuf
 endfunction
 

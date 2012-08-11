@@ -6,8 +6,6 @@ nnoremap <M-S-t> :tabm +1<CR>
 nnoremap <M-S-r> :tabm -1<CR>
 nnoremap <F1> :mak!<CR>
 nnoremap <F2> :QFix<CR>
-nnoremap k gk
-nnoremap j gj
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
 nnoremap <C-Z> <C-^>
