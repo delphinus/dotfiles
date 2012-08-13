@@ -3,15 +3,17 @@
 " : と ; の入れ替え
 map -builtin : ;
 map -builtin ; :
-" 「戻る」と「進む」
-map -builtin <C-1> <C-o>
-map -builtin <C-2> <C-i>
-" タブへ移動
-map -builtin <C-3> gT
-map -builtin <C-4> gt
-" タブを移動
-map -builtin <C-S-3> ;tabmove! -1<CR>
-map -builtin <C-S-4> ;tabmove! +1<CR>
+" タブ移動
+nmap -builtin <C-1> :b 1<CR>
+nmap -builtin <C-2> :b 2<CR>
+nmap -builtin <C-3> :b 3<CR>
+nmap -builtin <C-4> :b 4<CR>
+nmap -builtin <C-5> :b 5<CR>
+nmap -builtin <C-6> :b 6<CR>
+nmap -builtin <C-7> :b 7<CR>
+nmap -builtin <C-8> :b 8<CR>
+nmap -builtin <C-9> :b 9<CR>
+nmap -builtin <C-0> :b 10<CR>
 " コマンドライン
 cmap -builtin <C-p> <Up>
 cmap -builtin <C-n> <Down>
