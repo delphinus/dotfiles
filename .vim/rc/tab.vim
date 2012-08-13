@@ -41,7 +41,7 @@ function! MyTabLabel(n)
     let altbuf = bufname(buflist[winnr - 1])
     " howm は特別
     if match(altbuf, '/howm/') > 0
-        let altbuf = substitute(altbuf, '.*/\([^/]*\)$', '\1', '')
+        let altbuf = '[howm]'
     endif
     " $H や $HOME を消す
     if g:is_office || g:is_office_cygwin || g:is_remora
@@ -56,7 +56,8 @@ function! MyTabLabel(n)
     endif
     " カレントタブ以外はパスを短くする
     if tabpagenr() != a:n
-        let altbuf = pathshorten(altbuf)
+        let altbuf = substitute(altbuf, '^.*/', '', '')
+        let altbuf = substitute(altbuf, '^.\zs.*\ze\.[^.]\+$', '', '')
     endif
     " [ref] 対応
     let altbuf = substitute(altbuf, '\[ref-.*:\(.*\)\]', '[\1]', 'g')
