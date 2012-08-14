@@ -46,11 +46,11 @@ function! MyTabLabel(n)
     " $H や $HOME を消す
     if g:is_office || g:is_office_cygwin || g:is_remora
         " git のホームディレクトリを消す
-        let altbuf = substitute(altbuf, '^git\(repos\)\?/[^/]*/\(app/\)\?', '', '')
+        let altbuf = substitute(altbuf, 'git\(repos\)\?/[^/]*/\(app/\)\?', '', '')
         let my_home = substitute(expand('$H'), expand('$HOME/'), '', '')
         let altbuf = substitute(altbuf, my_home, '$H', '')
         let altbuf = substitute(altbuf, expand('$H/'), '$H', '')
-        let altbuf = substitute(altbuf, expand('$HOME/'), '~', '')
+        let altbuf = substitute(altbuf, expand('$HOME/'), '', '')
     elseif g:is_office_win
         let altbuf = substitute(altbuf, substitute(substitute(expand('$HOME\'), '^c:', '', ''), '\\', '\\\\', 'g'), '', '')
     endif
