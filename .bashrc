@@ -22,7 +22,15 @@ export EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 export VISUAL='/Applications/MacVim.app/Contents/MacOS/Vim'
 export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 
+export MY_PERL_LOCAL_LIB="$HOME/perl5/libs/"
 git_completion_path='/usr/local/etc/bash_completion.d/git-completion.bash'
+perlbrew_env_path="$HOME/bin/perlbrew_env"
+
+perlbrew_env() {
+    if [ -x $perlbrew_env_path ]; then
+        $perlbrew_env_path
+    fi
+}
 
 if [ -f $git_completion_path ]; then
     . $git_completion_path
@@ -34,7 +42,7 @@ if [ -f $git_completion_path ]; then
     export GIT_PS1_SHOWUNTRACKEDFILES=1
     # upstream (<=>)
     export GIT_PS1_SHOWUPSTREAM="verbose"
-    PS1='\e[1;45m$(__git_ps1 "[%s] ")\e[1;47m[\u@\h \w]\e[m \e[1;31m\D{%x %p%l:%M}\e[m\n\$ '
+    PS1='\e[1;45m$(__git_ps1 "[%s] ")\e[1;46m$(perlbrew_env)\e[1;47m[\u@\h \w]\e[m \e[1;31m\D{%x %p%l:%M}\e[m\n\$ '
 else
     PS1='\e[1;47m[\u@\h \w] \e[1;31m\D{%x %p%l:%M}\e[m\n\$ '
 fi
