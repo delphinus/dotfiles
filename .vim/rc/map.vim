@@ -1,9 +1,9 @@
 let mapleader='`'
 
-nnoremap <M-t> gt
-nnoremap <M-r> gT
-nnoremap <M-S-t> :tabm +1<CR>
-nnoremap <M-S-r> :tabm -1<CR>
+nnoremap <M-x> gt
+nnoremap <M-z> gT
+nnoremap <M-S-x> :tabm +1<CR>
+nnoremap <M-S-z> :tabm -1<CR>
 nnoremap <F1> :mak!<CR>
 nnoremap <F2> :QFix<CR>
 nnoremap <C-D> 3<C-D>
@@ -44,10 +44,7 @@ nnoremap <silent> F :set iminsert=0<CR>F
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 
 " Alt キーを Meta キーとして使う
-let alt_keys=['p', 'r', 't']
-if has('mac')
-    let alt_keys = alt_keys + ['y']
-endif
+let alt_keys=['p', 'x', 'z']
 if has('mac') || !has('gui_running')
     for k in alt_keys
         execute "set <M-" . k . ">=<ESC>" . k

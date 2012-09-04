@@ -23,4 +23,5 @@ let neco_dic.tweetvim_say = g:tweetvim_config_dir . '/screen_name'
 " 1 ページあたりのツイート取得件数
 let g:tweetvim_tweet_per_page = 100
 
-
+" アイコンを表示する
+"let g:tweetvim_display_icon = 1

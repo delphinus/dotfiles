@@ -164,7 +164,14 @@ endif
 let g:solarized_termcolors=256      " 256 色表示
 let g:solarized_termtrans=1         " 背景を透過する
 let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
-colo solarized
+
+if is_office_alt
+    colo solarized
+elseif is_office
+    colo badwolf
+else
+    colo solarized
+endif
 
 "colo festoon
 "colo calmar256-light

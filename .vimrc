@@ -100,6 +100,8 @@ call s:loadrc('tagbar')
 call s:loadrc('vcscommand')
 " pb.vim 設定
 call s:loadrc('pb')
+" vim-rooter 設定
+call s:loadrc('rooter')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'

@@ -119,3 +119,7 @@ function! CopyTitleFromPrevEntry()
 endfunction
 
 nnoremap g,M :<C-U>call CopyTitleFromPrevEntry()<CR>
+
+"-----------------------------------------------------------------------------
+" 半角だけの行は整形しない
+let JpFormatExclude = '^[^[[:print:][:space:]]\+$'
