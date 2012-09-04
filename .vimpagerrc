@@ -62,8 +62,6 @@ syntax on
 
 let mapleader='`'
 
-nnoremap k gk
-nnoremap j gj
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
 nmap <ESC><ESC> ;nohlsearch<CR><ESC>
