@@ -36,15 +36,15 @@ nnoremap # #N
 map * <Plug>(visualstar-*)N
 map # <Plug>(visualstar-#)N
 " IMEがONの時IMEをOFFにしてfコマンド実行
-nnoremap <silent> f :set iminsert=0<CR>f
-nnoremap <silent> F :set iminsert=0<CR>F
+nmap <silent> f :set iminsert=0<CR>f
+nmap <silent> F :set iminsert=0<CR>F
 " 4-6
 "nnoremap <silent> cy ce<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "vnoremap <silent> cy c<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 
 " Alt キーを Meta キーとして使う
-let alt_keys=['p', 'x', 'z']
+let alt_keys=['p', 'x', 'z', 't']
 if has('mac') || !has('gui_running')
     for k in alt_keys
         execute "set <M-" . k . ">=<ESC>" . k
