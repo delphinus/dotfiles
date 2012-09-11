@@ -149,10 +149,13 @@ set notagbsearch                  " unite.vim + 日本語ヘルプでフリー�
 set nrformats=                    " 5-5 10進数で数字の上げ下げ
 
 set timeout                       " キーのタイムアウト時間設定
-set timeoutlen=300
-set ttimeoutlen=-1
+set timeoutlen=1000
+set ttimeoutlen=75
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
+
+set showbreak=\ \ +               " 折り返したときに行頭に文字を表示
+set cpoptions+=n
 
 set background=dark               " 暗い背景色
 
@@ -164,6 +167,8 @@ endif
 let g:solarized_termcolors=256      " 256 色表示
 let g:solarized_termtrans=1         " 背景を透過する
 let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
+let g:badwolf_html_link_underline = 1
+let g:badwolf_css_props_highlight = 1
 
 if is_office_alt
     colo solarized
