@@ -154,7 +154,7 @@ set ttimeoutlen=75
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-set showbreak=\ \ +               " 折り返したときに行頭に文字を表示
+set showbreak=\ +\                " 折り返したときに行頭に文字を表示
 set cpoptions+=n
 
 set updatetime=1000               " スワップファイルが書き込まれるまでの時間。
