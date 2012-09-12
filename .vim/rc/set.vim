@@ -157,6 +157,8 @@ set virtualedit=block             " ビジュアルブロックモードのみ�
 set showbreak=\ \ +               " 折り返したときに行頭に文字を表示
 set cpoptions+=n
 
+set updatetime=1000               " スワップファイルが書き込まれるまでの時間。
+
 set background=dark               " 暗い背景色
 
 " 一部の端末は明るい背景
