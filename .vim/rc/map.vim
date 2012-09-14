@@ -1,9 +1,7 @@
 let mapleader='`'
 
-nnoremap <M-x> gt
-nnoremap <M-z> gT
-nnoremap <M-S-x> :tabm +1<CR>
-nnoremap <M-S-z> :tabm -1<CR>
+nnoremap <S-M-x> :tabm +1<CR>
+nnoremap <S-M-z> :tabm -1<CR>
 nnoremap <F1> :mak!<CR>
 nnoremap <F2> :QFix<CR>
 nnoremap <C-D> 3<C-D>
@@ -42,14 +40,29 @@ nnoremap <silent> F :set iminsert=0<CR>F
 "nnoremap <silent> cy ce<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "vnoremap <silent> cy c<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
+" タブ移動
+nnoremap <S-Tab> gt
+nnoremap <Tab><Tab> gT
+for i in range(1, 9)
+    execute 'nnoremap <Tab>' . i . ' ' . i . 'gt'
+endfor
 
-" Alt キーを Meta キーとして使う
-let alt_keys=['p', 'x', 'z']
-if has('mac') || !has('gui_running')
-    for k in alt_keys
-        execute "set <M-" . k . ">=<ESC>" . k
-        execute "nmap <ESC>" . k . " <M-" . k . ">"
-        execute "set <M-S-" . k . ">=<ESC>" . toupper(k)
-        execute "nmap <ESC>" . toupper(k) . " <M-S-" . k . ">"
-    endfor
-endif
+" http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
+" MapFastKeycode: helper for fast keycode mappings
+" makes use of unused vim keycodes <[S-]F15> to <[S-]F37>
+function! <SID>MapFastKeycode(key, keycode)
+    if s:fast_i == 46
+        echohl WarningMsg
+        echomsg "Unable to map ".a:key.": out of spare keycodes"
+        echohl None
+        return
+    endif
+    let vkeycode = '<'.(s:fast_i/23==0 ? '' : 'S-').'F'.(15+s:fast_i%23).'>'
+    exec 'set '.vkeycode.'='.a:keycode
+    exec 'map '.vkeycode.' '.a:key
+    let s:fast_i += 1
+endfunction
+let s:fast_i = 0
+
+call <SID>MapFastKeycode('<M-p>', "\ep")
+call <SID>MapFastKeycode('<M-t>', "\et")
