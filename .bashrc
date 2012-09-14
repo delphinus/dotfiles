@@ -47,6 +47,10 @@ else
     PS1='\e[1;47m[\u@\h \w] \e[1;31m\D{%x %p%l:%M}\e[m\n\$ '
 fi
 
+locallib() {
+    eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$MY_PERL_LOCAL_LIB/$1)
+}
+
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
 export PATH="/usr/local/mysql/bin:$HOME/Dropbox/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin"
