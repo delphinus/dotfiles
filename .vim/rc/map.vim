@@ -1,7 +1,5 @@
 let mapleader='`'
 
-nnoremap <M-x> gt
-nnoremap <M-z> gT
 nnoremap <S-M-x> :tabm +1<CR>
 nnoremap <S-M-z> :tabm -1<CR>
 nnoremap <F1> :mak!<CR>
@@ -67,6 +65,4 @@ endfunction
 let s:fast_i = 0
 
 call <SID>MapFastKeycode('<M-p>', "\ep")
-call <SID>MapFastKeycode('<M-x>', "\ex")
-call <SID>MapFastKeycode('<M-z>', "\ez")
 call <SID>MapFastKeycode('<M-t>', "\et")
