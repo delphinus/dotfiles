@@ -1,12 +1,7 @@
 let mapleader='`'
 
-nnoremap <S-M-x> :tabm +1<CR>
-nnoremap <S-M-z> :tabm -1<CR>
-nnoremap <F1> :mak!<CR>
-nnoremap <F2> :QFix<CR>
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
-nnoremap <C-Z> <C-^>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>

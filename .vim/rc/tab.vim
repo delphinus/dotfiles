@@ -69,6 +69,8 @@ function! MyTabLabel(n)
     else
         let altbuf = '|' . altbuf . '|'
     endif
+    " タブ番号を付加
+    let altbuf = a:n . ':' . altbuf
     return altbuf
 endfunction
 
