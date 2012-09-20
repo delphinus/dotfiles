@@ -6,4 +6,5 @@ tags
 !/.vim/bundle/zip*
 /.vim/ftplugin/html.vim
 /.pentadactyl/info
+/.vim/chalice
 
