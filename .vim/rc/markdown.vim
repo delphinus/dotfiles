@@ -22,7 +22,7 @@ if has('perl')
         s!^(#+) (.*)!'h' . (length($1) + 1) . ". $2"!egm;
 
         # リンクを変換
-        my $url = qr!(?:(?:ht|f)tps?|mailto)://[-.,:?&;%#/\w\d]+!;
+        my $url = qr!(?:(?:ht|f)tps?|mailto)://[-=.,:?&;%#/\w\d]+!;
         s!\[($url)\]\((\S+)(?: "([^"]+)")?\)![\2|\1]!g;
         s!<($url)>![\1]!g;
         s!<([.a-zA-Z0-9]+@[.a-zA-Z0-9]+)>![mailto:\1]!g;
@@ -72,6 +72,7 @@ if has('perl')
 
         # 画像ファイル名処理
         s!(?<=\d{4}-\d\d-\d\d)-(?=\d{6}\.(?:png|jpg))!_!g;
+        s!(?<=\d{4}-\d\d-\d\d)=(?=\d{6}\.(?:png|jpg))!-!g;
 
         # クリップボードにセット
         my ($success, $filename) = VIM::Eval('g:y2r_config.tmp_file');
