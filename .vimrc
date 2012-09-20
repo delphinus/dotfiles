@@ -102,6 +102,8 @@ call s:loadrc('vcscommand')
 call s:loadrc('pb')
 " vim-rooter 設定
 call s:loadrc('rooter')
+" tabrecent 設定
+call s:loadrc('tabrecent')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
