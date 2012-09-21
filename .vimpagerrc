@@ -40,6 +40,7 @@ endif
 
 call vundle#rc(g:bundle_dir)
 
+Bundle 'airblade/vim-rooter'
 Bundle 'houtsnip/vim-emacscommandline'
 Bundle 'godlygeek/csapprox'
 Bundle 'delphinus35/vim-pastefire'
@@ -119,10 +120,6 @@ command! -nargs=? H call s:VertHelp(<f-args>)
 autocmd FileType help nnoremap <buffer>q :q<CR>
 
 "-----------------------------------------------------------------------------
-" ファイルのあるディレクトリに移動
-command! CD :cd %:h
-
-"-----------------------------------------------------------------------------
 " Teamplte::Toolkit 設定
 au BufNewFile,BufRead *.tt2 setf tt2html
 au BufNewFile,BufRead *.tt setf tt2html
@@ -158,5 +155,10 @@ endif
 "-----------------------------------------------------------------------------
 " vim-powerline
 let g:Powerline_symbols = 'fancy'
+
+"-----------------------------------------------------------------------------
+" vimpager
+let vimpager_passthrough = 1
+
 
 " vim:ft=vim:

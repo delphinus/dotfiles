@@ -37,7 +37,7 @@ augroup vimrc-plugin-ref
     autocmd!
     autocmd FileType ref vertical resize 80<CR>
     autocmd FileType ref nnoremap <silent> <buffer> <Leader>rv :vert res 80<CR>
-    autocmd FileType ref nnoremap <silent> <buffer> <expr> <Leader>re
+    autocmd FileType ref nnoremap <silent> <buffer> <expr> S
                 \ b:ref_source ==# 'perldoc' ?
                 \ ":\<C-u>call RefPerlModuleEdit()\<CR>" : "\<Nop>"
     autocmd FileType ref nnoremap <silent> <buffer> <expr> s
