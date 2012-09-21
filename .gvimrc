@@ -1,6 +1,6 @@
 if has('win32')
-    set guifont=Envy_Code_R_for_Powerline:h10
-    set guifontwide=Ricty:h10
+    set guifont=Ricty_Proggy:h12
+    "set guifontwide=Ricty_Discord:h10
     set dir=C:\cygwin\tmp
     set backupdir=C:\cygwin\tmp
     set undodir=C:\cygwin\tmp
