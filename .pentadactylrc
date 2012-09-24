@@ -98,7 +98,7 @@ EOM
 
 " はてなブックマーク
 javascript <<JS
-if ( typeof hBookmark != 'undefined' )
+if ( typeof window.hBookmark != 'undefined' )
     dactyl.loadScript(
         'chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js',
         {__proto__: this} ); 
