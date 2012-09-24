@@ -14,7 +14,7 @@
 /* use strict */
 
 let groupId = 0;
-let onUnload = overlay.overlayObject(gBrowser, {
+let onUnload = overlay.overlayObject(window.gBrowser, {
     addTab: util.wrapCallback(function addTab(uri, params, charset, postData, ownerTab) {
         if (!isObject(params) || params instanceof Ci.nsIURI)
             params = { referrerURI: params, ownerTab: ownerTab };
