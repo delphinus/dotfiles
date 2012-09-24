@@ -30,6 +30,7 @@ set clipboard=
 set guioptions=A
 set linespace=0
 set ambiwidth=single
+set background=dark
 "colo desert-warm-256
 "colo bubblegum
 "colo neon-PK
@@ -38,7 +39,6 @@ set ambiwidth=single
 "colo gummybears
 "colo void
 "colo badwolf
-"colo festoon
+colo festoon
 "colo solarized
-set background=dark
-colo briofita
+"colo briofita
