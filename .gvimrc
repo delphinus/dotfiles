@@ -30,6 +30,7 @@ set clipboard=
 set guioptions=A
 set linespace=0
 set ambiwidth=single
+set title
 "colo desert-warm-256
 "colo bubblegum
 "colo neon-PK
