@@ -104,6 +104,8 @@ call s:loadrc('pb')
 call s:loadrc('rooter')
 " tabrecent 設定
 call s:loadrc('tabrecent')
+" screen title 設定
+call s:loadrc('title')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
