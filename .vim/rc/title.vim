@@ -1,26 +1,26 @@
 function! GetTitleString()
-    " ³Æ¼ï¥Õ¥é¥°
+    " å„ç¨®ãƒ•ãƒ©ã‚°
     let modified = getbufvar('', '&mod') ? '+' : ''
     let readonly = getbufvar('', '&ro') ? '=' : ''
     let modifiable = getbufvar('', '&ma') ? '' : '-'
     let flag = modified . readonly . modifiable
     let flag = len(flag) ? ' ' . flag : ''
-    " ¥Û¥¹¥ÈÌ¾
+    " ãƒ›ã‚¹ãƒˆå
     let host = hostname() . ':'
-    " ¥Õ¥¡¥¤¥ëÌ¾
+    " ãƒ•ã‚¡ã‚¤ãƒ«å
     let filename = expand('%:t')
-    " ¥Õ¥¡¥¤¥ëÌ¾¤¬¤Ê¤¤¾ì¹ç
+    " ãƒ•ã‚¡ã‚¤ãƒ«åãŒãªã„å ´åˆ
     let filename = len(filename) ? filename : 'NEW FILE'
-    " $H ¤¬ÀßÄê¤·¤Æ¤¢¤ë¾ì¹ç¤Ï¡¢¥Ñ¥¹Æâ¤òÃÖ´¹¤¹¤ë
+    " $H ãŒè¨­å®šã—ã¦ã‚ã‚‹å ´åˆã¯ã€ãƒ‘ã‚¹å†…ã‚’ç½®æ›ã™ã‚‹
     let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
     let dir = expand('%:p' . sub_home . ':~:.:h')
-    " 'svn/game/' ¤ò¾Ã¤¹
+    " 'svn/game/' ã‚’æ¶ˆã™
     let dir = substitute(dir, 'svn/game/', '', '')
-    " dir ¤ò³ç¸Ì¤Ç³ç¤ë
+    " dir ã‚’æ‹¬å¼§ã§æ‹¬ã‚‹
     let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
-    " É½¼¨Ê¸»úÎó¤òºîÀ®
+    " è¡¨ç¤ºæ–‡å­—åˆ—ã‚’ä½œæˆ
     let str = host . filename . flag . dir
-    " win32 ¤Î»ş¡¢¥¿¥¤¥È¥ë¥Ğ¡¼¤Ë 2 ¥Ğ¥¤¥ÈÊ¸»ú¤¬¤¢¤Ã¤¿¤é²½¤±¤ë¤Î¤ÇÂĞ½è¤¹¤ë
+    " win32 ã®æ™‚ã€ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã« 2 ãƒã‚¤ãƒˆæ–‡å­—ãŒã‚ã£ãŸã‚‰åŒ–ã‘ã‚‹ã®ã§å¯¾å‡¦ã™ã‚‹
     if !has('win32')
         let str2 = ''
         for char in split(str, '\zs')
@@ -35,13 +35,13 @@ function! GetTitleString()
     return str
 endfunction
 
-" ¥¿¥¤¥È¥ëÊ¸»úÎó»ØÄê
+" ã‚¿ã‚¤ãƒˆãƒ«æ–‡å­—åˆ—æŒ‡å®š
 set titlestring=%!GetTitleString()
 if &term =~ '^screen'
     set t_ts=k
     set t_fs=\
 endif
-" ¥¦¥£¥ó¥É¥¦¥¿¥¤¥È¥ë¤ò¹¹¿·¤¹¤ë
+" ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒˆãƒ«ã‚’æ›´æ–°ã™ã‚‹
 if &term =~ '^screen' || &term =~ '^xterm'
     set title
 endif
