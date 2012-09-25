@@ -2,9 +2,15 @@
 " タブバー設定
 "-----------------------------------------------------------------------------
 
+let g:taboo_format='%f%m[%N]'
+let g:taboo_enable_mappings=0
+nnoremap <silent> <Leader>tc :TabooRenameTabPrompt<CR>
+nnoremap <silent> <leader>to :TabooOpenTabPrompt<CR>
+nnoremap <silent> <leader>tr :TabooResetName<CR>
+set tabline=%!TabooTabline()
 set showtabline=2 " タブは常に表示
 
-set tabline=%!MyTabLine()
+"set tabline=%!MyTabLine()
 function! MyTabLine()
   let s = ''
   for i in range(tabpagenr('$'))
