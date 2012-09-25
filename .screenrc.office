@@ -26,7 +26,7 @@ termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 vbell off
 
 caption always "%{= Rk} %?%F%{kR}%? %t (screen #%n) %{-} %?%P%{kc} *** Copy Mode *** %{-}%?%?%E%{ky} *** Escape *** %?%{-}"
-hardstatus alwayslastline "%{= gk} %-Lw%40L>%{kg} %n %?%h%? %{-}%+Lw%-040=%{km} %l %{.b} %Y/%m/%d %C:%s %A "
+hardstatus alwayslastline "%{= gk} %-Lw%40L>%{kg} %n %?%h%? %{-}%+Lw%-040=%{km} %l %{.w} %Y/%m/%d %C:%s %A "
 
 bind ^] eval 'writebuf' 'exec sh -c "cat /home/game/users/jinnouchi.yasushi/.exchange.key /home/game/users/jinnouchi.yasushi/tmp/exchange-file | nc -w1 localhost 52224"' 'echo "paste to remote"'
 
