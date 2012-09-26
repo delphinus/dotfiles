@@ -36,7 +36,7 @@ function! GetTitleString()
 endfunction
 
 " タイトル文字列指定
-set titlestring=%!GetTitleString()
+set titlestring=%{GetTitleString()}
 if &term =~ '^screen'
     set t_ts=k
     set t_fs=\

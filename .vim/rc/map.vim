@@ -35,12 +35,6 @@ nnoremap <silent> F :set iminsert=0<CR>F
 "nnoremap <silent> cy ce<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "vnoremap <silent> cy c<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
-" タブ移動
-nnoremap <S-Tab> gt
-nnoremap <Tab><Tab> gT
-for i in range(1, 9)
-    execute 'nnoremap <Tab>' . i . ' ' . i . 'gt'
-endfor
 
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 " MapFastKeycode: helper for fast keycode mappings
