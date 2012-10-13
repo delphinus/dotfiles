@@ -25,10 +25,8 @@ termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 #termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 vbell off
 
-#caption always "%{= Rk} %?%F%{b kr}%? %?%h%:%t (screen #%n)%? %{-} %?%P%{b kr} *** コピー / ペーストモード *** %{-}%?"
-#caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** コピー / ペーストモード *** %{-}%?"
-caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** Copy Mode *** %{-}%?"
-hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-040=%{b km} %l %{.b} %Y/%m/%d %C:%s %A "
+caption always "%{= Rk} %?%F%{kR}%? %t (screen #%n) %{-} %?%P%{kc} *** Copy Mode *** %{-}%?%?%E%{ky} *** Escape *** %?%{-}"
+hardstatus alwayslastline "%{= gk} %-Lw%40L>%{kg} %n %?%h%? %{-}%+Lw%-040=%{km} %l %{.w} %Y/%m/%d %C:%s %A "
 
 bind ^] eval 'writebuf' 'exec sh -c "cat /home/game/users/jinnouchi.yasushi/.exchange.key /home/game/users/jinnouchi.yasushi/tmp/exchange-file | nc -w1 localhost 52224"' 'echo "paste to remote"'
 
