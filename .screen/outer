@@ -1,0 +1,8 @@
+source defaults
+
+caption always "%{= dd}"
+backtick 0 0 0 perl $HOME/git/dotfiles/.screen/backtick.pl
+
+screen screen -qUmc $HOME/git/dotfiles/.screen/inner
+
+# vim:se ft=screen:
