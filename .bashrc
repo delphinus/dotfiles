@@ -18,6 +18,7 @@ export PAGER='vimpager'
 #export PAGER=less
 alias vp='vimpager'
 alias perldoc='perldocjp -J'
+alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
 export EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 export VISUAL='/Applications/MacVim.app/Contents/MacOS/Vim'
 export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
