@@ -6,7 +6,7 @@ use POSIX qw!mkfifo!;
 
 binmode STDOUT => ':utf8';
 
-my $fifo = file('/tmp/backtick.fifo');
+my $fifo = file("/tmp/backtick-$$.fifo");
 unless (-p $fifo) {
     $fifo->remove;
     mkfifo($fifo, 0666);
@@ -16,6 +16,13 @@ while (1) {
     my $fh = $fifo->openr;
     binmode $fh => ':utf8';
     while (my $line = <$fh>) {
+        # exit if parent process died
+        if (1 == getppid) {
+            $fh->close;
+            $fifo->remove;
+            exit;
+        }
+
         $line =~ s/\x0D?\x0A?$//;
         print $line, $/;
         (*STDOUT)->flush;

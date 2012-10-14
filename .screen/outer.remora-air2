@@ -1,7 +1,7 @@
 source defaults
 
 caption always "%{= dd}%0`"
-backtick 0 0 0 perl $HOME/git/dotfiles/.screen/backtick.pl
+backtick 0 0 0 $HOME/git/dotfiles/.screen/backtick.pl
 
 screen screen -qUmc $HOME/git/dotfiles/.screen/inner.remora-air2
 
