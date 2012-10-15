@@ -54,14 +54,9 @@ if !filereadable(g:qfixmemo_plugin_dir.'/plugin/qfixmemo-calendar.vim')
                 \ . g:qfixmemo_plugin_dir . '/plugin/')
 endif
 
-" calendar.vim--Matsumoto
-let g:calendar_action='QFixMemoCalendarDiary'
-let g:calendar_sign='QFixMemoCalendarSign'
-let g:calendar_weeknm=1
-let g:calendar_mruler='正月,如月,弥生,卯月,皐月,水無月'
-            \ . ',文月,葉月,長月,神無月,霜月,師走'
-let g:calendar_wruler='日 月 火 水 木 金 土'
-let g:calendar_navi_label='先月,今月,来月'
+" カレンダー設定
+let g:calendar_jp=2
+let g:QFixHowm_CalendarWinCmd='leftabove'
 
 " QfixMemo 保存前実行処理
 " BufWritePre
