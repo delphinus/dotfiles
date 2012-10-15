@@ -1,0 +1,13 @@
+attrcolor b ".I"
+defscrollback 1000
+altscreen on
+escape ^Zz
+bell_msg "Bell in window %"
+shell $SHELL
+startup_message off
+logfile "$HOME/.screen/screen-%Y%m%d-%n.log"
+deflog on
+shelltitle '$ |bash'
+sorendition "= Rk"
+
+# vim:se ft=screen:

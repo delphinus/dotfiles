@@ -1,33 +1,12 @@
 source defaults
+source defaults-inner
+source binds
 
-defbce on
-attrcolor b ".I"
-term xterm-256color
-#termcapinfo xterm-256color 'is=rm2JH?7h?1;4;6l'
-#termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
-termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
-defscrollback 1000
-altscreen on
-escape ^Zz
-vbell off
-bell_msg "Bell in window %"
-autodetach on
-shell $SHELL
-startup_message off
-logfile "$HOME/.screen/screen-%Y%m%d-%n.log"
-deflog on
-shelltitle '$ |bash'
-#caption always "%?%F%{= wk}%:%{= ww}%?%-w%{=u Wk}%n %t%{-}%+w"
-#caption always "%{b bw} %n %t"
-#hardstatus alwayslastline "%{= gk} %-w%{=br}%n %t%{-}%+w %= %{=b mk} %l %{yk} %y/%m/%d %{=b yk}%C:%s %A "
-#hardstatus string "%?%h%:%t (screen #%n on %H)%?"
-#caption always "%{=r dd}%-Lw%40L>%?%F%{=b dR}%:[%? %n%f %t %?%F%{-}%:]%?%+Lw %?%F%-024=GNU Screen of Git master%:%=%?"
-#caption always "%{= Rk} %?%F%{b kr}%? %?%h%:%t (screen #%n)%? %{-}"
+caption splitonly "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** Copy Mode *** %{-}%?"
 hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-086=%{b ky} M %0`%% %{b kb}C %1`%% %{b kr}T %2`C %{b kw}%3` %{b km}%l %{.b}%Y/%m/%d %C %A"
 backtick 0 10 10 $HOME/.screen/memory
 backtick 1 1 1 $HOME/.screen/cpu
 backtick 2 5 5 $HOME/.screen/temperature.sh
 backtick 3 10 10 $HOME/.screen/battery.sh
-sorendition "= Rk"
 
 # vim:se ft=screen:
