@@ -1,0 +1,143 @@
+source defaults
+
+activity ''
+altscreen on
+attrcolor b ".I"
+autodetach on
+bell ''
+bell_msg "Bell in window %"
+bufferfile "$HOME/tmp/exchange-file"
+defbce on
+deflog on
+defmonitor on
+defmousetrack on
+defscrollback 10000
+escape ^Zz
+logfile "$HOME/.screen/screen-%Y%m%d-%n.log"
+#sorendition "= Rk"
+rendition bell "=ub" "RY"
+rendition monitor "=b" "BW"
+rendition silence "=u" "WK"
+rendition so "=" "Rk"
+shell "$HOME/bin.local/bs"
+shelltitle "$ |bash"
+startup_message off
+#term xterm-256color
+termcapinfo xterm* 'Co#256:pa#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+#termcapinfo xterm-256color 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+vbell off
+
+caption always "%{= Rk} %?%F%{kR}%? %t (screen #%n) %{-} %?%P%{kc} *** Copy Mode *** %{-}%?%?%E%{ky} *** Escape *** %?%{-}"
+hardstatus alwayslastline "%{= gk} %-Lw%40L>%{kg} %n %?%h%? %{-}%+Lw%-040=%{km} %l %{.w} %Y/%m/%d %C:%s %A "
+
+bind ^] eval 'writebuf' "exec sh -c 'cat $HOME/.exchange.key $HOME/tmp/exchange-file | nc -w1 localhost 52224'" 'echo "paste to remote"'
+
+
+# switch focus to other region(like vim)
+# orverride default `k'(kill), `t'(time), `b'(break) mappings.
+bind j focus down
+bind k focus up
+bind t focus top
+bind b focus bottom
+
+#開発版GNU Screenを使ってみよう - Keep It Simple, Stupid
+#http://yskwkzhr.blogspot.jp/2011/12/lets-use-development-version-gnu-screen.html
+
+# continuous region operations(like vim)
+# orverride default `^R'(wrap) mapping.
+bind ^R           eval                'command -c region' 'echo "[Region]"'
+bind r            eval                'command -c region' 'echo "[Region]"'
+bind ^J           eval 'focus down'   'command -c region' 'echo "[Region] (focus down)"'
+bind ^K           eval 'focus up'     'command -c region' 'echo "[Region] (focus up)"'
+bind -c region ^J eval 'focus down'   'command -c region' 'echo "[Region] (focus up)"'
+bind -c region ^K eval 'focus up'     'command -c region' 'echo "[Region] (focus up)"'
+bind -c region ^T eval 'focus top'    'command -c region' 'echo "[Region] (focus top)"'
+bind -c region ^B eval 'focus bottom' 'command -c region' 'echo "[Region] (focus bottom)"'
+bind -c region ^N eval 'focus down'   'command -c region' 'echo "[Region] (focus down)"'
+bind -c region ^P eval 'focus up'     'command -c region' 'echo "[Region] (focus up)"'
+bind -c region +  eval 'resize +1'    'command -c region' 'echo "[Region] (resize +1)"'
+bind -c region -  eval 'resize -1'    'command -c region' 'echo "[Region] (resize -1)"'
+bind -c region j  eval 'resize +1'    'command -c region' 'echo "[Region] (resize +1)"'
+bind -c region k  eval 'resize -1'    'command -c region' 'echo "[Region] (resize -1)"'
+bind -c region J  eval 'resize +10'   'command -c region' 'echo "[Region] (resize +10)"'
+bind -c region K  eval 'resize -10'   'command -c region' 'echo "[Region] (resize -10)"'
+bind -c region =  eval 'resize ='     'command -c region' 'echo "[Region] (resize =)"'
+bind -c region .  eval 'resize min'   'command -c region' 'echo "[Region] (resize min)"'
+bind -c region _  eval 'resize max'   'command -c region' 'echo "[Region] (resize max)"'
+bind -c region n  eval 'split'        'command -c region' 'echo "[Region] (split)"'
+bind -c region s  eval 'split' 'focus down' 'other' 'command -c region' 'echo "[Region] (split)"'
+bind -c region c  eval 'remove'       'command -c region' 'echo "[Region] (remove)"'
+bind -c region o  eval 'only'         'command -c region' 'echo "[Region] (only)"'
+# just a little like emacs
+bind -c region 1  eval 'only'         'command -c region' 'echo "[Region] (split)"'
+bind -c region 2  eval 'split'        'command -c region' 'echo "[Region] (split)"'
+
+# switch focus to other region(like vim)
+# override default `h'(hardcopy), `l'(redisplay) mapping
+bind h focus left
+bind l focus right
+
+# re-define continuous region operation (vertical resize locally and focus next/prev)
+bind -c region ^N eval 'focus next'       'command -c region' 'echo "[Region] (focus next)"'
+bind -c region ^P eval 'focus prev'       'command -c region' 'echo "[Region] (focus prev)"'
+bind -c region j  eval 'resize -l -v +1'  'command -c region' 'echo "[Region] (resize -l -v +1)"'
+bind -c region k  eval 'resize -l -v -1'  'command -c region' 'echo "[Region] (resize -l -v -1)"'
+bind -c region J  eval 'resize -l -v +10' 'command -c region' 'echo "[Region] (resize -l -v +10)"'
+bind -c region K  eval 'resize -l -v -10' 'command -c region' 'echo "[Region] (resize -l -v -10)"'
+bind -c region =  eval 'resize -l ='      'command -c region' 'echo "[Region] (resize -l =)"'
+
+# add continuous region operation(like vim)
+bind -c region ^H eval 'focus left'       'command -c region' 'echo "[Region] (focus left)"'
+bind -c region ^L eval 'focus right'      'command -c region' 'echo "[Region] (focus right)"'
+bind -c region <  eval 'resize -l -h -1'  'command -c region' 'echo "[Region] (resize -l -h -1)"'
+bind -c region >  eval 'resize -l -h +1'  'command -c region' 'echo "[Region] (resize -l -h +1)"'
+bind -c region h  eval 'resize -l -h -1'  'command -c region' 'echo "[Region] (resize -l -h -1)"'
+bind -c region l  eval 'resize -l -h +1'  'command -c region' 'echo "[Region] (resize -l -h +1)"'
+bind -c region H  eval 'resize -l -h -10' 'command -c region' 'echo "[Region] (resize -l -h -10)"'
+bind -c region L  eval 'resize -l -h +10' 'command -c region' 'echo "[Region] (resize -l -h +10)"'
+bind -c region ^V eval 'split -v'         'command -c region' 'echo "[Region] (split -v)"'
+bind -c region v  eval 'split -v'         'command -c region' 'echo "[Region] (split -v)"'
+bind -c region |  eval 'split -v'         'command -c region' 'echo "[Region] (split -v)"'
+bind -c region 3  eval 'split -v'         'command -c region' 'echo "[Region] (split -v)"'
+# greedy continuous resize region
+bind -c region ^E eval 'resize ='         'command -c region' 'echo "[Region] (resize =)"'
+bind -c region ^X eval 'resize max'       'command -c region' 'echo "[Region] (resize max)"'
+
+
+# 開発版GNU Screenのlayoutを使ってみよう - Keep It Simple, Stupid
+# http://yskwkzhr.blogspot.jp/2011/12/guide-to-using-gnu-screen-layouts.html
+
+# trigger for layout sub-commands
+bind ^Y eval 'command -c layout' 'layout show'
+bind y  eval 'command -c layout' 'layout show'
+
+# create/remove layout
+bind -c layout c eval 'layout new'    'layout show'
+bind -c layout X eval 'layout remove' 'layout show'
+
+# change the current layout title or number
+bind -c layout A colon 'layout title '
+bind -c layout N colon 'layout number '
+
+# switch to the layout identified by number or title (not prefix of a title)
+bind -c layout \' eval 'layout select' 'layout show'
+
+# switch to other layout
+bind -c layout n eval 'layout next'     'layout show'
+bind -c layout p eval 'layout prev'     'layout show'
+bind -c layout 0 eval 'layout select 0' 'layout show'
+bind -c layout 1 eval 'layout select 1' 'layout show'
+bind -c layout 2 eval 'layout select 2' 'layout show'
+bind -c layout 3 eval 'layout select 3' 'layout show'
+bind -c layout 4 eval 'layout select 4' 'layout show'
+bind -c layout 5 eval 'layout select 5' 'layout show'
+bind -c layout 6 eval 'layout select 6' 'layout show'
+bind -c layout 7 eval 'layout select 7' 'layout show'
+bind -c layout 8 eval 'layout select 8' 'layout show'
+bind -c layout 9 eval 'layout select 9' 'layout show'
+
+# continuous switch to other layout
+bind -c layout ^N eval 'layout next' 'command -c layout' 'layout show'
+bind -c layout ^P eval 'layout prev' 'command -c layout' 'layout show'
+
+# vim:se ft=screen:
