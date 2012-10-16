@@ -1,1 +1,3 @@
 source $HOME/git/dotfiles/.screen/outer.office
+
+# vim:se ft=screen:

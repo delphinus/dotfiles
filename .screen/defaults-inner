@@ -1,3 +1,6 @@
+defmonitor on
+defmousetrack on
+activity ''
 attrcolor b ".I"
 defscrollback 1000
 altscreen on
@@ -8,6 +11,9 @@ startup_message off
 logfile "$HOME/.screen/screen-%Y%m%d-%n.log"
 deflog on
 shelltitle '$ |bash'
-sorendition "= Rk"
+rendition bell "=ub" "RY"
+rendition monitor "=b" "BW"
+rendition silence "=u" "WK"
+rendition so "=" "Rk"
 
 # vim:se ft=screen:
