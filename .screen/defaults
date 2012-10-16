@@ -31,7 +31,8 @@ idle off
 vbell off
 
 # No autodetach because a detached stem screen is useless.
-autodetach off
+#autodetach off
+autodetach on
 
 # No startup message because a stem screen should not be invoked manually
 startup_message off
