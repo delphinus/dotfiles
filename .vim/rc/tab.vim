@@ -22,7 +22,7 @@ command! -count=1 MyTabMoveLeft  call MyTabMove(-<count>)
 function! MyTabMove(c)
     let current = tabpagenr()
     let max = tabpagenr('$')
-    let target = a:c > 1       ? current + a:c - line('.') - 2 :
+    let target = a:c > 1       ? current + a:c - line('.') :
                 \ a:c == 1     ? current :
                 \ a:c == -1    ? current - 2 :
                 \ a:c < -1     ? current + a:c + line('.') - 2 : 0
