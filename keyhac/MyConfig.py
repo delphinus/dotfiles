@@ -188,10 +188,16 @@ class MyConfig:
         ## LWin => 英数
         # LWin => 無変換
         # O-LWin => LWin
+        # S-LWin => S-無変換
+        # C-LWin => C-無変換
+        # C-S-LWin => C-S-無変換
         #self.km.replaceKey("LWin", 29)
         #self.kmg["O-(235)"] = "(240)"
         self.kmg["LWin"] = "(255)"
         self.kmg["O-LWin"] = "(29)"
+        self.kmg["S-LWin"] = "S-(29)"
+        self.kmg["C-LWin"] = "C-(29)"
+        self.kmg["C-S-LWin"] = "C-S-(29)"
 
         # LCtrl => 英数
         #self.km.replaceKey("LCtrl", 29)
