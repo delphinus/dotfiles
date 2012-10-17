@@ -33,7 +33,7 @@ for my $fifo (@fifos) {
         alarm 0.1;
         (my $fh = $fifo->open('a')) or die "can't open $fifo";
         binmode $fh => ':utf8';
-        $fh->print("\cE{km}$channel \cE{-}\cE{kb}$msg\cE{-}");
+        $fh->print("\cE{km} $channel \cE{-}\cE{kb} $msg \cE{-}");
         $fh->close;
     };
     alarm 0;
