@@ -199,6 +199,15 @@ class MyConfig:
         self.kmg["C-LWin"] = "C-(29)"
         self.kmg["C-S-LWin"] = "C-S-(29)"
 
+        # LAlt => C-無変換
+        # O-LAlt => LAlt
+        # RAlt => S-無変換
+        # O-RAlt => RAlt
+        self.kmg["O-LAlt"] = "C-(29)"
+        self.kmg["LAlt"] = "LAlt"
+        self.kmg["O-RAlt"] = "S-(29)"
+        self.kmg["RAlt"] = "RAlt"
+
         # LCtrl => 英数
         #self.km.replaceKey("LCtrl", 29)
 
