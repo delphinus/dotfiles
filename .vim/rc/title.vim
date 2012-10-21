@@ -46,3 +46,5 @@ if &term =~ '^screen' || &term =~ '^xterm'
     set title
 endif
 
+" Vim が終了したらこのタイトルにする
+set titleold=bash
