@@ -7,4 +7,5 @@ tags
 /.vim/ftplugin/html.vim
 /.pentadactyl/info
 /.vim/chalice
-
+*.pyc
+*.pyo

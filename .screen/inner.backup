@@ -1,0 +1,8 @@
+source defaults
+source defaults-inner
+source binds
+
+caption always "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-} %?%P%{b kr} *** Copy Mode *** %{-}%?%?%E%{ky} *** Escape *** %?%{-}"
+hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-040=%{b km} %l %{.b} %Y/%m/%d %C:%s %A "
+
+# vim:se ft=screen:
