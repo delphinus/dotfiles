@@ -136,8 +136,8 @@ class MyConfig:
         # O-RShift => 変換
         #self.km.replaceKey("RShift", "RCtrl")
         #self.kmg["O-RCtrl"] = "28"
-        # RShift => U0
-        self.km.replaceKey("RShift", 235)
+        # O-RShift => C-無変換
+        self.kmg["O-RShift"] = "C-(29)"
 
         # Esc => U0
         # O-Esc => Esc
@@ -201,12 +201,8 @@ class MyConfig:
 
         # LAlt => C-無変換
         # O-LAlt => LAlt
-        # RAlt => S-無変換
-        # O-RAlt => RAlt
         self.kmg["O-LAlt"] = "C-(29)"
         self.kmg["LAlt"] = "LAlt"
-        self.kmg["O-RAlt"] = "S-(29)"
-        self.kmg["RAlt"] = "RAlt"
 
         # LCtrl => 英数
         #self.km.replaceKey("LCtrl", 29)
@@ -233,7 +229,6 @@ class MyConfig:
         #self.km.replaceKey("LShift", "LCtrl")
         # 無変換 => LCtrl
         #self.km.replaceKey(29, "LCtrl")
-        #}}}
 
     # ckm用設定
     def ckw(self):
