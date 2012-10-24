@@ -86,7 +86,7 @@ dactyl.globalVariables.copy_templates = [
     ,{ label: 'title', value: '%TITLE%', map: ',y' }
     ,{ label: 'anchor', value: '<a href="%URL%">%TITLE%</a>' }
     ,{ label: 'selanchor',  value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' }
-    ,{ label: 'markdown', value: '[%TITLE%](%URL% "%TITLE%")', map: ',M' }
+    ,{ label: 'markdown', value: '%URL% "%TITLE%"', map: ',M' }
     ,{ label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
     ,{ label: 'htmlblockquote2',
         value: '<blockquote>\n<p>%TITLE%<br />\n<a href="%URL%">%URL%</a></p>\n</blockquote>',
