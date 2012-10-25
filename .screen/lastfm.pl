@@ -13,6 +13,7 @@ my $fifo_dir = dir('/tmp');               # directory of FIFO
 my $fifo_re = qr/^backtick-(\d+)\.fifo$/; # regex of FIFO filename
 my $fifo_timeout = 0.1;                   # timeout for writing to FIFO
 my $refresh_interval = 30;                # interval for accessing to Last.fm
+my $log_file = file('/usr/local/var/logs/backtick-lastfm.log');
 
 # Last.fm setting
 my %param = (
@@ -31,7 +32,6 @@ my $ua = LWP::UserAgent->new;
 
 # log setting
 #{{{
-my $log_file = file('/usr/local/var/logs/backtick-lastfm.log');
 local $Log::Minimal::PRINT = sub {
     my ($time, $type, $message, $trace, $raw_message) = @_;
     $ENV{TEST_MODE} or return;
@@ -51,15 +51,15 @@ while (1) { #{{{
     my @fifos = grep { -p and $_->basename =~ $fifo_re } $fifo_dir->children;
 
     for my $fifo (@fifos) {
-        infof("write to $fifo : $msg");
-        (my $fh = $fifo->open('a')) or die "can't open $fifo";
-        binmode $fh => ':utf8';
         eval {
             local $SIG{ALRM} = sub { die 'timeout'; };
             alarm $fifo_timeout;
+            (my $fh = $fifo->open('a')) or die "can't open $fifo";
+            binmode $fh => ':utf8';
             $fh->print($msg);
             $fh->close;
             alarm 0;
+            infof("write to $fifo : $msg");
         };
     }
 
