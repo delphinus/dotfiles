@@ -31,6 +31,7 @@ call vundle#rc(g:bundle_dir)
 
 Bundle 'airblade/vim-rooter'
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'amdt/sunset'
 Bundle 'bcat/abbott.vim'
 Bundle 'basyura/TweetVim'
 Bundle 'basyura/bitly.vim'
