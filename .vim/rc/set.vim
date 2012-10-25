@@ -126,11 +126,7 @@ if is_office_alt || is_remora || is_backup
     set background=light              " 明るい背景色
 endif
 
-let g:solarized_termtrans=1         " 背景を透過する
-let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
-let g:badwolf_html_link_underline = 1
-let g:badwolf_css_props_highlight = 1
-
+call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colo solarized
 
 "colo festoon
