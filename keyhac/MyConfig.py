@@ -17,7 +17,7 @@ class MyConfig:
             base hhk hhk_others diamond_cursor
             ckw putty teraterm gvim firefox excel
             emacs aero_snap
-            limechat ctrl_tab
+            limechat
         '''.split()
 
         for com in self.commands:

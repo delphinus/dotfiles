@@ -40,6 +40,6 @@ set background=dark
 "colo gummybears
 "colo void
 "colo badwolf
-colo festoon
-"colo solarized
+"colo festoon
+colo solarized
 "colo briofita
