@@ -1,16 +1,16 @@
 scriptencoding utf-8
-let g:is_remora_cx = hostname() == 'remora.cx'
+let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
 let g:is_backup = hostname() == 'backup.remora.cx'
 let g:is_office = len($H) > 0 && has('unix')
 let g:is_office_win = len($USERDOMAIN) && has('win32')
 let g:is_office_cygwin = len($USERDOMAIN) && has('win32unix')
+let g:is_office_alt = is_office && $VIM_ENV_ALT
 let g:is_xerxes = hostname() == 'xerxes'
 let g:is_remora_air2_win = hostname() == 'remora-air2-win'
 let g:is_unix = is_remora || is_backup || is_office || is_office_cygwin
 let g:is_win = is_office_win || is_xerxes || is_remora_air2_win
 
-set t_Co=256
 
 " シェルの位置を元に戻す
 if is_office
@@ -41,15 +41,15 @@ endif
 call vundle#rc(g:bundle_dir)
 
 Bundle 'airblade/vim-rooter'
+Bundle 'altercation/vim-colors-solarized'
 Bundle 'houtsnip/vim-emacscommandline'
-Bundle 'godlygeek/csapprox'
 Bundle 'delphinus35/vim-pastefire'
 Bundle 'delphinus35/vim-powerline'
+Bundle 'majutsushi/tagbar'
 Bundle 'mattn/gist-vim'
 Bundle 'thinca/vim-visualstar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tyru/current-func-info.vim'
-Bundle 'vim-scripts/Color-Sampler-Pack'
 
 filetype plugin indent on
 
@@ -71,14 +71,10 @@ noremap : ;
 map * <Plug>(visualstar-*)N
 map # <Plug>(visualstar-#)N
 
+set t_Co=256
 set encoding=utf-8
 set termencoding=utf-8
 set hls
-if is_office
-	"set fileencoding=eucjp
-else
-    "set fileencoding=utf-8
-endif
 set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 set dir=/tmp
 if is_office
@@ -91,12 +87,13 @@ endif
 set ttymouse=xterm2
 set mouse=a
 set display=lastline,uhex
-set cul
+set cursorline
 set clipboard=autoselectml
 set grepprg=ack
 set diffopt=filler,vertical
 set synmaxcol=0
 set title
+set titleold=bash
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=double
 set list                 " 空白の可視化
@@ -104,10 +101,12 @@ set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 set tabstop=4       " 画面上でタブ文字が占める幅
 set softtabstop=4   " タブキーやバックスペースキーでカーソルが動く幅
 set shiftwidth=4    " 自動インデントや <<, >> でずれる幅
-filetype plugin on
-colo desertEx
-
 set laststatus=2
+set background=dark
+let g:solarized_termtrans=1         " 背景を透過する
+let g:solarized_visibility='normal' " 不可視文字を高コントラストで表示する
+colo solarized
+
 
 "-----------------------------------------------------------------------------
 " ヘルプ
@@ -155,6 +154,16 @@ endif
 "-----------------------------------------------------------------------------
 " vim-powerline
 let g:Powerline_symbols = 'fancy'
+let g:Powerline_theme = 'default'
+let g:Powerline_colorscheme = 'solarizedDark'
+
+if g:is_office_alt
+	let g:Powerline_colorscheme = 'solarizedLight'
+elseif g:is_win
+	let g:Powerline_colorscheme = 'default'
+else
+	let g:Powerline_colorscheme = 'solarizedDark'
+endif
 
 "-----------------------------------------------------------------------------
 " vimpager

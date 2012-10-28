@@ -106,6 +106,10 @@ call s:loadrc('rooter')
 call s:loadrc('tabrecent')
 " screen title 設定
 call s:loadrc('title')
+" activefix 設定
+"call s:loadrc('activefix')
+" sunset 設定
+call s:loadrc('sunset')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'

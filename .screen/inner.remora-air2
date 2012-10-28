@@ -3,7 +3,7 @@ source defaults-inner
 source binds
 
 caption splitonly "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-}"
-hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-078=%{b ky} M %0`%% %{b kb}C %1`%% %{b kr}T %2`C %{b kw}%3` %{b km}%l %{.b}%Y/%m/%d %C %A %?%E%{r ky}E%{-}%?"
+hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-081=%{b ky} M %0`%% %{b kb}C %1`%% %{b kr}T %2`C %{b kw}%3` %{b km}%l %{.b}%Y/%m/%d %C %A %?%E%{r ky}E%{-}%?"
 backtick 0 10 10 $HOME/.screen/memory
 backtick 1 1 1 $HOME/.screen/cpu
 backtick 2 5 5 $HOME/.screen/temperature.sh

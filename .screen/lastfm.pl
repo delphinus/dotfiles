@@ -6,7 +6,14 @@ use JSON;
 use Log::Minimal;
 use LWP::UserAgent;
 use Path::Class;
+use Time::HiRes qw!alarm sleep!;
 use URI;
+
+my $fifo_dir = dir('/tmp');               # directory of FIFO
+my $fifo_re = qr/^backtick-(\d+)\.fifo$/; # regex of FIFO filename
+my $fifo_timeout = 0.1;                   # timeout for writing to FIFO
+my $refresh_interval = 30;                # interval for accessing to Last.fm
+my $log_file = file('/usr/local/var/logs/backtick-lastfm.log');
 
 # Last.fm setting
 my %param = (
@@ -18,9 +25,6 @@ my %param = (
     limit      => 1,
 );
 
-# interval for accessing to Last.fm
-my $refresh_interval = 30;
-
 # setup URL
 my $url = 'http://ws.audioscrobbler.com/2.0/';
 (my $u = URI->new($url))->query_form(%param);
@@ -28,11 +32,9 @@ my $ua = LWP::UserAgent->new;
 
 # log setting
 #{{{
-my $TEST_MODE = $ENV{TEST_MODE} || 0;
-my $log_file = file('/usr/local/var/logs/backtick-lastfm.log');
 local $Log::Minimal::PRINT = sub {
     my ($time, $type, $message, $trace, $raw_message) = @_;
-    $TEST_MODE or return;
+    $ENV{TEST_MODE} or return;
     my $msg = sprintf "%s [%s] %s%s\n",
         $time, $type, $message, ($type eq 'INFO' ? '' : " at $trace");
     my $fh = $log_file->open('a') or die $!;
@@ -46,24 +48,19 @@ local $Log::Minimal::PRINT = sub {
 while (1) { #{{{
     (my $msg = get_message()) or next;
 
-    my %process_list;
-    open my $ps, 'ps aux |' or die $!;
-    while (my $line = <$ps>) {
-        my $process_number = (split /\s+/, $line)[1];
-        $process_number =~ /^\d+$/ and $process_list{$process_number}++;
-    }
-    $ps->close;
-
-    my @fifos = grep {
-        -p and $_->basename =~ /^backtick-(\d+)\.fifo$/ and $process_list{$1};
-    } dir('/tmp')->children;
+    my @fifos = grep { -p and $_->basename =~ $fifo_re } $fifo_dir->children;
 
     for my $fifo (@fifos) {
-        infof("write to $fifo : $msg");
-        (my $fh = $fifo->open('a')) or die "can't open $fifo";
-        binmode $fh => ':utf8';
-        $fh->print($msg);
-        $fh->close;
+        eval {
+            local $SIG{ALRM} = sub { die 'timeout'; };
+            alarm $fifo_timeout;
+            (my $fh = $fifo->open('a')) or die "can't open $fifo";
+            binmode $fh => ':utf8';
+            $fh->print($msg);
+            $fh->close;
+            alarm 0;
+            infof("write to $fifo : $msg");
+        };
     }
 
 } continue {
@@ -109,16 +106,16 @@ sub get_message { #{{{
     my $song = "$track->{artist}{'#text'} - $track->{name}";
     my $timestamp = time2iso($track->{date}{uts});
 
-    my $colored_song = color($song, 'kb', 1);
-    my $colored_timestamp = color($timestamp, 'km');
+    my $colored_song = set_color($song, 'kb', 1);
+    my $colored_timestamp = set_color($timestamp, 'km');
     my $colored_status =
-        $status eq 'now_playing' ? color('Now Playing', 'r kb') : '';
+        $status eq 'now_playing' ? set_color('Now Playing', 'r kb') : '';
 
     return "$colored_timestamp$colored_song$colored_status\n";
 } #}}}
 
 # set color using escape sequences of GNU Screen
-sub color { #{{{
+sub set_color { #{{{
     my ($string, $color_code, $dont_reset) = @_;
     defined $string or defined $color_code or return '';
     my $reset_color = $dont_reset ? '' : "\cE{-}";
