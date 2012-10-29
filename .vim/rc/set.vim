@@ -119,13 +119,6 @@ set cpoptions+=n
 
 set updatetime=1000               " スワップファイルが書き込まれるまでの時間。
 
-set background=dark               " 暗い背景色
-
-" 一部の端末は明るい背景
-if is_office_alt || is_backup
-    set background=light              " 明るい背景色
-endif
-
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colo solarized
 
