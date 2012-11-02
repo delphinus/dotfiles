@@ -1,0 +1,11 @@
+let g:AutoPairs={'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+let g:AutoPairsShortcutToggle='<M-t>'
+let g:AutoPairsShortcutFastWrap='<M-e>'
+let g:AutoPairsShortcutJump='<M-n>'
+let g:AutoPairsMapBS=1
+inoremap <buffer> <silent> <C-h> <C-r>=AutoPairsDelete()<CR>
+let g:AutoPairsMapCR=1
+let g:AutoPairsCenterLine=1
+let g:AutoPairsMapSpace=1
+let g:AutoPairsFlyMode=1
+let g:AutoPairsShortcutBackInsert='<M-b>'

@@ -39,7 +39,7 @@ nnoremap <silent> F :set iminsert=0<CR>F
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 " MapFastKeycode: helper for fast keycode mappings
 " makes use of unused vim keycodes <[S-]F15> to <[S-]F37>
-function! <SID>MapFastKeycode(key, keycode)
+function! <SID>MapFastKeycode(key, keycode, mode)
     if s:fast_i == 46
         echohl WarningMsg
         echomsg "Unable to map ".a:key.": out of spare keycodes"
@@ -48,10 +48,16 @@ function! <SID>MapFastKeycode(key, keycode)
     endif
     let vkeycode = '<'.(s:fast_i/23==0 ? '' : 'S-').'F'.(15+s:fast_i%23).'>'
     exec 'set '.vkeycode.'='.a:keycode
-    exec 'map '.vkeycode.' '.a:key
+    exec a:mode.'map '.vkeycode.' '.a:key
     let s:fast_i += 1
 endfunction
 let s:fast_i = 0
+    let s:fast_i += 1
 
-call <SID>MapFastKeycode('<M-p>', "\ep")
-call <SID>MapFastKeycode('<M-t>', "\et")
+call <SID>MapFastKeycode('<M-b>', "\eb", 'i')
+call <SID>MapFastKeycode('<M-e>', "\ee", 'i')
+call <SID>MapFastKeycode('<M-n>', "\en", 'n')
+call <SID>MapFastKeycode('<M-p>', "\ep", 'n')
+call <SID>MapFastKeycode('<M-S-p>', "\eP", 'n')
+call <SID>MapFastKeycode('<M-t>', "\et", 'n')
+call <SID>MapFastKeycode('<M-S-t>', "\eT", 'n')
