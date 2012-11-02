@@ -110,6 +110,10 @@ call s:loadrc('title')
 "call s:loadrc('activefix')
 " sunset 設定
 call s:loadrc('sunset')
+" Pastefire 設定
+call s:loadrc('pastefire')
+" Auto Pairs 設定
+call s:loadrc('autopairs')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
