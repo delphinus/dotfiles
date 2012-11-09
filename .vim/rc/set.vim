@@ -100,7 +100,7 @@ set backspace=indent,eol,start    " バックスペースを行を超えて有�
 
 set grepprg=ack                   " grep コマンドとして ack を使用する
 
-set diffopt=filler,vertical       " diffコマンド設定
+set diffopt=filler,vertical,iwhite " diffコマンド設定
 
 set synmaxcol=0                   " 構文強調表示桁数の制限を解除
 
@@ -118,6 +118,9 @@ set showbreak=\ +\                " 折り返したときに行頭に文字を�
 set cpoptions+=n
 
 set updatetime=1000               " スワップファイルが書き込まれるまでの時間。
+
+set wildmenu                      " コマンドラインモードでの補完メニュー
+set wildmode=full
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colo solarized
