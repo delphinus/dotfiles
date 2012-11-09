@@ -8,6 +8,7 @@ function! g:sunset_daytime_callback()
         let g:Powerline_colorscheme = 'solarized'
         PowerlineReloadColorscheme
     endif
+    set background=light
 endfunction
 
 function! g:sunset_nighttime_callback()
@@ -15,4 +16,5 @@ function! g:sunset_nighttime_callback()
         let g:Powerline_colorscheme = 'solarized16'
         PowerlineReloadColorscheme
     endif
+    set background=dark
 endfunction
