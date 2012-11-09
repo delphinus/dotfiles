@@ -3,11 +3,16 @@ let g:sunset_latitude = 35.67
 let g:sunset_longitude = 139.8
 let g:sunset_utc_offset = 9
 
-let g:sunset_last_background = ''
-function! g:sunset_callback()
-  if g:sunset_last_background != &bg && exists(':PowerlineReloadColorscheme')
-    let g:sunset_last_background = &bg
-    let g:Powerline_colorscheme = &background == 'light' ? 'solarizedLight' : 'solarizedDark'
-    PowerlineReloadColorscheme
-  endif
+function! g:sunset_daytime_callback()
+    if exists(':PowerlineReloadColorscheme')
+        let g:Powerline_colorscheme = 'solarized'
+        PowerlineReloadColorscheme
+    endif
+endfunction
+
+function! g:sunset_nighttime_callback()
+    if exists(':PowerlineReloadColorscheme')
+        let g:Powerline_colorscheme = 'solarized16'
+        PowerlineReloadColorscheme
+    endif
 endfunction
