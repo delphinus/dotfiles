@@ -25,9 +25,7 @@ noremap ; :
 noremap : ;
 " * 設定
 nnoremap * *N
-nnoremap # #N
 map * <Plug>(visualstar-*)N
-map # <Plug>(visualstar-#)N
 " IMEがONの時IMEをOFFにしてfコマンド実行
 nnoremap <silent> f :set iminsert=0<CR>f
 nnoremap <silent> F :set iminsert=0<CR>F
@@ -54,9 +52,8 @@ endfunction
 let s:fast_i = 0
     let s:fast_i += 1
 
-call <SID>MapFastKeycode('<M-b>', "\eb", 'i')
-call <SID>MapFastKeycode('<M-e>', "\ee", 'i')
-call <SID>MapFastKeycode('<M-n>', "\en", 'n')
+call <SID>MapFastKeycode('<M-e>', "\ee", 'n')
+call <SID>MapFastKeycode('<M-g>', "\eg", 'n')
 call <SID>MapFastKeycode('<M-p>', "\ep", 'n')
 call <SID>MapFastKeycode('<M-S-p>', "\eP", 'n')
 call <SID>MapFastKeycode('<M-t>', "\et", 'n')
