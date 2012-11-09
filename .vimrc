@@ -96,8 +96,6 @@ call s:loadrc('clam')
 call s:loadrc('timetap')
 " Tagbar 設定
 call s:loadrc('tagbar')
-" vcscommand.vim 設定
-call s:loadrc('vcscommand')
 " pb.vim 設定
 call s:loadrc('pb')
 " vim-rooter 設定
@@ -113,7 +111,11 @@ call s:loadrc('sunset')
 " Pastefire 設定
 call s:loadrc('pastefire')
 " Auto Pairs 設定
-call s:loadrc('autopairs')
+"call s:loadrc('autopairs')
+" fugitive 設定
+call s:loadrc('fugitive')
+" Extradite 設定
+call s:loadrc('extradite')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'

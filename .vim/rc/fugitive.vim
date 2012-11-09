@@ -1,0 +1,1 @@
+nnoremap <M-g> :Git 
