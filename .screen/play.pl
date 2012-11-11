@@ -9,6 +9,7 @@ my $fifo_re = qr/^backtick-(\d+)\.fifo$/; # regex of FIFO filename
 my $fifo_timeout = 0.1;                   # timeout for writing to FIFO
 my $refresh_interval = 0.05;
 my %kao = (1 => 'o～((((～´∀`)～ﾌﾗﾌﾗ～', -1 => '～ﾌﾗﾌﾗ～(´∀`～))))～o');
+my $width = 15;
 my @colors = split '', 'krgybmcw';
 my $count = 0;
 my $inc = 1;
@@ -16,7 +17,7 @@ my $inc = 1;
 # make message
 sub get_message { #{{{
     $count += $inc;
-    ($count > 30 || $count < 0) and $inc *= -1;
+    ($count > $width || $count < 0) and $inc *= -1;
     return set_color(' ' x $count, 'kw') # white on black
         . set_color($kao{$inc}, 'k' . $colors[rand @colors], 1);
             # random color on black and do not reset color

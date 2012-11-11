@@ -3,10 +3,10 @@ source defaults-inner
 source binds
 
 caption splitonly "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-}"
-hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-081=%{b ky} M %0`%% %{b kb}C %1`%% %{b kr}T %2`C %{b kw}%3` %{b km}%l %{.b}%Y/%m/%d %C %A %?%E%{r ky}E%{-}%?"
-backtick 0 10 10 $HOME/.screen/memory
-backtick 1 1 1 $HOME/.screen/cpu
-backtick 2 5 5 $HOME/.screen/temperature.sh
-backtick 3 10 10 $HOME/.screen/battery.sh
+hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-085=%{k.}%?%E%{yk}%?%{b .m} %l %{-}%{b .y} M %0`%% %{-}%{b .b}C %1`%% %{-}%{b .r}T %2`C %{-}%{b .w}%3` %{-}%{b wk} %Y/%m/%d %C:%s %A %{Gk}"
+backtick 0 10 10 $HOME/git/dotfiles/.screen/memory
+backtick 1 1 1 $HOME/git/dotfiles/.screen/cpu
+backtick 2 5 5 $HOME/git/dotfiles/.screen/temperature.sh
+backtick 3 10 10 $HOME/git/dotfiles/.screen/battery.sh
 
 # vim:se ft=screen:
