@@ -4,17 +4,17 @@ let g:sunset_longitude = 139.8
 let g:sunset_utc_offset = 9
 
 function! g:sunset_daytime_callback()
+    set background=light
     if exists(':PowerlineReloadColorscheme')
         let g:Powerline_colorscheme = 'solarized'
         PowerlineReloadColorscheme
     endif
-    set background=light
 endfunction
 
 function! g:sunset_nighttime_callback()
+    set background=dark
     if exists(':PowerlineReloadColorscheme')
         let g:Powerline_colorscheme = 'solarized16'
         PowerlineReloadColorscheme
     endif
-    set background=dark
 endfunction
