@@ -52,7 +52,6 @@ endfunction
 let s:fast_i = 0
     let s:fast_i += 1
 
-call <SID>MapFastKeycode('<M-e>', "\ee", 'n')
 call <SID>MapFastKeycode('<M-p>', "\ep", 'n')
 call <SID>MapFastKeycode('<M-S-p>', "\eP", 'n')
 call <SID>MapFastKeycode('<M-t>', "\et", 'n')
