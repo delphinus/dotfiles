@@ -14,6 +14,7 @@ if has('mac')
     set macmeta                   " option キーを alt キーとして使う
 endif
 
+set showtabline=2         " 常にタブを表示する
 set printfont=Consolas:h9 " 印刷用フォント
 set printoptions=number:y " 印刷時に行番号を付ける
 set visualbell            " ビープ音を使わず画面をフラッシュさせる
@@ -25,6 +26,8 @@ set guioptions=A          " モードレスセレクションに対する自動�
 set linespace=0           " 行間を空けない
 set ambiwidth=single      " 特殊文字に半角文字を使う
 set title                 " ウィンドウタイトルを更新する
+winsize 130 50            " ウィンドウの大きさを指定する
+winpos 400 200            " ウィンドウの場所を指定する
 
 "colo desert-warm-256
 "colo bubblegum
@@ -35,9 +38,4 @@ set title                 " ウィンドウタイトルを更新する
 "colo void
 "colo badwolf
 "colo festoon
-"colo briofita
 colo solarized
-
-if exists(':PowerlineReloadColorscheme')
-    PowerlineReloadColorscheme
-endif
