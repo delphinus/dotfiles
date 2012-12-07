@@ -15,7 +15,7 @@ class MyConfig:
         self.kmg = km.defineWindowKeymap()
         self.commands = '''
             base hhk hhk_others diamond_cursor
-            ckw putty teraterm gvim firefox excel
+            ckw putty console2 teraterm gvim firefox excel
             emacs aero_snap
             limechat
         '''.split()
@@ -54,32 +54,32 @@ class MyConfig:
     # 英語配列化（HHK用）
     def hhk(self):
         # S-2 => @
-        self.kmg["S-2"] = "(192)"
+        self.kmg["S-2"] = "Atmark"
         # S-6 => ^
-        self.kmg["S-6"] = "(222)"
+        self.kmg["S-6"] = "Caret"
         # S-7 => &
         self.kmg["S-7"] = "S-6"
         # S-8 => *
-        self.kmg["S-8"] = "S-(186)"
-        # S-9 =>)
+        self.kmg["S-8"] = "S-Colon"
+        # S-9 =>(
         self.kmg["S-9"] = "S-8"
         # S-0 =>)
         self.kmg["S-0"] = "S-9"
         # S-- => _
         self.kmg["S-Minus"] = "S-(226)"
         # ^ => =
-        self.kmg["(222)"] = "S-Minus"
+        self.kmg["Caret"] = "S-Minus"
         # S-^ => +
-        self.kmg["S-(222)"] = "S-Plus"
-        # [=> \
-        # S-[=> |
-        self.km.replaceKey("(221)", "(220)")
+        self.kmg["S-Caret"] = "S-Semicolon"
+        # ]=> \
+        # S-]=> |
+        self.km.replaceKey("CloseBracket", "Yen")
         # 半角/全角 => `
-        self.kmg["(243)"] = "S-(192)"
-        self.kmg["(244)"] = "S-(192)"
+        self.kmg["(243)"] = "S-BackQuote"
+        self.kmg["(244)"] = "S-BackQuote"
         # S-半角/全角 => ~
-        self.kmg["S-(243)"] = "S-(222)"
-        self.kmg["S-(244)"] = "S-(222)"
+        self.kmg["S-(243)"] = "S-Caret"
+        self.kmg["S-(244)"] = "S-Caret"
         # 半角/全角 => Esc
         #self.kmg["(243)"] = "Esc"
         #self.kmg["(244)"] = "Esc"
@@ -87,23 +87,23 @@ class MyConfig:
         #self.kmg["S-(243)"] = "S-Esc"
         #self.kmg["S-(244)"] = "S-Esc"
         # Backspace => `
-        #self.kmg["Back"] = "S-(192)"
+        #self.kmg["Back"] = "S-BackQuote"
         # S-Backspace => ~
-        #self.kmg["S-Back"] = "S-(222)"
+        #self.kmg["S-Back"] = "S-Caret"
         # C-Backspace => C-`
-        #self.kmg["C-Back"] = "C-S-(192)"
+        #self.kmg["C-Back"] = "C-S-Caret"
         # @ => [
         # S-@ => {
-        self.km.replaceKey("(192)", "(219)")
+        self.km.replaceKey("Atmark", "OpenBracket")
         # [=>]
         # S-[=> }
-        self.km.replaceKey("(219)", "(221)")
+        self.km.replaceKey("OpenBracket", "CloseBracket")
         # S-; => :
-        self.kmg["S-Plus" ] = "(186)"
+        self.kmg["S-Plus" ] = "Colon"
         # : => '
-        self.kmg["(186)" ] = "S-7"
+        self.kmg["(186)" ] = "S-Quote"
         # S-: => "
-        self.kmg["S-(186)" ] = "S-2"
+        self.kmg["S-(186)" ] = "S-DoubleQuote"
 
     # HHK向けその他の設定
     def hhk_others(self):
@@ -144,7 +144,7 @@ class MyConfig:
         self.km.replaceKey("Escape", 235)
         self.kmg["O-(235)"] = "Escape"
         # RAlt => U0
-        #self.km.replaceKey("RAlt", 235)
+        self.km.replaceKey("RAlt", 235)
 
         # RCtrl => RWin
         #self.km.replaceKey("RCtrl", "RWin")
@@ -166,7 +166,7 @@ class MyConfig:
         self.km.quote_mark = "> "
 
         # Backspace => \
-        self.km.replaceKey("Back", "(220)")
+        self.km.replaceKey("Back", "Yen")
         # Delete => Backspace
         self.km.replaceKey("Delete", "Back")
 
@@ -286,6 +286,24 @@ class MyConfig:
         km["U0-K"] = self.km.command_InputKey("LC-Z", "K")
         km["U0-L"] = self.km.command_InputKey("LC-Z", "L")
 
+    # Console2用設定
+    def console2(self):
+        km = self.km_for_exe(u"Console.exe")
+
+        # ウィンドウ切り替え
+        for i in xrange(10):
+            km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
+
+        # putty上ではEmacs風割り当てを解除
+        km["C-S"] = "C-S"
+        km["C-R"] = "C-R"
+        km["C-W"] = "C-W"
+        km["C-X"] = "C-X"
+
+        # Console2上ではESC => ESC+日本語入力オフ（無変換）
+        km["(235)"] = self.km.command_InputKey("ESC", "(29)")
+        km["C-(219)"] = self.km.command_InputKey("ESC", "(29)")
+
     # Tera Term用設定
     def teraterm(self):
         km = self.km_for_exe(u"ttermpro.exe")
@@ -398,7 +416,7 @@ class MyConfig:
             self.set_multistroke("X" + k, "C-" + k)
 
         # カーソル移動無効化
-        for exe in ["ckw" ,"gvim" ,"firefox" ,"putty", "mintty"]:
+        for exe in ["ckw" ,"gvim" ,"firefox" ,"putty", "mintty", "console"]:
             exe_name = unicode(exe) + u".exe"
             km = self.km_for_exe(exe_name)
             for k in e_cursor.keys():
