@@ -20,8 +20,8 @@ function! GetTitleString()
     let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
     " 表示文字列を作成
     let str = host . filename . flag . dir
-    " win32 の時、タイトルバーに 2 バイト文字があったら化けるので対処する
-    if !has('win32')
+    " Screen などでタイトルバーに 2 バイト文字があったら化けるので対処する
+    if !has('gui_running')
         let str2 = ''
         for char in split(str, '\zs')
             if char2nr(char) > 255
@@ -37,12 +37,13 @@ endfunction
 
 " タイトル文字列指定
 set titlestring=%{GetTitleString()}
+
+" ウィンドウタイトルを更新する
 if &term =~ '^screen'
     set t_ts=k
     set t_fs=\
 endif
-" ウィンドウタイトルを更新する
-if &term =~ '^screen' || &term =~ '^xterm'
+if has('gui_running') || &term =~ '^screen' || &term =~ '^xterm'
     set title
 endif
 
