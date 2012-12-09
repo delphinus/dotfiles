@@ -18,9 +18,11 @@ function! GetTitleString()
     let dir = substitute(dir, 'svn/game/', '', '')
     " dir を括弧で括る
     let dir = len(dir) && dir != '.' ? ' (' . dir . ')' : ''
+    " 検索文字列
+    let search_string = len(@/) ? ' [' . @/ . ']' : ''
     " 表示文字列を作成
-    let str = host . filename . flag . dir
-    " Screen などでタイトルバーに 2 バイト文字があったら化けるので対処する
+    let str = host . filename . flag . dir . search_string
+    " win32 の時、タイトルバーに 2 バイト文字があったら化けるので対処する
     if !has('gui_running')
         let str2 = ''
         for char in split(str, '\zs')
