@@ -1,0 +1,64 @@
+#!/usr/bin/env perl
+
+=encoding utf-8
+
+=head1 NAME
+
+jgrep - pseudo grep with japanese encoding
+
+=head1 SYNOPSIS
+
+    $ jgrep search_re
+    $ jgrep search_re /path/to/dir
+    $ jgrep --encoding cp932 search_re /path/to/dir
+
+=head1 DESCRIPTION
+
+This is a pseudo grep. You can specify file encoding and search directory. If
+directory is not specified, it will use current_dir.
+
+=head1 OPTIONS
+
+=over 4
+
+=item --encoding,-e
+
+specify encoding. default is 'UTF-8'.
+
+=cut
+
+use utf8;
+use strict;
+use warnings;
+use Cwd;
+use Encode;
+use Getopt::Long;
+use Path::Class;
+
+my %opt = (encoding => 'UTF-8');
+my @option_definition = qw!encoding|e=s help|h!;
+GetOptions(\%opt, @option_definition) or pod2usage(-verbose => 2);
+my ($re, $directory) = @ARGV;
+$opt{re} = decode(utf8 => $re);
+$opt{directory} = defined $directory ? $directory : getcwd;
+($opt{help} or !defined $opt{re}) and pod2usage(-verbose => 2);
+
+my @files;
+dir($opt{directory})->recurse(callback => sub {
+    my $file = file(shift);
+    -f $file or return;
+    my $filename = length $file > 40 ? substr($file, 0, 37) . '...' : $file;
+    printf "\rloading: %-40s", $filename;
+    my @match;
+    eval {
+        my $content = $file->slurp;
+        $content = decode($opt{encoding} => $content);
+        @match = $content =~ qr/$opt{re}/;
+    };
+    !$@ and @match and push @files, $file;
+});
+
+print "\n\n";
+print "$_\n" for sort @files;
+
+# vim:se et:
