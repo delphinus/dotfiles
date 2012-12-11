@@ -65,6 +65,7 @@ set relativenumber       " 相対行番号を表示する
 set numberwidth=3        " 行番号の幅は 3 桁
 set colorcolumn=80       " 80 桁目をハイライト
 set list                 " 空白の可視化
+set nowrap               " ウィンドウの幅が足りなくても折り返さない
 
 " 挿入モードの時のみ、カーソル行をハイライトする
 autocmd InsertEnter,InsertLeave * set cul!
