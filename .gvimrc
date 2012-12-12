@@ -38,4 +38,5 @@ winpos 400 200            " ウィンドウの場所を指定する
 "colo void
 "colo badwolf
 "colo festoon
-colo solarized
+"colo solarized
+colo gruvbox
