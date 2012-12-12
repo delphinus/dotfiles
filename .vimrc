@@ -30,7 +30,7 @@ function s:loadrc(file)
 endfunction
 
 " プラグインの読み込み
-call s:loadrc('vundle')
+call s:loadrc('neobundle')
 " マッピング
 call s:loadrc('map')
 " オプション設定
