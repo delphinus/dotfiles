@@ -125,6 +125,7 @@ set wildmode=full
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colo solarized
+"colo gruvbox
 
 "colo festoon
 "colo calmar256-light
