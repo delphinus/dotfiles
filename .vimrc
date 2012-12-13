@@ -30,7 +30,7 @@ function s:loadrc(file)
 endfunction
 
 " プラグインの読み込み
-call s:loadrc('vundle')
+call s:loadrc('neobundle')
 " マッピング
 call s:loadrc('map')
 " オプション設定
@@ -116,6 +116,8 @@ call s:loadrc('pastefire')
 call s:loadrc('fugitive')
 " Extradite 設定
 call s:loadrc('extradite')
+" golden-ratio 設定
+call s:loadrc('goldenratio')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
