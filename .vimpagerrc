@@ -55,6 +55,8 @@ endif
 call neobundle#rc(g:bundle_dir)
 execute 'helptags ' . g:neobundle_dir . '/doc'
 
+NeoBundle 'rkitover/vimpager'
+
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
@@ -169,7 +171,12 @@ endif
 
 "-----------------------------------------------------------------------------
 " vimpager
-let vimpager_passthrough = 1
+let g:vimpager_passthrough = 1
 
+if exists("vimpager")
+    if exists("vimpager_ptree") && vimpager_ptree[-2] == 'wman'
+        set ft=man
+    endif
+endif
 
 " vim:ft=vim et:
