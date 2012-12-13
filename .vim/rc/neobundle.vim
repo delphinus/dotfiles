@@ -1,35 +1,33 @@
 " シェルの位置を元に戻す
 if is_office
-	set shell=/bin/sh
+    set shell=/bin/sh
 elseif is_office_win
-	set shell=$SYSTEMROOT\system32\cmd.exe
+    set shell=$SYSTEMROOT\system32\cmd.exe
 endif
 
-" Vundle 設定開始
+" NeoBundle 設定開始
 set nocompatible
 filetype off
 
-" NeoBundle へのパス
-if has('vim_starting')
-    if is_remora || is_office_cygwin || is_backup
-        set runtimepath+=~/.vim/neobundle
-    elseif is_office 
-        set runtimepath-=$HOME/.vim
-        set runtimepath+=$H/.vim/neobundle
-    elseif is_win
-        set runtimepath+=$HOME/.vim/neobundle
-    endif
-endif
-
 " プラグイン保存パス
 let g:bundle_dir = g:vim_home . '/bundle'
+let g:neobundle_dir = g:vim_home .'/neobundle'
 
 " ディレクトリが存在しなければ作成
 if ! isdirectory(g:bundle_dir)
-	call mkdir(g:bundle_dir)
+    call mkdir(g:bundle_dir)
+endif
+
+" NeoBundle へのパス
+if has('vim_starting')
+    if is_office
+        set runtimepath-=$HOME/.vim
+    endif
+    execute 'set runtimepath+=' . g:neobundle_dir
 endif
 
 call neobundle#rc(g:bundle_dir)
+execute 'helptags ' . g:neobundle_dir . '/doc'
 
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
@@ -45,7 +43,7 @@ NeoBundle 'ChrisYip/Better-CSS-Syntax-for-Vim'
 NeoBundle 'dannyob/quickfixstatus'
 "NeoBundle 'delphinus35/vim-pastefire'
 NeoBundle 'delphinus35/unite-converter-erase-diff-buffer'
-NeoBundle 'fbueno/cospe.vim'
+"NeoBundle 'fbueno/cospe.vim'
 NeoBundle 'fuenor/qfixhowm'
 NeoBundle 'fuenor/vim-make-syntax'
 NeoBundle 'fuenor/JpFormat.vim'
@@ -142,3 +140,5 @@ if has('vim_starting')
 endif
 
 syntax on
+
+" vim:se et:
