@@ -1,4 +1,5 @@
 scriptencoding utf-8
+
 let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
 let g:is_backup = hostname() == 'backup.remora.cx'
@@ -11,57 +12,75 @@ let g:is_remora_air2_win = hostname() == 'remora-air2-win'
 let g:is_unix = is_remora || is_backup || is_office || is_office_cygwin
 let g:is_win = is_office_win || is_xerxes || is_remora_air2_win
 
+if is_remora || is_office_cygwin || is_backup
+    let g:home = expand('~')
+elseif is_office
+    let g:home = expand('$H')
+elseif is_win
+    let g:home = expand('$HOME')
+else
+    finish
+endif
+
+let g:vim_home = g:home . '/.vim'
 
 " シェルの位置を元に戻す
 if is_office
-	set shell=/bin/sh
+    set shell=/bin/sh
 elseif is_office_win
-	set shell=$SYSTEMROOT\system32\cmd.exe
+    set shell=$SYSTEMROOT\system32\cmd.exe
 endif
 
+" NeoBundle 設定開始
 set nocompatible
 filetype off
 
-if is_remora || is_office_cygwin || is_backup
-	set rtp+=~/.vim/vundle
-	let g:bundle_dir = expand('~/.vim/bundle')
-elseif is_office
-	set rtp-=$HOME/.vim
-	set rtp+=$H/.vim/vundle/
-	let g:bundle_dir = expand('$H/.vim/bundle')
-elseif is_win
-	set rtp+=$HOME/.vim/vundle
-	let g:bundle_dir = expand('$HOME/.vim/bundle')
-endif
+" プラグイン保存パス
+let g:bundle_dir = g:vim_home . '/bundle'
+let g:neobundle_dir = g:vim_home .'/neobundle'
 
+" ディレクトリが存在しなければ作成
 if ! isdirectory(g:bundle_dir)
-	call mkdir(g:bundle_dir)
+    call mkdir(g:bundle_dir)
 endif
 
-call vundle#rc(g:bundle_dir)
+" NeoBundle へのパス
+if has('vim_starting')
+    if is_office
+        set runtimepath-=$HOME/.vim
+    endif
+    execute 'set runtimepath+=' . g:neobundle_dir
+endif
 
-Bundle 'airblade/vim-rooter'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'houtsnip/vim-emacscommandline'
-Bundle 'delphinus35/vim-pastefire'
-Bundle 'delphinus35/vim-powerline'
-Bundle 'majutsushi/tagbar'
-Bundle 'mattn/gist-vim'
-Bundle 'thinca/vim-visualstar'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tyru/current-func-info.vim'
+call neobundle#rc(g:bundle_dir)
+execute 'helptags ' . g:neobundle_dir . '/doc'
+
+NeoBundle 'airblade/vim-rooter'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'houtsnip/vim-emacscommandline'
+NeoBundle 'delphinus35/vim-pastefire'
+NeoBundle 'delphinus35/vim-powerline'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'mattn/gist-vim'
+NeoBundle 'thinca/vim-visualstar'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tyru/current-func-info.vim'
 
 filetype plugin indent on
 
-if is_remora || is_office_win || is_office_cygwin
-	set rtp+=~/.vim/
-elseif is_office
-	set rtp^=$H/.vim/
+if has('vim_starting')
+    if is_remora || is_office_win || is_office_cygwin
+        set runtimepath+=~/.vim/
+    elseif is_office
+        set runtimepath^=$H/.vim/
+    endif
 endif
 
 syntax on
 
 let mapleader='`'
+
+colo solarized
 
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
@@ -78,11 +97,11 @@ set hls
 set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 set dir=/tmp
 if is_office
-	set backupdir=$H/tmp
-	set undodir=$H/tmp
+    set backupdir=$H/tmp
+    set undodir=$H/tmp
 else
-	set backupdir=/tmp
-	set undodir=/tmp
+    set backupdir=/tmp
+    set undodir=/tmp
 endif
 set ttymouse=xterm2
 set mouse=a
@@ -103,7 +122,6 @@ set softtabstop=4   " タブキーやバックスペースキーでカーソル�
 set shiftwidth=4    " 自動インデントや <<, >> でずれる幅
 set laststatus=0
 set background=dark
-colo solarized
 
 
 "-----------------------------------------------------------------------------
@@ -128,25 +146,25 @@ au BufNewFile,BufRead .pentadactylrc setf pentadactyl
 "-----------------------------------------------------------------------------
 " yank to remote clipboard
 if is_unix
-	let s:tmpdir = &backupdir
-	let s:home = is_office ? expand('$H') : expand('$HOME')
-	let g:y2r_config = {
-	\	'tmp_file': s:tmpdir . '/exchange-file',
-	\	'key_file' : s:home . '/.exchange.key',
-	\	'host' : 'localhost',
-	\	'port' : 52224,
-	\}
+    let s:tmpdir = &backupdir
+    let s:home = is_office ? expand('$H') : expand('$HOME')
+    let g:y2r_config = {
+    \    'tmp_file': s:tmpdir . '/exchange-file',
+    \    'key_file' : s:home . '/.exchange.key',
+    \    'host' : 'localhost',
+    \    'port' : 52224,
+    \}
 
-	function! Yank2Remote()
-		call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
-		let s:params = ['cat %s %s | nc -w1 %s %s']
-		for s:item in ['key_file', 'tmp_file', 'host', 'port']
-		let s:params += [shellescape(g:y2r_config[s:item])]
-		endfor
-		let s:ret = system(call(function('printf'), s:params))
-		echo 'paste to remote'
-	endfunction
-	nnoremap <silent> <unique> <Leader>y :call Yank2Remote()<CR>
+    function! Yank2Remote()
+        call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
+        let s:params = ['cat %s %s | nc -w1 %s %s']
+        for s:item in ['key_file', 'tmp_file', 'host', 'port']
+        let s:params += [shellescape(g:y2r_config[s:item])]
+        endfor
+        let s:ret = system(call(function('printf'), s:params))
+        echo 'paste to remote'
+    endfunction
+    nnoremap <silent> <unique> <Leader>y :call Yank2Remote()<CR>
 endif
 
 "-----------------------------------------------------------------------------
@@ -154,4 +172,4 @@ endif
 let vimpager_passthrough = 1
 
 
-" vim:ft=vim:
+" vim:ft=vim et:
