@@ -86,7 +86,14 @@ dactyl.globalVariables.copy_templates = [
     ,{ label: 'title', value: '%TITLE%', map: ',y' }
     ,{ label: 'anchor', value: '<a href="%URL%">%TITLE%</a>' }
     ,{ label: 'selanchor',  value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' }
-    ,{ label: 'markdown', value: '%URL% "%TITLE%"', map: ',M' }
+    ,{ label: 'markdown', value: '[%TITLE%](%URL% "%TITLE%")', map: ',M' }
+    ,{ label: 'github', value: 'copy commit URL from Github',
+        custom: function(){
+            var m = content.document.title.split(' · ');
+            if (m) {
+                return '[' + m[0] + '][' + m[1] + ']\n\n[' + m[1] + ']: ' + content.location.href;
+            } else { return ''; }
+        }, map: ',C' }
     ,{ label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
     ,{ label: 'htmlblockquote2',
         value: '<blockquote>\n<p>%TITLE%<br />\n<a href="%URL%">%URL%</a></p>\n</blockquote>',
@@ -122,3 +129,8 @@ commands.addUserCommand(['readlater', 'rl'],
         }
     }, {}, true);
 EOF
+
+" Hint
+hi Hint font-family: "Source Code Pro",monospace; font-size: 13px; padding: 0 0.25em; margin: -0.5em 0 0 -1em; background-color: rgba(240,126,0,0.7); border: 1px rgba(255,125,0,0.9) solid; border-radius: 4px; color: maroon; font-weight: bolder;
+hi HintElem background-color: #fdffc3; color: #222;
+hi HintActive color: black; background-color: #ffdcdc; border: 1px #ef6f6f dotted; border-radius: 3px; padding: 0.1em; font-weight: bold;
