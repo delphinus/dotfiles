@@ -7,7 +7,11 @@ else
     set fileencoding=utf-8
 endif
                            " ファイルエンコーディング
-set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
+if g:is_office
+    set fileencodings=eucjp,utf-8,cp932,iso-2022-jp
+else
+    set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
+endif
 " }}}
 
 " タブ {{{

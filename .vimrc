@@ -118,6 +118,8 @@ call s:loadrc('fugitive')
 call s:loadrc('extradite')
 " golden-ratio 設定
 call s:loadrc('goldenratio')
+" Colorizer 設定
+call s:loadrc('colorizer')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
