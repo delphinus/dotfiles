@@ -10,7 +10,7 @@ endif
 if has('mac')
     set antialias                 " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz " フルスクリーン時に表示を拡張
-    au GUIEnter * set fullscreen  " 起動時にフルスクリーン
+    "au GUIEnter * set fullscreen  " 起動時にフルスクリーン
     set macmeta                   " option キーを alt キーとして使う
 endif
 
