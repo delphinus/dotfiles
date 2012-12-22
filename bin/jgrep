@@ -34,6 +34,7 @@ use Cwd;
 use Encode;
 use Getopt::Long;
 use Path::Class;
+use Pod::Usage;
 
 my %opt = (encoding => 'UTF-8');
 my @option_definition = qw!encoding|e=s help|h!;
@@ -51,8 +52,7 @@ dir($opt{directory})->recurse(callback => sub {
     printf "\rloading: %-40s", $filename;
     my @match;
     eval {
-        my $content = $file->slurp;
-        $content = decode($opt{encoding} => $content);
+        my $content = decode($opt{encoding} => $file->slurp);
         @match = $content =~ qr/$opt{re}/;
     };
     !$@ and @match and push @files, $file;
