@@ -7,11 +7,16 @@ endif
 
 " NeoBundle 設定開始
 set nocompatible
+
+
 filetype off
 
 " プラグイン保存パス
 let g:bundle_dir = g:vim_home . '/bundle'
 let g:neobundle_dir = g:vim_home .'/neobundle'
+
+" デフォルトプロトコル
+let g:neobundle#types#git#default_protocol='https'
 
 " ディレクトリが存在しなければ作成
 if ! isdirectory(g:bundle_dir)
@@ -69,6 +74,7 @@ NeoBundle 'mileszs/ack.vim'
 NeoBundle 'morhetz/gruvbox'
 NeoBundle 'pix/vim-align'
 NeoBundle 'rainux/vim-desert-warm-256'
+NeoBundle 'Rykka/trans.vim'
 NeoBundle 'roman/golden-ratio'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Shougo/unite.vim'
@@ -111,6 +117,7 @@ NeoBundle 'Colour-Sampler-Pack'
 NeoBundle 'compilerjsl.vim'
 NeoBundle 'DistractFree'
 NeoBundle 'DrawIt'
+NeoBundle 'explainpat'
 NeoBundle 'Gundo'
 NeoBundle 'sudo.vim'
 NeoBundle 'vmark.vim--Visual-Bookmarking'

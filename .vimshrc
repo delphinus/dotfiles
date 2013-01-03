@@ -1,0 +1,4 @@
+alias ls='ls --color -F $$args'
+alias ll='ls --color -Fl $$args'
+alias l.='ls --color -Fd .*'
+alias vp='vimpager $$args'
