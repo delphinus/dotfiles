@@ -1,0 +1,4 @@
+alias ls='ls -vGF $$args'
+alias ll='ls -vGF -l $$args'
+alias l.='ls -vGF -d .*'
+alias vp='vimpager $$args'
