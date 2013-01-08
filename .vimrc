@@ -122,6 +122,8 @@ call s:loadrc('goldenratio')
 call s:loadrc('colorizer')
 " trans.vim 設定
 call s:loadrc('trans')
+" Indent Guides 設定
+call s:loadrc('indent-guides')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
