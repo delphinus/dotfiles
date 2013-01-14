@@ -7,6 +7,6 @@ hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-085=
 backtick 0 10 10 $HOME/git/dotfiles/.screen/memory
 backtick 1 1 1 $HOME/git/dotfiles/.screen/cpu
 backtick 2 5 5 $HOME/git/dotfiles/.screen/temperature.sh
-backtick 3 10 10 $HOME/git/dotfiles/.screen/battery.sh
+backtick 3 5 5 $HOME/git/dotfiles/.screen/battery.sh
 
 # vim:se ft=screen:
