@@ -128,6 +128,12 @@ set wildmenu                      " コマンドラインモードでの補完�
 set wildmode=full
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
+if exists('$TMUX')                " tmux の時は背景色がおかしくなるのでその対応
+    let g:solarized_termtrans=1
+endif
+if is_remora                      " 常に黒
+    set background=dark
+endif
 colo solarized
 "colo gruvbox
 
