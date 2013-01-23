@@ -100,6 +100,7 @@ NeoBundle 'thinca/vim-visualstar'
 "NeoBundle 'tomtom/tinykeymap_vim'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-unimpaired'
 "NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'delphinus35/vim-powerline'
 NeoBundle 'amdt/sunset'
@@ -113,6 +114,7 @@ NeoBundle 'ynkdir/vim-funlib'
 " }}}
 
 " プラグイン（その他） {{{
+NeoBundle 'ChangeGlobally'
 NeoBundle 'Colorizer'
 NeoBundle 'Colour-Sampler-Pack'
 NeoBundle 'compilerjsl.vim'
