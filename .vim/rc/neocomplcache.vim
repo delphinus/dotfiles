@@ -34,8 +34,8 @@ endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
 " for snippets
-imap <expr><C-k> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-n>"
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
+"imap <expr><C-k> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-n>"
+"smap <C-k> <Plug>(neocomplcache_snippets_expand)
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
