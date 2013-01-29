@@ -1,0 +1,33 @@
+{
+	"common": {
+		"paths": ["~/git/dotfiles/.config/powerline"],
+		"term_24bit_colors": false,
+		"dividers": {
+			"left": {
+				"hard": ">",
+				"soft": "»"
+			},
+			"right": {
+				"hard": "<",
+				"soft": "«"
+			}
+		}
+	},
+	"ext": {
+		"shell": {
+			"colorscheme": "custom",
+			"theme": "custom"
+		},
+		"tmux": {
+			"colorscheme": "default",
+			"theme": "default"
+		},
+		"vim": {
+			"colorscheme": "custom",
+			"theme": "custom",
+			"local_themes": {
+				"help": "help"
+			}
+		}
+	}
+}

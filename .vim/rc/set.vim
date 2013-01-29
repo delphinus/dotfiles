@@ -83,7 +83,8 @@ endif
 set cmdheight=2          " 画面最下段のコマンド表示行数
 
 if g:is_remora
-    set ambiwidth=double " アスキー文字以外は全角文字として扱う
+    "set ambiwidth=double " アスキー文字以外は全角文字として扱う
+    set ambiwidth=single " できるだけ半角文字幅で扱う
 else
     set ambiwidth=single " できるだけ半角文字幅で扱う
 endif
@@ -128,9 +129,6 @@ set wildmenu                      " コマンドラインモードでの補完�
 set wildmode=full
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
-if exists('$TMUX')                " tmux の時は背景色がおかしくなるのでその対応
-    let g:solarized_termtrans=1
-endif
 if is_remora                      " 常に黒
     set background=dark
 endif
