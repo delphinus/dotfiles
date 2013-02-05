@@ -41,8 +41,10 @@
 				"before": " "
 			},
 			{
-				"type": "filler",
-				"highlight_group": ["background"]
+				"type": "string",
+				"highlight_group": ["background"],
+				"draw_divider": false,
+				"width": "auto"
 			}
 		],
 		"right": [
@@ -77,7 +79,8 @@
 				"args": { "gradient": true },
 				"priority": 30,
 				"after": "%",
-				"rjust": 4
+				"width": 4,
+				"align": "r"
 			},
 			{
 				"type": "string",
@@ -87,14 +90,17 @@
 			{
 				"name": "line_current",
 				"draw_divider": false,
-				"rjust": 3
+				"width": 3,
+				"align": "r"
 			},
 			{
 				"name": "col_current_virt",
 				"module": "ext.vim.segments.custom",
 				"draw_divider": false,
 				"priority": 30,
-				"before": ":"
+				"before": ":",
+				"width": 3,
+				"align": "l"
 			}
 		]
 	}
