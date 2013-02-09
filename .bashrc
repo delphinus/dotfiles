@@ -55,7 +55,7 @@ export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
-export PATH="/usr/local/mysql/bin:$HOME/Dropbox/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin"
+export PATH="$HOME/Library/Python/2.7/bin:/usr/local/mysql/bin:$HOME/Dropbox/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin"
 #export PROMPT_COMMAND="echo -ne '\033k\033\'"
 export PYTHONPATH="/usr/local/lib/python2.7/site-packages"
 #export proxy=http://127.0.0.1:8123/
@@ -63,4 +63,4 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages"
 #export ALL_PROXY=$proxy
 source $HOME/perl5/perlbrew/etc/bashrc
 source $HOME/bin/bash_completion_tmux.sh
-source $PYTHONPATH/powerline/powerline/bindings/bash/powerline.sh
+source $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/bash/powerline.sh

@@ -1,5 +1,9 @@
-python from powerline.bindings.vim import source_plugin; source_plugin()
-
+python <<EOF
+import os
+import powerline
+import vim
+vim.command('set rtp+=' + os.path.dirname(powerline.__file__) + '/bindings/vim')
+EOF
 
 
 ""-----------------------------------------------------------------------------
