@@ -76,6 +76,7 @@ NeoBundle 'maxbrunsfeld/vim-yankstack'
 "NeoBundle 'mihaifm/bck'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'morhetz/gruvbox'
+NeoBundle 'othree/javascript-libraries-syntax.vim'
 NeoBundle 'pix/vim-align'
 NeoBundle 'rainux/vim-desert-warm-256'
 "NeoBundle 'Rykka/trans.vim'
@@ -162,10 +163,6 @@ autocmd FileType css NeoBundleSource Better-CSS-Syntax-for-Vim
 " CSV
 NeoBundleLazy 'csv.vim'
 autocmd FileType csv NeoBundleSource csv.vim
-
-" Javascript
-NeoBundleLazy 'jelera/vim-javascript-syntax'
-autocmd FileType javascript NeoBundleSource vim-javascript-syntax
 
 " Perl
 NeoBundleLazy 'c9s/perlomni.vim'

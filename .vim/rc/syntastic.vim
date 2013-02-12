@@ -1,5 +1,5 @@
 let g:syntastic_enable_highlighting=0   " ハイライトしない
-let g:syntastic_javascript_jsl_conf='-conf ' . g:home . '/bin/jsl.conf' " jsl の設定ファイル
+let g:syntastic_javascript_jsl_conf=g:home . '/bin/jsl.conf' " jsl の設定ファイル
 let g:syntastic_perl_lib_path = './lib,./app/lib,./app/t/lib,./JP/pm' " Perl のライブラリパス
 let g:syntastic_perl_ignore_warnings = 1
 let g:syntastic_async=1
