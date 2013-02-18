@@ -129,7 +129,7 @@ set wildmenu                      " コマンドラインモードでの補完�
 set wildmode=full
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
-set background=dark               " 常に黒
+"set background=dark               " 常に黒
 colo solarized
 "colo gruvbox
 
