@@ -47,6 +47,11 @@ alias ls='ls -F --color'
 alias ll='ls -F -l'
 alias l.='ls -F -d .*'
 
+for i in autocd cdable_vars cdspell checkwinsize cmdhist dirspell expand_aliases extglob extquote force_fignore globstar hostcomplete interactive_comments progcomp promptvars sourcepath
+do
+	shopt -s $i
+done
+
 mount -c /
 source ~/perl5/perlbrew/etc/bashrc
 [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc

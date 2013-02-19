@@ -53,6 +53,11 @@ export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 #    eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$MY_PERL_LOCAL_LIB/$1)
 #}
 
+for i in autocd cdable_vars cdspell checkwinsize cmdhist dirspell expand_aliases extglob extquote force_fignore globstar hostcomplete interactive_comments progcomp promptvars sourcepath
+do
+	shopt -s $i
+done
+
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
 export PATH="$HOME/Library/Python/2.7/bin:/usr/local/mysql/bin:$HOME/Dropbox/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin"
