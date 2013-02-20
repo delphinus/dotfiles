@@ -21,19 +21,21 @@
 			{
 				"module": "powerline.segments.shell",
 				"name": "last_pipe_status",
-				"highlight_group": "exit_fail"
-			},
-			{
-				"name": "branch",
-				"before": "⭠ ",
-				"priority": 80
+				"highlight_group": "exit_fail",
+				"priority": 30
 			},
 			{
 				"name": "cwd",
 				"args": {
 					"dir_limit_depth": 3
 				},
-				"divider_highlight_group": "cwd:divider"
+				"divider_highlight_group": "cwd:divider",
+				"priority": 80
+			},
+			{
+				"name": "branch",
+				"before": "⭠ ",
+				"priority": 80
 			}
 		]
 	},
