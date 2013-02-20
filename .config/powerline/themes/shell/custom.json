@@ -4,7 +4,7 @@
 		"left": [
 			{
 				"name": "hostname",
-				"before": "@",
+				"before": "⭤",
 				"priority": 30,
 				"args": {
 					"only_if_ssh": true
@@ -19,9 +19,14 @@
 				"before": "ⓔ  "
 			},
 			{
+				"module": "powerline.segments.shell",
+				"name": "last_pipe_status",
+				"highlight_group": "exit_fail"
+			},
+			{
 				"name": "branch",
-				"priority": 80,
-				"before": "BR "
+				"before": "⭠ ",
+				"priority": 80
 			},
 			{
 				"name": "cwd",
@@ -29,13 +34,8 @@
 					"dir_limit_depth": 3
 				},
 				"divider_highlight_group": "cwd:divider"
-			},
-			{
-				"type": "string",
-				"contents": "\n\r",
-				"draw_divider": false,
-				"highlight_group": ["none"]
 			}
 		]
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }

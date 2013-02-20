@@ -16,7 +16,10 @@
 		"violet": [13, "6c71c4"],
 		"blue": [4, "268bd2"],
 		"cyan": [6, "2aa198"],
-		"green": [2, "719e07"]
+		"green": [2, "719e07"],
+
+		"brightyellow": 220,
+		"mediumorange": 166
 	},
 	"groups": {
 		"user":               { "fg": "base3", "bg": "blue", "attr": ["bold"] },
@@ -26,7 +29,10 @@
 		"cwd":                { "fg": "base2", "bg": "base01" },
 		"cwd:current_folder": { "fg": "base3", "bg": "base01", "attr": ["bold"] },
 		"cwd:divider":        { "fg": "base1", "bg": "base01" },
-		"hostname":           { "fg": "base3", "bg": "base01" },
+		"hostname":           { "fg": "brightyellow", "bg": "mediumorange" },
+		"exit_fail":          { "fg": "base3", "bg": "red" },
+		"exit_success":       { "fg": "base3", "bg": "green" },
 		"none":               { "fg": "base3", "bg": "base03" }
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }

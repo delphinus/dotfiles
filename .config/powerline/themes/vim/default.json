@@ -33,6 +33,7 @@
 			},
 			{
 				"name": "file_vcs_status",
+				"before": " ",
 				"draw_divider": false
 			},
 			{
@@ -96,5 +97,6 @@
 				"align": "l"
 			}
 		]
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }

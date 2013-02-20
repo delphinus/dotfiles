@@ -14,7 +14,7 @@
 				"name": "branch",
 				"exclude_modes": ["nc"],
 				"priority": 60,
-				"before": "BR ",
+				"before": "⭠ ",
 				"divider_highlight_group": "branch:divider"
 			},
 			{
@@ -33,6 +33,7 @@
 			},
 			{
 				"name": "file_vcs_status",
+				"before": " ",
 				"draw_divider": false
 			},
 			{
@@ -49,15 +50,8 @@
 		],
 		"right": [
 			{
-				"name": "get_char_code",
-				"module": "ext.vim.segments.custom",
-				"draw_divider": false,
-				"exclude_modes": ["nc"],
-				"priority": 50,
-				"divider_highlight_group": "background:divider"
-			},
-			{
 				"name": "file_format",
+				"draw_divider": false,
 				"exclude_modes": ["nc"],
 				"priority": 50,
 				"divider_highlight_group": "background:divider"
@@ -70,6 +64,14 @@
 			},
 			{
 				"name": "file_type",
+				"before": "⭢⭣ ",
+				"exclude_modes": ["nc"],
+				"priority": 50,
+				"divider_highlight_group": "background:divider"
+			},
+			{
+				"name": "get_char_code",
+				"module": "ext.vim.segments.custom",
 				"exclude_modes": ["nc"],
 				"priority": 50,
 				"divider_highlight_group": "background:divider"
@@ -84,7 +86,7 @@
 			},
 			{
 				"type": "string",
-				"contents": "LN ",
+				"contents": "⭡ ",
 				"highlight_group": ["line_current_symbol", "line_current"]
 			},
 			{
@@ -104,5 +106,6 @@
 				"align": "l"
 			}
 		]
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }

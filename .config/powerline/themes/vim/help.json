@@ -23,7 +23,7 @@
 			},
 			{
 				"type": "string",
-				"contents": " ",
+				"contents": "⭡ ",
 				"highlight_group": ["line_current_symbol", "line_current"]
 			},
 			{
@@ -33,5 +33,6 @@
 				"align": "r"
 			}
 		]
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }
