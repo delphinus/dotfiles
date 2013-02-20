@@ -1,4 +1,34 @@
 #!/usr/bin/env perl
+package ColoredString;
+use utf8;
+use common::sense;
+
+sub new { my $class = shift;
+    my $args = ref $_[0] ? $_[0] : +{@_};
+    return bless +{%$args,
+        current_bg => 'k',
+        current_fg => 'b',
+        hard_left_arrow => '⮀',
+        soft_left_arrow => '⮁',
+        hard_right_arrow => '⮂',
+        soft_right_arrow => '⮃',
+        string => '',
+    } => $class;
+}
+
+sub add { my $self = shift;
+    my %p = @_;
+    if ($p{bg} eq $self->{current_bg}) {
+        $self->{string} .= sprintf " \cE{%s}%s %s",
+            "$p{bg}$p{fg}", $self->{soft_left_arrow}, $p{string};
+    } else {
+        $self->{string} .= sprintf " \cE{%s}%s\cE{%s} %s",
+            "$p{bg}$p{fg}";
+}
+
+1;
+
+package main;
 use utf8;
 use common::sense;
 use HTTP::Date qw!time2iso!;
