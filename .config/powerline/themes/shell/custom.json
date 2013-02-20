@@ -1,0 +1,41 @@
+{
+	"default_module": "powerline.segments.common",
+	"segments": {
+		"left": [
+			{
+				"name": "hostname",
+				"before": "⭤",
+				"priority": 30,
+				"args": {
+					"only_if_ssh": true
+				}
+			},
+			{
+				"name": "user",
+				"priority": 10
+			},
+			{
+				"name": "virtualenv",
+				"before": "ⓔ  "
+			},
+			{
+				"module": "powerline.segments.shell",
+				"name": "last_pipe_status",
+				"highlight_group": "exit_fail"
+			},
+			{
+				"name": "branch",
+				"before": "⭠ ",
+				"priority": 80
+			},
+			{
+				"name": "cwd",
+				"args": {
+					"dir_limit_depth": 3
+				},
+				"divider_highlight_group": "cwd:divider"
+			}
+		]
+	},
+	"modeline": " vim:se ft=javascript noet: "
+}

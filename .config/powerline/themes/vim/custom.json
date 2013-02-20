@@ -1,0 +1,111 @@
+{
+	"segments": {
+		"left": [
+			{
+				"name": "mode",
+				"exclude_modes": ["nc"]
+			},
+			{
+				"name": "paste_indicator",
+				"exclude_modes": ["nc"],
+				"priority": 10
+			},
+			{
+				"name": "branch",
+				"exclude_modes": ["nc"],
+				"priority": 60,
+				"before": "⭠ ",
+				"divider_highlight_group": "branch:divider"
+			},
+			{
+				"name": "readonly_indicator",
+				"draw_divider": false,
+				"after": " "
+			},
+			{
+				"name": "file_directory",
+				"priority": 40,
+				"draw_divider": false
+			},
+			{
+				"name": "file_name",
+				"draw_divider": false
+			},
+			{
+				"name": "file_vcs_status",
+				"before": " ",
+				"draw_divider": false
+			},
+			{
+				"name": "modified_indicator",
+				"args": { "text": "+" },
+				"before": " "
+			},
+			{
+				"type": "string",
+				"highlight_group": ["background"],
+				"draw_divider": false,
+				"width": "auto"
+			}
+		],
+		"right": [
+			{
+				"name": "file_format",
+				"draw_divider": false,
+				"exclude_modes": ["nc"],
+				"priority": 50,
+				"divider_highlight_group": "background:divider"
+			},
+			{
+				"name": "file_encoding",
+				"exclude_modes": ["nc"],
+				"priority": 50,
+				"divider_highlight_group": "background:divider"
+			},
+			{
+				"name": "file_type",
+				"before": "⭢⭣ ",
+				"exclude_modes": ["nc"],
+				"priority": 50,
+				"divider_highlight_group": "background:divider"
+			},
+			{
+				"name": "get_char_code",
+				"module": "ext.vim.segments.custom",
+				"exclude_modes": ["nc"],
+				"priority": 50,
+				"divider_highlight_group": "background:divider"
+			},
+			{
+				"name": "line_percent",
+				"args": { "gradient": true },
+				"priority": 30,
+				"after": "%",
+				"width": 4,
+				"align": "r"
+			},
+			{
+				"type": "string",
+				"contents": "⭡ ",
+				"highlight_group": ["line_current_symbol", "line_current"]
+			},
+			{
+				"name": "line_current",
+				"draw_divider": false,
+				"width": 3,
+				"align": "r"
+			},
+			{
+				"name": "col_current_virt",
+				"module": "ext.vim.segments.custom",
+				"draw_divider": false,
+				"priority": 30,
+				"before": ":",
+				"width": 3,
+				"highlight_group": ["col_current"],
+				"align": "l"
+			}
+		]
+	},
+	"modeline": " vim:se ft=javascript noet: "
+}
