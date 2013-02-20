@@ -3,7 +3,7 @@ source defaults-inner
 source binds
 
 caption splitonly "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-}"
-hardstatus alwayslastline "%{= Gk} %-Lw%40L>%{b kg} %n %?%h%:%t%? %{-}%+Lw%-085=%{k.}%?%E%{yk}%?%{b .m} %l %{-}%{b .y} M %0`%% %{-}%{b .b}C %1`%% %{-}%{b .r}T %2`C %{-}%{b .w}%3` %{-}%{b wk} %Y/%m/%d %C:%s %A %{Gk}"
+hardstatus alwayslastline "%{= gk} %-Lw%40L>%{Wg}⮀%{WR}%{+b} %n %?%h:%t%? %{-}%{gW}⮀%{.k}%+Lw%-88=%?%E%{cg}%:%{kg}%?⮀%?%E%{c.}%:%{k.}%?%{.m} %l %{-}%{.y}M %0`%% %{.b}C %1`%% %{-}%{b .r}T %2`C %{-}%{.w}%3`%{-}%{!r}%{.w}⮀%{-}%{-}%{wk} %Y/%m/%d %C:%s %A "
 backtick 0 10 10 $HOME/git/dotfiles/.screen/memory
 backtick 1 1 1 $HOME/git/dotfiles/.screen/cpu
 backtick 2 5 5 $HOME/git/dotfiles/.screen/temperature.sh
