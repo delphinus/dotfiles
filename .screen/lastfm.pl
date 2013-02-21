@@ -25,7 +25,7 @@ sub add { my $self = shift;
     my %p = @_;
     my ($attr_before, $attr_after) = ('', '');
     if ($p{bold}) {
-        $attr_before = "\cE{b}";
+        $attr_before = "\cE{+b}";
         $attr_after = "\cE{-}";
     }
     if ($p{bg} eq $self->{current_bg}) {
@@ -156,10 +156,10 @@ sub get_message { #{{{
     my $timestamp = time2iso($track->{date}{uts});
 
     my $str = ColoredString->new(fg => 'k', bg => 'g', string => '');
-    $str->add(fg => 'm', bg => 'k', string => $timestamp);
-    $str->add(fg => 'k', bg => 'c', string => $track->{artist}{'#text'});
-    $str->add(fg => 'R', bg => 'W', string => $track->{name});
-    $str->add(fg => 'c', bg => 'W', string => 'Now Playing')
+    $str->add(fg => 'K', bg => 'C', string => $timestamp);
+    $str->add(fg => 'k', bg => 'w', string => $track->{artist}{'#text'});
+    $str->add(fg => 'R', bg => 'w', string => $track->{name}, bold => 1);
+    $str->add(fg => 'k', bg => 'R', string => 'Now Playing')
         if $status eq 'now_playing';
     $str->add(fg => 'k', bg => 'g', string => ' ');
 
