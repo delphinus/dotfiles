@@ -8,9 +8,8 @@ sub new { my $class = shift;
     my $str = '';
     my $fg = $args->{fg} || 'k';
     my $bg = $args->{bg} || 'g';
-    if (length $args->{string}) {
-        $str = sprintf "\cE{%s%s}%s", @$args{qw!bg fg string!};
-    }
+    defined $args->{string}
+        and $str = sprintf "\cE{%s%s}%s", @$args{qw!bg fg string!};
     return bless +{%$args,
         current_fg => $fg,
         current_bg => $bg,
@@ -156,7 +155,7 @@ sub get_message { #{{{
     my $song = "$track->{artist}{'#text'} - $track->{name}";
     my $timestamp = time2iso($track->{date}{uts});
 
-    my $str = ColoredString->new(fg => 'k', bg => 'g', string => ' ');
+    my $str = ColoredString->new(fg => 'k', bg => 'g', string => '');
     $str->add(fg => 'm', bg => 'k', string => $timestamp);
     $str->add(fg => 'k', bg => 'c', string => $track->{artist}{'#text'});
     $str->add(fg => 'R', bg => 'W', string => $track->{name});
