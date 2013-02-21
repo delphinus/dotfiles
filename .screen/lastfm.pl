@@ -5,25 +5,45 @@ use common::sense;
 
 sub new { my $class = shift;
     my $args = ref $_[0] ? $_[0] : +{@_};
+    my $str = '';
+    my $fg = $args->{fg} || 'k';
+    my $bg = $args->{bg} || 'g';
+    if (length $args->{string}) {
+        $str = sprintf "\cE{%s%s}%s", @$args{qw!bg fg string!};
+    }
     return bless +{%$args,
-        current_bg => 'k',
-        current_fg => 'b',
-        hard_left_arrow => '⮀',
-        soft_left_arrow => '⮁',
-        hard_right_arrow => '⮂',
-        soft_right_arrow => '⮃',
-        string => '',
+        current_fg => $fg,
+        current_bg => $bg,
+        hard_left_arrow => "\x{2b80}", # ⮀
+        soft_left_arrow => "\x{2b81}", # ⮁
+        hard_right_arrow => "\x{2b82}", # ⮂
+        soft_right_arrow => "\x{2b83}", # ⮃
+        string => $str,
     } => $class;
 }
 
 sub add { my $self = shift;
     my %p = @_;
+    my ($attr_before, $attr_after) = ('', '');
+    if ($p{bold}) {
+        $attr_before = "\cE{b}";
+        $attr_after = "\cE{-}";
+    }
     if ($p{bg} eq $self->{current_bg}) {
-        $self->{string} .= sprintf " \cE{%s}%s %s",
-            "$p{bg}$p{fg}", $self->{soft_left_arrow}, $p{string};
+        $self->{string} .= sprintf " \cE{%s%s}%s %s%s%s",
+            $p{bg}, $p{fg}, $self->{soft_left_arrow},
+            $attr_before, $p{string}, $attr_after;
     } else {
-        $self->{string} .= sprintf " \cE{%s}%s\cE{%s} %s",
-            "$p{bg}$p{fg}";
+        $self->{string} .= sprintf " \cE{%s%s}%s\cE{%s%s} %s%s%s",
+            $p{bg}, $self->{current_bg}, $self->{hard_left_arrow},
+            $p{bg}, $p{fg}, $attr_before, $p{string}, $attr_after;
+        $self->{current_bg} = $p{bg};
+        $self->{current_fg} = $p{fg};
+    }
+}
+
+sub draw { my $self = shift;
+    return $self->{string};
 }
 
 1;
@@ -136,19 +156,15 @@ sub get_message { #{{{
     my $song = "$track->{artist}{'#text'} - $track->{name}";
     my $timestamp = time2iso($track->{date}{uts});
 
-    my $colored_song = set_color($song, 'kb', 1);
-    my $colored_timestamp = set_color($timestamp, 'km');
-    my $colored_status =
-        $status eq 'now_playing' ? set_color('Now Playing', 'r kb') : '';
+    my $str = ColoredString->new(fg => 'k', bg => 'g', string => ' ');
+    $str->add(fg => 'm', bg => 'k', string => $timestamp);
+    $str->add(fg => 'k', bg => 'c', string => $track->{artist}{'#text'});
+    $str->add(fg => 'R', bg => 'W', string => $track->{name});
+    $str->add(fg => 'c', bg => 'W', string => 'Now Playing')
+        if $status eq 'now_playing';
+    $str->add(fg => 'k', bg => 'g', string => ' ');
 
-    return "$colored_timestamp$colored_song$colored_status\n";
+    return $str->draw;
 } #}}}
 
-# set color using escape sequences of GNU Screen
-sub set_color { #{{{
-    my ($string, $color_code, $dont_reset) = @_;
-    defined $string or defined $color_code or return '';
-    my $reset_color = $dont_reset ? '' : "\cE{-}";
-
-    return "\cE{$color_code} $string $reset_color";
-} #}}}
+# vim:se et:
