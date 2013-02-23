@@ -6,7 +6,10 @@ endif
 " GNU screen 上の場合
 if &term =~ "screen"
     " iTerm2 の時のみカーソル形状を変える
-    if is_remora
+    if exists('$TMUX') && is_remora
+        let &t_SI = "\ePtmux;\e\e]50;CursorShape=1\x7\e\\"
+        let &t_EI = "\ePtmux;\e\e]50;CursorShape=0\x7\e\\"
+    elseif is_remora
         let &t_SI = "\eP\e]50;CursorShape=1\x7\e\\"
         let &t_EI = "\eP\e]50;CursorShape=0\x7\e\\"
     endif

@@ -1,9 +1,9 @@
 if has('perl')
     " markdown 形式から JIRA 形式に変換する
     function! MarkdownToJIRA(...)
-		if !a:0
-			call SelectOneEntry()
-		endif
+        if !a:0
+            call SelectOneEntry()
+        endif
 
     perl <<EOP
         use Encode;
@@ -155,3 +155,11 @@ EOP
     nnoremap <Leader>mt :call MarkdownToTrac()<CR>
 endif
 
+function! MarkdownToMail()
+    %s/\t$//
+    call SelectOneEntry()
+    call Yank2Remote(1)
+    echo 'yank to remote for mail'
+endfunction
+
+nnoremap <Leader>ma :call MarkdownToMail()<CR>

@@ -7,11 +7,7 @@ else
     set fileencoding=utf-8
 endif
                            " ファイルエンコーディング
-if g:is_office
-    set fileencodings=eucjp,utf-8,cp932,iso-2022-jp
-else
-    set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
-endif
+set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 " }}}
 
 " タブ {{{
@@ -82,11 +78,12 @@ else
 endif
 set cmdheight=2          " 画面最下段のコマンド表示行数
 
-if g:is_remora
-    set ambiwidth=double " アスキー文字以外は全角文字として扱う
-else
-    set ambiwidth=single " できるだけ半角文字幅で扱う
-endif
+"if g:is_remora
+    "set ambiwidth=double " アスキー文字以外は全角文字として扱う
+    "set ambiwidth=single " できるだけ半角文字幅で扱う
+"else
+    "set ambiwidth=single " できるだけ半角文字幅で扱う
+"endif
 " }}}
 
 " マウス {{{
@@ -128,6 +125,7 @@ set wildmenu                      " コマンドラインモードでの補完�
 set wildmode=full
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
+"set background=dark               " 常に黒
 colo solarized
 "colo gruvbox
 
@@ -151,5 +149,36 @@ colo solarized
 "colo void256
 "colo badwolf
 "colo zenburn
+
+"
+" This snippet is licensed under NYSL.
+" See http://www.kmonos.net/nysl/NYSL.TXT
+"
+if !has('gui_running')
+  function! g:SetAmbigousWidth(width)
+    unmap <Esc>[1;2R
+    unmap <Esc>[1;3R
+    if a:width == 1
+      set ambiwidth=single
+    elseif a:width == 2
+      set ambiwidth=double
+    endif
+    let &t_ti = substitute(&t_ti, s:ambiguous_teststr, '', '')
+    return ''
+  endfunction
+
+  if &term =~? 'xterm\|screen\|fbterm\|yaft'
+    let s:ambiguous_teststr = "\e[1;1H\u25bd\e[6n"
+  elseif &term =~? 'jfbterm'
+    " jfbtermはゼロオリジンのCPR応答を返すバグがあるので
+    " 位置を(+1, +1)だけずらしておく
+    let s:ambiguous_teststr = "\e[2;2H\u25bd\e[6n"
+  endif
+  if exists('s:ambiguous_teststr')
+    nnoremap <special> <expr> <Esc>[1;2R g:SetAmbigousWidth(1)
+    nnoremap <special> <expr> <Esc>[1;3R g:SetAmbigousWidth(2)
+    let &t_ti .= s:ambiguous_teststr
+  endif
+endif
 
 " vim:et:fdm=marker:

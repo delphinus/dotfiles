@@ -1,0 +1,38 @@
+{
+	"segments": {
+		"left": [
+			{
+				"name": "file_name",
+				"draw_divider": false
+			},
+			{
+				"type": "string",
+				"highlight_group": ["background"],
+				"draw_divider": false,
+				"width": "auto"
+			}
+		],
+		"right": [
+			{
+				"name": "line_percent",
+				"args": { "gradient": true },
+				"priority": 30,
+				"after": "%",
+				"width": 4,
+				"align": "r"
+			},
+			{
+				"type": "string",
+				"contents": "⭡ ",
+				"highlight_group": ["line_current_symbol", "line_current"]
+			},
+			{
+				"name": "line_current",
+				"draw_divider": false,
+				"width": 3,
+				"align": "r"
+			}
+		]
+	},
+	"modeline": " vim:se ft=javascript noet: "
+}

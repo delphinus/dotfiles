@@ -84,8 +84,8 @@ javascript <<EOM
 dactyl.globalVariables.copy_templates = [
     { label: 'titleAndURL', value: '%TITLE%\n%URL%', map: ',Y' }
     ,{ label: 'title', value: '%TITLE%', map: ',y' }
-    ,{ label: 'anchor', value: '<a href="%URL%">%TITLE%</a>' }
-    ,{ label: 'selanchor',  value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' }
+    ,{ label: 'anchor', value: '<a href="%URL%">%TITLE%</a>', map: ',a' }
+    ,{ label: 'selanchor',  value: '<a href="%URL%" title="%TITLE%">%SEL%</a>', map: ',A' }
     ,{ label: 'markdown', value: '[%TITLE%](%URL% "%TITLE%")', map: ',M' }
     ,{ label: 'github', value: 'copy commit URL from Github',
         custom: function(){

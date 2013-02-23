@@ -9,3 +9,4 @@ tags
 /.vim/chalice
 *.pyc
 *.pyo
+lastfm-lover-session-key.txt

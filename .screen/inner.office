@@ -3,8 +3,8 @@ source defaults-inner
 source binds
 
 shell "$HOME/bin.local/bs"
-caption always "%{= Rk} %?%F%?%{=b wr} %t %{-}%{=r} (screen #%n) %{-}%?%P%{kc} *** Copy Mode *** %{-}%?%?%E%{ky} *** Escape *** %?%{-}"
-hardstatus alwayslastline "%{= gk} %-Lw%40L>%{kg} %n %?%h%? %{-}%+Lw%-040=%{km} %l %{.w} %Y/%m/%d %C:%s %A "
+caption always "%{= RK} %?%F%{WR}⮀%{+b}%:⮁%? %t %?%F%{-}%?%{!r}%{.k}⮀%{-}%{-}%{kr} (screen #%n) %?%P%{!r}%{.c}⮀%{-}%{-}%{ck}%{+b} *** Copy Mode *** %{-}%?%?%E%{!r}%{.y}⮀%{-}%{-}%{yk}%{+b} *** Escape *** %{-}%?%{!r}%{.R}⮀"
+hardstatus alwayslastline "%{= gk} %-Lw%40L>%{!r}⮀ %n %?%h%? %{-}⮀%+Lw%-050=⮂%{k.}%{.m} %l %{-}%{.w}⮃ %Y/%m/%d %C:%s %A %{-}%{-}%{!r}⮂%{-} "
 
 bind ^] eval 'writebuf' "exec sh -c 'cat $HOME/.exchange.key $HOME/tmp/exchange-file | nc -w1 localhost 52224'" 'echo "paste to remote"'
 
