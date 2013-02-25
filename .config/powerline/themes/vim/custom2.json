@@ -1,7 +1,7 @@
 {
 	"segment_data": {
 		"branch": {
-			"before": " "
+			"before": "⭠ "
 		},
 		"modified_indicator": {
 			"args": { "text": "+" }
@@ -11,7 +11,10 @@
 			"after": "%"
 		},
 		"line_current_symbol": {
-			"contents": " "
+			"contents": "⭡ "
+		},
+		"file_type": {
+			"before": "⭢⭣ "
 		}
 	},
 	"segments": {
@@ -104,5 +107,6 @@
 				"align": "l"
 			}
 		]
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }

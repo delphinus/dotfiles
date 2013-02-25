@@ -11,7 +11,11 @@
 				"soft": " ⮃"
 			}
 		},
-		"spaces": 1
+		"spaces": 1,
+		"colors": "default",
+		"paths": [
+			"~/.config/powerline"
+		]
 	},
 	"ext": {
 		"ipython": {
@@ -19,7 +23,7 @@
 			"theme": "default"
 		},
 		"shell": {
-			"colorscheme": "custom",
+			"colorscheme": "solarized",
 			"theme": "custom"
 		},
 		"tmux": {
@@ -27,8 +31,8 @@
 			"theme": "default"
 		},
 		"vim": {
-			"colorscheme": "custom",
-			"theme": "custom",
+			"colorscheme": "solarized",
+			"theme": "custom2",
 			"local_themes": {
 				"cmdwin": "cmdwin",
 				"help": "help"

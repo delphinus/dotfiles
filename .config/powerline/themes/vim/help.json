@@ -15,15 +15,13 @@
 		"right": [
 			{
 				"name": "line_percent",
-				"args": { "gradient": true },
 				"priority": 30,
-				"after": "%",
 				"width": 4,
 				"align": "r"
 			},
 			{
 				"type": "string",
-				"contents": "⭡ ",
+				"name": "line_current_symbol",
 				"highlight_group": ["line_current_symbol", "line_current"]
 			},
 			{
@@ -33,6 +31,5 @@
 				"align": "r"
 			}
 		]
-	},
-	"modeline": " vim:se ft=javascript noet: "
+	}
 }

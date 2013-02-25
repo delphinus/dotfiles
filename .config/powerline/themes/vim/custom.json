@@ -1,4 +1,22 @@
 {
+	"segment_data": {
+		"branch": {
+			"before": "⭠ "
+		},
+		"modified_indicator": {
+			"args": { "text": "+" }
+		},
+		"line_percent": {
+			"args": { "gradient": true },
+			"after": "%"
+		},
+		"line_current_symbol": {
+			"contents": "⭡ "
+		},
+		"file_type": {
+			"before": "⭢⭣ "
+		}
+	},
 	"segments": {
 		"left": [
 			{
@@ -13,9 +31,7 @@
 			{
 				"name": "branch",
 				"exclude_modes": ["nc"],
-				"priority": 60,
-				"before": "⭠ ",
-				"divider_highlight_group": "branch:divider"
+				"priority": 60
 			},
 			{
 				"name": "readonly_indicator",
@@ -38,7 +54,6 @@
 			},
 			{
 				"name": "modified_indicator",
-				"args": { "text": "+" },
 				"before": " "
 			},
 			{
@@ -53,40 +68,33 @@
 				"name": "file_format",
 				"draw_divider": false,
 				"exclude_modes": ["nc"],
-				"priority": 50,
-				"divider_highlight_group": "background:divider"
+				"priority": 50
 			},
 			{
 				"name": "file_encoding",
 				"exclude_modes": ["nc"],
-				"priority": 50,
-				"divider_highlight_group": "background:divider"
+				"priority": 50
 			},
 			{
 				"name": "file_type",
-				"before": "⭢⭣ ",
 				"exclude_modes": ["nc"],
-				"priority": 50,
-				"divider_highlight_group": "background:divider"
+				"priority": 50
 			},
 			{
 				"name": "get_char_code",
 				"module": "ext.vim.segments.custom",
 				"exclude_modes": ["nc"],
-				"priority": 50,
-				"divider_highlight_group": "background:divider"
+				"priority": 50
 			},
 			{
 				"name": "line_percent",
-				"args": { "gradient": true },
 				"priority": 30,
-				"after": "%",
 				"width": 4,
 				"align": "r"
 			},
 			{
 				"type": "string",
-				"contents": "⭡ ",
+				"name": "line_current_symbol",
 				"highlight_group": ["line_current_symbol", "line_current"]
 			},
 			{
@@ -96,7 +104,7 @@
 				"align": "r"
 			},
 			{
-				"name": "col_current_virt",
+				"name": "test",
 				"module": "ext.vim.segments.custom",
 				"draw_divider": false,
 				"priority": 30,

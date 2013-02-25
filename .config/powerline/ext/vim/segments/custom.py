@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 # vim:se fenc=utf8 noet:
 
-import vim
 import re
+try:
+	import vim
+except ImportError:
+	vim = {}
 
 from powerline.bindings.vim import vim_get_func
 

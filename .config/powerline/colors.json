@@ -1,0 +1,82 @@
+{
+	"colors": {
+		"black": 16,
+		"white": 231,
+
+		"darkestgreen": 22,
+		"darkgreen": 28,
+		"mediumgreen": 70,
+		"brightgreen": 148,
+
+		"darkestcyan": 23,
+		"darkcyan": 74,
+		"mediumcyan": 117,
+		"brightcyan": 159,
+
+		"darkestblue": 24,
+		"darkblue": 31,
+
+		"darkestred": 52,
+		"darkred": 88,
+		"mediumred": 124,
+		"brightred": 160,
+		"brightestred": 196,
+
+		"darkestpurple": 55,
+		"mediumpurple": 98,
+		"brightpurple": 189,
+
+		"darkorange": 94,
+		"mediumorange": 166,
+		"brightorange": 208,
+		"brightestorange": 214,
+
+		"brightyellow": 220,
+
+		"gray0": 233,
+		"gray1": 235,
+		"gray2": 236,
+		"gray3": 239,
+		"gray4": 240,
+		"gray5": 241,
+		"gray6": 244,
+		"gray7": 245,
+		"gray8": 247,
+		"gray9": 250,
+		"gray10": 252,
+
+		"gray61": [14, "93a1a1"],
+		"gray13": [8, "002b36"],
+
+		"royalblue5": [0, "073642"],
+		"darkgreencopper": [10, "586e75"],
+		"lightskyblue4": [11, "657b83"],
+		"azure4": [12, "839496"],
+		"lightyellow": [7, "eee8d5"],
+		"oldlace": [15, "fdf6e3"],
+
+		"green": [2, "719e07"],
+		"cyan": [6, "2aa198"],
+		"blue": [4, "268bd2"],
+		"red": [1, "dc322f"],
+		"magenta": [5, "d33682"],
+		"violet": [13, "6c71c4"],
+		"orange": [9, "cb4b16"],
+		"yellow": [3, "b58900"],
+
+		"lightyellowgreen": 106,
+		"gold3": 178,
+		"orangered": 202,
+
+		"steelblue": 67,
+		"darkorange3": 166,
+		"skyblue1": 117,
+		"khaki1": 228
+	},
+	"gradients": {
+		"green_yellow_red": [
+			[190, 184, 178, 172, 166, 160],
+			["8ae71c", "8ce71c", "8fe71c", "92e71c", "95e71d", "98e71d", "9ae71d", "9de71d", "a0e71e", "a3e71e", "a6e71e", "a8e71e", "abe71f", "aee71f", "b1e71f", "b4e71f", "b6e720", "b9e720", "bce720", "bfe720", "c2e821", "c3e721", "c5e621", "c7e521", "c9e522", "cbe422", "cde322", "cfe222", "d1e223", "d3e123", "d5e023", "d7df23", "d9df24", "dbde24", "dddd24", "dfdc24", "e1dc25", "e3db25", "e5da25", "e7d925", "e9d926", "e9d626", "e9d426", "e9d126", "e9cf27", "e9cc27", "e9ca27", "e9c727", "e9c528", "e9c228", "e9c028", "e9bd28", "e9bb29", "e9b829", "e9b629", "e9b329", "e9b12a", "e9ae2a", "e9ac2a", "e9a92a", "eaa72b", "eaa42b", "eaa22b", "ea9f2b", "ea9d2c", "ea9b2c", "ea982c", "ea962c", "ea942d", "ea912d", "ea8f2d", "ea8d2d", "ea8a2e", "ea882e", "ea862e", "ea832e", "ea812f", "ea7f2f", "ea7c2f", "ea7a2f", "eb7830", "eb7530", "eb7330", "eb7130", "eb6f31", "eb6c31", "eb6a31", "eb6831", "eb6632", "eb6332", "eb6132", "eb5f32", "eb5d33", "eb5a33", "eb5833", "eb5633", "eb5434", "eb5134", "eb4f34", "eb4d34", "ec4b35"]
+		]
+	}
+}
