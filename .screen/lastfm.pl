@@ -159,7 +159,7 @@ sub get_message { #{{{
     $str->add(fg => 'K', bg => 'C', string => $timestamp);
     $str->add(fg => 'k', bg => 'w', string => $track->{artist}{'#text'});
     $str->add(fg => 'R', bg => 'w', string => $track->{name}, bold => 1);
-    $str->add(fg => 'k', bg => 'R', string => 'Now Playing')
+    $str->add(fg => 'W', bg => 'R', string => 'Now Playing')
         if $status eq 'now_playing';
     $str->add(fg => 'k', bg => 'g', string => ' ');
 
