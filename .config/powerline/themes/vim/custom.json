@@ -104,7 +104,7 @@
 				"align": "r"
 			},
 			{
-				"name": "test",
+				"name": "col_current_virt",
 				"module": "ext.vim.segments.custom",
 				"draw_divider": false,
 				"priority": 30,
