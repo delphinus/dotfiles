@@ -70,7 +70,12 @@
 		},
 		"V": {
 			"groups": {
-				"mode": { "fg": "beige", "bg": "orange", "attr": ["bold"] }
+				"mode": { "fg": "darkorange", "bg": "brightestorange", "attr": ["bold"] }
+			}
+		},
+		"^V": {
+			"groups": {
+				"mode": { "fg": "darkorange", "bg": "brightestorange", "attr": ["bold"] }
 			}
 		},
 		"R": {
