@@ -17,13 +17,15 @@
 		"file_format":            { "fg": "gray61", "bg": "royalblue5" },
 		"file_encoding":          { "fg": "gray61", "bg": "royalblue5" },
 		"file_type":              { "fg": "gray61", "bg": "royalblue5" },
+		"get_char_code":          { "fg": "gray61", "bg": "royalblue5" },
 		"file_vcs_status":        { "fg": "red", "bg": "darkgreencopper" },
 		"file_vcs_status_M":      { "fg": "yellow", "bg": "darkgreencopper" },
 		"file_vcs_status_A":      { "fg": "green", "bg": "darkgreencopper" },
 		"line_percent":           { "fg": "oldlace", "bg": "lightskyblue4" },
 		"line_current":           { "fg": "gray13", "bg": "lightyellow", "attr": ["bold"] },
 		"line_current_symbol":    { "fg": "gray13", "bg": "lightyellow" },
-		"col_current":            { "fg": "azure4", "bg": "lightyellow" }
+		"col_current":            { "fg": "azure4", "bg": "lightyellow" },
+		"col_current_virt":            { "fg": "azure4", "bg": "lightyellow" }
 	},
 	"mode_translations": {
 		"nc": {
@@ -54,13 +56,15 @@
 				"file_format":            { "fg": "lightyellow", "bg": "darkgreencopper" },
 				"file_encoding":          { "fg": "lightyellow", "bg": "darkgreencopper" },
 				"file_type":              { "fg": "lightyellow", "bg": "darkgreencopper" },
+				"get_char_code":          { "fg": "lightyellow", "bg": "darkgreencopper" },
 				"file_vcs_status":        { "fg": "red", "bg": "lightyellow" },
 				"file_vcs_status_M":      { "fg": "yellow", "bg": "lightyellow" },
 				"file_vcs_status_A":      { "fg": "green", "bg": "lightyellow" },
 				"line_percent":           { "fg": "oldlace", "bg": "gray61" },
 				"line_current":           { "fg": "gray13", "bg": "oldlace", "attr": ["bold"] },
 				"line_current_symbol":    { "fg": "gray13", "bg": "oldlace" },
-				"col_current":            { "fg": "azure4", "bg": "oldlace" }
+				"col_current":            { "fg": "azure4", "bg": "oldlace" },
+				"col_current_virt":            { "fg": "azure4", "bg": "oldlace" }
 			}
 		},
 		"v": {
@@ -78,5 +82,6 @@
 				"mode": { "fg": "oldlace", "bg": "red", "attr": ["bold"] }
 			}
 		}
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }

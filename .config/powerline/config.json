@@ -31,8 +31,8 @@
 			"theme": "default"
 		},
 		"vim": {
-			"colorscheme": "solarized",
-			"theme": "custom2",
+			"colorscheme": "custom",
+			"theme": "custom",
 			"local_themes": {
 				"cmdwin": "cmdwin",
 				"help": "help"
