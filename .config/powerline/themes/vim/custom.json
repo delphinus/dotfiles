@@ -3,6 +3,9 @@
 		"branch": {
 			"before": "⭠ "
 		},
+		"readonly_indicator": {
+			"args": { "text": "⭤" }
+		},
 		"modified_indicator": {
 			"args": { "text": "+" }
 		},
