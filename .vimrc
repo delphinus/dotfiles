@@ -126,6 +126,8 @@ call s:loadrc('trans')
 call s:loadrc('indent-guides')
 " easybuffer 設定
 call s:loadrc('easybuffer')
+" PSearch 設定
+call s:loadrc('psearch')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
