@@ -3,8 +3,9 @@ source defaults-inner
 source binds
 
 shell "$HOME/bin.local/bs"
-caption always "%{= RK} %?%F%{WR}⮀%{+b}%:⮁%? %t %?%F%{-}%?%{!r}%{.k}⮀%{-}%{-}%{kr} (screen #%n) %?%P%{!r}%{.c}⮀%{-}%{-}%{ck}%{+b} *** Copy Mode *** %{-}%?%?%E%{!r}%{.y}⮀%{-}%{-}%{yk}%{+b} *** Escape *** %{-}%?%{!r}%{.R}⮀"
-hardstatus alwayslastline "%{= gk} %-Lw%40L>%{!r}⮀ %n %?%h%? %{-}⮀%+Lw%-050=⮂%{k.}%{.m} %l %{-}%{.w}⮃ %Y/%m/%d %C:%s %A %{-}%{-}%{!r}⮂%{-} "
+caption always "%{= RW} %?%F%{WR}⮀%{+b}%:⮁%? %t %?%F%{-}%?%{!r}%{.k}⮀%{-}%{-}%{kr} (screen #%n) %?%P%{!r}%{.c}⮀%{-}%{-}%{ck}%{+b} *** Copy Mode *** %{-}%?%?%E%{!r}%{.y}⮀%{-}%{-}%{yk}%{+b} *** Escape *** %{-}%?%{!r}%{.R}⮀"
+hardstatus alwayslastline "%{= RW} %-Lw%40L>%{!r}⮀ %n %?%h%? %{-}⮀%+Lw%0`%{!r}%{.K}⮀%{-}%{-}%{K.}%{.m} %l %{-}%{.w}⮁ %Y/%m/%d %C:%s %A %{-}%{-}"
+backtick 0 0 0 $HOME/git/dotfiles/.screen/backtick.pl
 
 bind ^] eval 'writebuf' "exec sh -c 'cat $HOME/.exchange.key $HOME/tmp/exchange-file | nc -w1 localhost 52224'" 'echo "paste to remote"'
 

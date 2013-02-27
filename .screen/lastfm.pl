@@ -2,23 +2,27 @@
 package ColoredString;
 use utf8;
 use common::sense;
+use parent 'Class::Accessor::Lvalue::Fast';
+__PACKAGE__->mk_accessors(qw!
+    fg bg current_bg string
+    hard_left_arrow soft_left_arrow hard_right_arrow soft_right_arrow
+!);
 
 sub new { my $class = shift;
     my $args = ref $_[0] ? $_[0] : +{@_};
     my $str = '';
-    my $fg = $args->{fg} || 'k';
-    my $bg = $args->{bg} || 'g';
+    my $fg = $args->{fg} || '.';
+    my $bg = $args->{bg} || '.';
     defined $args->{string}
-        and $str = sprintf "\cE{%s%s}%s", @$args{qw!bg fg string!};
-    return bless +{%$args,
-        current_fg => $fg,
+        and $args->{string} = sprintf "\cE{%s%s}%s", @$args{qw!bg fg string!};
+    return $class->SUPER::new(+{
         current_bg => $bg,
         hard_left_arrow => "\x{2b80}", # ⮀
         soft_left_arrow => "\x{2b81}", # ⮁
         hard_right_arrow => "\x{2b82}", # ⮂
         soft_right_arrow => "\x{2b83}", # ⮃
-        string => $str,
-    } => $class;
+        %$args,
+    });
 }
 
 sub add { my $self = shift;
@@ -28,21 +32,17 @@ sub add { my $self = shift;
         $attr_before = "\cE{+b}";
         $attr_after = "\cE{-}";
     }
-    if ($p{bg} eq $self->{current_bg}) {
-        $self->{string} .= sprintf " \cE{%s%s}%s %s%s%s",
-            $p{bg}, $p{fg}, $self->{soft_left_arrow},
+    if ($p{bg} eq $self->current_bg) {
+        $self->string .= sprintf " \cE{%s%s}%s %s%s%s",
+            $p{bg}, $p{fg}, $self->soft_left_arrow,
             $attr_before, $p{string}, $attr_after;
     } else {
-        $self->{string} .= sprintf " \cE{%s%s}%s\cE{%s%s} %s%s%s",
-            $p{bg}, $self->{current_bg}, $self->{hard_left_arrow},
-            $p{bg}, $p{fg}, $attr_before, $p{string}, $attr_after;
-        $self->{current_bg} = $p{bg};
-        $self->{current_fg} = $p{fg};
+        $self->current_bg = $p{bg};
+        $self->string .= sprintf
+            " \cE{!r}\cE{.%s}%s\cE{-}\cE{-}\cE{%s%s} %s%s%s",
+                $p{bg}, $self->hard_left_arrow,
+                $p{bg}, $p{fg}, $attr_before, $p{string}, $attr_after;
     }
-}
-
-sub draw { my $self = shift;
-    return $self->{string};
 }
 
 1;
@@ -155,15 +155,15 @@ sub get_message { #{{{
     my $song = "$track->{artist}{'#text'} - $track->{name}";
     my $timestamp = time2iso($track->{date}{uts});
 
-    my $str = ColoredString->new(fg => 'k', bg => 'g', string => '');
-    $str->add(fg => 'K', bg => 'C', string => $timestamp);
+    my $str = ColoredString->new;
+    $str->add(fg => 'W', bg => 'G', string => $timestamp);
     $str->add(fg => 'k', bg => 'w', string => $track->{artist}{'#text'});
     $str->add(fg => 'R', bg => 'w', string => $track->{name}, bold => 1);
     $str->add(fg => 'W', bg => 'R', string => 'Now Playing')
         if $status eq 'now_playing';
-    $str->add(fg => 'k', bg => 'g', string => ' ');
+    $str->add(fg => 'm', bg => 'K', string => '');
 
-    return $str->draw;
+    return $str->string;
 } #}}}
 
 # vim:se et:
