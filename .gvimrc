@@ -1,10 +1,8 @@
+set guifont=Ricty_Discord:h10
 if has('win32')
-    set guifont=Ricty_Proggy:h12
     set dir=C:\cygwin\tmp
     set backupdir=C:\cygwin\tmp
     set undodir=C:\cygwin\tmp
-else
-    set guifont=Ricty_Proggy:h16
 endif
 
 if has('mac')
