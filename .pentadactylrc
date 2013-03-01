@@ -58,11 +58,12 @@ map <C-t> ;se stal!=always,never<CR>
 "set passkeys+=mail.google.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
 " Gmail の方で、転送を w|W に、ゴミ箱へ移動を $ に変更した。
 " ` と ~ を追加
-set passkeys+=mail.google.com:'`~!$*+-./<C-Down><C-s><Enter>?INU[]acewjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
+" q を削除
+set passkeys+=mail.google.com:'`~!$*+-./<C-Down><C-s><Enter>?INU[]acewjk lmnoprsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
 "set passkeys+=www.google.com/calendar:'kpjnrt12345dwmxace<Backspace><Delete><C-z>z/+q<C-p>s<C-?>?'
-set passkeys+=www.google.com/calendar:'kpjnrt12345dwmxace<Backspace><Delete><C-z>z/+qs<C-?>?'
+set passkeys+=www.google.com/calendar:'kpjnrt12345dwmxace<Backspace><Delete><C-z>z/+s<C-?>?'
 " live.com
-set passkeys+=live.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
+set passkeys+=live.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjk lmnoprsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
 
 " http://vimperator.g.hatena.ne.jp/teramako/20090311/1236776437
 " ime-controller.jsの代わり
