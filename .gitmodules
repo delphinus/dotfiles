@@ -1,6 +1,3 @@
 [submodule ".vim/neobundle"]
 	path = .vim/neobundle
 	url = git@github.com:Shougo/neobundle.vim
-[submodule "tmux-powerline"]
-	path = tmux-powerline
-	url = git@github.com:erikw/tmux-powerline
