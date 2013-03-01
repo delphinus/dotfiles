@@ -15,7 +15,7 @@ class MyConfig:
         self.kmg = km.defineWindowKeymap()
         self.commands = '''
             base hhk hhk_others diamond_cursor
-            ckw putty console2 teraterm gvim firefox excel
+            ckw putty mintty console2 teraterm gvim firefox excel
             emacs aero_snap
             limechat
         '''.split()
@@ -280,6 +280,51 @@ class MyConfig:
         #km["U0-Plus"] = self.km.command_InputKey("LC-Z", ":")
 
         # putty + screen
+        # ウィンドウ移動
+        km["U0-H"] = self.km.command_InputKey("LC-Z", "H")
+        km["U0-J"] = self.km.command_InputKey("LC-Z", "J")
+        km["U0-K"] = self.km.command_InputKey("LC-Z", "K")
+        km["U0-L"] = self.km.command_InputKey("LC-Z", "L")
+
+    # mintty用設定
+    def mintty(self):
+        km = self.km_for_exe(u"mintty.exe")
+
+        # ウィンドウ切り替え
+        for i in xrange(10):
+            km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
+        # C-Tab でウィンドウ移動
+        #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
+        km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
+        # U0/U1-Space でウィンドウ切り替え
+        #km["U0-LShift"] = self.km.command_InputKey("LC-Z", "N")
+        #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
+
+        # mintty上ではESC => ESC+日本語入力オフ（無変換）
+        #km["ESC"] = self.km.command_InputKey("(29)", "ESC")
+        km["(235)"] = self.km.command_InputKey("ESC", "(29)")
+        km["C-(219)"] = self.km.command_InputKey("ESC", "(29)")
+        #km["(243)"] = self.km.command_InputKey("(29)", "ESC")
+        #km["(244)"] = self.km.command_InputKey("(29)", "ESC")
+
+        # mintty上ではEmacs風割り当てを解除
+        km["C-S"] = "C-S"
+        km["C-R"] = "C-R"
+        km["C-W"] = "C-W"
+        km["C-X"] = "C-X"
+
+        # mintty + vim
+        # map <F1> :mak!<CR>
+        # map <F2> :QFix<CR>
+        km["U0-B"] = "F1"
+        km["U0-L"] = "F2"
+        # タブ切り替え
+        km["U0-N"] = self.km.command_InputKey("LC-Z", "LC-N")
+        km["U0-P"] = self.km.command_InputKey("LC-Z", "LC-P")
+        # コマンドライン
+        #km["U0-Plus"] = self.km.command_InputKey("LC-Z", ":")
+
+        # mintty + screen
         # ウィンドウ移動
         km["U0-H"] = self.km.command_InputKey("LC-Z", "H")
         km["U0-J"] = self.km.command_InputKey("LC-Z", "J")
