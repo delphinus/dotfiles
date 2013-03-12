@@ -52,5 +52,6 @@ do
 	shopt -s $i
 done
 
+export PATH=~/bin:/usr/local/bin:/usr/bin:$PATH
 source ~/perl5/perlbrew/etc/bashrc
 [[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
