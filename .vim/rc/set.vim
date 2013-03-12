@@ -124,6 +124,8 @@ set updatetime=1000               " スワップファイルが書き込まれ�
 set wildmenu                      " コマンドラインモードでの補完メニュー
 set wildmode=full
 
+set helplang=ja                   " ヘルプは日本語のものを優先する
+
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 "set background=dark               " 常に黒
 colo solarized
