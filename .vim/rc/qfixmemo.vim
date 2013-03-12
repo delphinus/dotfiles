@@ -13,7 +13,7 @@ endif
 let QFixHowm_Key='g'
 " ファイル保存用
 if is_office_win || is_office_cygwin || is_remora || is_backup
-    let howm_dir=g:dropbox_dir . '/Programming/howm'
+    let howm_dir=g:dropbox_dir . '/Documents/howm'
 elseif is_office
     let howm_dir=expand('$H') . '/howm'
 endif
