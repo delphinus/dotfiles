@@ -83,6 +83,28 @@ if is_unix
 endif
 
 "-----------------------------------------------------------------------------
+" http://qiita.com/items/515ed5264fce40dec522
+" Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
+" http://qiita.com/items/515ed5264fce40dec522
+function! s:Paste64Copy()
+  call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
+  if $TMUX != ""
+    "tmuxのとき
+    call system('printf "\x1bPtmux;\x1b\x1b]52;;%s\x1b\x1b\\\\\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
+  elseif $TERM =~ "screen"
+    "GNU Screenのとき
+    "call system('printf "\x1bP\x1b]52;;%s\x07\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
+	call system('printf "\eP\e]52;;%s\x07\e\\" `cat ' . g:y2r_config.tmp_file . ' | base64` > /dev/tty')
+	echo 'screen'
+  else
+    call system('printf "\x1b]52;;%s\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
+  endif
+  "redraw!
+endfunction
+
+command! Paste64Copy :call s:Paste64Copy()
+
+"-----------------------------------------------------------------------------
 " diff
 " diff 開始
 command! -nargs=0 DT :diffthis
