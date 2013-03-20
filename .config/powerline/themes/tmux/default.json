@@ -5,10 +5,10 @@
 			"before": "⇑  "
 		},
 		"external_ip": {
-			"before": "ⓦ  "
+			"before": "W  "
 		},
 		"date": {
-			"before": "⌚ "
+			"before": "T "
 		},
 		"email_imap_alert": {
 			"before": "✉ ",
@@ -38,7 +38,10 @@
 			},
 			{
 				"name": "weather",
-				"priority": 50
+				"priority": 50,
+				"args": {
+					"location_query": "tokyo, japan"
+				}
 			},
 			{
 				"name": "date"
@@ -52,6 +55,8 @@
 			},
 			{
 				"name": "email_imap_alert",
+				"username": "delphinus@remora.cx",
+				"password": "gvlelowewnnhbquu",
 				"priority": 10
 			},
 			{

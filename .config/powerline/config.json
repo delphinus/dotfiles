@@ -1,6 +1,6 @@
 {
 	"common": {
-		"term_24bit_colors": false,
+		"term_truecolor": false,
 		"dividers": {
 			"left": {
 				"hard": "⮀ ",
@@ -12,7 +12,6 @@
 			}
 		},
 		"spaces": 1,
-		"colors": "default",
 		"paths": [
 			"~/.config/powerline"
 		]
@@ -27,7 +26,7 @@
 			"theme": "custom"
 		},
 		"tmux": {
-			"colorscheme": "solarized",
+			"colorscheme": "default",
 			"theme": "default"
 		},
 		"vim": {
