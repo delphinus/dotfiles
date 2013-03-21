@@ -70,3 +70,6 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages"
 source $HOME/perl5/perlbrew/etc/bashrc
 source $HOME/bin/bash_completion_tmux.sh
 source $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/bash/powerline.sh
+
+source $HOME/git/dotfiles/.tmux/bash_completion_tmux.sh
+eval `dircolors $HOME/git/dircolors-solarized/dircolors.ansi-dark`
