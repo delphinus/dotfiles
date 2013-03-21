@@ -21,6 +21,10 @@
 	"segments": {
 		"right": [
 			{
+				"name": "lastfm_playing",
+				"module": "ext.tmux.segments.custom"
+			},
+			{
 				"name": "uptime",
 				"priority": 50
 			},
@@ -38,7 +42,10 @@
 			},
 			{
 				"name": "weather",
-				"priority": 50
+				"priority": 50,
+				"args": {
+					"location_query": "tokyo, japan"
+				}
 			},
 			{
 				"name": "date"
@@ -58,5 +65,6 @@
 				"name": "hostname"
 			}
 		]
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }

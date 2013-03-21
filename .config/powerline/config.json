@@ -27,7 +27,7 @@
 		},
 		"tmux": {
 			"colorscheme": "default",
-			"theme": "default"
+			"theme": "custom"
 		},
 		"vim": {
 			"colorscheme": "custom",
@@ -41,5 +41,6 @@
 			"colorscheme": "default",
 			"theme": "default"
 		}
-	}
+	},
+	"modeline": " vim:se ft=javascript noet: "
 }

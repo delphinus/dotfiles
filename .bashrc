@@ -22,6 +22,7 @@ alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
 export EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 export VISUAL='/Applications/MacVim.app/Contents/MacOS/Vim'
 export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
+alias tmux="TERM=screen-256color-bce tmux=$HOME/git/dotfiles/.tmux.conf"
 
 #export MY_PERL_LOCAL_LIB="$HOME/perl5/libs/"
 #git_completion_path='/usr/local/etc/bash_completion.d/git-completion.bash'
