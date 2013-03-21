@@ -5,10 +5,10 @@
 			"before": "⇑  "
 		},
 		"external_ip": {
-			"before": "W  "
+			"before": "ⓦ  "
 		},
 		"date": {
-			"before": "T "
+			"before": "⌚ "
 		},
 		"email_imap_alert": {
 			"before": "✉ ",

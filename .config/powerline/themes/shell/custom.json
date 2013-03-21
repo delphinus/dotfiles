@@ -2,7 +2,7 @@
 	"default_module": "powerline.segments.common",
 	"segment_data": {
 		"hostname": {
-			"before": "⭤",
+			"before": "⭤ ",
 			"args": {
 				"only_if_ssh": true
 			}

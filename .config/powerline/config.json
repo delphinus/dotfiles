@@ -41,6 +41,5 @@
 			"colorscheme": "default",
 			"theme": "default"
 		}
-	},
-	"modeline": " vim:se ft=javascript noet: "
+	}
 }
