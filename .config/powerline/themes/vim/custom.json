@@ -31,7 +31,7 @@
 			"args": { "text": "⭤" }
 		},
 		"modified_indicator": {
-			"args": { "text": "+" }
+			"args": { "text": "✘" }
 		},
 		"line_percent": {
 			"args": { "gradient": true },
