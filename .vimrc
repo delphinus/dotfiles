@@ -83,7 +83,7 @@ call s:loadrc('yankring')
 " cmdline-completion 設定
 call s:loadrc('cmdline-completion')
 " シンタックスチェック
-call s:loadrc('syntastic')
+"call s:loadrc('syntastic')
 " http://d.hatena.ne.jp/osyo-manga/20110921/1316605254
 "call s:loadrc('syntaxcheck')
 " CSV 設定
@@ -128,6 +128,10 @@ call s:loadrc('indent-guides')
 call s:loadrc('easybuffer')
 " PSearch 設定
 call s:loadrc('psearch')
+" watchdogs 設定
+call s:loadrc('watchdogs')
+" vim-seek 設定
+call s:loadrc('seek')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
