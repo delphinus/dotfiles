@@ -21,8 +21,12 @@
 	"segments": {
 		"right": [
 			{
-				"name": "lastfm_playing",
-				"module": "ext.tmux.segments.custom"
+				"name": "now_playing",
+				"module": "ext.tmux.segments.custom",
+				"args": {
+					"player": "lastfm",
+					"format": "{state_symbol} {artist} - {title} ({elapsed})"
+				}
 			},
 			{
 				"name": "uptime",
