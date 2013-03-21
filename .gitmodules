@@ -1,3 +1,9 @@
 [submodule ".vim/neobundle"]
 	path = .vim/neobundle
 	url = git@github.com:Shougo/neobundle.vim
+[submodule "tmux-colors-solarized"]
+	path = tmux-colors-solarized
+	url = git@github.com:seebi/tmux-colors-solarized
+[submodule "dircolors-solarized"]
+	path = dircolors-solarized
+	url = git@github.com:seebi/dircolors-solarized
