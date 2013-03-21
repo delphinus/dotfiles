@@ -75,12 +75,12 @@ if has('perl')
         s!(?<=\d{4}-\d\d-\d\d)=(?=\d{6}\.(?:png|jpg))!-!g;
 
         # クリップボードにセット
-        VIM::DoCommand(qq!call setreg('"', '')!);
-        for my $line (split /\n/) {
-            $line =~ s!'!''!g;
-            VIM::DoCommand(qq!call setreg('"', @" . $_)!);
-        }
-        VIM::DoCommand(qq!call Paste64Copy()!);
+        my ($success, $filename) = VIM::Eval('g:y2r_config.tmp_file');
+        my $fh = file($filename)->openw;
+        binmode $fh => ':encoding(utf8)';
+        $fh->print($_);
+        $fh->close;
+        VIM::DoCommand('call Yank2Remote(1)');
 EOP
     endfunction
 
@@ -132,13 +132,19 @@ EOP
             "{{{\n$str}}}\n";
         !egmx;
 
+        #$_ = encode(cp932 => $_);
+
         # クリップボードにセット
-        VIM::DoCommand(qq!call setreg('"', '')!);
-        for my $line (split /\n/) {
-            $line =~ s!'!''!g;
-            VIM::DoCommand(qq!call setreg('"', @" . $_)!);
-        }
-        VIM::DoCommand(qq!call Paste64Copy()!);
+        #Win32::Clipboard()->Set($_);
+        my ($success, $filename) = VIM::Eval('g:y2r_config.tmp_file');
+        VIM::Msg($success);
+        VIM::Msg($filename);
+        my $fh = file($filename)->openw;
+        VIM::Msg($_);
+        $fh->binmode(':encoding(utf8)');
+        $fh->print($_);
+        $fh->close;
+        VIM::DoCommand('call Yank2Remote(1)');
 
         VIM::Msg('convert markdown to trac');
 EOP
