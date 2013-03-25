@@ -129,7 +129,7 @@ call s:loadrc('easybuffer')
 " PSearch 設定
 call s:loadrc('psearch')
 " watchdogs 設定
-call s:loadrc('watchdogs')
+"call s:loadrc('watchdogs')
 " vim-seek 設定
 call s:loadrc('seek')
 
