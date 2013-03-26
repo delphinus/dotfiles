@@ -10,6 +10,11 @@
 		"date": {
 			"before": "⌚ "
 		},
+		"weather": {
+			"args": {
+				"location_query": "tokyo, japan"
+			}
+		},
 		"email_imap_alert": {
 			"before": "✉ ",
 			"args": {

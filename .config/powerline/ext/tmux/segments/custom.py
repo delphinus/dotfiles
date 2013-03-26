@@ -26,7 +26,7 @@ class NowPlayingSegment(object):
 			'elapsed': None,
 			'total': None,
 			}
-		func_stats = player_func(*args, **kwargs)
+		func_stats = player_func(**kwargs)
 		if not func_stats:
 			return None
 		stats.update(func_stats)
@@ -43,7 +43,7 @@ class NowPlayingSegment(object):
 			return None
 		return stdout.strip()
 
-	def player_lastfm(self):
+	def player_lastfm(self, pl):
 		now_playing_str = self._run_cmd([os.environ.get('MYPERL'),
 				os.path.expanduser('~/git/dotfiles/.screen/lastfm-json.pl')])
 		data = json.loads(now_playing_str)
