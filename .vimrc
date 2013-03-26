@@ -145,4 +145,6 @@ endif
 "call s:loadrc('statusbar')
 " タブ設定
 call s:loadrc('tab')
+" gmail.vim 設定
+call s:loadrc('gmail')
 
