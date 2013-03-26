@@ -22,8 +22,16 @@
 				"password": ""
 			}
 		},
-		"cpu_load_percent": {
-			"before": "CPU "
+		"cpu_load_percent_gradient": {
+			"args": {
+				"format": "CPU {0}%"
+			}
+		},
+		"system_load": {
+			"args": {
+				"threshold_good": 0.25,
+				"threshold_bad": 0.5
+			}
 		}
 	},
 	"segments": {
@@ -41,7 +49,8 @@
 				"priority": 50
 			},
 			{
-				"name": "cpu_load_percent",
+				"name": "cpu_load_percent_gradient",
+				"module": "ext.tmux.segments.custom",
 				"priority": 50
 			},
 			{

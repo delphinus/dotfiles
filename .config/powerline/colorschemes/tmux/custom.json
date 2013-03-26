@@ -19,6 +19,7 @@
 		"network_load": { "fg": "gray8", "bg": "gray0" },
 		"network_load_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" },
 		"cpu_load_percent": { "fg": "gray8", "bg": "gray0" },
+		"cpu_load_percent_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" },
 		"system_load": { "fg": "gray8", "bg": "gray0" },
 		"system_load_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" },
 		"now_playing": { "fg": "steelblue", "bg": "gray0" }
