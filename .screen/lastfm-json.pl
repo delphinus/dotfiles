@@ -25,6 +25,12 @@ if (defined $result) {
 
 if ($now - $last{timestamp} < $interval) {
 	print to_json($last{data});
+	exit;
+}
+
+if (my $pid = fork) {
+	print to_json($last{data});
+	exit 0;
 } else {
 	my $lastfm = Segment::LastFM->new;
 	my $data = $lastfm->_get_data;
@@ -32,5 +38,4 @@ if ($now - $last{timestamp} < $interval) {
 		timestamp => $now,
 		data => $data,
 	}));
-	print to_json($data);
 }
