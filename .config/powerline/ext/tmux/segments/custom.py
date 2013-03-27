@@ -16,7 +16,7 @@ class NowPlayingSegment(object):
 		'stop': u'■',
 		}
 
-	def __call__(self, player='mpd', format='{state_symbol} {artist} - {title} ({total})', *args, **kwargs):
+	def __call__(self, player='mpd', format='{state_symbol} {artist} - {title} ({total})', **kwargs):
 		player_func = getattr(self, 'player_{0}'.format(player))
 		stats = {
 			'state': None,
