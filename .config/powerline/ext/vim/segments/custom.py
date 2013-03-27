@@ -22,7 +22,7 @@ def _do_ex(command):
 	vim.command('redir => tmp_do_ex | silent! {0} | redir END'.format(command))
 	return vim.eval('tmp_do_ex')
 
-def col_current_virt():
+def col_current_virt(pl):
 	'''Return the current cursor column.
 
 	Since default 'col_current()' function returns current OR virtual column
@@ -32,7 +32,7 @@ def col_current_virt():
 	col = str(vim_funcs['col']('.'))
 	return col if virtcol == col else col + '-' + virtcol
 
-def get_char_code():
+def get_char_code(pl):
 	'''Return charcode and char itself on cursol position.
 
 	port from vim-powerline

@@ -42,7 +42,8 @@
 				"args": {
 					"player": "lastfm",
 					"format": "{state_symbol} {artist} - {title} ({elapsed})"
-				}
+				},
+				"priority": 80
 			},
 			{
 				"name": "network_load",
@@ -58,17 +59,20 @@
 				"priority": 50
 			},
 			{
-				"name": "date"
+				"name": "date",
+				"priority": 80
 			},
 			{
 				"name": "date",
 				"args": {
 					"format": "%H:%M",
 					"istime": true
-				}
+				},
+				"priority": 80
 			},
 			{
-				"name": "hostname"
+				"name": "hostname",
+				"priority": 80
 			}
 		]
 	},
