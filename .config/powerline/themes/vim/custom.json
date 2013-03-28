@@ -1,34 +1,10 @@
 {
 	"segment_data": {
-		"mode": {
-			"args": {
-				"override": {
-					"n": "NORMAL",
-					"no": "N-OPER",
-					"v": "VISUAL",
-					"V": "V-LINE",
-					"^V": "V-BLCK",
-					"s": "SELECT",
-					"S": "S-LINE",
-					"^S": "S-BLCK",
-					"i": "INSERT",
-					"R": "REPLACE",
-					"Rv": "V-RPLCE",
-					"c": "COMMND",
-					"cv": "VIM EX",
-					"ce": "EX",
-					"r": "PROMPT",
-					"rm": "MORE",
-					"r?": "CONFIRM",
-					"!": "SHELL"
-				}
-			}
-		},
 		"branch": {
-			"before": "⭠ "
+			"before": " "
 		},
 		"readonly_indicator": {
-			"args": { "text": "⭤" }
+			"args": { "text": "" }
 		},
 		"modified_indicator": {
 			"args": { "text": "✘" }
@@ -38,7 +14,7 @@
 			"after": "%"
 		},
 		"line_current_symbol": {
-			"contents": "⭡ "
+			"contents": " "
 		},
 		"file_type": {
 			"before": "⭢⭣ "
