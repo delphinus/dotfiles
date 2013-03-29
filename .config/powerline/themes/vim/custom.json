@@ -24,7 +24,8 @@
 		"left": [
 			{
 				"name": "mode",
-				"exclude_modes": ["nc"]
+				"exclude_modes": ["nc"],
+				"priority": 50
 			},
 			{
 				"name": "paste_indicator",
@@ -39,31 +40,36 @@
 			{
 				"name": "readonly_indicator",
 				"draw_divider": false,
-				"after": " "
+				"after": " ",
+				"priority": 50
 			},
 			{
 				"name": "file_directory",
-				"priority": 40,
+				"priority": 60,
 				"draw_divider": false
 			},
 			{
 				"name": "file_name",
-				"draw_divider": false
+				"draw_divider": false,
+				"priority": 50
 			},
 			{
 				"name": "file_vcs_status",
 				"before": " ",
-				"draw_divider": false
+				"draw_divider": false,
+				"priority": 50
 			},
 			{
 				"name": "modified_indicator",
-				"before": " "
+				"before": " ",
+				"priority": 50
 			},
 			{
 				"type": "string",
 				"highlight_group": ["background"],
 				"draw_divider": false,
-				"width": "auto"
+				"width": "auto",
+				"priority": 50
 			}
 		],
 		"right": [
@@ -71,12 +77,12 @@
 				"name": "file_format",
 				"draw_divider": false,
 				"exclude_modes": ["nc"],
-				"priority": 50
+				"priority": 40
 			},
 			{
 				"name": "file_encoding",
 				"exclude_modes": ["nc"],
-				"priority": 50
+				"priority": 60
 			},
 			{
 				"name": "file_type",
@@ -98,13 +104,15 @@
 			{
 				"type": "string",
 				"name": "line_current_symbol",
-				"highlight_group": ["line_current_symbol", "line_current"]
+				"highlight_group": ["line_current_symbol", "line_current"],
+				"priority": 50
 			},
 			{
 				"name": "line_current",
 				"draw_divider": false,
 				"width": 3,
-				"align": "r"
+				"align": "r",
+				"priority": 50
 			},
 			{
 				"name": "col_current_virt",
