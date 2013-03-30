@@ -60,8 +60,9 @@ now_playing = NowPlayingSegment()
 
 if __name__ == '__main__':
 	sys.stdout.write(now_playing(
+		pl = {},
 		player = 'lastfm',
-		format = '{state_symbol} {artist} - {title} ({elapsed})',
+		format = u'{state_symbol} {artist} - {title} ({elapsed})',
 		))
 
 def cpu_load_percent_gradient(pl, format='{0}%', measure_interval=.5):
