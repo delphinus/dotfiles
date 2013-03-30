@@ -35,24 +35,6 @@
 		}
 	},
 	"segments": {
-		"left": [
-			{
-				"name": "hostname",
-				"priority": 80
-			},
-			{
-				"name": "date",
-				"priority": 80
-			},
-			{
-				"name": "date",
-				"args": {
-					"format": "%H:%M",
-					"istime": true
-				},
-				"priority": 80
-			}
-		],
 		"right": [
 			{
 				"name": "now_playing",
@@ -77,8 +59,20 @@
 				"priority": 50
 			},
 			{
-				"name": "email_imap_alert",
-				"priority": 50
+				"name": "date",
+				"priority": 80
+			},
+			{
+				"name": "date",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				},
+				"priority": 80
+			},
+			{
+				"name": "hostname",
+				"priority": 80
 			}
 		]
 	},

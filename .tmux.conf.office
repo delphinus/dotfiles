@@ -1,28 +1,9 @@
-# copy-mode ^[
-#unbind ^"["
-#bind -r ^"[" copy-mode
-#unbind ^]
-#bind -r ^] paste-buffer
-#
-
-# 日本語対応
-set-window-option -g utf8 on
-
-# マウスで移動
-set-option -g mode-mouse on
-set-option -g mouse-resize-pane on
-set-option -g mouse-select-pane on
-set-option -g mouse-select-window on
-
-set-window-option -g automatic-rename on
-set-option -g base-index 1
-set-option -g default-terminal "screen-256color"
+source $H/git/dotfiles/.tmux/default.conf
 set-option -g default-shell $HOME/bin.local/bs
 
 source $H/git/dotfiles/tmux-colors-solarized/tmuxcolors-dark.conf
 source $H/git/dotfiles/.tmux/screen-keys.conf
 source $H/git/dotfiles/.tmux/vim-keys.conf
 source $H/git/dotfiles/.tmux/powerline.conf.office
-#source ~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/tmux/powerline.conf
 
 # vim:se ft=tmux:
