@@ -2,8 +2,9 @@ scriptencoding 'utf-8'
 
 let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
+let g:is_remora_air2 = hostname() =~ '^remora-air2'
 let g:is_backup = hostname() =~ 'backup\d\?.remora.cx'
-let g:is_office = len($H) > 0 && has('unix')
+let g:is_office = hostname() !~ 'remora' && len($H) > 0 && has('unix')
 let g:is_office_win = len($USERDOMAIN) && has('win32')
 let g:is_office_cygwin = len($USERDOMAIN) && has('win32unix')
 let g:is_office_alt = is_office && $VIM_ENV_ALT
