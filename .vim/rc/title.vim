@@ -21,7 +21,7 @@ function! GetTitleString()
     " 検索文字列
     let search_string = len(@/) ? ' [' . @/ . ']' : ''
     " 表示文字列を作成
-    let str = host . filename . flag . dir . search_string
+    let str = g:is_remora_air2 ? filename : host . filename . flag . dir . search_string
     " Screen などの時、タイトルバーに 2 バイト文字があったら化けるので対処する
     if !has('gui_running')
         let str2 = ''
