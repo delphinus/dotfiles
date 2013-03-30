@@ -10,11 +10,27 @@
 		"date": {
 			"before": "⌚ "
 		},
+		"weather": {
+			"args": {
+				"location_query": "tokyo, japan"
+			}
+		},
 		"email_imap_alert": {
 			"before": "✉ ",
 			"args": {
 				"username": "",
 				"password": ""
+			}
+		},
+		"cpu_load_percent_gradient": {
+			"args": {
+				"format": "CPU {0}%"
+			}
+		},
+		"system_load": {
+			"args": {
+				"threshold_good": 0.25,
+				"threshold_bad": 0.5
 			}
 		}
 	},
@@ -26,10 +42,16 @@
 				"args": {
 					"player": "lastfm",
 					"format": "{state_symbol} {artist} - {title} ({elapsed})"
-				}
+				},
+				"priority": 80
 			},
 			{
 				"name": "network_load",
+				"priority": 50
+			},
+			{
+				"name": "cpu_load_percent_gradient",
+				"module": "ext.tmux.segments.custom",
 				"priority": 50
 			},
 			{
@@ -37,17 +59,20 @@
 				"priority": 50
 			},
 			{
-				"name": "date"
+				"name": "date",
+				"priority": 80
 			},
 			{
 				"name": "date",
 				"args": {
 					"format": "%H:%M",
 					"istime": true
-				}
+				},
+				"priority": 80
 			},
 			{
-				"name": "hostname"
+				"name": "hostname",
+				"priority": 80
 			}
 		]
 	},

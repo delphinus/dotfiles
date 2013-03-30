@@ -83,7 +83,7 @@ NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'othree/javascript-libraries-syntax.vim'
 NeoBundle 'rainux/vim-desert-warm-256'
 "NeoBundle 'Rykka/trans.vim'
-NeoBundle 'roman/golden-ratio'
+"NeoBundle 'roman/golden-ratio'
 "NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimfiler'
@@ -119,6 +119,7 @@ NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/cmdline-completion'
 NeoBundle 'vim-scripts/vim-align'
 "NeoBundle 'ynkdir/vim-funlib'
+NeoBundle 'yuratomo/gmail.vim'
 " }}}
 
 " プラグイン（その他） {{{

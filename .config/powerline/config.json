@@ -3,12 +3,12 @@
 		"term_truecolor": false,
 		"dividers": {
 			"left": {
-				"hard": "⮀ ",
-				"soft": "⮁ "
+				"hard": " ",
+				"soft": " "
 			},
 			"right": {
-				"hard": " ⮂",
-				"soft": " ⮃"
+				"hard": " ",
+				"soft": " "
 			}
 		},
 		"spaces": 1,
@@ -19,10 +19,15 @@
 	"ext": {
 		"ipython": {
 			"colorscheme": "default",
-			"theme": "default"
+			"theme": "in",
+			"local_themes": {
+				"rewrite": "rewrite",
+				"out": "out",
+				"in2": "in2"
+			}
 		},
 		"shell": {
-			"colorscheme": "solarized",
+			"colorscheme": "custom",
 			"theme": "custom"
 		},
 		"tmux": {
