@@ -14,7 +14,8 @@
 		"spaces": 1,
 		"paths": [
 			"~/.config/powerline"
-		]
+		],
+		"log_file": "/tmp/powerline.log"
 	},
 	"ext": {
 		"ipython": {
