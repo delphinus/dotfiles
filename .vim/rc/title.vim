@@ -12,8 +12,9 @@ function! GetTitleString()
     " ファイル名がない場合
     let filename = len(filename) ? filename : 'NEW FILE'
     " $H が設定してある場合は、パス内を置換する
-    let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
-    let dir = expand('%:p' . sub_home . ':~:.:h')
+    "let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
+    "let dir = expand('%:p' . sub_home . ':~:.:h')
+    let dir = expand('%:~:h')
     " 'svn/game/' を消す
     let dir = substitute(dir, 'svn/game/', '', '')
     " dir を括弧で括る
@@ -21,7 +22,8 @@ function! GetTitleString()
     " 検索文字列
     let search_string = len(@/) ? ' [' . @/ . ']' : ''
     " 表示文字列を作成
-    let str = g:is_remora_air2 ? filename : host . filename . flag . dir . search_string
+    "let str = g:is_remora_air2 ? filename : host . filename . flag . dir . search_string
+    let str = host . filename . flag . dir . search_string
     " Screen などの時、タイトルバーに 2 バイト文字があったら化けるので対処する
     if !has('gui_running')
         let str2 = ''
