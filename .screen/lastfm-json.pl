@@ -19,7 +19,7 @@ if (defined $result) {
 	$last{timestamp} = $result->{timestamp} || $now;
 	$last{data} = $result->{data} || +{};
 } else {
-	$last{timestamp} = $now;
+	$last{timestamp} = 0;
 	$last{data} = +{};
 }
 

@@ -64,13 +64,3 @@ if __name__ == '__main__':
 		player = 'lastfm',
 		format = u'{state_symbol} {artist} - {title} ({elapsed})',
 		))
-
-def cpu_load_percent_gradient(pl, format='{0}%', measure_interval=.5):
-	cpu_percent = int(psutil.cpu_percent(interval=measure_interval))
-	return [{
-			'contents': format.format(cpu_percent),
-			'highlight_goup': ['cpu_load_percent_gradient', 'cpu_load_percent'],
-			'draw_divider': True,
-			'divider_highlight_group': 'background:divider',
-			'gradient_level': cpu_percent,
-			}]
