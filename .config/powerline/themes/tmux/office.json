@@ -32,6 +32,11 @@
 				"threshold_good": 0.25,
 				"threshold_bad": 0.5
 			}
+		},
+		"used_memory_percent_gradient": {
+			"args": {
+				"format": "MEM {0:4.1f}%"
+			}
 		}
 	},
 	"segments": {
@@ -51,11 +56,16 @@
 			},
 			{
 				"name": "cpu_load_percent_gradient",
-				"module": "ext.tmux.segments.custom",
+				"module": "ext.tmux.segments.ps",
 				"priority": 50
 			},
 			{
 				"name": "system_load",
+				"priority": 50
+			},
+			{
+				"name": "used_memory_percent_gradient",
+				"module": "ext.tmux.segments.ps",
 				"priority": 50
 			},
 			{
