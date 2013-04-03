@@ -37,17 +37,21 @@
 			"args": {
 				"format": "MEM {0:4.1f}%"
 			}
+		},
+		"now_playing": {
+			"args": {
+				"username": "delphinus_iddqd",
+				"api_key": "7a77671178c4f4cff16222c46f72d193",
+				"format": "{state_symbol} {artist} - {title}",
+				"interval": 30
+			}
 		}
 	},
 	"segments": {
 		"right": [
 			{
 				"name": "now_playing",
-				"module": "ext.tmux.segments.custom",
-				"args": {
-					"player": "lastfm",
-					"format": "{state_symbol} {artist} - {title} ({elapsed})"
-				},
+				"module": "ext.tmux.segments.nowplayinglastfm",
 				"priority": 80
 			},
 			{
@@ -67,6 +71,10 @@
 				"name": "used_memory_percent_gradient",
 				"module": "ext.tmux.segments.ps",
 				"priority": 50
+			},
+			{
+				"name": "weather",
+				"priority": 90
 			},
 			{
 				"name": "date",

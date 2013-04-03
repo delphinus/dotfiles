@@ -9,8 +9,6 @@ from powerline.lib.url import urllib_read, urllib_urlencode
 from collections import namedtuple
 import json
 import types
-import logging
-logging.basicConfig(filename='/tmp/powerline.log',format='%(asctime)s:%(levelname)s:%(message)s')
 
 _NowPlayingKey = namedtuple('Key', 'username api_key format_string')
 
@@ -29,7 +27,6 @@ class NowPlayingLastFM(KwThreadedSegment):
 		return _NowPlayingKey(username, api_key, format_string)
 
 	def compute_state(self, key):
-		logging.warn(self.did_set_interval)
 		if not key.username or not key.api_key:
 			self.warn('Username and api_key are not configured')
 			return None
@@ -49,7 +46,6 @@ class NowPlayingLastFM(KwThreadedSegment):
 
 	@staticmethod
 	def render_one(string, **kwargs):
-		logging.warn(string)
 		return string
 
 	def player(self, key):
@@ -62,8 +58,7 @@ class NowPlayingLastFM(KwThreadedSegment):
 				}
 		url = 'http://ws.audioscrobbler.com/2.0/?' + \
 				urllib_urlencode(query_data)
-		logging.warn(url)
-		return {'artist': 'c'}
+		self.warn(url)
 
 		raw_response = urllib_read(url)
 		if not raw_response:
@@ -71,9 +66,7 @@ class NowPlayingLastFM(KwThreadedSegment):
 			return
 		response = json.loads(raw_response)
 		track_info = response['recenttracks']['track']
-		logging.warn(type(track_info))
 		track_info_type = type(track_info)
-		logging.warn(track_info_type)
 		if track_info_type == types.ListType:
 			track = track_info[0]
 			status = 'play'
