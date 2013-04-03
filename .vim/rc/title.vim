@@ -12,9 +12,12 @@ function! GetTitleString()
     " ファイル名がない場合
     let filename = len(filename) ? filename : 'NEW FILE'
     " $H が設定してある場合は、パス内を置換する
-    "let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
-    "let dir = expand('%:p' . sub_home . ':~:.:h')
-    let dir = expand('%:~:h')
+    let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
+    let with_h_dir= expand('%:p' . sub_home . ':~:.:h')
+    " カレントディレクトリからのパス
+    let with_current_dir = expand('%:h')
+    " 短い方を使う
+    let dir = len(with_h_dir) < len(with_current_dir) ? with_h_dir : with_current_dir
     " 'svn/game/' を消す
     let dir = substitute(dir, 'svn/game/', '', '')
     " dir を括弧で括る
