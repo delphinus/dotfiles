@@ -10,9 +10,9 @@ fi
 #alias ls='ls -vGF'
 #alias ll='ls -vGF -l'
 #alias l.='ls -vGF -d .*'
-alias ls='gls -F --color'
-alias ll='gls -F --color -l'
-alias l.='gls -F --color -d .*'
+alias ls='gls --color'
+alias ll='gls --color -l'
+alias l.='gls --color -d .*'
 alias dircolors=gdircolors
 
 alias vi='/Applications/MacVim.app/Contents/MacOS/Vim'
