@@ -45,6 +45,14 @@
 				"format": "{state_symbol} {artist} - {title}",
 				"interval": 30
 			}
+		},
+		"host_battery_percent_gradient": {
+			"args": {
+				"format": "BAT {percent:2d}% ({status}{remain})",
+				"charging": "充電中",
+				"charged": "充電完了",
+				"remain": "残り {0}"
+			}
 		}
 	},
 	"segments": {
@@ -69,6 +77,11 @@
 			},
 			{
 				"name": "used_memory_percent_gradient",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
+				"name": "host_battery_percent_gradient",
 				"module": "ext.tmux.segments.ps",
 				"priority": 50
 			},
