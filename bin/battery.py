@@ -62,7 +62,7 @@ def get_battery():
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
-        self.send_header('Content-typ', 'application/json')
+        self.send_header('Content-type', 'application/json')
         self.end_headers()
         battery = get_battery()
         self.wfile.write(json.dumps(battery))
