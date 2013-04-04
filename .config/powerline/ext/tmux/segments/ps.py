@@ -6,7 +6,6 @@ from __future__ import absolute_import
 import commands
 import psutil
 import re
-import types
 
 import logging
 logging.basicConfig(filename='/tmp/powerline.log')
@@ -31,21 +30,28 @@ def used_memory_percent_gradient(pl, format='{0:.0f}%'):
 		'gradient_level': memory_percent,
 		}]
 
-def battery_percent_gradient(pl, format='{percent}%', charging='charging', discharging=''):
+def battery_percent_gradient(pl, format='{percent}%', charging='charging',
+		discharging='', charged='', remain='remain {0}:{1}'):
 	pmset_output = commands.getoutput('pmset -g ps')
 	r = re.compile(r"Currently drawing from '(.*)'" + \
 			r'.*-InternalBattery-\d+\s+(\d+)%;' + \
-			r'\s+((?:dis)?charging);' + \
+			r'\s+((?:dis)?charging|charged);' + \
 			r'\s+(\d+):(\d+) remaining', re.S)
 	m = r.search(pmset_output)
 
-	if type(m) == types.NoneType:
+	if m == None:
 		return
+
+	remain = remain.format(m.group(4), m.group(5))
+
+	if m.group(3) == 'charging'      : status = charging
+	elif m.group(3) == 'discharging' : status = discharging
+	elif m.group(3) == 'charged'     : status = ''; remain = charged
 
 	battery = {
 			'percent': int(m.group(2)),
-			'status': charging if m.group(3) == 'charging' else discharging,
-			'remain': '{0}:{1}'.format(m.group(4), m.group(5)),
+			'status': status,
+			'remain': remain,
 			}
 
 	return [{
