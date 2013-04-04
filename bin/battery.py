@@ -46,7 +46,7 @@ def get_battery():
 
     charging = True if sps.BatteryFlag & 8 else False
     remain_seconds = sps.BatteryFullLifeTime if charging else sps.BatteryLifeTime
-    remain = '{0}:{1}'.format(
+    remain = '{0:d}:{1:02d}'.format(
             remain_seconds / 3600, remain_seconds / 60 % 60)
 
     battery = {
