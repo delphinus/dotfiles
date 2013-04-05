@@ -35,8 +35,10 @@
 		},
 		"battery_percent_gradient": {
 			"args": {
-				"format": "BAT {percent:2d}% ({status}残り{remain})",
-				"charging": "充電中"
+				"format": "BAT {percent:2d}% ({status}{remain})",
+				"remain": "残り {0}:{1}",
+				"charging": "充電中",
+				"charged": "充電完了"
 			}
 		},
 		"system_load": {

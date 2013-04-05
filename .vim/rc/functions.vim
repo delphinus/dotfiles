@@ -84,25 +84,29 @@ endif
 
 "-----------------------------------------------------------------------------
 " Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
-" http://qiita.com/items/515ed5264fce40dec522
-function! Paste64Copy(...)
-    if !a:0
-        call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
-    endif
-    let l:cmd = '`cat ' . g:y2r_config.tmp_file . ' | base64 -w0` > /dev/tty'
-    if $TMUX != ""
-        "tmuxのとき
-        call system('printf "\ePtmux;\e\e]52;;%s\e\e\\\\\e\\" ' . l:cmd)
-    elseif $TERM =~ "screen"
-        "GNU Screenのとき
-        call system('printf "\eP\e]52;;%s\x7\e\\" ' . l:cmd)
-    else
-        call system('printf "\e]52;;%s\e\\" ' . l:cmd)
-    endif
-    "redraw!
+" http://sanrinsha.lolipop.jp/blog/2013/01/10618.html
+function! s:Paste64Copy() range
+    let l:tmp = @"
+    silent normal gvy
+    let l:selected = @"
+    let @" = l:tmp
+    let l:i = 0
+    let l:len = strlen(l:selected)
+    let l:escaped = ''
+    while l:i < l:len
+        let l:c = strpart(l:selected, l:i, 1)
+        if char2nr(l:c) < 128
+            let l:escaped .= printf("\\u%04x", char2nr(l:c))
+        else
+            let l:escaped .= l:c
+        endif
+        let l:i += 1
+    endwhile
+    call system('echo -en "' . l:escaped . '" | pbcopy > /dev/tty')
+    redraw!
 endfunction
 
-command! Paste64Copy :call Paste64Copy()
+command! -range Paste64Copy :call s:Paste64Copy()
 
 "-----------------------------------------------------------------------------
 " diff

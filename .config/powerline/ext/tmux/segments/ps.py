@@ -4,8 +4,11 @@
 from __future__ import absolute_import
 
 import commands
+import json
 import psutil
 import re
+
+from powerline.lib.url import urllib_read
 
 import logging
 logging.basicConfig(filename='/tmp/powerline.log')
@@ -50,6 +53,36 @@ def battery_percent_gradient(pl, format='{percent}%', charging='charging',
 
 	battery = {
 			'percent': int(m.group(2)),
+			'status': status,
+			'remain': '{0}:{1}'.format(m.group(4), m.group(5)),
+			}
+
+	return [{
+		'contents': format.format(**battery),
+		'highlight_group': ['battery_percent_gradient', 'battery_percent'],
+		'draw_divider': True,
+		'divider_highlight_group': 'background:divider',
+		'gradient_level': 100 - battery['percent'],
+		}]
+
+def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
+		charging='charging', discharging='', remain='remain {0}'):
+	raw_res = urllib_read('http://127.0.0.1:18080')
+
+	if not raw_res:
+		logging.error('Failed to get response')
+		return
+
+	res = json.loads(raw_res)
+
+	remain = remain.format(res[u'remain'])
+
+	if res[u'percent'] == 100 : status = ''; remain = charged
+	elif res[u'charging']     : status = charging; remain = ''
+	elif not res[u'charging'] : status = discharging
+
+	battery = {
+			'percent': res[u'percent'],
 			'status': status,
 			'remain': remain,
 			}

@@ -13,4 +13,4 @@ lastfm-lover-session-key.txt
 /.screen/screen*.log
 /.vim/.netrwhist
 quickfix.err
-*.sqlite
+history.sqlite
