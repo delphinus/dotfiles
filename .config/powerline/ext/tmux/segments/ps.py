@@ -39,22 +39,25 @@ def battery_percent_gradient(pl, format='{percent}%', charging='charging',
 	r = re.compile(r"Currently drawing from '(.*)'" + \
 			r'.*-InternalBattery-\d+\s+(\d+)%;' + \
 			r'\s+((?:dis)?charging|charged);' + \
-			r'\s+(\d+):(\d+) remaining', re.S)
+			r'\s+((\d+:\d+)? remaining|\(no estimate\))', re.S)
 	m = r.search(pmset_output)
 
 	if m == None:
 		return
 
-	remain = remain.format(m.group(4), m.group(5))
+	if m.lastindex == 4 : remain = charged
+	else                : remain = remain.format(m.group(5))
+	logging.warn(m.group(5))
+	logging.warn(remain)
 
 	if m.group(3) == 'charging'      : status = charging
 	elif m.group(3) == 'discharging' : status = discharging
-	elif m.group(3) == 'charged'     : status = ''; remain = charged
+	elif m.group(3) == 'charged'     : status = ''
 
 	battery = {
 			'percent': int(m.group(2)),
 			'status': status,
-			'remain': '{0}:{1}'.format(m.group(4), m.group(5)),
+			'remain': remain,
 			}
 
 	return [{
