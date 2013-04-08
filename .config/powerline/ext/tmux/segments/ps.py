@@ -45,12 +45,12 @@ def battery_percent_gradient(pl, format='{percent}%', charging='charging',
 	if m == None:
 		return
 
-	if m.lastindex == 3 : remain = charged
+	if m.lastindex == 3 : remain = ''
 	else                : remain = remain.format(m.group(5))
 
 	if m.group(3) == 'charging'      : status = charging
 	elif m.group(3) == 'discharging' : status = discharging
-	elif m.group(3) == 'charged'     : status = ''
+	elif m.group(3) == 'charged'     : status = charged; remain = ''
 
 	battery = {
 			'percent': int(m.group(2)),
