@@ -36,7 +36,7 @@
 		"battery_percent_gradient": {
 			"args": {
 				"format": "BAT {percent:2d}% ({status}{remain})",
-				"remain": "残り {0}:{1}",
+				"remain": "残り {0}",
 				"charging": "充電中",
 				"charged": "充電完了"
 			}
@@ -85,6 +85,10 @@
 				"name": "battery_percent_gradient",
 				"module": "ext.tmux.segments.ps",
 				"priority": 50
+			},
+			{
+				"name": "weather",
+				"priority": 90
 			},
 			{
 				"name": "email_imap_alert",
