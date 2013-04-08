@@ -8,6 +8,8 @@
 		"paste_indicator":        { "fg": "oldlace", "bg": "orange", "attr": ["bold"] },
 		"readonly_indicator":     { "fg": "red", "bg": "darkgreencopper" },
 		"branch":                 { "fg": "lightyellow", "bg": "darkgreencopper" },
+		"branch_dirty":           { "fg": "yellow", "bg": "darkgreencopper" },
+		"branch_clean":           { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"branch:divider":         { "fg": "gray61", "bg": "darkgreencopper" },
 		"file_directory":         { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"file_name":              { "fg": "oldlace", "bg": "darkgreencopper", "attr": ["bold"] },
@@ -21,6 +23,7 @@
 		"file_vcs_status_M":      { "fg": "yellow", "bg": "darkgreencopper" },
 		"file_vcs_status_A":      { "fg": "green", "bg": "darkgreencopper" },
 		"line_percent":           { "fg": "oldlace", "bg": "lightskyblue4" },
+		"line_percent_gradient":  { "fg": "green_yellow_orange_red", "bg": "lightskyblue4" },
 		"line_current":           { "fg": "gray13", "bg": "lightyellow", "attr": ["bold"] },
 		"line_current_symbol":    { "fg": "gray13", "bg": "lightyellow" },
 		"col_current":            { "fg": "azure4", "bg": "lightyellow" }
@@ -58,6 +61,7 @@
 				"file_vcs_status_M":      { "fg": "yellow", "bg": "lightyellow" },
 				"file_vcs_status_A":      { "fg": "green", "bg": "lightyellow" },
 				"line_percent":           { "fg": "oldlace", "bg": "gray61" },
+				"line_percent_gradient":  { "fg": "oldlace", "bg": "gray61" },
 				"line_current":           { "fg": "gray13", "bg": "oldlace", "attr": ["bold"] },
 				"line_current_symbol":    { "fg": "gray13", "bg": "oldlace" },
 				"col_current":            { "fg": "azure4", "bg": "oldlace" }
@@ -69,6 +73,11 @@
 			}
 		},
 		"V": {
+			"groups": {
+				"mode": { "fg": "oldlace", "bg": "orange", "attr": ["bold"] }
+			}
+		},
+		"^V": {
 			"groups": {
 				"mode": { "fg": "oldlace", "bg": "orange", "attr": ["bold"] }
 			}

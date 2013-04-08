@@ -1,0 +1,111 @@
+{
+	"default_module": "powerline.segments.common",
+	"segment_data": {
+		"uptime": {
+			"before": "⇑  "
+		},
+		"external_ip": {
+			"before": "ⓦ  "
+		},
+		"date": {
+			"before": "⌚ "
+		},
+		"weather": {
+			"args": {
+				"location_query": "tokyo, japan"
+			}
+		},
+		"email_imap_alert": {
+			"before": "✉ ",
+			"args": {
+				"username": "",
+				"password": ""
+			}
+		},
+		"cpu_load_percent_gradient": {
+			"args": {
+				"format": "CPU {0}%"
+			}
+		},
+		"system_load": {
+			"args": {
+				"threshold_good": 0.25,
+				"threshold_bad": 0.5
+			}
+		},
+		"used_memory_percent_gradient": {
+			"args": {
+				"format": "MEM {0:4.1f}%"
+			}
+		},
+		"now_playing": {
+			"args": {
+				"username": "delphinus_iddqd",
+				"api_key": "7a77671178c4f4cff16222c46f72d193",
+				"format": "{state_symbol} {artist} - {title}",
+				"interval": 30
+			}
+		},
+		"host_battery_percent_gradient": {
+			"args": {
+				"format": "BAT {percent:2d}% ({status}{remain})",
+				"charging": "充電中",
+				"charged": "充電完了",
+				"remain": "残り {0}"
+			}
+		}
+	},
+	"segments": {
+		"right": [
+			{
+				"name": "now_playing",
+				"module": "ext.tmux.segments.nowplayinglastfm",
+				"priority": 80
+			},
+			{
+				"name": "network_load",
+				"priority": 50
+			},
+			{
+				"name": "cpu_load_percent_gradient",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
+				"name": "system_load",
+				"priority": 50
+			},
+			{
+				"name": "used_memory_percent_gradient",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
+				"name": "host_battery_percent_gradient",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
+				"name": "weather",
+				"priority": 90
+			},
+			{
+				"name": "date",
+				"priority": 80
+			},
+			{
+				"name": "date",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				},
+				"priority": 80
+			},
+			{
+				"name": "hostname",
+				"priority": 80
+			}
+		]
+	},
+	"modeline": " vim:se ft=javascript noet: "
+}

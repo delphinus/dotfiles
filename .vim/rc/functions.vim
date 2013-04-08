@@ -83,6 +83,32 @@ if is_unix
 endif
 
 "-----------------------------------------------------------------------------
+" Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
+" http://sanrinsha.lolipop.jp/blog/2013/01/10618.html
+function! s:Paste64Copy() range
+    let l:tmp = @"
+    silent normal gvy
+    let l:selected = @"
+    let @" = l:tmp
+    let l:i = 0
+    let l:len = strlen(l:selected)
+    let l:escaped = ''
+    while l:i < l:len
+        let l:c = strpart(l:selected, l:i, 1)
+        if char2nr(l:c) < 128
+            let l:escaped .= printf("\\u%04x", char2nr(l:c))
+        else
+            let l:escaped .= l:c
+        endif
+        let l:i += 1
+    endwhile
+    call system('echo -en "' . l:escaped . '" | pbcopy > /dev/tty')
+    redraw!
+endfunction
+
+command! -range Paste64Copy :call s:Paste64Copy()
+
+"-----------------------------------------------------------------------------
 " diff
 " diff 開始
 command! -nargs=0 DT :diffthis

@@ -1,0 +1,96 @@
+{
+	"default_module": "powerline.segments.common",
+	"segment_data": {
+		"uptime": {
+			"before": "⇑  "
+		},
+		"external_ip": {
+			"before": "ⓦ  "
+		},
+		"date": {
+			"before": "⌚ "
+		},
+		"weather": {
+			"args": {
+				"location_query": "tokyo, japan"
+			}
+		},
+		"email_imap_alert": {
+			"before": "✉ ",
+			"args": {
+				"username": "",
+				"password": "",
+				"max_msgs": 100
+			}
+		},
+		"cpu_load_percent_gradient": {
+			"args": {
+				"format": "CPU {0:4.1f}%"
+			}
+		},
+		"used_memory_percent_gradient": {
+			"args": {
+				"format": "MEM {0:4.1f}%"
+			}
+		},
+		"battery_percent_gradient": {
+			"args": {
+				"format": "BAT {percent:2d}% ({status}{remain})",
+				"remain": "残り {0}:{1}",
+				"charging": "充電中",
+				"charged": "充電完了"
+			}
+		},
+		"system_load": {
+			"args": {
+				"threshold_good": 0.5,
+				"threshold_bad": 1.0
+			}
+		},
+		"now_playing": {
+			"args": {
+				"user": "delphinus_iddqd",
+				"api_key": "abcde",
+				"format": "{state_symbol} {artist} - {title}"
+			}
+		}
+	},
+	"segments": {
+		"left": [
+			{
+				"name": "date",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				},
+				"priority": 80
+			}
+		],
+		"right": [
+			{
+				"name": "network_load",
+				"priority": 50
+			},
+			{
+				"name": "cpu_load_percent_gradient",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
+				"name": "used_memory_percent_gradient",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
+				"name": "battery_percent_gradient",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
+				"name": "email_imap_alert",
+				"priority": 50
+			}
+		]
+	},
+	"modeline": " vim:se ft=javascript noet: "
+}

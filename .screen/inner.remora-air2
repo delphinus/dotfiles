@@ -2,8 +2,9 @@ source defaults
 source defaults-inner
 source binds
 
-caption splitonly "%{= Rk} %?%F%{b kr}%? %t (screen #%n) %{-}"
-hardstatus alwayslastline "%{= gk} %-Lw%40L>%{Wg}⮀%{WR}%{+b} %n %?%h:%t%? %{-}%{gW}⮀%{.k}%+Lw%-88=%?%E%{cg}%:%{kg}%?⮀%?%E%{c.}%:%{k.}%?%{.m} %l %{-}%{.y}M %0`%% %{.b}C %1`%% %{-}%{b .r}T %2`C %{-}%{.w}%3`%{-}%{!r}%{.w}⮀%{-}%{-}%{wk} %Y/%m/%d %C:%s %A "
+caption always "%{= gk} %-Lw%{!r}%{.W}⮀%{-}%{-}%{Wr}%{+b} %t (screen #%n) %{-}%{!r}%{.g}⮀%+Lw"
+hardstatus alwayslastline "%{= gk}%4`%{.m} %l %{-}%{.y}M %0`%% %{.b}C %1`%% %{.r}T %2`C %{-}%{.w}%3`%{-} ⮁ %Y/%m/%d %C:%s %A "
+backtick 4 0 0 $HOME/git/dotfiles/.screen/backtick.pl
 backtick 0 10 10 $HOME/git/dotfiles/.screen/memory
 backtick 1 1 1 $HOME/git/dotfiles/.screen/cpu
 backtick 2 5 5 $HOME/git/dotfiles/.screen/temperature.sh

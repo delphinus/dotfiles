@@ -7,9 +7,13 @@ fi
 
 #export TERM=xterm-256color
 
-alias ls='ls -vGF'
-alias ll='ls -vGF -l'
-alias l.='ls -vGF -d .*'
+#alias ls='ls -vGF'
+#alias ll='ls -vGF -l'
+#alias l.='ls -vGF -d .*'
+alias ls='gls --color'
+alias ll='gls --color -l'
+alias l.='gls --color -d .*'
+alias dircolors=gdircolors
 
 alias vi='/Applications/MacVim.app/Contents/MacOS/Vim'
 alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
@@ -22,6 +26,8 @@ alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
 export EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
 export VISUAL='/Applications/MacVim.app/Contents/MacOS/Vim'
 export SUDO_EDITOR='/Applications/MacVim.app/Contents/MacOS/Vim'
+export H=$HOME
+alias tmux="TERM=screen-256color-bce tmux -f $HOME/git/dotfiles/.tmux.conf"
 
 #export MY_PERL_LOCAL_LIB="$HOME/perl5/libs/"
 #git_completion_path='/usr/local/etc/bash_completion.d/git-completion.bash'
@@ -67,5 +73,38 @@ export PYTHONPATH="/usr/local/lib/python2.7/site-packages"
 #export http_proxy=$proxy
 #export ALL_PROXY=$proxy
 source $HOME/perl5/perlbrew/etc/bashrc
+export MYPERL=`which perl`
 source $HOME/bin/bash_completion_tmux.sh
-source $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/bash/powerline.sh
+
+source $HOME/git/dotfiles/.tmux/bash_completion_tmux.sh
+eval `dircolors $HOME/git/dotfiles/dircolors-solarized/dircolors.ansi-dark`
+
+# powerline
+
+_powerline_tmux_setenv() {
+	if [[ -n "$TMUX" ]]; then
+		tmux setenv TMUX_"$1"_$(tmux display -p "#D" | tr -d %) "$2"
+	fi
+}
+
+_powerline_tmux_set_pwd() {
+	_powerline_tmux_setenv PWD "$PWD"
+}
+
+_powerline_tmux_set_columns() {
+	_powerline_tmux_setenv COLUMNS "$COLUMNS"
+}
+
+_powerline_prompt() {
+	[[ -z "$POWERLINE_OLD_PROMPT_COMMAND" ]] ||
+		eval $POWERLINE_OLD_PROMPT_COMMAND
+	PS1="$(powerline-client.py shell left -r bash_prompt --last_exit_code=$?)"
+	_powerline_tmux_set_pwd
+}
+
+trap "_powerline_tmux_set_columns" SIGWINCH
+_powerline_tmux_set_columns
+
+[[ "$PROMPT_COMMAND" == "_powerline_prompt" ]] ||
+	POWERLINE_OLD_PROMPT_COMMAND="$PROMPT_COMMAND"
+export PROMPT_COMMAND="_powerline_prompt"

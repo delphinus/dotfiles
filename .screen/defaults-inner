@@ -6,7 +6,7 @@ defscrollback 1000
 altscreen on
 escape ^Zz
 bell_msg "Bell in window %"
-shell $SHELL
+shell /usr/local/bin/bash
 startup_message off
 logfile "$HOME/.screen/screen-%Y%m%d-%n.log"
 deflog on

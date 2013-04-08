@@ -1,0 +1,9 @@
+source $H/git/dotfiles/.tmux/default.conf
+set-option -g default-shell $HOME/bin.local/bs
+
+source $H/git/dotfiles/tmux-colors-solarized/tmuxcolors-dark.conf
+source $H/git/dotfiles/.tmux/screen-keys.conf
+source $H/git/dotfiles/.tmux/vim-keys.conf
+source $H/git/dotfiles/.tmux/powerline.conf.office
+
+# vim:se ft=tmux:

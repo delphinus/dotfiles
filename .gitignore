@@ -10,3 +10,7 @@ tags
 *.pyc
 *.pyo
 lastfm-lover-session-key.txt
+/.screen/screen*.log
+/.vim/.netrwhist
+quickfix.err
+history.sqlite

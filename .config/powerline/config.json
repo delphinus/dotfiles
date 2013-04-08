@@ -1,34 +1,39 @@
 {
 	"common": {
-		"term_24bit_colors": false,
+		"term_truecolor": false,
 		"dividers": {
 			"left": {
-				"hard": "⮀ ",
-				"soft": "⮁ "
+				"hard": " ",
+				"soft": " "
 			},
 			"right": {
-				"hard": " ⮂",
-				"soft": " ⮃"
+				"hard": " ",
+				"soft": " "
 			}
 		},
 		"spaces": 1,
-		"colors": "default",
 		"paths": [
 			"~/.config/powerline"
-		]
+		],
+		"log_file": "/tmp/powerline.log"
 	},
 	"ext": {
 		"ipython": {
 			"colorscheme": "default",
-			"theme": "default"
+			"theme": "in",
+			"local_themes": {
+				"rewrite": "rewrite",
+				"out": "out",
+				"in2": "in2"
+			}
 		},
 		"shell": {
-			"colorscheme": "solarized",
+			"colorscheme": "custom",
 			"theme": "custom"
 		},
 		"tmux": {
-			"colorscheme": "default",
-			"theme": "default"
+			"colorscheme": "custom",
+			"theme": "custom"
 		},
 		"vim": {
 			"colorscheme": "custom",

@@ -1,11 +1,11 @@
-" ÂĞ±ş¥¿¡¼¥ß¥Ê¥ë°Ê³°¤Ê¤éµ¢¤ë
+" å¯¾å¿œã‚¿ãƒ¼ãƒŸãƒŠãƒ«ä»¥å¤–ãªã‚‰å¸°ã‚‹
 if &term !~ "screen" && &term !~ "xterm"
     finish
 endif
 
-" GNU screen ¾å¤Î¾ì¹ç
+" GNU screen ä¸Šã®å ´åˆ
 if &term =~ "screen"
-    " iTerm2 ¤Î»ş¤Î¤ß¥«¡¼¥½¥ë·Á¾õ¤òÊÑ¤¨¤ë
+    " iTerm2 ã®æ™‚ã®ã¿ã‚«ãƒ¼ã‚½ãƒ«å½¢çŠ¶ã‚’å¤‰ãˆã‚‹
     if exists('$TMUX') && is_remora
         let &t_SI = "\ePtmux;\e\e]50;CursorShape=1\x7\e\\"
         let &t_EI = "\ePtmux;\e\e]50;CursorShape=0\x7\e\\"
@@ -14,7 +14,7 @@ if &term =~ "screen"
         let &t_EI = "\eP\e]50;CursorShape=0\x7\e\\"
     endif
 
-    " Å½¤êÉÕ¤±¤ë¤È¤­¼«Æ°Åª¤Ë paste ¥â¡¼¥É¤ËÊÑ¤ï¤ë
+    " è²¼ã‚Šä»˜ã‘ã‚‹ã¨ãè‡ªå‹•çš„ã« paste ãƒ¢ãƒ¼ãƒ‰ã«å¤‰ã‚ã‚‹
     let &t_ti .= "\eP\e[?2004h\e\\"
     let &t_te .= "\eP\e[?2004l\e\\"
 
@@ -23,15 +23,15 @@ if &term =~ "screen"
     cmap \e[200~ <nop>
     cmap \e[201~ <nop>
 
-" xterm ¤Î¾ì¹ç
+" xterm ã®å ´åˆ
 elseif &term =~ "xterm"
-    " iTerm2 ¤Î»ş¤Î¤ß¥«¡¼¥½¥ë·Á¾õ¤òÊÑ¤¨¤ë
+    " iTerm2 ã®æ™‚ã®ã¿ã‚«ãƒ¼ã‚½ãƒ«å½¢çŠ¶ã‚’å¤‰ãˆã‚‹
     if is_remora
         let &t_SI = "\e]50;CursorShape=1\x7"
         let &t_EI = "\e]50;CursorShape=0\x7"
     endif
 
-    " Å½¤êÉÕ¤±¤ë¤È¤­¼«Æ°Åª¤Ë paste ¥â¡¼¥É¤ËÊÑ¤ï¤ë
+    " è²¼ã‚Šä»˜ã‘ã‚‹ã¨ãè‡ªå‹•çš„ã« paste ãƒ¢ãƒ¼ãƒ‰ã«å¤‰ã‚ã‚‹
     let &t_ti .= "\e[?2004h"
     let &t_te .= "\e[?2004l"
     map <expr> \e[200~ XTermPasteBegin("i")
