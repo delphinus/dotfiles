@@ -58,7 +58,6 @@ class NowPlayingLastFM(KwThreadedSegment):
 				}
 		url = 'http://ws.audioscrobbler.com/2.0/?' + \
 				urllib_urlencode(query_data)
-		self.warn(url)
 
 		raw_response = urllib_read(url)
 		if not raw_response:

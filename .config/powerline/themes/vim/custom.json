@@ -39,24 +39,24 @@
 			},
 			{
 				"name": "readonly_indicator",
-				"draw_divider": false,
+				"draw_soft_divider": false,
 				"after": " ",
 				"priority": 50
 			},
 			{
 				"name": "file_directory",
 				"priority": 60,
-				"draw_divider": false
+				"draw_soft_divider": false
 			},
 			{
 				"name": "file_name",
-				"draw_divider": false,
+				"draw_soft_divider": false,
 				"priority": 50
 			},
 			{
 				"name": "file_vcs_status",
 				"before": " ",
-				"draw_divider": false,
+				"draw_soft_divider": false,
 				"priority": 50
 			},
 			{
@@ -67,7 +67,8 @@
 			{
 				"type": "string",
 				"highlight_group": ["background"],
-				"draw_divider": false,
+				"draw_soft_divider": false,
+				"draw_hard_divider": false,
 				"width": "auto",
 				"priority": 50
 			}
@@ -75,7 +76,7 @@
 		"right": [
 			{
 				"name": "file_format",
-				"draw_divider": false,
+				"draw_soft_divider": false,
 				"exclude_modes": ["nc"],
 				"priority": 40
 			},
@@ -109,7 +110,7 @@
 			},
 			{
 				"name": "line_current",
-				"draw_divider": false,
+				"draw_soft_divider": false,
 				"width": 3,
 				"align": "r",
 				"priority": 50
