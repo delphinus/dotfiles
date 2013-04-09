@@ -34,7 +34,7 @@ def used_memory_percent_gradient(pl, format='{0:.0f}%'):
 		}]
 
 def battery_percent_gradient(pl, format='{percent}%', charging='charging',
-		discharging='', charged='', remain='remain {0}:{1}'):
+		discharging='', charged='', remain='remain {0}'):
 	pmset_output = commands.getoutput('pmset -g ps')
 	r = re.compile(r"Currently drawing from '(.*)'" + \
 			r'.*-InternalBattery-\d+\s+(\d+)%;' + \
@@ -76,14 +76,15 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 
 	res = json.loads(raw_res)
 
-	remain = remain.format(res[u'remain'])
-
-	if res[u'percent'] == 100 : status = ''; remain = charged
-	elif res[u'charging']     : status = charging; remain = ''
-	elif not res[u'charging'] : status = discharging
+	if res['charging']:
+		status = charged if res['percent'] == 100 else charging
+		remain = ''
+	elif not res['charging']:
+		status = discharging
+		remain = remain.format(res['remain'])
 
 	battery = {
-			'percent': res[u'percent'],
+			'percent': res['percent'],
 			'status': status,
 			'remain': remain,
 			}
