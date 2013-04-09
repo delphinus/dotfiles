@@ -34,7 +34,7 @@ def used_memory_percent_gradient(pl, format='{0:.0f}%'):
 		}]
 
 def battery_percent_gradient(pl, format='{percent}%', charging='charging',
-		discharging='', charged='', remain='remain {0}:{1}'):
+		discharging='', charged='', remain='remain {0}'):
 	pmset_output = commands.getoutput('pmset -g ps')
 	r = re.compile(r"Currently drawing from '(.*)'" + \
 			r'.*-InternalBattery-\d+\s+(\d+)%;' + \
