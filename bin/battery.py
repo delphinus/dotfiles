@@ -45,7 +45,8 @@ def get_battery():
     else:                       condition = 'error'
 
     charging = True if sps.BatteryFlag & 8 else False
-    remain_seconds = sps.BatteryFullLifeTime if charging else sps.BatteryLifeTime
+    remain_seconds = sps.BatteryFullLifeTime \
+            if charging else sps.BatteryLifeTime
     remain = '{0:d}:{1:02d}'.format(
             remain_seconds / 3600, remain_seconds / 60 % 60)
 
@@ -70,11 +71,13 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 if __name__ == '__main__':
     server_class = BaseHTTPServer.HTTPServer
     httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
-    print('{0} Server Starts - {1}:{2}'.format(time.asctime(), HOST_NAME,PORT_NUMBER))
+    print('{0} Server Starts - {1}:{2}'.
+            format(time.asctime(), HOST_NAME, PORT_NUMBER))
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
         pass
     httpd.server_close()
-    print('{0} Server Stops - {1}:{2}'.format(time.asctime(), HOST_NAME, PORT_NUMBER))
+    print('{0} Server Stops - {1}:{2}'.
+            format(time.asctime(), HOST_NAME, PORT_NUMBER))
 
