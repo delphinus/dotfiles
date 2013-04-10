@@ -8,7 +8,7 @@
 			"before": "ⓦ  "
 		},
 		"date": {
-			"before": "⌚ "
+			"before": "⌚  "
 		},
 		"weather": {
 			"args": {
@@ -16,7 +16,7 @@
 			}
 		},
 		"email_imap_alert": {
-			"before": "✉ ",
+			"before": "📩  ",
 			"args": {
 				"username": "",
 				"password": "",
