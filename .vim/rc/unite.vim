@@ -6,11 +6,10 @@ let g:unite_source_file_mru_time_format='(%a) %m/%d %p %I:%M '
 if is_office
     let g:unite_data_directory = expand('$H/.unite')
 endif
-noremap <C-P> :Unite buffer_tab file_mru<CR>
-noremap <C-N> :UniteWithBufferDir -buffer-name=files file file/new<CR>
-noremap <Leader>ur :Unite file_rec/async<CR>
-noremap <C-Z> :Unite outline<CR>
-noremap <C-T> :Unite tab<CR>
+noremap zp :Unite buffer_tab file_mru<CR>
+noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
+noremap zr :Unite file_rec/async<CR>
+noremap zo :Unite outline<CR>
 noremap <Leader>uu :Unite bookmark<CR>
 noremap <Leader>uc :Unite colorscheme<CR>
 noremap <Leader>ul :Unite locate<CR>

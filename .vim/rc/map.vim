@@ -56,5 +56,7 @@ let s:fast_i = 0
 
 call <SID>MapFastKeycode('<M-p>', "\ep", 'n')
 call <SID>MapFastKeycode('<M-S-p>', "\eP", 'n')
+call <SID>MapFastKeycode('<M-r>', "\et", 'n')
+call <SID>MapFastKeycode('<M-S-r>', "\eT", 'n')
 call <SID>MapFastKeycode('<M-t>', "\et", 'n')
 call <SID>MapFastKeycode('<M-S-t>', "\eT", 'n')

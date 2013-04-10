@@ -148,4 +148,5 @@ endif
 call s:loadrc('tab')
 " gmail.vim 設定
 call s:loadrc('gmail')
-
+" dwm.vim 設定
+call s:loadrc('dwm')
