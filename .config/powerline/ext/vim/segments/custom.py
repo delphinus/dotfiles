@@ -8,6 +8,7 @@ except ImportError:
 	vim = {}
 
 from powerline.bindings.vim import vim_get_func
+from powerline.theme import requires_segment_info
 
 vim_funcs = {
 		'col': vim_get_func('col', rettype=int),
@@ -22,15 +23,17 @@ def _do_ex(command):
 	vim.command('redir => tmp_do_ex | silent! {0} | redir END'.format(command))
 	return vim.eval('tmp_do_ex')
 
-def col_current_virt(pl):
+@requires_segment_info
+def col_current_virt(pl, segment_info):
 	'''Return the current cursor column.
 
 	Since default 'col_current()' function returns current OR virtual column
 	only, this function returns current AND virtual columns.
 	'''
 	virtcol = str(vim_funcs['virtcol']('.'))
-	col = str(vim_funcs['col']('.'))
-	return col if virtcol == col else col + '-' + virtcol
+	col = str(segment_info['window'].cursor[1] + 1)
+	return [{'contents': col if virtcol == col else col + '-' + virtcol,
+		'highlight_group': ['virtcol_current', 'col_current']}]
 
 def get_char_code(pl):
 	'''Return charcode and char itself on cursol position.

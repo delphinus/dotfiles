@@ -10,9 +10,6 @@ import re
 
 from powerline.lib.url import urllib_read
 
-import logging
-logging.basicConfig(filename='/tmp/powerline.log')
-
 def cpu_load_percent_gradient(pl, format='{0:.0f}%', measure_interval=.5):
 	cpu_percent = psutil.cpu_percent(interval=measure_interval)
 	return [{
@@ -71,7 +68,7 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 	raw_res = urllib_read('http://127.0.0.1:18080')
 
 	if not raw_res:
-		logging.error('Failed to get response')
+		pl.error('Failed to get response')
 		return
 
 	res = json.loads(raw_res)
