@@ -121,6 +121,7 @@ NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/cmdline-completion'
 NeoBundle 'vim-scripts/vim-align'
+"NeoBundle 'vim-scripts/ZoomWin'
 "NeoBundle 'ynkdir/vim-funlib'
 NeoBundle 'yuratomo/gmail.vim'
 " }}}
@@ -138,7 +139,6 @@ NeoBundle 'sudo.vim'
 NeoBundle 'time-lapse.vim'
 NeoBundle 'vmark.vim--Visual-Bookmarking'
 NeoBundle 'HiColors'
-NeoBundle 'ZoomWin'
 NeoBundle 'LineJuggler'
 " }}}
 

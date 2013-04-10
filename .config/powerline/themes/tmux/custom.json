@@ -20,22 +20,22 @@
 			"args": {
 				"username": "",
 				"password": "",
-				"max_msgs": 100
+				"max_msgs": 50
 			}
 		},
 		"cpu_load_percent_gradient": {
 			"args": {
-				"format": "CPU {0:4.1f}%"
+				"format": "💻  {0:4.1f}%"
 			}
 		},
 		"used_memory_percent_gradient": {
 			"args": {
-				"format": "MEM {0:4.1f}%"
+				"format": "🔲  {0:4.1f}%"
 			}
 		},
 		"battery_percent_gradient": {
 			"args": {
-				"format": "BAT {percent:2d}% ({status}{remain})",
+				"format": "🔋  {percent:2d}% ({status}{remain})",
 				"remain": "残り {0}",
 				"charging": "充電中",
 				"charged": "充電完了"
@@ -49,9 +49,10 @@
 		},
 		"now_playing": {
 			"args": {
-				"user": "delphinus_iddqd",
-				"api_key": "abcde",
-				"format": "{state_symbol} {artist} - {title}"
+				"username": "delphinus_iddqd",
+				"api_key": "7a77671178c4f4cff16222c46f72d193",
+				"format": "{state_symbol} {title}",
+				"interval": 30
 			}
 		}
 	},
@@ -64,9 +65,18 @@
 					"istime": true
 				},
 				"priority": 80
+			},
+			{
+				"name": "weather",
+				"priority": 90
 			}
 		],
 		"right": [
+			{
+				"name": "now_playing",
+				"module": "ext.tmux.segments.nowplayinglastfm",
+				"priority": 80
+			},
 			{
 				"name": "network_load",
 				"priority": 50
@@ -85,10 +95,6 @@
 				"name": "battery_percent_gradient",
 				"module": "ext.tmux.segments.ps",
 				"priority": 50
-			},
-			{
-				"name": "weather",
-				"priority": 90
 			},
 			{
 				"name": "email_imap_alert",

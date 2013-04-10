@@ -23,7 +23,8 @@ function! GetTitleString()
     " 検索文字列
     let search_string = len(@/) ? ' [' . @/ . ']' : ''
     " 表示文字列を作成
-    let str = filename . flag . (g:is_office ? '' : dir) . search_string
+    "let str = filename . flag . (g:is_office ? '' : dir) . search_string
+    let str = filename . flag . search_string
     " Screen などの時、タイトルバーに全角文字があったら化けるので対処する
     if !has('gui_running') && !len($TMUX)
         let str2 = ''
