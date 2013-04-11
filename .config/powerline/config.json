@@ -12,6 +12,7 @@
 			}
 		},
 		"spaces": 1,
+		"ambiwidth": 2,
 		"paths": [
 			"~/.config/powerline"
 		],
