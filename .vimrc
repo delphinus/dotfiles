@@ -108,7 +108,7 @@ call s:loadrc('title')
 " activefix 設定
 "call s:loadrc('activefix')
 " sunset 設定
-call s:loadrc('sunset')
+"call s:loadrc('sunset')
 " Pastefire 設定
 call s:loadrc('pastefire')
 " Auto Pairs 設定
