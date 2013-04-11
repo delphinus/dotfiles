@@ -54,6 +54,12 @@
 				"format": "{state_symbol} {artist} - {title}",
 				"interval": 30
 			}
+		},
+		"network_load": {
+			"args": {
+				"recv_format": "⬇ {value:>8} ",
+				"sent_format": "⬆ {value:>8}"
+			}
 		}
 	},
 	"segments": {
