@@ -41,7 +41,8 @@
 			"theme": "custom",
 			"local_themes": {
 				"cmdwin": "cmdwin",
-				"help": "help"
+				"help": "help",
+				"quickfix": "quickfix"
 			}
 		},
 		"wm": {
