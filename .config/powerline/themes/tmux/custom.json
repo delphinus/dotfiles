@@ -36,9 +36,9 @@
 		"battery_percent_gradient": {
 			"args": {
 				"format": "🔋  {percent:2d}% ({status}{remain})",
-				"remain": "残り {0}",
 				"charging": "充電中",
-				"charged": "充電完了"
+				"charged": "充電完了",
+				"remain": "残り {0}"
 			}
 		},
 		"system_load": {
