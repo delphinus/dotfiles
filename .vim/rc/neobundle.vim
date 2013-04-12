@@ -100,8 +100,9 @@ NeoBundle 'Shougo/vimshell'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'sjl/badwolf'
 "NeoBundle 'sjl/clam.vim'
-NeoBundle 'spolu/dwm.vim'
 NeoBundle 'delphinus35/clam.vim'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'spolu/dwm.vim'
 NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-ref'
@@ -120,38 +121,23 @@ NeoBundle 'tyru/current-func-info.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/cmdline-completion'
+NeoBundle 'vim-scripts/colorizer'
+NeoBundle 'vim-scripts/Colour-Sampler-Pack'
+NeoBundle 'vim-scripts/DrawIt'
+NeoBundle 'vim-scripts/ExplainPattern'
+NeoBundle 'vim-scripts/HiColors'
+NeoBundle 'vim-scripts/LineJuggler'
+NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'vim-scripts/vim-align'
+NeoBundle 'vim-scripts/vmark.vim--Visual-Bookmarking'
 "NeoBundle 'vim-scripts/ZoomWin'
 "NeoBundle 'ynkdir/vim-funlib'
 NeoBundle 'yuratomo/gmail.vim'
 " }}}
 
-" プラグイン（その他） {{{
-NeoBundle 'ChangeGlobally'
-NeoBundle 'Colorizer'
-NeoBundle 'Colour-Sampler-Pack'
-NeoBundle 'compilerjsl.vim'
-NeoBundle 'DistractFree'
-NeoBundle 'DrawIt'
-NeoBundle 'explainpat'
-NeoBundle 'Gundo'
-NeoBundle 'sudo.vim'
-NeoBundle 'time-lapse.vim'
-NeoBundle 'vmark.vim--Visual-Bookmarking'
-NeoBundle 'HiColors'
-NeoBundle 'LineJuggler'
-" }}}
-
 " 後で読み込む {{{
 NeoBundleLazy 'rkitover/vimpager'
 NeoBundleLazy 'scrooloose/nerdtree'
-
-" GVim 専用
-if has('gui_running')
-    NeoBundle 'koron/minimap-vim'
-else
-    NeoBundleLazy 'koron/minimap-vim'
-endif
 
 " Mac 専用
 if has('macunix')
