@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+import cgi
 from ctypes.wintypes import BYTE, LONG
 import ctypes
 import json
@@ -60,13 +61,45 @@ def get_battery():
 
     return battery
 
+last_message = ''
+
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        battery = get_battery()
-        self.wfile.write(json.dumps(battery))
+        res = json.dumps({
+            'battery': get_battery(),
+            'message': last_message,
+            })
+        self.wfile.write(res)
+
+    def do_POST(self):
+        form = cgi.FieldStorage(
+                fp=self.rfile,
+                headers=self.headers,
+                environ={
+                    'REQUEST_METHOD': 'POST',
+                    'CONTENT_TYPE': self.headers['Content-Type'],
+                    })
+
+        message = form.getvalue('message')
+
+        if not message:
+            self.send_response(400)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write('400 Bad Request')
+
+        else:
+            global last_message
+            last_message = message
+            print(last_message)
+
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write('200 OK')
 
 if __name__ == '__main__':
     server_class = BaseHTTPServer.HTTPServer
