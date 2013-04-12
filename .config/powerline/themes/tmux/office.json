@@ -65,6 +65,11 @@
 	"segments": {
 		"right": [
 			{
+				"name": "last_message",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
 				"name": "weather",
 				"priority": 90
 			},

@@ -72,16 +72,18 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 		return
 
 	res = json.loads(raw_res)
+	battery = res['battery']
 
-	if res['charging']:
-		status = charged if res['percent'] == 100 else charging
+	pl.warn(raw_res)
+	if battery['charging']:
+		status = charged if battery['percent'] == 100 else charging
 		remain = ''
-	elif not res['charging']:
+	elif not battery['charging']:
 		status = discharging
-		remain = remain.format(res['remain'])
+		remain = remain.format(battery['remain'])
 
 	battery = {
-			'percent': res['percent'],
+			'percent': battery['percent'],
 			'status': status,
 			'remain': remain,
 			}
@@ -92,4 +94,23 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 		'draw_divider': True,
 		'divider_highlight_group': 'background:divider',
 		'gradient_level': 100 - battery['percent'],
+		}]
+
+def last_message(pl, format=u'{0}'):
+	raw_res = urllib_read('http://127.0.0.1:18080')
+
+	if not raw_res:
+		pl.error('Failed to get response')
+		return
+
+	res = json.loads(raw_res)
+	message = res['message']
+
+	if not message: return
+
+	return [{
+		'contents': format.format(message),
+		'highlight_group': ['last_message'],
+		'draw_divider': True,
+		'divider_highlight_group': 'background:divider',
 		}]
