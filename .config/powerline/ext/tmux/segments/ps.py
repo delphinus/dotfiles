@@ -96,7 +96,7 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 		'gradient_level': 100 - battery['percent'],
 		}]
 
-def last_message(pl, format=u'{0}'):
+def last_message(pl, format=u'{0}', max_length=30):
 	raw_res = urllib_read('http://127.0.0.1:18080')
 
 	if not raw_res:
@@ -105,11 +105,12 @@ def last_message(pl, format=u'{0}'):
 
 	res = json.loads(raw_res)
 	message = res['message']
+	body = message['body']
 
 	if not message: return
 
 	return [{
-		'contents': format.format(message),
+		'contents': format.format(body[:max_length]),
 		'highlight_group': ['last_message'],
 		'draw_divider': True,
 		'divider_highlight_group': 'background:divider',
