@@ -74,7 +74,6 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 	res = json.loads(raw_res)
 	battery = res['battery']
 
-	pl.warn(raw_res)
 	if battery['charging']:
 		status = charged if battery['percent'] == 100 else charging
 		remain = ''
