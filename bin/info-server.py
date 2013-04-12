@@ -61,7 +61,7 @@ def get_battery():
 
     return battery
 
-last_message = ''
+last_message = {}
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -93,8 +93,10 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         else:
             global last_message
-            last_message = message
-            print(last_message)
+            last_message = {
+                    'body': message,
+                    'timestamp': time.time(),
+                    }
 
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
