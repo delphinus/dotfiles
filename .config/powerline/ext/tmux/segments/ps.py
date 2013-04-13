@@ -10,9 +10,6 @@ import re
 
 from powerline.lib.url import urllib_read
 
-import logging
-logging.basicConfig(filename='/tmp/powerline.log')
-
 def cpu_load_percent_gradient(pl, format='{0:.0f}%', measure_interval=.5):
 	cpu_percent = psutil.cpu_percent(interval=measure_interval)
 	return [{
@@ -34,7 +31,7 @@ def used_memory_percent_gradient(pl, format='{0:.0f}%'):
 		}]
 
 def battery_percent_gradient(pl, format='{percent}%', charging='charging',
-		discharging='', charged='', remain='remain {0}:{1}'):
+		discharging='', charged='', remain='remain {0}'):
 	pmset_output = commands.getoutput('pmset -g ps')
 	r = re.compile(r"Currently drawing from '(.*)'" + \
 			r'.*-InternalBattery-\d+\s+(\d+)%;' + \
@@ -45,12 +42,12 @@ def battery_percent_gradient(pl, format='{percent}%', charging='charging',
 	if m == None:
 		return
 
-	if m.lastindex == 3 : remain = charged
+	if m.lastindex == 3 : remain = ''
 	else                : remain = remain.format(m.group(5))
 
 	if m.group(3) == 'charging'      : status = charging
 	elif m.group(3) == 'discharging' : status = discharging
-	elif m.group(3) == 'charged'     : status = ''
+	elif m.group(3) == 'charged'     : status = charged; remain = ''
 
 	battery = {
 			'percent': int(m.group(2)),
@@ -71,19 +68,21 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 	raw_res = urllib_read('http://127.0.0.1:18080')
 
 	if not raw_res:
-		logging.error('Failed to get response')
+		pl.error('Failed to get response')
 		return
 
 	res = json.loads(raw_res)
+	battery = res['battery']
 
-	remain = remain.format(res[u'remain'])
-
-	if res[u'percent'] == 100 : status = ''; remain = charged
-	elif res[u'charging']     : status = charging; remain = ''
-	elif not res[u'charging'] : status = discharging
+	if battery['charging']:
+		status = charged if battery['percent'] == 100 else charging
+		remain = ''
+	elif not battery['charging']:
+		status = discharging
+		remain = remain.format(battery['remain'])
 
 	battery = {
-			'percent': res[u'percent'],
+			'percent': battery['percent'],
 			'status': status,
 			'remain': remain,
 			}
@@ -94,4 +93,24 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 		'draw_divider': True,
 		'divider_highlight_group': 'background:divider',
 		'gradient_level': 100 - battery['percent'],
+		}]
+
+def last_message(pl, format=u'{0}', max_length=30):
+	raw_res = urllib_read('http://127.0.0.1:18080')
+
+	if not raw_res:
+		pl.error('Failed to get response')
+		return
+
+	res = json.loads(raw_res)
+	message = res['message']
+	body = message['body']
+
+	if not message: return
+
+	return [{
+		'contents': format.format(body[:max_length]),
+		'highlight_group': ['last_message'],
+		'draw_divider': True,
+		'divider_highlight_group': 'background:divider',
 		}]

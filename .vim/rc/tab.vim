@@ -32,13 +32,13 @@ function! MyTabMove(c)
     execute ':tabmove ' . target
 endfunction
 
-let g:taboo_format='[%N]%f%m '
-let g:taboo_enable_mappings=0
-nnoremap <silent> <Leader>tc :TabooRenameTabPrompt<CR>
-nnoremap <silent> <leader>to :TabooOpenTabPrompt<CR>
-nnoremap <silent> <leader>tr :TabooResetName<CR>
-set tabline=%!TabooTabline()
-set showtabline=2 " タブは常に表示
+"let g:taboo_format='[%N]%f%m '
+"let g:taboo_enable_mappings=0
+"nnoremap <silent> <Leader>tc :TabooRenameTabPrompt<CR>
+"nnoremap <silent> <leader>to :TabooOpenTabPrompt<CR>
+"nnoremap <silent> <leader>tr :TabooResetName<CR>
+"set tabline=%!TabooTabline()
+"set showtabline=0 " タブは常に非表示
 
 "set tabline=%!MyTabLine()
 function! MyTabLine()

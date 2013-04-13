@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+import cgi
 from ctypes.wintypes import BYTE, LONG
 import ctypes
 import json
@@ -45,7 +46,8 @@ def get_battery():
     else:                       condition = 'error'
 
     charging = True if sps.BatteryFlag & 8 else False
-    remain_seconds = sps.BatteryFullLifeTime if charging else sps.BatteryLifeTime
+    remain_seconds = sps.BatteryFullLifeTime \
+            if charging else sps.BatteryLifeTime
     remain = '{0:d}:{1:02d}'.format(
             remain_seconds / 3600, remain_seconds / 60 % 60)
 
@@ -59,22 +61,58 @@ def get_battery():
 
     return battery
 
+last_message = {}
+
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        battery = get_battery()
-        self.wfile.write(json.dumps(battery))
+        res = json.dumps({
+            'battery': get_battery(),
+            'message': last_message,
+            })
+        self.wfile.write(res)
+
+    def do_POST(self):
+        form = cgi.FieldStorage(
+                fp=self.rfile,
+                headers=self.headers,
+                environ={
+                    'REQUEST_METHOD': 'POST',
+                    'CONTENT_TYPE': self.headers['Content-Type'],
+                    })
+
+        message = form.getvalue('message')
+
+        if not message:
+            self.send_response(400)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write('400 Bad Request')
+
+        else:
+            global last_message
+            last_message = {
+                    'body': message,
+                    'timestamp': time.time(),
+                    }
+
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write('200 OK')
 
 if __name__ == '__main__':
     server_class = BaseHTTPServer.HTTPServer
     httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
-    print('{0} Server Starts - {1}:{2}'.format(time.asctime(), HOST_NAME,PORT_NUMBER))
+    print('{0} Server Starts - {1}:{2}'.
+            format(time.asctime(), HOST_NAME, PORT_NUMBER))
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
         pass
     httpd.server_close()
-    print('{0} Server Stops - {1}:{2}'.format(time.asctime(), HOST_NAME, PORT_NUMBER))
+    print('{0} Server Stops - {1}:{2}'.
+            format(time.asctime(), HOST_NAME, PORT_NUMBER))
 

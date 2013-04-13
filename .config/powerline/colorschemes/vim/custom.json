@@ -27,8 +27,7 @@
 		"line_percent_gradient":  { "fg": "green_yellow_red", "bg": "azure4" },
 		"line_current":           { "fg": "lightyellow", "bg": "darkgreencopper", "attr": ["bold"] },
 		"line_current_symbol":    { "fg": "lightyellow", "bg": "darkgreencopper" },
-		"col_current":            { "fg": "lightyellow", "bg": "darkgreencopper" },
-		"col_current_virt":       { "fg": "lightyellow", "bg": "darkgreencopper" }
+		"col_current":            { "fg": "lightyellow", "bg": "darkgreencopper" }
 	},
 	"mode_translations": {
 		"nc": {
@@ -67,8 +66,7 @@
 				"line_percent_gradient":  { "fg": "green_yellow_red", "bg": "gray61" },
 				"line_current":           { "fg": "lightyellow", "bg": "lightskyblue4", "attr": ["bold"] },
 				"line_current_symbol":    { "fg": "lightyellow", "bg": "lightskyblue4" },
-				"col_current":            { "fg": "oldlace", "bg": "lightskyblue4" },
-				"col_current_virt":       { "fg": "oldlace", "bg": "lightskyblue4" }
+				"col_current":            { "fg": "oldlace", "bg": "lightskyblue4" }
 			}
 		},
 		"v": {

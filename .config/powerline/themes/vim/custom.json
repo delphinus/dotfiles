@@ -24,8 +24,7 @@
 		"left": [
 			{
 				"name": "mode",
-				"exclude_modes": ["nc"],
-				"priority": 50
+				"exclude_modes": ["nc"]
 			},
 			{
 				"name": "paste_indicator",
@@ -35,49 +34,45 @@
 			{
 				"name": "branch",
 				"exclude_modes": ["nc"],
-				"priority": 60
+				"priority": 30
 			},
 			{
 				"name": "readonly_indicator",
-				"draw_divider": false,
-				"after": " ",
-				"priority": 50
+				"draw_soft_divider": false,
+				"after": " "
 			},
 			{
 				"name": "file_directory",
-				"priority": 60,
-				"draw_divider": false
+				"priority": 40,
+				"draw_soft_divider": false
 			},
 			{
 				"name": "file_name",
-				"draw_divider": false,
-				"priority": 50
+				"draw_soft_divider": false
 			},
 			{
 				"name": "file_vcs_status",
 				"before": " ",
-				"draw_divider": false,
-				"priority": 50
+				"draw_soft_divider": false
 			},
 			{
 				"name": "modified_indicator",
-				"before": " ",
-				"priority": 50
+				"before": " "
 			},
 			{
 				"type": "string",
 				"highlight_group": ["background"],
-				"draw_divider": false,
-				"width": "auto",
-				"priority": 50
+				"draw_soft_divider": false,
+				"draw_hard_divider": false,
+				"width": "auto"
 			}
 		],
 		"right": [
 			{
 				"name": "file_format",
-				"draw_divider": false,
+				"draw_soft_divider": false,
 				"exclude_modes": ["nc"],
-				"priority": 40
+				"priority": 60
 			},
 			{
 				"name": "file_encoding",
@@ -87,7 +82,7 @@
 			{
 				"name": "file_type",
 				"exclude_modes": ["nc"],
-				"priority": 50
+				"priority": 60
 			},
 			{
 				"name": "get_char_code",
@@ -97,28 +92,26 @@
 			},
 			{
 				"name": "line_percent",
-				"priority": 30,
+				"priority": 50,
 				"width": 4,
 				"align": "r"
 			},
 			{
 				"type": "string",
 				"name": "line_current_symbol",
-				"highlight_group": ["line_current_symbol", "line_current"],
-				"priority": 50
+				"highlight_group": ["line_current_symbol", "line_current"]
 			},
 			{
 				"name": "line_current",
-				"draw_divider": false,
+				"draw_soft_divider": false,
 				"width": 3,
-				"align": "r",
-				"priority": 50
+				"align": "r"
 			},
 			{
 				"name": "col_current_virt",
 				"module": "ext.vim.segments.custom",
-				"draw_divider": false,
-				"priority": 30,
+				"draw_soft_divider": false,
+				"priority": 20,
 				"before": ":",
 				"width": 3,
 				"align": "l"

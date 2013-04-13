@@ -126,6 +126,9 @@ set wildmode=full
 
 set helplang=ja                   " ヘルプは日本語のものを優先する
 
+set tildeop                       " ~ を operator として使う
+
+set background=dark               " 背景は暗く
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colo solarized
 "colo gruvbox

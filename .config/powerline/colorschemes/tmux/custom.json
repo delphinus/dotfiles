@@ -26,7 +26,8 @@
 		"battery_percent_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" },
 		"system_load": { "fg": "gray8", "bg": "gray0" },
 		"system_load_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" },
-		"now_playing": { "fg": "steelblue", "bg": "gray0" }
+		"now_playing": { "fg": "steelblue", "bg": "gray0" },
+		"last_message": { "fg": "steelblue", "bg": "gray0" }
 	},
 	"modeline": " vim:se ft=javascript noet: "
 }

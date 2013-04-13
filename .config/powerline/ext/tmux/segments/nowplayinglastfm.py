@@ -10,7 +10,7 @@ from collections import namedtuple
 import json
 import types
 
-_NowPlayingKey = namedtuple('Key', 'username api_key format_string')
+_NowPlayingKey = namedtuple('Key', 'username api_key format')
 
 STATE_SYMBOLS = {
 	'fallback': u'♫',
@@ -23,8 +23,8 @@ class NowPlayingLastFM(KwThreadedSegment):
 	interval = 30
 
 	@staticmethod
-	def key(username, api_key, format_string=u'{state_symbol} {artist} - {title}', **kwargs):
-		return _NowPlayingKey(username, api_key, format_string)
+	def key(username, api_key, format=u'{state_symbol} {artist} - {title}', **kwargs):
+		return _NowPlayingKey(username, api_key, format)
 
 	def compute_state(self, key):
 		if not key.username or not key.api_key:
@@ -41,7 +41,7 @@ class NowPlayingLastFM(KwThreadedSegment):
 				'total': None,
 				}
 		stats.update(data)
-		string = key.format_string.format(**stats)
+		string = key.format.format(**stats)
 		return string
 
 	@staticmethod
@@ -58,7 +58,6 @@ class NowPlayingLastFM(KwThreadedSegment):
 				}
 		url = 'http://ws.audioscrobbler.com/2.0/?' + \
 				urllib_urlencode(query_data)
-		self.warn(url)
 
 		raw_response = urllib_read(url)
 		if not raw_response:

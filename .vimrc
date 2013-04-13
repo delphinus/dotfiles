@@ -108,7 +108,7 @@ call s:loadrc('title')
 " activefix 設定
 "call s:loadrc('activefix')
 " sunset 設定
-call s:loadrc('sunset')
+"call s:loadrc('sunset')
 " Pastefire 設定
 call s:loadrc('pastefire')
 " Auto Pairs 設定
@@ -148,4 +148,5 @@ endif
 call s:loadrc('tab')
 " gmail.vim 設定
 call s:loadrc('gmail')
-
+" dwm.vim 設定
+call s:loadrc('dwm')

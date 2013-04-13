@@ -16,26 +16,35 @@
 			}
 		},
 		"email_imap_alert": {
-			"before": "✉ ",
+			"before": "📩 ",
 			"args": {
 				"username": "",
-				"password": ""
+				"password": "",
+				"max_msgs": 50
 			}
 		},
 		"cpu_load_percent_gradient": {
 			"args": {
-				"format": "CPU {0}%"
+				"format": "💻 {0:4.1f}%"
+			}
+		},
+		"used_memory_percent_gradient": {
+			"args": {
+				"format": "🔲 {0:4.1f}%"
+			}
+		},
+		"host_battery_percent_gradient": {
+			"args": {
+				"format": "🔋 {percent:2d}% ({status}{remain})",
+				"charging": "充電中",
+				"charged": "充電完了",
+				"remain": "残り {0}"
 			}
 		},
 		"system_load": {
 			"args": {
 				"threshold_good": 0.25,
 				"threshold_bad": 0.5
-			}
-		},
-		"used_memory_percent_gradient": {
-			"args": {
-				"format": "MEM {0:4.1f}%"
 			}
 		},
 		"now_playing": {
@@ -46,17 +55,29 @@
 				"interval": 30
 			}
 		},
-		"host_battery_percent_gradient": {
+		"network_load": {
 			"args": {
-				"format": "BAT {percent:2d}% ({status}{remain})",
-				"charging": "充電中",
-				"charged": "充電完了",
-				"remain": "残り {0}"
+				"recv_format": "⬇ {value:>8} ",
+				"sent_format": "⬆ {value:>8}"
+			}
+		},
+		"last_message": {
+			"args": {
+				"max_length": 50
 			}
 		}
 	},
 	"segments": {
 		"right": [
+			{
+				"name": "last_message",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
+			},
+			{
+				"name": "weather",
+				"priority": 90
+			},
 			{
 				"name": "now_playing",
 				"module": "ext.tmux.segments.nowplayinglastfm",
@@ -84,10 +105,6 @@
 				"name": "host_battery_percent_gradient",
 				"module": "ext.tmux.segments.ps",
 				"priority": 50
-			},
-			{
-				"name": "weather",
-				"priority": 90
 			},
 			{
 				"name": "date",
