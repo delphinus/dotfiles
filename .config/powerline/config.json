@@ -42,7 +42,8 @@
 			"local_themes": {
 				"cmdwin": "cmdwin",
 				"help": "help",
-				"quickfix": "quickfix"
+				"quickfix": "quickfix",
+				"ext.vim.matcher.unite": "unite"
 			}
 		},
 		"wm": {
