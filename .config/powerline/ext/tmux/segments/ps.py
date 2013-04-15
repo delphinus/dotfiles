@@ -5,8 +5,11 @@ from __future__ import absolute_import
 
 import commands
 import json
+import math
 import psutil
+import os
 import re
+import time
 
 from powerline.lib.url import urllib_read
 
@@ -95,7 +98,8 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 		'gradient_level': 100 - battery['percent'],
 		}]
 
-def last_message(pl, format=u'{0}', max_length=30):
+def last_message(pl, format=u'{now} {body}', max_length=30,
+		time_format='%Y-%m-%d %H:%M:%S'):
 	raw_res = urllib_read('http://127.0.0.1:18080')
 
 	if not raw_res:
@@ -106,11 +110,60 @@ def last_message(pl, format=u'{0}', max_length=30):
 	message = res['message']
 	body = message['body']
 
-	if not message: return
+	filename = '/tmp/last-message-history.log'
+	last_message = (_get_last_line('/tmp/last-message-history.log', 1))[0]
+
+	s = re.split(r',', last_message.decode('utf-8'))
+	last_time = s[0] if len(s) else None
+	last_body = ''.join(s[1:]).rstrip() if len(s) else None
+
+	now = time.strftime(time_format)
+
+	if body != last_body:
+		with open(filename, 'a') as f:
+			f.write('{0},{1}\n'.format(now, body.encode('utf-8')))
+
+	param = {
+			'now': last_time if last_time else now,
+			'body': body[:max_length],
+			}
 
 	return [{
-		'contents': format.format(body[:max_length]),
+		'contents': format.format(**param),
 		'highlight_group': ['last_message'],
 		'draw_divider': True,
 		'divider_highlight_group': 'background:divider',
 		}]
+
+def _get_last_line(filename, num):
+	f = open(filename, 'r')
+	filesize = os.path.getsize(filename)
+	bufsize = 512
+	pos = int(math.ceil(float(filesize) / bufsize))
+
+	buf_tmp = ''
+	tail = []
+	while pos:
+		f.seek(bufsize * pos)
+		buf = f.read(bufsize) + buf_tmp
+		matches = re.findall(r'[^\x0D\x0A]*\x0D?\x0A?', buf)
+		lines = []
+		for i in xrange(len(matches)):
+			if i == 0:
+				buf_tmp = matches[i]
+			else:
+				lines.append(matches[i])
+
+		if len(lines):
+			lines.pop()
+			tail[1:1] = lines
+
+		if len(tail) > num:
+			break
+		else:
+			pos -= 1
+
+	if len(tail) > num:
+		tail = tail[-num:]
+
+	return tail
