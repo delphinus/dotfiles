@@ -133,6 +133,8 @@ call s:loadrc('psearch')
 call s:loadrc('watchdogs')
 " vim-seek 設定
 call s:loadrc('seek')
+" vim-multiple-cursors 設定
+call s:loadrc('multiple-cursors')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
