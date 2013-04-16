@@ -133,6 +133,8 @@ call s:loadrc('psearch')
 call s:loadrc('watchdogs')
 " vim-seek 設定
 call s:loadrc('seek')
+" dwm.vim 設定
+call s:loadrc('dwm')
 " vim-multiple-cursors 設定
 call s:loadrc('multiple-cursors')
 
@@ -150,5 +152,3 @@ endif
 call s:loadrc('tab')
 " gmail.vim 設定
 call s:loadrc('gmail')
-" dwm.vim 設定
-call s:loadrc('dwm')
