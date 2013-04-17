@@ -2,10 +2,6 @@ let mapleader='`'
 
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
-nnoremap <C-H> <C-W><C-H>
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
 nnoremap <S-CR> :simalt ~x<CR>
 nnoremap <C-CR> :simalt ~r<CR>
 nnoremap <S-C-CR> :simalt ~n<CR>
@@ -60,3 +56,5 @@ call <SID>MapFastKeycode('<M-r>', "\et", 'n')
 call <SID>MapFastKeycode('<M-S-r>', "\eT", 'n')
 call <SID>MapFastKeycode('<M-t>', "\et", 'n')
 call <SID>MapFastKeycode('<M-S-t>', "\eT", 'n')
+call <SID>MapFastKeycode('<M-n>', "\et", 'n')
+call <SID>MapFastKeycode('<M-S-n>', "\eT", 'n')
