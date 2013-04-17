@@ -99,7 +99,9 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 		}]
 
 def last_message(pl, format=u'{now} {body}', max_length=30,
-		time_format='%Y-%m-%d %H:%M:%S'):
+		time_format='%Y-%m-%d %H:%M:%S',
+		match_string='',
+		match_string_file='~/.message-match'):
 	raw_res = urllib_read('http://127.0.0.1:18080')
 
 	if not raw_res:
@@ -123,6 +125,20 @@ def last_message(pl, format=u'{now} {body}', max_length=30,
 		with open(filename, 'a') as f:
 			f.write('{0},{1}\n'.format(now, body.encode('utf-8')))
 
+	if len(match_string) == 0:
+		try:
+			tmp = []
+			with open(os.path.expanduser(match_string_file)) as f:
+				for line in f:
+					tmp.append(line.rstrip())
+			match_string = '|'.join(tmp)
+		except IOError:
+			pass
+
+	if len(match_string) > 0:
+		r = re.compile(match_string, re.I)
+		gradient_level = 100 if r.search(body) else 0
+
 	param = {
 			'now': last_time if last_time else now,
 			'body': body[:max_length],
@@ -130,9 +146,10 @@ def last_message(pl, format=u'{now} {body}', max_length=30,
 
 	return [{
 		'contents': format.format(**param),
-		'highlight_group': ['last_message'],
+		'highlight_group': ['last_message_gradient', 'last_message'],
 		'draw_divider': True,
 		'divider_highlight_group': 'background:divider',
+		'gradient_level': gradient_level,
 		}]
 
 def _get_last_line(filename, num):
