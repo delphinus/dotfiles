@@ -8,6 +8,7 @@ from powerline.lib.url import urllib_read, urllib_urlencode
 
 from collections import namedtuple
 import json
+import re
 import types
 
 _NowPlayingKey = namedtuple('Key', 'username api_key format')
@@ -75,9 +76,23 @@ class NowPlayingLastFM(KwThreadedSegment):
 			self.error('Invalid response')
 			status = 'fallback'
 			return
+
+		artist = self.fix_artist(track['artist']['#text'])
+		title = self.fix_title(track['name'])
+
 		return {
-				'artist': track['artist']['#text'],
-				'title': track['name'],
+				'artist': artist,
+				'title': title,
 				'playing': status,
 				}
+
+	def fix_artist(self, artist):
+		return artist
+
+	def fix_title(self, title):
+		m = re.match(r'(.*)\s*\(.*\)$', title)
+		if m:
+			title = m.group(1)
+		return title
+
 now_playing = with_docstring(NowPlayingLastFM(), '')
