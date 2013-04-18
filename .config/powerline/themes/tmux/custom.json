@@ -60,11 +60,6 @@
 				"recv_format": "⬇ {value:>8} ",
 				"sent_format": "⬆ {value:>8}"
 			}
-		},
-		"last_message": {
-			"args": {
-				"max_length": 30
-			}
 		}
 	},
 	"segments": {

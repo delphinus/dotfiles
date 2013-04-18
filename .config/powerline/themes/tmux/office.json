@@ -63,6 +63,7 @@
 		},
 		"last_message": {
 			"args": {
+				"format": "{body}",
 				"max_length": 50
 			}
 		}
