@@ -95,7 +95,7 @@ class NowPlayingLastFM(KwThreadedSegment):
 
 	def shorten_artist(self, artist):
 		r = re.compile(r'''
-			(.*)
+			(.+?)
 			\s*
 			(?:
 				feat(?:uring)?\.?
