@@ -101,7 +101,7 @@ class NowPlayingLastFM(KwThreadedSegment):
 				feat(?:uring)?\.?
 				|
 				pres(?:sents)?\.?
-			)\s+.*
+			)\b
 			''', re.I | re.X)
 		m = r.match(artist)
 		if m:
@@ -109,7 +109,7 @@ class NowPlayingLastFM(KwThreadedSegment):
 		return artist
 
 	def shorten_title(self, title):
-		m = re.match(r'(.+?)\s*\(.*\)$', title)
+		m = re.match(r'(.+?)\s*\(.*\)', title)
 		if m:
 			title = m.group(1)
 		return title
