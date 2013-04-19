@@ -9,19 +9,10 @@ import math
 import psutil
 import os
 import re
+import socket
 import time
 
 from powerline.lib.url import urllib_read
-
-def cpu_load_percent_gradient(pl, format='{0:.0f}%', measure_interval=.5):
-	cpu_percent = psutil.cpu_percent(interval=measure_interval)
-	return [{
-		'contents': format.format(cpu_percent),
-		'highlight_group': ['cpu_load_percent_gradient', 'cpu_load_percent'],
-		'draw_divider': True,
-		'divider_highlight_group': 'background:divider',
-		'gradient_level': cpu_percent,
-		}]
 
 def used_memory_percent_gradient(pl, format='{0:.0f}%'):
 	memory_percent = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
@@ -184,3 +175,10 @@ def _get_last_line(filename, num):
 		tail = tail[-num:]
 
 	return tail
+
+def internal_ip(pl):
+	for ip in socket.gethostbyname_ex(socket.gethostname())[2]:
+		if not ip.startswith('127.'):
+			return [{
+				'contents': ip, 'divider_highlight_group': 'background:divider'
+				}]
