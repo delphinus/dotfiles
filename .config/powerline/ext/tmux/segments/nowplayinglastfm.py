@@ -11,7 +11,8 @@ import json
 import re
 import types
 
-_NowPlayingKey = namedtuple('Key', 'username api_key format')
+_NowPlayingKey = namedtuple(
+	'Key', 'username api_key format shorten_artist shorten_title')
 
 STATE_SYMBOLS = {
 	'fallback': u'♫',
@@ -24,8 +25,10 @@ class NowPlayingLastFM(KwThreadedSegment):
 	interval = 30
 
 	@staticmethod
-	def key(username, api_key, format=u'{state_symbol} {artist} - {title}', **kwargs):
-		return _NowPlayingKey(username, api_key, format)
+	def key(username, api_key, format=u'{state_symbol} {artist} - {title}',
+			shorten_artist=False, shorten_title=False, **kwargs):
+		return _NowPlayingKey(
+				username, api_key, format, shorten_artist, shorten_title)
 
 	def compute_state(self, key):
 		if not key.username or not key.api_key:
@@ -77,8 +80,12 @@ class NowPlayingLastFM(KwThreadedSegment):
 			status = 'fallback'
 			return
 
-		artist = self.fix_artist(track['artist']['#text'])
-		title = self.fix_title(track['name'])
+		artist = track['artist']['#text']
+		if self.shorten_artist:
+			artist = self.shorten_artist(artist)
+		title = track['name']
+		if self.shorten_title:
+			title = self.shorten_title(title)
 
 		return {
 				'artist': artist,
@@ -86,11 +93,23 @@ class NowPlayingLastFM(KwThreadedSegment):
 				'playing': status,
 				}
 
-	def fix_artist(self, artist):
+	def shorten_artist(self, artist):
+		r = re.compile(r'''
+			(.*)
+			\s*
+			(?:
+				feat(?:uring)?\.?
+				|
+				pres(?:sents)?\.?
+			)\s+.*
+			''', re.I | re.X)
+		m = r.match(artist)
+		if m:
+			artist = m.group(1)
 		return artist
 
-	def fix_title(self, title):
-		m = re.match(r'(.*)\s*\(.*\)$', title)
+	def shorten_title(self, title):
+		m = re.match(r'(.+?)\s*\(.*\)$', title)
 		if m:
 			title = m.group(1)
 		return title
