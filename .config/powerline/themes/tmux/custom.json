@@ -5,7 +5,10 @@
 			"before": "⇑  "
 		},
 		"external_ip": {
-			"before": "ⓦ  "
+			"before": "𝔾  "
+		},
+		"internal_ip": {
+			"before": "𝕃  "
 		},
 		"date": {
 			"before": "⌚  "
@@ -23,7 +26,7 @@
 				"max_msgs": 50
 			}
 		},
-		"cpu_load_percent_gradient": {
+		"cpu_load_percent": {
 			"args": {
 				"format": "💻  {0:4.1f}%"
 			}
@@ -51,7 +54,9 @@
 			"args": {
 				"username": "delphinus_iddqd",
 				"api_key": "7a77671178c4f4cff16222c46f72d193",
-				"format": "{state_symbol} {title}",
+				"format": "{state_symbol} {artist} - {title}",
+				"shorten_artist": true,
+				"shorten_title": true,
 				"interval": 30
 			}
 		},
@@ -66,6 +71,10 @@
 		"left": [
 			{
 				"name": "date",
+				"priority": 80
+			},
+			{
+				"name": "date",
 				"args": {
 					"format": "%H:%M",
 					"istime": true
@@ -73,23 +82,35 @@
 				"priority": 80
 			},
 			{
+				"name": "now_playing",
+				"module": "ext.tmux.segments.nowplayinglastfm",
+				"priority": 80
+			},
+			{
 				"name": "weather",
 				"priority": 90
+			},
+			{
+				"name": "email_imap_alert",
+				"priority": 50
 			}
 		],
 		"right": [
 			{
-				"name": "now_playing",
-				"module": "ext.tmux.segments.nowplayinglastfm",
-				"priority": 80
+				"name": "external_ip",
+				"priority": 50
+			},
+			{
+				"name": "internal_ip",
+				"module": "ext.tmux.segments.ps",
+				"priority": 50
 			},
 			{
 				"name": "network_load",
 				"priority": 50
 			},
 			{
-				"name": "cpu_load_percent_gradient",
-				"module": "ext.tmux.segments.ps",
+				"name": "cpu_load_percent",
 				"priority": 50
 			},
 			{
@@ -100,10 +121,6 @@
 			{
 				"name": "battery_percent_gradient",
 				"module": "ext.tmux.segments.ps",
-				"priority": 50
-			},
-			{
-				"name": "email_imap_alert",
 				"priority": 50
 			}
 		]
