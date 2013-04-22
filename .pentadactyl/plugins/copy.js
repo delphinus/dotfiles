@@ -1,131 +1,121 @@
 var INFO =
-<plugin name="copy" version="0.7.6"
-        href="http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/copy.js"
-        summary="copy strings from the template (like CopyURL+)"
-        xmlns="http://vimperator.org/namespaces/dactyl">
-    <author email="teramako@gmail.com">teramako</author>
-    <license>MPL 1.1/GPL 2.0/LGPL 2.1</license>
-    <project name="Vimperator" minVersion="2.3"/>
-    <item>
-    <tags>:copy</tags>
-    <spec>:copy <a>label</a></spec>
-    <description>
-        <p>copy the argument replaced some certain string.</p>
-    </description>
-    </item>
-    <item>
-    <tags>:copy!</tags>
-    <spec>:copy! <a>expr</a></spec>
-    <description>
-        <p>evaluate the argument(javascript code) and copy the result.</p>
-    </description>
-    </item>
-    <item>
-    <tags>copy-keyword</tags>
-    <spec>copy-keyword</spec>
-    <description>
-        <p>replaces following keywords</p>
-        <dl>
-            <dt>%TITLE%</dt>
-            <dd>to the title of the current page</dd>
-            <dt>%URL%</dt>
-            <dd>to the currenet URL</dd>
-            <dt>%SEL</dt>
-            <dd>to the string of selection</dd>
-            <dt>%HTMLSEL</dt>
-            <dd>to the html string of selection</dd>
-            <dt>%HOSTNAME%</dt>
-            <dd>to the hostname of the current location</dd>
-            <dt>%PATHNAME%</dt>
-            <dd>to the pathname of the current location</dd>
-            <dt>%HOST%</dt>
-            <dd>to the host of the current location</dd>
-            <dt>%PORT%</dt>
-            <dd>to the port of the current location</dd>
-            <dt>%PROTOCOL%</dt>
-            <dd>to the protocol of the current location</dd>
-            <dt>%SERCH%</dt>
-            <dd>to the search(?...) of the curernt location</dd>
-            <dt>%HASH%</dt>
-            <dd>to the hash(anchor #..) of the current location</dd>
-        </dl>
-    </description>
-    </item>
-    <item>
-        <tags>copy-template</tags>
-        <spec>copy-template</spec>
-        <description>
-            <p>you can set your own template using inline JavaScript</p>
-            <code><![CDATA[
-javascript <<EOM
-dactyl.globalVariables.copy_templates = [
-  { label: 'titleAndURL',    value: '%TITLE%\n%URL%' },
-  { label: 'title',          value: '%TITLE%', map: ',y' },
-  { label: 'anchor',         value: '<a href="%URL%">%TITLE%</a>' },
-  { label: 'selanchor',      value: '<a href="%URL%" title="%TITLE%">%SEL%</a>' },
-  { label: 'htmlblockquote', value: '<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>' }
-  { label: 'ASIN',   value: 'copy ASIN code from Amazon', custom: function(){return content.document.getElementById('ASIN').value;} },
+['plugin', {
+        name: 'copy',
+        version: '0.8.0',
+        href: 'http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/copy.js',
+        summary: 'copy strings from the template (like CopyURL+)',
+        xmlns: 'http://vimperator.org/namespaces/dactyl',
+    },
+    ['author', {email: 'teramako@gmail.com'}, 'teramako'],
+    ['license', 'MPL 1.1/GPL 2.0/LGPL 2.1'],
+    ['project', {name: 'Vimperator', 'min-version': '2.3'}],
+    ['item', {},
+        ['tags', {}, ':copy'],
+        ['spec', {}, ':copy <a>label</a>'],
+        ['description', {},
+            ['p', {}, 'copy the argument replaced some certain string.']]],
+    ['item', {},
+        ['tags', {}, ':copy!'],
+        ['spec', {}, ':copy! <a>expr</a>'],
+        ['description', {},
+            ['p', {}, 'evaluate the argument(javascript code) and copythe result.']]],
+    ['item', {},
+        ['tags', {}, 'copy-keyword'],
+        ['spec', {}, 'copy-keyword'],
+        ['description', {},
+            ['p', {}, 'replaces following keywords'],
+            ['dl', {},
+                ['dt', {}, '%TITLE%'],
+                ['dd', {}, 'to the title of the current page'],
+                ['dt', {}, '%URL%'],
+                ['dd', {}, 'to the currenet URL'],
+                ['dt', {}, '%SEL'],
+                ['dd', {}, 'to the string of selection'],
+                ['dt', {}, '%HTMLSEL'],
+                ['dd', {}, 'to the html string of selection'],
+                ['dt', {}, '%HOSTNAME%'],
+                ['dd', {}, 'to the hostname of the current location'],
+                ['dt', {}, '%PATHNAME%'],
+                ['dd', {}, 'to the pathname of the current location'],
+                ['dt', {}, '%HOST%'],
+                ['dd', {}, 'to the host of the current location'],
+                ['dt', {}, '%PORT%'],
+                ['dd', {}, 'to the port of the current location'],
+                ['dt', {}, '%PROTOCOL%'],
+                ['dd', {}, 'to the protocol of the current location'],
+                ['dt', {}, '%SERCH%'],
+                ['dd', {}, 'to the search(?...) of the curernt location'],
+                ['dt', {}, '%HASH%'],
+                ['dd', {}, 'to the hash(anchor #..) of the current location']]]],
+    ['item', {},
+        ['tags', {}, 'copy-template'],
+        ['spec', {}, 'copy-template'],
+        ['description', {},
+            ['p', {}, 'you can set your own template using inline JavaScript'],
+            ['code', {},
+                'javascript <<EOM' +
+                'dactyl.globalVariables.copy_templates = [' +
+                '  { label: \'titleAndURL\',    value: \'%TITLE%\n%URL%\' },' +
+                '  { label: \'title\',          value: \'%TITLE%\', map: \',y\' },' +
+                '  { label: \'anchor\',         value: \'<a href="%URL%">%TITLE%</a>\' },' +
+                '  { label: \'selanchor\',      value: \'<a href="%URL%" title="%TITLE%">%SEL%</a>\' },' +
+                '  { label: \'htmlblockquote\', value: \'<blockquote cite="%URL%" title="%TITLE%">%HTMLSEL%</blockquote>\' }' +
+                '  { label: \'ASIN\',   value: \'copy ASIN code from Amazon\', custom: function(){return content.document.getElementById(\'ASIN\').value;} },' +
+                '];' +
+                'EOM'],
+            ['dl', {},
+                ['dt', {}, 'label'],
+                ['dd', {}, 'template name which is command argument'],
+                ['dt', {}, 'value'],
+                ['dd', {}, 'copy string. ', ['a', {}, 'copy-keyword'], ' is replaced'],
+                ['dt', {}, 'map'],
+                ['dd', {}, 'key map ', ['a', {}, 'lhs'], ' (optional)'],
+                ['dt', {}, 'custom'],
+                ['dd', {},
+                    ['p', {}, ['a', {}, 'function'], ' or ', ['a', {}, 'Array'], ' (optional)'],
+                    ['dl', {},
+                        ['dt', {}, ['a', {}, 'function']],
+                        ['dd', {}, 'execute the function and copy return value, if specified'],
+                        ['dt', {}, ['a', {}, 'Array']],
+                        ['dd', {},
+                            'replace to the ', ['a', {}, 'value'],
+                            ' by normal way at first. then replace words matched ',
+                            ['a', {}, 'Array'], '[0] in the repalced string to ', ['a', {}, 'Array'], '[1]. ',
+                            ['dl', {},
+                            ['dt', {}, ['a', {}, 'Array'], '[0]'],
+                            ['dd', {}, 'String or RegExp'],
+                            ['dt', {}, ['a', {}, 'Array'], '[1]'],
+                            ['dd', {}, 'String or Function']],
+                            'see: ',
+                            ['link', {topic: 'http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:String:replace'},
+                                'http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:String:replace']]]]]]],
+    ['item', {},
+        ['tags', {}, 'copy-option'],
+        ['spec', {}, 'copy-option'],
+        ['description', {},
+            ['code', {}, ['ex', {}, 'dactyl.globalVariables.copy_use_wedata = false; // false by default']],
+            ['p', {}, 'true に設定すると wedata からテンプレートを読込みます。'],
+            ['code', {}, ['ex', {}, 'dactyl.globalVariables.copy_wedata_include_custom = true; // false by default']],
+            ['p', {},
+                'custom が設定された wedata を読込みます。 ' +
+                'SandBox でなく、window.eval を利用してオブジェクトする為、 ' +
+                'セキュリティ上の理由で初期設定は false になっています。 ' +
+                'true に設定する場合は、動作を理解したうえ自己責任でご利用ください。'],
+            ['code', {}, ['ex', {}, 'dactyl.globalVariables.copy_wedata_exclude_labels = [\'pathtraqnormalize\', ];']],
+            ['p', {}, 'wedata から読込まない label のリストを定義します。']]],
 ];
-EOM
-            ]]></code>
-            <dl>
-                <dt>label</dt>
-                <dd>template name which is command argument</dd>
-                <dt>value</dt>
-                <dd>copy string. <a>copy-keyword</a> is replaced</dd>
-                <dt>map</dt>
-                <dd>key map <a>lhs</a> (optional)</dd>
-                <dt>custom</dt>
-                <dd>
-                    <a>function</a> or <a>Array</a> (optional)
-                    <dl>
-                        <dt><a>function</a></dt>
-                        <dd>execute the function and copy return value, if specified</dd>
-                        <dt><a>Array</a></dt>
-                        <dd>
-                            replace to the <a>value</a> by normal way at first.
-                            then replace words matched <a>Array</a>[0] in the repalced string to <a>Array</a>[1].
-                            <dl>
-                            <dt><a>Array</a>[0]</dt>
-                            <dd>String or RegExp</dd>
-                            <dt><a>Array</a>[1]</dt>
-                            <dd>String or Function</dd>
-                            </dl>
-                            see: <link topic="http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:String:replace">http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:String:replace</link>
-                        </dd>
-                    </dl>
-                </dd>
-            </dl>
-        </description>
-    </item>
-    <item>
-        <tags>copy-option</tags>
-        <spec>copy-option</spec>
-        <description>
-            <code><ex>dactyl.globalVariables.copy_use_wedata = false; // false by default</ex></code>
-            <p>true に設定すると wedata からテンプレートを読込みます。</p>
-            <code><ex>dactyl.globalVariables.copy_wedata_include_custom = true; // false by default</ex></code>
-            <p>custom が設定された wedata を読込みます。
-            SandBox でなく、window.eval を利用してオブジェクトする為、
-            セキュリティ上の理由で初期設定は false になっています。
-            true に設定する場合は、動作を理解したうえ自己責任でご利用ください。</p>
-            <code><ex>dactyl.globalVariables.copy_wedata_exclude_labels = ['pathtraqnormalize', ];</ex></code>
-            <p>wedata から読込まない label のリストを定義します。</p>
-        </description>
-    </item>
-</plugin>;
+
 var PLUGIN_INFO =
-<VimperatorPlugin>
-<name>{NAME}</name>
-<description>enable to copy strings from a template (like CopyURL+)</description>
-<description lang="ja">テンプレートから文字列のコピーを可能にします（CopyURL+みたいなもの）</description>
-<minVersion>2.0pre</minVersion>
-<maxVersion>2.0pre</maxVersion>
-<updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/copy.js</updateURL>
-<author mail="teramako@gmail.com" homepage="http://vimperator.g.hatena.ne.jp/teramako/">teramako</author>
-<license>MPL 1.1/GPL 2.0/LGPL 2.1</license>
-<version>0.7.5</version>
-</VimperatorPlugin>;
+['VimperatorPlugin', {},
+    ['name', {}, '{NAME}'],
+    ['description', {}, 'enable to copy strings from a template (like CopyURL+)'],
+    ['description', {lang: 'ja'}, 'テンプレートから文字列のコピーを可能にします（CopyURL+みたいなもの）'],
+    ['minVersion', {}, '2.0pre'],
+    ['maxVersion', {}, '2.0pre'],
+    ['updateURL', {}, 'http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/copy.js'],
+    ['author', {mail: 'teramako@gmail.com', homepage: 'http://vimperator.g.hatena.ne.jp/teramako/'}, 'teramako'],
+    ['license', {}, 'MPL 1.1/GPL 2.0/LGPL 2.1'],
+    ['version', {}, '0.7.5']];
 
 dactyl.plugins.exCopy = (function(){
 var excludeLabelsMap = {};
