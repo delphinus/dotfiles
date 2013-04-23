@@ -69,11 +69,15 @@ def host_battery_percent_gradient(pl, format='{percent}%', charged='charged',
 	battery = res['battery']
 
 	if battery['charging']:
-		status = charged if battery['percent'] == 100 else charging
+		status = charging
 		remain = ''
 	elif not battery['charging']:
-		status = discharging
-		remain = remain.format(battery['remain'])
+		if battery['percent'] == 100:
+			status = charged
+			remain = ''
+		else:
+			status = discharging
+			remain = remain.format(battery['remain'])
 
 	battery = {
 			'percent': battery['percent'],
