@@ -75,16 +75,16 @@
 			{
 				"name": "last_message",
 				"module": "ext.tmux.segments.ps",
-				"priority": 50
+				"priority": 30
 			},
 			{
 				"name": "weather",
-				"priority": 90
+				"priority": 30
 			},
 			{
 				"name": "now_playing",
 				"module": "ext.tmux.segments.nowplayinglastfm",
-				"priority": 80
+				"priority": 30
 			},
 			{
 				"name": "network_load",
@@ -101,12 +101,12 @@
 			{
 				"name": "used_memory_percent_gradient",
 				"module": "ext.tmux.segments.ps",
-				"priority": 50
+				"priority": 30
 			},
 			{
 				"name": "host_battery_percent_gradient",
 				"module": "ext.tmux.segments.ps",
-				"priority": 50
+				"priority": 80
 			},
 			{
 				"name": "date",

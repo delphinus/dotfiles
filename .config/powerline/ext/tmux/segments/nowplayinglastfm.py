@@ -100,6 +100,8 @@ class NowPlayingLastFM(KwThreadedSegment):
 			(?:
 				feat(?:uring)?\.?
 				|
+				Ft\.
+				|
 				pres(?:sents)?\.?
 			)\b
 			''', re.I | re.X)
