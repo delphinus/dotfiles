@@ -4,8 +4,7 @@
 from __future__ import absolute_import
 
 import os
-import re
 
 def unite(matcher_info):
 	name = matcher_info['buffer'].name
-	return name and re.match(r'\*unite\*\s*-\s*', os.path.basename(name))
+	return name and os.path.basename(name).find('*unite*') == 0
