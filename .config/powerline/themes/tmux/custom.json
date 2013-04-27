@@ -82,17 +82,17 @@
 				"priority": 80
 			},
 			{
-				"name": "now_playing",
-				"module": "ext.tmux.segments.nowplayinglastfm",
-				"priority": 80
-			},
-			{
 				"name": "weather",
 				"priority": 90
 			},
 			{
 				"name": "email_imap_alert",
 				"priority": 50
+			},
+			{
+				"name": "now_playing",
+				"module": "ext.tmux.segments.nowplayinglastfm",
+				"priority": 80
 			}
 		],
 		"right": [
