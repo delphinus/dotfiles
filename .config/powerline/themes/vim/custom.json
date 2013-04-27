@@ -18,6 +18,9 @@
 		},
 		"file_type": {
 			"before": "⭢⭣ "
+		},
+		"col_current_virt": {
+			"args": { "gradient": true }
 		}
 	},
 	"segments": {

@@ -7,8 +7,7 @@ try:
 except ImportError:
 	vim = {}
 
-from powerline.bindings.vim import vim_get_func
-from powerline.theme import requires_segment_info
+from powerline.bindings.vim import vim_get_func, getbufvar
 
 vim_funcs = {
 		'col': vim_get_func('col', rettype=int),
@@ -23,17 +22,22 @@ def _do_ex(command):
 	vim.command('redir => tmp_do_ex | silent! {0} | redir END'.format(command))
 	return vim.eval('tmp_do_ex')
 
-@requires_segment_info
-def col_current_virt(pl, segment_info):
+def col_current_virt(pl, gradient=True):
 	'''Return the current cursor column.
 
 	Since default 'col_current()' function returns current OR virtual column
 	only, this function returns current AND virtual columns.
 	'''
 	virtcol = str(vim_funcs['virtcol']('.'))
-	col = str(segment_info['window'].cursor[1] + 1)
-	return [{'contents': col if virtcol == col else col + '-' + virtcol,
+	col = str(vim_funcs['col']('.'))
+	res = [{'contents': col if virtcol == col else col + '-' + virtcol,
 		'highlight_group': ['virtcol_current', 'col_current']}]
+	if gradient:
+		textwidth = int(getbufvar('%', '&textwidth'))
+		res[-1]['gradient_level'] = min(int(virtcol) * 100 / textwidth, 100) \
+				if textwidth else 0
+		res[-1]['highlight_group'].insert(0, 'virtcol_current_gradient')
+	return res
 
 def get_char_code(pl):
 	'''Return charcode and char itself on cursol position.
