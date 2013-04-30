@@ -50,7 +50,11 @@ class NowPlayingLastFM(KwThreadedSegment):
 
 	@staticmethod
 	def render_one(string, **kwargs):
-		return string
+		return [{
+			'contents': string,
+			'highlight_group': ['now_playing'],
+			'divider_highlight_group': 'background:divider',
+			}]
 
 	def player(self, key):
 		query_data = {

@@ -12,6 +12,7 @@ import re
 import socket
 import time
 
+from powerline.lib import add_divider_highlight_group
 from powerline.lib.url import urllib_read
 
 def used_memory_percent_gradient(pl, format='{0:.0f}%'):
@@ -180,9 +181,8 @@ def _get_last_line(filename, num):
 
 	return tail
 
+@add_divider_highlight_group('background:divider')
 def internal_ip(pl):
 	for ip in socket.gethostbyname_ex(socket.gethostname())[2]:
 		if not ip.startswith('127.'):
-			return [{
-				'contents': ip, 'divider_highlight_group': 'background:divider'
-				}]
+			return ip
