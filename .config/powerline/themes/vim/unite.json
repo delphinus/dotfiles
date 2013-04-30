@@ -13,6 +13,11 @@
 				"draw_soft_divider": false
 			},
 			{
+				"name": "unite_status_string",
+				"module": "ext.vim.segments.unite",
+				"draw_soft_divider": false
+			},
+			{
 				"type": "string",
 				"highlight_group": ["background"],
 				"draw_soft_divider": false,
