@@ -28,7 +28,8 @@
 		"line_current":             { "fg": "lightyellow", "bg": "royalblue5", "attr": ["bold"] },
 		"line_current_symbol":      { "fg": "lightyellow", "bg": "royalblue5" },
 		"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "royalblue5" },
-		"col_current":              { "fg": "lightyellow", "bg": "darkgreencopper" }
+		"col_current":              { "fg": "lightyellow", "bg": "darkgreencopper" },
+		"unite_status_string":      { "fg": "lightskyblue4", "bg": "lightyellow" }
 	},
 	"mode_translations": {
 		"nc": {
