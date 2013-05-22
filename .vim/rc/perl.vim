@@ -2,8 +2,8 @@
 " Perl 関連
 let perl_include_pod=1
 if is_office
-	au BufNewFile,BufRead *.conf se ft=perl
-	au BufNewFile,BufRead _inc_html.txt se ft=html
+	autocmd BufNewFile,BufRead *.conf set filetype=perl
+	autocmd BufNewFile,BufRead _inc_html.txt set filetype=html
 endif
 
 " zencoding-vim

@@ -139,6 +139,8 @@ call s:loadrc('dwm')
 call s:loadrc('multiple-cursors')
 " breeze.vim 設定
 call s:loadrc('breeze')
+" javascript 設定
+call s:loadrc('javascript')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'

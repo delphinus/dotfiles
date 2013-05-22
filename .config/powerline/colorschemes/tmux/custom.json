@@ -29,7 +29,7 @@
 		"system_load_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" },
 		"now_playing": { "fg": "yellow", "bg": "gray0" },
 		"last_message": { "fg": "green", "bg": "gray0" },
-		"last_message_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" }
-	},
-	"modeline": " vim:se ft=javascript noet: "
+		"last_message_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" },
+		"environment": { "fg": "gray8", "bg": "gray0" }
+	}
 }

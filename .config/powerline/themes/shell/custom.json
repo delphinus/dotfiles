@@ -41,6 +41,5 @@
 				"name": "branch"
 			}
 		]
-	},
-	"modeline": " vim:se ft=javascript noet: "
+	}
 }

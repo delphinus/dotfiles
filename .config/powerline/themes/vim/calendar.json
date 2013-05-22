@@ -33,6 +33,5 @@
 				"align": "r"
 			}
 		]
-	},
-	"modeline": " vim:se ft=javascript noet: "
+	}
 }

@@ -12,7 +12,7 @@
 		"cwd:divider":        { "fg": "gray61", "bg": "darkgreencopper" },
 		"hostname":           { "fg": "lightyellow", "bg": "orange" },
 		"exit_fail":          { "fg": "oldlace", "bg": "red" },
-		"exit_success":       { "fg": "oldlace", "bg": "green" }
-	},
-	"modeline": " vim:se ft=javascript noet: "
+		"exit_success":       { "fg": "oldlace", "bg": "green" },
+		"environment":        { "fg": "oldlace", "bg": "green" }
+	}
 }

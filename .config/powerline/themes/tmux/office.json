@@ -125,6 +125,5 @@
 				"priority": 80
 			}
 		]
-	},
-	"modeline": " vim:se ft=javascript noet: "
+	}
 }

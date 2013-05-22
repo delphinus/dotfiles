@@ -120,6 +120,5 @@
 				"align": "l"
 			}
 		]
-	},
-	"modeline": " vim:se ft=javascript noet: "
+	}
 }
