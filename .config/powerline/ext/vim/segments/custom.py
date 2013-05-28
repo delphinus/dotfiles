@@ -65,3 +65,14 @@ def get_char_code(pl):
 		char, code = m.groups()
 		code = int(code)
 		return nrformat.format(char, code)
+
+def currenttag(pl, flag=''):
+	'''Return tagbar#currenttag()'''
+
+	tagbar_loaded = int(vim.eval('exists(":Tagbar")'))
+
+	if tagbar_loaded:
+		tag = vim.eval('tagbar#currenttag("%s", "", "{0}")'.format(flag))
+		return tag
+	else:
+		return ''

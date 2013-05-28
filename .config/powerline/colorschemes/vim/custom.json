@@ -30,7 +30,8 @@
 		"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "royalblue5" },
 		"col_current":              { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"environment":              { "fg": "gray61", "bg": "royalblue5" },
-		"unite_status_string":      { "fg": "lightskyblue4", "bg": "lightyellow" }
+		"unite_status_string":      { "fg": "lightskyblue4", "bg": "lightyellow" },
+		"currenttag":               { "fg": "red", "bg": "lightyellow" }
 	},
 	"mode_translations": {
 		"nc": {
