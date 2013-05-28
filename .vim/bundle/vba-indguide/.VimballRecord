@@ -1,1 +1,0 @@
-IndGuide.vba: call delete('/Users/delphinus/.vim/bundle/vba-indguide/plugin/IndGuidePlugin.vim')|call delete('/Users/delphinus/.vim/bundle/vba-indguide/doc/IndGuide.txt')|call delete('/Users/delphinus/.vim/bundle/vba-indguide/autoload/IndGuide.vim')

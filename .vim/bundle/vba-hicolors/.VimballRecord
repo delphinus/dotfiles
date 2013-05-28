@@ -1,1 +1,0 @@
-hicolors.vba: call delete('/Users/delphinus/.vim/bundle/vba-hicolors/syntax/hicolors.vim')|call delete('/Users/delphinus/.vim/bundle/vba-hicolors/doc/hicolors.txt')|call delete('/Users/delphinus/.vim/bundle/vba-hicolors/ftplugin/hicolors.vim')|call delete('/Users/delphinus/.vim/bundle/vba-hicolors/doc/hicolorshelp.txt')

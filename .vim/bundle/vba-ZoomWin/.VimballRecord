@@ -1,1 +1,0 @@
-ZoomWin.vba: call delete('/home/game/users/jinnouchi.yasushi/.vim/bundle/vba-ZoomWin/plugin/ZoomWinPlugin.vim')|call delete('/home/game/users/jinnouchi.yasushi/.vim/bundle/vba-ZoomWin/doc/ZoomWin.txt')|call delete('/home/game/users/jinnouchi.yasushi/.vim/bundle/vba-ZoomWin/autoload/ZoomWin.vim')
