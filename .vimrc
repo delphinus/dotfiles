@@ -138,7 +138,7 @@ call s:loadrc('dwm')
 " vim-multiple-cursors 設定
 call s:loadrc('multiple-cursors')
 " breeze.vim 設定
-call s:loadrc('breeze')
+"call s:loadrc('breeze')
 " javascript 設定
 call s:loadrc('javascript')
 
