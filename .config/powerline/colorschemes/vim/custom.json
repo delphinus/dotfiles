@@ -4,7 +4,7 @@
 		"background":               { "fg": "lightskyblue4", "bg": "lightyellow" },
 		"background:divider":       { "fg": "lightskyblue4", "bg": "lightyellow" },
 		"mode":                     { "fg": "lightyellow", "bg": "blue", "attr": ["bold"] },
-		"modified_indicator":       { "fg": "white", "bg": "darkgreencopper" },
+		"modified_indicator":       { "fg": "red", "bg": "lightyellow", "attr": ["bold"] },
 		"paste_indicator":          { "fg": "lightyellow", "bg": "orange", "attr": ["bold"] },
 		"readonly_indicator":       { "fg": "red", "bg": "darkgreencopper" },
 		"branch":                   { "fg": "lightyellow", "bg": "royalblue5" },
@@ -31,7 +31,7 @@
 		"col_current":              { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"environment":              { "fg": "gray61", "bg": "royalblue5" },
 		"unite_status_string":      { "fg": "lightskyblue4", "bg": "lightyellow" },
-		"currenttag":               { "fg": "red", "bg": "lightyellow" }
+		"currenttag":               { "fg": "gray0", "bg": "steelblue", "attr": ["bold"] }
 	},
 	"mode_translations": {
 		"nc": {

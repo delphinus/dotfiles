@@ -1,6 +1,31 @@
 "-----------------------------------------------------------------------------
-"" 時刻表示形式 → (月) 01/02 午後 03:45
+" 時刻表示形式 → (月) 01/02 午後 03:45
 let g:unite_source_file_mru_time_format='(%a) %m/%d %p %I:%M '
+" プロンプト
+let g:unite_prompt=' '
+" 挿入モードで開a
+let g:unite_enable_start_insert=1
+" ステータスラインを書き換えない
+let g:unite_force_overwrite_statusline=0
+
+" dwm.vim 対応
+let s:action = {
+            \ 'description': 'new dwm',
+            \ 'is_selectable': 1,
+            \ }
+function! s:action.func(candidates)
+    for l:candidate in a:candidates
+        call unite#util#command_with_restore_cursor('rightbelow split')
+        call unite#take_action('open', candidate)
+        call DWM_Focus()
+    endfor
+endfunction
+call unite#custom_action('openable', 'dwm_new', s:action)
+unlet s:action
+
+" unite-qfixhowm 対応
+" 更新日時でソート
+call unite#custom_source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', 'sorter_reverse'])
 
 " データファイル
 if is_office
@@ -9,6 +34,8 @@ endif
 noremap zp :Unite buffer_tab file_mru<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
 noremap zr :Unite file_rec/async<CR>
+noremap zf :Unite qfixhowm<CR>
+noremap zF :Unite qfixhowm:nocache<CR>
 noremap <Leader>uu :Unite bookmark<CR>
 noremap <Leader>uc :Unite colorscheme<CR>
 noremap <Leader>ul :Unite locate<CR>
@@ -57,9 +84,10 @@ function! s:unite_my_settings()
     " vimfiler で開く
     nnoremap <silent> <buffer> <expr> <C-O> unite#do_action('vimfiler')
     inoremap <silent> <buffer> <expr> <C-O> unite#do_action('vimfiler')
+    " dwm.vim で開く
+    nnoremap <silent> <buffer> <expr> <C-N> unite#do_action('dwm_new')
+    inoremap <silent> <buffer> <expr> <C-N> unite#do_action('dwm_new')
     " 終了
     nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
     inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 endfunction
-
-

@@ -59,15 +59,14 @@
 				"draw_soft_divider": false
 			},
 			{
-				"name": "modified_indicator",
-				"before": " "
-			},
-			{
 				"name": "currenttag",
 				"module": "ext.vim.segments.custom",
 				"exclude_modes": ["nc"],
-				"draw_soft_divider": false,
 				"priority": 70
+			},
+			{
+				"name": "modified_indicator",
+				"draw_soft_divider": false
 			},
 			{
 				"type": "string",
