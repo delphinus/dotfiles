@@ -42,31 +42,35 @@
 			{
 				"name": "readonly_indicator",
 				"draw_soft_divider": false,
-				"after": " "
+				"after": " ",
+				"priority": 70
 			},
 			{
 				"name": "file_directory",
-				"priority": 40,
+				"priority": 70,
 				"draw_soft_divider": false
 			},
 			{
 				"name": "file_name",
-				"draw_soft_divider": false
+				"draw_soft_divider": false,
+				"priority": 10
 			},
 			{
 				"name": "file_vcs_status",
 				"before": " ",
-				"draw_soft_divider": false
+				"draw_soft_divider": false,
+				"priority": 40
 			},
 			{
 				"name": "currenttag",
 				"module": "ext.vim.segments.custom",
 				"exclude_modes": ["nc"],
-				"priority": 70
+				"priority": 20
 			},
 			{
 				"name": "modified_indicator",
-				"draw_soft_divider": false
+				"draw_soft_divider": false,
+				"priority": 30
 			},
 			{
 				"type": "string",
@@ -97,7 +101,7 @@
 				"name": "get_char_code",
 				"module": "ext.vim.segments.custom",
 				"exclude_modes": ["nc"],
-				"priority": 50
+				"priority": 60
 			},
 			{
 				"name": "line_percent",
@@ -114,7 +118,8 @@
 				"name": "line_current",
 				"draw_soft_divider": false,
 				"width": 3,
-				"align": "r"
+				"align": "r",
+				"priority": 20
 			},
 			{
 				"name": "col_current_virt",
