@@ -8,24 +8,11 @@ let g:unite_enable_start_insert=1
 " ステータスラインを書き換えない
 let g:unite_force_overwrite_statusline=0
 
-" dwm.vim 対応
-let s:action = {
-            \ 'description': 'new dwm',
-            \ 'is_selectable': 1,
-            \ }
-function! s:action.func(candidates)
-    for l:candidate in a:candidates
-        call unite#util#command_with_restore_cursor('rightbelow split')
-        call unite#take_action('open', candidate)
-        call DWM_Focus()
-    endfor
-endfunction
-call unite#custom_action('openable', 'dwm_new', s:action)
-unlet s:action
-
 " unite-qfixhowm 対応
 " 更新日時でソート
 call unite#custom_source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', 'sorter_reverse'])
+" デフォルトアクション
+let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 
 " データファイル
 if is_office
@@ -34,8 +21,9 @@ endif
 noremap zp :Unite buffer_tab file_mru<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
 noremap zr :Unite file_rec/async<CR>
-noremap zf :Unite qfixhowm<CR>
-noremap zF :Unite qfixhowm:nocache<CR>
+noremap zd :Unite dwm<CR>
+noremap zf :Unite qfixhowm/new qfixhowm<CR>
+noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
 noremap <Leader>uu :Unite bookmark<CR>
 noremap <Leader>uc :Unite colorscheme<CR>
 noremap <Leader>ul :Unite locate<CR>
