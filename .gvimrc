@@ -3,6 +3,7 @@ if has('win32')
     set dir=C:\cygwin\tmp
     set backupdir=C:\cygwin\tmp
     set undodir=C:\cygwin\tmp
+    set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
 endif
 
 if has('mac')
@@ -12,8 +13,7 @@ if has('mac')
     set macmeta                   " option キーを alt キーとして使う
 endif
 
-set showtabline=2         " 常にタブを表示する
-set printfont=Consolas:h9 " 印刷用フォント
+set printfont=Ricty_Discord:h10 " 印刷用フォント
 set printoptions=number:y " 印刷時に行番号を付ける
 set visualbell            " ビープ音を使わず画面をフラッシュさせる
 set iminsert=0            " インサートモードの初期値は IME OFF
@@ -37,4 +37,6 @@ winpos 400 200            " ウィンドウの場所を指定する
 "colo badwolf
 "colo festoon
 "colo solarized
-colo gruvbox
+"colo gruvbox
+set background=dark       " 背景は暗くする
+colo solarized
