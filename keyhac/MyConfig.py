@@ -15,7 +15,7 @@ class MyConfig:
         self.kmg = km.defineWindowKeymap()
         self.commands = '''
             base hhk hhk_others diamond_cursor
-            ckw putty mintty console2 teraterm gvim firefox excel
+            ckw putty mintty console2 teraterm gvim firefox palemoon excel
             emacs aero_snap
             limechat
         '''.split()
@@ -420,6 +420,25 @@ class MyConfig:
         km["C-(243)"] = "C-S-(192)"
         km["C-(244)"] = "C-S-(192)"
 
+    # Pale Moon用設定
+    def palemoon(self):
+        km = self.km_for_exe(u"palemoon.exe")
+
+        # Firefox上ではEmacs風割り当てを解除
+        km["C-S"] = "C-S"
+        km["C-R"] = "C-R"
+        km["C-W"] = "C-W"
+        km["C-X"] = "C-X"
+
+        # ファンクションキー割り当てを解除
+        for i in xrange(10):
+            km["C-" + str(i)] = "C-" + str(i)
+
+        # タブグループ
+        km["C-S-E"] = "C-S-E"
+        km["C-(243)"] = "C-S-(192)"
+        km["C-(244)"] = "C-S-(192)"
+
     # Limechat 用の設定
     def limechat(self):
         km = self.km_for_exe(u"LimeChat2.exe")
@@ -461,7 +480,7 @@ class MyConfig:
             self.set_multistroke("X" + k, "C-" + k)
 
         # カーソル移動無効化
-        for exe in ["ckw" ,"gvim" ,"firefox" ,"putty", "mintty", "console"]:
+        for exe in ["ckw" ,"gvim" ,"firefox" ,"palemoon", "putty", "mintty", "console"]:
             exe_name = unicode(exe) + u".exe"
             km = self.km_for_exe(exe_name)
             for k in e_cursor.keys():
