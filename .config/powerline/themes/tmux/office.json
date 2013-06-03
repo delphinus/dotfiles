@@ -52,8 +52,8 @@
 				"username": "delphinus_iddqd",
 				"api_key": "7a77671178c4f4cff16222c46f72d193",
 				"format": "{state_symbol} {artist} - {title}",
-				"shorten_artist": true,
-				"shorten_title": true,
+				"shorten_artist": false,
+				"shorten_title": false,
 				"interval": 30
 			}
 		},
