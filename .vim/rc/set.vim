@@ -129,30 +129,31 @@ set helplang=ja                   " ヘルプは日本語のものを優先す�
 set tildeop                       " ~ を operator として使う
 
 set background=dark               " 背景は暗く
-call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
-colo solarized
-"colo gruvbox
+"call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
+"colorscheme solarized
+colorscheme seoul256
+"colorscheme gruvbox
 
-"colo festoon
-"colo calmar256-light
-"colo xorium
-"colo desertEx
-"colo werks
-"colo bandit
-"colo baycomb
+"colorscheme festoon
+"colorscheme calmar256-light
+"colorscheme xorium
+"colorscheme desertEx
+"colorscheme werks
+"colorscheme bandit
+"colorscheme baycomb
 "hi NonText ctermfg=238
 "hi SpecialKey ctermfg=238
 "hi CursorLine term=none ctermbg=238
-"colo abbott
-"colo desert-warm-256
-"colo neon-PK
-"colo rhinestones
-"colo zenburn
-"colo papayawhip
-"colo gummybears
-"colo void256
-"colo badwolf
-"colo zenburn
+"colorscheme abbott
+"colorscheme desert-warm-256
+"colorscheme neon-PK
+"colorscheme rhinestones
+"colorscheme zenburn
+"colorscheme papayawhip
+"colorscheme gummybears
+"colorscheme void256
+"colorscheme badwolf
+"colorscheme zenburn
 
 "
 " This snippet is licensed under NYSL.
