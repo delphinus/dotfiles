@@ -27,16 +27,17 @@ set title                 " ウィンドウタイトルを更新する
 winsize 130 50            " ウィンドウの大きさを指定する
 winpos 400 200            " ウィンドウの場所を指定する
 
-"colo desert-warm-256
-"colo bubblegum
-"colo neon-PK
-"colo zenburn
-"colo papayawhip
-"colo gummybears
-"colo void
-"colo badwolf
-"colo festoon
-"colo solarized
-"colo gruvbox
-set background=dark       " 背景は暗くする
-colo solarized
+"colorscheme desert-warm-256
+"colorscheme bubblegum
+"colorscheme neon-PK
+"colorscheme zenburn
+"colorscheme papayawhip
+"colorscheme gummybears
+"colorscheme void
+"colorscheme badwolf
+"colorscheme festoon
+"colorscheme solarized
+"colorscheme gruvbox
+"set background=dark       " 背景は暗くする
+"colorscheme solarized
+colorscheme seoul256-light
