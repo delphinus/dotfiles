@@ -44,7 +44,8 @@
 				"help": "help",
 				"quickfix": "quickfix",
 				"ext.vim.matcher.unite": "unite",
-				"ext.vim.matcher.calendar": "calendar"
+				"ext.vim.matcher.calendar": "calendar",
+				"ext.vim.matcher.vimshell": "vimshell"
 			}
 		},
 		"wm": {

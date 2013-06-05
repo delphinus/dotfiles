@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim:se fenc=utf8 noet:
 
+import os
 import re
 try:
 	import vim
@@ -8,10 +9,12 @@ except ImportError:
 	vim = {}
 
 from powerline.bindings.vim import vim_get_func, getbufvar
+from powerline.theme import requires_segment_info
 
 vim_funcs = {
 		'col': vim_get_func('col', rettype=int),
 		'virtcol': vim_get_func('virtcol', rettype=int),
+		'getcwd': vim_get_func('getcwd'),
 		}
 
 def _do_ex(command):
@@ -76,3 +79,24 @@ def currenttag(pl, flag=''):
 		return tag
 	else:
 		return ''
+
+@requires_segment_info
+def current_directory(pl, segment_info, shorten_user=True, shorten_cwd=True, shorten_home=False):
+	'''Return current directory.
+
+	:param bool shorten_user:
+		shorten ``$HOME`` directory to :file:`~/`
+
+	:param bool shorten_cwd:
+		shorten current directory to :file:`./`
+
+	:param bool shorten_home:
+		shorten all directories in :file:`/home/` to :file:`~user/` instead of :file:`/home/user/`.
+	'''
+	pl.info('c1')
+	current_directory = vim_funcs['fnamemodify'](vim_funcs['getcwd'](),
+			(':~' if shorten_user else '') + (':.' if shorten_cwd else '') + ':h')
+	pl.info(current_directory)
+	if shorten_home and current_directory.startswith('/home/'):
+		current_directory = '~' + current_directory[6:]
+	return current_directory + os.sep if current_directory else None
