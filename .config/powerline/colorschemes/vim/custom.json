@@ -31,7 +31,7 @@
 		"col_current":              { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"environment":              { "fg": "gray61", "bg": "royalblue5" },
 		"unite_status_string":      { "fg": "lightskyblue4", "bg": "lightyellow" },
-		"currenttag":               { "fg": "gray0", "bg": "steelblue", "attr": ["bold"] }
+		"currenttag":               { "fg": "orange", "bg": "lightyellow", "attr": ["bold"] }
 	},
 	"mode_translations": {
 		"nc": {
