@@ -40,4 +40,4 @@ winpos 400 200            " ウィンドウの場所を指定する
 "colorscheme gruvbox
 "set background=dark       " 背景は暗くする
 "colorscheme solarized
-colorscheme seoul256-light
+colorscheme hemisu

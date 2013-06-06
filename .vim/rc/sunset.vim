@@ -5,10 +5,18 @@ let g:sunset_utc_offset = 9
 
 function! g:sunset_daytime_callback()
     set background=light
-    colorscheme seoul256-light
+    if has('gui')
+        colorscheme hemisu
+    else
+        colorscheme seoul256-light
+    endif
 endfunction
 
 function! g:sunset_nighttime_callback()
     set background=dark
-    colorscheme seoul256
+    if has('gui')
+        colorscheme hemisu
+    else
+        colorscheme seoul256
+    endif
 endfunction
