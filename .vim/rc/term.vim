@@ -3,8 +3,8 @@ if &term !~ "screen" && &term !~ "xterm"
     finish
 endif
 
-" GNU screen 上の場合
-if &term =~ "screen"
+" tmux & iTerm2 上の場合
+if exists('$TMUX') && is_remora
     " iTerm2 の時のみカーソル形状を変える
     if exists('$TMUX') && is_remora
         let &t_SI = "\ePtmux;\e\e]50;CursorShape=1\x7\e\\"
@@ -14,6 +14,17 @@ if &term =~ "screen"
         let &t_EI = "\eP\e]50;CursorShape=0\x7\e\\"
     endif
 
+    " 貼り付けるとき自動的に paste モードに変わる
+    let &t_ti .= "\eP\e[?2004h\e\\"
+    let &t_te .= "\eP\e[?2004l\e\\"
+
+    map <expr> \e[200~ XTermPasteBegin("i")
+    imap <expr> \e[200~ XTermPasteBegin("")
+    cmap \e[200~ <nop>
+    cmap \e[201~ <nop>
+
+" GNU screen 上の場合
+elseif &term =~ "screen"
     " 貼り付けるとき自動的に paste モードに変わる
     let &t_ti .= "\eP\e[?2004h\e\\"
     let &t_te .= "\eP\e[?2004l\e\\"
@@ -42,7 +53,7 @@ endif
 
 let &pastetoggle = "\e[201~"
 
-function XTermPasteBegin(ret)
+function! XTermPasteBegin(ret)
     set paste
     return a:ret
 endfunction
