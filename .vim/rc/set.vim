@@ -88,8 +88,8 @@ set cmdheight=2          " 画面最下段のコマンド表示行数
 " }}}
 
 " マウス {{{
-set mouse=a " マウスを全ての場面で使う
-set ttymouse=xterm2 " マウスホイールを有効化
+set mouse=a                " マウスを全ての場面で使う
+set ttymouse=sgr           " マウスホイールを有効化
 set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
 " }}}
 
