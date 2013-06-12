@@ -49,6 +49,7 @@ else
 endif
 if has('win32') || has('win64')
   call unite#set_substitute_pattern('files', '^;p', 'C:/Program Files/')
+  call unite#set_substitute_pattern('files', '^;u', escape($USERPROFILE, '\') . '/')
 endif
 
 " vcscommand.vim の diff buffer を消す
