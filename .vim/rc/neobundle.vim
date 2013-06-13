@@ -1,7 +1,7 @@
 " シェルの位置を元に戻す
 if is_office
     set shell=/bin/sh
-elseif is_office_win
+elseif is_win
     set shell=$SYSTEMROOT\system32\cmd.exe
 endif
 
@@ -190,7 +190,9 @@ command! EnableTwitter :NeoBundleSource TweetVim
 filetype plugin indent on
 
 if has('vim_starting')
-    if is_remora || is_office_win || is_office_cygwin
+    if is_win
+        set runtimepath+=~/vimfiles/
+    elseif is_remora || is_office_cygwin
         set runtimepath+=~/.vim/
     elseif is_office
         set runtimepath^=$H/.vim/
