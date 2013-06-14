@@ -33,42 +33,45 @@ endif
 
 " NeoBundle 設定開始
 set nocompatible
-filetype off
 
 " プラグイン保存パス
-let g:bundle_dir = g:vim_home . '/bundle'
-let g:neobundle_dir = g:vim_home .'/neobundle'
+let g:bundle_dir = g:home . '/.vim/bundle'
+let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
 
-" ディレクトリが存在しなければ作成
-if ! isdirectory(g:bundle_dir)
-    call mkdir(g:bundle_dir)
-endif
+" デフォルトプロトコル
+let g:neobundle#types#git#default_protocol='https'
 
 " NeoBundle へのパス
 if has('vim_starting')
     if is_office
         set runtimepath-=$HOME/.vim
     endif
-    execute 'set runtimepath+=' . g:neobundle_dir
+    execute 'set runtimepath+=' . g:neobundle_dir . '/'
 endif
 
-call neobundle#rc(g:bundle_dir)
-execute 'helptags ' . g:neobundle_dir . '/doc'
+call neobundle#rc(expand(g:bundle_dir))
+
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Set vimproc
+NeoBundle 'Shougo/vimproc', {'build': {
+    \   'cygwin': 'make -f make_cygwin.mak',
+    \   'mac': 'make -f make_mac.mak',
+    \   'unix': 'make -f make_unix.mak',
+    \   },
+    \ }
 
 NeoBundle 'rkitover/vimpager'
 
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
-NeoBundle 'delphinus35/vim-pastefire'
-NeoBundle 'delphinus35/vim-powerline'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/current-func-info.vim'
-
-filetype plugin indent on
 
 if has('vim_starting')
     if is_remora || is_office_win || is_office_cygwin
@@ -78,7 +81,9 @@ if has('vim_starting')
     endif
 endif
 
+filetype plugin indent on
 syntax on
+NeoBundleCheck
 
 let mapleader='`'
 

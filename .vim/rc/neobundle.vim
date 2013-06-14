@@ -8,31 +8,33 @@ endif
 " NeoBundle 設定開始
 set nocompatible
 
-
-filetype off
-
 " プラグイン保存パス
-let g:bundle_dir = g:home . '/.vimbundle'
-let g:neobundle_dir = g:vim_home .'/neobundle'
+let g:bundle_dir = g:home . '/.vim/bundle'
+let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
 
 " デフォルトプロトコル
 let g:neobundle#types#git#default_protocol='https'
-
-" ディレクトリが存在しなければ作成
-if ! isdirectory(g:bundle_dir)
-    call mkdir(g:bundle_dir)
-endif
 
 " NeoBundle へのパス
 if has('vim_starting')
     if is_office
         set runtimepath-=$HOME/.vim
     endif
-    execute 'set runtimepath+=' . g:neobundle_dir
+    execute 'set runtimepath+=' . g:neobundle_dir . '/'
 endif
 
-call neobundle#rc(g:bundle_dir)
-execute 'helptags ' . g:neobundle_dir . '/doc'
+call neobundle#rc(expand(g:bundle_dir))
+
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Set vimproc
+NeoBundle 'Shougo/vimproc', {'build': {
+    \   'cygwin': 'make -f make_cygwin.mak',
+    \   'mac': 'make -f make_mac.mak',
+    \   'unix': 'make -f make_unix.mak',
+    \   },
+    \ }
 
 " プラグイン（github） {{{
 NeoBundle 'airblade/vim-gitgutter'
@@ -95,12 +97,6 @@ NeoBundle 'rainux/vim-desert-warm-256'
 "NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vimproc', {'build': {
-    \   'cygwin': 'make -f make_cygwin.mak',
-    \   'mac': 'make -f make_mac.mak',
-    \   'unix': 'make -f make_unix.mak',
-    \   },
-    \ }
 NeoBundle 'Shougo/vimshell'
 "NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'Shougo/neosnippet'
@@ -187,8 +183,6 @@ NeoBundleLazy 'basyura/TweetVim', {'depends': [
 command! EnableTwitter :NeoBundleSource TweetVim
 " }}}
 
-filetype plugin indent on
-
 if has('vim_starting')
     if is_win
         set runtimepath+=~/vimfiles/
@@ -199,6 +193,8 @@ if has('vim_starting')
     endif
 endif
 
+filetype plugin indent on
 syntax on
+NeoBundleCheck
 
 " vim:se et fdm=marker:
