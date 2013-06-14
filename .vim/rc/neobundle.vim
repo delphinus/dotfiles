@@ -12,7 +12,7 @@ set nocompatible
 filetype off
 
 " プラグイン保存パス
-let g:bundle_dir = g:vim_home . '/bundle'
+let g:bundle_dir = g:home . '/.vimbundle'
 let g:neobundle_dir = g:vim_home .'/neobundle'
 
 " デフォルトプロトコル
