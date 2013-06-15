@@ -1,5 +1,5 @@
-set guifont=Ricty_Discord:h10
 if has('win32')
+    set guifont=Ricty_Discord:h10
     set dir=C:\cygwin\tmp
     set backupdir=C:\cygwin\tmp
     set undodir=C:\cygwin\tmp
@@ -7,6 +7,7 @@ if has('win32')
 endif
 
 if has('mac')
+    set guifont=Ricty_Discord:h13
     set antialias                 " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz " フルスクリーン時に表示を拡張
     "au GUIEnter * set fullscreen  " 起動時にフルスクリーン
@@ -37,7 +38,6 @@ winpos 400 200            " ウィンドウの場所を指定する
 "colorscheme badwolf
 "colorscheme festoon
 "colorscheme solarized
-"colorscheme gruvbox
-"set background=dark       " 背景は暗くする
 "colorscheme solarized
-colorscheme hemisu
+"colorscheme hemisu
+colorscheme gruvbox
