@@ -1,3 +1,5 @@
+"source $VIMRUNTIME/delmenu.vim " メニューを表示しない
+
 if has('win32')
     set guifont=Ricty_Discord:h10
     set dir=C:\cygwin\tmp
