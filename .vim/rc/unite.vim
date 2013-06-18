@@ -30,90 +30,26 @@ noremap <Leader>ul :Unite locate<CR>
 noremap <Leader>uv :Unite buffer -input=vimshell<CR>
 noremap <Leader>vu :Unite buffer -input=vimshell<CR>
 autocmd FileType unite call s:unite_my_settings()
-call unite#custom#profile('files', 'substitute_patterns', {
-            \ 'pattern': '\$\w\+',
-            \ 'subst': '\=eval(submatch(0))',
-            \ 'priority': 200,
-            \ })
-call unite#custom#profile('files', 'substitute_patterns', {
-            \ 'pattern': '^@@',
-            \ 'subst': '\=fnamemodify(expand("#"), ":p:h")."/"',
-            \ 'priority': 2,
-            \ })
-call unite#custom#profile('files', 'substitute_patterns', {
-            \ 'pattern': '^@',
-            \ 'subst': '\=getcwd()."/*"',
-            \ 'priority': 1,
-            \ })
-call unite#custom#profile('files', 'substitute_patterns', {
-            \ 'pattern': '^;r',
-            \ 'subst': '\=$VIMRUNTIME."/"',
-            \ 'priority': 1,
-            \ })
-call unite#custom#profile('files', 'substitute_patterns', {
-            \ 'pattern': '^\~',
-            \ 'subst': escape($HOME, '\'),
-            \ 'priority': -2,
-            \ })
-call unite#custom#profile('files', 'substitute_patterns', {
-            \ 'pattern': '\\\@<! ',
-            \ 'subst': '\\ ',
-            \ 'priority': -20,
-            \ })
-call unite#custom#profile('files', 'substitute_patterns', {
-            \ 'pattern': '\\ \@!',
-            \ 'subst': '/',
-            \ 'priority': -30,
-            \ })
+call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
+call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
+call unite#custom#substitute('files', '^@', '\=getcwd()."/*"', 1)
+call unite#custom#substitute('files', '^;r', '\=$VIMRUNTIME."/"')
+call unite#custom#substitute('files', '^\~', escape($HOME, '\'), -2)
+call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
+call unite#custom#substitute('files', '\\ \@!', '/', -30)
 if is_office
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;h',
-                \ 'subst': '\=$H."/"',
-                \ 'priority': 1,
-                \ })
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;v',
-                \ 'subst': '\=$H."/.vim/"',
-                \ 'priority': 1,
-                \ })
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;g',
-                \ 'subst': '\=$H."/git/"',
-                \ 'priority': 1,
-                \ })
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;d',
-                \ 'subst': '\=$H."/git/dotfiles/"',
-                \ 'priority': 1,
-                \ })
+    call unite#custom#substitute('files', '^;h', '\=$H."/"')
+    call unite#custom#substitute('files', '^;v', '\=$H."/.vim/"')
+    call unite#custom#substitute('files', '^;g', '\=$H."/git/"')
+    call unite#custom#substitute('files', '^;d', '\=$H."/git/dotfiles/"')
 else
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;v',
-                \ 'subst': '~/.vim/',
-                \ 'priority': 1,
-                \ })
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;g',
-                \ 'subst': escape($HOME, '\') . '/git/',
-                \ 'priority': 1,
-                \ })
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;d',
-                \ 'subst': escape($HOME, '\') . '/git/dotfiles/',
-                \ 'priority': 1,
-                \ })
+    call unite#custom#substitute('files', '^;v', '~/.vim/')
+    call unite#custom#substitute('files', '^;g', escape($HOME, '\') . '/git/')
+    call unite#custom#substitute('files', '^;d', escape($HOME, '\') . '/git/dotfiles/')
 endif
 if has('win32') || has('win64')
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;p',
-                \ 'subst': 'C:/Program Files/',
-                \ 'priority': 1,
-                \ })
-    call unite#custom#profile('files', 'substitute_patterns', {
-                \ 'pattern': '^;u',
-                \ 'subst': escape($USERPROFILE, '\') . '/',
-                \ 'priority': 1,
-                \ })
+  call unite#custom#substitute('files', '^;p', 'C:/Program Files/')
+  call unite#custom#substitute('files', '^;u', escape($USERPROFILE, '\') . '/')
 endif
 
 " vcscommand.vim の diff buffer を消す
