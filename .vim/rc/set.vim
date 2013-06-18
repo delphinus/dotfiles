@@ -66,7 +66,7 @@ set numberwidth=3        " 行番号の幅は 3 桁
 set list                 " 空白の可視化
 set nowrap               " ウィンドウの幅が足りなくても折り返さない
 execute 'set colorcolumn=' . join(range(81, 9999), ',')
-                         " 80 桁目より後をハイライト
+                         " 81 桁目より後をハイライト
 
 " 挿入モードの時のみ、カーソル行をハイライトする
 autocmd InsertEnter,InsertLeave * set cul!
