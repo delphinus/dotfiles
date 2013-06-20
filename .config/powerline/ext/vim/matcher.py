@@ -20,3 +20,7 @@ def calendar(matcher_info):
 
 def vimshell(matcher_info):
 	return vim_getbufoption(matcher_info, 'filetype') == 'vimshell'
+
+def iexe_mysql(matcher_info):
+	name = matcher_info['buffer'].name
+	return name and name.find('iexe-mysql') >= 0
