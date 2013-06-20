@@ -11,7 +11,10 @@
 			"before": "ⓔ  "
 		},
 		"branch": {
-			"before": " "
+			"before": " ",
+			"args": {
+				"status_colors": true
+			}
 		}
 	},
 	"segments": {
