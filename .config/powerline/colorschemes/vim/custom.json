@@ -70,6 +70,7 @@
 				"line_percent_gradient":  { "fg": "green_yellow_red", "bg": "gray61" },
 				"line_current":           { "fg": "lightyellow", "bg": "lightskyblue4", "attr": ["bold"] },
 				"line_current_symbol":    { "fg": "lightyellow", "bg": "lightskyblue4" },
+				"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "lightskyblue4" },
 				"col_current":            { "fg": "oldlace", "bg": "lightskyblue4" }
 			}
 		},
