@@ -1,7 +1,8 @@
 {
 	"segment_data": {
 		"branch": {
-			"before": " "
+			"before": " ",
+			"args": { "status_colors": true }
 		},
 		"readonly_indicator": {
 			"args": { "text": "" }
