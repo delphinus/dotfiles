@@ -22,6 +22,6 @@ autocmd FileType vimshell nnoremap <buffer><m-c> <Plug>(vimshell_hangup)
 " 履歴補完はノーマルモードで
 autocmd FileType vimshell inoremap <buffer> <expr><silent> <C-l>  unite#sources#vimshell_history#start_complete(0)
 " iexe で mysql を実行したとき
-autocmd FileType int-mysql set filetype=mysql | nnoremap <buffer><c-c> <Plug>DWMClose
+autocmd FileType int-mysql set filetype=mysql | setlocal colorcolumn= | nnoremap <buffer><c-c> <Plug>DWMClose
 
 
