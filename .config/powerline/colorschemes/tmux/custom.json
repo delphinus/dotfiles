@@ -30,6 +30,10 @@
 		"now_playing": { "fg": "yellow", "bg": "gray0" },
 		"last_message": { "fg": "green", "bg": "gray0" },
 		"last_message_gradient": { "fg": "green_yellow_orange_red", "bg": "gray0" },
-		"environment": { "fg": "gray8", "bg": "gray0" }
+		"environment": { "fg": "gray8", "bg": "gray0" },
+		"branch": { "fg": "royalblue5", "bg": "lightyellow", "attr": ["bold"] },
+		"branch_dirty": { "fg": "royalblue5", "bg": "yellow", "attr": ["bold"] },
+		"branch_clean": { "fg": "royalblue5", "bg": "lightyellow", "attr": ["bold"] },
+		"branch:divider": { "fg": "royalblue5", "bg": "gray61", "attr": ["bold"] }
 	}
 }

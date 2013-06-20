@@ -1,6 +1,12 @@
 {
 	"default_module": "powerline.segments.common",
 	"segment_data": {
+		"branch": {
+			"before": " ",
+			"args": {
+				"status_colors": true
+			}
+		},
 		"uptime": {
 			"before": "⇑  "
 		},
@@ -71,6 +77,13 @@
 		}
 	},
 	"segments": {
+		"left": [
+			{
+				"name": "branch",
+				"module": "ext.tmux.segments.branch",
+				"priority": 30
+			}
+		],
 		"right": [
 			{
 				"name": "last_message",
