@@ -73,8 +73,6 @@ autocmd InsertEnter,InsertLeave * set cul!
 
 if is_remora
     set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
-elseif has('gui_win32')
-    set listchars=tab:█\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
 else
     set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 endif
@@ -195,5 +193,6 @@ if !has('gui_running')
     let &t_ti .= s:ambiguous_teststr
   endif
 endif
+
 
 " vim:et:fdm=marker:

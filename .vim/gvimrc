@@ -16,6 +16,8 @@ if has('mac')
     set macmeta                   " option キーを alt キーとして使う
 endif
 
+" 空白の可視化
+set listchars=tab:█\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
 set printfont=Ricty_Discord:h10 " 印刷用フォント
 set printoptions=number:y " 印刷時に行番号を付ける
 set visualbell            " ビープ音を使わず画面をフラッシュさせる
