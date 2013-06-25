@@ -67,6 +67,12 @@ set list                 " 空白の可視化
 set nowrap               " ウィンドウの幅が足りなくても折り返さない
 execute 'set colorcolumn=' . join(range(81, 9999), ',')
                          " 81 桁目より後をハイライト
+noremap <Plug>(ToggleColorColumn)
+            \ :<c-u>let &colorcolumn = len(&colorcolumn) > 0 ? '' :
+            \   join(range(81, 9999), ',')<CR>
+nmap cc <Plug>(ToggleColorColumn)
+"highlight turn gui=standout cterm=standout
+"call matchadd('turn', '^.\{80\}\zs.\+\ze')
 
 " 挿入モードの時のみ、カーソル行をハイライトする
 autocmd InsertEnter,InsertLeave * set cul!
