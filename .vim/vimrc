@@ -1,5 +1,8 @@
 scriptencoding 'utf-8'
 
+" メニューを読み込まない
+set guioptions+=M
+
 let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
 let g:is_remora_air2 = hostname() =~ '^remora-air2'
