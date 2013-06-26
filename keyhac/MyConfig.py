@@ -16,8 +16,7 @@ class MyConfig:
         self.commands = '''
             base hhk hhk_others diamond_cursor
             ckw putty mintty console2 teraterm gvim firefox palemoon excel
-            emacs aero_snap
-            limechat
+            emacs aero_snap limechat ctrl_tab
         '''.split()
 
         for com in self.commands:
@@ -238,7 +237,7 @@ class MyConfig:
     #{{{
     def notepad(self):
         km = self.km_for_exe(u"Notepad.exe")
-        #km["C-A"] = self.km.command_InputText(u"aiueo")
+        km["C-A"] = self.km.command_InputText(u"aiueo")
     #}}}
 
     # putty用設定
@@ -250,7 +249,7 @@ class MyConfig:
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
-        km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
+        #km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
         # U0/U1-Space でウィンドウ切り替え
         #km["U0-LShift"] = self.km.command_InputKey("LC-Z", "N")
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
@@ -295,7 +294,7 @@ class MyConfig:
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
-        km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
+        #km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
         # U0/U1-Space でウィンドウ切り替え
         #km["U0-LShift"] = self.km.command_InputKey("LC-Z", "N")
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
@@ -357,7 +356,7 @@ class MyConfig:
         for i in xrange(10):
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
-        km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
+        #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
         # U0/U1-Space でウィンドウ切り替え
         #km["U0-LShift"] = self.km.command_InputKey("LC-Z", "N")
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
