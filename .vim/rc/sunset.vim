@@ -8,7 +8,10 @@ function! g:sunset_daytime_callback()
     if has('gui')
         colorscheme gruvbox
     else
-        colorscheme seoul256-light
+        colorscheme hemisu
+        highlight ColorColumn term=reverse ctermbg=255 guibg=#FFAFAF
+        highlight link EasyMotionTarget Type
+        highlight link EasyMotionComment Comment
     endif
 endfunction
 
@@ -17,6 +20,9 @@ function! g:sunset_nighttime_callback()
     if has('gui')
         colorscheme gruvbox
     else
-        colorscheme seoul256
+        colorscheme hemisu
+        highlight ColorColumn term=reverse ctermbg=233 guibg=#111111
+        highlight link EasyMotionTarget Type
+        highlight link EasyMotionComment Comment
     endif
 endfunction
