@@ -6,7 +6,7 @@ let g:sunset_utc_offset = 9
 function! g:sunset_daytime_callback()
     set background=light
     colorscheme hemisu
-    highlight ColorColumn term=reverse ctermbg=255 guibg=#FFAFAF
+    highlight ColorColumn term=reverse ctermbg=255 guibg=#EEEEEE
     highlight link EasyMotionTarget Type
     highlight link EasyMotionComment Comment
 endfunction
