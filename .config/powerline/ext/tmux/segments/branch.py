@@ -11,6 +11,9 @@ def branch(pl, segment_info, status_colors=False, path=None):
 
 	:param bool status_colors:
 		determines whether repository status will be used to determine highlighting. Default: False.
+	:param string path:
+		determines which directory will be watched.
+		current directory will be set if this is None. Default: None.
 
 	Highlight groups used: ``branch_clean``, ``branch_dirty``, ``branch``.
 	'''
