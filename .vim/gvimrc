@@ -9,7 +9,7 @@ if has('win32')
 endif
 
 if has('mac')
-    set guifont=Ricty_Discord:h13
+    set guifont=Ricty_Discord:h14
     set antialias                 " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz " フルスクリーン時に表示を拡張
     "au GUIEnter * set fullscreen  " 起動時にフルスクリーン
