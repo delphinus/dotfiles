@@ -41,6 +41,7 @@
 				}
 			},
 			{
+				"module": "powerlinex.segment.git-branch-osx",
 				"name": "branch"
 			}
 		]
