@@ -11,7 +11,8 @@ import os
 import re
 import time
 
-_HostBatteryPercentKey = namedtuple('Key', 'charged charging disconnect remain')
+_HostBatteryPercentKey = namedtuple('Key',
+	'charged charging discharging remain')
 
 class HostBatteryPercent(KwThreadedSegment):
 	interval = 30
