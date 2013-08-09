@@ -9,12 +9,6 @@
 		},
 		"virtualenv": {
 			"before": "ⓔ  "
-		},
-		"branch": {
-			"before": " ",
-			"args": {
-				"status_colors": true
-			}
 		}
 	},
 	"segments": {
@@ -39,9 +33,6 @@
 				"args": {
 					"dir_limit_depth": 3
 				}
-			},
-			{
-				"name": "branch"
 			}
 		]
 	}
