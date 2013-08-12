@@ -12,15 +12,17 @@ import re
 import time
 
 _HostBatteryPercentKey = namedtuple('Key',
-	'charged charging discharging remain')
+	'format charged charging discharging remain steps gamify glyph')
 
 class HostBatteryPercent(KwThreadedSegment):
 	interval = 30
 
 	@staticmethod
-	def key(charged='charged', charging='charging', discharging='',
-			remain='remain{0}', **kwargs):
-		return _HostBatteryPercentKey(charged, charging, discharging, remain)
+	def key(format='{percent}%', charged='charged', charging='charging',
+			discharging='', remain='remain{0}',
+			steps=5, gamify=False, glyph='♥', **kwargs):
+		return _HostBatteryPercentKey(format, charged, charging, discharging,
+				remain, steps, gamify, glyph)
 
 	def compute_state(self, key):
 		raw_res = urllib_read('http://127.0.0.1:18080')
@@ -49,15 +51,33 @@ class HostBatteryPercent(KwThreadedSegment):
 				'remain': remain,
 				}
 
-	@staticmethod
-	def render_one(battery, format='{percent}%', **kwargs):
+	def render_one(self, battery, **kwargs):
+		key = self.key(**kwargs)
 		if not battery:
 			return None
+		elif key.gamify:
+			ret = []
+			denom = int(key.steps)
+			numer = int(denom * battery['percent'] /100)
+			ret.append({
+				'contents': key.glyph * numer,
+				'draw_soft_divider': False,
+				'divider_highlight_group': 'background:divider',
+				'highlight_group': ['battery_gradient', 'battery'],
+				'gradient_level': 99
+				})
+			ret.append({
+				'contents': key.glyph * (denom - numer),
+				'draw_soft_divider': False,
+				'highlight_group': ['battery_gradient', 'battery'],
+				'gradient_level': 1
+				})
+
+			return ret
 		else:
 			return [{
-				'contents': format.format(**battery),
-				'highlight_group':
-					['battery_percent_gradient', 'battery_percent'],
+				'contents': key.format.format(**battery),
+				'highlight_group': ['battery_gradient', 'battery'],
 				'draw_divider': True,
 				'divider_highlight_group': 'background:divider',
 				'gradient_level': 100 - battery['percent'],
