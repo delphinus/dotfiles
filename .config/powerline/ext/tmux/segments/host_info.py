@@ -12,7 +12,7 @@ import re
 import time
 
 _HostBatteryPercentKey = namedtuple('Key',
-	'format charged charging discharging remain steps gamify glyph')
+	'format charged charging discharging remain steps gamify glyph charge_glyph')
 
 class HostBatteryPercent(KwThreadedSegment):
 	interval = 30
@@ -20,9 +20,9 @@ class HostBatteryPercent(KwThreadedSegment):
 	@staticmethod
 	def key(format='{percent}%', charged='charged', charging='charging',
 			discharging='', remain='remain{0}',
-			steps=5, gamify=False, glyph='♥', **kwargs):
+			steps=5, gamify=False, glyph='♥', charge_glyph=' 🔋', **kwargs):
 		return _HostBatteryPercentKey(format, charged, charging, discharging,
-				remain, steps, gamify, glyph)
+				remain, steps, gamify, glyph, charge_glyph)
 
 	def compute_state(self, key):
 		raw_res = urllib_read('http://127.0.0.1:18080')
@@ -72,6 +72,13 @@ class HostBatteryPercent(KwThreadedSegment):
 				'highlight_group': ['battery_gradient', 'battery'],
 				'gradient_level': 1
 				})
+			if battery['status'] == key.charging:
+				ret.append({
+					'contents': key.charge_glyph,
+					'draw_soft_divider': False,
+					'highlight_group': ['battery_gradient', 'battery'],
+					'gradient_level': 99
+					})
 
 			return ret
 		else:
