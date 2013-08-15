@@ -11,18 +11,19 @@ import os
 import re
 import time
 
-_HostBatteryPercentKey = namedtuple('Key',
-	'format charged charging discharging remain steps gamify glyph charge_glyph')
+_HostBatteryKey = namedtuple('Key',
+	'format charged charging discharging remain steps '
+	'gamify heart_glyph battery_glyph charge_glyph')
 
-class HostBatteryPercent(KwThreadedSegment):
+class HostBattery(KwThreadedSegment):
 	interval = 30
 
 	@staticmethod
 	def key(format='{percent}%', charged='charged', charging='charging',
-			discharging='', remain='remain{0}',
-			steps=5, gamify=False, glyph='♥', charge_glyph=' 🔋', **kwargs):
-		return _HostBatteryPercentKey(format, charged, charging, discharging,
-				remain, steps, gamify, glyph, charge_glyph)
+			discharging='', remain='remain{0}', gamify=False, steps=5,
+			heart_glyph='♥', battery_glyph='🔋', charge_glyph='🔌', **kwargs):
+		return _HostBatteryKey(format, charged, charging, discharging,
+				remain, steps, gamify, heart_glyph, battery_glyph, charge_glyph)
 
 	def compute_state(self, key):
 		raw_res = urllib_read('http://127.0.0.1:18080')
@@ -59,26 +60,29 @@ class HostBatteryPercent(KwThreadedSegment):
 			ret = []
 			denom = int(key.steps)
 			numer = int(denom * battery['percent'] /100)
+			if battery['status'] == key.charging:
+				glyph = key.charge_glyph
+			else:
+				glyph = key.battery
 			ret.append({
-				'contents': key.glyph * numer,
+				'contents': glyph + ' ',
 				'draw_soft_divider': False,
 				'divider_highlight_group': 'background:divider',
 				'highlight_group': ['battery_gradient', 'battery'],
 				'gradient_level': 99
 				})
 			ret.append({
-				'contents': key.glyph * (denom - numer),
+				'contents': key.heart_glyph * numer,
+				'draw_soft_divider': False,
+				'highlight_group': ['battery_gradient', 'battery'],
+				'gradient_level': 99
+				})
+			ret.append({
+				'contents': key.heart_glyph * (denom - numer),
 				'draw_soft_divider': False,
 				'highlight_group': ['battery_gradient', 'battery'],
 				'gradient_level': 1
 				})
-			if battery['status'] == key.charging:
-				ret.append({
-					'contents': key.charge_glyph,
-					'draw_soft_divider': False,
-					'highlight_group': ['battery_gradient', 'battery'],
-					'gradient_level': 99
-					})
 
 			return ret
 		else:
@@ -90,7 +94,7 @@ class HostBatteryPercent(KwThreadedSegment):
 				'gradient_level': 100 - battery['percent'],
 				}]
 
-host_battery_percent = with_docstring(HostBatteryPercent(), '')
+host_battery = with_docstring(HostBattery(), '')
 
 _LastMessageKey = namedtuple('Key', 'time_format max_length')
 
