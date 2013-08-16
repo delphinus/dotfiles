@@ -63,7 +63,7 @@ class HostBattery(KwThreadedSegment):
 			if battery['status'] == key.charging:
 				glyph = key.charge_glyph
 			else:
-				glyph = key.battery
+				glyph = key.battery_glyph
 			ret.append({
 				'contents': glyph + ' ',
 				'draw_soft_divider': False,
