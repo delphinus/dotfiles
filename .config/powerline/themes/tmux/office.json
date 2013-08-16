@@ -107,11 +107,7 @@
 				"priority": 50
 			},
 			{
-				"name": "system_load",
-				"priority": 50
-			},
-			{
-				"name": "used_memory_percent_gradient",
+				"name": "used_memory",
 				"module": "ext.tmux.segments.ps",
 				"priority": 30
 			},

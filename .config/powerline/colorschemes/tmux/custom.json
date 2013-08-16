@@ -35,6 +35,7 @@
 		"branch_dirty": { "fg": "royalblue5", "bg": "yellow", "attr": ["bold"] },
 		"branch_clean": { "fg": "royalblue5", "bg": "lightyellow", "attr": ["bold"] },
 		"branch:divider": { "fg": "royalblue5", "bg": "gray61", "attr": ["bold"] },
-		"cpu_load": { "fg": "blue_red", "bg": "gray0" }
+		"cpu_load": { "fg": "blue_red", "bg": "gray0" },
+		"used_memory": { "fg": "yellow_red", "bg": "gray0" }
 	}
 }

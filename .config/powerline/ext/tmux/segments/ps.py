@@ -21,6 +21,34 @@ def used_memory_percent_gradient(pl, format='{0:.0f}%'):
 		'gradient_level': memory_percent,
 		}]
 
+def used_memory(pl, steps=5, circle_glyph='●', memory_glyph='🔲'):
+	memory = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
+
+	ret = []
+	denom = int(steps)
+	numer = int(denom * memory / 100)
+	ret.append({
+		'contents': memory_glyph + ' ',
+		'draw_soft_divider': False,
+		'divider_highlight_group': 'background:divider',
+		'highlight_group': ['used_memory'],
+		'gradient_level': 99,
+		})
+	ret.append({
+		'contents': circle_glyph * numer,
+		'draw_soft_divider': False,
+		'highlight_group': ['used_memory'],
+		'gradient_level': 99,
+		})
+	ret.append({
+		'contents': circle_glyph * (denom - numer),
+		'draw_soft_divider': False,
+		'highlight_group': ['used_memory'],
+		'gradient_level': 1,
+		})
+
+	return ret
+
 def battery_percent_gradient(pl, format='{percent}%', charging='charging',
 		discharging='', charged='', remain='remain {0}'):
 	pmset_output = commands.getoutput('pmset -g ps')
@@ -81,7 +109,7 @@ class CPULoad(ThreadedSegment):
 		numer = int(denom * cpu_percent / 100)
 		ret.append({
 			'contents': cpu_glyph + ' ',
-			'draw_divider': False,
+			'draw_soft_divider': False,
 			'divider_highlight_group': 'background:divider',
 			'highlight_group': ['cpu_load'],
 			'gradient_level': 99,
