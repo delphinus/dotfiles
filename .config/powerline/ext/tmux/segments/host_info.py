@@ -59,7 +59,7 @@ class HostBattery(KwThreadedSegment):
 		elif key.gamify:
 			ret = []
 			denom = int(key.steps)
-			numer = int(denom * battery['percent'] /100)
+			numer = int(denom * battery['percent'] / 100)
 			if battery['status'] == key.charging:
 				glyph = key.charge_glyph
 			else:
@@ -69,19 +69,19 @@ class HostBattery(KwThreadedSegment):
 				'draw_soft_divider': False,
 				'divider_highlight_group': 'background:divider',
 				'highlight_group': ['battery_gradient', 'battery'],
-				'gradient_level': 99
+				'gradient_level': 99,
 				})
 			ret.append({
 				'contents': key.heart_glyph * numer,
 				'draw_soft_divider': False,
 				'highlight_group': ['battery_gradient', 'battery'],
-				'gradient_level': 99
+				'gradient_level': 99,
 				})
 			ret.append({
 				'contents': key.heart_glyph * (denom - numer),
 				'draw_soft_divider': False,
 				'highlight_group': ['battery_gradient', 'battery'],
-				'gradient_level': 1
+				'gradient_level': 1,
 				})
 
 			return ret
