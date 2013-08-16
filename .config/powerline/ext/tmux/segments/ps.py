@@ -9,6 +9,7 @@ import re
 import socket
 
 from powerline.lib import add_divider_highlight_group
+from powerline.lib.threaded import ThreadedSegment, with_docstring
 
 def used_memory_percent_gradient(pl, format='{0:.0f}%'):
 	memory_percent = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
@@ -58,3 +59,46 @@ def internal_ip(pl):
 	for ip in socket.gethostbyname_ex(socket.gethostname())[2]:
 		if not ip.startswith('127.'):
 			return ip
+
+class CPULoad(ThreadedSegment):
+	interval = 1
+
+	def update(self, old_cpu):
+		return psutil.cpu_percent(interval=None)
+
+	def run(self):
+		while not self.shutdown_event.is_set():
+			try:
+				self.update_value = psutil.cpu_percent(interval=self.interval)
+			except Exception as e:
+				self.exception('Exception while calculating cpu_percent: {0}', str(e))
+
+	def render(self, cpu_percent, steps=5, circle_glyph='●', cpu_glyph='💻', **kwargs):
+		if not cpu_percent: return None
+
+		ret = []
+		denom = int(steps)
+		numer = int(denom * cpu_percent / 100)
+		ret.append({
+			'contents': cpu_glyph + ' ',
+			'draw_divider': False,
+			'divider_highlight_group': 'background:divider',
+			'highlight_group': ['cpu_load'],
+			'gradient_level': 99,
+			})
+		ret.append({
+			'contents': circle_glyph * numer,
+			'draw_soft_divider': False,
+			'highlight_group': ['cpu_load'],
+			'gradient_level': 99,
+			})
+		ret.append({
+			'contents': circle_glyph * (denom - numer),
+			'draw_soft_divider': False,
+			'highlight_group': ['cpu_load'],
+			'gradient_level': 1,
+			})
+
+		return ret
+
+cpu_load = with_docstring(CPULoad(), '')

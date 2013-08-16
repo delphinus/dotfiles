@@ -34,6 +34,7 @@
 		"branch": { "fg": "royalblue5", "bg": "lightyellow", "attr": ["bold"] },
 		"branch_dirty": { "fg": "royalblue5", "bg": "yellow", "attr": ["bold"] },
 		"branch_clean": { "fg": "royalblue5", "bg": "lightyellow", "attr": ["bold"] },
-		"branch:divider": { "fg": "royalblue5", "bg": "gray61", "attr": ["bold"] }
+		"branch:divider": { "fg": "royalblue5", "bg": "gray61", "attr": ["bold"] },
+		"cpu_load": { "fg": "blue_red", "bg": "gray0" }
 	}
 }

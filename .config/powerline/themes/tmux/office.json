@@ -102,7 +102,8 @@
 				"priority": 50
 			},
 			{
-				"name": "cpu_load_percent",
+				"name": "cpu_load",
+				"module": "ext.tmux.segments.ps",
 				"priority": 50
 			},
 			{
