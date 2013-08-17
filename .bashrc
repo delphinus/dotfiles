@@ -40,7 +40,7 @@ done
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
-export PATH="$HOME/Library/Python/2.7/bin:/usr/local/mysql/bin:$HOME/Dropbox/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin"
+export PATH="$HOME/Library/Python/2.7/bin:/usr/local/Cellar/ruby/2.0.0-p247/bin:$HOME/.gem/ruby/2.0.0/bin:/usr/local/mysql/bin:$HOME/Dropbox/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin"
 #export PROMPT_COMMAND="echo -ne '\033k\033\'"
 export PYTHONPATH="$HOME/Library/Python/2.7/lib/python/site-packages"
 #export proxy=http://127.0.0.1:8123/
