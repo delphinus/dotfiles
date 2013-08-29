@@ -84,6 +84,11 @@
 	"segments": {
 		"right": [
 			{
+				"name": "now_playing",
+				"module": "ext.tmux.segments.nowplayinglastfm",
+				"priority": 30
+			},
+			{
 				"name": "weather",
 				"priority": 30
 			},
