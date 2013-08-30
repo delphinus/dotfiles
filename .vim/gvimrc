@@ -44,6 +44,7 @@ winpos 400 200            " ウィンドウの場所を指定する
 "colorscheme solarized
 "colorscheme solarized
 "colorscheme gruvbox
+"colorscheme plum
 colorscheme hemisu
 if &background == 'light'
     highlight ColorColumn term=reverse ctermbg=255 guibg=#EEEEEE
