@@ -26,9 +26,22 @@ export SUDO_EDITOR=$EDITOR
 export H=$HOME
 alias tmux="TERM=screen-256color-bce tmux -f $HOME/git/dotfiles/.tmux.conf"
 
-#export MY_PERL_LOCAL_LIB="$HOME/perl5/libs/"
 . /usr/local/etc/bash_completion.d/git-completion.bash
+. /usr/local/Cellar/git/1.8.2.2/etc/bash_completion.d/git-prompt.sh
+. /usr/local/etc/bash_completion.d/git-flow-completion.bash
 
+# unstated (*) stated (+)
+export GIT_PS1_SHOWDIRTYSTATE=1
+# stashed ($)
+export GIT_PS1_SHOWSTASHSTATE=1
+# untracked (%)
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+# upstream (<=>)
+export GIT_PS1_SHOWUPSTREAM="verbose"
+
+PROMPT_COMMAND='PS1="\[\033[0;33m\][\!]$(__git_ps1 " [%s] ")\`if [[ \$? = "0" ]]; then echo "\\[\\033[32m\\]"; else echo "\\[\\033[31m\\]"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 18 ]]; then echo "\\W"; else echo "\\w"; fi\`]\$\[\033[0m\] "; echo -ne "\033]0;`hostname -s`:`pwd`\007"'
+
+#export MY_PERL_LOCAL_LIB="$HOME/perl5/libs/"
 #locallib() {
 #    eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$MY_PERL_LOCAL_LIB/$1)
 #}
@@ -54,4 +67,4 @@ source $HOME/git/dotfiles/.tmux/bash_completion_tmux.sh
 eval `dircolors $HOME/git/dotfiles/dircolors-solarized/dircolors.ansi-dark`
 
 # powerline
-. $PYTHONPATH/powerline/bindings/bash/powerline.sh
+#. $PYTHONPATH/powerline/bindings/bash/powerline.sh
