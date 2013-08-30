@@ -43,12 +43,13 @@
 				"format": "🔲  {0:4.1f}%"
 			}
 		},
-		"battery_percent_gradient": {
+		"battery_percent": {
 			"args": {
 				"format": "🔋  {percent:2d}% ({status}{remain})",
 				"charging": "充電中",
 				"charged": "充電完了",
-				"remain": "残り {0}"
+				"remain": "残り {0}",
+				"interval": 30000
 			}
 		},
 		"system_load": {
@@ -96,6 +97,12 @@
 			{
 				"name": "weather",
 				"priority": 90
+			}
+		],
+		"right": [
+			{
+				"name": "weather",
+				"priority": 90
 			},
 			{
 				"name": "email_imap_alert",
@@ -105,17 +112,6 @@
 				"name": "now_playing",
 				"module": "ext.tmux.segments.nowplayinglastfm",
 				"priority": 80
-			}
-		],
-		"right": [
-			{
-				"name": "external_ip",
-				"priority": 50
-			},
-			{
-				"name": "internal_ip",
-				"module": "ext.tmux.segments.ps",
-				"priority": 50
 			},
 			{
 				"name": "network_load",
@@ -131,8 +127,8 @@
 				"priority": 50
 			},
 			{
-				"name": "battery_percent_gradient",
-				"module": "ext.tmux.segments.ps",
+				"name": "battery_percent",
+				"module": "ext.tmux.segments.battery",
 				"priority": 50
 			}
 		]
