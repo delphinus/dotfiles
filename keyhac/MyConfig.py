@@ -249,7 +249,7 @@ class MyConfig:
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
-        #km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
+        km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
         # U0/U1-Space でウィンドウ切り替え
         #km["U0-LShift"] = self.km.command_InputKey("LC-Z", "N")
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
@@ -479,7 +479,7 @@ class MyConfig:
             self.set_multistroke("X" + k, "C-" + k)
 
         # カーソル移動無効化
-        for exe in ["ckw" ,"gvim" ,"firefox" ,"palemoon", "putty", "mintty", "console"]:
+        for exe in ["ckw" ,"gvim" ,"firefox" ,"palemoon", "putty", "ttermpro", "mintty", "console"]:
             exe_name = unicode(exe) + u".exe"
             km = self.km_for_exe(exe_name)
             for k in e_cursor.keys():
@@ -556,6 +556,7 @@ class MyConfig:
             if last_console:
                 last_console.setForeground()
 
-        km["C-Tab"] = command_SwitchConsole
+        #km["C-Tab"] = command_SwitchConsole
+        km["RWin-Tab"] = command_SwitchConsole
 
 # vim:se et ts=4 sts=4 sw=4 fdm=marker:
