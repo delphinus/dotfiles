@@ -39,7 +39,8 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 # upstream (<=>)
 export GIT_PS1_SHOWUPSTREAM="verbose"
 
-PROMPT_COMMAND='PS1="\[\033[0;33m\][\!]$(__git_ps1 " [%s] ")\`if [[ \$? = "0" ]]; then echo "\\[\\033[32m\\]"; else echo "\\[\\033[31m\\]"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 18 ]]; then echo "\\W"; else echo "\\w"; fi\`]\$\[\033[0m\] "; echo -ne "\033]0;`hostname -s`:`pwd`\007"'
+YELLO_GREEN="\e[38;5;190m"
+PROMPT_COMMAND='PS1="$YELLO_GREEN[\!] \e[38;5;83m$(__git_ps1 "[%s]") \`if [[ \$? = "0" ]]; then echo "\\e[38\\\;5\\\;119m"; else echo "\\e[38\\\;5\\\;196m"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 50 ]]; then echo "\\W"; else echo "\\w"; fi\`]\$\[\e[0m\] "; echo -ne "\e]0;`hostname -s`:`pwd`\007"'
 
 #export MY_PERL_LOCAL_LIB="$HOME/perl5/libs/"
 #locallib() {
