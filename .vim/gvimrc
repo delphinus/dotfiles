@@ -41,15 +41,7 @@ winpos 400 200            " ウィンドウの場所を指定する
 "colorscheme void
 "colorscheme badwolf
 "colorscheme festoon
-"colorscheme solarized
-"colorscheme solarized
+colorscheme solarized
 "colorscheme gruvbox
 "colorscheme plum
-colorscheme hemisu
-if &background == 'light'
-    highlight ColorColumn term=reverse ctermbg=255 guibg=#EEEEEE
-else
-    highlight ColorColumn term=reverse ctermbg=233 guibg=#111111
-endif
-highlight link EasyMotionTarget Type
-highlight link EasyMotionComment Comment
+"colorscheme hemisu
