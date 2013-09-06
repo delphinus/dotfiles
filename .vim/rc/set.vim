@@ -137,8 +137,8 @@ set tildeop                       " ~ を operator として使う
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
 set background=dark               " 背景は暗く
-"call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
-"colorscheme solarized
+call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
+colorscheme solarized
 "colorscheme seoul256
 "colorscheme gruvbox
 
@@ -162,14 +162,13 @@ set background=dark               " 背景は暗く
 "colorscheme void256
 "colorscheme badwolf
 "colorscheme zenburn
-colorscheme hemisu
-if &background == 'light'
-    highlight ColorColumn term=reverse ctermbg=255 guibg=#FFAFAF
-else
-    highlight ColorColumn term=reverse ctermbg=233 guibg=#111111
-endif
-highlight link EasyMotionTarget Type
-highlight link EasyMotionComment Comment
-
+"colorscheme hemisu
+"if &background == 'light'
+"    highlight ColorColumn term=reverse ctermbg=255 guibg=#FFAFAF
+"else
+"    highlight ColorColumn term=reverse ctermbg=233 guibg=#111111
+"endif
+"highlight link EasyMotionTarget Type
+"highlight link EasyMotionComment Comment
 
 " vim:et:fdm=marker:
