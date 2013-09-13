@@ -1,6 +1,10 @@
 source $H/git/dotfiles/.tmux/default.conf
 set-option -g default-shell $HOME/bin.local/bs
 
+# pane-active-border
+set -g pane-active-border-fg colour76
+set -g pane-active-border-bg colour8
+
 source $H/git/dotfiles/tmux-colors-solarized/tmuxcolors-dark.conf
 source $H/git/dotfiles/.tmux/screen-keys.conf
 source $H/git/dotfiles/.tmux/vim-keys.conf
