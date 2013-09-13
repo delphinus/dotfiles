@@ -24,6 +24,7 @@ export EDITOR=/usr/local/bin/vim
 export VISUAL=$EDITOR
 export SUDO_EDITOR=$EDITOR
 export H=$HOME
+export ACK_PAGER='less -R'
 alias tmux="TERM=screen-256color-bce tmux -f $HOME/git/dotfiles/.tmux.conf"
 
 . /usr/local/etc/bash_completion.d/git-completion.bash
