@@ -140,10 +140,21 @@ class MyConfig:
 
         # Esc => U0
         # O-Esc => Esc
-        self.km.replaceKey("Escape", 235)
-        self.kmg["O-(235)"] = "Escape"
+        #self.km.replaceKey("Escape", 235)
+        #self.kmg["O-(235)"] = "Escape"
         # RAlt => U0
         self.km.replaceKey("RAlt", 235)
+        # Tab => U0
+        # O-Tab => Tab
+        self.km.replaceKey('Tab', 235)
+        self.kmg['O-(235)'] = 'Tab'
+        self.kmg['S-(235)'] = 'S-Tab'
+        self.kmg['C-(235)'] = 'C-Tab'
+        self.kmg['S-C-(235)'] = 'S-C-Tab'
+        self.kmg['A-(235)'] = 'A-Tab'
+        self.kmg['S-A-(235)'] = 'S-A-Tab'
+        self.kmg['Win-(235)'] = 'Win-Tab'
+        self.kmg['S-Win-(235)'] = 'S-Win-Tab'
 
         # RCtrl => RWin
         #self.km.replaceKey("RCtrl", "RWin")
@@ -249,14 +260,15 @@ class MyConfig:
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
-        km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
+        #km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
+        km["LC-(235)"] = self.km.command_InputKey("LC-Z", "Tab")
         # U0/U1-Space でウィンドウ切り替え
         #km["U0-LShift"] = self.km.command_InputKey("LC-Z", "N")
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
 
         # Putty上ではESC => ESC+日本語入力オフ（無変換）
-        #km["ESC"] = self.km.command_InputKey("(29)", "ESC")
-        km["(235)"] = self.km.command_InputKey("ESC", "(29)")
+        km["ESC"] = self.km.command_InputKey("(29)", "ESC")
+        #km["(235)"] = self.km.command_InputKey("ESC", "(29)")
         km["C-(219)"] = self.km.command_InputKey("ESC", "(29)")
         #km["(243)"] = self.km.command_InputKey("(29)", "ESC")
         #km["(244)"] = self.km.command_InputKey("(29)", "ESC")
@@ -270,8 +282,8 @@ class MyConfig:
         # putty + vim
         # map <F1> :mak!<CR>
         # map <F2> :QFix<CR>
-        km["U0-B"] = "F1"
-        km["U0-L"] = "F2"
+        #km["U0-B"] = "F1"
+        #km["U0-L"] = "F2"
         # タブ切り替え
         km["U0-N"] = self.km.command_InputKey("LC-Z", "LC-N")
         km["U0-P"] = self.km.command_InputKey("LC-Z", "LC-P")
@@ -280,10 +292,10 @@ class MyConfig:
 
         # putty + screen
         # ウィンドウ移動
-        km["U0-H"] = self.km.command_InputKey("LC-Z", "H")
-        km["U0-J"] = self.km.command_InputKey("LC-Z", "J")
-        km["U0-K"] = self.km.command_InputKey("LC-Z", "K")
-        km["U0-L"] = self.km.command_InputKey("LC-Z", "L")
+        #km["U0-H"] = self.km.command_InputKey("LC-Z", "H")
+        #km["U0-J"] = self.km.command_InputKey("LC-Z", "J")
+        #km["U0-K"] = self.km.command_InputKey("LC-Z", "K")
+        #km["U0-L"] = self.km.command_InputKey("LC-Z", "L")
 
     # mintty用設定
     def mintty(self):
@@ -300,8 +312,8 @@ class MyConfig:
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
 
         # mintty上ではESC => ESC+日本語入力オフ（無変換）
-        #km["ESC"] = self.km.command_InputKey("(29)", "ESC")
-        km["(235)"] = self.km.command_InputKey("ESC", "(29)")
+        km["ESC"] = self.km.command_InputKey("(29)", "ESC")
+        #km["(235)"] = self.km.command_InputKey("ESC", "(29)")
         km["C-(219)"] = self.km.command_InputKey("ESC", "(29)")
         #km["(243)"] = self.km.command_InputKey("(29)", "ESC")
         #km["(244)"] = self.km.command_InputKey("(29)", "ESC")
@@ -345,7 +357,8 @@ class MyConfig:
         km["C-X"] = "C-X"
 
         # Console2上ではESC => ESC+日本語入力オフ（無変換）
-        km["(235)"] = self.km.command_InputKey("ESC", "(29)")
+        km["ESC"] = self.km.command_InputKey("ESC", "(29)")
+        #km["(235)"] = self.km.command_InputKey("ESC", "(29)")
         km["C-(219)"] = self.km.command_InputKey("ESC", "(29)")
 
     # Tera Term用設定
@@ -362,8 +375,8 @@ class MyConfig:
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
 
         # Putty上ではESC => ESC+日本語入力オフ（無変換）
-        #km["ESC"] = self.km.command_InputKey("(29)", "ESC")
-        km["(235)"] = self.km.command_InputKey("(29)", "ESC")
+        km["ESC"] = self.km.command_InputKey("(29)", "ESC")
+        #km["(235)"] = self.km.command_InputKey("(29)", "ESC")
 
         # putty上ではEmacs風割り当てを解除
         km["C-S"] = "C-S"
@@ -390,8 +403,8 @@ class MyConfig:
         # GVim上ではESC => ESC+日本語入力オフ（無変換）
         # これは事前に IME の設定が必要
         km = self.km_for_exe(u"gvim.exe")
-        #km["ESC"] = self.km.command_InputKey("(29)", "ESC")
-        km["(235)"] = self.km.command_InputKey("(29)", "ESC")
+        km["ESC"] = self.km.command_InputKey("(29)", "ESC")
+        #km["(235)"] = self.km.command_InputKey("(29)", "ESC")
 
         # GVim上ではEmacs風割り当てを解除
         km = self.km_for_exe(u"gvim.exe")
