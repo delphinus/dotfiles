@@ -146,6 +146,8 @@ call s:loadrc('multiple-cursors')
 call s:loadrc('javascript')
 " EasyAlign 設定
 call s:loadrc('easyalign')
+" clever-f 設定
+call s:loadrc('clever-f')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'

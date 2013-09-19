@@ -32,6 +32,8 @@ nnoremap <Tab>h 8zh
 "nnoremap <silent> cy ce<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "vnoremap <silent> cy c<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
+" omini 補完起動
+inoremap <C-O> <C-X><C-O>
 
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 " MapFastKeycode: helper for fast keycode mappings

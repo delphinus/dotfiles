@@ -46,33 +46,28 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'amdt/sunset'
+NeoBundle 'c9s/perlomni.vim'
 NeoBundle 'catalinciurea/perl-nextmethod'
 NeoBundle 'delphinus35/unite-converter-erase-diff-buffer'
 NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'fuenor/qfixhowm'
-NeoBundle 'gcmt/plum.vim'
 NeoBundle 'gregsexton/VimCalc'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'guns/xterm-color-table.vim'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'jceb/vim-hier'
-NeoBundle 'jelera/vim-gummybears-colorscheme'
-NeoBundle 'jnurmine/Zenburn'
-NeoBundle 'junegunn/seoul256.vim'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kannokanno/unite-dwm'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'maxbrunsfeld/vim-yankstack'
 NeoBundle 'mileszs/ack.vim'
-NeoBundle 'morhetz/gruvbox'
-NeoBundle 'noahfrederick/Hemisu'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/unite-qfixhowm'
 NeoBundle 'osyo-manga/vim-watchdogs'
-NeoBundle 'rainux/vim-desert-warm-256'
-NeoBundle 'sjl/badwolf'
+NeoBundle 'rhysd/clever-f.vim'
+NeoBundle 'rkitover/perl-vim-mxd'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'thinca/vim-quickrun'
@@ -110,6 +105,9 @@ NeoBundle 'vim-scripts/colorizer'
 "NeoBundle 'hobbestigrou/vimtips-fortune'
 "NeoBundle 'int3/vim-extradite'
 "NeoBundle 'itchyny/thumbnail.vim'
+"NeoBundle 'jelera/vim-gummybears-colorscheme'
+"NeoBundle 'junegunn/seoul256.vim'
+"NeoBundle 'jnurmine/Zenburn'
 "NeoBundle 'joonty/vdebug'
 "NeoBundle 'kana/vim-textobj-indent'
 "NeoBundle 'kana/vim-textobj-user'
@@ -119,10 +117,15 @@ NeoBundle 'vim-scripts/colorizer'
 "NeoBundle 'mattn/gist-vim'
 "NeoBundle 'matze/vim-move'
 "NeoBundle 'mihaifm/bck'
+"NeoBundle 'morhetz/gruvbox'
 "NeoBundle 'nathanaelkane/vim-indent-guides'
+"NeoBundle 'noahfrederick/Hemisu'
 "NeoBundle 'othree/javascript-libraries-syntax.vim'
+"NeoBundle 'rainux/vim-desert-warm-256'
 "NeoBundle 'roman/golden-ratio'
+"NeoBundle 'scrooloose/nerdtree'
 "NeoBundle 'scrooloose/syntastic'
+"NeoBundle 'sjl/badwolf'
 "NeoBundle 'sjl/clam.vim'
 "NeoBundle 'terryma/vim-expand-region'
 "NeoBundle 'terryma/vim-multiple-cursors'
@@ -149,7 +152,6 @@ NeoBundle 'vim-scripts/colorizer'
 
 " 後で読み込む {{{
 NeoBundleLazy 'rkitover/vimpager'
-NeoBundleLazy 'scrooloose/nerdtree'
 
 " Mac 専用
 if has('macunix')
@@ -167,16 +169,6 @@ autocmd FileType css NeoBundleSource Better-CSS-Syntax-for-Vim
 " CSV
 NeoBundleLazy 'csv.vim'
 autocmd FileType csv NeoBundleSource csv.vim
-
-" Perl
-NeoBundleLazy 'c9s/perlomni.vim'
-NeoBundleLazy 'rkitover/perl-vim-mxd'
-"NeoBundleLazy 'petdance/vim-perl'
-function s:open_perl()
-    NeoBundleSource perlomni
-    NeoBundleSource perl-vim-mxd
-endfunction
-autocmd FileType perl call s:open_perl()
 
 " Chalice
 NeoBundleLazy 'delphinus35/chalice'
