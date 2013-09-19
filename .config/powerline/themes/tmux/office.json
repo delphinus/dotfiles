@@ -18,7 +18,21 @@
 		},
 		"weather": {
 			"args": {
-				"location_query": "tokyo, japan"
+				"location_query": "tokyo, japan",
+				"icons": {
+					"day":           "⚪",
+					"blustery":      "⚠",
+					"rainy":         "☔",
+					"cloudy":        "☁",
+					"snowy":         "❄",
+					"stormy":        "⚡",
+					"foggy":         "🌁",
+					"sunny":         "☼",
+					"night":         "🌙",
+					"windy":         "🚩",
+					"not_available": "🚫",
+					"unknown":       "❔"
+				}
 			}
 		},
 		"email_imap_alert": {
