@@ -37,17 +37,25 @@ NeoBundle 'Shougo/vimproc', {'build': {
     \ }
 
 " プラグイン（github） {{{
+NeoBundle 'ChrisYip/Better-CSS-Syntax-for-Vim', {'autoload': {'filetypes': 'css'}}
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimshell'
-NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'airblade/vim-gitgutter', '935184b'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'amdt/sunset'
+NeoBundle 'basyura/TweetVim', {'depends': [
+    \   'basyura/bitly.vim',
+    \   'basyura/twibill.vim',
+    \   'tyru/open-browser.vim',
+    \ ],
+    \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
 NeoBundle 'c9s/perlomni.vim'
 NeoBundle 'catalinciurea/perl-nextmethod'
+NeoBundle 'delphinus35/chalice', {'autoload': {'commands': 'Chalice'}}
 NeoBundle 'delphinus35/unite-converter-erase-diff-buffer'
 NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'fuenor/qfixhowm'
@@ -57,6 +65,7 @@ NeoBundle 'guns/xterm-color-table.vim'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'jceb/vim-hier'
+NeoBundle 'jelera/vim-javascript-syntax', {'autoload': {'filetypes': 'javascript'}}
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kannokanno/unite-dwm'
 NeoBundle 'majutsushi/tagbar'
@@ -79,7 +88,9 @@ NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler'
 NeoBundle 'vim-scripts/colorizer'
+NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 
+" {{{
 "NeoBundle 'AndrewRadev/splitjoin.vim'
 "NeoBundle 'Rykka/trans.vim'
 "NeoBundle 'Shougo/neocomplcache'
@@ -149,8 +160,9 @@ NeoBundle 'vim-scripts/colorizer'
 "NeoBundle 'ynkdir/vim-funlib'
 "NeoBundle 'yuratomo/gmail.vim'
 " }}}
+" }}}
 
-" 後で読み込む {{{
+" vimpager
 NeoBundleLazy 'rkitover/vimpager'
 
 " Mac 専用
@@ -161,27 +173,6 @@ else
     NeoBundleLazy 'msanders/cocoa.vim'
     NeoBundleLazy 'troydm/pb.vim'
 endif
-
-" CSS
-NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim'
-autocmd FileType css NeoBundleSource Better-CSS-Syntax-for-Vim
-
-" CSV
-NeoBundleLazy 'csv.vim'
-autocmd FileType csv NeoBundleSource csv.vim
-
-" Chalice
-NeoBundleLazy 'delphinus35/chalice'
-command! EnableChalice :NeoBundleSource chalice
-
-" Twitter
-NeoBundleLazy 'basyura/TweetVim', {'depends': [
-    \   'basyura/bitly.vim',
-    \   'basyura/twibill.vim',
-    \   'tyru/open-browser.vim',
-    \ ]}
-command! EnableTwitter :NeoBundleSource TweetVim
-" }}}
 
 if has('vim_starting')
     if is_win
