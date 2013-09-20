@@ -56,9 +56,9 @@ NeoBundle 'basyura/TweetVim', {'depends': [
 NeoBundle 'c9s/perlomni.vim'
 NeoBundle 'catalinciurea/perl-nextmethod'
 NeoBundle 'delphinus35/chalice', {'autoload': {'commands': 'Chalice'}}
+NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
 NeoBundle 'delphinus35/unite-converter-erase-diff-buffer'
 NeoBundle 'fuenor/JpFormat.vim'
-NeoBundle 'fuenor/qfixhowm'
 NeoBundle 'gregsexton/VimCalc'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'guns/xterm-color-table.vim'

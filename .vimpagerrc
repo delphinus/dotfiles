@@ -68,10 +68,8 @@ NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'majutsushi/tagbar'
-NeoBundle 'mattn/gist-vim'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tyru/current-func-info.vim'
 
 if has('vim_starting')
     if is_remora || is_office_win || is_office_cygwin
