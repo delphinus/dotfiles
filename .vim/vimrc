@@ -148,6 +148,8 @@ call s:loadrc('javascript')
 call s:loadrc('easyalign')
 " clever-f 設定
 call s:loadrc('clever-f')
+" gitgutter 設定
+call s:loadrc('gitgutter')
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
