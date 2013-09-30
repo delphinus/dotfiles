@@ -24,6 +24,7 @@ noremap zr :Unite file_rec/async<CR>
 noremap zd :Unite dwm<CR>
 noremap zf :Unite qfixhowm/new qfixhowm<CR>
 noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
+noremap zg :Unite tig<CR>
 noremap <Leader>uu :Unite bookmark<CR>
 noremap <Leader>uc :Unite colorscheme<CR>
 noremap <Leader>ul :Unite locate<CR>

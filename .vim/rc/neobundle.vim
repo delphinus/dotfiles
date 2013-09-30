@@ -11,6 +11,7 @@ set nocompatible
 " プラグイン保存パス
 let g:bundle_dir = g:home . '/.vim/bundle'
 let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
+let g:after_dir = g:home . '/.vim/after'
 
 " デフォルトプロトコル
 let g:neobundle#types#git#default_protocol='https'
@@ -20,7 +21,7 @@ if has('vim_starting')
     if is_office
         set runtimepath-=$HOME/.vim
     endif
-    execute 'set runtimepath+=' . g:neobundle_dir . '/'
+    execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
 
 call neobundle#rc(expand(g:bundle_dir))
@@ -38,6 +39,7 @@ NeoBundle 'Shougo/vimproc', {'build': {
 
 " プラグイン（github） {{{
 NeoBundle 'ChrisYip/Better-CSS-Syntax-for-Vim', {'autoload': {'filetypes': 'css'}}
+NeoBundle 'Kocha/vim-unite-tig'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-ssh'
@@ -76,7 +78,6 @@ NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/unite-qfixhowm'
 NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'rhysd/clever-f.vim'
-NeoBundle 'rkitover/perl-vim-mxd'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'thinca/vim-quickrun'
@@ -85,6 +86,7 @@ NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'vim-jp/vimdoc-ja'
+NeoBundle 'vim-perl/vim-perl'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler'
 NeoBundle 'vim-scripts/colorizer'
@@ -133,6 +135,7 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 "NeoBundle 'noahfrederick/Hemisu'
 "NeoBundle 'othree/javascript-libraries-syntax.vim'
 "NeoBundle 'rainux/vim-desert-warm-256'
+"NeoBundle 'rkitover/perl-vim-mxd'
 "NeoBundle 'roman/golden-ratio'
 "NeoBundle 'scrooloose/nerdtree'
 "NeoBundle 'scrooloose/syntastic'
