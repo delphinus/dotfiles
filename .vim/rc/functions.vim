@@ -1,14 +1,3 @@
-
-"-----------------------------------------------------------------------------
-" ヘルプ
-function! s:VertHelp(word)
-  execute 'vertical help ' . a:word
-  execute 'vertical resize 80'
-  execute 'set wfw'
-endfunction
-command! -nargs=? H call s:VertHelp(<f-args>)
-autocmd FileType help nnoremap <buffer>q :q<CR>
-
 "-----------------------------------------------------------------------------
 " ファイルのあるディレクトリに移動
 command! CD :cd %:h

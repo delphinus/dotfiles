@@ -166,6 +166,8 @@ endif
 call s:loadrc('tab')
 " gmail.vim 設定
 call s:loadrc('gmail')
+" VerticalHelp 設定
+call s:loadrc('verticalhelp')
 
 " zoom.vim
 call s:loadrc('zoom')
