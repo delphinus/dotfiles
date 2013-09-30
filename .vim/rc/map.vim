@@ -1,5 +1,9 @@
 let mapleader='`'
 
+set timeout         " キーのタイムアウト時間設定
+set timeoutlen=300
+set ttimeoutlen=10
+
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
 nnoremap <S-CR> :simalt ~x<CR>
@@ -54,7 +58,11 @@ let s:fast_i = 0
 
 call <SID>MapFastKeycode('<M-p>', "\ep", 'n')
 call <SID>MapFastKeycode('<M-S-p>', "\eP", 'n')
-call <SID>MapFastKeycode('<M-r>', "\er", 'n')
-call <SID>MapFastKeycode('<M-S-r>', "\eR", 'n')
+call <SID>MapFastKeycode('<M-g>', "\eg", 'n')
+call <SID>MapFastKeycode('<M-S-g>', "\eG", 'n')
 call <SID>MapFastKeycode('<M-t>', "\et", 'n')
 call <SID>MapFastKeycode('<M-S-t>', "\eT", 'n')
+
+"-----------------------------------------------------------------------------
+" ヘルプ
+autocmd FileType help nnoremap <buffer>q :q<CR>
