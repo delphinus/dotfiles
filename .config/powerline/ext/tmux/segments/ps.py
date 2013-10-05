@@ -4,6 +4,7 @@
 from __future__ import absolute_import
 
 import commands
+import multiprocessing
 import psutil
 import re
 import socket
@@ -90,6 +91,7 @@ def internal_ip(pl):
 
 class CPULoad(ThreadedSegment):
 	interval = 1
+	cpu_num = multiprocessing.cpu_count()
 
 	def update(self, old_cpu):
 		return psutil.cpu_percent(interval=None)
@@ -107,6 +109,8 @@ class CPULoad(ThreadedSegment):
 		ret = []
 		denom = int(steps)
 		numer = int(denom * cpu_percent / 100)
+		#numer = int(denom * cpu_percent / (100 * self.cpu_num))
+		#self.warn('{0}, {1}, {2}'.format(denom, cpu_percent, numer))
 		ret.append({
 			'contents': cpu_glyph + ' ',
 			'draw_soft_divider': False,
@@ -117,12 +121,14 @@ class CPULoad(ThreadedSegment):
 		ret.append({
 			'contents': circle_glyph * numer,
 			'draw_soft_divider': False,
+			'divider_highlight_group': 'background:divider',
 			'highlight_group': ['cpu_load'],
 			'gradient_level': 99,
 			})
 		ret.append({
 			'contents': circle_glyph * (denom - numer),
 			'draw_soft_divider': False,
+			'divider_highlight_group': 'background:divider',
 			'highlight_group': ['cpu_load'],
 			'gradient_level': 1,
 			})

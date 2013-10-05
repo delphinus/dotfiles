@@ -28,8 +28,8 @@
 		"email_imap_alert": {
 			"before": "📩  ",
 			"args": {
-				"username": "",
-				"password": "",
+				"username": "delphinus@remora.cx",
+				"password": "dzltmvnqlmjoynuf",
 				"max_msgs": 50
 			}
 		},
@@ -75,20 +75,7 @@
 		}
 	},
 	"segments": {
-		"right": [
-			{
-				"name": "now_playing",
-				"module": "ext.tmux.segments.nowplayinglastfm",
-				"priority": 80
-			},
-			{
-				"name": "email_imap_alert",
-				"priority": 50
-			},
-			{
-				"name": "network_load",
-				"priority": 50
-			},
+		"left": [
 			{
 				"name": "cpu_load",
 				"module": "ext.tmux.segments.ps",
@@ -98,6 +85,21 @@
 				"name": "used_memory",
 				"module": "ext.tmux.segments.ps",
 				"priority": 30
+			}
+		],
+		"right": [
+			{
+				"name": "now_playing",
+				"module": "ext.tmux.segments.nowplayinglastfm",
+				"priority": 80
+			},
+			{
+				"name": "network_load",
+				"priority": 50
+			},
+			{
+				"name": "email_imap_alert",
+				"priority": 50
 			},
 			{
 				"name": "date",

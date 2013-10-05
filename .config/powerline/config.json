@@ -34,7 +34,7 @@
 		},
 		"tmux": {
 			"colorscheme": "custom",
-			"theme": "custom"
+			"theme": "home"
 		},
 		"vim": {
 			"colorscheme": "custom",
