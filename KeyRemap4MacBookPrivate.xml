@@ -38,6 +38,13 @@
                 <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
             </item>
             <item>
+                <name>ESC, C-[ to ESC + IME off (for terminal)</name>
+                <identifier>remap.app_term_ime_off_esc_except_backquote</identifier>
+                <only>TERMINAL</only>
+                <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+                <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+            </item>
+            <item>
                 <name>Double Shift_R to CapsLock</name>
                 <identifier>remap.double_right_shift_to_capslock</identifier>
                 <autogen>--DoublePressModifier-- KeyCode::SHIFT_R, KeyCode::SHIFT_R, KeyCode::CAPSLOCK</autogen>
@@ -61,6 +68,13 @@
                 <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
                 <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
                 <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+            </item>
+            <item>
+                <name>Esc, C-[ to ESC + IME off (for MacVim)</name>
+                <identifier>remap.app_macvim_ime_off_esc_except_backquote</identifier>
+                <only>MACVIM</only>
+                <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+                <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
             </item>
         </list>
     </item>
