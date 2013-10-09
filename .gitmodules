@@ -7,3 +7,6 @@
 [submodule "submodules/tmux-colors-solarized"]
 	path = submodules/tmux-colors-solarized
 	url = git@github.com:seebi/tmux-colors-solarized
+[submodule "submodules/pentadactyl-solarized"]
+	path = submodules/pentadactyl-solarized
+	url = git@github.com:claytron/pentadactyl-solarized

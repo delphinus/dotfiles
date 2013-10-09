@@ -72,7 +72,7 @@ style -name commandline-ime chrome://* #dactyl-commandline-command input {ime-mo
 " 参照 : http://d.hatena.ne.jp/tlync/20090222/1235313891
 " リンク先のカラースキームファイルを以下のファイル名で保存する。
 " $HOME/pentadactyl/colors/vimplight.penta
-colorscheme desert
+colorscheme solarized-light
 
 " tab-options-plugin
 " http://dactyl.sourceforge.net/pentadactyl/plugins#tab-options-plugin
