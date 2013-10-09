@@ -68,7 +68,7 @@ export MYPERL=`which perl`
 source $HOME/bin/bash_completion_tmux.sh
 
 source $HOME/git/dotfiles/.tmux/bash_completion_tmux.sh
-eval `dircolors $HOME/git/dotfiles/dircolors-solarized/dircolors.ansi-dark`
+eval `dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 
 # powerline
 #. $PYTHONPATH/powerline/bindings/bash/powerline.sh

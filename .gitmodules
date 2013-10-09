@@ -1,9 +1,9 @@
-[submodule "tmux-colors-solarized"]
-	path = tmux-colors-solarized
-	url = git@github.com:seebi/tmux-colors-solarized
-[submodule "dircolors-solarized"]
-	path = dircolors-solarized
-	url = git@github.com:seebi/dircolors-solarized
 [submodule ".vim/bundle/neobundle.vim"]
 	path = .vim/bundle/neobundle.vim
 	url = git@github.com:Shougo/neobundle.vim
+[submodule "submodules/dircolors-solarized"]
+	path = submodules/dircolors-solarized
+	url = git@github.com:seebi/dircolors-solarized
+[submodule "submodules/tmux-colors-solarized"]
+	path = submodules/tmux-colors-solarized
+	url = git@github.com:seebi/tmux-colors-solarized
