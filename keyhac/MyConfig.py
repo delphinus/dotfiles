@@ -37,7 +37,7 @@ class MyConfig:
                 d[make_key(i)] = value
             return d[make_key(i)]
 
-        for i in xrange(len(command)):
+        for i in range(len(command)):
             if i == 0:
                 km_ms = set_default(self.kmg, 0)
             elif i < len(command) - 1:
@@ -163,7 +163,7 @@ class MyConfig:
         #self.km.replaceKey("BS", "(220)")
 
         # ファンクションキー
-        for i in xrange(10):
+        for i in range(10):
             self.kmg["LC-" + str(i+ 1)] = "F" + str(i + 1)
 
         self.kmg["LC-Minus"] = "F11"
@@ -256,7 +256,7 @@ class MyConfig:
         km = self.km_for_exe(u"PUTTY.EXE")
 
         # ウィンドウ切り替え
-        for i in xrange(10):
+        for i in range(10):
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
@@ -265,6 +265,10 @@ class MyConfig:
         # U0/U1-Space でウィンドウ切り替え
         #km["U0-LShift"] = self.km.command_InputKey("LC-Z", "N")
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
+
+        # pane 切り替え
+        for i in range(10):
+            km["LA-" + str(i)] = self.km.command_InputKey("LC-Z", "q", str(i))
 
         # Putty上ではESC => ESC+日本語入力オフ（無変換）
         km["ESC"] = self.km.command_InputKey("(29)", "ESC")
@@ -302,7 +306,7 @@ class MyConfig:
         km = self.km_for_exe(u"mintty.exe")
 
         # ウィンドウ切り替え
-        for i in xrange(10):
+        for i in range(10):
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
@@ -347,7 +351,7 @@ class MyConfig:
         km = self.km_for_exe(u"Console.exe")
 
         # ウィンドウ切り替え
-        for i in xrange(10):
+        for i in range(10):
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
 
         # putty上ではEmacs風割り当てを解除
@@ -366,7 +370,7 @@ class MyConfig:
         km = self.km_for_exe(u"ttermpro.exe")
 
         # ウィンドウ切り替え
-        for i in xrange(10):
+        for i in range(10):
             km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
@@ -424,7 +428,7 @@ class MyConfig:
         km["C-X"] = "C-X"
 
         # ファンクションキー割り当てを解除
-        for i in xrange(10):
+        for i in range(10):
             km["C-" + str(i)] = "C-" + str(i)
 
         # タブグループ
@@ -443,7 +447,7 @@ class MyConfig:
         km["C-X"] = "C-X"
 
         # ファンクションキー割り当てを解除
-        for i in xrange(10):
+        for i in range(10):
             km["C-" + str(i)] = "C-" + str(i)
 
         # タブグループ
@@ -493,7 +497,7 @@ class MyConfig:
 
         # カーソル移動無効化
         for exe in ["ckw" ,"gvim" ,"firefox" ,"palemoon", "putty", "ttermpro", "mintty", "console"]:
-            exe_name = unicode(exe) + u".exe"
+            exe_name = exe + u".exe"
             km = self.km_for_exe(exe_name)
             for k in e_cursor.keys():
                 km["LC-" + k] = "LC-" + k
@@ -536,7 +540,7 @@ class MyConfig:
 
     # Windowsキーで選択
     def select_window(self):
-        for i in xrange(10):
+        for i in range(10):
             self.kmg["LC-" + str(i)] = "LWin-" + str(i)
 
     # Aeroスナップ
