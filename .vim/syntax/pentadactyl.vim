@@ -1,4 +1,3 @@
-
 " Vim syntax file
 " Language:         Pentadactyl configuration file
 " Maintainer:       Doug Kearns <dougkearns@gmail.com>
@@ -20,51 +19,30 @@ unlet b:current_syntax
 
 syn match pentadactylCommandStart "\%(^\s*:\=\)\@<=" nextgroup=pentadactylCommand,pentadactylAutoCmd
 
-syn keyword pentadactylCommand loadplugins lpl gr[oup] ! run Clistk[eys] Clk
-    \ Cm[ap] Cno[remap] Cunm[ap] Ilistk[eys] Ilk Im[ap] Ino[remap] Iunm[ap]
-    \ ab[breviate] addo[ns] ao au[tocmd] ba[ck] background bg bd[elete]
-    \ blistk[eys] blk bm[ap] bma[rk] bmarks bno[remap] b[uffer] buffers files ls
-    \ tabs bunm[ap] ca[bbreviate] caretlistk[eys] caretlk caretm[ap]
-    \ caretno[remap] caretunm[ap] cd chd[ir] clistk[eys] clk cm[ap] cno[remap]
-    \ colo[rscheme] com[mand] comp[letions] contexts cookies ck copy
-    \ cuna[bbreviate] cunm[ap] delbm[arks] delc[ommand] delg[roup] delmac[ros]
-    \ delm[arks] delqm[arks] dels[tyle] dia[log] dlc[lear] doautoa[ll]
-    \ do[autocmd] downl[oads] dl ec[ho] echoe[rr] echom[sg] el[se] elsei[f] elif
-    \ em[enu] en[dif] fi exe[cute] exit x exta[dd] extde[lete] extrm
-    \ extd[isable] exte[nable] exto[ptions] extp[references] extr[ehash]
-    \ extt[oggle] extu[pdate] feedkeys fk fini[sh] fo[rward] fw frameo[nly]
-    \ ha[rdcopy] hb[search] hbt[absearch] hbc[omment] hbtc[omment] hbu[rl]
-    \ hbtu[rl] hbti[tle] hbtti[tle] h[elp] helpa[ll] hi[ghlight] hist[ory] hs
-    \ ia[bbreviate] if ilistk[eys] ilk im[ap] ino[remap] iuna[bbreviate]
-    \ iunm[ap] javas[cript] js ju[mps] keepa[lt] let listc[ommands] lc
-    \ listk[eys] lk listo[ptions] lo mac[ros] map ma[rk] marks mes[sages]
-    \ messc[lear] mkp[entadactylrc] mks[yntax] mlistk[eys] mlk mm[ap] mno[remap]
-    \ munm[ap] nlistk[eys] nlk nm[ap] nno[remap] noh[lfind] no[remap] norm[al]
-    \ nunm[ap] olistk[eys] olk om[ap] ono[remap] o[pen] ounm[ap] pa[geinfo]
-    \ pagest[yle] pas pin[tab] pref[erences] prefs pw[d] qma[rk] qmarks q[uit]
-    \ quita[ll] qa[ll] readlater rl redr[aw] reg[isters] reh[ash] re[load]
-    \ reloada[ll] res[tart] runt[ime] sa[nitize] sav[eas] w[rite] sbcl[ose]
-    \ scrip[tnames] se[t] setg[lobal] setl[ocal] sideb[ar] sb[ar] sbop[en]
-    \ sil[ent] so[urce] st[op] stopa[ll] sty[le] styled[isable] styd[isable]
-    \ stylee[nable] stye[nable] stylet[oggle] styt[oggle] tab taba[ttach]
-    \ tabc[lose] tabde[tach] tabd[o] bufd[o] tabdu[plicate] tabl[ast] bl[ast]
-    \ tabm[ove] tabn[ext] tn[ext] bn[ext] tabo[nly] tabopen t[open] tabnew
-    \ tabp[revious] tp[revious] tabN[ext] tN[ext] bp[revious] bN[ext]
-    \ tabr[ewind] tabfir[st] br[ewind] bf[irst] time tlistk[eys] tlk tm[ap]
-    \ tno[remap] toolbarh[ide] tbh[ide] toolbars[how] tbs[how] toolbart[oggle]
-    \ tbt[oggle] tunm[ap] una[bbreviate] u[ndo] undoa[ll] unl[et] unm[ap]
-    \ unpin[tab] verb[ose] ve[rsion] vie[wsource] vlistk[eys] vlk vm[ap]
-    \ vno[remap] vunm[ap] winc[lose] wc[lose] wind[ow] winon[ly] wino[pen]
-    \ wo[pen] wqa[ll] wq xa[ll] y[ank] zo[om]
+syn keyword pentadactylCommand ab[breviate] ab[clear] addo[ns] bN[ext] b[uffer] ba[ck] bd[elete] beep bf[irst] bl[ast] bma[rk]
+    \ bmarks bn[ext] bp[revious] br[ewind] bufd[o] buffers bun[load] bw[ipeout] ca[bbrev] cabc[lear] cd chd[ir] cm[ap] cmapc[lear]
+    \ cno[remap] colo[rscheme] com[mand] comc[lear] contexts cu[nmap] cuna[bbrev] delbm[arks] delc[ommand] delm[arks] delmac[ros]
+    \ delqm[arks] dels[tyle] dia[log] dl do[autocmd] doautoa[ll] downl[oads] ec[ho] echoe[rr] echom[sg] em[enu] exe[cute]
+    \ exta[dd] extd[isable] extde[lete] exte[nable] extens[ions] exto[ptions] extp[references] exts exu[sage] files fini[sh]
+    \ fo[rward] frameo[nly] fw h[elp] helpa[ll] ha[rdcopy] hi[ghlight] hist[ory] hs ia[bbrev] iabc[lear] im[ap] imapc[lear]
+    \ ino[remap] iu[nmap] iuna[bbrev] javas[cript] js ju[mps] keepa[lt] let loadplugins lpl ls ma[rk] macros map mapc[lear] marks
+    \ mes[sages] messc[lear] mkp[entadactylrc] nm[ap] nmapc[lear] nno[remap] no[remap] noh[lsearch] norm[al] nu[nmap] o[pen]
+    \ optionu[sage] pa[geinfo] pagest[yle] pas pref[erences] prefs pw[d] q[uit] qa[ll] qma[rk] qmarks quita[ll] re[draw]
+    \ re[load] reloada[ll] res[tart] run runt[ime] sa[nitize] sav[eas] sb[ar] sb[open] sbcl[ose] scrip[tnames] se[t] setg[lobal]
+    \ setl[ocal] sideb[ar] sil[ent] so[urce] st[op] stopa[ll] sty[le] styd[isable] styled[isable] stye[nable] stylee[nable]
+    \ styt[oggle] stylet[oggle] tN[ext] t[open] tab taba[ttach] tabN[ext] tabc[lose] tabd[o] tabde[tach] tabdu[plicate] tabfir[st]
+    \ tabl[ast] tabm[ove] tabn[ext] tabnew tabo[nly] tabopen tabp[revious] tabr[ewind] tabs tbh[ide] tbs[how] tbt[oggle] time
+    \ tn[ext] toolbarh[ide] toolbars[how] toolbart[oggle] tp[revious] u[ndo] una[bbreviate] undoa[ll] unl[et] unm[ap] verb[ose]
+    \ ve[rsion] vie[wsource] viu[sage] vm[ap] vmap[clear] vno[remap] vu[nmap] w[rite] wc[lose] win[open] winc[lose] wind[ow]
+    \ winon[ly] wo[pen] wq wqa[ll] xa[ll] zo[om]
     \ contained
 
 syn match pentadactylCommand "!" contained
 
 syn keyword pentadactylAutoCmd au[tocmd] contained nextgroup=pentadactylAutoEventList skipwhite
 
-syn keyword pentadactylAutoEvent BookmarkAdd BookmarkChange BookmarkRemove
-    \ ColorScheme DOMLoad DownloadPost Fullscreen LocationChange PageLoadPre
-    \ PageLoad PrivateMode Sanitize ShellCmdPost Enter LeavePre Leave
+syn keyword pentadactylAutoEvent BookmarkAdd ColorScheme DOMLoad DownloadPost Fullscreen LocationChange PageLoadPre PageLoad
+    \ PrivateMode Sanitize ShellCmdPost Enter LeavePre Leave
     \ contained
 
 syn match pentadactylAutoEventList "\(\a\+,\)*\a\+" contained contains=pentadactylAutoEvent
@@ -72,30 +50,23 @@ syn match pentadactylAutoEventList "\(\a\+,\)*\a\+" contained contains=pentadact
 syn region pentadactylSet matchgroup=pentadactylCommand start="\%(^\s*:\=\)\@<=\<\%(setl\%[ocal]\|setg\%[lobal]\|set\=\)\=\>"
     \ end="$" keepend oneline contains=pentadactylOption,pentadactylString
 
-syn keyword pentadactylOption activate act altwildmode awim autocomplete au
-    \ cdpath cd complete cpt cookieaccept ca cookielifetime cl cookies ck
-    \ defsearch ds downloadsort dlsort dls editor encoding enc eventignore ei
-    \ extendedhinttags eht fileencoding fenc findcase fc findflags ff
-    \ followhints fh guioptions go helpfile hf hintinputs hin hintkeys hk
-    \ hintmatching hm hinttags ht hinttimeout hto history hi iskeyword isk
-    \ jumptags jt linenumbers ln loadplugins lpl maxitems messages msgs newtab
-    \ nextpattern pageinfo pa passkeys pk passunknown pu popups pps
-    \ previouspattern runtimepath rtp sanitizeitems si sanitizeshutdown ss
-    \ sanitizetimespan sts scroll scr scrollsteps scs scrolltime sct shell sh
-    \ shellcmdflag shcf showmode smd showstatuslinks ssli showtabline stal
-    \ spelllang spl strictfocus sf suggestengines tabclose tc tabopen to
-    \ timeoutlen tmol titlestring urlseparator urlsep us verbose vbs wildanchor
-    \ wia wildcase wic wildignore wig wildmode wim wildsort wis wordseparators
-    \ wsp yankshort ys
+syn keyword pentadactylOption act activate altwildmode au autocomplete awim cd cdpath complete cpt defsearch ds editor eht
+    \ ei enc encoding eventignore extendedhinttags fenc fh fileencoding followhints go guioptions helpfile hf hi hin hintinputs
+    \ hintkeys hintmatching hinttags hinttimeout history hk hm ht hto laststatus loadplugins lpl ls maxitems messages msgs newtab
+    \ nextpattern pa pageinfo popups pps previouspattern rtp runtimepath sanitizeitems sanitizetimespan scr scroll sh shcf shell
+    \ shellcmdflag showstatuslinks showtabline si ssli stal sts suggestengines titlestring urlseparator vbs verbose wia wic wig
+    \ wildanchor wildcase wildignore wildmode wildoptions wildsort wim wis wop wordseparators wsp
     \ contained nextgroup=pentadactylSetMod
 
-let s:toggleOptions = ["banghist", "bh", "errorbells", "eb", "exrc", "ex",
-    \ "fullscreen", "fs", "hlfind", "hlf", "incfind", "if", "insertmode", "im",
-    \ "jsdebugger", "jsd", "more", "online", "private", "pornmode", "timeout",
-    \ "tmo", "usermode", "um", "visualbell", "vb"]
-execute 'syn match pentadactylOption "\<\%(no\|inv\)\=\%(' .
-    \ join(s:toggleOptions, '\|') .
-    \ '\)\>!\=" contained nextgroup=pentadactylSetMod'
+" toggle options
+syn match pentadactylOption "\<\%(no\|inv\)\=\%(banghist\|bh\|errorbells\|eb\|exrc\|ex\|fullscreen\|fs\|ignorecase\|ic\)\>!\="
+    \ contained nextgroup=pentadactylSetMod
+syn match pentadactylOption "\<\%(no\|inv\)\=\%(incsearch\|is\|insertmode\|im\|hlsearch\|hls\|jsd\|jsdebugger\)\>!\="
+    \ contained nextgroup=pentadactylSetMod
+syn match pentadactylOption "\<\%(no\|inv\)\=\%(linksearch\|lks\|more\|online\|pornmode\|private\|showmode\|smd\)\>!\="
+    \ contained nextgroup=pentadactylSetMod
+syn match pentadactylOption "\<\%(no\|inv\)\=\%(smartcase\|scs\|strictfocus\|sf\|online\|visualbell\|vb\|usermode\|um\)\>!\="
+    \ contained nextgroup=pentadactylSetMod
 
 syn match pentadactylSetMod "\%(\<[a-z_]\+\)\@<=&" contained
 
@@ -110,20 +81,22 @@ execute 'syn region pentadactylCss matchgroup=pentadactylCssDelimiter'
 
 syn match pentadactylNotation "<[0-9A-Za-z-]\+>"
 
+syn match   pentadactylComment +".*$+ contains=pentadactylTodo,@Spell
 syn keyword pentadactylTodo FIXME NOTE TODO XXX contained
 
 syn region pentadactylString start="\z(["']\)" end="\z1" skip="\\\\\|\\\z1" oneline
 
-syn match pentadactylComment +^\s*".*$+ contains=pentadactylTodo,@Spell
+syn match pentadactylLineComment +^\s*".*$+ contains=pentadactylTodo,@Spell
 
 " NOTE: match vim.vim highlighting group names
 hi def link pentadactylAutoCmd               pentadactylCommand
 hi def link pentadactylAutoEvent             Type
 hi def link pentadactylCommand               Statement
+hi def link pentadactylComment               Comment
 hi def link pentadactylJavaScriptDelimiter   Delimiter
 hi def link pentadactylCssDelimiter          Delimiter
 hi def link pentadactylNotation              Special
-hi def link pentadactylComment               Comment
+hi def link pentadactylLineComment           Comment
 hi def link pentadactylOption                PreProc
 hi def link pentadactylSetMod                pentadactylOption
 hi def link pentadactylString                String

@@ -53,10 +53,6 @@ autocmd BufNewFile,BufRead *.tt2 setf tt2html
 autocmd BufNewFile,BufRead *.tt setf tt2html
 
 "-----------------------------------------------------------------------------
-" pentadactylrc 設定
-au BufNewFile,BufRead .pentadactylrc setf pentadactyl
-
-"-----------------------------------------------------------------------------
 " yank to remote clipboard
 if is_unix
 	let s:tmpdir = &backupdir
