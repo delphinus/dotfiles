@@ -26,23 +26,6 @@
 # set -o notify
 #
 
-git_completion_path='/home/jinnouchi.yasushi/bin/git-completion.bash'
-
-if [ -f $git_completion_path ]; then
-    . $git_completion_path
-    # unstated (*) stated (+)
-    #export GIT_PS1_SHOWDIRTYSTATE=1
-    # stashed ($)
-    #export GIT_PS1_SHOWSTASHSTATE=1
-    # untracked (%)
-    #export GIT_PS1_SHOWUNTRACKEDFILES=1
-    # upstream (<=>)
-    #export GIT_PS1_SHOWUPSTREAM="verbose"
-    PS1='\e[1;36m$(__git_ps1 "[%s] ")\e[1;32m[\u@\h \w]\e[m \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
-else
-    PS1='\e[1;32m[\u@\h \w] \e[1;34m\D{%x %p%l:%M}\e[m\n\$ '
-fi
-
 alias ls='ls -F --color'
 alias ll='ls -F -l'
 alias l.='ls -F -d .*'
@@ -52,36 +35,20 @@ do
 	shopt -s $i
 done
 
-export PATH=~/bin:/usr/local/bin:/usr/bin:$PATH
-source ~/perl5/perlbrew/etc/bashrc
-[[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
+. $HOME/git/git/contrib/completion/git-completion.bash
+. $HOME/git/git/contrib/completion/git-prompt.sh
+#. /usr/local/etc/bash_completion.d/git-flow-completion.bash
 
-# powerline
+# unstated (*) stated (+)
+export GIT_PS1_SHOWDIRTYSTATE=1
+# stashed ($)
+export GIT_PS1_SHOWSTASHSTATE=1
+# untracked (%)
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+# upstream (<=>)
+export GIT_PS1_SHOWUPSTREAM="verbose"
 
-_powerline_tmux_setenv() {
-	if [[ -n "$TMUX" ]]; then
-		tmux setenv TMUX_"$1"_$(tmux display -p "#D" | tr -d %) "$2"
-	fi
-}
+YELLO_GREEN="\e[38;5;190m"
+PROMPT_COMMAND='PS1="$YELLO_GREEN[\!] \e[38;5;83m$(__git_ps1 "[%s]") \`if [[ \$? = "0" ]]; then echo "\\e[38\\\;5\\\;119m"; else echo "\\e[38\\\;5\\\;196m"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 50 ]]; then echo "\\W"; else echo "\\w"; fi\`]\e[0m\n\$ "; echo -ne "\e]0;`hostname`:`pwd`\007"'
 
-_powerline_tmux_set_pwd() {
-	_powerline_tmux_setenv PWD "$PWD"
-}
-
-_powerline_tmux_set_columns() {
-	_powerline_tmux_setenv COLUMNS "$COLUMNS"
-}
-
-_powerline_prompt() {
-	[[ -z "$POWERLINE_OLD_PROMPT_COMMAND" ]] ||
-		eval $POWERLINE_OLD_PROMPT_COMMAND
-	PS1="$(powerline-client.py shell left -r bash_prompt --last_exit_code=$?)"
-	_powerline_tmux_set_pwd
-}
-
-trap "_powerline_tmux_set_columns" SIGWINCH
-_powerline_tmux_set_columns
-
-[[ "$PROMPT_COMMAND" == "_powerline_prompt" ]] ||
-	POWERLINE_OLD_PROMPT_COMMAND="$PROMPT_COMMAND"
-export PROMPT_COMMAND="_powerline_prompt"
+eval `dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`

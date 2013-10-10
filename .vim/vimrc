@@ -11,7 +11,8 @@ let g:is_office = hostname() !~ 'remora' && len($H) > 0 && has('unix')
 let g:is_office_win = len($USERDOMAIN) && has('win32')
 let g:is_office_cygwin = len($USERDOMAIN) && has('win32unix')
 let g:is_office_alt = is_office && $VIM_ENV_ALT
-let g:is_xerxes = hostname() == 'xerxes'
+let g:is_xerxes = hostname() == 'xerxes' && has('win32')
+let g:is_xerxes_cygwin = hostname() == 'xerxes' && has('win32unix')
 let g:is_remora_air2_win = hostname() == 'remora-air2-win'
 let g:is_unix = is_remora || is_backup || is_office || is_office_cygwin
 let g:is_win = has('win32') || has('win64')

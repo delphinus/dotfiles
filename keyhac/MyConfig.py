@@ -180,7 +180,6 @@ class MyConfig:
         # Delete => Backspace
         self.km.replaceKey("Delete", "Back")
 
-        #{{{
         # RWin => 全角/半角
         # O-RWin => RCtrl
         #self.km.replaceKey("RWin", "RCtrl")

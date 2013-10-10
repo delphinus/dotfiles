@@ -1,5 +1,9 @@
 " QFixMemo 設定
-if is_office_win
+if is_xerxes
+    let g:dropbox_dir='D:/Dropbox'
+elseif is_xerxes_cygwin
+    let g:dropbox_dir='/d/Dropbox'
+elseif is_office_win
     let g:dropbox_dir='C:/Dropbox'
 elseif is_office_cygwin
     let g:dropbox_dir='/c/Dropbox'
