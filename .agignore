@@ -1,0 +1,15 @@
+.o
+.exe
+.dll
+.bak
+.DS_Store
+.zwc
+.pyc
+.swp
+.swo
+.class
+.hg/
+.git/
+.bzr/
+.svn/
+tags
