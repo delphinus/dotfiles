@@ -20,11 +20,11 @@ if is_office
 endif
 noremap zp :Unite buffer_tab file_mru<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
-noremap zr :Unite file_rec/async<CR>
+noremap zf :Unite file_rec/async<CR>
 noremap zd :Unite dwm<CR>
-noremap zf :Unite qfixhowm/new qfixhowm<CR>
-noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
-noremap zg :Unite tig<CR>
+noremap zq :Unite qfixhowm/new qfixhowm<CR>
+noremap zQ :Unite qfixhowm/new qfixhowm:nocache<CR>
+noremap zi :Unite tig<CR>
 noremap <Leader>uu :Unite bookmark<CR>
 noremap <Leader>uc :Unite colorscheme<CR>
 noremap <Leader>ul :Unite locate<CR>
@@ -57,10 +57,6 @@ endif
 call unite#custom_filters('buffer,buffer_tab',
             \ ['matcher_default', 'sorter_default', 'converter_erase_diff_buffer'])
 
-" 大文字小文字を区別しない
-call unite#set_profile('files', 'ignorecase', 1)
-call unite#set_profile('file_mru', 'ignorecase', 1)
-
 function! s:unite_my_settings()
     " 上下に分割して開く
     nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
@@ -83,3 +79,26 @@ function! s:unite_my_settings()
 
     imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
 endfunction
+
+" ファイルリストにたくさんキャッシュする
+let g:unite_source_rec_max_cache_files = 100000
+
+" agとUnite.vimで快適高速grep環境を手に入れる - Thinking-megane
+" http://blog.monochromegane.com/blog/2013/09/18/ag-and-unite/
+" 大文字小文字を区別しない
+let g:unite_enable_ignore_case = 1
+let g:unite_enable_smart_case = 1
+
+" grep検索
+nnoremap <silent> zg  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+" カーソル位置の単語をgrep検索
+nnoremap <silent> zu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+" grep検索結果の再呼出
+nnoremap <silent> zG  :<C-u>UniteResume search-buffer<CR>
+
+" unite grep に ag(The Silver Searcher) を使う
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '-a --nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
