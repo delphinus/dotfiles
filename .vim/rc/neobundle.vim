@@ -14,7 +14,7 @@ let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
 let g:after_dir = g:home . '/.vim/after'
 
 " デフォルトプロトコル
-let g:neobundle#types#git#default_protocol='https'
+let g:neobundle#types#git#default_protocol=g:is_office ? 'ssh' : 'https'
 
 " NeoBundle へのパス
 if has('vim_starting')
