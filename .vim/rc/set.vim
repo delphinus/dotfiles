@@ -83,13 +83,6 @@ else
     set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 endif
 set cmdheight=2          " 画面最下段のコマンド表示行数
-
-"if g:is_remora
-    "set ambiwidth=double " アスキー文字以外は全角文字として扱う
-    "set ambiwidth=single " できるだけ半角文字幅で扱う
-"else
-    "set ambiwidth=single " できるだけ半角文字幅で扱う
-"endif
 " }}}
 
 " マウス {{{
@@ -127,8 +120,6 @@ set wildmenu                      " コマンドラインモードでの補完�
 set wildmode=full
 
 set helplang=ja                   " ヘルプは日本語のものを優先する
-
-set tildeop                       " ~ を operator として使う
 
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
