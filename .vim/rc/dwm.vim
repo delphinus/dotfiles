@@ -1,8 +1,8 @@
 " dwm.vim mapping
 nnoremap <c-j> <c-w>w
 nnoremap <c-k> <c-w>W
-nmap <m-t> <Plug>DWMRotateCounterclockwise
-nmap <m-g> <Plug>DWMRotateClockwise
+nmap <m-t> <Plug>DWMRotateClockwise
+nmap <m-s-t> <Plug>DWMRotateCounterclockwise
 nmap <c-n> <Plug>DWMNew
 nmap <c-c> <Plug>DWMClose
 nmap <c-@> <Plug>DWMFocus
