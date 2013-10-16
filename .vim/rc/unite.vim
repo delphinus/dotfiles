@@ -20,10 +20,9 @@ if is_office
 endif
 noremap zp :Unite buffer_tab file_mru<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
-noremap zf :Unite file_rec/async<CR>
 noremap zd :Unite dwm<CR>
-noremap zq :Unite qfixhowm/new qfixhowm<CR>
-noremap zQ :Unite qfixhowm/new qfixhowm:nocache<CR>
+noremap zf :Unite qfixhowm/new qfixhowm<CR>
+noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
 noremap zi :Unite tig<CR>
 noremap <Leader>uu :Unite bookmark<CR>
 noremap <Leader>uc :Unite colorscheme<CR>
@@ -73,15 +72,22 @@ function! s:unite_my_settings()
     " dwm.vim で開く
     nnoremap <silent> <buffer> <expr> <C-N> unite#do_action('dwm_new')
     inoremap <silent> <buffer> <expr> <C-N> unite#do_action('dwm_new')
+    " rec/async で開く
+    nnoremap <silent> <buffer> <expr> <C-F> unite#do_action('rec/async')
+    inoremap <silent> <buffer> <expr> <C-F> unite#do_action('rec/async')
     " 終了
-    nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-    inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+    imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+    " インサートモードで上下移動
+	" <F15> => <M-p>, <F17> => <M-n>
+    imap <silent> <buffer> <F15> <Plug>(unite_select_previous_line)
+    imap <silent> <buffer> <F17> <Plug>(unite_select_next_line)
+    " ノーマルモードでソース選択
+    nmap <silent> <buffer> <M-p> <Plug>(unite_rotate_previous_source)
+    nmap <silent> <buffer> <M-n> <Plug>(unite_rotate_next_source)
+    " 一つ上のパスへ
+    imap <buffer> <C-W> <Plug>(unite_delete_backward_path)
 endfunction
-
-" ファイルリストにたくさんキャッシュする
-let g:unite_source_rec_max_cache_files = 100000
 
 " agとUnite.vimで快適高速grep環境を手に入れる - Thinking-megane
 " http://blog.monochromegane.com/blog/2013/09/18/ag-and-unite/
@@ -90,11 +96,11 @@ let g:unite_enable_ignore_case = 1
 let g:unite_enable_smart_case = 1
 
 " grep検索
-nnoremap <silent> zg  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap zg :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 " カーソル位置の単語をgrep検索
-nnoremap <silent> zu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+nnoremap zu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
 " grep検索結果の再呼出
-nnoremap <silent> zG  :<C-u>UniteResume search-buffer<CR>
+nnoremap zG :<C-u>UniteResume search-buffer<CR>
 
 " unite grep に ag(The Silver Searcher) を使う
 if executable('ag')
