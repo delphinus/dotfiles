@@ -66,7 +66,6 @@ call s:loadrc('watchdogs')          " watchdogs 設定
 call s:loadrc('dwm')                " dwm.vim 設定
 call s:loadrc('javascript')         " javascript 設定
 call s:loadrc('easyalign')          " EasyAlign 設定
-call s:loadrc('clever-f')           " clever-f 設定
 call s:loadrc('gitgutter')          " gitgutter 設定
 call s:loadrc('verticalhelp')       " VerticalHelp 設定
 call s:loadrc('pb')                 " pb.vim 設定
