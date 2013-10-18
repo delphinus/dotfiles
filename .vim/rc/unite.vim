@@ -3,10 +3,12 @@
 let g:unite_source_file_mru_time_format='(%a) %m/%d %p %I:%M '
 " プロンプト
 let g:unite_prompt=' '
-" 挿入モードで開a
+" 挿入モードで開く
 let g:unite_enable_start_insert=1
 " ステータスラインを書き換えない
 let g:unite_force_overwrite_statusline=0
+" ロングリストにたくさんファイルを保存
+let g:unite_source_file_mru_long_limit=100000
 
 " unite-qfixhowm 対応
 " 更新日時でソート
@@ -18,17 +20,14 @@ let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 if is_office
     let g:unite_data_directory = expand('$H/.unite')
 endif
-noremap zp :Unite buffer_tab file_mru<CR>
-noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
 noremap zd :Unite dwm<CR>
 noremap zf :Unite qfixhowm/new qfixhowm<CR>
 noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
 noremap zi :Unite tig<CR>
-noremap <Leader>uu :Unite bookmark<CR>
-noremap <Leader>uc :Unite colorscheme<CR>
-noremap <Leader>ul :Unite locate<CR>
-noremap <Leader>uv :Unite buffer -input=vimshell<CR>
-noremap <Leader>vu :Unite buffer -input=vimshell<CR>
+noremap zl :Unite outline<CR>
+noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
+noremap zp :Unite buffer_tab file_mru:long<CR>
+noremap zP :Unite output<CR>
 autocmd FileType unite call s:unite_my_settings()
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
@@ -51,10 +50,6 @@ if has('win32') || has('win64')
   call unite#custom#substitute('files', '^;p', 'C:/Program Files/')
   call unite#custom#substitute('files', '^;u', escape($USERPROFILE, '\') . '/')
 endif
-
-" vcscommand.vim の diff buffer を消す
-call unite#custom_filters('buffer,buffer_tab',
-            \ ['matcher_default', 'sorter_default', 'converter_erase_diff_buffer'])
 
 function! s:unite_my_settings()
     " 上下に分割して開く
