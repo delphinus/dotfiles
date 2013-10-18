@@ -39,6 +39,8 @@ done
 . $HOME/git/git/contrib/completion/git-prompt.sh
 #. /usr/local/etc/bash_completion.d/git-flow-completion.bash
 
+export PATH=$PATH:$HOME/bin
+
 # unstated (*) stated (+)
 export GIT_PS1_SHOWDIRTYSTATE=1
 # stashed ($)
