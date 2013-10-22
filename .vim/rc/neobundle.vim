@@ -41,6 +41,7 @@ NeoBundle 'Shougo/vimproc', {'build': {
 NeoBundle 'ChrisYip/Better-CSS-Syntax-for-Vim', {'autoload': {'filetypes': 'css'}}
 NeoBundle 'Kocha/vim-unite-tig'
 NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/unite-ssh'
@@ -80,6 +81,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-perl/vim-perl', {'autoload': {'filetypes': 'perl'}}
@@ -91,7 +93,6 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 " {{{
 "NeoBundle 'AndrewRadev/splitjoin.vim'
 "NeoBundle 'Rykka/trans.vim'
-"NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'Shougo/neosnippet'
 "NeoBundle 'bcat/abbott.vim'
 "NeoBundle 'bling/vim-bufferline'
@@ -190,5 +191,6 @@ endif
 filetype plugin indent on
 syntax on
 NeoBundleCheck
+NeoBundleDocs
 
 " vim:se et fdm=marker:

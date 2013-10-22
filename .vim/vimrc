@@ -69,6 +69,7 @@ call s:loadrc('easyalign')          " EasyAlign 設定
 call s:loadrc('gitgutter')          " gitgutter 設定
 call s:loadrc('verticalhelp')       " VerticalHelp 設定
 call s:loadrc('pb')                 " pb.vim 設定
+call s:loadrc('neocomplcache')      " neocomplcache 設定
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
