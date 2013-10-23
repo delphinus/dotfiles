@@ -112,5 +112,5 @@ endif
 " unite-tag 設定
 autocmd BufEnter *
 \   if empty(&buftype)
-\|      nnoremap <buffer> <C-]> :<C-u>UniteWithCursorWord -immediately tag<CR>
+\|      nnoremap <buffer> <C-]> :<C-u>UniteWithCursorWord -immediately tag/include<CR>
 \|  endif
