@@ -131,6 +131,6 @@ commands.addUserCommand(['readlater', 'rl'],
 EOF
 
 " Hint
-hi Hint font-family: "Source Code Pro",monospace; font-size: 13px; padding: 0 0.25em; margin: -0.5em 0 0 -1em; background-color: rgba(240,126,0,0.7); border: 1px rgba(255,125,0,0.9) solid; border-radius: 4px; color: maroon; font-weight: bolder;
+hi Hint font-family: "Source Code Pro",monospace; font-size: 13px; padding: 0 0.25em; margin: -0.5em 0 0 -1em; background-color: rgba(240,126,0,0.9); border: 1px rgba(255,125,0,0.9) solid; border-radius: 4px; color: maroon; font-weight: 200;
 hi HintElem background-color: #fdffc3; color: #222;
 hi HintActive color: black; background-color: #ffdcdc; border: 1px #ef6f6f dotted; border-radius: 3px; padding: 0.1em; font-weight: bold;
