@@ -89,6 +89,7 @@ NeoBundle 'vim-perl/vim-perl', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler'
 NeoBundle 'vim-scripts/colorizer'
+NeoBundle 'vim-scripts/ingo-library'
 NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 
 " {{{
