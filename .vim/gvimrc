@@ -10,10 +10,12 @@ endif
 
 if has('mac')
     set guifont=Ricty_Discord:h13
-    set antialias                 " 文字をなめらかに表示する
-    set fuoptions=maxvert,maxhorz " フルスクリーン時に表示を拡張
-    "au GUIEnter * set fullscreen " 起動時にフルスクリーン
-    set macmeta                   " option キーを alt キーとして使う
+    set antialias                     " 文字をなめらかに表示する
+    set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
+    set macmeta                       " option キーを alt キーとして使う
+    if g:is_remora_air2
+        au GUIEnter * set fullscreen  " 起動時にフルスクリーン
+    endif
 endif
 
 " 空白の可視化
