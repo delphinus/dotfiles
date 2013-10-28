@@ -12,7 +12,7 @@ if has('mac')
     set guifont=Ricty_Discord:h13
     set antialias                 " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz " フルスクリーン時に表示を拡張
-    au GUIEnter * set fullscreen  " 起動時にフルスクリーン
+    "au GUIEnter * set fullscreen " 起動時にフルスクリーン
     set macmeta                   " option キーを alt キーとして使う
 endif
 
@@ -41,7 +41,8 @@ winpos 400 200                  " ウィンドウの場所を指定する
 "colorscheme void
 "colorscheme badwolf
 "colorscheme festoon
-colorscheme solarized
+"colorscheme solarized
 "colorscheme gruvbox
 "colorscheme plum
 "colorscheme hemisu
+colorscheme briofita
