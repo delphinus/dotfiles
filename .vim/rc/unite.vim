@@ -9,6 +9,8 @@ let g:unite_enable_start_insert=1
 let g:unite_force_overwrite_statusline=0
 " ロングリストにたくさんファイルを保存
 let g:unite_source_file_mru_long_limit=100000
+" 非同期検索の候補アイテム上限値
+let g:unite_source_file_rec_max_cache_files=100000
 
 " unite-qfixhowm 対応
 " 更新日時でソート
@@ -28,6 +30,7 @@ noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
 noremap zp :Unite buffer_tab file_mru:long<CR>
 noremap zP :Unite output<CR>
+noremap zq <Plug>(unite_exit)
 autocmd FileType unite call s:unite_my_settings()
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
