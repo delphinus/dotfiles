@@ -12,6 +12,7 @@ set nocompatible
 let g:bundle_dir = g:home . '/.vim/bundle'
 let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
 let g:after_dir = g:home . '/.vim/after'
+let g:mybundle_dir = g:home . '/.vim/mybundle'
 
 " デフォルトプロトコル
 let g:neobundle#types#git#default_protocol=g:is_office ? 'ssh' : 'https'
@@ -177,6 +178,16 @@ else
     NeoBundleLazy 'msanders/cocoa.vim'
     NeoBundleLazy 'troydm/pb.vim'
 endif
+
+" github にないプラグイン
+command! -nargs=1
+\   MyNeoBundle
+\   NeoBundle <args>, {
+\       'base' : g:mybundle_dir,
+\       'type' : 'nosync',
+\   }
+
+MyNeoBundle 'briofita'
 
 if has('vim_starting')
     if is_win
