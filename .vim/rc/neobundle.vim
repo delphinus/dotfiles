@@ -181,11 +181,12 @@ endif
 
 " github にないプラグイン
 command! -nargs=1
-\   MyNeoBundle
-\   NeoBundle <args>, {
-\       'base' : g:mybundle_dir,
-\       'type' : 'nosync',
-\   }
+            \ MyNeoBundle
+            \ NeoBundle <args>, {
+            \   'base': g:mybundle_dir,
+            \   'type': 'nosync',
+            \   'lazy': 1,
+            \ }
 
 MyNeoBundle 'briofita'
 
