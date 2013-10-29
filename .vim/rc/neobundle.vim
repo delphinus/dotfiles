@@ -51,7 +51,6 @@ NeoBundle 'Shougo/vimshell'
 NeoBundle 'airblade/vim-gitgutter', '935184b'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'amdt/sunset'
 NeoBundle 'basyura/TweetVim', {'depends': [
     \   'basyura/bitly.vim',
     \   'basyura/twibill.vim',
@@ -71,6 +70,7 @@ NeoBundle 'jceb/vim-hier'
 NeoBundle 'jelera/vim-javascript-syntax', {'autoload': {'filetypes': 'javascript'}}
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kannokanno/unite-dwm'
+NeoBundle 'majutsushi/tagbar'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'maxbrunsfeld/vim-yankstack'
 NeoBundle 'osyo-manga/shabadou.vim'
@@ -96,6 +96,7 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 "NeoBundle 'AndrewRadev/splitjoin.vim'
 "NeoBundle 'Rykka/trans.vim'
 "NeoBundle 'Shougo/neosnippet'
+"NeoBundle 'amdt/sunset'
 "NeoBundle 'bcat/abbott.vim'
 "NeoBundle 'bling/vim-bufferline'
 "NeoBundle 'chikatoike/activefix.vim'
@@ -128,7 +129,6 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 "NeoBundle 'khorser/vim-qfnotes'
 "NeoBundle 'koron/chalice'
 "NeoBundle 'kshenoy/vim-origami'
-"NeoBundle 'majutsushi/tagbar'
 "NeoBundle 'mattn/gist-vim'
 "NeoBundle 'matze/vim-move'
 "NeoBundle 'mihaifm/bck'

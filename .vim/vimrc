@@ -59,7 +59,6 @@ call s:loadrc('csv')                " CSV 設定
 call s:loadrc('markdown')           " markdown 設定
 call s:loadrc('rooter')             " vim-rooter 設定
 call s:loadrc('title')              " screen title 設定
-call s:loadrc('sunset')             " sunset 設定
 call s:loadrc('fugitive')           " fugitive 設定
 call s:loadrc('colorizer')          " Colorizer 設定
 call s:loadrc('watchdogs')          " watchdogs 設定
