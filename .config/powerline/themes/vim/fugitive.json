@@ -1,7 +1,7 @@
 {
 	"segment_data": {
 		"buffer_name": {
-			"contents": "Unite"
+			"contents": "Fugitive"
 		}
 	},
 	"segments": {
@@ -14,11 +14,6 @@
 			{
 				"name": "mode",
 				"exclude_modes": ["nc"]
-			},
-			{
-				"name": "unite_status_string",
-				"module": "ext.vim.segments.unite",
-				"draw_soft_divider": false
 			},
 			{
 				"type": "string",

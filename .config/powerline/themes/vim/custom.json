@@ -8,7 +8,8 @@
 			"args": { "text": "" }
 		},
 		"modified_indicator": {
-			"args": { "text": "✘" }
+			"before": " ",
+			"args": { "text": "❌" }
 		},
 		"line_percent": {
 			"args": { "gradient": true },
@@ -71,6 +72,7 @@
 			{
 				"name": "modified_indicator",
 				"draw_soft_divider": false,
+				"draw_hard_divider": true,
 				"priority": 30
 			},
 			{

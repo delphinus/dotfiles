@@ -14,6 +14,9 @@ from powerline.bindings.vim import vim_getbufoption
 def unite(matcher_info):
 	return vim_getbufoption(matcher_info, 'filetype') == 'unite'
 
+def fugitive(matcher_info):
+	return vim_getbufoption(matcher_info, 'filetype') == 'gitcommit'
+
 def calendar(matcher_info):
 	name = matcher_info['buffer'].name
 	return name and os.path.basename(name).find('__Calendar__') == 0
