@@ -9,8 +9,7 @@
 			{
 				"type": "string",
 				"name": "buffer_name",
-				"highlight_group": ["file_name"],
-				"draw_soft_divider": false
+				"highlight_group": ["mode"]
 			},
 			{
 				"name": "current_directory",

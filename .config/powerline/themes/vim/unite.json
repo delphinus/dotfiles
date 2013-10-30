@@ -9,11 +9,7 @@
 			{
 				"type": "string",
 				"name": "buffer_name",
-				"highlight_group": ["file_name"]
-			},
-			{
-				"name": "mode",
-				"exclude_modes": ["nc"]
+				"highlight_group": ["mode"]
 			},
 			{
 				"name": "unite_status_string",

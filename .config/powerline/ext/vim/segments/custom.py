@@ -88,15 +88,11 @@ def current_directory(pl, segment_info, shorten_user=True, shorten_cwd=True, sho
 	:param bool shorten_user:
 		shorten ``$HOME`` directory to :file:`~/`
 
-	:param bool shorten_cwd:
-		shorten current directory to :file:`./`
-
 	:param bool shorten_home:
 		shorten all directories in :file:`/home/` to :file:`~user/` instead of :file:`/home/user/`.
 	'''
-	pl.info('c1')
 	current_directory = vim_funcs['fnamemodify'](vim_funcs['getcwd'](),
-			(':~' if shorten_user else '') + (':.' if shorten_cwd else '') + ':h')
+			(':~' if shorten_user else '') + (':h' if shorten_home else ''))
 	pl.info(current_directory)
 	if shorten_home and current_directory.startswith('/home/'):
 		current_directory = '~' + current_directory[6:]
