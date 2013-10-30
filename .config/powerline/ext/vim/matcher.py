@@ -14,8 +14,12 @@ from powerline.bindings.vim import vim_getbufoption
 def unite(matcher_info):
 	return vim_getbufoption(matcher_info, 'filetype') == 'unite'
 
-def fugitive(matcher_info):
+def gitcommit(matcher_info):
 	return vim_getbufoption(matcher_info, 'filetype') == 'gitcommit'
+
+def fugitive(matcher_info):
+	name = matcher_info['buffer'].name
+	return name and name.find('fugitive://') == 0
 
 def calendar(matcher_info):
 	name = matcher_info['buffer'].name
@@ -26,4 +30,4 @@ def vimshell(matcher_info):
 
 def iexe_mysql(matcher_info):
 	name = matcher_info['buffer'].name
-	return name and name.find('iexe-mysql') >= 0
+	return name and os.path.basename(name).find('iexe-mysql') == 0

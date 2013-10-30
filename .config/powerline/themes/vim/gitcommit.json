@@ -12,15 +12,8 @@
 				"highlight_group": ["file_name"]
 			},
 			{
-				"name": "file_name",
-				"draw_soft_divider": true,
-				"priority": 10
-			},
-			{
-				"name": "fugitive_hash",
-				"module": "ext.vim.segments.fugitive",
-				"draw_soft_divider": false,
-				"priority": 30
+				"name": "mode",
+				"exclude_modes": ["nc"]
 			},
 			{
 				"type": "string",

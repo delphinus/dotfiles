@@ -15,6 +15,7 @@ vim_funcs = {
 		'col': vim_get_func('col', rettype=int),
 		'virtcol': vim_get_func('virtcol', rettype=int),
 		'getcwd': vim_get_func('getcwd'),
+		'fnamemodify': vim_get_func('fnamemodify'),
 		}
 
 def _do_ex(command):

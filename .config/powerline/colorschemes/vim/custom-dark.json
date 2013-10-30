@@ -32,6 +32,10 @@
 		"col_current":              { "fg": "azure4", "bg": "lightyellow" },
 		"environment":              { "fg": "gray61", "bg": "royalblue5" },
 		"unite_status_string":      { "fg": "gold3", "bg": "royalblue5" },
+		"mysql_server":             { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
+		"mysql_user":               { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
+		"mysql_db":                 { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
+		"fugitive_hash":            { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
 		"currenttag":               { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] }
 	},
 	"mode_translations": {
@@ -74,6 +78,10 @@
 				"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "lightskyblue4" },
 				"col_current":            { "fg": "azure4", "bg": "oldlace" },
 				"unite_status_string":    { "fg": "brightpurple", "bg": "darkgreencopper" },
+				"mysql_server":           { "fg": "gray13", "bg": "darkgreencopper", "attr": ["bold"] },
+				"mysql_user":             { "fg": "gray13", "bg": "darkgreencopper", "attr": ["bold"] },
+				"mysql_db":               { "fg": "gray13", "bg": "darkgreencopper", "attr": ["bold"] },
+				"fugitive_hash":          { "fg": "brightpurple", "bg": "darkgreencopper", "attr": ["bold"] },
 				"currenttag":             { "fg": "brightpurple", "bg": "darkgreencopper", "attr": ["bold"] }
 			}
 		},
