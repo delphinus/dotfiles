@@ -61,7 +61,9 @@ def get_battery():
 
     return battery
 
-last_message = {}
+last_message = {
+        'body': '',
+        }
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
