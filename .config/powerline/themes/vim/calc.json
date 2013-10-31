@@ -1,7 +1,7 @@
 {
 	"segment_data": {
 		"buffer_name": {
-			"contents": "Location List"
+			"contents": "Calc"
 		}
 	},
 	"segments": {
@@ -9,8 +9,7 @@
 			{
 				"type": "string",
 				"name": "buffer_name",
-				"highlight_group": ["mode"],
-				"draw_soft_divider": false
+				"highlight_group": ["mode"]
 			},
 			{
 				"type": "string",

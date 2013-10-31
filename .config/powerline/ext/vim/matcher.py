@@ -17,6 +17,9 @@ def unite(matcher_info):
 def gitcommit(matcher_info):
 	return vim_getbufoption(matcher_info, 'filetype') == 'gitcommit'
 
+def calc(matcher_info):
+	return vim_getbufoption(matcher_info, 'filetype') == 'vimcalc'
+
 def fugitive(matcher_info):
 	name = matcher_info['buffer'].name
 	return name and name.find('fugitive://') == 0
