@@ -61,6 +61,7 @@ NeoBundle 'c9s/perlomni.vim', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'catalinciurea/perl-nextmethod', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'delphinus35/chalice', {'autoload': {'commands': 'Chalice'}}
 NeoBundle 'delphinus35/lcpeek.vim'
+NeoBundle 'delphinus35/perl-test-base.vim'
 NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
 NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'gregsexton/VimCalc'
