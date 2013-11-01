@@ -18,7 +18,7 @@
 			{
 				"type": "string",
 				"name": "buffer_name",
-				"highlight_group": ["mode"]
+				"highlight_group": ["plugin-mode"]
 			},
 			{
 				"name": "mysql_server",

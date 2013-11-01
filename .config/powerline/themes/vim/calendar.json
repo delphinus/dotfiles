@@ -9,8 +9,7 @@
 			{
 				"type": "string",
 				"name": "buffer_name",
-				"highlight_group": ["mode"],
-				"draw_soft_divider": false
+				"highlight_group": ["plugin-mode"]
 			},
 			{
 				"type": "string",
