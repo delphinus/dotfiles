@@ -78,7 +78,7 @@ nmap cc <Plug>(ToggleColorColumn)
 autocmd InsertEnter,InsertLeave * set cul!
 
 if is_remora
-    set listchars=tab:»\ ,trail:¯,eol:↲,extends:»,precedes:«,nbsp:¯
+    set listchars=tab:»\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
 else
     set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 endif

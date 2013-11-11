@@ -6,6 +6,8 @@ if has('win32')
     set backupdir=C:\cygwin\tmp
     set undodir=C:\cygwin\tmp
     set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
+    set listchars=tab:█\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
+    set ambiwidth=double              " 特殊文字に半角文字を使う
 endif
 
 if has('mac')
@@ -13,13 +15,15 @@ if has('mac')
     set antialias                     " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
     set macmeta                       " option キーを alt キーとして使う
+    set transparency=5                " 画面を半透明にする
+    set listchars=tab:»\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
+                                      " 空白の可視化
+    set ambiwidth=double              " 特殊文字に全角文字を使う
     if g:is_remora_air2
         au GUIEnter * set fullscreen  " 起動時にフルスクリーン
     endif
 endif
 
-" 空白の可視化
-set listchars=tab:█\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
 set printfont=Ricty_Discord:h10 " 印刷用フォント
 set printoptions=number:y       " 印刷時に行番号を付ける
 set visualbell                  " ビープ音を使わず画面をフラッシュさせる
@@ -29,7 +33,6 @@ set mouse=a                     " あらゆる場面でマウスを有効化
 set clipboard=                  " クリップボードのオプションはなし
 set guioptions=A                " モードレスセレクションに対する自動選択
 set linespace=0                 " 行間を空けない
-set ambiwidth=single            " 特殊文字に半角文字を使う
 set title                       " ウィンドウタイトルを更新する
 winsize 130 50                  " ウィンドウの大きさを指定する
 winpos 400 200                  " ウィンドウの場所を指定する
