@@ -5,9 +5,9 @@ nnoremap <silent> <M-S-t> :Unite tweetvim<CR>
 " リスト表示用ショートカット
 "nnoremap <silent> <M-S-t> :TweetVimListStatuses list<CR>
 " 発言用バッファを表示する
-nnoremap <silent> <Leader>s :TweetVimSay<CR>
+nnoremap <silent> <Leader>ts :TweetVimSay<CR>
 " mentions を表示する
-nnoremap <silent> <Leader>re   :<C-u>TweetVimMentions<CR>
+nnoremap <silent> <Leader>te   :<C-u>TweetVimMentions<CR>
 " 特定のリストのタイムラインを表示する
 nnoremap <silent> <Leader>tl   :<C-u>TweetVimListStatuses list<CR>
 
