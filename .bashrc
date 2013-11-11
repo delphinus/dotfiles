@@ -23,9 +23,9 @@ export PAGER='vimpager'
 alias vp='vimpager'
 alias perldoc='perldocjp -J'
 alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
-export EDITOR=/usr/local/bin/vim
-export VISUAL=$EDITOR
-export SUDO_EDITOR=$EDITOR
+#export EDITOR=/usr/local/bin/mvim
+#export VISUAL=$EDITOR
+#export SUDO_EDITOR=$EDITOR
 export H=$HOME
 export ACK_PAGER='less -R'
 alias tmux="TERM=screen-256color-bce tmux -f $HOME/git/dotfiles/.tmux.conf"
@@ -66,7 +66,6 @@ export PYTHONPATH="$HOME/Library/Python/2.7/lib/python/site-packages"
 #export proxy=http://127.0.0.1:8123/
 #export http_proxy=$proxy
 #export ALL_PROXY=$proxy
-source $HOME/perl5/perlbrew/etc/bashrc
 export MYPERL=`which perl`
 source $HOME/bin/bash_completion_tmux.sh
 
@@ -75,3 +74,7 @@ eval `dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi
 
 # powerline
 #. $PYTHONPATH/powerline/bindings/bash/powerline.sh
+
+# for plenv
+export PATH="$HOME/.plenv/bin:$PATH"
+eval "$(plenv init -)"
