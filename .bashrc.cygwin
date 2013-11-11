@@ -26,6 +26,9 @@
 # set -o notify
 #
 
+# disable <C-S><C-Q>
+stty -ixon -ixoff
+
 alias ls='ls -F --color'
 alias ll='ls -F -l'
 alias l.='ls -F -d .*'

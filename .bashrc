@@ -5,6 +5,9 @@ if [ -f /etc/bashrc ]; then
         . /etc/bashrc
 fi
 
+# disable <C-S><C-Q>
+stty -ixon -ixoff
+
 #export TERM=xterm-256color
 
 #alias ls='ls -vGF'
