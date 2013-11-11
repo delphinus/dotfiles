@@ -75,7 +75,7 @@ nmap cc <Plug>(ToggleColorColumn)
 "call matchadd('turn', '^.\{80\}\zs.\+\ze')
 
 " 挿入モードの時のみ、カーソル行をハイライトする
-autocmd InsertEnter,InsertLeave * set cul!
+autocmd InsertEnter,InsertLeave * set cursorline!
 
 if is_remora
     set listchars=tab:»\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
