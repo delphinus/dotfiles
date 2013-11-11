@@ -76,13 +76,15 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'maxbrunsfeld/vim-yankstack'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/unite-qfixhowm'
+NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'osyo-manga/vim-watchdogs'
+NeoBundle 'rking/ag.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-ref'
-NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tsukkee/unite-tag'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'vim-jp/vimdoc-ja'
@@ -147,12 +149,12 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 "NeoBundle 'sjl/clam.vim'
 "NeoBundle 'terryma/vim-expand-region'
 "NeoBundle 'terryma/vim-multiple-cursors'
+"NeoBundle 'thinca/vim-visualstar'
 "NeoBundle 'thinca/vim-tabrecent'
 "NeoBundle 'tomtom/tinykeymap_vim'
 "NeoBundle 'tpope/vim-characterize'
 "NeoBundle 'tpope/vim-eunuch'
 "NeoBundle 'tpope/vim-sleuth'
-"NeoBundle 'tpope/vim-unimpaired'
 "NeoBundle 'troydm/asyncfinder.vim'
 "NeoBundle 'troydm/easybuffer.vim'
 "NeoBundle 'tyru/current-func-info.vim'
@@ -205,6 +207,5 @@ endif
 filetype plugin indent on
 syntax on
 NeoBundleCheck
-NeoBundleDocs
 
 " vim:se et fdm=marker:
