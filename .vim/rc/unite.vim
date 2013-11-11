@@ -71,8 +71,8 @@ function! s:unite_my_settings()
     nnoremap <silent> <buffer> <expr> <C-N> unite#do_action('dwm_new')
     inoremap <silent> <buffer> <expr> <C-N> unite#do_action('dwm_new')
     " rec/async で開く
-    nnoremap <silent> <buffer> <expr> <C-F> unite#do_action('rec/async')
-    inoremap <silent> <buffer> <expr> <C-F> unite#do_action('rec/async')
+    nnoremap <silent> <buffer> <expr> <C-A> unite#do_action('rec/async')
+    inoremap <silent> <buffer> <expr> <C-A> unite#do_action('rec/async')
     " grep で開く
     nnoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
     inoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
