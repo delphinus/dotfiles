@@ -94,12 +94,6 @@ endfunction
 command! -range Paste64Copy :call s:Paste64Copy()
 
 "-----------------------------------------------------------------------------
-" diff
-" diff 開始
-command! -nargs=0 DT :diffthis
-command! -nargs=0 DO :diffoff!
-
-"-----------------------------------------------------------------------------
 " Objective-C 設定
 autocmd BufNewFile,BufRead *.m setf objc
 autocmd BufNewFile,BufRead *.h setf objc
