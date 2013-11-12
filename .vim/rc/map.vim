@@ -38,6 +38,9 @@ nnoremap <Tab>h 8zh
 "nnoremap <silent> ciy ciw<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 " omini 補完起動
 inoremap <C-O> <C-X><C-O>
+" QuickFix リスト切り替え
+nnoremap [w :<C-u>colder<CR>
+nnoremap ]w :<C-u>cnewer<CR>
 
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 " MapFastKeycode: helper for fast keycode mappings
