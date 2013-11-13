@@ -68,7 +68,6 @@ NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'majutsushi/tagbar'
-NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive'
 
 if has('vim_starting')
