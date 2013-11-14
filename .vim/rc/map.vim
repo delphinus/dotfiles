@@ -59,15 +59,6 @@ function! <SID>MapFastKeycode(key, keycode)
 endfunction
 let s:fast_i = 0
 
-call <SID>MapFastKeycode('<M-p>', "\ep")
-call <SID>MapFastKeycode('<M-S-p>', "\eP")
-call <SID>MapFastKeycode('<M-n>', "\en")
-call <SID>MapFastKeycode('<M-S-n>', "\eN")
-call <SID>MapFastKeycode('<M-q>', "\eq")
-call <SID>MapFastKeycode('<M-S-q>', "\eQ")
-call <SID>MapFastKeycode('<M-t>', "\et")
-call <SID>MapFastKeycode('<M-S-t>', "\eT")
-
 "-----------------------------------------------------------------------------
 " ヘルプ
 autocmd FileType help nnoremap <buffer>q :q<CR>
