@@ -30,7 +30,6 @@ noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
 noremap zp :Unite buffer_tab file_mru:long<CR>
 noremap zP :Unite output<CR>
-noremap zq <Plug>(unite_exit)
 autocmd FileType unite call s:unite_my_settings()
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
@@ -55,12 +54,6 @@ if has('win32') || has('win64')
 endif
 
 function! s:unite_my_settings()
-    " 上下に分割して開く
-    nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-    inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-    " 左右に分割して開く
-    nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-    inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
     " タブで開く
     nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
     inoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
@@ -80,14 +73,11 @@ function! s:unite_my_settings()
     nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
     imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
     " インサートモードで上下移動
-    " <F15> => <M-p>, <F17> => <M-n>
-    imap <silent> <buffer> <F15> <Plug>(unite_select_previous_line)
-    imap <silent> <buffer> <F17> <Plug>(unite_select_next_line)
-    imap <silent> <buffer> <M-p> <Plug>(unite_select_previous_line)
-    imap <silent> <buffer> <M-n> <Plug>(unite_select_next_line)
+    imap <silent> <buffer> <C-K> <Plug>(unite_select_previous_line)
+    imap <silent> <buffer> <C-J> <Plug>(unite_select_next_line)
     " ノーマルモードでソース選択
-    nmap <silent> <buffer> <M-p> <Plug>(unite_rotate_previous_source)
-    nmap <silent> <buffer> <M-n> <Plug>(unite_rotate_next_source)
+    nmap <silent> <buffer> <C-K> <Plug>(unite_rotate_previous_source)
+    nmap <silent> <buffer> <C-J> <Plug>(unite_rotate_next_source)
     " 一つ上のパスへ
     imap <buffer> <C-W> <Plug>(unite_delete_backward_path)
 endfunction
