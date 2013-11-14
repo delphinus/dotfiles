@@ -37,14 +37,14 @@ let QFixHowm_DiaryFile='%Y/%m/%Y-%m-%d-000000.txt'
 " grep の指定
 if is_office_win
     let mygrepprg='c:/cygwin/bin/grep.exe'
-    let MyGrep_ShellEncoding='cp932'
+    let MyGrep_cygwin17=1
 elseif is_office || is_backup
     let mygrepprg='/bin/grep'
-    let MyGrep_ShellEncoding='utf-8'
 else
     let mygrepprg='/usr/bin/grep'
-    let MyGrep_ShellEncoding='utf-8'
 endif
+" プレビュー無効
+let g:QFix_PreviewEnable=0
 
 " QfixMemo 保存前実行処理
 " BufWritePre
@@ -61,9 +61,16 @@ function! QFixMemoBufWritePre()
   call qfixmemo#DeleteNullLines()
 endfunction
 
+" カレンダーの休日マークを隠す
+highlight CalConceal ctermfg=8
+" カレンダー表示の日本語化
+let g:calendar_jp=2
+" カレンダーの表示月数
+let g:QFixHowm_CalendarCount=6
+
 "-----------------------------------------------------------------------------
 " 一つ分のエントリを選択
-function! SelectOneEntry()
+function! s:QFixSelectOneEntry()
 	" save cursor position
 	let save_cursor = getpos('.')
 
@@ -80,11 +87,12 @@ function! SelectOneEntry()
 	call setpos('.', save_cursor)
 endfunction
 
-command! -nargs=0 SE :call SelectOneEntry()
+noremap <silent> <Plug>(qfixhowm-select_one_entry) :<C-U>call <SID>QFixSelectOneEntry()<CR>
+nmap g,S <Plug>(qfixhowm-select_one_entry)
 
 "-----------------------------------------------------------------------------
 " 一つ前と同じタイトルでエントリを作成
-function! CopyTitleFromPrevEntry()
+function s:QFixCopyTitleFromPrevEntry()
 	let save_register = @"
 
 	call QFixMRUMoveCursor('prev')
@@ -101,7 +109,8 @@ function! CopyTitleFromPrevEntry()
 	let @" = save_register
 endfunction
 
-nnoremap g,M :<C-U>call CopyTitleFromPrevEntry()<CR>
+noremap <silent> <Plug>(qfixhowm-copy_title_from_prev_entry) :<C-U>call <SID>QFixCopyTitleFromPrevEntry()<CR>
+nmap g,M <Plug>(qfixhowm-copy_title_from_prev_entry)
 
 "-----------------------------------------------------------------------------
 " 半角だけの行は整形しない
