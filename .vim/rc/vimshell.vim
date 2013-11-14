@@ -3,7 +3,7 @@
 " プロンプトにカレントディレクトリを表示
 let g:vimshell_user_prompt = 'getcwd()'
 " 初期化ファイルの場所を指定
-let g:vimshell_vimshrc_path = g:home . '/.vimshrc'
+let g:vimshell_vimshrc_path = g:vim_home . '/vimshrc' . (has('macunix') ? '.mac' : '')
 " 履歴ファイルなどの場所を指定
 let g:vimshell_temporary_directory = g:home . '/.vimshell'
 " 大文字小文字を区別しない？
