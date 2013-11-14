@@ -46,22 +46,6 @@ else
     let MyGrep_ShellEncoding='utf-8'
 endif
 
-" qfixmemo-calendar.vim をコピーしておく
-let g:qfixmemo_plugin_dir = g:bundle_dir . '/qfixhowm'
-let cp_cmd='cp'
-if is_office_win
-    let cp_cmd='copy'
-endif
-if !filereadable(g:qfixmemo_plugin_dir.'/plugin/qfixmemo-calendar.vim')
-    let ret = system(cp_cmd . ' ' . g:qfixmemo_plugin_dir
-                \ . '/misc/qfixmemo-calendar.vim '
-                \ . g:qfixmemo_plugin_dir . '/plugin/')
-endif
-
-" カレンダー設定
-let g:calendar_jp=2
-let g:QFixHowm_CalendarWinCmd='leftabove'
-
 " QfixMemo 保存前実行処理
 " BufWritePre
 function! QFixMemoBufWritePre()
