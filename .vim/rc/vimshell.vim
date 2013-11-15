@@ -10,18 +10,24 @@ let g:vimshell_temporary_directory = g:home . '/.vimshell'
 let g:vimshell_enable_smart_case = 1
 
 " vimshell を開くマップ
-nnoremap <Leader>vv :VimShell<CR>
-nnoremap <Leader>vc :VimShellCreate<CR>
-nnoremap <Leader>vt :VimShellTab<CR>
-" キーマッピングを戻す
-autocmd FileType vimshell nnoremap <buffer><c-j> <c-w>w
-autocmd FileType vimshell nnoremap <buffer><c-k> <c-w>W
-autocmd FileType vimshell nnoremap <buffer><c-c> <Plug>DWMClose
-autocmd FileType vimshell nnoremap <buffer><c-n> <Plug>DWMNew
-autocmd FileType vimshell nnoremap <buffer><m-c> <Plug>(vimshell_hangup)
-" 履歴補完はノーマルモードで
-autocmd FileType vimshell inoremap <buffer> <expr><silent> <C-l>  unite#sources#vimshell_history#start_complete(0)
-" iexe で mysql を実行したとき
-autocmd FileType int-mysql set filetype=mysql | setlocal colorcolumn= | nnoremap <buffer><c-c> <Plug>DWMClose
+nnoremap <Leader>vv :<C-U>VimShell<CR>
+nnoremap <Leader>vc :<C-U>VimShellCreate<CR>
 
-
+augroup VimShellMapping
+    autocmd!
+    " キーマッピングを戻す
+    autocmd FileType vimshell nnoremap <buffer><c-j> <c-w>w
+    autocmd FileType vimshell nnoremap <buffer><c-k> <c-w>W
+    autocmd FileType vimshell nmap <buffer><c-c> <Plug>DWMClose
+    autocmd FileType vimshell nmap <buffer><c-n> <Plug>DWMNew
+    autocmd FileType vimshell nmap <buffer><m-c> <Plug>(vimshell_hangup)
+    " 履歴補完はノーマルモードで
+    autocmd FileType vimshell inoremap <buffer> <expr><silent> <C-l>  unite#sources#vimshell_history#start_complete(0)
+    " iexe で mysql を実行したとき
+    autocmd FileType int-mysql set filetype=mysql
+    autocmd FileType int-mysql setlocal colorcolumn=
+    autocmd FileType int-mysql nmap <buffer><c-c> <Plug>DWMClose
+    autocmd FileType int-mysql imap <buffer><c-c> <Esc><Plug>DWMClose
+    autocmd FileType int-mysql nmap <buffer><c-n> <Plug>DWMNew
+    autocmd FileType int-mysql nmap <buffer><m-c> <Plug>(vimshell_hangup)
+augroup END
