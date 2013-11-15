@@ -59,6 +59,13 @@ function! <SID>MapFastKeycode(key, keycode)
 endfunction
 let s:fast_i = 0
 
+" for vimshell
+call <SID>MapFastKeycode('<M-c>', "\ec")
+call <SID>MapFastKeycode('<M-S-c>', "\eC")
+" for yankstack
+call <SID>MapFastKeycode('<M-p>', "\ep")
+call <SID>MapFastKeycode('<M-S-p>', "\eP")
+
 "-----------------------------------------------------------------------------
 " ヘルプ
 autocmd FileType help nnoremap <buffer>q :q<CR>
