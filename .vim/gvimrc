@@ -7,7 +7,7 @@ if has('win32')
     set undodir=C:\cygwin\tmp
     set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
     set listchars=tab:█\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
-    set ambiwidth=double              " 特殊文字に半角文字を使う
+    set ambiwidth=single              " 特殊文字に半角文字を使う
 endif
 
 if has('mac')
