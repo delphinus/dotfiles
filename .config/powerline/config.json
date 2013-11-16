@@ -44,9 +44,12 @@
 				"help": "help",
 				"quickfix": "quickfix",
 				"ext.vim.matcher.unite": "unite",
+				"ext.vim.matcher.gitcommit": "gitcommit",
+				"ext.vim.matcher.calc": "calc",
 				"ext.vim.matcher.fugitive": "fugitive",
 				"ext.vim.matcher.calendar": "calendar",
-				"ext.vim.matcher.vimshell": "vimshell"
+				"ext.vim.matcher.vimshell": "vimshell",
+				"ext.vim.matcher.iexe_mysql": "iexe_mysql"
 			}
 		},
 		"wm": {
