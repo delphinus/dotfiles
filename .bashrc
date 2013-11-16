@@ -8,8 +8,6 @@ fi
 # disable <C-S><C-Q>
 stty -ixon -ixoff
 
-#export TERM=xterm-256color
-
 #alias ls='ls -vGF'
 #alias ll='ls -vGF -l'
 #alias l.='ls -vGF -d .*'
@@ -19,7 +17,6 @@ alias l.='gls --color -d .*'
 alias dircolors=gdircolors
 
 export PAGER='vimpager'
-#export PAGER=less
 alias vp='vimpager'
 alias perldoc='perldocjp -J'
 alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
@@ -33,6 +30,7 @@ alias tmux="TERM=screen-256color-bce tmux -f $HOME/git/dotfiles/.tmux.conf"
 . /usr/local/etc/bash_completion.d/git-completion.bash
 . /usr/local/etc/bash_completion.d/git-prompt.sh
 . /usr/local/etc/bash_completion.d/git-flow-completion.bash
+. /usr/local/etc/bash_completion.d/tmux
 
 # unstated (*) stated (+)
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -59,17 +57,13 @@ done
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
 export PATH="$HOME/Library/Python/2.7/bin:/usr/local/Cellar/ruby/2.0.0-p247/bin:$HOME/.gem/ruby/2.0.0/bin:/usr/local/mysql/bin:$HOME/Dropbox/bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/bin:/usr/sbin:/sbin:/usr/bin:/usr/X11/bin"
+
 # for perlomni.vim
 export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
-#export PROMPT_COMMAND="echo -ne '\033k\033\'"
-export PYTHONPATH="$HOME/Library/Python/2.7/lib/python/site-packages"
-#export proxy=http://127.0.0.1:8123/
-#export http_proxy=$proxy
-#export ALL_PROXY=$proxy
-export MYPERL=`which perl`
-source $HOME/bin/bash_completion_tmux.sh
 
-source $HOME/git/dotfiles/.tmux/bash_completion_tmux.sh
+export PYTHONPATH="$HOME/Library/Python/2.7/lib/python/site-packages"
+export MYPERL=`which perl`
+
 eval `dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 
 # powerline
