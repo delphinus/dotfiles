@@ -34,3 +34,6 @@ def vimshell(matcher_info):
 def iexe_mysql(matcher_info):
 	name = matcher_info['buffer'].name
 	return name and os.path.basename(name).find('iexe-mysql') == 0
+
+def ref_perldoc(matcher_info):
+	return vim_getbufoption(matcher_info, 'filetype') == 'ref-perldoc'
