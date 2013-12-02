@@ -28,7 +28,7 @@ noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
 noremap zi :Unite tig<CR>
 noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
-noremap zp :Unite buffer_tab file_mru:long<CR>
+noremap zp :Unite dwm buffer_tab file_mru:long<CR>
 noremap zP :Unite output<CR>
 autocmd FileType unite call s:unite_my_settings()
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
