@@ -49,7 +49,8 @@
 				"ext.vim.matcher.fugitive": "fugitive",
 				"ext.vim.matcher.calendar": "calendar",
 				"ext.vim.matcher.vimshell": "vimshell",
-				"ext.vim.matcher.iexe_mysql": "iexe_mysql"
+				"ext.vim.matcher.iexe_mysql": "iexe_mysql",
+				"ext.vim.matcher.ref_perldoc": "ref_perldoc"
 			}
 		},
 		"wm": {
