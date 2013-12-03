@@ -7,6 +7,8 @@ fi
 
 # disable <C-S><C-Q>
 stty -ixon -ixoff
+# disable <C-Z>
+stty susp undef
 
 #alias ls='ls -vGF'
 #alias ll='ls -vGF -l'
@@ -16,7 +18,7 @@ alias ll='gls --color -l'
 alias l.='gls --color -d .*'
 alias dircolors=gdircolors
 alias dvtm="SHELL=/usr/local/bin/bash dvtm -m ^z"
-alias dv="dtach -c /tmp/dvtm-session -r winch 'SHELL=/usr/local/bin/bash dvtm -m ^z'"
+alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias vim='mvim -v'
 alias gvim=mvim
 
