@@ -75,9 +75,11 @@ function! s:unite_my_settings()
     " インサートモードで上下移動
     imap <silent> <buffer> <C-K> <Plug>(unite_select_previous_line)
     imap <silent> <buffer> <C-J> <Plug>(unite_select_next_line)
+    imap <silent> <buffer> <F11> <Plug>(unite_select_next_line)
     " ノーマルモードでソース選択
     nmap <silent> <buffer> <C-K> <Plug>(unite_rotate_previous_source)
     nmap <silent> <buffer> <C-J> <Plug>(unite_rotate_next_source)
+    nmap <silent> <buffer> <F11> <Plug>(unite_rotate_next_source)
     " 一つ上のパスへ
     imap <buffer> <C-W> <Plug>(unite_delete_backward_path)
 endfunction

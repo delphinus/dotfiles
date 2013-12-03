@@ -15,6 +15,10 @@ alias ls='gls --color'
 alias ll='gls --color -l'
 alias l.='gls --color -d .*'
 alias dircolors=gdircolors
+alias dvtm="SHELL=/usr/local/bin/bash dvtm -m ^z"
+alias dv="dtach -c /tmp/dvtm-session -r winch 'SHELL=/usr/local/bin/bash dvtm -m ^z'"
+alias vim='mvim -v'
+alias gvim=mvim
 
 export PAGER='vimpager'
 alias vp='vimpager'
@@ -64,7 +68,7 @@ export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
 export PYTHONPATH="$HOME/Library/Python/2.7/lib/python/site-packages"
 export MYPERL=`which perl`
 
-eval `dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
+eval `TERM=xterm-256color dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 
 # powerline
 #. $PYTHONPATH/powerline/bindings/bash/powerline.sh

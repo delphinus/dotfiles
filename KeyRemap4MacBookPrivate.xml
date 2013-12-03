@@ -76,6 +76,12 @@
                 <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
                 <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
             </item>
+            <item>
+                <name>C-J to F13 (for terminal)</name>
+                <identifier>remap.app_term_c_j_f13</identifier>
+                <only>TERMINAL</only>
+                <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::F13</autogen>
+            </item>
         </list>
     </item>
 </root>
