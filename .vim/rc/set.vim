@@ -71,11 +71,11 @@ noremap <Plug>(ToggleColorColumn)
             \ :<c-u>let &colorcolumn = len(&colorcolumn) > 0 ? '' :
             \   join(range(81, 9999), ',')<CR>
 nmap cc <Plug>(ToggleColorColumn)
-"highlight turn gui=standout cterm=standout
-"call matchadd('turn', '^.\{80\}\zs.\+\ze')
 
 " 挿入モードの時のみ、カーソル行をハイライトする
-autocmd InsertEnter,InsertLeave * set cursorline!
+" unite 使ったあとにターミナルのサイズを変えると segmentation fault したので削除
+"autocmd InsertEnter,InsertLeave * set cursorline!
+set cursorline
 
 if is_remora
     set listchars=tab:»\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
