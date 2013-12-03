@@ -1,5 +1,7 @@
 " dwm.vim mapping
 nnoremap <c-j> <c-w>w
+nnoremap <f11> <c-w>w
+nnoremap <f12> <c-w>w
 nnoremap <c-k> <c-w>W
 nmap <c-t> <Plug>DWMRotateClockwise
 nmap <c-q> <Plug>DWMRotateCounterclockwise
