@@ -54,7 +54,34 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM="verbose"
 
 YELLO_GREEN="\e[38;5;190m"
-PROMPT_COMMAND='PS1="$YELLO_GREEN[\!] \e[38;5;83m$(__git_ps1 "[%s]") \`if [[ \$? = "0" ]]; then echo "\\e[38\\\;5\\\;119m"; else echo "\\e[38\\\;5\\\;196m"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 50 ]]; then echo "\\W"; else echo "\\w"; fi\`]\e[0m\n\$ "; echo -ne "\e]0;`hostname`:`pwd`\007"'
+
+# Bash prompts: showing the command in the window title :: Random notes from mg
+# http://mg.pov.lt/blog/bash-prompt.html
+case "$TERM" in
+xterm*|rxvt*|dvtm*)
+    PROMPT_COMMAND='PS1="$YELLO_GREEN[\!] \`if [[ \$? = "0" ]]; then echo "\\e[38\\\;5\\\;119m"; else echo "\\e[38\\\;5\\\;196m"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 50 ]]; then echo "\\W"; else echo "\\w"; fi\`]\n\[\e[0m\]\$ "'
+
+    # Show the currently running command in the terminal title:
+    # http://www.davidpashley.com/articles/xterm-titles-with-bash.html
+    show_command_in_title_bar()
+    {
+        case "$BASH_COMMAND" in
+            PS1*|*\033]0*)
+                # The command is trying to set the title bar as well;
+                # this is most likely the execution of $PROMPT_COMMAND.
+                # In any case nested escapes confuse the terminal, so don't
+                # output them.
+                ;;
+            *)
+                echo -ne "\033]0;${USER}@${HOSTNAME}: ${BASH_COMMAND}\007"
+                ;;
+        esac
+    }
+    trap show_command_in_title_bar DEBUG
+    ;;
+*)
+    ;;
+esac
 
 eval `dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 
