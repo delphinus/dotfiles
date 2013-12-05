@@ -17,6 +17,7 @@ alias ls='gls --color'
 alias ll='gls --color -l'
 alias l.='gls --color -d .*'
 alias dircolors=gdircolors
+eval `TERM=xterm-256color dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 alias dvtm="SHELL=/usr/local/bin/bash dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias vim='mvim -v'
@@ -60,7 +61,7 @@ xterm*|rxvt*|dvtm*)
     show_command_in_title_bar()
     {
         case "$BASH_COMMAND" in
-            PS1*|*\033]0*)
+            eval*|PS1*|*\033]0*)
                 # The command is trying to set the title bar as well;
                 # this is most likely the execution of $PROMPT_COMMAND.
                 # In any case nested escapes confuse the terminal, so don't
@@ -110,11 +111,11 @@ export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
 export PYTHONPATH="$HOME/Library/Python/2.7/lib/python/site-packages"
 export MYPERL=`which perl`
 
-eval `TERM=xterm-256color dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
-
 # powerline
 #. $PYTHONPATH/powerline/bindings/bash/powerline.sh
 
 # for plenv
 export PATH="$HOME/.plenv/bin:$PATH"
 eval "$(plenv init -)"
+
+echo "$USER@$HOSTNAME"
