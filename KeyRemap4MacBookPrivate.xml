@@ -15,6 +15,20 @@
                 <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::TAB</autogen>
             </item>
             <item>
+                <name>C-TAB to C-Z, U (change window in dvtm)</name>
+                <identifier>remap.app_term_dvtm_change_window</identifier>
+                <only>TERMINAL</only>
+                <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
+                <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
+            </item>
+            <item>
+                <name>C-Enter to C-Z, Enter (focus window in dvtm)</name>
+                <identifier>remap.app_term_dvtm_focus_window</identifier>
+                <only>TERMINAL</only>
+                <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
+                <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
+            </item>
+            <item>
                 <name>D-123... to C-Z, 123... (switch window)</name>
                 <identifier>remap.app_term_screen_num</identifier>
                 <only>TERMINAL</only>
