@@ -16,7 +16,7 @@ let g:quickrun_config['perl'] = {
             \ 'command': 'perl',
             \ 'cmdopt': '%{g:quickrun_perl_modules}',
             \ 'eval': 1,
-            \ 'eval_template': 'no strict;binmode STDOUT,":encoding(utf8)";$e=eval{%s};print$e?Dump($e):$@',
+            \ 'eval_template': 'no strict;binmode STDOUT,":utf8";$e=eval{%s};print$e?Dump($e):$@',
             \ 'runner' : 'vimproc',
             \ }
 
