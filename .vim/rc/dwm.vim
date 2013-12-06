@@ -1,6 +1,5 @@
 " dwm.vim mapping
 nnoremap <c-j> <c-w>w
-nnoremap <f11> <c-w>w
 nnoremap <f12> <c-w>w
 nnoremap <c-k> <c-w>W
 nmap <c-t> <Plug>DWMRotateClockwise
@@ -8,6 +7,6 @@ nmap <c-q> <Plug>DWMRotateCounterclockwise
 nmap <c-n> <Plug>DWMNew
 nmap <c-c> <Plug>DWMClose
 nmap <c-@> <Plug>DWMFocus
-nmap <c-p> <Plug>DWMFocus
+nmap <F10> <Plug>DWMFocus
 nmap <c-l> <Plug>DWMGrowMaster
 nmap <c-h> <Plug>DWMShrinkMaster
