@@ -252,7 +252,7 @@ class MyConfig:
 
     # putty用設定
     def putty(self):
-        km = self.km_for_exe(u"PUTTY.EXE")
+        km = self.km_for_exe(u"putty.exe")
 
         # ウィンドウ切り替え
         for i in range(10):
@@ -260,10 +260,24 @@ class MyConfig:
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
         #km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
-        km["LC-(235)"] = self.km.command_InputKey("LC-Z", "Tab")
+        #km["LC-(235)"] = self.km.command_InputKey("LC-Z", "Tab")
         # U0/U1-Space でウィンドウ切り替え
         #km["U0-LShift"] = self.km.command_InputKey("LC-Z", "N")
         #km["U1-LShift"] = self.km.command_InputKey("LC-Z", "P")
+
+        # for dwm.vim
+        km["LC-Enter"] = "F11"
+
+        # for dvtm
+        km["LC-(235)"] = self.km.command_InputKey("LC-Z", "U")
+        km['A-S-U'] = self.km.command_InputKey('LC-Z', 'PageUp')
+        km['A-S-D'] = self.km.command_InputKey('LC-Z', 'PageDown')
+        km["LC-J"] = "F12"
+        km["LC-Enter"] = "F10"
+        for k in ['C', 'X', 'L', 'H', 'J', 'K', '.', 'U', 'I', 'M', 'Space', \
+                'Enter', 'T', 'B', 'G', 'S', 'R', 'S-G', 'A', 'S-X', 'S-B', \
+                'S-M', 'V', '/', '?', 'P', 'F1', 'Q']:
+            km['LA-' + k] = self.km.command_InputKey('LC-Z', k)
 
         # pane 切り替え
         for i in range(10):
@@ -478,8 +492,6 @@ class MyConfig:
                 ,E = "End"
                 ,H = "Back"
                 ,D = "Delete"
-                #,J = "PageDown"
-                #,K = "PageUp"
                )
 
         # ホイール設定
