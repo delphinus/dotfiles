@@ -15,18 +15,44 @@
                 <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::TAB</autogen>
             </item>
             <item>
-                <name>C-TAB to C-Z, U (change window in dvtm)</name>
-                <identifier>remap.app_term_dvtm_change_window</identifier>
+                <name>C-TAB to C-Z, U (change window for dvtm)</name>
+                <identifier>remap.app_term_dvtm_tab</identifier>
                 <only>TERMINAL</only>
                 <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
-                <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
             </item>
             <item>
-                <name>C-Enter to C-Z, Enter (focus window in dvtm)</name>
-                <identifier>remap.app_term_dvtm_focus_window</identifier>
+                <name>Option-? to C-Z, ? (setting for dvtm)</name>
+                <identifier>remap.app_term_dvtm</identifier>
                 <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
-                <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
+                <autogen>--KeyToKey-- KeyCode::C, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::C</autogen>
+                <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::X</autogen>
+                <autogen>--KeyToKey-- KeyCode::L, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::L</autogen>
+                <autogen>--KeyToKey-- KeyCode::H, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::H</autogen>
+                <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::J</autogen>
+                <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::K</autogen>
+                <autogen>--KeyToKey-- KeyCode::N, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::N</autogen>
+                <autogen>--KeyToKey-- KeyCode::DOT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::DOT</autogen>
+                <autogen>--KeyToKey-- KeyCode::U, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
+                <autogen>--KeyToKey-- KeyCode::I, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::I</autogen>
+                <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::M</autogen>
+                <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SPACE</autogen>
+                <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
+                <autogen>--KeyToKey-- KeyCode::T, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::T</autogen>
+                <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::B</autogen>
+                <autogen>--KeyToKey-- KeyCode::G, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::G</autogen>
+                <autogen>--KeyToKey-- KeyCode::S, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::S</autogen>
+                <autogen>--KeyToKey-- KeyCode::R, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::R</autogen>
+                <autogen>--KeyToKey-- KeyCode::G, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::G, ModifierFlag::SHIFT_L</autogen>
+                <autogen>--KeyToKey-- KeyCode::A, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::A</autogen>
+                <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::X, ModifierFlag::SHIFT_L</autogen>
+                <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::B, ModifierFlag::SHIFT_L</autogen>
+                <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::M, ModifierFlag::SHIFT_L</autogen>
+                <autogen>--KeyToKey-- KeyCode::V, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::V</autogen>
+                <autogen>--KeyToKey-- KeyCode::SLASH, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SLASH</autogen>
+                <autogen>--KeyToKey-- KeyCode::SLASH, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SLASH, ModifierFlag::SHIFT_L</autogen>
+                <autogen>--KeyToKey-- KeyCode::P, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::P</autogen>
+                <autogen>--KeyToKey-- KeyCode::F1, ModifierFlag::OPTION_L | ModifierFlag::FN, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::F1, ModifierFlag::FN</autogen>
+                <autogen>--KeyToKey-- KeyCode::Q, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::Q</autogen>
             </item>
             <item>
                 <name>D-123... to C-Z, 123... (switch window)</name>
