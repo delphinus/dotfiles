@@ -25,7 +25,6 @@ noremap ; :
 noremap : ;
 " * 設定
 nnoremap * *N
-map * <Plug>(visualstar-*)N
 " IMEがONの時IMEをOFFにしてfコマンド実行
 nnoremap <silent> f :set iminsert=0<CR>f
 nnoremap <silent> F :set iminsert=0<CR>F
