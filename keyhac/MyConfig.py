@@ -254,9 +254,6 @@ class MyConfig:
     def putty(self):
         km = self.km_for_exe(u"putty.exe")
 
-        # ウィンドウ切り替え
-        for i in range(10):
-            km["LC-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
         # C-Tab でウィンドウ移動
         #km["LC-LWin"] = self.km.command_InputKey("LC-Z", "Tab")
         #km["LC-Tab"] = self.km.command_InputKey("LC-Z", "Tab")
@@ -274,14 +271,14 @@ class MyConfig:
         km['A-S-D'] = self.km.command_InputKey('LC-Z', 'PageDown')
         km["LC-J"] = "F12"
         km["LC-Enter"] = "F10"
-        for k in ['C', 'X', 'L', 'H', 'J', 'K', '.', 'U', 'I', 'M', 'Space', \
-                'Enter', 'T', 'B', 'G', 'S', 'R', 'S-G', 'A', 'S-X', 'S-B', \
-                'S-M', 'V', '/', '?', 'P', 'F1', 'Q']:
+        for k in ['C', 'X', 'L', 'H', 'J', 'K', 'Period', 'U', 'I', 'M', \
+                'Space', 'Enter', 'T', 'B', 'G', 'S', 'R', 'S-G', 'A', 'S-X', \
+                'S-B', 'S-M', 'V', 'Slash', 'S-Slash', 'P', 'F1', 'Q']:
             km['LA-' + k] = self.km.command_InputKey('LC-Z', k)
 
         # pane 切り替え
         for i in range(10):
-            km["LA-" + str(i)] = self.km.command_InputKey("LC-Z", "q", str(i))
+            km["LA-" + str(i)] = self.km.command_InputKey("LC-Z", str(i))
 
         # Putty上ではESC => ESC+日本語入力オフ（無変換）
         km["ESC"] = self.km.command_InputKey("(29)", "ESC")
