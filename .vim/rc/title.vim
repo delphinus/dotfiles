@@ -23,8 +23,7 @@ function! GetTitleString()
     " 検索文字列
     let search_string = len(@/) ? ' [' . @/ . ']' : ''
     " 表示文字列を作成
-    "let str = filename . flag . (g:is_office ? '' : dir) . search_string
-    let str = filename . flag . search_string
+    let str = filename . flag . dir . search_string
     " Screen などの時、タイトルバーに全角文字があったら化けるので対処する
     if !has('gui_running') && !len($TMUX)
         let str2 = ''
@@ -47,8 +46,16 @@ set titlestring=%{GetTitleString()}
 if &term =~ '^screen'
     set t_ts=k
     set t_fs=\
+
+" dvtm の場合
+elseif &term =~ "dvtm"
+    " ウィンドウタイトルを変える
+    let &t_IS = "\e]1;"
+    let &t_ts = "\e]0;"
+    let &t_fs = "\007"
 endif
-if has('gui_running') || &term =~ '^screen' || &term =~ '^xterm'
+
+if has('gui_running') || &term =~ '^screen' || &term =~ '^xterm' || &term =~ '^dvtm'
     set title
 endif
 

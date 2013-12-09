@@ -49,14 +49,6 @@ elseif &term =~ "xterm"
     imap <expr> \e[200~ XTermPasteBegin("")
     cmap \e[200~ <nop>
     cmap \e[201~ <nop>
-
-" dvtm の場合
-elseif &term =~ "dvtm"
-    " ウィンドウタイトルを変える
-    set title
-    let &t_IS = "\e]1;"
-    let &t_ts = "\e]0;"
-    let &t_fs = "\007"
 endif
 
 let &pastetoggle = "\e[201~"
