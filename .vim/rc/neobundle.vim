@@ -94,6 +94,7 @@ NeoBundle 'delphinus35/LineJuggler'
 NeoBundle 'vim-scripts/colorizer'
 NeoBundle 'delphinus35/ingo-library'
 "NeoBundle 'vim-scripts/ingo-library'
+NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 
 " {{{
