@@ -20,8 +20,8 @@ alias dircolors=gdircolors
 eval `TERM=xterm-256color dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 alias dvtm="SHELL=/usr/local/bin/bash dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
-alias vim='mvim -v'
-alias gvim=mvim
+#alias vim='mvim -v'
+#alias gvim=mvim
 
 export PAGER='vimpager'
 alias vp='vimpager'
