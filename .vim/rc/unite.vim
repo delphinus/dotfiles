@@ -1,6 +1,6 @@
 "-----------------------------------------------------------------------------
 " 時刻表示形式 → (月) 01/02 午後 03:45
-let g:unite_source_file_mru_time_format='(%a) %m/%d %p %I:%M '
+let g:unite_source_file_mru_time_format='%m/%d %k:%M '
 " プロンプト
 let g:unite_prompt=' '
 " 挿入モードで開く
