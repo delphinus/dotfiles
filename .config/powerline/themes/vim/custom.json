@@ -7,6 +7,10 @@
 		"readonly_indicator": {
 			"args": { "text": "" }
 		},
+		"currenttag": {
+			"before": " «",
+			"after": "»"
+		},
 		"modified_indicator": {
 			"before": " ",
 			"args": { "text": "✘" }
