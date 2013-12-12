@@ -11,6 +11,8 @@ let g:unite_force_overwrite_statusline=0
 let g:unite_source_file_mru_long_limit=100000
 " 非同期検索の候補アイテム上限値
 let g:unite_source_file_rec_max_cache_files=100000
+" 画面を縦に分割して開く
+let g:unite_enable_split_vertically=1
 
 " unite-qfixhowm 対応
 " 更新日時でソート
