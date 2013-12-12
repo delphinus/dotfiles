@@ -28,10 +28,13 @@
 
 # disable <C-S><C-Q>
 stty -ixon -ixoff
+# disable <C-Z>
+stty susp undef
 
 alias ls='ls -F --color'
 alias ll='ls -F -l'
 alias l.='ls -F -d .*'
+alias dv='dtach -A /tmp/dvtm-sesion -r winch dvtm.sh'
 
 for i in autocd cdable_vars cdspell checkwinsize cmdhist dirspell expand_aliases extglob extquote force_fignore globstar hostcomplete interactive_comments progcomp promptvars sourcepath
 do
