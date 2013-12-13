@@ -62,6 +62,7 @@ set showmatch            " 対応する括弧を自動的に装飾して表示
 set display=lastline     " 画面最下行もできるだけ表示する
 set laststatus=2         " ステータスラインは常に表示
 set relativenumber       " 相対行番号を表示する
+set number               " 現在行の行番号を表示する
 set numberwidth=3        " 行番号の幅は 3 桁
 set list                 " 空白の可視化
 set nowrap               " ウィンドウの幅が足りなくても折り返さない
