@@ -40,6 +40,8 @@ inoremap <C-O> <C-X><C-O>
 " QuickFix リスト切り替え
 nnoremap [w :<C-u>colder<CR>
 nnoremap ]w :<C-u>cnewer<CR>
+" ウィンドウを最大化する
+nnoremap _ <C-W>_
 
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 " MapFastKeycode: helper for fast keycode mappings
