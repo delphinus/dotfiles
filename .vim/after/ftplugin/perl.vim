@@ -1,2 +1,2 @@
 set iskeyword-=-
-autocmd BufWritePost <buffer> NeoComplCacheCachingInclude
+autocmd BufWritePost <buffer> NeoCompleteIncludeMakeCache

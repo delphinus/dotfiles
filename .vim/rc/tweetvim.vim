@@ -14,14 +14,14 @@ nnoremap <silent> <Leader>tl   :<C-u>TweetVimListStatuses list<CR>
 let g:tweetvim_config_dir = g:home . '/.tweetvim'
 
 " スクリーン名のキャッシュを利用して、neocomplcache で補完する
-if !exists('g:neocomplcache_dictionary_filetype_lists')
-  let g:neocomplcache_dictionary_filetype_lists = {}
+if !exists('g:neocomplete#sources#dictionary#dictionaries')
+  let g:neocomplete#sources#dictionary#dictionaries = {}
 endif
-let neco_dic = g:neocomplcache_dictionary_filetype_lists
+let neco_dic = g:neocomplete#sources#dictionary#dictionaries
 let neco_dic.tweetvim_say = g:tweetvim_config_dir . '/screen_name'
 
 " 1 ページあたりのツイート取得件数
 let g:tweetvim_tweet_per_page = 100
 
 " アイコンを表示する
-"let g:tweetvim_display_icon = 1
+let g:tweetvim_display_icon = 1
