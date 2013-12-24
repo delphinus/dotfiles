@@ -1,0 +1,137 @@
+{
+	"segment_data": {
+		"branch": {
+			"before": " ",
+			"args": { "status_colors": true }
+		},
+		"readonly_indicator": {
+			"args": { "text": "" }
+		},
+		"currenttag": {
+			"before": " «",
+			"after": "»"
+		},
+		"modified_indicator": {
+			"before": " ",
+			"args": { "text": "✘" }
+		},
+		"line_percent": {
+			"args": { "gradient": true },
+			"after": "%"
+		},
+		"line_current_symbol": {
+			"contents": " "
+		},
+		"file_type": {
+			"before": "FT "
+		},
+		"col_current_virt": {
+			"args": { "gradient": true }
+		}
+	},
+	"segments": {
+		"left": [
+			{
+				"name": "mode",
+				"exclude_modes": ["nc"]
+			},
+			{
+				"name": "visual_range",
+				"exclude_modes": ["nc"],
+				"priority": 10
+			},
+			{
+				"name": "paste_indicator",
+				"exclude_modes": ["nc"],
+				"priority": 10
+			},
+			{
+				"name": "readonly_indicator",
+				"draw_soft_divider": false,
+				"after": " ",
+				"priority": 70
+			},
+			{
+				"name": "file_directory",
+				"priority": 70,
+				"draw_soft_divider": false
+			},
+			{
+				"name": "file_name",
+				"draw_soft_divider": false,
+				"priority": 10
+			},
+			{
+				"name": "currenttag",
+				"module": "ext.vim.segments.custom",
+				"exclude_modes": ["nc"],
+				"draw_soft_divider": false,
+				"priority": 30
+			},
+			{
+				"name": "modified_indicator",
+				"draw_soft_divider": false,
+				"draw_hard_divider": true,
+				"priority": 30
+			},
+			{
+				"type": "string",
+				"highlight_group": ["background"],
+				"draw_soft_divider": false,
+				"draw_hard_divider": false,
+				"width": "auto"
+			}
+		],
+		"right": [
+			{
+				"name": "file_format",
+				"draw_soft_divider": false,
+				"exclude_modes": ["nc"],
+				"priority": 80
+			},
+			{
+				"name": "file_encoding",
+				"exclude_modes": ["nc"],
+				"priority": 80
+			},
+			{
+				"name": "file_type",
+				"exclude_modes": ["nc"],
+				"priority": 80
+			},
+			{
+				"name": "get_char_code",
+				"module": "ext.vim.segments.custom",
+				"exclude_modes": ["nc"],
+				"priority": 80
+			},
+			{
+				"name": "line_percent",
+				"priority": 50,
+				"width": 4,
+				"align": "r"
+			},
+			{
+				"type": "string",
+				"name": "line_current_symbol",
+				"highlight_group": ["line_current_symbol", "line_current"]
+			},
+			{
+				"name": "line_current",
+				"draw_soft_divider": false,
+				"width": 3,
+				"align": "r",
+				"priority": 20
+			},
+			{
+				"name": "col_current_virt",
+				"module": "ext.vim.segments.custom",
+				"draw_soft_divider": false,
+				"priority": 20,
+				"before": ":",
+				"width": 3,
+				"align": "l"
+			}
+		]
+	}
+}
