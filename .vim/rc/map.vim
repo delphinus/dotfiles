@@ -19,10 +19,7 @@ nnoremap <F5> :GundoToggle<CR>
 " Mac OSXでのvim環境整理。.vimrcやらオヌヌメPlug inやらまとめ。
 " http://d.hatena.ne.jp/yuroyoro/20101104/1288879591
 "Escの2回押しでハイライト消去
-nmap <ESC><ESC> ;nohlsearch<CR><ESC>
-" ;でコマンド入力( ;と:を入れ替)
-noremap ; :
-noremap : ;
+nmap <ESC><ESC> :nohlsearch<CR><ESC>
 " * 設定
 nnoremap * *N
 " IMEがONの時IMEをOFFにしてfコマンド実行
