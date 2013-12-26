@@ -22,9 +22,6 @@ nnoremap <F5> :GundoToggle<CR>
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
 " * 設定
 nnoremap * *N
-" IMEがONの時IMEをOFFにしてfコマンド実行
-nnoremap <silent> f :set iminsert=0<CR>f
-nnoremap <silent> F :set iminsert=0<CR>F
 " 水平スクロール
 nnoremap <Tab>l 8zl
 nnoremap <Tab>h 8zh
