@@ -1,8 +1,5 @@
 " <C-H>への対応
 "map -builtin <C-H> <BS>
-" : と ; の入れ替え
-map -builtin : ;
-map -builtin ; :
 " タブ移動
 nmap -builtin <C-1> :b 1<CR>
 nmap -builtin <C-2> :b 2<CR>
