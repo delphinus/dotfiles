@@ -34,8 +34,7 @@ set clipboard=                  " クリップボードのオプションはな�
 set guioptions=A                " モードレスセレクションに対する自動選択
 set linespace=0                 " 行間を空けない
 set title                       " ウィンドウタイトルを更新する
-winsize 130 50                  " ウィンドウの大きさを指定する
-winpos 400 200                  " ウィンドウの場所を指定する
+winsize 175 50                  " ウィンドウの大きさを指定する
 
 "colorscheme desert-warm-256
 "colorscheme bubblegum
