@@ -24,6 +24,15 @@
                 <name>Option-? to C-Z, ? (setting for dvtm)</name>
                 <identifier>remap.app_term_dvtm</identifier>
                 <only>TERMINAL</only>
+                <autogen>--KeyToKey-- KeyCode::KEY_1, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_1</autogen>
+                <autogen>--KeyToKey-- KeyCode::KEY_2, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_2</autogen>
+                <autogen>--KeyToKey-- KeyCode::KEY_3, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_3</autogen>
+                <autogen>--KeyToKey-- KeyCode::KEY_4, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_4</autogen>
+                <autogen>--KeyToKey-- KeyCode::KEY_5, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_5</autogen>
+                <autogen>--KeyToKey-- KeyCode::KEY_6, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_6</autogen>
+                <autogen>--KeyToKey-- KeyCode::KEY_7, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_7</autogen>
+                <autogen>--KeyToKey-- KeyCode::KEY_8, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_8</autogen>
+                <autogen>--KeyToKey-- KeyCode::KEY_9, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_9</autogen>
                 <autogen>--KeyToKey-- KeyCode::C, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::C</autogen>
                 <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::X</autogen>
                 <autogen>--KeyToKey-- KeyCode::L, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::L</autogen>
