@@ -273,7 +273,8 @@ class MyConfig:
         km["LC-Enter"] = "F10"
         for k in ['C', 'X', 'L', 'H', 'J', 'K', 'Period', 'U', 'I', 'M', \
                 'Space', 'Enter', 'T', 'B', 'G', 'S', 'R', 'S-G', 'A', 'S-X', \
-                'S-B', 'S-M', 'V', 'Slash', 'S-Slash', 'P', 'F1']:
+                'S-B', 'S-M', 'V', 'Slash', 'S-Slash', 'P', 'F1', \
+                'OpenBracket', 'CloseBracket']:
                 #'S-B', 'S-M', 'V', 'Slash', 'S-Slash', 'P', 'F1', 'Q']:
             km['LA-' + k] = self.km.command_InputKey('LC-Z', k)
 
