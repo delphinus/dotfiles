@@ -1,5 +1,7 @@
 " QFixMemo 設定
-if is_xerxes
+if is_vm
+    let g:dropbox_dir='/mnt/hgfs/Dropbox'
+elseif is_xerxes
     let g:dropbox_dir='D:/Dropbox'
 elseif is_xerxes_cygwin
     let g:dropbox_dir='/d/Dropbox'
@@ -16,7 +18,7 @@ endif
 " キーマップリーダー
 let QFixHowm_Key='g'
 " ファイル保存用
-if is_office_win || is_office_cygwin || is_remora || is_backup
+if is_office_win || is_office_cygwin || is_remora || is_backup || is_vm
     let howm_dir=g:dropbox_dir . '/Write'
 elseif is_office
     let howm_dir=expand('$H') . '/Write'
