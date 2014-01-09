@@ -59,6 +59,7 @@ NeoBundle 'basyura/TweetVim', {'depends': [
     \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
 NeoBundle 'c9s/perlomni.vim', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'catalinciurea/perl-nextmethod', {'autoload': {'filetypes': 'perl'}}
+NeoBundle 'cocopon/iceberg.vim'
 NeoBundle 'delphinus35/chalice', {'autoload': {'commands': 'Chalice'}}
 NeoBundle 'delphinus35/lcpeek.vim'
 NeoBundle 'delphinus35/perl-test-base.vim'
@@ -81,6 +82,7 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'spolu/dwm.vim', 'a5fd24a'
 NeoBundle 't9md/vim-quickhl'
+NeoBundle 't9md/vim-choosewin'
 NeoBundle 'thinca/vim-fontzoom'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-ref'
@@ -93,12 +95,9 @@ NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-perl/vim-perl', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'vim-scripts/HiColors'
-NeoBundle 'delphinus35/LineJuggler'
-"NeoBundle 'vim-scripts/LineJuggler'
+NeoBundle 'vim-scripts/LineJuggler'
 NeoBundle 'vim-scripts/colorizer'
-NeoBundle 'delphinus35/ingo-library'
-"NeoBundle 'vim-scripts/ingo-library'
-NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'vim-scripts/ingo-library'
 NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 
 " {{{
@@ -165,6 +164,7 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 "NeoBundle 'troydm/asyncfinder.vim'
 "NeoBundle 'troydm/easybuffer.vim'
 "NeoBundle 'tyru/current-func-info.vim'
+"NeoBundle 'w0ng/vim-hybrid'
 "NeoBundle 'vim-scripts/Align'
 "NeoBundle 'vim-scripts/Colour-Sampler-Pack'
 "NeoBundle 'vim-scripts/DrawIt'
