@@ -127,7 +127,7 @@ set lazyredraw                    " 画面描画をできるだけ遅らせる
 "set background=dark               " 背景は暗く
 "call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 "colorscheme solarized
-colorscheme hybrid
+"colorscheme hybrid
 "colorscheme seoul256
 "colorscheme gruvbox
 
@@ -159,5 +159,7 @@ colorscheme hybrid
 "endif
 "highlight link EasyMotionTarget Type
 "highlight link EasyMotionComment Comment
+
+colorscheme iceberg
 
 " vim:et:fdm=marker:

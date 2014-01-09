@@ -50,4 +50,5 @@ winsize 175 50                  " ウィンドウの大きさを指定する
 "colorscheme plum
 "colorscheme hemisu
 "colorscheme briofita
-colorscheme hybrid
+"colorscheme hybrid
+colorscheme iceberg
