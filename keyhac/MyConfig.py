@@ -266,7 +266,7 @@ class MyConfig:
         km["LC-Enter"] = "F11"
 
         # for dvtm
-        km["LC-(235)"] = self.km.command_InputKey("LC-Z", "U")
+        #km["LC-(235)"] = self.km.command_InputKey("LC-Z", "U")
         km['A-S-U'] = self.km.command_InputKey('LC-Z', 'PageUp')
         km['A-S-D'] = self.km.command_InputKey('LC-Z', 'PageDown')
         km["LC-J"] = "F12"
@@ -568,7 +568,7 @@ class MyConfig:
                 return True
             return False
 
-        km = self.km.defineWindowKeymap(check_func = isConsoleWindow)
+        #km = self.km.defineWindowKeymap(check_func = isConsoleWindow)
 
         def command_SwitchConsole():
             root = pyauto.Window.getDesktop()
@@ -584,6 +584,7 @@ class MyConfig:
                 last_console.setForeground()
 
         #km["C-Tab"] = command_SwitchConsole
-        km["RWin-Tab"] = command_SwitchConsole
+        #km["RWin-Tab"] = command_SwitchConsole
+        self.kmg["C-(235)"] = command_SwitchConsole
 
 # vim:se et ts=4 sts=4 sw=4 fdm=marker:
