@@ -60,6 +60,7 @@ NeoBundle 'basyura/TweetVim', {'depends': [
 NeoBundle 'c9s/perlomni.vim', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'catalinciurea/perl-nextmethod', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'cocopon/iceberg.vim'
+NeoBundle 'cocopon/svss.vim'
 NeoBundle 'delphinus35/chalice', {'autoload': {'commands': 'Chalice'}}
 NeoBundle 'delphinus35/lcpeek.vim'
 NeoBundle 'delphinus35/perl-test-base.vim'
