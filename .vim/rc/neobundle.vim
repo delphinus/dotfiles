@@ -101,7 +101,6 @@ NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler'
 NeoBundle 'vim-scripts/colorizer'
 NeoBundle 'vim-scripts/ingo-library'
-NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 
 " {{{
@@ -174,6 +173,7 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 "NeoBundle 'vim-scripts/cmdline-completion'
 "NeoBundle 'vim-scripts/sudo.vim'
 "NeoBundle 'vim-scripts/vmark.vim--Visual-Bookmarking'
+"NeoBundle 'w0ng/vim-hybrid'
 "NeoBundle 'ynkdir/vim-funlib'
 "NeoBundle 'yuratomo/gmail.vim'
 " }}}
