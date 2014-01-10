@@ -21,7 +21,7 @@ let QFixHowm_Key='g'
 if is_office_win || is_office_cygwin || is_remora || is_backup || is_vm
     let howm_dir=g:dropbox_dir . '/Write'
 elseif is_office
-    let howm_dir=expand('$H') . '/Write'
+    let howm_dir=expand('$H') . '/howm'
 endif
 
 " ファイル名
