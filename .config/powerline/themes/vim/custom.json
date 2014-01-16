@@ -7,10 +7,6 @@
 		"readonly_indicator": {
 			"args": { "text": "" }
 		},
-		"currenttag": {
-			"before": " «",
-			"after": "»"
-		},
 		"modified_indicator": {
 			"before": " ",
 			"args": { "text": "✘" }
@@ -67,17 +63,26 @@
 				"priority": 10
 			},
 			{
-				"name": "currenttag",
-				"module": "ext.vim.segments.custom",
-				"exclude_modes": ["nc"],
-				"draw_soft_divider": false,
-				"priority": 30
+				"name": "file_vcs_status",
+				"before": " ",
+				"draw_soft_divider": false
 			},
 			{
 				"name": "modified_indicator",
+				"before": " "
+			},
+			{
+				"exclude_modes": ["nc"],
+				"module": "powerline.segments.plugin.syntastic",
+				"name": "syntastic",
+				"priority": 50
+			},
+			{
+				"exclude_modes": ["nc"],
+				"module": "powerline.segments.plugin.tagbar",
+				"name": "current_tag",
 				"draw_soft_divider": false,
-				"draw_hard_divider": true,
-				"priority": 30
+				"priority": 50
 			},
 			{
 				"type": "string",

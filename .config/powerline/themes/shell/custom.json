@@ -11,18 +11,13 @@
 			"before": "ⓔ  "
 		},
 		"branch": {
-			"before": " ",
-			"args": {
-				"status_colors": true
-			}
+			"before": " "
 		}
 	},
 	"segments": {
 		"left": [
 			{
-				"name": "hostname",
-				"args": {
-				}
+				"name": "hostname"
 			},
 			{
 				"name": "user"
@@ -31,17 +26,22 @@
 				"name": "virtualenv"
 			},
 			{
-				"module": "powerline.segments.shell",
-				"name": "last_pipe_status"
-			},
-			{
 				"name": "cwd",
 				"args": {
 					"dir_limit_depth": 3
 				}
 			},
 			{
-				"module": "powerlinex.segment.git-branch-osx",
+				"module": "powerline.segments.shell",
+				"name": "jobnum"
+			}
+		],
+		"right": [
+			{
+				"module": "powerline.segments.shell",
+				"name": "last_pipe_status"
+			},
+			{
 				"name": "branch"
 			}
 		]

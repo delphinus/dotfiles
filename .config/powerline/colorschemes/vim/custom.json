@@ -4,6 +4,7 @@
 		"background":               { "fg": "lightskyblue4", "bg": "lightyellow" },
 		"background:divider":       { "fg": "lightskyblue4", "bg": "lightyellow" },
 		"mode":                     { "fg": "lightyellow", "bg": "blue", "attr": ["bold"] },
+		"plugin-mode":              { "fg": "oldlace", "bg": "green", "attr": ["bold"] },
 		"visual_range":             { "fg": "green", "bg": "oldlace", "attr": ["bold"] },
 		"modified_indicator":       { "fg": "red", "bg": "lightyellow", "attr": ["bold"] },
 		"paste_indicator":          { "fg": "lightyellow", "bg": "orange", "attr": ["bold"] },
@@ -13,6 +14,7 @@
 		"branch_clean":             { "fg": "lightyellow", "bg": "royalblue5" },
 		"branch:divider":           { "fg": "gray61", "bg": "royalblue5" },
 		"file_directory":           { "fg": "gray61", "bg": "darkgreencopper" },
+		"current_directory":        { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"file_name":                { "fg": "lightyellow", "bg": "darkgreencopper", "attr": ["bold"] },
 		"file_size":                { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"file_name_no_file":        { "fg": "lightyellow", "bg": "darkgreencopper", "attr": ["bold"] },
@@ -30,9 +32,17 @@
 		"line_current_symbol":      { "fg": "lightyellow", "bg": "royalblue5" },
 		"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "royalblue5" },
 		"col_current":              { "fg": "lightyellow", "bg": "darkgreencopper" },
+		"modified_buffers":         { "fg": "brightyellow", "bg": "gray2" },
 		"environment":              { "fg": "gray61", "bg": "royalblue5" },
+		"error":                    { "fg": "brightestred", "bg": "darkred", "attr": ["bold"] },
+		"warning":                  { "fg": "brightyellow", "bg": "darkorange", "attr": ["bold"] },
+		"current_tag":              { "fg": "gray9", "bg": "gray2" },
 		"unite_status_string":      { "fg": "lightskyblue4", "bg": "lightyellow" },
-		"currenttag":               { "fg": "orange", "bg": "lightyellow", "attr": ["bold"] }
+		"mysql_server":             { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
+		"mysql_user":               { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
+		"mysql_db":                 { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
+		"fugitive_hash":            { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
+		"ref_perldoc_module":       { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] }
 	},
 	"mode_translations": {
 		"nc": {
@@ -43,6 +53,9 @@
 				"gray61": "lightskyblue4",
 				"lightyellow": "azure4",
 				"oldlace": "gray61"
+			},
+			"groups": {
+				"plugin-mode": { "fg": "khaki1", "bg": "darkorange" }
 			}
 		},
 		"i": {
@@ -50,12 +63,14 @@
 				"background":             { "fg": "lightskyblue4", "bg": "lightyellow" },
 				"background:divider":     { "fg": "lightskyblue4", "bg": "lightyellow" },
 				"mode":                   { "fg": "oldlace", "bg": "orange", "attr": ["bold"] },
+				"plugin-mode":              { "fg": "oldlace", "bg": "blue", "attr": ["bold"] },
 				"modified_indicator":     { "fg": "yellow", "bg": "lightyellow", "attr": ["bold"] },
 				"paste_indicator":        { "fg": "lightyellow", "bg": "orange", "attr": ["bold"] },
 				"readonly_indicator":     { "fg": "red", "bg": "lightyellow" },
 				"branch":                 { "fg": "lightyellow", "bg": "lightskyblue4" },
 				"branch:divider":         { "fg": "lightskyblue4", "bg": "lightyellow" },
 				"file_directory":         { "fg": "darkgreencopper", "bg": "gray61" },
+				"current_directory":        { "fg": "darkgreencopper", "bg": "lightyellow" },
 				"file_name":              { "fg": "oldlace", "bg": "gray61", "attr": ["bold"] },
 				"file_size":              { "fg": "oldlace", "bg": "gray61" },
 				"file_name_no_file":      { "fg": "oldlace", "bg": "gray61", "attr": ["bold"] },
@@ -72,27 +87,38 @@
 				"line_current":           { "fg": "lightyellow", "bg": "lightskyblue4", "attr": ["bold"] },
 				"line_current_symbol":    { "fg": "lightyellow", "bg": "lightskyblue4" },
 				"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "lightskyblue4" },
-				"col_current":            { "fg": "oldlace", "bg": "lightskyblue4" }
+				"col_current":            { "fg": "oldlace", "bg": "lightskyblue4" },
+				"unite_status_string":      { "fg": "brightpurple", "bg": "darkgreencopper" },
+				"mysql_server":             { "fg": "gray13", "bg": "darkgreencopper", "attr": ["bold"] },
+				"mysql_user":               { "fg": "gray13", "bg": "darkgreencopper", "attr": ["bold"] },
+				"mysql_db":                 { "fg": "gray13", "bg": "darkgreencopper", "attr": ["bold"] },
+				"fugitive_hash":            { "fg": "brightpurple", "bg": "darkgreencopper", "attr": ["bold"] },
+				"currenttag":               { "fg": "brightpurple", "bg": "darkgreencopper", "attr": ["bold"] },
+				"ref_perldoc_module":       { "fg": "gray13", "bg": "darkgreencopper", "attr": ["bold"] }
 			}
 		},
 		"v": {
 			"groups": {
-				"mode": { "fg": "oldlace", "bg": "magenta", "attr": ["bold"] }
+				"mode": { "fg": "oldlace", "bg": "magenta", "attr": ["bold"] },
+				"plugin-mode": { "fg": "oldlace", "bg": "orange", "attr": ["bold"] }
 			}
 		},
 		"V": {
 			"groups": {
-				"mode": { "fg": "oldlace", "bg": "magenta", "attr": ["bold"] }
+				"mode": { "fg": "oldlace", "bg": "magenta", "attr": ["bold"] },
+				"plugin-mode": { "fg": "oldlace", "bg": "orange", "attr": ["bold"] }
 			}
 		},
 		"^V": {
 			"groups": {
-				"mode": { "fg": "oldlace", "bg": "magenta", "attr": ["bold"] }
+				"mode": { "fg": "oldlace", "bg": "magenta", "attr": ["bold"] },
+				"plugin-mode": { "fg": "oldlace", "bg": "orange", "attr": ["bold"] }
 			}
 		},
 		"R": {
 			"groups": {
-				"mode": { "fg": "oldlace", "bg": "violet", "attr": ["bold"] }
+				"mode": { "fg": "oldlace", "bg": "violet", "attr": ["bold"] },
+				"plugin-mode": { "fg": "oldlace", "bg": "red", "attr": ["bold"] }
 			}
 		}
 	}

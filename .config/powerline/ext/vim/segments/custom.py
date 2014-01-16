@@ -70,17 +70,6 @@ def get_char_code(pl):
 		code = int(code)
 		return nrformat.format(char, code)
 
-def currenttag(pl, flag=''):
-	'''Return tagbar#currenttag()'''
-
-	tagbar_loaded = int(vim.eval('exists(":Tagbar")'))
-
-	if tagbar_loaded:
-		tag = vim.eval('tagbar#currenttag("%s", "", "{0}")'.format(flag))
-		return tag
-	else:
-		return ''
-
 @requires_segment_info
 def current_directory(pl, segment_info, shorten_user=True, shorten_cwd=True, shorten_home=False):
 	'''Return current directory.

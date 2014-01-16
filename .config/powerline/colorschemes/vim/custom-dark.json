@@ -32,13 +32,16 @@
 		"line_current_symbol":      { "fg": "gray13", "bg": "lightyellow" },
 		"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "gray10" },
 		"col_current":              { "fg": "azure4", "bg": "lightyellow" },
+		"modified_buffers":         { "fg": "brightyellow", "bg": "gray2" },
 		"environment":              { "fg": "gray61", "bg": "royalblue5" },
+		"error":                    { "fg": "brightestred", "bg": "darkred", "attr": ["bold"] },
+		"warning":                  { "fg": "brightyellow", "bg": "darkorange", "attr": ["bold"] },
+		"current_tag":              { "fg": "gray9", "bg": "gray2" },
 		"unite_status_string":      { "fg": "gold3", "bg": "royalblue5" },
 		"mysql_server":             { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
 		"mysql_user":               { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
 		"mysql_db":                 { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
 		"fugitive_hash":            { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
-		"currenttag":               { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] },
 		"ref_perldoc_module":       { "fg": "gold3", "bg": "royalblue5", "attr": ["bold"] }
 	},
 	"mode_translations": {
