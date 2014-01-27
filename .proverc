@@ -5,3 +5,4 @@
 --merge
 --timer
 --trap
+--recurse t
