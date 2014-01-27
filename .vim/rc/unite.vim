@@ -102,7 +102,19 @@ nnoremap zu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
 nnoremap zG :<C-u>UniteResume search-buffer<CR>
 
 " unite grep に ag(The Silver Searcher) を使う
-if executable('ag')
+if has('macunix') && executable('pt_darwin')
+  let g:unite_source_grep_command = 'pt_darwin'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+elseif has('win64') && executable('pt')
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+elseif has('unix') && executable('pt_linux')
+  let g:unite_source_grep_command = 'pt_linux'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ag')
   let g:unite_source_grep_command = 'ag'
   let g:unite_source_grep_default_opts = '-a --nogroup --nocolor --column'
   let g:unite_source_grep_recursive_opt = ''
