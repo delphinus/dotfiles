@@ -89,10 +89,6 @@ colo solarized
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
 nmap <ESC><ESC> ;nohlsearch<CR><ESC>
-noremap ; :
-noremap : ;
-map * <Plug>(visualstar-*)N
-map # <Plug>(visualstar-#)N
 
 set t_Co=256
 set encoding=utf-8
