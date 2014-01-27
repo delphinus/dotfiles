@@ -63,6 +63,8 @@ function! QFixMemoBufWritePre()
   call qfixmemo#DeleteNullLines()
 endfunction
 
+" カレンダーの休日予定
+let QFixHowm_HolidayFile=g:howm_dir . '/misc/holiday/Sche-Hd-0000-00-00-000000.utf8'
 " カレンダーの休日マークを隠す
 highlight CalConceal ctermfg=8
 " カレンダー表示の日本語化
