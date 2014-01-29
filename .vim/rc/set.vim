@@ -160,6 +160,10 @@ set lazyredraw                    " 画面描画をできるだけ遅らせる
 "highlight link EasyMotionTarget Type
 "highlight link EasyMotionComment Comment
 
-colorscheme iceberg
+let g:badwolf_darkgutter = 1
+let g:badwolf_tabline = 1
+let g:badwolf_html_link_underline = 1
+let g:badwolf_css_props_highlight = 1
+colorscheme badwolf
 
 " vim:et:fdm=marker:

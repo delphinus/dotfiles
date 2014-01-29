@@ -59,7 +59,6 @@ NeoBundle 'basyura/TweetVim', {'depends': [
     \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
 NeoBundle 'c9s/perlomni.vim', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'catalinciurea/perl-nextmethod', {'autoload': {'filetypes': 'perl'}}
-NeoBundle 'cocopon/iceberg.vim'
 NeoBundle 'cocopon/svss.vim'
 NeoBundle 'delphinus35/chalice', {'autoload': {'commands': 'Chalice'}}
 NeoBundle 'delphinus35/lcpeek.vim'
@@ -82,6 +81,7 @@ NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/unite-qfixhowm'
 NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'rking/ag.vim'
+NeoBundle 'sjl/badwolf'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'spolu/dwm.vim', 'a5fd24a'
 NeoBundle 't9md/vim-quickhl'
@@ -152,7 +152,6 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 "NeoBundle 'roman/golden-ratio'
 "NeoBundle 'scrooloose/nerdtree'
 "NeoBundle 'scrooloose/syntastic'
-"NeoBundle 'sjl/badwolf'
 "NeoBundle 'sjl/clam.vim'
 "NeoBundle 'terryma/vim-expand-region'
 "NeoBundle 'terryma/vim-multiple-cursors'
