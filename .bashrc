@@ -52,31 +52,31 @@ YELLO_GREEN="\e[38;5;190m"
 
 # Bash prompts: showing the command in the window title :: Random notes from mg
 # http://mg.pov.lt/blog/bash-prompt.html
-case "$TERM" in
-xterm*|rxvt*|dvtm*)
-    PROMPT_COMMAND='PS1="$YELLO_GREEN[\!] \`if [[ \$? = "0" ]]; then echo "\\e[38\\\;5\\\;119m"; else echo "\\e[38\\\;5\\\;196m"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 50 ]]; then echo "\\W"; else echo "\\w"; fi\`]\n\[\e[0m\]\$ "'
-
-    # Show the currently running command in the terminal title:
-    # http://www.davidpashley.com/articles/xterm-titles-with-bash.html
-    show_command_in_title_bar()
-    {
-        case "$BASH_COMMAND" in
-            eval*|PS1*|*\033]0*)
-                # The command is trying to set the title bar as well;
-                # this is most likely the execution of $PROMPT_COMMAND.
-                # In any case nested escapes confuse the terminal, so don't
-                # output them.
-                ;;
-            *)
-                echo -ne "\033]0;${USER}@${HOSTNAME}: ${BASH_COMMAND}\007"
-                ;;
-        esac
-    }
-    trap show_command_in_title_bar DEBUG
-    ;;
-*)
-    ;;
-esac
+#case "$TERM" in
+#xterm*|rxvt*|dvtm*)
+#    PROMPT_COMMAND='PS1="$YELLO_GREEN[\!] \`if [[ \$? = "0" ]]; then echo "\\e[38\\\;5\\\;119m"; else echo "\\e[38\\\;5\\\;196m"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 50 ]]; then echo "\\W"; else pwd; fi\`]\n\[\e[0m\]\$ "'
+#
+#    # Show the currently running command in the terminal title:
+#    # http://www.davidpashley.com/articles/xterm-titles-with-bash.html
+#    show_command_in_title_bar()
+#    {
+#        case "$BASH_COMMAND" in
+#            eval*|PS1*|*\033]0*)
+#                # The command is trying to set the title bar as well;
+#                # this is most likely the execution of $PROMPT_COMMAND.
+#                # In any case nested escapes confuse the terminal, so don't
+#                # output them.
+#                ;;
+#            *)
+#                echo -ne "\033]0;${USER}@${HOSTNAME}: ${BASH_COMMAND}\007"
+#                ;;
+#        esac
+#    }
+#    trap show_command_in_title_bar DEBUG
+#    ;;
+#*)
+#    ;;
+#esac
 
 #export MY_PERL_LOCAL_LIB="$HOME/perl5/libs/"
 #locallib() {
@@ -111,8 +111,15 @@ export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
 export PYTHONPATH="$HOME/Library/Python/2.7/lib/python/site-packages"
 export MYPERL=`which perl`
 
+# for python
+[[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
+source `which virtualenvwrapper.sh`
+export WORKON_HOME=$HOME/.virtualenvs
+export PIP_RESPECT_VIRTUALENV=true
+workon 3.3.3
+
 # powerline
-#. $PYTHONPATH/powerline/bindings/bash/powerline.sh
+. $HOME/git/powerline/powerline/bindings/bash/powerline.sh
 
 # for plenv
 export PATH="$HOME/.plenv/bin:$PATH"
