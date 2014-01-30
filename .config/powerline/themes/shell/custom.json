@@ -12,12 +12,17 @@
 		},
 		"branch": {
 			"before": " "
+		},
+		"mode": {
+			"vicmd": "C",
+			"viins": "I"
 		}
 	},
 	"segments": {
 		"left": [
 			{
-				"name": "hostname"
+				"module": "powerline.segments.shell",
+				"name": "mode"
 			},
 			{
 				"name": "cwd",
@@ -40,9 +45,6 @@
 			},
 			{
 				"name": "virtualenv"
-			},
-			{
-				"name": "mode"
 			}
 		]
 	}

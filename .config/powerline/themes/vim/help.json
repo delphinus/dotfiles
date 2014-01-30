@@ -1,16 +1,6 @@
 {
-	"segment_data": {
-		"buffer_name": {
-			"contents": "Help"
-		}
-	},
 	"segments": {
 		"left": [
-			{
-				"type": "string",
-				"name": "buffer_name",
-				"highlight_group": ["plugin-mode"]
-			},
 			{
 				"name": "file_name",
 				"draw_soft_divider": false

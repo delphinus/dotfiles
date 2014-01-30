@@ -30,6 +30,8 @@
 		"line_percent_gradient":    { "fg": "green_yellow_red", "bg": "azure4" },
 		"line_current":             { "fg": "lightyellow", "bg": "royalblue5", "attr": ["bold"] },
 		"line_current_symbol":      { "fg": "lightyellow", "bg": "royalblue5" },
+		"position":                 { "fg": "gray9", "bg": "gray4" },
+		"position_gradient":        { "fg": "green_yellow_red", "bg": "gray4" },
 		"virtcol_current_gradient": { "fg": "GREEN_Orange_red", "bg": "royalblue5" },
 		"col_current":              { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"modified_buffers":         { "fg": "brightyellow", "bg": "gray2" },
