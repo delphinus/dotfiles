@@ -1,5 +1,6 @@
 " dwm.vim mapping
 nnoremap <C-J> <C-W>w
+nnoremap <F10> <C-W>w
 nnoremap <F12> <C-W>w
 nnoremap <C-K> <C-W>W
 nmap <C-T> <Plug>DWMRotateClockwise
