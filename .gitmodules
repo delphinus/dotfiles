@@ -13,3 +13,6 @@
 [submodule "submodules/iterm-colors-pencil"]
 	path = submodules/iterm-colors-pencil
 	url = git@github.com:mattly/iterm-colors-pencil
+[submodule ".zsh/zsh-notify"]
+	path = .zsh/zsh-notify
+	url = git@github.com:marzocchi/zsh-notify

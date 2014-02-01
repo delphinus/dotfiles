@@ -58,3 +58,9 @@ module_path=($module_path /usr/local/lib/zpython)
 # for plenv
 export PATH="$HOME/.plenv/bin:$PATH"
 eval "$(plenv init -)"
+
+# http://qiita.com/kei_s/items/96ee6929013f587b5878
+autoload -U add-zsh-hook
+export SYS_NOTIFIER=`which terminal-notifier`
+export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
+source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh

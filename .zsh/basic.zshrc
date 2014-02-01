@@ -27,6 +27,9 @@ setopt auto_cd           # ディレクトリ名だけで移動する
 setopt EXTENDED_GLOB     # 色んな glob
 setopt HIST_IGNORE_SPACE # 最初にスペースのあるコマンドを履歴に追加しない
 
+# 補完で大文字小文字を区別しない
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
 # disable <C-S><C-Q>
 stty -ixon -ixoff
 # disable <C-Z>
