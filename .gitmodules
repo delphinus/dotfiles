@@ -10,3 +10,6 @@
 [submodule "submodules/pentadactyl-solarized"]
 	path = submodules/pentadactyl-solarized
 	url = git@github.com:claytron/pentadactyl-solarized
+[submodule "submodules/iterm-colors-pencil"]
+	path = submodules/iterm-colors-pencil
+	url = git@github.com:mattly/iterm-colors-pencil
