@@ -124,7 +124,7 @@ set helplang=ja                   " ヘルプは日本語のものを優先す�
 
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
-set background=dark               " 背景は暗く
+set background=light              " 背景は暗く
 "call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 "colorscheme solarized
 "colorscheme hybrid
