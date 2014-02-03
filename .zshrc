@@ -6,7 +6,6 @@ export ACK_PAGER='less -R'
 export EDITOR=vim
 export EDITRC=$HOME/.editrc
 export INPUTRC=$HOME/.inputrc
-export SHELL=$HOME/usr/local/bin/zsh
 
 alias ls='gls --color'
 alias ll='gls --color -l'
