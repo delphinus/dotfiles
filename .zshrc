@@ -23,6 +23,7 @@ alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
 export H=$HOME
 export ACK_PAGER='less -R'
 alias tmux="TERM=screen-256color-bce tmux -f $HOME/git/dotfiles/.tmux.conf"
+alias pt=pt_darwin
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
