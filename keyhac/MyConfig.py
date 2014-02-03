@@ -16,7 +16,7 @@ class MyConfig:
         self.commands = '''
             base hhk hhk_others diamond_cursor
             ckw putty mintty console2 teraterm gvim firefox palemoon excel
-            emacs aero_snap limechat ctrl_tab
+            emacs aero_snap limechat
         '''.split()
 
         for com in self.commands:
@@ -112,7 +112,7 @@ class MyConfig:
         self.kmg["O-LShift"] = "Space"
 
         # C-Space => S-Space
-        self.kmg["C-(226)"] = "S-Space"
+        #self.kmg["C-(226)"] = "S-Space"
 
         # ユーザモディファイアキーの定義
         self.km.defineModifier(235, "User0")
