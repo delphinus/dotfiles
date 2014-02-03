@@ -4,6 +4,10 @@
         <appname>MACVIM</appname>
         <equal>org.vim.MacVim</equal>
     </appdef>
+    <appdef>
+        <appname>CONTEXTS</appname>
+        <equal>com.contextsformac.Contexts</equal>
+    </appdef>
     <item>
         <name>Custom Keymaps</name>
         <list>
@@ -142,6 +146,18 @@
                 <identifier>remap.app_term_c_return_c_@</identifier>
                 <only>TERMINAL</only>
                 <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_L, KeyCode::KEY_2, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L</autogen>
+            </item>
+            <item>
+                <name>C-J, C-K to O-S-Down, O-S-Up (for contexts)</name>
+                <identifier>remap.app_contexts_selector</identifier>
+                <only>CONTEXTS</only>
+                <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
+                <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
+            </item>
+            <item>
+                <name>O-ESCAPE to O-JIS_EISUU (for contexts)</name>
+                <identifier>remap.app_contexts_app_changeer</identifier>
+                <autogen>--KeyToKey-- KeyCode::ESCAPE, ModifierFlag::OPTION_L, KeyCode::JIS_EISUU, ModifierFlag::OPTION_L</autogen>
             </item>
         </list>
     </item>
