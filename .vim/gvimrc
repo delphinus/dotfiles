@@ -53,4 +53,4 @@ winsize 175 50                  " ウィンドウの大きさを指定する
 "colorscheme hybrid
 "colorscheme iceberg
 "colorscheme badwolf
-colorscheme pencil
+colorscheme gruvbox
