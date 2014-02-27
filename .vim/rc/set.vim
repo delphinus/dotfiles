@@ -124,7 +124,7 @@ set helplang=ja                   " ヘルプは日本語のものを優先す�
 
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
-set background=light              " 背景は暗く
+set background=light              " 背景は明るく
 "call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 "colorscheme solarized
 "colorscheme hybrid
@@ -164,6 +164,7 @@ let g:badwolf_darkgutter = 1
 let g:badwolf_tabline = 1
 let g:badwolf_html_link_underline = 1
 let g:badwolf_css_props_highlight = 1
+let g:gruvbox_termcolors=16
 colorscheme gruvbox
 
 " vim:et:fdm=marker:

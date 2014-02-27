@@ -65,7 +65,7 @@ NeoBundle 'Shougo/vimproc', {'build': {
 NeoBundle 'rkitover/vimpager'
 
 NeoBundle 'airblade/vim-rooter'
-NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'morhetz/gruvbox'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'tpope/vim-fugitive'
@@ -84,7 +84,9 @@ NeoBundleCheck
 
 let mapleader='`'
 
-colo solarized
+let g:gruvbox_termcolors=16
+colorscheme gruvbox
+set background=light
 
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
@@ -121,7 +123,6 @@ set tabstop=4       " 画面上でタブ文字が占める幅
 set softtabstop=4   " タブキーやバックスペースキーでカーソルが動く幅
 set shiftwidth=4    " 自動インデントや <<, >> でずれる幅
 set laststatus=0
-set background=dark
 
 
 "-----------------------------------------------------------------------------
