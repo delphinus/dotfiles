@@ -138,3 +138,18 @@ function! s:get_syn_info()
         \ " guibg: " . linkedSyn.guibg
 endfunction
 command! SyntaxInfo call s:get_syn_info()
+
+
+"-----------------------------------------------------------------------------
+" HTML テンプレートコンパイル
+function! s:compile_ope()
+	let path = expand('%')
+	if path =~# 'template\.ope'
+		let path = substitute(path, '\v.*(template.ope)@=', '', '')
+		execute '!compile_ope_ex -f ' . path
+	endif
+endfunction
+
+if !exists('g:autocmd_html')
+	autocmd BufWrite *.html call s:compile_ope()
+endif
