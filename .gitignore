@@ -13,3 +13,4 @@ lastfm-lover-session-key.txt
 /.vim/.netrwhist
 quickfix.err
 history.sqlite
+.sass-cache
