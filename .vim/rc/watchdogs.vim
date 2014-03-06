@@ -12,6 +12,9 @@ let g:quickrun_config['watchdogs_checker/perl'] = {
 let g:quickrun_config['watchdogs_checker/gcc'] = {
             \ 'cmdopt': '-std=c99',
             \ }
+let g:quickrun_config['watchdogs_checker/jshint'] = {
+            \ 'cmdopt': '--config ' . g:home . '/git/dotfiles/.jshintrc'
+            \ }
 
 " この関数に g:quickrun_config を渡す
 " この関数で g:quickrun_config にシンタックスチェックを行うための設定を追加する
