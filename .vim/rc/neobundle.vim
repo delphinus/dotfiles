@@ -44,11 +44,12 @@ NeoBundle 'Kocha/vim-unite-tig'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'Shougo/unite-ssh'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'airblade/vim-gitgutter', '935184b'
+NeoBundle 'Shougo/neomru.vim',    {'depends': ['Shougo/unite.vim']}
+NeoBundle 'Shougo/unite-outline', {'depends': ['Shougo/unite.vim']}
+NeoBundle 'Shougo/unite-ssh',     {'depends': ['Shougo/unite.vim']}
+NeoBundle 'Shougo/vimfiler',      {'depends': ['Shougo/vimproc']}
+NeoBundle 'Shougo/vimshell',      {'depends': ['Shougo/vimproc']}
+NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'basyura/TweetVim', {'depends': [
@@ -84,7 +85,7 @@ NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'sjl/badwolf'
 NeoBundle 'sjl/gundo.vim'
-NeoBundle 'spolu/dwm.vim', 'a5fd24a'
+NeoBundle 'spolu/dwm.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 't9md/vim-choosewin'
 NeoBundle 'thinca/vim-fontzoom'

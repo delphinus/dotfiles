@@ -1,6 +1,6 @@
 "-----------------------------------------------------------------------------
 " 時刻表示形式 → (月) 01/02 午後 03:45
-let g:unite_source_file_mru_time_format='%m/%d %k:%M '
+let g:neomru#time_format='%m/%d %k:%M '
 " プロンプト
 let g:unite_prompt=' '
 " 挿入モードで開く
@@ -8,7 +8,7 @@ let g:unite_enable_start_insert=1
 " ステータスラインを書き換えない
 let g:unite_force_overwrite_statusline=0
 " ロングリストにたくさんファイルを保存
-let g:unite_source_file_mru_long_limit=100000
+let g:neomru#file_mru_limit=100000
 " 非同期検索の候補アイテム上限値
 let g:unite_source_file_rec_max_cache_files=100000
 " 画面を縦に分割して開かない
