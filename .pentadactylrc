@@ -31,8 +31,8 @@ nmap -builtin # :b #<CR>
 " メール表示
 nmap -builtin <C-m> :buffer mail<CR>
 "
-set go-=br
-set go+=NT
+set go-=brT
+set go+=B
 
 " スクロール量
 set scroll=5
@@ -118,8 +118,8 @@ commands.addUserCommand(['readlater', 'rl'],
             dactyl.assert(doc.body);
             doc.title = '(Saving...) ' + doc.title;
             doc.body.appendChild(util.xmlToDom( /* instapaper api url */
-                String(<script type="application/javascript"
-                src="http://www.instapaper.com/j/gvo5f1niyk"/>),
+                String('<script type="application/javascript"
+                src="http://www.instapaper.com/j/gvo5f1niyk"/>'),
                 doc));
         } catch(e) {
             dactyl.echoerr('Please wait until the page has loaded. : ' + e);
