@@ -72,6 +72,7 @@ call s:loadrc('neocomplete')        " neocomplete 設定
 call s:loadrc('sneak')              " sneak 設定
 call s:loadrc('quickhl')            " quickhl 設定
 call s:loadrc('choosewin')          " choosewin 設定
+call s:loadrc('yankround')          " choosewin 設定
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'

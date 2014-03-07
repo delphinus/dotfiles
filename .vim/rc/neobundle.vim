@@ -41,6 +41,7 @@ NeoBundle 'Shougo/vimproc', {'build': {
 " プラグイン（github） {{{
 NeoBundle 'ChrisYip/Better-CSS-Syntax-for-Vim', {'autoload': {'filetypes': 'css'}}
 NeoBundle 'Kocha/vim-unite-tig'
+NeoBundle 'LeafCage/yankround.vim'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/unite.vim'
