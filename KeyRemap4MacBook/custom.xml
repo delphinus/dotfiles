@@ -66,6 +66,8 @@
                 <autogen>--KeyToKey-- KeyCode::P, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::P</autogen>
                 <autogen>--KeyToKey-- KeyCode::F1, ModifierFlag::OPTION_L | ModifierFlag::FN, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::F1, ModifierFlag::FN</autogen>
                 <autogen>--KeyToKey-- KeyCode::Q, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::Q</autogen>
+                <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::BRACKET_LEFT</autogen>
+                <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::BRACKET_RIGHT</autogen>
             </item>
             <item>
                 <name>D-123... to C-Z, 123... (switch window)</name>
