@@ -1,9 +1,9 @@
-" ½ñ¤­¹ş¤ß¸å¤Ë¥·¥ó¥¿¥Ã¥¯¥¹¥Á¥§¥Ã¥¯¤ò¹Ô¤¦
+" æ›¸ãè¾¼ã¿å¾Œã«ã‚·ãƒ³ã‚¿ãƒƒã‚¯ã‚¹ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†
 let g:watchdogs_check_BufWritePost_enable = 1
 
 
-" ¤³¤Ã¤Á¤Ï°ìÄê»ş´Ö¥­¡¼ÆşÎÏ¤¬¤Ê¤«¤Ã¤¿¾ì¹ç¤Ë¥·¥ó¥¿¥Ã¥¯¥¹¥Á¥§¥Ã¥¯¤ò¹Ô¤¦
-" ¥Ğ¥Ã¥Õ¥¡¤Ë½ñ¤­¹ş¤ß¸å¡¢1ÅÙ¤À¤±¹Ô¤ï¤ì¤ë
+" ã“ã£ã¡ã¯ä¸€å®šæ™‚é–“ã‚­ãƒ¼å…¥åŠ›ãŒãªã‹ã£ãŸå ´åˆã«ã‚·ãƒ³ã‚¿ãƒƒã‚¯ã‚¹ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†
+" ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã¿å¾Œã€1åº¦ã ã‘è¡Œã‚ã‚Œã‚‹
 let g:watchdogs_check_CursorHold_enable = 0
 
 let g:quickrun_config['watchdogs_checker/perl'] = {
@@ -16,7 +16,12 @@ let g:quickrun_config['watchdogs_checker/jshint'] = {
             \ 'cmdopt': '--config ' . g:home . '/git/dotfiles/.jshintrc'
             \ }
 
-" ¤³¤Î´Ø¿ô¤Ë g:quickrun_config ¤òÅÏ¤¹
-" ¤³¤Î´Ø¿ô¤Ç g:quickrun_config ¤Ë¥·¥ó¥¿¥Ã¥¯¥¹¥Á¥§¥Ã¥¯¤ò¹Ô¤¦¤¿¤á¤ÎÀßÄê¤òÄÉ²Ã¤¹¤ë
-" ´Ø¿ô¤ò¸Æ¤Ó½Ğ¤¹¥¿¥¤¥ß¥ó¥°¤Ï¥æ¡¼¥¶¤Î g:quickrun_config ÀßÄê¸å
+let myperl = expand('$HOME/.plenv/shims/perl')
+if executable(myperl)
+    let g:quickrun_config['watchdogs_checker/perl'].command = myperl
+endif
+
+" ã“ã®é–¢æ•°ã« g:quickrun_config ã‚’æ¸¡ã™
+" ã“ã®é–¢æ•°ã§ g:quickrun_config ã«ã‚·ãƒ³ã‚¿ãƒƒã‚¯ã‚¹ãƒã‚§ãƒƒã‚¯ã‚’è¡Œã†ãŸã‚ã®è¨­å®šã‚’è¿½åŠ ã™ã‚‹
+" é–¢æ•°ã‚’å‘¼ã³å‡ºã™ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã¯ãƒ¦ãƒ¼ã‚¶ã® g:quickrun_config è¨­å®šå¾Œ
 call watchdogs#setup(g:quickrun_config)
