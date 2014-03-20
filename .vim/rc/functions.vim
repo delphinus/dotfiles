@@ -138,3 +138,8 @@ function! s:get_syn_info()
         \ " guibg: " . linkedSyn.guibg
 endfunction
 command! SyntaxInfo call s:get_syn_info()
+
+
+"-----------------------------------------------------------------------------
+" Javascript のたたみ込み
+autocmd FileType javascript call JavaScriptFold()
