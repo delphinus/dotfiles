@@ -65,7 +65,7 @@ NeoBundle 'Shougo/vimproc', {'build': {
 NeoBundle 'rkitover/vimpager'
 
 NeoBundle 'airblade/vim-rooter'
-NeoBundle 'morhetz/gruvbox'
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'tpope/vim-fugitive'
@@ -84,8 +84,8 @@ NeoBundleCheck
 
 let mapleader='`'
 
-let g:gruvbox_termcolors=16
-colorscheme gruvbox
+colorscheme solarized
+set t_ut=
 set background=light
 
 nnoremap <C-D> 3<C-D>
