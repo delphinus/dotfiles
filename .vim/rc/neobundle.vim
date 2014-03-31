@@ -103,7 +103,8 @@ NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-perl/vim-perl', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler'
-NeoBundle 'vim-scripts/VerticalHelp'
+"NeoBundle 'vim-scripts/VerticalHelp'
+NeoBundle 'delphinus35/VerticalHelp'
 NeoBundle 'vim-scripts/colorizer'
 NeoBundle 'vim-scripts/ingo-library'
 NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
