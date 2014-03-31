@@ -69,7 +69,6 @@ call s:loadrc('gitgutter')          " gitgutter 設定
 call s:loadrc('verticalhelp')       " VerticalHelp 設定
 call s:loadrc('pb')                 " pb.vim 設定
 call s:loadrc('neocomplete')        " neocomplete 設定
-call s:loadrc('sneak')              " sneak 設定
 call s:loadrc('quickhl')            " quickhl 設定
 call s:loadrc('choosewin')          " choosewin 設定
 call s:loadrc('yankround')          " choosewin 設定
