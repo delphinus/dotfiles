@@ -59,7 +59,7 @@ set nocursorline         " カーソル行を強調表示しない
 set showcmd              " コマンド、及び選択範囲の表示
 set noshowmode           " 【挿入】【ビジュアル】といった文字列を画面最下段に表示しない
 set showmatch            " 対応する括弧を自動的に装飾して表示
-set display=lastline     " 画面最下行もできるだけ表示する
+set display=             " 画面最下行もできるだけ表示する
 set laststatus=2         " ステータスラインは常に表示
 set relativenumber       " 相対行番号を表示する
 set number               " 現在行の行番号を表示する
@@ -125,8 +125,8 @@ set helplang=ja                   " ヘルプは日本語のものを優先す�
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
 set background=light              " 背景は明るく
-"call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
-"colorscheme solarized
+call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
+colorscheme solarized
 "colorscheme hybrid
 "colorscheme seoul256
 "colorscheme gruvbox
@@ -165,6 +165,6 @@ let g:badwolf_tabline = 1
 let g:badwolf_html_link_underline = 1
 let g:badwolf_css_props_highlight = 1
 let g:gruvbox_termcolors=16
-colorscheme gruvbox
+"colorscheme gruvbox
 
 " vim:et:fdm=marker:
