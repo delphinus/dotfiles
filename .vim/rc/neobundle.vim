@@ -69,6 +69,7 @@ NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
 NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'gregsexton/VimCalc'
 NeoBundle 'guns/xterm-color-table.vim'
+NeoBundle 'haya14busa/vim-migemo'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'jceb/vim-hier'
 NeoBundle 'jelera/vim-javascript-syntax', {'autoload': {'filetypes': 'javascript'}}
@@ -102,6 +103,7 @@ NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-perl/vim-perl', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler'
+NeoBundle 'vim-scripts/VerticalHelp'
 NeoBundle 'vim-scripts/colorizer'
 NeoBundle 'vim-scripts/ingo-library'
 NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
