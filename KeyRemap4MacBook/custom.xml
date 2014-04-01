@@ -8,6 +8,18 @@
         <appname>CONTEXTS</appname>
         <equal>com.contextsformac.Contexts</equal>
     </appdef>
+    <appdef>
+        <appname>ONENOTE</appname>
+        <equal>com.microsoft.onenote.mac</equal>
+    </appdef>
+    <appdef>
+        <appname>WORD</appname>
+        <equal>com.microsoft.Word</equal>
+    </appdef>
+    <appdef>
+        <appname>POWERPOINT</appname>
+        <equal>com.microsoft.Powerpoint</equal>
+    </appdef>
     <item>
         <name>Custom Keymaps</name>
         <list>
@@ -160,6 +172,57 @@
                 <name>O-ESCAPE to O-JIS_EISUU (for contexts)</name>
                 <identifier>remap.app_contexts_app_changeer</identifier>
                 <autogen>--KeyToKey-- KeyCode::ESCAPE, ModifierFlag::OPTION_L, KeyCode::JIS_EISUU, ModifierFlag::OPTION_L</autogen>
+            </item>
+            <item>
+              <name>Emacs bindings for One Note</name>
+              <identifier>remap.app_one_note_emacs_bindings</identifier>
+              <only>ONENOTE</only>
+              <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
+              <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
+              <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
+              <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
+              <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
+              <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
+              <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+              <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
+              <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+            </item>
+            <item>
+              <name>Emacs bindings for PowerPoint</name>
+              <identifier>remap.app_powerpoint_emacs_bindings</identifier>
+              <only>WORD</only>
+              <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
+              <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
+              <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
+              <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
+              <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
+              <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
+              <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+              <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
+              <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+            </item>
+            <item>
+              <name>Emacs bindings for Word</name>
+              <identifier>remap.app_word_emacs_bindings</identifier>
+              <only>POWERPOINT</only>
+              <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
+              <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
+              <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
+              <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
+              <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
+              <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
+              <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
+              <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+              <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
+              <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
             </item>
         </list>
     </item>

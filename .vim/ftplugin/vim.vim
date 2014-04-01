@@ -1,1 +1,3 @@
-Rooter
+if exists(':Rooter')
+    Rooter
+endif

@@ -1,13 +1,17 @@
 set iskeyword-=-
 set iskeyword-=:
-autocmd BufWritePost <buffer> NeoCompleteIncludeMakeCache
-
-if is_office_alt
-    setl et
-elseif is_office
-    setl noet
-else
-    setl et
+if exists(':NeoCompleteIncludeMakeCache')
+    autocmd BufWritePost <buffer> NeoCompleteIncludeMakeCache
 endif
 
-Rooter
+if exists('is_office_alt') && is_office_alt
+    setlocal expandtab
+elseif exists('is_office') && is_office
+    setlocal noexpandtab
+else
+    setlocal expandtab
+endif
+
+if exists(':Rooter')
+    Rooter
+endif

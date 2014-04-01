@@ -34,3 +34,8 @@ unlet! perl_fold_blocks
 let perl_nofold_packages = 1
 let perl_nofold_subs = 1
 unlet! perl_fold_anonymous_subs
+
+if has('macunix')
+    let perlpath = system("$HOME/.plenv/shims/perl -e 'print join(q/,/,@INC)'")
+endif
+
