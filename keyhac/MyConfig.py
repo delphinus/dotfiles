@@ -273,10 +273,11 @@ class MyConfig:
         km["LC-Enter"] = "F10"
         for k in ['C', 'X', 'L', 'H', 'J', 'K', 'Period', 'U', 'I', 'M', \
                 'Space', 'Enter', 'T', 'B', 'G', 'S', 'R', 'S-G', 'A', 'S-X', \
-                'S-B', 'S-M', 'V', 'Slash', 'S-Slash', 'P', 'F1', \
+                'S-B', 'S-M', 'V', 'Slash', 'S-Slash', 'P', 'F1', 'Tab',\
                 'OpenBracket', 'CloseBracket']:
                 #'S-B', 'S-M', 'V', 'Slash', 'S-Slash', 'P', 'F1', 'Q']:
             km['LA-' + k] = self.km.command_InputKey('LC-Z', k)
+        km['F2'] = self.km.command_InputKey('LC-S-6', 'D','V', 'Enter', 'LC-Z', 'R')
 
         # pane 切り替え
         for i in range(10):
