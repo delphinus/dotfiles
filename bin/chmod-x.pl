@@ -12,6 +12,8 @@ my @exclude_re = (
     qr!$home/bin!,
     qr!$home/\.vim/bundle!,
     qr!$home/\.git!,
+    qr!$home/\.pentadactyl/info!,
+    qr!$home/submodule!,
 );
 my $ra = Regexp::Assemble->new;
 $ra->add(qr!$_$!) for @exclude_file;
