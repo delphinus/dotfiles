@@ -50,6 +50,7 @@ NeoBundle 'Shougo/unite-outline', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'Shougo/unite-ssh',     {'depends': ['Shougo/unite.vim']}
 NeoBundle 'Shougo/vimfiler',      {'depends': ['Shougo/vimproc']}
 NeoBundle 'Shougo/vimshell',      {'depends': ['Shougo/vimproc']}
+NeoBundle 'Shougo/vinarise.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
