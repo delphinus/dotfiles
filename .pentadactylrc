@@ -31,8 +31,8 @@ nmap -builtin # :b #<CR>
 " メール表示
 nmap -builtin <C-m> :buffer mail<CR>
 "
-set go-=brT
-set go+=B
+set go-=br
+set go+=BT
 
 " スクロール量
 set scroll=5
