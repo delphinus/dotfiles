@@ -20,10 +20,6 @@ call unite#custom_source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', '
 " デフォルトアクション
 let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 
-" データファイル
-if is_office
-    let g:unite_data_directory = expand('$H/.unite')
-endif
 noremap zd :Unite dwm<CR>
 noremap zf :Unite qfixhowm/new qfixhowm<CR>
 noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
