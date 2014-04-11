@@ -2,10 +2,6 @@
 " Perl 関連
 let perl_include_pod=1
 autocmd BufNewFile,BufRead *.psgi set filetype=perl
-if is_office
-	autocmd BufNewFile,BufRead *.conf set filetype=perl
-	autocmd BufNewFile,BufRead _inc_html.txt set filetype=html
-endif
 
 " zencoding-vim
 let g:user_zen_settings = {

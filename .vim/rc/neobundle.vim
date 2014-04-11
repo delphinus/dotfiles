@@ -5,8 +5,9 @@ elseif is_win
     set shell=$SYSTEMROOT\system32\cmd.exe
 endif
 
+"===============================================================================
 " NeoBundle 設定開始
-set nocompatible
+"===============================================================================
 
 " プラグイン保存パス
 let g:bundle_dir = g:home . '/.vim/bundle'
@@ -19,15 +20,19 @@ let g:neobundle#types#git#default_protocol=g:is_office ? 'ssh' : 'https'
 
 " NeoBundle へのパス
 if has('vim_starting')
+    set nocompatible               " Be iMproved
+
     if is_office
         set runtimepath-=$HOME/.vim
     endif
     execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
 
-call neobundle#rc(expand(g:bundle_dir))
+" Required:
+call neobundle#begin(expand(g:bundle_dir))
 
 " Let NeoBundle manage NeoBundle
+" Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Set vimproc
@@ -39,7 +44,6 @@ NeoBundle 'Shougo/vimproc', {'build': {
     \ }
 
 " プラグイン（github） {{{
-NeoBundle 'ChrisYip/Better-CSS-Syntax-for-Vim', {'autoload': {'filetypes': 'css'}}
 NeoBundle 'Kocha/vim-unite-tig'
 NeoBundle 'LeafCage/yankround.vim'
 NeoBundle 'Lokaltog/vim-easymotion'
@@ -47,46 +51,32 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim',    {'depends': ['Shougo/unite.vim']}
 NeoBundle 'Shougo/unite-outline', {'depends': ['Shougo/unite.vim']}
-NeoBundle 'Shougo/unite-ssh',     {'depends': ['Shougo/unite.vim']}
+"NeoBundle 'Shougo/unite-ssh',     {'depends': ['Shougo/unite.vim']}
 NeoBundle 'Shougo/vimfiler',      {'depends': ['Shougo/vimproc']}
 NeoBundle 'Shougo/vimshell',      {'depends': ['Shougo/vimproc']}
 NeoBundle 'Shougo/vinarise.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'basyura/TweetVim', {'depends': [
-    \   'basyura/bitly.vim',
-    \   'basyura/twibill.vim',
-    \   'tyru/open-browser.vim',
-    \ ],
-    \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
-NeoBundle 'c9s/perlomni.vim', {'autoload': {'filetypes': 'perl'}}
-NeoBundle 'catalinciurea/perl-nextmethod', {'autoload': {'filetypes': 'perl'}}
-NeoBundle 'cocopon/svss.vim'
-NeoBundle 'delphinus35/chalice', {'autoload': {'commands': 'Chalice'}}
-NeoBundle 'delphinus35/lcpeek.vim'
+"NeoBundle 'cocopon/svss.vim'
 NeoBundle 'delphinus35/perl-test-base.vim'
 NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
-NeoBundle 'fuenor/JpFormat.vim'
-NeoBundle 'gregsexton/VimCalc'
-NeoBundle 'guns/xterm-color-table.vim'
-NeoBundle 'haya14busa/vim-migemo'
+"NeoBundle 'guns/xterm-color-table.vim'
+"NeoBundle 'haya14busa/vim-migemo'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'jceb/vim-hier'
-NeoBundle 'jelera/vim-javascript-syntax', {'autoload': {'filetypes': 'javascript'}}
-NeoBundle 'junegunn/seoul256.vim'
-NeoBundle 'junegunn/vim-easy-align'
+"NeoBundle 'junegunn/seoul256.vim'
+"NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kannokanno/unite-dwm'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'mattn/webapi-vim'
-NeoBundle 'morhetz/gruvbox'
+"NeoBundle 'morhetz/gruvbox'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/unite-qfixhowm'
 NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'reedes/vim-colors-pencil'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'sjl/badwolf'
-NeoBundle 'sjl/gundo.vim'
+"NeoBundle 'rking/ag.vim'
+"NeoBundle 'sjl/badwolf'
 NeoBundle 'spolu/dwm.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 't9md/vim-choosewin'
@@ -97,18 +87,15 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'tyru/capture.vim'
-NeoBundle 'tyru/restart.vim'
-NeoBundle 'ujihisa/unite-colorscheme'
+"NeoBundle 'tyru/restart.vim'
+"NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'vim-jp/vimdoc-ja'
-NeoBundle 'vim-perl/vim-perl', {'autoload': {'filetypes': 'perl'}}
 NeoBundle 'vim-scripts/HiColors'
-NeoBundle 'vim-scripts/LineJuggler'
+NeoBundle 'vim-scripts/LineJuggler', {'depends': ['vim-scripts/ingo-library']}
 "NeoBundle 'vim-scripts/VerticalHelp'
-NeoBundle 'delphinus35/VerticalHelp'
-NeoBundle 'vim-scripts/colorizer'
+"NeoBundle 'delphinus35/VerticalHelp'
+"NeoBundle 'vim-scripts/colorizer'
 NeoBundle 'vim-scripts/ingo-library'
-NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 
 " {{{
 "NeoBundle 'AndrewRadev/splitjoin.vim'
@@ -186,8 +173,30 @@ NeoBundle 'csv.vim', {'autoload': {'filetypes': 'csv'}}
 " }}}
 " }}}
 
+NeoBundleLazy 'delphinus35/lcpeek.vim', {'autoload': {'command': 'PeekInput'}}
+NeoBundleLazy 'fuenor/JpFormat.vim', {'autoload': {'command': 'JpFormat'}}
+NeoBundleLazy 'gregsexton/VimCalc', {'autoload': {'command': 'Calc'}}
+NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload': {'filetypes': 'javascript'}}
+NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'command': 'GundoToggle'}}
+NeoBundleLazy 'tyru/capture.vim', {'autoload': {'command': 'Capture'}}
+NeoBundleLazy 'vim-perl/vim-perl', {'autoload': {'filetypes': 'perl'}}
+NeoBundleLazy 'catalinciurea/perl-nextmethod', {'autoload': {'filetypes': 'perl'}}
+NeoBundleLazy 'c9s/perlomni.vim', {'autoload': {'filetypes': 'perl'}}
+NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim', {'autoload': {'filetypes': 'css'}}
+NeoBundleLazy 'csv.vim', {'autoload': {'filetypes': 'csv'}}
+
 " vimpager
 NeoBundleLazy 'rkitover/vimpager'
+
+" TweetVim
+NeoBundleLazy 'basyura/TweetVim', {'depends': [
+    \   'basyura/bitly.vim',
+    \   'basyura/twibill.vim',
+    \   'tyru/open-browser.vim',
+    \ ],
+    \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
+
+NeoBundleLazy 'delphinus35/chalice', {'autoload': {'commands': 'Chalice'}}
 
 " Mac 専用
 if has('macunix')
@@ -218,6 +227,8 @@ if has('vim_starting')
         set runtimepath^=$H/.vim/
     endif
 endif
+
+call neobundle#end()
 
 filetype plugin indent on
 syntax on
