@@ -86,7 +86,7 @@ let mapleader='`'
 
 colorscheme solarized
 set t_ut=
-set background=light
+set background=dark
 
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
