@@ -36,7 +36,7 @@ call neobundle#begin(expand(g:bundle_dir))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Set vimproc
-NeoBundle 'Shougo/vimproc', {'build': {
+NeoBundle 'Shougo/vimproc.vim', {'build': {
     \   'cygwin': 'make -f make_cygwin.mak',
     \   'mac': 'make -f make_mac.mak',
     \   'unix': 'make -f make_unix.mak',
@@ -51,8 +51,8 @@ NeoBundle 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/d
 NeoBundle 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
 
-NeoBundle 'Shougo/vimfiler',           {'depends': ['Shougo/vimproc']}
-NeoBundle 'Shougo/vimshell',           {'depends': ['Shougo/vimproc']}
+NeoBundle 'Shougo/vimfiler',           {'depends': ['Shougo/vimproc.vim']}
+NeoBundle 'Shougo/vimshell',           {'depends': ['Shougo/vimproc.vim']}
 NeoBundle 'osyo-manga/vim-watchdogs',  {'depends': [
             \   'Shougo/vimproc.vim',
             \   'dannyob/quickfixstatus',
