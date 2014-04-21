@@ -56,13 +56,13 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 # upstream (<=>)
 export GIT_PS1_SHOWUPSTREAM="verbose"
 
-YELLO_GREEN="\e[38;5;190m"
+YELLOW_GREEN="\e[38;5;58m"
 
 # Bash prompts: showing the command in the window title :: Random notes from mg
 # http://mg.pov.lt/blog/bash-prompt.html
 case "$TERM" in
 xterm*|rxvt*|dvtm*)
-    PROMPT_COMMAND='PS1="$YELLO_GREEN[\!] \`if [[ \$? = "0" ]]; then echo "\\e[38\\\;5\\\;119m"; else echo "\\e[38\\\;5\\\;196m"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 50 ]]; then echo "\\W"; else echo "\\w"; fi\`]\n\[\e[0m\]\$ "'
+    PROMPT_COMMAND='PS1="$YELLOW_GREEN[\!] \`if [[ \$? = "0" ]]; then echo "\\e[38\\\;5\\\;25m"; else echo "\\e[38\\\;5\\\;196m"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 50 ]]; then echo "\\W"; else echo "\\w"; fi\`]\n\[\e[0m\]\$ "'
 
     # Show the currently running command in the terminal title:
     # http://www.davidpashley.com/articles/xterm-titles-with-bash.html
