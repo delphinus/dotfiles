@@ -22,6 +22,9 @@ if has('mac')
     if g:is_remora_air2
         au GUIEnter * set fullscreen  " 起動時にフルスクリーン
     endif
+
+    let $SUDO_ASKPASS='/Applications/MacVim.app/Contents/MacOS/macvim-askpass'
+    let $DISPLAY=':0'
 endif
 
 set printfont=Ricty_Discord:h10 " 印刷用フォント

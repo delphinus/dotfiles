@@ -45,19 +45,15 @@ export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
 export MYPERL=`which perl`
 
 # for python
-[[ -s $HOME/.pythonz/etc/bashrc ]] && source $HOME/.pythonz/etc/bashrc
-source `which virtualenvwrapper.sh`
-export WORKON_HOME=$HOME/.virtualenvs
-export PIP_RESPECT_VIRTUALENV=true
-workon 3.3.3
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+eval "$(pyenv init -)"
+
+# for plenv
+if which plenv > /dev/null; then eval "$(plenv init -)"; fi
 
 # powerline
 module_path=($module_path /usr/local/lib/zpython)
 . $HOME/git/powerline/powerline/bindings/zsh/powerline.zsh
-
-# for plenv
-export PATH="$HOME/.plenv/bin:$PATH"
-eval "$(plenv init -)"
 
 # http://qiita.com/kei_s/items/96ee6929013f587b5878
 autoload -U add-zsh-hook

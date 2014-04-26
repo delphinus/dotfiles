@@ -23,6 +23,11 @@ let g:quickrun_config['perl'] = {
             \ 'runner' : 'vimproc',
             \ }
 
+let myperl = expand('$HOME/.plenv/shims/perl')
+if executable(myperl)
+    let g:quickrun_config['perl'].command = myperl
+endif
+
 " ビジュアルモードで選択した部分を実行
 command! -range R :QuickRun perl -mode v
 "command! R :QuickRun perl -mode v
