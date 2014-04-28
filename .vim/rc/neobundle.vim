@@ -72,6 +72,7 @@ NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
 NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'houtsnip/vim-emacscommandline'
+NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'koron/cmigemo'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'mattn/webapi-vim'
@@ -86,6 +87,7 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler', {'depends': ['vim-scripts/ingo-library']}
+NeoBundle 'vim-scripts/visualrepeat'
 
 " {{{
 "NeoBundle 'AndrewRadev/splitjoin.vim'
