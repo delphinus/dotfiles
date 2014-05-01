@@ -1,0 +1,171 @@
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+
+  " Required:
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" My Bundles here:
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'airblade/vim-rooter'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'catalinciurea/perl-nextmethod'
+NeoBundle 'houtsnip/vim-emacscommandline'
+NeoBundle 'spolu/dwm.vim'
+NeoBundle 't9md/vim-choosewin'
+NeoBundle 'vim-perl/vim-perl'
+NeoBundle 'vim-scripts/LineJuggler'
+NeoBundle 'vim-scripts/ingo-library'
+
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Kocha/vim-unite-tig'
+NeoBundle 'kannokanno/unite-dwm'
+
+NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
+
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+syntax on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+
+let mapleader='`'
+
+set list
+set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
+set number
+set relativenumber
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set backspace=indent,eol,start
+set smartcase
+set scroll=3
+"set background=dark
+"colorscheme solarized
+
+" dwm.vim
+nnoremap <F12> <C-W>w
+nmap <C-T> <Plug>DWMRotateClockwise
+nmap <C-Q> <Plug>DWMRotateCounterclockwise
+
+" vim-fugitive
+nnoremap git :Git
+
+" choosewin
+let g:choosewin_overlay_enable=1
+let g:choosewin_overlay_clear_multibyte=1
+nmap \ <Plug>(choosewin)
+
+" vim-easymotion
+" 使う文字
+let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+" Leader に ' を設定
+let g:EasyMotion_leader_key="'"
+" 1 ストローク選択を優先する
+let g:EasyMotion_grouping=1
+" 日本語検索
+let g:EasyMotion_use_migemo = 1
+
+nmap s <Plug>(easymotion-s2)
+xmap s <Plug>(easymotion-s2)
+omap s <Plug>(easymotion-s2)
+nmap S <Plug>(easymotion-t2)
+xmap S <Plug>(easymotion-t2)
+omap S <Plug>(easymotion-t2)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+
+" gitgutter.vim
+let g:gitgutter_sign_added='✚'
+let g:gitgutter_sign_modified='✒'
+let g:gitgutter_sign_removed='✘'
+let g:gitgutter_sign_modified_removed='⚡'
+let g:gitgutter_diff_args='-w --histogram'
+
+" unite.vim
+" 時刻表示形式 → (月) 01/02 午後 03:45
+let g:neomru#time_format='%m/%d %k:%M '
+" 挿入モードで開く
+let g:unite_enable_start_insert=1
+" ロングリストにたくさんファイルを保存
+let g:neomru#file_mru_limit=100000
+" 非同期検索の候補アイテム上限値
+let g:unite_source_file_rec_max_cache_files=100000
+" 画面を縦に分割して開かない
+let g:unite_enable_split_vertically=0
+
+noremap zi :Unite tig<CR>
+noremap zl :Unite outline<CR>
+noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
+noremap zp :Unite buffer_tab file_mru:long<CR>
+noremap zP :Unite output<CR>
+autocmd FileType unite call s:unite_my_settings()
+call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
+call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
+call unite#custom#substitute('files', '^@', '\=getcwd()."/*"', 1)
+call unite#custom#substitute('files', '^;r', '\=$VIMRUNTIME."/"')
+call unite#custom#substitute('files', '^\~', escape($HOME, '\'), -2)
+call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
+call unite#custom#substitute('files', '\\ \@!', '/', -30)
+
+function! s:unite_my_settings()
+    " タブで開く
+    nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
+    inoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
+    " vimfiler で開く
+    nnoremap <silent> <buffer> <expr> <C-O> unite#do_action('vimfiler')
+    inoremap <silent> <buffer> <expr> <C-O> unite#do_action('vimfiler')
+    " dwm.vim で開く
+    nnoremap <silent> <buffer> <expr> <C-N> unite#do_action('dwm_new')
+    inoremap <silent> <buffer> <expr> <C-N> unite#do_action('dwm_new')
+    " rec/async で開く
+    nnoremap <silent> <buffer> <expr> <C-A> unite#do_action('rec/async')
+    inoremap <silent> <buffer> <expr> <C-A> unite#do_action('rec/async')
+    " grep で開く
+    nnoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
+    inoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
+    " 終了
+    nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+    imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+    " インサートモードで上下移動
+    imap <silent> <buffer> <C-K> <Plug>(unite_select_previous_line)
+    imap <silent> <buffer> <C-J> <Plug>(unite_select_next_line)
+    imap <silent> <buffer> <F12> <Plug>(unite_select_next_line)
+    " インサートモードで上下移動
+    imap <silent> <buffer> <C-K> <Plug>(unite_select_previous_line)
+    imap <silent> <buffer> <C-J> <Plug>(unite_select_next_line)
+    imap <silent> <buffer> <F12> <Plug>(unite_select_next_line)
+    " ノーマルモードでソース選択
+    nmap <silent> <buffer> <C-K> <Plug>(unite_rotate_previous_source)
+    nmap <silent> <buffer> <C-J> <Plug>(unite_rotate_next_source)
+    nmap <silent> <buffer> <F12> <Plug>(unite_rotate_next_source)
+    " 一つ上のパスへ
+    imap <buffer> <C-W> <Plug>(unite_delete_backward_path)
+endfunction
+
+let g:unite_enable_igore_case=1
+let g:unite_enable_smart_case=1
+let g:unite_source_grep_command='pt'
+let g:unite_source_grep_default_opts='--nogroup --nocolor'
+let g:unite_source_grep_recursive_opt=''
