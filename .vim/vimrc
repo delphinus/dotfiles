@@ -59,7 +59,6 @@ call s:load_rc('vimshell')           " VimShell 設定
 call s:load_rc('powerline')          " Powerline 設定
 call s:load_rc('jpformat')           " JpFormat 設定
 call s:load_rc('tweetvim')           " TweetVim 設定
-call s:load_rc('jsl')                " jsl 設定
 call s:load_rc('chalice')            " Chalice 設定
 call s:load_rc('easymotion')         " EasyMotion 設定
 call s:load_rc('cmdline-completion') " cmdline-completion 設定
