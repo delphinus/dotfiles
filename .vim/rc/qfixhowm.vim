@@ -75,20 +75,20 @@ let g:QFixHowm_CalendarCount=6
 "-----------------------------------------------------------------------------
 " 一つ分のエントリを選択
 function! s:QFixSelectOneEntry()
-	" save cursor position
-	let save_cursor = getpos('.')
+    " save cursor position
+    let save_cursor = getpos('.')
 
-	JpJoinAll
-	call QFixMRUMoveCursor('prev')
-	let start = getpos('.')
-	call QFixMRUMoveCursor('next')
-	let end = getpos('.')
-	let lines = getline(start[1] + 1, end[1] - 2)
-	let @" = join(lines, "\n")
-	normal u
+    JpJoinAll
+    call QFixMRUMoveCursor('prev')
+    let start = getpos('.')
+    call QFixMRUMoveCursor('next')
+    let end = getpos('.')
+    let lines = getline(start[1] + 1, end[1] - 2)
+    let @" = join(lines, "\n")
+    normal u
 
-	" restore cursor position
-	call setpos('.', save_cursor)
+    " restore cursor position
+    call setpos('.', save_cursor)
 endfunction
 
 noremap <silent> <Plug>(qfixhowm-select_one_entry) :<C-U>call <SID>QFixSelectOneEntry()<CR>
@@ -96,25 +96,86 @@ nmap g,S <Plug>(qfixhowm-select_one_entry)
 
 "-----------------------------------------------------------------------------
 " 一つ前と同じタイトルでエントリを作成
-function s:QFixCopyTitleFromPrevEntry()
-	let save_register = @"
+function! s:QFixCopyTitleFromPrevEntry()
+    let save_register = @"
 
-	call QFixMRUMoveCursor('prev')
-	let title = getline('.')
-	let title = substitute(title, '^= ', '', '')
-	let @" = title
-	call QFixMRUMoveCursor('next')
-	call qfixmemo#Template('next')
-	stopinsert
-	normal! p
-	normal! o
-	startinsert
+    call QFixMRUMoveCursor('prev')
+    let title = getline('.')
+    let title = substitute(title, '^= ', '', '')
+    let @" = title
+    call QFixMRUMoveCursor('next')
+    call qfixmemo#Template('next')
+    stopinsert
+    normal! p
+    normal! o
+    startinsert
 
-	let @" = save_register
+    let @" = save_register
 endfunction
 
 noremap <silent> <Plug>(qfixhowm-copy_title_from_prev_entry) :<C-U>call <SID>QFixCopyTitleFromPrevEntry()<CR>
 nmap g,M <Plug>(qfixhowm-copy_title_from_prev_entry)
+
+"-----------------------------------------------------------------------------
+" http://stackoverflow.com/questions/12325291/parse-a-date-in-vimscript
+function! AdjustDate(date, offset)
+    python <<EOP
+import vim
+import datetime
+
+result = datetime.datetime.strptime(vim.eval('a:date'), '%Y-%m-%d') + \
+    datetime.timedelta(days=int(vim.eval('a:offset')))
+vim.command("let l:result = '" + result.strftime('%Y-%m-%d') + "'")
+EOP
+
+    return result
+endfunction
+
+" 日記移動
+function! s:QFixMoveAroundDiaries(direction)
+    let filename = expand('%:p:r')
+    let ext = expand('%:e')
+    let ymd = matchstr(filename,
+                \ '\c\v^' . g:howm_dir . '/\d+/\d+/\zs\d+-\d+-\d+\ze-\d+$')
+    if ymd == ''
+        echom 'this is not qfixhowm file.'
+        return
+    endif
+
+    let try_max = 30
+    let new_filename = ''
+    for try_count in range(1, try_max)
+        let new_ymd = AdjustDate(ymd, try_count * a:direction)
+        let new_date = matchlist(new_ymd, '\v(\d+)-(\d+)-\d+')
+        let tmp_filename = printf('%s/%04d/%02d/%s-000000.%s',
+                    \ g:howm_dir, new_date[1], new_date[2], new_ymd, ext)
+
+        if filewritable(tmp_filename)
+            let new_filename = tmp_filename
+            break
+        endif
+    endfor
+
+    if new_filename == ''
+        echom 'diary is not found'
+        return
+    endif
+
+    if &modified
+        if exists('g:dwm_version')
+            call DWM_New()
+        else
+            new
+        endif
+    endif
+
+    execute 'edit ' . new_filename
+endfunction
+
+noremap <silent> <Plug>(qfixhowm-move_next_diary) :<C-U>call <SID>QFixMoveAroundDiaries(1)<CR>
+nmap g,> <Plug>(qfixhowm-move_next_diary)
+noremap <silent> <Plug>(qfixhowm-move_prev_diary) :<C-U>call <SID>QFixMoveAroundDiaries(-1)<CR>
+nmap g,< <Plug>(qfixhowm-move_prev_diary)
 
 "-----------------------------------------------------------------------------
 " 半角だけの行は整形しない
