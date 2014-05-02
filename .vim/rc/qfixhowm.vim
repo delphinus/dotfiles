@@ -135,8 +135,13 @@ endfunction
 function! s:QFixMoveAroundDiaries(direction)
     let filename = expand('%:p:r')
     let ext = expand('%:e')
+    let howm = g:howm_dir
+    if has('win16') || has('win32') || has('win64')
+        let filename = substitute(filename, '\\', '/', 'g')
+        let howm = substitute(howm, '\\', '/', 'g')
+    endif
     let ymd = matchstr(filename,
-                \ '\c\v^' . g:howm_dir . '/\d+/\d+/\zs\d+-\d+-\d+\ze-\d+$')
+                \ '\c\v^' . howm . '/\d+/\d+/\zs\d+-\d+-\d+\ze-\d+$')
     if ymd == ''
         echom 'this is not qfixhowm file.'
         return
