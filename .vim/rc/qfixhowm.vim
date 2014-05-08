@@ -181,6 +181,8 @@ noremap <silent> <Plug>(qfixhowm-move_next_diary) :<C-U>call <SID>QFixMoveAround
 nmap g,> <Plug>(qfixhowm-move_next_diary)
 noremap <silent> <Plug>(qfixhowm-move_prev_diary) :<C-U>call <SID>QFixMoveAroundDiaries(-1)<CR>
 nmap g,< <Plug>(qfixhowm-move_prev_diary)
+execute 'autocmd FileType ' . QFixHowm_FileType . ' nmap ]] <Plug>(qfixhowm-move_next_diary)'
+execute 'autocmd FileType ' . QFixHowm_FileType . ' nmap [[ <Plug>(qfixhowm-move_prev_diary)'
 
 "-----------------------------------------------------------------------------
 " 半角だけの行は整形しない
