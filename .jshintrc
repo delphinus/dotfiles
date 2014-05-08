@@ -27,6 +27,7 @@
     "maxstatements": false,
     "maxcomplexity": false,
     "maxlen": false,
+    "validthis": true,
 
     /* Environments */
     "browser": true,
