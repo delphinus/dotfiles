@@ -32,7 +32,7 @@ nmap -builtin # :b #<CR>
 nmap -builtin <C-m> :buffer mail<CR>
 "
 set go-=br
-set go+=BT
+set go+=T
 
 " スクロール量
 set scroll=5
