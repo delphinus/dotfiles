@@ -54,6 +54,7 @@ set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\
 " }}}
 
 " 画面表示 {{{
+set ambiwidth=single     " 文字幅の指定が曖昧なときは半角と見なす
 set t_Co=256             " 256 色表示ターミナル対応
 set nocursorline         " カーソル行を強調表示しない
 set showcmd              " コマンド、及び選択範囲の表示

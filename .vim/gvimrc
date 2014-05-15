@@ -7,18 +7,16 @@ if has('win32')
     set undodir=C:\cygwin\tmp
     set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
     set listchars=tab:█\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
-    set ambiwidth=single              " 特殊文字に半角文字を使う
 endif
 
 if has('mac')
-    set guifont=Ricty_Discord:h13
+    set guifont=Ricty_Discord:h18
     set antialias                     " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
     set macmeta                       " option キーを alt キーとして使う
     set transparency=5                " 画面を半透明にする
     set listchars=tab:»\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
                                       " 空白の可視化
-    set ambiwidth=double              " 特殊文字に全角文字を使う
     if g:is_remora_air2
         au GUIEnter * set fullscreen  " 起動時にフルスクリーン
     endif
