@@ -26,9 +26,7 @@ alias pt=pt_darwin
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
-export PATH="/usr/local/Cellar/ruby/2.0.0-p247/bin:\
-$HOME/.gem/ruby/2.0.0/bin:\
-/usr/local/mysql/bin:\
+export PATH="/usr/local/mysql/bin:\
 $HOME/Dropbox/bin:\
 $HOME/bin:\
 $HOME/git/dotfiles/bin:\
@@ -45,11 +43,19 @@ export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
 export MYPERL=`which perl`
 
 # for python
+export PYENV_ROOT=/usr/local/opt/pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 eval "$(pyenv init -)"
 
 # for plenv
+export PLENV_ROOT=/usr/local/opt/plenv
 if which plenv > /dev/null; then eval "$(plenv init -)"; fi
+eval "$(plenv init -)"
+
+# for ruby
+export RBENV_ROOT=/usr/local/opt/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+eval "$(rbenv init -)"
 
 # powerline
 module_path=($module_path /usr/local/lib/zpython)
@@ -60,3 +66,5 @@ autoload -U add-zsh-hook
 export SYS_NOTIFIER=`which terminal-notifier`
 export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
 source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
+
+export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
