@@ -45,7 +45,10 @@ export MYPERL=`which perl`
 # for python
 export PYENV_ROOT=/usr/local/opt/pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-eval "$(pyenv init -)"
+
+# for ruby
+export RBENV_ROOT=/usr/local/opt/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # for plenv
 export PLENV_ROOT=/usr/local/opt/plenv
