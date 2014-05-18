@@ -25,6 +25,7 @@ if has('mac')
     let $DISPLAY=':0'
 endif
 
+set background=dark             " 背景は黒
 set printfont=Ricty_Discord:h10 " 印刷用フォント
 set printoptions=number:y       " 印刷時に行番号を付ける
 set visualbell                  " ビープ音を使わず画面をフラッシュさせる
