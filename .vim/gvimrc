@@ -1,15 +1,14 @@
 "source $VIMRUNTIME/delmenu.vim " メニューを表示しない
 
 if has('win32')
-    set guifont=Ricty_Discord:h10
+    set guifont=Ricty_Discord:h14
     set dir=C:\cygwin\tmp
     set backupdir=C:\cygwin\tmp
     set undodir=C:\cygwin\tmp
     set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
     set listchars=tab:█\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
-endif
 
-if has('mac')
+elseif has('mac')
     set guifont=Ricty_Discord:h18
     set antialias                     " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
@@ -25,6 +24,7 @@ if has('mac')
     let $DISPLAY=':0'
 endif
 
+set ambiwidth=single            " 文字幅が曖昧なときは半角と見なす
 set background=dark             " 背景は黒
 set printfont=Ricty_Discord:h10 " 印刷用フォント
 set printoptions=number:y       " 印刷時に行番号を付ける
