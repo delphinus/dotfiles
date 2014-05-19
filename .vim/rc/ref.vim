@@ -30,15 +30,13 @@ function! RefPerlModuleEdit(...)
     execute 'edit ' . res.stdout
 endfunction
 
-" <Plug>(ref-source-perldoc-switch) を再定義。yankstack とバッティングするため。
+" <Plug>(ref-source-perldoc-switch) を再定義
 augroup vimrc-plugin-ref
     autocmd!
-    autocmd FileType ref vertical resize 80<CR>
-    autocmd FileType ref nnoremap <silent> <buffer> <Leader>rv :vert res 80<CR>
-    autocmd FileType ref nnoremap <silent> <buffer> <expr> S
+    autocmd FileType ref nnoremap <silent> <buffer> <expr> O
                 \ b:ref_source ==# 'perldoc' ?
                 \ ":\<C-u>call RefPerlModuleEdit()\<CR>" : "\<Nop>"
-    autocmd FileType ref nnoremap <silent> <buffer> <expr> s
+    autocmd FileType ref nnoremap <silent> <buffer> <expr> o
                 \ b:ref_source ==# 'perldoc' ?
                 \ (b:ref_perldoc_mode ==# 'module' ? ":\<C-u>Ref perldoc -m " .
                 \   b:ref_perldoc_word . "\<CR>" :
