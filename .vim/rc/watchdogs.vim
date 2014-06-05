@@ -12,8 +12,8 @@ let g:quickrun_config['watchdogs_checker/jshint'] = {
             \ 'cmdopt': '--config ' . g:home . '/git/dotfiles/.jshintrc'
             \ }
 
-let cargon = expand('/usr/local/opt/plenv/shims/carton')
-if executable(myperl)
+let carton = expand('/usr/local/opt/plenv/shims/carton')
+if executable(carton)
     let g:quickrun_config['watchdogs_checker/perl'] = {
                 \ 'command': carton,
                 \ 'cmdopt': 'exec -- perl -Ilib',
