@@ -1,3 +1,44 @@
+function! s:MakeTmpFile(txt)
+    let tmpfile = tempname()
+    execute 'redir! > ' . tmpfile
+    echo a:txt
+    redir END
+    return tmpfile
+endfunction
+
+"-----------------------------------------------------------------------------
+" Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
+" http://qiita.com/kefir_/items/515ed5264fce40dec522
+function! s:Paste64Copy() range
+    let l:tmp = @@
+    silent normal gvy
+    let l:selected = @@
+    let l:i = 0
+    let l:len = strlen(l:selected)
+    let l:escaped = ''
+    while l:i < l:len
+        let l:c = strpart(l:selected, l:i, 1)
+        let l:escaped .= printf("\\u%04x", char2nr(l:c))
+        let l:i = l:i + 1
+    endwhile
+    if $TMUX != ""
+        "tmuxのとき
+        call system('printf "\x1bPtmux;\x1b\x1b]52;;%s\x1b\x1b\\\\\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
+    elseif $TERM == "screen"
+        "GNU Screenのとき
+        call system('printf "\x1bP\x1b]52;;%s\x07\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
+    elseif $TERM =~ "^dvtm" || $DVTM
+        "dvtmのとき
+        let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `echo -en "%s" | base64 -w0`', l:selected)
+        execute '!sh ' . s:MakeTmpFile(cmd)
+    else
+        call system('printf "\x1b]52;;%s\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
+    endif
+    redraw!
+endfunction
+
+command! -range Paste64Copy :call s:Paste64Copy()
+
 " 対応ターミナル以外なら帰る
 if &term !~ "screen" && &term !~ "xterm" && &term !~ "dvtm"
     finish
@@ -49,6 +90,11 @@ elseif &term =~ "xterm"
     imap <expr> \e[200~ XTermPasteBegin("")
     cmap \e[200~ <nop>
     cmap \e[201~ <nop>
+
+" dvtm の場合
+elseif &term =~ "dvtm"
+    let &t_SI = "\e]12;rgb:00/5f/ff\e\\"
+    let &t_EI = "\e]12;rgb:83/7b/65\e\\"
 endif
 
 let &pastetoggle = "\e[201~"
