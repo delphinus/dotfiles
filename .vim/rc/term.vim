@@ -94,8 +94,8 @@ elseif &term =~ "xterm"
 
 " dvtm の場合
 elseif &term =~ "dvtm"
-    let &t_SI = "\e]12;rgb:00/5f/ff\e\\"
-    let &t_EI = "\e]12;rgb:83/7b/65\e\\"
+    let &t_SI = "\e]12;#005fff\e\\"
+    let &t_EI = "\e]12;#837b65\e\\"
 endif
 
 let &pastetoggle = "\e[201~"
