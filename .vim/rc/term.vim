@@ -1,3 +1,6 @@
+"-----------------------------------------------------------------------------
+" Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
+" http://qiita.com/kefir_/items/515ed5264fce40dec522
 function! s:MakeTmpFile(txt)
     let tmpfile = tempname()
     execute 'redir! > ' . tmpfile
@@ -6,9 +9,6 @@ function! s:MakeTmpFile(txt)
     return tmpfile
 endfunction
 
-"-----------------------------------------------------------------------------
-" Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
-" http://qiita.com/kefir_/items/515ed5264fce40dec522
 function! s:Paste64Copy() range
     let l:tmp = @@
     silent normal gvy
@@ -29,7 +29,8 @@ function! s:Paste64Copy() range
         call system('printf "\x1bP\x1b]52;;%s\x07\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
     elseif $TERM =~ "^dvtm" || $DVTM
         "dvtmのとき
-        let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `echo -en "%s" | base64 -w0`', l:selected)
+        let tmpfile = s:MakeTmpFile(l:selected)
+        let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `base64 -w0 %s`', tmpfile)
         execute '!sh ' . s:MakeTmpFile(cmd)
     else
         call system('printf "\x1b]52;;%s\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
