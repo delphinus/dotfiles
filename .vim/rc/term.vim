@@ -91,11 +91,6 @@ elseif &term =~ "xterm"
     imap <expr> \e[200~ XTermPasteBegin("")
     cmap \e[200~ <nop>
     cmap \e[201~ <nop>
-
-" dvtm の場合
-elseif &term =~ "dvtm"
-    let &t_SI = "\e]12;#005fff\e\\"
-    let &t_EI = "\e]12;#837b65\e\\"
 endif
 
 let &pastetoggle = "\e[201~"
