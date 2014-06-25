@@ -219,9 +219,8 @@ NeoBundleLazy 'delphinus35/chalice', {'autoload': {'commands': ['Chalice']}}
 if has('macunix')
     NeoBundle 'msanders/cocoa.vim'
     NeoBundle 'troydm/pb.vim'
-else
-    NeoBundleLazy 'msanders/cocoa.vim'
-    NeoBundleLazy 'troydm/pb.vim'
+    NeoBundle 'rizzatti/dash.vim'
+    NeoBundle 'ryutorion/vim-itunes'
 endif
 
 " github にないプラグイン
