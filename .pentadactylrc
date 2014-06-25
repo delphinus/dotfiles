@@ -46,9 +46,9 @@ set editor="/Applications/MacVim.app/Contents/MacOS/Vim -g -f"
 
 " ツールバーとタブをトグル
 " http://d.hatena.ne.jp/oogatta/20110910/1315653308
-map <C-S-t> ;toolbartoggle ナビゲーションツールバー<CR>
+"map <C-S-t> :toolbartoggle ナビゲーションツールバー<CR>
 " タブをトグル
-map <C-t> ;se stal!=always,never<CR>
+"map <C-t> :se stal!=always,never<CR>
 
 " Gmail 対応
 "set passkeys+=mail.google.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjk lmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
@@ -60,6 +60,13 @@ set passkeys+=mail.google.com:'`~!$*+-./<C-Down><C-s><Enter>?INU[]acewjk lmnoprs
 set passkeys+=www.google.com/calendar:'kpjnrt12345dwmxace<Backspace><Delete><C-z>z/+s<C-?>?'
 " live.com
 set passkeys+=live.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjk lmnoprsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
+" github.com
+set passkeys+='github(?:(?:\.[-a-z\d]+)+|\.com)':'/?LMPceijkloprstuwxy',gc,gi,gn,gp
+
+" github のための代替
+nmap <c-t> :tabopen 
+nmap <c-s> :open google 
+nmap Y y
 
 " http://vimperator.g.hatena.ne.jp/teramako/20090311/1236776437
 " ime-controller.jsの代わり
