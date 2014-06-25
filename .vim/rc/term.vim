@@ -77,7 +77,7 @@ elseif &term =~ "screen"
     cmap \e[201~ <nop>
 
 " xterm の場合
-elseif &term =~ "xterm"
+elseif &term =~ 'xterm\|dvtm'
     " iTerm2 の時のみカーソル形状を変える
     if is_remora
         let &t_SI = "\e]50;CursorShape=1\x7"
