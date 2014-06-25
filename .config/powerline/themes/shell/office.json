@@ -17,10 +17,6 @@
 				"only_if_ssh": false
 			}
 		},
-		"mode": {
-			"vicmd": "N",
-			"viins": "I"
-		},
 		"virtualenv": {
 			"before": "ⓔ  "
 		}

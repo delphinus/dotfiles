@@ -16,6 +16,7 @@
 		"file_directory":           { "fg": "gray61", "bg": "darkgreencopper" },
 		"current_directory":        { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"file_name":                { "fg": "lightyellow", "bg": "darkgreencopper", "attr": ["bold"] },
+		"window_title":             { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"file_size":                { "fg": "lightyellow", "bg": "darkgreencopper" },
 		"file_name_no_file":        { "fg": "lightyellow", "bg": "darkgreencopper", "attr": ["bold"] },
 		"file_name_empty":          { "fg": "lightyellow", "bg": "darkgreencopper" },

@@ -1,21 +1,23 @@
 {
 	"name": "Solarized Dark",
 	"groups": {
-		"jobnum":             { "fg": "oldlace", "bg": "darkgreencopper" },
-		"user":               { "fg": "oldlace", "bg": "blue", "attr": ["bold"] },
-		"superuser":          { "fg": "oldlace", "bg": "red", "attr": ["bold"] },
-		"virtualenv":         { "fg": "oldlace", "bg": "green" },
-		"branch":             { "fg": "gray61", "bg": "gray2" },
-		"branch_dirty":       { "fg": "yellow", "bg": "gray2" },
-		"branch_clean":       { "fg": "gray61", "bg": "gray2" },
-		"cwd":                { "fg": "lightyellow", "bg": "darkgreencopper" },
-		"cwd:current_folder": { "fg": "oldlace", "bg": "darkgreencopper", "attr": ["bold"] },
-		"cwd:divider":        { "fg": "gray61", "bg": "darkgreencopper" },
-		"hostname":           { "fg": "lightyellow", "bg": "orange" },
-		"exit_fail":          { "fg": "oldlace", "bg": "red" },
-		"exit_success":       { "fg": "oldlace", "bg": "green" },
-		"environment":        { "fg": "oldlace", "bg": "green" },
-		"mode": { "fg": "darkestgreen", "bg": "brightgreen", "attr": ["bold"] }
+		"jobnum":               { "fg": "oldlace", "bg": "darkgreencopper" },
+		"user":                 { "fg": "oldlace", "bg": "blue", "attr": ["bold"] },
+		"superuser":            { "fg": "oldlace", "bg": "red", "attr": ["bold"] },
+		"virtualenv":           { "fg": "oldlace", "bg": "green" },
+		"branch":               { "fg": "gray61", "bg": "gray2" },
+		"branch_dirty":         { "fg": "yellow", "bg": "gray2" },
+		"branch_clean":         { "fg": "gray61", "bg": "gray2" },
+		"continuation":         { "fg": "gray9", "bg": "gray4" },
+		"continuation:current": { "fg": "gray10", "bg": "gray4", "attr": ["bold"] },
+		"cwd":                  { "fg": "lightyellow", "bg": "darkgreencopper" },
+		"cwd:current_folder":   { "fg": "oldlace", "bg": "darkgreencopper", "attr": ["bold"] },
+		"cwd:divider":          { "fg": "gray61", "bg": "darkgreencopper" },
+		"hostname":             { "fg": "lightyellow", "bg": "orange" },
+		"exit_fail":            { "fg": "oldlace", "bg": "red" },
+		"exit_success":         { "fg": "oldlace", "bg": "green" },
+		"environment":          { "fg": "oldlace", "bg": "green" },
+		"mode":                 { "fg": "darkestgreen", "bg": "brightgreen", "attr": ["bold"] }
 	},
 	"mode_translations": {
 		"vicmd": {

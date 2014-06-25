@@ -12,11 +12,9 @@
 			}
 		},
 		"spaces": 1,
-		"ambiwidth": 1,
 		"paths": [
-			"~/.config/powerline"
-		],
-		"log_file": "/tmp/powerline.log"
+			"/Users/delphinus/git/dotfiles/.config/powerline"
+		]
 	},
 	"ext": {
 		"ipython": {
@@ -30,31 +28,28 @@
 		},
 		"shell": {
 			"colorscheme": "custom",
-			"theme": "custom"
+			"theme": "office",
+			"local_themes": {
+				"continuation": "continuation",
+				"select": "select"
+			}
 		},
 		"tmux": {
-			"colorscheme": "custom",
-			"theme": "home"
+			"colorscheme": "default",
+			"theme": "default"
 		},
 		"vim": {
 			"colorscheme": "custom-default",
-			"theme": "custom",
+			"theme": "custom-default",
 			"local_themes": {
 				"cmdwin": "cmdwin",
 				"help": "help",
 				"quickfix": "quickfix",
+
 				"powerline.matchers.plugin.nerdtree.nerdtree": "plugin_nerdtree",
 				"powerline.matchers.plugin.ctrlp.ctrlp": "plugin_ctrlp",
 				"powerline.matchers.plugin.gundo.gundo": "plugin_gundo",
-				"powerline.matchers.plugin.gundo.gundo_preview": "plugin_gundo-preview",
-				"ext.vim.matcher.unite": "unite",
-				"ext.vim.matcher.gitcommit": "gitcommit",
-				"ext.vim.matcher.calc": "calc",
-				"ext.vim.matcher.fugitive": "fugitive",
-				"ext.vim.matcher.calendar": "calendar",
-				"ext.vim.matcher.vimshell": "vimshell",
-				"ext.vim.matcher.iexe_mysql": "iexe_mysql",
-				"ext.vim.matcher.ref_perldoc": "ref_perldoc"
+				"powerline.matchers.plugin.gundo.gundo_preview": "plugin_gundo-preview"
 			}
 		},
 		"wm": {
