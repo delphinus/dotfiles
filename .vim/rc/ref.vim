@@ -4,6 +4,7 @@ let g:ref_open=':vsp'
 let g:ref_alc_start_linenumber=42
 noremap <Leader>rm :Unite ref/man<CR>
 noremap <Leader>rp :Unite ref/perldoc<CR>
+noremap <Leader>rr :Unite ref/refe<CR>
 autocmd FileType ref call s:initialize_ref_viewer()
 function! s:initialize_ref_viewer()
     noremap <buffer><C-T> :Unite tab<CR>
