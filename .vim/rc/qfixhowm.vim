@@ -119,7 +119,7 @@ nmap g,M <Plug>(qfixhowm-copy_title_from_prev_entry)
 "-----------------------------------------------------------------------------
 " http://stackoverflow.com/questions/12325291/parse-a-date-in-vimscript
 function! AdjustDate(date, offset)
-    python <<EOP
+    python3 <<EOP
 import vim
 import datetime
 
