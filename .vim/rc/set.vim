@@ -66,7 +66,8 @@ set relativenumber       " 相対行番号を表示する
 set number               " 現在行の行番号を表示する
 set numberwidth=3        " 行番号の幅は 3 桁
 set list                 " 空白の可視化
-set nowrap               " ウィンドウの幅が足りなくても折り返さない
+set wrap                 " ウィンドウの幅が足りないときは折り返す
+set breakindent          " 折り返し時にインデントする
 execute 'set colorcolumn=' . join(range(81, 9999), ',')
                          " 81 桁目より後をハイライト
 noremap <Plug>(ToggleColorColumn)
@@ -113,8 +114,8 @@ set nrformats=                    " 5-5 10進数で数字の上げ下げ
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-set showbreak=\ +\                " 折り返したときに行頭に文字を表示
-set cpoptions+=n
+"set showbreak=\ +\                " 折り返したときに行頭に文字を表示
+"set cpoptions+=n
 
 set updatetime=1000               " スワップファイルが書き込まれるまでの時間。
 
