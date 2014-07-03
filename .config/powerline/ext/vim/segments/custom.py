@@ -54,7 +54,7 @@ def get_char_code(pl):
 		return 'NUL'
 
 	fenc = vim.eval('&fileencoding')
-	nrformat = u"'{}' " + (u'{:#06x}' if fenc == 'utf-8' else u'{:#04x}')
+	nrformat = "'{}' " + ('{:#06x}' if fenc == 'utf-8' else '{:#04x}')
 
 	# Get the character and the numeric value from the return value of :ascii
 	# This matches the two first pieces of the return value, e.g.

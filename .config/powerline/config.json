@@ -28,7 +28,7 @@
 		},
 		"shell": {
 			"colorscheme": "custom",
-			"theme": "office",
+			"theme": "custom",
 			"local_themes": {
 				"continuation": "continuation",
 				"select": "select"
@@ -40,7 +40,7 @@
 		},
 		"vim": {
 			"colorscheme": "custom-default",
-			"theme": "custom-default",
+			"theme": "custom",
 			"local_themes": {
 				"cmdwin": "cmdwin",
 				"help": "help",

@@ -29,10 +29,11 @@
 	"segments": {
 		"left": [
 			{
-				"module": "powerline.segments.shell",
+				"module": "ext.segments",
 				"name": "mode"
 			},
 			{
+				"module": "ext.segments",
 				"name": "hostname"
 			},
 			{

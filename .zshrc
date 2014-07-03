@@ -47,16 +47,18 @@ export MYPERL=`which perl`
 
 # for python
 export PYENV_ROOT=/usr/local/opt/pyenv
+export PATH=$PYENV_ROOT/bin:$PATH
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
 # for ruby
 export RBENV_ROOT=/usr/local/opt/rbenv
+export PATH=$RBENV_ROOT/bin:$PATH
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # for plenv
 export PLENV_ROOT=/usr/local/opt/plenv
+export PATH=$PLENV_ROOT/bin:$PATH
 if which plenv > /dev/null; then eval "$(plenv init -)"; fi
-eval "$(plenv init -)"
 
 # powerline
 module_path=($module_path /usr/local/lib/zpython)
