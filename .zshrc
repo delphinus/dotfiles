@@ -1,4 +1,6 @@
 source $HOME/git/dotfiles/.zsh/basic.zshrc
+source $HOME/git/dotfiles/.zsh/peco-select-history.zsh
+source $HOME/git/dotfiles/bin/set-ssh-auth-sock.sh
 
 export PAGER=vimpager
 export VIMPAGER_RC=$HOME/.vim/vimpagerrc
@@ -14,6 +16,7 @@ alias dircolors=gdircolors
 eval `TERM=xterm-256color dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
+alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 
 export PAGER='vimpager'
 alias vp='vimpager'
@@ -54,11 +57,6 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PLENV_ROOT=/usr/local/opt/plenv
 if which plenv > /dev/null; then eval "$(plenv init -)"; fi
 eval "$(plenv init -)"
-
-# for ruby
-export RBENV_ROOT=/usr/local/opt/rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-eval "$(rbenv init -)"
 
 # powerline
 module_path=($module_path /usr/local/lib/zpython)
