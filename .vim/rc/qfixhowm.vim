@@ -1,5 +1,7 @@
 " QFixMemo 設定
-if is_vm
+if is_remora_office
+    let g:dropbox_dir='/home/delphinus/Dropbox'
+elseif is_vm
     let g:dropbox_dir='/mnt/hgfs/Dropbox'
 elseif is_xerxes
     let g:dropbox_dir='D:/Dropbox'
@@ -18,7 +20,7 @@ endif
 " キーマップリーダー
 let QFixHowm_Key='g'
 " ファイル保存用
-if is_office_win || is_office_cygwin || is_remora || is_backup || is_vm
+if is_office_win || is_office_cygwin || is_remora || is_backup || is_vm || is_remora_office
     let howm_dir=g:dropbox_dir . '/Write'
 elseif is_office
     let howm_dir=expand('$H') . '/howm'
@@ -40,7 +42,7 @@ let QFixHowm_DiaryFile='%Y/%m/%Y-%m-%d-000000.txt'
 if is_office_win
     let mygrepprg='c:/cygwin/bin/grep.exe'
     let MyGrep_cygwin17=1
-elseif is_office || is_backup
+elseif is_office || is_backup || is_remora_office
     let mygrepprg='/bin/grep'
 else
     let mygrepprg='/usr/bin/grep'

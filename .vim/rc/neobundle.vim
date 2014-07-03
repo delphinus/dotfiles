@@ -44,17 +44,18 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
     \ }
 
 " プラグイン（github） {{{
-NeoBundle 'Kocha/vim-unite-tig',          { 'depends': ['Shougo/unite.vim']}
-NeoBundle 'Shougo/neomru.vim',            { 'depends': ['Shougo/unite.vim']}
-NeoBundle 'Shougo/unite-outline',         { 'depends': ['Shougo/unite.vim']}
-NeoBundle 'hakobe/unite-script-examples', { 'depends': ['Shougo/unite.vim']}
-NeoBundle 'kannokanno/unite-dwm',         { 'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
-NeoBundle 'osyo-manga/unite-qfixhowm',    { 'depends': ['Shougo/unite.vim']}
-NeoBundle 'tsukkee/unite-tag',            { 'depends': ['Shougo/unite.vim']}
+NeoBundle 'Kocha/vim-unite-tig',          {'depends': ['Shougo/unite.vim']}
+NeoBundle 'Shougo/neomru.vim',            {'depends': ['Shougo/unite.vim']}
+NeoBundle 'Shougo/unite-outline',         {'depends': ['Shougo/unite.vim']}
+NeoBundle 'hakobe/unite-script-examples', {'depends': ['Shougo/unite.vim']}
+NeoBundle 'kannokanno/unite-dwm',         {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
+NeoBundle 'osyo-manga/unite-qfixhowm',    {'depends': ['Shougo/unite.vim']}
+NeoBundle 'rhysd/unite-ruby-require.vim', {'depends': ['Shougo/unite.vim']}
+NeoBundle 'tsukkee/unite-tag',            {'depends': ['Shougo/unite.vim']}
 
-NeoBundle 'Shougo/vimfiler',              { 'depends': ['Shougo/vimproc.vim']}
-NeoBundle 'Shougo/vimshell',              { 'depends': ['Shougo/vimproc.vim']}
-NeoBundle 'osyo-manga/vim-watchdogs',     { 'depends': [
+NeoBundle 'Shougo/vimfiler',              {'depends': ['Shougo/vimproc.vim']}
+NeoBundle 'Shougo/vimshell',              {'depends': ['Shougo/vimproc.vim']}
+NeoBundle 'osyo-manga/vim-watchdogs',     {'depends': [
             \   'Shougo/vimproc.vim',
             \   'dannyob/quickfixstatus',
             \   'jceb/vim-hier',
@@ -82,10 +83,13 @@ NeoBundle 'morhetz/gruvbox'
 NeoBundle 'motemen/xslate-vim'
 NeoBundle 'nishigori/increment-activator'
 NeoBundle 'reedes/vim-colors-pencil'
+NeoBundle 'rhysd/neco-ruby-keyword-args', { 'depends': ['Shougo/neocomplete']}
+NeoBundle 'rhysd/vim-textobj-ruby',       { 'depends': ['kana/vim-textobj-user']}
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 't9md/vim-choosewin'
 NeoBundle 'thinca/vim-fontzoom'
 NeoBundle 'thinca/vim-ref'
+NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-unimpaired'

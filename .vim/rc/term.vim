@@ -33,7 +33,9 @@ function! s:Paste64Copy() range
         let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `base64 -w0 %s`', tmpfile)
         execute '!sh ' . s:MakeTmpFile(cmd)
     else
-        call system('printf "\x1b]52;;%s\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
+        let tmpfile = s:MakeTmpFile(l:selected)
+        let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `base64 -w0 %s`', tmpfile)
+        execute '!sh ' . s:MakeTmpFile(cmd)
     endif
     redraw!
 endfunction

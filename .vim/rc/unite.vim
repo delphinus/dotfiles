@@ -28,6 +28,7 @@ noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
 noremap zp :Unite dwm buffer_tab file_mru:long<CR>
 noremap zP :Unite output<CR>
+noremap zr :Unite ruby/require<CR>
 noremap zy :Unite yankround<CR>
 autocmd FileType unite call s:unite_my_settings()
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
@@ -101,22 +102,27 @@ nnoremap zu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
 nnoremap zG :<C-u>UniteResume search-buffer<CR>
 
 " unite grep に ag(The Silver Searcher) を使う
+let is_32bit = system('uname -m')
 if has('macunix') && executable('pt_darwin')
-  let g:unite_source_grep_command = 'pt_darwin'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_command = 'pt_darwin'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
 elseif has('win64') && executable('pt')
-  let g:unite_source_grep_command = 'pt'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_command = 'pt'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
+elseif has('unix') && executable('pt_linux32') && system('uname -m') == "i686\n"
+    let g:unite_source_grep_command = 'pt_linux32'
+    let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
 elseif has('unix') && executable('pt_linux')
-  let g:unite_source_grep_command = 'pt_linux'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_command = 'pt_linux'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
 elseif executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '-a --nogroup --nocolor --column'
-  let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '-a --nogroup --nocolor --column'
+    let g:unite_source_grep_recursive_opt = ''
 endif
 
 " unite-tag 設定

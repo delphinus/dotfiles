@@ -7,6 +7,7 @@ let g:is_vm = isdirectory('/mnt/hgfs')
 let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
 let g:is_remora_air2 = hostname() =~ '^remora-air2'
+let g:is_remora_office = hostname() == 'remora-office'
 let g:is_backup = hostname() =~ 'orcinus.remora.cx'
 let g:is_office = hostname() !~ 'remora' && len($H) > 0 && has('unix')
 let g:is_office_win = len($USERDOMAIN) && has('win32')
@@ -87,7 +88,7 @@ endif
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
-if is_office && filereadable(g:office_vimrc)
+if (is_remora_office || is_office) && filereadable(g:office_vimrc)
     execute 'source ' . g:office_vimrc
 endif
 

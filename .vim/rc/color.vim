@@ -108,7 +108,6 @@ function! s:ParseRGB(type)
     if failed || len(rgb) != 3
         return 0
     else
-        let rgb = reverse(rgb)
         return rgb
     endif
 endfunction

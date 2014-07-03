@@ -26,6 +26,7 @@ setopt transient_rprompt # 最後以外の右プロンプトを消す
 setopt auto_cd           # ディレクトリ名だけで移動する
 setopt EXTENDED_GLOB     # 色んな glob
 setopt HIST_IGNORE_SPACE # 最初にスペースのあるコマンドを履歴に追加しない
+setopt inc_append_history hist_ignore_dups # 複数のターミナルで history を共有する
 
 # 補完で大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
