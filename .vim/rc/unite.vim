@@ -69,9 +69,11 @@ function! s:unite_my_settings()
     " grep で開く
     nnoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
     inoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
-    " 終了
+    " 終了して一つ前に戻る
     nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
     imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+    " Unite ウィンドウを閉じる
+    imap <silent> <buffer> <C-C> <Esc><C-C>
     " インサートモードで上下移動
     imap <silent> <buffer> <C-K> <Plug>(unite_select_previous_line)
     imap <silent> <buffer> <C-J> <Plug>(unite_select_next_line)
