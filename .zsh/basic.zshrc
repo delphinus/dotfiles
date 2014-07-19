@@ -35,3 +35,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 stty -ixon -ixoff
 # disable <C-Z>
 stty susp undef
+
+# MacVimにzshの環境変数読み込ませる方法 - エンジニアですよ！
+# http://totem3.hatenablog.jp/entry/2013/10/17/055942
+typeset -U name_of_the_variable

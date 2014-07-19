@@ -1,0 +1,20 @@
+export PATH="/usr/local/opt/go/libexec/bin:\
+/Users/delphinus/go/bin:\
+/usr/local/opt/plenv/shims:\
+/usr/local/opt/plenv/bin:\
+/usr/local/opt/rbenv/shims:\
+/usr/local/opt/rbenv/bin:\
+/usr/local/opt/pyenv/shims:\
+/usr/local/opt/pyenv/bin:\
+/Users/delphinus/.vim/bundle/perlomni.vim/bin:\
+/usr/local/mysql/bin:\
+/Users/delphinus/Dropbox/bin:\
+/Users/delphinus/bin:\
+/Users/delphinus/git/dotfiles/bin:\
+/usr/local/sbin:\
+/usr/local/bin:\
+/bin:\
+/usr/sbin:\
+/sbin:\
+/usr/bin:\
+/usr/X11/bin"
