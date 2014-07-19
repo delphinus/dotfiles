@@ -60,6 +60,10 @@ export PLENV_ROOT=/usr/local/opt/plenv
 export PATH=$PLENV_ROOT/bin:$PATH
 if which plenv > /dev/null; then eval "$(plenv init -)"; fi
 
+# for go
+export GOPATH=$HOME/go
+export PATH=/usr/local/opt/go/libexec/bin:$GOPATH/bin:$PATH
+
 # powerline
 module_path=($module_path /usr/local/lib/zpython)
 . $HOME/git/powerline/powerline/bindings/zsh/powerline.zsh
