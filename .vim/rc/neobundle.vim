@@ -97,6 +97,7 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler', {'depends': ['vim-scripts/ingo-library']}
+NeoBundle 'vim-scripts/nginx.vim'
 NeoBundle 'vim-scripts/visualrepeat'
 
 " {{{
