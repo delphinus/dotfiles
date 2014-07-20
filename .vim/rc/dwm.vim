@@ -9,7 +9,6 @@ nmap <C-N> <Plug>DWMNew
 nmap <C-C> <Plug>DWMClose
 nmap <C-@> <Plug>DWMFocus
 nmap <C-Space> <Plug>DWMFocus
-nmap <f10> <Plug>DWMFocus
 nmap <C-L> <Plug>DWMGrowMaster
 nmap <C-H> <Plug>DWMShrinkMaster
 nmap <BS>  <Plug>DWMShrinkMaster
