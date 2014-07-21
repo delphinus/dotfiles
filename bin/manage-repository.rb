@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# -*- coding: utf-8 -*-
 
 require 'logger'
 require 'optparse'
@@ -22,26 +21,26 @@ class MyOptions
       opts.banner = "Usage: #{File.basename($0)} [options] repository_name"
 
       opts.on '-v', '--[no-]verbose',
-          "Run verbosely (default: #{options.verbose}" do |v|
-        options[:verbose] = v
+          "Run verbosely (default: #{options.verbose})" do |v|
+        options.verbose = v
       end
 
       opts.on '-o HOST', '--host', "git host (default: #{options.host})" do |v|
-        options[:host] = v
+        options.host = v
       end
 
       opts.on '-u USER', '--user', "git user (default: #{options.user})" do |v|
-        options[:user] = v
+        options.user = v
       end
 
       opts.on '-d DESCRIPTION', '--description',
           %Q.git description (default: "#{options.description}".  do |v|
-        options[:description] = v
+        options.description = v
       end
 
       opts.on '-m MODE', '--mode',
           "Select mode (#{MODES.join(',')}) (default: #{options.mode})" do |v|
-        options[:mode] = :"#{v}"
+        options.mode = :"#{v}"
       end
 
       opts.on_tail '-h', '--help', 'Show this message' do
