@@ -58,7 +58,7 @@ NeoBundle 'Shougo/vimshell',              {'depends': ['Shougo/vimproc.vim']}
 NeoBundle 'osyo-manga/vim-watchdogs',     {'depends': [
             \   'Shougo/vimproc.vim',
             \   'dannyob/quickfixstatus',
-            \   'jceb/vim-hier',
+            \   'cohama/vim-hier',
             \   'osyo-manga/shabadou.vim',
             \   'thinca/vim-quickrun',
             \ ]}
@@ -90,6 +90,7 @@ NeoBundle 't9md/vim-quickhl'
 NeoBundle 't9md/vim-choosewin'
 NeoBundle 'thinca/vim-fontzoom'
 NeoBundle 'thinca/vim-ref'
+NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-repeat'
