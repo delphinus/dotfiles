@@ -109,3 +109,11 @@ command! SyntaxInfo call s:get_syn_info()
 "-----------------------------------------------------------------------------
 " Javascript のたたみ込み
 autocmd FileType javascript call JavaScriptFold()
+
+"-----------------------------------------------------------------------------
+" matchit プラグイン
+source $VIMRUNTIME/macros/matchit.vim
+augroup matchit
+  autocmd!
+  autocmd FileType ruby let b:match_words = '\<\(module\|class\|def\|begin\|do\|if\|unless\|case\)\>:\<\(elsif\|when\|rescue\)\>:\<\(else\|ensure\)\>:\<end\>'
+augroup END
