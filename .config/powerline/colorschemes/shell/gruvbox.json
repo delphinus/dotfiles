@@ -1,5 +1,5 @@
 {
-	"name": "Solarized Dark",
+	"name": "gruvbox",
 	"groups": {
 		"jobnum":               { "fg": "oldlace", "bg": "darkgreencopper" },
 		"user":                 { "fg": "oldlace", "bg": "blue", "attr": ["bold"] },
