@@ -9,7 +9,6 @@ nnoremap <C-U> 3<C-U>
 nnoremap <S-CR> :simalt ~x<CR>
 nnoremap <C-CR> :simalt ~r<CR>
 nnoremap <S-C-CR> :simalt ~n<CR>
-inoremap # X#
 " j 2 回で ESC
 inoremap jj <Esc>
 " k 2 回で ESC
@@ -36,6 +35,7 @@ nnoremap [w :<C-u>colder<CR>
 nnoremap ]w :<C-u>cnewer<CR>
 " ウィンドウを最大化する
 nnoremap _ <C-W>_
+nnoremap # :<C-u>b #<CR>
 
 " http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
 " MapFastKeycode: helper for fast keycode mappings
