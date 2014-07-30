@@ -9,7 +9,7 @@ if has('win32')
     set listchars=tab:█\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
 
 elseif has('mac')
-    set guifont=Source_Code_Pro_ExtraLight:h15
+    set guifont=Source_Code_Pro:h15
     set guifontwide=Ricty_Discord:h16
     set antialias                     " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
