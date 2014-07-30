@@ -87,7 +87,9 @@ function! s:unite_my_settings()
     nmap <silent> <buffer> <F11> <Plug>(unite_rotate_next_source)
     nmap <silent> <buffer> <F12> <Plug>(unite_rotate_next_source)
     " 一つ上のパスへ
-    imap <buffer> <C-W> <Plug>(unite_delete_backward_path)
+    imap <buffer> <C-U> <Plug>(unite_delete_backward_path)
+    " 入力した文字を消す
+    imap <buffer> <C-W> <Plug>(unite_delete_backward_word)
 endfunction
 
 " agとUnite.vimで快適高速grep環境を手に入れる - Thinking-megane
