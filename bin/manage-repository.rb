@@ -5,13 +5,14 @@ require 'optparse'
 require 'ostruct'
 require 'open3'
 
-MODES = %i,set info create delete,
+MODES = %i,set info create delete ls,
 DEFAULT = {
   verbose:     false,
   host:        'orcinus.remora.cx',
   user:        'git',
   description: '',
-  mode:        :info
+  mode:        :info,
+  options:     '-l',
 }
 
 class MyOptions
@@ -34,13 +35,18 @@ class MyOptions
       end
 
       opts.on '-d DESCRIPTION', '--description',
-          %Q.git description (default: "#{options.description}".  do |v|
-        options.description = v
+          "git description (default: '#{options.description}')"  do |v|
+        options[:description] = v
       end
 
       opts.on '-m MODE', '--mode',
           "Select mode (#{MODES.join(',')}) (default: #{options.mode})" do |v|
         options.mode = :"#{v}"
+      end
+
+      opts.on '-p OPTIONS', '--options',
+          "ls options (default: '#{options.options}')" do |v|
+        options[:options] = v
       end
 
       opts.on_tail '-h', '--help', 'Show this message' do
@@ -73,11 +79,22 @@ class Repository
       exist = exit_status.success?
       if @options.mode == :create
         abort 'repository exists already' if exist
-      else
+      elsif @options.mode != :ls
         abort 'repository not found' unless exist
       end
     end
     {name: @name, descripton: description, exist: exist}
+  end
+
+  def ls
+    @log.info "ls #@path..."
+    ssh_capture "ls #{@options.options} #@path" do |out, err, exit_status|
+      if exit_status.success?
+        out
+      else
+        abort "ls failed: #{err}"
+      end
+    end
   end
 
   def set
@@ -156,6 +173,8 @@ def main
     puts repository.create
   when :delete
     puts repository.delete
+  when :ls
+    puts repository.ls
   else
     abort "invalid mode: #{options.mode}"
   end
