@@ -30,6 +30,7 @@ noremap zp :Unite dwm buffer_tab file_mru:long<CR>
 noremap zP :Unite output<CR>
 noremap zr :Unite ruby/require<CR>
 noremap zy :Unite yankround<CR>
+noremap zw :Unite webcolorname<CR>
 autocmd FileType unite call s:unite_my_settings()
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)

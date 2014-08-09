@@ -50,6 +50,7 @@ NeoBundle 'Shougo/unite-outline',         {'depends': ['Shougo/unite.vim']}
 NeoBundle 'hakobe/unite-script-examples', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'kannokanno/unite-dwm',         {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
 NeoBundle 'osyo-manga/unite-qfixhowm',    {'depends': ['Shougo/unite.vim']}
+NeoBundle 'pasela/unite-webcolorname',    {'depends': ['Shougo/uniq(.vim']}
 NeoBundle 'rhysd/unite-ruby-require.vim', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'tsukkee/unite-tag',            {'depends': ['Shougo/unite.vim']}
 
@@ -71,6 +72,7 @@ NeoBundle 'Shougo/vinarise.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
 "NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'ap/vim-css-color'
 NeoBundle 'blueyed/vim-colors-solarized'
 NeoBundle 'amdt/sunset'
 NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
