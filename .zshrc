@@ -17,6 +17,7 @@ eval `TERM=xterm-256color dircolors $HOME/git/dotfiles/submodules/dircolors-sola
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
+alias b='bundle'
 
 export PAGER='vimpager'
 alias vp='vimpager'
