@@ -50,7 +50,7 @@ NeoBundle 'Shougo/unite-outline',         {'depends': ['Shougo/unite.vim']}
 NeoBundle 'hakobe/unite-script-examples', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'kannokanno/unite-dwm',         {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
 NeoBundle 'osyo-manga/unite-qfixhowm',    {'depends': ['Shougo/unite.vim']}
-NeoBundle 'pasela/unite-webcolorname',    {'depends': ['Shougo/uniq(.vim']}
+NeoBundle 'pasela/unite-webcolorname',    {'depends': ['Shougo/unite.vim']}
 NeoBundle 'rhysd/unite-ruby-require.vim', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'tsukkee/unite-tag',            {'depends': ['Shougo/unite.vim']}
 
