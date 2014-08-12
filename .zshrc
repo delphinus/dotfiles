@@ -18,6 +18,7 @@ alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias b='bundle'
+alias pl='perl -M"feature qw!say!" -M"Date::Manip qw!UnixDate ParseDate!" -e'
 
 export PAGER='vimpager'
 alias vp='vimpager'
