@@ -9,7 +9,7 @@
 		},
 		"modified_indicator": {
 			"before": " ",
-			"args": { "text": "✘" }
+			"args": { "text": "⚡" }
 		},
 		"line_percent": {
 			"args": { "gradient": true },
