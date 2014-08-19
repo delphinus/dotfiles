@@ -16,7 +16,7 @@ class MyConfig:
         self.commands = '''
             base hhk hhk_others diamond_cursor
             ckw putty mintty console2 teraterm gvim firefox palemoon excel
-            emacs aero_snap limechat
+            emacs aero_snap limechat conemu
         '''.split()
 
         for com in self.commands:
@@ -507,7 +507,7 @@ class MyConfig:
             self.set_multistroke("X" + k, "C-" + k)
 
         # カーソル移動無効化
-        for exe in ["ckw" ,"gvim" ,"firefox" ,"palemoon", "putty", "ttermpro", "mintty", "console"]:
+        for exe in ["ckw" ,"gvim" ,"firefox" ,"palemoon", "putty", "ttermpro", "mintty", "console", "cmder", "conemu"]:
             exe_name = exe + u".exe"
             km = self.km_for_exe(exe_name)
             for k in e_cursor.keys():
@@ -587,5 +587,22 @@ class MyConfig:
         #km["C-Tab"] = command_SwitchConsole
         #km["RWin-Tab"] = command_SwitchConsole
         self.kmg["C-(235)"] = command_SwitchConsole
+
+    # ConEmu用設定
+    def conemu(self):
+        km = self.km_for_exe(u"conemu.exe")
+
+        # Putty上ではESC => ESC+日本語入力オフ（無変換）
+        km["ESC"] = self.km.command_InputKey("(29)", "ESC")
+        #km["(235)"] = self.km.command_InputKey("ESC", "(29)")
+        km["C-(219)"] = self.km.command_InputKey("ESC", "(29)")
+        #km["(243)"] = self.km.command_InputKey("(29)", "ESC")
+        #km["(244)"] = self.km.command_InputKey("(29)", "ESC")
+
+        # putty上ではEmacs風割り当てを解除
+        km["C-S"] = "C-S"
+        km["C-R"] = "C-R"
+        km["C-W"] = "C-W"
+        km["C-X"] = "C-X"
 
 # vim:se et ts=4 sts=4 sw=4 fdm=marker:
