@@ -45,7 +45,7 @@ function! g:SetBackground()
     return ''
 endfunction
 
-function g:SetCursorColor()
+function! g:SetCursorColor()
     let rgb = s:ParseRGB(12)
 
     if type(rgb) == type([])
