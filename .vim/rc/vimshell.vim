@@ -22,9 +22,10 @@ augroup VimShellMapping
     autocmd FileType vimshell nmap <buffer><c-s> <Plug>(vimshell_hangup)
     " 履歴補完はノーマルモードで
     autocmd FileType vimshell inoremap <buffer> <expr><silent> <C-l>  unite#sources#vimshell_history#start_complete(0)
+    autocmd FileType vimshell setlocal colorcolumn= nonu nornu
     " iexe で mysql を実行したとき
     autocmd FileType int-mysql set filetype=mysql
-    autocmd FileType int-mysql setlocal colorcolumn=
+    autocmd FileType int-mysql setlocal colorcolumn= nonu nornu
     autocmd FileType int-mysql nmap <buffer><c-c> <Plug>DWMClose
     autocmd FileType int-mysql imap <buffer><c-c> <Esc><Plug>DWMClose
     autocmd FileType int-mysql nmap <buffer><c-s> <Plug>(vimshell_hangup)

@@ -73,7 +73,7 @@ execute 'set colorcolumn=' . join(range(81, 9999), ',')
 noremap <Plug>(ToggleColorColumn)
             \ :<c-u>let &colorcolumn = len(&colorcolumn) > 0 ? '' :
             \   join(range(81, 9999), ',')<CR>
-nmap cc <Plug>(ToggleColorColumn)
+nmap <Leader>cc <Plug>(ToggleColorColumn)
 
 " 挿入モードの時のみ、カーソル行をハイライトする
 " unite 使ったあとにターミナルのサイズを変えると segmentation fault したので削除
@@ -82,7 +82,7 @@ set cursorline
 
 if is_remora
     "set listchars=tab:»\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
-    set listchars=tab:…\ ,trail:¯,eol:¬,extends:»,precedes:«,nbsp:¯
+    set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
 else
     set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
 endif
