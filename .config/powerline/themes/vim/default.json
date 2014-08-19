@@ -1,19 +1,4 @@
 {
-	"segment_data": {
-		"branch": {
-			"before": " "
-		},
-		"modified_indicator": {
-			"args": { "text": "+" }
-		},
-		"line_percent": {
-			"args": { "gradient": true },
-			"after": "%"
-		},
-		"line_current_symbol": {
-			"contents": " "
-		}
-	},
 	"segments": {
 		"left": [
 			{
@@ -22,7 +7,7 @@
 			},
 			{
 				"name": "visual_range",
-				"exclude_modes": ["nc"],
+				"include_modes": ["v", "V", "^V", "s", "S", "^S"],
 				"priority": 10
 			},
 			{
@@ -39,6 +24,10 @@
 				"name": "readonly_indicator",
 				"draw_soft_divider": false,
 				"after": " "
+			},
+			{
+				"name": "file_scheme",
+				"priority": 20
 			},
 			{
 				"name": "file_directory",
@@ -59,14 +48,20 @@
 				"before": " "
 			},
 			{
+				"exclude_modes": ["i", "R", "Rv"],
+				"name": "trailing_whitespace",
+				"display": false,
+				"priority": 60
+			},
+			{
 				"exclude_modes": ["nc"],
-				"module": "powerline.segments.plugin.syntastic",
+				"module": "powerline.segments.vim.plugin.syntastic",
 				"name": "syntastic",
 				"priority": 50
 			},
 			{
 				"exclude_modes": ["nc"],
-				"module": "powerline.segments.plugin.tagbar",
+				"module": "powerline.segments.vim.plugin.tagbar",
 				"name": "current_tag",
 				"draw_soft_divider": false,
 				"priority": 50
