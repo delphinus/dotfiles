@@ -20,38 +20,38 @@
 			{
 				"name": "visual_range",
 				"include_modes": ["v", "V", "^V", "s", "S", "^S"],
-				"priority": 10
+				"priority": 20
 			},
 			{
 				"name": "paste_indicator",
 				"exclude_modes": ["nc"],
-				"priority": 10
+				"priority": 20
 			},
 			{
 				"name": "branch",
 				"exclude_modes": ["nc"],
-				"priority": 10
+				"priority": 20
 			},
 			{
 				"name": "readonly_indicator",
 				"draw_soft_divider": false,
 				"after": " ",
-				"priority": 10
+				"priority": 20
 			},
 			{
 				"name": "file_directory",
-				"priority": 80,
+				"priority": 10,
 				"draw_soft_divider": false
 			},
 			{
 				"name": "file_name",
-				"draw_soft_divider": false,
-				"priority": 10
+				"draw_soft_divider": false
 			},
 			{
 				"name": "file_vcs_status",
 				"before": " ",
-				"draw_soft_divider": false
+				"draw_soft_divider": false,
+				"priority": 20
 			},
 			{
 				"name": "modified_indicator",
