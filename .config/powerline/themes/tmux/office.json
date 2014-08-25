@@ -80,7 +80,7 @@
 			{
 				"name": "now_playing",
 				"module": "ext.tmux.segments.nowplayinglastfm",
-				"priority": 30
+				"priority": 80
 			},
 			{
 				"name": "cpu_load",
@@ -107,11 +107,11 @@
 					"format": "%H:%M",
 					"istime": true
 				},
-				"priority": 80
+				"priority": 10
 			},
 			{
 				"name": "hostname",
-				"priority": 80
+				"priority": 10
 			}
 		]
 	}
