@@ -129,6 +129,7 @@ set lazyredraw                    " 画面描画をできるだけ遅らせる
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colorscheme solarized
+highlight Error ctermfg=7
 "colorscheme hybrid
 "colorscheme seoul256
 "colorscheme gruvbox
