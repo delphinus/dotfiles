@@ -1,4 +1,5 @@
 source $H/git/dotfiles/.tmux/default.conf
+set-environment -g ZDOTDIR $H
 set-option -g default-shell $H/usr/local/bin/zsh
 source $H/git/dotfiles/.tmux/screen-keys.conf
 source $H/git/dotfiles/.tmux/vim-keys.conf
