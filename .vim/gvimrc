@@ -11,10 +11,9 @@ if has('win32')
     set linespace=0                 " 行間を空けない
 
 elseif has('mac')
-    "set guifont=Source_Code_Pro:h15
-    set guifont=源柔ゴシック等幅_ExtraLight:h15
-    set guifontwide=源柔ゴシック等幅_ExtraLight:h15
-    set linespace=-3
+    set guifont=Terminus-ja:h14
+    set guifontwide=Ricty_Discord:h14
+    set linespace=0
     set antialias                     " 文字をなめらかに表示する
     set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
     set macmeta                       " option キーを alt キーとして使う
