@@ -16,3 +16,6 @@
 [submodule ".zsh/zsh-notify"]
 	path = .zsh/zsh-notify
 	url = git@github.com:marzocchi/zsh-notify
+[submodule "submodules/xterm_colour_chart"]
+	path = submodules/xterm_colour_chart
+	url = git@github.com:wardi/xterm_colour_chart
