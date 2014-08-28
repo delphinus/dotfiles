@@ -1,29 +1,12 @@
 {
 	"default_module": "powerline.segments.common",
 	"segment_data": {
-		"branch": {
-			"before": " ",
-			"status_colors": true
-		},
 		"cwd": {
 			"args": {
 				"dir_limit_depth": 5,
 				"use_path_separator": false,
 				"dir_shorten_len": 1
 			}
-		},
-		"hostname": {
-			"before": " ",
-			"args": {
-				"only_if_ssh": true
-			}
-		},
-		"mode": {
-			"vicmd": "N",
-			"viins": "I"
-		},
-		"virtualenv": {
-			"before": "ⓔ  "
 		}
 	},
 	"segments": {
@@ -33,7 +16,6 @@
 				"name": "mode"
 			},
 			{
-				"module": "ext.segments",
 				"name": "hostname"
 			},
 			{

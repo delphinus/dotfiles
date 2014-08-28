@@ -1,35 +1,30 @@
 {
 	"default_module": "powerline.segments.common",
 	"segment_data": {
-		"branch": {
-			"before": " ",
-			"args": {
-				"status_colors": true,
-				"path": "~/git/dotfiles"
-			}
-		},
-		"uptime": {
-			"before": "⇑  "
-		},
-		"external_ip": {
-			"before": "𝔾  "
-		},
-		"internal_ip": {
-			"before": "𝕃  "
-		},
-		"date": {
-			"before": "⌚  "
-		},
 		"weather": {
 			"args": {
-				"location_query": "tokyo, japan"
+				"location_query": "tokyo, japan",
+				"icons": {
+					"day":           "⚪",
+					"blustery":      "⚠",
+					"rainy":         "☔",
+					"cloudy":        "☁",
+					"snowy":         "❄",
+					"stormy":        "⚡",
+					"foggy":         "🌁",
+					"sunny":         "☼",
+					"night":         "🌙",
+					"windy":         "🚩",
+					"not_available": "🚫",
+					"unknown":       "❔"
+				}
 			}
 		},
 		"email_imap_alert": {
 			"before": "📩  ",
 			"args": {
-				"username": "",
-				"password": "",
+				"username": "delphinus@remora.cx",
+				"password": "furvhoqbldvhfall",
 				"max_msgs": 50
 			}
 		},
@@ -49,7 +44,11 @@
 				"charging": "充電中",
 				"charged": "充電完了",
 				"remain": "残り {0}",
-				"interval": 30000
+				"gamify": true,
+				"steps": 10,
+				"heart_glyph": "♥",
+				"battery_glyph": "🔋",
+				"charge_glyph": "⚡"
 			}
 		},
 		"system_load": {
@@ -76,29 +75,6 @@
 		}
 	},
 	"segments": {
-		"left": [
-			{
-				"name": "branch",
-				"module": "ext.tmux.segments.branch",
-				"priority": 30
-			},
-			{
-				"name": "date",
-				"priority": 80
-			},
-			{
-				"name": "date",
-				"args": {
-					"format": "%H:%M",
-					"istime": true
-				},
-				"priority": 80
-			},
-			{
-				"name": "weather",
-				"priority": 90
-			}
-		],
 		"right": [
 			{
 				"name": "weather",
@@ -130,6 +106,18 @@
 				"name": "battery_percent",
 				"module": "ext.tmux.segments.battery",
 				"priority": 50
+			},
+			{
+				"name": "date",
+				"priority": 80
+			},
+			{
+				"name": "date",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				},
+				"priority": 80
 			}
 		]
 	}
