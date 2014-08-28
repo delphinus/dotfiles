@@ -26,7 +26,8 @@ class HostBattery(KwThreadedSegment):
 				remain, steps, gamify, heart_glyph, battery_glyph, charge_glyph)
 
 	def compute_state(self, key):
-		raw_res = urllib_read('http://127.0.0.1:18080')
+		#raw_res = urllib_read('http://127.0.0.1:18080')
+		raw_res = urllib_read('http://172.23.90.57:18080')
 
 		if not raw_res:
 			self.pl.error('Failed to get response')
@@ -106,7 +107,8 @@ class LastMessage(KwThreadedSegment):
 		return _LastMessageKey(time_format, max_length)
 
 	def compute_state(self, key):
-		raw_res = urllib_read('http://127.0.0.1:18080')
+		#raw_res = urllib_read('http://127.0.0.1:18080')
+		raw_res = urllib_read('http://172.23.90.57:18080')
 
 		if not raw_res:
 			self.pl.error('Failed to response')

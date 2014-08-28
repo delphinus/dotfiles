@@ -13,34 +13,24 @@ function! s:Paste64Copy() range
     let l:tmp = @@
     silent normal gvy
     let l:selected = @@
-    let l:i = 0
-    let l:len = strlen(l:selected)
-    let l:escaped = ''
-    while l:i < l:len
-        let l:c = strpart(l:selected, l:i, 1)
-        let l:escaped .= printf("\\u%04x", char2nr(l:c))
-        let l:i = l:i + 1
-    endwhile
-    if $TMUX != ""
+    let tmpfile = s:MakeTmpFile(l:selected)
+    "if $TMUX != ""
         "tmuxのとき
-        call system('printf "\x1bPtmux;\x1b\x1b]52;;%s\x1b\x1b\\\\\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
-    elseif $TERM == "screen"
-        "GNU Screenのとき
-        call system('printf "\x1bP\x1b]52;;%s\x07\x1b\\" `echo -en "' . l:escaped . '" | base64` > /dev/tty')
-    elseif $TERM =~ "^dvtm" || $DVTM
-        "dvtmのとき
-        let tmpfile = s:MakeTmpFile(l:selected)
-        let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `base64 -w0 %s`', tmpfile)
-        execute '!sh ' . s:MakeTmpFile(cmd)
-    else
-        let tmpfile = s:MakeTmpFile(l:selected)
-        let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `base64 -w0 %s`', tmpfile)
-        execute '!sh ' . s:MakeTmpFile(cmd)
-    endif
+        let cmd = printf('printf "\ePtmux;\e\e]52;;%%s\e\e\\\\\e\\" `base64 -w0 %s`', tmpfile)
+"    elseif $TERM =~ "screen"
+"        "GNU Screenのとき
+"        let cmd = printf('printf "\x1bP\x1b]52;;%%s\x07\x1b\\" `base64 -w0 %s`', tmpfile)
+"    elseif $TERM =~ "^dvtm" || $DVTM
+"        "dvtmのとき
+"        let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `base64 -w0 %s`', tmpfile)
+"    else
+"        let cmd = ''
+"    endif
+    execute '!sh' s:MakeTmpFile(cmd)
     redraw!
 endfunction
 
-command! -range Paste64Copy :call s:Paste64Copy()
+command! -range Paste64Copy :silent call s:Paste64Copy()
 
 " 対応ターミナル以外なら帰る
 if &term !~ "screen" && &term !~ "xterm" && &term !~ "dvtm"
@@ -48,7 +38,7 @@ if &term !~ "screen" && &term !~ "xterm" && &term !~ "dvtm"
 endif
 
 " tmux & iTerm2 上の場合
-if exists('$TMUX') && is_remora
+if exists('$TMUX') && has('macunix')
     " iTerm2 の時のみカーソル形状を変える
     if exists('$TMUX') && is_remora
         let &t_SI = "\ePtmux;\e\e]50;CursorShape=1\x7\e\\"
@@ -59,7 +49,7 @@ if exists('$TMUX') && is_remora
     endif
 
     " 貼り付けるとき自動的に paste モードに変わる
-    let &t_ti .= "\eP\e[?2004h\e\\"
+    "let &t_ti .= "\eP\e[?2004h\e\\"
     let &t_te .= "\eP\e[?2004l\e\\"
 
     map <expr> \e[200~ XTermPasteBegin("i")
@@ -70,7 +60,7 @@ if exists('$TMUX') && is_remora
 " GNU screen 上の場合
 elseif &term =~ "screen"
     " 貼り付けるとき自動的に paste モードに変わる
-    let &t_ti .= "\eP\e[?2004h\e\\"
+    "let &t_ti .= "\eP\e[?2004h\e\\"
     let &t_te .= "\eP\e[?2004l\e\\"
 
     map <expr> \e[200~ XTermPasteBegin("i")
@@ -81,13 +71,13 @@ elseif &term =~ "screen"
 " xterm の場合
 elseif &term =~ 'xterm\|dvtm'
     " iTerm2 の時のみカーソル形状を変える
-    if is_remora
+    if has('macunix')
         let &t_SI = "\e]50;CursorShape=1\x7"
         let &t_EI = "\e]50;CursorShape=0\x7"
     endif
 
     " 貼り付けるとき自動的に paste モードに変わる
-    let &t_ti .= "\e[?2004h"
+    "let &t_ti .= "\e[?2004h"
     let &t_te .= "\e[?2004l"
     map <expr> \e[200~ XTermPasteBegin("i")
     imap <expr> \e[200~ XTermPasteBegin("")

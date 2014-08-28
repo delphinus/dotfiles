@@ -80,12 +80,7 @@ nmap <Leader>cc <Plug>(ToggleColorColumn)
 "autocmd InsertEnter,InsertLeave * set cursorline!
 set cursorline
 
-if is_remora
-    "set listchars=tab:»\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
-    set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
-else
-    set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
-endif
+set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
 set cmdheight=2          " 画面最下段のコマンド表示行数
 " }}}
 
@@ -129,7 +124,6 @@ set lazyredraw                    " 画面描画をできるだけ遅らせる
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colorscheme solarized
-highlight Error ctermfg=7
 "colorscheme hybrid
 "colorscheme seoul256
 "colorscheme gruvbox

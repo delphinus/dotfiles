@@ -1,11 +1,8 @@
-"
-" This snippet is licensed under NYSL.
-" See http://www.kmonos.net/nysl/NYSL.TXT
-"
 if has('gui_running')
     finish
 endif
 
+" http://qiita.com/kefir_/items/c2bd46728364bdc7470b
 " 以下の条件を満たさない場合vim本体がbackgroundを上書きするので自前での判定はやらない
 " http://yskwkzhr.blogspot.jp/2012/12/set-background-color-of-vim-with-environment-variable.html
 "if $TERM !~ 'linux\|screen.linux\|cygwin\|putty' && $COLORFGBG == ''
@@ -23,10 +20,16 @@ endif
 "endif
 
 " 想定する応答の先頭文字をmapして非同期に応答を待つ
-nnoremap <special> <expr> <Esc>]11;rgb: g:SetBackground()
-let &t_ti .= "\e]11;?\e\\"
-nnoremap <special> <expr> <Esc>]12;rgb: g:SetCursorColor()
-let &t_ti .= "\e]12;?\e\\"
+"nnoremap <special> <expr> <Esc>]11;rgb: g:SetBackground()
+"let &t_ti .= "\e]11;?\e\\"
+if $TMUX != ''
+    nnoremap <special> <expr> <Esc>]12;rgb: g:SetCursorColor()
+    let s:background_teststr = "\ePtmux;\e\e]12;?\e\e\\\\\e\\"
+else
+    nnoremap <special> <expr> <Esc>]12;rgb: g:SetCursorColor()
+    let s:background_teststr = "\e]12;?\e\\"
+endif
+let &t_ti = s:background_teststr
 
 function! g:SetBackground()
     " 応答をパースして輝度を得る
@@ -49,8 +52,13 @@ function! g:SetCursorColor()
     let rgb = s:ParseRGB(12)
 
     if type(rgb) == type([])
-        let &t_SI = "\e]12;#005fff\e\\"
-        let &t_EI = printf("\e]12;#%02x%02x%02x\e\\", rgb[0], rgb[1], rgb[2])
+        if $TMUX != ''
+            let &t_SI = "\ePtmux;\e\e]12;#005fff\e\e\\\\\e\\"
+            let &t_EI = printf("\ePtmux;\e\e]12;#%02x%02x%02x\e\e\\\\\e\\", rgb[0], rgb[1], rgb[2])
+        else
+            let &t_SI = "\e]12;#005fff\e\\"
+            let &t_EI = printf("\e]12;#%02x%02x%02x\e\\", rgb[0], rgb[1], rgb[2])
+        endif
     endif
 endfunction
 
@@ -69,7 +77,7 @@ let g:ColorList = {}
 function! s:ParseRGB(type)
     let cmd = printf(']%d;', a:type)
     execute printf('unmap <Esc>%srgb:', cmd)
-    let &t_ti = substitute(&t_ti, "\e" . cmd . "?\e\\", '', '')
+    let &t_ti = substitute(&t_ti, s:background_teststr, '', '')
 
     " get RGB value
     let current = ''
