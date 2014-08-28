@@ -18,7 +18,7 @@ elseif has('mac')
     set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
     set macmeta                       " option キーを alt キーとして使う
     set transparency=5                " 画面を半透明にする
-    set listchars=tab:»\ ,trail:␣,eol:‹,extends:»,precedes:«,nbsp:¯
+    set listchars=tab:▸\ ,trail:␣,eol:◂,extends:»,precedes:«,nbsp:¯
                                       " 空白の可視化
     if g:is_remora_air2
         au GUIEnter * set fullscreen  " 起動時にフルスクリーン
