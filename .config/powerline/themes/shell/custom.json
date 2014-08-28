@@ -1,6 +1,11 @@
 {
 	"default_module": "powerline.segments.common",
 	"segment_data": {
+		"mode": {
+			"args": {
+				"default": "vicmd"
+			}
+		},
 		"cwd": {
 			"args": {
 				"dir_limit_depth": 5,
