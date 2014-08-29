@@ -38,7 +38,7 @@
 				"remain": "残り {0}",
 				"gamify": true,
 				"steps": 10,
-				"heart_glyph": "♥",
+				"heart_glyph": "★",
 				"battery_glyph": "🔋",
 				"charge_glyph": "⚡"
 			}
