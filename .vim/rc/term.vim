@@ -2,11 +2,23 @@
 " Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
 " http://qiita.com/kefir_/items/515ed5264fce40dec522
 function! s:MakeTmpFile(txt)
-    let tmpfile = tempname()
-    execute 'redir! > ' . tmpfile
+    let g:tmpfile = tempname()
+    execute 'redir! > ' . g:tmpfile
     echo a:txt
     redir END
-    return tmpfile
+    return g:tmpfile
+endfunction
+
+function! s:EscapeSequence(txt)
+  if $TMUX != ''
+    let escaped = substitute(a:txt, '\\033\\\\', '\\033\\033\\\\\\\\', '')
+    return '\033Ptmux;\033' . escaped . '\033\\'
+  elseif $TERM =~ 'screen'
+    let escaped = substitute(a:txt, '\033\\', '\033\033\\\\', '')
+    return '\033P' . escaped . '\033\\'
+  else
+    return a:txt
+  endif
 endfunction
 
 function! s:Paste64Copy() range
@@ -14,18 +26,7 @@ function! s:Paste64Copy() range
     silent normal gvy
     let l:selected = @@
     let tmpfile = s:MakeTmpFile(l:selected)
-    "if $TMUX != ""
-        "tmuxのとき
-        let cmd = printf('printf "\ePtmux;\e\e]52;;%%s\e\e\\\\\e\\" `base64 -w0 %s`', tmpfile)
-"    elseif $TERM =~ "screen"
-"        "GNU Screenのとき
-"        let cmd = printf('printf "\x1bP\x1b]52;;%%s\x07\x1b\\" `base64 -w0 %s`', tmpfile)
-"    elseif $TERM =~ "^dvtm" || $DVTM
-"        "dvtmのとき
-"        let cmd = printf('printf "\\e]52;;%%s\\e\\\\" `base64 -w0 %s`', tmpfile)
-"    else
-"        let cmd = ''
-"    endif
+    let cmd = printf('printf "%s" `base64 -w0 %s`', s:EscapeSequence('\033]52;;%s\033\\'), tmpfile)
     execute '!sh' s:MakeTmpFile(cmd)
     redraw!
 endfunction

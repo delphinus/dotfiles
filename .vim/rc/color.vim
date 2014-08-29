@@ -24,10 +24,10 @@ endif
 "let &t_ti .= "\e]11;?\e\\"
 if $TMUX != ''
     nnoremap <special> <expr> <Esc>]12;rgb: g:SetCursorColor()
-    let s:background_teststr = "\ePtmux;\e\e]12;?\e\e\\\\\e\\"
+    let s:background_teststr = "\<Esc>Ptmux;\<Esc>\033]12;?\033\033\\\\\033\\"
 else
     nnoremap <special> <expr> <Esc>]12;rgb: g:SetCursorColor()
-    let s:background_teststr = "\e]12;?\e\\"
+    let s:background_teststr = "\<Esc>]12;?\<Esc>\\"
 endif
 let &t_ti = s:background_teststr
 
@@ -53,8 +53,11 @@ function! g:SetCursorColor()
 
     if type(rgb) == type([])
         if $TMUX != ''
-            let &t_SI = "\ePtmux;\e\e]12;#005fff\e\e\\\\\e\\"
-            let &t_EI = printf("\ePtmux;\e\e]12;#%02x%02x%02x\e\e\\\\\e\\", rgb[0], rgb[1], rgb[2])
+            "let &t_SI = "\ePtmux;\e\e]12;#005fff\e\e\\\\\e\\"
+            "let &t_EI = printf("\ePtmux;\e\e]12;#%02x%02x%02x\e\e\\\\\e\\", rgb[0], rgb[1], rgb[2])
+            let &t_SI = "\<Esc>Ptmux;\<Esc>\033]Plff5f00\033\\"
+            let &t_EI = printf("\<Esc>Ptmux;\<Esc>\033]Pl%02x%02x%02x\033\\", rgb[2], rgb[1], rgb[0])
+            execute printf("autocmd VimLeave * silent !echo -ne \"\<Esc>Ptmux;\<Esc>\033]Pl%02x%02x%02x\033\\\"", rgb[2], rgb[1], rgb[0])
         else
             let &t_SI = "\e]12;#005fff\e\\"
             let &t_EI = printf("\e]12;#%02x%02x%02x\e\\", rgb[0], rgb[1], rgb[2])
