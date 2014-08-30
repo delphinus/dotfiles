@@ -87,9 +87,10 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'morhetz/gruvbox'
 NeoBundle 'motemen/xslate-vim'
 NeoBundle 'nishigori/increment-activator'
+NeoBundle 'othree/html5.vim'
 NeoBundle 'reedes/vim-colors-pencil'
-NeoBundle 'rhysd/neco-ruby-keyword-args', { 'depends': ['Shougo/neocomplete']}
-NeoBundle 'rhysd/vim-textobj-ruby',       { 'depends': ['kana/vim-textobj-user']}
+NeoBundle 'rhysd/neco-ruby-keyword-args', {'depends': ['Shougo/neocomplete']}
+NeoBundle 'rhysd/vim-textobj-ruby',       {'depends': ['kana/vim-textobj-user']}
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 't9md/vim-choosewin'
 NeoBundle 'thinca/vim-fontzoom'
