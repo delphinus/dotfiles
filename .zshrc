@@ -9,6 +9,7 @@ export EDITOR=vim
 export EDITRC=$HOME/.editrc
 export INPUTRC=$HOME/.inputrc
 
+alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias ls='gls --color'
 alias ll='gls --color -l'
 alias l.='gls --color -d .*'
@@ -42,6 +43,10 @@ $HOME/git/dotfiles/bin:\
 /sbin:\
 /usr/bin:\
 /usr/X11/bin"
+
+# for MacVim
+export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
+
 # for perlomni.vim
 export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
 
