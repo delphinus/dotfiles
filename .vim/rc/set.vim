@@ -2,21 +2,23 @@
 set encoding=utf-8         " 内部エンコーディング
 set termencoding=utf-8     " ターミナルのエンコーディング
 if is_office
-    set fileencoding=eucjp " 新規ファイルのエンコーディング
+  set fileencoding=eucjp " 新規ファイルのエンコーディング
 else
-    set fileencoding=utf-8
+  set fileencoding=utf-8
 endif
-                           " ファイルエンコーディング
-set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
+" ファイルエンコーディング
+if ! (has('gui_macvim') && has('kaoriya'))
+  set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
+endif
 " }}}
 
 " タブ {{{
 if is_office_alt
-    set expandtab
+  set expandtab
 elseif is_office
-    set noexpandtab " タブをスペースに展開する
+  set noexpandtab " タブをスペースに展開する
 else
-    set expandtab
+  set expandtab
 endif
 set tabstop=2       " 画面上でタブ文字が占める幅
 set softtabstop=2   " タブキーやバックスペースキーでカーソルが動く幅
@@ -27,13 +29,13 @@ set smarttab        " スマートなタブ切り替え
 " ディレクトリ {{{
 set undofile             " アンドゥファイルを保存する
 if is_office
-    set dir=$H/tmp       " スワップファイルの作成場所
-    set backupdir=$H/tmp " バックアップファイルの作成場所
-    set undodir=$H/tmp   " アンドゥファイルの作成場所
+  set dir=$H/tmp       " スワップファイルの作成場所
+  set backupdir=$H/tmp " バックアップファイルの作成場所
+  set undodir=$H/tmp   " アンドゥファイルの作成場所
 else
-    set dir=/tmp
-    set backupdir=/tmp
-    set undodir=/tmp
+  set dir=/tmp
+  set backupdir=/tmp
+  set undodir=/tmp
 endif
 " }}}
 
@@ -49,7 +51,7 @@ set autoindent       " 自動インデント
 set smartindent      " スマートなインデント
 set textwidth=0      " 自動改行はオフ
 set formatoptions+=n " テキスト整形オプション
-                     " 括弧付きの連番を認識する
+" 括弧付きの連番を認識する
 set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
 " }}}
 
@@ -69,10 +71,10 @@ set list                 " 空白の可視化
 set wrap                 " ウィンドウの幅が足りないときは折り返す
 set breakindent          " 折り返し時にインデントする
 execute 'set colorcolumn=' . join(range(81, 9999), ',')
-                         " 81 桁目より後をハイライト
+" 81 桁目より後をハイライト
 noremap <Plug>(ToggleColorColumn)
-            \ :<c-u>let &colorcolumn = len(&colorcolumn) > 0 ? '' :
-            \   join(range(81, 9999), ',')<CR>
+      \ :<c-u>let &colorcolumn = len(&colorcolumn) > 0 ? '' :
+      \   join(range(81, 9999), ',')<CR>
 nmap <Leader>cc <Plug>(ToggleColorColumn)
 
 " 挿入モードの時のみ、カーソル行をハイライトする
@@ -80,7 +82,11 @@ nmap <Leader>cc <Plug>(ToggleColorColumn)
 "autocmd InsertEnter,InsertLeave * set cursorline!
 set cursorline
 
-set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
+if has('macunix')
+  set listchars=tab:▸\ ,trail:␣,eol:◂,extends:»,precedes:«,nbsp:¯
+else
+  set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
+endif
 set cmdheight=2          " 画面最下段のコマンド表示行数
 " }}}
 
