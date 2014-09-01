@@ -23,8 +23,8 @@
 		"email_imap_alert": {
 			"before": "📩  ",
 			"args": {
-				"username": "delphinus@remora.cx",
-				"password": "furvhoqbldvhfall",
+				"username": "",
+				"password": "",
 				"max_msgs": 50
 			}
 		},
