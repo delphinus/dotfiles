@@ -1,1 +1,0 @@
-../submodules/xterm_colour_chart/xterm_colour_chart.py
