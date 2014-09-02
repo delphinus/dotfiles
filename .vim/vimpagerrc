@@ -1,5 +1,8 @@
 scriptencoding utf-8
 
+" メニューを読み込まない
+set guioptions+=M
+
 let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
 let g:is_remora_office = hostname() == 'remora-office'
@@ -33,7 +36,6 @@ elseif is_office_win
 endif
 
 " NeoBundle 設定開始
-set nocompatible
 
 " プラグイン保存パス
 let g:bundle_dir = g:home . '/.vim/bundle'
@@ -71,7 +73,7 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
 NeoBundle 'rkitover/vimpager'
 
 NeoBundle 'airblade/vim-rooter'
-NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'blueyed/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'morhetz/gruvbox'
@@ -106,8 +108,11 @@ nmap <ESC><ESC> ;nohlsearch<CR><ESC>
 set t_Co=256
 set encoding=utf-8
 set termencoding=utf-8
-set hls
-set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
+set hlsearch
+" ファイルエンコーディング
+if ! (has('gui_macvim') && has('kaoriya'))
+  set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
+endif
 set dir=/tmp
 if is_office
     set backupdir=$H/tmp
@@ -116,23 +121,23 @@ else
     set backupdir=/tmp
     set undodir=/tmp
 endif
-set ttymouse=xterm2
+set ttymouse=sgr
 set mouse=a
-set display=lastline,uhex
+set display=uhex
 set cursorline
 set clipboard=autoselectml
 set grepprg=ack
-set diffopt=filler,vertical
+set diffopt=filler,vertical,iwhite
 set synmaxcol=0
 set title
 set titleold=bash
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
-set ambiwidth=double
+set ambiwidth=single
 set list                 " 空白の可視化
-set listchars=tab:░\ ,trail:░,eol:↲,extends:»,precedes:«,nbsp:¯
-set tabstop=4       " 画面上でタブ文字が占める幅
-set softtabstop=4   " タブキーやバックスペースキーでカーソルが動く幅
-set shiftwidth=4    " 自動インデントや <<, >> でずれる幅
+set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
+set tabstop=2       " 画面上でタブ文字が占める幅
+set softtabstop=2   " タブキーやバックスペースキーでカーソルが動く幅
+set shiftwidth=2    " 自動インデントや <<, >> でずれる幅
 set laststatus=0
 
 
