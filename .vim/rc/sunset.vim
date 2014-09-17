@@ -3,12 +3,12 @@ let g:sunset_latitude = 35.67
 let g:sunset_longitude = 139.8
 let g:sunset_utc_offset = 9
 
-function g:SunsetDaytimeCallback()
+function! g:SunsetDaytimeCallback()
   set background=light
-  highlight Error term=bold cterm=bold ctermbg=1 ctermfg=7 guifg=White guibg=Red
+  highlight Error term=bold ctermfg=7 ctermbg=12 gui=bold guifg=#eee8d5 guibg=#dc322f
 endfunction
 
-function g:SunsetNighttimeCallback()
+function! g:SunsetNighttimeCallback()
   set background=dark
-  highlight Error term=bold cterm=bold ctermbg=1 ctermfg=0 guifg=Black guibg=Red
+  highlight Error term=bold ctermfg=0 ctermbg=12 gui=bold guifg=#073642 guibg=#dc322f
 endfunction
