@@ -83,6 +83,8 @@ call s:load_rc('yankround')           " choosewin 設定
 call s:load_rc('increment-activator') " increment-activator 設定
 call s:load_rc('sunset')              " sunset 設定
 call s:load_rc('concealedyank')       " concealedyank 設定
+call s:load_rc('smartword')           " smartword 設定
+call s:load_rc('open-browser')        " open-browser 設定
 
 if has('macunix')
     call s:load_rc('itunes')         " vim-itunes 設定
