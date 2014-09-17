@@ -81,6 +81,7 @@ NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 NeoBundle 'junegunn/vim-easy-align'
+NeoBundle 'kana/vim-smartword'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'koron/cmigemo'
 NeoBundle 'majutsushi/tagbar'
@@ -102,6 +103,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-repeat'
 "NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'delphinus35/vim-unimpaired'
+NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/AnsiEsc.vim'
 NeoBundle 'vim-scripts/HiColors'
@@ -225,7 +227,6 @@ NeoBundleLazy 'rkitover/vimpager'
 NeoBundleLazy 'basyura/TweetVim', {'depends': [
     \   'basyura/bitly.vim',
     \   'basyura/twibill.vim',
-    \   'tyru/open-browser.vim',
     \ ],
     \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
 
