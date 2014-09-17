@@ -112,7 +112,7 @@ class MyConfig:
         self.kmg["O-LShift"] = "Space"
 
         # C-Space => S-Space
-        #self.kmg["C-(226)"] = "S-Space"
+        self.kmg["O-LC-LShift"] = "S-Space"
 
         # ユーザモディファイアキーの定義
         self.km.defineModifier(235, "User0")
