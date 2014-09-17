@@ -27,7 +27,7 @@ alias perldoc='perldocjp -J'
 alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
 export H=$HOME
 export ACK_PAGER='less -R'
-alias tmux="TERM=xterm-256color tmux -u2 -f $HOME/git/dotfiles/.tmux.conf"
+alias tmux="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
 alias pt=pt_darwin
 
 export LANG=ja_JP.UTF-8
@@ -43,6 +43,11 @@ $HOME/git/dotfiles/bin:\
 /sbin:\
 /usr/bin:\
 /usr/X11/bin"
+
+# powerline
+export PATH=$HOME/Library/Python/2.7/bin:$PATH
+module_path=($module_path /usr/local/lib/zpython)
+. $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
 
 # for MacVim
 export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
@@ -70,10 +75,6 @@ if which plenv > /dev/null; then eval "$(plenv init -)"; fi
 # for go
 export GOPATH=$HOME/go
 export PATH=/usr/local/opt/go/libexec/bin:$GOPATH/bin:$PATH
-
-# powerline
-module_path=($module_path /usr/local/lib/zpython)
-. $HOME/git/powerline/powerline/bindings/zsh/powerline.zsh
 
 # http://qiita.com/kei_s/items/96ee6929013f587b5878
 export SYS_NOTIFIER=`which terminal-notifier`
