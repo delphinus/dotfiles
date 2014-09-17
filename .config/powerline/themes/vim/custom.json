@@ -3,10 +3,6 @@
 		"powerline.segments.vim.modified_indicator": {
 			"args": { "text": "⚡" }
 		},
-		"line_percent": {
-			"args": { "gradient": true },
-			"after": "%"
-		},
 		"col_current_virt": {
 			"args": { "gradient": true }
 		}
@@ -14,65 +10,65 @@
 	"segments": {
 		"left": [
 			{
-				"name": "mode",
+				"function": "mode",
 				"exclude_modes": ["nc"]
 			},
 			{
-				"name": "visual_range",
+				"function": "visual_range",
 				"include_modes": ["v", "V", "^V", "s", "S", "^S"],
 				"priority": 20
 			},
 			{
-				"name": "paste_indicator",
+				"function": "paste_indicator",
 				"exclude_modes": ["nc"],
 				"priority": 20
 			},
 			{
-				"name": "branch",
+				"function": "branch",
 				"exclude_modes": ["nc"],
 				"priority": 20
 			},
 			{
-				"name": "readonly_indicator",
+				"function": "readonly_indicator",
 				"draw_soft_divider": false,
 				"after": " ",
 				"priority": 20
 			},
 			{
-				"name": "file_directory",
+				"function": "file_directory",
 				"priority": 10,
 				"draw_soft_divider": false
 			},
 			{
-				"name": "file_name",
+				"function": "file_name",
 				"draw_soft_divider": false
 			},
 			{
-				"name": "file_vcs_status",
+				"function": "file_vcs_status",
 				"before": " ",
 				"draw_soft_divider": false,
 				"priority": 20
 			},
 			{
-				"name": "modified_indicator",
+				"function": "modified_indicator",
 				"before": " "
 			},
 			{
 				"exclude_modes": ["i", "R", "Rv"],
-				"name": "trailing_whitespace",
+				"function": "trailing_whitespace",
 				"display": false,
 				"priority": 60
 			},
 			{
 				"exclude_modes": ["nc"],
 				"module": "powerline.segments.vim.plugin.syntastic",
-				"name": "syntastic",
+				"function": "syntastic",
 				"priority": 50
 			},
 			{
 				"exclude_modes": ["nc"],
 				"module": "powerline.segments.vim.plugin.tagbar",
-				"name": "current_tag",
+				"function": "current_tag",
 				"draw_soft_divider": false,
 				"priority": 50
 			},
@@ -86,55 +82,54 @@
 		],
 		"right": [
 			{
-				"name": "file_format",
+				"function": "file_format",
 				"draw_soft_divider": false,
 				"exclude_modes": ["nc"],
 				"priority": 90
 			},
 			{
-				"name": "file_encoding",
+				"function": "file_encoding",
 				"exclude_modes": ["nc"],
 				"priority": 90
 			},
 			{
-				"name": "file_type",
+				"function": "file_type",
 				"exclude_modes": ["nc"],
 				"priority": 80
 			},
 			{
-				"name": "get_char_code",
-				"module": "ext.vim.segments.custom",
+				"function": "ext.vim.segments.custom.get_char_code",
 				"exclude_modes": ["nc"],
 				"priority": 70
 			},
 			{
-				"name": "line_percent",
+				"function": "line_percent",
 				"priority": 90,
 				"width": 4,
 				"align": "r"
 			},
 			{
 				"type": "string",
-				"name": "line_current_symbol",
+				"function": "line_current_symbol",
 				"highlight_group": ["line_current_symbol", "line_current"],
 				"priority": 20
 			},
 			{
-				"name": "line_current",
+				"function": "line_current",
 				"draw_soft_divider": false,
 				"width": 3,
 				"align": "r",
 				"priority": 20
 			},
 			{
-				"name": "virtcol_current",
+				"function": "virtcol_current",
 				"draw_soft_divider": false,
 				"priority": 90,
 				"before": ":",
 				"align": "l"
 			},
 			{
-				"name": "col_current",
+				"function": "col_current",
 				"draw_soft_divider": false,
 				"priority": 90,
 				"before": "-",

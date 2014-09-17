@@ -3,7 +3,8 @@
 		"term_truecolor": false,
 		"paths": [
 			"/Users/delphinus/git/dotfiles/.config/powerline"
-		]
+		],
+		"log_file": "/tmp/powerline.log"
 	},
 	"ext": {
 		"ipython": {
@@ -24,11 +25,11 @@
 			}
 		},
 		"tmux": {
-			"colorscheme": "custom",
+			"colorscheme": "default",
 			"theme": "custom"
 		},
 		"vim": {
-			"colorscheme": "custom-default",
+			"colorscheme": "custom",
 			"theme": "custom",
 			"local_themes": {
 				"__tabline__": "tabline",

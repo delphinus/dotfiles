@@ -1,25 +1,6 @@
 {
 	"default_module": "powerline.segments.common",
 	"segment_data": {
-		"weather": {
-			"args": {
-				"location_query": "tokyo, japan",
-				"icons": {
-					"day":           "⚪",
-					"blustery":      "⚠",
-					"rainy":         "☔",
-					"cloudy":        "☁",
-					"snowy":         "❄",
-					"stormy":        "⚡",
-					"foggy":         "🌁",
-					"sunny":         "☼",
-					"night":         "🌙",
-					"windy":         "🚩",
-					"not_available": "🚫",
-					"unknown":       "❔"
-				}
-			}
-		},
 		"email_imap_alert": {
 			"before": "📩  ",
 			"args": {
@@ -38,19 +19,6 @@
 				"format": "🔲  {0:4.1f}%"
 			}
 		},
-		"battery_percent": {
-			"args": {
-				"format": "🔋  {percent:2d}% ({status}{remain})",
-				"charging": "充電中",
-				"charged": "充電完了",
-				"remain": "残り {0}",
-				"gamify": true,
-				"steps": 10,
-				"heart_glyph": "♥",
-				"battery_glyph": "🔋",
-				"charge_glyph": "⚡"
-			}
-		},
 		"system_load": {
 			"args": {
 				"threshold_good": 0.5,
@@ -66,53 +34,45 @@
 				"shorten_title": true,
 				"interval": 30
 			}
-		},
-		"network_load": {
-			"args": {
-				"recv_format": "⬇ {value:>8} ",
-				"sent_format": "⬆ {value:>8}"
-			}
 		}
 	},
 	"segments": {
 		"right": [
 			{
-				"name": "weather",
+				"function": "weather",
 				"priority": 90
 			},
 			{
-				"name": "email_imap_alert",
+				"function": "email_imap_alert",
 				"priority": 50
 			},
 			{
-				"name": "now_playing",
-				"module": "ext.tmux.segments.nowplayinglastfm",
+				"function": "network_load",
+				"priority": 50
+			},
+			{
+				"function": "cpu_load_percent",
+				"priority": 50
+			},
+			{
+				"function": "ext.segments.tmux.ps.used_memory_percent",
+				"priority": 50
+			},
+			{
+				"function": "battery",
+				"args": {
+					"gamify": true,
+					"full_heart": "♥ ",
+					"empty_heart": "♡ "
+				},
+				"priority": 50
+			},
+			{
+				"function": "date",
 				"priority": 80
 			},
 			{
-				"name": "network_load",
-				"priority": 50
-			},
-			{
-				"name": "cpu_load_percent",
-				"priority": 50
-			},
-			{
-				"name": "used_memory_percent_gradient",
-				"module": "ext.tmux.segments.ps",
-				"priority": 50
-			},
-			{
-				"name": "battery_percent",
-				"module": "ext.tmux.segments.battery",
-				"priority": 50
-			},
-			{
-				"name": "date",
-				"priority": 80
-			},
-			{
-				"name": "date",
+				"function": "date",
 				"args": {
 					"format": "%H:%M",
 					"istime": true

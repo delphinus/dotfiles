@@ -17,30 +17,27 @@
 	"segments": {
 		"left": [
 			{
-				"module": "ext.segments",
-				"name": "mode"
+				"function": "powerline.segments.shell.mode"
 			},
 			{
-				"name": "hostname"
+				"function": "hostname"
 			},
 			{
-				"name": "cwd"
+				"function": "powerline.segments.shell.cwd"
 			},
 			{
-				"module": "powerline.segments.shell",
-				"name": "jobnum"
+				"function": "powerline.segments.shell.jobnum"
 			}
 		],
 		"right": [
 			{
-				"module": "powerline.segments.shell",
-				"name": "last_pipe_status"
+				"function": "powerline.segments.shell.last_pipe_status"
 			},
 			{
-				"name": "branch"
+				"function": "branch"
 			},
 			{
-				"name": "virtualenv"
+				"function": "virtualenv"
 			}
 		]
 	}

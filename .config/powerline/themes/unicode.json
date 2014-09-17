@@ -14,16 +14,20 @@
 		"branch": {
 			"before": "⎇ "
 		},
+		"cwd": {
+			"args": {
+				"ellipsis": "⋯"
+			}
+		},
 
 		"line_current_symbol": {
 			"contents": "␤ "
 		},
 
-		"powerline.segments.common.cwd": {
-			"args": {
-				"ellipsis": "⋯"
-			}
+		"time": {
+			"before": "⌚ "
 		},
+
 		"powerline.segments.common.network_load": {
 			"args": {
 				"recv_format": "⬇ {value:>8}",
@@ -48,9 +52,6 @@
 		},
 		"powerline.segments.common.uptime": {
 			"before": "⇑  "
-		},
-		"powerline.segments.common.date": {
-			"before": "⌚ "
 		},
 		"powerline.segments.common.email_imap_alert": {
 			"before": "✉ "
@@ -77,6 +78,11 @@
 					"not_available": "�",
 					"unknown":       "⚠"
 				}
+			}
+		},
+		"powerline.segments.common.fuzzy_time": {
+			"args": {
+				"unicode_text": true
 			}
 		},
 
