@@ -77,44 +77,39 @@
 	"segments": {
 		"right": [
 			{
-				"name": "email_imap_alert",
+				"function": "email_imap_alert",
 				"priority": 50
 			},
 			{
-				"name": "last_message",
-				"module": "ext.tmux.segments.host_info",
+				"function": "ext.tmux.segments.host_info.last_message",
 				"priority": 30
 			},
 			{
-				"name": "weather",
+				"function": "weather",
 				"priority": 30
 			},
 			{
-				"name": "now_playing",
-				"module": "ext.tmux.segments.nowplayinglastfm",
+				"function": "ext.tmux.segments.nowplayinglastfm.now_playing",
 				"priority": 80
 			},
 			{
-				"name": "cpu_load",
-				"module": "ext.tmux.segments.ps",
+				"function": "ext.tmux.segments.ps.cpu_load",
 				"priority": 50
 			},
 			{
-				"name": "used_memory",
-				"module": "ext.tmux.segments.ps",
+				"function": "ext.tmux.segments.ps.used_memory",
 				"priority": 30
 			},
 			{
-				"name": "host_battery",
-				"module": "ext.tmux.segments.host_info",
+				"function": "ext.tmux.segments.host_info.host_battery",
 				"priority": 80
 			},
 			{
-				"name": "date",
+				"function": "date",
 				"priority": 80
 			},
 			{
-				"name": "date",
+				"function": "date",
 				"args": {
 					"format": "%H:%M",
 					"istime": true
@@ -122,7 +117,7 @@
 				"priority": 10
 			},
 			{
-				"name": "hostname",
+				"function": "hostname",
 				"priority": 10
 			}
 		]
