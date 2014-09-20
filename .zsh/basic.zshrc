@@ -28,6 +28,15 @@ setopt EXTENDED_GLOB     # 色んな glob
 setopt HIST_IGNORE_SPACE # 最初にスペースのあるコマンドを履歴に追加しない
 setopt inc_append_history hist_ignore_dups # 複数のターミナルで history を共有する
 
+# zsh-notify x Growl - 人生いきあたりばったりで生きてます@はてな
+# http://moqada.hatenablog.com/entry/2014/03/26/121915
+autoload -Uz add-zsh-hook
+
+# for brewed zsh
+unalias run-help
+autoload run-help
+HELPDIR=/usr/local/share/zsh/help
+
 # 補完で大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
