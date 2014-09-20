@@ -7,6 +7,7 @@ compinit
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+setopt share_history
 
 bindkey -v               # vi 風キーバインドにする
 bindkey "" history-incremental-search-backward # bash の <C-R> と一緒
