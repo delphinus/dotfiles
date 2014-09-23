@@ -110,7 +110,7 @@
 			},
 			{
 				"type": "string",
-				"function": "line_current_symbol",
+				"name": "line_current_symbol",
 				"highlight_group": ["line_current_symbol", "line_current"],
 				"priority": 20
 			},

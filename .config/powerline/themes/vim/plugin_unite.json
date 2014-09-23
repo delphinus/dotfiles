@@ -1,7 +1,7 @@
 {
 	"segment_data": {
 		"buffer_name": {
-			"contents": "Calendar"
+			"contents": "Unite"
 		}
 	},
 	"segments": {
@@ -9,7 +9,11 @@
 			{
 				"type": "string",
 				"name": "buffer_name",
-				"highlight_group": ["plugin-mode"]
+				"highlight_group": ["mode"]
+			},
+			{
+				"function": "ext.vim.segments.unite.unite_status_string",
+				"draw_soft_divider": false
 			},
 			{
 				"type": "string",
@@ -26,7 +30,7 @@
 				"highlight_group": ["line_current_symbol", "line_current"]
 			},
 			{
-				"name": "line_current",
+				"function": "line_current",
 				"draw_soft_divider": false,
 				"width": 3,
 				"align": "r"

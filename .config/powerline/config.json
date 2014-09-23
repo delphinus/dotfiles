@@ -41,7 +41,16 @@
 				"powerline.matchers.vim.plugin.nerdtree.nerdtree": "plugin_nerdtree",
 				"powerline.matchers.vim.plugin.ctrlp.ctrlp": "plugin_ctrlp",
 				"powerline.matchers.vim.plugin.gundo.gundo": "plugin_gundo",
-				"powerline.matchers.vim.plugin.gundo.gundo_preview": "plugin_gundo-preview"
+				"powerline.matchers.vim.plugin.gundo.gundo_preview": "plugin_gundo-preview",
+
+				"ext.vim.matcher.calc": "plugin_calc",
+				"ext.vim.matcher.calendar": "plugin_calendar",
+				"ext.vim.matcher.fugitive": "plugin_fugitive",
+				"ext.vim.matcher.gitcommit": "plugin_gitcommit",
+				"ext.vim.matcher.iexe_mysql": "plugin_iexe_mysql",
+				"ext.vim.matcher.ref_perldoc": "plugin_ref_perldoc",
+				"ext.vim.matcher.unite": "plugin_unite",
+				"ext.vim.matcher.vimshell": "plugin_vimshell"
 			}
 		},
 		"wm": {

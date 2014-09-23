@@ -1,13 +1,9 @@
 # -*- encoding: utf-8 -*-
 # vim:se noet:
 
-from __future__ import absolute_import
+from __future__ import (unicode_literals, division, absolute_import, print_function)
 
 import os
-try:
-	import vim
-except ImportError:
-	vim = {}  # NOQA
 
 from powerline.bindings.vim import vim_getbufoption
 

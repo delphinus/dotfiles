@@ -1,7 +1,7 @@
 {
 	"segment_data": {
 		"buffer_name": {
-			"contents": "vimshell"
+			"contents": "Fugitive"
 		}
 	},
 	"segments": {
@@ -9,11 +9,17 @@
 			{
 				"type": "string",
 				"name": "buffer_name",
-				"highlight_group": ["plugin-mode"]
+				"highlight_group": ["mode"]
 			},
 			{
-				"name": "current_directory",
-				"module": "ext.vim.segments.custom"
+				"function": "file_name",
+				"draw_soft_divider": true,
+				"priority": 10
+			},
+			{
+				"function": "ext.vim.segments.fugitive.fugitive_hash",
+				"draw_soft_divider": false,
+				"priority": 30
 			},
 			{
 				"type": "string",
@@ -30,7 +36,7 @@
 				"highlight_group": ["line_current_symbol", "line_current"]
 			},
 			{
-				"name": "line_current",
+				"function": "line_current",
 				"draw_soft_divider": false,
 				"width": 3,
 				"align": "r"

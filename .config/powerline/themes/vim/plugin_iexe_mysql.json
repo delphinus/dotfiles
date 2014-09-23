@@ -1,7 +1,16 @@
 {
 	"segment_data": {
 		"buffer_name": {
-			"contents": "Fugitive"
+			"contents": "MySQL"
+		},
+		"mysql_server": {
+			"before": "Server: "
+		},
+		"mysql_user": {
+			"before": "User: "
+		},
+		"mysql_db": {
+			"before": "DB: "
 		}
 	},
 	"segments": {
@@ -9,18 +18,19 @@
 			{
 				"type": "string",
 				"name": "buffer_name",
-				"highlight_group": ["plugin-mode"]
+				"highlight_group": ["mode"]
 			},
 			{
-				"name": "file_name",
-				"draw_soft_divider": true,
-				"priority": 10
+				"function": "ext.vim.segments.iexe_mysql.mysql_server",
+				"draw_soft_divider": true
 			},
 			{
-				"name": "fugitive_hash",
-				"module": "ext.vim.segments.fugitive",
-				"draw_soft_divider": false,
-				"priority": 30
+				"function": "ext.vim.segments.iexe_mysql.mysql_user",
+				"draw_soft_divider": true
+			},
+			{
+				"function": "ext.vim.segments.iexe_mysql.mysql_db",
+				"draw_soft_divider": true
 			},
 			{
 				"type": "string",
@@ -37,7 +47,7 @@
 				"highlight_group": ["line_current_symbol", "line_current"]
 			},
 			{
-				"name": "line_current",
+				"function": "line_current",
 				"draw_soft_divider": false,
 				"width": 3,
 				"align": "r"

@@ -33,7 +33,7 @@
 		"warning":                  { "fg": "solarized:base3", "bg": "solarized:orange", "attr": ["bold"] },
 		"current_tag":              { "fg": "solarized:base3", "bg": "solarized:base02", "attr": ["bold"] },
 		"get_char_code":            "file_format",
-		"unite_status_string":      { "fg": "gold3", "bg": "gray4", "attr": [] },
+		"unite_status_string":      "file_format",
 		"mysql_server":             { "fg": "gold3", "bg": "gray4", "attr": ["bold"] },
 		"mysql_user":               { "fg": "gold3", "bg": "gray4", "attr": ["bold"] },
 		"mysql_db":                 { "fg": "gold3", "bg": "gray4", "attr": ["bold"] },
