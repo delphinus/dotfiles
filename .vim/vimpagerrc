@@ -134,7 +134,11 @@ set titleold=bash
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=single
 set list                 " 空白の可視化
-set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
+if has('macunix')
+  set listchars=tab:▸\ ,trail:␣,eol:◂,extends:»,precedes:«,nbsp:¯
+else
+  set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
+endif
 set tabstop=2       " 画面上でタブ文字が占める幅
 set softtabstop=2   " タブキーやバックスペースキーでカーソルが動く幅
 set shiftwidth=2    " 自動インデントや <<, >> でずれる幅
