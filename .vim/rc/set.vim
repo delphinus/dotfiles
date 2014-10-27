@@ -84,10 +84,11 @@ nmap <Leader>cc <Plug>(ToggleColorColumn)
 set cursorline
 
 if has('macunix')
-  set listchars=tab:▸\ ,trail:␣,eol:◂,extends:»,precedes:«,nbsp:¯
+  set listchars=tab:▸\ ,trail:␣,eol:⤸,extends:»,precedes:«,nbsp:¯
 else
   set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
 endif
+
 set cmdheight=2          " 画面最下段のコマンド表示行数
 " }}}
 
