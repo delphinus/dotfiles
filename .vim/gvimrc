@@ -12,29 +12,34 @@ set guioptions=A                " モードレスセレクションに対する�
 set title                       " ウィンドウタイトルを更新する
 
 if has('win32')
-    set guifont=Terminus-ja:h12
+  if g:is_remora_win
+    set guifont=Ricty_Discord:h36
+    set guifontwide=Ricty_Discord:h36
+  else
+    set guifont=Ricty_Discord:h12
     set guifontwide=Ricty_Discord:h12
-    set dir=C:\cygwin\tmp
-    set backupdir=C:\cygwin\tmp
-    set undodir=C:\cygwin\tmp
-    set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
-    set listchars=tab:⋮\ ,trail:⋮,eol:↲,extends:↱,precedes:↰,nbsp:⋮
-    set linespace=0                 " 行間を空けない
+  endif
+  set dir=C:\cygwin\tmp
+  set backupdir=C:\cygwin\tmp
+  set undodir=C:\cygwin\tmp
+  set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
+  set listchars=tab:⋮\ ,trail:⋮,eol:↲,extends:↱,precedes:↰,nbsp:⋮
+  set linespace=0                 " 行間を空けない
 
 elseif has('mac')
-    set guifont=Ricty_Discord:h18
-    set guifontwide=Ricty_Discord:h18
-    set linespace=0
-    set antialias                     " 文字をなめらかに表示する
-    set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
-    set macmeta                       " option キーを alt キーとして使う
-    set transparency=5                " 画面を半透明にする
-    if g:is_remora_air2
-        au GUIEnter * set fullscreen  " 起動時にフルスクリーン
-    endif
+  set guifont=Ricty_Discord:h18
+  set guifontwide=Ricty_Discord:h18
+  set linespace=0
+  set antialias                     " 文字をなめらかに表示する
+  set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
+  set macmeta                       " option キーを alt キーとして使う
+  set transparency=5                " 画面を半透明にする
+  if g:is_remora_air2
+    au GUIEnter * set fullscreen  " 起動時にフルスクリーン
+  endif
 
-    let $SUDO_ASKPASS='/Applications/MacVim.app/Contents/MacOS/macvim-askpass'
-    let $DISPLAY=':0'
+  let $SUDO_ASKPASS='/Applications/MacVim.app/Contents/MacOS/macvim-askpass'
+  let $DISPLAY=':0'
 endif
 
 winsize 175 50                  " ウィンドウの大きさを指定する

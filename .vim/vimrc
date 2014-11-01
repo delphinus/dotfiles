@@ -6,6 +6,7 @@ scriptencoding 'utf-8'
 let g:is_vm = isdirectory('/mnt/hgfs')
 let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
+let g:is_remora_win = hostname() == 'remora-win'
 let g:is_remora_air2 = hostname() =~ '^remora-air2'
 let g:is_remora_office = hostname() == 'remora-office'
 let g:is_backup = hostname() =~ 'orcinus.remora.cx'
