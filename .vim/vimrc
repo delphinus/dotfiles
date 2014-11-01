@@ -1,7 +1,7 @@
 scriptencoding 'utf-8'
 
 " メニューを読み込まない
-set guioptions+=M
+"set guioptions+=M
 
 let g:is_vm = isdirectory('/mnt/hgfs')
 let g:is_remora_cx = hostname() == 'remora'
