@@ -12,13 +12,8 @@ set guioptions=A                " モードレスセレクションに対する�
 set title                       " ウィンドウタイトルを更新する
 
 if has('win32')
-  if g:is_remora_win
-    set guifont=Ricty_Discord:h36
-    set guifontwide=Ricty_Discord:h36
-  else
-    set guifont=Ricty_Discord:h12
-    set guifontwide=Ricty_Discord:h12
-  endif
+  set guifont=Ricty_Discord:h12
+  set guifontwide=Ricty_Discord:h12
   set dir=$TEMP
   set backupdir=$TEMP
   set undodir=$TEMP
