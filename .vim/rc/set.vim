@@ -83,7 +83,7 @@ nmap <Leader>cc <Plug>(ToggleColorColumn)
 "autocmd InsertEnter,InsertLeave * set cursorline!
 set cursorline
 
-if has('macunix')
+if has('win32') || has('macunix')
   set listchars=tab:▸\ ,trail:␣,eol:⤸,extends:»,precedes:«,nbsp:¯
 else
   set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯

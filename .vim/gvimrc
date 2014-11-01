@@ -18,7 +18,6 @@ if has('win32')
   set backupdir=$TEMP
   set undodir=$TEMP
   set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
-  set listchars=tab:⋮\ ,trail:⋮,eol:↲,extends:↱,precedes:↰,nbsp:⋮
   set linespace=0                 " 行間を空けない
 
 elseif has('mac')
