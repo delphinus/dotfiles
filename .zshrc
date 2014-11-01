@@ -79,6 +79,6 @@ export PATH=/usr/local/opt/go/libexec/bin:$GOPATH/bin:$PATH
 # http://qiita.com/kei_s/items/96ee6929013f587b5878
 export SYS_NOTIFIER=`which terminal-notifier`
 export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
-source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
+#source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
 
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
