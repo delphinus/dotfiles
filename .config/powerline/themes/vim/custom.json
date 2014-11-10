@@ -61,14 +61,12 @@
 			},
 			{
 				"exclude_modes": ["nc"],
-				"module": "powerline.segments.vim.plugin.syntastic",
-				"function": "syntastic",
+				"function": "powerline.segments.vim.plugin.syntastic.syntastic",
 				"priority": 50
 			},
 			{
 				"exclude_modes": ["nc"],
-				"module": "powerline.segments.vim.plugin.tagbar",
-				"function": "current_tag",
+				"function": "powerline.segments.vim.plugin.tagbar.current_tag",
 				"draw_soft_divider": false,
 				"priority": 50
 			},
