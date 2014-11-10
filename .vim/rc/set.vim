@@ -69,6 +69,7 @@ set relativenumber       " 相対行番号を表示する
 set number               " 現在行の行番号を表示する
 set numberwidth=3        " 行番号の幅は 3 桁
 set list                 " 空白の可視化
+set listchars=tab:▸\ ,trail:␣,eol:⤸,extends:»,precedes:«,nbsp:¯
 set wrap                 " ウィンドウの幅が足りないときは折り返す
 set breakindent          " 折り返し時にインデントする
 execute 'set colorcolumn=' . join(range(81, 9999), ',')
@@ -82,12 +83,6 @@ nmap <Leader>cc <Plug>(ToggleColorColumn)
 " unite 使ったあとにターミナルのサイズを変えると segmentation fault したので削除
 "autocmd InsertEnter,InsertLeave * set cursorline!
 set cursorline
-
-if has('win32') || has('macunix')
-  set listchars=tab:▸\ ,trail:␣,eol:⤸,extends:»,precedes:«,nbsp:¯
-else
-  set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
-endif
 
 set cmdheight=2          " 画面最下段のコマンド表示行数
 " }}}
