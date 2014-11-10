@@ -17,10 +17,10 @@
     "noempty": true,
     "nonew": true,
     "plusplus": false,
-    "quotmark": true,
+    "quotmark": false,
     "undef": true,
     "unused": true,
-    "strict": true,
+    "strict": false,
     "trailing": true,
     "maxparams": false,
     "maxdepth": false,
@@ -43,5 +43,12 @@
     "rhino": false,
     "worker": false,
     "wsh": false,
-    "yui": false
+    "yui": false,
+
+    "predef": [
+        "_",
+        "Backbone",
+        "AppWidgets",
+        "ModerationDetails"
+    ]
 }
