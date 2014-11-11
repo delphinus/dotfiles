@@ -19,3 +19,6 @@
 [submodule "submodules/xterm_colour_chart"]
 	path = submodules/xterm_colour_chart
 	url = https://github.com/wardi/xterm_colour_chart
+[submodule "solarized-limechat"]
+	path = solarized-limechat
+	url = https://github.com/delphinus35/solarized-limechat
