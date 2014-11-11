@@ -19,7 +19,7 @@ alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias b='bundle'
-alias pl='perl -M"feature qw!say!" -M"Date::Manip qw!UnixDate ParseDate!" -e'
+alias pd='perl -M"feature qw!say!" -M"Date::Manip qw!UnixDate ParseDate!" -e'
 
 export PAGER='vimpager'
 alias vp='vimpager'
@@ -60,16 +60,22 @@ export MYPERL=`which perl`
 # for python
 export PYENV_ROOT=/usr/local/opt/pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
+alias py=pyenv
+alias pyv='pyenv versions'
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
 # for ruby
 export RBENV_ROOT=/usr/local/opt/rbenv
 export PATH=$RBENV_ROOT/bin:$PATH
+alias rb=rbenv
+alias rbv='rbenv versions'
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # for plenv
 export PLENV_ROOT=/usr/local/opt/plenv
 export PATH=$PLENV_ROOT/bin:$PATH
+alias pl=plenv
+alias plv='plenv versions'
 if which plenv > /dev/null; then eval "$(plenv init -)"; fi
 
 # for go
@@ -77,8 +83,8 @@ export GOPATH=$HOME/go
 export PATH=/usr/local/opt/go/libexec/bin:$GOPATH/bin:$PATH
 
 # http://qiita.com/kei_s/items/96ee6929013f587b5878
-export SYS_NOTIFIER=`which terminal-notifier`
+export SYS_NOTIFIER=/usr/local/bin/terminal-notifier
 export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
-#source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
+source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
 
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
