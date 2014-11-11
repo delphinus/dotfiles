@@ -1,21 +1,21 @@
 [submodule ".vim/bundle/neobundle.vim"]
 	path = .vim/bundle/neobundle.vim
-	url = git@github.com:Shougo/neobundle.vim
+	url = https://github.com/Shougo/neobundle.vim
 [submodule "submodules/dircolors-solarized"]
 	path = submodules/dircolors-solarized
-	url = git@github.com:seebi/dircolors-solarized
+	url = https://github.com/seebi/dircolors-solarized
 [submodule "submodules/tmux-colors-solarized"]
 	path = submodules/tmux-colors-solarized
-	url = git@github.com:seebi/tmux-colors-solarized
+	url = https://github.com/seebi/tmux-colors-solarized
 [submodule "submodules/pentadactyl-solarized"]
 	path = submodules/pentadactyl-solarized
-	url = git@github.com:claytron/pentadactyl-solarized
+	url = https://github.com/claytron/pentadactyl-solarized
 [submodule "submodules/iterm-colors-pencil"]
 	path = submodules/iterm-colors-pencil
-	url = git@github.com:mattly/iterm-colors-pencil
+	url = https://github.com/mattly/iterm-colors-pencil
 [submodule ".zsh/zsh-notify"]
 	path = .zsh/zsh-notify
-	url = git@github.com:marzocchi/zsh-notify
+	url = https://github.com/marzocchi/zsh-notify
 [submodule "submodules/xterm_colour_chart"]
 	path = submodules/xterm_colour_chart
-	url = git@github.com:wardi/xterm_colour_chart
+	url = https://github.com/wardi/xterm_colour_chart
