@@ -1,6 +1,6 @@
 " QFixMemo 設定
-if is_remora_office
-    let g:dropbox_dir='/home/delphinus/Dropbox'
+if is_mac || is_remora || is_backup || is_remora_office
+    let g:dropbox_dir=expand('~/Dropbox')
 elseif is_vm
     let g:dropbox_dir='/mnt/hgfs/Dropbox'
 elseif is_xerxes
@@ -11,16 +11,12 @@ elseif is_office_win
     let g:dropbox_dir='C:/Dropbox'
 elseif is_office_cygwin
     let g:dropbox_dir='/c/Dropbox'
-elseif is_remora
-    let g:dropbox_dir='/Users/delphinus/Dropbox'
-elseif is_backup
-    let g:dropbox_dir='/home/delphinus/Dropbox'
 endif
 
 " キーマップリーダー
 let QFixHowm_Key='g'
 " ファイル保存用
-if is_office_win || is_office_cygwin || is_remora || is_backup || is_vm || is_remora_office
+if is_mac || is_office_win || is_office_cygwin || is_remora || is_backup || is_vm || is_remora_office
     let howm_dir=g:dropbox_dir . '/Write'
 elseif is_office
     let howm_dir=expand('$H') . '/howm'
@@ -142,7 +138,7 @@ nmap g,M <Plug>(qfixhowm-copy_title_from_prev_entry)
 "-----------------------------------------------------------------------------
 " http://stackoverflow.com/questions/12325291/parse-a-date-in-vimscript
 function! AdjustDate(date, offset)
-    python3 <<EOP
+    python <<EOP
 import vim
 import datetime
 
