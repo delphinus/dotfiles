@@ -8,3 +8,4 @@ alias h='cd $H'
 alias m='cd $M'
 alias hub='git'
 alias rfd='rspec --format documentation'
+export PATH=/usr/local/opt/rbenv/bin:/usr/local/opt/rbenv/shims:/usr/local/opt/plenv/bin:/usr/local/opt/plenv/shims:/usr/local/opt/pyenv/bin:/usr/local/opt/pyenv/shims:$PATH

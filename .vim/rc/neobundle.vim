@@ -78,7 +78,8 @@ NeoBundle 'amdt/sunset'
 NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
 NeoBundle 'fuenor/JpFormat.vim'
-NeoBundle 'houtsnip/vim-emacscommandline'
+"NeoBundle 'houtsnip/vim-emacscommandline'
+NeoBundle 'delphinus35/vim-emacscommandline'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kchmck/vim-coffee-script'
@@ -253,7 +254,7 @@ MyNeoBundle 'briofita'
 if has('vim_starting')
     if is_win
         set runtimepath+=~/vimfiles/
-    elseif is_remora || is_office_cygwin
+    elseif is_mac || is_remora || is_office_cygwin
         set runtimepath+=~/.vim/
     elseif is_office
         set runtimepath^=$H/.vim/

@@ -3,6 +3,7 @@ scriptencoding utf-8
 " メニューを読み込まない
 set guioptions+=M
 
+let g:is_mac = has('macunix')
 let g:is_remora_cx = hostname() == 'remora'
 let g:is_remora = hostname() =~ '^remora'
 let g:is_remora_office = hostname() == 'remora-office'
@@ -13,10 +14,10 @@ let g:is_office_cygwin = len($USERDOMAIN) && has('win32unix')
 let g:is_office_alt = is_office && $VIM_ENV_ALT
 let g:is_xerxes = hostname() == 'xerxes'
 let g:is_remora_air2_win = hostname() == 'remora-air2-win'
-let g:is_unix = is_remora || is_backup || is_office || is_office_cygwin
+let g:is_unix = is_mac || is_remora || is_backup || is_office || is_office_cygwin
 let g:is_win = is_office_win || is_xerxes || is_remora_air2_win
 
-if is_remora || is_office_cygwin || is_backup
+if is_mac || is_remora || is_office_cygwin || is_backup
     let g:home = expand('~')
 elseif is_office
     let g:home = expand('$H')
@@ -82,7 +83,7 @@ NeoBundle 'tpope/vim-fugitive'
 if has('vim_starting')
     if is_win
         set runtimepath+=~/vimfiles/
-    elseif is_remora || is_office_cygwin
+    elseif is_mac || is_remora || is_office_cygwin
         set runtimepath+=~/.vim/
     elseif is_office
         set runtimepath^=$H/.vim/
@@ -93,7 +94,6 @@ call neobundle#end()
 
 filetype plugin indent on
 syntax on
-NeoBundleCheck
 
 let mapleader='`'
 

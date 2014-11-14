@@ -109,8 +109,8 @@ nnoremap zG :<C-u>UniteResume search-buffer<CR>
 
 " unite grep に ag(The Silver Searcher) を使う
 let is_32bit = system('uname -m')
-if has('macunix') && executable('pt_darwin')
-    let g:unite_source_grep_command = 'pt_darwin'
+if has('macunix') && executable('pt')
+    let g:unite_source_grep_command = '/usr/local/bin/pt'
     let g:unite_source_grep_default_opts = '--nogroup --nocolor'
     let g:unite_source_grep_recursive_opt = ''
 elseif has('win64') && executable('pt')
