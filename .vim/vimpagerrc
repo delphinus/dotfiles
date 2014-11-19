@@ -1,39 +1,24 @@
 scriptencoding utf-8
 
-" メニューを読み込まない
-set guioptions+=M
-
 let g:is_mac = has('macunix')
-let g:is_remora_cx = hostname() == 'remora'
-let g:is_remora = hostname() =~ '^remora'
-let g:is_remora_office = hostname() == 'remora-office'
-let g:is_backup = hostname() == 'backup.remora.cx'
-let g:is_office = hostname() !~ 'remora' && len($H) > 0 && has('unix')
-let g:is_office_win = len($USERDOMAIN) && has('win32')
-let g:is_office_cygwin = len($USERDOMAIN) && has('win32unix')
-let g:is_office_alt = is_office && $VIM_ENV_ALT
-let g:is_xerxes = hostname() == 'xerxes'
-let g:is_remora_air2_win = hostname() == 'remora-air2-win'
-let g:is_unix = is_mac || is_remora || is_backup || is_office || is_office_cygwin
-let g:is_win = is_office_win || is_xerxes || is_remora_air2_win
+let g:is_win = has('win32') || has('win64')
 
-if is_mac || is_remora || is_office_cygwin || is_backup
-    let g:home = expand('~')
-elseif is_office
-    let g:home = expand('$H')
+if len($H)
+  let g:home = expand($H)
+elseif is_mac
+  let g:home = expand('~')
 elseif is_win
-    let g:home = expand('$HOME')
+  let g:home = expand('$USERPROFILE')
 else
-    finish
+  echoerr 'unknown system'
+  finish
 endif
 
 let g:vim_home = g:home . '/.vim'
 
 " シェルの位置を元に戻す
-if is_office
-    set shell=/bin/sh
-elseif is_office_win
-    set shell=$SYSTEMROOT\system32\cmd.exe
+if is_win
+  set shell=$SYSTEMROOT\system32\cmd.exe
 endif
 
 " NeoBundle 設定開始
@@ -44,16 +29,13 @@ let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
 let g:after_dir = g:home . '/.vim/after'
 
 " デフォルトプロトコル
-let g:neobundle#types#git#default_protocol=g:is_office ? 'ssh' : 'https'
+let g:neobundle#types#git#default_protocol='https'
 
 " NeoBundle へのパス
 if has('vim_starting')
-    set nocompatible               " Be iMproved
-
-    if is_office
-        set runtimepath-=$HOME/.vim
-    endif
-    execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
+  set nocompatible               " Be iMproved
+  execute 'set runtimepath-=' . g:home . '/.vim/'
+  execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
 
 " Required:
@@ -65,11 +47,11 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Set vimproc
 NeoBundle 'Shougo/vimproc.vim', {'build': {
-    \   'cygwin': 'make -f make_cygwin.mak',
-    \   'mac': 'make -f make_mac.mak',
-    \   'unix': 'make -f make_unix.mak',
-    \   },
-    \ }
+      \   'cygwin': 'make -f make_cygwin.mak',
+      \   'mac': 'make -f make_mac.mak',
+      \   'unix': 'make -f make_unix.mak',
+      \   },
+      \ }
 
 NeoBundle 'rkitover/vimpager'
 
@@ -81,13 +63,7 @@ NeoBundle 'morhetz/gruvbox'
 NeoBundle 'tpope/vim-fugitive'
 
 if has('vim_starting')
-    if is_win
-        set runtimepath+=~/vimfiles/
-    elseif is_mac || is_remora || is_office_cygwin
-        set runtimepath+=~/.vim/
-    elseif is_office
-        set runtimepath^=$H/.vim/
-    endif
+  execute 'set runtimepath+=' . g:home
 endif
 
 call neobundle#end()
@@ -114,13 +90,8 @@ if ! (has('gui_macvim') && has('kaoriya'))
   set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 endif
 set dir=/tmp
-if is_office
-    set backupdir=$H/tmp
-    set undodir=$H/tmp
-else
-    set backupdir=/tmp
-    set undodir=/tmp
-endif
+set backupdir=/tmp
+set undodir=/tmp
 set ttymouse=sgr
 set mouse=a
 set display=uhex
@@ -134,11 +105,7 @@ set titleold=bash
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=single
 set list                 " 空白の可視化
-if has('macunix')
-  set listchars=tab:▸\ ,trail:␣,eol:◂,extends:»,precedes:«,nbsp:¯
-else
-  set listchars=tab:…\ ,trail:…,eol:🔻,extends:»,precedes:«,nbsp:¯
-endif
+set listchars=tab:▸\ ,trail:␣,eol:⤸,extends:»,precedes:«,nbsp:¯
 set tabstop=2       " 画面上でタブ文字が占める幅
 set softtabstop=2   " タブキーやバックスペースキーでカーソルが動く幅
 set shiftwidth=2    " 自動インデントや <<, >> でずれる幅
@@ -165,43 +132,13 @@ au BufNewFile,BufRead *.tt setf tt2html
 au BufNewFile,BufRead .pentadactylrc setf pentadactyl
 
 "-----------------------------------------------------------------------------
-" yank to remote clipboard
-if is_unix
-    let s:tmpdir = &backupdir
-    let s:home = is_office ? expand('$H') : expand('$HOME')
-    let g:y2r_config = {
-    \    'tmp_file': s:tmpdir . '/exchange-file',
-    \    'key_file' : s:home . '/.exchange.key',
-    \    'host' : 'localhost',
-    \    'port' : 52224,
-    \}
-
-    function! Yank2Remote()
-        call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
-        let s:params = ['cat %s %s | nc -w1 %s %s']
-        for s:item in ['key_file', 'tmp_file', 'host', 'port']
-        let s:params += [shellescape(g:y2r_config[s:item])]
-        endfor
-        let s:ret = system(call(function('printf'), s:params))
-        echo 'paste to remote'
-    endfunction
-    nnoremap <silent> <unique> <Leader>y :call Yank2Remote()<CR>
-endif
-
-"-----------------------------------------------------------------------------
 " vimpager
 let g:vimpager_passthrough = 1
 
 if exists("vimpager")
-    if exists("vimpager_ptree") && vimpager_ptree[-2] == 'wman'
-        set ft=man
-    endif
-endif
-
-" オフィス専用設定
-let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
-if (is_remora_office || is_office) && filereadable(g:office_vimrc)
-    execute 'source ' . g:office_vimrc
+  if exists("vimpager_ptree") && vimpager_ptree[-2] == 'wman'
+    set ft=man
+  endif
 endif
 
 " vim:ft=vim et:

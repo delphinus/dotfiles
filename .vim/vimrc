@@ -1,8 +1,5 @@
 scriptencoding 'utf-8'
 
-" メニューを読み込まない
-"set guioptions+=M
-
 let g:is_mac = has('macunix')
 let g:is_win = has('win32') || has('win64')
 
