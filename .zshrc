@@ -1,5 +1,6 @@
 source $HOME/git/dotfiles/.zsh/basic.zshrc
 source $HOME/git/dotfiles/.zsh/peco-select-history.zsh
+source $HOME/git/dotfiles/.zsh/peco-git.zsh
 source $HOME/git/dotfiles/bin/set-ssh-auth-sock.sh
 
 export PAGER=vimpager
@@ -20,6 +21,7 @@ alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias b='bundle'
 alias pd='perl -M"feature qw!say!" -M"Date::Manip qw!UnixDate ParseDate!" -e'
+alias lv='lv -c'
 
 export PAGER='vimpager'
 alias vp='vimpager'
