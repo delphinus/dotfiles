@@ -4,12 +4,11 @@ if exists(':NeoCompleteIncludeMakeCache')
     autocmd BufWritePost <buffer> NeoCompleteIncludeMakeCache
 endif
 
-if exists('is_office_alt') && is_office_alt
-    setlocal expandtab
-elseif exists('is_office') && is_office
+if len($USER) && $USER == 'game'
     setlocal noexpandtab
-else
-    setlocal expandtab
+    setlocal tabstop=4
+    setlocal shiftwidth=4
+    setlocal softtabstop=4
 endif
 
 if exists(':Rooter')
