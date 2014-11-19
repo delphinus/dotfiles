@@ -13,13 +13,7 @@ endif
 " }}}
 
 " タブ {{{
-if is_office_alt
-  set expandtab
-elseif is_office
-  set noexpandtab " タブをスペースに展開する
-else
-  set expandtab
-endif
+set expandtab       " タブをスペースに展開する
 set tabstop=2       " 画面上でタブ文字が占める幅
 set softtabstop=2   " タブキーやバックスペースキーでカーソルが動く幅
 set shiftwidth=2    " 自動インデントや <<, >> でずれる幅
@@ -28,7 +22,7 @@ set smarttab        " スマートなタブ切り替え
 
 " ディレクトリ {{{
 set undofile             " アンドゥファイルを保存する
-if is_office
+if is_office && ! has('macunix')
   set dir=$H/tmp       " スワップファイルの作成場所
   set backupdir=$H/tmp " バックアップファイルの作成場所
   set undodir=$H/tmp   " アンドゥファイルの作成場所
