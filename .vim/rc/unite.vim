@@ -39,16 +39,9 @@ call unite#custom#substitute('files', '^;r', '\=$VIMRUNTIME."/"')
 call unite#custom#substitute('files', '^\~', escape($HOME, '\'), -2)
 call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
 call unite#custom#substitute('files', '\\ \@!', '/', -30)
-if is_office
-    call unite#custom#substitute('files', '^;h', '\=$H."/"')
-    call unite#custom#substitute('files', '^;v', '\=$H."/.vim/"')
-    call unite#custom#substitute('files', '^;g', '\=$H."/git/"')
-    call unite#custom#substitute('files', '^;d', '\=$H."/git/dotfiles/"')
-else
-    call unite#custom#substitute('files', '^;v', '~/.vim/')
+  call unite#custom#substitute('files', '^;v', '~/.vim/')
     call unite#custom#substitute('files', '^;g', escape($HOME, '\') . '/git/')
     call unite#custom#substitute('files', '^;d', escape($HOME, '\') . '/git/dotfiles/')
-endif
 if has('win32') || has('win64')
   call unite#custom#substitute('files', '^;p', 'C:/Program Files/')
   call unite#custom#substitute('files', '^;u', escape($USERPROFILE, '\') . '/')

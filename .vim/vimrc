@@ -4,31 +4,17 @@ scriptencoding 'utf-8'
 "set guioptions+=M
 
 let g:is_mac = has('macunix')
-let g:is_vm = isdirectory('/mnt/hgfs')
-let g:is_remora_cx = hostname() == 'remora'
-let g:is_remora = hostname() =~ '^remora'
-let g:is_remora_win = hostname() == 'remora-win'
-let g:is_remora_air2 = hostname() =~ '^remora-air2'
-let g:is_remora_office = hostname() == 'remora-office'
-let g:is_backup = hostname() =~ 'orcinus.remora.cx'
-let g:is_office = hostname() !~ 'remora' && len($H) > 0 && has('unix') && ! has('macunix')
-let g:is_office_win = len($USERDOMAIN) && has('win32')
-let g:is_office_cygwin = len($USERDOMAIN) && has('win32unix')
-let g:is_office_alt = is_office && $VIM_ENV_ALT
-let g:is_xerxes = hostname() == 'xerxes' && has('win32')
-let g:is_xerxes_cygwin = hostname() == 'xerxes' && has('win32unix')
-let g:is_remora_air2_win = hostname() == 'remora-air2-win'
-let g:is_unix = is_mac || is_remora || is_backup || is_office || is_office_cygwin
 let g:is_win = has('win32') || has('win64')
 
-if is_mac || is_remora || is_office_cygwin || is_backup
-    let g:home = expand('~')
-elseif is_office
-    let g:home = expand('$H')
+if len($H)
+  let g:home = expand($H)
+elseif is_mac
+  let g:home = expand('~')
 elseif is_win
-    let g:home = expand('$HOME')
+  let g:home = expand('$USERPROFILE')
 else
-    finish
+  echoerr 'unknown system'
+  finish
 endif
 
 let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
@@ -51,6 +37,7 @@ call s:load_rc('set')                 " オプション設定
 call s:load_rc('term')                " ターミナル固有の設定
 call s:load_rc('functions')           " ユーティリティ関数
 call s:load_rc('color')               " OSC を使って色を得る
+call s:load_rc('tab')                 " タブ設定
 
 call s:load_rc('qfixhowm')            " QFixMemo 設定
 call s:load_rc('quickrun')            " QuickRun 設定
@@ -94,7 +81,7 @@ endif
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
-if (is_remora_office || is_office) && filereadable(g:office_vimrc)
+if filereadable(g:office_vimrc)
     execute 'source ' . g:office_vimrc
 endif
 

@@ -20,7 +20,7 @@ if has('win32')
   set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
   set linespace=0                 " 行間を空けない
 
-elseif has('mac')
+elseif has('macunix')
   set guifont=Ricty_Discord:h18
   set guifontwide=Ricty_Discord:h18
   set linespace=0
@@ -28,10 +28,6 @@ elseif has('mac')
   set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
   set macmeta                       " option キーを alt キーとして使う
   set transparency=5                " 画面を半透明にする
-  if g:is_remora_air2
-    au GUIEnter * set fullscreen  " 起動時にフルスクリーン
-  endif
-
   let $SUDO_ASKPASS='/Applications/MacVim.app/Contents/MacOS/macvim-askpass'
   let $DISPLAY=':0'
 endif

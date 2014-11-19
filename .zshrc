@@ -27,7 +27,6 @@ export PAGER='vimpager'
 alias vp='vimpager'
 alias perldoc='perldocjp -J'
 alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
-export H=$HOME
 export ACK_PAGER='less -R'
 alias tmux="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
 

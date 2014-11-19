@@ -41,10 +41,10 @@ endif
 " tmux & iTerm2 上の場合
 if exists('$TMUX') && has('macunix')
     " iTerm2 の時のみカーソル形状を変える
-    if exists('$TMUX') && is_remora
+    if exists('$TMUX')
         let &t_SI = "\ePtmux;\e\e]50;CursorShape=1\x7\e\\"
         let &t_EI = "\ePtmux;\e\e]50;CursorShape=0\x7\e\\"
-    elseif is_remora
+    else
         let &t_SI = "\eP\e]50;CursorShape=1\x7\e\\"
         let &t_EI = "\eP\e]50;CursorShape=0\x7\e\\"
     endif

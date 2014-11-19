@@ -1,25 +1,13 @@
 " QFixMemo 設定
-if is_mac || is_remora || is_backup || is_remora_office
-    let g:dropbox_dir=expand('~/Dropbox')
-elseif is_vm
-    let g:dropbox_dir='/mnt/hgfs/Dropbox'
-elseif is_xerxes
-    let g:dropbox_dir='D:/Dropbox'
-elseif is_xerxes_cygwin
-    let g:dropbox_dir='/d/Dropbox'
-elseif is_office_win
-    let g:dropbox_dir='C:/Dropbox'
-elseif is_office_cygwin
-    let g:dropbox_dir='/c/Dropbox'
-endif
+let g:dropbox_dir = expand(g:home . '/Dropbox')
 
 " キーマップリーダー
 let QFixHowm_Key='g'
 " ファイル保存用
-if is_mac || is_office_win || is_office_cygwin || is_remora || is_backup || is_vm || is_remora_office
-    let howm_dir=g:dropbox_dir . '/Write'
-elseif is_office
+if len($H)
     let howm_dir=expand('$H') . '/howm'
+else
+    let howm_dir=g:dropbox_dir . '/Write'
 endif
 
 " ファイル名
@@ -35,10 +23,10 @@ let QFixHowm_FileExt='txt'
 " 日記ファイル名
 let QFixHowm_DiaryFile='%Y/%m/%Y-%m-%d-000000.txt'
 " grep の指定
-if is_office_win
+if executable('c:/cygwin/bin/grep.exe')
     let mygrepprg='c:/cygwin/bin/grep.exe'
     let MyGrep_cygwin17=1
-elseif is_office || is_backup || is_remora_office
+elseif executable('/bin/grep')
     let mygrepprg='/bin/grep'
 else
     let mygrepprg='/usr/bin/grep'

@@ -1,11 +1,7 @@
 " エンコーディング {{{
-set encoding=utf-8         " 内部エンコーディング
-set termencoding=utf-8     " ターミナルのエンコーディング
-if is_office
-  set fileencoding=eucjp " 新規ファイルのエンコーディング
-else
-  set fileencoding=utf-8
-endif
+set encoding=utf-8     " 内部エンコーディング
+set termencoding=utf-8 " ターミナルのエンコーディング
+set fileencoding=utf-8 " 新規ファイルのエンコーディング
 " ファイルエンコーディング
 if ! (has('gui_macvim') && has('kaoriya'))
   set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
@@ -22,15 +18,9 @@ set smarttab        " スマートなタブ切り替え
 
 " ディレクトリ {{{
 set undofile             " アンドゥファイルを保存する
-if is_office && ! has('macunix')
-  set dir=$H/tmp       " スワップファイルの作成場所
-  set backupdir=$H/tmp " バックアップファイルの作成場所
-  set undodir=$H/tmp   " アンドゥファイルの作成場所
-else
-  set dir=/tmp
-  set backupdir=/tmp
-  set undodir=/tmp
-endif
+set dir=/tmp
+set backupdir=/tmp
+set undodir=/tmp
 " }}}
 
 " 検索 {{{

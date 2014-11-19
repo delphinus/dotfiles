@@ -1,8 +1,6 @@
 " シェルの位置を元に戻す
-if is_office
-    set shell=/bin/sh
-elseif is_win
-    set shell=$SYSTEMROOT\system32\cmd.exe
+if is_win
+  set shell=$SYSTEMROOT\system32\cmd.exe
 endif
 
 "===============================================================================
@@ -16,16 +14,13 @@ let g:after_dir = g:home . '/.vim/after'
 let g:mybundle_dir = g:home . '/.vim/mybundle'
 
 " デフォルトプロトコル
-let g:neobundle#types#git#default_protocol=g:is_office ? 'ssh' : 'https'
+let g:neobundle#types#git#default_protocol='https'
 
 " NeoBundle へのパス
 if has('vim_starting')
-    set nocompatible               " Be iMproved
-
-    if is_office
-        set runtimepath-=$HOME/.vim
-    endif
-    execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
+  set nocompatible               " Be iMproved
+  execute 'set runtimepath-=' . g:home . '/.vim/'
+  execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
 
 " Required:
@@ -253,13 +248,7 @@ command! -nargs=1
 MyNeoBundle 'briofita'
 
 if has('vim_starting')
-    if is_win
-        set runtimepath+=~/vimfiles/
-    elseif is_mac || is_remora || is_office_cygwin
-        set runtimepath+=~/.vim/
-    elseif is_office
-        set runtimepath^=$H/.vim/
-    endif
+  execute 'set runtimepath+=' . g:home
 endif
 
 call neobundle#end()

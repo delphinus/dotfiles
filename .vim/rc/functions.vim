@@ -19,45 +19,9 @@ augroup QFixToggle
 augroup END
 
 "-----------------------------------------------------------------------------
-" Apache 再起動
-if is_office
-	function! RestartApache()
-		call system('sudo /usr/local/apache/bin/apachectl graceful')
-		echo 'apache restarted'
-	endfunction
-	nnoremap <silent> <unique> <Leader>h :call RestartApache()<CR>
-endif
-
-"-----------------------------------------------------------------------------
 " Templte::Toolkit 設定
 autocmd BufNewFile,BufRead *.tt2 setf tt2html
 autocmd BufNewFile,BufRead *.tt setf tt2html
-
-"-----------------------------------------------------------------------------
-" yank to remote clipboard
-if is_unix
-	let s:tmpdir = &backupdir
-	let s:home = is_office ? expand('$H') : expand('$HOME')
-	let g:y2r_config = {
-	\	'tmp_file': s:tmpdir . '/exchange-file',
-	\	'key_file' : s:home . '/.exchange.key',
-	\	'host' : 'localhost',
-	\	'port' : 52224,
-	\}
-
-	function! Yank2Remote(...)
-        if !a:0
-            call writefile(split(@", '\n'), g:y2r_config.tmp_file, 'b')
-        endif
-		let s:params = ['cat %s %s | nc -w1 %s %s']
-		for s:item in ['key_file', 'tmp_file', 'host', 'port']
-		let s:params += [shellescape(g:y2r_config[s:item])]
-		endfor
-		let s:ret = system(call(function('printf'), s:params))
-		echo 'paste to remote'
-	endfunction
-	nnoremap <silent> <unique> <Leader>y :call Yank2Remote()<CR>
-endif
 
 "-----------------------------------------------------------------------------
 " Objective-C 設定
