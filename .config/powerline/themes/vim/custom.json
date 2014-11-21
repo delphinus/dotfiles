@@ -1,7 +1,7 @@
 {
 	"segment_data": {
 		"powerline.segments.vim.modified_indicator": {
-			"args": { "text": "⚡" }
+			"args": { "text": "✎" }
 		},
 		"col_current_virt": {
 			"args": { "gradient": true }
