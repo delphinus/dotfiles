@@ -2,5 +2,9 @@
     "Style": {
         "Selected": ["on_white", "black"],
         "Matched": ["red"]
+    },
+    "KeyMap": {
+        "C-j": "peco.SelectDown",
+        "C-k": "peco.SelectUp"
     }
 }
