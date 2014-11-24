@@ -1,260 +1,284 @@
 <?xml version="1.0"?>
 <root>
-    <appdef>
-        <appname>MACVIM</appname>
-        <equal>org.vim.MacVim</equal>
-    </appdef>
-    <appdef>
-        <appname>CONTEXTS</appname>
-        <equal>com.contextsformac.Contexts</equal>
-    </appdef>
-    <appdef>
-        <appname>ONENOTE</appname>
-        <equal>com.microsoft.onenote.mac</equal>
-    </appdef>
-    <appdef>
-        <appname>WORD</appname>
-        <equal>com.microsoft.Word</equal>
-    </appdef>
-    <appdef>
-        <appname>POWERPOINT</appname>
-        <equal>com.microsoft.Powerpoint</equal>
-    </appdef>
-    <appdef>
-        <appname>EXCEL</appname>
-        <equal>com.microsoft.Excel</equal>
-    </appdef>
-    <item>
-        <name>Custom Keymaps</name>
-        <list>
-            <item>
-                <name>C-TAB to C-Z, TAB</name>
-                <appendix>(change window)</appendix>
-                <identifier>remap.app_term_screen_tab</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::TAB</autogen>
-                <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::TAB</autogen>
-            </item>
-            <item>
-                <name>C-TAB to C-Z, U</name>
-                <appendix>(change window for dvtm)</appendix>
-                <identifier>remap.app_term_dvtm_tab</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
-            </item>
-            <item>
-                <name>Option-? to C-Z, ?</name>
-                <appendix>(setting for dvtm)</appendix>
-                <identifier>remap.app_term_dvtm</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::C, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::C</autogen>
-                <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::X</autogen>
-                <autogen>--KeyToKey-- KeyCode::L, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::L</autogen>
-                <autogen>--KeyToKey-- KeyCode::H, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::H</autogen>
-                <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::J</autogen>
-                <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::K</autogen>
-                <autogen>--KeyToKey-- KeyCode::N, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::N</autogen>
-                <autogen>--KeyToKey-- KeyCode::DOT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::DOT</autogen>
-                <autogen>--KeyToKey-- KeyCode::U, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
-                <autogen>--KeyToKey-- KeyCode::I, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::I</autogen>
-                <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::M</autogen>
-                <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SPACE</autogen>
-                <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
-                <autogen>--KeyToKey-- KeyCode::T, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::T</autogen>
-                <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::B</autogen>
-                <autogen>--KeyToKey-- KeyCode::G, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::G</autogen>
-                <autogen>--KeyToKey-- KeyCode::S, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::S</autogen>
-                <autogen>--KeyToKey-- KeyCode::R, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::R</autogen>
-                <autogen>--KeyToKey-- KeyCode::G, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::G, ModifierFlag::SHIFT_L</autogen>
-                <autogen>--KeyToKey-- KeyCode::A, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::A</autogen>
-                <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::X, ModifierFlag::SHIFT_L</autogen>
-                <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::B, ModifierFlag::SHIFT_L</autogen>
-                <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::M, ModifierFlag::SHIFT_L</autogen>
-                <autogen>--KeyToKey-- KeyCode::V, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::V</autogen>
-                <autogen>--KeyToKey-- KeyCode::SLASH, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SLASH</autogen>
-                <autogen>--KeyToKey-- KeyCode::SLASH, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SLASH, ModifierFlag::SHIFT_L</autogen>
-                <autogen>--KeyToKey-- KeyCode::P, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::P</autogen>
-                <autogen>--KeyToKey-- KeyCode::F1, ModifierFlag::OPTION_L | ModifierFlag::FN, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::F1, ModifierFlag::FN</autogen>
-                <autogen>--KeyToKey-- KeyCode::Q, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::Q</autogen>
-                <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::BRACKET_LEFT</autogen>
-                <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::BRACKET_RIGHT</autogen>
-            </item>
-            <item>
-                <name>Option-123... to C-Z, 123...</name>
-                <appendix>(setting for dvtm - change panes)</appendix>
-                <identifier>remap.app_term_dvtm_change_panes</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::KEY_1, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_1</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_2, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_2</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_3, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_3</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_4, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_4</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_5, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_5</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_6, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_6</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_7, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_7</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_8, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_8</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_9, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_9</autogen>
-            </item>
-            <item>
-                <name>D-123... to C-Z, 123...</name>
-                <appendix>(switch window)</appendix>
-                <identifier>remap.app_term_screen_num</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::KEY_0, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_0</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_1, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_1</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_2, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_2</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_3, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_3</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_4, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_4</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_5, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_5</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_6, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_6</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_7, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_7</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_8, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_8</autogen>
-                <autogen>--KeyToKey-- KeyCode::KEY_9, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_9</autogen>
-            </item>
-            <item>
-                <name>ESC, C-[, ` to ESC + IME off</name>
-                <appendix>(for terminal)</appendix>
-                <identifier>remap.app_term_ime_off_esc</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-                <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-                <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-            </item>
-            <item>
-                <name>ESC, C-[ to ESC + IME off</name>
-                <appendix>(for terminal)</appendix>
-                <identifier>remap.app_term_ime_off_esc_except_backquote</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-                <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-            </item>
-            <item>
-                <name>Double Shift_R to CapsLock</name>
-                <identifier>remap.double_right_shift_to_capslock</identifier>
-                <autogen>--DoublePressModifier-- KeyCode::SHIFT_R, KeyCode::SHIFT_R, KeyCode::CAPSLOCK</autogen>
-            </item>
-            <item>
-                <name>Shift_L to Shift_L</name>
-                <appendix>(+ When you type Shift_L only, send JIS_KANA)</appendix>
-                <identifier>remap.shiftL2shiftL_jis_kana</identifier>
-                <autogen>--KeyOverlaidModifier-- KeyCode::SHIFT_L, KeyCode::SHIFT_L, KeyCode::JIS_KANA</autogen>
-            </item>
-            <item>
-                <name>Shift_R to Shift_R</name>
-                <appendix>(+ When you type Shift_R only, send C-JIS_KANA x 2)</appendix>
-                <identifier>remap.shiftR2shiftR_c_jis_kana</identifier>
-                <autogen>--KeyOverlaidModifier-- KeyCode::SHIFT_R, KeyCode::SHIFT_R, KeyCode::JIS_KANA, ModifierFlag::CONTROL_L, KeyCode::JIS_KANA, ModifierFlag::CONTROL_L</autogen>
-            </item>
-            <item>
-                <name>Esc, C-[, ` to ESC + IME off</name>
-                <appendix>(for MacVim)</appendix>
-                <identifier>remap.app_macvim_ime_off_esc</identifier>
-                <only>MACVIM</only>
-                <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-                <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-                <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-            </item>
-            <item>
-                <name>Esc, C-[ to ESC + IME off</name>
-                <appendix>(for MacVim)</appendix>
-                <identifier>remap.app_macvim_ime_off_esc_except_backquote</identifier>
-                <only>MACVIM</only>
-                <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-                <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
-            </item>
-            <item>
-                <name>C-J to F12</name>
-                <appendix>(for terminal)</appendix>
-                <identifier>remap.app_term_c_j_f12</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::F12</autogen>
-            </item>
-            <item>
-                <name>C-J to F10</name>
-                <appendix>(for terminal)</appendix>
-                <identifier>remap.app_term_c_j_f10</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::F10</autogen>
-            </item>
-            <item>
-                <name>C-RETURN to C-@</name>
-                <appendix>(for terminal)</appendix>
-                <identifier>remap.app_term_c_return_c_@</identifier>
-                <only>TERMINAL</only>
-                <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_L, KeyCode::KEY_2, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L</autogen>
-            </item>
-            <item>
-                <name>C-J, C-K to O-S-Down, O-S-Up</name>
-                <appendix>(for contexts)</appendix>
-                <identifier>remap.app_contexts_selector</identifier>
-                <only>CONTEXTS</only>
-                <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
-                <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
-            </item>
-            <item>
-                <name>O-ESCAPE to O-JIS_EISUU</name>
-                <appendix>(for contexts)</appendix>
-                <identifier>remap.app_contexts_app_changeer</identifier>
-                <autogen>--KeyToKey-- KeyCode::ESCAPE, ModifierFlag::OPTION_L, KeyCode::JIS_EISUU, ModifierFlag::OPTION_L</autogen>
-            </item>
-            <item>
-                <name>Emacs bindings for One Note</name>
-                <identifier>remap.app_one_note_emacs_bindings</identifier>
-                <only>ONENOTE</only>
-                <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
-                <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
-                <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
-                <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
-                <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
-                <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
-                <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
-                <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
-                <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
-            </item>
-            <item>
-                <name>Emacs bindings for PowerPoint</name>
-                <identifier>remap.app_powerpoint_emacs_bindings</identifier>
-                <only>WORD</only>
-                <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
-                <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
-                <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
-                <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
-                <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
-                <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
-                <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
-                <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
-                <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
-            </item>
-            <item>
-                <name>Emacs bindings for Word</name>
-                <identifier>remap.app_word_emacs_bindings</identifier>
-                <only>POWERPOINT</only>
-                <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
-                <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
-                <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
-                <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
-                <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
-                <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
-                <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
-                <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
-                <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
-                <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
-            </item>
-            <item>
-                <name>Space to Shift_L</name>
-                <appendix>(+ When you type Space only, send Space) + [KeyRepeat]</appendix>
-                <appendix>Option+Space to Space</appendix>
-                <identifier>remap.space2shiftL_space_optionspace</identifier>
-                <autogen>__KeyToKey__ KeyCode::SPACE, ModifierFlag::OPTION_L, KeyCode::SPACE</autogen>
-                <autogen>__KeyOverlaidModifierWithRepeat__ KeyCode::SPACE, KeyCode::SHIFT_L, KeyCode::SPACE</autogen>
-            </item>
-        </list>
-    </item>
+  <appdef>
+    <appname>MACVIM</appname>
+    <equal>org.vim.MacVim</equal>
+  </appdef>
+  <appdef>
+    <appname>CONTEXTS</appname>
+    <equal>com.contextsformac.Contexts</equal>
+  </appdef>
+  <appdef>
+    <appname>ONENOTE</appname>
+    <equal>com.microsoft.onenote.mac</equal>
+  </appdef>
+  <appdef>
+    <appname>WORD</appname>
+    <equal>com.microsoft.Word</equal>
+  </appdef>
+  <appdef>
+    <appname>POWERPOINT</appname>
+    <equal>com.microsoft.Powerpoint</equal>
+  </appdef>
+  <appdef>
+    <appname>EXCEL</appname>
+    <equal>com.microsoft.Excel</equal>
+  </appdef>
+  <item>
+    <name>Custom Keymaps</name>
+    <list>
+      <item>
+        <name>C-TAB to C-Z, TAB</name>
+        <appendix>(change window)</appendix>
+        <identifier>remap.app_term_screen_tab</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::TAB</autogen>
+        <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::TAB</autogen>
+      </item>
+      <item>
+        <name>C-TAB to C-Z, U</name>
+        <appendix>(change window for dvtm)</appendix>
+        <identifier>remap.app_term_dvtm_tab</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::TAB, ModifierFlag::CONTROL_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
+      </item>
+      <item>
+        <name>Option-? to C-Z, ?</name>
+        <appendix>(setting for dvtm)</appendix>
+        <identifier>remap.app_term_dvtm</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::C, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::C</autogen>
+        <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::X</autogen>
+        <autogen>--KeyToKey-- KeyCode::L, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::L</autogen>
+        <autogen>--KeyToKey-- KeyCode::H, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::H</autogen>
+        <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::J</autogen>
+        <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::K</autogen>
+        <autogen>--KeyToKey-- KeyCode::N, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::N</autogen>
+        <autogen>--KeyToKey-- KeyCode::DOT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::DOT</autogen>
+        <autogen>--KeyToKey-- KeyCode::U, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::U</autogen>
+        <autogen>--KeyToKey-- KeyCode::I, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::I</autogen>
+        <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::M</autogen>
+        <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SPACE</autogen>
+        <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::RETURN</autogen>
+        <autogen>--KeyToKey-- KeyCode::T, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::T</autogen>
+        <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::B</autogen>
+        <autogen>--KeyToKey-- KeyCode::G, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::G</autogen>
+        <autogen>--KeyToKey-- KeyCode::S, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::S</autogen>
+        <autogen>--KeyToKey-- KeyCode::R, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::R</autogen>
+        <autogen>--KeyToKey-- KeyCode::G, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::G, ModifierFlag::SHIFT_L</autogen>
+        <autogen>--KeyToKey-- KeyCode::A, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::A</autogen>
+        <autogen>--KeyToKey-- KeyCode::X, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::X, ModifierFlag::SHIFT_L</autogen>
+        <autogen>--KeyToKey-- KeyCode::B, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::B, ModifierFlag::SHIFT_L</autogen>
+        <autogen>--KeyToKey-- KeyCode::M, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::M, ModifierFlag::SHIFT_L</autogen>
+        <autogen>--KeyToKey-- KeyCode::V, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::V</autogen>
+        <autogen>--KeyToKey-- KeyCode::SLASH, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SLASH</autogen>
+        <autogen>--KeyToKey-- KeyCode::SLASH, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::SLASH, ModifierFlag::SHIFT_L</autogen>
+        <autogen>--KeyToKey-- KeyCode::P, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::P</autogen>
+        <autogen>--KeyToKey-- KeyCode::F1, ModifierFlag::OPTION_L | ModifierFlag::FN, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::F1, ModifierFlag::FN</autogen>
+        <autogen>--KeyToKey-- KeyCode::Q, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::Q</autogen>
+        <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::BRACKET_LEFT</autogen>
+        <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::BRACKET_RIGHT</autogen>
+      </item>
+      <item>
+        <name>Option-123... to C-Z, 123...</name>
+        <appendix>(setting for dvtm - change panes)</appendix>
+        <identifier>remap.app_term_dvtm_change_panes</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::KEY_1, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_1</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_2, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_2</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_3, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_3</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_4, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_4</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_5, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_5</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_6, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_6</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_7, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_7</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_8, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_8</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_9, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_9</autogen>
+      </item>
+      <item>
+        <name>D-123... to C-Z, 123...</name>
+        <appendix>(switch window)</appendix>
+        <identifier>remap.app_term_screen_num</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::KEY_0, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_0</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_1, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_1</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_2, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_2</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_3, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_3</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_4, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_4</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_5, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_5</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_6, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_6</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_7, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_7</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_8, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_8</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_9, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_9</autogen>
+      </item>
+      <item>
+        <name>ESC, C-[, ` to ESC + IME off</name>
+        <appendix>(for terminal)</appendix>
+        <identifier>remap.app_term_ime_off_esc</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+        <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+        <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+      </item>
+      <item>
+        <name>ESC, C-[ to ESC + IME off</name>
+        <appendix>(for terminal)</appendix>
+        <identifier>remap.app_term_ime_off_esc_except_backquote</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+        <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+      </item>
+      <item>
+        <name>Double Shift_R to CapsLock</name>
+        <identifier>remap.double_right_shift_to_capslock</identifier>
+        <autogen>--DoublePressModifier-- KeyCode::SHIFT_R, KeyCode::SHIFT_R, KeyCode::CAPSLOCK</autogen>
+      </item>
+      <item>
+        <name>Shift_L to Shift_L</name>
+        <appendix>(+ When you type Shift_L only, send JIS_KANA)</appendix>
+        <identifier>remap.shiftL2shiftL_jis_kana</identifier>
+        <autogen>--KeyOverlaidModifier-- KeyCode::SHIFT_L, KeyCode::SHIFT_L, KeyCode::JIS_KANA</autogen>
+      </item>
+      <item>
+        <name>Shift_R to Shift_R</name>
+        <appendix>(+ When you type Shift_R only, send C-JIS_KANA x 2)</appendix>
+        <identifier>remap.shiftR2shiftR_c_jis_kana</identifier>
+        <autogen>--KeyOverlaidModifier-- KeyCode::SHIFT_R, KeyCode::SHIFT_R, KeyCode::JIS_KANA, ModifierFlag::CONTROL_L, KeyCode::JIS_KANA, ModifierFlag::CONTROL_L</autogen>
+      </item>
+      <item>
+        <name>Esc, C-[, ` to ESC + IME off</name>
+        <appendix>(for MacVim)</appendix>
+        <identifier>remap.app_macvim_ime_off_esc</identifier>
+        <only>MACVIM</only>
+        <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+        <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+        <autogen>--KeyToKey-- KeyCode::BACKQUOTE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+      </item>
+      <item>
+        <name>Esc, C-[ to ESC + IME off</name>
+        <appendix>(for MacVim)</appendix>
+        <identifier>remap.app_macvim_ime_off_esc_except_backquote</identifier>
+        <only>MACVIM</only>
+        <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+        <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, ModifierFlag::CONTROL_L, KeyCode::JIS_EISUU, KeyCode::ESCAPE</autogen>
+      </item>
+      <item>
+        <name>C-J to F12</name>
+        <appendix>(for terminal)</appendix>
+        <identifier>remap.app_term_c_j_f12</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::F12</autogen>
+      </item>
+      <item>
+        <name>C-J to F10</name>
+        <appendix>(for terminal)</appendix>
+        <identifier>remap.app_term_c_j_f10</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::F10</autogen>
+      </item>
+      <item>
+        <name>C-RETURN to C-@</name>
+        <appendix>(for terminal)</appendix>
+        <identifier>remap.app_term_c_return_c_@</identifier>
+        <only>TERMINAL</only>
+        <autogen>--KeyToKey-- KeyCode::RETURN, ModifierFlag::CONTROL_L, KeyCode::KEY_2, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L</autogen>
+      </item>
+      <item>
+        <name>C-J, C-K to O-S-Down, O-S-Up</name>
+        <appendix>(for contexts)</appendix>
+        <identifier>remap.app_contexts_selector</identifier>
+        <only>CONTEXTS</only>
+        <autogen>--KeyToKey-- KeyCode::J, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
+        <autogen>--KeyToKey-- KeyCode::K, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L</autogen>
+      </item>
+      <item>
+        <name>O-ESCAPE to O-JIS_EISUU</name>
+        <appendix>(for contexts)</appendix>
+        <identifier>remap.app_contexts_app_changeer</identifier>
+        <autogen>--KeyToKey-- KeyCode::ESCAPE, ModifierFlag::OPTION_L, KeyCode::JIS_EISUU, ModifierFlag::OPTION_L</autogen>
+      </item>
+      <item>
+        <name>Emacs bindings for One Note</name>
+        <identifier>remap.app_one_note_emacs_bindings</identifier>
+        <only>ONENOTE</only>
+        <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
+        <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
+        <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
+        <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
+        <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
+        <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
+        <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
+        <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+      </item>
+      <item>
+        <name>Emacs bindings for PowerPoint</name>
+        <identifier>remap.app_powerpoint_emacs_bindings</identifier>
+        <only>WORD</only>
+        <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
+        <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
+        <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
+        <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
+        <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
+        <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
+        <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
+        <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+      </item>
+      <item>
+        <name>Emacs bindings for Word</name>
+        <identifier>remap.app_word_emacs_bindings</identifier>
+        <only>POWERPOINT</only>
+        <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
+        <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
+        <autogen>__KeyToKey__ KeyCode::N, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_DOWN</autogen>
+        <autogen>__KeyToKey__ KeyCode::P, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_UP</autogen>
+        <autogen>__KeyToKey__ KeyCode::A, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::HOME</autogen>
+        <autogen>__KeyToKey__ KeyCode::E, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::END</autogen>
+        <autogen>__KeyToKey__ KeyCode::D, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::FORWARD_DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::H, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::K, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L, KeyCode::FORWARD_DELETE</autogen>
+        <autogen>__KeyToKey__ KeyCode::J, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::M, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::RETURN</autogen>
+        <autogen>__KeyToKey__ KeyCode::RETURN, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_COMMAND, KeyCode::RETURN, ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L</autogen>
+      </item>
+      <item>
+        <name>Space to Shift_L</name>
+        <appendix>(+ When you type Space only, send Space) + [KeyRepeat]</appendix>
+        <appendix>Option+Space to Space</appendix>
+        <identifier>remap.space2shiftL_space_optionspace</identifier>
+        <autogen>__KeyToKey__ KeyCode::SPACE, ModifierFlag::OPTION_L, KeyCode::SPACE</autogen>
+        <autogen>__KeyOverlaidModifierWithRepeat__ KeyCode::SPACE, KeyCode::SHIFT_L, KeyCode::SPACE</autogen>
+      </item>
+      <item>
+        <name>左コマンドを「英数」、右オプションを「かな」</name>
+        <appendix>（コマンド・オプションキーの空打ちで「英数／かな」）</appendix>
+        <appendix>（コマンド・オプションキーを押している間に他のキーを打つと通常のコマンド・オプションキーとして動作。</appendix>
+        <appendix>ただし、他のキーを離す前にコマンド・オプションキーを離した場合は「英数／かな」として扱う。）</appendix>
+        <identifier>remap.japanese_option2eisuukana_prefer_command_v2</identifier>
+        <autogen>
+          __KeyOverlaidModifier__
+          KeyCode::COMMAND_L,
+          KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_japanese_command2eisuukana_prefer_command_v2, ModifierFlag::COMMAND_L,
+          KeyCode::JIS_EISUU,
+        </autogen>
+        <autogen>
+          __KeyOverlaidModifier__
+          KeyCode::OPTION_R,
+          KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_japanese_option2eisuukana_prefer_option_v2, ModifierFlag::OPTION_R,
+          KeyCode::JIS_KANA,
+        </autogen>
+      </item>
+      <item hidden="true">
+        <identifier vk_config="true">notsave.japanese_option2eisuukana_prefer_option_v2</identifier>
+        <autogen>__BlockUntilKeyUp__ KeyCode::OPTION_L</autogen>
+        <autogen>__BlockUntilKeyUp__ KeyCode::OPTION_R</autogen>
+      </item>
+    </list>
+  </item>
 </root>
