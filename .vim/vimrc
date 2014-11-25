@@ -44,7 +44,6 @@ call s:load_rc('netrw')               " Netrw 設定
 call s:load_rc('unite')               " Unite 設定
 call s:load_rc('vimfiler')            " VimFiler 設定
 call s:load_rc('vimshell')            " VimShell 設定
-call s:load_rc('powerline')           " Powerline 設定
 call s:load_rc('jpformat')            " JpFormat 設定
 call s:load_rc('tweetvim')            " TweetVim 設定
 call s:load_rc('easymotion')          " EasyMotion 設定
@@ -69,17 +68,23 @@ call s:load_rc('open-browser')        " open-browser 設定
 call s:load_rc('markdown')            " markdown 設定
 
 if has('macunix')
-    call s:load_rc('itunes')         " vim-itunes 設定
+  call s:load_rc('itunes')            " vim-itunes 設定
+endif
+
+if filereadable(g:home . '/.no-powerline')
+  call s:load_rc('airline')           " airline 設定
+else
+  call s:load_rc('powerline')         " powerline 設定
 endif
 
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
 if filereadable(g:office_vimrc)
-    execute 'source ' . g:office_vimrc
+  execute 'source ' . g:office_vimrc
 endif
 
 " ローカル設定
 let g:local_vimrc = g:home . '/conf/.vimrc'
 if filereadable(g:local_vimrc)
-    execute 'source ' . g:local_vimrc
+  execute 'source ' . g:local_vimrc
 endif
