@@ -1,5 +1,17 @@
 {
 	"default_module": "powerline.segments.vim",
+	"segment_data": {
+		"itunes": {
+			"args": {
+				"state_symbols": {
+					"fallback": "♫",
+					"play":     "▶",
+					"pause":    "▮▮",
+					"stop":     "■"
+				}
+			}
+		}
+	},
 	"segments": {
 		"left": [
 			{
@@ -49,6 +61,9 @@
 			}
 		],
 		"right": [
+			{
+				"function": "ext.segments.itunes"
+			},
 			{
 				"function": "powerline.segments.common.time.date"
 			},
