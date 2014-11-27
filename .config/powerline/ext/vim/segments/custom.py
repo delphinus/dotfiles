@@ -13,8 +13,8 @@ from powerline.bindings.vim import vim_get_func, getbufvar
 from powerline.theme import requires_segment_info
 
 vim_funcs = {
-		'col': vim_get_func('col', rettype=int),
-		'virtcol': vim_get_func('virtcol', rettype=int),
+		'col': vim_get_func('col', rettype='int'),
+		'virtcol': vim_get_func('virtcol', rettype='int'),
 		'getcwd': vim_get_func('getcwd'),
 		'fnamemodify': vim_get_func('fnamemodify'),
 		}
@@ -25,7 +25,7 @@ def _do_ex(command):
 	Execute Ex command from args and return results string.
 	'''
 	vim.command('redir => tmp_do_ex | silent! {0} | redir END'.format(command))
-	return vim.eval('tmp_do_ex')
+	return vim.eval('tmp_do_ex').decode('utf-8')
 
 def col_current_virt(pl, gradient=True):
 	'''Return the current cursor column.
