@@ -1,7 +1,11 @@
 {
-	"default_module": "powerline.segments.common",
 	"segment_data": {
-		"email_imap_alert": {
+		"powerline.segments.common.wthr.weather": {
+			"args": {
+				"location_query": "tokyo, japan"
+			}
+		},
+		"powerline.segments.common.mail.email_imap_alert": {
 			"before": "📩  ",
 			"args": {
 				"username": "",
@@ -17,6 +21,13 @@
 		"used_memory_percent_gradient": {
 			"args": {
 				"format": "🔲  {0:4.1f}%"
+			}
+		},
+		"powerline.segments.common.bat.battery": {
+			"args": {
+				"gamify": true,
+				"full_heart": "♥ ",
+				"empty_heart": "♡ "
 			}
 		},
 		"system_load": {
@@ -39,40 +50,35 @@
 	"segments": {
 		"right": [
 			{
-				"function": "weather",
+				"function": "powerline.segments.common.wthr.weather",
 				"priority": 90
 			},
 			{
-				"function": "email_imap_alert",
+				"function": "powerline.segments.common.mail.email_imap_alert",
 				"priority": 50
 			},
 			{
-				"function": "network_load",
+				"function": "powerline.segments.common.net.network_load",
 				"priority": 50
 			},
 			{
-				"function": "cpu_load_percent",
+				"function": "powerline.segments.common.sys.cpu_load_percent",
 				"priority": 50
 			},
 			{
-				"function": "ext.segments.tmux.ps.used_memory_percent",
+				"function": "ext.tmux.segments.ps.used_memory_percent_gradient",
 				"priority": 50
 			},
 			{
-				"function": "battery",
-				"args": {
-					"gamify": true,
-					"full_heart": "♥ ",
-					"empty_heart": "♡ "
-				},
+				"function": "powerline.segments.common.bat.battery",
 				"priority": 50
 			},
 			{
-				"function": "date",
+				"function": "powerline.segments.common.time.date",
 				"priority": 80
 			},
 			{
-				"function": "date",
+				"function": "powerline.segments.common.time.date",
 				"args": {
 					"format": "%H:%M",
 					"istime": true

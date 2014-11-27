@@ -10,7 +10,8 @@ import re
 import socket
 
 from powerline.lib import add_divider_highlight_group
-from powerline.lib.threaded import ThreadedSegment, with_docstring
+from powerline.lib.threaded import ThreadedSegment
+from powerline.segments import with_docstring
 
 def used_memory_percent_gradient(pl, format='{0:.0f}%'):
 	memory_percent = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM

@@ -3,6 +3,17 @@
 	"segments": {
 		"left": [
 			{
+				"function": "file_name"
+			},
+			{
+				"function": "file_size",
+				"before": "size: "
+			},
+			{
+				"function": "ext.vim.segments.custom.file_mtime",
+				"before": "mtime: "
+			},
+			{
 				"type": "segment_list",
 				"function": "powerline.listers.vim.tablister",
 				"exclude_function": "single_tab",
@@ -30,33 +41,6 @@
 				]
 			},
 			{
-				"type": "segment_list",
-				"function": "powerline.listers.vim.bufferlister",
-				"include_function": "single_tab",
-				"segments": [
-					{
-						"function": "bufnr",
-						"after": " ",
-						"priority": 5
-					},
-					{
-						"function": "file_directory",
-						"priority": 40
-					},
-					{
-						"function": "file_name",
-						"args": {
-							"display_no_file": true
-						},
-						"priority": 10
-					},
-					{
-						"function": "modified_indicator",
-						"priority": 5
-					}
-				]
-			},
-			{
 				"type": "string",
 				"highlight_group": ["background"],
 				"draw_soft_divider": false,
@@ -66,11 +50,14 @@
 		],
 		"right": [
 			{
-				"type": "string",
-				"contents": "Bufs",
-				"name": "single_tab",
-				"highlight_group": ["single_tab"],
-				"include_function": "single_tab"
+				"function": "powerline.segments.common.time.date"
+			},
+			{
+				"function": "powerline.segments.common.time.date",
+				"args": {
+					"format": "%H:%M",
+					"istime": true
+				}
 			},
 			{
 				"type": "string",

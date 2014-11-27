@@ -4,12 +4,13 @@ from __future__ import (unicode_literals, division, absolute_import, print_funct
 
 import os
 import re
+import time
 try:
 	import vim
 except ImportError:
 	vim = {}
 
-from powerline.bindings.vim import vim_get_func, getbufvar
+from powerline.bindings.vim import vim_get_func, getbufvar, buffer_name
 from powerline.theme import requires_segment_info
 
 vim_funcs = {
@@ -85,3 +86,16 @@ def current_directory(pl, segment_info, shorten_user=True, shorten_cwd=True, sho
 	if shorten_home and current_directory.startswith('/home/'):
 		current_directory = '~' + current_directory[6:]
 	return current_directory + os.sep if current_directory else None
+
+@requires_segment_info
+def file_mtime(pl, segment_info):
+	'''Return file mtime.
+	'''
+	name = buffer_name(segment_info)
+	if name:
+		return [{
+			'contents': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.stat(name).st_mtime)),
+			'highlight_group': ['file_mtime', 'file_size']
+			}]
+	else:
+		return None

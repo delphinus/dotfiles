@@ -38,7 +38,10 @@
 		"mysql_user":               { "fg": "gold3", "bg": "gray4", "attr": ["bold"] },
 		"mysql_db":                 { "fg": "gold3", "bg": "gray4", "attr": ["bold"] },
 		"fugitive_hash":            { "fg": "gold3", "bg": "gray4", "attr": ["bold"] },
-		"ref_perldoc_module":       { "fg": "gold3", "bg": "gray4", "attr": ["bold"] }
+		"ref_perldoc_module":       { "fg": "gold3", "bg": "gray4", "attr": ["bold"] },
+		"date":                      { "fg": "gray8", "bg": "gray2", "attr": [] },
+		"time":                      { "fg": "gray10", "bg": "gray2", "attr": ["bold"] },
+		"time:divider":              { "fg": "gray5", "bg": "gray2", "attr": [] }
 	},
 	"mode_translations": {
 		"nc": {
