@@ -69,9 +69,8 @@ NeoBundle 'Shougo/vinarise.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
 "NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'ap/vim-css-color'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'blueyed/vim-colors-solarized'
 NeoBundle 'amdt/sunset'
 NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
@@ -136,6 +135,11 @@ if has('macunix')
     NeoBundle 'msanders/cocoa.vim'
     NeoBundle 'troydm/pb.vim'
     NeoBundle 'rizzatti/dash.vim'
+endif
+
+" Powerline がうまく動かないとき用
+if filereadable(g:home . '/.no-powerline')
+  NeoBundle 'bling/vim-airline'
 endif
 
 " github にないプラグイン

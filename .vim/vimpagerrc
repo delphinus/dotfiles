@@ -56,7 +56,7 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
 NeoBundle 'rkitover/vimpager'
 
 NeoBundle 'airblade/vim-rooter'
-NeoBundle 'blueyed/vim-colors-solarized'
+NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'morhetz/gruvbox'
