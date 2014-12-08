@@ -39,9 +39,9 @@ if &term !~ "screen" && &term !~ "xterm" && &term !~ "dvtm"
 endif
 
 " tmux & iTerm2 上の場合
-if exists('$TMUX') && has('macunix')
+if filereadable(g:home . '/.use-mac') || exists('$TMUX') && has('macunix')
     " iTerm2 の時のみカーソル形状を変える
-    if exists('$TMUX')
+    if filereadable(g:home . '/.use-mac') || exists('$TMUX')
         let &t_SI = "\ePtmux;\e\e]50;CursorShape=1\x7\e\\"
         let &t_EI = "\ePtmux;\e\e]50;CursorShape=0\x7\e\\"
     else
