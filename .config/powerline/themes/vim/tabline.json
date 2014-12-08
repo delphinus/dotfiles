@@ -4,16 +4,20 @@
 		"itunes": {
 			"args": {
 				"state_symbols": {
-					"fallback": "♫",
-					"play":     "▶",
-					"pause":    "▮▮",
-					"stop":     "■"
+					"fallback": "♫ ",
+					"play":     "▶ ",
+					"pause":    "▮ ",
+					"stop":     "■ "
 				}
 			}
 		}
 	},
 	"segments": {
 		"left": [
+			{
+				"function": "mode",
+				"exclude_modes": ["nc"]
+			},
 			{
 				"function": "file_name"
 			},

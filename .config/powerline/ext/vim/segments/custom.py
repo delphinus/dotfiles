@@ -92,7 +92,7 @@ def file_mtime(pl, segment_info):
 	'''Return file mtime.
 	'''
 	name = buffer_name(segment_info)
-	if name:
+	if os.path.isfile(name):
 		return [{
 			'contents': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.stat(name).st_mtime)),
 			'highlight_group': ['file_mtime', 'file_size']
