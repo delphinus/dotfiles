@@ -21,8 +21,14 @@ if has('win32')
   set linespace=0                 " 行間を空けない
 
 elseif has('macunix')
-  set guifont=Ricty_Discord:h18
-  set guifontwide=Ricty_Discord:h18
+  let resolution = system("osascript -e 'tell application " . '"Finder"' . " to get bounds of window of desktop' | awk -F', ' '{print $3}'")
+  if resolution < 1440
+    set guifont=Ricty_Discord:h14
+    set guifontwide=Ricty_Discord:h14
+  else
+    set guifont=Ricty_Discord:h18
+    set guifontwide=Ricty_Discord:h18
+  endif
   set linespace=0
   set antialias                     " 文字をなめらかに表示する
   set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
