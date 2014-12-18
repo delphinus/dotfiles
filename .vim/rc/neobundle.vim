@@ -13,15 +13,17 @@ let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
 let g:after_dir     = g:home       . '/.vim/after'
 let g:mybundle_dir  = g:home       . '/.vim/mybundle'
 
-" デフォルトプロトコル
-let g:neobundle#types#git#default_protocol='https'
-
 " NeoBundle へのパス
 if has('vim_starting')
-  set nocompatible               " Be iMproved
+  if &compatible
+    set nocompatible               " Be iMproved
+  endif
   execute 'set runtimepath-=' . g:home . '/.vim/'
   execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
+
+" デフォルトプロトコル
+let g:neobundle#types#git#default_protocol='https'
 
 " Required:
 call neobundle#begin(expand(g:bundle_dir))
@@ -30,6 +32,9 @@ call neobundle#begin(expand(g:bundle_dir))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+" Use neobundle standard recipes.
+NeoBundle 'Shougo/neobundle-vim-recipes'
+
 " Set vimproc
 NeoBundle 'Shougo/vimproc.vim', {'build': {
     \   'cygwin': 'make -f make_cygwin.mak',
@@ -37,6 +42,8 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
     \   'unix': 'make -f make_unix.mak',
     \   },
     \ }
+
+
 
 " プラグイン（github） {{{
 
@@ -73,6 +80,7 @@ NeoBundle 'airblade/vim-rooter'
 NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'amdt/sunset'
+NeoBundle 'aklt/plantuml-syntax'
 NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
 NeoBundle 'fuenor/JpFormat.vim'
@@ -86,6 +94,7 @@ NeoBundle 'koron/cmigemo'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'motemen/xslate-vim'
+NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'nishigori/increment-activator'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'reedes/vim-colors-pencil'
@@ -95,7 +104,6 @@ NeoBundle 't9md/vim-quickhl'
 NeoBundle 't9md/vim-choosewin'
 NeoBundle 'thinca/vim-fontzoom'
 NeoBundle 'thinca/vim-ref'
-NeoBundle 'tpope/vim-capslock'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-fugitive'
@@ -112,10 +120,10 @@ NeoBundle 'vim-scripts/visualrepeat'
 
 " }}}
 
-NeoBundleLazy 'gregsexton/VimCalc',                 {'autoload': {'commands':  ['Calc']}}
-NeoBundleLazy 'tyru/capture.vim',                   {'autoload': {'commands':  ['Capture']}}
-NeoBundleLazy 'sjl/gundo.vim',                      {'autoload': {'commands':  ['GundoToggle']}}
-NeoBundleLazy 'delphinus35/lcpeek.vim',             {'autoload': {'commands':  ['PeekInput']}}
+NeoBundleLazy 'gregsexton/VimCalc',     {'autoload': {'commands':  ['Calc']}}
+NeoBundleLazy 'tyru/capture.vim',       {'autoload': {'commands':  ['Capture']}}
+NeoBundleLazy 'sjl/gundo.vim',          {'autoload': {'commands':  ['GundoToggle']}}
+NeoBundleLazy 'delphinus35/lcpeek.vim', {'autoload': {'commands':  ['PeekInput']}}
 NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim', {'autoload': {'filetypes': ['css']}}
 NeoBundleLazy 'csv.vim',                            {'autoload': {'filetypes': ['csv']}}
 NeoBundleLazy 'jelera/vim-javascript-syntax',       {'autoload': {'filetypes': ['javascript']}}
@@ -123,6 +131,7 @@ NeoBundleLazy 'c9s/perlomni.vim',                   {'autoload': {'filetypes': [
 NeoBundleLazy 'catalinciurea/perl-nextmethod',      {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'delphinus35/perl-test-base.vim',     {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'vim-perl/vim-perl',                  {'autoload': {'filetypes': ['perl']}}
+NeoBundleLazy 'tpope/vim-capslock', {'autoload': {'mappings': ['i', '<Plug>CapsLockToggle']}}
 
 " TweetVim
 NeoBundleLazy 'basyura/TweetVim', {'depends': [
@@ -133,9 +142,9 @@ NeoBundleLazy 'basyura/TweetVim', {'depends': [
 
 " Mac 専用
 if has('macunix')
-    NeoBundle 'msanders/cocoa.vim'
-    NeoBundle 'troydm/pb.vim'
-    NeoBundle 'rizzatti/dash.vim'
+  NeoBundle 'msanders/cocoa.vim'
+  NeoBundle 'troydm/pb.vim'
+  NeoBundle 'rizzatti/dash.vim'
 endif
 
 " Powerline がうまく動かないとき用
@@ -145,12 +154,12 @@ endif
 
 " github にないプラグイン
 command! -nargs=1
-            \ MyNeoBundle
-            \ NeoBundle <args>, {
-            \   'base': g:mybundle_dir,
-            \   'type': 'nosync',
-            \   'lazy': 1,
-            \ }
+      \ MyNeoBundle
+      \ NeoBundle <args>, {
+      \   'base': g:mybundle_dir,
+      \   'type': 'nosync',
+      \   'lazy': 1,
+      \ }
 
 MyNeoBundle 'briofita'
 
@@ -160,8 +169,15 @@ endif
 
 call neobundle#end()
 
+" Required:
 filetype plugin indent on
-syntax on
+
+" インストールチェック
 NeoBundleCheck
+
+if !has('vim_starting')
+  " Call on_source hook when reloading .vimrc.
+  call neobundle#call_hook('on_source')
+endif
 
 " vim:se et fdm=marker:
