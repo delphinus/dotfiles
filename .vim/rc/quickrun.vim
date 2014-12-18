@@ -22,6 +22,8 @@ if executable(myperl)
     let g:quickrun_config['perl'].command = myperl
 endif
 
+let g:quickrun_config.applescript = {'command' : 'osascript' , 'output' : '_'}
+
 " ビジュアルモードで選択した部分を実行
 command! -range R :QuickRun perl -mode v
 "command! R :QuickRun perl -mode v

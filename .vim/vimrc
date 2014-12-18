@@ -67,6 +67,7 @@ call s:load_rc('concealedyank')       " concealedyank 設定
 call s:load_rc('open-browser')        " open-browser 設定
 call s:load_rc('markdown')            " markdown 設定
 call s:load_rc('capslock')            " capslock 設定
+call s:load_rc('applescript')         " applescript 設定
 
 if has('macunix')
   call s:load_rc('itunes')            " vim-itunes 設定

@@ -115,6 +115,7 @@ NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/AnsiEsc.vim'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler', {'depends': ['vim-scripts/ingo-library']}
+NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
 NeoBundle 'vim-scripts/visualrepeat'
 
