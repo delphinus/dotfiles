@@ -14,4 +14,5 @@ let g:markdown_quote_syntax_defaults = {
       \ 'sql':        {'start': 'sql'},
       \ 'ocaml':      {'start': 'ocaml'},
       \ 'erlang':     {'start': 'erlang'},
+      \ 'plantuml':   {'start': 'plantuml'},
 \}
