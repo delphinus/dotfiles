@@ -17,7 +17,7 @@ let g:quickrun_config['perl'] = {
             \ 'runner' : 'vimproc',
             \ }
 
-let myperl = expand('$HOME/.plenv/shims/perl')
+let myperl = expand('/usr/local/opt/plenv/shims/perl')
 if executable(myperl)
     let g:quickrun_config['perl'].command = myperl
 endif
