@@ -1,0 +1,7 @@
+{
+  "layouts": ["tall", "fullscreen"],
+  "mouse-follows-focus": true,
+  "floating": [],
+  "enables-layout-hud": true,
+  "enables-layout-hud-on-space-change": true
+}
