@@ -16,3 +16,4 @@ history.sqlite
 .sass-cache
 *.swp
 /.config/vim/yankround
+/.config/git
