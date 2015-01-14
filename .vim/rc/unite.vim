@@ -39,9 +39,10 @@ noremap Zm :Unite rails/mailer<CR>
 noremap ZL :Unite rails/lib<CR>
 noremap ZD :Unite rails/db<CR>
 noremap Zc :Unite rails/config<CR>
+noremap ZS :Unite rails/spec<CR>
 noremap Zl :Unite rails/log<CR>
 noremap ZJ :Unite rails/javascript<CR>
-noremap ZS :Unite rails/stylesheet<CR>
+noremap Zs :Unite rails/stylesheet<CR>
 noremap ZB :Unite rails/bundle<CR>
 noremap ZG :Unite rails/bundled_gem<CR>
 noremap ZR :Unite rails/route<CR>
