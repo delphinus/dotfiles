@@ -20,17 +20,33 @@ call unite#custom_source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', '
 " デフォルトアクション
 let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 
-noremap zd :Unite dwm<CR>
-noremap zf :Unite qfixhowm/new qfixhowm<CR>
-noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
-noremap zi :Unite tig<CR>
-noremap zl :Unite outline<CR>
-noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
-noremap zp :Unite dwm buffer_tab file_mru:long<CR>
-noremap zP :Unite output<CR>
-noremap zr :Unite ruby/require<CR>
-noremap zy :Unite yankround<CR>
-noremap zw :Unite webcolorname<CR>
+noremap zd  :Unite dwm<CR>
+noremap zf  :Unite qfixhowm/new qfixhowm<CR>
+noremap zF  :Unite qfixhowm/new qfixhowm:nocache<CR>
+noremap zi  :Unite tig<CR>
+noremap zl  :Unite outline<CR>
+noremap zn  :UniteWithBufferDir -buffer-name=files file file/new<CR>
+noremap zp  :Unite dwm buffer_tab file_mru:long<CR>
+noremap zP  :Unite output<CR>
+noremap ze  :Unite ruby/require<CR>
+noremap zy  :Unite yankround<CR>
+noremap zw  :Unite webcolorname<CR>
+noremap zrm :Unite rails/model<CR>
+noremap zrc :Unite rails/controller<CR>
+noremap zrv :Unite rails/view<CR>
+noremap zrh :Unite rails/helper<CR>
+noremap zrM :Unite rails/mailer<CR>
+noremap zrl :Unite rails/lib<CR>
+noremap zrd :Unite rails/db<CR>
+noremap zrC :Unite rails/config<CR>
+noremap zrL :Unite rails/log<CR>
+noremap zrj :Unite rails/javascript<CR>
+noremap zrs :Unite rails/stylesheet<CR>
+noremap zrb :Unite rails/bundle<CR>
+noremap zrg :Unite rails/bundled_gem<CR>
+noremap zrr :Unite rails/route<CR>
+noremap zrR :Unite rails/root<CR>
+noremap zro :Unite rails/command<CR>
 autocmd FileType unite call s:unite_my_settings()
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)

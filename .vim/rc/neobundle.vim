@@ -52,6 +52,7 @@ NeoBundle 'Shougo/neomru.vim',            {'depends': ['Shougo/unite.vim']}
 NeoBundle 'Shougo/neossh.vim',            {'depends': ['Shougo/unite.vim']}
 NeoBundle 'Shougo/tabpagebuffer.vim',     {'depends': ['Shougo/unite.vim']}
 NeoBundle 'Shougo/unite-outline',         {'depends': ['Shougo/unite.vim']}
+NeoBundle 'basyura/unite-rails',          {'depends': ['Shougo/unite.vim']}
 NeoBundle 'hakobe/unite-script-examples', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'kannokanno/unite-dwm',         {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
 NeoBundle 'osyo-manga/unite-qfixhowm',    {'depends': ['Shougo/unite.vim']}
