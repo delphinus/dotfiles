@@ -95,20 +95,20 @@
         <autogen>--KeyToKey-- KeyCode::KEY_9, ModifierFlag::OPTION_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_9</autogen>
       </item>
       <item>
-        <name>D-123... to C-Z, 123...</name>
+        <name>Cmd_R-123... to C-Z, 123...</name>
         <appendix>(switch window)</appendix>
         <identifier>remap.app_term_screen_num</identifier>
         <only>TERMINAL</only>
-        <autogen>--KeyToKey-- KeyCode::KEY_0, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_0</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_1, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_1</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_2, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_2</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_3, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_3</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_4, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_4</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_5, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_5</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_6, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_6</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_7, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_7</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_8, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_8</autogen>
-        <autogen>--KeyToKey-- KeyCode::KEY_9, ModifierFlag::COMMAND_L, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_9</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_0, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_0</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_1, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_1</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_2, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_2</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_3, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_3</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_4, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_4</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_5, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_5</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_6, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_6</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_7, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_7</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_8, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_8</autogen>
+        <autogen>--KeyToKey-- KeyCode::KEY_9, ModifierFlag::COMMAND_R, KeyCode::Z, ModifierFlag::CONTROL_L, KeyCode::KEY_9</autogen>
       </item>
       <item>
         <name>ESC, C-[, ` to ESC + IME off</name>
