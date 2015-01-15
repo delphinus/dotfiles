@@ -20,17 +20,17 @@ call unite#custom_source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', '
 " デフォルトアクション
 let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 
-noremap zd  :Unite dwm<CR>
-noremap zf  :Unite qfixhowm/new qfixhowm<CR>
-noremap zF  :Unite qfixhowm/new qfixhowm:nocache<CR>
-noremap zi  :Unite tig<CR>
-noremap zl  :Unite outline<CR>
-noremap zn  :UniteWithBufferDir -buffer-name=files file file/new<CR>
-noremap zp  :Unite dwm buffer_tab file_mru:long<CR>
-noremap zP  :Unite output<CR>
-noremap ze  :Unite ruby/require<CR>
-noremap zy  :Unite yankround<CR>
-noremap zw  :Unite webcolorname<CR>
+noremap zd :Unite dwm<CR>
+noremap zf :Unite qfixhowm/new qfixhowm<CR>
+noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
+noremap zi :Unite tig<CR>
+noremap zl :Unite outline<CR>
+noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
+noremap zp :Unite dwm buffer_tab file_mru:long<CR>
+noremap zP :Unite output<CR>
+noremap ze :Unite ruby/require<CR>
+noremap zy :Unite yankround<CR>
+noremap zw :Unite webcolorname<CR>
 noremap ZM :Unite rails/model<CR>
 noremap ZC :Unite rails/controller<CR>
 noremap ZV :Unite rails/view<CR>
