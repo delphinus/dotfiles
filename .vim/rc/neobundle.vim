@@ -173,6 +173,7 @@ call neobundle#end()
 
 " Required:
 filetype plugin indent on
+syntax on
 
 " インストールチェック
 NeoBundleCheck
