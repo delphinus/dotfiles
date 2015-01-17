@@ -152,4 +152,6 @@ let g:badwolf_css_props_highlight = 1
 let g:gruvbox_termcolors=16
 "colorscheme gruvbox
 
+syntax on
+
 " vim:et:fdm=marker:
