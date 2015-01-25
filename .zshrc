@@ -10,7 +10,7 @@ export EDITOR=vim
 export EDITRC=$HOME/.editrc
 export INPUTRC=$HOME/.inputrc
 
-alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+#alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 alias ls='gls --color'
 alias ll='gls --color -l'
 alias l.='gls --color -d .*'
@@ -50,7 +50,7 @@ module_path=($module_path /usr/local/lib/zpython)
 . $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
 
 # for MacVim
-export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
+#export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
 
 # for perlomni.vim
 export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
