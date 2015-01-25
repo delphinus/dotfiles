@@ -1,0 +1,118 @@
+---
+- hosts: default
+  gather_facts: no
+  sudo: no
+  vars:
+    homebrew_packages_taps:
+      - caskroom/cask
+      - homebrew/binary
+      - peco/peco
+      - sanemat/font
+
+    homebrew_packages_packages:
+      - { name: brew-cask }
+      - { name: coreutils }
+      - { name: dtach }
+      - { name: git }
+      - { name: git-flow }
+      - { name: htop-osx }
+      - { name: jq }
+      - { name: lftp }
+      - { name: lua }
+      - { name: lv }
+      - { name: mosh }
+      - { name: node }
+      - { name: peco }
+      - { name: perl-build }
+      - { name: plenv }
+      - { name: pt }
+      - { name: pyenv }
+      - { name: rbenv }
+      - { name: reattach-to-user-namespace }
+      - { name: ruby-build }
+      - { name: terminal-notifier }
+      - { name: tig }
+      - { name: tmux }
+      - { name: vimpager }
+      - { name: zpython }
+
+    homebrew_cask_packages_packages:
+      - 1password
+      - air-video-server-hd
+      - contexts
+      - cyberduck
+      - dash
+      - dropbox
+      - firefox
+      - flash-player
+      - flux
+      - freemind
+      - google-chrome
+      - ibettercharge
+      - iterm2
+      - karabiner
+      - keycastr
+      - lastfm
+      - limechat
+      - macvim
+      - mailbox
+      - vagrant
+      - virtualbox
+      - vmware-fusion
+      - vlc
+      - xquartz
+
+  pre_tasks:
+    - name: touch .bashrc
+      command: touch ~/.bashrc creates=~/.bashrc
+    - name: touch .bash_profile
+      command: touch ~/.bash_profile creates=~/.bash_profile
+
+  roles:
+    - role: dghubble.homebrew-role
+      bash_shell: True
+    - hnakamur.homebrew-packages
+    - hnakamur.homebrew-cask-packages
+
+  tasks:
+    - name:        set symlinks for macvim
+      file:        src=mvim dest=/usr/local/bin/{{ item }} state=link
+      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+      with_items:
+        - vim
+        - vimdiff
+        - view
+        - gvim
+        - gvimdiff
+        - gview
+        - mvimdiff
+        - mview
+    - name:        install ricty
+      homebrew:    name=ricty install_options=patch-in-place,powerline,vim-powerline
+      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+    - name: mkdir git
+      file: path=~/git state=directory
+    - name: clone dotfiles
+      git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
+    - name:    update submodules
+      command: git submodule update --init chdir=~/git/dotfiles
+    - name:       set symlinks
+      file:       src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
+      with_items:
+        - .config/ipython
+        - .config/peco
+        - .config/powerline
+        - .editrc
+        - .gitconfig
+        - .inputrc
+        - .vim
+        - .zshrc
+    - name:         install pip
+      easy_install: name=pip
+    - name: install powerline
+      pip:  name=powerline-status executable=/usr/local/bin/pip state=latest
+    - name: set Karabiner setting file
+      copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml
+    - name:        install jshint
+      command:     npm install -g jshint
+      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
