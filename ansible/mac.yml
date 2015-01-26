@@ -30,6 +30,7 @@
       - { name: rbenv }
       - { name: reattach-to-user-namespace }
       - { name: ruby-build }
+      - { name: ssh-copy-id }
       - { name: terminal-notifier }
       - { name: tig }
       - { name: tmux }
