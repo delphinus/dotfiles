@@ -76,21 +76,19 @@
     - hnakamur.homebrew-cask-packages
 
   tasks:
-    - name:        set symlinks for macvim
-      file:        src=mvim dest=/usr/local/bin/{{ item }} state=link
-      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
-      with_items:
-        - vim
-        - vimdiff
-        - view
-        - gvim
-        - gvimdiff
-        - gview
-        - mvimdiff
-        - mview
-    - name:        install ricty
+    # install phase
+    - name:        install ricty # ricty needs xquartz that cask installs
       homebrew:    name=ricty install_options=patch-in-place,powerline,vim-powerline
       environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+    - name:        install jshint
+      command:     npm install -g jshint
+      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+    - name:         install pip
+      easy_install: name=pip
+    - name: install powerline
+      pip:  name=powerline-status executable=/usr/local/bin/pip state=latest
+
+    # dotfiles phase
     - name: mkdir git
       file: path=~/git state=directory
     - name: clone dotfiles
@@ -108,12 +106,19 @@
         - .inputrc
         - .vim
         - .zshrc
-    - name:         install pip
-      easy_install: name=pip
-    - name: install powerline
-      pip:  name=powerline-status executable=/usr/local/bin/pip state=latest
     - name: set Karabiner setting file
       copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml
-    - name:        install jshint
-      command:     npm install -g jshint
+
+    # other
+    - name:        set symlinks for macvim
+      file:        src=mvim dest=/usr/local/bin/{{ item }} state=link
       environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+      with_items:
+        - vim
+        - vimdiff
+        - view
+        - gvim
+        - gvimdiff
+        - gview
+        - mvimdiff
+        - mview
