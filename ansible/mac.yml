@@ -5,6 +5,7 @@
   vars:
     homebrew_packages_taps:
       - caskroom/cask
+      - caskroom/versions
       - homebrew/binary
       - peco/peco
       - sanemat/font
@@ -45,7 +46,6 @@
       - dash
       - dropbox
       - firefox
-      - firefoxdeveloperedition-ja
       - flash-player
       - flux
       - freemind
@@ -81,6 +81,9 @@
     - name:        install ricty # ricty needs xquartz that cask installs
       homebrew:    name=ricty install_options=patch-in-place,powerline,vim-powerline
       environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+    - name: install Firefox Developer edition
+      command: brew cask install firefoxdeveloperedition-ja
+      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
     - name:        install jshint
       command:     npm install -g jshint
       environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
@@ -109,6 +112,11 @@
         - .zshrc
     - name: set Karabiner setting file
       copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml
+
+    # htop setting
+    - name: set owner / permission to htop
+      file: owner=root group=wheel mode=u+s follow=yes path=/usr/local/bin/htop
+      sudo: yes
 
     # other
     - name:        set symlinks for macvim
