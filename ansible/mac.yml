@@ -45,6 +45,7 @@
       - dash
       - dropbox
       - firefox
+      - firefoxdeveloperedition-ja
       - flash-player
       - flux
       - freemind
@@ -65,9 +66,9 @@
 
   pre_tasks:
     - name: touch .bashrc
-      command: touch ~/.bashrc creates=~/.bashrc
+      file: path=~/.bashrc state=touch
     - name: touch .bash_profile
-      command: touch ~/.bash_profile creates=~/.bash_profile
+      file: path=~/.bash_profile state=touch
 
   roles:
     - role: dghubble.homebrew-role
