@@ -8,7 +8,7 @@
 			{
 				"type": "string",
 				"contents": "In:",
-				"highlight_group": ["prompt"],
+				"highlight_groups": ["prompt"],
 				"draw_divider": false
 			}
 		]

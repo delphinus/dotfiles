@@ -1,11 +1,6 @@
 {
 	"default_module": "powerline.segments.common",
 	"segment_data": {
-		"mode": {
-			"args": {
-				"default": "vicmd"
-			}
-		},
 		"cwd": {
 			"args": {
 				"dir_limit_depth": 5,
@@ -20,21 +15,22 @@
 				"function": "powerline.segments.shell.mode"
 			},
 			{
-				"function": "hostname"
+				"function": "powerline.segments.shell.cwd",
+				"priority": 10
 			},
 			{
-				"function": "powerline.segments.shell.cwd"
-			},
-			{
-				"function": "powerline.segments.shell.jobnum"
+				"function": "powerline.segments.shell.jobnum",
+				"priority": 20
 			}
 		],
 		"right": [
 			{
-				"function": "powerline.segments.shell.last_pipe_status"
+				"function": "powerline.segments.shell.last_pipe_status",
+				"priority": 10
 			},
 			{
-				"function": "branch"
+				"function": "powerline.segments.common.vcs.branch",
+				"priority": 40
 			},
 			{
 				"function": "virtualenv"

@@ -10,7 +10,7 @@
 			},
 			{
 				"type": "string",
-				"highlight_group": ["ctrlp.background", "background"],
+				"highlight_groups": ["ctrlp.background", "background"],
 				"draw_soft_divider": false,
 				"draw_hard_divider": false,
 				"width": "auto"
