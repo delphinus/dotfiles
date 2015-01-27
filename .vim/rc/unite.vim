@@ -31,23 +31,24 @@ noremap zP :Unite output<CR>
 noremap ze :Unite ruby/require<CR>
 noremap zy :Unite yankround<CR>
 noremap zw :Unite webcolorname<CR>
-noremap ZM :Unite rails/model<CR>
-noremap ZC :Unite rails/controller<CR>
-noremap ZV :Unite rails/view<CR>
-noremap ZH :Unite rails/helper<CR>
-noremap Zm :Unite rails/mailer<CR>
-noremap ZL :Unite rails/lib<CR>
-noremap ZD :Unite rails/db<CR>
-noremap Zc :Unite rails/config<CR>
-noremap ZS :Unite rails/spec<CR>
-noremap Zl :Unite rails/log<CR>
-noremap ZJ :Unite rails/javascript<CR>
-noremap Zs :Unite rails/stylesheet<CR>
 noremap ZB :Unite rails/bundle<CR>
+noremap ZC :Unite rails/controller<CR>
+noremap ZD :Unite rails/db<CR>
 noremap ZG :Unite rails/bundled_gem<CR>
-noremap ZR :Unite rails/route<CR>
-noremap Zr :Unite rails/root<CR>
+noremap ZH :Unite rails/helper<CR>
+noremap ZJ :Unite rails/javascript<CR>
+noremap ZL :Unite rails/lib<CR>
+noremap ZM :Unite rails/model<CR>
 noremap ZO :Unite rails/command<CR>
+noremap ZR :Unite rails/route<CR>
+noremap ZS :Unite rails/spec<CR>
+noremap ZV :Unite rails/view<CR>
+noremap Zc :Unite rails/config<CR>
+noremap Zj :Unite rails/json_schema<CR>
+noremap Zl :Unite rails/log<CR>
+noremap Zm :Unite rails/mailer<CR>
+noremap Zr :Unite rails/root<CR>
+noremap Zs :Unite rails/stylesheet<CR>
 autocmd FileType unite call s:unite_my_settings()
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
