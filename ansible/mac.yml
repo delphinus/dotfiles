@@ -107,7 +107,7 @@
     - name:         install pip
       easy_install: name=pip
     - name: install powerline
-      pip:  name=powerline-status executable=/usr/local/bin/pip state=latest
+      command: pip install --user git+https://github.com/powerline/powerline
 
     # dotfiles phase
     - name: mkdir git
