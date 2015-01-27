@@ -65,10 +65,8 @@
       - xquartz
 
   pre_tasks:
-    - name: touch .bashrc
-      file: path=~/.bashrc state=touch
-    - name: touch .bash_profile
-      file: path=~/.bash_profile state=touch
+    - file: path=~/.bashrc state=touch
+    - file: path=~/.bash_profile state=touch
 
   roles:
     - role: dghubble.homebrew-role
@@ -77,16 +75,38 @@
     - hnakamur.homebrew-cask-packages
 
   tasks:
+    - copy: src=bashrc dest=~/.bashrc
+    - copy: src=bash_profile dest=~/.bash_profile
+
+    - shell:    pyenv versions
+      register: pyv
+    - command: pyenv install 2.7.9
+      when:    pyv.stdout.find('2.7.9') == -1
+    - command: pyenv install 3.4.2
+      when:    pyv.stdout.find('3.4.2') == -1
+    - shell: easy_install --user pip
+    - shell: pip install --user powerline-status
+    - command: pyenv global 2.7.9 3.4.2
+
+    - command:  rbenv versions
+      register: rbv
+    - command: rbenv install 2.1.3
+      when:    rbenv.stdout.find('2.1.3') == -1
+    - command: rbenv global 2.1.3
+
+    - shell:    plenv versions
+      register: plv
+    - command: plenv install 5.20.1
+      when:    plv.stdout.find('5.20.1') == -1
+    - command: plenv global 5.20.1
+
     # install phase
     - name:        install ricty # ricty needs xquartz that cask installs
       homebrew:    name=ricty install_options=patch-in-place,powerline,vim-powerline
-      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
     - name:     ricty version
       shell:    brew info ricty | head -1 | perl -pe 's/.*stable (\d+(?:\.\d+)*).*/\1/s'
       register: ricty_version
-      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
-    - name: copy ricty
-      command: cp -f {{ item }}.ttf ~/Library/Fonts/
+    - command: cp -f {{ item }}.ttf ~/Library/Fonts/
       args:
         chdir:   /usr/local/Cellar/ricty/{{ ricty_version.stdout }}/share/fonts
         creates: ~/Library/Fonts/{{ item }}.ttf
@@ -95,27 +115,15 @@
         - Ricty-Regular
         - RictyDiscord-Bold
         - RictyDiscord-Regular
-    - name: fc-cache -f
-      command: fc-cache -f
-      environment: { PATH: '/usr/X11/bin:/usr/local/bin:/usr/bin:/bin' }
-    - name: install Firefox Developer edition
-      command: brew cask install firefoxdeveloperedition-ja
-      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
-    - name:        install jshint
-      command:     npm install -g jshint
-      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
-    - name:    install powerline
-      command: pip install --user git+https://github.com/powerline/powerline
+    - command: fc-cache -f
+    - command: brew cask install firefoxdeveloperedition-ja
+    - command: npm install -g jshint
 
     # dotfiles phase
-    - name: mkdir git
-      file: path=~/git state=directory
-    - name: clone dotfiles
-      git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
-    - name:    update submodules
-      command: git submodule update --init chdir=~/git/dotfiles
-    - name:       set symlinks
-      file:       src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
+    - file: path=~/git state=directory
+    - git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
+    - command: git submodule update --init chdir=~/git/dotfiles
+    - file:       src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
       with_items:
         - .config/ipython
         - .config/peco
@@ -125,18 +133,14 @@
         - .inputrc
         - .vim
         - .zshrc
-    - name: set Karabiner setting file
-      copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml
+    - copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml
 
     # htop setting
-    - name: set owner / permission to htop
-      file: owner=root group=wheel mode=u+s follow=yes path=/usr/local/bin/htop
+    - file: owner=root group=wheel mode=u+s follow=yes path=/usr/local/bin/htop
       sudo: yes
 
     # other
-    - name:        set symlinks for macvim
-      file:        src=mvim dest=/usr/local/bin/{{ item }} state=link
-      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+    - file:        src=mvim dest=/usr/local/bin/{{ item }} state=link
       with_items:
         - vim
         - vimdiff
