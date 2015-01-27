@@ -104,7 +104,7 @@
     - name:        install jshint
       command:     npm install -g jshint
       environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
-    - name: install powerline
+    - name:    install powerline
       command: pip install --user git+https://github.com/powerline/powerline
 
     # dotfiles phase
