@@ -1,7 +1,10 @@
 {
   "layouts": ["tall", "fullscreen"],
   "mouse-follows-focus": true,
-  "floating": [],
+  "floating": [
+    "com.vmware.fusion",
+    "com.agilebits.onepassword4"
+  ],
   "enables-layout-hud": true,
   "enables-layout-hud-on-space-change": true
 }
