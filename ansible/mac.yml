@@ -81,6 +81,23 @@
     - name:        install ricty # ricty needs xquartz that cask installs
       homebrew:    name=ricty install_options=patch-in-place,powerline,vim-powerline
       environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+    - name:     ricty version
+      shell:    brew info ricty | head -1 | perl -pe 's/.*stable (\d+(?:\.\d+)*).*/\1/s'
+      register: ricty_version
+      environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
+    - name: copy ricty
+      command: cp -f {{ item }}.ttf ~/Library/Fonts/
+      args:
+        chdir:   /usr/local/Cellar/ricty/{{ ricty_version.stdout }}/share/fonts
+        creates: ~/Library/Fonts/{{ item }}.ttf
+      with_items:
+        - Ricty-Bold
+        - Ricty-Regular
+        - RictyDiscord-Bold
+        - RictyDiscord-Regular
+    - name: fc-cache -f
+      command: fc-cache -f
+      environment: { PATH: '/usr/X11/bin:/usr/local/bin:/usr/bin:/bin' }
     - name: install Firefox Developer edition
       command: brew cask install firefoxdeveloperedition-ja
       environment: { PATH: '/usr/local/bin:/usr/bin:/bin' }
