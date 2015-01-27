@@ -1,34 +1,7 @@
 {
 	"default_module": "powerline.segments.vim",
-	"segment_data": {
-		"itunes": {
-			"args": {
-				"state_symbols": {
-					"fallback": "♫ ",
-					"play":     "▶ ",
-					"pause":    "▮ ",
-					"stop":     "■ "
-				}
-			}
-		}
-	},
 	"segments": {
 		"left": [
-			{
-				"function": "mode",
-				"exclude_modes": ["nc"]
-			},
-			{
-				"function": "file_name"
-			},
-			{
-				"function": "file_size",
-				"before": "size: "
-			},
-			{
-				"function": "ext.vim.segments.custom.file_mtime",
-				"before": "mtime: "
-			},
 			{
 				"type": "segment_list",
 				"function": "powerline.listers.vim.tablister",
@@ -57,8 +30,35 @@
 				]
 			},
 			{
+				"type": "segment_list",
+				"function": "powerline.listers.vim.bufferlister",
+				"include_function": "single_tab",
+				"segments": [
+					{
+						"function": "bufnr",
+						"after": " ",
+						"priority": 5
+					},
+					{
+						"function": "file_directory",
+						"priority": 40
+					},
+					{
+						"function": "file_name",
+						"args": {
+							"display_no_file": true
+						},
+						"priority": 10
+					},
+					{
+						"function": "modified_indicator",
+						"priority": 5
+					}
+				]
+			},
+			{
 				"type": "string",
-				"highlight_group": ["background"],
+				"highlight_groups": ["background"],
 				"draw_soft_divider": false,
 				"draw_hard_divider": false,
 				"width": "auto"
@@ -66,23 +66,17 @@
 		],
 		"right": [
 			{
-				"function": "ext.segments.itunes"
-			},
-			{
-				"function": "powerline.segments.common.time.date"
-			},
-			{
-				"function": "powerline.segments.common.time.date",
-				"args": {
-					"format": "%H:%M",
-					"istime": true
-				}
+				"type": "string",
+				"contents": "Bufs",
+				"name": "single_tab",
+				"highlight_groups": ["single_tab"],
+				"include_function": "single_tab"
 			},
 			{
 				"type": "string",
 				"contents": "Tabs",
 				"name": "many_tabs",
-				"highlight_group": ["many_tabs"],
+				"highlight_groups": ["many_tabs"],
 				"exclude_function": "single_tab"
 			}
 		]

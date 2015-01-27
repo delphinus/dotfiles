@@ -8,8 +8,8 @@
 		"powerline.segments.common.mail.email_imap_alert": {
 			"before": "📩  ",
 			"args": {
-				"username": "",
-				"password": "",
+				"username": "delphinus@remora.cx",
+				"password": "ykdmwltjcgxyrzrq",
 				"max_msgs": 50
 			}
 		},
