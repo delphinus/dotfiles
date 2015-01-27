@@ -86,7 +86,7 @@ if filereadable(g:office_vimrc)
 endif
 
 " ローカル設定
-let g:local_vimrc = g:home . '/conf/.vimrc'
+let g:local_vimrc = g:home . '/.vimrc-local'
 if filereadable(g:local_vimrc)
   execute 'source ' . g:local_vimrc
 endif
