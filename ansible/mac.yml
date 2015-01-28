@@ -2,6 +2,8 @@
 - hosts: all
   gather_facts: no
   sudo: no
+  vars_files:
+    - vars/secrets.yml
 
   pre_tasks:
     - file: path=~/.bashrc state=touch
@@ -21,3 +23,4 @@
     - include: tasks/env.yml
     - include: tasks/ricty.yml
     - include: tasks/dotfiles.yml
+    - include: tasks/secrets.yml
