@@ -1,0 +1,8 @@
+---
+- name:          other homebrew packages
+  homebrew:      name={{ item }} state=latest
+  with_items:    other_homebrew_packages
+
+- name:          other homebrew cask packages
+  homebrew_cask: name={{ item }} state=installed
+  with_items:    other_homebrew_cask_packages

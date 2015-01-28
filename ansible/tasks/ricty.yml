@@ -1,0 +1,17 @@
+---
+- name:       install ricty # ricty needs xquartz that cask installs
+  homebrew:   name=ricty install_options=patch-in-place,powerline,vim-powerline
+- name:       ricty version
+  shell:      brew info ricty | head -1 | perl -pe 's/.*stable (\d+(?:\.\d+)*).*/\1/s'
+  register:   ricty_version
+- file: path=~/Library/Fonts state=directory
+- command:    cp -f {{ item }}.ttf ~/Library/Fonts/
+  args:
+    chdir:    /usr/local/Cellar/ricty/{{ ricty_version.stdout }}/share/fonts
+    creates:  ~/Library/Fonts/{{ item }}.ttf
+  with_items:
+    - Ricty-Bold
+    - Ricty-Regular
+    - RictyDiscord-Bold
+    - RictyDiscord-Regular
+- command:    fc-cache -f

@@ -1,0 +1,3 @@
+---
+- command: brew cask install firefoxdeveloperedition-ja
+- command: npm install -g jshint

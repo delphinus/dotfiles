@@ -1,0 +1,16 @@
+---
+# htop setting
+- file: owner=root group=wheel mode=u+s follow=yes path=/usr/local/bin/htop
+  sudo: yes
+
+# mvim
+- file: src=mvim dest=/usr/local/bin/{{ item }} state=link
+  with_items:
+    - vim
+    - vimdiff
+    - view
+    - gvim
+    - gvimdiff
+    - gview
+    - mvimdiff
+    - mview

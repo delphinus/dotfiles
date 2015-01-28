@@ -1,0 +1,15 @@
+---
+- file: path=~/git state=directory
+- git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
+- command: git submodule update --init chdir=~/git/dotfiles
+- file:       src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
+  with_items:
+    - .config/ipython
+    - .config/peco
+    - .config/powerline
+    - .editrc
+    - .gitconfig
+    - .inputrc
+    - .vim
+    - .zshrc
+- copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml

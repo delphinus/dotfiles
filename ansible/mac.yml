@@ -1,68 +1,7 @@
 ---
-- hosts: default
+- hosts: all
   gather_facts: no
   sudo: no
-  vars:
-    homebrew_packages_taps:
-      - caskroom/cask
-      - caskroom/versions
-      - homebrew/binary
-      - peco/peco
-      - sanemat/font
-
-    homebrew_packages_packages:
-      - { name: brew-cask }
-      - { name: coreutils }
-      - { name: dtach }
-      - { name: git }
-      - { name: git-flow }
-      - { name: htop-osx }
-      - { name: jq }
-      - { name: lftp }
-      - { name: lua }
-      - { name: lv }
-      - { name: mosh }
-      - { name: node }
-      - { name: peco }
-      - { name: perl-build }
-      - { name: plenv }
-      - { name: pt }
-      - { name: pyenv }
-      - { name: rbenv }
-      - { name: reattach-to-user-namespace }
-      - { name: ruby-build }
-      - { name: ssh-copy-id }
-      - { name: terminal-notifier }
-      - { name: tig }
-      - { name: tmux }
-      - { name: vimpager }
-      - { name: zpython }
-
-    homebrew_cask_packages_packages:
-      - 1password
-      - air-video-server-hd
-      - contexts
-      - cyberduck
-      - dash
-      - dropbox
-      - firefox
-      - flash-player
-      - flux
-      - freemind
-      - google-chrome
-      - ibettercharge
-      - iterm2
-      - karabiner
-      - keycastr
-      - lastfm
-      - limechat
-      - macvim
-      - mailbox
-      - vagrant
-      - virtualbox
-      - vmware-fusion
-      - vlc
-      - xquartz
 
   pre_tasks:
     - file: path=~/.bashrc state=touch
@@ -73,80 +12,12 @@
       bash_shell: True
     - hnakamur.homebrew-packages
     - hnakamur.homebrew-cask-packages
+    - common
 
   tasks:
-    - copy: src=bashrc dest=~/.bashrc
-    - copy: src=bash_profile dest=~/.bash_profile
-
-    - shell:    pyenv versions
-      register: pyv
-    - command: pyenv install 2.7.9
-      when:    pyv.stdout.find('2.7.9') == -1
-    - command: pyenv install 3.4.2
-      when:    pyv.stdout.find('3.4.2') == -1
-    - shell: easy_install --user pip
-    - shell: pip install --user powerline-status
-    - command: pyenv global 2.7.9 3.4.2
-
-    - command:  rbenv versions
-      register: rbv
-    - command: rbenv install 2.1.3
-      when:    rbenv.stdout.find('2.1.3') == -1
-    - command: rbenv global 2.1.3
-
-    - shell:    plenv versions
-      register: plv
-    - command: plenv install 5.20.1
-      when:    plv.stdout.find('5.20.1') == -1
-    - command: plenv global 5.20.1
-
-    # install phase
-    - name:        install ricty # ricty needs xquartz that cask installs
-      homebrew:    name=ricty install_options=patch-in-place,powerline,vim-powerline
-    - name:     ricty version
-      shell:    brew info ricty | head -1 | perl -pe 's/.*stable (\d+(?:\.\d+)*).*/\1/s'
-      register: ricty_version
-    - command: cp -f {{ item }}.ttf ~/Library/Fonts/
-      args:
-        chdir:   /usr/local/Cellar/ricty/{{ ricty_version.stdout }}/share/fonts
-        creates: ~/Library/Fonts/{{ item }}.ttf
-      with_items:
-        - Ricty-Bold
-        - Ricty-Regular
-        - RictyDiscord-Bold
-        - RictyDiscord-Regular
-    - command: fc-cache -f
-    - command: brew cask install firefoxdeveloperedition-ja
-    - command: npm install -g jshint
-
-    # dotfiles phase
-    - file: path=~/git state=directory
-    - git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
-    - command: git submodule update --init chdir=~/git/dotfiles
-    - file:       src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
-      with_items:
-        - .config/ipython
-        - .config/peco
-        - .config/powerline
-        - .editrc
-        - .gitconfig
-        - .inputrc
-        - .vim
-        - .zshrc
-    - copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml
-
-    # htop setting
-    - file: owner=root group=wheel mode=u+s follow=yes path=/usr/local/bin/htop
-      sudo: yes
-
-    # other
-    - file:        src=mvim dest=/usr/local/bin/{{ item }} state=link
-      with_items:
-        - vim
-        - vimdiff
-        - view
-        - gvim
-        - gvimdiff
-        - gview
-        - mvimdiff
-        - mview
+    - include: tasks/post_homebrew.yml
+    - include: tasks/other_homebrew.yml
+    - include: tasks/install.yml
+    - include: tasks/env.yml
+    - include: tasks/ricty.yml
+    - include: tasks/dotfiles.yml

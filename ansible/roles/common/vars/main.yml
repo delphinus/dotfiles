@@ -1,0 +1,61 @@
+---
+homebrew_packages_taps:
+  - caskroom/cask
+  - caskroom/versions
+  - homebrew/binary
+  - peco/peco
+  - sanemat/font
+
+homebrew_packages_packages:
+  - { name: brew-cask }
+  - { name: coreutils }
+  - { name: dtach }
+  - { name: git }
+  - { name: git-flow }
+  - { name: htop-osx }
+  - { name: jq }
+  - { name: lftp }
+  - { name: lua }
+  - { name: lv }
+  - { name: mosh }
+  - { name: node }
+  - { name: peco }
+  - { name: perl-build }
+  - { name: plenv }
+  - { name: pt }
+  - { name: pyenv }
+  - { name: rbenv }
+  - { name: reattach-to-user-namespace }
+  - { name: ruby-build }
+  - { name: ssh-copy-id }
+  - { name: terminal-notifier }
+  - { name: tig }
+  - { name: tmux }
+  - { name: vimpager }
+  - { name: zpython }
+
+homebrew_cask_packages_packages:
+  - 1password
+  - contexts
+  - cyberduck
+  - dash
+  - dropbox
+  - firefox
+  - flash-player
+  - flux
+  - freemind
+  - google-chrome
+  - ibettercharge
+  - iterm2
+  - karabiner
+  - keycastr
+  - lastfm
+  - macvim
+  - mailbox
+  - vlc
+  - xquartz
+
+python2_version: 2.7.9
+python3_version: 3.4.2
+ruby_version: 2.1.3
+perl_version: 5.20.1

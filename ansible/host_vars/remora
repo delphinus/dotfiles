@@ -1,0 +1,8 @@
+---
+other_homebrew_packages: []
+other_homebrew_cask_pacakges:
+  - air-video-server-hd
+  - limechat
+  - vagrant
+  - virtualbox
+  - vmware-fusion
