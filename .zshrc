@@ -62,21 +62,21 @@ export PYENV_ROOT=/usr/local/opt/pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 alias py=pyenv
 alias pyv='pyenv versions'
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv > /dev/null; then eval "$(pyenv init - zsh)"; fi
 
 # for ruby
 export RBENV_ROOT=/usr/local/opt/rbenv
 export PATH=$RBENV_ROOT/bin:$PATH
 alias rb=rbenv
 alias rbv='rbenv versions'
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
 
 # for plenv
 export PLENV_ROOT=/usr/local/opt/plenv
 export PATH=$PLENV_ROOT/bin:$PATH
 alias pl=plenv
 alias plv='plenv versions'
-if which plenv > /dev/null; then eval "$(plenv init -)"; fi
+if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
 
 # for go
 export GOPATH=$HOME/go
