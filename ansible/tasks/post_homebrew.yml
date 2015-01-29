@@ -4,7 +4,7 @@
   sudo: yes
 
 # mvim
-- file: src=mvim dest=/usr/local/bin/{{ item }} state=link
+- file: src=/Applications/MacVim.app/Content/MacOS/mvim dest=/usr/local/bin/{{ item }} state=link
   with_items:
     - vim
     - vimdiff
