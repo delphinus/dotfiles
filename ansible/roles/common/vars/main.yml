@@ -50,7 +50,6 @@ homebrew_cask_packages_packages:
   - karabiner
   - keycastr
   - lastfm
-  - macvim-kaoriya
   - mailbox
   - vlc
   - xquartz
