@@ -8,7 +8,7 @@
   with_items:    other_homebrew_cask_packages
 
 - copy: src=files/macvim-kaoriya.rb dest=/usr/local/Library/Taps/caskroom/homebrew-versions/Casks/macvim-kaoriya.rb
-- copy: src=files/symlinked.rb dest=/usr/local/Library/Taps/caskroom/homebrew-cask/lib/hbc/artifact/symlinked.rb
+- copy: src=files/symlinked.rb dest=/usr/local/Cellar/brew-cask/0.53.0/rubylib/hbc/artifact/symlinked.rb
 
 - command: brew cask info macvim-kaoriya
   register: macvim_kaoriya_info
