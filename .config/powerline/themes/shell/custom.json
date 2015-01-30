@@ -7,12 +7,22 @@
 				"use_path_separator": false,
 				"dir_shorten_len": 1
 			}
+		},
+		"hostname": {
+			"args": {
+				"only_if_ssh": true,
+				"exclude_domain": true
+			}
 		}
 	},
 	"segments": {
 		"left": [
 			{
 				"function": "powerline.segments.shell.mode"
+			},
+			{
+				"function": "powerline.segments.common.net.hostname",
+				"priority": 10
 			},
 			{
 				"function": "powerline.segments.shell.cwd",
