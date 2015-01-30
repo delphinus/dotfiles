@@ -6,3 +6,9 @@
 - name:          other homebrew cask packages
   homebrew_cask: name={{ item }} state=installed
   with_items:    other_homebrew_cask_packages
+
+- command: homebrew cask info macvim-kaoriya
+  register: macvim_kaoriya_info
+
+- command: homebrew cask install macvim-kaoriya --override-system-vim
+  when: macvim_kaoriya_info.stdout.find('Not installed') > -1
