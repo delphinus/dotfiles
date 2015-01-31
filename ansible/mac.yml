@@ -8,6 +8,8 @@
   pre_tasks:
     - file: path=~/.bashrc state=touch
     - file: path=~/.bash_profile state=touch
+    - file: path=/usr/local state=directory
+      sudo: yes
 
   roles:
     - role: dghubble.homebrew-role
