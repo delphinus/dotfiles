@@ -36,9 +36,10 @@ homebrew_packages_packages:
 
 homebrew_cask_packages_packages:
   - 1password
+  - appcleaner
+  - bettertouchtool
   - contexts
   - cyberduck
-  - dash
   - dropbox
   - firefox
   - flash-player
