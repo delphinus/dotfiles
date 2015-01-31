@@ -14,12 +14,14 @@
 
 - command: brew cask info macvim-kaoriya
   register: macvim_kaoriya_info
+  changed_when: macvim_kaoriya_info.rc != 0
 
 - command: brew cask install macvim-kaoriya --override-system-vim
   when: macvim_kaoriya_info.stdout.find('Not installed') > -1
 
 - command: brew cask info firefoxdeveloperedition-ja
   register: ffde_info
+  changed_when: ffde_info.rc != 0
 
 - command: brew cask install firefoxdeveloperedition-ja
   when: ffde_info.stdout.find('Not installed') > -1

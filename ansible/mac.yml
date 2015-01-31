@@ -25,8 +25,12 @@
   tasks:
     - include: tasks/post_homebrew.yml
     - include: tasks/other_homebrew.yml
-    - include: tasks/install.yml
     - include: tasks/env.yml
     - include: tasks/ricty.yml
     - include: tasks/dotfiles.yml
     - include: tasks/secrets.yml
+    - command: brew info ricty
+      register: ricty_info
+      changed_when: ricty_info.rc != 0
+    - include: tasks/install.yml
+      when: ricty_info.stdout.find('Not installed') > -1
