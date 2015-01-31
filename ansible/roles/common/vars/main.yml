@@ -54,6 +54,7 @@ homebrew_cask_packages_packages:
   - lastfm
   - mailbox
   - vlc
+  - xquartz
 
 python2_version: 2.7.9
 python3_version: 3.4.2
