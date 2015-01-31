@@ -1,4 +1,6 @@
 ---
+- command: brew cask install xquartz
+  sudo: yes
 - name:       install ricty # ricty needs xquartz that cask installs
   homebrew:   name=ricty install_options=patch-in-place,powerline,vim-powerline
 - name:       ricty version
