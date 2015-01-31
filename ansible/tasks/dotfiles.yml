@@ -11,6 +11,7 @@
     - .editrc
     - .gitconfig
     - .inputrc
+    - .jshintrc
     - .vim
     - .zshrc
 - copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml
