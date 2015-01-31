@@ -1,4 +1,4 @@
-export PATH=/usr/X11/bin:/usr/local/bin:/usr/bin:/bin
+export PATH=/usr/X11/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 export PATH=$HOME/Library/Python/2.7/bin:$PATH
 
 # for python
