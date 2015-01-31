@@ -45,6 +45,7 @@ homebrew_cask_packages_packages:
   - flash-player
   - flux
   - freemind
+  - github
   - google-chrome
   - ibettercharge
   - iterm2
