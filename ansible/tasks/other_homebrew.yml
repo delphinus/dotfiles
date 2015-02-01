@@ -26,3 +26,18 @@
 - command: brew cask install firefoxdeveloperedition-ja
   when: ffde_info.stdout.find('Not installed') > -1
 
+- command: brew cask info karabiner
+  register: karabiner_info
+  changed_when: karabiner_info.rc != 0
+
+- command: brew cask install karabiner
+  when: karabiner_info.stdout.find('Not installed') > -1
+  sudo: yes
+
+- command: brew cask info keycastr
+  register: keycastr_info
+  changed_when: keycastr_info.rc != 0
+
+- command: brew cask install keycastr
+  when: keycastr_info.stdout.find('Not installed') > -1
+  sudo: yes
