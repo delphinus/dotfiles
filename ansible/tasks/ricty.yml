@@ -2,7 +2,6 @@
 - command: brew cask install xquartz
   sudo: yes
 - command: brew install fontforge
-- command: brew uninstall python # uninstall unneeded python
 - name:       install ricty # ricty needs xquartz that cask installs
   homebrew:   name=ricty install_options=patch-in-place,powerline,vim-powerline
 - name:       ricty version
