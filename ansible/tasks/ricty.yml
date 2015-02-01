@@ -1,9 +1,8 @@
 ---
-- command: brew cask install xquartz
+- homebrew_cask: name=xquartz state=installed
   sudo: yes
-- command: brew install fontforge
-- name:       install ricty # ricty needs xquartz that cask installs
-  homebrew:   name=ricty install_options=patch-in-place,powerline,vim-powerline
+- homebrew:   name=fontforge state=latest
+- homebrew:   name=ricty install_options=patch-in-place,powerline,vim-powerline
 - name:       ricty version
   shell:      brew info ricty | head -1 | perl -pe 's/.*stable (\d+(?:\.\d+)*).*/\1/s'
   register:   ricty_version

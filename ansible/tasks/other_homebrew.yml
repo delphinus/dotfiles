@@ -19,27 +19,8 @@
 - command: brew cask install macvim-kaoriya --override-system-vim
   when: macvim_kaoriya_info.stdout.find('Not installed') > -1
 
-- command: brew cask info firefoxdeveloperedition-ja
-  register: ffde_info
-  changed_when: ffde_info.rc != 0
-
-- command: brew cask install firefoxdeveloperedition-ja
-  when: ffde_info.stdout.find('Not installed') > -1
-
-- command: brew cask info karabiner
+- homebrew_cask: name=firefoxdeveloperedition-ja state=installed
+- homebrew_cask: name=karabiner state=installed
   sudo: yes
-  register: karabiner_info
-  changed_when: karabiner_info.rc != 0
-
-- command: brew cask install karabiner
-  when: karabiner_info.stdout.find('Not installed') > -1
-  sudo: yes
-
-- command: brew cask info keycastr
-  sudo: yes
-  register: keycastr_info
-  changed_when: keycastr_info.rc != 0
-
-- command: brew cask install keycastr
-  when: keycastr_info.stdout.find('Not installed') > -1
+- homebrew_cask: name=keycastr state=installed
   sudo: yes
