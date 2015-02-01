@@ -27,6 +27,7 @@
   when: ffde_info.stdout.find('Not installed') > -1
 
 - command: brew cask info karabiner
+  sudo: yes
   register: karabiner_info
   changed_when: karabiner_info.rc != 0
 
@@ -35,6 +36,7 @@
   sudo: yes
 
 - command: brew cask info keycastr
+  sudo: yes
   register: keycastr_info
   changed_when: keycastr_info.rc != 0
 
