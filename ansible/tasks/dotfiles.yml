@@ -3,7 +3,7 @@
 - git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
 - command: git submodule update --init chdir=~/git/dotfiles
 - file: path=~/.config state=directory
-- file:       src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
+- file: src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
   with_items:
     - .config/ipython
     - .config/peco
@@ -14,4 +14,5 @@
     - .jshintrc
     - .vim
     - .zshrc
+- file: path='~/Library/Application Support/Karabiner' state=directory
 - copy: src=../Karabiner/private.xml dest=~/Library/Application\ Support/Karabiner/private.xml
