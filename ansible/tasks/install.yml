@@ -1,2 +1,4 @@
 ---
 - command: npm install -g jshint
+- command: npm install -g coffee
+- command: npm install -g coffeelint
