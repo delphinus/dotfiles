@@ -28,6 +28,7 @@ homebrew_packages_packages:
   - { name: reattach-to-user-namespace }
   - { name: ruby-build }
   - { name: ssh-copy-id }
+  - { name: sshuttle }
   - { name: terminal-notifier }
   - { name: tig }
   - { name: tmux }

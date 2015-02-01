@@ -24,6 +24,3 @@
   sudo: yes
 - homebrew_cask: name=keycastr state=installed
   sudo: yes
-
-- homebrew: name=sshuttle state=latest
-  when: "int('{{ ansible_distribution_version }}'.split('.')[1]) <= 9"
