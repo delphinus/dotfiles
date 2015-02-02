@@ -1,0 +1,69 @@
+[http]
+	sslVerify = false
+	postBuffer = 524288000
+[color]
+	ui = true
+	status = auto
+	diff = auto
+	branch = auto
+	grep = auto
+[grep]
+	lineNumber = true
+[alias]
+	ad = add
+	br = branch
+	ca = commit --amend
+	caa = commit --amend --reuse-message HEAD
+	cm = commit
+	co = checkout
+	cp = cherry-pick
+	di = diff -w --diff-algorithm=default
+	dp = diff -w --patience
+	dh = diff -w --histogram
+	dic = diff -w --color-words --diff-algorithm=default
+	dpc = diff -w --color-words --patience
+	dhc = diff -w --color-words --histogram
+	dn = diff --name-only
+	ll = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
+	lo = log --decorate --graph --name-status --oneline
+	re = remote
+	rl = reflog
+	sm = submodule
+	st = status -sb
+[diff]
+	algorithm = histogram
+	renames = true
+[url "git@github.com:"]
+	pushinstedof = "git://github.com/"
+	pushinstedof = "https://github.com/"
+[user]
+	email = delphinus@remora.cx
+	name = delphinus
+[github]
+[core]
+	excludesfile = ~/git/dotfiles/.gitignore
+	attributesfile = ~/git/dotfiles/.gitattributes
+	autocrlf = false
+	quotepath = false
+[github]
+	user = delphinus35
+[pull]
+	rebase = true
+[rebase]
+	autosquash = true
+[merge]
+	ff = false
+[push]
+	default = nothing
+[tig]
+	tab-size = 4
+	line-graphics = utf-8
+	main-view	= line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
+[tig "bind"]
+	generic = G none
+[pager]
+	log  = diff-highlight | lv -c
+	show = diff-highlight | lv -c
+	diff = diff-highlight | lv -c
+
+# vim:se noet:
