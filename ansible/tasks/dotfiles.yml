@@ -16,4 +16,4 @@
     - .vim
     - .zshrc
 - file: path='~/Library/Application Support/Karabiner' state=directory
-- copy: src=../Karabiner/private.xml dest='~/Library/Application Support/Karabiner/private.xml'
+- copy: src=files/private.xml dest='~/Library/Application Support/Karabiner/private.xml'
