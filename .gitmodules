@@ -19,6 +19,3 @@
 [submodule "submodules/solarized"]
 	path = submodules/solarized
 	url = https://github.com/altercation/solarized
-[submodule "submodules/solarized-limechat"]
-	path = submodules/solarized-limechat
-	url = https://github.com/delphinus35/solarized-limechat
