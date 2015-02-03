@@ -19,8 +19,8 @@
 - name:         confirm github repository
   shell:        git re -v | grep 'github\s*git@github\.com' > /dev/null chdir=~/git/dotfiles
   register:     github_github_com
-  changed_when: github_github_com.rc.stat not in [0, 1]
-  failed_when:  github_github_com.rc.stat not in [0, 1]
+  changed_when: github_github_com.rc not in [0, 1]
+  failed_when:  github_github_com.rc not in [0, 1]
 - name:         set true github
   command:      git remote rm github && git remote add github git@github.com:delphinus35/dotfiles chdir=~/git/dotfiles
   when:         github_github_com.rc == 1
