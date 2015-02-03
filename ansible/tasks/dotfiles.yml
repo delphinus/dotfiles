@@ -10,8 +10,8 @@
 - name:         confirm origin repository
   shell:        git re -v | grep 'origin\s*git@git\.remora\.cx' > /dev/null chdir=~/git/dotfiles
   register:     origin_remora_cx
-  changed_when: origin_remora_cx.rc.stat not in [0, 1]
-  failed_when:  origin_remora_cx.rc.stat not in [0, 1]
+  changed_when: origin_remora_cx.rc not in [0, 1]
+  failed_when:  origin_remora_cx.rc not in [0, 1]
 - name:         set true origin
   shell:        git remote rm origin && git remote add origin git@git.remora.cx:delphinus/dotfiles chdir=~/git/dotfiles
   when:         origin_remora_cx.rc == 1
