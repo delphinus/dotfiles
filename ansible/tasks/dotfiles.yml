@@ -1,6 +1,6 @@
 ---
 - file: path=~/git state=directory
-- git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
+#- git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
 - command: git submodule update --init chdir=~/git/dotfiles
 - file: path=~/.config state=directory
 - file: src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes

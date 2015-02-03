@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  sudo: no
+  vars_files:
+    - vars/secrets.yml
+
+  tasks:
+    - include: tasks/dotfiles.yml
+    - include: tasks/secrets.yml
