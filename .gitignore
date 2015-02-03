@@ -17,4 +17,5 @@ history.sqlite
 *.swp
 /.config/vim/yankround
 /.config/git
+/.config/powerline/config.json
 /.config/powerline/themes/tmux/custom.json
