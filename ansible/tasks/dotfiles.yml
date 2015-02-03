@@ -5,7 +5,7 @@
   register: dotfiles
 
 - command: git clone git@git.remora.cx:delphinus/dotfiles chdir=~/git
-  when: not dotfiles.st.exists
+  when: not dotfiles.stat.exists
 
 - name:         confirm origin repository
   shell:        git re -v | grep 'origin\s*git@git\.remora\.cx' > /dev/null chdir=~/git/dotfiles
