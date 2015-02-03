@@ -1,9 +1,7 @@
 ---
 - file: path=~/git state=directory
 
-- stat: path=~/git/dotfiles
-  register: dotfiles
-
+- git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
 #- command: git clone git@git.remora.cx:delphinus/dotfiles chdir=~/git
 #when: not dotfiles.stat.exists
 
