@@ -14,7 +14,7 @@
   failed_when:  origin_remora_cx.rc.stat not in [0, 1]
 - name:         set true origin
   shell:        git remote rm origin && git remote add origin git@git.remora.cx:delphinus/dotfiles chdir=~/git/dotfiles
-  when:         origin_remora_cx.rc.stat == 1
+  when:         origin_remora_cx.rc == 1
 
 - name:         confirm github repository
   shell:        git re -v | grep 'github\s*git@github\.com' > /dev/null chdir=~/git/dotfiles
@@ -23,7 +23,7 @@
   failed_when:  github_github_com.rc.stat not in [0, 1]
 - name:         set true github
   command:      git remote rm github && git remote add github git@github.com:delphinus35/dotfiles chdir=~/git/dotfiles
-  when:         github_github_com.rc.stat == 1
+  when:         github_github_com.rc == 1
 
 - shell: git fetch origin && git fetch github chdir=~/git/dotfiles
 
