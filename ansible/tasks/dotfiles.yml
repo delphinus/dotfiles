@@ -1,34 +1,34 @@
 ---
 - file: path=~/git state=directory
 
-- git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
+#- git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
 #- command: git clone git@git.remora.cx:delphinus/dotfiles chdir=~/git
 #when: not dotfiles.stat.exists
 
-- name:         confirm origin repository
-  shell:        git re -v | grep 'origin\s*git@git\.remora\.cx' > /dev/null chdir=~/git/dotfiles
-  register:     origin_remora_cx
-  changed_when: origin_remora_cx.rc not in [0, 1]
-  failed_when:  origin_remora_cx.rc not in [0, 1]
-- name:         rm origin
-  shell:        git remote rm origin
-  when:         origin_remora_cx.rc == 1
-- name:         set true origin
-  shell:        git remote add origin git@git.remora.cx:delphinus/dotfiles chdir=~/git/dotfiles
-  when:         origin_remora_cx.rc == 1
-
-- name:         confirm github repository
-  shell:        git re -v | grep 'github\s*git@github\.com' > /dev/null chdir=~/git/dotfiles
-  register:     github_github_com
-  changed_when: github_github_com.rc not in [0, 1]
-  failed_when:  github_github_com.rc not in [0, 1]
-- name:         rm github
-  command:      git remote rm github
-  when:         github_github_com.rc == 1
-- name:         set true github
-  command:      git remote add github git@github.com:delphinus35/dotfiles chdir=~/git/dotfiles
-  when:         github_github_com.rc == 1
-
+#- name:         confirm origin repository
+#  shell:        git re -v | grep 'origin\s*git@git\.remora\.cx' > /dev/null chdir=~/git/dotfiles
+#  register:     origin_remora_cx
+#  changed_when: origin_remora_cx.rc not in [0, 1]
+#  failed_when:  origin_remora_cx.rc not in [0, 1]
+#- name:         rm origin
+#  shell:        git remote rm origin
+#  when:         origin_remora_cx.rc == 1
+#- name:         set true origin
+#  shell:        git remote add origin git@git.remora.cx:delphinus/dotfiles chdir=~/git/dotfiles
+#  when:         origin_remora_cx.rc == 1
+#
+#- name:         confirm github repository
+#  shell:        git re -v | grep 'github\s*git@github\.com' > /dev/null chdir=~/git/dotfiles
+#  register:     github_github_com
+#  changed_when: github_github_com.rc not in [0, 1]
+#  failed_when:  github_github_com.rc not in [0, 1]
+#- name:         rm github
+#  command:      git remote rm github
+#  when:         github_github_com.rc == 1
+#- name:         set true github
+#  command:      git remote add github git@github.com:delphinus35/dotfiles chdir=~/git/dotfiles
+#  when:         github_github_com.rc == 1
+#
 #- shell: git fetch origin chdir=~/git/dotfiles
 #- shell: git fetch github chdir=~/git/dotfiles
 
