@@ -44,8 +44,7 @@ homebrew_cask_packages_packages:
   - cyberduck
   - dropbox
   - firefox
-  - flash-player
-  - flux
+  #- flash-player
   - freemind
   - github
   - google-chrome

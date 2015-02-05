@@ -1,3 +1,4 @@
 ---
 other_homebrew_packages: []
-other_homebrew_cask_packages: []
+other_homebrew_cask_packages:
+  - flux
