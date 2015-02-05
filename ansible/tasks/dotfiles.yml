@@ -1,10 +1,12 @@
 ---
 - file: path=~/git state=directory
 
-#- git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
-#- command: git clone git@git.remora.cx:delphinus/dotfiles chdir=~/git
-#when: not dotfiles.stat.exists
+- stat: path=~/git/dotfiles
+  register: dotfiles
 
+#- git:  repo=https://github.com/delphinus35/dotfiles dest=~/git/dotfiles
+#  when: not dotfiles.stat.exists
+#
 #- name:         confirm origin repository
 #  shell:        git re -v | grep 'origin\s*git@git\.remora\.cx' > /dev/null chdir=~/git/dotfiles
 #  register:     origin_remora_cx
@@ -28,9 +30,6 @@
 #- name:         set true github
 #  command:      git remote add github git@github.com:delphinus35/dotfiles chdir=~/git/dotfiles
 #  when:         github_github_com.rc == 1
-#
-#- shell: git fetch origin chdir=~/git/dotfiles
-#- shell: git fetch github chdir=~/git/dotfiles
 
 - command: git submodule update --init chdir=~/git/dotfiles
 
