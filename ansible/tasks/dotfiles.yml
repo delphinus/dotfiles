@@ -13,8 +13,10 @@
 #  changed_when: origin_remora_cx.rc not in [0, 1]
 #  failed_when:  origin_remora_cx.rc not in [0, 1]
 #- name:         rm origin
-#  shell:        git remote rm origin
+#  shell:        git remote rm origin chdir=~/git/dotfiles
 #  when:         origin_remora_cx.rc == 1
+#  register:     origin_check
+#  failed_when:  origin_check.rc not in [0, 1]
 #- name:         set true origin
 #  shell:        git remote add origin git@git.remora.cx:delphinus/dotfiles chdir=~/git/dotfiles
 #  when:         origin_remora_cx.rc == 1
@@ -25,8 +27,10 @@
 #  changed_when: github_github_com.rc not in [0, 1]
 #  failed_when:  github_github_com.rc not in [0, 1]
 #- name:         rm github
-#  command:      git remote rm github
+#  shell:        git remote rm github chdir=~/git/dotfiles
 #  when:         github_github_com.rc == 1
+#  register:     github_check
+#  failed_when:  github_check.rc not in [0, 1]
 #- name:         set true github
 #  command:      git remote add github git@github.com:delphinus35/dotfiles chdir=~/git/dotfiles
 #  when:         github_github_com.rc == 1
