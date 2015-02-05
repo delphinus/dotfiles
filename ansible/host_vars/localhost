@@ -1,6 +1,6 @@
 ---
 other_homebrew_packages: []
-other_homebrew_cask_pacakges:
+other_homebrew_cask_packages:
   - air-video-server-hd
   - limechat
   - vagrant
