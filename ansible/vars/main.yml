@@ -15,10 +15,12 @@ homebrew_packages_packages:
   - { name: git }
   - { name: git-flow }
   - { name: htop-osx }
+  - { name: ipcalc }
   - { name: jq }
   - { name: lftp }
   - { name: lua }
   - { name: lv }
+  - { name: mysql }
   - { name: node }
   - { name: peco }
   - { name: perl-build }
