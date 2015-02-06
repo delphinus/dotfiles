@@ -21,4 +21,4 @@
 	url = https://github.com/altercation/solarized
 [submodule "submodules/solarized-limechat"]
 	path = submodules/solarized-limechat
-	url = git@github.com:delphinus35/solarized-limechat
+	url = https://github.com/delphinus35/solarized-limechat
