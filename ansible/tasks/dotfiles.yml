@@ -50,6 +50,7 @@
     - .inputrc
     - .jshintrc
     - .vim
+    - .zprofile
     - .zshrc
 
 - file: path='~/Library/Application Support/Karabiner' state=directory
