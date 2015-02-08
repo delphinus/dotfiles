@@ -1,16 +1,16 @@
 # vim:se ft=zsh:
-# ¶¯ÎÏ¤ÊÊä´°¤òÍ­¸ú¤Ë¤¹¤ë
+# å¼·åŠ›ãªè£œå®Œã‚’æœ‰åŠ¹ã«ã™ã‚‹
 autoload -Uz compinit
 compinit
 
-# ¥Ò¥¹¥È¥ê¤ÎÀßÄê
+# ãƒ’ã‚¹ãƒˆãƒªã®è¨­å®š
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt share_history
 
-bindkey -v               # vi É÷¥­¡¼¥Ğ¥¤¥ó¥É¤Ë¤¹¤ë
-bindkey "" history-incremental-search-backward # bash ¤Î <C-R> ¤È°ì½ï
+bindkey -v               # vi é¢¨ã‚­ãƒ¼ãƒã‚¤ãƒ³ãƒ‰ã«ã™ã‚‹
+bindkey "" history-incremental-search-backward # bash ã® <C-R> ã¨ä¸€ç·’
 # http://d.hatena.ne.jp/kei_q/20110308/1299594629
 show_buffer_stack() {
   POSTDISPLAY="
@@ -21,15 +21,15 @@ zle -N show_buffer_stack
 bindkey "^[q" show_buffer_stack
 
 export LANG=ja_JP.UTF-8
-setopt print_eight_bit   # ÆüËÜ¸ì¥Õ¥¡¥¤¥ëÌ¾¤òÉ½¼¨²ÄÇ½¤Ë¤¹¤ë
-setopt no_flow_control   # ¥Õ¥í¡¼¥³¥ó¥È¥í¡¼¥ë¤òÌµ¸ú¤Ë¤¹¤ë
-setopt transient_rprompt # ºÇ¸å°Ê³°¤Î±¦¥×¥í¥ó¥×¥È¤ò¾Ã¤¹
-setopt auto_cd           # ¥Ç¥£¥ì¥¯¥È¥êÌ¾¤À¤±¤Ç°ÜÆ°¤¹¤ë
-setopt EXTENDED_GLOB     # ¿§¤ó¤Ê glob
-setopt HIST_IGNORE_SPACE # ºÇ½é¤Ë¥¹¥Ú¡¼¥¹¤Î¤¢¤ë¥³¥Ş¥ó¥É¤òÍúÎò¤ËÄÉ²Ã¤·¤Ê¤¤
-setopt inc_append_history hist_ignore_dups # Ê£¿ô¤Î¥¿¡¼¥ß¥Ê¥ë¤Ç history ¤ò¶¦Í­¤¹¤ë
+setopt print_eight_bit   # æ—¥æœ¬èªãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¡¨ç¤ºå¯èƒ½ã«ã™ã‚‹
+setopt no_flow_control   # ãƒ•ãƒ­ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚’ç„¡åŠ¹ã«ã™ã‚‹
+setopt transient_rprompt # æœ€å¾Œä»¥å¤–ã®å³ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’æ¶ˆã™
+setopt auto_cd           # ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåã ã‘ã§ç§»å‹•ã™ã‚‹
+setopt EXTENDED_GLOB     # è‰²ã‚“ãª glob
+setopt HIST_IGNORE_SPACE # æœ€åˆã«ã‚¹ãƒšãƒ¼ã‚¹ã®ã‚ã‚‹ã‚³ãƒãƒ³ãƒ‰ã‚’å±¥æ­´ã«è¿½åŠ ã—ãªã„
+setopt inc_append_history hist_ignore_dups # è¤‡æ•°ã®ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã§ history ã‚’å…±æœ‰ã™ã‚‹
 
-# zsh-notify x Growl - ¿ÍÀ¸¤¤¤­¤¢¤¿¤ê¤Ğ¤Ã¤¿¤ê¤ÇÀ¸¤­¤Æ¤Ş¤¹@¤Ï¤Æ¤Ê
+# zsh-notify x Growl - äººç”Ÿã„ãã‚ãŸã‚Šã°ã£ãŸã‚Šã§ç”Ÿãã¦ã¾ã™@ã¯ã¦ãª
 # http://moqada.hatenablog.com/entry/2014/03/26/121915
 autoload -Uz add-zsh-hook
 
@@ -38,7 +38,7 @@ unalias run-help
 autoload run-help
 HELPDIR=/usr/local/share/zsh/help
 
-# Êä´°¤ÇÂçÊ¸»ú¾®Ê¸»ú¤ò¶èÊÌ¤·¤Ê¤¤
+# è£œå®Œã§å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # disable <C-S><C-Q>
@@ -46,6 +46,6 @@ stty -ixon -ixoff
 # disable <C-Z>
 stty susp undef
 
-# MacVim¤Ëzsh¤Î´Ä¶­ÊÑ¿ôÆÉ¤ß¹ş¤Ş¤»¤ëÊıË¡ - ¥¨¥ó¥¸¥Ë¥¢¤Ç¤¹¤è¡ª
+# MacVimã«zshã®ç’°å¢ƒå¤‰æ•°èª­ã¿è¾¼ã¾ã›ã‚‹æ–¹æ³• - ã‚¨ãƒ³ã‚¸ãƒ‹ã‚¢ã§ã™ã‚ˆï¼
 # http://totem3.hatenablog.jp/entry/2013/10/17/055942
-typeset -U name_of_the_variable
+typeset -U path
