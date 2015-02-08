@@ -2,6 +2,7 @@
 require 'mail'
 require 'optparse'
 require 'pathname'
+require 'socket'
 require 'syslog'
 
 class String
@@ -84,7 +85,7 @@ end
 mail = Mail.new do
   from    'root@remora.cx'
   to      'delphinus@remora.cx'
-  subject '[prohibited words checker] %s report' % Date.today.strftime('%Y/%m/%d')
+  subject '[prohibited words checker] %s %s report' % [Socket.gethostname, Date.today.strftime('%Y/%m/%d')]
   body    mail_body
 end
 
