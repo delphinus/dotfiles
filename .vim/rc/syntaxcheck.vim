@@ -1,26 +1,26 @@
-" ¥·¥ó¥¿¥Ã¥¯¥¹¥Á¥§¥Ã¥¯
+" ã‚·ãƒ³ã‚¿ãƒƒã‚¯ã‚¹ãƒã‚§ãƒƒã‚¯
 " http://d.hatena.ne.jp/osyo-manga/20110921/1316605254
 
-" quickfix ¤Î¥¨¥é¡¼²Õ½ê¤òÇÈÀş¤Ç¥Ï¥¤¥é¥¤¥È
+" quickfix ã®ã‚¨ãƒ©ãƒ¼ç®‡æ‰€ã‚’æ³¢ç·šã§ãƒã‚¤ãƒ©ã‚¤ãƒˆ
 highlight qf_error ctermbg=red ctermfg=white gui=undercurl
 let g:hier_highlight_group_qf='qf_error'
 
-" quickfix ¤Ë½ĞÎÏ¤·¤Æ¡¢¥İ¥Ã¥×¥¢¥Ã¥×¤Ï¤·¤Ê¤¤ outputter/quickfix
-" ¤¹¤Ç¤Ë quickfix ¥¦¥£¥ó¥É¥¦¤¬³«¤¤¤Æ¤¤¤ë¾ì¹ç¤ÏÊÄ¤¸¤ë¤Î¤ÇÃí°Õ
+" quickfix ã«å‡ºåŠ›ã—ã¦ã€ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã¯ã—ãªã„ outputter/quickfix
+" ã™ã§ã« quickfix ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒé–‹ã„ã¦ã„ã‚‹å ´åˆã¯é–‰ã˜ã‚‹ã®ã§æ³¨æ„
 let s:silent_quickfix=quickrun#outputter#quickfix#new()
 function! s:silent_quickfix.finish(session)
     call call(quickrun#outputter#quickfix#new().finish, [a:session], self)
     cclose
-    " vim-hier ¤Î¹¹¿·
+    " vim-hier ã®æ›´æ–°
     HierUpdate
-    " quickfix ¤Ø¤Î½ĞÎÏ¸å¤Ë quickfixstatus ¤òÍ­¸ú¤Ë
+    " quickfix ã¸ã®å‡ºåŠ›å¾Œã« quickfixstatus ã‚’æœ‰åŠ¹ã«
     QuickfixStatusEnable
 endfunction
-" quickfix ¤ËÅĞÏ¿
+" quickfix ã«ç™»éŒ²
 call quickrun#register_outputter('silent_quickfix', s:silent_quickfix)
 
-" ¥·¥ó¥¿¥Ã¥¯¥¹¥Á¥§¥Ã¥¯ÍÑ¤Î quickrun.vim ¤Î¥³¥ó¥Õ¥£¥°
-" perl ÍÑ
+" ã‚·ãƒ³ã‚¿ãƒƒã‚¯ã‚¹ãƒã‚§ãƒƒã‚¯ç”¨ã® quickrun.vim ã®ã‚³ãƒ³ãƒ•ã‚£ã‚°
+" perl ç”¨
 let g:quickrun_config['PerlSyntaxCheck'] = {
             \ 'type': 'perl',
             \ 'exec': '%c %o %s:p',
@@ -40,7 +40,7 @@ let g:quickrun_config['CppSyntaxCheck'] = {
             \ }
 
 
-" ¥Õ¥¡¥¤¥ë¤ÎÊİÂ¸¸å¤Ë quickrun.vim ¤¬¼Â¹Ô¤µ¤ì¤ë¤è¤¦¤ËÀßÄê¤¹¤ë
+" ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¿å­˜å¾Œã« quickrun.vim ãŒå®Ÿè¡Œã•ã‚Œã‚‹ã‚ˆã†ã«è¨­å®šã™ã‚‹
 "autocmd BufWritePost *.pl,*.pm,*.t :QuickRun PerlSyntaxCheck
 "autocmd BufWritePost *.cpp,*.h,*.hpp :QuickRun CppSyntaxCheck
 

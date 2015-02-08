@@ -1,2 +1,2 @@
-" ╔¤дЄ╢╣дсдщдьд┐ежегеєе╔еждЄ set nowrap д╣ды
+" х╣ЕуВТчЛнуВБуВЙуВМуБЯуВжуВгуГ│уГЙуВжуВТ set nowrap уБЩуВЛ
 let g:golden_ratio_wrap_ignored = 1

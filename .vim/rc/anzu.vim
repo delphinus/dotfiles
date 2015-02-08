@@ -1,35 +1,35 @@
-" n ¤Î¸å¤Ë anzu-mode ¤ò³«»Ï¤¹¤ë
+" n ã®å¾Œã« anzu-mode ã‚’é–‹å§‹ã™ã‚‹
 nmap n <Plug>(anzu-mode-n)
-" N ¤Î¸å¤Ë anzu-mode ¤ò³«»Ï¤¹¤ë
+" N ã®å¾Œã« anzu-mode ã‚’é–‹å§‹ã™ã‚‹
 nmap N <Plug>(anzu-mode-N)
 
-" n ¤ä N ¤ÎÂå¤ï¤ê¤Ë»ÈÍÑ¤·¤Ş¤¹¡£
+" n ã‚„ N ã®ä»£ã‚ã‚Šã«ä½¿ç”¨ã—ã¾ã™ã€‚
 "nmap n <Plug>(anzu-n)
 "nmap N <Plug>(anzu-N)
 "nmap * <Plug>(anzu-star)
 "nmap # <Plug>(anzu-sharp)
 
-" g* »ş¤Ë¥¹¥Æ¡¼¥¿¥¹¾ğÊó¤ò½ĞÎÏ¤¹¤ë¾ì¹ç
+" g* æ™‚ã«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹å ´åˆ
 nmap g* g*<Plug>(anzu-update-search-status-with-echo)
 
-" ºÇ¸å¤Ë¸¡º÷¤·¤¿¥ï¡¼¥É¤Î [count] ¤Î°ÌÃÖ¤Ø°ÜÆ°¤¹¤ë
-" 10<Leader>j ¤Ç¤¢¤ì¤ĞÀèÆ¬¤«¤é10ÈÖÌÜ¤Î¥ï¡¼¥É¤Î°ÌÃÖ¤Ø°ÜÆ°¤¹¤ë
+" æœ€å¾Œã«æ¤œç´¢ã—ãŸãƒ¯ãƒ¼ãƒ‰ã® [count] ã®ä½ç½®ã¸ç§»å‹•ã™ã‚‹
+" 10<Leader>j ã§ã‚ã‚Œã°å…ˆé ­ã‹ã‚‰10ç•ªç›®ã®ãƒ¯ãƒ¼ãƒ‰ã®ä½ç½®ã¸ç§»å‹•ã™ã‚‹
 "nmap <Leader>j <Plug>(anzu-jump)
-" ¥¹¥Æ¡¼¥¿¥¹¾ğÊó¤ò¥³¥Ş¥ó¥É¥é¥¤¥ó¤Ë½ĞÎÏ¤¹¤ë¾ì¹ç¤Ï¤³¤Á¤é
+" ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã«å‡ºåŠ›ã™ã‚‹å ´åˆã¯ã“ã¡ã‚‰
 "nmap <Leader>j <Plug>(anzu-jump)<Plug>(anzu-echo-search-status)
 nmap <Leader>n <Plug>(anzu-jump)<Plug>(anzu-echo-search-status)
 
-" ¥¹¥Æ¡¼¥¿¥¹¾ğÊó¤ò statusline ¤Ø¤ÈÉ½¼¨¤¹¤ë
+" ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’ statusline ã¸ã¨è¡¨ç¤ºã™ã‚‹
 "set statusline=%{anzu#search_status()}
 
-" ¤³¤Á¤é¤ò»ÈÍÑ¤¹¤ë¤È
-" °ÜÆ°¸å¤Ë¥¹¥Æ¡¼¥¿¥¹¾ğÊó¤ò¥³¥Ş¥ó¥É¥é¥¤¥ó¤Ø¤È½ĞÎÏ¤ò¹Ô¤¤¤Ş¤¹¡£
+" ã“ã¡ã‚‰ã‚’ä½¿ç”¨ã™ã‚‹ã¨
+" ç§»å‹•å¾Œã«ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹æƒ…å ±ã‚’ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã¸ã¨å‡ºåŠ›ã‚’è¡Œã„ã¾ã™ã€‚
 " nmap n <Plug>(anzu-n-with-echo)
 " nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
 
-" sign ¤â°ì½ï¤Ë»ÈÍÑ¤¹¤ë¾ì¹ç
+" sign ã‚‚ä¸€ç·’ã«ä½¿ç”¨ã™ã‚‹å ´åˆ
 " nmap n <Plug>(anzu-n-with-echo)<Plug>(anzu-sign-matchline)
 " nmap N <Plug>(anzu-N-with-echo)<Plug>(anzu-sign-matchline)
 
