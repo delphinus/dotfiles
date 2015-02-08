@@ -23,11 +23,9 @@ alias b='bundle'
 alias pd='perl -M"feature qw!say!" -M"Date::Manip qw!UnixDate ParseDate!" -e'
 alias lv='lv -c'
 
-export PAGER='vimpager'
 alias vp='vimpager'
 alias perldoc='perldocjp -J'
 alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
-export ACK_PAGER='less -R'
 alias tmux="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
 
 export LANG=ja_JP.UTF-8
@@ -77,10 +75,6 @@ export PATH=$PLENV_ROOT/bin:$PATH
 alias pl=plenv
 alias plv='plenv versions'
 if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
-
-# for go
-export GOPATH=$HOME/go
-export PATH=/usr/local/opt/go/libexec/bin:$GOPATH/bin:$PATH
 
 # http://qiita.com/kei_s/items/96ee6929013f587b5878
 export SYS_NOTIFIER=/usr/local/bin/terminal-notifier
