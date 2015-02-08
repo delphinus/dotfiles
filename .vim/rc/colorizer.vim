@@ -1,2 +1,2 @@
-" ¼«Æ°¤ÇÆÉ¤ß¹ş¤à filetype
+" è‡ªå‹•ã§èª­ã¿è¾¼ã‚€ filetype
 let g:colorizer_auto_filetype='css'

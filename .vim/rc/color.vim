@@ -3,23 +3,23 @@ if has('gui_running')
 endif
 
 " http://qiita.com/kefir_/items/c2bd46728364bdc7470b
-" °Ê²¼¤Î¾ò·ï¤òËş¤¿¤µ¤Ê¤¤¾ì¹çvimËÜÂÎ¤¬background¤ò¾å½ñ¤­¤¹¤ë¤Î¤Ç¼«Á°¤Ç¤ÎÈ½Äê¤Ï¤ä¤é¤Ê¤¤
+" ä»¥ä¸‹ã®æ¡ä»¶ã‚’æº€ãŸã•ãªã„å ´åˆvimæœ¬ä½“ãŒbackgroundã‚’ä¸Šæ›¸ãã™ã‚‹ã®ã§è‡ªå‰ã§ã®åˆ¤å®šã¯ã‚„ã‚‰ãªã„
 " http://yskwkzhr.blogspot.jp/2012/12/set-background-color-of-vim-with-environment-variable.html
 "if $TERM !~ 'linux\|screen.linux\|cygwin\|putty' && $COLORFGBG == ''
 
-" ÇØ·Ê¿§¤òÌä¤¤¹ç¤ï¤»¤ë¥¯¥¨¥êÊ¸»úÎó¤òÀßÄê
-" screen/tmux¤Ç¤Ï¥Ñ¥¹¥¹¥ë¡¼¥·¡¼¥±¥ó¥¹¤ò»ÈÍÑ¤·¤Æ¿ÆÃ¼Ëö¤ËÌä¤¤¹ç¤ï¤»¤ë
+" èƒŒæ™¯è‰²ã‚’å•ã„åˆã‚ã›ã‚‹ã‚¯ã‚¨ãƒªæ–‡å­—åˆ—ã‚’è¨­å®š
+" screen/tmuxã§ã¯ãƒ‘ã‚¹ã‚¹ãƒ«ãƒ¼ã‚·ãƒ¼ã‚±ãƒ³ã‚¹ã‚’ä½¿ç”¨ã—ã¦è¦ªç«¯æœ«ã«å•ã„åˆã‚ã›ã‚‹
 "if $TMUX != ""
-    "" tmux¤ò´ÓÄÌ¤µ¤»¤ë
+    "" tmuxã‚’è²«é€šã•ã›ã‚‹
     "let s:background_teststr = "\eP\e\e]11;?\e\e\\\\\e\\"
 "elseif $TERM == "screen"
-    "" GNU Screen¤ò´ÓÄÌ¤µ¤»¤ë
+    "" GNU Screenã‚’è²«é€šã•ã›ã‚‹
     "let s:background_teststr = "\eP\e]11;?\x07\e\\"
 "else
     "let s:background_teststr = "\e]11;?\e\\"
 "endif
 
-" ÁÛÄê¤¹¤ë±şÅú¤ÎÀèÆ¬Ê¸»ú¤òmap¤·¤ÆÈóÆ±´ü¤Ë±şÅú¤òÂÔ¤Ä
+" æƒ³å®šã™ã‚‹å¿œç­”ã®å…ˆé ­æ–‡å­—ã‚’mapã—ã¦éåŒæœŸã«å¿œç­”ã‚’å¾…ã¤
 "nnoremap <special> <expr> <Esc>]11;rgb: g:SetBackground()
 "let &t_ti .= "\e]11;?\e\\"
 if $TMUX != ''
@@ -32,12 +32,12 @@ endif
 let &t_ti = s:background_teststr
 
 function! g:SetBackground()
-    " ±şÅú¤ò¥Ñ¡¼¥¹¤·¤Æµ±ÅÙ¤òÆÀ¤ë
+    " å¿œç­”ã‚’ãƒ‘ãƒ¼ã‚¹ã—ã¦è¼åº¦ã‚’å¾—ã‚‹
     let rgb = s:ParseRGB(11)
     let gamma = s:GetGammaFromRGBReport(rgb)
 
     if gamma >= 0
-        " ¶­³¦ÃÍ32768000¤ÈÈæ³Ó¤·¤Ædark/light¤òÈ½Äê
+        " å¢ƒç•Œå€¤32768000ã¨æ¯”è¼ƒã—ã¦dark/lightã‚’åˆ¤å®š
         let threshold = 32768000
         if gamma > threshold
             set background=light
@@ -66,7 +66,7 @@ function! g:SetCursorColor()
 endfunction
 
 function! s:GetGammaFromRGBReport(rgb)
-    " µ±ÅÙ¤ò·×»»¤·¤ÆÊÖ¤¹
+    " è¼åº¦ã‚’è¨ˆç®—ã—ã¦è¿”ã™
     " ref: http://themergency.com/calculate-text-color-based-on-background-color-brightness/
     if type(a:rgb) == type([])
         return a:rgb[0] * a:rgb[0] * 299 + a:rgb[1] * a:rgb[1] * 587 + a:rgb[2] * a:rgb[2] * 114
@@ -75,7 +75,7 @@ function! s:GetGammaFromRGBReport(rgb)
     endif
 endfunction
 
-" ±şÅú¤òÇÛÎó¤ÇÊÖ¤¹ ary = ( r, g, b )
+" å¿œç­”ã‚’é…åˆ—ã§è¿”ã™ ary = ( r, g, b )
 let g:ColorList = {}
 function! s:ParseRGB(type)
     let cmd = printf(']%d;', a:type)

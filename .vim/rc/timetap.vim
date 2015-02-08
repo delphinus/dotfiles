@@ -1,2 +1,2 @@
-" ¥Ç¡¼¥¿¥Ù¡¼¥¹¥Õ¥¡¥¤¥ë
+" ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«
 let g:timetap_database = g:home . '/.timetapinfo'
