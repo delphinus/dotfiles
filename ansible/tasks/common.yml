@@ -1,3 +1,5 @@
 ---
 - copy: src=bashrc dest=~/.bashrc
+  changed_when: false
 - copy: src=bash_profile dest=~/.bash_profile
+  changed_when: false

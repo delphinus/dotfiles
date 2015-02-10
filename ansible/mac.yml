@@ -8,7 +8,9 @@
 
   pre_tasks:
     - file: path=~/.bashrc state=touch
+      changed_when: false
     - file: path=~/.bash_profile state=touch
+      changed_when: false
     - file: path=/usr/local owner=root group=admin mode=g+rwx state=directory
       sudo: yes
     - file: path=/opt owner=root group=wheel state=directory
