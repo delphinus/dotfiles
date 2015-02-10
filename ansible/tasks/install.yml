@@ -1,4 +1,4 @@
 ---
-- command: npm install -g jshint
-- command: npm install -g coffee
-- command: npm install -g coffeelint
+- npm: name=jshint global=yes state=latest
+- npm: name=coffee global=yes state=latest
+- npm: name=coffeelint global=yes state=latest
