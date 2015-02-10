@@ -50,6 +50,7 @@ homebrew_cask_packages_packages:
   - google-chrome
   - ibettercharge
   - iterm2
+  - istat-menus
   - lastfm
   - mailbox
   - vlc
