@@ -17,18 +17,17 @@ class ProhibitedWordsNotFoundError < StandardError
   def to_s; 'specified prohibited words file is not found' end
 end
 
-opt = OptionParser.new
+params = ARGV.getopts 'd:p:'
 begin
-  params = opt.getopts ARGV, '', 'dir:', 'prohibited-words:'
-  start_dir = if params['dir']
-                Pathname(params['dir']).expand_path
+  start_dir = if params['d']
+                Pathname(params['d']).expand_path
               else
                 Pathname('~/git/dotfiles').expand_path
               end
   raise DirectoryNotFoundError unless Dir.exists? start_dir
 
-  prohibited_words_file = if params['prohibited-words']
-                            Pathname(params['prohibited-words']).expand_path
+  prohibited_words_file = if params['p']
+                            Pathname(params['p']).expand_path
                           else
                             Pathname('~/.git_prohibited_words').expand_path
                           end
