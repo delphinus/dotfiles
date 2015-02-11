@@ -10,28 +10,29 @@ export EDITOR=vim
 export EDITRC=$HOME/.editrc
 export INPUTRC=$HOME/.inputrc
 
-#alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-alias ls='gls --color'
-alias ll='gls --color -l'
-alias l.='gls --color -d .*'
-alias dircolors=gdircolors
+OS=`uname`
+if [ "$OS" = 'Darwin' ]; then
+  LS=gls
+  alias dircolors=gdircolors
+  alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
+else
+  LS=ls
+fi
+alias ls="$LS --color"
+alias ll="$LS --color -l"
+alias l.="$LS --color -d .*"
 eval `TERM=xterm-256color dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
-alias b='bundle'
-alias pd='perl -M"feature qw!say!" -M"Date::Manip qw!UnixDate ParseDate!" -e'
 alias lv='lv -c'
 
 alias vp='vimpager'
-alias perldoc='perldocjp -J'
-alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
 alias tmux="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
-export PATH="/usr/local/mysql/bin:\
-$HOME/Dropbox/bin:\
+export PATH="$HOME/Dropbox/bin:\
 $HOME/bin:\
 $HOME/git/dotfiles/bin:\
 /usr/local/sbin:\
@@ -43,17 +44,14 @@ $HOME/git/dotfiles/bin:\
 /usr/X11/bin"
 
 # powerline
-export PATH=$HOME/Library/Python/2.7/bin:$PATH
+if [ "$OS" = 'Darwin' ]; then
+  export PATH=$HOME/Library/Python/2.7/bin:$PATH
+fi
 module_path=($module_path /usr/local/lib/zpython)
 . $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
 
-# for MacVim
-#export PATH=/Applications/MacVim.app/Contents/MacOS:$PATH
-
 # for perlomni.vim
 export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
-
-export MYPERL=`which perl`
 
 # for python
 export PYENV_ROOT=/usr/local/opt/pyenv
@@ -76,9 +74,11 @@ alias pl=plenv
 alias plv='plenv versions'
 if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
 
-# http://qiita.com/kei_s/items/96ee6929013f587b5878
-export SYS_NOTIFIER=/usr/local/bin/terminal-notifier
-export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
-source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
+if [ "$OS" = 'Darwin' ]; then
+  # http://qiita.com/kei_s/items/96ee6929013f587b5878
+  export SYS_NOTIFIER=/usr/local/bin/terminal-notifier
+  export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
+  source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
+fi
 
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
