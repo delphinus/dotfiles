@@ -2,3 +2,6 @@
 - npm: name=jshint global=yes state=latest
 - npm: name=coffee global=yes state=latest
 - npm: name=coffeelint global=yes state=latest
+
+- homebrew: name=mobile-shell state=absent
+- homebrew: name=mobile-shell-color-fix state=latest install_options=HEAD
