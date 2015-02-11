@@ -1,9 +1,10 @@
 ---
 - file: path=~/git state=directory
 
-- git:  repo=git@git.remora.cx:delphinus/dotfiles dest=~/git/dotfiles key_file=~/.ssh/id_rsa
+- git:  repo=git@git.remora.cx:delphinus/dotfiles dest=~/git/dotfiles
+  when: ansible_domain != 'vagrantup.com'
   tags: [git]
-#
+
 #- name:         confirm origin repository
 #  shell:        git re -v | grep 'origin\s*git@git\.remora\.cx' > /dev/null chdir=~/git/dotfiles
 #  register:     origin_remora_cx
