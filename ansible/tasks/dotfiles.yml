@@ -1,9 +1,8 @@
 ---
 - file: path=~/git state=directory
 
-- git:  repo=git@git.remora.cx:delphinus/dotfiles dest=~/git/dotfiles
-  when: ansible_domain == 'local'
-  tags: [git]
+#- git:  repo=git@git.remora.cx:delphinus/dotfiles dest=~/git/dotfiles
+#when: ansible_domain == 'local'
 
 - command: git submodule update --init chdir=~/git/dotfiles
   register: submodules_update
@@ -25,6 +24,3 @@
 
 - file: path='~/Library/Application Support/Karabiner' state=directory
 - copy: src=files/private.xml dest='~/Library/Application Support/Karabiner/private.xml'
-
-- command: vim +NeoBundleUpdate +q
-  tags: [git]
