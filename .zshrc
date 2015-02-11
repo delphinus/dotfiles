@@ -44,11 +44,11 @@ $HOME/git/dotfiles/bin:\
 /usr/X11/bin"
 
 # powerline
-if [ "$OS" = 'Darwin' ]; then
-  export PATH=$HOME/Library/Python/2.7/bin:$PATH
-fi
+user_site=`python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
+user_base=`python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
+export PATH=$user_base/bin:$PATH
 module_path=($module_path /usr/local/lib/zpython)
-. $HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+. $user_site/powerline/bindings/zsh/powerline.zsh
 
 # for perlomni.vim
 export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
