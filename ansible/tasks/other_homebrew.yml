@@ -9,6 +9,8 @@
 
 - name: copy macvim-kaoirya cask
   copy: src=files/macvim-kaoriya.rb dest=/usr/local/Library/Taps/caskroom/homebrew-versions/Casks/macvim-kaoriya.rb
+- name: copy github-issue-browser cask
+  copy: src=files/github-issue-browser.rb dest=/usr/local/Library/Taps/caskroom/homebrew-versions/Casks/github-issue-browser.rb
 - name: patch symlinked.rb of cask
   copy: src=files/symlinked.rb dest=/usr/local/Cellar/brew-cask/0.53.0/rubylib/hbc/artifact/symlinked.rb
 
@@ -18,6 +20,13 @@
 
 - command: brew cask install macvim-kaoriya --override-system-vim
   when: macvim_kaoriya_info.stdout.find('Not installed') > -1
+
+- command: brew cask info github-issue-browser
+  register: github_issue_browser_info
+  changed_when: github_issue_browser_info.rc != 0
+
+- command: brew cask install github-issue-browser
+  when: github_issue_browser_info.stdout.find('Not installed') > -1
 
 - homebrew_cask: name=firefoxdeveloperedition-ja state=installed
 - homebrew_cask: name=karabiner state=installed
