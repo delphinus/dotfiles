@@ -21,6 +21,7 @@ set undofile             " アンドゥファイルを保存する
 set dir=/tmp
 set backupdir=/tmp
 set undodir=/tmp
+let &backupskip = '/private/tmp/*,' . &backupskip " Mac で crontab を使うための設定
 " }}}
 
 " 検索 {{{
