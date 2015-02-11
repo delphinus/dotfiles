@@ -5,8 +5,12 @@ require 'pathname'
 require 'socket'
 require 'syslog'
 
+DEFAULT_DIR           = Pathname('~/git/dotfiles').expand_path
+PROHIBITED_WORDS_FILE = Pathname('~/.git_prohibited_words').expand_path
+MAIL_PASSWORD_FILE    = Pathname('~/.git_prohibited_words_checker_password').expand_path
+
 class String
-  def red; "\033[31m#{self}\033[0m" end
+  def red; STDOUT.isatty ? "\033[31m#{self}\033[0m" : self end
 end
 
 class DirectoryNotFoundError < StandardError
@@ -22,14 +26,14 @@ begin
   start_dir = if params['d']
                 Pathname(params['d']).expand_path
               else
-                Pathname('~/git/dotfiles').expand_path
+                DEFAULT_DIR
               end
   raise DirectoryNotFoundError unless Dir.exists? start_dir
 
   prohibited_words_file = if params['p']
                             Pathname(params['p']).expand_path
                           else
-                            Pathname('~/.git_prohibited_words').expand_path
+                            PROHIBITED_WORDS_FILE
                           end
   raise ProhibitedWordsNotFoundError unless File.readable? prohibited_words_file
 rescue => e
@@ -71,10 +75,20 @@ mail_body_header = sprintf 'dotfiles scan for prohibited words; scaned: %d file(
 
 Syslog.open File.basename($0) do |syslog|
   syslog.log Syslog::LOG_NOTICE, mail_body_header
-  syslog.log Syslog::LOG_NOTICE, errors.join(', ')
 end
 
 exit if errors.count == 0
+
+Syslog.open File.basename($0) do |syslog|
+  syslog.log Syslog::LOG_WARNING, "prohibited words found in #{errors.join(', ')}"
+end
+
+unless File.readable? MAIL_PASSWORD_FILE
+  Syslog.open File.basename($0) do |syslog|
+    syslog.log Syslog::LOG_WARNING, "#{MAIL_PASSWORD_FILE} is not readble"
+  end
+  exit 1
+end
 
 mail_body = mail_body_header + "\n\n"
 errors.each do |e|
@@ -88,14 +102,12 @@ mail = Mail.new do
   body    mail_body
 end
 
-mail_password = IO.read(Pathname('~/.git_prohibited_words_checker_password').expand_path).chomp
-
 mail.delivery_method :smtp, {
   address: 'smtp.gmail.com',
   port: 587,
   domain: 'smtp.gmail.com',
   user_name: 'delphinus@remora.cx',
-  password: mail_password,
+  password: IO.read(MAIL_PASSWORD_FILE).chomp,
   authentication: :plain,
 }
 
