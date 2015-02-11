@@ -1,7 +1,7 @@
 ---
 - file: path=~/git state=directory
 
-- git:  repo=ssh://git@git.remora.cx:delphinus/dotfiles dest=~/git/dotfiles
+- git:  repo=git@git.remora.cx:delphinus/dotfiles dest=~/git/dotfiles
   tags: [git]
 #
 #- name:         confirm origin repository
