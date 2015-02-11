@@ -2,6 +2,7 @@
 homebrew_packages_taps:
   - caskroom/cask
   - caskroom/versions
+  - delphinus35/mosh
   - homebrew/binary
   - peco/peco
   - sanemat/font
@@ -18,7 +19,6 @@ homebrew_packages_packages:
   - { name: lftp }
   - { name: lua }
   - { name: lv }
-  - { name: mosh }
   - { name: node }
   - { name: peco }
   - { name: perl-build }
@@ -46,6 +46,7 @@ homebrew_cask_packages_packages:
   - dropbox
   - firefox
   #- flash-player
+  - flux
   - freemind
   - github
   - google-chrome
