@@ -60,12 +60,18 @@ alias rb=rbenv
 alias rbv='rbenv versions'
 if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
 
-# for plenv
-export PLENV_ROOT=/usr/local/opt/plenv
-export PATH=$PLENV_ROOT/bin:$PATH
-alias pl=plenv
-alias plv='plenv versions'
-if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
+if [ -d $HOME/perl5 ]; then
+  # for perlbrew
+  source $HOME/perl5/perlbrew/etc/bashrc
+  source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
+else
+  # for plenv
+  export PLENV_ROOT=/usr/local/opt/plenv
+  export PATH=$PLENV_ROOT/bin:$PATH
+  alias pl=plenv
+  alias plv='plenv versions'
+  if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
+fi
 
 if [ "$OS" = 'Darwin' ]; then
   # http://qiita.com/kei_s/items/96ee6929013f587b5878
