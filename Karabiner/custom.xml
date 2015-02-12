@@ -24,6 +24,10 @@
     <appname>EXCEL</appname>
     <equal>com.microsoft.Excel</equal>
   </appdef>
+  <appdef>
+    <appname>SLACK</appname>
+    <equal>com.tinyspeck.slackmacgap</equal>
+  </appdef>
   <item>
     <name>Custom Keymaps</name>
     <list>
@@ -278,6 +282,19 @@
         <identifier vk_config="true">notsave.japanese_option2eisuukana_prefer_option_v2</identifier>
         <autogen>__BlockUntilKeyUp__ KeyCode::OPTION_L</autogen>
         <autogen>__BlockUntilKeyUp__ KeyCode::OPTION_R</autogen>
+      </item>
+      <item>
+        <name>For Slack shortcut</name>
+        <appendix>Command+J => move to the next channel</appendix>
+        <appendix>Command+K => move to the previous channel</appendix>
+        <appendix>Shift+Command+J => move to the next channel in your history</appendix>
+        <appendix>Shift+Command+K => move to the previous channel in your history</appendix>
+        <identifier>private.app_slack_move_channel_with_command</identifier>
+        <only>SLACK</only>
+        <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::COMMAND_L,                        KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::COMMAND_L,                        KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
       </item>
     </list>
   </item>
