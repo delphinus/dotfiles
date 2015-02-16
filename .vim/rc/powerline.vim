@@ -1,7 +1,5 @@
 if has('gui_macvim') && has('kaoriya')
   let execute_powerline = 'python'
-elseif has('python3')
-  let execute_powerline = 'python3'
 elseif has('python')
   let execute_powerline = 'python'
 else
