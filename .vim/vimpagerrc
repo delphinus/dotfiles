@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-let g:is_mac = has('macunix')
+let g:is_mac = has('mac')
 let g:is_win = has('win32') || has('win64')
 
 if len($H)
