@@ -13,14 +13,24 @@ let g:quickrun_config['watchdogs_checker/jshint'] = {
       \ }
 
 let carton = expand('/usr/local/opt/plenv/shims/carton')
+let perlbrew_setting = expand('$HOME/perl5/perlbrew/etc/bashrc')
 if executable(carton)
   let g:quickrun_config['watchdogs_checker/perl'] = {
         \ 'command': carton,
-        \ 'cmdopt': 'exec -- perl -Ilib',
+        \ 'cmdopt': 'exec -- perl -Ilib -It/lib',
+        \ }
+elseif filereadable(perlbrew_setting)
+  redir => s:perl
+  silent !source $HOME/perl5/perlbrew/etc/bashrc && which perl
+  redir END
+  let s:perl = substitute(split(s:perl, '\r')[1], '\n', '', 'g')
+  let g:quickrun_config['watchdogs_checker/perl'] = {
+        \ 'command': s:perl,
+        \ 'cmdopt': '-Ilib -It/lib',
         \ }
 else
   let g:quickrun_config['watchdogs_checker/perl'] = {
-        \ 'cmdopt': '-Ilib',
+        \ 'cmdopt': '-Ilib -It/lib',
         \ }
 endif
 
