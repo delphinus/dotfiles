@@ -5,13 +5,10 @@ let g:is_win = has('win32') || has('win64')
 
 if len($H)
   let g:home = expand($H)
-elseif is_mac
-  let g:home = expand('~')
-elseif is_win
+elseif len($USERPROFILE)
   let g:home = expand('$USERPROFILE')
 else
-  echoerr 'unknown system'
-  finish
+  let g:home = expand('~')
 endif
 
 let g:vim_home = g:home . '/.vim'
