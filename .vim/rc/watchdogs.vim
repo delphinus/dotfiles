@@ -13,13 +13,12 @@ let g:quickrun_config['watchdogs_checker/jshint'] = {
       \ }
 
 let carton = expand('/usr/local/opt/plenv/shims/carton')
-let perlbrew_setting = expand('$HOME/perl5/perlbrew/etc/bashrc')
 if executable(carton)
   let g:quickrun_config['watchdogs_checker/perl'] = {
         \ 'command': carton,
         \ 'cmdopt': 'exec -- perl -Ilib -It/lib',
         \ }
-elseif filereadable(perlbrew_setting)
+elseif filereadable(expand('$HOME/perl5/perlbrew/etc/bashrc'))
   redir => s:perl
   silent !source $HOME/perl5/perlbrew/etc/bashrc && which perl
   redir END
