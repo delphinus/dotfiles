@@ -26,6 +26,7 @@ alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias lv='lv -c'
+alias path='echo $PATH | perl -aF: -le "print for sort @F"'
 
 alias vp='vimpager'
 alias tmux="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
@@ -64,6 +65,7 @@ if [ -d $HOME/perl5 ]; then
   # for perlbrew
   source $HOME/perl5/perlbrew/etc/bashrc
   source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
+  alias perl='perl -I$HOME/perl5/lib/perl5'
 else
   # for plenv
   export PLENV_ROOT=/usr/local/opt/plenv
