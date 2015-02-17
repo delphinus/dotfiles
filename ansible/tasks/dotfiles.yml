@@ -1,17 +1,20 @@
 ---
-- file: path=~/git state=directory
+- file: path={{ dotfiles_dir | dirname }} state=directory
 
-- git: repo=git://git.remora.cx/delphinus/dotfiles dest=~/git/dotfiles accept_hostkey=yes
+- git: repo={{ dotfiles_repo }} dest={{ dotfiles_dir }} accept_hostkey=yes
 
-- command: git remote -v chdir=~/git/dotfiles
+- command: git remote -v chdir={{ dotfiles_dir }}
   register: remote_stat
   changed_when: remote_stat.rc not in [0, 1]
 
-- command: git remote set-url --push origin git@git.remora.cx:delphinus/dotfiles chdir=~/git/dotfiles
-  when: remote_stat.stdout.find('git@git.remora.cx:delphinus/dotfiles') == -1
+- command: git remote set-url --push origin {{ dotfiles_repo_push }} chdir={{ dotfiles_dir }}
+  when: remote_stat.stdout.find(dotfiles_repo_push) == -1
+
+- command: git remote add github {{ dotfiles_repo_github }} chdir={{ dotfiles_dir }}
+  when: remote_stat.stdout.find(dotfiles_repo_github }} == -1
 
 - file: path=~/.config state=directory
-- file: src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
+- file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
   with_items:
     - .config/ipython
     - .config/peco
