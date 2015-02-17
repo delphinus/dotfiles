@@ -19,7 +19,8 @@
       sudo: yes
 
   roles:
-    - role: dghubble.homebrew-role
+    #- role: dghubble.homebrew-role
+    - role: homebrew-role
       bash_shell: True
     - hnakamur.homebrew-packages
     - hnakamur.homebrew-cask-packages
