@@ -36,6 +36,12 @@ homebrew_packages_packages:
   - { name: tig }
   - { name: tmux }
   - { name: vimpager }
+
+  # for powerline
+  - { name: automake }
+  - { name: libgit2 }
+  - { name: libtool }
+  - { name: libuv }
   - { name: zpython }
 
 homebrew_cask_packages_packages:
