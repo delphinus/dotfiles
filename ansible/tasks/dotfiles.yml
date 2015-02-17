@@ -29,3 +29,6 @@
 
 - file: path='~/Library/Application Support/Karabiner' state=directory
 - copy: src=files/private.xml dest='~/Library/Application Support/Karabiner/private.xml'
+
+- lineinfile: dest=~/.ssh/config line='Host *' state=present
+- lineinfile: dest=~/.ssh/config line='  ServerAliveInterval 120' insertafter='^Host \*$'
