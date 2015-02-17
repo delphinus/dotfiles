@@ -3,9 +3,12 @@
 
 - git: repo=git://git.remora.cx/delphinus/dotfiles dest=~/git/dotfiles accept_hostkey=yes
 
+- command: git remote -v chdir=~/git/dotfiles
+  register: remote_stat
+  changed_when: remote_stat.rc not in [0, 1]
+
 - command: git remote set-url --push origin git@git.remora.cx:delphinus/dotfiles chdir=~/git/dotfiles
-  register: remote_update
-  changed_when: remote_update.stdout != ''
+  when: remote_stat.stdout.find('git@git.remora.cx:delphinus/dotfiles') == -1
 
 - file: path=~/.config state=directory
 - file: src=~/git/dotfiles/{{ item }} dest=~/{{ item }} state=link force=yes
