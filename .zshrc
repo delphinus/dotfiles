@@ -85,8 +85,8 @@ fi
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 
 # powerline
-user_site=`python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
-user_base=`python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
+user_site=`/usr/bin/python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
+user_base=`/usr/bin/python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
 export PATH=$user_base/bin:$PATH
 module_path=($module_path /usr/local/lib/zpython)
 . $user_site/powerline/bindings/zsh/powerline.zsh
