@@ -10,6 +10,7 @@
 - name: determine brew-cask path
   shell: brew info brew-cask | perl -pe '($_) = /^(.*) \(.*?\) \*$/m'
   register: brew_cask_path
+  changed_when: false
 
 - patch: >
     src=files/symlinked.rb.patch
