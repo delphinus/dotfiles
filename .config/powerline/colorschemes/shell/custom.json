@@ -9,7 +9,7 @@
 		"superuser":            { "fg": "solarized:base3",  "bg": "solarized:red",     "attrs": ["bold"] },
 		"virtualenv":           { "fg": "solarized:base3",  "bg": "solarized:green",   "attrs": []       },
 		"branch":               { "fg": "solarized:base1",  "bg": "solarized:base02",  "attrs": []       },
-		"branch_dirty":         { "fg": "solarized:yellow", "bg": "solarized:base02",  "attrs": []       },
+		"branch_dirty":         { "fg": "solarized:base2",  "bg": "solarized:yellow",  "attrs": []       },
 		"branch_clean":         { "fg": "solarized:base1",  "bg": "solarized:base02",  "attrs": []       },
 		"continuation":         { "fg": "solarized:base3",  "bg": "solarized:magenta", "attrs": []       },
 		"continuation:current": { "fg": "solarized:base3",  "bg": "solarized:magenta", "attrs": ["bold"] },
