@@ -1,7 +1,7 @@
-diff --git a/lib/hbc/artifact/symlinked.rb b/lib/hbc/artifact/symlinked.rb
+diff --git a/rubylib/hbc/artifact/symlinked.rb b/rubylib/hbc/artifact/symlinked.rb
 index bcaa1a3..89484c5 100644
---- a/lib/hbc/artifact/symlinked.rb
-+++ b/lib/hbc/artifact/symlinked.rb
+--- a/rubylib/hbc/artifact/symlinked.rb
++++ b/rubylib/hbc/artifact/symlinked.rb
 @@ -83,13 +83,11 @@ def unlink(artifact_spec)
    end
  
