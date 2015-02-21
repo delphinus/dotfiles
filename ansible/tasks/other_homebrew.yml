@@ -12,8 +12,12 @@
   register: brew_cask_path
   changed_when: false
 
-- patch: >
+- copy: >
     src=files/symlinked.rb.patch
+    dest=/tmp/symlinked.rb.patch
+
+- patch: >
+    src=/tmp/symlinked.rb.patch
     basedir={{ brew_cask_path.stdout }}
     strip=1
 
