@@ -1,7 +1,7 @@
 ---
 - file: path={{ dotfiles_dir | dirname }} state=directory
 
-- git: repo={{ dotfiles_repo }} dest={{ dotfiles_dir }} accept_hostkey=yes
+- git: repo={{ dotfiles_repo }} dest={{ dotfiles_dir }}
 
 - command: git remote -v chdir={{ dotfiles_dir }}
   register: remote_stat
