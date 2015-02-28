@@ -26,8 +26,8 @@ elseif has('macunix')
     set guifont=Ricty_Discord:h14
     set guifontwide=Ricty_Discord:h14
   else
-    set guifont=Ricty_Discord:h18
-    set guifontwide=Ricty_Discord:h18
+    set guifont=Ricty_Discord:h14
+    set guifontwide=Ricty_Discord:h14
   endif
   set linespace=0
   set antialias                     " 文字をなめらかに表示する
