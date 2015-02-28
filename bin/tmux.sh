@@ -1,7 +1,7 @@
 #!/bin/sh
 TERM=xterm-256color
 if [ "$tmux_cmd" == "" ]; then
-  tmux_cmd="tmux -u2 -f $HOME/.tmux.conf"
+  tmux_cmd="tmux -u2 -f $HOME/.tmux.conf" $@
 fi
 if [ -z $TMUX ]; then
   if $(tmux has-session 2> /dev/null); then
