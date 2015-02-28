@@ -25,6 +25,7 @@ homebrew_packages_packages:
   - { name: peco }
   - { name: perl-build }
   - { name: plenv }
+  - { name: pstree }
   - { name: pt }
   - { name: pyenv }
   - { name: rbenv }
