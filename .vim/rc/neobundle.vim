@@ -149,6 +149,9 @@ if has('macunix')
   NeoBundle 'msanders/cocoa.vim'
   NeoBundle 'troydm/pb.vim'
   NeoBundle 'rizzatti/dash.vim'
+
+else
+  NeoBundle 'rkitover/vimpager'
 endif
 
 " Powerline がうまく動かないとき用
