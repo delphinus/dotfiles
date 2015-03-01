@@ -8,7 +8,7 @@ require 'open3'
 MODES = %i,set info create delete ls,
 DEFAULT = {
   verbose:     false,
-  host:        'orcinus.remora.cx',
+  host:        'git.remora.cx',
   user:        'git',
   description: '',
   mode:        :info,
