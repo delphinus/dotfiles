@@ -37,6 +37,7 @@ homebrew_packages_packages:
   - { name: tig }
   - { name: tmux }
   - { name: vimpager }
+  - { name: z }
 
   # for powerline
   - { name: automake }
