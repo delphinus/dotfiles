@@ -92,4 +92,8 @@ module_path=($module_path /usr/local/lib/zpython)
 . $user_site/powerline/bindings/zsh/powerline.zsh
 
 # z
-. `brew --prefix`/etc/profile.d/z.sh
+if [ "$OS" = 'Darwin' ]; then
+  . `brew --prefix`/etc/profile.d/z.sh
+else
+  . /etc/profile.d/z.sh
+fi
