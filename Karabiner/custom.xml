@@ -236,7 +236,7 @@
       </item>
       <item>
         <name>Emacs bindings for Word</name>
-        <identifier>remap.app_word_emacs_bindings</identifier>
+        <identifier>remap.app_word_bindings</identifier>
         <only>POWERPOINT</only>
         <autogen>__KeyToKey__ KeyCode::F, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_RIGHT</autogen>
         <autogen>__KeyToKey__ KeyCode::B, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_CONTROL, KeyCode::CURSOR_LEFT</autogen>
