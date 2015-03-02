@@ -90,3 +90,6 @@ user_base=`/usr/bin/python -c 'import site;import sys;sys.stdout.write(site.USER
 export PATH=$user_base/bin:$PATH
 module_path=($module_path /usr/local/lib/zpython)
 . $user_site/powerline/bindings/zsh/powerline.zsh
+
+# z
+. `brew --prefix`/etc/profile.d/z.sh
