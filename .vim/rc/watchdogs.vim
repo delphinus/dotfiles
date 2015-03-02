@@ -12,27 +12,6 @@ let g:quickrun_config['watchdogs_checker/jshint'] = {
       \ 'cmdopt': '--config ' . g:home . '/git/dotfiles/.jshintrc'
       \ }
 
-let carton = expand('/usr/local/opt/plenv/shims/carton')
-if executable(carton)
-  let g:quickrun_config['watchdogs_checker/perl'] = {
-        \ 'command': carton,
-        \ 'cmdopt': 'exec -- perl -Ilib -It/lib',
-        \ }
-elseif filereadable(expand('$HOME/perl5/perlbrew/etc/bashrc'))
-  redir => s:perl
-  silent !source $HOME/perl5/perlbrew/etc/bashrc && which perl
-  redir END
-  let s:perl = substitute(split(s:perl, '\r')[1], '\n', '', 'g')
-  let g:quickrun_config['watchdogs_checker/perl'] = {
-        \ 'command': s:perl,
-        \ 'cmdopt': '-Ilib -It/lib',
-        \ }
-else
-  let g:quickrun_config['watchdogs_checker/perl'] = {
-        \ 'cmdopt': '-Ilib -It/lib',
-        \ }
-endif
-
 let rbenv_ruby = expand('/usr/local/opt/rbenv/shims/ruby')
 if executable(rbenv_ruby)
   let g:quickrun_config['watchdogs_checker/ruby'] = {
