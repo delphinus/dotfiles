@@ -13,11 +13,6 @@
 				"only_if_ssh": true,
 				"exclude_domain": true
 			}
-		},
-		"branch": {
-			"args": {
-				"status_colors": true
-			}
 		}
 	},
 	"segments": {
