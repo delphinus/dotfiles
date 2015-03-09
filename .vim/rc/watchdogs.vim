@@ -19,6 +19,10 @@ if executable(rbenv_ruby)
         \ }
 endif
 
+let g:quickrun_config['watchdogs_checker/_'] = {
+      \ 'outputter/quickfix/open_cmd': ''
+      \ }
+
 " この関数に g:quickrun_config を渡す
 " この関数で g:quickrun_config にシンタックスチェックを行うための設定を追加する
 " 関数を呼び出すタイミングはユーザの g:quickrun_config 設定後
