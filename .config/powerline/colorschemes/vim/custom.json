@@ -55,6 +55,9 @@
 				"solarized:base1": "solarized:base00",
 				"solarized:base2": "solarized:base0",
 				"solarized:base3": "solarized:base1"
+			},
+			"groups": {
+				"error": { "fg": "solarized:base3", "bg": "solarized:red", "attrs": ["bold"] }
 			}
 		},
 		"i": {
