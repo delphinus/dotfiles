@@ -14,6 +14,10 @@
 				"exclude_modes": ["nc"]
 			},
 			{
+				"function": "ext.vim.segments.watchdogs.watchdogs",
+				"priority": 10
+			},
+			{
 				"function": "visual_range",
 				"include_modes": ["v", "V", "^V", "s", "S", "^S"],
 				"priority": 20
