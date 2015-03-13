@@ -23,10 +23,13 @@ augroup VimShellMapping
     " 履歴補完はノーマルモードで
     autocmd FileType vimshell inoremap <buffer> <expr><silent> <C-l>  unite#sources#vimshell_history#start_complete(0)
     autocmd FileType vimshell setlocal colorcolumn= nonu nornu
+    " ウィンドウの高さを固定しない
+    autocmd FileType vimshell setlocal nowinfixheight
     " iexe で mysql を実行したとき
     autocmd FileType int-mysql set filetype=mysql
     autocmd FileType int-mysql setlocal colorcolumn= nonu nornu
     autocmd FileType int-mysql nmap <buffer><c-c> <Plug>DWMClose
     autocmd FileType int-mysql imap <buffer><c-c> <Esc><Plug>DWMClose
     autocmd FileType int-mysql nmap <buffer><c-s> <Plug>(vimshell_hangup)
+    autocmd FileType mysql setlocal nowinfixheight
 augroup END
