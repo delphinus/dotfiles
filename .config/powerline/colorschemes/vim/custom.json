@@ -57,6 +57,7 @@
 				"solarized:base3": "solarized:base1"
 			},
 			"groups": {
+				"mode":  { "fg": "solarized:base3", "bg": "solarized:green", "attrs": ["bold"] },
 				"error": { "fg": "solarized:base3", "bg": "solarized:red", "attrs": ["bold"] }
 			}
 		},
