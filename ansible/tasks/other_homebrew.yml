@@ -33,6 +33,8 @@
 - command: brew cask install macvim-kaoriya --override-system-vim
   when: macvim_kaoriya_info.stdout.find('Not installed') > -1
 
+- command: defaults write org.vim.MacVim MMIgnoreShiftSpace -bool FALSE
+
 - homebrew_cask: name=firefoxdeveloperedition-ja state=installed
 - homebrew_cask: name=karabiner state=installed
   sudo: yes
