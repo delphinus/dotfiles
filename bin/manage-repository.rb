@@ -66,7 +66,7 @@ class Repository
     @log       = Logger.new STDERR
     @log.level = @options.verbose ? Logger::INFO : Logger::WARN
     @name      = name
-    @home      = "/home/#{@options.user}"
+    @home      = '$HOME'
     @path      = "#@home/#@name"
     @data      = OpenStruct.new get_data
   end
