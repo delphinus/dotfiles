@@ -1,6 +1,8 @@
 source $HOME/git/dotfiles/.zsh/basic.zshrc
+#source $HOME/git/dotfiles/.zsh/_ghq
 source $HOME/git/dotfiles/.zsh/peco-select-history.zsh
 source $HOME/git/dotfiles/.zsh/peco-git.zsh
+source $HOME/git/dotfiles/.zsh/peco-ghq.zsh
 source $HOME/git/dotfiles/bin/set-ssh-auth-sock.sh
 
 export PAGER=vimpager
@@ -97,3 +99,6 @@ if [ "$OS" = 'Darwin' ]; then
 else
   . /etc/profile.d/z.sh
 fi
+
+# grc
+source "`brew --prefix`/etc/grc.bashrc"
