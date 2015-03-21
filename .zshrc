@@ -29,6 +29,8 @@ alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias lv='lv -c'
 alias path='echo $PATH | perl -aF: -le "print for sort @F"'
+alias g='git'
+alias gh='ghq'
 
 alias vp='vimpager'
 alias tmux="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
