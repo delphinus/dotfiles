@@ -31,6 +31,7 @@ noremap zP :Unite output<CR>
 noremap ze :Unite ruby/require<CR>
 noremap zy :Unite yankround<CR>
 noremap zw :Unite webcolorname<CR>
+noremap zg :Unite ghq<CR>
 noremap ZB :Unite rails/bundle<CR>
 noremap ZC :Unite rails/controller<CR>
 noremap ZD :Unite rails/db<CR>
@@ -111,15 +112,7 @@ endfunction
 let g:unite_enable_ignore_case = 1
 let g:unite_enable_smart_case = 1
 
-" grep検索
-nnoremap zg :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-" カーソル位置の単語をgrep検索
-nnoremap zu :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
-" grep検索結果の再呼出
-nnoremap zG :<C-u>UniteResume search-buffer<CR>
-
 " unite grep に ag(The Silver Searcher) を使う
-let is_32bit = system('uname -m')
 if executable('pt')
     let g:unite_source_grep_command = 'pt'
     let g:unite_source_grep_default_opts = '--nogroup --nocolor'
