@@ -23,9 +23,11 @@ if has('win32')
 elseif has('macunix')
   let resolution = system("osascript -e 'tell application " . '"Finder"' . " to get bounds of window of desktop' | awk -F', ' '{print $3}'")
   if resolution < 1440
+    set lines=50 columns=50         " ウィンドウの大きさを指定する
     set guifont=Ricty_Discord:h14
     set guifontwide=Ricty_Discord:h14
   else
+    set lines=92 columns=190        " ウィンドウの大きさを指定する
     set guifont=Ricty_Discord:h14
     set guifontwide=Ricty_Discord:h14
   endif
@@ -38,7 +40,6 @@ elseif has('macunix')
   let $DISPLAY=':0'
 endif
 
-winsize 175 50                  " ウィンドウの大きさを指定する
 
 "colorscheme desert-warm-256
 "colorscheme bubblegum
