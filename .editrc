@@ -1,2 +1,21 @@
 bind -v
 bind ^I rl_complete
+
+mysql:bind "^r" em-inc-search-prev # enable incremental backward search
+mysql:bind "\\t" rl_complete       # enable completion
+
+mysql:bind '^U' vi-kill-line-prev
+mysql:bind '^W' ed-delete-prev-word
+mysql:bind '^R' em-inc-search-prev
+
+mysql:bind -s "^xd" "show databases;"
+mysql:bind -s "^xt" "show tables;"
+mysql:bind -s "^xu" "select user,host,password from mysql.user order by user,host;"
+mysql:bind -s "^xb" "select user,host,db       from mysql.db   order by user,host;"
+mysql:bind -s "^xc" "show create table TN\\\\G"
+mysql:bind -s "^xn" "select count(*) from ;"
+mysql:bind -s "^xv" "show variables like '%%';"
+mysql:bind -s "^xs" "show slave status\\\\G"
+mysql:bind -s "^xm" "show master status\\\\G"
+mysql:bind -s "^xp" "show full processlist;"
+mysql:bind -s "^xa" "show table status like 'TN'\\\\G"
