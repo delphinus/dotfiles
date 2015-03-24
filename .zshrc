@@ -111,8 +111,11 @@ else
 fi
 
 # grc
-if [ -f "`brew --prefix`/etc/grc.bashrc" ]; then
-  . "`brew --prefix`/etc/grc.bashrc"
+which brew > /dev/null
+if [ $? -ne 0 ]; then
+  if [ -f "`brew --prefix`/etc/grc.bashrc" ]; then
+    . "`brew --prefix`/etc/grc.bashrc"
+  fi
 fi
 
 # local settings
