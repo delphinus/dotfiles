@@ -31,6 +31,7 @@ alias lv='lv -c'
 alias path='echo $PATH | perl -aF: -le "print for sort @F"'
 alias g='git'
 alias gh='ghq'
+alias be='bundle exec'
 
 alias vp='vimpager'
 alias tmux="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
