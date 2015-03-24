@@ -47,7 +47,8 @@ $HOME/git/dotfiles/bin:\
 /usr/sbin:\
 /sbin:\
 /usr/bin:\
-/usr/X11/bin"
+/usr/X11/bin:\
+$PATH"
 
 # for perlomni.vim
 export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
@@ -68,9 +69,15 @@ if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
 
 if [ -d $HOME/perl5 ]; then
   # for perlbrew
-  source $HOME/perl5/perlbrew/etc/bashrc
-  source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
-  alias perl='perl -I$HOME/perl5/lib/perl5'
+  if [ -f $HOME/perl5/perlbrew/etc/bashrc ]; then
+    source $HOME/perl5/perlbrew/etc/bashrc
+    source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
+    export PERL5LIB=$HOME/perl5/lib/perl5
+    alias perl='perl -I$HOME/perl5/lib/perl5'
+  else
+    export PATH=$HOME/perl5/bin:$PATH
+    export PERL5LIB=$HOME/perl5/lib/perl5:$HOME/perl5/lib/perl5/x86_64-linux-thread-multi/auto
+  fi
 else
   # for plenv
   export PLENV_ROOT=/usr/local/opt/plenv
@@ -93,7 +100,7 @@ export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 user_site=`/usr/bin/python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
 user_base=`/usr/bin/python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
 export PATH=$user_base/bin:$PATH
-module_path=($module_path /usr/local/lib/zpython)
+module_path=($module_path /usr/local/lib/zpython /usr/local/lib/zsh/5.0.5-dev-0/zsh)
 . $user_site/powerline/bindings/zsh/powerline.zsh
 
 # z
@@ -104,4 +111,17 @@ else
 fi
 
 # grc
-source "`brew --prefix`/etc/grc.bashrc"
+if [ -f "`brew --prefix`/etc/grc.bashrc" ]; then
+  . "`brew --prefix`/etc/grc.bashrc"
+fi
+
+# local settings
+if [ -f "$HOME/.zshrc.local" ]; then
+  . $HOME/.zshrc.local
+fi
+
+# custom mysql
+mysql_bin=/usr/local/opt/mysql/bin
+if [ -d $mysql_bin ]; then
+  export PATH=$mysql_bin:$PATH
+fi
