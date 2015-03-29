@@ -1,1 +1,1 @@
-au BufNewFile,BufRead */nginx/* set filetype=nginx
+au BufNewFile,BufRead */nginx* set filetype=nginx
