@@ -31,7 +31,7 @@ noremap zP :Unite output<CR>
 noremap ze :Unite ruby/require<CR>
 noremap zy :Unite yankround<CR>
 noremap zw :Unite webcolorname<CR>
-noremap zg :Unite ghq<CR>
+noremap <c-]> :Unite ghq<CR>
 noremap ZB :Unite rails/bundle<CR>
 noremap ZC :Unite rails/controller<CR>
 noremap ZD :Unite rails/db<CR>
@@ -126,5 +126,5 @@ endif
 " unite-tag 設定
 autocmd BufEnter *
 \   if empty(&buftype)
-\|      nnoremap <buffer> <C-]> :<C-u>UniteWithCursorWord -immediately tag/include<CR>
+\|      nnoremap <buffer> zg :<C-u>UniteWithCursorWord -immediately tag/include<CR>
 \|  endif
