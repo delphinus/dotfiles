@@ -1,0 +1,120 @@
+diff -ur git-core.orig/git-pull git-core/git-pull
+--- git-core.orig/git-pull	2015-04-08 16:56:29.000000000 +0900
++++ git-core/git-pull	2015-04-08 17:18:40.000000000 +0900
+@@ -4,12 +4,27 @@
+ #
+ # Fetch one or more remote refs and merge it/them into the current HEAD.
+ 
++abs_dirname() {
++  local cwd="$(pwd)"
++  local path="$1"
++
++  while [ -n "$path" ]; do
++    cd "${path%/*}"
++    local name="${path##*/}"
++    path="$(readlink "$name" || true)"
++  done
++
++  pwd -P
++  cd "$cwd"
++}
++__SCRIPT_DIR__=$(abs_dirname $0)
++
+ USAGE='[-n | --no-stat] [--[no-]commit] [--[no-]squash] [--[no-]ff|--ff-only] [--[no-]rebase|--rebase=preserve] [-s strategy]... [<fetch-options>] <repo> <head>...'
+ LONG_USAGE='Fetch one or more remote refs and integrate it/them with the current HEAD.'
+ SUBDIRECTORY_OK=Yes
+ OPTIONS_SPEC=
+-. git-sh-setup
+-. git-sh-i18n
++. $__SCRIPT_DIR__/git-sh-setup
++. $__SCRIPT_DIR__/git-sh-i18n
+ set_reflog_action "pull${1+ $*}"
+ require_work_tree_exists
+ cd_to_toplevel
+@@ -226,7 +241,7 @@
+ 		echo "a branch. Because this is not the default configured remote"
+ 		echo "for your current branch, you must specify a branch on the command line."
+ 	elif [ -z "$curr_branch" -o -z "$upstream" ]; then
+-		. git-parse-remote
++		. $__SCRIPT_DIR__/git-parse-remote
+ 		error_on_missing_default_upstream "pull" $op_type $op_prep \
+ 			"git pull <remote> <branch>"
+ 	else
+@@ -249,7 +264,7 @@
+ 	fi
+ 	oldremoteref= &&
+ 	test -n "$curr_branch" &&
+-	. git-parse-remote &&
++	. $__SCRIPT_DIR__/git-parse-remote &&
+ 	remoteref="$(get_remote_merge_branch "$@" 2>/dev/null)" &&
+ 	oldremoteref=$(git merge-base --fork-point "$remoteref" $curr_branch 2>/dev/null)
+ }
+@@ -326,12 +341,12 @@
+ merge_name=$(git fmt-merge-msg $log_arg <"$GIT_DIR/FETCH_HEAD") || exit
+ case "$rebase" in
+ true)
+-	eval="git-rebase $diffstat $strategy_args $merge_args $rebase_args $verbosity"
++	eval="$__SCRIPT_DIR__/git-rebase $diffstat $strategy_args $merge_args $rebase_args $verbosity"
+ 	eval="$eval $gpg_sign_args"
+ 	eval="$eval --onto $merge_head ${oldremoteref:-$merge_head}"
+ 	;;
+ *)
+-	eval="git-merge $diffstat $no_commit $verify_signatures $edit $squash $no_ff $ff_only"
++	eval="$__SCRIPT_DIR__/git-merge $diffstat $no_commit $verify_signatures $edit $squash $no_ff $ff_only"
+ 	eval="$eval $log_arg $strategy_args $merge_args $verbosity $progress"
+ 	eval="$eval $gpg_sign_args"
+ 	eval="$eval \"\$merge_name\" HEAD $merge_head"
+diff -ur git-core.orig/git-rebase git-core/git-rebase
+--- git-core.orig/git-rebase	2015-04-08 16:56:29.000000000 +0900
++++ git-core/git-rebase	2015-04-08 17:18:44.000000000 +0900
+@@ -3,6 +3,21 @@
+ # Copyright (c) 2005 Junio C Hamano.
+ #
+ 
++abs_dirname() {
++  local cwd="$(pwd)"
++  local path="$1"
++
++  while [ -n "$path" ]; do
++    cd "${path%/*}"
++    local name="${path##*/}"
++    path="$(readlink "$name" || true)"
++  done
++
++  pwd -P
++  cd "$cwd"
++}
++__SCRIPT_DIR__=$(abs_dirname $0)
++
+ SUBDIRECTORY_OK=Yes
+ OPTIONS_KEEPDASHDASH=
+ OPTIONS_STUCKLONG=t
+@@ -44,8 +59,8 @@
+ skip!              skip current patch and continue
+ edit-todo!         edit the todo list during an interactive rebase
+ "
+-. git-sh-setup
+-. git-sh-i18n
++. $__SCRIPT_DIR__/git-sh-setup
++. $__SCRIPT_DIR__/git-sh-i18n
+ set_reflog_action rebase
+ require_work_tree_exists
+ cd_to_toplevel
+@@ -186,7 +201,7 @@
+ 		export GIT_EDITOR
+ 		autosquash=
+ 	fi
+-	. git-rebase--$type
++	. $__SCRIPT_DIR__/git-rebase--$type
+ 	ret=$?
+ 	if test $ret -eq 0
+ 	then
+@@ -446,7 +461,7 @@
+ 		if ! upstream_name=$(git rev-parse --symbolic-full-name \
+ 			--verify -q @{upstream} 2>/dev/null)
+ 		then
+-			. git-parse-remote
++			. $__SCRIPT_DIR__/git-parse-remote
+ 			error_on_missing_default_upstream "rebase" "rebase" \
+ 				"against" "git rebase <branch>"
+ 		fi
