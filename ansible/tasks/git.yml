@@ -3,4 +3,11 @@
   register: git_path
   changed_when: git_path.rc != 0
 
-- patch: src=../files/git-core.patch basedir={{ git_path.stdout }} strip=1
+- copy: >
+    src=files/git-core.patch
+    dest=/tmp/git-core.patch
+
+- patch: >
+    src=/tmp/git-core.patch
+    basedir={{ git_path.stdout }}
+    strip=1
