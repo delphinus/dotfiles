@@ -34,7 +34,7 @@ noremap zP :Unite output<CR>
 noremap ze :Unite ruby/require<CR>
 noremap zy :Unite yankround<CR>
 noremap zw :Unite webcolorname<CR>
-noremap <c-]> :Unite ghq<CR>
+noremap zh :Unite ghq<CR>
 noremap ZB :Unite rails/bundle<CR>
 noremap ZC :Unite rails/controller<CR>
 noremap ZD :Unite rails/db<CR>
@@ -120,14 +120,10 @@ if executable('pt')
     let g:unite_source_grep_command = 'pt'
     let g:unite_source_grep_default_opts = '--nogroup --nocolor'
     let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_file_rec_async_command = 'pt --nocolor --nogroup -g .'
 elseif executable('ag')
     let g:unite_source_grep_command = 'ag'
     let g:unite_source_grep_default_opts = '-a --nogroup --nocolor --column'
     let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_file_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
-
-" unite-tag 設定
-autocmd BufEnter *
-\   if empty(&buftype)
-\|      nnoremap <buffer> zG :<C-u>UniteWithCursorWord -immediately tag/include<CR>
-\|  endif
