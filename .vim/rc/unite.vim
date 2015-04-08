@@ -3,8 +3,6 @@
 let g:neomru#time_format='%m/%d %k:%M '
 " プロンプト
 let g:unite_prompt=' '
-" 挿入モードで開く
-let g:unite_enable_start_insert=1
 " ステータスラインを書き換えない
 let g:unite_force_overwrite_statusline=0
 " ロングリストにたくさんファイルを保存
@@ -64,6 +62,9 @@ call unite#custom#substitute('files', '\\ \@!', '/', -30)
 call unite#custom#substitute('files', '^;v', '~/.vim/')
 call unite#custom#substitute('files', '^;g', escape($HOME, '\') . '/git/')
 call unite#custom#substitute('files', '^;d', escape($HOME, '\') . '/git/dotfiles/')
+call unite#custom#profile('default', 'context', {
+      \ 'start_insert': 1
+      \ })
 if has('win32') || has('win64')
   call unite#custom#substitute('files', '^;p', 'C:/Program Files/')
   call unite#custom#substitute('files', '^;u', escape($USERPROFILE, '\') . '/')
