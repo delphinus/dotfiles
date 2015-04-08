@@ -20,9 +20,12 @@ call unite#custom_source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', '
 " デフォルトアクション
 let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 
+noremap za :Unite file_rec/async<CR>
 noremap zd :Unite dwm<CR>
 noremap zf :Unite qfixhowm/new qfixhowm<CR>
 noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
+noremap zg :Unite file_rec/git<CR>
+noremap zG :UniteWithCursorWord -immediately tag/include<CR>
 noremap zi :Unite tig<CR>
 noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
@@ -126,5 +129,5 @@ endif
 " unite-tag 設定
 autocmd BufEnter *
 \   if empty(&buftype)
-\|      nnoremap <buffer> zg :<C-u>UniteWithCursorWord -immediately tag/include<CR>
+\|      nnoremap <buffer> zG :<C-u>UniteWithCursorWord -immediately tag/include<CR>
 \|  endif
