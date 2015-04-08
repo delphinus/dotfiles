@@ -11,7 +11,7 @@
   when: remote_stat.stdout.find(dotfiles_repo_push) == -1
 
 - command: git remote add github {{ dotfiles_repo_github }} chdir={{ dotfiles_dir }}
-  when: remote_stat.stdout.find(dotfiles_repo_github }} == -1
+  when: remote_stat.stdout.find(dotfiles_repo_github) == -1
 
 - file: path=~/.config state=directory
 - file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
