@@ -23,7 +23,7 @@ noremap zd :Unite dwm<CR>
 noremap zf :Unite qfixhowm/new qfixhowm<CR>
 noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
 noremap zg :Unite file_rec/git<CR>
-noremap zG :UniteWithCursorWord -immediately tag/include<CR>
+noremap <c-]> :UniteWithCursorWord -immediately tag/include<CR>
 noremap zi :Unite tig<CR>
 noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
