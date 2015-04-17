@@ -3,7 +3,8 @@
   "mouse-follows-focus": true,
   "floating": [
     "com.vmware.fusion",
-    "com.agilebits.onepassword4"
+    "com.agilebits.onepassword4",
+    "com.apple.systempreferences"
   ],
   "enables-layout-hud": true,
   "enables-layout-hud-on-space-change": true
