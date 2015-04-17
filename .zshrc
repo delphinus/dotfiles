@@ -127,3 +127,8 @@ mysql_bin=/usr/local/opt/mysql/bin
 if [ -d $mysql_bin ]; then
   export PATH=$mysql_bin:$PATH
 fi
+
+# github access token
+if [ -f "$HOME/.homebrew_github_api_token" ]; then
+  . $HOME/.homebrew_github_api_token
+fi
