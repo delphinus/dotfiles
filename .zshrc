@@ -132,3 +132,8 @@ fi
 if [ -f "$HOME/.homebrew_github_api_token" ]; then
   . $HOME/.homebrew_github_api_token
 fi
+
+# PHP composer
+if [ -d "$HOME/.composer/vendor/bin" ]; then
+  export PATH="$HOME/.composer/vendor/bin:$PATH"
+fi
