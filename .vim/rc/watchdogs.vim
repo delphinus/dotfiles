@@ -19,6 +19,23 @@ if executable(rbenv_ruby)
         \ }
 endif
 
+let phpcs = expand(g:home . '/.composer/vendor/bin/phpcs')
+if executable(phpcs)
+  let errorformat =
+        \ '%-GFile\,Line\,Column\,Type\,Message\,Source\,Severity%.%#,'.
+        \ '"%f"\,%l\,%c\,%t%*[a-zA-Z]\,"%m"\,%*[a-zA-Z0-9_.-]\,%*[0-9]%.%#'
+  let g:quickrun_config['watchdogs_checker/php'] = {
+        \ 'quickfix/errorformat': errorformat,
+        \ 'command':              phpcs,
+        \ 'cmdopt':               '--report=csv',
+        \ 'exec':                 '%c %o %s:p',
+        \ }
+  let g:quickrun_config['php.wordpress/watchdogs_checker'] = {
+        \ 'type':   'watchdogs_checker/php',
+        \ 'cmdopt': '--report=csv --standard=WordPress',
+        \ }
+endif
+
 let g:quickrun_config['watchdogs_checker/_'] = {
       \ 'outputter/quickfix/open_cmd': ''
       \ }
