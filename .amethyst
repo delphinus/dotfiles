@@ -4,7 +4,8 @@
   "floating": [
     "com.vmware.fusion",
     "com.agilebits.onepassword4",
-    "com.apple.systempreferences"
+    "com.apple.systempreferences",
+    "com.pqrs.Karabiner"
   ],
   "enables-layout-hud": true,
   "enables-layout-hud-on-space-change": true
