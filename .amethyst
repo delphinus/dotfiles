@@ -1,17 +1,41 @@
 {
+  "LAYOUTS": "-------------------",
   "layouts": [
     "tall",
-    "fullscreen",
-    "widescreen-tall"
+    "fullscreen"
   ],
-  "mouse-follows-focus": true,
+
+  "MODIFIERS": "-------------------",
+  "mod1": ["control", "command"],
+  "mod2": ["option", "command"],
+
+  "COMMANDS": "-------------------",
+  "focus-ccw": {
+    "mod": "mod1",
+    "key": "k"
+  },
+  "focus-cw": {
+    "mod": "mod1",
+    "key": "j"
+  },
+  "swap-ccw": {
+    "mod": "mod2",
+    "key": "k"
+  },
+  "swap-cw": {
+    "mod": "mod2",
+    "key": "j"
+  },
+
+  "MISC": "-------------------",
   "floating": [
     "com.vmware.fusion",
     "com.agilebits.onepassword4",
     "com.apple.systempreferences",
-    "com.pqrs.Karabiner",
-    "com.kapeli.dash"
+      "com.pqrs.Karabiner",
+      "com.kapeli.dash",
+        "com.apple.installer"
   ],
-  "enables-layout-hud": true,
-  "enables-layout-hud-on-space-change": true
+  "mouse-follows-focus": true,
+  "focus-follows-mouse": true
 }
