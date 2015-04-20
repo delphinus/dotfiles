@@ -293,16 +293,16 @@
         <appendix>Command+K => move to the previous channel</appendix>
         <appendix>Shift+Command+J => move to the next channel in your history</appendix>
         <appendix>Shift+Command+K => move to the previous channel in your history</appendix>
-        <appendix>Option+J => scroll to next page</appendix>
-        <appendix>Option+K => scroll to previous page</appendix>
+        <appendix>Option+L => scroll to next page</appendix>
+        <appendix>Option+H => scroll to previous page</appendix>
         <identifier>private.app_slack_move_channel_with_command</identifier>
         <only>SLACK</only>
         <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::COMMAND_L,                        KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L</autogen>
         <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::COMMAND_L,                        KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L</autogen>
         <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
         <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::OPTION_L,                         KeyCode::PAGEDOWN</autogen>
-        <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::OPTION_L,                         KeyCode::PAGEUP</autogen>
+        <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::OPTION_L,                         KeyCode::PAGEDOWN</autogen>
+        <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::OPTION_L,                         KeyCode::PAGEUP</autogen>
       </item>
       <item>
         <name>HHKish on the Macbook Air's internal kbd (vid/pid: 0x05ac, 0x0291)</name>
