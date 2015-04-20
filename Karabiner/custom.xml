@@ -317,6 +317,26 @@
         <autogen>__KeyToKey__ KeyCode::BACKQUOTE, KeyCode::ESCAPE</autogen>
         <autogen>__KeyToKey__ KeyCode::OPTION_R, KeyCode::DELETE</autogen>
       </item>
+      <item>
+        <name>Emacs mode</name>
+        <appendix>Option_L + PNBF => Up/Down/Left/Right</appendix>
+        <appendix>Option_L + AE => Cmd + Left/Right</appendix>
+        <appendix>Shift_L + Option_L + PNBF => Shift + Up/Down/Left/Right</appendix>
+        <appendix>Shift_L + Option_L + AE => Shift + Cmd + Left/Right</appendix>
+        <identifier>remap.emacs_mode_with_option_key</identifier>
+        <autogen>__KeyToKey__ KeyCode::P, ModifierFlag::OPTION_L, KeyCode::CURSOR_UP</autogen>
+        <autogen>__KeyToKey__ KeyCode::N, ModifierFlag::OPTION_L, KeyCode::CURSOR_DOWN</autogen>
+        <autogen>__KeyToKey__ KeyCode::B, ModifierFlag::OPTION_L, KeyCode::CURSOR_LEFT</autogen>
+        <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::OPTION_L, KeyCode::CURSOR_RIGHT</autogen>
+        <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::OPTION_L, KeyCode::CURSOR_LEFT,  ModifierFlag::COMMAND_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::E, ModifierFlag::OPTION_L, KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::P, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP,    ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::N, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_DOWN,  ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::B, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_LEFT,  ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_RIGHT, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_LEFT,  ModifierFlag::SHIFT_L, ModifierFlag::COMMAND_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_RIGHT, ModifierFlag::SHIFT_L, ModifierFlag::COMMAND_L</autogen>
+      </item>
     </list>
   </item>
 </root>
