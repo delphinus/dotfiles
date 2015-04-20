@@ -9,7 +9,8 @@
     "com.vmware.fusion",
     "com.agilebits.onepassword4",
     "com.apple.systempreferences",
-    "com.pqrs.Karabiner"
+    "com.pqrs.Karabiner",
+    "com.kapeli.dash"
   ],
   "enables-layout-hud": true,
   "enables-layout-hud-on-space-change": true
