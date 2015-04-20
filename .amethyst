@@ -1,5 +1,9 @@
 {
-  "layouts": ["tall", "fullscreen"],
+  "layouts": [
+    "tall",
+    "fullscreen",
+    "widescreen-tall"
+  ],
   "mouse-follows-focus": true,
   "floating": [
     "com.vmware.fusion",
