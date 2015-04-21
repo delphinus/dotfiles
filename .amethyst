@@ -35,7 +35,11 @@
     "com.pqrs.Karabiner",
     "com.kapeli.dash",
     "com.apple.installer",
-    "com.flexibits.fantastical2.mac"
+    "com.flexibits.fantastical2.mac",
+    "com.pqrs.Karabiner",
+    "com.kapeli.dash",
+    "com.apple.installer",
+    "org.videolan.vlc"
   ],
   "mouse-follows-focus": true,
   "focus-follows-mouse": true
