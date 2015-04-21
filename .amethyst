@@ -32,9 +32,10 @@
     "com.vmware.fusion",
     "com.agilebits.onepassword4",
     "com.apple.systempreferences",
-      "com.pqrs.Karabiner",
-      "com.kapeli.dash",
-        "com.apple.installer"
+    "com.pqrs.Karabiner",
+    "com.kapeli.dash",
+    "com.apple.installer",
+    "com.flexibits.fantastical2.mac"
   ],
   "mouse-follows-focus": true,
   "focus-follows-mouse": true
