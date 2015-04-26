@@ -32,7 +32,7 @@ if executable(phpcs)
         \ }
   let g:quickrun_config['php.wordpress/watchdogs_checker'] = {
         \ 'type':   'watchdogs_checker/php',
-        \ 'cmdopt': '--report=csv --standard=WordPress',
+        \ 'cmdopt': '--report=csv --standard=WordPress-Extra',
         \ }
 endif
 
