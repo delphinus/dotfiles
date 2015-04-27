@@ -29,18 +29,18 @@
 
   "MISC": "-------------------",
   "floating": [
-    "com.vmware.fusion",
     "com.agilebits.onepassword4",
+    "com.apple.installer",
+    "com.apple.installer",
     "com.apple.systempreferences",
-    "com.pqrs.Karabiner",
-    "com.kapeli.dash",
-    "com.apple.installer",
-    "com.flexibits.fantastical2.mac",
-    "com.pqrs.Karabiner",
-    "com.kapeli.dash",
-    "com.apple.installer",
-    "org.videolan.vlc",
     "com.dropbox.mbd.external-beta"
+    "com.flexibits.fantastical2.mac",
+    "com.kapeli.dash",
+    "com.kapeli.dash",
+    "com.pqrs.Karabiner",
+    "com.pqrs.Karabiner",
+    "com.vmware.fusion",
+    "org.videolan.vlc",
   ],
   "mouse-follows-focus": true,
   "focus-follows-mouse": false
