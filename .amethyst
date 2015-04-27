@@ -7,7 +7,7 @@
 
   "MODIFIERS": "-------------------",
   "mod1": ["control", "command"],
-  "mod2": ["option", "command"],
+  "mod2": ["shift", "control", "command"],
 
   "COMMANDS": "-------------------",
   "focus-ccw": {
