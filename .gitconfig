@@ -75,5 +75,7 @@
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
 	required = true
+[include]
+	path = .gitconfig_local
 
 # vim:se noet:

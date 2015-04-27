@@ -1,0 +1,4 @@
+{%- for info in secret_repo_info_for_ghq -%}
+[ghq "{{ info.url }}"]
+	vcs = {{ info.vcs }}
+{%- endfor -%}
