@@ -39,7 +39,8 @@
     "com.pqrs.Karabiner",
     "com.kapeli.dash",
     "com.apple.installer",
-    "org.videolan.vlc"
+    "org.videolan.vlc",
+    "com.dropbox.mbd.external-beta"
   ],
   "mouse-follows-focus": true,
   "focus-follows-mouse": false
