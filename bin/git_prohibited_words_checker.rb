@@ -51,7 +51,8 @@ ignore_names_re = %r[
   \Asubmodules/ |
   \.pyc$ |
   \.sqlite$ |
-  \.exe$
+  \.exe$ |
+  \.rpm$
 ]x
 
 scan_count = 0
