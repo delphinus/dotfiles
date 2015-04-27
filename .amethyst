@@ -33,14 +33,15 @@
     "com.apple.installer",
     "com.apple.installer",
     "com.apple.systempreferences",
-    "com.dropbox.mbd.external-beta"
+    "com.dropbox.mbd.external-beta",
     "com.flexibits.fantastical2.mac",
+    "com.justsystems.atok27.EnvironmentSet",
     "com.kapeli.dash",
     "com.kapeli.dash",
     "com.pqrs.Karabiner",
     "com.pqrs.Karabiner",
     "com.vmware.fusion",
-    "org.videolan.vlc",
+    "org.videolan.vlc"
   ],
   "mouse-follows-focus": true,
   "focus-follows-mouse": false
