@@ -75,6 +75,5 @@ home_dir: "{{ ansible_env['HOME'] }}"
 cache_dir: "{{ home_dir }}/Library/Caches/Ansible"
 fonts_dir: "{{ home_dir }}/Library/Fonts"
 dotfiles_dir:         "{{ home_dir }}/git/dotfiles"
-dotfiles_repo:        https://git.remora.cx/delphinus/dotfiles
-dotfiles_repo_push:   git@git.remora.cx:delphinus/dotfiles
+dotfiles_repo:        git@git.remora.cx:delphinus/dotfiles
 dotfiles_repo_github: git@github.com:delphinus35/dotfiles
