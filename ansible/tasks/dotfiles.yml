@@ -7,9 +7,6 @@
   register: remote_stat
   changed_when: remote_stat.rc not in [0, 1]
 
-- command: git remote set-url --push origin {{ dotfiles_repo_push }} chdir={{ dotfiles_dir }}
-  when: remote_stat.stdout.find(dotfiles_repo_push) == -1
-
 - command: git remote add github {{ dotfiles_repo_github }} chdir={{ dotfiles_dir }}
   when: remote_stat.stdout.find(dotfiles_repo_github) == -1
 
