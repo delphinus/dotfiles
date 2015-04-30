@@ -3,6 +3,7 @@ source $HOME/git/dotfiles/.zsh/basic.zshrc
 source $HOME/git/dotfiles/.zsh/peco-select-history.zsh
 source $HOME/git/dotfiles/.zsh/peco-git.zsh
 source $HOME/git/dotfiles/.zsh/peco-ghq.zsh
+source $HOME/git/dotfiles/.zsh/peco-z.zsh
 source $HOME/git/dotfiles/bin/set-ssh-auth-sock.sh
 
 export PAGER=vimpager
