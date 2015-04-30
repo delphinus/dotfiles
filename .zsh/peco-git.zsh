@@ -1,3 +1,5 @@
+autoload -Uz throw
+
 # Pecoでちょっとリッチなgitブランチ選択 - Qiita
 # http://qiita.com/ymorired/items/1772d3112573179b68cb
 function peco-git-branch() {
@@ -46,6 +48,10 @@ bindkey '^x^f' peco-git-file
 
 # open url for git repository
 function peco-git-open() {
+  if [ -n "$SSH_CLIENT" ]; then
+    BUFFER="can not open urls from a ssh session"
+    throw
+  fi
   local selected_url="$(git remote -v | grep '(fetch)' | ruby -ne '
     remote = $_.split(/\s+/)[1]
     if remote =~ %r[\A(?:(?:git|ssh)://)?(?!https?://)(?:[-\w]+@)?([-\w.]+)[:/](.*)\z]
