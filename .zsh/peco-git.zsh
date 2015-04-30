@@ -43,3 +43,21 @@ function peco-git-file() {
 }
 zle -N peco-git-file
 bindkey '^x^f' peco-git-file
+
+# open url for git repository
+function peco-git-open() {
+  local selected_url="$(git remote -v | grep '(fetch)' | ruby -ne '
+    remote = $_.split(/\s+/)[1]
+    if remote =~ %r[\A(?:(?:git|ssh)://)?(?!https?://)(?:[-\w]+@)?([-\w.]+)[:/](.*)\z]
+      remote = "https://#$1/#$2"
+    end
+    puts remote
+    ' | peco --prompt "OPEN REPOSITORY>")"
+  if [ -n "$selected_url" ]; then
+    BUFFER="open ${selected_url}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-git-open
+bindkey '^x^o' peco-git-open
