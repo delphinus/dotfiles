@@ -44,7 +44,8 @@
 		"player":                   { "fg": "gray10", "bg": "black", "attrs": [] },
 		"date":                     { "fg": "gray8", "bg": "gray2", "attrs": [] },
 		"time":                     { "fg": "gray10", "bg": "gray2", "attrs": ["bold"] },
-		"time:divider":             { "fg": "gray5", "bg": "gray2", "attrs": [] }
+		"time:divider":             { "fg": "gray5", "bg": "gray2", "attrs": [] },
+		"webdevicons":              { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": ["bold"] }
 	},
 	"mode_translations": {
 		"nc": {
@@ -87,7 +88,9 @@
 				"position_gradient":      { "fg": "solarized:base3", "bg": "solarized:base1", "attrs": [] },
 				"line_current":           { "fg": "solarized:base03", "bg": "solarized:base3", "attrs": ["bold"] },
 				"line_current_symbol":    { "fg": "solarized:base03", "bg": "solarized:base3", "attrs": [] },
-				"col_current":            { "fg": "solarized:base0", "bg": "solarized:base3", "attrs": [] }
+				"col_current":            { "fg": "solarized:base0", "bg": "solarized:base3", "attrs": [] },
+
+				"webdevicons":            { "fg": "solarized:base01", "bg": "solarized:base2", "attrs": [] }
 			}
 		},
 		"v": {
