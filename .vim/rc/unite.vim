@@ -23,7 +23,7 @@ noremap zd :Unite dwm<CR>
 noremap zf :Unite qfixhowm/new qfixhowm<CR>
 noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
 noremap zg :Unite file_rec/git<CR>
-noremap <c-]> :UniteWithCursorWord -immediately tag/include<CR>
+"noremap <c-]> :UniteWithCursorWord -immediately tag/include<CR>
 noremap zi :Unite tig<CR>
 noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
@@ -127,4 +127,63 @@ elseif executable('ag')
     let g:unite_source_grep_default_opts = '-a --nogroup --nocolor --column'
     let g:unite_source_grep_recursive_opt = ''
     let g:unite_source_file_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
+endif
+
+let custom_filters = []
+
+if neobundle#is_sourced('vim-webdevicons')
+  let s:webdevicons = {'name': 'webdevicons'}
+  function! s:webdevicons.filter(candidates, context)
+    for candidate in a:candidates
+      if has_key(candidate, 'icon')
+        continue
+      endif
+      let path = has_key(candidate, 'action__path') ? candidate.action__path : candidate.word
+      let isdir = isdirectory(path)
+      let candidate.icon = WebDevIconsGetFileTypeSymbol(path, isdir)
+      if has_key(candidate, 'abbr')
+        let abbr = candidate.abbr
+      elseif isdir && path !~ '/$'
+        let abbr = path . '/'
+      else
+        let abbr = path
+      endif
+      let candidate.abbr = candidate.icon . '  ' . abbr
+    endfor
+    return a:candidates
+  endfunction
+
+  call unite#define_filter(s:webdevicons)
+  let custom_filters = custom_filters + ['webdevicons']
+endif
+
+let s:dir_filter = {'name': 'dir_filter'}
+function! s:dir_filter.filter(candidates, context)
+  for candidate in a:candidates
+    let abbr = has_key(candidate, 'abbr') ? candidate.abbr : candidate.word
+    let abbr = substitute(abbr, expand($HOME), '~', '')
+    let candidate.abbr = abbr
+  endfor
+  return a:candidates
+endfunction
+call unite#define_filter(s:dir_filter)
+let custom_filters = custom_filters + ['dir_filter']
+
+function! MyUniq(list)
+  let V = vital#of('vital')
+  let O = V.import('Data.OrderedSet')
+  let unique_set = O.new()
+  for Item in a:list
+    call unique_set.push(Item)
+    unlet Item
+  endfor
+  return unique_set.to_list()
+endfunction
+
+call unite#filters#converter_default#use(custom_filters)
+let file_mru = unite#get_sources('file_mru')
+if has_key(file_mru, 'converters') && count(file_mru.converters, 'webdevicons') == 0
+  call unite#custom#source('file_mru', 'converters', MyUniq(file_mru.converters + custom_filters))
+else
+  call unite#custom#source('file_mru', 'converters', MyUniq(unite#sources#neomru#define()[0].converters + custom_filters))
 endif
