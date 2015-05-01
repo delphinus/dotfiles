@@ -47,6 +47,12 @@
 				"priority": 20
 			},
 			{
+				"function": "ext.vim.segments.webdevicons.webdevicons",
+				"priority": 10,
+				"draw_soft_divider": false,
+				"after": "  "
+			},
+			{
 				"function": "file_directory",
 				"priority": 10,
 				"draw_soft_divider": false
