@@ -4,6 +4,10 @@
     <productname>APPLE_INTERNAL_KEYBOARD_TRACKPAD_0x0291</productname>
     <productid>0x0291</productid>
   </deviceproductdef>
+  <deviceproductdef>
+    <productname>APPLE_INTERNAL_KEYBOARD_TRACKPAD_0x0249</productname>
+    <productid>0x0249</productid>
+  </deviceproductdef>
   <appdef>
     <appname>MACVIM</appname>
     <equal>org.vim.MacVim</equal>
@@ -340,6 +344,19 @@
         <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_RIGHT, ModifierFlag::SHIFT_L</autogen>
         <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_LEFT,  ModifierFlag::SHIFT_L, ModifierFlag::COMMAND_L</autogen>
         <autogen>__KeyToKey__ KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_RIGHT, ModifierFlag::SHIFT_L, ModifierFlag::COMMAND_L</autogen>
+      </item>
+      <item>
+        <name>HHKish on the Macbook Air's 11inch internal kbd (vid/pid: 0x05ac, 0x0249)</name>
+        <appendix>Delete => Backquote(`)</appendix>
+        <appendix>Shift + Delete => Tilde(~)</appendix>
+        <appendix>Backquote(`) => Escape</appendix>
+        <appendix>Option_R => Delete</appendix>
+        <identifier>remap.hhkish_on_macbook_air_internal_kbd_0x05ac_0x0249</identifier>
+        <device_only>DeviceVendor::APPLE_COMPUTER,DeviceProduct::APPLE_INTERNAL_KEYBOARD_TRACKPAD_0x0249</device_only>
+        <autogen>__KeyToKey__ KeyCode::DELETE, KeyCode::BACKQUOTE</autogen>
+        <autogen>__KeyToKey__ KeyCode::DELETE, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_SHIFT, KeyCode::BACKQUOTE, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::BACKQUOTE, KeyCode::ESCAPE</autogen>
+        <autogen>__KeyToKey__ KeyCode::OPTION_R, KeyCode::DELETE</autogen>
       </item>
     </list>
   </item>

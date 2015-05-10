@@ -10,8 +10,8 @@ except ImportError:
 from powerline.bindings.vim import vim_get_func
 
 def webdevicons(pl):
-	get_icon = vim_get_func('WebDevIconsGetFileTypeSymbol')
-	return [] if not get_icon else [{
-		'contents': get_icon().decode('utf-8') + ' ',
+	webdevicons = vim_get_func('WebDevIconsGetFileTypeSymbol')
+	return [] if not webdevicons else [{
+		'contents': webdevicons(),
 		'highlight_groups': ['webdevicons', 'file_name'],
 		}]
