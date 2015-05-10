@@ -31,8 +31,10 @@
   "floating": [
     "com.agilebits.onepassword4",
     "com.apple.FontBook",
+    "com.apple.iChat",
     "com.apple.installer",
     "com.apple.installer",
+    "com.apple.Preview",
     "com.apple.systempreferences",
     "com.dropbox.mbd.external-beta",
     "com.flexibits.fantastical2.mac",
@@ -41,6 +43,7 @@
     "com.kapeli.dash",
     "com.pqrs.Karabiner",
     "com.pqrs.Karabiner",
+    "org.virtualbox.app.VirtualBox",
     "com.vmware.fusion",
     "org.videolan.vlc"
   ],
