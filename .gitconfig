@@ -31,6 +31,8 @@
 	rl = reflog
 	sm = submodule
 	st = status -sb
+	pom = pull origin master
+	uom = push origin master
 [diff]
 	algorithm = histogram
 	renames = true
