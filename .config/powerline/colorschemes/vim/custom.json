@@ -88,7 +88,9 @@
 				"position_gradient":      { "fg": "solarized:base3", "bg": "solarized:base1", "attrs": [] },
 				"line_current":           { "fg": "solarized:base03", "bg": "solarized:base3", "attrs": ["bold"] },
 				"line_current_symbol":    { "fg": "solarized:base03", "bg": "solarized:base3", "attrs": [] },
-				"col_current":            { "fg": "solarized:base0", "bg": "solarized:base3", "attrs": [] }
+				"col_current":            { "fg": "solarized:base0", "bg": "solarized:base3", "attrs": [] },
+
+				"webdevicons":            { "fg": "solarized:base01", "bg": "solarized:base2", "attrs": [] }
 			}
 		},
 		"v": {

@@ -121,6 +121,7 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'delphinus35/vim-unimpaired'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'vim-jp/vimdoc-ja'
+NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'vim-scripts/AnsiEsc.vim'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/LineJuggler', {'depends': ['vim-scripts/ingo-library']}
