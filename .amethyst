@@ -30,6 +30,7 @@
   "MISC": "-------------------",
   "floating": [
     "com.agilebits.onepassword4",
+    "com.apple.appstore",
     "com.apple.FontBook",
     "com.apple.iChat",
     "com.apple.installer",
@@ -42,7 +43,7 @@
     "com.kapeli.dash",
     "com.kapeli.dash",
     "com.pqrs.Karabiner",
-    "com.pqrs.Karabiner",
+    "org.pqrs.Karabiner",
     "org.virtualbox.app.VirtualBox",
     "org.virtualbox.app.VirtualBoxVM",
     "com.vmware.fusion",
