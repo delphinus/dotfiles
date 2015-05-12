@@ -43,6 +43,7 @@
     "com.kapeli.dash",
     "com.kapeli.dash",
     "com.pqrs.Karabiner",
+    "fr.handbrake.HandBrake",
     "org.pqrs.Karabiner",
     "org.virtualbox.app.VirtualBox",
     "org.virtualbox.app.VirtualBoxVM",
