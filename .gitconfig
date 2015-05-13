@@ -32,7 +32,7 @@
 	sm = submodule
 	st = status -sb
 	po = pull origin master
-	pu = push origin $(git branch | grep '*' | cut -b 3-)
+	pu = !git push origin `git rev-parse --abbrev-ref HEAD`
 [diff]
 	algorithm = histogram
 	renames = true
