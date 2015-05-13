@@ -32,7 +32,6 @@
 	sm = submodule
 	st = status -sb
 	pom = pull origin master
-	uom = push origin master
 [diff]
 	algorithm = histogram
 	renames = true
@@ -57,7 +56,7 @@
 [merge]
 	ff = false
 [push]
-	default = nothing
+	default = current
 [tig]
 	tab-size = 4
 	line-graphics = utf-8
