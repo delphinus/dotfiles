@@ -31,7 +31,8 @@
 	rl = reflog
 	sm = submodule
 	st = status -sb
-	pom = pull origin master
+	po = pull origin master
+	pu = push origin $(git branch | grep '*' | cut -b 3-)
 [diff]
 	algorithm = histogram
 	renames = true
@@ -56,7 +57,7 @@
 [merge]
 	ff = false
 [push]
-	default = current
+	default = nothing
 [tig]
 	tab-size = 4
 	line-graphics = utf-8
