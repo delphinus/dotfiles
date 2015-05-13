@@ -1,7 +1,7 @@
 function peco-z() {
-  local selected_dir=$(z | cut -b 12- | peco --prompt "CD HISTORY>" --query "$LBUFFER")
+  local selected_dir=${(@f)$(z | cut -b 12- | peco --prompt "CD HISTORY>" --query "$LBUFFER")}
   if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
+    BUFFER="cd '${selected_dir}'"
     zle accept-line
   fi
   zle clear-screen
