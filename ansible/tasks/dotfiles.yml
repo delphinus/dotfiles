@@ -21,6 +21,7 @@
     - .vim
     - .zprofile
     - .zshrc
+    - .proverc
 
 - file: path='~/Library/Application Support/Karabiner' state=directory
 - copy: src=files/private.xml dest='~/Library/Application Support/Karabiner/private.xml'
