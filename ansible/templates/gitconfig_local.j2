@@ -1,3 +1,7 @@
+[ghq]
+{% for root in secret_root_for_ghq %}
+	root = {{ root }}
+{% endfor -%}
 {%- for info in secret_repo_info_for_ghq -%}
 [ghq "{{ info.url }}"]
 	vcs = {{ info.vcs }}
