@@ -45,6 +45,7 @@
 		"mysql_db":                 "information:additional",
 		"fugitive_hash":            "information:additional",
 		"ref_perldoc_module":       "information:additional",
+		"watchdogs":                "information:additional",
 		"webdevicons":              "information:additional"
 	}
 }
