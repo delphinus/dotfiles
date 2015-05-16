@@ -36,6 +36,15 @@
 		"commandt:label":      "file_name",
 		"commandt:background": "background",
 		"commandt:finder":     "file_name",
-		"commandt:path":       "file_directory"
+		"commandt:path":       "file_directory",
+
+		"get_char_code":            "file_format",
+		"unite_status_string":      "file_format",
+		"mysql_server":             "information:additional",
+		"mysql_user":               "information:additional",
+		"mysql_db":                 "information:additional",
+		"fugitive_hash":            "information:additional",
+		"ref_perldoc_module":       "information:additional",
+		"webdevicons":              "information:additional"
 	}
 }
