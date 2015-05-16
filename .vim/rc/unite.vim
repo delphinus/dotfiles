@@ -180,10 +180,13 @@ function! MyUniq(list)
   return unique_set.to_list()
 endfunction
 
-call unite#filters#converter_default#use(custom_filters)
 let file_mru = unite#get_sources('file_mru')
 if has_key(file_mru, 'converters') && count(file_mru.converters, 'webdevicons') == 0
   call unite#custom#source('file_mru', 'converters', MyUniq(file_mru.converters + custom_filters))
 else
   call unite#custom#source('file_mru', 'converters', MyUniq(unite#sources#neomru#define()[0].converters + custom_filters))
 endif
+
+call unite#custom#source('file', 'converters', custom_filters)
+call unite#custom#source('buffer_tab', 'converters', custom_filters)
+call unite#custom#source('dwm', 'converters', custom_filters)
