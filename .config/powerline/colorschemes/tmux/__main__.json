@@ -1,0 +1,6 @@
+{
+	"groups": {
+		"used_memory_percent": "cpu_load_percent",
+		"used_memory_percent_gradient": "cpu_load_percent_gradient"
+	}
+}
