@@ -12,9 +12,6 @@
 				"highlight_groups": ["mode"]
 			},
 			{
-				"function": "ext.vim.segments.custom.current_directory"
-			},
-			{
 				"type": "string",
 				"highlight_groups": ["background"],
 				"draw_soft_divider": false,
