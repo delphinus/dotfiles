@@ -13,15 +13,38 @@ from powerline.lib import add_divider_highlight_group
 from powerline.lib.threaded import ThreadedSegment
 from powerline.segments import with_docstring
 
-def used_memory_percent_gradient(pl, format='{0:.0f}%'):
-	memory_percent = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
-	return [{
-		'contents': format.format(memory_percent),
-		'highlight_group': ['used_memory_percent_gradient', 'used_memory_percent'],
-		'draw_divider': True,
-		'divider_highlight_group': 'background:divider',
-		'gradient_level': memory_percent,
-		}]
+class UsedMemoryPercentSegment(ThreadedSegment):
+	interval = 1
+
+	def update(self, old_used_memory):
+		return float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
+
+	def run(self):
+		while not self.shutdown_event.is_set():
+			try:
+				self.update_value = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
+			except Exception as e:
+				self.exception('Exception whilte calculating used_memory_percent: {0}', str(e))
+
+	def render(self, used_memory_percent, format='{0:.0f}%', **kwargs):
+		if not used_memory_percent:
+			return None
+		return [{
+			'contents': format.format(used_memory_percent),
+			'gradient_level': used_memory_percent,
+			'highlight_groups': ['used_memory_percent_gradient', 'used_memory_percent']
+			}]
+
+used_memory_percent = with_docstring(UsedMemoryPercentSegment(),
+'''Return used memory as a percentage.
+
+Requires the ``psutil`` module.
+
+:param str format:
+	Output format. Accepts measured used memory as the first argument.
+
+Highlight groups used: ``used_memory_percent_gradient`` (gradient) or ``used_memory_percent``.
+''')
 
 def used_memory(pl, steps=5, circle_glyph='●', memory_glyph='🔲'):
 	memory = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
@@ -33,19 +56,19 @@ def used_memory(pl, steps=5, circle_glyph='●', memory_glyph='🔲'):
 		'contents': memory_glyph + ' ',
 		'draw_soft_divider': False,
 		'divider_highlight_group': 'background:divider',
-		'highlight_group': ['used_memory'],
+		'highlight_groups': ['used_memory'],
 		'gradient_level': 99,
 		})
 	ret.append({
 		'contents': circle_glyph * numer,
 		'draw_soft_divider': False,
-		'highlight_group': ['used_memory'],
+		'highlight_groups': ['used_memory'],
 		'gradient_level': 99,
 		})
 	ret.append({
 		'contents': circle_glyph * (denom - numer),
 		'draw_soft_divider': False,
-		'highlight_group': ['used_memory'],
+		'highlight_groups': ['used_memory'],
 		'gradient_level': 1,
 		})
 
@@ -78,7 +101,7 @@ def battery_percent_gradient(pl, format='{percent}%', charging='charging',
 
 	return [{
 		'contents': format.format(**battery),
-		'highlight_group': ['battery_percent_gradient', 'battery_percent'],
+		'highlight_groups': ['battery_percent_gradient', 'battery_percent'],
 		'draw_divider': True,
 		'divider_highlight_group': 'background:divider',
 		'gradient_level': 100 - battery['percent'],
