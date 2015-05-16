@@ -1,5 +1,4 @@
 {
-	"default_module": "powerline.segments.common",
 	"segment_data": {
 		"cwd": {
 			"args": {
@@ -25,6 +24,10 @@
 				"priority": 10
 			},
 			{
+				"function": "powerline.segments.common.env.virtualenv",
+				"priority": 50
+			},
+			{
 				"function": "powerline.segments.shell.cwd",
 				"priority": 10
 			},
@@ -41,9 +44,6 @@
 			{
 				"function": "powerline.segments.common.vcs.branch",
 				"priority": 40
-			},
-			{
-				"function": "virtualenv"
 			}
 		]
 	}

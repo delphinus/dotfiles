@@ -45,7 +45,8 @@
 		"date":                     { "fg": "gray8", "bg": "gray2", "attrs": [] },
 		"time":                     { "fg": "gray10", "bg": "gray2", "attrs": ["bold"] },
 		"time:divider":             { "fg": "gray5", "bg": "gray2", "attrs": [] },
-		"webdevicons":              { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": ["bold"] }
+		"webdevicons":              { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": ["bold"] },
+		"tab_nc:modified_indicator": { "fg": "brightyellow", "bg": "gray2", "attrs": ["bold"] }
 	},
 	"mode_translations": {
 		"nc": {
