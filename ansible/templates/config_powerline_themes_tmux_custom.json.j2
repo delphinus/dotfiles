@@ -18,7 +18,7 @@
 				"format": "💻  {0:4.1f}%"
 			}
 		},
-		"used_memory_percent_gradient": {
+		"used_memory_percent": {
 			"args": {
 				"format": "🔲  {0:4.1f}%"
 			}
@@ -30,20 +30,10 @@
 				"empty_heart": "♡ "
 			}
 		},
-		"system_load": {
+		"powerline.segments.common.net.network_load": {
 			"args": {
-				"threshold_good": 0.5,
-				"threshold_bad": 1.0
-			}
-		},
-		"now_playing": {
-			"args": {
-				"username": "delphinus_iddqd",
-				"api_key": "7a77671178c4f4cff16222c46f72d193",
-				"format": "{state_symbol} {artist} - {title}",
-				"shorten_artist": true,
-				"shorten_title": true,
-				"interval": 30
+				"recv_max": 1000000,
+				"sent_max": 1000000
 			}
 		}
 	},
@@ -54,10 +44,6 @@
 				"priority": 90
 			},
 			{
-				"function": "powerline.segments.common.mail.email_imap_alert",
-				"priority": 50
-			},
-			{
 				"function": "powerline.segments.common.net.network_load",
 				"priority": 50
 			},
@@ -66,11 +52,15 @@
 				"priority": 50
 			},
 			{
-				"function": "ext.tmux.segments.ps.used_memory_percent_gradient",
+				"function": "ext.tmux.segments.ps.used_memory_percent",
 				"priority": 50
 			},
 			{
 				"function": "powerline.segments.common.bat.battery",
+				"priority": 50
+			},
+			{
+				"function": "powerline.segments.common.mail.email_imap_alert",
 				"priority": 50
 			},
 			{
@@ -88,4 +78,3 @@
 		]
 	}
 }
-

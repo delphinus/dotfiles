@@ -16,13 +16,16 @@ from powerline.segments import with_docstring
 class UsedMemoryPercentSegment(ThreadedSegment):
 	interval = 1
 
+	def active_memory_percent(self):
+		return float(psutil.virtual_memory().active) * 100 / psutil.TOTAL_PHYMEM
+
 	def update(self, old_used_memory):
-		return float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
+		return self.active_memory_percent()
 
 	def run(self):
 		while not self.shutdown_event.is_set():
 			try:
-				self.update_value = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
+				self.update_value = self.active_memory_percent()
 			except Exception as e:
 				self.exception('Exception whilte calculating used_memory_percent: {0}', str(e))
 
