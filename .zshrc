@@ -35,7 +35,7 @@ alias gh='ghq'
 alias be='bundle exec'
 
 alias vp='vimpager'
-alias tmux="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
+alias tm="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
