@@ -38,22 +38,4 @@ elseif has('macunix')
   let $DISPLAY=':0'
 endif
 
-
-"colorscheme desert-warm-256
-"colorscheme bubblegum
-"colorscheme neon-PK
-"colorscheme zenburn
-"colorscheme papayawhip
-"colorscheme gummybears
-"colorscheme void
-"colorscheme badwolf
-"colorscheme festoon
 colorscheme solarized
-"colorscheme gruvbox
-"colorscheme plum
-"colorscheme hemisu
-"colorscheme briofita
-"colorscheme hybrid
-"colorscheme iceberg
-"colorscheme badwolf
-"colorscheme pencil
