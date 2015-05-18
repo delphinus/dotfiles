@@ -119,6 +119,8 @@ module_path=($module_path /usr/local/lib/zpython /usr/local/lib/zsh/5.0.5-dev-0/
 # z
 if [ "$OS" = 'Darwin' ]; then
   . `brew --prefix`/etc/profile.d/z.sh
+elif [ -f $HOME/git/github.com/rupa/z/z.sh ]; then
+  . $HOME/git/github.com/rupa/z/z.sh
 else
   . /etc/profile.d/z.sh
 fi
