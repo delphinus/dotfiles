@@ -68,7 +68,14 @@ alias rb=rbenv
 alias rbv='rbenv versions'
 if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
 
-if [ -d $HOME/perl5 ]; then
+# for lua
+export LUAENV_ROOT=/usr/local/opt/luaenv
+export PATH=$LUAENV_ROOT/bin:$PATH
+alias lu=luaenv
+alias luv='luaenv versions'
+if which luaenv > /dev/null; then eval "$(luaenv init - zsh)"; fi
+
+if [[ $OS = Darwin && -d $HOME/perl5 ]]; then
   # for perlbrew
   if [ -f $HOME/perl5/perlbrew/etc/bashrc ]; then
     source $HOME/perl5/perlbrew/etc/bashrc
