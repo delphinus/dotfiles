@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+# vim:se ft=python fenc=utf8 noet:
+
+import re
+from powerline.theme import requires_segment_info
+
+@requires_segment_info
+def local_perl(pl, segment_info, format='{app}:{version}'):
+	version = segment_info['environ'].get('PERLBREW_PERL')
+	version = 'not_switch' if version is None else re.sub('perl-', '', version)
+	app = segment_info['environ'].get('{{ secret_local_perl_app }}') or 'system'
+	return [{
+		'contents': format.format(version=version, app=app),
+		'highlight_groups': ['local_perl', 'user'],
+		}]
