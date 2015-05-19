@@ -28,6 +28,10 @@
 				"priority": 50
 			},
 			{
+				"function": "ext.segments.local_perl.local_perl",
+				"priority": 50
+			},
+			{
 				"function": "powerline.segments.shell.cwd",
 				"priority": 10
 			},
