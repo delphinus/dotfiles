@@ -27,5 +27,6 @@
 - copy: src=files/private.xml dest='~/Library/Application Support/Karabiner/private.xml'
 
 - file: path=~/.ssh/config state=touch
+  changed_when: false
 - lineinfile: dest=~/.ssh/config line='Host *' state=present
 - lineinfile: dest=~/.ssh/config line='  ServerAliveInterval 120' insertafter='^Host \*$'
