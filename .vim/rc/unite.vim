@@ -52,6 +52,7 @@ noremap Zm :Unite rails/mailer<CR>
 noremap Zr :Unite rails/root<CR>
 noremap Zs :Unite rails/stylesheet<CR>
 autocmd FileType unite call s:unite_my_settings()
+
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
 call unite#custom#substitute('files', '^@', '\=getcwd()."/*"', 1)
@@ -61,14 +62,10 @@ call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
 call unite#custom#substitute('files', '\\ \@!', '/', -30)
 call unite#custom#substitute('files', '^;v', '~/.vim/')
 call unite#custom#substitute('files', '^;g', escape($HOME, '\') . '/git/')
-call unite#custom#substitute('files', '^;d', escape($HOME, '\') . '/git/dotfiles/')
+
 call unite#custom#profile('default', 'context', {
       \ 'start_insert': 1
       \ })
-if has('win32') || has('win64')
-  call unite#custom#substitute('files', '^;p', 'C:/Program Files/')
-  call unite#custom#substitute('files', '^;u', escape($USERPROFILE, '\') . '/')
-endif
 
 function! s:unite_my_settings()
     " タブで開く
@@ -94,16 +91,9 @@ function! s:unite_my_settings()
     " インサートモードで上下移動
     imap <silent> <buffer> <C-K> <Plug>(unite_select_previous_line)
     imap <silent> <buffer> <C-J> <Plug>(unite_select_next_line)
-    imap <silent> <buffer> <F10> <Plug>(unite_select_next_line)
-    imap <silent> <buffer> <F11> <Plug>(unite_select_next_line)
-    imap <silent> <buffer> <F12> <Plug>(unite_select_next_line)
     " ノーマルモードで上下移動
     nmap <silent> <buffer> <C-K> <Plug>(unite_select_previous_line)
     nmap <silent> <buffer> <C-J> <Plug>(unite_select_next_line)
-    " ノーマルモードでソース選択
-    nmap <silent> <buffer> <F10> <Plug>(unite_rotate_next_source)
-    nmap <silent> <buffer> <F11> <Plug>(unite_rotate_next_source)
-    nmap <silent> <buffer> <F12> <Plug>(unite_rotate_next_source)
     " 一つ上のパスへ
     imap <buffer> <C-U> <Plug>(unite_delete_backward_path)
     " 入力した文字を消す
