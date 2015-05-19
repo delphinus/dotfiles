@@ -1,5 +1,4 @@
 source $HOME/git/dotfiles/.zsh/basic.zshrc
-#source $HOME/git/dotfiles/.zsh/_ghq
 source $HOME/git/dotfiles/.zsh/peco-select-history.zsh
 source $HOME/git/dotfiles/.zsh/peco-git.zsh
 source $HOME/git/dotfiles/.zsh/peco-ghq.zsh

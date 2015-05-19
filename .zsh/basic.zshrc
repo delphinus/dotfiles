@@ -1,4 +1,8 @@
 # vim:se ft=zsh:
+
+# 補完関数を追加
+fpath=($HOME/git/dotfiles/.zsh/completions $fpath)
+
 # 強力な補完を有効にする
 autoload -Uz compinit
 compinit
