@@ -63,7 +63,7 @@ function peco-git-open() {
     ' | peco --prompt "OPEN REPOSITORY>")"
   if [ -n "$selected_url" ]; then
     if [ -n "$LC_FSSH_PORT" ]; then
-      BUFFER="ssh -l $LC_FSSH_USER -p $LC_FSSH_PORT localhost 'open $selected_url'"
+      BUFFER="ssh $LC_FSSH_COPY_ARGS -o VisualHostKey=no -l $LC_FSSH_USER -p $LC_FSSH_PORT localhost 'open $selected_url'"
     elif [ -n "$SSH_CLIENT" ]; then
       BUFFER="ssh $host 'open $selected_url'"
     else
