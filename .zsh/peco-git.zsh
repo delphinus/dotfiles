@@ -48,7 +48,9 @@ bindkey '^x^f' peco-git-file
 
 # open url for git repository
 function peco-git-open() {
-  if [ -n "$SSH_CLIENT" ]; then
+  if [ -n "$LC_FSSH_PORT" ]; then
+    BUFFER="trying to open urls with FSSH"
+  elif [ -n "$SSH_CLIENT" ]; then
     local host=$(echo $SSH_CLIENT | sed 's/\s.*//')
     BUFFER="trying to open urls in $host"
   fi
@@ -60,7 +62,9 @@ function peco-git-open() {
     puts remote
     ' | peco --prompt "OPEN REPOSITORY>")"
   if [ -n "$selected_url" ]; then
-    if [ -n "$host" ]; then
+    if [ -n "$LC_FSSH_PORT" ]; then
+      BUFFER="ssh -l $LC_FSSH_USER -p $LC_FSSH_PORT localhost 'open $selected_url'"
+    elif [ -n "$SSH_CLIENT" ]; then
       BUFFER="ssh $host 'open $selected_url'"
     else
       BUFFER="open ${selected_url}"
