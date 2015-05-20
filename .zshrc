@@ -155,13 +155,15 @@ if [ -d "$mysql_bin" ]; then
 fi
 
 # github access token
-if [ -f "$HOME/.homebrew_github_api_token" ]; then
-  . $HOME/.homebrew_github_api_token
+local homebrew_github_api_token=$HOME/.homebrew_github_api_token
+if [ -f "$homebrew_github_api_token" ]; then
+  . $homebrew_github_api_token
 fi
 
 # PHP composer
-if [ -d "$HOME/.composer/vendor/bin" ]; then
-  export PATH="$HOME/.composer/vendor/bin:$PATH"
+local composer_vender_bin=$HOME/.composer/vendor/bin
+if [ -d "$composer_vender_bin" ]; then
+  export PATH="$composer_vender_bin:$PATH"
 fi
 
 # node
@@ -178,6 +180,7 @@ if [ -n "$LC_FSSH_PORT" ]; then
 fi
 
 # local settings
-if [ -f "$HOME/.zshrc.local" ]; then
-  . $HOME/.zshrc.local
+local zshrc_local=$HOME/.zshrc.local
+if [ -f "$zshrc_local" ]; then
+  . $zshrc_local
 fi
