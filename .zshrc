@@ -164,6 +164,12 @@ if [ -d "$HOME/.composer/vendor/bin" ]; then
   export PATH="$HOME/.composer/vendor/bin:$PATH"
 fi
 
+# node
+local node_dir=/usr/local/node/bin
+if [ -d "$node_dir" ]; then
+  export PATH=$node_dir:$PATH
+fi
+
 # local settings
 if [ -f "$HOME/.zshrc.local" ]; then
   . $HOME/.zshrc.local
