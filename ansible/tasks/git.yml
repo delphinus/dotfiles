@@ -7,6 +7,7 @@
   copy: >
     src=files/git-core.patch
     dest=/tmp/git-core.patch
+  changed_when: false
 
 - name: patch to git-core
   patch: >
