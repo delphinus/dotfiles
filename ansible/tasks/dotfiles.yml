@@ -24,7 +24,7 @@
     - .proverc
 
 - file: path='~/Library/Application Support/Karabiner' state=directory
-- copy: src=files/private.xml dest='~/Library/Application Support/Karabiner/private.xml'
+- copy: src=private.xml dest='~/Library/Application Support/Karabiner/private.xml'
 
 - file: path=~/.ssh/config state=touch
   changed_when: false

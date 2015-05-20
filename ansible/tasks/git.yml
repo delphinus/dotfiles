@@ -5,7 +5,7 @@
 
 - name: copy git-core.patch /tmp
   copy: >
-    src=files/git-core.patch
+    src=git-core.patch
     dest=/tmp/git-core.patch
   changed_when: false
 
