@@ -75,16 +75,19 @@ alias lu=luaenv
 alias luv='luaenv versions'
 if which luaenv > /dev/null; then eval "$(luaenv init - zsh)"; fi
 
+# perl
+if [ -d $HOME/perl5 ]; then
+  local arch=$(perl -v | grep 'for \S\+$' | perl -pe 's/.*?(\S+)$/$1/')
+  export PATH=$HOME/perl5/bin:$PATH
+  export PERL5LIB=$HOME/perl5/lib/perl5:$HOME/perl5/lib/perl5/$arch/auto:$PERL5LIB
+fi
+
 if [[ $OS = Darwin && -d $HOME/perl5 ]]; then
   # for perlbrew
   if [ -f $HOME/perl5/perlbrew/etc/bashrc ]; then
     source $HOME/perl5/perlbrew/etc/bashrc
     source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
-    export PERL5LIB=$HOME/perl5/lib/perl5
     alias perl='perl -I$HOME/perl5/lib/perl5'
-  else
-    export PATH=$HOME/perl5/bin:$PATH
-    export PERL5LIB=$HOME/perl5/lib/perl5:$HOME/perl5/lib/perl5/x86_64-linux-thread-multi/auto
   fi
 else
   # for plenv
