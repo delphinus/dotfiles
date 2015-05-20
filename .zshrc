@@ -51,6 +51,8 @@ $HOME/git/dotfiles/bin:\
 /usr/X11/bin:\
 $PATH"
 
+export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
+
 # for perlomni.vim
 export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
 
@@ -98,14 +100,13 @@ else
   if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
 fi
 
+# terminal-notifier
 if [ "$OS" = 'Darwin' ]; then
   # http://qiita.com/kei_s/items/96ee6929013f587b5878
   export SYS_NOTIFIER=/usr/local/bin/terminal-notifier
   export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
   source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
 fi
-
-export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 
 # powerline
 if [ "$OS" = 'Darwin' ]; then
@@ -147,11 +148,6 @@ else
   export MANPATH=$ANSIBLE_PATH/docs/man:$MANPATH
 fi
 
-# local settings
-if [ -f "$HOME/.zshrc.local" ]; then
-  . $HOME/.zshrc.local
-fi
-
 # custom mysql
 mysql_bin=/usr/local/opt/mysql/bin
 if [ -d $mysql_bin ]; then
@@ -166,4 +162,9 @@ fi
 # PHP composer
 if [ -d "$HOME/.composer/vendor/bin" ]; then
   export PATH="$HOME/.composer/vendor/bin:$PATH"
+fi
+
+# local settings
+if [ -f "$HOME/.zshrc.local" ]; then
+  . $HOME/.zshrc.local
 fi
