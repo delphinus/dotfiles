@@ -3,7 +3,7 @@
   register: git_path
   changed_when: git_path.rc != 0
 
-- name: copy git-core.path /tmp
+- name: copy git-core.patch /tmp
   copy: >
     src=files/git-core.patch
     dest=/tmp/git-core.patch
