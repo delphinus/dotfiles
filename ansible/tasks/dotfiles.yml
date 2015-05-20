@@ -24,7 +24,9 @@
     - .proverc
 
 - file: path='~/Library/Application Support/Karabiner' state=directory
+  when: ansible_system == 'Darwin'
 - copy: src=private.xml dest='~/Library/Application Support/Karabiner/private.xml'
+  when: ansible_system == 'Darwin'
 
 - file: path=~/.ssh/config state=touch
   changed_when: false
