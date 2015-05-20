@@ -123,10 +123,10 @@ module_path=($module_path /usr/local/lib/zpython /usr/local/lib/zsh/5.0.5-dev-0/
 # z
 if [ "$OS" = 'Darwin' ]; then
   . `brew --prefix`/etc/profile.d/z.sh
-elif [ -f $HOME/git/github.com/rupa/z/z.sh ]; then
-  . $HOME/git/github.com/rupa/z/z.sh
-else
+elif [ -f /etc/profile.d/z.sh ]; then
   . /etc/profile.d/z.sh
+elif [ -f $(ghq list --full-path rupa/z)/z.sh ]; then
+  . $(ghq list --full-path rupa/z)/z.sh
 fi
 
 # grc
