@@ -130,6 +130,9 @@ if which brew > /dev/null; then
   if [ -f "`brew --prefix`/etc/grc.bashrc" ]; then
     . "`brew --prefix`/etc/grc.bashrc"
   fi
+elif [ -f '/etc/profile.d/grc.bashrc' ]; then
+  . /etc/profile.d/grc.bashrc
+  export MANPATH=/usr/local/share/man:$MANPATH
 fi
 
 # local settings
