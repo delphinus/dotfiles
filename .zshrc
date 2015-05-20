@@ -135,6 +135,15 @@ elif [ -f '/etc/profile.d/grc.bashrc' ]; then
   export MANPATH=/usr/local/share/man:$MANPATH
 fi
 
+# ansible
+if which brew > /dev/null; then
+else
+  export ANSIBLE_PATH=$(ghq list --full-path ansible)
+  export PATH=$ANSIBLE_PATH/bin:$PATH
+  export PYTHONPATH=$ANSIBLE_PATH/lib
+  export MANPATH=$ANSIBLE_PATH/docs/man:$MANPATH
+fi
+
 # local settings
 if [ -f "$HOME/.zshrc.local" ]; then
   . $HOME/.zshrc.local
