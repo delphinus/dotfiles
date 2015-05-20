@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim:se fenc=utf-8 noet:
 
-from __future__ import absolute_import
+from __future__ import (unicode_literals, division, absolute_import, print_function)
 
 import commands
 import multiprocessing
@@ -38,16 +38,25 @@ class UsedMemoryPercentSegment(ThreadedSegment):
 			'highlight_groups': ['used_memory_percent_gradient', 'used_memory_percent']
 			}]
 
-used_memory_percent = with_docstring(UsedMemoryPercentSegment(),
-'''Return used memory as a percentage.
+#used_memory_percent = with_docstring(UsedMemoryPercentSegment(),
+#'''Return used memory as a percentage.
+#
+#Requires the ``psutil`` module.
+#
+#:param str format:
+#	Output format. Accepts measured used memory as the first argument.
+#
+#Highlight groups used: ``used_memory_percent_gradient`` (gradient) or ``used_memory_percent``.
+#''')
 
-Requires the ``psutil`` module.
+def used_memory_percent(pl, format='{0:.0f}%'):
+	memory = float(psutil.virtual_memory().active) * 100 / psutil.TOTAL_PHYMEM
 
-:param str format:
-	Output format. Accepts measured used memory as the first argument.
-
-Highlight groups used: ``used_memory_percent_gradient`` (gradient) or ``used_memory_percent``.
-''')
+	return [{
+		'contents': format.format(memory),
+		'gradient_level': memory,
+		'highlight_groups': ['used_memory_percent_gradient', 'used_memory_percent'],
+		}]
 
 def used_memory(pl, steps=5, circle_glyph='●', memory_glyph='🔲'):
 	memory = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
