@@ -149,8 +149,8 @@ else
 fi
 
 # custom mysql
-mysql_bin=/usr/local/opt/mysql/bin
-if [ -d $mysql_bin ]; then
+local mysql_bin=/usr/local/opt/mysql/bin
+if [ -d "$mysql_bin" ]; then
   export PATH=$mysql_bin:$PATH
 fi
 
