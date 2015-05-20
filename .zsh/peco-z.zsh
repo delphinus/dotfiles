@@ -1,5 +1,5 @@
 function peco-z() {
-  if which tac > /dev/null || true; then
+  if ! which tac > /dev/null; then
     alias tac='tail -r'
     local aliased=1
   fi
