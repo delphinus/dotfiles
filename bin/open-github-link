@@ -46,7 +46,7 @@ class GithubUrl
     self
   end
 
-  def line_hash(from:, to:)
+  def line_hash(from, to)
     raise '`to` option must be specified with `from`' if from == 0 && to > 0
     return self if from == 0 && to == 0
     @url += "#L#{from}" + if to == 0
@@ -92,7 +92,7 @@ class OpenGithubLink
     if target.nil?
       github_url.open
     else
-      (github_url + "blob/#{branch}" + target).line_hash(from: from, to: to).open
+      (github_url + "blob/#{branch}" + target).line_hash(from, to).open
     end
   end
 end
