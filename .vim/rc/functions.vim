@@ -84,7 +84,7 @@ augroup END
 
 "-----------------------------------------------------------------------------
 " github の任意の行を開く
-function s:open_github_link(branch, ...)
+function! s:open_github_link(branch, ...)
   let from = get(a:, 1)
   let to   = get(a:, 2)
   if from > 0 || to > 0
@@ -92,29 +92,31 @@ function s:open_github_link(branch, ...)
   else
     let opt = ''
   endif
+  let result = system('ruby --version')
+  echomsg result
   let result = system('open-github-link' . opt . ' --branch ' . a:branch . ' ' . expand('%:p'))
   echomsg result
 endfunction
 
-function s:get_branch()
+function! s:get_branch()
   let result = substitute(system('git rev-parse --abbrev-ref @'), '\n$', '', '')
   return result
 endfunction
 
-function <SID>open_github_link_in_master()
+function! <SID>open_github_link_in_master()
   call s:open_github_link('master')
 endfunction
 
-function <SID>open_github_link_in_master_with_line() range
+function! <SID>open_github_link_in_master_with_line() range
   call s:open_github_link('master', a:firstline, a:lastline)
 endfunction
 
-function <SID>open_github_link_in_branch()
+function! <SID>open_github_link_in_branch()
   let branch = s:get_branch()
   call s:open_github_link(branch)
 endfunction
 
-function <SID>open_github_link_in_branch_with_line() range
+function! <SID>open_github_link_in_branch_with_line() range
   let branch = s:get_branch()
   call s:open_github_link(branch, a:firstline, a:lastline)
 endfunction
