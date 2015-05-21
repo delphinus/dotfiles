@@ -92,8 +92,6 @@ function! s:open_github_link(branch, ...)
   else
     let opt = ''
   endif
-  let result = system('ruby --version')
-  echomsg result
   let result = system('open-github-link' . opt . ' --branch ' . a:branch . ' ' . expand('%:p'))
   echomsg result
 endfunction
