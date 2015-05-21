@@ -44,6 +44,7 @@ end
 prohibited_words_pre = Regexp.new IO.readlines(prohibited_words_file).map(&:chomp).join '|'
 
 ignore_names_re = %r[
+  \Abin/local_perl\.sh\z |
   \A\.git/ |
   \A\.screen/(?:cpu|memory)\z |
   \A\.vim/bundle/ |
