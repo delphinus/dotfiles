@@ -80,9 +80,9 @@ class OpenTarget
     return if str.nil?
 
     @path = Pathname(str)
-    raise 'you must specify the absolute path' if @path.relative?
-    @git_top_dir = Pathname(`git rev-parse --show-toplevel`.chomp)
-    @path = @path.relative_path_from @git_top_dir
+    return if @path.relative?
+    git_top_dir = Pathname(`git rev-parse --show-toplevel`.chomp)
+    @path = @path.relative_path_from git_top_dir
   end
 
   def to_s
