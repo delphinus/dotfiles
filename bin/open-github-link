@@ -13,6 +13,14 @@ class String
   def cyan; STDOUT.isatty ? "\033[36m#{self}\033[0m" : self end
 end
 
+class NonRepositoryError < StandardError
+  def to_s; 'can not detect a repository url'.red end
+end
+
+class ToMustBeWithFromError < StandardError
+  def to_s; '`to` option must be specified with `from`'.red end
+end
+
 module FSSH
 
   def system(cmd)
@@ -30,7 +38,7 @@ class GithubUrl
 
   def initialize
     git_remote = `git remote -v`
-    raise 'can not detect repository url'.red if git_remote == ''
+    raise NonRepositoryError if git_remote == ''
     @url = case git_remote.split("\n")[0].split("\t")[1].split(' ')[0]
            when %r[\A(?:ssh://)?git@([\w.-]+):(.*?)(?:\.git)?\z]
              "https://#$1/#$2"
@@ -39,7 +47,7 @@ class GithubUrl
            when %r[\A(https://.*?)(?:\.git)?\z]
              $1
            else
-             raise 'can not detect repository url'.red
+             raise NonRepositoryError.red
            end
   end
 
@@ -55,7 +63,7 @@ class GithubUrl
   end
 
   def line_hash(from, to)
-    raise '`to` option must be specified with `from`' if from == 0 && to > 0
+    raise ToMustBeWithFromError if from == 0 && to > 0
     return self if from == 0 && to == 0
     @url += "#L#{from}" + if to == 0
                             ''
