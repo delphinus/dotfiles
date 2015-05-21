@@ -60,8 +60,6 @@ end
 
 class OpenTarget
 
-  attr_reader :path
-
   def initialize(str)
     return if str.nil?
 
