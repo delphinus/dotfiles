@@ -20,3 +20,4 @@ history.sqlite
 /.config/powerline/config.json
 /.config/powerline/themes/tmux/custom.json
 /.config/powerline/ext/segments/local_perl.py
+/bin/fssh_env
