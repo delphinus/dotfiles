@@ -3,6 +3,12 @@ require 'optparse'
 require 'pathname'
 
 class String
+
+  def undent
+    min_space_num = self.split("\n").delete_if { |s| s=~ /^\s*$/ }.map{ |s| s[/^\s*/].length }.min
+    self.gsub(/^ {,#{min_space_num}}/, '')
+  end
+
   def red;  STDOUT.isatty ? "\033[31m#{self}\033[0m" : self end
   def cyan; STDOUT.isatty ? "\033[36m#{self}\033[0m" : self end
 end
@@ -81,7 +87,8 @@ end
 class OpenGithubLink
 
   def initialize
-    params = ARGV.getopts('', 'from:0', 'to:0', 'branch:master')
+    params = ARGV.getopts('', 'from:0', 'to:0', 'branch:master', 'help')
+    help_and_exit if params['help']
     from   = params['from'].to_i
     to     = params['to'].to_i
     branch = params['branch']
@@ -92,6 +99,21 @@ class OpenGithubLink
     else
       (github_url + "blob/#{branch}" + target).line_hash(from, to).open
     end
+  end
+
+  def help_and_exit
+    puts <<-HELP.undent
+      Usage: #$0 [options] [path]
+
+        path            filename to display
+        -f  --from      top line number to highlight
+        -t  --to        bottom line number to highlight
+        -b  --branch    branch to display (default: master)
+
+      All are optional. If a path is not specified, you see the top page of the
+      repository in the browser.
+    HELP
+    exit
   end
 end
 
