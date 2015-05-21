@@ -24,11 +24,11 @@ class GithubUrl
 
   def initialize
     @url = case `git remote -v`.split("\n")[0].split("\t")[1].split(' ')[0]
-           when %r[\A(?:ssh://)?git@([\w.-]+):(.*)\z]
+           when %r[\A(?:ssh://)?git@([\w.-]+):(.*?)(?:\.git)?\z]
              "https://#$1/#$2"
-           when %r[\Agit://git@(.*)\z]
+           when %r[\Agit://(.*?)(?:\.git)?\z]
              "https://#$1"
-           when %r[\A(https://.*)(?:\.git)?\z]
+           when %r[\A(https://.*?)(?:\.git)?\z]
              $1
            else
              raise 'can not detect repository url'.red
