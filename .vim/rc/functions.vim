@@ -85,14 +85,20 @@ augroup END
 "-----------------------------------------------------------------------------
 " github の任意の行を開く
 function! s:open_github_link(branch, ...)
-  let from = get(a:, 1)
-  let to   = get(a:, 2)
+  let from     = get(a:, 1)
+  let to       = get(a:, 2)
+  let top_page = get(a:, 3)
+  if top_page
+    let path = ''
+  else
+    let path = expand('%:p')
+  endif
   if from > 0 || to > 0
     let opt = ' --from ' . from . ' --to ' . to
   else
     let opt = ''
   endif
-  let result = system('open-github-link' . opt . ' --branch ' . a:branch . ' ' . expand('%:p'))
+  let result = system('open-github-link' . opt . ' --branch ' . a:branch . ' ' . path)
   echomsg result
 endfunction
 
@@ -119,7 +125,17 @@ function! <SID>open_github_link_in_branch_with_line() range
   call s:open_github_link(branch, a:firstline, a:lastline)
 endfunction
 
+function! <SID>open_github_link_top_page_in_master()
+  call s:open_github_link('master', '', '', 1)
+endfunction
+
+function! <SID>open_github_link_top_page_in_branch()
+  let branch = s:get_branch()
+  call s:open_github_link(branch, '', '', 1)
+endfunction
+
 nmap go :call <SID>open_github_link_in_master()<cr>
 vmap go :call <SID>open_github_link_in_master_with_line()<cr>
 nmap gb :call <SID>open_github_link_in_branch()<cr>
 vmap gb :call <SID>open_github_link_in_branch_with_line()<cr>
+nmap g<c-t> :call <SID>open_github_link_top_page_in_master()<cr>
