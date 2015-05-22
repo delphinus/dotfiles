@@ -14,7 +14,7 @@ class String
 end
 
 class NonRepositoryError < StandardError
-  def to_s; 'can not detect a repository url'.red end
+  def to_s; 'car not detect a repository url'.red end
 end
 
 class ToMustBeWithFromError < StandardError
@@ -47,7 +47,7 @@ class GithubUrl
            when %r[\A(https://.*?)(?:\.git)?\z]
              $1
            else
-             raise NonRepositoryError.red
+             raise NonRepositoryError
            end
   end
 
