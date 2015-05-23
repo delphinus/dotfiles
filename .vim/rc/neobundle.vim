@@ -119,7 +119,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-repeat'
 "NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'delphinus35/vim-unimpaired'
-NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'tyru/open-browser-github.vim', {'depends': ['tyru/open-browser.vim']}
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'vim-scripts/AnsiEsc.vim'
