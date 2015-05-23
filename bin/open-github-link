@@ -37,7 +37,17 @@ module FSSH
     end
   end
 
-  module_function :system
+  def copy(txt)
+    if RUBY_PLATFORM =~ /darwin/
+      rtun = `which reattach-to-user-namespace`.chomp
+      rtun = '' unless $?.success?
+      system "echo '#{txt}' | #{rtun} pbcopy"
+    else
+      system "echo '#{txt}' | xclip -i"
+    end
+  end
+
+  module_function :system, :copy
 end
 
 class GithubUrl
@@ -61,6 +71,7 @@ class GithubUrl
 
   def open
     puts "opening url: #@url".cyan
+    FSSH::copy @url
     FSSH::system "open #@url"
   end
 
