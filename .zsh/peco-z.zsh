@@ -7,7 +7,7 @@ function peco-z() {
     | ruby -pe '$_.sub! /^~/, ENV["HOME"]' \
     )}
   if [ -n "$selected_dir" ]; then
-    BUFFER="cd '${selected_dir}'"
+    BUFFER="cd $(printf %q "$selected_dir")"
     zle accept-line
   fi
 }
