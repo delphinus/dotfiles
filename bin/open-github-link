@@ -27,7 +27,13 @@ module FSSH
     if ENV['LC_FSSH_PORT'].nil?
       Kernel.system cmd
     else
-      Kernel.system "ssh -p #{ENV['LC_FSSH_PORT']} -l #{ENV['LC_FSSH_USER']} #{ENV['LC_FSSH_COPY_ARGS']} localhost exec #{cmd}"
+      Kernel.system <<-CMD.undent.split("\n").join
+        ssh -p #{ENV['LC_FSSH_PORT']}
+          -l #{ENV['LC_FSSH_USER']}
+          #{ENV['LC_FSSH_COPY_ARGS']}
+          localhost
+          PATH=#{ENV['LC_FSSH_PATH']} "#{cmd}"
+      CMD
     end
   end
 
