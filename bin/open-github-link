@@ -99,7 +99,7 @@ end
 class OpenGithubLink
 
   def initialize
-    params = ARGV.getopts('', 'from:0', 'to:0', 'branch:master', 'help')
+    params = ARGV.getopts('', 'from:0', 'to:0', "branch:#{default_branch}", 'help')
     help_and_exit if params['help']
     from   = params['from'].to_i
     to     = params['to'].to_i
@@ -111,6 +111,10 @@ class OpenGithubLink
     else
       (github_url + "blob/#{branch}" + target).line_hash(from, to).open
     end
+  end
+
+  def default_branch
+    `git symbolic-ref HEAD`.chomp.sub 'refs/heads/', ''
   end
 
   def help_and_exit
