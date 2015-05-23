@@ -99,9 +99,18 @@ class OpenTarget
     return if str.nil?
 
     @path = Pathname(str)
+    if @path.directory?
+      Dir.chdir @path
+    else
+      Dir.chdir @path.dirname
+    end
     return if @path.relative?
     git_top_dir = Pathname(`git rev-parse --show-toplevel`.chomp)
-    @path = @path.relative_path_from git_top_dir
+    @path = if @path == git_top_dir
+              nil
+            else
+              @path.relative_path_from git_top_dir
+            end
   end
 
   def to_s
@@ -116,12 +125,12 @@ end
 class OpenGithubLink
 
   def initialize
+    target = OpenTarget.new ARGV[-1]
     params = ARGV.getopts('', 'from:0', 'to:0', "branch:#{default_branch}", 'help')
     help_and_exit if params['help']
     from   = params['from'].to_i
     to     = params['to'].to_i
     branch = params['branch']
-    target = OpenTarget.new ARGV[0]
     github_url = GithubUrl.new
     if target.nil?
       github_url.open
