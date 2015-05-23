@@ -17,7 +17,6 @@ function peco-git-branch() {
         # ↓そのまま実行の場合
         #zle accept-line
     fi
-    zle clear-screen
 }
 zle -N peco-git-branch
 bindkey '^x^b' peco-git-branch
@@ -71,7 +70,6 @@ function peco-git-open() {
     fi
     zle accept-line
   fi
-  zle clear-screen
 }
 zle -N peco-git-open
 bindkey '^x^o' peco-git-open
