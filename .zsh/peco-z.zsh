@@ -17,7 +17,6 @@ function peco-z() {
     BUFFER="cd '${selected_dir}'"
     zle accept-line
   fi
-  zle clear-screen
 }
 zle -N peco-z
 bindkey '^z' peco-z
