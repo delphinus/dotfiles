@@ -140,7 +140,7 @@ class OpenGithubLink
   end
 
   def default_branch
-    `git symbolic-ref HEAD`.chomp.sub 'refs/heads/', ''
+    /^\s*HEAD branch: (.*)$/.match(`git remote show origin`)[1]
   end
 
   def help_and_exit
