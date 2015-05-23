@@ -12,7 +12,7 @@ function peco-git-branch() {
         | head -n 1 \
         | awk '{print $1}')"
     if [ -n "$selected_line" ]; then
-        BUFFER="${current_buffer} ${selected_line}"
+        BUFFER="${current_buffer}${selected_line}"
         CURSOR=$#BUFFER
         # ↓そのまま実行の場合
         #zle accept-line
@@ -20,30 +20,6 @@ function peco-git-branch() {
 }
 zle -N peco-git-branch
 bindkey '^x^b' peco-git-branch
-
-function peco-git-remote() {
-  git remote | peco --prompt "GIT REMOTE>" | awk "{print $1}"
-}
-zle -N peco-git-remote
-bindkey '^x^r' peco-git-remote
-
-function peco-git-remote-branch() {
-  git branch -a | peco --query "remotes/ " --prompt "GIT REMOTE BRANCH>" | head -n 1 | sed "s/remotes\/[^\/]*\/\(\S*\)/\1 \0/"
-}
-zle -N peco-git-remote-branch
-bindkey '^x^e' peco-git-remote-branch
-
-function peco-git-hash() {
-  git log --oneline --branches | peco | awk "{print $1}"
-}
-zle -N peco-git-hash
-bindkey '^x^h' peco-git-hash
-
-function peco-git-file() {
-  git status --short | peco | awk "{print $2}"
-}
-zle -N peco-git-file
-bindkey '^x^f' peco-git-file
 
 # open url for git repository
 function peco-git-open() {
@@ -73,3 +49,14 @@ function peco-git-open() {
 }
 zle -N peco-git-open
 bindkey '^x^o' peco-git-open
+
+function peco-git-ls-files() {
+  local current_buffer=$BUFFER
+  local selected=$(git ls-files | peco --query "$LBUFFER")
+  if [ -n "$selected" ]; then
+    BUFFER="${current_buffer}${selected}"
+    CURSOR=$#BUFFER
+  fi
+}
+zle -N peco-git-ls-files
+bindkey '^x^f' peco-ls-files
