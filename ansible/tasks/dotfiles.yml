@@ -8,8 +8,8 @@
 - command: git remote add github {{ dotfiles_repo_github }} chdir={{ dotfiles_dir }}
   when: remote_stat.stdout.find(dotfiles_repo_github) == -1
 
-- file: path=~/.config state=directory
-- file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
+- file: path={{ home_dir }}/.config state=directory
+- file: src={{ '/'.join([dotfiles_dir, item]) }} dest={{ home_dir }}/{{ item }} state=link force=yes
   with_items:
     - .config/ipython
     - .config/peco
@@ -23,12 +23,12 @@
     - .zshrc
     - .proverc
 
-- file: path='~/Library/Application Support/Karabiner' state=directory
+- file: path='{{ home_dir }}/Library/Application Support/Karabiner' state=directory
   when: ansible_system == 'Darwin'
-- copy: src=private.xml dest='~/Library/Application Support/Karabiner/private.xml'
+- copy: src=private.xml dest='{{ home_dir }}/Library/Application Support/Karabiner/private.xml'
   when: ansible_system == 'Darwin'
 
-- file: path=~/.ssh/config state=touch
+- file: path={{ home_dir }}/.ssh/config state=touch
   changed_when: false
-- lineinfile: dest=~/.ssh/config line='Host *' state=present
-- lineinfile: dest=~/.ssh/config line='  ServerAliveInterval 120' insertafter='^Host \*$'
+- lineinfile: dest={{ home_dir }}/.ssh/config line='Host *' state=present
+- lineinfile: dest={{ home_dir }}/.ssh/config line='  ServerAliveInterval 120' insertafter='^Host \*$'
