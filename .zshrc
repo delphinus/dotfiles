@@ -1,16 +1,29 @@
-source $HOME/git/dotfiles/.zsh/basic.zshrc
-source $HOME/git/dotfiles/.zsh/peco-select-history.zsh
-source $HOME/git/dotfiles/.zsh/peco-git.zsh
-source $HOME/git/dotfiles/.zsh/peco-ghq.zsh
-source $HOME/git/dotfiles/.zsh/peco-z.zsh
-source $HOME/git/dotfiles/bin/set-ssh-auth-sock.sh
+if [ -z "$H" ]; then
+  export H=$HOME
+fi
+
+source $H/git/dotfiles/.zsh/basic.zshrc
+source $H/git/dotfiles/.zsh/peco-select-history.zsh
+source $H/git/dotfiles/.zsh/peco-git.zsh
+source $H/git/dotfiles/.zsh/peco-ghq.zsh
+source $H/git/dotfiles/.zsh/peco-z.zsh
+source $H/git/dotfiles/bin/set-ssh-auth-sock.sh
+
+if [ "$H" != "$HOME" ]; then
+  alias vim="vim -u $H/.vim/vimrc"
+  alias git="HOME=$H git"
+  alias ghq="HOME=$H ghq"
+  alias tig="HOME=$H tig"
+fi
+alias g=git
+alias gh=ghq
 
 export PAGER=vimpager
-export VIMPAGER_RC=$HOME/.vim/vimpagerrc
+export VIMPAGER_RC=$H/.vim/vimpagerrc
 export ACK_PAGER='less -R'
 export EDITOR=vim
-export EDITRC=$HOME/.editrc
-export INPUTRC=$HOME/.inputrc
+export EDITRC=$H/.editrc
+export INPUTRC=$H/.inputrc
 
 OS=`uname`
 if [ "$OS" = 'Darwin' ]; then
@@ -23,25 +36,23 @@ fi
 alias ls="$LS --color"
 alias ll="$LS --color -l"
 alias l.="$LS --color -d .*"
-eval `TERM=xterm-256color dircolors $HOME/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
+eval `TERM=xterm-256color dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias lv='lv -c'
 alias path='echo $PATH | perl -aF: -le "print for sort @F"'
-alias g='git'
-alias gh='ghq'
 alias be='bundle exec'
 alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
 
 alias vp='vimpager'
-alias tm="tmux_cmd='tmux -u2 -f $HOME/git/dotfiles/.tmux.conf' tmux.sh"
+alias tm="tmux_cmd='tmux -u2 -f $H/git/dotfiles/.tmux.conf' tmux.sh"
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
-export PATH="$HOME/Dropbox/bin:\
-$HOME/bin:\
-$HOME/git/dotfiles/bin:\
+export PATH="$H/Dropbox/bin:\
+$H/bin:\
+$H/git/dotfiles/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
 /bin:\
@@ -54,24 +65,36 @@ $PATH"
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 
 # for perlomni.vim
-export PATH="$HOME/.vim/bundle/perlomni.vim/bin:$PATH"
+export PATH="$H/.vim/bundle/perlomni.vim/bin:$PATH"
 
 # for python
-export PYENV_ROOT=/usr/local/opt/pyenv
+if [ -d '/usr/local/opt/pyenv' ]; then
+  export PYENV_ROOT=/usr/local/opt/pyenv
+else
+  export PYENV_ROOT=$HOME/.pyenv
+fi
 export PATH=$PYENV_ROOT/bin:$PATH
 alias py=pyenv
 alias pyv='pyenv versions'
 if which pyenv > /dev/null; then eval "$(pyenv init - zsh)"; fi
 
 # for ruby
-export RBENV_ROOT=/usr/local/opt/rbenv
+if [ -d '/usr/local/opt/rbenv' ]; then
+  export RBENV_ROOT=/usr/local/opt/rbenv
+else
+  export RBENV_ROOT=$HOME/.rbenv
+fi
 export PATH=$RBENV_ROOT/bin:$PATH
 alias rb=rbenv
 alias rbv='rbenv versions'
 if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
 
 # for lua
-export LUAENV_ROOT=/usr/local/opt/luaenv
+if [ -d '/usr/local/opt/luaenv' ]; then
+  export LUAENV_ROOT=/usr/local/opt/luaenv
+else
+  export LUAENV_ROOT=$HOME/.luaenv
+fi
 export PATH=$LUAENV_ROOT/bin:$PATH
 alias lu=luaenv
 alias luv='luaenv versions'
@@ -93,7 +116,11 @@ if [[ $OS = Darwin && -d $HOME/perl5 ]]; then
   fi
 else
   # for plenv
-  export PLENV_ROOT=/usr/local/opt/plenv
+  if [ -d '/usr/local/opt/plenv' ]; then
+    export PLENV_ROOT=/usr/local/opt/plenv
+  else
+    export PLENV_ROOT=$HOME/.plenv
+  fi
   export PATH=$PLENV_ROOT/bin:$PATH
   alias pl=plenv
   alias plv='plenv versions'
@@ -155,13 +182,13 @@ if [ -d "$mysql_bin" ]; then
 fi
 
 # github access token
-local homebrew_github_api_token=$HOME/.homebrew_github_api_token
+local homebrew_github_api_token=$H/.homebrew_github_api_token
 if [ -f "$homebrew_github_api_token" ]; then
   . $homebrew_github_api_token
 fi
 
 # PHP composer
-local composer_vender_bin=$HOME/.composer/vendor/bin
+local composer_vender_bin=$H/.composer/vendor/bin
 if [ -d "$composer_vender_bin" ]; then
   export PATH="$composer_vender_bin:$PATH"
 fi
@@ -174,13 +201,13 @@ fi
 
 # fssh
 if [ -z "$TMUX" -a -n "$LC_FSSH_PORT" ]; then
-  local fssh_env=$HOME/git/dotfiles/bin/fssh_env
+  local fssh_env=$H/git/dotfiles/bin/fssh_env
   env | grep FSSH | ruby -pe '$_.sub!(/^(LC_FSSH_[A-Z_]*)=(.*)$/) { %Q[export #$1="#$2"] }' > $fssh_env
   chmod +x $fssh_env
 fi
 
 # local settings
-local zshrc_local=$HOME/.zshrc.local
+local zshrc_local=$H/.zshrc.local
 if [ -f "$zshrc_local" ]; then
   . $zshrc_local
 fi
