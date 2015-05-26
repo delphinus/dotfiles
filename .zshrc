@@ -43,6 +43,7 @@ alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias lv='lv -c'
 alias path='echo $PATH | perl -aF: -le "print for sort @F"'
 alias be='bundle exec'
+alias ce='carton exec --'
 alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
 
 alias vp='vimpager'
