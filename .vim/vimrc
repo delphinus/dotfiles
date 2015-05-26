@@ -3,7 +3,9 @@ scriptencoding 'utf-8'
 let g:is_mac = has('mac')
 let g:is_win = has('win32') || has('win64')
 
-if len($USERPROFILE)
+if len($H)
+  let g:home = expand('$H')
+elseif len($USERPROFILE)
   let g:home = expand('$USERPROFILE')
 else
   let g:home = expand('~')
