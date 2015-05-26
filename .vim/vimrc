@@ -68,6 +68,7 @@ call s:load_rc('applescript')         " applescript 設定
 call s:load_rc('github-issues')       " github-issues 設定
 call s:load_rc('numbers')             " numbers 設定
 call s:load_rc('webdevicons')         " webdevicons 設定
+call s:load_rc('unite-ghq')           " unite-ghq 設定
 
 if has('macunix')
   call s:load_rc('itunes')            " vim-itunes 設定
