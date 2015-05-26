@@ -71,7 +71,7 @@ python2_version: 2.7.9
 python3_version: 3.4.2
 ruby_version: 2.1.3
 perl_version: 5.20.1
-home_dir: "{{ ansible_env['HOME'] }}"
+home_dir: "{{ secret_home_dir }}"
 cache_dir: "{{ home_dir }}/Library/Caches/Ansible"
 fonts_dir: "{{ home_dir }}/Library/Fonts"
 dotfiles_dir:         "{{ home_dir }}/git/dotfiles"
