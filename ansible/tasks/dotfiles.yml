@@ -16,14 +16,17 @@
     - .config/powerline
     - .editrc
     - .gitconfig
-    - .grcat
     - .inputrc
     - .jshintrc
-    - .my.cnf
     - .proverc
     - .vim
     - .zprofile
     - .zshrc
+
+- file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
+  with_items:
+    - .grcat
+    - .my.cnf
 
 - file: path='{{ home_dir }}/Library/Application Support/Karabiner' state=directory
   when: ansible_system == 'Darwin'
