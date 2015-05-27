@@ -16,12 +16,14 @@
     - .config/powerline
     - .editrc
     - .gitconfig
+    - .grcat
     - .inputrc
     - .jshintrc
+    - .my.cnf
+    - .proverc
     - .vim
     - .zprofile
     - .zshrc
-    - .proverc
 
 - file: path='{{ home_dir }}/Library/Application Support/Karabiner' state=directory
   when: ansible_system == 'Darwin'
