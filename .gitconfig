@@ -29,6 +29,7 @@
 	re = remote
 	rv = remote -v
 	rl = reflog
+	rh = reset --hard
 	sm = submodule
 	st = status -sb
 	po = pull origin master
