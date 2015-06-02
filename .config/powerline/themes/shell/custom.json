@@ -32,7 +32,11 @@
 				"priority": 50
 			},
 			{
-				"function": "ext.segments.rbenv.rbenv",
+				"function": "powerlinex.segment.plenv.version",
+				"priority": 50
+			},
+			{
+				"function": "powerlinex.segment.rbenv.version",
 				"priority": 50
 			},
 			{
