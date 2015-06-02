@@ -12,6 +12,12 @@
 				"only_if_ssh": true,
 				"exclude_domain": true
 			}
+		},
+		"powerlinex.segment.rbenv.version": {
+			"before": "ⓡ  "
+		},
+		"powerlinex.segment.plenv.version": {
+			"before": "ⓟ  "
 		}
 	},
 	"segments": {
