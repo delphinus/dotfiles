@@ -6,7 +6,7 @@ from powerline.theme import requires_segment_info
 
 @requires_segment_info
 def local_perl(pl, segment_info, format='{app}:{version}'):
-	if segment_info['environ'].get('HOST') != '{{ secret_local_perl_hostname }}':
+	if segment_info['environ'].get('HOST') not in {{ secret_local_perl_hostnames | pprint }}:
 		return None
 	version = segment_info['environ'].get('PERLBREW_PERL')
 	version = 'not_switch' if version is None else re.sub('perl-', '', version)
