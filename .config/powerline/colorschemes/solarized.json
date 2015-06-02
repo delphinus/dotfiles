@@ -12,6 +12,8 @@
 		"background:divider":      { "fg": "solarized:base1", "bg": "solarized:base02", "attrs": [] },
 		"user":                    { "fg": "solarized:base3", "bg": "solarized:blue", "attrs": ["bold"] },
 		"virtualenv":              { "fg": "solarized:base3", "bg": "solarized:green", "attrs": [] },
+		"ruby_version":            { "fg": "solarized:base3", "bg": "solarized:magenta", "attrs": [] },
+		"perl_version":            { "fg": "solarized:base3", "bg": "solarized:magenta", "attrs": [] },
 		"branch":                  { "fg": "solarized:base1", "bg": "solarized:base02", "attrs": [] },
 		"branch_dirty":            { "fg": "solarized:yellow", "bg": "solarized:base02", "attrs": [] },
 		"branch_clean":            { "fg": "solarized:base1", "bg": "solarized:base02", "attrs": [] },
