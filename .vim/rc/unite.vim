@@ -111,12 +111,12 @@ if executable('pt')
     let g:unite_source_grep_command = 'pt'
     let g:unite_source_grep_default_opts = '--nogroup --nocolor'
     let g:unite_source_grep_recursive_opt = ''
-    let g:unite_source_file_rec_async_command = 'pt --nocolor --nogroup -g .'
+    let g:unite_source_file_async_command = 'pt --nocolor --nogroup -g .'
 elseif executable('ag')
     let g:unite_source_grep_command = 'ag'
     let g:unite_source_grep_default_opts = '-a --nogroup --nocolor --column'
     let g:unite_source_grep_recursive_opt = ''
-    let g:unite_source_file_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
+    let g:unite_source_file_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
 
 let custom_filters = []
