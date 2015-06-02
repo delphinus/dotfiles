@@ -48,6 +48,7 @@ alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
 
 alias vp='vimpager'
 alias tm="tmux_cmd='tmux -u2 -f $H/git/dotfiles/.tmux.conf' tmux.sh"
+alias ptc='pt --color'
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
