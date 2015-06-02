@@ -32,6 +32,10 @@
 				"priority": 50
 			},
 			{
+				"function": "ext.segments.rbenv.rbenv",
+				"priority": 50
+			},
+			{
 				"function": "powerline.segments.shell.cwd",
 				"priority": 10
 			},
