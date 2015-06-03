@@ -20,15 +20,9 @@ if has('win32')
 
 elseif has('macunix')
   let resolution = system("osascript -e 'tell application " . '"Finder"' . " to get bounds of window of desktop' | awk -F', ' '{print $3}'")
-  if resolution < 1440
-    set lines=50 columns=50         " ウィンドウの大きさを指定する
-    set guifont=Ricty_Discord:h14
-    set guifontwide=Ricty_Discord:h14
-  else
-    set lines=92 columns=190        " ウィンドウの大きさを指定する
-    set guifont=Ricty_Discord:h18
-    set guifontwide=Ricty_Discord:h18
-  endif
+  set lines=92 columns=190          " ウィンドウの大きさを指定する
+  set guifont=Ricty_Discord:h14
+  set guifontwide=Ricty_Discord:h14
   set linespace=0
   set antialias                     " 文字をなめらかに表示する
   set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
