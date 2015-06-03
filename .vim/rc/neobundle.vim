@@ -110,6 +110,7 @@ NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'rhysd/neco-ruby-keyword-args', {'depends': ['Shougo/neocomplete']}
 NeoBundle 'rhysd/vim-textobj-ruby',       {'depends': ['kana/vim-textobj-user']}
 NeoBundle 'ryanoasis/vim-webdevicons'
+NeoBundle 'sorah/unite-bundler'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 't9md/vim-choosewin'
 NeoBundle 'thinca/vim-fontzoom'
