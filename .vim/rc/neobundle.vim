@@ -55,6 +55,7 @@ NeoBundle 'Shougo/unite-outline',         {'depends': ['Shougo/unite.vim']}
 NeoBundle 'basyura/unite-rails',          {'depends': ['Shougo/unite.vim']}
 NeoBundle 'hakobe/unite-script-examples', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'kannokanno/unite-dwm',         {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
+NeoBundle 'lambdalisue/vim-gista',        {'depends': ['Shougo/unite.vim', 'tyru/open-browser.vim']},
 NeoBundle 'osyo-manga/unite-qfixhowm',    {'depends': ['Shougo/unite.vim']}
 NeoBundle 'pasela/unite-webcolorname',    {'depends': ['Shougo/unite.vim']}
 NeoBundle 'rhysd/unite-ruby-require.vim', {'depends': ['Shougo/unite.vim']}
