@@ -55,7 +55,6 @@ NeoBundle 'Shougo/unite-outline',         {'depends': ['Shougo/unite.vim']}
 NeoBundle 'basyura/unite-rails',          {'depends': ['Shougo/unite.vim']}
 NeoBundle 'hakobe/unite-script-examples', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'kannokanno/unite-dwm',         {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
-NeoBundle 'lambdalisue/vim-gista',        {'depends': ['Shougo/unite.vim', 'tyru/open-browser.vim']},
 NeoBundle 'osyo-manga/unite-qfixhowm',    {'depends': ['Shougo/unite.vim']}
 NeoBundle 'pasela/unite-webcolorname',    {'depends': ['Shougo/unite.vim']}
 NeoBundle 'rhysd/unite-ruby-require.vim', {'depends': ['Shougo/unite.vim']}
@@ -146,6 +145,17 @@ NeoBundleLazy 'catalinciurea/perl-nextmethod',      {'autoload': {'filetypes': [
 NeoBundleLazy 'delphinus35/perl-test-base.vim',     {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'vim-perl/vim-perl',                  {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'tpope/vim-capslock', {'autoload': {'mappings': ['i', '<Plug>CapsLockToggle']}}
+"NeoBundleLazy 'lambdalisue/vim-gista', {
+NeoBundleLazy 'delphinus35/vim-gista', {
+      \ 'depends': [
+      \   'Shougo/unite.vim',
+      \   'tyru/open-browser.vim',
+      \ ],
+      \ 'autoload': {
+      \   'commands': ['Gista'],
+      \   'mappings': '<Plug>(gista-',
+      \   'unite_sources': 'gista',
+      \ }}
 
 " TweetVim
 NeoBundleLazy 'basyura/TweetVim', {'depends': [
