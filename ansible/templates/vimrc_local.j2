@@ -22,7 +22,7 @@ augroup END
 if index({{ secret_office.hostnames | pprint }}, hostname()) > -1
   let g:gista#gist_api_url = '{{ secret_office.github_api_path }}'
   let g:gista#github_user = '{{ secret_office.github_user }}'
-  let g:gista#get_needs_authentication = 1
+  let g:gista#get_with_authentication = 1
 else
   let g:gista#gist_api_url = 'https://gist.github.com'
 endif
