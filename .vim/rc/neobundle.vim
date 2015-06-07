@@ -47,7 +47,6 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
 " プラグイン {{{
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'airblade/vim-rooter'
 NeoBundle 'ap/vim-css-color'
 NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/vim-colors-solarized'
@@ -109,6 +108,7 @@ NeoBundleLazy 'vim-jp/vimdoc-ja'
 NeoBundleLazy 'tyru/open-browser-github.vim', {'depends': ['tyru/open-browser.vim']}
 
 NeoBundleLazy 'Shougo/vinarise.vim',     {'commands': ['Vinarise']}
+NeoBundleLazy 'airblade/vim-rooter',     {'commands': ['Rooter']}
 NeoBundleLazy 'delphinus35/lcpeek.vim',  {'commands': ['PeekInput']}
 NeoBundleLazy 'gregsexton/VimCalc',      {'commands': ['Calc']}
 NeoBundleLazy 'kannokanno/previm',       {'commands': ['PreVimOpen']}
