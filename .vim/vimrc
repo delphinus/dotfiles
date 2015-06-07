@@ -36,7 +36,6 @@ call s:load_rc('vimfiler_initial')    " VimFiler 初期設定
 call s:load_rc('vimshell_initial')    " VimShell 初期設定
 call s:load_rc('matchit')             " matchit 設定
 call s:load_rc('quickrun')            " QuickRun 設定
-call s:load_rc('perl')                " Perl 設定
 call s:load_rc('ref')                 " Ref 設定
 call s:load_rc('netrw')               " Netrw 設定
 call s:load_rc('jpformat')            " JpFormat 設定

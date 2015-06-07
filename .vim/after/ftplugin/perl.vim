@@ -1,11 +1,21 @@
+let perl_include_pod=1
+let perl_include_pod = 1
+unlet! perl_no_scope_in_variables
+unlet! perl_no_extended_vars
+let perl_string_as_statement = 1
+unlet! perl_no_sync_on_sub
+unlet! perl_no_sync_on_global_var
+let perl_sync_dist = 100
+let perl_fold = 1
+unlet! perl_fold_blocks
+let perl_nofold_packages = 1
+unlet! perl_nofold_subs
+let perl_fold_anonymous_subs = 1
+
 set iskeyword-=-
 set iskeyword-=:
 if exists(':NeoCompleteIncludeMakeCache')
     autocmd BufWritePost <buffer> NeoCompleteIncludeMakeCache
-endif
-
-if exists(':Rooter')
-    Rooter
 endif
 
 if filereadable('.noexpandtab') || (len($USER) && $USER == 'game')
@@ -15,28 +25,51 @@ if filereadable('.noexpandtab') || (len($USER) && $USER == 'game')
     setlocal softtabstop=4
 endif
 
-let carton = expand('/usr/local/opt/plenv/shims/carton')
-let local_perl = expand('$HOME/git/dotfiles/bin/local_perl.sh')
-if executable(carton)
-  let g:quickrun_config['watchdogs_checker/perl']['command'] = carton
+let g:perlpath = ''
+let s:carton = expand('/usr/local/opt/plenv/shims/carton')
+let s:local_perl = expand('$HOME/git/dotfiles/bin/local_perl.sh')
+let s:cpanfile = 'cpanfile'
+let s:print_perlpath = " -e 'print join(q/,/,@INC)'"
+
+" plenv with carton
+if filereadable(s:cpanfile) && executable(s:carton)
+  let perlpath = systemlist(s:carton . ' exec -- perl' . s:print_perlpath)[0]
+  let g:quickrun_config['watchdogs_checker/perl']['command'] = s:carton
   let g:quickrun_config['watchdogs_checker/perl']['cmdopt'] = 'exec -- perl -Ilib -It/lib'
+
+" plenv without carton
+elseif executable('plenv')
+  let s:perl = systemlist('plenv which perl')[0]
+  let perlpath = system(s:perl . s:print_perlpath)
+  let g:quickrun_config['watchdogs_checker/perl']['command'] = s:perl
+  let g:quickrun_config['watchdogs_checker/perl']['cmdopt'] = '-Ilib -It/lib'
+
+" perlbrew
 elseif filereadable(expand('$HOME/perl5/perlbrew/etc/bashrc'))
   redir => s:perl
   silent !source $HOME/perl5/perlbrew/etc/bashrc && which perl
   redir END
   let s:perl = substitute(split(s:perl, '\r')[1], '\n', '', 'g')
+  let g:perlpath = system(s:perl . s:print_perlpath)
   let g:quickrun_config['watchdogs_checker/perl']['command'] = s:perl
   let g:quickrun_config['watchdogs_checker/perl']['cmdopt'] = '-Ilib -It/lib'
-elseif executable(local_perl)
-  let pwd = getcwd()
+
+" local_perl
+elseif executable(s:local_perl)
+  let s:pwd = getcwd()
   if ! exists('g:watchdogs_local_perl')
     let g:watchdogs_local_perl = {}
   endif
-  if ! exists("g:watchdogs_local_perl['" . pwd . "']")
-    let g:watchdogs_local_perl[pwd] = system(local_perl)
+  if ! exists("g:watchdogs_local_perl['" . s:pwd . "']")
+    let g:watchdogs_local_perl[s:pwd]['local_perl'] = system(s:local_perl)
+    let g:watchdogs_local_perl[s:pwd]['perlpath'] = system(g:watchdogs_local_perl[s:pwd]['local_perl'] . s:print_perlpath)
   endif
-  let g:quickrun_config['watchdogs_checker/perl']['command'] = g:watchdogs_local_perl[pwd]
+  let g:perlpath = g:watchdogs_local_perl[s:pwd]['perlpath']
+  let g:quickrun_config['watchdogs_checker/perl']['command'] = g:watchdogs_local_perl[s:pwd]['local_perl']
   let g:quickrun_config['watchdogs_checker/perl']['cmdopt'] = '-Iapp/lib -Iapp/t/lib'
+
+" other
 else
+  let g:perlpath = systemlist('perl' . s:print_perlpath)[0]
   let g:quickrun_config['watchdogs_checker/perl']['cmdopt'] = '-Ilib -It/lib'
 endif
