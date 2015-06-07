@@ -55,10 +55,7 @@ NeoBundle 'osyo-manga/vim-watchdogs',     {'depends': [
             \   'thinca/vim-quickrun',
             \ ]}
 
-NeoBundle 'LeafCage/yankround.vim'
-NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/vinarise.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
 "NeoBundle 'altercation/vim-colors-solarized'
@@ -66,17 +63,13 @@ NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'ap/vim-css-color'
 "NeoBundle 'amdt/sunset'
 NeoBundle 'vim-scripts/Sunset'
-"NeoBundle 'aklt/plantuml-syntax'
-NeoBundle 'delphinus35/plantuml-syntax', 'fix-for-isnot#'
 NeoBundle 'chikatoike/concealedyank.vim'
-NeoBundle 'delphinus35/open-github-link'
 NeoBundle 'dsawardekar/wordpress.vim'
 NeoBundle 'fuenor/JpFormat.vim'
 "NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'delphinus35/vim-emacscommandline'
 "NeoBundle 'jaxbot/github-issues.vim'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
-NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'kana/vim-vspec'
 NeoBundle 'kannokanno/previm'
 NeoBundle 'kchmck/vim-coffee-script'
@@ -139,6 +132,8 @@ NeoBundleLazy 'c9s/perlomni.vim',                   {'autoload': {'filetypes': [
 NeoBundleLazy 'catalinciurea/perl-nextmethod',      {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'delphinus35/perl-test-base.vim',     {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'vim-perl/vim-perl',                  {'autoload': {'filetypes': ['perl']}}
+"NeoBundle 'aklt/plantuml-syntax'
+NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'autoload': {'filetypes': ['markdown', 'plantuml']}}
 NeoBundleLazy 'tpope/vim-capslock', {'autoload': {'mappings': ['i', '<Plug>CapsLockToggle']}}
 NeoBundleLazy 'lambdalisue/vim-gista', {
       \ 'depends': ['Shougo/unite.vim', 'tyru/open-browser.vim'],
@@ -151,6 +146,11 @@ NeoBundleLazy 'delphinus35/qfixhowm', {
       \ 'autoload': {'mappings': 'g,c'}}
 NeoBundleLazy 'osyo-manga/unite-qfixhowm', {
       \ 'depends': ['delphinus35/qfixhowm', 'Shougo/unite.vim']}
+NeoBundleLazy 'LeafCage/yankround.vim', {'mappings': '<Plug>(yankround-'}
+NeoBundleLazy 'Lokaltog/vim-easymotion', {'mappings': '<Plug>(easymotion-'}
+NeoBundleLazy 'Shougo/vinarise.vim'
+NeoBundleLazy 'delphinus35/open-github-link', {'mappings': '<Plug>(open-github-link'}
+NeoBundleLazy 'junegunn/vim-easy-align', {'mappings': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
 
 " TweetVim
 NeoBundleLazy 'basyura/TweetVim', {'depends': [
