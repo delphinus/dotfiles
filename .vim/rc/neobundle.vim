@@ -55,7 +55,6 @@ NeoBundle 'Shougo/unite-outline',         {'depends': ['Shougo/unite.vim']}
 NeoBundle 'basyura/unite-rails',          {'depends': ['Shougo/unite.vim']}
 NeoBundle 'hakobe/unite-script-examples', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'kannokanno/unite-dwm',         {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
-NeoBundle 'osyo-manga/unite-qfixhowm',    {'depends': ['Shougo/unite.vim']}
 NeoBundle 'pasela/unite-webcolorname',    {'depends': ['Shougo/unite.vim']}
 NeoBundle 'rhysd/unite-ruby-require.vim', {'depends': ['Shougo/unite.vim']}
 NeoBundle 'tsukkee/unite-tag',            {'depends': ['Shougo/unite.vim']}
@@ -86,7 +85,6 @@ NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'delphinus35/plantuml-syntax', 'fix-for-isnot#'
 NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/open-github-link'
-NeoBundle 'delphinus35/qfixhowm', 'with-watchdogs'
 NeoBundle 'delphinus35/unite-ghq'
 NeoBundle 'dsawardekar/wordpress.vim'
 NeoBundle 'fuenor/JpFormat.vim'
@@ -156,6 +154,15 @@ NeoBundleLazy 'lambdalisue/vim-gista', {
       \   'mappings': '<Plug>(gista-',
       \   'unite_sources': 'gista',
       \ }}
+NeoBundleLazy 'delphinus35/qfixhowm', {
+      \ 'autoload': {
+      \   'mappings': 'g,c',
+      \ }}
+NeoBundleLazy 'osyo-manga/unite-qfixhowm', {
+      \ 'depends': [
+      \   'delphinus35/qfixhowm',
+      \   'Shougo/unite.vim',
+      \ ]}
 
 " TweetVim
 NeoBundleLazy 'basyura/TweetVim', {'depends': [
