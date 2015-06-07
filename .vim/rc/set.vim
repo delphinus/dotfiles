@@ -113,46 +113,6 @@ set lazyredraw                    " 画面描画をできるだけ遅らせる
 
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colorscheme solarized
-"colorscheme hybrid
-"colorscheme seoul256
-"colorscheme gruvbox
-
-"colorscheme festoon
-"colorscheme calmar256-light
-"colorscheme xorium
-"colorscheme desertEx
-"colorscheme werks
-"colorscheme bandit
-"colorscheme baycomb
-"hi NonText ctermfg=238
-"hi SpecialKey ctermfg=238
-"hi CursorLine term=none ctermbg=238
-"colorscheme abbott
-"colorscheme desert-warm-256
-"colorscheme neon-PK
-"colorscheme rhinestones
-"colorscheme zenburn
-"colorscheme papayawhip
-"colorscheme gummybears
-"colorscheme void256
-"colorscheme badwolf
-"colorscheme zenburn
-"colorscheme hemisu
-"if &background == 'light'
-"    highlight ColorColumn term=reverse ctermbg=255 guibg=#FFAFAF
-"else
-"    highlight ColorColumn term=reverse ctermbg=233 guibg=#111111
-"endif
-"highlight link EasyMotionTarget Type
-"highlight link EasyMotionComment Comment
-
-let g:badwolf_darkgutter = 1
-let g:badwolf_tabline = 1
-let g:badwolf_html_link_underline = 1
-let g:badwolf_css_props_highlight = 1
-let g:gruvbox_termcolors=16
-"colorscheme gruvbox
-
 syntax on
 
 " vim:et:fdm=marker:
