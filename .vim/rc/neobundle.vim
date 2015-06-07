@@ -146,8 +146,7 @@ NeoBundleLazy 'catalinciurea/perl-nextmethod',      {'autoload': {'filetypes': [
 NeoBundleLazy 'delphinus35/perl-test-base.vim',     {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'vim-perl/vim-perl',                  {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'tpope/vim-capslock', {'autoload': {'mappings': ['i', '<Plug>CapsLockToggle']}}
-"NeoBundleLazy 'lambdalisue/vim-gista', {
-NeoBundleLazy 'delphinus35/vim-gista', {
+NeoBundleLazy 'lambdalisue/vim-gista', {
       \ 'depends': [
       \   'Shougo/unite.vim',
       \   'tyru/open-browser.vim',
