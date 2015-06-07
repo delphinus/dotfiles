@@ -9,10 +9,6 @@ let g:vimshell_temporary_directory = g:home . '/.vimshell'
 " 大文字小文字を区別しない？
 let g:vimshell_enable_smart_case = 1
 
-" vimshell を開くマップ
-nnoremap <Leader>vv :<C-U>VimShell<CR>
-nnoremap <Leader>vc :<C-U>VimShellCreate<CR>
-
 augroup VimShellMapping
     autocmd!
     " キーマッピングを戻す
