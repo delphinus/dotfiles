@@ -32,7 +32,6 @@ call s:load_rc('term')                " ターミナル固有の設定
 call s:load_rc('functions')           " ユーティリティ関数
 
 call s:load_rc('matchit')             " matchit 設定
-call s:load_rc('qfixhowm')            " QFixMemo 設定
 call s:load_rc('quickrun')            " QuickRun 設定
 call s:load_rc('perl')                " Perl 設定
 call s:load_rc('ref')                 " Ref 設定
@@ -68,6 +67,10 @@ call s:load_rc('github-issues')       " github-issues 設定
 call s:load_rc('numbers')             " numbers 設定
 call s:load_rc('webdevicons')         " webdevicons 設定
 call s:load_rc('unite-ghq')           " unite-ghq 設定
+
+" 遅延ロード {{{
+call s:load_bundle_rc('qfixhowm')     " QFixMemo 設定
+"}}}
 
 if has('macunix')
   call s:load_rc('itunes')            " vim-itunes 設定
