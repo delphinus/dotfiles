@@ -50,7 +50,7 @@ if filereadable(g:home . '/.use-mac') || exists('$TMUX') && has('macunix')
     endif
 
     " 貼り付けるとき自動的に paste モードに変わる
-    "let &t_ti .= "\eP\e[?2004h\e\\"
+    let &t_ti .= "\eP\e[?2004h\e\\"
     let &t_te .= "\eP\e[?2004l\e\\"
 
     map <expr> \e[200~ XTermPasteBegin("i")
@@ -61,7 +61,7 @@ if filereadable(g:home . '/.use-mac') || exists('$TMUX') && has('macunix')
 " GNU screen 上の場合
 elseif &term =~ "screen"
     " 貼り付けるとき自動的に paste モードに変わる
-    "let &t_ti .= "\eP\e[?2004h\e\\"
+    let &t_ti .= "\eP\e[?2004h\e\\"
     let &t_te .= "\eP\e[?2004l\e\\"
 
     map <expr> \e[200~ XTermPasteBegin("i")
