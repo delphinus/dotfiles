@@ -52,6 +52,7 @@ NeoBundle 'ap/vim-css-color'
 NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'delphinus35/vim-emacscommandline'
+NeoBundle 'delphinus35/vim-unimpaired'
 NeoBundle 'dsawardekar/wordpress.vim'
 NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
@@ -97,7 +98,7 @@ NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
+NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim'], 'on_source': ['unite.vim']}
 NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'delphinus35/qfixhowm']}
 NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
@@ -130,6 +131,7 @@ NeoBundleLazy 'Lokaltog/vim-easymotion',      {'mappings': ['<Plug>(easymotion-'
 NeoBundleLazy 'delphinus35/open-github-link', {'mappings': ['<Plug>(open-github-link']}
 NeoBundleLazy 'delphinus35/qfixhowm',         {'mappings': ['g,c']}
 NeoBundleLazy 'junegunn/vim-easy-align',      {'mappings': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
+NeoBundleLazy 'spolu/dwm.vim',                {'mappings': ['<Plug>DWM']}
 NeoBundleLazy 'tpope/vim-capslock',           {'mappings': ['i', '<Plug>CapsLockToggle']}
 NeoBundleLazy 't9md/vim-quickhl',             {'mappings': ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']}
 NeoBundleLazy 't9md/vim-choosewin',           {'mappings': ['<Plug>(choosewin)']}
