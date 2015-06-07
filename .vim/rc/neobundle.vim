@@ -145,24 +145,16 @@ NeoBundleLazy 'delphinus35/perl-test-base.vim',     {'autoload': {'filetypes': [
 NeoBundleLazy 'vim-perl/vim-perl',                  {'autoload': {'filetypes': ['perl']}}
 NeoBundleLazy 'tpope/vim-capslock', {'autoload': {'mappings': ['i', '<Plug>CapsLockToggle']}}
 NeoBundleLazy 'lambdalisue/vim-gista', {
-      \ 'depends': [
-      \   'Shougo/unite.vim',
-      \   'tyru/open-browser.vim',
-      \ ],
+      \ 'depends': ['Shougo/unite.vim', 'tyru/open-browser.vim'],
       \ 'autoload': {
       \   'commands': ['Gista'],
       \   'mappings': '<Plug>(gista-',
       \   'unite_sources': 'gista',
       \ }}
 NeoBundleLazy 'delphinus35/qfixhowm', {
-      \ 'autoload': {
-      \   'mappings': 'g,c',
-      \ }}
+      \ 'autoload': {'mappings': 'g,c'}}
 NeoBundleLazy 'osyo-manga/unite-qfixhowm', {
-      \ 'depends': [
-      \   'delphinus35/qfixhowm',
-      \   'Shougo/unite.vim',
-      \ ]}
+      \ 'depends': ['delphinus35/qfixhowm', 'Shougo/unite.vim']}
 
 " TweetVim
 NeoBundleLazy 'basyura/TweetVim', {'depends': [
