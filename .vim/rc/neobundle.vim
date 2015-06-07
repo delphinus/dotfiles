@@ -11,7 +11,6 @@ endif
 let g:bundle_dir    = g:home       . '/.vim/bundle'
 let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
 let g:after_dir     = g:home       . '/.vim/after'
-let g:mybundle_dir  = g:home       . '/.vim/mybundle'
 
 " NeoBundle へのパス
 if has('vim_starting')
@@ -45,68 +44,51 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
 
 
 
-" プラグイン（github） {{{
-
-NeoBundle 'osyo-manga/vim-watchdogs',     {'depends': [
-            \   'Shougo/vimproc.vim',
-            \   'dannyob/quickfixstatus',
-            \   'cohama/vim-hier',
-            \   'osyo-manga/shabadou.vim',
-            \   'thinca/vim-quickrun',
-            \ ]}
-
+" プラグイン {{{
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
-"NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'ap/vim-css-color'
-"NeoBundle 'amdt/sunset'
-NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'chikatoike/concealedyank.vim'
+NeoBundle 'delphinus35/vim-colors-solarized'
+NeoBundle 'delphinus35/vim-emacscommandline'
 NeoBundle 'dsawardekar/wordpress.vim'
 NeoBundle 'fuenor/JpFormat.vim'
-"NeoBundle 'houtsnip/vim-emacscommandline'
-NeoBundle 'delphinus35/vim-emacscommandline'
-"NeoBundle 'jaxbot/github-issues.vim'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 NeoBundle 'kana/vim-vspec'
-NeoBundle 'kannokanno/previm'
 NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'koron/cmigemo'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'mattn/webapi-vim'
 NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
-NeoBundle 'nishigori/increment-activator'
 NeoBundle 'othree/html5.vim'
-NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'rhysd/neco-ruby-keyword-args', {'depends': ['Shougo/neocomplete']}
 NeoBundle 'rhysd/vim-textobj-ruby',       {'depends': ['kana/vim-textobj-user']}
 NeoBundle 'ryanoasis/vim-webdevicons'
-NeoBundle 't9md/vim-quickhl'
-NeoBundle 't9md/vim-choosewin'
-NeoBundle 'thinca/vim-fontzoom'
-NeoBundle 'thinca/vim-prettyprint'
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'tpope/vim-endwise'
-NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-repeat'
-"NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'delphinus35/vim-unimpaired'
-NeoBundle 'tyru/open-browser-github.vim', {'depends': ['tyru/open-browser.vim']}
-NeoBundle 'vim-jp/vimdoc-ja'
-NeoBundle 'vim-jp/vital.vim'
-NeoBundle 'vim-scripts/AnsiEsc.vim'
+NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-scripts/HiColors'
-NeoBundle 'vim-scripts/LineJuggler', {'depends': ['vim-scripts/ingo-library']}
+NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
-NeoBundle 'vim-scripts/visualrepeat'
 
+NeoBundle 'osyo-manga/vim-watchdogs', {'depends': [
+      \   'Shougo/vimproc.vim',
+      \   'dannyob/quickfixstatus',
+      \   'cohama/vim-hier',
+      \   'osyo-manga/shabadou.vim',
+      \   'thinca/vim-quickrun',
+      \ ]}
+
+NeoBundle 'vim-scripts/LineJuggler', {'depends': [
+      \   'vim-scripts/ingo-library',
+      \   'tpope/vim-repeat',
+      \   'vim-scripts/visualrepeat',
+      \ ]}
 " }}}
+
+" プラグイン（遅延ロード） {{{
+NeoBundleLazy 'Shougo/vimfiler',           {'depends': ['Shougo/vimproc.vim'], 'on_source': 'unite.vim'}
+NeoBundleLazy 'Shougo/vimshell',           {'depends': ['Shougo/vimproc.vim']}
 
 NeoBundleLazy 'Shougo/unite.vim'
 
@@ -116,25 +98,54 @@ NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
+NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'delphinus35/qfixhowm']}
 NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'Shougo/vimfiler',           {'depends': ['Shougo/vimproc.vim'], 'on_source': 'unite.vim'}
-NeoBundleLazy 'Shougo/vimshell',           {'depends': ['Shougo/vimproc.vim']}
 
-NeoBundleLazy 'gregsexton/VimCalc',     {'autoload': {'commands':  ['Calc']}}
-NeoBundleLazy 'tyru/capture.vim',       {'autoload': {'commands':  ['Capture']}}
-NeoBundleLazy 'sjl/gundo.vim',          {'autoload': {'commands':  ['GundoToggle']}}
-NeoBundleLazy 'delphinus35/lcpeek.vim', {'autoload': {'commands':  ['PeekInput']}}
-NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim', {'autoload': {'filetypes': ['css']}}
-NeoBundleLazy 'csv.vim',                            {'autoload': {'filetypes': ['csv']}}
-NeoBundleLazy 'jelera/vim-javascript-syntax',       {'autoload': {'filetypes': ['javascript']}}
-NeoBundleLazy 'c9s/perlomni.vim',                   {'autoload': {'filetypes': ['perl']}}
-NeoBundleLazy 'catalinciurea/perl-nextmethod',      {'autoload': {'filetypes': ['perl']}}
-NeoBundleLazy 'delphinus35/perl-test-base.vim',     {'autoload': {'filetypes': ['perl']}}
-NeoBundleLazy 'vim-perl/vim-perl',                  {'autoload': {'filetypes': ['perl']}}
-"NeoBundle 'aklt/plantuml-syntax'
-NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'autoload': {'filetypes': ['markdown', 'plantuml']}}
-NeoBundleLazy 'tpope/vim-capslock', {'autoload': {'mappings': ['i', '<Plug>CapsLockToggle']}}
+NeoBundleLazy 'vim-jp/vital.vim'
+NeoBundleLazy 'vim-jp/vimdoc-ja'
+
+NeoBundleLazy 'tyru/open-browser-github.vim', {'depends': ['tyru/open-browser.vim']}
+
+NeoBundleLazy 'Shougo/vinarise.vim',     {'commands': ['Vinarise']}
+NeoBundleLazy 'delphinus35/lcpeek.vim',  {'commands': ['PeekInput']}
+NeoBundleLazy 'gregsexton/VimCalc',      {'commands': ['Calc']}
+NeoBundleLazy 'kannokanno/previm',       {'commands': ['PreVimOpen']}
+NeoBundleLazy 'sjl/gundo.vim',           {'commands': ['GundoToggle']}
+NeoBundleLazy 'thinca/vim-prettyprint',  {'commands': ['PP', 'PrettyPrint']}
+NeoBundleLazy 'tyru/capture.vim',        {'commands': ['Capture']}
+NeoBundleLazy 'vim-scripts/AnsiEsc.vim', {'commands': ['AnsiEsc']}
+
+NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim',            {'filetypes': ['css']}
+NeoBundleLazy 'c9s/perlomni.vim',                              {'filetypes': ['perl']}
+NeoBundleLazy 'catalinciurea/perl-nextmethod',                 {'filetypes': ['perl']}
+NeoBundleLazy 'csv.vim',                                       {'filetypes': ['csv']}
+NeoBundleLazy 'delphinus35/perl-test-base.vim',                {'filetypes': ['perl']}
+NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'filetypes': ['markdown', 'plantuml']}
+NeoBundleLazy 'jelera/vim-javascript-syntax',                  {'filetypes': ['javascript']}
+NeoBundleLazy 'vim-perl/vim-perl',                             {'filetypes': ['perl']}
+
+NeoBundleLazy 'LeafCage/yankround.vim',       {'mappings': ['<Plug>(yankround-']}
+NeoBundleLazy 'Lokaltog/vim-easymotion',      {'mappings': ['<Plug>(easymotion-']}
+NeoBundleLazy 'delphinus35/open-github-link', {'mappings': ['<Plug>(open-github-link']}
+NeoBundleLazy 'delphinus35/qfixhowm',         {'mappings': ['g,c']}
+NeoBundleLazy 'junegunn/vim-easy-align',      {'mappings': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
+NeoBundleLazy 'tpope/vim-capslock',           {'mappings': ['i', '<Plug>CapsLockToggle']}
+NeoBundleLazy 't9md/vim-quickhl',             {'mappings': ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']}
+NeoBundleLazy 't9md/vim-choosewin',           {'mappings': ['<Plug>(choosewin)']}
+NeoBundleLazy 'thinca/vim-fontzoom',          {'mappings': ['<Plug>(fontzoom-'], 'commands': ['Fontzoom']}
+
+NeoBundleLazy 'tpope/vim-endwise', {
+      \ 'filetypes': [
+      \   'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet',
+      \   'aspvbs', 'vim', 'c', 'cpp', 'xdefaults', 'objc', 'matlab',
+      \ ]}
+NeoBundleLazy 'thinca/vim-ref', {
+      \ 'depends': ['Shougo/unite.vim'],
+      \ 'autoload': {
+      \   'commands': ['Ref'],
+      \   'unite_sources': 'ref',
+      \ }}
 NeoBundleLazy 'lambdalisue/vim-gista', {
       \ 'depends': ['Shougo/unite.vim', 'tyru/open-browser.vim'],
       \ 'autoload': {
@@ -142,48 +153,19 @@ NeoBundleLazy 'lambdalisue/vim-gista', {
       \   'mappings': '<Plug>(gista-',
       \   'unite_sources': 'gista',
       \ }}
-NeoBundleLazy 'delphinus35/qfixhowm', {
-      \ 'autoload': {'mappings': 'g,c'}}
-NeoBundleLazy 'osyo-manga/unite-qfixhowm', {
-      \ 'depends': ['delphinus35/qfixhowm', 'Shougo/unite.vim']}
-NeoBundleLazy 'LeafCage/yankround.vim', {'mappings': '<Plug>(yankround-'}
-NeoBundleLazy 'Lokaltog/vim-easymotion', {'mappings': '<Plug>(easymotion-'}
-NeoBundleLazy 'Shougo/vinarise.vim'
-NeoBundleLazy 'delphinus35/open-github-link', {'mappings': '<Plug>(open-github-link'}
-NeoBundleLazy 'junegunn/vim-easy-align', {'mappings': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
-
-" TweetVim
-NeoBundleLazy 'basyura/TweetVim', {'depends': [
-    \   'basyura/bitly.vim',
-    \   'basyura/twibill.vim',
-    \ ],
-    \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
+NeoBundleLazy 'basyura/TweetVim', {
+      \ 'depends': ['basyura/bitly.vim', 'basyura/twibill.vim'],
+      \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
+" }}}
 
 " Mac 専用
 if has('macunix')
   NeoBundle 'msanders/cocoa.vim'
-  NeoBundle 'troydm/pb.vim'
-  NeoBundle 'rizzatti/dash.vim'
-
+  NeoBundleLazy 'troydm/pb.vim',     {'commands': ['Pbyank', 'Pbpaste', 'PbPaste']}
+  NeoBundleLazy 'rizzatti/dash.vim', {'commands': ['Dash']}
 else
-  NeoBundle 'rkitover/vimpager'
+  NeoBundleLazy 'rkitover/vimpager'
 endif
-
-" Powerline がうまく動かないとき用
-if filereadable(g:home . '/.no-powerline')
-  NeoBundle 'bling/vim-airline'
-endif
-
-" github にないプラグイン
-command! -nargs=1
-      \ MyNeoBundle
-      \ NeoBundle <args>, {
-      \   'base': g:mybundle_dir,
-      \   'type': 'nosync',
-      \   'lazy': 1,
-      \ }
-
-MyNeoBundle 'briofita'
 
 if has('vim_starting')
   execute 'set runtimepath+=' . g:home

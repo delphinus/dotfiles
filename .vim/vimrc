@@ -67,6 +67,8 @@ call s:load_rc('github-issues')       " github-issues 設定
 call s:load_rc('numbers')             " numbers 設定
 call s:load_rc('webdevicons')         " webdevicons 設定
 call s:load_rc('open_github_link')    " open_github_link 設定
+call s:load_rc('fontzoom')            " fontzoom 設定
+call s:load_rc('hicolors')            " hicolors 設定
 
 " 遅延ロード {{{
 call s:load_bundle_rc('qfixhowm')     " QFixMemo 設定
