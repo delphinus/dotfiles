@@ -32,13 +32,13 @@ call s:load_rc('term')                " ターミナル固有の設定
 call s:load_rc('functions')           " ユーティリティ関数
 
 call s:load_rc('unite_initial')       " Unite 初期設定
+call s:load_rc('vimfiler_initial')    " VimFiler 初期設定
+call s:load_rc('vimshell_initial')    " VimShell 初期設定
 call s:load_rc('matchit')             " matchit 設定
 call s:load_rc('quickrun')            " QuickRun 設定
 call s:load_rc('perl')                " Perl 設定
 call s:load_rc('ref')                 " Ref 設定
 call s:load_rc('netrw')               " Netrw 設定
-call s:load_rc('vimfiler')            " VimFiler 設定
-call s:load_rc('vimshell')            " VimShell 設定
 call s:load_rc('jpformat')            " JpFormat 設定
 call s:load_rc('tweetvim')            " TweetVim 設定
 call s:load_rc('easymotion')          " EasyMotion 設定
@@ -71,6 +71,8 @@ call s:load_rc('webdevicons')         " webdevicons 設定
 call s:load_bundle_rc('qfixhowm')     " QFixMemo 設定
 call s:load_bundle_rc('unite.vim')    " Unite 設定
 call s:load_bundle_rc('unite-ghq')    " unite-ghq 設定
+call s:load_bundle_rc('vimfiler')     " VimFiler 設定
+call s:load_bundle_rc('vimshell')     " VimShell 設定
 "}}}
 
 if has('macunix')

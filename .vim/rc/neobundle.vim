@@ -47,8 +47,6 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
 
 " プラグイン（github） {{{
 
-NeoBundle 'Shougo/vimfiler',              {'depends': ['Shougo/vimproc.vim']}
-NeoBundle 'Shougo/vimshell',              {'depends': ['Shougo/vimproc.vim']}
 NeoBundle 'osyo-manga/vim-watchdogs',     {'depends': [
             \   'Shougo/vimproc.vim',
             \   'dannyob/quickfixstatus',
@@ -127,6 +125,8 @@ NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
 NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/vimfiler',           {'depends': ['Shougo/vimproc.vim'], 'on_source': 'unite.vim'}
+NeoBundleLazy 'Shougo/vimshell',           {'depends': ['Shougo/vimproc.vim']}
 
 NeoBundleLazy 'gregsexton/VimCalc',     {'autoload': {'commands':  ['Calc']}}
 NeoBundleLazy 'tyru/capture.vim',       {'autoload': {'commands':  ['Capture']}}
