@@ -47,18 +47,6 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
 
 " プラグイン（github） {{{
 
-NeoBundle 'Kocha/vim-unite-tig',          {'depends': ['Shougo/unite.vim']}
-NeoBundle 'Shougo/neomru.vim',            {'depends': ['Shougo/unite.vim']}
-NeoBundle 'Shougo/neossh.vim',            {'depends': ['Shougo/unite.vim']}
-NeoBundle 'Shougo/tabpagebuffer.vim',     {'depends': ['Shougo/unite.vim']}
-NeoBundle 'Shougo/unite-outline',         {'depends': ['Shougo/unite.vim']}
-NeoBundle 'basyura/unite-rails',          {'depends': ['Shougo/unite.vim']}
-NeoBundle 'hakobe/unite-script-examples', {'depends': ['Shougo/unite.vim']}
-NeoBundle 'kannokanno/unite-dwm',         {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
-NeoBundle 'pasela/unite-webcolorname',    {'depends': ['Shougo/unite.vim']}
-NeoBundle 'rhysd/unite-ruby-require.vim', {'depends': ['Shougo/unite.vim']}
-NeoBundle 'tsukkee/unite-tag',            {'depends': ['Shougo/unite.vim']}
-
 NeoBundle 'Shougo/vimfiler',              {'depends': ['Shougo/vimproc.vim']}
 NeoBundle 'Shougo/vimshell',              {'depends': ['Shougo/vimproc.vim']}
 NeoBundle 'osyo-manga/vim-watchdogs',     {'depends': [
@@ -72,7 +60,6 @@ NeoBundle 'osyo-manga/vim-watchdogs',     {'depends': [
 NeoBundle 'LeafCage/yankround.vim'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vinarise.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
@@ -85,7 +72,6 @@ NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'delphinus35/plantuml-syntax', 'fix-for-isnot#'
 NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/open-github-link'
-NeoBundle 'delphinus35/unite-ghq'
 NeoBundle 'dsawardekar/wordpress.vim'
 NeoBundle 'fuenor/JpFormat.vim'
 "NeoBundle 'houtsnip/vim-emacscommandline'
@@ -108,7 +94,6 @@ NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'rhysd/neco-ruby-keyword-args', {'depends': ['Shougo/neocomplete']}
 NeoBundle 'rhysd/vim-textobj-ruby',       {'depends': ['kana/vim-textobj-user']}
 NeoBundle 'ryanoasis/vim-webdevicons'
-NeoBundle 'sorah/unite-bundler'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 't9md/vim-choosewin'
 NeoBundle 'thinca/vim-fontzoom'
@@ -131,6 +116,17 @@ NeoBundle 'vim-scripts/nginx.vim'
 NeoBundle 'vim-scripts/visualrepeat'
 
 " }}}
+
+NeoBundleLazy 'Shougo/unite.vim'
+
+NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
+NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
 
 NeoBundleLazy 'gregsexton/VimCalc',     {'autoload': {'commands':  ['Calc']}}
 NeoBundleLazy 'tyru/capture.vim',       {'autoload': {'commands':  ['Capture']}}
