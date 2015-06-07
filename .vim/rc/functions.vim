@@ -19,16 +19,6 @@ augroup QFixToggle
 augroup END
 
 "-----------------------------------------------------------------------------
-" Templte::Toolkit 設定
-autocmd BufNewFile,BufRead *.tt2 setf tt2html
-autocmd BufNewFile,BufRead *.tt setf tt2html
-
-"-----------------------------------------------------------------------------
-" Objective-C 設定
-autocmd BufNewFile,BufRead *.m setf objc
-autocmd BufNewFile,BufRead *.h setf objc
-
-"-----------------------------------------------------------------------------
 " カーソル下のシンタックスハイライト情報を得る
 " http://cohama.hateblo.jp/entry/2013/08/11/020849
 function! s:get_syn_id(transparent)
@@ -68,16 +58,3 @@ function! s:get_syn_info()
         \ " guibg: " . linkedSyn.guibg
 endfunction
 command! SyntaxInfo call s:get_syn_info()
-
-
-"-----------------------------------------------------------------------------
-" Javascript のたたみ込み
-autocmd FileType javascript call JavaScriptFold()
-
-"-----------------------------------------------------------------------------
-" matchit プラグイン
-source $VIMRUNTIME/macros/matchit.vim
-augroup matchit
-  autocmd!
-  autocmd FileType ruby let b:match_words = '\<\(module\|class\|def\|begin\|do\|if\|unless\|case\)\>:\<\(elsif\|when\|rescue\)\>:\<\(else\|ensure\)\>:\<end\>'
-augroup END
