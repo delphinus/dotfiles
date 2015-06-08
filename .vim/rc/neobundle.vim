@@ -52,7 +52,6 @@ NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
-NeoBundle 'rhysd/vim-textobj-ruby',       {'depends': ['kana/vim-textobj-user']}
 NeoBundle 'ryanoasis/vim-webdevicons'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'tpope/vim-rails'
@@ -132,6 +131,7 @@ NeoBundleLazy 'delphinus35/perl-test-base.vim',                {'filetypes': ['p
 NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'filetypes': ['markdown', 'plantuml']}
 NeoBundleLazy 'dsawardekar/wordpress.vim',                     {'filetypes': ['php']}
 NeoBundleLazy 'jelera/vim-javascript-syntax',                  {'filetypes': ['javascript']}
+NeoBundleLazy 'rhysd/vim-textobj-ruby',                        {'filetypes': ['ruby'], 'depends': ['kana/vim-textobj-user']}
 NeoBundleLazy 'supermomonga/neocomplete-rsense.vim',           {'filetypes': ['ruby'], 'insert': 1}
 NeoBundleLazy 'vim-perl/vim-perl',                             {'filetypes': ['perl']}
 
