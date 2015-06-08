@@ -175,9 +175,9 @@ NeoBundleLazy 'basyura/TweetVim', {
 
 " Mac 専用
 if has('macunix')
-  NeoBundle 'msanders/cocoa.vim'
-  NeoBundleLazy 'troydm/pb.vim',     {'commands': ['Pbyank', 'Pbpaste', 'PbPaste']}
-  NeoBundleLazy 'rizzatti/dash.vim', {'commands': ['Dash'], 'gui': 1}
+  NeoBundleLazy 'msanders/cocoa.vim', {'filetypes': ['objc']}
+  NeoBundleLazy 'troydm/pb.vim',      {'commands': ['Pbyank', 'Pbpaste', 'PbPaste']}
+  NeoBundleLazy 'rizzatti/dash.vim',  {'commands': ['Dash'], 'gui': 1}
 else
   NeoBundleLazy 'rkitover/vimpager'
 endif
