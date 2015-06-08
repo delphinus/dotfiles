@@ -37,16 +37,11 @@ NeoBundle 'Shougo/vimproc.vim', {'build': {
       \ }}
 
 " プラグイン {{{
-NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'ap/vim-css-color'
-NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'delphinus35/vim-emacscommandline'
 NeoBundle 'delphinus35/vim-unimpaired'
-NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
-NeoBundle 'kana/vim-vspec'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
@@ -54,7 +49,6 @@ NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'ryanoasis/vim-webdevicons'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
-NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'vim-scripts/applescript.vim'
@@ -116,6 +110,7 @@ NeoBundleLazy 'tyru/open-browser-github.vim', {'depends': ['tyru/open-browser.vi
 NeoBundleLazy 'Shougo/vinarise.vim',     {'commands': ['Vinarise']}
 NeoBundleLazy 'airblade/vim-rooter',     {'commands': ['Rooter']}
 NeoBundleLazy 'delphinus35/lcpeek.vim',  {'commands': ['PeekInput']}
+NeoBundleLazy 'fuenor/JpFormat.vim',     {'commands': ['JpFormatAll', 'JpJoinAll'], 'filetypes': ['howm_memo']}
 NeoBundleLazy 'gregsexton/VimCalc',      {'commands': ['Calc']}
 NeoBundleLazy 'kannokanno/previm',       {'commands': ['PreVimOpen']}
 NeoBundleLazy 'sjl/gundo.vim',           {'commands': ['GundoToggle']}
@@ -131,12 +126,14 @@ NeoBundleLazy 'delphinus35/perl-test-base.vim',                {'filetypes': ['p
 NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'filetypes': ['markdown', 'plantuml']}
 NeoBundleLazy 'dsawardekar/wordpress.vim',                     {'filetypes': ['php']}
 NeoBundleLazy 'jelera/vim-javascript-syntax',                  {'filetypes': ['javascript']}
+NeoBundleLazy 'kana/vim-vspec',                                {'filetypes': ['vim']}
 NeoBundleLazy 'rhysd/vim-textobj-ruby',                        {'filetypes': ['ruby'], 'depends': ['kana/vim-textobj-user']}
-NeoBundleLazy 'supermomonga/neocomplete-rsense.vim',           {'filetypes': ['ruby'], 'insert': 1}
+NeoBundleLazy 'tpope/vim-rails',                               {'filetypes': ['ruby']}
 NeoBundleLazy 'vim-perl/vim-perl',                             {'filetypes': ['perl']}
 
 NeoBundleLazy 'LeafCage/yankround.vim',       {'mappings': ['<Plug>(yankround-']}
 NeoBundleLazy 'Lokaltog/vim-easymotion',      {'mappings': ['<Plug>(easymotion-']}
+NeoBundleLazy 'chikatoike/concealedyank.vim', {'mappings': ['<Plug>(operator-concealedyank)']}
 NeoBundleLazy 'delphinus35/open-github-link', {'mappings': ['<Plug>(open-github-link']}
 NeoBundleLazy 'junegunn/vim-easy-align',      {'mappings': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
 NeoBundleLazy 'spolu/dwm.vim',                {'mappings': ['<Plug>DWM']}
@@ -145,6 +142,15 @@ NeoBundleLazy 't9md/vim-quickhl',             {'mappings': ['<Plug>(quickhl-', '
 NeoBundleLazy 't9md/vim-choosewin',           {'mappings': ['<Plug>(choosewin)']}
 NeoBundleLazy 'thinca/vim-fontzoom',          {'mappings': ['<Plug>(fontzoom-'], 'commands': ['Fontzoom'], 'gui': 1}
 
+NeoBundleLazy 'Shougo/neocomplete.vim', {'insert': 1}
+NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
+      \ 'depends':   ['Shougo/neocomplete.vim'],
+      \ 'filetypes': ['ruby'],
+      \ 'insert':    1,
+      \ }
+NeoBundleLazy 'ap/vim-css-color', {'filetypes': [
+      \ 'css', 'html', 'less', 'lua', 'moon', 'sass', 'scss', 'stylus', 'vim',
+      \ ]}
 NeoBundleLazy 'tpope/vim-endwise', {
       \ 'filetypes': [
       \   'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet',
