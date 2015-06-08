@@ -6,15 +6,10 @@ set ttimeoutlen=10
 
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
-nnoremap <S-CR> :simalt ~x<CR>
-nnoremap <C-CR> :simalt ~r<CR>
-nnoremap <S-C-CR> :simalt ~n<CR>
 " j 2 回で ESC
 inoremap jj <Esc>
 " k 2 回で ESC
 inoremap kk <Esc>
-" Gundo
-nnoremap <F5> :GundoToggle<CR>
 " Mac OSXでのvim環境整理。.vimrcやらオヌヌメPlug inやらまとめ。
 " http://d.hatena.ne.jp/yuroyoro/20101104/1288879591
 "Escの2回押しでハイライト消去
