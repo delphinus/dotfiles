@@ -22,3 +22,4 @@ history.sqlite
 /.config/powerline/ext/segments/local_perl.py
 /bin/fssh_env
 /bin/local_perl.sh
+.ruby-version
