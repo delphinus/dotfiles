@@ -61,7 +61,7 @@ NeoBundle 'othree/html5.vim'
 NeoBundle 'rhysd/neco-ruby-keyword-args', {'depends': ['Shougo/neocomplete']}
 NeoBundle 'rhysd/vim-textobj-ruby',       {'depends': ['kana/vim-textobj-user']}
 NeoBundle 'ryanoasis/vim-webdevicons'
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/Sunset'
