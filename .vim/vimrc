@@ -51,7 +51,6 @@ call s:load_rc('javascript')          " javascript 設定
 call s:load_rc('easyalign')           " EasyAlign 設定
 call s:load_rc('gitgutter')           " gitgutter 設定
 call s:load_rc('pb')                  " pb.vim 設定
-call s:load_rc('neocomplete')         " neocomplete 設定
 call s:load_rc('quickhl')             " quickhl 設定
 call s:load_rc('choosewin')           " choosewin 設定
 call s:load_rc('yankround')           " choosewin 設定
@@ -75,6 +74,7 @@ call s:load_bundle_rc('unite.vim')    " Unite 設定
 call s:load_bundle_rc('unite-ghq')    " unite-ghq 設定
 call s:load_bundle_rc('vimfiler')     " VimFiler 設定
 call s:load_bundle_rc('vimshell')     " VimShell 設定
+call s:load_bundle_rc('neocomplete.vim') " neocomplete 設定
 "}}}
 
 if has('macunix')
