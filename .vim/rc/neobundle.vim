@@ -143,21 +143,20 @@ NeoBundleLazy 'tpope/vim-endwise', {
       \   'aspvbs', 'vim', 'c', 'cpp', 'xdefaults', 'objc', 'matlab',
       \ ]}
 NeoBundleLazy 'thinca/vim-ref', {
-      \ 'depends': ['Shougo/unite.vim'],
-      \ 'autoload': {
-      \   'commands': ['Ref'],
-      \   'unite_sources': 'ref',
-      \ }}
+      \ 'depends':       ['Shougo/unite.vim'],
+      \ 'commands':      ['Ref'],
+      \ 'unite_sources': 'ref',
+      \ }
 NeoBundleLazy 'lambdalisue/vim-gista', {
-      \ 'depends': ['Shougo/unite.vim', 'tyru/open-browser.vim'],
-      \ 'autoload': {
-      \   'commands': ['Gista'],
-      \   'mappings': '<Plug>(gista-',
-      \   'unite_sources': 'gista',
-      \ }}
+      \ 'depends':       ['Shougo/unite.vim', 'tyru/open-browser.vim'],
+      \ 'commands':      ['Gista'],
+      \ 'mappings':      '<Plug>(gista-',
+      \ 'unite_sources': 'gista',
+      \ }
 NeoBundleLazy 'basyura/TweetVim', {
-      \ 'depends': ['basyura/bitly.vim', 'basyura/twibill.vim'],
-      \ 'autoload': {'commands': 'TweetVimHomeTimeLine'}}
+      \ 'depends':  ['basyura/bitly.vim', 'basyura/twibill.vim'],
+      \ 'commands': 'TweetVimHomeTimeLine',
+      \ }
 " }}}
 
 " Mac 専用
