@@ -135,7 +135,7 @@ NeoBundleLazy 'spolu/dwm.vim',                {'mappings': ['<Plug>DWM']}
 NeoBundleLazy 'tpope/vim-capslock',           {'mappings': ['i', '<Plug>CapsLockToggle']}
 NeoBundleLazy 't9md/vim-quickhl',             {'mappings': ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']}
 NeoBundleLazy 't9md/vim-choosewin',           {'mappings': ['<Plug>(choosewin)']}
-NeoBundleLazy 'thinca/vim-fontzoom',          {'mappings': ['<Plug>(fontzoom-'], 'commands': ['Fontzoom']}
+NeoBundleLazy 'thinca/vim-fontzoom',          {'mappings': ['<Plug>(fontzoom-'], 'commands': ['Fontzoom'], 'gui': 1}
 
 NeoBundleLazy 'tpope/vim-endwise', {
       \ 'filetypes': [
@@ -164,7 +164,7 @@ NeoBundleLazy 'basyura/TweetVim', {
 if has('macunix')
   NeoBundle 'msanders/cocoa.vim'
   NeoBundleLazy 'troydm/pb.vim',     {'commands': ['Pbyank', 'Pbpaste', 'PbPaste']}
-  NeoBundleLazy 'rizzatti/dash.vim', {'commands': ['Dash']}
+  NeoBundleLazy 'rizzatti/dash.vim', {'commands': ['Dash'], 'gui': 1}
 else
   NeoBundleLazy 'rkitover/vimpager'
 endif
