@@ -53,7 +53,6 @@ NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
-NeoBundle 'rhysd/neco-ruby-keyword-args', {'depends': ['Shougo/neocomplete']}
 NeoBundle 'rhysd/vim-textobj-ruby',       {'depends': ['kana/vim-textobj-user']}
 NeoBundle 'ryanoasis/vim-webdevicons'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
@@ -133,6 +132,7 @@ NeoBundleLazy 'csv.vim',                                       {'filetypes': ['c
 NeoBundleLazy 'delphinus35/perl-test-base.vim',                {'filetypes': ['perl']}
 NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'filetypes': ['markdown', 'plantuml']}
 NeoBundleLazy 'jelera/vim-javascript-syntax',                  {'filetypes': ['javascript']}
+NeoBundleLazy 'supermomonga/neocomplete-rsense.vim',           {'filetypes': ['ruby'], 'insert': 1}
 NeoBundleLazy 'vim-perl/vim-perl',                             {'filetypes': ['perl']}
 
 NeoBundleLazy 'LeafCage/yankround.vim',       {'mappings': ['<Plug>(yankround-']}
