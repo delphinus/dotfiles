@@ -1,11 +1,9 @@
-" シェルの位置を元に戻す
-if is_win
-  set shell=$SYSTEMROOT\system32\cmd.exe
-endif
-
 "===============================================================================
 " NeoBundle 設定開始
 "===============================================================================
+
+" Note: Skip initialization for vim-tiny or vim-small.
+if !1 | finish | endif
 
 " プラグイン保存パス
 let g:bundle_dir    = g:home       . '/.vim/bundle'
@@ -33,13 +31,10 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Set vimproc
 NeoBundle 'Shougo/vimproc.vim', {'build': {
-    \   'cygwin': 'make -f make_cygwin.mak',
-    \   'mac': 'make -f make_mac.mak',
-    \   'unix': 'make -f make_unix.mak',
-    \   },
-    \ }
-
-
+      \   'cygwin': 'make -f make_cygwin.mak',
+      \   'mac':    'make -f make_mac.mak',
+      \   'unix':   'make -f make_unix.mak',
+      \ }}
 
 " プラグイン {{{
 NeoBundle 'Shougo/neocomplete.vim'
