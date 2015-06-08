@@ -31,9 +31,6 @@ call neobundle#begin(expand(g:bundle_dir))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Use neobundle standard recipes.
-NeoBundle 'Shougo/neobundle-vim-recipes'
-
 " Set vimproc
 NeoBundle 'Shougo/vimproc.vim', {'build': {
     \   'cygwin': 'make -f make_cygwin.mak',
@@ -98,9 +95,13 @@ NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim'], 'on_source': ['unite.vim']}
-NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'delphinus35/qfixhowm']}
 NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'osyo-manga/unite-qfixhowm', {
+      \ 'depends': [
+      \   'Shougo/unite.vim',
+      \   ['delphinus35/qfixhowm', {'mappings': ['g,c', 'g,m']}],
+      \ ]}
 
 NeoBundleLazy 'vim-jp/vital.vim'
 NeoBundleLazy 'vim-jp/vimdoc-ja'
@@ -129,7 +130,6 @@ NeoBundleLazy 'vim-perl/vim-perl',                             {'filetypes': ['p
 NeoBundleLazy 'LeafCage/yankround.vim',       {'mappings': ['<Plug>(yankround-']}
 NeoBundleLazy 'Lokaltog/vim-easymotion',      {'mappings': ['<Plug>(easymotion-']}
 NeoBundleLazy 'delphinus35/open-github-link', {'mappings': ['<Plug>(open-github-link']}
-NeoBundleLazy 'delphinus35/qfixhowm',         {'mappings': ['g,c', 'g,m']}
 NeoBundleLazy 'junegunn/vim-easy-align',      {'mappings': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
 NeoBundleLazy 'spolu/dwm.vim',                {'mappings': ['<Plug>DWM']}
 NeoBundleLazy 'tpope/vim-capslock',           {'mappings': ['i', '<Plug>CapsLockToggle']}
