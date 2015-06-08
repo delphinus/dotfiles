@@ -84,8 +84,21 @@ NeoBundle 'vim-scripts/LineJuggler', {'depends': [
 " }}}
 
 " プラグイン（遅延ロード） {{{
-NeoBundleLazy 'Shougo/vimfiler',           {'depends': ['Shougo/vimproc.vim'], 'on_source': 'unite.vim'}
-NeoBundleLazy 'Shougo/vimshell',           {'depends': ['Shougo/vimproc.vim']}
+NeoBundleLazy 'Shougo/vimfiler', {
+      \ 'depends': ['Shougo/vimproc.vim'],
+      \ 'commands': [
+      \   {'name': 'VimFiler', 'complete': 'customlist,vimfiler#complete'},
+      \   'VimFilerExplorer', 'Edit', 'Read', 'Source', 'Write',
+      \ ],
+      \ 'on_source': 'unite.vim',
+      \ 'explorer': 1,
+      \ }
+NeoBundleLazy 'Shougo/vimshell', {
+      \ 'depends': ['Shougo/vimproc.vim'],
+      \ 'commands': [
+      \   {'name': 'VimShell', 'complete': 'customlist,vimshell#complete'},
+      \   'VimShellExecute', 'VimShellInteractive', 'VimShellTerminal', 'VimShellPop',
+      \ ]}
 
 NeoBundleLazy 'Shougo/unite.vim'
 
