@@ -44,7 +44,6 @@ NeoBundle 'chikatoike/concealedyank.vim'
 NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'delphinus35/vim-emacscommandline'
 NeoBundle 'delphinus35/vim-unimpaired'
-NeoBundle 'dsawardekar/wordpress.vim'
 NeoBundle 'fuenor/JpFormat.vim'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 NeoBundle 'kana/vim-vspec'
@@ -131,6 +130,7 @@ NeoBundleLazy 'catalinciurea/perl-nextmethod',                 {'filetypes': ['p
 NeoBundleLazy 'csv.vim',                                       {'filetypes': ['csv']}
 NeoBundleLazy 'delphinus35/perl-test-base.vim',                {'filetypes': ['perl']}
 NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'filetypes': ['markdown', 'plantuml']}
+NeoBundleLazy 'dsawardekar/wordpress.vim',                     {'filetypes': ['php']}
 NeoBundleLazy 'jelera/vim-javascript-syntax',                  {'filetypes': ['javascript']}
 NeoBundleLazy 'supermomonga/neocomplete-rsense.vim',           {'filetypes': ['ruby'], 'insert': 1}
 NeoBundleLazy 'vim-perl/vim-perl',                             {'filetypes': ['perl']}
