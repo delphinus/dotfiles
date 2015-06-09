@@ -52,16 +52,10 @@ alias ptc='pt --color'
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
-export PATH="$H/Dropbox/bin:\
+export PATH="\
+$H/Dropbox/bin:\
 $H/bin:\
 $H/git/dotfiles/bin:\
-/usr/local/sbin:\
-/usr/local/bin:\
-/bin:\
-/usr/sbin:\
-/sbin:\
-/usr/bin:\
-/usr/X11/bin:\
 $PATH"
 
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
@@ -90,7 +84,7 @@ module_path=($module_path /usr/local/lib/zpython /usr/local/lib/zsh/5.0.5-dev-0/
 . $user_site/powerline/bindings/zsh/powerline.zsh
 
 # z
-if [ "$OS" = 'Darwin' ]; then
+if which brew > /dev/null; then
   . `brew --prefix`/etc/profile.d/z.sh
 elif [ -f /etc/profile.d/z.sh ]; then
   . /etc/profile.d/z.sh
@@ -100,9 +94,7 @@ fi
 
 # grc
 if which brew > /dev/null; then
-  if [ -f "`brew --prefix`/etc/grc.bashrc" ]; then
-    . "`brew --prefix`/etc/grc.bashrc"
-  fi
+  . "`brew --prefix`/etc/grc.bashrc"
 elif [ -f '/etc/profile.d/grc.bashrc' ]; then
   . /etc/profile.d/grc.bashrc
   export MANPATH=/usr/local/share/man:$MANPATH
