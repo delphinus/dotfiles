@@ -11,29 +11,28 @@ else
   let g:home = expand('~')
 endif
 
-let g:vim_home = g:home . '/.vim'
+let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
+let g:source_dir = g:vim_home . '/rc'
 
-" シェルの位置を元に戻す
-if is_win
-  set shell=$SYSTEMROOT\system32\cmd.exe
-endif
-
-" NeoBundle 設定開始
+" Note: Skip initialization for vim-tiny or vim-small.
+if !1 | finish | endif
 
 " プラグイン保存パス
-let g:bundle_dir = g:home . '/.vim/bundle'
+let g:bundle_dir    = g:home       . '/.vim/bundle'
 let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
-let g:after_dir = g:home . '/.vim/after'
-
-" デフォルトプロトコル
-let g:neobundle#types#git#default_protocol='https'
+let g:after_dir     = g:home       . '/.vim/after'
 
 " NeoBundle へのパス
 if has('vim_starting')
-  set nocompatible               " Be iMproved
+  if &compatible
+    set nocompatible               " Be iMproved
+  endif
   execute 'set runtimepath-=' . g:home . '/.vim/'
   execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
+
+" デフォルトプロトコル
+let g:neobundle#types#git#default_protocol='https'
 
 " Required:
 call neobundle#begin(expand(g:bundle_dir))
@@ -45,19 +44,15 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Set vimproc
 NeoBundle 'Shougo/vimproc.vim', {'build': {
       \   'cygwin': 'make -f make_cygwin.mak',
-      \   'mac': 'make -f make_mac.mak',
-      \   'unix': 'make -f make_unix.mak',
-      \   },
-      \ }
+      \   'mac':    'make -f make_mac.mak',
+      \   'unix':   'make -f make_unix.mak',
+      \ }}
 
 NeoBundle 'rkitover/vimpager'
 
-NeoBundle 'airblade/vim-rooter'
 NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'morhetz/gruvbox'
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 
 if has('vim_starting')
   execute 'set runtimepath+=' . g:home
@@ -82,7 +77,6 @@ set t_Co=256
 set encoding=utf-8
 set termencoding=utf-8
 set hlsearch
-" ファイルエンコーディング
 if ! (has('gui_macvim') && has('kaoriya'))
   set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 endif
@@ -92,9 +86,7 @@ set undodir=/tmp
 set ttymouse=sgr
 set mouse=a
 set display=uhex
-set cursorline
 set clipboard=autoselectml
-set grepprg=ack
 set diffopt=filler,vertical,iwhite
 set synmaxcol=0
 set title
@@ -102,22 +94,11 @@ set titleold=bash
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=single
 set list                 " 空白の可視化
-set listchars=tab:▸\ ,trail:␣,eol:⤸,extends:»,precedes:«,nbsp:¯
+set listchars=tab:›\ ,trail:␣,eol:⤸,extends:»,precedes:«,nbsp:¯
 set tabstop=2       " 画面上でタブ文字が占める幅
 set softtabstop=2   " タブキーやバックスペースキーでカーソルが動く幅
 set shiftwidth=2    " 自動インデントや <<, >> でずれる幅
 set laststatus=0
-
-
-"-----------------------------------------------------------------------------
-" ヘルプ
-function! s:VertHelp(word)
-  exec 'vertical help ' . a:word
-  exec 'vertical resize 80'
-  exec 'setl wfw'
-endfunction
-command! -nargs=? H call s:VertHelp(<f-args>)
-autocmd FileType help nnoremap <buffer>q :q<CR>
 
 "-----------------------------------------------------------------------------
 " Teamplte::Toolkit 設定
