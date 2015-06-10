@@ -149,3 +149,5 @@ endif
 call unite#custom#source('file', 'converters', custom_filters)
 call unite#custom#source('buffer_tab', 'converters', custom_filters)
 call unite#custom#source('dwm', 'converters', custom_filters)
+
+call unite#custom#default_action('source/bundler/directory', 'file')
