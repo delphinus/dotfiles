@@ -9,7 +9,9 @@ def local_perl(pl, segment_info, format='{app}:{version}'):
 	if segment_info['environ'].get('HOST') not in {{ secret_office.hostnames | pprint }}:
 		return None
 	version = segment_info['environ'].get('PERLBREW_PERL')
-	version = 'not_switch' if version is None else re.sub('perl-', '', version)
+	if version is None:
+		return None
+	version = re.sub('perl-', '', version)
 	app = segment_info['environ'].get('{{ secret_local_perl_app }}') or 'system'
 	return [{
 		'contents': format.format(version=version, app=app),
