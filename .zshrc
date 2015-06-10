@@ -7,6 +7,7 @@ source $H/git/dotfiles/.zsh/peco-select-history.zsh
 source $H/git/dotfiles/.zsh/peco-git.zsh
 source $H/git/dotfiles/.zsh/peco-ghq.zsh
 source $H/git/dotfiles/.zsh/peco-z.zsh
+source $H/git/dotfiles/.zsh/peco-bundler.zsh
 source $H/git/dotfiles/bin/set-ssh-auth-sock.sh
 
 if [ "$H" != "$HOME" ]; then
@@ -73,12 +74,12 @@ fi
 
 # powerline
 if [ "$OS" = 'Darwin' ]; then
-  user_site=`/usr/bin/python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
-  user_base=`/usr/bin/python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
+  python=/usr/bin/python
 else
-  user_site=`python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
-  user_base=`python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
+  python=python
 fi
+user_site=`$python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
+user_base=`$python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
 export PATH=$user_base/bin:$PATH
 module_path=($module_path /usr/local/lib/zpython /usr/local/lib/zsh/5.0.5-dev-0/zsh)
 . $user_site/powerline/bindings/zsh/powerline.zsh
