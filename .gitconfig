@@ -33,6 +33,7 @@
 	st = status -sb
 	po = pull origin master
 	pu = !git push origin `git rev-parse --abbrev-ref HEAD`
+	rl = rev-list --pretty --oneline
 [diff]
 	algorithm = histogram
 	renames = true
