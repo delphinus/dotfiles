@@ -48,6 +48,7 @@ NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'ryanoasis/vim-webdevicons'
+NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/Sunset'
