@@ -25,6 +25,8 @@ let g:neobundle#types#git#default_protocol='https'
 " Required:
 call neobundle#begin(expand(g:bundle_dir))
 
+let g:neobundle#default_options._ = {'verbose': 1}
+
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -89,20 +91,33 @@ NeoBundleLazy 'Shougo/vimshell', {
 
 NeoBundleLazy 'Shougo/unite.vim'
 
-NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
-NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'osyo-manga/unite-qfixhowm', {
-      \ 'depends': [
-      \   'Shougo/unite.vim',
-      \   ['delphinus35/qfixhowm', {'mappings': ['g,c', 'g,m']}],
-      \ ]}
+NeoBundleLazy 'Kocha/vim-unite-tig',        {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/neomru.vim',          {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/unite-outline',       {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'basyura/unite-rails',        {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'delphinus35/unite-ghq',      {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'kannokanno/unite-dwm',       {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
+NeoBundleLazy 'pasela/unite-webcolorname',  {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'sorah/unite-bundler',        {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'tsukkee/unite-tag',          {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'delphinus35/unite-qfixhowm', {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'delphinus35/qfixhowm'
+
+if neobundle#tap('qfixhowm')
+  call neobundle#config({
+        \ 'autoload': {
+        \   'mappings': ['g,m', 'g,c'],
+        \ }})
+  call neobundle#untap()
+endif
+
+if neobundle#tap('unite-qfixhowm')
+  call neobundle#config({
+        \ 'autoload': {
+        \   'on_source': ['qfixhowm'],
+        \ }})
+  call neobundle#untap()
+endif
 
 NeoBundleLazy 'vim-jp/vital.vim'
 NeoBundleLazy 'vim-jp/vimdoc-ja'
