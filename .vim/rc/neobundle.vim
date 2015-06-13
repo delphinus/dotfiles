@@ -91,16 +91,16 @@ NeoBundleLazy 'Shougo/vimshell', {
 
 NeoBundleLazy 'Shougo/unite.vim'
 
-NeoBundleLazy 'Kocha/vim-unite-tig',        {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'Shougo/neomru.vim',          {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'Shougo/unite-outline',       {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'basyura/unite-rails',        {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'delphinus35/unite-ghq',      {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'kannokanno/unite-dwm',       {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
-NeoBundleLazy 'pasela/unite-webcolorname',  {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'sorah/unite-bundler',        {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'tsukkee/unite-tag',          {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'delphinus35/unite-qfixhowm', {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
+NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'delphinus35/qfixhowm'
 
 if neobundle#tap('qfixhowm')
