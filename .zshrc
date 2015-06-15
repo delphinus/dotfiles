@@ -8,6 +8,7 @@ source $H/git/dotfiles/.zsh/peco-git.zsh
 source $H/git/dotfiles/.zsh/peco-ghq.zsh
 source $H/git/dotfiles/.zsh/peco-z.zsh
 source $H/git/dotfiles/.zsh/peco-bundler.zsh
+source $H/git/dotfiles/.zsh/peco-brew-directories.zsh
 source $H/git/dotfiles/bin/set-ssh-auth-sock.sh
 
 if [ "$H" != "$HOME" ]; then
