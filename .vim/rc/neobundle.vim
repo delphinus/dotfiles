@@ -101,7 +101,7 @@ NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'delphinus35/qfixhowm'
+NeoBundleLazy 'fuenor/qfixhowm'
 
 if neobundle#tap('qfixhowm')
   call neobundle#config({
