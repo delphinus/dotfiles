@@ -33,12 +33,14 @@
 
   "MISC": "-------------------",
   "floating": [
+    "JuiceboxBuilder-Lite",
     "com.adobe.Acrobat.Pro",
     "com.adobe.Photoshop",
     "com.agilebits.onepassword4",
     "com.apple.FontBook",
     "com.apple.Preview",
     "com.apple.appstore",
+    "com.apple.finder",
     "com.apple.iBooksX",
     "com.apple.iChat",
     "com.apple.iTunes",
