@@ -6,8 +6,8 @@
   ],
 
   "MODIFIERS": "-------------------",
-  "mod1": ["control", "command"],
-  "mod2": ["shift", "control", "command"],
+  "mod1": ["option"],
+  "mod2": ["option", "command"],
 
   "COMMANDS": "-------------------",
   "focus-ccw": {
@@ -25,6 +25,10 @@
   "swap-cw": {
     "mod": "mod2",
     "key": "j"
+  },
+  "cycle-layout": {
+    "mod": "mod2",
+    "key": "space"
   },
 
   "MISC": "-------------------",
