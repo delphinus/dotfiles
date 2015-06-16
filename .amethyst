@@ -66,5 +66,7 @@
     "org.virtualbox.app.VirtualBoxVM"
   ],
   "mouse-follows-focus": true,
-  "focus-follows-mouse": false
+  "focus-follows-mouse": false,
+
+  "MODELINE": " vim:se ft=json: "
 }
