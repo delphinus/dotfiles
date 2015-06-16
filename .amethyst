@@ -10,6 +10,22 @@
   "mod2": ["option", "command"],
 
   "COMMANDS": "-------------------",
+  "focus-screen-1": {
+    "mod": "mod1",
+    "key": "q"
+  },
+  "focus-screen-2": {
+    "mod": "mod1",
+    "key": "w"
+  },
+  "throw-screen-1": {
+    "mod": "mod2",
+    "key": "q"
+  },
+  "throw-screen-2": {
+    "mod": "mod2",
+    "key": "w"
+  },
   "focus-ccw": {
     "mod": "mod1",
     "key": "k"
