@@ -293,24 +293,20 @@
       </item>
       <item>
         <name>For Slack shortcut</name>
-        <appendix>Option+J => move to the next channel</appendix>
-        <appendix>Option+K => move to the previous channel</appendix>
+        <appendix>Control+Option+J => move to the next channel</appendix>
+        <appendix>Control+Option+K => move to the previous channel</appendix>
         <appendix>Shift+Option+J => move to the next unread channel</appendix>
         <appendix>Shift+Option+K => move to the previous unread channel</appendix>
-        <appendix>Option+L => scroll to next page</appendix>
-        <appendix>Option+H => scroll to previous page</appendix>
-        <appendix>Shift+Option+L => move to the next channel in your history</appendix>
-        <appendix>Shift+Option+H => move to the previous channel in your history</appendix>
+        <appendix>Shift+Option+L => scroll to next page</appendix>
+        <appendix>Shift+Option+H => scroll to previous page</appendix>
         <identifier>private.app_slack_move_channel_with_command</identifier>
         <only>SLACK</only>
-        <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::OPTION_L,                        KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::OPTION_L,                        KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::OPTION_L,                        KeyCode::PAGEDOWN</autogen>
-        <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::OPTION_L,                        KeyCode::PAGEUP</autogen>
-        <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, KeyCode::BRACKET_LEFT,  ModifierFlag::COMMAND_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::OPTION_L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::OPTION_L, ModifierFlag::CONTROL_L, KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L,   KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L,   KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L,   KeyCode::PAGEDOWN</autogen>
+        <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L,   KeyCode::PAGEUP</autogen>
       </item>
       <item>
         <name>HHKish on the Macbook Air's internal kbd (vid/pid: 0x05ac, 0x0291)</name>
