@@ -46,6 +46,22 @@
     "mod": "mod2",
     "key": "space"
   },
+  "select-tall-layout": {
+    "mod": "mod2",
+    "key": "a"
+  },
+  "select-wide-layout": {
+    "mod": "mod2",
+    "key": "s"
+  },
+  "select-fullscreen-layout": {
+    "mod": "mod2",
+    "key": "d"
+  },
+  "select-column-layout": {
+    "mod": "mod2",
+    "key": "f"
+  },
 
   "MISC": "-------------------",
   "floating": [
