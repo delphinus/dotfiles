@@ -35,6 +35,8 @@
 	po = pull origin master
 	pu = !git push origin `git rev-parse --abbrev-ref HEAD`
 	rl = rev-list --pretty --oneline
+	cn = clean -dn
+	cf = clean -df
 [diff]
 	algorithm = histogram
 	renames = true
