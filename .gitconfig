@@ -10,13 +10,14 @@
 [grep]
 	lineNumber = true
 [alias]
-	ad = add
+	ad = !git add $@ && git st
 	br = branch
 	ca = commit --amend
 	caa = commit --amend --reuse-message HEAD
 	cm = commit
 	co = checkout
 	cp = cherry-pick
+	dc = diff --cached
 	di = diff -w --diff-algorithm=default
 	dp = diff -w --patience
 	dh = diff -w --histogram
