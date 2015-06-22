@@ -38,6 +38,7 @@
 	rl = rev-list --pretty --oneline
 	cn = clean -dn
 	cf = clean -df
+	pul = !git stash && git pull && git stash pop
 [diff]
 	algorithm = histogram
 	renames = true
