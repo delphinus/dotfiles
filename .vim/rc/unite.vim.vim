@@ -154,4 +154,18 @@ call unite#custom#source('buffer_tab', 'converters', s:custom_filters)
 call unite#custom#source('dwm', 'converters', s:custom_filters)
 "}}}
 
-call unite#custom#default_action('source/bundler/directory', 'file')
+" gista setting {{{
+let s:gista_action = {'is_selectable': 0}
+
+function! s:gista_action.func(candidate)
+  let gist = a:candidate.source__gist
+  let filename = a:candidate.source__filename
+  call gista#interface#yank_url_action(gist.id, filename)
+  let @* = @"
+endfunction
+
+call unite#custom#action('gista_file', 'yank_url_to_system_clipboard', s:gista_action)
+unlet s:gista_action
+"}}}
+
+" vim:se fdm=marker:
