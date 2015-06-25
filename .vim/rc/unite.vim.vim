@@ -159,12 +159,11 @@ let s:gista_action = {'is_selectable': 0}
 
 function! s:gista_action.func(candidate)
   let gist = a:candidate.source__gist
-  let filename = a:candidate.source__filename
-  call gista#interface#yank_url_action(gist.id, filename)
+  call gista#interface#yank_url_action(gist.id)
   let @* = @"
 endfunction
 
-call unite#custom#action('gista_file', 'yank_url_to_system_clipboard', s:gista_action)
+call unite#custom#action('gista', 'yank_url_to_system_clipboard', s:gista_action)
 unlet s:gista_action
 "}}}
 
