@@ -155,16 +155,21 @@ call unite#custom#source('dwm', 'converters', s:custom_filters)
 "}}}
 
 " gista setting {{{
-let s:gista_action = {'is_selectable': 0}
+if has('clipboard')
+  let s:gista_action = {
+        \ 'is_selectable': 0,
+        \ 'description': 'yank a gist url to system clipboard',
+        \ }
 
-function! s:gista_action.func(candidate)
-  let gist = a:candidate.source__gist
-  call gista#interface#yank_url_action(gist.id)
-  let @* = @"
-endfunction
+  function! s:gista_action.func(candidate)
+    let gist = a:candidate.source__gist
+    call gista#interface#yank_url_action(gist.id)
+    let @* = @"
+  endfunction
 
-call unite#custom#action('gista', 'yank_url_to_system_clipboard', s:gista_action)
-unlet s:gista_action
+  call unite#custom#action('gista', 'yank_url_to_system_clipboard', s:gista_action)
+  unlet s:gista_action
+endif
 "}}}
 
 " vim:se fdm=marker:
