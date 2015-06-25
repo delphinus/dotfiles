@@ -96,11 +96,17 @@ NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'kannokanno/unite-dwm',      {'depends': ['Shougo/unite.vim', 'spolu/dwm.vim']}
 NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim']}
+
+" enable on source unite.vim for `dwm_new` action
+NeoBundleLazy 'kannokanno/unite-dwm', {
+      \ 'depends':   ['Shougo/unite.vim', 'spolu/dwm.vim'],
+      \ 'on_source': ['unite.vim'],
+      \ }
+
 NeoBundleLazy 'fuenor/qfixhowm'
 
 if neobundle#tap('qfixhowm')
