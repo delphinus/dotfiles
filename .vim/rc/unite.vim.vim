@@ -155,7 +155,7 @@ call unite#custom#source('dwm', 'converters', s:custom_filters)
 "}}}
 
 " gista setting {{{
-if has('clipboard')
+if has('gui_running') && has('clipboard')
   let s:gista_action = {
         \ 'is_selectable': 0,
         \ 'description': 'yank a gist url to system clipboard',
