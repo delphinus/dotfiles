@@ -88,7 +88,10 @@ endif
 
 call neobundle#source('neomru.vim')
 
-let custom_filters = []
+call unite#custom#default_action('source/bundler/directory', 'file')
+
+" custom_filters {{{
+let s:custom_filters = []
 
 if neobundle#is_sourced('vim-webdevicons')
   let s:webdevicons = {'name': 'webdevicons'}
@@ -113,7 +116,7 @@ if neobundle#is_sourced('vim-webdevicons')
   endfunction
 
   call unite#define_filter(s:webdevicons)
-  let custom_filters = custom_filters + ['webdevicons']
+  let s:custom_filters = s:custom_filters + ['webdevicons']
 endif
 
 let s:dir_filter = {'name': 'dir_filter'}
@@ -126,7 +129,7 @@ function! s:dir_filter.filter(candidates, context)
   return a:candidates
 endfunction
 call unite#define_filter(s:dir_filter)
-let custom_filters = custom_filters + ['dir_filter']
+let s:custom_filters = s:custom_filters + ['dir_filter']
 
 function! MyUniq(list)
   let V = vital#of('vital')
@@ -141,13 +144,14 @@ endfunction
 
 let file_mru = unite#get_sources('file_mru')
 if has_key(file_mru, 'converters') && count(file_mru.converters, 'webdevicons') == 0
-  call unite#custom#source('file_mru', 'converters', MyUniq(file_mru.converters + custom_filters))
+  call unite#custom#source('file_mru', 'converters', MyUniq(file_mru.converters + s:custom_filters))
 else
-  call unite#custom#source('file_mru', 'converters', MyUniq(unite#sources#neomru#define()[0].converters + custom_filters))
+  call unite#custom#source('file_mru', 'converters', MyUniq(unite#sources#neomru#define()[0].converters + s:custom_filters))
 endif
 
-call unite#custom#source('file', 'converters', custom_filters)
-call unite#custom#source('buffer_tab', 'converters', custom_filters)
-call unite#custom#source('dwm', 'converters', custom_filters)
+call unite#custom#source('file', 'converters', s:custom_filters)
+call unite#custom#source('buffer_tab', 'converters', s:custom_filters)
+call unite#custom#source('dwm', 'converters', s:custom_filters)
+"}}}
 
 call unite#custom#default_action('source/bundler/directory', 'file')
