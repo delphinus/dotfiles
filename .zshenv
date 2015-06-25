@@ -39,7 +39,7 @@ if [ -d "$HOME/perl5" ]; then
 fi
 
 # for perlbrew
-if [ "$OS" = 'Darwin' -a -f $HOME/perl5/perlbrew/etc/bashrc ]; then
+if [ `uname` = 'Darwin' -a -f $HOME/perl5/perlbrew/etc/bashrc ]; then
   source $HOME/perl5/perlbrew/etc/bashrc
   source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
   alias perl='perl -I$HOME/perl5/lib/perl5'
