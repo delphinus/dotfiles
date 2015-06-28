@@ -17,6 +17,8 @@ added_setting = (ARGV[0] || `pbpaste`).split("\n").each_with_object [] do |line,
   end
 end
 
+raise 'floating_setting for adding cannot be found' unless added_setting.length > 0
+
 open(amethyst, 'w').write old_setting.sub floating_setting_re, <<EOF.chomp
   "floating": [
 #{floatings.sort.join("\n").sub /,\z/, ''}
