@@ -12,6 +12,9 @@ let perl_nofold_packages = 1
 unlet! perl_nofold_subs
 let perl_fold_anonymous_subs = 1
 
+let s:V = vital#of('vital')
+let s:Prelude = s:V.import('Prelude')
+
 set iskeyword-=-
 set iskeyword-=:
 if exists(':NeoCompleteIncludeMakeCache')
@@ -56,12 +59,13 @@ elseif filereadable(expand('$HOME/perl5/perlbrew/etc/bashrc'))
 
 " local_perl
 elseif executable(s:local_perl)
-  let s:pwd = getcwd()
+  let s:pwd = s:Prelude.path2project_directory(expand('%'))
   if ! exists('g:watchdogs_local_perl')
     let g:watchdogs_local_perl = {}
   endif
   if ! exists("g:watchdogs_local_perl['" . s:pwd . "']")
-    let g:watchdogs_local_perl[s:pwd]['local_perl'] = system(s:local_perl)
+    let g:watchdogs_local_perl[s:pwd] = {}
+    let g:watchdogs_local_perl[s:pwd]['local_perl'] = system(s:local_perl . ' ' . s:pwd)
     let g:watchdogs_local_perl[s:pwd]['perlpath'] = system(g:watchdogs_local_perl[s:pwd]['local_perl'] . s:print_perlpath)
   endif
   let g:perlpath = g:watchdogs_local_perl[s:pwd]['perlpath']
