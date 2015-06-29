@@ -1,13 +1,13 @@
 " QFixMemo 設定
-let g:dropbox_dir = expand(g:home . '/Dropbox')
+let g:dropbox_dir = isdirectory('/mnt/hgfs') ? '/mnt/hgfs/Dropbox' : expand(g:home . '/Dropbox')
 
 " キーマップリーダー
 let QFixHowm_Key='g'
 " ファイル保存用
-if len($H)
-    let howm_dir=expand('$H') . '/howm'
+if isdirectory(g:dropbox_dir)
+  let howm_dir = g:dropbox_dir . '/Documents/howm'
 else
-    let howm_dir=g:dropbox_dir . '/Documents/howm'
+  let howm_dir = expand('$H') . '/howm'
 endif
 
 " ファイル名
