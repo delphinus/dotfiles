@@ -1,3 +1,7 @@
+# 強力な補完を有効にする
+autoload -Uz compinit
+compinit
+
 # for python
 if [ -d '/usr/local/opt/pyenv' ]; then
   export PYENV_ROOT=/usr/local/opt/pyenv
