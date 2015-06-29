@@ -205,6 +205,10 @@ else
   NeoBundleLazy 'rkitover/vimpager'
 endif
 
+if ! has('macvim')
+  NeoBundle 'elzr/vim-json'
+endif
+
 if has('vim_starting')
   execute 'set runtimepath+=' . g:home
 endif
