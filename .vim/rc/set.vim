@@ -86,7 +86,7 @@ set fileformats=unix,dos          " 改行コード自動認識
 
 set backspace=indent,eol,start    " バックスペースを行を超えて有効にする
 
-set grepprg=ack                   " grep コマンドとして ack を使用する
+set grepprg=pt                    " grep コマンドとして pt を使用する
 
 set diffopt=filler,vertical,iwhite " diffコマンド設定
 
