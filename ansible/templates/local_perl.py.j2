@@ -2,11 +2,12 @@
 # vim:se ft=python fenc=utf8 noet:
 
 import re
+import socket
 from powerline.theme import requires_segment_info
 
 @requires_segment_info
 def local_perl(pl, segment_info, format='{app}:{version}'):
-	if segment_info['environ'].get('HOST') not in {{ secret_office.hostnames | pprint }}:
+	if socket.gethostname() not in {{ secret_office.hostnames | pprint }}:
 		return None
 	version = segment_info['environ'].get('PERLBREW_PERL')
 	if version is None:
