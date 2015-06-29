@@ -82,7 +82,6 @@ fi
 user_site=`$python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
 user_base=`$python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
 export PATH=$user_base/bin:$PATH
-module_path=($module_path /usr/local/lib/zpython /usr/local/lib/zsh/5.0.5-dev-0/zsh)
 . $user_site/powerline/bindings/zsh/powerline.zsh
 
 # z
