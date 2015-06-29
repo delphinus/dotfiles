@@ -7,7 +7,7 @@ let QFixHowm_Key='g'
 if len($H)
     let howm_dir=expand('$H') . '/howm'
 else
-    let howm_dir=g:dropbox_dir . '/Write'
+    let howm_dir=g:dropbox_dir . '/Documents/howm'
 endif
 
 " ファイル名
