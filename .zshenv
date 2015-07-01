@@ -8,7 +8,7 @@ if [ -d '/usr/local/opt/pyenv' ]; then
 else
   export PYENV_ROOT=$HOME/.pyenv
 fi
-export PATH=$PYENV_ROOT/bin:$PATH
+export PATH=$HOME/.local/bin:$PYENV_ROOT/bin:$PATH
 alias py=pyenv
 alias pyv='pyenv versions'
 if which pyenv > /dev/null; then eval "$(pyenv init - zsh)"; fi
