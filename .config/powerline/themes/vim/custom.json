@@ -94,7 +94,7 @@
 		],
 		"right": [
 			{
-				"function": "file_format",
+				"function": "ext.vim.segments.webdevicons.webdevicons_file_format",
 				"draw_soft_divider": false,
 				"exclude_modes": ["nc"],
 				"priority": 90

@@ -18,3 +18,11 @@ def webdevicons(pl, segment_info):
 		'contents': webdevicons(name),
 		'highlight_groups': ['webdevicons', 'file_name'],
 		}]
+
+@requires_segment_info
+def webdevicons_file_format(pl, segment_info):
+	webdevicons_file_format = vim_get_func('WebDevIconsGetFileFormatSymbol')
+	return [] if not webdevicons_file_format else [{
+		'contents': webdevicons_file_format(),
+		'highlight_groups': ['webdevicons_file_format', 'file_format'],
+		}]
