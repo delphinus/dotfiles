@@ -66,21 +66,33 @@ let g:QFixHowm_CalendarCount=6
 
 "-----------------------------------------------------------------------------
 " 一つ分のエントリを選択
-function! s:QFixSelectOneEntry()
-    " save cursor position
-    let save_cursor = getpos('.')
+function! s:QFixCurrentEntryLineNumber(to_join)
+  " save cursor position
+  let save_cursor = getpos('.')
 
+  if a:to_join
     JpJoinAll
-    call QFixMRUMoveCursor('prev')
-    let start = getpos('.')
-    call QFixMRUMoveCursor('next')
-    let end = getpos('.')
-    let lines = getline(start[1] + 1, end[1] - 2)
-    let @* = join(lines, "\n")
-    normal u
+  endif
 
-    " restore cursor position
-    call setpos('.', save_cursor)
+  call QFixMRUMoveCursor('prev')
+  let l:start = getpos('.')
+  call QFixMRUMoveCursor('next')
+  let l:end = getpos('.')
+
+  if a:to_join
+    normal u
+  endif
+
+  " restore cursor position
+  call setpos('.', save_cursor)
+
+  return [l:start[1] + 1, l:end[1] - 2]
+endfunction
+
+function! s:QFixSelectOneEntry()
+  let numbers = s:QFixCurrentEntryLineNumber(1)
+  let lines = getline(numbers[0], numbers[1])
+  let @* = join(lines, "\n")
 endfunction
 
 noremap <silent> <Plug>(qfixhowm-select_one_entry) :<C-U>call <SID>QFixSelectOneEntry()<CR>
