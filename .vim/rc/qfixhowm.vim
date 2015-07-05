@@ -76,7 +76,7 @@ function! s:QFixSelectOneEntry()
     call QFixMRUMoveCursor('next')
     let end = getpos('.')
     let lines = getline(start[1] + 1, end[1] - 2)
-    let @" = join(lines, "\n")
+    let @* = join(lines, "\n")
     normal u
 
     " restore cursor position
@@ -180,10 +180,11 @@ execute 'autocmd FileType ' . QFixHowm_FileType . ' nmap [[ <Plug>(qfixhowm-move
 " 半角だけの行は整形しない
 let JpFormatExclude = '^[^[[:print:][:space:]]\+$'
 
+"-----------------------------------------------------------------------------
+" 行末の \t を削除した上でエントリーをコピーする
 function! MarkdownToMail()
     %s/\t$//
     call <SID>QFixSelectOneEntry()
-    call Yank2Remote(1)
     echo 'yank to remote for mail'
 endfunction
 
