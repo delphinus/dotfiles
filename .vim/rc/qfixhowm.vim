@@ -94,6 +94,8 @@ function! s:QFixCurrentEntryLineNumber(...)
   return [l:start[1] + 1, l:end[1] - 2]
 endfunction
 
+"-----------------------------------------------------------------------------
+" 一つ分のエントリを選択
 function! s:QFixSelectOneEntry()
   let numbers = s:QFixCurrentEntryLineNumber(1)
   let lines = getline(numbers[0], numbers[1])
