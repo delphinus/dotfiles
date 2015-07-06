@@ -65,12 +65,17 @@ let g:calendar_jp=2
 let g:QFixHowm_CalendarCount=6
 
 "-----------------------------------------------------------------------------
-" 一つ分のエントリを選択
-function! s:QFixCurrentEntryLineNumber(to_join)
+" 現在のエントリーの開始行・終了行を返す
+function! s:QFixCurrentEntryLineNumber(...)
+  let to_join = 0
+  if a:0 == 1 && a:1
+    let to_join = 1
+  endif
+
   " save cursor position
   let save_cursor = getpos('.')
 
-  if a:to_join
+  if to_join
     JpJoinAll
   endif
 
@@ -79,7 +84,7 @@ function! s:QFixCurrentEntryLineNumber(to_join)
   call QFixMRUMoveCursor('next')
   let l:end = getpos('.')
 
-  if a:to_join
+  if to_join
     normal u
   endif
 
