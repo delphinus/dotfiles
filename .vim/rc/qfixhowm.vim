@@ -106,6 +106,42 @@ noremap <silent> <Plug>(qfixhowm-select_one_entry) :<C-U>call <SID>QFixSelectOne
 nmap g,S <Plug>(qfixhowm-select_one_entry)
 
 "-----------------------------------------------------------------------------
+" 現在のエントリーを Gist に投稿する
+function! s:QFixPostToGist()
+  let [start_line, end_line] = s:QFixCurrentEntryLineNumber()
+  let title = matchstr(getline(start_line - 1), g:qfixmemo_title . '\s*\zs.*')
+  let filename = expand('%:t')
+  let new_filename = ''
+  if getline(start_line) =~# '^```\S*$' && getline(end_line) =~# '^```$'
+    let file_type = matchstr(getline(start_line), '^```\zs\S\+')
+    let start_line += 1
+    let end_line -= 1
+    if len(file_type) > 0
+      let ext = gista#utils#guess_extension(file_type)
+      let current_ext = '.' . expand('%:e')
+      if ! empty(ext) && ext !=? current_ext
+        let new_filename = expand('%:t:r') . ext
+        echomsg string([expand('%:t:r'), ext])
+      endif
+    endif
+  endif
+
+  execute printf('%d,%dGist --description "%s"', start_line, end_line, title)
+  let url = @"
+  let @* = url
+
+  if ! empty(new_filename)
+    let gistid = matchstr(url, '[0-9a-f]\+$')
+    call gista#interface#rename_action(gistid, filename, new_filename)
+  endif
+
+  call gista#utils#browse(url)
+endfunction
+
+noremap <silent> <Plug>(qfixhowm-post_to_gist) :<C-U>call <SID>QFixPostToGist()<CR>
+nmap g,G <Plug>(qfixhowm-post_to_gist)
+
+"-----------------------------------------------------------------------------
 " 一つ前と同じタイトルでエントリを作成
 function! s:QFixCopyTitleFromPrevEntry()
     let save_register = @"
