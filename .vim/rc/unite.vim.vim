@@ -110,7 +110,7 @@ if neobundle#is_sourced('vim-webdevicons')
       else
         let abbr = path
       endif
-      let candidate.abbr = candidate.icon . '  ' . abbr
+      let candidate.abbr = candidate.icon . ' ' . abbr
     endfor
     return a:candidates
   endfunction
