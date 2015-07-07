@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 "===============================================================================
 " NeoBundle 設定開始
 "===============================================================================
@@ -12,9 +14,6 @@ let g:after_dir     = g:home       . '/.vim/after'
 
 " NeoBundle へのパス
 if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
   execute 'set runtimepath-=' . g:home . '/.vim/'
   execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
@@ -195,6 +194,9 @@ NeoBundleLazy 'basyura/TweetVim', {
       \ 'commands': 'TweetVimHomeTimeLine',
       \ }
 " }}}
+
+" Developing
+NeoBundle 'delphinus35/neocomplete-json-schema'
 
 " Mac 専用
 if has('macunix')
