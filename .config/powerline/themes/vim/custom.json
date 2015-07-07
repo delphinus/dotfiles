@@ -47,7 +47,7 @@
 				"function": "powerlinex.segment.webdevicons.webdevicons",
 				"priority": 10,
 				"draw_soft_divider": false,
-				"after": "  "
+				"after": " "
 			},
 			{
 				"function": "file_directory",
