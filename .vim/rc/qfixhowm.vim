@@ -1,3 +1,4 @@
+scriptencoding utf-8
 " QFixMemo 設定
 let g:dropbox_dir = isdirectory('/mnt/hgfs') ? '/mnt/hgfs/Dropbox' : expand(g:home . '/Dropbox')
 
@@ -85,7 +86,7 @@ function! s:QFixCurrentEntryLineNumber(...)
   let l:end = getpos('.')
 
   if to_join
-    normal u
+    normal! u
   endif
 
   " restore cursor position
@@ -166,7 +167,8 @@ nmap g,M <Plug>(qfixhowm-copy_title_from_prev_entry)
 "-----------------------------------------------------------------------------
 " http://stackoverflow.com/questions/12325291/parse-a-date-in-vimscript
 function! AdjustDate(date, offset)
-    python <<EOP
+  let result = ''
+  python <<EOP
 import vim
 import datetime
 
@@ -175,7 +177,7 @@ result = datetime.datetime.strptime(vim.eval('a:date'), '%Y-%m-%d') + \
 vim.command("let l:result = '" + result.strftime('%Y-%m-%d') + "'")
 EOP
 
-    return result
+  return result
 endfunction
 
 " 日記移動
@@ -189,7 +191,7 @@ function! s:QFixMoveAroundDiaries(direction)
     endif
     let ymd = matchstr(filename,
                 \ '\c\v^' . howm . '/\d+/\d+/\zs\d+-\d+-\d+\ze-\d+$')
-    if ymd == ''
+    if ymd ==# ''
         echom 'this is not qfixhowm file.'
         return
     endif
@@ -208,7 +210,7 @@ function! s:QFixMoveAroundDiaries(direction)
         endif
     endfor
 
-    if new_filename == ''
+    if new_filename ==# ''
         echom 'diary is not found'
         return
     endif
@@ -238,7 +240,7 @@ let JpFormatExclude = '^[^[[:print:][:space:]]\+$'
 "-----------------------------------------------------------------------------
 " 行末の \t を削除した上でエントリーをコピーする
 function! MarkdownToMail()
-    %s/\t$//
+    execute '%s/\t$//'
     call <SID>QFixSelectOneEntry()
     echo 'yank to remote for mail'
 endfunction
