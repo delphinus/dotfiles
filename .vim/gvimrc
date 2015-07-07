@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 set ambiwidth=single            " 文字幅が曖昧なときは半角と見なす
 set printfont=Ricty_Discord:h10 " 印刷用フォント
 set printoptions=number:y       " 印刷時に行番号を付ける
