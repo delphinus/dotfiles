@@ -74,14 +74,7 @@ if [ "$OS" = 'Darwin' ]; then
 fi
 
 # powerline
-if [ "$OS" = 'Darwin' ]; then
-  python=/usr/bin/python
-else
-  python=python
-fi
-user_site=`$python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
-user_base=`$python -c 'import site;import sys;sys.stdout.write(site.USER_BASE)'`
-export PATH=$user_base/bin:$PATH
+user_site=`python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
 . $user_site/powerline/bindings/zsh/powerline.zsh
 
 # z
