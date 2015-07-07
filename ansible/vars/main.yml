@@ -79,6 +79,7 @@ dotfiles_repo:        git@git.remora.cx:delphinus/dotfiles
 dotfiles_repo_github: git@github.com:delphinus35/dotfiles
 python_modules:
   - pyuv
+  - vim-vint
   - git+https://github.com/powerline/powerline
   - git+https://github.com/delphinus35/powerlinex-segment-rbenv
   - git+https://github.com/delphinus35/vim-webdevicons@for-powerline
