@@ -18,9 +18,6 @@ if has('vim_starting')
   execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
 
-" デフォルトプロトコル
-let g:neobundle#types#git#default_protocol='https'
-
 " Required:
 call neobundle#begin(expand(g:bundle_dir))
 
