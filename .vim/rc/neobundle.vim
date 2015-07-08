@@ -30,12 +30,14 @@ let g:neobundle#default_options._ = {'verbose': 1}
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Set vimproc
-NeoBundle 'Shougo/vimproc.vim', {'build': {
-      \   'cygwin': 'make -f make_cygwin.mak',
-      \   'mac':    'make -f make_mac.mak',
-      \   'unix':   'make -f make_unix.mak',
-      \ }}
+let s:bundled_vimproc_directory = expand('$VIM/plugins/vimproc')
+if ! (has('macunix') && has('kaoriya') && isdirectory(s:bundled_vimproc_directory))
+  NeoBundle 'Shougo/vimproc.vim', {'build': {
+        \   'cygwin': 'make -f make_cygwin.mak',
+        \   'mac':    'make -f make_mac.mak',
+        \   'unix':   'make -f make_unix.mak',
+        \ }}
+endif
 
 " プラグイン {{{
 NeoBundle 'airblade/vim-gitgutter'
@@ -57,7 +59,6 @@ NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
 
 NeoBundle 'osyo-manga/vim-watchdogs', {'depends': [
-      \   'Shougo/vimproc.vim',
       \   'dannyob/quickfixstatus',
       \   'cohama/vim-hier',
       \   'osyo-manga/shabadou.vim',
@@ -73,7 +74,6 @@ NeoBundle 'vim-scripts/LineJuggler', {'depends': [
 
 " プラグイン（遅延ロード） {{{
 NeoBundleLazy 'Shougo/vimfiler', {
-      \ 'depends': ['Shougo/vimproc.vim'],
       \ 'commands': [
       \   {'name': 'VimFiler', 'complete': 'customlist,vimfiler#complete'},
       \   'VimFilerExplorer', 'Edit', 'Read', 'Source', 'Write',
@@ -82,13 +82,10 @@ NeoBundleLazy 'Shougo/vimfiler', {
       \ 'explorer': 1,
       \ }
 NeoBundleLazy 'Shougo/vimshell', {
-      \ 'depends': ['Shougo/vimproc.vim'],
       \ 'commands': [
       \   {'name': 'VimShell', 'complete': 'customlist,vimshell#complete'},
       \   'VimShellExecute', 'VimShellInteractive', 'VimShellTerminal', 'VimShellPop',
       \ ]}
-
-NeoBundleLazy 'Shougo/unite.vim'
 
 NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
