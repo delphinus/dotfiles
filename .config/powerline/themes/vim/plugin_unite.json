@@ -12,7 +12,10 @@
 				"highlight_groups": ["mode"]
 			},
 			{
-				"function": "ext.vim.segments.unite.unite_status_string",
+				"function": "ext.vim.segments.unite.unite_status_string"
+			},
+			{
+				"function": "ext.vim.segments.unite.status",
 				"draw_soft_divider": false
 			},
 			{
