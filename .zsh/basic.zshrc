@@ -1,5 +1,8 @@
 # vim:se ft=zsh:
 
+# 斜体を使えるようにする
+export TERM=xterm-256color-italic
+
 # 補完関数を追加
 fpath=($HOME/git/dotfiles/.zsh/completions $fpath)
 
