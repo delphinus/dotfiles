@@ -1,5 +1,7 @@
+set encoding=utf-8     " internal encoding
+scriptencoding utf-8
+
 " エンコーディング {{{
-set encoding=utf-8     " 内部エンコーディング
 set termencoding=utf-8 " ターミナルのエンコーディング
 set fileencoding=utf-8 " 新規ファイルのエンコーディング
 " ファイルエンコーディング
