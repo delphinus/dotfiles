@@ -1,7 +1,3 @@
-if [ -z "$H" ]; then
-  export H=$HOME
-fi
-
 source $H/git/dotfiles/.zsh/basic.zshrc
 source $H/git/dotfiles/.zsh/peco-select-history.zsh
 source $H/git/dotfiles/.zsh/peco-git.zsh
@@ -54,12 +50,6 @@ alias ptc='pt --color'
 
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
-export PATH="\
-$H/Dropbox/bin:\
-$H/bin:\
-$H/git/dotfiles/bin:\
-$PATH"
-
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 
 # for perlomni.vim
