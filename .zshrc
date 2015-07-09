@@ -38,7 +38,7 @@ fi
 alias ls="$LS --color"
 alias ll="$LS --color -l"
 alias l.="$LS --color -d .*"
-eval `TERM=xterm-256color-italic dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
+eval `dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
