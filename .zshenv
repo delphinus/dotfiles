@@ -2,6 +2,16 @@
 autoload -Uz compinit
 compinit
 
+if [ -z "$H" ]; then
+  export H=$HOME
+fi
+
+export PATH="\
+$H/Dropbox/bin:\
+$H/bin:\
+$H/git/dotfiles/bin:\
+$PATH"
+
 # for python
 if [ -d '/usr/local/opt/pyenv' ]; then
   export PYENV_ROOT=/usr/local/opt/pyenv
