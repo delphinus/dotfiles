@@ -1,0 +1,6 @@
+---
+- template: >-
+    src=xterm-256color-italic.terminfo.j2
+    dest=/tmp/xterm-256color-italic.terminfo
+
+- command: tic /tmp/xterm-256color-italic.terminfo

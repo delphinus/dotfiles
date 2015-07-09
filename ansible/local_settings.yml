@@ -12,3 +12,4 @@
     - include: tasks/git.yml
       when: ansible_system == 'Darwin'
     - include: tasks/env.yml
+    - include: tasks/terminfo.yml
