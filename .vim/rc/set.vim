@@ -116,4 +116,9 @@ call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替�
 colorscheme solarized
 syntax on
 
+augroup SetCommentItalic
+  autocmd!
+  autocmd VimEnter * highlight Comment cterm=italic
+augroup END
+
 " vim:et:fdm=marker:
