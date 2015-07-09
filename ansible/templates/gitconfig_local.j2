@@ -5,4 +5,10 @@
 {%- for info in secret_repo_info_for_ghq -%}
 [ghq "{{ info.url }}"]
 	vcs = {{ info.vcs }}
-{%- endfor -%}
+{% endfor -%}
+{%- for info in secret_autouser -%}
+[autouser-{{ info.repo }}]
+	url-regexp = {{ info.regexp }}
+	name = "{{ info.name }}"
+	email = {{ info.email }}
+{% endfor -%}

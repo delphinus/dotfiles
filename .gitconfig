@@ -12,9 +12,9 @@
 [alias]
 	ad = !git add $@ && git st
 	br = branch
-	ca = commit --amend
-	caa = commit --amend --reuse-message HEAD
-	cm = commit
+	ca = commit-autouser --amend
+	caa = commit-autouser --amend --reuse-message HEAD
+	cm = commit-autouser
 	co = checkout
 	cp = cherry-pick
 	dc = diff --cached
