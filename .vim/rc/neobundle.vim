@@ -168,6 +168,11 @@ NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
       \ 'filetypes': ['ruby'],
       \ 'insert':    1,
       \ }
+NeoBundleLazy 'delphinus35/neocomplete-json-schema', {
+      \ 'depends':   ['Shougo/neocomplete.vim'],
+      \ 'filetypes': ['json'],
+      \ 'insert':    1,
+      \ }
 NeoBundleLazy 'ap/vim-css-color', {'filetypes': [
       \ 'css', 'html', 'less', 'lua', 'moon', 'sass', 'scss', 'stylus', 'vim',
       \ ]}
@@ -192,9 +197,6 @@ NeoBundleLazy 'basyura/TweetVim', {
       \ 'commands': 'TweetVimHomeTimeLine',
       \ }
 " }}}
-
-" Developing
-NeoBundle 'delphinus35/neocomplete-json-schema'
 
 " Mac 専用
 if has('macunix')
