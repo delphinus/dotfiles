@@ -7,6 +7,10 @@
 	"segments": {
 		"left": [
 			{
+				"function": "ext.vim.segments.table_mode.is_active",
+				"priority": 10
+			},
+			{
 				"function": "mode",
 				"exclude_modes": ["nc"]
 			},
