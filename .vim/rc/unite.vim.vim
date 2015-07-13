@@ -155,21 +155,32 @@ call unite#custom#source('file',     'converters', ['devicons'])
 call unite#custom#source('file_mru', 'converters', ['devicons_mru'])
 
 " gista setting {{{
-if has('gui_running') && has('clipboard')
-  let s:gista_action = {
-        \ 'is_selectable': 0,
-        \ 'description': 'yank a gist url to system clipboard',
-        \ }
+let s:gista_action = {
+      \ 'is_selectable': 0,
+      \ 'description': 'yank a gist url to system clipboard',
+      \ }
 
+if has('gui_running') && has('clipboard')
   function! s:gista_action.func(candidate)
     let gist = a:candidate.source__gist
     call gista#interface#yank_url_action(gist.id)
     let @* = @"
   endfunction
-
-  call unite#custom#action('gista', 'yank_url_to_system_clipboard', s:gista_action)
-  unlet s:gista_action
+else
+  function! s:gista_action.func(candidate)
+    let gist = a:candidate.source__gist
+    call gista#interface#yank_url_action(gist.id)
+    let F = vital#of('vital').import('System.Filepath')
+    if F.which('pbcopy') !=# ''
+      call system(printf('echo "%s" | pbcopy', @"))
+    elseif F.which('ui_copy') !=# ''
+      call system(printf('echo "%s" | ui_copy', @"))
+    endif
+  endfunction
 endif
+
+call unite#custom#action('gista', 'yank_url_to_system_clipboard', s:gista_action)
+unlet s:gista_action
 "}}}
 
 " vim:se fdm=marker:
