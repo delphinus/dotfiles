@@ -51,14 +51,13 @@ NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
+NeoBundle 'ryanoasis/vim-devicons'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'ryanoasis/vim-devicons'
 
 NeoBundle 'osyo-manga/vim-watchdogs', {'depends': [
       \   'dannyob/quickfixstatus',
@@ -75,14 +74,14 @@ NeoBundle 'vim-scripts/LineJuggler', {'depends': [
 " }}}
 
 " プラグイン（遅延ロード） {{{
-"NeoBundleLazy 'Shougo/vimfiler', {
-"      \ 'commands': [
-"      \   {'name': 'VimFiler', 'complete': 'customlist,vimfiler#complete'},
-"      \   'VimFilerExplorer', 'Edit', 'Read', 'Source', 'Write',
-"      \ ],
-"      \ 'on_source': 'unite.vim',
-"      \ 'explorer': 1,
-"      \ }
+NeoBundleLazy 'Shougo/vimfiler', {
+      \ 'commands': [
+      \   {'name': 'VimFiler', 'complete': 'customlist,vimfiler#complete'},
+      \   'VimFilerExplorer', 'Edit', 'Read', 'Source', 'Write',
+      \ ],
+      \ 'on_source': 'unite.vim',
+      \ 'explorer': 1,
+      \ }
 NeoBundleLazy 'Shougo/vimshell', {
       \ 'commands': [
       \   {'name': 'VimShell', 'complete': 'customlist,vimshell#complete'},
