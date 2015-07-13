@@ -93,31 +93,31 @@ call unite#custom#default_action('source/bundler/directory', 'file')
 " custom_filters {{{
 let s:custom_filters = []
 
-if neobundle#is_sourced('vim-webdevicons')
-  let s:webdevicons = {'name': 'webdevicons'}
-  function! s:webdevicons.filter(candidates, context)
-    for candidate in a:candidates
-      if has_key(candidate, 'icon')
-        continue
-      endif
-      let path = has_key(candidate, 'action__path') ? candidate.action__path : candidate.word
-      let isdir = isdirectory(path)
-      let candidate.icon = WebDevIconsGetFileTypeSymbol(path, isdir)
-      if has_key(candidate, 'abbr')
-        let abbr = candidate.abbr
-      elseif isdir && path !~ '/$'
-        let abbr = path . '/'
-      else
-        let abbr = path
-      endif
-      let candidate.abbr = candidate.icon . ' ' . abbr
-    endfor
-    return a:candidates
-  endfunction
-
-  call unite#define_filter(s:webdevicons)
-  let s:custom_filters = s:custom_filters + ['webdevicons']
-endif
+"if neobundle#is_sourced('vim-webdevicons')
+"  let s:webdevicons = {'name': 'webdevicons'}
+"  function! s:webdevicons.filter(candidates, context)
+"    for candidate in a:candidates
+"      if has_key(candidate, 'icon')
+"        continue
+"      endif
+"      let path = has_key(candidate, 'action__path') ? candidate.action__path : candidate.word
+"      let isdir = isdirectory(path)
+"      let candidate.icon = WebDevIconsGetFileTypeSymbol(path, isdir)
+"      if has_key(candidate, 'abbr')
+"        let abbr = candidate.abbr
+"      elseif isdir && path !~ '/$'
+"        let abbr = path . '/'
+"      else
+"        let abbr = path
+"      endif
+"      let candidate.abbr = candidate.icon . ' ' . abbr
+"    endfor
+"    return a:candidates
+"  endfunction
+"
+"  call unite#define_filter(s:webdevicons)
+"  let s:custom_filters = s:custom_filters + ['webdevicons']
+"endif
 
 let s:dir_filter = {'name': 'dir_filter'}
 function! s:dir_filter.filter(candidates, context)
