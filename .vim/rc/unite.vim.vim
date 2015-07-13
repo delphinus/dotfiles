@@ -26,19 +26,7 @@ augroup UniteMySettings
   autocmd FileType unite call s:unite_my_settings()
 augroup END
 
-call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
-call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
-call unite#custom#substitute('files', '^@', '\=getcwd()."/*"', 1)
-call unite#custom#substitute('files', '^;r', '\=$VIMRUNTIME."/"')
-call unite#custom#substitute('files', '^\~', escape($HOME, '\'), -2)
-call unite#custom#substitute('files', '\\\@<! ', '\\ ', -20)
-call unite#custom#substitute('files', '\\ \@!', '/', -30)
-call unite#custom#substitute('files', '^;v', '~/.vim/')
-call unite#custom#substitute('files', '^;g', escape($HOME, '\') . '/git/')
-
-call unite#custom#profile('default', 'context', {
-      \ 'start_insert': 1
-      \ })
+call unite#custom#profile('default', 'context', {'start_insert': 1})
 
 function! s:unite_my_settings()
     " タブで開く
@@ -122,10 +110,6 @@ function! s:devicons.filter(candidates, context)
 endfunction
 call unite#define_filter(s:devicons)
 unlet s:devicons
-
-call unite#custom#source('file',       'converters', ['devicons'])
-call unite#custom#source('buffer_tab', 'converters', ['devicons'])
-call unite#custom#source('dwm',        'converters', ['devicons'])
 "}}}
 
 " devicons_mru converter {{{
@@ -164,9 +148,11 @@ function! s:devicons_mru.filter(candidates, context)
 endfunction
 call unite#define_filter(s:devicons_mru)
 unlet s:devicons_mru
-
-call unite#custom#source('file_mru',   'converters', ['devicons_mru'])
 "}}}
+
+call unite#custom#profile('default', 'converters', ['devicons'])
+call unite#custom#source('file',     'converters', ['devicons'])
+call unite#custom#source('file_mru', 'converters', ['devicons_mru'])
 
 " gista setting {{{
 if has('gui_running') && has('clipboard')
