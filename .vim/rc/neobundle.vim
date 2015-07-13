@@ -51,7 +51,7 @@ NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
-NeoBundle 'ryanoasis/vim-webdevicons', '0.5.0'
+NeoBundle 'ryanoasis/vim-devicons', '0.5.0'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-scripts/HiColors'
