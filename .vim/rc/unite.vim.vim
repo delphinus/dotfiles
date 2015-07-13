@@ -1,6 +1,9 @@
+scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " 時刻表示形式 → (月) 01/02 午後 03:45
 let g:neomru#time_format='%m/%d %k:%M '
+" ファイル名形式
+let g:neomru#filename_format = ':~:.'
 " プロンプト
 let g:unite_prompt=' '
 " ステータスラインを書き換えない
@@ -18,7 +21,10 @@ call unite#custom_source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', '
 " デフォルトアクション
 let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 
-autocmd FileType unite call s:unite_my_settings()
+augroup UniteMySettings
+  autocmd!
+  autocmd FileType unite call s:unite_my_settings()
+augroup END
 
 call unite#custom#substitute('files', '\$\w\+', '\=eval(submatch(0))', 200)
 call unite#custom#substitute('files', '^@@', '\=fnamemodify(expand("#"), ":p:h")."/"', 2)
@@ -90,68 +96,78 @@ call neobundle#source('neomru.vim')
 
 call unite#custom#default_action('source/bundler/directory', 'file')
 
-" custom_filters {{{
-let s:custom_filters = []
-
-"if neobundle#is_sourced('vim-webdevicons')
-"  let s:webdevicons = {'name': 'webdevicons'}
-"  function! s:webdevicons.filter(candidates, context)
-"    for candidate in a:candidates
-"      if has_key(candidate, 'icon')
-"        continue
-"      endif
-"      let path = has_key(candidate, 'action__path') ? candidate.action__path : candidate.word
-"      let isdir = isdirectory(path)
-"      let candidate.icon = WebDevIconsGetFileTypeSymbol(path, isdir)
-"      if has_key(candidate, 'abbr')
-"        let abbr = candidate.abbr
-"      elseif isdir && path !~ '/$'
-"        let abbr = path . '/'
-"      else
-"        let abbr = path
-"      endif
-"      let candidate.abbr = candidate.icon . ' ' . abbr
-"    endfor
-"    return a:candidates
-"  endfunction
-"
-"  call unite#define_filter(s:webdevicons)
-"  let s:custom_filters = s:custom_filters + ['webdevicons']
-"endif
-
-let s:dir_filter = {'name': 'dir_filter'}
-function! s:dir_filter.filter(candidates, context)
-  for candidate in a:candidates
-    let abbr = has_key(candidate, 'abbr') ? candidate.abbr : candidate.word
-    let abbr = substitute(abbr, expand($HOME), '~', '')
-    let candidate.abbr = abbr
+" devicons converter {{{
+let s:devicons = {'name': 'devicons'}
+function! s:devicons.filter(candidates, context)
+  for candidate in filter(copy(a:candidates), "!has_key(v:val, 'icon')")
+    let raw_path = get(candidate, 'action__path', candidate.word)
+    echomsg raw_path
+    let filename = fnamemodify(raw_path, ':p:t')
+    if g:neomru#filename_format ==# ''
+      let path = raw_path
+    else
+      let path = fnamemodify(raw_path, g:neomru#filename_format)
+    endif
+    let isdir = isdirectory(raw_path)
+    if has_key(candidate, 'abbr')
+      let abbr = candidate.abbr
+    elseif isdir && path !~# '/$'
+      let abbr = path . '/'
+    else
+      let abbr = path
+    endif
+    let candidate.icon = WebDevIconsGetFileTypeSymbol(filename, isdir)
+    echomsg string([filename, candidate.icon])
+    let candidate.abbr = candidate.icon . ' ' . abbr
   endfor
   return a:candidates
 endfunction
-call unite#define_filter(s:dir_filter)
-let s:custom_filters = s:custom_filters + ['dir_filter']
+call unite#define_filter(s:devicons)
+unlet s:devicons
 
-function! MyUniq(list)
-  let V = vital#of('vital')
-  let O = V.import('Data.OrderedSet')
-  let unique_set = O.new()
-  for Item in a:list
-    call unique_set.push(Item)
-    unlet Item
+call unite#custom#source('file',       'converters', ['devicons'])
+call unite#custom#source('buffer_tab', 'converters', ['devicons'])
+call unite#custom#source('dwm',        'converters', ['devicons'])
+"}}}
+
+" devicons_mru converter {{{
+let s:devicons_mru = {'name': 'devicons_mru'}
+function! s:devicons_mru.filter(candidates, context)
+  if g:neomru#filename_format ==# '' && g:neomru#time_format ==# ''
+    return a:candidates
+  endif
+
+  for candidate in filter(copy(a:candidates), "!has_key(v:val, 'abbr')")
+    let raw_path = get(candidate, 'action__path', candidate.word)
+    let filename = fnamemodify(raw_path, ':p:t')
+
+    if g:neomru#time_format ==# ''
+      let path = raw_path
+    else
+      let path = unite#util#substitute_path_separator(fnamemodify(raw_path, g:neomru#filename_format))
+    endif
+    if path ==# ''
+      let path = raw_path
+    endif
+
+    let candidate.abbr = ''
+    if g:neomru#time_format !=# ''
+      let candidate.abbr .= strftime(g:neomru#time_format, getftime(raw_path))
+    endif
+    let candidate.abbr .= WebDevIconsGetFileTypeSymbol(filename, isdirectory(raw_path))
+    if g:neomru#filename_format ==# ''
+      let candidate.abbr .= ' ' . raw_path
+    else
+      let candidate.abbr .= ' ' . fnamemodify(raw_path, g:neomru#filename_format)
+    endif
   endfor
-  return unique_set.to_list()
+
+  return a:candidates
 endfunction
+call unite#define_filter(s:devicons_mru)
+unlet s:devicons_mru
 
-let file_mru = unite#get_sources('file_mru')
-if has_key(file_mru, 'converters') && count(file_mru.converters, 'webdevicons') == 0
-  call unite#custom#source('file_mru', 'converters', MyUniq(file_mru.converters + s:custom_filters))
-else
-  call unite#custom#source('file_mru', 'converters', MyUniq(unite#sources#neomru#define()[0].converters + s:custom_filters))
-endif
-
-call unite#custom#source('file', 'converters', s:custom_filters)
-call unite#custom#source('buffer_tab', 'converters', s:custom_filters)
-call unite#custom#source('dwm', 'converters', s:custom_filters)
+call unite#custom#source('file_mru',   'converters', ['devicons_mru'])
 "}}}
 
 " gista setting {{{
