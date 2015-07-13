@@ -62,7 +62,7 @@ call s:load_rc('capslock')            " capslock 設定
 call s:load_rc('applescript')         " applescript 設定
 call s:load_rc('github-issues')       " github-issues 設定
 call s:load_rc('numbers')             " numbers 設定
-call s:load_rc('webdevicons')         " webdevicons 設定
+call s:load_rc('devicons')            " devicons 設定
 call s:load_rc('open_github_link')    " open_github_link 設定
 call s:load_rc('fontzoom')            " fontzoom 設定
 call s:load_rc('hicolors')            " hicolors 設定
