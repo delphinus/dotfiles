@@ -197,6 +197,9 @@ NeoBundleLazy 'lambdalisue/vim-gista', {
       \ 'mappings':      '<Plug>(gista-',
       \ 'unite_sources': 'gista',
       \ }
+NeoBundleLazy 'dhruvasagar/vim-table-mode', {
+      \ 'function_prefix': 'tablemode',
+      \ 'mappings': [],
       \ }
 " }}}
 
