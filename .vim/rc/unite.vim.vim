@@ -101,7 +101,6 @@ let s:devicons = {'name': 'devicons'}
 function! s:devicons.filter(candidates, context)
   for candidate in filter(copy(a:candidates), "!has_key(v:val, 'icon')")
     let raw_path = get(candidate, 'action__path', candidate.word)
-    echomsg raw_path
     let filename = fnamemodify(raw_path, ':p:t')
     if g:neomru#filename_format ==# ''
       let path = raw_path
@@ -117,7 +116,6 @@ function! s:devicons.filter(candidates, context)
       let abbr = path
     endif
     let candidate.icon = WebDevIconsGetFileTypeSymbol(filename, isdir)
-    echomsg string([filename, candidate.icon])
     let candidate.abbr = candidate.icon . ' ' . abbr
   endfor
   return a:candidates
