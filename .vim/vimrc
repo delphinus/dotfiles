@@ -40,7 +40,6 @@ call s:load_rc('quickrun')            " QuickRun 設定
 call s:load_rc('ref')                 " Ref 設定
 call s:load_rc('netrw')               " Netrw 設定
 call s:load_rc('jpformat')            " JpFormat 設定
-call s:load_rc('tweetvim')            " TweetVim 設定
 call s:load_rc('easymotion')          " EasyMotion 設定
 call s:load_rc('csv')                 " CSV 設定
 call s:load_rc('rooter')              " vim-rooter 設定

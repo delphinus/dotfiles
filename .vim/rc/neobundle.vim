@@ -197,9 +197,6 @@ NeoBundleLazy 'lambdalisue/vim-gista', {
       \ 'mappings':      '<Plug>(gista-',
       \ 'unite_sources': 'gista',
       \ }
-NeoBundleLazy 'basyura/TweetVim', {
-      \ 'depends':  ['basyura/bitly.vim', 'basyura/twibill.vim'],
-      \ 'commands': 'TweetVimHomeTimeLine',
       \ }
 " }}}
 
