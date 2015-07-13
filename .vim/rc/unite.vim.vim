@@ -102,21 +102,21 @@ function! s:devicons.filter(candidates, context)
   for candidate in filter(copy(a:candidates), "!has_key(v:val, 'icon')")
     let raw_path = get(candidate, 'action__path', candidate.word)
     let filename = fnamemodify(raw_path, ':p:t')
+    let isdir = isdirectory(raw_path)
+    let path = get(candidate, 'abbr', raw_path)
     if g:neomru#filename_format ==# ''
       let path = raw_path
-    else
-      let path = fnamemodify(raw_path, g:neomru#filename_format)
+    elseif filereadable(path) || isdir
+      let path = fnamemodify(path, g:neomru#filename_format)
+      if path ==# ''
+        let path = '~'
+      endif
     endif
-    let isdir = isdirectory(raw_path)
-    if has_key(candidate, 'abbr')
-      let abbr = candidate.abbr
-    elseif isdir && path !~# '/$'
-      let abbr = path . '/'
-    else
-      let abbr = path
+    if isdir && path !~# '/$'
+      let path .= '/'
     endif
     let candidate.icon = WebDevIconsGetFileTypeSymbol(filename, isdir)
-    let candidate.abbr = candidate.icon . ' ' . abbr
+    let candidate.abbr = candidate.icon . ' ' . path
   endfor
   return a:candidates
 endfunction
