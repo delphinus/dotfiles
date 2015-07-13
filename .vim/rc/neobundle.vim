@@ -57,13 +57,8 @@ NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimfiler'
-NeoBundle 'ryanoasis/vim-devicons', {'depends': [
-      \ 'Shougo/unite.vim',
-      \ 'Shougo/neomru.vim',
-      \ ]}
+NeoBundle 'ryanoasis/vim-devicons'
 
 NeoBundle 'osyo-manga/vim-watchdogs', {'depends': [
       \   'dannyob/quickfixstatus',
@@ -95,6 +90,7 @@ NeoBundleLazy 'Shougo/vimshell', {
       \ ]}
 
 NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
