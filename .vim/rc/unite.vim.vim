@@ -88,22 +88,26 @@ call unite#custom#default_action('source/bundler/directory', 'file')
 let s:devicons = {'name': 'devicons'}
 function! s:devicons.filter(candidates, context)
   for candidate in filter(copy(a:candidates), "!has_key(v:val, 'icon')")
-    let raw_path = get(candidate, 'action__path', candidate.word)
+    let raw_path = get(candidate, 'action__path', '')
+    if ! filereadable(raw_path) && ! isdirectory(raw_path)
+      continue
+    endif
     let filename = fnamemodify(raw_path, ':p:t')
     let isdir = isdirectory(raw_path)
-    let path = get(candidate, 'abbr', raw_path)
-    if g:neomru#filename_format ==# ''
-      let path = raw_path
-    elseif filereadable(path) || isdir
-      let path = fnamemodify(path, g:neomru#filename_format)
-      if path ==# ''
-        let path = '~'
+    let candidate.icon = WebDevIconsGetFileTypeSymbol(filename, isdir)
+    let path = get(candidate, 'word', '')
+    if path ==# raw_path
+      let path = get(candidate, 'abbr', raw_path)
+      if g:neomru#filename_format !=# ''
+        let path = fnamemodify(path, g:neomru#filename_format)
+        if path ==# ''
+          let path = '~'
+        endif
+      endif
+      if isdir && path !~# '/$'
+        let path .= '/'
       endif
     endif
-    if isdir && path !~# '/$'
-      let path .= '/'
-    endif
-    let candidate.icon = WebDevIconsGetFileTypeSymbol(filename, isdir)
     let candidate.abbr = candidate.icon . ' ' . path
   endfor
   return a:candidates
