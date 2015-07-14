@@ -70,7 +70,7 @@ elseif executable(s:local_perl)
   endif
   let g:perlpath = g:watchdogs_local_perl[s:pwd].perlpath
   let g:quickrun_config['watchdogs_checker/perl'].command = g:watchdogs_local_perl[s:pwd]['local_perl']
-  let g:quickrun_config['watchdogs_checker/perl'].cmdopt = '-Iapp/lib -Iapp/t/lib'
+  let g:quickrun_config['watchdogs_checker/perl'].cmdopt = '-Iapp/lib -Iapp/t/lib -Iapp/extlib/lib/perl5 -Iapp/extlib/lib/perl5/i386-linux-thread-multi'
 
 " other
 else
