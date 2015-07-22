@@ -154,10 +154,34 @@ call unite#define_filter(s:devicons_mru)
 unlet s:devicons_mru
 "}}}
 
-call unite#custom#source('file',           'converters', ['devicons'])
-call unite#custom#source('file_rec/git',   'converters', ['devicons'])
-call unite#custom#source('file_rec/async', 'converters', ['devicons'])
-call unite#custom#source('file_mru',       'converters', ['devicons_mru'])
+let s:source_names_to_apply_filter = [
+      \ 'file',
+      \ 'file_rec/git',
+      \ 'file_rec/async',
+      \ 'ghq',
+      \ 'rails/bundle',
+      \ 'rails/controller',
+      \ 'rails/db',
+      \ 'rails/bundled_gem',
+      \ 'rails/helper',
+      \ 'rails/javascript',
+      \ 'rails/lib',
+      \ 'rails/model',
+      \ 'rails/command',
+      \ 'rails/route',
+      \ 'rails/spec',
+      \ 'rails/view',
+      \ 'rails/config',
+      \ 'rails/json_schema',
+      \ 'rails/log',
+      \ 'rails/mailer',
+      \ 'rails/root',
+      \ 'rails/stylesheet',
+      \ ]
+for s:source_name in s:source_names_to_apply_filter
+  call unite#custom#source(s:source_name, 'converters', ['devicons'])
+endfor
+call unite#custom#source('file_mru', 'converters', ['devicons_mru'])
 
 " gista setting {{{
 let s:gista_action = {

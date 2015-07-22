@@ -11,7 +11,6 @@ noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
 noremap zp :Unite dwm buffer_tab file_mru:long<CR>
 noremap zP :Unite output<CR>
-noremap zy :Unite yankround<CR>
 noremap zw :Unite webcolorname<CR>
 noremap zh :Unite ghq<CR>
 noremap ZB :Unite rails/bundle<CR>
