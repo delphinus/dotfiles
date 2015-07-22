@@ -154,7 +154,6 @@ call unite#define_filter(s:devicons_mru)
 unlet s:devicons_mru
 "}}}
 
-call unite#custom#profile('default',       'converters', ['devicons'])
 call unite#custom#source('file',           'converters', ['devicons'])
 call unite#custom#source('file_rec/git',   'converters', ['devicons'])
 call unite#custom#source('file_rec/async', 'converters', ['devicons'])
