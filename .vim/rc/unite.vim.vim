@@ -178,9 +178,7 @@ let s:source_names_to_apply_filter = [
       \ 'rails/root',
       \ 'rails/stylesheet',
       \ ]
-for s:source_name in s:source_names_to_apply_filter
-  call unite#custom#source(s:source_name, 'converters', ['devicons'])
-endfor
+call unite#custom#source(join(s:source_names_to_apply_filter, ','), 'converters', ['devicons'])
 call unite#custom#source('file_mru', 'converters', ['devicons_mru'])
 
 " gista setting {{{
