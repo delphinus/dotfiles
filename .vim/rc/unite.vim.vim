@@ -116,6 +116,32 @@ call unite#define_filter(s:devicons)
 unlet s:devicons
 "}}}
 
+let s:source_names_to_apply_filter = [
+      \ 'file',
+      \ 'file_rec/git',
+      \ 'file_rec/async',
+      \ 'ghq',
+      \ 'rails/bundle',
+      \ 'rails/controller',
+      \ 'rails/db',
+      \ 'rails/bundled_gem',
+      \ 'rails/helper',
+      \ 'rails/javascript',
+      \ 'rails/lib',
+      \ 'rails/model',
+      \ 'rails/command',
+      \ 'rails/route',
+      \ 'rails/spec',
+      \ 'rails/view',
+      \ 'rails/config',
+      \ 'rails/json_schema',
+      \ 'rails/log',
+      \ 'rails/mailer',
+      \ 'rails/root',
+      \ 'rails/stylesheet',
+      \ ]
+call unite#custom#source(join(s:source_names_to_apply_filter, ','), 'converters', ['devicons'])
+
 " devicons_mru converter {{{
 let s:devicons_mru = {'name': 'devicons_mru'}
 function! s:devicons_mru.filter(candidates, context)
@@ -154,31 +180,6 @@ call unite#define_filter(s:devicons_mru)
 unlet s:devicons_mru
 "}}}
 
-let s:source_names_to_apply_filter = [
-      \ 'file',
-      \ 'file_rec/git',
-      \ 'file_rec/async',
-      \ 'ghq',
-      \ 'rails/bundle',
-      \ 'rails/controller',
-      \ 'rails/db',
-      \ 'rails/bundled_gem',
-      \ 'rails/helper',
-      \ 'rails/javascript',
-      \ 'rails/lib',
-      \ 'rails/model',
-      \ 'rails/command',
-      \ 'rails/route',
-      \ 'rails/spec',
-      \ 'rails/view',
-      \ 'rails/config',
-      \ 'rails/json_schema',
-      \ 'rails/log',
-      \ 'rails/mailer',
-      \ 'rails/root',
-      \ 'rails/stylesheet',
-      \ ]
-call unite#custom#source(join(s:source_names_to_apply_filter, ','), 'converters', ['devicons'])
 call unite#custom#source('file_mru', 'converters', ['devicons_mru'])
 
 " gista setting {{{
