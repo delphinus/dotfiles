@@ -17,7 +17,7 @@ let g:unite_enable_split_vertically=0
 
 " unite-qfixhowm 対応
 " 更新日時でソート
-call unite#custom_source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', 'sorter_reverse'])
+call unite#custom#source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', 'sorter_reverse'])
 " デフォルトアクション
 let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 
