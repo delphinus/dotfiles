@@ -1,7 +1,7 @@
 scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " 時刻表示形式 → (月) 01/02 午後 03:45
-let g:neomru#time_format='%m/%d %k:%M '
+let g:neomru#time_format='(%m/%d %k:%M) '
 " ファイル名形式
 let g:neomru#filename_format = ':~:.'
 " プロンプト
