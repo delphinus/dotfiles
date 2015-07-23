@@ -7,7 +7,7 @@
 		"background:divider":       { "fg": "solarized:base00", "bg": "solarized:base02", "attrs": [] },
 		"mode":                     { "fg": "solarized:base3", "bg": "solarized:green", "attrs": ["bold"] },
 		"visual_range":             { "fg": "solarized:green", "bg": "solarized:base3", "attrs": ["bold"] },
-		"modified_indicator":       { "fg": "solarized:yellow", "bg": "solarized:base01", "attrs": ["bold"] },
+		"modified_indicator":       { "fg": "solarized:base3", "bg": "solarized:yellow", "attrs": ["bold"] },
 		"paste_indicator":          { "fg": "solarized:base3", "bg": "solarized:orange", "attrs": ["bold"] },
 		"readonly_indicator":       { "fg": "solarized:red", "bg": "solarized:base01", "attrs": [] },
 		"branch":                   { "fg": "solarized:base3", "bg": "solarized:base0", "attrs": ["bold"] },
