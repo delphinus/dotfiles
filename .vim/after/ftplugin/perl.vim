@@ -12,8 +12,11 @@ let perl_nofold_packages = 1
 unlet! perl_nofold_subs
 let perl_fold_anonymous_subs = 1
 
+let s:cache_dir = expand('$HOME/.cache/vim')
 let s:V = vital#of('vital')
 let s:P = s:V.import('Prelude')
+let s:C = s:V.import('System.Cache.File')
+let s:cache = s:C.new({'cache_dir': s:cache_dir})
 
 set iskeyword-=-
 set iskeyword-=:
@@ -37,6 +40,35 @@ let s:local_perl = expand('$HOME/git/dotfiles/bin/local_perl.sh')
 let s:cpanfile = 'cpanfile'
 let s:print_perlpath = " -e 'print join(q/,/,@INC)'"
 
+function! s:manage_local_perl(perl_type)
+  let pwd = s:P.path2project_directory(expand('%'))
+  let cache_key = 'perl_cache'
+  let perl_cache = s:cache.get(cache_key, {})
+  if ! has_key(perl_cache, pwd)
+
+    if a:perl_type ==# 'local_perl'
+      let perl_cache[pwd] = {
+            \ 'local_perl': system(s:local_perl . ' ' . pwd),
+            \ 'perlpath':   system(g:watchdogs_local_perl[pwd]['local_perl'] . s:print_perlpath),
+            \ }
+      let g:quickrun_config['watchdogs_checker/perl'].cmdopt = '-Iapp/lib -Iapp/t/lib -Iapp/extlib/lib/perl5 -Iapp/extlib/lib/perl5/i386-linux-thread-multi'
+
+    elseif a:perl_type ==# 'perlbrew'
+      let perl = system('source $HOME/perl5/perlbrew/etc/bashrc && which perl')
+      let perl = substitute(perl, '\n', '', 'g')
+      let perl_cache[pwd] = {
+            \ 'local_perl': perl,
+            \ 'perlpath': system(perl . s:print_perlpath),
+            \ }
+      let g:quickrun_config['watchdogs_checker/perl'].cmdopt = '-Ilib -It/lib'
+    endif
+
+    call s:cache.set(cache_key, perl_cache)
+  endif
+  let g:perlpath = perl_cache[pwd].perlpath
+  let g:quickrun_config['watchdogs_checker/perl'].command = perl_cache[pwd].local_perl
+endfunction
+
 " plenv with carton
 if filereadable(s:cpanfile) && executable(s:carton)
   let perlpath = systemlist(s:carton . ' exec -- perl' . s:print_perlpath)[0]
@@ -52,26 +84,11 @@ elseif executable('plenv')
 
 " perlbrew
 elseif filereadable(expand('$HOME/perl5/perlbrew/etc/bashrc'))
-  let s:perl = system('source $HOME/perl5/perlbrew/etc/bashrc && which perl')
-  let s:perl = substitute(s:perl, '\n', '', 'g')
-  let g:perlpath = system(s:perl . s:print_perlpath)
-  let g:quickrun_config['watchdogs_checker/perl'].command = s:perl
-  let g:quickrun_config['watchdogs_checker/perl'].cmdopt = '-Ilib -It/lib'
+  call s:manage_local_perl('perlbrew')
 
 " local_perl
 elseif executable(s:local_perl)
-  let s:pwd = s:P.path2project_directory(expand('%'))
-  if ! exists('g:watchdogs_local_perl')
-    let g:watchdogs_local_perl = {}
-  endif
-  if ! exists("g:watchdogs_local_perl['" . s:pwd . "']")
-    let g:watchdogs_local_perl[s:pwd] = {}
-    let g:watchdogs_local_perl[s:pwd].local_perl = system(s:local_perl . ' ' . s:pwd)
-    let g:watchdogs_local_perl[s:pwd].perlpath = system(g:watchdogs_local_perl[s:pwd]['local_perl'] . s:print_perlpath)
-  endif
-  let g:perlpath = g:watchdogs_local_perl[s:pwd].perlpath
-  let g:quickrun_config['watchdogs_checker/perl'].command = g:watchdogs_local_perl[s:pwd]['local_perl']
-  let g:quickrun_config['watchdogs_checker/perl'].cmdopt = '-Iapp/lib -Iapp/t/lib -Iapp/extlib/lib/perl5 -Iapp/extlib/lib/perl5/i386-linux-thread-multi'
+  call s:manage_local_perl('local_perl')
 
 " other
 else
