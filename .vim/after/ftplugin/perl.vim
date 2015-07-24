@@ -52,10 +52,8 @@ elseif executable('plenv')
 
 " perlbrew
 elseif filereadable(expand('$HOME/perl5/perlbrew/etc/bashrc'))
-  redir => s:perl
-  silent !source $HOME/perl5/perlbrew/etc/bashrc && which perl
-  redir END
-  let s:perl = substitute(split(s:perl, '\r')[1], '\n', '', 'g')
+  let s:perl = system('source $HOME/perl5/perlbrew/etc/bashrc && which perl')
+  let s:perl = substitute(s:perl, '\n', '', 'g')
   let g:perlpath = system(s:perl . s:print_perlpath)
   let g:quickrun_config['watchdogs_checker/perl'].command = s:perl
   let g:quickrun_config['watchdogs_checker/perl'].cmdopt = '-Ilib -It/lib'
