@@ -24,7 +24,7 @@ if exists(':NeoCompleteIncludeMakeCache')
   augroup END
 endif
 
-if filereadable('.noexpandtab') || (len($USER) && $USER == 'game')
+if filereadable('.noexpandtab') || (len($USER) && $USER ==# 'game')
     setlocal noexpandtab
     setlocal tabstop=4
     setlocal shiftwidth=4
