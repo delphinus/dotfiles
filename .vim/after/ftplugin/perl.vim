@@ -18,7 +18,10 @@ let s:P = s:V.import('Prelude')
 set iskeyword-=-
 set iskeyword-=:
 if exists(':NeoCompleteIncludeMakeCache')
+  augroup NeoCompleteIncludeMakeCacheForPerl
+    autocmd!
     autocmd BufWritePost <buffer> NeoCompleteIncludeMakeCache
+  augroup END
 endif
 
 if filereadable('.noexpandtab') || (len($USER) && $USER == 'game')
