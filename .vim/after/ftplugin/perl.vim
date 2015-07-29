@@ -28,4 +28,4 @@ if filereadable('.noexpandtab') || (len($USER) && $USER ==# 'game')
     setlocal softtabstop=4
 endif
 
-call delphinus#perl#manage_local_perl()
+call delphinus#perl#manage_local_perl(expand('%'))
