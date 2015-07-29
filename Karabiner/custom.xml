@@ -5,9 +5,13 @@
     <productid>0x0291</productid>
   </deviceproductdef>
   <deviceproductdef>
-    <productname>APPLE_INTERNAL_KEYBOARD_TRACKPAD_0x0249</productname>
-    <productid>0x0249</productid>
+    <productname>HHKB_Professional_0x0100</productname>
+    <productid>0x0100</productid>
   </deviceproductdef>
+  <devicevendordef>
+    <vendorname>TOPRE</vendorname>
+    <vendorid>0x0853</vendorid>
+  </devicevendordef>
   <appdef>
     <appname>MACVIM</appname>
     <equal>org.vim.MacVim</equal>
@@ -353,6 +357,17 @@
         <autogen>__KeyToKey__ KeyCode::DELETE, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_SHIFT, KeyCode::BACKQUOTE, ModifierFlag::SHIFT_L</autogen>
         <autogen>__KeyToKey__ KeyCode::BACKQUOTE, KeyCode::ESCAPE</autogen>
         <autogen>__KeyToKey__ KeyCode::OPTION_R, KeyCode::DELETE</autogen>
+      </item>
+      <item>
+        <name>Use HHK as normal keyboards</name>
+        <appendix>Delete => Backslash(\)</appendix>
+        <appendix>Shift + Delete => Vertical Bar(|)</appendix>
+        <appendix>Backslash(\) => Delete</appendix>
+        <identifier>remap.use_hhk_as_normal_keyboard</identifier>
+        <device_only>DeviceVendor::TOPRE,DeviceProduct::HHKB_Professional_0x0100</device_only>
+        <autogen>__KeyToKey__ KeyCode::DELETE, KeyCode::BACKSLASH</autogen>
+        <autogen>__KeyToKey__ KeyCode::DELETE, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_SHIFT, KeyCode::BACKSLASH, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::BACKSLASH, KeyCode::DELETE</autogen>
       </item>
     </list>
   </item>
