@@ -11,6 +11,7 @@
 	lineNumber = true
 [alias]
 	ad = !git add $@ && git st
+	ap = add -p
 	br = branch
 	ca = commit-autouser --amend
 	caa = commit-autouser --amend --reuse-message HEAD
