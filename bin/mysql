@@ -25,11 +25,18 @@ class Parameter < Hash
     OPTION_NAMES.map do |ary|
       opt.on(*ary) { |x| self[ary[0]] = x }
     end
+    argv = ARGV.map do |str|
+      if str =~ /\A(-[a-zA-Z])(.+)\z/
+        "#$1 #$2"
+      else
+        str
+      end
+    end
     begin
-      opt.permute! ARGV
+      opt.permute! argv
     rescue OptionParser::InvalidOption
     end
-    self['-D'] = ARGV[0] if ARGV.length > 0
+    self['-D'] = argv[0] if argv.length > 0
   end
 
   def encode
