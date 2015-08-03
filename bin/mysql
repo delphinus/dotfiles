@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'mkmf'
+
+cmd = 'mycli'
+raise 'Please install `mycli` executable' unless find_executable cmd
+
+class Parameter < Hash
+  OPTION_NAMES = [
+    ['-h', '--host hostname'],
+    ['-P', '--port port'],
+    ['-u', '--user username'],
+    ['-S', '--socket socket'],
+    ['-p', '--password'],
+    ['--pass password'],
+    ['-v', '--version'],
+    ['-D', '--database'],
+    ['-R', '--prompt'],
+    ['-l', '--logfile'],
+    ['--help'],
+  ]
+
+  def initialize
+    opt = OptionParser.new
+    OPTION_NAMES.map do |ary|
+      opt.on(*ary) { |x| self[ary[0]] = x }
+    end
+    begin
+      opt.permute! ARGV
+    rescue OptionParser::InvalidOption
+    end
+    self['-D'] = ARGV[0] if ARGV.length > 0
+  end
+
+  def encode
+    return '--help' if self['help']
+
+    OPTION_NAMES.each_with_object([]) do |(name), ary|
+      if self[name].is_a? String
+        ary << "#{name} #{self[name]}"
+      elsif self[name]
+        ary << "#{name}"
+      end
+    end.join ' '
+  end
+end
+
+exec "#{cmd} #{Parameter.new.encode}"

@@ -39,7 +39,6 @@ alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias lv='lv -c'
-alias path='echo $PATH | perl -aF: -le "print for sort @F"'
 alias be='bundle exec'
 alias ce='carton exec --'
 alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
@@ -95,7 +94,9 @@ fi
 
 # custom mysql
 local mysql_bin=/usr/local/opt/mysql/bin
-if [ -d "$mysql_bin" ]; then
+if [ -d "$mysql_bin" ] && which mysql > /dev/null; then
+  export PATH=$PATH:$mysql_bin
+else
   export PATH=$mysql_bin:$PATH
 fi
 

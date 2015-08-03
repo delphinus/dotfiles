@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'optparse'
+params = ARGV.getopts 's'
+puts ENV['PATH'].split(':').tap { |x| x.sort! if params['s'] }.join "\n"
