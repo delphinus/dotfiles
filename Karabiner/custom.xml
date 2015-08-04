@@ -362,12 +362,12 @@
         <name>Use HHK as normal keyboards</name>
         <appendix>Delete => Backslash(\)</appendix>
         <appendix>Shift + Delete => Vertical Bar(|)</appendix>
-        <appendix>Backslash(\) => Delete</appendix>
+        <appendix>Forward Delete => Delete</appendix>
         <identifier>remap.use_hhk_as_normal_keyboard</identifier>
         <device_only>DeviceVendor::TOPRE,DeviceProduct::HHKB_Professional_0x0100</device_only>
         <autogen>__KeyToKey__ KeyCode::DELETE, KeyCode::BACKSLASH</autogen>
         <autogen>__KeyToKey__ KeyCode::DELETE, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_SHIFT, KeyCode::BACKSLASH, ModifierFlag::SHIFT_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::BACKSLASH, KeyCode::DELETE</autogen>
+        <autogen>__KeyToKey__ FROMKEYCODE_FORWARD_DELETE, KeyCode::DELETE</autogen>
       </item>
     </list>
   </item>
