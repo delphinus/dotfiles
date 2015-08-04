@@ -23,6 +23,7 @@
     - .zshenv
     - .zprofile
     - .zshrc
+    - .myclirc
 
 - file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
   with_items:
