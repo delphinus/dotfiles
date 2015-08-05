@@ -101,7 +101,7 @@ function! s:devicons.filter(candidates, context)
       if g:neomru#filename_format !=# ''
         let path = fnamemodify(path, g:neomru#filename_format)
         if path ==# ''
-          let path = '~'
+          let path = fnamemodify('.', ':~')
         endif
       endif
       if isdir && path !~# '/$'
