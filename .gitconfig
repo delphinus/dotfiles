@@ -20,7 +20,7 @@
 	cn = clean -dn
 	co = checkout
 	cp = cherry-pick
-	dc = diff --cached
+	dc = diff -w --diff-algorithm=default --cached
 	dh = diff -w --histogram
 	dhc = diff -w --color-words --histogram
 	di = diff -w --diff-algorithm=default
