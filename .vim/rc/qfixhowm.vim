@@ -122,9 +122,10 @@ function! s:QFixPostToGist()
       let current_ext = '.' . expand('%:e')
       if ! empty(ext) && ext !=? current_ext
         let new_filename = expand('%:t:r') . ext
-        echomsg string([expand('%:t:r'), ext])
       endif
     endif
+  else
+    let new_filename = expand('%:t:r') . '.markdown'
   endif
 
   execute printf('%d,%dGist --description "%s"', start_line, end_line, title)
