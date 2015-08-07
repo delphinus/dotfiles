@@ -1,9 +1,5 @@
-let s:cache_dir = expand('$HOME/.cache/vim')
 let s:V = vital#of('vital')
 let s:P = s:V.import('Prelude')
-let s:C = s:V.import('System.Cache.File')
-let s:cache = s:C.new({'cache_dir': s:cache_dir})
-let s:memory_cache = delphinus#cache#singleton()
 
 let s:carton = expand('/usr/local/opt/plenv/shims/carton')
 let s:local_perl = expand('$HOME/git/dotfiles/bin/local_perl.sh')
@@ -13,12 +9,12 @@ let s:print_perlpath = " -e 'print join(q/,/,@INC)'"
 function! delphinus#perl#manage_local_perl(path) abort
   let pwd = s:P.path2project_directory(a:path)
   let cache_key = 'perl_cache'
-  let memory_perl_cache = s:memory_cache.get(cache_key, {})
+  let memory_perl_cache = delphinus#cache#memory().get(cache_key, {})
   if has_key(memory_perl_cache, pwd)
     return memory_perl_cache[pwd]
   endif
 
-  let perl_cache = s:cache.get(cache_key, {})
+  let perl_cache = delphinus#cache#file().get(cache_key, {})
 
   if ! has_key(perl_cache, pwd)
 
@@ -49,10 +45,10 @@ function! delphinus#perl#manage_local_perl(path) abort
     if exists('cmdopt')
       let perl_cache[pwd].cmdopt = cmdopt
     endif
-    call s:cache.set(cache_key, perl_cache)
+    call delphinus#cache#file().set(cache_key, perl_cache)
   endif
 
-  call s:memory_cache.set(cache_key, perl_cache)
+  call delphinus#cache#memory().set(cache_key, perl_cache)
 
   if ! exists('g:quickrun_config')
     let g:quickrun_config = {}
