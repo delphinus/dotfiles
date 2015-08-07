@@ -6,31 +6,31 @@ let g:dropbox_dir = isdirectory('/mnt/hgfs') ? '/mnt/hgfs/Dropbox' : expand(g:ho
 let QFixHowm_Key='g'
 " ファイル保存用
 if isdirectory(g:dropbox_dir)
-  let howm_dir = g:dropbox_dir . '/Documents/howm'
+  let g:howm_dir = g:dropbox_dir . '/Documents/howm'
 else
-  let howm_dir = expand('$H') . '/howm'
+  let g:howm_dir = expand('$H') . '/howm'
 endif
 
 " ファイル名
-let howm_filename='%Y/%m/%Y-%m-%d-%H%M%S.txt'
+let g:howm_filename='%Y/%m/%Y-%m-%d-%H%M%S.txt'
 " ファイルのエンコーディング
-let howm_fileencoding='utf-8'
+let g:howm_fileencoding='utf-8'
 " ファイルの改行コード
-let howm_fileformat='dos'
+let g:howm_fileformat='dos'
 " ファイル形式は howm_memo + markdown
-let QFixHowm_FileType='howm_memo.markdown'
+let g:QFixHowm_FileType='howm_memo.markdown'
 " ファイルの拡張子
-let QFixHowm_FileExt='txt'
+let g:QFixHowm_FileExt='txt'
 " 日記ファイル名
-let QFixHowm_DiaryFile='%Y/%m/%Y-%m-%d-000000.txt'
+let g:QFixHowm_DiaryFile='%Y/%m/%Y-%m-%d-000000.txt'
 " grep の指定
 if executable('c:/cygwin/bin/grep.exe')
-    let mygrepprg='c:/cygwin/bin/grep.exe'
-    let MyGrep_cygwin17=1
+    let g:mygrepprg='c:/cygwin/bin/grep.exe'
+    let g:MyGrep_cygwin17=1
 elseif executable('/bin/grep')
-    let mygrepprg='/bin/grep'
+    let g:mygrepprg='/bin/grep'
 else
-    let mygrepprg='/usr/bin/grep'
+    let g:mygrepprg='/usr/bin/grep'
 endif
 " プレビュー無効
 let g:QFix_PreviewEnable=0
@@ -41,23 +41,8 @@ augroup markdown_quote_syntax_for_howm_memo
   autocmd Syntax howm_memo.markdown call markdown_quote_syntax#enable_quote_syntax()
 augroup END
 
-" QfixMemo 保存前実行処理
-" BufWritePre
-function! QFixMemoBufWritePre()
-  " タイトル行付加
-  call qfixmemo#AddTitle()
-  " タイムスタンプ付加
-  call qfixmemo#AddTime()
-  " タイムスタンプアップデート
-  call qfixmemo#UpdateTime()
-  " Wikiスタイルのキーワードリンク作成
-  call qfixmemo#AddKeyword()
-  " ファイル末の空行を削除
-  call qfixmemo#DeleteNullLines()
-endfunction
-
 " カレンダーの休日予定
-let QFixHowm_HolidayFile = neobundle#config#get('qfixhowm').path . '/misc/holiday/Sche-Hd-0000-00-00-000000.utf8'
+let g:QFixHowm_HolidayFile = neobundle#config#get('qfixhowm').path . '/misc/holiday/Sche-Hd-0000-00-00-000000.utf8'
 " カレンダーの休日マークを隠す
 highlight CalConceal ctermfg=8
 " カレンダー表示の日本語化
