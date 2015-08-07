@@ -109,7 +109,7 @@ NeoBundleLazy 'fuenor/qfixhowm'
 if neobundle#tap('qfixhowm')
   call neobundle#config({
         \ 'autoload': {
-        \   'mappings': ['g,m', 'g,c', 'g,s'],
+        \   'mappings': ['g,m', 'g,c', 'g,s', 'g,q'],
         \ }})
   call neobundle#untap()
 endif
