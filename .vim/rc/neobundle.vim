@@ -158,7 +158,7 @@ NeoBundleLazy 'chikatoike/concealedyank.vim', {'mappings': ['<Plug>(operator-con
 NeoBundleLazy 'delphinus35/open-github-link', {'mappings': ['<Plug>(open-github-link']}
 NeoBundleLazy 'junegunn/vim-easy-align',      {'mappings': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
 NeoBundleLazy 'spolu/dwm.vim',                {'mappings': ['<Plug>DWM']}
-NeoBundleLazy 'tpope/vim-capslock',           {'mappings': ['i', '<Plug>CapsLockToggle']}
+NeoBundleLazy 'tpope/vim-capslock',           {'mappings': [['i', '<Plug>CapsLockToggle']]}
 NeoBundleLazy 't9md/vim-quickhl',             {'mappings': ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']}
 NeoBundleLazy 't9md/vim-choosewin',           {'mappings': ['<Plug>(choosewin)']}
 NeoBundleLazy 'thinca/vim-fontzoom',          {'mappings': ['<Plug>(fontzoom-'], 'commands': ['Fontzoom'], 'gui': 1}
