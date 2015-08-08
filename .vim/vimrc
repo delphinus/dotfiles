@@ -69,8 +69,6 @@ call s:load_rc('vim-json')            " vim-json 設定
 call s:load_rc('gista')               " vim-json 設定
 call s:load_rc('table-mode')          " vim-table-mode 設定
 
-" call s:load_rc('color')
-
 " 遅延ロード {{{
 call s:load_bundle_rc('unite.vim')    " Unite 設定
 call s:load_bundle_rc('qfixhowm')     " QFixMemo 設定
