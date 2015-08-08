@@ -29,7 +29,7 @@ call s:load_rc('neobundle')           " プラグインの読み込み
 call s:load_rc('map')                 " マッピング
 call s:load_rc('set')                 " オプション設定
 call s:load_rc('term')                " ターミナル固有の設定
-call s:load_rc('functions')           " ユーティリティ関数
+call s:load_rc('commands')            " ユーティリティコマンド
 
 call s:load_rc('unite_initial')       " Unite 初期設定
 call s:load_rc('vimfiler_initial')    " VimFiler 初期設定
@@ -58,7 +58,6 @@ call s:load_rc('concealedyank')       " concealedyank 設定
 call s:load_rc('open-browser')        " open-browser 設定
 call s:load_rc('markdown')            " markdown 設定
 call s:load_rc('capslock')            " capslock 設定
-call s:load_rc('applescript')         " applescript 設定
 call s:load_rc('github-issues')       " github-issues 設定
 call s:load_rc('numbers')             " numbers 設定
 call s:load_rc('devicons')            " devicons 設定
@@ -68,6 +67,9 @@ call s:load_rc('hicolors')            " hicolors 設定
 call s:load_rc('vim-json')            " vim-json 設定
 call s:load_rc('gista')               " vim-json 設定
 call s:load_rc('table-mode')          " vim-table-mode 設定
+
+call s:load_rc('applescript')         " applescript 設定
+" call s:load_rc('color')
 
 " 遅延ロード {{{
 call s:load_bundle_rc('unite.vim')    " Unite 設定
