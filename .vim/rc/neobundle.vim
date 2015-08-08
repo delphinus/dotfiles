@@ -203,7 +203,7 @@ else
   NeoBundleLazy 'rkitover/vimpager'
 endif
 
-if ! has('macvim')
+if ! has('kaoriya')
   NeoBundle 'elzr/vim-json'
 endif
 

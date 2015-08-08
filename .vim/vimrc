@@ -60,8 +60,7 @@ call s:load_rc('numbers')             " numbers 設定
 call s:load_rc('devicons')            " devicons 設定
 call s:load_rc('open_github_link')    " open_github_link 設定
 call s:load_rc('fontzoom')            " fontzoom 設定
-call s:load_rc('vim-json')            " vim-json 設定
-call s:load_rc('gista')               " vim-json 設定
+call s:load_rc('gista')               " gista 設定
 call s:load_rc('table-mode')          " vim-table-mode 設定
 
 " 遅延ロード {{{
@@ -72,6 +71,10 @@ call s:load_bundle_rc('vimfiler')     " VimFiler 設定
 call s:load_bundle_rc('vimshell')     " VimShell 設定
 call s:load_bundle_rc('neocomplete.vim') " neocomplete 設定
 "}}}
+
+if ! has('kaoriya')
+  call s:load_rc('vim-json')          " vim-json 設定
+endif
 
 if filereadable(g:home . '/.no-powerline')
   call s:load_rc('airline')           " airline 設定
