@@ -198,7 +198,6 @@ NeoBundleLazy 'lambdalisue/vim-gista', {
 " Mac 専用
 if has('macunix')
   NeoBundleLazy 'msanders/cocoa.vim', {'filetypes': ['objc']}
-  NeoBundleLazy 'troydm/pb.vim',      {'commands': ['Pbyank', 'Pbpaste', 'PbPaste']}
   NeoBundleLazy 'rizzatti/dash.vim',  {'commands': ['Dash'], 'gui': 1}
 else
   NeoBundleLazy 'rkitover/vimpager'
