@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 let mapleader='`'
 
 set timeout         " キーのタイムアウト時間設定
@@ -38,7 +40,7 @@ nnoremap # :<C-u>b #<CR>
 function! <SID>MapFastKeycode(key, keycode)
     if s:fast_i == 46
         echohl WarningMsg
-        echomsg "Unable to map ".a:key.": out of spare keycodes"
+        echomsg 'Unable to map '.a:key.': out of spare keycodes'
         echohl None
         return
     endif
@@ -48,7 +50,3 @@ function! <SID>MapFastKeycode(key, keycode)
     let s:fast_i += 1
 endfunction
 let s:fast_i = 0
-
-"-----------------------------------------------------------------------------
-" ヘルプ
-autocmd FileType help nnoremap <buffer>q :q<CR>
