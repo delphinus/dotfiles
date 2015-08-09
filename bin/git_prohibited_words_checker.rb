@@ -70,7 +70,7 @@ end.select do |path|
     false
   end
 end.each_with_object [] do |file, ary|
-  ary << file if IO.read(file) =~ prohibited_words_pre
+  ary << file if IO.read(file).scrub =~ prohibited_words_pre
 end
 
 mail_body_header = sprintf 'dotfiles scan for prohibited words; scaned: %d file(s), skipped: %d file(s), found: %d file(s)', scan_count, skip_count, errors.size
