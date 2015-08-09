@@ -21,11 +21,13 @@ call unite#custom#source('qfixhowm', 'sorters', ['sorter_qfixhowm_updatetime', '
 " デフォルトアクション
 let g:unite_qfixhowm_new_memo_cmd='dwm_new'
 
+" カスタムマッピング
 augroup UniteMySettings
   autocmd!
   autocmd FileType unite call delphinus#unite#my_setting()
 augroup END
 
+" インサートモードで開始
 call unite#custom#profile('default', 'context', {'start_insert': 1})
 
 " agとUnite.vimで快適高速grep環境を手に入れる - Thinking-megane
@@ -47,6 +49,10 @@ elseif executable('ag')
     let g:unite_source_file_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
 
+" gista 設定
+call unite#custom#action('gista', 'yank_url_to_system_clipboard', delphinus#gista#yank_url_to_system_clipboard())
+
+" devicons 設定
 call neobundle#source('neomru.vim')
 
 call unite#custom#default_action('source/bundler/directory', 'file')
@@ -85,7 +91,3 @@ let s:mru = delphinus#devicons#mru()
 call unite#define_filter(s:mru)
 call unite#custom#source('file_mru', 'converters', [s:mru.name])
 unlet s:mru
-
-call unite#custom#action('gista', 'yank_url_to_system_clipboard', delphinus#gista#yank_url_to_system_clipboard())
-
-" vim:se fdm=marker:
