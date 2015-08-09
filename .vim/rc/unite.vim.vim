@@ -49,9 +49,6 @@ elseif executable('ag')
     let g:unite_source_file_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
 
-" gista 設定
-call unite#custom#action('gista', 'yank_url_to_system_clipboard', delphinus#gista#yank_url_to_system_clipboard())
-
 " devicons 設定
 call neobundle#source('neomru.vim')
 
@@ -91,3 +88,6 @@ let s:mru = delphinus#devicons#mru()
 call unite#define_filter(s:mru)
 call unite#custom#source('file_mru', 'converters', [s:mru.name])
 unlet s:mru
+
+" gista 設定
+call unite#custom#action('gista', 'yank_url_to_system_clipboard', delphinus#gista#yank_url_to_system_clipboard())
