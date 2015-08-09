@@ -76,18 +76,18 @@ end
 mail_body_header = sprintf 'dotfiles scan for prohibited words; scaned: %d file(s), skipped: %d file(s), found: %d file(s)', scan_count, skip_count, errors.size
 
 Syslog.open File.basename($0) do |syslog|
-  syslog.log Syslog::LOG_NOTICE, mail_body_header
+  syslog.notice mail_body_header
 end
 
 exit if errors.count == 0
 
 Syslog.open File.basename($0) do |syslog|
-  syslog.log Syslog::LOG_WARNING, "prohibited words found in #{errors.join(', ')}"
+  syslog.warning "prohibited words found in #{errors.join(', ')}"
 end
 
 unless File.readable? MAIL_PASSWORD_FILE
   Syslog.open File.basename($0) do |syslog|
-    syslog.log Syslog::LOG_WARNING, "#{MAIL_PASSWORD_FILE} is not readble"
+    syslog.warning "#{MAIL_PASSWORD_FILE} is not readble"
   end
   exit 1
 end
