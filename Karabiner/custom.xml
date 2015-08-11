@@ -301,8 +301,7 @@
         <appendix>Control+Option+P => move to the previous channel</appendix>
         <appendix>Control+Tab => move to the next unread channel</appendix>
         <appendix>Shift+Control+Tab => move to the previous unread channel</appendix>
-        <appendix>Option+Tab => move to the next channel in your history</appendix>
-        <appendix>Shift+Option+Tab => move to the previous channel in your history</appendix>
+        <appendix>Option+Tab => move to the previous channel in your history</appendix>
         <appendix>Control+Option+F => move to the next team</appendix>
         <appendix>Control+Option+B => move to the previous team</appendix>
         <appendix>Shift+Option+L => scroll to next page</appendix>
@@ -313,8 +312,7 @@
         <autogen>__KeyToKey__ KeyCode::P, ModifierFlag::CONTROL_L, ModifierFlag::OPTION_L,  KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L</autogen>
         <autogen>__KeyToKey__ KeyCode::TAB, ModifierFlag::CONTROL_L,                        KeyCode::CURSOR_DOWN,   ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
         <autogen>__KeyToKey__ KeyCode::TAB, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L, KeyCode::CURSOR_UP,     ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::TAB, ModifierFlag::OPTION_L,                         KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L</autogen>
-        <autogen>__KeyToKey__ KeyCode::TAB, ModifierFlag::OPTION_L,  ModifierFlag::SHIFT_L, KeyCode::BRACKET_LEFT,  ModifierFlag::COMMAND_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::TAB, ModifierFlag::OPTION_L,                         KeyCode::BRACKET_LEFT,  ModifierFlag::COMMAND_L</autogen>
         <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::OPTION_L,  KeyCode::BRACKET_RIGHT, ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L</autogen>
         <autogen>__KeyToKey__ KeyCode::B, ModifierFlag::CONTROL_L, ModifierFlag::OPTION_L,  KeyCode::BRACKET_LEFT,  ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L</autogen>
         <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L,    KeyCode::PAGEDOWN</autogen>
