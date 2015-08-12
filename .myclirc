@@ -1,4 +1,3 @@
-# vi: ft=dosini
 [main]
 
 # Enables context sensitive auto-completion. If this is disabled the all
@@ -41,4 +40,8 @@ key_bindings = vi
 # \u - Username
 # \h - Hostname of the server
 # \d - Database name
-prompt = '\t \u@\h:\d> '
+prompt = "\t \u@\h:\d> "
+
+wider_completion_menu = True
+[favorite_queries]
+exp = explain select count(*) from text_history where created_at between unix_timestamp('2015-07-01') and unix_timestamp('2015-07-31')
