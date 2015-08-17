@@ -76,12 +76,6 @@ if ! has('kaoriya')
   call s:load_rc('vim-json')          " vim-json 設定
 endif
 
-if filereadable(g:home . '/.no-powerline')
-  call s:load_rc('airline')           " airline 設定
-else
-  call s:load_rc('powerline')         " powerline 設定
-endif
-
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
 if filereadable(g:office_vimrc)

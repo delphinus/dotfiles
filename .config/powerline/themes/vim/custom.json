@@ -48,7 +48,7 @@
 				"priority": 20
 			},
 			{
-				"function": "powerlinex.segment.webdevicons.webdevicons",
+				"function": "vim_devicons.powerline.segments.webdevicons",
 				"priority": 10,
 				"draw_soft_divider": false,
 				"after": " "
@@ -98,7 +98,7 @@
 		],
 		"right": [
 			{
-				"function": "powerlinex.segment.webdevicons.webdevicons_file_format",
+				"function": "vim_devicons.powerline.segments.webdevicons_file_format",
 				"draw_soft_divider": false,
 				"exclude_modes": ["nc"],
 				"priority": 90

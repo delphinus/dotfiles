@@ -52,7 +52,9 @@ NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
-NeoBundle 'ryanoasis/vim-devicons'
+NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+"NeoBundle 'ryanoasis/vim-devicons'
+NeoBundle 'delphinus35/vim-devicons', {'rev': 'for-powerline'}
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-scripts/HiColors'
