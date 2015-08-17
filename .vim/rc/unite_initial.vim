@@ -25,6 +25,7 @@ noremap ZM :Unite rails/model<CR>
 noremap ZO :Unite rails/command<CR>
 noremap ZR :Unite rails/route<CR>
 noremap ZS :Unite rails/spec<CR>
+noremap ZT :Unite rails/typescripts<CR>
 noremap ZV :Unite rails/view<CR>
 noremap Zc :Unite rails/config<CR>
 noremap Zj :Unite rails/json_schema<CR>
