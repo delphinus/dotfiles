@@ -47,6 +47,7 @@ NeoBundle 'delphinus35/vim-emacscommandline'
 NeoBundle 'delphinus35/vim-unimpaired'
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
@@ -140,12 +141,14 @@ NeoBundleLazy 'tyru/capture.vim',        {'commands': ['Capture']}
 NeoBundleLazy 'vim-scripts/AnsiEsc.vim', {'commands': ['AnsiEsc']}
 
 NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim',            {'filetypes': ['css']}
+NeoBundleLazy 'Quramy/tsuquyomi',                              {'filetypes': ['typescript']}
 NeoBundleLazy 'c9s/perlomni.vim',                              {'filetypes': ['perl']}
 NeoBundleLazy 'catalinciurea/perl-nextmethod',                 {'filetypes': ['perl']}
 NeoBundleLazy 'csv.vim',                                       {'filetypes': ['csv']}
 NeoBundleLazy 'delphinus35/perl-test-base.vim',                {'filetypes': ['perl']}
 NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'filetypes': ['markdown', 'plantuml']}
 NeoBundleLazy 'dsawardekar/wordpress.vim',                     {'filetypes': ['php']}
+NeoBundleLazy 'jason0x43/vim-js-indent',                       {'filetypes': ['javascript', 'typescript']}
 NeoBundleLazy 'jelera/vim-javascript-syntax',                  {'filetypes': ['javascript']}
 NeoBundleLazy 'kana/vim-vspec',                                {'filetypes': ['vim']}
 NeoBundleLazy 'rhysd/vim-textobj-ruby',                        {'filetypes': ['ruby'], 'depends': ['kana/vim-textobj-user']}
