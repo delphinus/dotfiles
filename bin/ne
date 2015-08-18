@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ "$1" = 'which' ]; then
+  PATH=$PATH:$(npm bin) exec $@
+else
+  exec $(npm bin)/$@
+fi
