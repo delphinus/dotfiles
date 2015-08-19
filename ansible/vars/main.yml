@@ -82,7 +82,6 @@ python_modules:
   - vim-vint
   - git+https://github.com/powerline/powerline
   - git+https://github.com/delphinus35/powerlinex-segment-rbenv
-  - git+https://github.com/delphinus35/vim-webdevicons@for-powerline
   - git+https://github.com/omega/powerlinex-segment-plenv
 python_modules_with_compiling:
   - pygit2
