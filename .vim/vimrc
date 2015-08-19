@@ -5,6 +5,8 @@ let g:is_win = has('win32') || has('win64')
 
 if len($H)
   let g:home = expand('$H')
+  set runtimepath-=~/.vim
+  set runtimepath+=$H/.vim
 elseif len($USERPROFILE)
   let g:home = expand('$USERPROFILE')
 else
