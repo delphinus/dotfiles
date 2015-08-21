@@ -6,6 +6,9 @@ if [ -z "$H" ]; then
   export H=$HOME
 fi
 
+export PATH=
+eval `/usr/libexec/path_helper -s`
+
 export PATH="\
 $H/Dropbox/bin:\
 $H/bin:\
