@@ -112,6 +112,9 @@ set helplang=ja                   " ヘルプは日本語のものを優先す�
 
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
+set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞
+                                  " `%` で移動するペアを全角文字にも拡張する
+
 call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colorscheme solarized
 syntax on
