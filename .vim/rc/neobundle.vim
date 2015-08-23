@@ -138,7 +138,7 @@ NeoBundleLazy 'fuenor/JpFormat.vim',     {'commands': ['JpFormatAll', 'JpJoinAll
 NeoBundleLazy 'gregsexton/VimCalc',      {'commands': ['Calc']}
 NeoBundleLazy 'kannokanno/previm',       {'commands': ['PreVimOpen']}
 NeoBundleLazy 'sjl/gundo.vim',           {'commands': ['GundoToggle']}
-NeoBundleLazy 'thinca/vim-prettyprint',  {'commands': ['PP', 'PrettyPrint']}
+NeoBundleLazy 'thinca/vim-prettyprint',  {'commands': ['Capture', 'PP', 'PrettyPrint']}
 NeoBundleLazy 'tyru/capture.vim',        {'commands': ['Capture']}
 NeoBundleLazy 'vim-scripts/AnsiEsc.vim', {'commands': ['AnsiEsc']}
 
