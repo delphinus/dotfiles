@@ -7,7 +7,11 @@ if [ -z "$H" ]; then
 fi
 
 export PATH=
-eval `/usr/libexec/path_helper -s`
+if [ -x /usr/lib/exec/path_helper ]; then
+  eval `/usr/libexec/path_helper -s`
+else
+  export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+fi
 
 export PATH="\
 $H/Dropbox/bin:\
