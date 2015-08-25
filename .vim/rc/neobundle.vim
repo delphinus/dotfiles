@@ -61,6 +61,7 @@ NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
+NeoBundle 'wakatime/vim-wakatime'
 
 NeoBundle 'osyo-manga/vim-watchdogs', {'depends': [
       \   'dannyob/quickfixstatus',
