@@ -7,16 +7,33 @@ let s:cpanfile = 'cpanfile'
 let s:print_perlpath = " -e 'print join(q/,/,@INC)'"
 
 function! delphinus#perl#manage_local_perl(path) abort
-  let pwd = s:P.path2project_directory(a:path)
-  let cache_key = 'perl_cache'
-  let memory_perl_cache = delphinus#cache#memory().get(cache_key, {})
-  if has_key(memory_perl_cache, pwd)
-    return memory_perl_cache[pwd]
+  if exists('b:perl_info')
+    let perl_info = b:perl_info
+  else
+    let perl_info = delphinus#perl#perl_info(a:path)
+    let b:perl_info = perl_info
   endif
 
-  let perl_cache = delphinus#cache#file().get(cache_key, {})
+  if ! exists('g:quickrun_config')
+    let g:quickrun_config = {}
+  endif
 
-  if ! has_key(perl_cache, pwd)
+  let g:perlpath = perl_info.perlpath
+  let g:quickrun_config['watchdogs_checker/perl'].command = perl_info.local_perl
+  let g:quickrun_config['watchdogs_checker/perl'].cmdopt = get(perl_info, 'cmdopt', '-Ilib -It/lib')
+endfunction
+
+function! delphinus#perl#perl_info(path)
+  let pwd = s:P.path2project_directory(a:path)
+  let cache_key = 'perl_info'
+  let memory_perl_info = delphinus#cache#memory().get(cache_key, {})
+  if has_key(memory_perl_info, pwd)
+    return memory_perl_info[pwd]
+  endif
+
+  let perl_info = delphinus#cache#file().get(cache_key, {})
+
+  if ! has_key(perl_info, pwd)
 
     " plenv with carton
     if filereadable(s:cpanfile) && executable(s:carton)
@@ -41,20 +58,14 @@ function! delphinus#perl#manage_local_perl(path) abort
     endif
 
     let perlpath   = systemlist(local_perl . s:print_perlpath)[0]
-    let perl_cache[pwd] = {'local_perl': local_perl, 'perlpath': perlpath}
+    let perl_info[pwd] = {'local_perl': local_perl, 'perlpath': perlpath}
     if exists('cmdopt')
-      let perl_cache[pwd].cmdopt = cmdopt
+      let perl_info[pwd].cmdopt = cmdopt
     endif
-    call delphinus#cache#file().set(cache_key, perl_cache)
+    call delphinus#cache#file().set(cache_key, perl_info)
   endif
 
-  call delphinus#cache#memory().set(cache_key, perl_cache)
+  call delphinus#cache#memory().set(cache_key, perl_info)
 
-  if ! exists('g:quickrun_config')
-    let g:quickrun_config = {}
-  endif
-
-  let g:perlpath = perl_cache[pwd].perlpath
-  let g:quickrun_config['watchdogs_checker/perl'].command = perl_cache[pwd].local_perl
-  let g:quickrun_config['watchdogs_checker/perl'].cmdopt = get(perl_cache[pwd], 'cmdopt', '-Ilib -It/lib')
+  return perl_info[pwd]
 endfunction
