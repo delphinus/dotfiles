@@ -14,11 +14,6 @@ function! s:SetGithubIssuesVariables()
   endif
 endfunction
 
-augroup github_issue
-  autocmd!
-  autocmd BufEnter * call <SID>SetGithubIssuesVariables()
-augroup END
-
 if index({{ secret_office.hostnames | pprint }}, hostname()) > -1
   let g:gista#gist_api_url = '{{ secret_office.github_api_path }}'
   let g:gista#github_user = '{{ secret_office.github_user }}'
