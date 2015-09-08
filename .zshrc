@@ -5,57 +5,14 @@ source $H/git/dotfiles/.zsh/peco-ghq.zsh
 source $H/git/dotfiles/.zsh/peco-z.zsh
 source $H/git/dotfiles/.zsh/peco-bundler.zsh
 source $H/git/dotfiles/.zsh/peco-brew-directories.zsh
-source $H/git/dotfiles/bin/set-ssh-auth-sock.sh
-
-if [ "$H" != "$HOME" ]; then
-  alias vim="vim -u $H/.vim/vimrc"
-  alias git="HOME=$H git"
-  alias ghq="HOME=$H ghq"
-  alias tig="HOME=$H tig"
-fi
-alias g=git
-alias gh=ghq
-
-export PAGER=vimpager
-export VIMPAGER_RC=$H/.vim/vimpagerrc
-export ACK_PAGER='less -R'
-export EDITOR=vim
-export EDITRC=$H/.editrc
-export INPUTRC=$H/.inputrc
-
-OS=`uname`
-if [ "$OS" = 'Darwin' ]; then
-  LS=gls
-  alias dircolors=gdircolors
-  alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
-else
-  LS=ls
-fi
-alias ls="$LS --color"
-alias ll="$LS --color -l"
-alias l.="$LS --color -d .*"
-eval `dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
-alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
-alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
-alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
-alias lv='lv -c'
-alias be='bundle exec'
-alias ce='carton exec --'
-alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
-
-alias vp='vimpager'
-alias tm="tmux_cmd='tmux -u2 -f $H/git/dotfiles/.tmux.conf' tmux.sh"
-alias ptc='pt --color'
-
-export LANG=ja_JP.UTF-8
-export GREP_OPTIONS="--color=auto"
-export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
+source $H/git/dotfiles/.zsh/set-ssh-auth-sock.sh
+source $H/git/dotfiles/.zsh/export-alias.zsh
 
 # for perlomni.vim
 export PATH="$H/.vim/bundle/perlomni.vim/bin:$PATH"
 
 # terminal-notifier
-if [ "$OS" = 'Darwin' ]; then
+if [[ "$OSTYPE" == "darwin"* ]]; then
   # http://qiita.com/kei_s/items/96ee6929013f587b5878
   export SYS_NOTIFIER=/usr/local/bin/terminal-notifier
   export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
