@@ -100,9 +100,6 @@ set nrformats=                    " 5-5 10進数で数字の上げ下げ
 
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 
-"set showbreak=\ +\                " 折り返したときに行頭に文字を表示
-"set cpoptions+=n
-
 set updatetime=1000               " スワップファイルが書き込まれるまでの時間。
 
 set wildmenu                      " コマンドラインモードでの補完メニュー
@@ -112,8 +109,7 @@ set helplang=ja                   " ヘルプは日本語のものを優先す�
 
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
-set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞
-                                  " `%` で移動するペアを全角文字にも拡張する
+set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞ " `%` で移動するペアを全角文字にも拡張する
 colorscheme solarized
 set background=light
 syntax on
