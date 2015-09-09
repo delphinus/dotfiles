@@ -1,5 +1,6 @@
 let g:markdown_quote_syntax_defaults = {
       \ 'c':          {'start': 'c'},
+      \ 'coffee':     {'start': '\vcoffee%(script)?'},
       \ 'cpp':        {'start': 'cpp'},
       \ 'diff':       {'start': 'diff'},
       \ 'erlang':     {'start': 'erlang'},
