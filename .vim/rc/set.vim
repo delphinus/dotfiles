@@ -114,9 +114,8 @@ set lazyredraw                    " 画面描画をできるだけ遅らせる
 
 set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞
                                   " `%` で移動するペアを全角文字にも拡張する
-
-call togglebg#map('<F6>')         " Solarized のカラーテーマを切り替える
 colorscheme solarized
+set background=light
 syntax on
 
 augroup SetCommentItalic

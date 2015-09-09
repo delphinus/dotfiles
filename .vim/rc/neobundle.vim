@@ -58,7 +58,6 @@ NeoBundle 'delphinus35/vim-devicons', {'rev': 'for-powerline'}
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-scripts/HiColors'
-NeoBundle 'vim-scripts/Sunset'
 NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
 NeoBundle 'wakatime/vim-wakatime'
