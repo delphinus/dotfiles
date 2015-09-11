@@ -19,8 +19,8 @@ nmap <ESC><ESC> :nohlsearch<CR><ESC>
 " * 設定
 nnoremap * *N
 " 水平スクロール
-nnoremap <Tab>l 8zl
-nnoremap <Tab>h 8zh
+nnoremap gl 8zl
+nnoremap gh 8zh
 " 4-6
 "nnoremap <silent> cy ce<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
 "vnoremap <silent> cy c<C-R>0<ESC>:let@/=@1<CR>:noh<CR>
