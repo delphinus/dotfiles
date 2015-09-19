@@ -78,3 +78,5 @@ else
   alias plv='plenv versions'
   if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
 fi
+
+export path_in_zshenv=$PATH
