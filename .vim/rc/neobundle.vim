@@ -19,7 +19,7 @@ if has('vim_starting')
 endif
 
 " Required:
-call neobundle#begin(expand(g:bundle_dir))
+call g:neobundle#begin(expand(g:bundle_dir))
 
 let g:neobundle#default_options._ = {'verbose': 1}
 
@@ -104,20 +104,20 @@ NeoBundleLazy 'kannokanno/unite-dwm', {
 
 NeoBundleLazy 'fuenor/qfixhowm'
 
-if neobundle#tap('qfixhowm')
-  call neobundle#config({
+if g:neobundle#tap('qfixhowm')
+  call g:neobundle#config({
         \ 'autoload': {
         \   'mappings': ['g,m', 'g,c', 'g,s', 'g,q'],
         \ }})
-  call neobundle#untap()
+  call g:neobundle#untap()
 endif
 
-if neobundle#tap('unite-qfixhowm')
-  call neobundle#config({
+if g:neobundle#tap('unite-qfixhowm')
+  call g:neobundle#config({
         \ 'autoload': {
         \   'on_source': ['qfixhowm'],
         \ }})
-  call neobundle#untap()
+  call g:neobundle#untap()
 endif
 
 NeoBundleLazy 'vim-jp/vital.vim'
@@ -211,7 +211,7 @@ if has('vim_starting')
   execute 'set runtimepath+=' . g:home
 endif
 
-call neobundle#end()
+call g:neobundle#end()
 
 " Required:
 filetype plugin indent on
@@ -221,7 +221,7 @@ NeoBundleCheck
 
 if !has('vim_starting')
   " Call on_source hook when reloading .vimrc.
-  call neobundle#call_hook('on_source')
+  call g:neobundle#call_hook('on_source')
 endif
 
 " vim:se et fdm=marker:
