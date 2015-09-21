@@ -1,0 +1,2 @@
+#!/bin/sh
+git config --list | grep alias | sort | sed -e 's/^alias\.//' | ruby -pe '~/(.*?)=(.*)/;$_="%-5s => %s\n"%[$1,$2]'
