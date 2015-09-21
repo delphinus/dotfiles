@@ -135,20 +135,20 @@ NeoBundleLazy 'thinca/vim-prettyprint',  {'commands': ['Capture', 'PP', 'PrettyP
 NeoBundleLazy 'tyru/capture.vim',        {'commands': ['Capture']}
 NeoBundleLazy 'vim-scripts/AnsiEsc.vim', {'commands': ['AnsiEsc']}
 
-NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim',            {'filetypes': ['css']}
-"NeoBundleLazy 'Quramy/tsuquyomi',                              {'filetypes': ['typescript']}
-NeoBundleLazy 'c9s/perlomni.vim',                              {'filetypes': ['perl']}
-NeoBundleLazy 'catalinciurea/perl-nextmethod',                 {'filetypes': ['perl']}
-NeoBundleLazy 'csv.vim',                                       {'filetypes': ['csv']}
-NeoBundleLazy 'delphinus35/perl-test-base.vim',                {'filetypes': ['perl']}
+NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim', {'filetypes': ['css']}
+"NeoBundleLazy 'Quramy/tsuquyomi',                  {'filetypes': ['typescript']}
+NeoBundleLazy 'c9s/perlomni.vim',                   {'filetypes': ['perl']}
+NeoBundleLazy 'catalinciurea/perl-nextmethod',      {'filetypes': ['perl']}
+NeoBundleLazy 'csv.vim',                            {'filetypes': ['csv']}
+NeoBundleLazy 'delphinus35/perl-test-base.vim',     {'filetypes': ['perl']}
 NeoBundleLazy 'aklt/plantuml-syntax',               {'filetypes': ['markdown', 'plantuml']}
-NeoBundleLazy 'dsawardekar/wordpress.vim',                     {'filetypes': ['php']}
-NeoBundleLazy 'jason0x43/vim-js-indent',                       {'filetypes': ['javascript', 'typescript']}
-NeoBundleLazy 'jelera/vim-javascript-syntax',                  {'filetypes': ['javascript']}
-NeoBundleLazy 'kana/vim-vspec',                                {'filetypes': ['vim']}
-NeoBundleLazy 'rhysd/vim-textobj-ruby',                        {'filetypes': ['ruby'], 'depends': ['kana/vim-textobj-user']}
-NeoBundleLazy 'tpope/vim-rails',                               {'filetypes': ['ruby']}
-NeoBundleLazy 'vim-perl/vim-perl',                             {'filetypes': ['perl']}
+NeoBundleLazy 'dsawardekar/wordpress.vim',          {'filetypes': ['php']}
+NeoBundleLazy 'jason0x43/vim-js-indent',            {'filetypes': ['javascript', 'typescript']}
+NeoBundleLazy 'jelera/vim-javascript-syntax',       {'filetypes': ['javascript']}
+NeoBundleLazy 'kana/vim-vspec',                     {'filetypes': ['vim']}
+NeoBundleLazy 'rhysd/vim-textobj-ruby',             {'filetypes': ['ruby'], 'depends': ['kana/vim-textobj-user']}
+NeoBundleLazy 'tpope/vim-rails',                    {'filetypes': ['ruby']}
+NeoBundleLazy 'vim-perl/vim-perl',                  {'filetypes': ['perl']}
 
 NeoBundleLazy 'LeafCage/yankround.vim',       {'mappings': ['<Plug>(yankround-']}
 NeoBundleLazy 'Lokaltog/vim-easymotion',      {'mappings': ['<Plug>(easymotion-']}
