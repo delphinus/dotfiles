@@ -127,7 +127,6 @@ NeoBundleLazy 'tyru/open-browser-github.vim', {'depends': ['tyru/open-browser.vi
 
 NeoBundleLazy 'Shougo/vinarise.vim',     {'commands': ['Vinarise']}
 NeoBundleLazy 'airblade/vim-rooter',     {'commands': ['Rooter']}
-NeoBundleLazy 'delphinus35/lcpeek.vim',  {'commands': ['PeekInput']}
 NeoBundleLazy 'fuenor/JpFormat.vim',     {'commands': ['JpFormatAll', 'JpJoinAll'], 'filetypes': ['howm_memo']}
 NeoBundleLazy 'gregsexton/VimCalc',      {'commands': ['Calc']}
 NeoBundleLazy 'kannokanno/previm',       {'commands': ['PreVimOpen']}
