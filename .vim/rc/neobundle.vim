@@ -27,8 +27,8 @@ let g:neobundle#default_options._ = {'verbose': 1}
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-let s:bundled_vimproc_directory = expand('$VIM/plugins/vimproc')
-if ! (has('macunix') && has('kaoriya') && isdirectory(s:bundled_vimproc_directory))
+let s:is_vimproc_bundled = isdirectory(expand('$VIM/plugins/vimproc'))
+if ! (has('macunix') && has('kaoriya') && s:is_vimproc_bundled)
   NeoBundle 'Shougo/vimproc.vim', {'build': {
         \   'cygwin': 'make -f make_cygwin.mak',
         \   'mac':    'make -f make_mac.mak',
