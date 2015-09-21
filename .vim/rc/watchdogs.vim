@@ -17,19 +17,19 @@ let g:quickrun_config['watchdogs_checker/_'] = {'outputter/quickfix/open_cmd': '
 let g:quickrun_config['watchdogs_checker/gcc'] = {'cmdopt': '-std=c99'}
 let g:quickrun_config['watchdogs_checker/jshint'] = {'cmdopt': '--config ' . g:home . '/git/dotfiles/.jshintrc'}
 
-let rbenv_ruby = expand('/usr/local/opt/rbenv/shims/ruby')
-if executable(rbenv_ruby)
-  let g:quickrun_config['watchdogs_checker/ruby'] = {'command': rbenv_ruby}
+let s:rbenv_ruby = expand('/usr/local/opt/rbenv/shims/ruby')
+if executable(s:rbenv_ruby)
+  let g:quickrun_config['watchdogs_checker/ruby'] = {'command': s:rbenv_ruby}
 endif
 
-let phpcs = expand(g:home . '/.composer/vendor/bin/phpcs')
-if executable(phpcs)
-  let errorformat =
+let s:phpcs = expand(g:home . '/.composer/vendor/bin/phpcs')
+if executable(s:phpcs)
+  let s:errorformat =
         \ '%-GFile\,Line\,Column\,Type\,Message\,Source\,Severity%.%#,'.
         \ '"%f"\,%l\,%c\,%t%*[a-zA-Z]\,"%m"\,%*[a-zA-Z0-9_.-]\,%*[0-9]%.%#'
   let g:quickrun_config['watchdogs_checker/php'] = {
-        \ 'quickfix/errorformat': errorformat,
-        \ 'command':              phpcs,
+        \ 'quickfix/errorformat': s:errorformat,
+        \ 'command':              s:phpcs,
         \ 'cmdopt':               '--report=csv',
         \ 'exec':                 '%c %o %s:p',
         \ }
