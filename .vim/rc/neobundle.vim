@@ -49,8 +49,7 @@ NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-"NeoBundle 'ryanoasis/vim-devicons'
-NeoBundle 'delphinus35/vim-devicons', {'rev': 'for-powerline'}
+NeoBundle 'ryanoasis/vim-devicons'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-scripts/HiColors'
@@ -143,7 +142,7 @@ NeoBundleLazy 'c9s/perlomni.vim',                              {'filetypes': ['p
 NeoBundleLazy 'catalinciurea/perl-nextmethod',                 {'filetypes': ['perl']}
 NeoBundleLazy 'csv.vim',                                       {'filetypes': ['csv']}
 NeoBundleLazy 'delphinus35/perl-test-base.vim',                {'filetypes': ['perl']}
-NeoBundleLazy 'delphinus35/plantuml-syntax', 'fix-for-isnot#', {'filetypes': ['markdown', 'plantuml']}
+NeoBundleLazy 'aklt/plantuml-syntax',               {'filetypes': ['markdown', 'plantuml']}
 NeoBundleLazy 'dsawardekar/wordpress.vim',                     {'filetypes': ['php']}
 NeoBundleLazy 'jason0x43/vim-js-indent',                       {'filetypes': ['javascript', 'typescript']}
 NeoBundleLazy 'jelera/vim-javascript-syntax',                  {'filetypes': ['javascript']}
