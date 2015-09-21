@@ -42,4 +42,4 @@ endif
 " この関数に g:quickrun_config を渡す
 " この関数で g:quickrun_config にシンタックスチェックを行うための設定を追加する
 " 関数を呼び出すタイミングはユーザの g:quickrun_config 設定後
-call watchdogs#setup(g:quickrun_config)
+call g:watchdogs#setup(g:quickrun_config)
