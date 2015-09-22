@@ -8,6 +8,10 @@ source $H/git/dotfiles/.zsh/peco-brew-directories.zsh
 source $H/git/dotfiles/.zsh/set-ssh-auth-sock.sh
 source $H/git/dotfiles/.zsh/export-alias.zsh
 
+if [ -n "$path_in_zshenv" ]; then
+  export PATH=$path_in_zshenv
+fi
+
 # for perlomni.vim
 export PATH="$H/.vim/bundle/perlomni.vim/bin:$PATH"
 
