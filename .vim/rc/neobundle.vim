@@ -5,7 +5,7 @@ scriptencoding utf-8
 "===============================================================================
 
 " Note: Skip initialization for vim-tiny or vim-small.
-if !1 | finish | endif
+if 0 | endif
 
 " プラグイン保存パス
 let g:bundle_dir    = g:home       . '/.vim/bundle'
@@ -14,12 +14,15 @@ let g:after_dir     = g:home       . '/.vim/after'
 
 " NeoBundle へのパス
 if has('vim_starting')
+  if &compatible
+    set nocompatible               " Be iMproved
+  endif
   execute 'set runtimepath-=' . g:home . '/.vim/'
   execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
 endif
 
 " Required:
-call g:neobundle#begin(expand(g:bundle_dir))
+call neobundle#begin(expand(g:bundle_dir))
 
 let g:neobundle#default_options._ = {'verbose': 1}
 
@@ -104,19 +107,19 @@ NeoBundleLazy 'kannokanno/unite-dwm', {
 NeoBundleLazy 'fuenor/qfixhowm'
 
 if g:neobundle#tap('qfixhowm')
-  call g:neobundle#config({
+  call neobundle#config({
         \ 'autoload': {
         \   'mappings': ['g,m', 'g,c', 'g,s', 'g,q'],
         \ }})
-  call g:neobundle#untap()
+  call neobundle#untap()
 endif
 
 if g:neobundle#tap('unite-qfixhowm')
-  call g:neobundle#config({
+  call neobundle#config({
         \ 'autoload': {
         \   'on_source': ['qfixhowm'],
         \ }})
-  call g:neobundle#untap()
+  call neobundle#untap()
 endif
 
 NeoBundleLazy 'vim-jp/vital.vim'
@@ -208,7 +211,7 @@ if has('vim_starting')
   execute 'set runtimepath+=' . g:home
 endif
 
-call g:neobundle#end()
+call neobundle#end()
 
 " Required:
 filetype plugin indent on
@@ -218,7 +221,7 @@ NeoBundleCheck
 
 if !has('vim_starting')
   " Call on_source hook when reloading .vimrc.
-  call g:neobundle#call_hook('on_source')
+  call neobundle#call_hook('on_source')
 endif
 
 " vim:se et fdm=marker:
