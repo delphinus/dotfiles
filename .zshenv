@@ -79,4 +79,8 @@ else
   if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
 fi
 
+# for go
+export GOPATH=$H/.go
+export PATH=$GOPATH/bin:$PATH
+
 export path_in_zshenv=$PATH
