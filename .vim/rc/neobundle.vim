@@ -164,6 +164,11 @@ NeoBundleLazy 't9md/vim-quickhl',             {'mappings': ['<Plug>(quickhl-', '
 NeoBundleLazy 't9md/vim-choosewin',           {'mappings': ['<Plug>(choosewin)']}
 NeoBundleLazy 'thinca/vim-fontzoom',          {'mappings': ['<Plug>(fontzoom-'], 'commands': ['Fontzoom'], 'gui': 1}
 
+NeoBundleLazy 'tyru/open-browser.vim', {
+      \ 'mappings': ['<Plug>(openbrowser-'],
+      \ 'commands': ['OpenBrowser', 'OpenBrowserSearch'],
+      \ }
+
 NeoBundleLazy 'Shougo/neocomplete.vim', {'insert': 1}
 NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
       \ 'depends':   ['Shougo/neocomplete.vim'],
