@@ -110,6 +110,10 @@ set helplang=ja                   " ヘルプは日本語のものを優先す�
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
 set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞ " `%` で移動するペアを全角文字にも拡張する
+
+set completeopt+=menuone          " 候補が一つだけの時も補完する
+set completeopt-=preview          " プレビューウィンドウへの表示をやめる
+
 colorscheme solarized
 set background=light
 syntax on
