@@ -145,6 +145,7 @@ NeoBundleLazy 'csv.vim',                            {'filetypes': ['csv']}
 NeoBundleLazy 'delphinus35/perl-test-base.vim',     {'filetypes': ['perl']}
 NeoBundleLazy 'aklt/plantuml-syntax',               {'filetypes': ['markdown', 'plantuml']}
 NeoBundleLazy 'dsawardekar/wordpress.vim',          {'filetypes': ['php']}
+NeoBundleLazy 'fatih/vim-go',                       {'filetypes': ['go']}
 NeoBundleLazy 'jason0x43/vim-js-indent',            {'filetypes': ['javascript', 'typescript']}
 NeoBundleLazy 'jelera/vim-javascript-syntax',       {'filetypes': ['javascript']}
 NeoBundleLazy 'kana/vim-vspec',                     {'filetypes': ['vim']}
