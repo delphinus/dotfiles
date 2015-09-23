@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 {
   pomicons:       (0xe000 .. 0xe00a),
+  powerline:      (0xe0a0 .. 0xe0b3),
   original:       (0xe5fe .. 0xe62a),
   devicons:       (0xe700 .. 0xe7c5),
   'font-awesome': (0xf000 .. 0xf280),
