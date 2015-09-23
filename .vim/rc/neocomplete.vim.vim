@@ -1,5 +1,4 @@
 let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_auto_select=1
 let g:neocomplete#min_keyword_length = 3
 inoremap <expr><TAB>
       \ neocomplete#complete_common_string() != '' ?
