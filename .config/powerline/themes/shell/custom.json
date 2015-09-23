@@ -14,10 +14,13 @@
 			}
 		},
 		"powerlinex.segment.rbenv.version": {
-			"before": "ⓡ  "
+			"before": "  "
 		},
 		"powerlinex.segment.plenv.version": {
-			"before": "ⓟ  "
+			"before": "  "
+		},
+		"ext.segments.local_perl.local_perl": {
+			"before": "  "
 		}
 	},
 	"segments": {
