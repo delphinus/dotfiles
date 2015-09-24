@@ -17,7 +17,10 @@ class UsedMemoryPercentSegment(ThreadedSegment):
 	interval = 1
 
 	def active_memory_percent(self):
-		return float(psutil.virtual_memory().active) * 100 / psutil.TOTAL_PHYMEM
+		try:
+			return psutil.virtual_memory().percent
+		except:
+			return psutil.phymem_usage().percent
 
 	def update(self, old_used_memory):
 		return self.active_memory_percent()
@@ -50,7 +53,10 @@ class UsedMemoryPercentSegment(ThreadedSegment):
 #''')
 
 def used_memory_percent(pl, format='{0:.0f}%'):
-	memory = float(psutil.virtual_memory().active) * 100 / psutil.TOTAL_PHYMEM
+	try:
+		memory = psutil.virtual_memory().percent
+	except:
+		memory = psutil.phymem_usage().percent
 
 	return [{
 		'contents': format.format(memory),
@@ -59,7 +65,10 @@ def used_memory_percent(pl, format='{0:.0f}%'):
 		}]
 
 def used_memory(pl, steps=5, circle_glyph='●', memory_glyph='🔲'):
-	memory = float(psutil.used_phymem()) * 100 / psutil.TOTAL_PHYMEM
+	try:
+		memory = psutil.virtual_memory().percent
+	except:
+		memory = psutil.phymem_usage().percent
 
 	ret = []
 	denom = int(steps)
