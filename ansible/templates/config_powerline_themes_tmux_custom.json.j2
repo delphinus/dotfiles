@@ -59,10 +59,12 @@
 				"function": "ext.tmux.segments.ps.used_memory_percent",
 				"priority": 50
 			},
+{% if ansible_os_family == 'Darwin' %}
 			{
 				"function": "powerline.segments.common.bat.battery",
 				"priority": 50
 			},
+{% endif %}
 			{
 				"function": "powerline.segments.common.mail.email_imap_alert",
 				"priority": 50
