@@ -78,6 +78,7 @@ dotfiles_dir:         "{{ home_dir }}/git/dotfiles"
 dotfiles_repo:        git@git.remora.cx:delphinus/dotfiles
 dotfiles_repo_github: git@github.com:delphinus35/dotfiles
 python_modules:
+  - psutil
   - pyuv
   - vim-vint
   - git+https://github.com/powerline/powerline
