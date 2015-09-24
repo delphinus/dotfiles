@@ -30,6 +30,12 @@
 				"empty_heart": "♡ "
 			}
 		},
+		"ext.tmux.segments.cool_battery.battery": {
+			"args": {
+				"iconfy": true,
+				"online": "  "
+			}
+		},
 		"powerline.segments.common.net.network_load": {
 			"args": {
 				"recv_max": 1000000,
@@ -61,7 +67,7 @@
 			},
 {% if ansible_os_family == 'Darwin' %}
 			{
-				"function": "powerline.segments.common.bat.battery",
+				"function": "ext.tmux.segments.cool_battery.battery",
 				"priority": 50
 			},
 {% endif %}
