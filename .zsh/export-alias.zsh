@@ -23,17 +23,17 @@ else
 fi
 
 eval `dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
-alias ls="$LS --color"
-alias ll="$LS --color -l"
-alias l.="$LS --color -d .*"
-alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
-alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
-alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
-alias lv='lv -c'
 alias be='bundle exec'
 alias ce='carton exec --'
-alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
-alias vp=vimpager
-alias tm="tmux_cmd='tmux -u2 -f $H/git/dotfiles/.tmux.conf' tmux.sh"
+alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
+alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
+alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias g=git
 alias gh=ghq
+alias l.="$LS --color -d .*"
+alias ll="$LS --color -l"
+alias ls="$LS --color"
+alias lv='lv -c'
+alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
+alias tm="tmux_cmd='tmux -u2 -f $H/git/dotfiles/.tmux.conf' tmux.sh"
+alias vp=vimpager
