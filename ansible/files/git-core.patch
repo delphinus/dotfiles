@@ -1,7 +1,7 @@
 diff -ur git-core.orig/git-pull git-core/git-pull
---- git-core.orig/git-pull	2015-04-08 16:56:29.000000000 +0900
-+++ git-core/git-pull	2015-04-08 17:18:40.000000000 +0900
-@@ -4,12 +4,27 @@
+--- git-core.orig/git-pull	2015-09-24 23:33:47.000000000 +0900
++++ git-core/git-pull	2015-09-24 23:34:58.000000000 +0900
+@@ -4,6 +4,21 @@
  #
  # Fetch one or more remote refs and merge it/them into the current HEAD.
  
@@ -20,18 +20,21 @@ diff -ur git-core.orig/git-pull git-core/git-pull
 +}
 +__SCRIPT_DIR__=$(abs_dirname $0)
 +
- USAGE='[-n | --no-stat] [--[no-]commit] [--[no-]squash] [--[no-]ff|--ff-only] [--[no-]rebase|--rebase=preserve] [-s strategy]... [<fetch-options>] <repo> <head>...'
- LONG_USAGE='Fetch one or more remote refs and integrate it/them with the current HEAD.'
  SUBDIRECTORY_OK=Yes
- OPTIONS_SPEC=
+ OPTIONS_KEEPDASHDASH=
+ OPTIONS_STUCKLONG=Yes
+@@ -48,8 +63,8 @@
+ refmap=refmap              specify fetch refmap
+ "
+ test $# -gt 0 && args="$*"
 -. git-sh-setup
 -. git-sh-i18n
 +. $__SCRIPT_DIR__/git-sh-setup
 +. $__SCRIPT_DIR__/git-sh-i18n
- set_reflog_action "pull${1+ $*}"
+ set_reflog_action "pull${args+ $args}"
  require_work_tree_exists
  cd_to_toplevel
-@@ -226,7 +241,7 @@
+@@ -266,7 +281,7 @@
  		echo "a branch. Because this is not the default configured remote"
  		echo "for your current branch, you must specify a branch on the command line."
  	elif [ -z "$curr_branch" -o -z "$upstream" ]; then
@@ -40,7 +43,7 @@ diff -ur git-core.orig/git-pull git-core/git-pull
  		error_on_missing_default_upstream "pull" $op_type $op_prep \
  			"git pull <remote> <branch>"
  	else
-@@ -249,7 +264,7 @@
+@@ -289,7 +304,7 @@
  	fi
  	oldremoteref= &&
  	test -n "$curr_branch" &&
@@ -49,8 +52,8 @@ diff -ur git-core.orig/git-pull git-core/git-pull
  	remoteref="$(get_remote_merge_branch "$@" 2>/dev/null)" &&
  	oldremoteref=$(git merge-base --fork-point "$remoteref" $curr_branch 2>/dev/null)
  }
-@@ -326,12 +341,12 @@
- merge_name=$(git fmt-merge-msg $log_arg <"$GIT_DIR/FETCH_HEAD") || exit
+@@ -367,12 +382,12 @@
+ 
  case "$rebase" in
  true)
 -	eval="git-rebase $diffstat $strategy_args $merge_args $rebase_args $verbosity"
@@ -63,7 +66,7 @@ diff -ur git-core.orig/git-pull git-core/git-pull
 +	eval="$__SCRIPT_DIR__/git-merge $diffstat $no_commit $verify_signatures $edit $squash $no_ff $ff_only"
  	eval="$eval $log_arg $strategy_args $merge_args $verbosity $progress"
  	eval="$eval $gpg_sign_args"
- 	eval="$eval \"\$merge_name\" HEAD $merge_head"
+ 	eval="$eval FETCH_HEAD"
 diff -ur git-core.orig/git-rebase git-core/git-rebase
 --- git-core.orig/git-rebase	2015-04-08 16:56:29.000000000 +0900
 +++ git-core/git-rebase	2015-04-08 17:18:44.000000000 +0900
