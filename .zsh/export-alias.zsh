@@ -24,6 +24,7 @@ fi
 
 eval `dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 alias be='bundle exec'
+alias brew='TERM=xterm-256color brew'
 alias ce='carton exec --'
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
