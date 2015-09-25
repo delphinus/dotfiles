@@ -65,7 +65,7 @@
 				"function": "ext.tmux.segments.ps.used_memory_percent",
 				"priority": 50
 			},
-{% if battery_powered | success %}
+{% if 'MacBook' in ansible_model %}
 			{
 				"function": "ext.tmux.segments.cool_battery.battery",
 				"priority": 50
