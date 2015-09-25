@@ -6,8 +6,8 @@ show-warnings
 pager  = grcat ~/.grcat
 
 [mysqld_multi]
-mysqld     = /usr/local/Cellar/mysql/5.6.22/bin/mysqld_safe
-mysqladmin = /usr/local/Cellar/mysql/5.6.22/bin/mysqladmin
+mysqld     = /usr/local/opt/mysql/bin/mysqld_safe
+mysqladmin = /usr/local/opt/mysql/bin/mysqladmin
 user = multi_admin
 password = multipass
 
@@ -18,7 +18,7 @@ port            = 3306
 datadir         = /usr/local/var/mysql1
 socket          = /tmp/mysql.sock1
 pid-file        = /tmp/mysqld.pid1
-language        = /usr/local/Cellar/mysql/5.6.22/share/mysql/japanese
+language        = /usr/local/share/mysql/japanese
 sync_binlog     = 1
 log-bin         = mysql-bin
 log-bin-index   = mysql-bin
@@ -32,7 +32,7 @@ port            = 3307
 datadir         = /usr/local/var/mysql2
 socket          = /tmp/mysql.sock2
 pid-file        = /tmp/mysqld.pid2
-language        = /usr/local/Cellar/mysql/5.6.22/share/mysql/japanese
+language        = /usr/local/share/mysql/japanese
 read_only
 log-slave-updates
 log-bin         = mysql-bin
