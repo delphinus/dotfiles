@@ -40,6 +40,7 @@ if ! (has('macunix') && has('kaoriya') && s:is_vimproc_bundled)
 endif
 
 " プラグイン {{{
+NeoBundle 'Glench/Vim-Jinja2-Syntax'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'delphinus35/vim-colors-solarized'
 NeoBundle 'delphinus35/vim-emacscommandline'
