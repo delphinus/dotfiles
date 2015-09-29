@@ -30,7 +30,9 @@
 		"attached_clients":         { "fg": "gray8", "bg": "gray2", "attrs": [] },
 		"error":                    { "fg": "brightestred", "bg": "darkred", "attrs": ["bold"] },
 		"warning":                  { "fg": "brightyellow", "bg": "darkorange", "attrs": ["bold"] },
-		"current_tag":              { "fg": "gray9", "bg": "gray2", "attrs": [] }
+		"current_tag":              { "fg": "gray9", "bg": "gray2", "attrs": [] },
+
+		"tab_nc:modified_indicator": { "fg": "brightyellow", "bg": "gray2", "attrs": ["bold"] }
 	},
 	"mode_translations": {
 		"nc": {
