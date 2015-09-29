@@ -12,5 +12,4 @@ function peco-z() {
   fi
 }
 zle -N peco-z
-bindkey '^z' peco-z
 bindkey '^t' peco-z
