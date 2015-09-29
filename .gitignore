@@ -24,3 +24,4 @@ history.sqlite
 /bin/local_perl.sh
 .ruby-version
 /ansible/hosts
+mkmf.log
