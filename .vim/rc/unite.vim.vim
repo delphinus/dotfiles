@@ -91,3 +91,4 @@ unlet s:mru
 
 " gista 設定
 call unite#custom#action('gista', 'yank_url_to_system_clipboard', delphinus#gista#yank_url_to_system_clipboard())
+call unite#custom#action('gista', 'open_browser', delphinus#gista#open_browser())
