@@ -19,6 +19,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   alias dircolors=gdircolors
   alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
   alias brew='TERM=xterm-256color brew'
+  alias vagrant='TERM=xterm-256color vagrant'
 else
   LS=ls
 fi
