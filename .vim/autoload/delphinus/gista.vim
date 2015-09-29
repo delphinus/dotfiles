@@ -31,3 +31,18 @@ function! delphinus#gista#external(candidate) abort
     call system(printf('echo "%s" | ui_copy', @"))
   endif
 endfunction
+
+function! delphinus#gista#open_browser() abort
+  let gista_action = {
+        \ 'is_selectable': 0,
+        \ 'description': 'open gist in browser',
+        \ 'func': function('delphinus#gista#_open_browser'),
+        \ }
+  return gista_action
+endfunction
+
+function! delphinus#gista#_open_browser(candidate) abort
+  let gist = a:candidate.source__gist
+  call gista#interface#yank_url_action(gist.id)
+  call openbrowser#open(@")
+endfunction
