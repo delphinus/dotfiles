@@ -65,7 +65,7 @@
 				"function": "ext.tmux.segments.ps.used_memory_percent",
 				"priority": 50
 			},
-{% if 'MacBook' in ansible_model %}
+{% if ansible_os_family == 'Darwin' and 'MacBook' in ansible_model %}
 			{
 				"function": "ext.tmux.segments.cool_battery.battery",
 				"priority": 50
