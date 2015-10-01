@@ -22,10 +22,11 @@ if exists(':NeoCompleteIncludeMakeCache')
 endif
 
 if filereadable('.noexpandtab') || (len($USER) && $USER ==# 'game')
-    setlocal noexpandtab
-    setlocal tabstop=4
-    setlocal shiftwidth=4
-    setlocal softtabstop=4
+  setlocal noexpandtab
 endif
+
+setlocal tabstop=4
+setlocal shiftwidth=4
+setlocal softtabstop=4
 
 call delphinus#perl#manage_local_perl(expand('%'))
