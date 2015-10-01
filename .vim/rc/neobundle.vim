@@ -195,7 +195,7 @@ NeoBundleLazy 'thinca/vim-ref', {
       \ 'commands':      ['Ref'],
       \ 'unite_sources': 'ref',
       \ }
-NeoBundleLazy 'delphinus35/vim-gista', 'fix-typo-in-guess_extension', {
+NeoBundleLazy 'lambdalisue/vim-gista', {
       \ 'depends':       ['Shougo/unite.vim', 'tyru/open-browser.vim'],
       \ 'commands':      ['Gista'],
       \ 'mappings':      '<Plug>(gista-',
