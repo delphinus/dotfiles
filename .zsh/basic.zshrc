@@ -3,10 +3,6 @@
 # 斜体を使えるようにする
 export TERM=xterm-256color-italic
 
-# 補完関数を追加
-fpath=($HOME/git/dotfiles/.zsh/completions /usr/local/share/git/site-functions /usr/local/share/zsh-completions $fpath)
-autoload -U compinit && compinit
-
 # ヒストリの設定
 HISTFILE=~/.zsh_history
 HISTSIZE=10000

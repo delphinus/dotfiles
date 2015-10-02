@@ -1,5 +1,9 @@
-# 強力な補完を有効にする
-autoload -Uz compinit
+# 補完関数を追加
+if [ -d /usr/local/share/zsh-completions ]; then
+  fpath=(/usr/local/share/zsh-completions $fpath)
+fi
+fpath=($HOME/git/dotfiles/.zsh/completions /usr/local/share/git/site-functions $fpath)
+autoload -U compinit
 compinit
 
 if [ -z "$H" ]; then
