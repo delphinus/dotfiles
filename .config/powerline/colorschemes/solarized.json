@@ -39,8 +39,8 @@
 		"time":                    { "fg": "solarized:orange", "bg": "solarized:base2", "attrs": ["bold"] },
 		"time:divider":            { "fg": "solarized:base01", "bg": "solarized:base2", "attrs": [] },
 		"system_load":             { "fg": "solarized:base1", "bg": "solarized:base03", "attrs": [] },
-		"weather_temp_gradient":   { "fg": "blue_red", "bg": "solarized:base03", "attrs": [] },
-		"weather":                 { "fg": "solarized:base1", "bg": "solarized:base03", "attrs": [] },
+		"weather_temp_gradient":   { "fg": "blue_red", "bg": "solarized:base02", "attrs": [] },
+		"weather":                 { "fg": "solarized:base1", "bg": "solarized:base02", "attrs": [] },
 		"uptime":                  { "fg": "solarized:base1", "bg": "solarized:base03", "attrs": [] }
 	}
 }
