@@ -50,7 +50,9 @@ let g:calendar_jp=2
 " カレンダーの表示月数
 let g:QFixHowm_CalendarCount=6
 " 半角だけの行は整形しない
-let JpFormatExclude = '^[^[[:print:][:space:]]\+$'
+let JpFormatExclude = '^\([\x00-\xff]\+\|[\[#].*\)$'
+" 連結マーカーを nbsp に設定
+let JpFormatMarker = ' '
 
 "-----------------------------------------------------------------------------
 " 一つ分のエントリを選択
