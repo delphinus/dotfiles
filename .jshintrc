@@ -49,6 +49,7 @@
         "_",
         "Backbone",
         "AppWidgets",
-        "ModerationDetails"
+        "ModerationDetails",
+        "require"
     ]
 }
