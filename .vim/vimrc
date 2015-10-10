@@ -48,7 +48,6 @@ call s:load_rc('fugitive')            " fugitive 設定
 call s:load_rc('watchdogs')           " watchdogs 設定
 call s:load_rc('dwm')                 " dwm.vim 設定
 call s:load_rc('easyalign')           " EasyAlign 設定
-call s:load_rc('gitgutter')           " gitgutter 設定
 call s:load_rc('quickhl')             " quickhl 設定
 call s:load_rc('choosewin')           " choosewin 設定
 call s:load_rc('yankround')           " choosewin 設定
