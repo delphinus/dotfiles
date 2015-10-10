@@ -54,6 +54,7 @@ NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 NeoBundle 'ryanoasis/vim-devicons'
+NeoBundle 'sgur/vim-lazygutter'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-scripts/HiColors'
