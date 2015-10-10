@@ -3,6 +3,10 @@ function! delphinus#devicons#converter() abort
 endfunction
 
 function! delphinus#devicons#converter_filter(candidates, context) abort
+  if !exists('*WebDevIconsGetFileTypeSymbol')
+    return a:candidates
+  endif
+
   for candidate in filter(copy(a:candidates), "!has_key(v:val, 'icon')")
     let raw_path = get(candidate, 'action__path', '')
     if ! filereadable(raw_path) && ! isdirectory(raw_path)
@@ -55,11 +59,16 @@ function! delphinus#devicons#mru_filter(candidates, context) abort
     if g:neomru#time_format !=# ''
       let candidate.abbr .= strftime(g:neomru#time_format, getftime(raw_path))
     endif
-    let candidate.abbr .= WebDevIconsGetFileTypeSymbol(filename, isdirectory(raw_path))
-    if g:neomru#filename_format ==# ''
-      let candidate.abbr .= ' ' . raw_path
+
+    if exists('*WebDevIconsGetFileTypeSymbol')
+      let candidate.abbr .= WebDevIconsGetFileTypeSymbol(filename, isdirectory(raw_path))
+      if g:neomru#filename_format ==# ''
+        let candidate.abbr .= ' ' . raw_path
+      else
+        let candidate.abbr .= ' ' . fnamemodify(raw_path, g:neomru#filename_format)
+      endif
     else
-      let candidate.abbr .= ' ' . fnamemodify(raw_path, g:neomru#filename_format)
+        let candidate.abbr .= ' ' . raw_path
     endif
   endfor
 
