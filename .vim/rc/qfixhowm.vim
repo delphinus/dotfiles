@@ -36,10 +36,10 @@ endif
 let g:QFix_PreviewEnable=0
 
 " vim-markdown-quote-syntax 対応
-augroup markdown_quote_syntax_for_howm_memo
-  autocmd!
-  autocmd Syntax howm_memo.markdown call markdown_quote_syntax#enable_quote_syntax()
-augroup END
+"augroup markdown_quote_syntax_for_howm_memo
+  "autocmd!
+  "autocmd Syntax howm_memo.markdown call markdown_quote_syntax#enable_quote_syntax()
+"augroup END
 
 " カレンダーの休日予定
 let g:QFixHowm_HolidayFile = neobundle#config#get('qfixhowm').path . '/misc/holiday/Sche-Hd-0000-00-00-000000.utf8'
