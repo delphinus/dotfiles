@@ -10,3 +10,6 @@ nmap <C-Space> <Plug>DWMFocus
 nmap <C-L> <Plug>DWMGrowMaster
 nmap <C-H> <Plug>DWMShrinkMaster
 nmap <BS>  <Plug>DWMShrinkMaster
+
+nnoremap <silent> <Plug>DWMSetMasterPaneWidth :call delphinus#dwm#set_master_pane_width()<CR>
+nmap <D-@> <Plug>DWMSetMasterPaneWidth
