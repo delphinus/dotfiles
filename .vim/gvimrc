@@ -26,8 +26,8 @@ elseif has('macunix')
     set guifont=Hack:h16
     set guifontwide=Ricty_Discord:h18
   else
-    set guifont=Ricty_Discord:h14
-    set guifontwide=Ricty_Discord:h14
+    set guifont=Hack:h14
+    set guifontwide=Ricty_Discord:h16
   endif
   set lines=92 columns=190          " ウィンドウの大きさを指定する
   set linespace=0
