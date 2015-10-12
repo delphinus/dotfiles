@@ -25,6 +25,9 @@ elseif has('macunix')
   if s:resolution == 2560
     set guifont=Hack:h16
     set guifontwide=Ricty_Discord:h18
+  elseif s:resolution == 1366
+    set guifont=Hack:h18
+    set guifontwide=Ricty_Discord:h20
   else
     set guifont=Hack:h14
     set guifontwide=Ricty_Discord:h16
