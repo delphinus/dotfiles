@@ -24,7 +24,7 @@ timing = True
 # orgtbl, rst, mediawiki, html, latex, latex_booktabs.
 # Recommended: psql, fancy_grid and grid.
 #table_format = psql
-table_format = fancy_grid
+table_format = rst
 
 # Syntax Style. Possible values: manni, igor, xcode, vim, autumn, vs, rrt,
 # native, perldoc, borland, tango, emacs, friendly, monokai, paraiso-dark,
