@@ -1,5 +1,6 @@
 let s:V = vital#of('vital')
 let s:P = s:V.import('Prelude')
+let s:FP = s:V.import('System.Filepath')
 
 let s:carton = expand('/usr/local/opt/plenv/shims/carton')
 let s:local_perl = expand('$HOME/git/dotfiles/bin/local_perl.sh')
@@ -68,4 +69,16 @@ function! delphinus#perl#perl_info(path)
   call delphinus#cache#memory().set(cache_key, perl_info)
 
   return perl_info[pwd]
+endfunction
+
+function! delphinus#perl#test_filetype() abort
+  if &filetype ==# 'perl'
+    return
+  endif
+  for ele in s:FP.split(expand('%'))
+    if ele ==# 't' || ele ==# 'xt'
+      set filetype=perl
+      return
+    endif
+  endfor
 endfunction
