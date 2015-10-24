@@ -39,3 +39,4 @@ alias lv='lv -c'
 alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
 alias tm="tmux_cmd='tmux -u2 -f $H/git/dotfiles/.tmux.conf' tmux.sh"
 alias vp=vimpager
+alias minvim='vim -N -u NONE -u NONE -i NONE --noplugin'
