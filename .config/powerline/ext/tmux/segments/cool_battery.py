@@ -3,13 +3,13 @@
 
 from __future__ import absolute_import
 
-from powerline.segments.common.bat import _get_battery_status
-
 import re
 
-def battery(pl, format='{ac_state} {capacity:3.0%}', steps=5, gamify=False, full_heart='O', empty_heart='O', online='C', offline=' ', iconfy=False, icons='          ', icon_format='{0}  '):
+from powerline.lib.shell import run_cmd
+
+def battery(pl, format='{ac_state} {capacity:3.0%}', steps=5, gamify=False, full_heart='O', empty_heart='O', online='C', offline=' ', iconfy=False, icons='          ', icon_format='{0}  {1}'):
 	try:
-		capacity, ac_powered = _get_battery_status(pl)
+		capacity, ac_powered, estimated_time = _get_battery_status(pl)
 	except NotImplementedError:
 		pl.info('Unable to get battery status.')
 		return None
@@ -50,7 +50,7 @@ def battery(pl, format='{ac_state} {capacity:3.0%}', steps=5, gamify=False, full
 			'gradient_level': 0,
 		})
 		ret.append({
-			'contents': icon_format.format(icon),
+			'contents': icon_format.format(icon, estimated_time),
 			'draw_inner_divider': False,
 			'highlight_groups': ['battery_gradient', 'battery'],
 			# Using zero as “nothing to worry about”: it is least alert color.
@@ -66,3 +66,13 @@ def battery(pl, format='{ac_state} {capacity:3.0%}', steps=5, gamify=False, full
 			'gradient_level': 100 - capacity,
 		})
 	return ret
+
+BATTERY_PERCENT_RE = re.compile(r'(\d+)%')
+BATTERY_ESTIMATED_TIME_RE = re.compile(r'(\d+:\d+) remaining')
+
+def _get_battery_status(pl):
+	battery_summary = run_cmd(pl, ['pmset', '-g', 'batt'])
+	battery_percent = BATTERY_PERCENT_RE.search(battery_summary).group(1)
+	ac_charging = 'AC' in battery_summary
+	estimated_time = BATTERY_ESTIMATED_TIME_RE.search(battery_summary).group(1) if '(no estimate)' not in battery_summary else '-:-'
+	return int(battery_percent), ac_charging, estimated_time
