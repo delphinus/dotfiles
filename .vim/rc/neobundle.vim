@@ -56,6 +56,7 @@ NeoBundle 'ryanoasis/vim-devicons'
 NeoBundle 'sgur/vim-lazygutter'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
+NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
@@ -123,7 +124,6 @@ if g:neobundle#tap('unite-qfixhowm')
   call neobundle#untap()
 endif
 
-NeoBundleLazy 'vim-jp/vital.vim'
 NeoBundleLazy 'vim-jp/vimdoc-ja'
 
 NeoBundleLazy 'dhruvasagar/vim-table-mode',   {'function_prefix': 'tablemode'}
