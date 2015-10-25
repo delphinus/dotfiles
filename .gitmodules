@@ -22,3 +22,6 @@
 [submodule "submodules/solarized-limechat"]
 	path = submodules/solarized-limechat
 	url = https://github.com/delphinus35/solarized-limechat
+[submodule ".tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
