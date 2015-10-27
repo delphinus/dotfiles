@@ -25,3 +25,4 @@ history.sqlite
 .ruby-version
 /ansible/hosts
 mkmf.log
+/.tmux/plugins

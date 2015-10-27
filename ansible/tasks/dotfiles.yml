@@ -25,6 +25,8 @@
     - .zshrc
     - .myclirc
     - .bash_profile
+    - .tmux.conf
+    - .tmux
 
 - file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
   with_items:
