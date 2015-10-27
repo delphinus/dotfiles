@@ -140,6 +140,7 @@ NeoBundleLazy 'tyru/capture.vim',        {'commands': ['Capture']}
 NeoBundleLazy 'vim-scripts/AnsiEsc.vim', {'commands': ['AnsiEsc']}
 
 NeoBundleLazy 'ChrisYip/Better-CSS-Syntax-for-Vim', {'filetypes': ['css']}
+NeoBundleLazy 'Quramy/tsuquyomi',                   {'filetypes': ['typescript']}
 NeoBundleLazy 'c9s/perlomni.vim',                   {'filetypes': ['perl']}
 NeoBundleLazy 'catalinciurea/perl-nextmethod',      {'filetypes': ['perl']}
 NeoBundleLazy 'csv.vim',                            {'filetypes': ['csv']}

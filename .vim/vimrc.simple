@@ -74,6 +74,7 @@ if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
+let g:neocomplete#force_omni_input_patterns.typescript = '[^. \t]\.\%(\h\w*\)\?'
 
 set completeopt+=menuone          " 候補が一つだけの時も補完する
 set completeopt-=preview          " プレビューウィンドウへの表示をやめる
