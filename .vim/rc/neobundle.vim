@@ -201,6 +201,10 @@ NeoBundleLazy 'lambdalisue/vim-gista', {
       \ 'mappings':      '<Plug>(gista-',
       \ 'unite_sources': 'gista',
       \ }
+NeoBundleLazy 'ujihisa/neco-look', {
+      \ 'depends': ['Shougo/neocomplete.vim'],
+      \ 'insert': 1,
+      \ }
 " }}}
 
 " Mac 専用
