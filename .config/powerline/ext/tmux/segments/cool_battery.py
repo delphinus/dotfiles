@@ -50,7 +50,7 @@ def battery(pl, format='{ac_state} {capacity:3.0%}', steps=5, gamify=False, full
 			'gradient_level': 0,
 		})
 		ret.append({
-			'contents': icon_format.format(icon, estimated_time),
+			'contents': icon_format.format(icon, estimated_time if estimated_time != '0:00' else ''),
 			'draw_inner_divider': False,
 			'highlight_groups': ['battery_gradient', 'battery'],
 			# Using zero as “nothing to worry about”: it is least alert color.
