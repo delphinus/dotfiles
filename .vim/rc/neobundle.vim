@@ -158,7 +158,7 @@ NeoBundleLazy 'vim-perl/vim-perl',                  {'filetypes': ['perl']}
 NeoBundleLazy 'LeafCage/yankround.vim',       {'mappings': ['<Plug>(yankround-']}
 NeoBundleLazy 'Lokaltog/vim-easymotion',      {'mappings': ['<Plug>(easymotion-']}
 NeoBundleLazy 'chikatoike/concealedyank.vim', {'mappings': ['<Plug>(operator-concealedyank)']}
-NeoBundleLazy 'delphinus35/open-github-link', {'mappings': ['<Plug>(open-github-link']}
+NeoBundleLazy 'delphinus35/vim-lycia',        {'mappings': ['<Plug>(lycia']}
 NeoBundleLazy 'junegunn/vim-easy-align',      {'mappings': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
 NeoBundleLazy 'spolu/dwm.vim',                {'mappings': ['<Plug>DWM']}
 NeoBundleLazy 'tpope/vim-capslock',           {'mappings': [['i', '<Plug>CapsLockToggle']]}
