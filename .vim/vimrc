@@ -58,7 +58,7 @@ call s:load_rc('markdown')            " markdown 設定
 call s:load_rc('capslock')            " capslock 設定
 call s:load_rc('numbers')             " numbers 設定
 call s:load_rc('devicons')            " devicons 設定
-call s:load_rc('open_github_link')    " open_github_link 設定
+call s:load_rc('lycia')               " lycia 設定
 call s:load_rc('fontzoom')            " fontzoom 設定
 call s:load_rc('gista')               " gista 設定
 call s:load_rc('table-mode')          " vim-table-mode 設定
