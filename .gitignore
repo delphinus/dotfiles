@@ -26,3 +26,5 @@ history.sqlite
 /ansible/hosts
 mkmf.log
 /.tmux/plugins
+/.config/ranger/bookmarks
+/.config/ranger/history
