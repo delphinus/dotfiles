@@ -77,6 +77,7 @@ let s:source_names_to_apply_filter = [
       \ 'rails/mailer',
       \ 'rails/root',
       \ 'rails/stylesheet',
+      \ 'z',
       \ ]
 
 let s:converter = delphinus#devicons#converter()
