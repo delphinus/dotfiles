@@ -77,8 +77,8 @@ case "$mimetype" in
     image/*)
         img2txt --gamma=0.6 --width="$width" "$path" && exit 4 || exit 1;;
     # Image preview for videos, disabled by default:
-    # video/*)
-    #     ffmpegthumbnailer -i "$path" -o "$cached" -s 0 && exit 6 || exit 1;;
+    video/*)
+        ffmpegthumbnailer -i "$path" -o "$cached" -s 0 && exit 6 || exit 1;;
     # Display information about media files:
     video/* | audio/*)
         exiftool "$path" && exit 5
