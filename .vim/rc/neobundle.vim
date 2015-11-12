@@ -41,7 +41,7 @@ endif
 
 " プラグイン {{{
 NeoBundle 'Glench/Vim-Jinja2-Syntax'
-NeoBundle 'delphinus35/vim-colors-solarized'
+NeoBundle 'delphinus35/vim-colors-solarized', 'for-hydrozen-fork'
 NeoBundle 'delphinus35/vim-emacscommandline'
 NeoBundle 'delphinus35/vim-markdown', 'merged-inline_and_code_fixes'
 NeoBundle 'delphinus35/vim-unimpaired'
