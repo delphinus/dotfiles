@@ -15,6 +15,9 @@ fi
 # for perlomni.vim
 export PATH="$H/.vim/bundle/perlomni.vim/bin:$PATH"
 
+# for Test::Pretty
+export TEST_PRETTY_COLOR_NAME=BRIGHT_GREEN
+
 # terminal-notifier
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # http://qiita.com/kei_s/items/96ee6929013f587b5878
