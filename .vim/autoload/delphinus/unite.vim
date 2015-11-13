@@ -1,9 +1,6 @@
 scriptencoding utf-8
 
 function! delphinus#unite#my_setting() abort
-  " タブで開く
-  nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
-  inoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
   " vimfiler で開く
   nnoremap <silent> <buffer> <expr> <C-O> unite#do_action('vimfiler')
   inoremap <silent> <buffer> <expr> <C-O> unite#do_action('vimfiler')
@@ -13,6 +10,12 @@ function! delphinus#unite#my_setting() abort
   " rec/async で開く
   nnoremap <silent> <buffer> <expr> <C-A> unite#do_action('rec/async')
   inoremap <silent> <buffer> <expr> <C-A> unite#do_action('rec/async')
+  " rec_parent/async で開く
+  nnoremap <silent> <buffer> <expr> <C-P> unite#do_action('rec_parent/async')
+  inoremap <silent> <buffer> <expr> <C-P> unite#do_action('rec_parent/async')
+  " rec_project/async で開く
+  nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('rec_project/async')
+  inoremap <silent> <buffer> <expr> <C-T> unite#do_action('rec_project/async')
   " grep で開く
   nnoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
   inoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
