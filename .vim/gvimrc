@@ -42,4 +42,4 @@ elseif has('macunix')
   let $DISPLAY=':0'
 endif
 
-colorscheme solarized
+colorscheme pencil

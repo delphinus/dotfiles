@@ -51,6 +51,7 @@ NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'othree/html5.vim'
+NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 NeoBundle 'ryanoasis/vim-devicons'
 NeoBundle 'sgur/vim-lazygutter'
