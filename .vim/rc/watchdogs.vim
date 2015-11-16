@@ -39,6 +39,14 @@ if executable(s:phpcs)
         \ }
 endif
 
+" Use tsuquyomi syntax check instead of watchdogs
+let g:watchdogs_check_BufWritePost_enables = {
+      \ "typescript": 0,
+      \ }
+let g:watchdogs_check_CursorHold_enables = {
+      \ "typescript": 0,
+      \ }
+
 " この関数に g:quickrun_config を渡す
 " この関数で g:quickrun_config にシンタックスチェックを行うための設定を追加する
 " 関数を呼び出すタイミングはユーザの g:quickrun_config 設定後
