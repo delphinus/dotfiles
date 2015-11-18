@@ -52,7 +52,7 @@ endif
 
 NeoBundle 'rkitover/vimpager'
 
-NeoBundle 'delphinus35/vim-colors-solarized'
+NeoBundle 'delphinus35/vim-colors-solarized', 'for-hydrozen-fork'
 NeoBundle 'houtsnip/vim-emacscommandline'
 
 if has('vim_starting')
