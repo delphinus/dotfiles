@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 {
-  pomicons:          (0xe000 .. 0xe00a),
-  original:          (0xe5fa .. 0xe62a),
-  devicons:          (0xe700 .. 0xe7c5),
-  'font-awesome':    (0xf000 .. 0xf280),
-  octicons:          (0xf400 .. 0xf4db),
-  'powerline-extra': (0xe0a0 .. 0xe0d4),
+  pomicons:             (0xe000 .. 0xe00a),
+  original:             (0xe5fa .. 0xe62a),
+  devicons:             (0xe700 .. 0xe7c5),
+  :'font-awesome' =>    (0xf000 .. 0xf280),
+  octicons:             (0xf400 .. 0xf4db),
+  powerline:            (0xe0a0 .. 0xe0b3),
+  :'powerline-extra' => (0xe0a3 .. 0xe0d4),
 }.each do |name, range|
   puts "# #{name}"
   puts ''
