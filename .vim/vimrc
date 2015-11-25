@@ -62,6 +62,7 @@ call s:load_rc('lycia')               " lycia 設定
 call s:load_rc('fontzoom')            " fontzoom 設定
 call s:load_rc('gista')               " gista 設定
 call s:load_rc('table-mode')          " vim-table-mode 設定
+call s:load_rc('typescript')          " typescript 設定
 
 " 遅延ロード {{{
 call s:load_bundle_rc('unite.vim')    " Unite 設定
