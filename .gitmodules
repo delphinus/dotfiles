@@ -16,12 +16,12 @@
 [submodule "submodules/xterm_colour_chart"]
 	path = submodules/xterm_colour_chart
 	url = https://github.com/wardi/xterm_colour_chart
-[submodule "submodules/solarized"]
-	path = submodules/solarized
-	url = https://github.com/hydrozen/solarized
 [submodule "submodules/solarized-limechat"]
 	path = submodules/solarized-limechat
 	url = https://github.com/delphinus35/solarized-limechat
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "submodules/solarized"]
+	path = submodules/solarized
+	url = https://github.com/delphinus35/solarized
