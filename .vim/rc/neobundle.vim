@@ -135,7 +135,7 @@ NeoBundleLazy 'Shougo/vinarise.vim',     {'commands': ['Vinarise']}
 NeoBundleLazy 'airblade/vim-rooter',     {'commands': ['Rooter']}
 NeoBundleLazy 'fuenor/JpFormat.vim',     {'commands': ['JpFormatAll', 'JpJoinAll'], 'filetypes': ['howm_memo']}
 NeoBundleLazy 'gregsexton/VimCalc',      {'commands': ['Calc']}
-NeoBundleLazy 'kannokanno/previm',       {'commands': ['PreVimOpen']}
+NeoBundleLazy 'kannokanno/previm',       {'commands': ['PrevimOpen']}
 NeoBundleLazy 'sjl/gundo.vim',           {'commands': ['GundoToggle']}
 NeoBundleLazy 'thinca/vim-prettyprint',  {'commands': ['Capture', 'PP', 'PrettyPrint']}
 NeoBundleLazy 'tyru/capture.vim',        {'commands': ['Capture']}
