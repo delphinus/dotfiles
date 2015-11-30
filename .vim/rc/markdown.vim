@@ -17,5 +17,6 @@ let g:markdown_fenced_languages = [
       \ 'ruby',
       \ 'sh',
       \ 'sql',
+      \ 'typescript',
       \ 'vim',
       \ ]
