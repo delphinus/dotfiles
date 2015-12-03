@@ -4,5 +4,5 @@ augroup TsuquyomiMappings
   autocmd!
   autocmd FileType typescript map <buffer> <C-]> <Plug>(TsuquyomiDefinition)
   autocmd FileType typescript map <buffer> <C-^> <Plug>(TsuquyomiReferences)
-  autocmd FileType typescript execute 'let g:tsuquyomi_tsserver_path = "' . getcwd() . '/node_modules/.bin/tsserver"'
+  autocmd FileType typescript call delphinus#typescript#detect_tsserver_path()
 augroup END
