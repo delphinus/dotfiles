@@ -100,7 +100,7 @@ NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'pekepeke/vim-unite-z',      {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim', 'Shougo/neoinclude.vim']}
 NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'fuenor/qfixhowm']}
 
 " enable on source unite.vim for `dwm_new` action
