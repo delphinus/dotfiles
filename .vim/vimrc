@@ -37,33 +37,34 @@ call s:load_rc('filetypes')           " ファイルタイプごとの設定
 call s:load_rc('unite_initial')       " Unite 初期設定
 call s:load_rc('vimfiler_initial')    " VimFiler 初期設定
 call s:load_rc('vimshell_initial')    " VimShell 初期設定
-call s:load_rc('quickrun')            " QuickRun 設定
-call s:load_rc('ref')                 " Ref 設定
-call s:load_rc('jpformat')            " JpFormat 設定
-call s:load_rc('easymotion')          " EasyMotion 設定
+
+call s:load_rc('capslock')            " capslock 設定
+call s:load_rc('choosewin')           " choosewin 設定
+call s:load_rc('concealedyank')       " concealedyank 設定
 call s:load_rc('csv')                 " CSV 設定
-call s:load_rc('rooter')              " vim-rooter 設定
-call s:load_rc('title')               " screen title 設定
-call s:load_rc('fugitive')            " fugitive 設定
-call s:load_rc('watchdogs')           " watchdogs 設定
+call s:load_rc('devicons')            " devicons 設定
 call s:load_rc('dwm')                 " dwm.vim 設定
 call s:load_rc('easyalign')           " EasyAlign 設定
-call s:load_rc('lazygutter')          " lazygutter 設定
-call s:load_rc('quickhl')             " quickhl 設定
-call s:load_rc('choosewin')           " choosewin 設定
-call s:load_rc('yankround')           " choosewin 設定
-call s:load_rc('concealedyank')       " concealedyank 設定
-call s:load_rc('open-browser')        " open-browser 設定
-call s:load_rc('markdown')            " markdown 設定
-call s:load_rc('capslock')            " capslock 設定
-call s:load_rc('numbers')             " numbers 設定
-call s:load_rc('devicons')            " devicons 設定
-call s:load_rc('lycia')               " lycia 設定
+call s:load_rc('easymotion')          " EasyMotion 設定
 call s:load_rc('fontzoom')            " fontzoom 設定
+call s:load_rc('fugitive')            " fugitive 設定
 call s:load_rc('gista')               " gista 設定
-call s:load_rc('table-mode')          " vim-table-mode 設定
-call s:load_rc('typescript')          " typescript 設定
+call s:load_rc('jpformat')            " JpFormat 設定
+call s:load_rc('lazygutter')          " lazygutter 設定
+call s:load_rc('lycia')               " lycia 設定
+call s:load_rc('markdown')            " markdown 設定
+call s:load_rc('numbers')             " numbers 設定
+call s:load_rc('open-browser')        " open-browser 設定
 call s:load_rc('plantuml')            " PlantUML 設定
+call s:load_rc('quickhl')             " quickhl 設定
+call s:load_rc('quickrun')            " QuickRun 設定
+call s:load_rc('ref')                 " Ref 設定
+call s:load_rc('rooter')              " vim-rooter 設定
+call s:load_rc('table-mode')          " vim-table-mode 設定
+call s:load_rc('title')               " screen title 設定
+call s:load_rc('typescript')          " typescript 設定
+call s:load_rc('watchdogs')           " watchdogs 設定
+call s:load_rc('yankround')           " choosewin 設定
 
 " 遅延ロード {{{
 call s:load_bundle_rc('unite.vim')    " Unite 設定
