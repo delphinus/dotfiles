@@ -33,20 +33,3 @@ nnoremap ]w :<C-u>cnewer<CR>
 " ウィンドウを最大化する
 nnoremap _ <C-W>_
 nnoremap # :<C-u>b #<CR>
-
-" http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
-" MapFastKeycode: helper for fast keycode mappings
-" makes use of unused vim keycodes <[S-]F15> to <[S-]F37>
-function! <SID>MapFastKeycode(key, keycode)
-    if s:fast_i == 46
-        echohl WarningMsg
-        echomsg 'Unable to map '.a:key.': out of spare keycodes'
-        echohl None
-        return
-    endif
-    let vkeycode = '<'.(s:fast_i/23==0 ? '' : 'S-').'F'.(15+s:fast_i%23).'>'
-    exec 'set '.vkeycode.'='.a:keycode
-    exec 'map '.vkeycode.' '.a:key
-    let s:fast_i += 1
-endfunction
-let s:fast_i = 0
