@@ -5,4 +5,4 @@ nmap gp <Plug>(yankround-gp)
 xmap gp <Plug>(yankround-gp)
 nmap gP <Plug>(yankround-gP)
 nmap <c-p> <Plug>(yankround-prev)
-nmap <expr><c-n> yankround#is_active() ? "\<Plug>(yankround-prev)" : "\<Plug>DWMNew"
+nmap <expr><c-n> yankround#is_active() ? "\<Plug>(yankround-next)" : "\<Plug>DWMNew"
