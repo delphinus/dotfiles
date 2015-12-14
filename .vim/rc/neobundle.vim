@@ -62,7 +62,6 @@ NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/applescript.vim'
 NeoBundle 'vim-scripts/nginx.vim'
-NeoBundle 'vim-utils/vim-alt-mappings'
 NeoBundle 'https://raw.githubusercontent.com/tmux/tmux/master/examples/tmux.vim', {'script_type': 'syntax'}
 
 NeoBundle 'osyo-manga/vim-watchdogs', {'depends': [
