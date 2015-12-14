@@ -160,7 +160,6 @@ NeoBundleLazy 'rhysd/vim-textobj-ruby',             {'filetypes': ['ruby'], 'dep
 NeoBundleLazy 'tpope/vim-rails',                    {'filetypes': ['ruby']}
 NeoBundleLazy 'vim-perl/vim-perl',                  {'filetypes': ['perl']}
 
-NeoBundleLazy 'LeafCage/yankround.vim',       {'mappings': ['<Plug>(yankround-']}
 NeoBundleLazy 'Lokaltog/vim-easymotion',      {'mappings': ['<Plug>(easymotion-']}
 NeoBundleLazy 'chikatoike/concealedyank.vim', {'mappings': ['<Plug>(operator-concealedyank)']}
 NeoBundleLazy 'delphinus35/vim-lycia',        {'mappings': ['<Plug>(lycia']}
@@ -170,6 +169,11 @@ NeoBundleLazy 'tpope/vim-capslock',           {'mappings': [['i', '<Plug>CapsLoc
 NeoBundleLazy 't9md/vim-quickhl',             {'mappings': ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']}
 NeoBundleLazy 't9md/vim-choosewin',           {'mappings': ['<Plug>(choosewin)']}
 NeoBundleLazy 'thinca/vim-fontzoom',          {'mappings': ['<Plug>(fontzoom-'], 'commands': ['Fontzoom'], 'gui': 1}
+
+NeoBundleLazy 'LeafCage/yankround.vim', {
+      \ 'mappings':      ['<Plug>(yankround-'],
+      \ 'unite_sources': 'yankround',
+      \ }
 
 NeoBundleLazy 'tyru/open-browser.vim', {
       \ 'mappings': ['<Plug>(openbrowser-'],
