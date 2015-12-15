@@ -55,7 +55,6 @@ NeoBundle 'othree/html5.vim'
 NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 NeoBundle 'ryanoasis/vim-devicons'
-NeoBundle 'sgur/vim-lazygutter'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-jp/vital.vim'
@@ -139,6 +138,7 @@ NeoBundleLazy 'fuenor/JpFormat.vim',     {'commands': ['JpFormatAll', 'JpJoinAll
 NeoBundleLazy 'gregsexton/VimCalc',      {'commands': ['Calc']}
 NeoBundleLazy 'kannokanno/previm',       {'commands': ['PrevimOpen']}
 NeoBundleLazy 'sjl/gundo.vim',           {'commands': ['GundoToggle']}
+NeoBundleLazy 'sgur/vim-lazygutter',     {'commands': ['GitGutterToggle']}
 NeoBundleLazy 'thinca/vim-prettyprint',  {'commands': ['Capture', 'PP', 'PrettyPrint']}
 NeoBundleLazy 'tyru/capture.vim',        {'commands': ['Capture']}
 NeoBundleLazy 'vim-scripts/AnsiEsc.vim', {'commands': ['AnsiEsc']}
