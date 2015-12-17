@@ -15,7 +15,9 @@ let g:after_dir     = g:home       . '/.vim/after'
 " NeoBundle へのパス
 if has('vim_starting')
   if &compatible
+    " vint: -ProhibitSetNoCompatible
     set nocompatible               " Be iMproved
+    " vint: +ProhibitSetNoCompatible
   endif
   execute 'set runtimepath-=' . g:home . '/.vim/'
   execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
