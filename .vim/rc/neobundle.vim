@@ -92,6 +92,9 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   {'name': 'VimShell', 'complete': 'customlist,vimshell#complete'},
       \   'VimShellExecute', 'VimShellInteractive', 'VimShellTerminal', 'VimShellPop',
       \ ]}
+NeoBundleLazy 'Shougo/tabpagebuffer.vim',  {
+      \ 'on_source': ['unite.vim', 'vimfiler', 'vimshell'],
+      \ }
 
 NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
