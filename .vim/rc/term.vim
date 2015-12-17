@@ -1,3 +1,4 @@
+scriptencoding utf-8
 "-----------------------------------------------------------------------------
 " Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
 " http://qiita.com/kefir_/items/515ed5264fce40dec522
@@ -34,7 +35,7 @@ endfunction
 command! -range Paste64Copy :silent call s:Paste64Copy()
 
 " 対応ターミナル以外なら帰る
-if &term !~ "screen" && &term !~ "xterm" && &term !~ "dvtm"
+if &term !~? 'screen' && &term !~? 'xterm' && &term !~? 'dvtm'
     finish
 endif
 
@@ -59,7 +60,7 @@ if filereadable(g:home . '/.use-mac') || exists('$TMUX') && has('macunix')
     cmap \e[201~ <nop>
 
 " GNU screen 上の場合
-elseif &term =~ "screen"
+elseif &term =~? 'screen'
     " 貼り付けるとき自動的に paste モードに変わる
     let &t_ti .= "\eP\e[?2004h\e\\"
     let &t_te .= "\eP\e[?2004l\e\\"
@@ -70,7 +71,7 @@ elseif &term =~ "screen"
     cmap \e[201~ <nop>
 
 " xterm の場合
-elseif &term =~ 'xterm\|dvtm'
+elseif &term =~? 'xterm\|dvtm'
     " iTerm2 の時のみカーソル形状を変える
     if has('macunix')
         let &t_SI = "\e]50;CursorShape=1\x7"
@@ -99,7 +100,7 @@ cnoremap <special> <Esc>[200~ <nop>
 cnoremap <special> <Esc>[201~ <nop>
 
 
-if &term =~ '256color'
+if &term =~? '256color'
   " Disable Background Color Erase (BCE) so that color schemes
   " work properly when Vim is used inside tmux and GNU screen.
   " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
