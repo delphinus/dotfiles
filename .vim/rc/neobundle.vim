@@ -133,7 +133,6 @@ endif
 NeoBundleLazy 'vim-jp/vimdoc-ja'
 
 NeoBundleLazy 'dhruvasagar/vim-table-mode',   {'function_prefix': 'tablemode'}
-NeoBundleLazy 'tyru/open-browser-github.vim', {'depends': ['tyru/open-browser.vim']}
 
 NeoBundleLazy 'Shougo/vinarise.vim',     {'commands': ['Vinarise']}
 NeoBundleLazy 'airblade/vim-rooter',     {'commands': ['Rooter']}
