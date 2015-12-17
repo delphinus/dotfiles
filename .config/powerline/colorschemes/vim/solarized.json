@@ -31,7 +31,9 @@
 		"attached_clients":         { "fg": "solarized:base1", "bg": "solarized:base02", "attrs": [] },
 		"error":                    { "fg": "solarized:base3", "bg": "solarized:red", "attrs": ["bold"] },
 		"warning":                  { "fg": "solarized:base3", "bg": "solarized:orange", "attrs": ["bold"] },
-		"current_tag":              { "fg": "solarized:base3", "bg": "solarized:base02", "attrs": ["bold"] }
+		"current_tag":              { "fg": "solarized:base3", "bg": "solarized:base02", "attrs": ["bold"] },
+		"tab_nc:file_directory":    { "fg": "solarized:base01", "bg": "solarized:base02" },
+		"tab_nc:modified_indicator": { "fg": "solarized:base01", "bg": "solarized:base02" }
 	},
 	"mode_translations": {
 		"nc": {
