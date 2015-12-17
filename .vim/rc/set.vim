@@ -68,12 +68,6 @@ noremap <Plug>(ToggleColorColumn)
       \   join(range(81, 9999), ',')<CR>
 nmap <Leader>cc <Plug>(ToggleColorColumn)
 
-" 挿入モードの時のみ、カーソル行をハイライトする
-" unite 使ったあとにターミナルのサイズを変えると segmentation fault したので削除
-"autocmd InsertEnter,InsertLeave * set cursorline!
-" use iTerm2 native cursorline
-"set cursorline
-
 set cmdheight=2          " 画面最下段のコマンド表示行数
 " }}}
 
