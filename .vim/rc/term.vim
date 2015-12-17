@@ -1,38 +1,4 @@
 scriptencoding utf-8
-"-----------------------------------------------------------------------------
-" Vimからクリップボードインテグレーションシーケンス(PASTE64/OSC52)を利用する
-" http://qiita.com/kefir_/items/515ed5264fce40dec522
-function! s:MakeTmpFile(txt)
-    let g:tmpfile = tempname()
-    execute 'redir! > ' . g:tmpfile
-    echo a:txt
-    redir END
-    return g:tmpfile
-endfunction
-
-function! s:EscapeSequence(txt)
-  if $TMUX != ''
-    let escaped = substitute(a:txt, '\\033\\\\', '\\033\\033\\\\\\\\', '')
-    return '\033Ptmux;\033' . escaped . '\033\\'
-  elseif $TERM =~ 'screen'
-    let escaped = substitute(a:txt, '\033\\', '\033\033\\\\', '')
-    return '\033P' . escaped . '\033\\'
-  else
-    return a:txt
-  endif
-endfunction
-
-function! s:Paste64Copy() range
-    let l:tmp = @@
-    silent normal gvy
-    let l:selected = @@
-    let tmpfile = s:MakeTmpFile(l:selected)
-    let cmd = printf('printf "%s" `base64 -w0 %s`', s:EscapeSequence('\033]52;;%s\033\\'), tmpfile)
-    execute '!sh' s:MakeTmpFile(cmd)
-    redraw!
-endfunction
-
-command! -range Paste64Copy :silent call s:Paste64Copy()
 
 " 対応ターミナル以外なら帰る
 if &term !~? 'screen' && &term !~? 'xterm' && &term !~? 'dvtm'
