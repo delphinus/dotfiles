@@ -195,7 +195,7 @@ NeoBundleLazy 'delphinus35/neocomplete-json-schema', {
       \ 'insert':    1,
       \ }
 NeoBundleLazy 'ap/vim-css-color', {'filetypes': [
-      \ 'css', 'html', 'less', 'lua', 'moon', 'sass', 'scss', 'stylus', 'vim',
+      \ 'css', 'html', 'less', 'lua', 'moon', 'sass', 'scss', 'stylus', 'vim', 'plantuml',
       \ ]}
 NeoBundleLazy 'tpope/vim-endwise', {
       \ 'filetypes': [
