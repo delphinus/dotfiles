@@ -14,8 +14,11 @@ function! delphinus#unite#my_setting() abort
   nnoremap <silent> <buffer> <expr> <C-P> unite#do_action('rec_parent/async')
   inoremap <silent> <buffer> <expr> <C-P> unite#do_action('rec_parent/async')
   " rec_project/async で開く
-  nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('rec_project/async')
-  inoremap <silent> <buffer> <expr> <C-T> unite#do_action('rec_project/async')
+  nnoremap <silent> <buffer> <expr> <C-R> unite#do_action('rec_project/async')
+  inoremap <silent> <buffer> <expr> <C-R> unite#do_action('rec_project/async')
+  " タブで開く
+  nnoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
+  inoremap <silent> <buffer> <expr> <C-T> unite#do_action('tabopen')
   " grep で開く
   nnoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
   inoremap <silent> <buffer> <expr> <C-G> unite#do_action('grep')
