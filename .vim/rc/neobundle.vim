@@ -101,7 +101,6 @@ NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'pasela/unite-webcolorname', {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'pekepeke/vim-unite-z',      {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim']}
 NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim', 'Shougo/neoinclude.vim']}
