@@ -53,7 +53,6 @@ call s:load_rc('jpformat')            " JpFormat 設定
 call s:load_rc('lazygutter')          " lazygutter 設定
 call s:load_rc('lycia')               " lycia 設定
 call s:load_rc('markdown')            " markdown 設定
-call s:load_rc('numbers')             " numbers 設定
 call s:load_rc('open-browser')        " open-browser 設定
 call s:load_rc('plantuml')            " PlantUML 設定
 call s:load_rc('quickhl')             " quickhl 設定
