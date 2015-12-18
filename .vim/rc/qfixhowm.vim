@@ -60,7 +60,4 @@ noremap <silent> <Plug>(qfixhowm-move_prev_diary) :<C-U>call delphinus#qfixhowm#
 " 行末の \t を削除した上でエントリーをコピーする
 noremap <silent> <Plug>(qfixhowm-markdown_to_mail) :<C-U>call delphinus#qfixhowm#markdown_to_mail()<CR>
 
-" マッピング
-execute 'autocmd FileType ' . QFixHowm_FileType . ' call delphinus#qfixhowm#set_mapping()'
-" txtファイルで「連結マーカー+改行」が有ったら自動整形を有効にする
-execute 'autocmd FileType ' . QFixHowm_FileType . ' call JpSetAutoFormat()'
+execute 'autocmd FileType ' . g:QFixHowm_FileType . ' call delphinus#qfixhowm#set_mapping()'
