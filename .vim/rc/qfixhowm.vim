@@ -3,7 +3,7 @@ scriptencoding utf-8
 let g:dropbox_dir = isdirectory('/mnt/hgfs') ? '/mnt/hgfs/Dropbox' : expand(g:home . '/Dropbox')
 
 " キーマップリーダー
-let QFixHowm_Key='g'
+let g:QFixHowm_Key='g'
 " ファイル保存用
 if isdirectory(g:dropbox_dir)
   let g:howm_dir = g:dropbox_dir . '/Documents/howm'
@@ -44,9 +44,9 @@ let g:calendar_jp=2
 " カレンダーの表示月数
 let g:QFixHowm_CalendarCount=6
 " 半角だけの行は整形しない
-let JpFormatExclude = '^\([\x00-\xff]\+\|[\[#=].*\)$'
+let g:JpFormatExclude = '^\([\x00-\xff]\+\|[\[#=].*\)$'
 " 連結マーカーを nbsp に設定
-let JpFormatMarker = ' '
+let g:JpFormatMarker = ' '
 
 " 一つ分のエントリを選択
 noremap <silent> <Plug>(qfixhowm-select_one_entry) :<C-U>call delphinus#qfixhowm#select_one_entry()<CR>
