@@ -1,5 +1,33 @@
 scriptencoding utf-8
 
+" マッピング
+function! delphinus#qfixhowm#set_mapping() abort
+  nmap <buffer> g,S <Plug>(qfixhowm-select_one_entry)
+  nmap <buffer> g,G <Plug>(qfixhowm-post_to_gist)
+  nmap <buffer> g,M <Plug>(qfixhowm-copy_title_from_prev_entry)
+  nmap <buffer> g,> <Plug>(qfixhowm-move_next_diary)
+  nmap <buffer> g,< <Plug>(qfixhowm-move_prev_diary)
+  nmap <buffer> ]] <Plug>(qfixhowm-move_next_diary)
+  nmap <buffer> [[ <Plug>(qfixhowm-move_prev_diary)
+  nmap <buffer> <Leader>ma <Plug>(qfixhowm-markdown_to_mail)
+
+  " JpFormat.vim
+  " 現在行を整形
+  nnoremap <buffer> <silent> gl :JpFormat<CR>
+  " 現在行が整形対象外でも強制的に整形
+  nnoremap <buffer> <silent> gL :JpFormat!<CR>
+  " 自動整形のON/OFF切替
+  nnoremap <buffer> <silent> g. :JpFormatToggle<CR>
+  " カーソル位置の分割行をまとめてヤンク
+  nnoremap <buffer> <silent> gY :JpYank<CR>
+  " カーソル位置の分割行をまとめて連結
+  nnoremap <buffer> <silent> gJ :JpJoin<CR>
+  " 整形に gqを使うかどうかをトグルする
+  nnoremap <buffer> <silent> gC :JpFormatGqToggle<CR>
+  " 外部ビューアを起動する
+  nnoremap <buffer> <silent> <F8> :JpExtViewer<CR>
+endfunction
+
 " 現在のエントリーの開始行・終了行を返す
 function! delphinus#qfixhowm#current_entry_line_number(...) abort
   let to_join = 0

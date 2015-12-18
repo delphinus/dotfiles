@@ -38,7 +38,7 @@ set incsearch  " インクリメンタルサーチ
 set autoindent       " 自動インデント
 set smartindent      " スマートなインデント
 set textwidth=0      " 自動改行はオフ
-set formatoptions+=n " テキスト整形オプション
+set formatoptions+=nmM " テキスト整形オプション
 " 括弧付きの連番を認識する
 set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
 " }}}
