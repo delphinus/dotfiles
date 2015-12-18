@@ -26,6 +26,8 @@ function! delphinus#qfixhowm#set_mapping() abort
   nnoremap <buffer> <silent> gC :JpFormatGqToggle<CR>
   " 外部ビューアを起動する
   nnoremap <buffer> <silent> <F8> :JpExtViewer<CR>
+
+  call JpSetAutoFormat()
 endfunction
 
 " 現在のエントリーの開始行・終了行を返す
