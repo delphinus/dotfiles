@@ -59,7 +59,7 @@ set list                 " 空白の可視化
 set listchars=tab:›\ ,trail:␣,eol:჻,extends:»,precedes:«,nbsp:¯
 set wrap                 " ウィンドウの幅が足りないときは折り返す
 set breakindent          " 折り返し時にインデントする
-set showbreak=\ \      " 折り返したときに行頭にマークを表示する
+set showbreak=         " 折り返したときに行頭にマークを表示する
 set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表示する
 execute 'set colorcolumn=' . join(range(81, 9999), ',')
 " 81 桁目より後をハイライト
