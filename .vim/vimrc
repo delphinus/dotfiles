@@ -49,7 +49,6 @@ call s:load_rc('easymotion')          " EasyMotion 設定
 call s:load_rc('fontzoom')            " fontzoom 設定
 call s:load_rc('fugitive')            " fugitive 設定
 call s:load_rc('gista')               " gista 設定
-call s:load_rc('jpformat')            " JpFormat 設定
 call s:load_rc('lazygutter')          " lazygutter 設定
 call s:load_rc('lycia')               " lycia 設定
 call s:load_rc('markdown')            " markdown 設定

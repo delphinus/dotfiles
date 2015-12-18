@@ -54,31 +54,19 @@ let JpFormatExclude = '^\([\x00-\xff]\+\|[\[#=].*\)$'
 " 連結マーカーを nbsp に設定
 let JpFormatMarker = ' '
 
-"-----------------------------------------------------------------------------
 " 一つ分のエントリを選択
 noremap <silent> <Plug>(qfixhowm-select_one_entry) :<C-U>call delphinus#qfixhowm#select_one_entry()<CR>
-nmap g,S <Plug>(qfixhowm-select_one_entry)
-
-"-----------------------------------------------------------------------------
 " 現在のエントリーを Gist に投稿する
 noremap <silent> <Plug>(qfixhowm-post_to_gist) :<C-U>call delphinus#qfixhowm#post_to_gist()<CR>
-nmap g,G <Plug>(qfixhowm-post_to_gist)
-
-"-----------------------------------------------------------------------------
 " 一つ前と同じタイトルでエントリを作成
 noremap <silent> <Plug>(qfixhowm-copy_title_from_prev_entry) :<C-U>call delphinus#qfixhowm#copy_title_from_prev_entry()<CR>
-nmap g,M <Plug>(qfixhowm-copy_title_from_prev_entry)
-
-"-----------------------------------------------------------------------------
 " 日記移動
 noremap <silent> <Plug>(qfixhowm-move_next_diary) :<C-U>call delphinus#qfixhowm#move_around_diaries(1)<CR>
 noremap <silent> <Plug>(qfixhowm-move_prev_diary) :<C-U>call delphinus#qfixhowm#move_around_diaries(-1)<CR>
-nmap g,> <Plug>(qfixhowm-move_next_diary)
-nmap g,< <Plug>(qfixhowm-move_prev_diary)
-execute 'autocmd FileType ' . QFixHowm_FileType . ' nmap ]] <Plug>(qfixhowm-move_next_diary)'
-execute 'autocmd FileType ' . QFixHowm_FileType . ' nmap [[ <Plug>(qfixhowm-move_prev_diary)'
-
-"-----------------------------------------------------------------------------
 " 行末の \t を削除した上でエントリーをコピーする
 noremap <silent> <Plug>(qfixhowm-markdown_to_mail) :<C-U>call delphinus#qfixhowm#markdown_to_mail()<CR>
-nmap <Leader>ma <Plug>(qfixhowm-markdown_to_mail)
+
+" マッピング
+execute 'autocmd FileType ' . QFixHowm_FileType . ' :<C-U>call delphinus#qfixhowm#set_mapping()<CR>'
+" txtファイルで「連結マーカー+改行」が有ったら自動整形を有効にする
+execute 'autocmd FileType ' . QFixHowm_FileType . ' :<C-U>call JpSetAutoFormat()<CR>'
