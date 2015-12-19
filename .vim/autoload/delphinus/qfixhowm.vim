@@ -32,81 +32,81 @@ endfunction
 
 " 現在のエントリーの開始行・終了行を返す
 function! delphinus#qfixhowm#current_entry_line_number(...) abort
-  let to_join = 0
+  let l:to_join = 0
   if a:0 == 1 && a:1
-    let to_join = 1
+    let l:to_join = 1
   endif
 
   " save cursor position
-  let save_cursor = getpos('.')
+  let l:save_cursor = getpos('.')
 
-  if to_join
+  if l:to_join
     JpJoinAll
   endif
 
   call QFixMRUMoveCursor('prev')
-  let start = getpos('.')
+  let l:start = getpos('.')
   call QFixMRUMoveCursor('next')
-  let end = getpos('.')
+  let l:end = getpos('.')
 
-  if to_join
+  if l:to_join
     normal! u
   endif
 
   " restore cursor position
-  call setpos('.', save_cursor)
+  call setpos('.', l:save_cursor)
 
-  return [start[1] + 1, end[1] - 2]
+  return [l:start[1] + 1, l:end[1] - 2]
 endfunction
 
 " 一つ分のエントリーを選択
 function! delphinus#qfixhowm#select_one_entry() abort
-  let numbers = delphinus#qfixhowm#current_entry_line_number(1)
-  let lines = getline(numbers[0], numbers[1])
-  let @* = join(lines, "\n")
+  let l:numbers = delphinus#qfixhowm#current_entry_line_number(1)
+  let l:lines = getline(l:numbers[0], l:numbers[1])
+  let @* = join(l:lines, "\n")
 endfunction
 
 " 現在のエントリーを Gist に投稿する
 function! delphinus#qfixhowm#post_to_gist() abort
-  let [start_line, end_line] = delphinus#qfixhowm#current_entry_line_number()
-  let title = matchstr(getline(start_line - 1), g:qfixmemo_title . '\s*\zs.*')
-  let filename = expand('%:t')
-  let new_filename = ''
-  if getline(start_line) =~# '^```\S*$' && getline(end_line) =~# '^```$'
-    let file_type = matchstr(getline(start_line), '^```\zs\S\+')
-    let start_line += 1
-    let end_line -= 1
-    if len(file_type) > 0
-      let ext = gista#utils#guess_extension(file_type)
-      let current_ext = '.' . expand('%:e')
-      if ! empty(ext) && ext !=? current_ext
-        let new_filename = expand('%:t:r') . ext
+  let [l:start_line, l:end_line] = delphinus#qfixhowm#current_entry_line_number()
+  let l:title = matchstr(getline(l:start_line - 1), g:qfixmemo_title . '\s*\zs.*')
+  let l:filename = expand('%:t')
+  let l:new_filename = ''
+  if getline(l:start_line) =~# '^```\S*$' && getline(l:end_line) =~# '^```$'
+    let l:file_type = matchstr(getline(l:start_line), '^```\zs\S\+')
+    let l:start_line += 1
+    let l:end_line -= 1
+    if len(l:file_type) > 0
+      let l:ext = gista#utils#guess_extension(l:file_type)
+      let l:current_ext = '.' . expand('%:e')
+      if ! empty(l:ext) && l:ext !=? l:current_ext
+        let l:new_filename = expand('%:t:r') . l:ext
       endif
     endif
   else
-    let new_filename = expand('%:t:r') . '.markdown'
+    let l:new_filename = expand('%:t:r') . '.markdown'
   endif
 
-  execute printf('%d,%dGist --description "%s"', start_line, end_line, title)
-  let url = @"
-  let @* = url
+  execute printf('%d,%dGist --description "%s"', l:start_line, l:end_line, l:title)
+  let l:url = @"
+  let @* = l:url
 
-  if ! empty(new_filename)
-    let gistid = matchstr(url, '[0-9a-f]\+$')
-    call gista#interface#rename_action(gistid, filename, new_filename)
+  if ! empty(l:new_filename)
+    let l:gistid = matchstr(l:url, '[0-9a-f]\+$')
+    call gista#interface#rename_action(l:gistid, l:filename, l:new_filename)
   endif
 
-  call gista#utils#browse(url)
+  call gista#utils#browse(l:url)
 endfunction
 
 " 一つ前と同じタイトルでエントリーを作成
 function! delphinus#qfixhowm#copy_title_from_prev_entry() abort
-    let save_register = @"
+    let l:save_register = @"
 
     call QFixMRUMoveCursor('prev')
-    let title = getline('.')
-    let title = substitute(title, '^= ', '', '')
-    let @" = title
+    let l:title = getline('.')
+    let l:title = substitute(l:title, '^= ', '', '')
+    let @" = l:title
     call QFixMRUMoveCursor('next')
     call qfixmemo#Template('next')
     stopinsert
@@ -114,40 +114,40 @@ function! delphinus#qfixhowm#copy_title_from_prev_entry() abort
     normal! o
     startinsert
 
-    let @" = save_register
+    let @" = l:save_register
 endfunction
 
 " 日記移動
 function! delphinus#qfixhowm#move_around_diaries(direction) abort
-    let filename = expand('%:p:r')
-    let ext = expand('%:e')
-    let howm = g:howm_dir
+    let l:filename = expand('%:p:r')
+    let l:ext = expand('%:e')
+    let l:howm = g:howm_dir
     if has('win16') || has('win32') || has('win64')
-        let filename = substitute(filename, '\\', '/', 'g')
-        let howm = substitute(howm, '\\', '/', 'g')
+        let l:filename = substitute(l:filename, '\\', '/', 'g')
+        let l:howm = substitute(l:howm, '\\', '/', 'g')
     endif
-    let ymd = matchstr(filename,
-                \ '\c\v^' . howm . '/\d+/\d+/\zs\d+-\d+-\d+\ze-\d+$')
-    if ymd ==# ''
+    let l:ymd = matchstr(l:filename,
+                \ '\c\v^' . l:howm . '/\d+/\d+/\zs\d+-\d+-\d+\ze-\d+$')
+    if l:ymd ==# ''
         echom 'this is not qfixhowm file.'
         return
     endif
 
-    let try_max = 30
-    let new_filename = ''
-    for try_count in range(1, try_max)
-        let new_ymd = delphinus#datetime#adjust_date(ymd, try_count * a:direction)
-        let new_date = matchlist(new_ymd, '\v(\d+)-(\d+)-\d+')
-        let tmp_filename = printf('%s/%04d/%02d/%s-000000.%s',
-                    \ g:howm_dir, new_date[1], new_date[2], new_ymd, ext)
+    let l:try_max = 30
+    let l:new_filename = ''
+    for l:try_count in range(1, l:try_max)
+        let l:new_ymd = delphinus#datetime#adjust_date(l:ymd, l:try_count * a:direction)
+        let l:new_date = matchlist(l:new_ymd, '\v(\d+)-(\d+)-\d+')
+        let l:tmp_filename = printf('%s/%04d/%02d/%s-000000.%s',
+                    \ g:howm_dir, l:new_date[1], l:new_date[2], l:new_ymd, l:ext)
 
-        if filewritable(tmp_filename)
-            let new_filename = tmp_filename
+        if filewritable(l:tmp_filename)
+            let l:new_filename = l:tmp_filename
             break
         endif
     endfor
 
-    if new_filename ==# ''
+    if l:new_filename ==# ''
         echom 'diary is not found'
         return
     endif
@@ -160,11 +160,11 @@ function! delphinus#qfixhowm#move_around_diaries(direction) abort
         endif
     endif
 
-    execute 'edit ' . new_filename
+    execute 'edit ' . l:new_filename
 endfunction
 
 " 行末の \t を削除した上でエントリーをコピーする
-function! delphinus#qfixhowm#markdown_to_mail()
+function! delphinus#qfixhowm#markdown_to_mail() abort
   execute '%s/\t$//'
   call delphinus#qfixhowm#select_one_entry()
   echo 'yank to remote for mail'
