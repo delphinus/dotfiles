@@ -21,4 +21,4 @@ if has('gui_running') || &term =~# '^screen' || &term =~# '^xterm' || &term =~# 
 endif
 
 " Vim が終了したらこのタイトルにする
-set titleold=bash
+set titleold=zsh
