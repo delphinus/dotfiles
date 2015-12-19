@@ -1,5 +1,4 @@
 scriptencoding utf-8
-" vim-ref
 let g:ref_open=':vsp'
 let g:ref_alc_start_linenumber=42
 noremap <Leader>rm :Unite ref/man<CR>
