@@ -4,7 +4,7 @@ scriptencoding utf-8
 set titlestring=%{delphinus#title#string()}
 
 " ウィンドウタイトルを更新する
-if &term =~# '^screen'
+if exists('$TMUX') || &term =~# '^screen'
   set t_ts=k
   set t_fs=\
 
