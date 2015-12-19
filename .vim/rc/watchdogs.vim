@@ -7,7 +7,7 @@ endif
 " 書き込み後にシンタックスチェックを行う
 let g:watchdogs_check_BufWritePost_enable = 1
 
-" こっちは一定時間キー入力がなかった場合にシンタックスチェックを行う
+" 一定時間キー入力がなかった場合にシンタックスチェックを行う
 " バッファに書き込み後、1度だけ行われる
 let g:watchdogs_check_CursorHold_enable = 1
 
@@ -41,10 +41,10 @@ endif
 
 " Use tsuquyomi syntax check instead of watchdogs
 let g:watchdogs_check_BufWritePost_enables = {
-      \ "typescript": 0,
+      \ 'typescript': 0,
       \ }
 let g:watchdogs_check_CursorHold_enables = {
-      \ "typescript": 0,
+      \ 'typescript': 0,
       \ }
 
 " この関数に g:quickrun_config を渡す
