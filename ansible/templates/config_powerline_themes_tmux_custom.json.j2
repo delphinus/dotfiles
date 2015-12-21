@@ -50,20 +50,20 @@
 		"right": [
 			{
 				"function": "powerline.segments.common.net.network_load",
-				"priority": 50
+				"priority": 90
 			},
 			{
 				"function": "powerline.segments.common.sys.cpu_load_percent",
-				"priority": 50
+				"priority": 80
 			},
 			{
 				"function": "ext.tmux.segments.ps.used_memory_percent",
-				"priority": 50
+				"priority": 80
 			},
 {% if ansible_os_family == 'Darwin' and 'MacBook' in ansible_model %}
 			{
 				"function": "ext.tmux.segments.cool_battery.battery",
-				"priority": 50
+				"priority": 10
 			},
 {% endif %}
 			{
@@ -72,15 +72,15 @@
 			},
 			{
 				"function": "powerline.segments.common.sys.system_load",
-				"priority": 50
+				"priority": 80
 			},
 			{
 				"function": "powerline.segments.common.sys.uptime",
-				"priority": 50
+				"priority": 90
 			},
 			{
 				"function": "powerline.segments.common.mail.email_imap_alert",
-				"priority": 50
+				"priority": 90
 			},
 			{
 				"function": "powerline.segments.common.time.date",
@@ -92,7 +92,7 @@
 					"format": "%H:%M",
 					"istime": true
 				},
-				"priority": 80
+				"priority": 70
 			}
 		]
 	}
