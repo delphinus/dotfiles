@@ -55,7 +55,8 @@ NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-NeoBundle 'ryanoasis/vim-devicons'
+"NeoBundle 'ryanoasis/vim-devicons'
+NeoBundle 'delphinus35/vim-devicons', 'detect-darwin-with-lighter-method'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 NeoBundle 'vim-jp/vital.vim'
