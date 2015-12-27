@@ -1,7 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-let g:is_mac = has('mac')
 let g:is_win = has('win32') || has('win64')
 
 if len($H)
@@ -115,7 +114,7 @@ au BufNewFile,BufRead *.tt setf tt2html
 let g:vimpager_passthrough = 1
 
 if exists('vimpager')
-  if exists('vimpager_ptree') && g:vimpager_ptree[-2] ==# 'wman'
+  if exists('vimpager_ptree') && len(g:vimpager_ptree) >= 2 && g:vimpager_ptree[-2] ==# 'wman'
     set ft=man
   endif
 endif
