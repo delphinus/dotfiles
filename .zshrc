@@ -27,6 +27,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # powerline
+#module_path=($module_path /usr/local/lib/zpython)
 user_site=`python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
 . $user_site/powerline/bindings/zsh/powerline.zsh
 
