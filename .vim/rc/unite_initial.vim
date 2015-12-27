@@ -3,12 +3,13 @@ noremap zd :Unite dwm<CR>
 noremap zf :Unite qfixhowm/new qfixhowm<CR>
 noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
 noremap zg :Unite file_rec/git<CR>
-noremap zG :Unite bundler<CR>
+noremap zG :Unite grep:.:--hidden:
 "noremap <c-]> :UniteWithCursorWord -immediately tag/include<CR>
 noremap zi :Unite tig<CR>
 noremap zI :Unite gista<CR>
 noremap zl :Unite outline<CR>
 noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
+noremap zu :Unite bundler<CR>
 noremap zT :Unite z<CR>
 noremap zN :Unite -buffer-name=files file file/new<CR>
 noremap zp :Unite dwm buffer_tab file_mru:long<CR>
