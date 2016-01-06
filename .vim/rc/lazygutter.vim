@@ -6,5 +6,5 @@ let g:gitgutter_sign_removed=''
 let g:gitgutter_sign_modified_removed=''
 let g:gitgutter_diff_args='-w --histogram'
 
-set <M-g>=g
-nmap <M-g> :GitGutterToggle<CR>
+set <M-G>=G
+nmap <M-G> :GitGutterToggle<CR>
