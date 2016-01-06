@@ -16,15 +16,8 @@
 						"priority": 5
 					},
 					{
-						"function": "file_directory",
+						"function": "ext.vim.segments.repo_directory.repo_directory",
 						"priority": 40
-					},
-					{
-						"function": "file_name",
-						"args": {
-							"display_no_file": true
-						},
-						"priority": 10
 					},
 					{
 						"function": "tab_modified_indicator",
