@@ -59,6 +59,8 @@ NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 NeoBundle 'delphinus35/vim-devicons', 'detect-darwin-with-lighter-method'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
+"NeoBundle 'tpope/vim-rails'
+NeoBundle 'delphinus35/vim-rails', 'feature/recognize-ridgepole'
 NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'vim-scripts/HiColors'
 NeoBundle 'vim-scripts/applescript.vim'
@@ -162,7 +164,6 @@ NeoBundleLazy 'jason0x43/vim-js-indent',            {'filetypes': ['javascript',
 NeoBundleLazy 'jelera/vim-javascript-syntax',       {'filetypes': ['javascript']}
 NeoBundleLazy 'kana/vim-vspec',                     {'filetypes': ['vim']}
 NeoBundleLazy 'rhysd/vim-textobj-ruby',             {'filetypes': ['ruby'], 'depends': ['kana/vim-textobj-user']}
-NeoBundleLazy 'tpope/vim-rails',                    {'filetypes': ['ruby']}
 NeoBundleLazy 'vim-perl/vim-perl',                  {'filetypes': ['perl']}
 
 NeoBundleLazy 'Lokaltog/vim-easymotion',      {'mappings': ['<Plug>(easymotion-']}
