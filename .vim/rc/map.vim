@@ -15,8 +15,6 @@ nnoremap * *N
 " 水平スクロール
 nnoremap gl 8zl
 nnoremap gh 8zh
-" omini 補完起動
-inoremap <C-O> <C-X><C-O>
 " QuickFix リスト切り替え
 nnoremap [w :<C-u>colder<CR>
 nnoremap ]w :<C-u>cnewer<CR>
