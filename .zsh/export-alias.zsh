@@ -36,6 +36,7 @@ alias l.="$LS --color -d .*"
 alias ll="$LS --color -l"
 alias ls="$LS --color"
 alias lv='lv -c'
+alias nr='npm run'
 alias ns='npm start'
 alias pp=prettyping
 alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
