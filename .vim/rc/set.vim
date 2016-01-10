@@ -114,7 +114,7 @@ set completeopt+=menuone          " 候補が一つだけの時も補完する
 set completeopt-=preview          " プレビューウィンドウへの表示をやめる
 
 colorscheme solarized
-set background=dark
+set background=light
 syntax on
 
 augroup SetCommentItalic
