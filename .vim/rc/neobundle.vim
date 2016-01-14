@@ -136,7 +136,7 @@ endif
 
 NeoBundleLazy 'vim-jp/vimdoc-ja'
 
-NeoBundleLazy 'dhruvasagar/vim-table-mode',   {'function_prefix': 'tablemode'}
+NeoBundleLazy 'dhruvasagar/vim-table-mode',   {'on_func': 'tablemode'}
 
 NeoBundleLazy 'Shougo/vinarise.vim',     {'on_cmd': ['Vinarise']}
 NeoBundleLazy 'airblade/vim-rooter',     {'on_cmd': ['Rooter']}
@@ -210,10 +210,10 @@ NeoBundleLazy 'thinca/vim-ref', {
       \ 'on_unite': 'ref',
       \ }
 NeoBundleLazy 'lambdalisue/vim-gista', {
-      \ 'depends':  ['tyru/open-browser.vim'],
       \ 'on_cmd':   ['Gista'],
       \ 'on_map':   '<Plug>(gista-',
       \ 'on_unite': 'gista',
+      \ 'on_func':  'gista#',
       \ }
 NeoBundleLazy 'lambdalisue/vim-gista-unite', {
       \ 'depends': [
