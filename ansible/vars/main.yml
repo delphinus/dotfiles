@@ -67,7 +67,7 @@ homebrew_cask_packages_packages:
   - mailbox
   - vlc
 
-ruby_version: 2.2.2
+ruby_version: 2.3.0
 perl_version: 5.22.0
 home_dir: "{{ secret_home_dir }}"
 cache_dir: "{{ home_dir }}/Library/Caches/Ansible"
