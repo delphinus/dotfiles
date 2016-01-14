@@ -67,6 +67,14 @@ function! delphinus#qfixhowm#select_one_entry() abort
 endfunction
 
 " 現在のエントリーを Gist に投稿する
+let s:extension_map = {
+      \ 'perl': 'pl',
+      \ 'ruby': 'rb',
+      \ 'python': 'py',
+      \ 'javascript': 'js',
+      \ 'typescript': 'ts',
+      \ }
+
 function! delphinus#qfixhowm#post_to_gist() abort
   let [l:start_line, l:end_line] = delphinus#qfixhowm#current_entry_line_number()
   let l:title = matchstr(getline(l:start_line - 1), g:qfixmemo_title . '\s*\zs.*')
@@ -77,26 +85,18 @@ function! delphinus#qfixhowm#post_to_gist() abort
     let l:start_line += 1
     let l:end_line -= 1
     if len(l:file_type) > 0
-      let l:ext = gista#utils#guess_extension(l:file_type)
+      let l:ext = get(s:extension_map, l:file_type, l:file_type)
       let l:current_ext = '.' . expand('%:e')
       if ! empty(l:ext) && l:ext !=? l:current_ext
-        let l:new_filename = expand('%:t:r') . l:ext
+        let l:new_filename = expand('%:t:r') . '.' . l:ext
       endif
     endif
   else
     let l:new_filename = expand('%:t:r') . '.markdown'
   endif
 
-  execute printf('%d,%dGist --description "%s"', l:start_line, l:end_line, l:title)
-  let l:url = @"
-  let @* = l:url
-
-  if ! empty(l:new_filename)
-    let l:gistid = matchstr(l:url, '[0-9a-f]\+$')
-    call gista#interface#rename_action(l:gistid, l:filename, l:new_filename)
-  endif
-
-  call gista#utils#browse(l:url)
+  echom printf('%d,%dGista post --description="%s"', l:start_line, l:end_line, l:title)
+  execute printf('%d,%dGista post --description="%s"', l:start_line, l:end_line, l:title)
 endfunction
 
 " 一つ前と同じタイトルでエントリーを作成
