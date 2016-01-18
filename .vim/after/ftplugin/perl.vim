@@ -11,6 +11,7 @@ unlet! g:perl_fold_blocks
 let g:perl_nofold_packages = 1
 unlet! g:perl_nofold_subs
 let g:perl_fold_anonymous_subs = 1
+let g:perl_sub_signatures = 1
 
 set iskeyword-=-
 set iskeyword-=:
