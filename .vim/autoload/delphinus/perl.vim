@@ -9,74 +9,79 @@ let s:print_perlpath = " -e 'print join(q/,/,@INC)'"
 
 function! delphinus#perl#manage_local_perl(path) abort
   if exists('b:perl_info')
-    let perl_info = b:perl_info
+    let l:perl_info = b:perl_info
   else
-    let perl_info = delphinus#perl#perl_info(a:path)
-    let b:perl_info = perl_info
+    let l:perl_info = delphinus#perl#perl_info(a:path)
+    let b:perl_info = l:perl_info
   endif
 
   if ! exists('g:quickrun_config')
     let g:quickrun_config = {}
   endif
 
-  let g:perlpath = perl_info.perlpath
-  let g:quickrun_config['watchdogs_checker/perl'].command = perl_info.local_perl
-  let g:quickrun_config['watchdogs_checker/perl'].cmdopt = get(perl_info, 'cmdopt', '-Ilib -It/lib')
+  let g:perlpath = l:perl_info.perlpath
+  let g:quickrun_config['watchdogs_checker/perl'].command = l:perl_info.local_perl
+  let g:quickrun_config['watchdogs_checker/perl'].cmdopt = get(l:perl_info, 'cmdopt', '-Ilib -It/lib')
 endfunction
 
-function! delphinus#perl#perl_info(path)
-  let pwd = s:P.path2project_directory(a:path)
-  let cache_key = 'perl_info'
-  let memory_perl_info = delphinus#cache#memory().get(cache_key, {})
-  if has_key(memory_perl_info, pwd)
-    return memory_perl_info[pwd]
+function! delphinus#perl#perl_info(path) abort
+  let l:pwd = s:P.path2project_directory(a:path)
+  let l:cache_key = 'perl_info'
+  let l:memory_perl_info = delphinus#cache#memory().get(l:cache_key, {})
+  if has_key(l:memory_perl_info, l:pwd)
+    return l:memory_perl_info[l:pwd]
   endif
 
-  let perl_info = delphinus#cache#file().get(cache_key, {})
+  let l:perl_info = delphinus#cache#file().get(l:cache_key, {})
 
-  if ! has_key(perl_info, pwd)
+  if ! has_key(l:perl_info, l:pwd)
 
     " plenv with carton
-    if filereadable(s:cpanfile) && executable(s:carton)
-      let local_perl = s:carton . ' exec -- perl'
+    if filereadable(s:FP.join(l:pwd, s:cpanfile)) && executable(s:carton)
+      let l:local_perl = s:carton
+      let l:cmdopt = 'exec -- perl'
 
     " plenv without carton
     elseif executable('plenv')
-      let local_perl = systemlist('plenv which perl')[0]
+      let l:local_perl = systemlist('plenv which perl')[0]
 
     " perlbrew
     elseif filereadable(expand('$HOME/perl5/perlbrew/etc/bashrc'))
-      let local_perl = systemlist('source $HOME/perl5/perlbrew/etc/bashrc && which perl')[0]
+      let l:local_perl = systemlist('source $HOME/perl5/perlbrew/etc/bashrc && which perl')[0]
 
     " local_perl
     elseif executable(s:local_perl)
-      let local_perl = system(s:local_perl . ' ' . pwd)
-      let cmdopt = '-Iapp/lib -Iapp/t/lib -Iapp/extlib/lib/perl5 -Iapp/extlib/lib/perl5/i386-linux-thread-multi'
+      let l:local_perl = system(s:local_perl . ' ' . l:pwd)
+      let l:cmdopt = '-Iapp/lib -Iapp/t/lib -Iapp/extlib/lib/perl5 -Iapp/extlib/lib/perl5/i386-linux-thread-multi'
 
     " other
     else
-      let local_perl = 'perl'
+      let l:local_perl = 'perl'
     endif
 
-    let perlpath   = systemlist(local_perl . s:print_perlpath)[0]
-    let perl_info[pwd] = {'local_perl': local_perl, 'perlpath': perlpath}
-    if exists('cmdopt')
-      let perl_info[pwd].cmdopt = cmdopt
+    if l:local_perl ==# s:carton
+      let l:perl_info[l:pwd] = {'local_perl': l:local_perl, 'perlpath': '', 'cmdopt': l:cmdopt}
+    elseif exists('l:cmdopt')
+      let l:perlpath = systemlist(l:local_perl . ' ' . l:cmdopt . s:print_perlpath)[0]
+      let l:perl_info[l:pwd] = {'local_perl': l:local_perl, 'perlpath': l:perlpath, 'cmdopt': l:cmdopt}
+    else
+      let l:perlpath = systemlist(l:local_perl . s:print_perlpath)[0]
+      let l:perl_info[l:pwd] = {'local_perl': l:local_perl, 'perlpath': l:perlpath}
     endif
-    call delphinus#cache#file().set(cache_key, perl_info)
+    call delphinus#cache#file().set(l:cache_key, l:perl_info)
   endif
 
-  call delphinus#cache#memory().set(cache_key, perl_info)
+  call delphinus#cache#memory().set(l:cache_key, l:perl_info)
 
-  return perl_info[pwd]
+  return l:perl_info[l:pwd]
 endfunction
 
 function! delphinus#perl#test_filetype() abort
   if &filetype ==# 'perl'
     return
   endif
-  for ele in s:FP.split(expand('%'))
-    if ele ==# 't' || ele ==# 'xt'
+  for l:ele in s:FP.split(expand('%'))
+    if l:ele ==# 't' || l:ele ==# 'xt'
       set filetype=perl
       return
     endif
