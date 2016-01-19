@@ -53,7 +53,7 @@
 	name = delphinus
 [github]
 [core]
-	excludesfile = ~/git/dotfiles/.gitignore
+	excludesfile = ~/git/dotfiles/.gitignore-global
 	attributesfile = ~/git/dotfiles/.gitattributes
 	autocrlf = false
 	quotepath = false
