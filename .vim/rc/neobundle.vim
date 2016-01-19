@@ -218,12 +218,7 @@ NeoBundleLazy 'thinca/vim-ref', {
       \ 'on_cmd':   ['Ref'],
       \ 'on_unite': 'ref',
       \ }
-NeoBundleLazy 'lambdalisue/vim-gista', {
-      \ 'on_cmd':   ['Gista'],
-      \ 'on_map':   '<Plug>(gista-',
-      \ 'on_unite': 'gista',
-      \ 'on_func':  'gista#',
-      \ }
+NeoBundle 'lambdalisue/vim-gista'
 NeoBundleLazy 'lambdalisue/vim-gista-unite', {
       \ 'depends': [
       \   'lambdalisue/vim-gista',
