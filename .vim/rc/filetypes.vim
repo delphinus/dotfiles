@@ -6,5 +6,5 @@ augroup END
 
 augroup NoFiletypeForHugeBuffer
   autocmd!
-  autocmd BufEnter * if line('$') > 3000 | set filetype= | endif
+  autocmd BufRead,BufEnter * if line('$') > 3000 | set filetype= | endif
 augroup END
