@@ -41,6 +41,7 @@
 	sm = submodule
 	st = status -sb
 	su = !git br --set-upstream-to=origin/`git rev-parse --abbrev-ref HEAD`
+	wk = worktree
 [diff]
 	algorithm = histogram
 	renames = true
