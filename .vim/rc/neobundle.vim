@@ -164,7 +164,6 @@ NeoBundleLazy 'kana/vim-vspec',                     {'on_ft': ['vim']}
 NeoBundleLazy 'rhysd/vim-textobj-ruby',             {'on_ft': ['ruby'], 'depends': ['kana/vim-textobj-user']}
 NeoBundleLazy 'vim-perl/vim-perl',                  {'on_ft': ['perl']}
 
-NeoBundleLazy 'Lokaltog/vim-easymotion',      {'on_map': ['<Plug>(easymotion-']}
 NeoBundleLazy 'chikatoike/concealedyank.vim', {'on_map': ['<Plug>(operator-concealedyank)']}
 NeoBundleLazy 'delphinus35/vim-lycia',        {'on_map': ['<Plug>(lycia']}
 NeoBundleLazy 'junegunn/vim-easy-align',      {'on_map': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
@@ -173,6 +172,16 @@ NeoBundleLazy 'tpope/vim-capslock',           {'on_map': [['i', '<Plug>CapsLockT
 NeoBundleLazy 't9md/vim-quickhl',             {'on_map': ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']}
 NeoBundleLazy 't9md/vim-choosewin',           {'on_map': ['<Plug>(choosewin)']}
 NeoBundleLazy 'thinca/vim-fontzoom',          {'on_map': ['<Plug>(fontzoom-'], 'on_cmd': ['Fontzoom'], 'gui': 1}
+
+NeoBundleLazy 'easymotion/vim-easymotion', {'on_map': ['<Plug>(easymotion-']}
+NeoBundleLazy 'haya14busa/incsearch.vim', {
+      \ 'depends': [
+      \   'easymotion/vim-easymotion',
+      \   'haya14busa/incsearch-easymotion.vim',
+      \   'haya14busa/incsearch-fuzzy.vim',
+      \ ],
+      \ 'on_func': ['incsearch#'],
+      \ }
 
 NeoBundleLazy 'LeafCage/yankround.vim', {
       \ 'on_map':   ['<Plug>(yankround-'],
