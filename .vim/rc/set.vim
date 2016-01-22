@@ -113,13 +113,18 @@ set history=1000                  " コマンドライン履歴を 1000 個保�
 set completeopt+=menuone          " 候補が一つだけの時も補完する
 set completeopt-=preview          " プレビューウィンドウへの表示をやめる
 
-colorscheme solarized
-set background=light
+colorscheme base16-ateliersulphurpool
+set background=dark
 syntax on
 
 augroup SetCommentItalic
   autocmd!
   autocmd VimEnter * highlight Comment cterm=italic
+augroup END
+
+augroup SetSearchColor
+  autocmd!
+  autocmd VimEnter * hi! link Search IncSearch
 augroup END
 
 " vim:et:fdm=marker:
