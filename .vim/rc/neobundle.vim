@@ -43,6 +43,7 @@ endif
 
 " プラグイン {{{
 NeoBundle 'Glench/Vim-Jinja2-Syntax'
+NeoBundle 'atelierbram/vim-colors_atelier-schemes'
 NeoBundle 'delphinus35/vim-colors-solarized', 'for-hydrozen-fork'
 NeoBundle 'delphinus35/vim-emacscommandline'
 NeoBundle 'delphinus35/vim-markdown', 'merged-inline_and_code_fixes'
@@ -53,7 +54,6 @@ NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'othree/html5.vim'
-NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 "NeoBundle 'ryanoasis/vim-devicons'
 NeoBundle 'delphinus35/vim-devicons', 'detect-darwin-with-lighter-method'
