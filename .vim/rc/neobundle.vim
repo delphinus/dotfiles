@@ -44,6 +44,7 @@ endif
 " プラグイン {{{
 NeoBundle 'Glench/Vim-Jinja2-Syntax'
 NeoBundle 'atelierbram/vim-colors_atelier-schemes'
+NeoBundle 'cespare/vim-toml'
 NeoBundle 'delphinus35/vim-colors-solarized', 'for-hydrozen-fork'
 NeoBundle 'delphinus35/vim-emacscommandline'
 NeoBundle 'delphinus35/vim-markdown', 'merged-inline_and_code_fixes'
