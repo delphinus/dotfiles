@@ -61,11 +61,11 @@ set wrap                 " ウィンドウの幅が足りないときは折り�
 set breakindent          " 折り返し時にインデントする
 set showbreak=         " 折り返したときに行頭にマークを表示する
 set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表示する
-execute 'set colorcolumn=' . join(range(81, 9999), ',')
-" 81 桁目より後をハイライト
+execute 'set colorcolumn=' . join(range(141, 9999), ',')
+" 141 桁目より後をハイライト
 noremap <Plug>(ToggleColorColumn)
       \ :<c-u>let &colorcolumn = len(&colorcolumn) > 0 ? '' :
-      \   join(range(81, 9999), ',')<CR>
+      \   join(range(141, 9999), ',')<CR>
 nmap <Leader>cc <Plug>(ToggleColorColumn)
 
 set cmdheight=2          " 画面最下段のコマンド表示行数
