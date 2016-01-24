@@ -20,6 +20,7 @@
     - .inputrc
     - .jshintrc
     - .proverc
+    - .ptconfig.toml
     - .vim
     - .zshenv
     - .zprofile
