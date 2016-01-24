@@ -13,9 +13,6 @@
 [submodule ".zsh/zsh-notify"]
 	path = .zsh/zsh-notify
 	url = https://github.com/marzocchi/zsh-notify
-[submodule "submodules/xterm_colour_chart"]
-	path = submodules/xterm_colour_chart
-	url = https://github.com/wardi/xterm_colour_chart
 [submodule "submodules/solarized-limechat"]
 	path = submodules/solarized-limechat
 	url = https://github.com/delphinus35/solarized-limechat
