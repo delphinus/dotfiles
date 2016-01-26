@@ -103,15 +103,15 @@ NeoBundleLazy 'Shougo/tabpagebuffer.vim',  {
       \ 'on_source': ['unite.vim', 'vimfiler', 'vimshell'],
       \ }
 
-NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim']}
+NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'tig'}
 NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'pekepeke/vim-unite-z',      {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim', 'Shougo/neoinclude.vim']}
-NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'fuenor/qfixhowm']}
+NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim'], 'on_unite': 'outline'}
+NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'rails'}
+NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim'], 'on_unite': 'ghq'}
+NeoBundleLazy 'pekepeke/vim-unite-z',      {'depends': ['Shougo/unite.vim'], 'on_unite': 'z'}
+NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'bunder'}
+NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim', 'Shougo/neoinclude.vim'], 'on_unite': 'tag'}
+NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'fuenor/qfixhowm'], 'on_unite': 'qfixhowm'}
 
 " enable on source unite.vim for `dwm_new` action
 NeoBundleLazy 'kannokanno/unite-dwm', {
