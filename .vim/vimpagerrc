@@ -51,7 +51,7 @@ endif
 
 NeoBundle 'rkitover/vimpager'
 
-NeoBundle 'delphinus35/vim-colors-solarized', 'for-hydrozen-fork'
+NeoBundle 'atelierbram/vim-colors_atelier-schemes'
 NeoBundle 'houtsnip/vim-emacscommandline'
 
 if has('vim_starting')
@@ -65,10 +65,15 @@ syntax on
 
 let g:mapleader='`'
 
-colorscheme solarized
+colorscheme base16-ateliersulphurpool
 augroup SetCommentItalic
   autocmd!
   autocmd VimEnter * highlight Comment cterm=italic
+augroup END
+
+augroup SetSearchColor
+  autocmd!
+  autocmd VimEnter * hi! link Search IncSearch
 augroup END
 
 set t_ut=
