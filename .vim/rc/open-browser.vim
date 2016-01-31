@@ -1,3 +1,2 @@
-set <M-o>=o
-nmap <M-o> <Plug>(openbrowser-smart-search)
-vmap <M-o> <Plug>(openbrowser-smart-search)
+nmap g<CR> <Plug>(openbrowser-smart-search)
+vmap g<CR> <Plug>(openbrowser-smart-search)
