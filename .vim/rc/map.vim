@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-let mapleader='`'
+let g:mapleader='`'
 
 set timeout         " キーのタイムアウト時間設定
 set timeoutlen=300
@@ -8,8 +8,6 @@ set ttimeoutlen=10
 
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
-"Escの2回押しでハイライト消去
-nmap <ESC><ESC> :nohlsearch<CR><ESC>
 " * 設定
 nnoremap * *N
 " 水平スクロール
@@ -26,3 +24,10 @@ nnoremap # :<C-u>b #<CR>
 " タブ移動
 nnoremap ( gT
 nnoremap ) gt
+
+" https://github.com/mhinz/vim-galore#saner-ctrl-l
+nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+nnoremap <ESC><ESC> :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+" https://github.com/mhinz/vim-galore#dont-lose-selection-when-shifting-sidewards
+xnoremap <  <gv
+xnoremap >  >gv
