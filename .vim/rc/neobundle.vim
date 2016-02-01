@@ -109,7 +109,7 @@ NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim'], 'on
 NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'rails'}
 NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim'], 'on_unite': 'ghq'}
 NeoBundleLazy 'pekepeke/vim-unite-z',      {'depends': ['Shougo/unite.vim'], 'on_unite': 'z'}
-NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'bunder'}
+NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'bundler'}
 NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim', 'Shougo/neoinclude.vim'], 'on_unite': 'tag'}
 NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'fuenor/qfixhowm'], 'on_unite': 'qfixhowm'}
 
