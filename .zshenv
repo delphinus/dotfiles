@@ -1,3 +1,5 @@
+# zmodload zsh/zprof
+
 # 補完関数を追加
 if [ -d /usr/local/share/zsh-completions ]; then
   fpath=(/usr/local/share/zsh-completions $fpath)
