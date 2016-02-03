@@ -14,7 +14,7 @@ export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [[ $OSTYPE == darwin* ]]; then
   LS=gls
   alias dircolors=gdircolors
   alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'

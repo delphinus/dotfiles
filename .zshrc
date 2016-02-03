@@ -19,7 +19,7 @@ export PATH="$H/.vim/bundle/perlomni.vim/bin:$PATH"
 export TEST_PRETTY_COLOR_NAME=BRIGHT_GREEN
 
 # terminal-notifier
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [[ $OSTYPE == darwin* ]]; then
   # http://qiita.com/kei_s/items/96ee6929013f587b5878
   export SYS_NOTIFIER=/usr/local/bin/terminal-notifier
   export NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
@@ -27,13 +27,14 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # powerline
-#module_path=($module_path /usr/local/lib/zpython)
-user_site=`python -c 'import site;import sys;sys.stdout.write(site.USER_SITE)'`
+if [[ $OSTYPE == darwin* ]]; then
+  user_site="$HOME/Library/Python/2.7/lib/python/site-packages"
+fi
 . $user_site/powerline/bindings/zsh/powerline.zsh
 
 # z
 if which brew > /dev/null; then
-  . `brew --prefix`/etc/profile.d/z.sh
+  . /usr/local/etc/profile.d/z.sh
 elif [ -f /etc/profile.d/z.sh ]; then
   . /etc/profile.d/z.sh
 elif [ -f $(ghq list --full-path rupa/z)/z.sh ]; then
@@ -42,7 +43,7 @@ fi
 
 # grc
 if which brew > /dev/null; then
-  . "`brew --prefix`/etc/grc.bashrc"
+  . /usr/local/etc/grc.bashrc
 elif [ -f '/etc/profile.d/grc.bashrc' ]; then
   . /etc/profile.d/grc.bashrc
   export MANPATH=/usr/local/share/man:$MANPATH
