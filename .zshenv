@@ -11,7 +11,7 @@ if [ -z "$H" ]; then
 fi
 
 export PATH=
-if [ -x /usr/lib/exec/path_helper ]; then
+if [ -x /usr/libexec/path_helper ]; then
   eval `/usr/libexec/path_helper -s`
 else
   export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
@@ -32,8 +32,10 @@ fi
 export PATH=$PYENV_ROOT/bin:$PATH
 alias py=pyenv
 alias pyv='pyenv versions'
-if which pyenv > /dev/null; then eval "$(pyenv init - zsh)"; fi
-user_base=`python -c 'import sys;import site;sys.stdout.write(site.USER_BASE)'`
+if which pyenv > /dev/null; then eval "$(pyenv init - --no-rehash zsh)"; fi
+if [[ $OSTYPE == darwin* ]]; then
+  user_base="$HOME/Library/Python/2.7"
+fi
 export PATH=$user_base/bin:$PATH
 
 # for ruby
@@ -45,7 +47,7 @@ fi
 export PATH=$RBENV_ROOT/bin:$PATH
 alias rb=rbenv
 alias rbv='rbenv versions'
-if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
+if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash zsh)"; fi
 
 # for lua
 if [ -d '/usr/local/opt/luaenv' ]; then
@@ -56,17 +58,19 @@ fi
 export PATH=$LUAENV_ROOT/bin:$PATH
 alias lu=luaenv
 alias luv='luaenv versions'
-if which luaenv > /dev/null; then eval "$(luaenv init - zsh)"; fi
+if which luaenv > /dev/null; then eval "$(luaenv init - --no-rehash zsh)"; fi
 
 # perl
 if [ -d "$HOME/perl5" ]; then
-  local arch=$(perl -v | grep 'for \S\+$' | perl -pe 's/.*?(\S+)$/$1/')
+  if [[ $OSTYPE == darwin* ]]; then
+    arch=darwin-2level
+  fi
   export PATH=$HOME/perl5/bin:$PATH
   export PERL5LIB=$HOME/perl5/lib/perl5:$HOME/perl5/lib/perl5/$arch/auto:$PERL5LIB
 fi
 
 # for perlbrew
-if [ `uname` = 'Darwin' -a -f $HOME/perl5/perlbrew/etc/bashrc ]; then
+if [[ $OSTYPE == darwin* && -f $HOME/perl5/perlbrew/etc/bashrc ]]; then
   source $HOME/perl5/perlbrew/etc/bashrc
   source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
   alias perl='perl -I$HOME/perl5/lib/perl5'
@@ -80,7 +84,7 @@ else
   export PATH=$PLENV_ROOT/bin:$PATH
   alias pl=plenv
   alias plv='plenv versions'
-  if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
+  if which plenv > /dev/null; then eval "$(plenv init - --no-rehash zsh)"; fi
 fi
 
 # for go
