@@ -43,6 +43,7 @@ endif
 
 " プラグイン {{{
 NeoBundle 'Glench/Vim-Jinja2-Syntax'
+NeoBundle 'vim-airline/vim-airline', {'depends': ['vim-airline/vim-airline-themes']}
 NeoBundle 'atelierbram/vim-colors_atelier-schemes'
 NeoBundle 'cespare/vim-toml'
 NeoBundle 'delphinus35/vim-colors-solarized', 'for-hydrozen-fork'
@@ -55,10 +56,10 @@ NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'motemen/xslate-vim'
 NeoBundle 'moznion/vim-cpanfile'
 NeoBundle 'othree/html5.vim'
-NeoBundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 "NeoBundle 'ryanoasis/vim-devicons'
 NeoBundle 'delphinus35/vim-devicons', 'detect-darwin-with-lighter-method'
 NeoBundle 'thinca/vim-visualstar'
+NeoBundle 'tpope/vim-capslock'
 NeoBundle 'tpope/vim-fugitive', {'augroup': 'fugitive'}
 "NeoBundle 'tpope/vim-rails'
 NeoBundle 'delphinus35/vim-rails', 'feature/recognize-ridgepole'
@@ -169,7 +170,6 @@ NeoBundleLazy 'chikatoike/concealedyank.vim', {'on_map': ['<Plug>(operator-conce
 NeoBundleLazy 'delphinus35/vim-lycia',        {'on_map': ['<Plug>(lycia']}
 NeoBundleLazy 'junegunn/vim-easy-align',      {'on_map': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']}
 NeoBundleLazy 'spolu/dwm.vim',                {'on_map': ['<Plug>DWM']}
-NeoBundleLazy 'tpope/vim-capslock',           {'on_map': [['i', '<Plug>CapsLockToggle']]}
 NeoBundleLazy 't9md/vim-quickhl',             {'on_map': ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']}
 NeoBundleLazy 't9md/vim-choosewin',           {'on_map': ['<Plug>(choosewin)']}
 NeoBundleLazy 'thinca/vim-fontzoom',          {'on_map': ['<Plug>(fontzoom-'], 'on_cmd': ['Fontzoom'], 'gui': 1}
