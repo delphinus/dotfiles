@@ -14,3 +14,8 @@ nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>= <Plug>AirlineSelectNextTab
+
+augroup SetAirline
+  autocmd!
+  autocmd VimEnter * let g:airline_section_error = airline#section#create(['watchdogs'])
+augroup END
