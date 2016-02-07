@@ -120,6 +120,9 @@ syntax on
 augroup SetCommentItalic
   autocmd!
   autocmd VimEnter * highlight Comment cterm=italic
+  autocmd VimEnter * highlight htmlItalic cterm=italic
+  autocmd VimEnter * highlight htmlBold cterm=bold
+  autocmd VimEnter * highlight htmlBoldItalic cterm=bold,italic
 augroup END
 
 augroup SetSearchColor
