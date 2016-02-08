@@ -10,7 +10,7 @@ def local_perl(pl, segment_info, format='{app}:{version}'):
 	if socket.gethostname() not in {{ secret_office.hostnames | pprint }}:
 		return None
 	version = segment_info['environ'].get('PERLBREW_PERL')
-	if version is None:
+	if version is None or version == {{ secret_default_perl_version | pprint }}:
 		return None
 	version = re.sub('perl-', '', version)
 	app = segment_info['environ'].get('{{ secret_local_perl_app }}') or 'system'
