@@ -17,6 +17,7 @@ let g:markdown_fenced_languages = [
       \ 'html',
       \ 'java',
       \ 'javascript',
+      \ 'json',
       \ 'lua',
       \ 'ocaml',
       \ 'perl',
