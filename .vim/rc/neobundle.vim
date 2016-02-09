@@ -105,15 +105,15 @@ NeoBundleLazy 'Shougo/tabpagebuffer.vim',  {
       \ 'on_source': ['unite.vim', 'vimfiler', 'vimshell'],
       \ }
 
-NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'tig'}
+NeoBundleLazy 'Kocha/vim-unite-tig',       {'depends': ['Shougo/unite.vim'], 'on_source': ['unite.vim']}
 NeoBundleLazy 'Shougo/neomru.vim',         {'depends': ['Shougo/unite.vim']}
-NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim'], 'on_unite': 'outline'}
-NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'rails'}
-NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim'], 'on_unite': 'ghq'}
-NeoBundleLazy 'pekepeke/vim-unite-z',      {'depends': ['Shougo/unite.vim'], 'on_unite': 'z'}
-NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim'], 'on_unite': 'bundler'}
-NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim', 'Shougo/neoinclude.vim'], 'on_unite': 'tag'}
-NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'fuenor/qfixhowm'], 'on_unite': 'qfixhowm'}
+NeoBundleLazy 'Shougo/unite-outline',      {'depends': ['Shougo/unite.vim'], 'on_source': ['unite.vim']}
+NeoBundleLazy 'basyura/unite-rails',       {'depends': ['Shougo/unite.vim'], 'on_source': ['unite.vim']}
+NeoBundleLazy 'delphinus35/unite-ghq',     {'depends': ['Shougo/unite.vim'], 'on_source': ['unite.vim']}
+NeoBundleLazy 'pekepeke/vim-unite-z',      {'depends': ['Shougo/unite.vim'], 'on_source': ['unite.vim']}
+NeoBundleLazy 'sorah/unite-bundler',       {'depends': ['Shougo/unite.vim'], 'on_source': ['unite.vim']}
+NeoBundleLazy 'tsukkee/unite-tag',         {'depends': ['Shougo/unite.vim', 'Shougo/neoinclude.vim'], 'on_source': ['unite.vim']}
+NeoBundleLazy 'osyo-manga/unite-qfixhowm', {'depends': ['Shougo/unite.vim', 'fuenor/qfixhowm'], 'on_source': ['unite.vim']}
 
 " enable on source unite.vim for `dwm_new` action
 NeoBundleLazy 'kannokanno/unite-dwm', {
@@ -126,6 +126,7 @@ NeoBundleLazy 'fuenor/qfixhowm'
 if g:neobundle#tap('qfixhowm')
   call neobundle#config({
         \ 'on_map': ['g,m', 'g,c', 'g,s', 'g,q'],
+        \ 'on_source': ['unite.vim'],
         \ })
   call neobundle#untap()
 endif
@@ -187,7 +188,7 @@ NeoBundleLazy 'haya14busa/incsearch.vim', {
 
 NeoBundleLazy 'LeafCage/yankround.vim', {
       \ 'on_map':   ['<Plug>(yankround-'],
-      \ 'on_unite': 'yankround',
+      \ 'on_source': ['unite.vim'],
       \ }
 
 NeoBundleLazy 'tyru/open-browser.vim', {
@@ -218,7 +219,7 @@ NeoBundleLazy 'tpope/vim-endwise', {
 NeoBundleLazy 'thinca/vim-ref', {
       \ 'depends':  ['Shougo/unite.vim'],
       \ 'on_cmd':   ['Ref'],
-      \ 'on_unite': 'ref',
+      \ 'on_source': ['unite.vim'],
       \ }
 NeoBundle 'lambdalisue/vim-gista'
 NeoBundleLazy 'lambdalisue/vim-gista-unite', {
@@ -226,7 +227,7 @@ NeoBundleLazy 'lambdalisue/vim-gista-unite', {
       \   'lambdalisue/vim-gista',
       \   'Shougo/unite.vim',
       \ ],
-      \ 'on_unite': ['gista', 'gista/file'],
+      \ 'on_source': ['unite.vim'],
       \ }
 NeoBundleLazy 'ujihisa/neco-look', {
       \ 'depends': ['Shougo/neocomplete.vim'],
