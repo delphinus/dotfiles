@@ -4,8 +4,9 @@ repo = 'Shougo/neocomplete.vim'
 on_i = 1
 
 [[plugins]]
-repo    = 'Shougo/neomru.vim'
-depends = ['Shougo/unite.vim']
+repo      = 'Shougo/neomru.vim'
+depends   = ['Shougo/unite.vim']
+on_source = ['unite.vim']
 
 [[plugins]]
 repo      = 'Shougo/tabpagebuffer.vim'
