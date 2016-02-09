@@ -48,4 +48,7 @@ let g:watchdogs_check_CursorHold_enables = {
 " この関数に g:quickrun_config を渡す
 " この関数で g:quickrun_config にシンタックスチェックを行うための設定を追加する
 " 関数を呼び出すタイミングはユーザの g:quickrun_config 設定後
-call g:watchdogs#setup(g:quickrun_config)
+augroup SetupWatchdogs
+  autocmd!
+  autocmd VimEnter * call watchdogs#setup(g:quickrun_config)
+augroup END
