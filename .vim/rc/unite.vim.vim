@@ -50,8 +50,6 @@ elseif executable('ag')
 endif
 
 " devicons 設定
-call neobundle#source('neomru.vim')
-
 call unite#custom#default_action('source/bundler/directory', 'file')
 
 let s:source_names_to_apply_filter = [
