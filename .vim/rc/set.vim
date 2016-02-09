@@ -115,7 +115,6 @@ set completeopt-=preview          " プレビューウィンドウへの表示�
 
 colorscheme base16-ateliersulphurpool
 set background=dark
-syntax on
 
 augroup SetCommentItalic
   autocmd!
