@@ -14,10 +14,10 @@ else
 endif
 
 let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
-let g:source_dir = g:vim_home . '/rc'
+let g:rc_dir = g:vim_home . '/rc'
 
 function s:load_rc(file)
-    execute 'source ' . g:source_dir . '/' . a:file . '.vim'
+    execute 'source ' . g:rc_dir . '/' . a:file . '.vim'
 endfunction
 
 function s:load_bundle_rc(bundle_name)
