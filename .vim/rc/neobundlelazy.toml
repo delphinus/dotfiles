@@ -13,6 +13,25 @@ repo      = 'Shougo/tabpagebuffer.vim'
 on_source = ['unite.vim', 'vimfiler', 'vimshell']
 
 [[plugins]]
+repo   = 'Shougo/unite.vim'
+on_cmd = [
+    'Unite',
+    'UniteBookmarkAdd',
+    'UniteClose',
+    'UniteFirst',
+    'UniteLast',
+    'UniteNext',
+    'UnitePrevious',
+    'UniteResume',
+    'UniteWithBufferDir',
+    'UniteWithCurrentDir',
+    'UniteWithCursorWord',
+    'UniteWithInput',
+    'UniteWithInputDirectory',
+    'UniteWithProjectDir',
+  ]
+
+[[plugins]]
 repo      = 'Shougo/unite-outline'
 depends   = ['Shougo/unite.vim']
 on_source = ['unite.vim']
