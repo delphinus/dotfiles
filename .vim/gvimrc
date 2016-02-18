@@ -40,4 +40,4 @@ elseif has('macunix')
   set transparency=0                " 画面を半透明にしない
 endif
 
-colorscheme base16-ateliersulphurpool
+colorscheme solarized
