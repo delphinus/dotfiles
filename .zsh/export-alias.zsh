@@ -24,7 +24,7 @@ else
   LS=ls
 fi
 
-eval `dircolors $H/git/dotfiles/.zsh/dircolors/dircolors.base16.dark`
+eval `dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
 alias be='bundle exec'
 alias ce='carton exec --'
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
