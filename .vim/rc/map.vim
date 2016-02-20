@@ -16,8 +16,8 @@ nnoremap gh 8zh
 " QuickFix リスト切り替え
 nnoremap [w :<C-u>colder<CR>
 nnoremap ]w :<C-u>cnewer<CR>
-nnoremap [c :<C-u>copen<CR>
-nnoremap ]c :<C-u>cclose<CR>
+nnoremap [C :<C-u>copen<CR>
+nnoremap ]C :<C-u>cclose<CR>
 " ウィンドウを最大化する
 nnoremap _ <C-W>_
 nnoremap # :<C-u>b #<CR>
