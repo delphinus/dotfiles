@@ -22,3 +22,15 @@ function! delphinus#dwm#set_master_pane_width() abort
     endif
   endif
 endfunction
+
+function! delphinus#dwm#disable() abort
+  autocmd! dwm BufWinEnter
+  augroup! dwm
+endfunction
+
+function! delphinus#dwm#enable() abort
+  augroup dwm
+    autocmd!
+    autocmd BufWinEnter * if &l:buflisted || &l:filetype == 'help' | call DWM_AutoEnter() | endif
+  augroup END
+endfunction
