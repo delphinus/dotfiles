@@ -12,7 +12,7 @@ else
 endif
 
 let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
-let g:source_dir = g:vim_home . '/rc'
+let g:rc_dir = g:vim_home . '/rc'
 
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
@@ -36,9 +36,15 @@ call g:neobundle#begin(expand(g:bundle_dir))
 
 let g:neobundle#default_options._ = {'verbose': 1}
 
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+let s:bundles = g:rc_dir . '/neobundle_vimpager.toml'
+
+if neobundle#load_cache(expand('<sfile>'), s:bundles)
+  NeoBundleFetch 'Shougo/neobundle.vim'
+
+  call neobundle#load_toml(s:bundles)
+
+  NeoBundleSaveCache
+endif
 
 let s:bundled_vimproc_directory = expand('$VIM/plugins/vimproc')
 if ! (has('macunix') && has('kaoriya') && isdirectory(s:bundled_vimproc_directory))
@@ -49,26 +55,31 @@ if ! (has('macunix') && has('kaoriya') && isdirectory(s:bundled_vimproc_director
         \ }}
 endif
 
-NeoBundle 'rkitover/vimpager'
-
-NeoBundle 'atelierbram/vim-colors_atelier-schemes'
-NeoBundle 'houtsnip/vim-emacscommandline'
-
 if has('vim_starting')
   execute 'set runtimepath+=' . g:home
 endif
 
-call g:neobundle#end()
+call neobundle#end()
 
 filetype plugin indent on
-syntax on
+syntax enable
+
+if !has('vim_starting')
+  NeoBundleCheck
+  call neobundle#call_hook('on_source')
+endif
 
 let g:mapleader='`'
 
-colorscheme base16-ateliersulphurpool
+colorscheme solarized
+set background=dark
+
 augroup SetCommentItalic
   autocmd!
   autocmd VimEnter * highlight Comment cterm=italic
+  autocmd VimEnter * highlight htmlItalic cterm=italic
+  autocmd VimEnter * highlight htmlBold cterm=bold
+  autocmd VimEnter * highlight htmlBoldItalic cterm=bold,italic
 augroup END
 
 augroup SetSearchColor
@@ -77,7 +88,6 @@ augroup SetSearchColor
 augroup END
 
 set t_ut=
-set background=dark
 
 nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
@@ -118,8 +128,8 @@ au BufNewFile,BufRead *.tt setf tt2html
 " vimpager
 let g:vimpager_passthrough = 1
 
-if exists('vimpager')
-  if exists('vimpager_ptree') && len(g:vimpager_ptree) >= 2 && g:vimpager_ptree[-2] ==# 'wman'
+if exists('g:vimpager.enabled')
+  if exists('g:vimpager.ptree') && g:vimpager.ptree[-2] == 'wman'
     set ft=man
   endif
 endif
