@@ -261,6 +261,13 @@ on_ft   = ['ruby']
 on_i    = 1
 
 [[plugins]]
+repo  = 'ternjs/tern_for_vim'
+on_ft = ['javascript']
+
+  [plugins.build]
+  others = 'npm install'
+
+[[plugins]]
 repo = 'tpope/vim-endwise'
 on_ft = [
     'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet',
