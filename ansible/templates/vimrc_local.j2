@@ -15,9 +15,13 @@ function! s:SetGithubIssuesVariables()
 endfunction
 
 if index({{ secret_office.hostnames | pprint }}, hostname()) > -1
-  call g:gista#client#register('GHE', '{{ secret_office.github_api_path }}')
   let g:gista#client#default_username = '{{ secret_office.github_user }}'
-  let g:gista#get_with_authentication = 1
+  let g:gista#client#default_apiname = 'GHE'
+
+  let s:hooks = neobundle#get_hooks('vim-gista')
+  function s:hooks.on_source(bundle)
+    call gista#client#register('GHE', '{{ secret_office.github_api_path }}')
+  endfunction
 else
   let g:gista#client#default_username = 'delphinus35'
 endif
