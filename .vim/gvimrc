@@ -29,8 +29,8 @@ elseif has('macunix')
     set guifont=Hack:h18
     set guifontwide=Ricty_Discord:h20
   else
-    set guifont=Hack:h14
-    set guifontwide=Ricty_Discord:h16
+    set guifont=Fira_Code:h14
+    set guifontwide=Ricty_Discord:h14
   endif
   set lines=92 columns=190          " ウィンドウの大きさを指定する
   set linespace=0
@@ -38,6 +38,7 @@ elseif has('macunix')
   set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
   set macmeta                       " option キーを alt キーとして使う
   set transparency=0                " 画面を半透明にしない
+  set macligatures                  " リガチャを有効にする
 endif
 
 colorscheme solarized
