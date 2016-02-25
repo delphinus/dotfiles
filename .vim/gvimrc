@@ -42,3 +42,4 @@ elseif has('macunix')
 endif
 
 colorscheme solarized
+set background=dark
