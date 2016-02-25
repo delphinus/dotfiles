@@ -40,6 +40,10 @@
     <appname>SLACK</appname>
     <equal>com.tinyspeck.slackmacgap</equal>
   </appdef>
+  <appdef>
+    <appname>EDGEVIEW</appname>
+    <equal>djhan.EdgeView</equal>
+  </appdef>
   <item>
     <name>Custom Keymaps</name>
     <list>
@@ -359,6 +363,17 @@
         <autogen>__KeyToKey__ KeyCode::DELETE, KeyCode::BACKSLASH</autogen>
         <autogen>__KeyToKey__ KeyCode::DELETE, MODIFIERFLAG_EITHER_LEFT_OR_RIGHT_SHIFT, KeyCode::BACKSLASH, ModifierFlag::SHIFT_L</autogen>
         <autogen>__KeyToKey__ FROMKEYCODE_FORWARD_DELETE, KeyCode::DELETE</autogen>
+      </item>
+      <item>
+        <name>EdgeView for one hand</name>
+        <identifier>remap.edgeview_for_one_hand</identifier>
+        <only>EDGEVIEW</only>
+        <autogen>__KeyToKey__ KeyCode::S, KeyCode::CURSOR_LEFT</autogen>
+        <autogen>__KeyToKey__ KeyCode::F, KeyCode::CURSOR_RIGHT</autogen>
+        <autogen>__KeyToKey__ KeyCode::E, KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::D, KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::SHIFT_L, KeyCode::CURSOR_LEFT, ModifierFlag::SHIFT_L</autogen>
+        <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::SHIFT_L, KeyCode::CURSOR_RIGHT, ModifierFlag::SHIFT_L</autogen>
       </item>
     </list>
   </item>
