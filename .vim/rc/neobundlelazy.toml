@@ -242,10 +242,6 @@ repo  = 'jason0x43/vim-js-indent'
 on_ft = ['javascript', 'typescript']
 
 [[plugins]]
-repo  = 'jelera/vim-javascript-syntax'
-on_ft = ['javascript']
-
-[[plugins]]
 repo  = 'kana/vim-vspec'
 on_ft = ['vim']
 
