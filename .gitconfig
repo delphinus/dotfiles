@@ -79,7 +79,7 @@
 	diff = diff-highlight | lv -c
 [ghq]
 	root = ~/git
-	root = ~/.vim/bundle
+	root = ~/.cache/dein/repos
 [ghq "ssh://git@git.remora.cx"]
 	vcs = git
 [filter "hawser"]
