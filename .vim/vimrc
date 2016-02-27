@@ -21,8 +21,8 @@ function s:load_rc(file)
 endfunction
 
 function s:load_bundle_rc(bundle_name)
-    let l:bundle = neobundle#get(a:bundle_name)
-    function! l:bundle.hooks.on_source(bundle)
+    let l:hooks = neobundle#get_hooks(a:bundle_name)
+    function! l:hooks.on_source(bundle)
         call s:load_rc(a:bundle.name)
     endfunction
 endfunction
