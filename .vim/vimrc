@@ -1,5 +1,11 @@
 scriptencoding 'utf-8'
 
+if &compatible
+  " vint: -ProhibitSetNoCompatible
+  set nocompatible               " Be iMproved
+  " vint: +ProhibitSetNoCompatible
+endif
+
 let g:is_mac = has('mac')
 let g:is_win = has('win32') || has('win64')
 
@@ -15,19 +21,25 @@ endif
 
 let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
 let g:rc_dir = g:vim_home . '/rc'
+let g:after_dir = g:home . '/.vim/after'
+execute 'set runtimepath+=' . g:after_dir . '/'
+
+augroup MyAutoCmd
+  autocmd!
+augroup END
 
 function s:load_rc(file)
     execute 'source ' . g:rc_dir . '/' . a:file . '.vim'
 endfunction
 
 function s:load_bundle_rc(bundle_name)
-    let l:hooks = neobundle#get_hooks(a:bundle_name)
-    function! l:hooks.on_source(bundle)
-        call s:load_rc(a:bundle.name)
-    endfunction
+  if dein#tap(a:bundle_name)
+    execute 'autocmd MyAutoCmd User' 'dein#source#'.g:dein#name
+          \ 'call s:load_rc("' . g:dein#name . '")'
+  endif
 endfunction
 
-call s:load_rc('neobundle')           " プラグインの読み込み
+call s:load_rc('dein')                " プラグインの読み込み
 call s:load_rc('map')                 " マッピング
 call s:load_rc('set')                 " オプション設定
 call s:load_rc('term')                " ターミナル固有の設定
