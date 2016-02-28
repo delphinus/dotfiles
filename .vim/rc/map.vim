@@ -26,5 +26,4 @@ nnoremap ( gT
 nnoremap ) gt
 
 " https://github.com/mhinz/vim-galore#saner-ctrl-l
-nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 nnoremap <ESC><ESC> :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
