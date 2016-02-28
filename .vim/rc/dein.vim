@@ -28,3 +28,5 @@ call dein#end()
 if dein#check_install()
   call dein#install()
 endif
+
+filetype plugin indent on
