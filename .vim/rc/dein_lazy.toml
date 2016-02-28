@@ -303,6 +303,12 @@ depends = [
 on_func = ['incsearch#']
 
 [[plugins]]
+repo = 'haya14busa/incsearch-easymotion.vim'
+
+[[plugins]]
+repo = 'haya14busa/incsearch-fuzzy.vim'
+
+[[plugins]]
 repo = 'rkitover/vimpager'
 
 [[plugins]]
