@@ -14,73 +14,39 @@ endif
 let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
 let g:rc_dir = g:vim_home . '/rc'
 
-" Note: Skip initialization for vim-tiny or vim-small.
-if !1 | finish | endif
+let s:dein_dir = expand('~/.cache/dein_vimpager')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-" プラグイン保存パス
-let g:bundle_dir    = g:home       . '/.vim/bundle'
-let g:neobundle_dir = g:bundle_dir . '/neobundle.vim'
-let g:after_dir     = g:home       . '/.vim/after'
-
-" NeoBundle へのパス
-if has('vim_starting')
-  execute 'set runtimepath-=' . g:home . '/.vim/'
-  execute 'set runtimepath+=' . g:neobundle_dir . '/,' . g:after_dir . '/'
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-" デフォルトプロトコル
-let g:neobundle#types#git#default_protocol='https'
+let g:dein#install_max_processes = 16
+let g:dein#install_progress_type = 'title'
 
-" Required:
-call g:neobundle#begin(expand(g:bundle_dir))
+call dein#begin(s:dein_dir)
 
-let g:neobundle#default_options._ = {'verbose': 1}
-
-let s:bundles = g:rc_dir . '/neobundle_vimpager.toml'
-
-if neobundle#load_cache(expand('<sfile>'), s:bundles)
-  NeoBundleFetch 'Shougo/neobundle.vim'
-
-  call neobundle#load_toml(s:bundles)
-
-  NeoBundleSaveCache
+let s:toml = g:rc_dir . '/dein_vimpager.toml'
+if dein#load_cache([expand('<sfile>'), s:toml])
+  call dein#load_toml(s:toml)
+  call dein#save_cache()
 endif
 
-let s:bundled_vimproc_directory = expand('$VIM/plugins/vimproc')
-if ! (has('macunix') && has('kaoriya') && isdirectory(s:bundled_vimproc_directory))
-  NeoBundle 'Shougo/vimproc.vim', {'build': {
-        \   'cygwin': 'make -f make_cygwin.mak',
-        \   'mac':    'make -f make_mac.mak',
-        \   'unix':   'make -f make_unix.mak',
-        \ }}
-endif
+call dein#end()
 
-if has('vim_starting')
-  execute 'set runtimepath+=' . g:home
+if dein#check_install()
+  call dein#install()
 endif
-
-call neobundle#end()
 
 filetype plugin indent on
-syntax enable
-
-if !has('vim_starting')
-  NeoBundleCheck
-  call neobundle#call_hook('on_source')
-endif
 
 let g:mapleader='`'
 
 colorscheme solarized
 set background=dark
-
-augroup SetCommentItalic
-  autocmd!
-  autocmd VimEnter * highlight Comment cterm=italic
-  autocmd VimEnter * highlight htmlItalic cterm=italic
-  autocmd VimEnter * highlight htmlBold cterm=bold
-  autocmd VimEnter * highlight htmlBoldItalic cterm=bold,italic
-augroup END
 
 augroup SetSearchColor
   autocmd!
@@ -113,7 +79,7 @@ set titleold=bash
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set ambiwidth=single
 set list                 " 空白の可視化
-set listchars=tab:›\ ,trail:␣,eol:⤸,extends:»,precedes:«,nbsp:¯
+set listchars=tab:›\ ,trail:␣,eol:჻,extends:»,precedes:«,nbsp:¯
 set tabstop=2       " 画面上でタブ文字が占める幅
 set softtabstop=2   " タブキーやバックスペースキーでカーソルが動く幅
 set shiftwidth=2    " 自動インデントや <<, >> でずれる幅
@@ -129,7 +95,7 @@ au BufNewFile,BufRead *.tt setf tt2html
 let g:vimpager_passthrough = 1
 
 if exists('g:vimpager.enabled')
-  if exists('g:vimpager.ptree') && g:vimpager.ptree[-2] == 'wman'
+  if exists('g:vimpager.ptree') && g:vimpager.ptree[-2] ==# 'wman'
     set ft=man
   endif
 endif
