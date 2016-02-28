@@ -115,12 +115,12 @@ set completeopt-=preview          " プレビューウィンドウへの表示�
 
 if dein#tap('vim-colors-solarized')
   colorscheme solarized
+
+  augroup SetSearchColor
+    autocmd!
+    autocmd VimEnter * hi! link Search IncSearch
+  augroup END
 endif
 set background=dark
-
-augroup SetSearchColor
-  autocmd!
-  autocmd VimEnter * hi! link Search IncSearch
-augroup END
 
 " vim:et:fdm=marker:

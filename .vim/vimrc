@@ -29,7 +29,7 @@ augroup MyAutoCmd
 augroup END
 
 function s:load_rc(file)
-    execute 'source ' . g:rc_dir . '/' . a:file . '.vim'
+  execute 'source ' . g:rc_dir . '/' . a:file . '.vim'
 endfunction
 
 function s:load_bundle_rc(bundle_name)
@@ -86,7 +86,7 @@ call s:load_bundle_rc('neocomplete.vim') " neocomplete 設定
 call s:load_bundle_rc('tsuquyomi')    " tsuquyomi 設定
 "}}}
 
-if ! has('kaoriya')
+if dein#tap('vim-json')
   call s:load_rc('vim-json')          " vim-json 設定
 endif
 
