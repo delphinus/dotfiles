@@ -73,7 +73,6 @@ call s:load_rc('ref')                 " Ref 設定
 call s:load_rc('rooter')              " vim-rooter 設定
 call s:load_rc('table-mode')          " vim-table-mode 設定
 call s:load_rc('title')               " screen title 設定
-call s:load_rc('typescript')          " typescript 設定
 call s:load_rc('watchdogs')           " watchdogs 設定
 call s:load_rc('yankround')           " choosewin 設定
 
@@ -84,6 +83,7 @@ call s:load_bundle_rc('unite-ghq')    " unite-ghq 設定
 call s:load_bundle_rc('vimfiler')     " VimFiler 設定
 call s:load_bundle_rc('vimshell')     " VimShell 設定
 call s:load_bundle_rc('neocomplete.vim') " neocomplete 設定
+call s:load_bundle_rc('tsuquyomi')    " tsuquyomi 設定
 "}}}
 
 if ! has('kaoriya')
