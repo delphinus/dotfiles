@@ -171,16 +171,8 @@ on_cmd = ['AnsiEsc']
 
 # on_ft {{{
 [[plugins]]
-repo  = 'ChrisYip/Better-CSS-Syntax-for-Vim'
-on_ft = ['css']
-
-[[plugins]]
 repo  = 'Quramy/tsuquyomi'
 on_ft = ['typescript']
-
-[[plugins]]
-repo  = 'c9s/perlomni.vim'
-on_ft = ['perl']
 
 [[plugins]]
 repo  = 'catalinciurea/perl-nextmethod'
@@ -189,21 +181,6 @@ on_ft = ['perl']
 [[plugins]]
 repo  = 'csv.vim'
 on_ft = ['csv']
-
-[[plugins]]
-repo  = 'delphinus35/perl-test-base.vim'
-on_ft = ['perl']
-
-[[plugins]]
-repo  = 'aklt/plantuml-syntax'
-on_ft = ['markdown', 'plantuml']
-
-[[plugins]]
-repo = 'ap/vim-css-color'
-on_ft = [
-    'css',  'html', 'less',   'lua', 'moon',
-    'sass', 'scss', 'stylus', 'vim', 'plantuml',
-  ]
 
 [[plugins]]
 repo    = 'delphinus35/neocomplete-json-schema'
@@ -218,14 +195,6 @@ on_ft = ['php']
 [[plugins]]
 repo  = 'fatih/vim-go'
 on_ft = ['go']
-
-[[plugins]]
-repo  = 'jason0x43/vim-js-indent'
-on_ft = ['javascript', 'typescript']
-
-[[plugins]]
-repo  = 'kana/vim-vspec'
-on_ft = ['vim']
 
 [[plugins]]
 repo  = 'msanders/cocoa.vim'
@@ -243,22 +212,11 @@ on_ft   = ['ruby']
 on_i    = 1
 
 [[plugins]]
-repo  = 'ternjs/tern_for_vim'
-on_ft = ['javascript']
-
-  [plugins.build]
-  others = 'npm install'
-
-[[plugins]]
 repo = 'tpope/vim-endwise'
 on_ft = [
     'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet',
     'aspvbs', 'vim', 'c', 'cpp', 'xdefaults', 'objc', 'matlab',
   ]
-
-[[plugins]]
-repo  = 'vim-perl/vim-perl'
-on_ft = ['perl']
 # }}}
 
 # on_map {{{
@@ -309,15 +267,9 @@ repo = 'haya14busa/incsearch-easymotion.vim'
 repo = 'haya14busa/incsearch-fuzzy.vim'
 
 [[plugins]]
-repo = 'rkitover/vimpager'
-
-[[plugins]]
 repo = 'ujihisa/neco-look'
 depends = ['neocomplete.vim']
 on_i = 1
-
-[[plugins]]
-repo = 'vim-jp/vimdoc-ja'
 # }}}
 
 # vim:se fdm=marker:

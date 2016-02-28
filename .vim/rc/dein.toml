@@ -1,6 +1,4 @@
-[[plugins]]
-repo = 'Glench/Vim-Jinja2-Syntax'
-
+# basic {{{
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
@@ -19,19 +17,6 @@ if = '''! (has('macunix') && has('kaoriya') && isdirectory(expand('$VIM/plugins/
 repo = 'atelierbram/vim-colors_atelier-schemes'
 
 [[plugins]]
-repo = 'cespare/vim-toml'
-
-[[plugins]]
-repo = 'cohama/vim-hier'
-
-[[plugins]]
-repo = 'dannyob/quickfixstatus'
-
-[[plugins]]
-repo = 'delphinus35/typescript-vim'
-rev  = 'colorize-template-strings'
-
-[[plugins]]
 repo = 'delphinus35/vim-colors-solarized'
 rev  = 'for-hydrozen-fork'
 
@@ -39,52 +24,17 @@ rev  = 'for-hydrozen-fork'
 repo = 'delphinus35/vim-emacscommandline'
 
 [[plugins]]
-repo = 'delphinus35/vim-markdown'
-rev  = 'merged-inline_and_code_fixes-conceal'
-
-[[plugins]]
-repo = 'delphinus35/vim-rails'
-rev  = 'feature/recognize-ridgepole'
-
-[[plugins]]
 repo = 'delphinus35/vim-unimpaired'
 
 [[plugins]]
-repo = 'digitaltoad/vim-jade'
+repo = 'kana/vim-vspec'
 
 [[plugins]]
-repo = 'elzr-vim-json'
-if   = '''! has('kaoriya')'''
-
-[[plugins]]
-repo = 'kchmck/vim-coffee-script'
-
-[[plugins]]
-repo = 'motemen/xslate-vim'
-
-[[plugins]]
-repo = 'moznion/vim-cpanfile'
-
-[[plugins]]
-repo = 'osyo-manga/shabadou.vim'
-
-[[plugins]]
-repo    = 'osyo-manga/vim-watchdogs'
-depends = [
-    'vim-hier',
-    'quickfixstatus',
-    'shabadou.vim',
-    'vim-quickrun',
-  ]
-
-[[plugins]]
-repo = 'othree/html5.vim'
+repo = 'rkitover/vimpager'
+if   = '''! has('macunix')'''
 
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
-
-[[plugins]]
-repo = 'thinca/vim-quickrun'
 
 [[plugins]]
 repo = 'thinca/vim-visualstar'
@@ -93,10 +43,10 @@ repo = 'thinca/vim-visualstar'
 repo = 'tpope/vim-capslock'
 
 [[plugins]]
-repo    = 'tpope/vim-fugitive'
+repo = 'tpope/vim-fugitive'
 
 [[plugins]]
-repo    = 'tpope/vim-repeat'
+repo = 'tpope/vim-repeat'
 
 [[plugins]]
 repo    = 'vim-airline/vim-airline'
@@ -106,13 +56,86 @@ depends = ['vim-airline-themes']
 repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
 repo = 'vim-jp/vital.vim'
+# }}}
+
+# syntax {{{
+[[plugins]]
+repo = 'ChrisYip/Better-CSS-Syntax-for-Vim'
 
 [[plugins]]
-repo = 'vim-scripts/HiColors'
+repo = 'Glench/Vim-Jinja2-Syntax'
 
 [[plugins]]
-repo    = 'vim-scripts/LineJuggler'
+repo = 'aklt/plantuml-syntax'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+
+[[plugins]]
+repo = 'delphinus35/perl-test-base.vim'
+
+[[plugins]]
+repo = 'delphinus35/typescript-vim'
+rev  = 'colorize-template-strings'
+
+[[plugins]]
+repo = 'delphinus35/vim-markdown'
+rev  = 'merged-inline_and_code_fixes-conceal'
+
+[[plugins]]
+repo = 'digitaltoad/vim-jade'
+
+[[plugins]]
+repo = 'kchmck/vim-coffee-script'
+
+[[plugins]]
+repo = 'elzr-vim-json'
+if   = '''! has('kaoriya')'''
+
+[[plugins]]
+repo = 'motemen/xslate-vim'
+
+[[plugins]]
+repo = 'moznion/vim-cpanfile'
+
+[[plugins]]
+repo = 'othree/html5.vim'
+
+[[plugins]]
+repo = 'vim-perl/vim-perl'
+# }}}
+
+# filetype {{{
+[[plugins]]
+repo = 'ap/vim-css-color'
+
+[[plugins]]
+repo = 'c9s/perlomni.vim'
+
+[[plugins]]
+repo = 'delphinus35/vim-rails'
+rev  = 'feature/recognize-ridgepole'
+
+[[plugins]]
+repo = 'jason0x43/vim-js-indent'
+
+[[plugins]]
+repo = 'ternjs/tern_for_vim'
+
+  [plugins.build]
+  others = 'npm install'
+# }}}
+
+# vim-script {{{
+[[plugins]]
+repo = 'HiColors'
+
+[[plugins]]
+repo    = 'LineJuggler'
 depends = [
     'vim-repeat',
     'ingo-library',
@@ -130,9 +153,34 @@ repo = 'nginx.vim'
 
 [[plugins]]
 repo = 'visualrepeat'
+# }}}
+
+# watchdogs {{{
+[[plugins]]
+repo    = 'osyo-manga/vim-watchdogs'
+depends = [
+    'vim-hier',
+    'quickfixstatus',
+    'shabadou.vim',
+    'vim-quickrun',
+  ]
+
+[[plugins]]
+repo = 'cohama/vim-hier'
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'dannyob/quickfixstatus'
+
+[[plugins]]
+repo = 'osyo-manga/shabadou.vim'
+# }}}
 
 #[[plugins]]
 #repo        = 'https://raw.githubusercontent.com/tmux/tmux/master/examples/tmux.vim'
 #type        = 'raw'
 #script_type = 'syntax'
 
+# vim:se fdm=marker:
