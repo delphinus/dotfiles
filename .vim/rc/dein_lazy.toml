@@ -201,6 +201,9 @@ repo  = 'msanders/cocoa.vim'
 on_ft = ['objc']
 
 [[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
 repo    = 'rhysd/vim-textobj-ruby'
 depends = ['vim-textobj-user']
 on_ft   = ['ruby']
