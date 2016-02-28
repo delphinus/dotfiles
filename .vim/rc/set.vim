@@ -113,7 +113,9 @@ set history=1000                  " コマンドライン履歴を 1000 個保�
 set completeopt+=menuone          " 候補が一つだけの時も補完する
 set completeopt-=preview          " プレビューウィンドウへの表示をやめる
 
-colorscheme solarized
+if dein#tap('vim-colors-solarized')
+  colorscheme solarized
+endif
 set background=dark
 
 augroup SetSearchColor
