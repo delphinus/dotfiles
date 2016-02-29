@@ -93,7 +93,7 @@ repo = 'digitaltoad/vim-jade'
 repo = 'kchmck/vim-coffee-script'
 
 [[plugins]]
-repo = 'elzr-vim-json'
+repo = 'elzr/vim-json'
 if   = '''! has('kaoriya')'''
 
 [[plugins]]
