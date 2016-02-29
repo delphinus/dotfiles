@@ -20,7 +20,10 @@ if index({{ secret_office.hostnames | pprint }}, hostname()) > -1
 
   if dein#tap('vim-gista')
     function! s:gista_on_source() abort
-      call gista#client#register('GHE', '{{ secret_office.github_api_path }}')
+      let l:apinames = gista#client#get_available_apinames()
+      if index(l:apinames, 'GHE') == -1
+        call gista#client#register('GHE', '{{ secret_office.github_api_path }}')
+      endif
     endfunction
     execute 'autocmd MyAutoCmd User' 'dein#source#' . g:dein#name
           \ 'call s:gista_on_source()'
