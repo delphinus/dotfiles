@@ -1,3 +1,4 @@
+let g:airline#extensions#tabline#formatter = 'repo_directory'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_iminsert = 1
