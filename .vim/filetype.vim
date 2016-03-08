@@ -100,7 +100,7 @@ au BufNewFile,BufRead *.mysql			setf mysql
 au BufNewFile,BufRead */etc/passwd,*/etc/passwd-,*/etc/passwd.edit,*/etc/shadow,*/etc/shadow-,*/etc/shadow.edit,*/var/backups/passwd.bak,*/var/backups/shadow.bak setf passwd
 
 " Perl
-au BufNewFile,BufRead *.pl,*.PL,*.pm		setf perl
+au BufNewFile,BufRead *.pl,*.PL,*.pm,*.fcgi		setf perl
 au BufNewFile,BufRead *.plx,*.al		setf perl
 au BufNewFile,BufRead *.p6,*.pm6,*.pl6		setf perl6
 
