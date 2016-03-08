@@ -19,13 +19,10 @@ function! s:repo_directory(name)
 
   let l:repo_directory = s:P.path2project_directory(a:name)
   if len(l:repo_directory)
-    let l:directory = fnamemodify(l:repo_directory, ':h:h') . '/'
+    let l:directory = fnamemodify(l:repo_directory, ':h:h')
   else
     let l:repo_directory = fnamemodify(a:name, ':h')
-    let l:directory = fnamemodify(a:name, ':h:h')
-    if l:directory !=# '/'
-      let l:directory .= '/'
-    endif
+    let l:directory = fnamemodify(a:name, ':h:h:h')
   endif
 
   return strpart(l:repo_directory, len(l:directory))
