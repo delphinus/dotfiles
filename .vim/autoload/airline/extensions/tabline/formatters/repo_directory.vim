@@ -7,7 +7,7 @@ function! airline#extensions#tabline#formatters#repo_directory#format(bufnr, buf
   return airline#extensions#tabline#formatters#default#wrap_name(a:bufnr, l:repo_directory)
 endfunction
 
-function! s:repo_directory(name)
+function! s:repo_directory(name) abort
   if empty(a:name)
     return '[No Name]'
   endif
@@ -18,8 +18,8 @@ function! s:repo_directory(name)
   endif
 
   let l:repo_directory = s:P.path2project_directory(a:name)
-  if len(l:repo_directory)
-    let l:directory = fnamemodify(l:repo_directory, ':h:h')
+  if len(l:repo_directory) && l:repo_directory !=# a:name
+    let l:directory = fnamemodify(l:repo_directory, ':h:h') . '/'
   else
     let l:repo_directory = fnamemodify(a:name, ':h')
     let l:directory = fnamemodify(a:name, ':h:h:h')
