@@ -78,33 +78,35 @@ on_source = ['unite.vim']
 
 [[plugins]]
 repo      = 'lambdalisue/vim-gista-unite'
-depends   = ['vim-gista', 'unite.vim']
+depends   = ['vim-gista']
 on_source = ['unite.vim']
 
 [[plugins]]
 repo      = 'osyo-manga/unite-qfixhowm'
-depends   = ['unite.vim', 'qfixhowm']
-on_source = ['unite.vim', 'qfixhowm']
+depends   = ['qfixhowm']
+on_source = ['unite.vim']
 
 [[plugins]]
 repo      = 'pekepeke/vim-unite-z'
-depends   = ['unite.vim']
 on_source = ['unite.vim']
 
 [[plugins]]
 repo      = 'sorah/unite-bundler'
-depends   = ['unite.vim']
+on_source = ['unite.vim']
+
+[[plugins]]
+repo      = 'spolu/dwm.vim'
+on_map    = ['<Plug>DWM']
 on_source = ['unite.vim']
 
 [[plugins]]
 repo      = 'thinca/vim-ref'
-depends   = ['unite.vim']
 on_cmd    = ['Ref']
 on_source = ['unite.vim']
 
 [[plugins]]
 repo      = 'tsukkee/unite-tag'
-depends   = ['unite.vim', 'neoinclude.vim']
+depends   = ['neoinclude.vim']
 on_source = ['unite.vim']
 # }}}
 
@@ -234,11 +236,6 @@ on_map = ['<Plug>(lycia']
 [[plugins]]
 repo   = 'junegunn/vim-easy-align'
 on_map = ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']
-
-[[plugins]]
-repo      = 'spolu/dwm.vim'
-on_map    = ['<Plug>DWM']
-on_source = ['unite.vim']
 
 [[plugins]]
 repo   = 't9md/vim-quickhl'
