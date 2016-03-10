@@ -106,6 +106,12 @@ repo = 'moznion/vim-cpanfile'
 repo = 'othree/html5.vim'
 
 [[plugins]]
+repo = 'othree/javascript-libraries-syntax.vim'
+
+[[plugins]]
+repo = 'othree/yajs.vim'
+
+[[plugins]]
 repo = 'vim-perl/vim-perl'
 # }}}
 
