@@ -29,6 +29,9 @@ fi
 # powerline
 if [[ $OSTYPE == darwin* ]]; then
   user_site="$HOME/Library/Python/2.7/lib/python/site-packages"
+else
+  export PATH=$HOME/.local/bin:$PATH
+  user_site="$HOME/.local/lib/python2.7/site-packages"
 fi
 . $user_site/powerline/bindings/zsh/powerline.zsh
 
