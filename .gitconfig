@@ -36,7 +36,8 @@
 	re = remote
 	rh = reset --hard
 	rl = reflog
-	rl = rev-list --pretty --oneline
+	ri = rev-list --pretty --oneline
+	rt = revert
 	rv = remote -v
 	sm = submodule
 	st = status -sb
