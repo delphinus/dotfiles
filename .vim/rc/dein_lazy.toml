@@ -215,12 +215,6 @@ depends = ['vim-textobj-user']
 on_ft   = ['ruby']
 
 [[plugins]]
-repo    = 'supermomonga/neocomplete-rsense.vim'
-depends = ['neocomplete.vim']
-on_ft   = ['ruby']
-on_i    = 1
-
-[[plugins]]
 repo = 'tpope/vim-endwise'
 on_ft = [
     'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet',
