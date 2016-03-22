@@ -116,6 +116,10 @@ repo   = 'airblade/vim-rooter'
 on_cmd = ['Rooter']
 
 [[plugins]]
+repo   = 'dhruvasagar/vim-table-mode'
+on_cmd = ['tablemode']
+
+[[plugins]]
 repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
 on_ft  = ['howm_memo']
