@@ -3,8 +3,9 @@
 repo = 'Shougo/neoinclude.vim'
 
 [[plugins]]
-repo = 'Shougo/neocomplete.vim'
-on_i = 1
+repo    = 'Shougo/neocomplete.vim'
+depends = ['FastFold']
+on_i    = 1
 
 [[plugins]]
 repo      = 'Shougo/neomru.vim'
@@ -266,8 +267,6 @@ repo = 'haya14busa/incsearch-fuzzy.vim'
 
 [[plugins]]
 repo      = 'Konfekt/FastFold'
-on_source = ['neocomplete.vim']
-on_i      = 1
 
 [[plugins]]
 repo = 'ujihisa/neco-look'
