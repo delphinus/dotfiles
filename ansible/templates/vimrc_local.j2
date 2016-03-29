@@ -6,7 +6,7 @@ function! s:SetGithubIssuesVariables()
   if match(getcwd(), '{{ secret_office.repo_paths[0] }}') > -1 || match(getcwd(), '{{ secret_office.repo_paths[1] }}') > -1
     let g:github_access_token     = '{{ secret_office.github_token.gissues }}'
     let g:github_api_url          = '{{ secret_office.github_api_path }}'
-    let g:github_issues_urls      = {{ secret_office.github_issues_urls | pprint }}
+    let g:github_issues_urls      = ['{{ secret_office.github_issues_urls | join("', '") }}']
   else
     let g:github_access_token = '{{ secret_github_gissues_token }}'
     let g:github_api_url      = 'https://api.github.com/'
@@ -14,7 +14,7 @@ function! s:SetGithubIssuesVariables()
   endif
 endfunction
 
-if index({{ secret_office.hostnames | pprint }}, hostname()) > -1
+if index(['{{ secret_office.hostnames | join("', '") }}'], hostname()) > -1
   let g:gista#client#default_username = '{{ secret_office.github_user }}'
   let g:gista#client#default_apiname = 'GHE'
 
