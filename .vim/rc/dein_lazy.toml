@@ -265,10 +265,6 @@ repo = 'haya14busa/incsearch-easymotion.vim'
 repo = 'haya14busa/incsearch-fuzzy.vim'
 
 [[plugins]]
-repo      = 'Konfekt/FastFold'
-on_source = ['neocomplete.vim']
-
-[[plugins]]
 repo = 'ujihisa/neco-look'
 depends = ['neocomplete.vim']
 on_i = 1

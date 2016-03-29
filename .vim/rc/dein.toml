@@ -1,5 +1,8 @@
 # basic {{{
 [[plugins]]
+repo = 'Konfekt/FastFold'
+
+[[plugins]]
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
