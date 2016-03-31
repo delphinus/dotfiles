@@ -280,7 +280,7 @@ repo             = 'itchyny/vim-parenmatch'
 on_idle          = 1
 hook_post_source = '''
   call parenmatch#highlight()
-  '''
+'''
 # }}}
 
 # vim:se fdm=marker:
