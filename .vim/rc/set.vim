@@ -121,6 +121,6 @@ if dein#tap('vim-colors-solarized')
     autocmd VimEnter * hi! link Search IncSearch
   augroup END
 endif
-set background=dark
+set background=light
 
 " vim:et:fdm=marker:
