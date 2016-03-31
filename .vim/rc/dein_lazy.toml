@@ -270,4 +270,17 @@ depends = ['neocomplete.vim']
 on_i = 1
 # }}}
 
+# on_idle {{{
+[[plugins]]
+repo    = 'itchyny/vim-cursorword'
+on_idle = 1
+
+[[plugins]]
+repo             = 'itchyny/vim-parenmatch'
+on_idle          = 1
+hook_post_source = '''
+  call parenmatch#highlight()
+  '''
+# }}}
+
 # vim:se fdm=marker:

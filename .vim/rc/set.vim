@@ -106,6 +106,7 @@ set helplang=ja                   " ヘルプは日本語のものを優先す�
 
 set lazyredraw                    " 画面描画をできるだけ遅らせる
 
+let g:loaded_matchparen = 1       " use vim-parenmatch
 set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞ " `%` で移動するペアを全角文字にも拡張する
 
 set history=1000                  " コマンドライン履歴を 1000 個保存する
