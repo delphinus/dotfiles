@@ -12,11 +12,11 @@ endif
 
 let g:dein#install_max_processes = 16
 let g:dein#install_progress_type = 'title'
+let s:toml      = g:rc_dir . '/dein.toml'
+let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
 
 if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-  let s:toml      = g:rc_dir . '/dein.toml'
-  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+  call dein#begin(s:dein_dir, [s:toml, s:lazy_toml])
   call dein#load_toml(s:toml,      {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
   call dein#end()
