@@ -31,4 +31,4 @@ let g:markdown_fenced_languages = [
       \ 'vim',
       \ ]
 " set conceal feature: default value '#*dlaibBces'
-let g:markdown_conceal = '*dlaibBces'
+let g:markdown_conceal = '*dlaibBes'
