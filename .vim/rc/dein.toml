@@ -17,9 +17,6 @@ if = '''! (has('macunix') && has('kaoriya') && isdirectory(expand('$VIM/plugins/
   unix    = 'gmake'
 
 [[plugins]]
-repo = 'atelierbram/vim-colors_atelier-schemes'
-
-[[plugins]]
 repo = 'delphinus35/vim-colors-solarized'
 rev  = 'for-hydrozen-fork'
 
