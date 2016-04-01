@@ -268,8 +268,10 @@ on_map   = ['<Plug>(lycia']
 hook_add = 'call delphinus#lycia#init()'
 
 [[plugins]]
-repo   = 'junegunn/vim-easy-align'
-on_map = ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']
+repo        = 'junegunn/vim-easy-align'
+on_map      = ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']
+hook_add    = 'call delphinus#easyalign#before_init()'
+hook_source = 'call delphinus#easyalign#init()'
 
 [[plugins]]
 repo     = 't9md/vim-quickhl'
