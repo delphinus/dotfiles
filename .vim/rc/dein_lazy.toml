@@ -31,17 +31,19 @@ repo      = 'Shougo/unite-outline'
 on_source = ['unite.vim']
 
 [[plugins]]
-repo      = 'Shougo/vimfiler'
-on_source = 'unite.vim'
-on_path   = '.*'
-on_cmd    = [
-    'VimFiler',
-    'VimFilerExplorer',
-    'Edit',
-    'Read',
-    'Source',
-    'Write',
-  ]
+repo    = 'Shougo/vimfiler'
+depends = ['unite.vim']
+on_path = '.*'
+on_cmd  = [
+  'VimFiler',
+  'VimFilerExplorer',
+  'Edit',
+  'Read',
+  'Source',
+  'Write',
+]
+hook_add    = 'nnoremap `f :VimFilerBufferDir<CR>'
+hook_source = 'call delphinus#vimfiler#init()'
 
 [[plugins]]
 repo   = 'Shougo/vimshell'
