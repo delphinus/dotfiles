@@ -162,8 +162,9 @@ on_cmd = ['Dash']
 gui    = 1
 
 [[plugins]]
-repo   = 'sgur/vim-lazygutter'
-on_cmd = ['GitGutterToggle']
+repo        = 'sgur/vim-lazygutter'
+on_cmd      = ['GitGutterToggle']
+hook_source = 'call delphinus#lazygutter#init()'
 
 [[plugins]]
 repo   = 'sjl/gundo.vim'
