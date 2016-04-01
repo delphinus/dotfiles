@@ -282,8 +282,13 @@ on_map   = ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']
 hook_add = 'call delphinus#quickhl#init()'
 
 [[plugins]]
-repo   = 't9md/vim-choosewin'
-on_map = ['<Plug>(choosewin)']
+repo     = 't9md/vim-choosewin'
+on_map   = ['<Plug>(choosewin)']
+hook_add = '''
+  nmap \ <Plug>(choosewin)
+  let g:choosewin_statusline_replace=0
+  let g:choosewin_overlay_enable=1
+'''
 
 [[plugins]]
 repo     = 'easymotion/vim-easymotion'

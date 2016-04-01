@@ -52,7 +52,6 @@ call s:load_rc('vimshell_initial')    " VimShell 初期設定
 
 call s:load_rc('airline')             " airline 設定
 call s:load_rc('capslock')            " capslock 設定
-call s:load_rc('choosewin')           " choosewin 設定
 call s:load_rc('title')               " screen title 設定
 
 " 遅延ロード {{{
