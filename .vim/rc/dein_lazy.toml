@@ -175,10 +175,11 @@ repo   = 'sjl/gundo.vim'
 on_cmd = ['GundoToggle']
 
 [[plugins]]
-repo   = 'thinca/vim-fontzoom'
-on_cmd = ['Fontzoom']
-on_map = ['<Plug>(fontzoom-']
-gui    = 1
+repo     = 'thinca/vim-fontzoom'
+on_cmd   = ['Fontzoom']
+on_map   = ['<Plug>(fontzoom-']
+gui      = 1
+hook_add = 'call delphinus#fontzoom#init()'
 
 [[plugins]]
 repo      = 'thinca/vim-prettyprint'
