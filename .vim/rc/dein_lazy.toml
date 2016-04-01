@@ -110,6 +110,7 @@ on_source = ['unite.vim']
 repo      = 'spolu/dwm.vim'
 on_map    = ['<Plug>DWM']
 on_source = ['unite.vim']
+hook_add  = 'call delphinus#dwm#init()'
 
 [[plugins]]
 repo        = 'thinca/vim-ref'
