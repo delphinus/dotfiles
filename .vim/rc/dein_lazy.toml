@@ -120,8 +120,13 @@ on_source = ['unite.vim']
 
 # on_cmd {{{
 [[plugins]]
-repo   = 'airblade/vim-rooter'
-on_cmd = ['Rooter']
+repo     = 'airblade/vim-rooter'
+on_cmd   = ['Rooter']
+hook_add = '''
+  let g:rooter_use_lcd = 1
+  let g:rooter_silent_chdir = 1
+  autocmd BufEnter * Rooter
+'''
 
 [[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
