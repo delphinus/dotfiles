@@ -281,19 +281,21 @@ repo   = 't9md/vim-choosewin'
 on_map = ['<Plug>(choosewin)']
 
 [[plugins]]
-repo   = 'easymotion/vim-easymotion'
-on_map = ['<Plug>(easymotion-']
+repo     = 'easymotion/vim-easymotion'
+on_map   = ['<Plug>(easymotion-']
+hook_add = 'call delphinus#easymotion#init()'
 # }}}
 
 # others {{{
 [[plugins]]
-repo = 'haya14busa/incsearch.vim'
+repo    = 'haya14busa/incsearch.vim'
 depends = [
     'vim-easymotion'
     'incsearch-easymotion.vim'
     'incsearch-fuzzy.vim'
   ]
-on_func = ['incsearch#']
+on_func  = ['incsearch#']
+hook_add = 'call delphinus#incsearch#init()'
 
 [[plugins]]
 repo = 'haya14busa/incsearch-easymotion.vim'
