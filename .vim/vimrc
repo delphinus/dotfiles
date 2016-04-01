@@ -63,7 +63,6 @@ call s:load_rc('fontzoom')            " fontzoom 設定
 call s:load_rc('fugitive')            " fugitive 設定
 call s:load_rc('gista')               " gista 設定
 call s:load_rc('lazygutter')          " lazygutter 設定
-call s:load_rc('lycia')               " lycia 設定
 call s:load_rc('title')               " screen title 設定
 
 " 遅延ロード {{{
