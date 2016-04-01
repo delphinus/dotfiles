@@ -177,7 +177,8 @@ hook_post_source = 'call delphinus#watchdogs#after_init()'
 repo = 'cohama/vim-hier'
 
 [[plugins]]
-repo = 'thinca/vim-quickrun'
+repo     = 'thinca/vim-quickrun'
+hook_add = 'call delphinus#quickrun#init()'
 
 [[plugins]]
 repo = 'dannyob/quickfixstatus'
