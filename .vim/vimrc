@@ -78,7 +78,6 @@ call s:load_rc('yankround')           " choosewin 設定
 
 " 遅延ロード {{{
 call s:load_bundle_rc('unite.vim')    " Unite 設定
-call s:load_bundle_rc('qfixhowm')     " QFixMemo 設定
 call s:load_bundle_rc('unite-ghq')    " unite-ghq 設定
 call s:load_bundle_rc('vimfiler')     " VimFiler 設定
 call s:load_bundle_rc('vimshell')     " VimShell 設定
