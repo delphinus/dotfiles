@@ -59,10 +59,6 @@ call s:load_bundle_rc('vimshell')     " VimShell 設定
 call s:load_bundle_rc('neocomplete.vim') " neocomplete 設定
 "}}}
 
-if dein#tap('vim-json')
-  call s:load_rc('vim-json')          " vim-json 設定
-endif
-
 " オフィス専用設定
 let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
 if filereadable(g:office_vimrc)
