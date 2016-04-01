@@ -73,6 +73,11 @@ on_source = ['unite.vim']
 [[plugins]]
 repo      = 'delphinus35/unite-ghq'
 on_source = ['unite.vim']
+hook_source = '''
+  if exists('$H')
+    let g:unite_ghq_executable = 'ghq.sh'
+  endif
+'''
 
 [[plugins]]
 repo        = 'fuenor/qfixhowm'
