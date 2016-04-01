@@ -75,9 +75,10 @@ repo      = 'delphinus35/unite-ghq'
 on_source = ['unite.vim']
 
 [[plugins]]
-repo      = 'fuenor/qfixhowm'
-on_map    = ['g,m', 'g,c', 'g,s', 'g,q']
-on_source = ['unite.vim']
+repo        = 'fuenor/qfixhowm'
+on_map      = ['g,m', 'g,c', 'g,s', 'g,q']
+on_source   = ['unite.vim']
+hook_source = 'call delphinus#qfixhowm#init()'
 
 [[plugins]]
 repo      = 'kannokanno/unite-dwm'
