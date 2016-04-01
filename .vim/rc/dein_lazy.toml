@@ -184,8 +184,9 @@ on_cmd = ['AnsiEsc']
 
 # on_ft {{{
 [[plugins]]
-repo  = 'Quramy/tsuquyomi'
-on_ft = ['typescript']
+repo        = 'Quramy/tsuquyomi'
+on_ft       = ['typescript']
+hook_source = 'call delphinus#tsuquyomi#init()'
 
 [[plugins]]
 repo  = 'catalinciurea/perl-nextmethod'

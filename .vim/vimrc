@@ -83,7 +83,6 @@ call s:load_bundle_rc('unite-ghq')    " unite-ghq 設定
 call s:load_bundle_rc('vimfiler')     " VimFiler 設定
 call s:load_bundle_rc('vimshell')     " VimShell 設定
 call s:load_bundle_rc('neocomplete.vim') " neocomplete 設定
-call s:load_bundle_rc('tsuquyomi')    " tsuquyomi 設定
 "}}}
 
 if dein#tap('vim-json')
