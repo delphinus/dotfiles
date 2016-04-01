@@ -165,11 +165,13 @@ repo = 'visualrepeat'
 [[plugins]]
 repo    = 'osyo-manga/vim-watchdogs'
 depends = [
-    'vim-hier',
-    'quickfixstatus',
-    'shabadou.vim',
-    'vim-quickrun',
-  ]
+  'vim-hier',
+  'quickfixstatus',
+  'shabadou.vim',
+  'vim-quickrun',
+]
+hook_add         = 'call delphinus#watchdogs#init()'
+hook_post_source = 'call delphinus#watchdogs#after_init()'
 
 [[plugins]]
 repo = 'cohama/vim-hier'
