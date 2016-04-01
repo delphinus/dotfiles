@@ -48,12 +48,17 @@ hook_source = 'call delphinus#vimfiler#init()'
 [[plugins]]
 repo   = 'Shougo/vimshell'
 on_cmd = [
-    'VimShell',
-    'VimShellExecute',
-    'VimShellInteractive',
-    'VimShellTerminal',
-    'VimShellPop',
-  ]
+  'VimShell',
+  'VimShellExecute',
+  'VimShellInteractive',
+  'VimShellTerminal',
+  'VimShellPop',
+]
+hook_add = '''
+  nnoremap `vv :<C-U>VimShell<CR>
+  nnoremap `vc :<C-U>VimShellCreate<CR>
+'''
+hook_source = 'call delphinus#vimshell#init()'
 
 [[plugins]]
 repo   = 'Shougo/vinarise.vim'
