@@ -83,8 +83,9 @@ repo = 'delphinus35/typescript-vim'
 rev  = 'colorize-template-strings'
 
 [[plugins]]
-repo = 'delphinus35/vim-markdown'
-rev  = 'merged-inline_and_code_fixes-conceal'
+repo     = 'delphinus35/vim-markdown'
+rev      = 'merged-inline_and_code_fixes-conceal'
+hook_add = 'call delphinus#markdown#init()'
 
 [[plugins]]
 repo = 'digitaltoad/vim-jade'
