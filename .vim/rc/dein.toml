@@ -43,7 +43,8 @@ repo = 'thinca/vim-visualstar'
 repo = 'tpope/vim-capslock'
 
 [[plugins]]
-repo = 'tpope/vim-fugitive'
+repo     = 'tpope/vim-fugitive'
+hook_add = 'call delphinus#fugitive#init()'
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
