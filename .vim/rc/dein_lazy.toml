@@ -62,11 +62,6 @@ repo      = 'Kocha/vim-unite-tig'
 on_source = ['unite.vim']
 
 [[plugins]]
-repo      = 'LeafCage/yankround.vim'
-on_map    = ['<Plug>(yankround-']
-on_source = ['unite.vim']
-
-[[plugins]]
 repo      = 'basyura/unite-rails'
 on_source = ['unite.vim']
 
@@ -237,6 +232,11 @@ on_ft = [
 # }}}
 
 # on_map {{{
+[[plugins]]
+repo     = 'LeafCage/yankround.vim'
+on_map   = ['<Plug>(yankround-']
+hook_add = 'call delphinus#yankround#init()'
+
 [[plugins]]
 repo   = 'chikatoike/concealedyank.vim'
 on_map = ['<Plug>(operator-concealedyank)']
