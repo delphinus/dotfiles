@@ -57,7 +57,6 @@ call s:load_rc('concealedyank')       " concealedyank 設定
 call s:load_rc('csv')                 " CSV 設定
 call s:load_rc('devicons')            " devicons 設定
 call s:load_rc('dwm')                 " dwm.vim 設定
-call s:load_rc('easyalign')           " EasyAlign 設定
 call s:load_rc('title')               " screen title 設定
 
 " 遅延ロード {{{
