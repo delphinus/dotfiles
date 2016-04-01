@@ -46,14 +46,12 @@ call s:load_rc('term')                " ターミナル固有の設定
 call s:load_rc('commands')            " ユーティリティコマンド
 call s:load_rc('filetypes')           " ファイルタイプごとの設定
 
-call s:load_rc('unite_initial')       " Unite 初期設定
 call s:load_rc('vimfiler_initial')    " VimFiler 初期設定
 call s:load_rc('vimshell_initial')    " VimShell 初期設定
 
 call s:load_rc('title')               " screen title 設定
 
 " 遅延ロード {{{
-call s:load_bundle_rc('unite.vim')    " Unite 設定
 call s:load_bundle_rc('vimfiler')     " VimFiler 設定
 call s:load_bundle_rc('vimshell')     " VimShell 設定
 call s:load_bundle_rc('neocomplete.vim') " neocomplete 設定

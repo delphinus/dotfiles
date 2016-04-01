@@ -22,7 +22,9 @@ repo      = 'Shougo/tabpagebuffer.vim'
 on_source = ['unite.vim', 'vimfiler', 'vimshell']
 
 [[plugins]]
-repo   = 'Shougo/unite.vim'
+repo        = 'Shougo/unite.vim'
+hook_add    = 'call delphinus#unite#before_init()'
+hook_source = 'call delphinus#unite#init()'
 
 [[plugins]]
 repo      = 'Shougo/unite-outline'
