@@ -124,8 +124,12 @@ repo   = 'airblade/vim-rooter'
 on_cmd = ['Rooter']
 
 [[plugins]]
-repo   = 'dhruvasagar/vim-table-mode'
-on_cmd = ['tablemode']
+repo     = 'dhruvasagar/vim-table-mode'
+on_cmd   = ['tablemode']
+hook_add = '''
+  nnoremap `tm :call tablemode#Toggle()<CR>
+  let g:table_mode_corner='|'
+'''
 
 [[plugins]]
 repo   = 'fuenor/JpFormat.vim'
