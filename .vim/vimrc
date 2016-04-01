@@ -71,7 +71,6 @@ call s:load_rc('quickhl')             " quickhl 設定
 call s:load_rc('quickrun')            " QuickRun 設定
 call s:load_rc('ref')                 " Ref 設定
 call s:load_rc('rooter')              " vim-rooter 設定
-call s:load_rc('table-mode')          " vim-table-mode 設定
 call s:load_rc('title')               " screen title 設定
 
 " 遅延ロード {{{
