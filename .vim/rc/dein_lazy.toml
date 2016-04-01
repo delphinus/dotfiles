@@ -261,8 +261,9 @@ repo   = 'junegunn/vim-easy-align'
 on_map = ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']
 
 [[plugins]]
-repo   = 't9md/vim-quickhl'
-on_map = ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']
+repo     = 't9md/vim-quickhl'
+on_map   = ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']
+hook_add = 'call delphinus#quickhl#init()'
 
 [[plugins]]
 repo   = 't9md/vim-choosewin'
