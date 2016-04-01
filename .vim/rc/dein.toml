@@ -41,7 +41,8 @@ hook_add = 'call delphinus#devicons#init()'
 repo = 'thinca/vim-visualstar'
 
 [[plugins]]
-repo = 'tpope/vim-capslock'
+repo     = 'tpope/vim-capslock'
+hook_add = 'imap <C-L> <Plug>CapsLockToggle'
 
 [[plugins]]
 repo     = 'tpope/vim-fugitive'
