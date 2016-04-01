@@ -88,6 +88,10 @@ on_source = ['unite.vim']
 repo      = 'lambdalisue/vim-gista-unite'
 depends   = ['vim-gista']
 on_source = ['unite.vim']
+hook_source = '''
+  let g:gista#default_yank_method = 'url'
+  let g:gista#auto_yank_after_post = 1
+'''
 
 [[plugins]]
 repo      = 'osyo-manga/unite-qfixhowm'

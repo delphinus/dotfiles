@@ -61,7 +61,6 @@ call s:load_rc('easyalign')           " EasyAlign 設定
 call s:load_rc('easymotion')          " EasyMotion 設定
 call s:load_rc('fontzoom')            " fontzoom 設定
 call s:load_rc('fugitive')            " fugitive 設定
-call s:load_rc('gista')               " gista 設定
 call s:load_rc('title')               " screen title 設定
 
 " 遅延ロード {{{
