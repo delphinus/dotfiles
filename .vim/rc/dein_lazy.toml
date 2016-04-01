@@ -108,9 +108,11 @@ on_map    = ['<Plug>DWM']
 on_source = ['unite.vim']
 
 [[plugins]]
-repo      = 'thinca/vim-ref'
-on_cmd    = ['Ref']
-on_source = ['unite.vim']
+repo        = 'thinca/vim-ref'
+on_cmd      = ['Ref']
+on_source   = ['unite.vim']
+hook_add    = 'call delphinus#ref#before_init()'
+hook_source = 'call delphinus#ref#init()'
 
 [[plugins]]
 repo      = 'tsukkee/unite-tag'
