@@ -185,9 +185,13 @@ repo   = 'tyru/capture.vim'
 on_cmd = ['Capture']
 
 [[plugins]]
-repo = 'tyru/open-browser.vim'
-on_cmd = ['OpenBrowser', 'OpenBrowserSearch']
-on_map = ['<Plug>(openbrowser-']
+repo     = 'tyru/open-browser.vim'
+on_cmd   = ['OpenBrowser', 'OpenBrowserSearch']
+on_map   = ['<Plug>(openbrowser-']
+hook_add = '''
+  nmap g<CR> <Plug>(openbrowser-smart-search)
+  vmap g<CR> <Plug>(openbrowser-smart-search)
+'''
 
 [[plugins]]
 repo   = 'AnsiEsc.vim'
