@@ -216,8 +216,9 @@ repo  = 'catalinciurea/perl-nextmethod'
 on_ft = ['perl']
 
 [[plugins]]
-repo  = 'csv.vim'
-on_ft = ['csv']
+repo             = 'csv.vim'
+on_ft            = ['csv']
+hook_post_source = 'call delphinus#csv#init()'
 
 [[plugins]]
 repo    = 'delphinus35/neocomplete-json-schema'
@@ -260,8 +261,9 @@ on_map   = ['<Plug>(yankround-']
 hook_add = 'call delphinus#yankround#init()'
 
 [[plugins]]
-repo   = 'chikatoike/concealedyank.vim'
-on_map = ['<Plug>(operator-concealedyank)']
+repo     = 'chikatoike/concealedyank.vim'
+on_map   = ['<Plug>(operator-concealedyank)']
+hook_add = 'xmap Y <Plug>(operator-concealedyank)'
 
 [[plugins]]
 repo     = 'delphinus35/vim-lycia'

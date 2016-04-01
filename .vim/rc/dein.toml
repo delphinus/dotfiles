@@ -34,7 +34,8 @@ repo = 'rkitover/vimpager'
 if   = '''! has('macunix')'''
 
 [[plugins]]
-repo = 'ryanoasis/vim-devicons'
+repo     = 'ryanoasis/vim-devicons'
+hook_add = 'call delphinus#devicons#init()'
 
 [[plugins]]
 repo = 'thinca/vim-visualstar'
