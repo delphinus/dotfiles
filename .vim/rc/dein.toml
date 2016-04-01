@@ -52,8 +52,9 @@ hook_add = 'call delphinus#fugitive#init()'
 repo = 'tpope/vim-repeat'
 
 [[plugins]]
-repo    = 'vim-airline/vim-airline'
-depends = ['vim-airline-themes']
+repo     = 'vim-airline/vim-airline'
+depends  = ['vim-airline-themes']
+hook_add = 'call delphinus#airline#init()'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'

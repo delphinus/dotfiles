@@ -50,7 +50,6 @@ call s:load_rc('unite_initial')       " Unite 初期設定
 call s:load_rc('vimfiler_initial')    " VimFiler 初期設定
 call s:load_rc('vimshell_initial')    " VimShell 初期設定
 
-call s:load_rc('airline')             " airline 設定
 call s:load_rc('title')               " screen title 設定
 
 " 遅延ロード {{{
