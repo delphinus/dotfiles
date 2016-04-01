@@ -257,8 +257,9 @@ repo   = 'chikatoike/concealedyank.vim'
 on_map = ['<Plug>(operator-concealedyank)']
 
 [[plugins]]
-repo   = 'delphinus35/vim-lycia'
-on_map = ['<Plug>(lycia']
+repo     = 'delphinus35/vim-lycia'
+on_map   = ['<Plug>(lycia']
+hook_add = 'call delphinus#lycia#init()'
 
 [[plugins]]
 repo   = 'junegunn/vim-easy-align'
