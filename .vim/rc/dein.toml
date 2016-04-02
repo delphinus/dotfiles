@@ -147,27 +147,6 @@ repo = 'nginx.vim'
 
 # watchdogs {{{
 [[plugins]]
-repo    = 'osyo-manga/vim-watchdogs'
-depends = [
-  'vim-hier',
-  'quickfixstatus',
-  'shabadou.vim',
-  'vim-quickrun',
-]
-hook_add         = 'call delphinus#init#watchdogs#hook_add()'
-hook_post_source = 'call delphinus#init#watchdogs#hook_post_source()'
-
-[[plugins]]
-repo = 'cohama/vim-hier'
-
-[[plugins]]
-repo     = 'thinca/vim-quickrun'
-hook_add = 'call delphinus#init#quickrun#hook_add()'
-
-[[plugins]]
-repo = 'dannyob/quickfixstatus'
-
-[[plugins]]
 repo = 'osyo-manga/shabadou.vim'
 # }}}
 
