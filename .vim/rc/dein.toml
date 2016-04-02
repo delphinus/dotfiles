@@ -136,14 +136,6 @@ repo = 'ternjs/tern_for_vim'
 repo = 'HiColors'
 
 [[plugins]]
-repo    = 'LineJuggler'
-depends = [
-    'vim-repeat',
-    'ingo-library',
-    'visualrepeat',
-  ]
-
-[[plugins]]
 repo = 'applescript.vim'
 
 [[plugins]]
@@ -151,9 +143,6 @@ repo = 'ingo-library'
 
 [[plugins]]
 repo = 'nginx.vim'
-
-[[plugins]]
-repo = 'visualrepeat'
 # }}}
 
 # watchdogs {{{
