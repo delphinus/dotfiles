@@ -38,7 +38,6 @@ call s:load_rc('set')                 " オプション設定
 call s:load_rc('term')                " ターミナル固有の設定
 call s:load_rc('commands')            " ユーティリティコマンド
 call s:load_rc('filetypes')           " ファイルタイプごとの設定
-
 call s:load_rc('title')               " screen title 設定
 
 " オフィス専用設定

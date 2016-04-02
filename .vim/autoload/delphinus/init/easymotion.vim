@@ -1,19 +1,7 @@
 scriptencoding utf-8
 
-function! delphinus#easymotion#init()
-  " 使う文字
-  let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
-  " 1 ストローク選択を優先する
-  let g:EasyMotion_grouping =1
-  " 日本語検索
-  let g:EasyMotion_use_migemo = 1
-  " Space か Enter を押すと最初のマッチに飛ぶ
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
-
-  " Leader に ' を設定
+function! delphinus#init#easymotion#hook_add() abort
   map ' <Plug>(easymotion-prefix)
-
   nmap s <Plug>(easymotion-overwin-f)
   xmap s <Plug>(easymotion-s)
   omap s <Plug>(easymotion-s)
@@ -32,4 +20,16 @@ function! delphinus#easymotion#init()
   map  'N <Plug>(easymotion-prev)
   map  'L <Plug>(easymotion-bd-jk)
   nmap 'L <Plug>(easymotion-overwin-line)
+endfunction
+
+function! delphinus#init#easymotion#hook_source() abort
+  " 使う文字
+  let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+  " 1 ストローク選択を優先する
+  let g:EasyMotion_grouping =1
+  " 日本語検索
+  let g:EasyMotion_use_migemo = 1
+  " Space か Enter を押すと最初のマッチに飛ぶ
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
 endfunction

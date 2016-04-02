@@ -1,7 +1,3 @@
-function! delphinus#incsearch#init() abort
-  noremap <silent><expr> <Space>/ incsearch#go(delphinus#incsearch#config_easyfuzzymotion())
-endfunction
-
 function! delphinus#incsearch#config_easyfuzzymotion(...) abort
   return extend(copy({
   \   'converters': [incsearch#config#fuzzyword#converter()],

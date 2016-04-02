@@ -35,7 +35,7 @@ if   = '''! has('macunix')'''
 
 [[plugins]]
 repo     = 'ryanoasis/vim-devicons'
-hook_add = 'call delphinus#devicons#init()'
+hook_add = 'call delphinus#init#devicons#hook_add()'
 
 [[plugins]]
 repo = 'thinca/vim-visualstar'
@@ -46,7 +46,7 @@ hook_add = 'imap <C-L> <Plug>CapsLockToggle'
 
 [[plugins]]
 repo     = 'tpope/vim-fugitive'
-hook_add = 'call delphinus#fugitive#init()'
+hook_add = 'call delphinus#init#fugitive#hook_add()'
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
@@ -54,7 +54,7 @@ repo = 'tpope/vim-repeat'
 [[plugins]]
 repo     = 'vim-airline/vim-airline'
 depends  = ['vim-airline-themes']
-hook_add = 'call delphinus#airline#init()'
+hook_add = 'call delphinus#init#airline#hook_add()'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
@@ -87,9 +87,10 @@ repo = 'delphinus35/typescript-vim'
 rev  = 'colorize-template-strings'
 
 [[plugins]]
-repo     = 'delphinus35/vim-markdown'
-rev      = 'merged-inline_and_code_fixes-conceal'
-hook_add = 'call delphinus#markdown#init()'
+repo        = 'delphinus35/vim-markdown'
+rev         = 'merged-inline_and_code_fixes-conceal'
+hook_add    = 'call delphinus#init#markdown#hook_add()'
+hook_source = 'call delphinus#init#markdown#hook_source()'
 
 [[plugins]]
 repo = 'digitaltoad/vim-jade'
@@ -176,15 +177,15 @@ depends = [
   'shabadou.vim',
   'vim-quickrun',
 ]
-hook_add         = 'call delphinus#watchdogs#init()'
-hook_post_source = 'call delphinus#watchdogs#after_init()'
+hook_add         = 'call delphinus#init#watchdogs#hook_add()'
+hook_post_source = 'call delphinus#init#watchdogs#hook_post_source()'
 
 [[plugins]]
 repo = 'cohama/vim-hier'
 
 [[plugins]]
 repo     = 'thinca/vim-quickrun'
-hook_add = 'call delphinus#quickrun#init()'
+hook_add = 'call delphinus#init#quickrun#hook_add()'
 
 [[plugins]]
 repo = 'dannyob/quickfixstatus'

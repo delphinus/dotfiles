@@ -1,4 +1,4 @@
-function! delphinus#necolook#init() abort
+function! delphinus#init#necolook#hook_source() abort
   call neocomplete#custom#source('look', 'min_pattern_length', 1)
   let g:neocomplete#text_mode_filetypes = {
         \ 'rst': 1,

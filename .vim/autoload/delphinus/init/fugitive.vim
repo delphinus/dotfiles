@@ -1,4 +1,4 @@
-function! delphinus#fugitive#init() abort
+function! delphinus#init#fugitive#hook_add() abort
   let g:fugitive_git_executable = expand('HOME=$H git my-alias')
   nnoremap git :<c-u>Git
   nnoremap g<space> :<c-u>Git 
