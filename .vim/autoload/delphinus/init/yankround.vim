@@ -1,4 +1,4 @@
-function! delphinus#yankround#init() abort
+function! delphinus#init#yankround#hook_add() abort
   nmap p <Plug>(yankround-p)
   xmap p <Plug>(yankround-p)
   nmap P <Plug>(yankround-P)

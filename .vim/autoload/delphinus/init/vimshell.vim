@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! delphinus#vimshell#init() abort
+function! delphinus#init#vimshell#hook_source() abort
   " プロンプトにカレントディレクトリを表示
   let g:vimshell_user_prompt = 'getcwd()'
   " 初期化ファイルの場所を指定

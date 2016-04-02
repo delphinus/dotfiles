@@ -1,4 +1,4 @@
-function! delphinus#lycia#init()
+function! delphinus#init#lycia#hook_add() abort
   nmap go <Plug>(lycia)
   vmap go <Plug>(lycia)
   nmap gb <Plug>(lycia-current-branch)

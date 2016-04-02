@@ -1,4 +1,4 @@
-function! delphinus#airline#init() abort
+function! delphinus#init#airline#hook_add() abort
   let g:airline#extensions#tabline#formatter = 'repo_directory'
   let g:airline#extensions#tabline#buffer_idx_mode = 1
   let g:airline#extensions#tabline#enabled = 1

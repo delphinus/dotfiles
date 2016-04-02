@@ -1,4 +1,4 @@
-function! delphinus#quickrun#init() abort
+function! delphinus#init#quickrun#hook_add() abort
   let g:quickrun_no_default_key_mappings=1
 
   for [s:key, s:com] in items({

@@ -1,4 +1,4 @@
-function! delphinus#quickhl#init() abort
+function! delphinus#init#quickhl#hook_add() abort
   nmap <Space>m <Plug>(quickhl-manual-this)
   xmap <Space>m <Plug>(quickhl-manual-this)
   nmap <Space>t <Plug>(quickhl-manual-toggle)

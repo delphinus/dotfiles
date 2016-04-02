@@ -1,18 +1,3 @@
-scriptencoding utf-8
-
-function! delphinus#devicons#init() abort
-  let g:webdevicons_enable_unite = 0
-  let g:webdevicons_enable_nerdtree = 0
-  let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
-  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {
-        \ 'fcgi':     '',
-        \ 'perl':     '',
-        \ 'sqlite':   '',
-        \ 'tt':       '',
-        \ 'txt':      '',
-        \ }
-endfunction
-
 function! delphinus#devicons#converter() abort
   return {'name': 'devicons', 'filter': function('delphinus#devicons#converter_filter')}
 endfunction

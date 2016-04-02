@@ -10,8 +10,8 @@ repo = 'Shougo/neoinclude.vim'
 repo        = 'Shougo/neocomplete.vim'
 depends     = 'echodoc.vim'
 on_i        = 1
-hook_add    = 'call delphinus#neocomplete#before_init()'
-hook_source = 'call delphinus#neocomplete#init()'
+hook_add    = 'call delphinus#init#neocomplete#hook_add()'
+hook_source = 'call delphinus#init#neocomplete#hook_source()'
 
 [[plugins]]
 repo      = 'Shougo/neomru.vim'
@@ -23,8 +23,8 @@ on_source = ['unite.vim', 'vimfiler', 'vimshell']
 
 [[plugins]]
 repo        = 'Shougo/unite.vim'
-hook_add    = 'call delphinus#unite#before_init()'
-hook_source = 'call delphinus#unite#init()'
+hook_add    = 'call delphinus#init#unite#hook_add()'
+hook_source = 'call delphinus#init#unite#hook_source()'
 
 [[plugins]]
 repo      = 'Shougo/unite-outline'
@@ -42,8 +42,9 @@ on_cmd  = [
   'Source',
   'Write',
 ]
-hook_add    = 'nnoremap `f :VimFilerBufferDir<CR>'
-hook_source = 'call delphinus#vimfiler#init()'
+hook_add         = 'nnoremap `f :VimFilerBufferDir<CR>'
+hook_source      = 'call delphinus#init#vimfiler#hook_source()'
+hook_post_source = 'call delphinus#init#vimfiler#hook_post_source()'
 
 [[plugins]]
 repo   = 'Shougo/vimshell'
@@ -58,7 +59,7 @@ hook_add = '''
   nnoremap `vv :<C-U>VimShell<CR>
   nnoremap `vc :<C-U>VimShellCreate<CR>
 '''
-hook_source = 'call delphinus#vimshell#init()'
+hook_source = 'call delphinus#init#vimshell#hook_source()'
 
 [[plugins]]
 repo   = 'Shougo/vinarise.vim'
@@ -87,7 +88,7 @@ hook_source = '''
 repo        = 'fuenor/qfixhowm'
 on_map      = ['g,m', 'g,c', 'g,s', 'g,q']
 on_source   = ['unite.vim']
-hook_source = 'call delphinus#qfixhowm#init()'
+hook_source = 'call delphinus#init#qfixhowm#hook_source()'
 
 [[plugins]]
 repo      = 'kannokanno/unite-dwm'
@@ -119,14 +120,14 @@ on_source = ['unite.vim']
 repo      = 'spolu/dwm.vim'
 on_map    = ['<Plug>DWM']
 on_source = ['unite.vim']
-hook_add  = 'call delphinus#dwm#init()'
+hook_add  = 'call delphinus#init#dwm#hook_add()'
 
 [[plugins]]
 repo        = 'thinca/vim-ref'
 on_cmd      = ['Ref']
 on_source   = ['unite.vim']
-hook_add    = 'call delphinus#ref#before_init()'
-hook_source = 'call delphinus#ref#init()'
+hook_add    = 'call delphinus#init#ref#hook_add()'
+hook_source = 'call delphinus#init#ref#hook_source()'
 
 [[plugins]]
 repo      = 'tsukkee/unite-tag'
@@ -178,18 +179,19 @@ gui    = 1
 [[plugins]]
 repo        = 'sgur/vim-lazygutter'
 on_cmd      = ['GitGutterToggle']
-hook_source = 'call delphinus#lazygutter#init()'
+hook_source = 'call delphinus#init#lazygutter#hook_source()'
 
 [[plugins]]
 repo   = 'sjl/gundo.vim'
 on_cmd = ['GundoToggle']
 
 [[plugins]]
-repo     = 'thinca/vim-fontzoom'
-on_cmd   = ['Fontzoom']
-on_map   = ['<Plug>(fontzoom-']
-gui      = 1
-hook_add = 'call delphinus#fontzoom#init()'
+repo        = 'thinca/vim-fontzoom'
+on_cmd      = ['Fontzoom']
+on_map      = ['<Plug>(fontzoom-']
+gui         = 1
+hook_add    = 'call delphinus#init#fontzoom#hook_add()'
+hook_source = 'call delphinus#init#fontzoom#hook_source()'
 
 [[plugins]]
 repo      = 'thinca/vim-prettyprint'
@@ -218,7 +220,7 @@ on_cmd = ['AnsiEsc']
 [[plugins]]
 repo        = 'Quramy/tsuquyomi'
 on_ft       = ['typescript']
-hook_source = 'call delphinus#tsuquyomi#init()'
+hook_source = 'call delphinus#init#tsuquyomi#hook_source()'
 
 [[plugins]]
 repo  = 'catalinciurea/perl-nextmethod'
@@ -227,7 +229,7 @@ on_ft = ['perl']
 [[plugins]]
 repo             = 'csv.vim'
 on_ft            = ['csv']
-hook_post_source = 'call delphinus#csv#init()'
+hook_post_source = 'call delphinus#init#csv#hook_post_source()'
 
 [[plugins]]
 repo    = 'delphinus35/neocomplete-json-schema'
@@ -267,7 +269,7 @@ on_ft = [
 [[plugins]]
 repo     = 'LeafCage/yankround.vim'
 on_map   = ['<Plug>(yankround-']
-hook_add = 'call delphinus#yankround#init()'
+hook_add = 'call delphinus#init#yankround#hook_add()'
 
 [[plugins]]
 repo     = 'chikatoike/concealedyank.vim'
@@ -277,18 +279,18 @@ hook_add = 'xmap Y <Plug>(operator-concealedyank)'
 [[plugins]]
 repo     = 'delphinus35/vim-lycia'
 on_map   = ['<Plug>(lycia']
-hook_add = 'call delphinus#lycia#init()'
+hook_add = 'call delphinus#init#lycia#hook_add()'
 
 [[plugins]]
 repo        = 'junegunn/vim-easy-align'
 on_map      = ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']
-hook_add    = 'call delphinus#easyalign#before_init()'
-hook_source = 'call delphinus#easyalign#init()'
+hook_add    = 'call delphinus#init#easyalign#hook_add()'
+hook_source = 'call delphinus#init#easyalign#hook_source()'
 
 [[plugins]]
 repo     = 't9md/vim-quickhl'
 on_map   = ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']
-hook_add = 'call delphinus#quickhl#init()'
+hook_add = 'call delphinus#init#quickhl#hook_add()'
 
 [[plugins]]
 repo     = 't9md/vim-choosewin'
@@ -300,9 +302,10 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo     = 'easymotion/vim-easymotion'
-on_map   = ['<Plug>(easymotion-']
-hook_add = 'call delphinus#easymotion#init()'
+repo        = 'easymotion/vim-easymotion'
+on_map      = ['<Plug>(easymotion-']
+hook_add    = 'call delphinus#init#easymotion#hook_add()'
+hook_source = 'call delphinus#init#easymotion#hook_source()'
 # }}}
 
 # others {{{
@@ -314,7 +317,7 @@ depends = [
     'incsearch-fuzzy.vim'
   ]
 on_func  = ['incsearch#']
-hook_add = 'call delphinus#incsearch#init()'
+hook_add = 'noremap <silent><expr> <Space>/ incsearch#go(delphinus#incsearch#config_easyfuzzymotion())'
 
 [[plugins]]
 repo = 'haya14busa/incsearch-easymotion.vim'
@@ -326,7 +329,7 @@ repo = 'haya14busa/incsearch-fuzzy.vim'
 repo        = 'ujihisa/neco-look'
 depends     = ['neocomplete.vim']
 on_i        = 1
-hook_source = 'call delphinus#necolook#init()'
+hook_source = 'call delphinus#init#necolook#hook_source()'
 # }}}
 
 # on_idle {{{
@@ -337,9 +340,7 @@ on_idle = 1
 [[plugins]]
 repo             = 'itchyny/vim-parenmatch'
 on_idle          = 1
-hook_post_source = '''
-  call parenmatch#highlight()
-'''
+hook_post_source = 'call parenmatch#highlight()'
 # }}}
 
 # vim:se fdm=marker:

@@ -1,4 +1,4 @@
-function! delphinus#neocomplete#before_init() abort
+function! delphinus#init#neocomplete#hook_add() abort
   " Enable omni completion.
   augroup NeocompleteFileType
     autocmd!
@@ -9,7 +9,7 @@ function! delphinus#neocomplete#before_init() abort
   augroup END
 endfunction
 
-function! delphinus#neocomplete#init() abort
+function! delphinus#init#neocomplete#hook_source() abort
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#min_keyword_length = 3
   inoremap <expr><TAB>
