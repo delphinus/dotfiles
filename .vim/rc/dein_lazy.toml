@@ -308,6 +308,29 @@ hook_add    = 'call delphinus#init#easymotion#hook_add()'
 hook_source = 'call delphinus#init#easymotion#hook_source()'
 # }}}
 
+# on_idle {{{
+[[plugins]]
+repo    = 'delphinus35/vim-emacscommandline'
+on_idle = 1
+
+[[plugins]]
+repo    = 'delphinus35/vim-unimpaired'
+on_idle = 1
+
+[[plugins]]
+repo    = 'itchyny/vim-cursorword'
+on_idle = 1
+
+[[plugins]]
+repo             = 'itchyny/vim-parenmatch'
+on_idle          = 1
+hook_post_source = 'call parenmatch#highlight()'
+
+[[plugins]]
+repo    = 'thinca/vim-visualstar'
+on_idle = 1
+# }}}
+
 # others {{{
 [[plugins]]
 repo    = 'haya14busa/incsearch.vim'
@@ -330,17 +353,10 @@ repo        = 'ujihisa/neco-look'
 depends     = ['neocomplete.vim']
 on_i        = 1
 hook_source = 'call delphinus#init#necolook#hook_source()'
-# }}}
-
-# on_idle {{{
-[[plugins]]
-repo    = 'itchyny/vim-cursorword'
-on_idle = 1
 
 [[plugins]]
-repo             = 'itchyny/vim-parenmatch'
-on_idle          = 1
-hook_post_source = 'call parenmatch#highlight()'
+repo = 'vim-jp/vital.vim'
+on_func = ['vital']
 # }}}
 
 # vim:se fdm=marker:

@@ -21,12 +21,6 @@ repo = 'delphinus35/vim-colors-solarized'
 rev  = 'for-hydrozen-fork'
 
 [[plugins]]
-repo = 'delphinus35/vim-emacscommandline'
-
-[[plugins]]
-repo = 'delphinus35/vim-unimpaired'
-
-[[plugins]]
 repo = 'kana/vim-vspec'
 
 [[plugins]]
@@ -36,9 +30,6 @@ if   = '''! has('macunix')'''
 [[plugins]]
 repo     = 'ryanoasis/vim-devicons'
 hook_add = 'call delphinus#init#devicons#hook_add()'
-
-[[plugins]]
-repo = 'thinca/vim-visualstar'
 
 [[plugins]]
 repo     = 'tpope/vim-capslock'
@@ -61,9 +52,6 @@ repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
-
-[[plugins]]
-repo = 'vim-jp/vital.vim'
 # }}}
 
 # syntax {{{
