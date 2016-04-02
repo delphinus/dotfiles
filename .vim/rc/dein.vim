@@ -27,5 +27,7 @@ if dein#check_install()
   call dein#install()
 endif
 
+" TODO: hack for filetype
+let g:did_load_filetypes = 1
 filetype plugin indent on
 syntax on
