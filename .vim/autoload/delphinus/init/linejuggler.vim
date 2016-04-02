@@ -1,0 +1,18 @@
+function! delphinus#init#linejuggler#hook_add() abort
+  xmap [d       <Plug>(LineJugglerDupOverUp)
+  nmap [d       <Plug>(LineJugglerDupOverUp)
+  xmap [E       <Plug>(LineJugglerSwapUp)
+  nmap [E       <Plug>(LineJugglerSwapUp)
+  xmap [e       <Plug>(LineJugglerMoveUp)
+  nmap [e       <Plug>(LineJugglerMoveUp)
+  xmap [<Space> <Plug>(LineJugglerBlankUp)
+  nmap [<Space> <Plug>(LineJugglerBlankUp)
+  xmap ]d       <Plug>(LineJugglerDupOverDown)
+  nmap ]d       <Plug>(LineJugglerDupOverDown)
+  xmap ]E       <Plug>(LineJugglerSwapDown)
+  nmap ]E       <Plug>(LineJugglerSwapDown)
+  xmap ]e       <Plug>(LineJugglerMoveDown)
+  nmap ]e       <Plug>(LineJugglerMoveDown)
+  xmap ]<Space> <Plug>(LineJugglerBlankDown)
+  nmap ]<Space> <Plug>(LineJugglerBlankDown)
+endfunction

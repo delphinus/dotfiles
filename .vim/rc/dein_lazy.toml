@@ -306,6 +306,16 @@ repo        = 'easymotion/vim-easymotion'
 on_map      = ['<Plug>(easymotion-']
 hook_add    = 'call delphinus#init#easymotion#hook_add()'
 hook_source = 'call delphinus#init#easymotion#hook_source()'
+
+[[plugins]]
+repo    = 'LineJuggler'
+depends = [
+  'vim-repeat',
+  'ingo-library',
+  'visualrepeat',
+]
+on_map   = ['<Plug>(LineJuggler']
+hook_add = 'call delphinus#init#linejuggler#hook_add()'
 # }}}
 
 # on_idle {{{
@@ -357,6 +367,9 @@ hook_source = 'call delphinus#init#necolook#hook_source()'
 [[plugins]]
 repo = 'vim-jp/vital.vim'
 on_func = ['vital']
+
+[[plugins]]
+repo = 'visualrepeat'
 # }}}
 
 # vim:se fdm=marker:
