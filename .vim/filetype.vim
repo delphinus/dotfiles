@@ -168,9 +168,6 @@ au BufNewFile,BufRead */etc/profile,.profile*,*.sh,*.env call SetFileTypeSH(getl
 
 " Also called from scripts.vim.
 func! SetFileTypeSH(name)
-  if expand("<amatch>") =~ g:ft_ignore_pat
-    return
-  endif
   if a:name =~ '\<csh\>'
     " Some .sh scripts contain #!/bin/csh.
     call SetFileTypeShell("csh")
@@ -215,9 +212,6 @@ endfunc
 " as used for Tcl.
 " Also called from scripts.vim, thus can't be local to this script.
 func! SetFileTypeShell(name)
-  if expand("<amatch>") =~ g:ft_ignore_pat
-    return
-  endif
   let l = 2
   while l < 20 && l < line("$") && getline(l) =~ '^\s*\(#\|$\)'
     " Skip empty and comment lines.
