@@ -1,11 +1,3 @@
-" TODO: hack for filetype
-if ! exists('g:did_load_my_filetypes')
-  let g:did_load_my_filetypes = 1
-  let g:did_load_filetypes = 1
-  finish
-endif
-
-
 let s:cpo_save = &cpo
 set cpo&vim
 
