@@ -131,6 +131,37 @@ repo = 'ternjs/tern_for_vim'
   others = 'npm install'
 # }}}
 
+# for unite {{{
+[[plugins]]
+repo      = 'Shougo/unite-outline'
+
+[[plugins]]
+repo      = 'Kocha/vim-unite-tig'
+
+[[plugins]]
+repo      = 'basyura/unite-rails'
+
+[[plugins]]
+repo      = 'lambdalisue/vim-gista-unite'
+hook_add = '''
+  let g:gista#default_yank_method = 'url'
+  let g:gista#auto_yank_after_post = 1
+'''
+
+[[plugins]]
+repo      = 'pekepeke/vim-unite-z'
+
+[[plugins]]
+repo      = 'sorah/unite-bundler'
+
+[[plugins]]
+repo      = 'tsukkee/unite-tag'
+
+[[plugins]]
+repo     = 'ujihisa/neco-look'
+hook_add = 'call delphinus#init#necolook#hook_add()'
+# }}}
+
 # vim-script {{{
 [[plugins]]
 repo = 'HiColors'
@@ -145,9 +176,12 @@ repo = 'ingo-library'
 repo = 'nginx.vim'
 # }}}
 
-# watchdogs {{{
+# dependencies {{{
 [[plugins]]
 repo = 'osyo-manga/shabadou.vim'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
 # }}}
 
 #[[plugins]]

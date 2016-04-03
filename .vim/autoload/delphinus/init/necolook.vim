@@ -1,5 +1,4 @@
-function! delphinus#init#necolook#hook_source() abort
-  call neocomplete#custom#source('look', 'min_pattern_length', 1)
+function! delphinus#init#necolook#hook_add() abort
   let g:neocomplete#text_mode_filetypes = {
         \ 'rst': 1,
         \ 'markdown': 1,
@@ -13,4 +12,13 @@ function! delphinus#init#necolook#hook_source() abort
         \ 'help': 1,
         \ 'tex': 1,
         \ }
+
+  if dein#tap('neocomplete.vim')
+    execute 'autocmd MyAutoCmd User' 'dein#source#'.g:dein#name
+          \ 'call s:set_source()'
+  endif
+endfunction
+
+function! s:set_source() abort
+  call neocomplete#custom#source('look', 'min_pattern_length', 1)
 endfunction

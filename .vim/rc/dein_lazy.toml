@@ -4,7 +4,9 @@ repo        = 'Shougo/echodoc.vim'
 hook_source = 'let g:echodoc_enable_at_startup = 1'
 
 [[plugins]]
-repo = 'Shougo/neoinclude.vim'
+repo      = 'Shougo/neoinclude.vim'
+depends   = ['neoinclude.vim']
+on_source = ['unite.vim']
 
 [[plugins]]
 repo        = 'Shougo/neocomplete.vim'
@@ -25,10 +27,6 @@ on_source = ['unite.vim', 'vimfiler', 'vimshell']
 repo        = 'Shougo/unite.vim'
 hook_add    = 'call delphinus#init#unite#hook_add()'
 hook_source = 'call delphinus#init#unite#hook_source()'
-
-[[plugins]]
-repo      = 'Shougo/unite-outline'
-on_source = ['unite.vim']
 
 [[plugins]]
 repo    = 'Shougo/vimfiler'
@@ -68,14 +66,6 @@ on_cmd = ['Vinarise']
 
 # for unite {{{
 [[plugins]]
-repo      = 'Kocha/vim-unite-tig'
-on_source = ['unite.vim']
-
-[[plugins]]
-repo      = 'basyura/unite-rails'
-on_source = ['unite.vim']
-
-[[plugins]]
 repo      = 'delphinus35/unite-ghq'
 on_source = ['unite.vim']
 hook_source = '''
@@ -95,25 +85,8 @@ repo      = 'kannokanno/unite-dwm'
 on_source = ['unite.vim']
 
 [[plugins]]
-repo      = 'lambdalisue/vim-gista-unite'
-depends   = ['vim-gista']
-on_source = ['unite.vim']
-hook_source = '''
-  let g:gista#default_yank_method = 'url'
-  let g:gista#auto_yank_after_post = 1
-'''
-
-[[plugins]]
 repo      = 'osyo-manga/unite-qfixhowm'
 depends   = ['qfixhowm']
-on_source = ['unite.vim']
-
-[[plugins]]
-repo      = 'pekepeke/vim-unite-z'
-on_source = ['unite.vim']
-
-[[plugins]]
-repo      = 'sorah/unite-bundler'
 on_source = ['unite.vim']
 
 [[plugins]]
@@ -128,11 +101,6 @@ on_cmd      = ['Ref']
 on_source   = ['unite.vim']
 hook_add    = 'call delphinus#init#ref#hook_add()'
 hook_source = 'call delphinus#init#ref#hook_source()'
-
-[[plugins]]
-repo      = 'tsukkee/unite-tag'
-depends   = ['neoinclude.vim']
-on_source = ['unite.vim']
 # }}}
 
 # on_cmd {{{
@@ -248,9 +216,6 @@ on_ft = ['go']
 [[plugins]]
 repo  = 'msanders/cocoa.vim'
 on_ft = ['objc']
-
-[[plugins]]
-repo = 'kana/vim-textobj-user'
 
 [[plugins]]
 repo    = 'rhysd/vim-textobj-ruby'
@@ -382,12 +347,6 @@ repo = 'haya14busa/incsearch-easymotion.vim'
 
 [[plugins]]
 repo = 'haya14busa/incsearch-fuzzy.vim'
-
-[[plugins]]
-repo        = 'ujihisa/neco-look'
-depends     = ['neocomplete.vim']
-on_i        = 1
-hook_source = 'call delphinus#init#necolook#hook_source()'
 
 [[plugins]]
 repo = 'vim-jp/vital.vim'
