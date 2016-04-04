@@ -135,9 +135,13 @@ repo   = 'kannokanno/previm'
 on_cmd = ['PrevimOpen']
 
 [[plugins]]
-repo    = 'lambdalisue/vim-gista'
-on_cmd  = ['Gista']
-on_func = ['gista#']
+repo     = 'lambdalisue/vim-gista'
+on_cmd   = ['Gista']
+on_func  = ['gista#']
+hook_add = '''
+  nnoremap gl :<c-u>Gista list<CR>
+  nnoremap gL :<c-u>Gista list 
+'''
 
 [[plugins]]
 repo   = 'rizzatti/dash.vim'

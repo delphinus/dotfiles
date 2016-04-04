@@ -10,9 +10,6 @@ nnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
 " * 設定
 nnoremap * *N
-" 水平スクロール
-nnoremap gl 8zl
-nnoremap gh 8zh
 " QuickFix リスト切り替え
 nnoremap [w :<C-u>colder<CR>
 nnoremap ]w :<C-u>cnewer<CR>
