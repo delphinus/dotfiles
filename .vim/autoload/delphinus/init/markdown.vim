@@ -6,9 +6,7 @@ function! delphinus#init#markdown#hook_add() abort
     autocmd FileType markdown,howm_memo.markdown hi markdownH2 cterm=bold gui=bold
     autocmd FileType markdown,howm_memo.markdown hi markdownH3 cterm=italic gui=italic
   augroup END
-endfunction
 
-function! delphinus#init#markdown#hook_source() abort
   let g:markdown_fenced_languages = [
         \ 'coffee',
         \ 'cpp',
