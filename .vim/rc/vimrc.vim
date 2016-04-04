@@ -6,7 +6,9 @@ for s:path in split(glob($VIM.'/plugins/*'), '\n')
     let &runtimepath = &runtimepath.','.s:path
   end
 endfor
-unlet s:path
+if exists('s:path')
+  unlet s:path
+endif
 
 "---------------------------------------------------------------------------
 " 日本語対応のための設定:
@@ -14,7 +16,9 @@ unlet s:path
 " ファイルを読込む時にトライする文字エンコードの順序を確定する。漢字コード自
 " 動判別機能を利用する場合には別途iconv.dllが必要。iconv.dllについては
 " README_w32j.txtを参照。ユーティリティスクリプトを読み込むことで設定される。
-source $VIM/plugins/kaoriya/encode_japan.vim
+if has('kaoriya')
+  source $VIM/plugins/kaoriya/encode_japan.vim
+endif
 " メッセージを日本語にする (Windowsでは自動的に判断・設定されている)
 if !(has('win32') || has('mac')) && has('multi_lang')
   if !exists('$LANG') || $LANG.'X' ==# 'X'
@@ -139,19 +143,19 @@ endif
 
 "---------------------------------------------------------------------------
 " コンソールでのカラー表示のための設定(暫定的にUNIX専用)
-if has('unix') && !has('gui_running') && !has('gui_macvim')
-  let s:uname = system('uname')
-  if s:uname =~? "linux"
-    set term=builtin_linux
-  elseif s:uname =~? "freebsd"
-    set term=builtin_cons25
-  elseif s:uname =~? "Darwin"
-    set term=beos-ansi
-  else
-    set term=builtin_xterm
-  endif
-  unlet s:uname
-endif
+"if has('unix') && !has('gui_running') && !has('gui_macvim')
+"  let s:uname = system('uname')
+"  if s:uname =~? "linux"
+"    set term=builtin_linux
+"  elseif s:uname =~? "freebsd"
+"    set term=builtin_cons25
+"  elseif s:uname =~? "Darwin"
+"    set term=beos-ansi
+"  else
+"    set term=builtin_xterm
+"  endif
+"  unlet s:uname
+"endif
 
 "---------------------------------------------------------------------------
 " コンソール版で環境変数$DISPLAYが設定されていると起動が遅くなる件へ対応
@@ -174,38 +178,41 @@ endif
 
 "---------------------------------------------------------------------------
 " KaoriYaでバンドルしているプラグインのための設定
+if has('kaoriya')
 
-" autofmt: 日本語文章のフォーマット(折り返し)プラグイン.
-set formatexpr=autofmt#japanese#formatexpr()
+  " autofmt: 日本語文章のフォーマット(折り返し)プラグイン.
+  set formatexpr=autofmt#japanese#formatexpr()
 
-" vimdoc-ja: 日本語ヘルプを無効化する.
-if kaoriya#switch#enabled('disable-vimdoc-ja')
-  let &rtp = join(filter(split(&rtp, ','), 'v:val !~ "[/\\\\]plugins[/\\\\]vimdoc-ja"'), ',')
-endif
+  " vimdoc-ja: 日本語ヘルプを無効化する.
+  if has('kaoriya') && kaoriya#switch#enabled('disable-vimdoc-ja')
+    let &rtp = join(filter(split(&rtp, ','), 'v:val !~ "[/\\\\]plugins[/\\\\]vimdoc-ja"'), ',')
+  endif
 
-" vimproc: 同梱のvimprocを無効化する
-if kaoriya#switch#enabled('disable-vimproc')
-  let &rtp = join(filter(split(&rtp, ','), 'v:val !~ "[/\\\\]plugins[/\\\\]vimproc$"'), ',')
-endif
+  " vimproc: 同梱のvimprocを無効化する
+  if has('kaoriya') && kaoriya#switch#enabled('disable-vimproc')
+    let &rtp = join(filter(split(&rtp, ','), 'v:val !~ "[/\\\\]plugins[/\\\\]vimproc$"'), ',')
+  endif
 
-" Copyright (C) 2009-2013 KaoriYa/MURAOKA Taro
+  " Copyright (C) 2009-2013 KaoriYa/MURAOKA Taro
 
 
 "---------------------------------------------------------------------------
 " MacVim-KaoriYa固有の設定
 
-" migemo:
-let $PATH = simplify($VIM . '/../../MacOS') . ':' . $PATH
-set migemodict=$VIMRUNTIME/dict/migemo-dict
-set migemo
+  " migemo:
+  let $PATH = simplify($VIM . '/../../MacOS') . ':' . $PATH
+  set migemodict=$VIMRUNTIME/dict/migemo-dict
+  set migemo
 
-" 印刷に関する設定:
-set printmbfont=r:HiraMinProN-W3,b:HiraMinProN-W6
-set printencoding=utf-8
-set printmbcharset=UniJIS
+  " 印刷に関する設定:
+  set printmbfont=r:HiraMinProN-W3,b:HiraMinProN-W6
+  set printencoding=utf-8
+  set printmbcharset=UniJIS
 
-" Lua interface with embedded luajit
-exec "set luadll=".simplify(expand("$VIM/../../Frameworks/libluajit-5.1.2.dylib"))
+  " Lua interface with embedded luajit
+  exec "set luadll=".simplify(expand("$VIM/../../Frameworks/libluajit-5.1.2.dylib"))
+
+endif
 
 "---------------------------------------------------------------------------
 " copied from vimrc_example.vim
