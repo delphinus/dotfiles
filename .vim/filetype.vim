@@ -380,7 +380,7 @@ runtime! ftdetect/*.vim
 " Don't do it when the 'M' flag is included in 'guioptions'.
 if has("menu") && has("gui_running")
       \ && !exists("did_install_syntax_menu") && &guioptions !~# "M"
-  source <sfile>:p:h/menu.vim
+  source $VIMRUNTIME/menu.vim
 endif
 
 augroup END
