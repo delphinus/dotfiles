@@ -17,8 +17,9 @@ if = '''! (has('macunix') && has('kaoriya') && isdirectory(expand('$VIM/plugins/
   unix    = 'gmake'
 
 [[plugins]]
-repo = 'delphinus35/vim-colors-solarized'
-rev  = 'for-hydrozen-fork'
+repo     = 'delphinus35/vim-colors-solarized'
+rev      = 'for-hydrozen-fork'
+hook_add = 'let g:solarized_menu = 0'
 
 [[plugins]]
 repo = 'kana/vim-vspec'
