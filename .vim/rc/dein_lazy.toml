@@ -107,11 +107,7 @@ hook_source = 'call delphinus#init#ref#hook_source()'
 [[plugins]]
 repo     = 'airblade/vim-rooter'
 on_cmd   = ['Rooter']
-hook_add = '''
-  let g:rooter_use_lcd = 1
-  let g:rooter_silent_chdir = 1
-  autocmd BufEnter * Rooter
-'''
+hook_add = 'call delphinus#init#rooter#hook_add()'
 
 [[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
