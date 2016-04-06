@@ -131,8 +131,7 @@ repo   = 'kannokanno/previm'
 on_cmd = ['PrevimOpen']
 
 [[plugins]]
-repo     = 'delphinus35/vim-gista'
-rev      = 'feature/allow-account-including-hyphen'
+repo     = 'lambdalisue/vim-gista'
 on_cmd   = ['Gista']
 on_func  = ['gista#']
 hook_add = '''
