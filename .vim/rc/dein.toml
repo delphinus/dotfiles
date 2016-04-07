@@ -12,7 +12,7 @@ if = '''! (has('macunix') && has('kaoriya') && isdirectory(expand('$VIM/plugins/
   [plugins.build]
   windows = 'tools\\update-dll-mingw'
   cygwin  = 'make -f make_cygwin.mak'
-  mac     = 'make -f make_mac.mak'
+  mac     = 'make'
   linux   = 'make'
   unix    = 'gmake'
 
