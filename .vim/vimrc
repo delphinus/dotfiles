@@ -6,21 +6,16 @@ if &compatible
   " vint: +ProhibitSetNoCompatible
 endif
 
-let g:is_mac = has('mac')
-let g:is_win = has('win32') || has('win64')
-
 if len($H)
   let g:home = expand('$H')
   set runtimepath-=~/.vim
   set runtimepath+=$H/.vim
-elseif len($USERPROFILE)
-  let g:home = expand('$USERPROFILE')
 else
   let g:home = expand('~')
 endif
 
-let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
-let g:rc_dir = g:vim_home . '/rc'
+let g:vim_home = g:home . '/.vim'
+let g:rc_dir   = g:vim_home . '/rc'
 
 augroup MyAutoCmd
   autocmd!
@@ -36,8 +31,6 @@ call s:load_rc('map')                 " マッピング
 call s:load_rc('set')                 " オプション設定
 call s:load_rc('term')                " ターミナル固有の設定
 call s:load_rc('commands')            " ユーティリティコマンド
-call s:load_rc('filetypes')           " ファイルタイプごとの設定
-call s:load_rc('title')               " screen title 設定
 
 " ローカル設定
 let g:local_vimrc = g:home . '/.vimrc-local'
