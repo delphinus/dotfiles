@@ -115,6 +115,8 @@ set completeopt+=menuone          " 候補が一つだけの時も補完する
 set completeopt-=preview          " プレビューウィンドウへの表示をやめる
 
 if dein#tap('vim-colors-solarized')
+  syntax enable
+  set background=light
   colorscheme solarized
 
   augroup SetSearchColor
@@ -122,6 +124,5 @@ if dein#tap('vim-colors-solarized')
     autocmd VimEnter * hi! link Search IncSearch
   augroup END
 endif
-set background=light
 
 " vim:et:fdm=marker:
