@@ -71,43 +71,7 @@ set ttymouse=sgr           " マウスホイールを有効化
 set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
 " }}}
 
-set scrolloff=3                   " 上下の画面の端にカーソルを寄せない。
-set sidescrolloff=5               " 左右の画面の端にカーソルを寄せない。
-
-set fileformat=unix               " 改行コード指定
-set fileformats=unix,dos          " 改行コード自動認識
-
-set backspace=indent,eol,start    " バックスペースを行を超えて有効にする
-
-set grepprg=pt                    " grep コマンドとして pt を使用する
-
-set diffopt=filler,vertical,iwhite " diffコマンド設定
-
-set synmaxcol=0                   " 構文強調表示桁数の制限を解除
-
-set notagbsearch                  " unite.vim + 日本語ヘルプでフリーズするときの対策
-
-set nrformats=                    " 5-5 10進数で数字の上げ下げ
-
-set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
-
-set updatetime=1000               " スワップファイルが書き込まれるまでの時間。
-
-set wildmenu                      " コマンドラインモードでの補完メニュー
-set wildmode=full
-
-set helplang=ja                   " ヘルプは日本語のものを優先する
-
-set lazyredraw                    " 画面描画をできるだけ遅らせる
-
-let g:loaded_matchparen = 1       " use vim-parenmatch
-set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞ " `%` で移動するペアを全角文字にも拡張する
-
-set history=1000                  " コマンドライン履歴を 1000 個保存する
-
-set completeopt+=menuone          " 候補が一つだけの時も補完する
-set completeopt-=preview          " プレビューウィンドウへの表示をやめる
-
+" カラースキーム {{{
 if dein#tap('vim-colors-solarized')
   syntax enable
   set background=light
@@ -118,10 +82,61 @@ if dein#tap('vim-colors-solarized')
     autocmd VimEnter * hi! link Search IncSearch
   augroup END
 endif
+" }}}
+
+" タイトル {{{
+" タイトル文字列指定
+set titlestring=%{delphinus#title#string()}
+
+" ウィンドウタイトルを更新する
+if exists('$TMUX') || &term =~# '^screen'
+  set t_ts=k
+  set t_fs=\
+
+  " dvtm の場合
+elseif &term =~# 'dvtm'
+  ' ウィンドウタイトルを変える
+  let &t_IS = '\e]1;'
+  let &t_ts = '\e]0;'
+  let &t_fs = '\007'
+endif
+
+if has('gui_running') || &term =~# '^screen' || &term =~# '^xterm' || &term =~# '^dvtm'
+  set title
+endif
+
+" Vim が終了したらこのタイトルにする
+set titleold=zsh
+" }}}
+
+" その他 {{{
+set scrolloff=3                   " 上下の画面の端にカーソルを寄せない。
+set sidescrolloff=5               " 左右の画面の端にカーソルを寄せない。
+set fileformat=unix               " 改行コード指定
+set fileformats=unix,dos          " 改行コード自動認識
+set backspace=indent,eol,start    " バックスペースを行を超えて有効にする
+set grepprg=pt                    " grep コマンドとして pt を使用する
+set diffopt=filler,vertical,iwhite " diffコマンド設定
+set synmaxcol=0                   " 構文強調表示桁数の制限を解除
+set notagbsearch                  " unite.vim + 日本語ヘルプでフリーズするときの対策
+set nrformats=                    " 5-5 10進数で数字の上げ下げ
+set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
+set updatetime=1000               " スワップファイルが書き込まれるまでの時間。
+set wildmenu                      " コマンドラインモードでの補完メニュー
+set wildmode=full
+set helplang=ja                   " ヘルプは日本語のものを優先する
+set lazyredraw                    " 画面描画をできるだけ遅らせる
+let g:loaded_matchparen = 1       " use vim-parenmatch
+set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞ " `%` で移動するペアを全角文字にも拡張する
+set history=1000                  " コマンドライン履歴を 1000 個保存する
+set completeopt+=menuone          " 候補が一つだけの時も補完する
+set completeopt-=preview          " プレビューウィンドウへの表示をやめる
+
 " 3,000 行を超えるようなバッファーではファイルタイプを無効にする
 augroup NoFiletypeForHugeBuffer
   autocmd!
   autocmd BufRead,BufEnter * if line('$') > 3000 | set filetype= | endif
 augroup END
+" }}}
 
 " vim:et:fdm=marker:
