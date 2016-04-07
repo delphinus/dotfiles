@@ -1,3 +1,6 @@
+" TODO: `on_func` does not make sense
+call dein#source('vital.vim')
+
 let s:V = vital#of('vital')
 let s:P = s:V.import('Prelude')
 
