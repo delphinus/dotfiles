@@ -21,8 +21,6 @@ endif
 
 let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
 let g:rc_dir = g:vim_home . '/rc'
-let g:after_dir = g:home . '/.vim/after'
-execute 'set runtimepath+=' . g:after_dir . '/'
 
 augroup MyAutoCmd
   autocmd!
@@ -40,12 +38,6 @@ call s:load_rc('term')                " ターミナル固有の設定
 call s:load_rc('commands')            " ユーティリティコマンド
 call s:load_rc('filetypes')           " ファイルタイプごとの設定
 call s:load_rc('title')               " screen title 設定
-
-" オフィス専用設定
-let g:office_vimrc = g:home . '/git/dotfiles-office/.vimrc'
-if filereadable(g:office_vimrc)
-  execute 'source ' . g:office_vimrc
-endif
 
 " ローカル設定
 let g:local_vimrc = g:home . '/.vimrc-local'
