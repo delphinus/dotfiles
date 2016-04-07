@@ -118,5 +118,10 @@ if dein#tap('vim-colors-solarized')
     autocmd VimEnter * hi! link Search IncSearch
   augroup END
 endif
+" 3,000 行を超えるようなバッファーではファイルタイプを無効にする
+augroup NoFiletypeForHugeBuffer
+  autocmd!
+  autocmd BufRead,BufEnter * if line('$') > 3000 | set filetype= | endif
+augroup END
 
 " vim:et:fdm=marker:
