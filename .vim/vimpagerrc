@@ -1,10 +1,19 @@
 set encoding=utf-8
 scriptencoding utf-8
 
+if &compatible
+  " vint: -ProhibitSetNoCompatible
+  set nocompatible               " Be iMproved
+  " vint: +ProhibitSetNoCompatible
+endif
+
+let g:is_mac = has('mac')
 let g:is_win = has('win32') || has('win64')
 
 if len($H)
-  let g:home = expand($H)
+  let g:home = expand('$H')
+  set runtimepath-=~/.vim
+  set runtimepath+=$H/.vim
 elseif len($USERPROFILE)
   let g:home = expand('$USERPROFILE')
 else
@@ -14,44 +23,25 @@ endif
 let g:vim_home = g:home . (g:is_win ? '/vimfiles' : '/.vim')
 let g:rc_dir = g:vim_home . '/rc'
 
-let s:dein_dir = expand('~/.cache/dein_vimpager')
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
-endif
-
-let g:dein#install_max_processes = 16
-let g:dein#install_progress_type = 'title'
-
-call dein#begin(s:dein_dir)
-
-let s:toml = g:rc_dir . '/dein_vimpager.toml'
-if dein#load_cache([expand('<sfile>'), s:toml])
-  call dein#load_toml(s:toml)
-  call dein#save_cache()
-endif
-
-call dein#end()
-
-if dein#check_install()
-  call dein#install()
-endif
-
-filetype plugin indent on
-
-let g:mapleader='`'
-
-colorscheme solarized
-set background=dark
-
-augroup SetSearchColor
+augroup MyAutoCmd
   autocmd!
-  autocmd VimEnter * hi! link Search IncSearch
 augroup END
+
+function s:load_rc(file)
+  execute 'source ' . g:rc_dir . '/' . a:file . '.vim'
+endfunction
+
+call s:load_rc('dein')                " プラグインの読み込み
+
+if dein#tap('vim-colors-solarized')
+  colorscheme solarized
+
+  augroup SetSearchColor
+    autocmd!
+    autocmd VimEnter * hi! link Search IncSearch
+  augroup END
+endif
+set background=light
 
 set t_ut=
 
@@ -85,13 +75,6 @@ set softtabstop=2   " タブキーやバックスペースキーでカーソル�
 set shiftwidth=2    " 自動インデントや <<, >> でずれる幅
 set laststatus=0
 
-"-----------------------------------------------------------------------------
-" Teamplte::Toolkit 設定
-au BufNewFile,BufRead *.tt2 setf tt2html
-au BufNewFile,BufRead *.tt setf tt2html
-
-"-----------------------------------------------------------------------------
-" vimpager
 let g:vimpager_passthrough = 1
 
 if exists('g:vimpager.enabled')
