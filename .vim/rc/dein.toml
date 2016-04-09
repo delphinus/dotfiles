@@ -8,18 +8,7 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
 if = '''! (has('macunix') && has('kaoriya') && isdirectory(expand('$VIM/plugins/vimproc')))'''
-hook_post_update = '''
-  if dein#util#_is_windows()
-    let cmd = 'tools\\update-dll-mingw'
-  elseif dein#util#_is_cygwin()
-    let cmd = 'make -f make_cygwin.mak'
-  elseif executable('gmake')
-    let cmd = 'gmake'
-  else
-    let cmd = 'make'
-  endif
-  let g:dein#plugin.build = cmd
-'''
+hook_post_update = 'call delphinus#init#vimproc#hook_post_update()'
 
 [[plugins]]
 repo     = 'delphinus35/vim-colors-solarized'
