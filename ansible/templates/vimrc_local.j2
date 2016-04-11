@@ -17,17 +17,7 @@ endfunction
 if index(['{{ secret_office.hostnames | join("', '") }}'], hostname()) > -1
   let g:gista#client#default_username = '{{ secret_office.github_user }}'
   let g:gista#client#default_apiname = 'GHE'
-
-  if dein#tap('vim-gista')
-    function! s:gista_on_source() abort
-      let l:apinames = gista#client#get_available_apinames()
-      if index(l:apinames, 'GHE') == -1
-        call gista#client#register('GHE', '{{ secret_office.github_api_path }}')
-      endif
-    endfunction
-    execute 'autocmd MyAutoCmd User' 'dein#source#' . g:dein#name
-          \ 'call s:gista_on_source()'
-  endif
+  let g:delphinus#init#gista#apiurl = '{{ secret_office.github_api_path }}'
 else
   let g:gista#client#default_username = 'delphinus35'
 endif
