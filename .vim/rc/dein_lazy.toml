@@ -138,6 +138,7 @@ hook_add = '''
   nnoremap gl :<c-u>Gista list<CR>
   nnoremap gL :<c-u>Gista list 
 '''
+hook_post_source = 'call delphinus#init#gista#hook_post_source()'
 
 [[plugins]]
 repo   = 'rizzatti/dash.vim'
