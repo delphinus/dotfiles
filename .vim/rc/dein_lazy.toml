@@ -135,6 +135,7 @@ repo     = 'lambdalisue/vim-gista'
 on_cmd   = ['Gista']
 on_func  = ['gista#']
 hook_add = '''
+  let g:gista#command#list#enable_default_mappings = 0
   nnoremap gl :<c-u>Gista list<CR>
   nnoremap gL :<c-u>Gista list 
 '''
