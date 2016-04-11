@@ -119,10 +119,8 @@ rev  = 'feature/recognize-ridgepole'
 repo = 'jason0x43/vim-js-indent'
 
 [[plugins]]
-repo = 'ternjs/tern_for_vim'
-
-  [plugins.build]
-  others = 'npm install'
+repo  = 'ternjs/tern_for_vim'
+build = 'npm install'
 # }}}
 
 # for unite {{{
