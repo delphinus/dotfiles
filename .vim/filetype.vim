@@ -21,6 +21,9 @@ au BufNewFile,BufRead *.cxx,*.c++,*.hh,*.hxx,*.hpp,*.ipp,*.moc,*.tcc,*.inl setf 
 " .h files can be C, Ch C++, ObjC or ObjC++.
 au BufNewFile,BufRead *.h			setf c
 
+" Cascading Style Sheets
+au BufNewFile,BufRead *.css			setf css
+
 " Git
 au BufNewFile,BufRead COMMIT_EDITMSG		setf gitcommit
 au BufNewFile,BufRead MERGE_MSG			setf gitcommit
