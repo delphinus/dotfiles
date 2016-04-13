@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! delphinus#init#watchdogs#hook_add() abort
+function! delphinus#init#watchdogs#hook_source() abort
   let g:quickrun_config = get(g:, 'quickrun_config', {})
 
   " 書き込み後にシンタックスチェックを行う

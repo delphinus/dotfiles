@@ -1,11 +1,5 @@
 scriptencoding utf-8
 
-function! delphinus#init#ref#hook_add() abort
-  noremap `rm :Unite ref/man<CR>
-  noremap `rp :Unite ref/perldoc<CR>
-  noremap `rr :Unite ref/refe<CR>
-endfunction
-
 function! delphinus#init#ref#hook_source() abort
   let g:ref_open=':vsp'
   let g:ref_alc_start_linenumber=42
