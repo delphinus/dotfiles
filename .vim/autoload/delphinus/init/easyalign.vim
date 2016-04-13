@@ -1,10 +1,3 @@
-function! delphinus#init#easyalign#hook_add() abort
-  vmap <Enter>           <Plug>(EasyAlign)
-  nmap <Leader>a         <Plug>(EasyAlign)
-  vmap <Leader><Enter>   <Plug>(LiveEasyAlign)
-  nmap <Leader><Leader>a <Plug>(LiveEasyAlign)
-endfunction
-
 function! delphinus#init#easyalign#hook_source() abort
   let g:easy_align_delimiters = {
         \ '>': { 'pattern': '>>\|=>\|>' },

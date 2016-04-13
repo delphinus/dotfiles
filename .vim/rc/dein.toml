@@ -24,7 +24,18 @@ if   = '''! has('macunix')'''
 
 [[plugins]]
 repo     = 'ryanoasis/vim-devicons'
-hook_add = 'call delphinus#init#devicons#hook_add()'
+hook_add = '''"{{{
+  let g:webdevicons_enable_unite = 0
+  let g:webdevicons_enable_nerdtree = 0
+  let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
+  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {
+        \ 'fcgi':     '',
+        \ 'perl':     '',
+        \ 'sqlite':   '',
+        \ 'tt':       '',
+        \ 'txt':      '',
+        \ }
+"}}}'''
 
 [[plugins]]
 repo     = 'tpope/vim-capslock'
@@ -32,7 +43,14 @@ hook_add = 'imap <C-L> <Plug>CapsLockToggle'
 
 [[plugins]]
 repo     = 'tpope/vim-fugitive'
-hook_add = 'call delphinus#init#fugitive#hook_add()'
+hook_add = '''"{{{
+  let g:fugitive_git_executable = expand('HOME=$H git my-alias')
+  nnoremap git :<c-u>Git
+  nnoremap g<space> :<c-u>Git 
+  nnoremap gs :<c-u>Gstatus<CR>
+  nnoremap d< :diffget //2<CR>
+  nnoremap d> :diffget //3<CR>
+"}}}'''
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
@@ -40,7 +58,30 @@ repo = 'tpope/vim-repeat'
 [[plugins]]
 repo     = 'vim-airline/vim-airline'
 depends  = ['vim-airline-themes']
-hook_add = 'call delphinus#init#airline#hook_add()'
+hook_add = '''"{{{
+  let g:airline#extensions#tabline#formatter = 'repo_directory'
+  let g:airline#extensions#tabline#buffer_idx_mode = 1
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline_detect_iminsert = 1
+  let g:airline_powerline_fonts = 1
+  let g:airline_theme = 'powerlineish'
+  nmap <leader>1 <Plug>AirlineSelectTab1
+  nmap <leader>2 <Plug>AirlineSelectTab2
+  nmap <leader>3 <Plug>AirlineSelectTab3
+  nmap <leader>4 <Plug>AirlineSelectTab4
+  nmap <leader>5 <Plug>AirlineSelectTab5
+  nmap <leader>6 <Plug>AirlineSelectTab6
+  nmap <leader>7 <Plug>AirlineSelectTab7
+  nmap <leader>8 <Plug>AirlineSelectTab8
+  nmap <leader>9 <Plug>AirlineSelectTab9
+  nmap <leader>- <Plug>AirlineSelectPrevTab
+  nmap <leader>= <Plug>AirlineSelectNextTab
+
+  augroup SetAirline
+    autocmd!
+    autocmd VimEnter * let g:airline_section_error = airline#section#create(['watchdogs'])
+  augroup END
+"}}}'''
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
@@ -72,7 +113,42 @@ rev  = 'colorize-template-strings'
 [[plugins]]
 repo     = 'delphinus35/vim-markdown'
 rev      = 'merged-inline_and_code_fixes-conceal'
-hook_add = 'call delphinus#init#markdown#hook_add()'
+hook_add = '''"{{{
+  augroup SetMarkdown
+    autocmd!
+    autocmd FileType markdown,howm_memo.markdown setlocal conceallevel=2
+    autocmd FileType markdown,howm_memo.markdown hi markdownH1 cterm=bold,italic gui=bold,italic
+    autocmd FileType markdown,howm_memo.markdown hi markdownH2 cterm=bold gui=bold
+    autocmd FileType markdown,howm_memo.markdown hi markdownH3 cterm=italic gui=italic
+  augroup END
+
+  let g:markdown_fenced_languages = [
+        \ 'coffee',
+        \ 'cpp',
+        \ 'css',
+        \ 'diff',
+        \ 'erlang',
+        \ 'go',
+        \ 'haskell',
+        \ 'html',
+        \ 'java',
+        \ 'javascript',
+        \ 'json',
+        \ 'lua',
+        \ 'ocaml',
+        \ 'perl',
+        \ 'plantuml',
+        \ 'python',
+        \ 'ruby',
+        \ 'sh',
+        \ 'sql',
+        \ 'toml',
+        \ 'typescript',
+        \ 'vim',
+        \ ]
+  " set conceal feature: default value '#*dlaibBces'
+  let g:markdown_conceal = '*dlaibBes'
+"}}}'''
 
 [[plugins]]
 repo = 'digitaltoad/vim-jade'
@@ -151,7 +227,23 @@ repo      = 'tsukkee/unite-tag'
 
 [[plugins]]
 repo     = 'ujihisa/neco-look'
-hook_add = 'call delphinus#init#necolook#hook_add()'
+hook_add = '''"{{{
+  let g:neocomplete#text_mode_filetypes = {
+        \ 'rst': 1,
+        \ 'markdown': 1,
+        \ 'howm_memo': 1,
+        \ 'howm_memo.markdown': 1,
+        \ 'gitrebase': 1,
+        \ 'gitcommit': 1,
+        \ 'vcs-commit': 1,
+        \ 'hybrid': 1,
+        \ 'text': 1,
+        \ 'help': 1,
+        \ 'tex': 1,
+        \ }
+
+  autocmd MyAutoCmd User dein#source#neocomplete.vim call neocomplete#custom#source('look', 'min_pattern_length', 1)
+"}}}'''
 # }}}
 
 # vim-script {{{

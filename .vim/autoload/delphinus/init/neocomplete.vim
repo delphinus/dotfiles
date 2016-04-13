@@ -1,14 +1,3 @@
-function! delphinus#init#neocomplete#hook_add() abort
-  " Enable omni completion.
-  augroup NeocompleteFileType
-    autocmd!
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  augroup END
-endfunction
-
 function! delphinus#init#neocomplete#hook_source() abort
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#min_keyword_length = 3
