@@ -18,10 +18,6 @@ let g:vim_home = g:home . '/.vim'
 let g:rc_dir   = g:vim_home . '/rc'
 execute 'set runtimepath+=' . g:vim_home . '/after'
 
-augroup MyAutoCmd
-  autocmd!
-augroup END
-
 function s:load_rc(file)
   execute 'source ' . g:rc_dir . '/' . a:file . '.vim'
 endfunction
