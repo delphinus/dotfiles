@@ -303,8 +303,6 @@ hook_add = '''"{{{
         \ 'help': 1,
         \ 'tex': 1,
         \ }
-
-  autocmd MyAutoCmd User dein#source#neocomplete.vim call neocomplete#custom#source('look', 'min_pattern_length', 1)
 "}}}'''
 # }}}
 
