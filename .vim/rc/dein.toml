@@ -256,6 +256,9 @@ repo = 'jason0x43/vim-js-indent'
 [[plugins]]
 repo  = 'ternjs/tern_for_vim'
 build = 'npm install'
+
+[[plugins]]
+repo = 'tmux-plugins/vim-tmux'
 # }}}
 
 # for unite {{{
@@ -326,10 +329,5 @@ repo = 'osyo-manga/shabadou.vim'
 [[plugins]]
 repo = 'kana/vim-textobj-user'
 # }}}
-
-#[[plugins]]
-#repo        = 'https://raw.githubusercontent.com/tmux/tmux/master/examples/tmux.vim'
-#type        = 'raw'
-#script_type = 'syntax'
 
 # vim:se fdm=marker:
