@@ -1,5 +1,12 @@
 # basic {{{
 [[plugins]]
+repo     = 'KazuakiM/vim-qfstatusline'
+hook_add = '''
+  " :WatchdogsRun後にlightline.vimを更新
+  let g:Qfstatusline#UpdateCmd = function('lightline#update')
+'''
+
+[[plugins]]
 repo = 'Konfekt/FastFold'
 
 [[plugins]]
