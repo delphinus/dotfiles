@@ -12,6 +12,7 @@ endif
 
 let g:dein#install_max_processes = 16
 let g:dein#install_progress_type = 'title'
+let g:dein#enable_notification = 1
 let s:toml      = g:rc_dir . '/dein.toml'
 let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
 
