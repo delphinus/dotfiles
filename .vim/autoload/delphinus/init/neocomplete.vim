@@ -21,4 +21,7 @@ function! delphinus#init#neocomplete#hook_source() abort
   let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
   let g:neocomplete#force_omni_input_patterns.go = '[^.[:digit:] *\t]\.\w*'
   let g:neocomplete#force_omni_input_patterns.typescript = '[^. \t]\.\%(\h\w*\)\?'
+
+  " setting for neco-look
+  call neocomplete#custom#source('look', 'min_pattern_length', 1)
 endfunction
