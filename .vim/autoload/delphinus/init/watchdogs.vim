@@ -11,7 +11,14 @@ function! delphinus#init#watchdogs#hook_source() abort
   let g:watchdogs_check_CursorHold_enable = 1
 
   " 起動後に quickfix ウィンドウを開かない
-  let g:quickrun_config['watchdogs_checker/_'] = {'outputter/quickfix/open_cmd': ''}
+  let g:quickrun_config['watchdogs_checker/_'] = {
+        \ 'hook/close_quickfix/enable_exit':        1,
+        \ 'hook/back_window/enable_exit':           0,
+        \ 'hook/back_window/priority_exit':         1,
+        \ 'hook/qfstatusline_update/enable_exit':   1,
+        \ 'hook/qfstatusline_update/priority_exit': 2,
+        \ 'outputter/quickfix/open_cmd': '',
+        \ }
 
   let g:quickrun_config['watchdogs_checker/gcc'] = {'cmdopt': '-std=c99'}
   let g:quickrun_config['watchdogs_checker/jshint'] = {'cmdopt': '--config ' . g:home . '/git/dotfiles/.jshintrc'}
