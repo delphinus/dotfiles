@@ -1,21 +1,3 @@
-# copy from prezto `gnu-utility` module
-_gnu_utility_p='g'
-_gnu_utility_cmds=(
-  'ls' 'dircolors'
-)
-
-# Wrap GNU utilities in functions.
-for _gnu_utility_cmd in "${_gnu_utility_cmds[@]}"; do
-  _gnu_utility_pcmd="${_gnu_utility_p}${_gnu_utility_cmd}"
-  if (( ${+commands[${_gnu_utility_pcmd}]} )); then
-    eval "
-      function ${_gnu_utility_cmd} {
-        '${commands[${_gnu_utility_pcmd}]}' \"\$@\"
-      }
-    "
-  fi
-done
-
 if [ "$H" != "$HOME" ]; then
   alias vim="vim -u $H/.vim/vimrc"
   alias git="HOME=$H git"
