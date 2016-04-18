@@ -75,10 +75,9 @@ hook_add    = '''"{{{
 hook_source = 'call delphinus#init#unite#hook_source()'
 
 [[plugins]]
-repo    = 'Shougo/vimfiler'
-depends = ['unite.vim']
-on_path = '.*'
-on_cmd  = [
+repo      = 'Shougo/vimfiler'
+on_source = ['unite.vim']
+on_cmd    = [
   'VimFiler',
   'VimFilerExplorer',
   'Edit',
