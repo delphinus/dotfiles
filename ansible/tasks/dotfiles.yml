@@ -11,6 +11,7 @@
 - file: path={{ home_dir }}/.config state=directory
 - file: src={{ '/'.join([dotfiles_dir, item]) }} dest={{ home_dir }}/{{ item }} state=link force=yes
   with_items:
+    - .bash_profile
     - .config/ipython
     - .config/peco
     - .config/powerline
@@ -19,18 +20,17 @@
     - .gitconfig
     - .inputrc
     - .jshintrc
+    - .myclirc
     - .proverc
     - .ptconfig.toml
-    - .vim
-    - .myclirc
-    - .bash_profile
-    - .tmux.conf
-    - .tmux
     - .tern-project
+    - .tmux
+    - .tmux.conf
+    - .vim
     - .vimrc_first.vim
-    - .zprezto
     - .zlogin
     - .zlogout
+    - .zprezto
     - .zpreztorc
     - .zprofile
     - .zshenv
