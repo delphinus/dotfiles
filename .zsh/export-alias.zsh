@@ -20,7 +20,10 @@ if [[ $OSTYPE == darwin* ]]; then
   alias vagrant='TERM=xterm-256color vagrant'
 fi
 
-eval `dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
+alias dircolors=gdircolors
+unalias gls
+alias ls='gls --group-directories-first --color=auto'
+eval `dircolors --sh $HOME/.dir_colors`
 alias be='bundle exec'
 alias ce='carton exec --'
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
