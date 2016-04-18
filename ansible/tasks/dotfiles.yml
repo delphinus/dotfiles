@@ -22,15 +22,19 @@
     - .proverc
     - .ptconfig.toml
     - .vim
-    - .zshenv
-    - .zprofile
-    - .zshrc
     - .myclirc
     - .bash_profile
     - .tmux.conf
     - .tmux
     - .tern-project
     - .vimrc_first.vim
+    - .zprezto
+    - .zlogin
+    - .zlogout
+    - .zpreztorc
+    - .zprofile
+    - .zshenv
+    - .zshrc
 
 - file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
   with_items:
