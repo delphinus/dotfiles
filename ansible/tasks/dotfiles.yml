@@ -35,6 +35,11 @@
     - .zprofile
     - .zshenv
     - .zshrc
+- file: >-
+    src={{ '/'.join([dotfiles_dir, 'submodules/dircolors-solarized/dircolors.ansi-light']) }}
+    dest={{ home_dir }}/.dir_colors
+    state=link
+    force=yes
 
 - file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
   with_items:
