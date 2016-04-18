@@ -30,7 +30,6 @@ zstyle ':prezto:load' pmodule \
   'history' \
   'directory' \
   'spectrum' \
-  'gnu-utility' \
   'utility' \
   'completion' \
   'prompt' \
@@ -66,7 +65,7 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 #
 
 # Set the command prefix on non-GNU systems.
-zstyle ':prezto:module:gnu-utility' prefix 'g'
+# zstyle ':prezto:module:gnu-utility' prefix 'g'
 
 #
 # History Substring Search
