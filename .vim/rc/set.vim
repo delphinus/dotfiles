@@ -19,12 +19,12 @@ set smarttab        " スマートなタブ切り替え
 " }}}
 
 " ディレクトリ {{{
-set undofile             " アンドゥファイルを保存する
+set undofile                   " アンドゥファイルを保存する
 set dir=/tmp
 set backupdir=/tmp
 set undodir=/tmp
-let &backupskip = '/private/tmp/*,' . &backupskip " Mac で crontab を使うための設定
-set path+=lib,app/lib " gf, gF, CTRL-W_f でファイルを開くときに検索するパス
+set backupskip^=/private/tmp/* " Mac で crontab を使うための設定
+set path+=lib,app/lib          " gf, gF, CTRL-W_f でファイルを開くときに検索するパス
 " }}}
 
 " 検索 {{{
