@@ -58,6 +58,7 @@
 	attributesfile = ~/git/dotfiles/.gitattributes
 	autocrlf = false
 	quotepath = false
+	editor = vim
 [github]
 	user = delphinus35
 [pull]
