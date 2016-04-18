@@ -10,8 +10,6 @@ SAVEHIST=100000
 setopt share_history
 setopt EXTENDED_HISTORY  # 開始と終了を記録
 
-bindkey -v               # vi 風キーバインドにする
-bindkey "" history-incremental-search-backward # bash の <C-R> と一緒
 # http://d.hatena.ne.jp/kei_q/20110308/1299594629
 show_buffer_stack() {
   POSTDISPLAY="
