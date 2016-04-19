@@ -77,12 +77,11 @@ fi
 
 # for perlbrew
 if [[ $OSTYPE == darwin* && -f $HOME/perl5/perlbrew/etc/bashrc ]]; then
-  # Disable perlbrew beacause the initialization process is slow
-  #autoload -U compinit
-  #compinit -C
-  #source $HOME/perl5/perlbrew/etc/bashrc
-  #source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
-  #alias perl='perl -I$HOME/perl5/lib/perl5'
+  autoload -U compinit
+  compinit -C
+  source $HOME/perl5/perlbrew/etc/bashrc
+  source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
+  alias perl='perl -I$HOME/perl5/lib/perl5'
 else
   # for plenv
   if [ -d '/usr/local/opt/plenv' ]; then
