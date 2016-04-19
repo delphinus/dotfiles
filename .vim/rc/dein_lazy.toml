@@ -34,7 +34,6 @@ on_source = ['unite.vim', 'vimfiler', 'vimshell']
 
 [[plugins]]
 repo     = 'Shougo/unite.vim'
-rev      = '8772648d551c75adeeeed82fd115253617845b97'
 hook_add = '''"{{{
   noremap za :Unite file_rec/async<CR>
   noremap zd :Unite dwm<CR>
