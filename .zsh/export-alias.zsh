@@ -15,16 +15,18 @@ export GREP_OPTIONS="--color=auto"
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 
 if [[ $OSTYPE == darwin* ]]; then
-  LS=gls
-  alias dircolors=gdircolors
   alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
   alias brew='TERM=xterm-256color brew'
   alias vagrant='TERM=xterm-256color vagrant'
-else
-  LS=ls
 fi
 
-eval `dircolors $H/git/dotfiles/submodules/dircolors-solarized/dircolors.ansi-dark`
+# needed for prezto `git` module
+if (( $+commands[gls] )); then
+  unalias gls
+  alias ls='gls --group-directories-first --color=auto'
+  alias dircolors=gdircolors
+fi
+eval `dircolors --sh $H/.dir_colors`
 alias be='bundle exec'
 alias ce='carton exec --'
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
@@ -32,9 +34,7 @@ alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias g=git
 alias gh=ghq
-alias l.="$LS --color -d .*"
-alias ll="$LS --color -l"
-alias ls="$LS --color"
+alias l.="ls --color -d .*"
 alias lv='lv -c'
 alias nr='npm run'
 alias ns='npm start'

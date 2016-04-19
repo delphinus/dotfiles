@@ -25,3 +25,6 @@
 [submodule "submodules/xterm_colour_chart"]
 	path = submodules/xterm_colour_chart
 	url = https://github.com/delphinus35/xterm_colour_chart
+[submodule ".zprezto"]
+	path = .zprezto
+	url = https://github.com/sorin-ionescu/prezto

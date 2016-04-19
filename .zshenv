@@ -1,12 +1,16 @@
-# zmodload zsh/zprof
+#
+# Defines environment variables.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
 
-# 補完関数を追加
-if [ -d /usr/local/share/zsh-completions ]; then
-  fpath=(/usr/local/share/zsh-completions $fpath)
+# Ensure that a non-login, non-interactive shell has a defined environment.
+if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
-fpath=($HOME/git/dotfiles/.zsh/completions /usr/local/share/git/site-functions $fpath)
-autoload -U compinit
-compinit
+
+# my setting
 
 if [ -z "$H" ]; then
   export H=$HOME
@@ -73,9 +77,12 @@ fi
 
 # for perlbrew
 if [[ $OSTYPE == darwin* && -f $HOME/perl5/perlbrew/etc/bashrc ]]; then
-  source $HOME/perl5/perlbrew/etc/bashrc
-  source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
-  alias perl='perl -I$HOME/perl5/lib/perl5'
+  # Disable perlbrew beacause the initialization process is slow
+  #autoload -U compinit
+  #compinit -C
+  #source $HOME/perl5/perlbrew/etc/bashrc
+  #source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
+  #alias perl='perl -I$HOME/perl5/lib/perl5'
 else
   # for plenv
   if [ -d '/usr/local/opt/plenv' ]; then

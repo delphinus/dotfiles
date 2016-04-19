@@ -1,3 +1,16 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
 source $H/git/dotfiles/.zsh/basic.zshrc
 source $H/git/dotfiles/.zsh/peco-select-history.zsh
 source $H/git/dotfiles/.zsh/peco-git.zsh
@@ -12,9 +25,6 @@ if [ -n "$path_in_zshenv" ]; then
   export PATH=$path_in_zshenv
 fi
 
-# for perlomni.vim
-export PATH="$H/.vim/bundle/perlomni.vim/bin:$PATH"
-
 # for Test::Pretty
 export TEST_PRETTY_COLOR_NAME=BRIGHT_GREEN
 
@@ -26,15 +36,6 @@ if [[ $OSTYPE == darwin* ]]; then
   source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
 fi
 
-# powerline
-if [[ $OSTYPE == darwin* ]]; then
-  user_site="$HOME/Library/Python/2.7/lib/python/site-packages"
-else
-  export PATH=$HOME/.local/bin:$PATH
-  user_site="$HOME/.local/lib/python2.7/site-packages"
-fi
-. $user_site/powerline/bindings/zsh/powerline.zsh
-
 # z
 if which brew > /dev/null; then
   . /usr/local/etc/profile.d/z.sh
@@ -45,6 +46,10 @@ elif [ -f $(ghq list --full-path rupa/z)/z.sh ]; then
 fi
 
 # grc
+# needed for prezto `git` module
+if (( $+commands[grc] )); then
+  unalias grc
+fi
 if which brew > /dev/null; then
   . /usr/local/etc/grc.bashrc
 elif [ -f '/etc/profile.d/grc.bashrc' ]; then
@@ -90,6 +95,9 @@ fi
 # fssh
 if [ -z "$TMUX" -a -n "$LC_FSSH_PORT" ]; then
   local fssh_env=$H/git/dotfiles/bin/fssh_env
+  if [ -f "$fssh_env" ]; then
+    rm -f $fssh_env
+  fi
   env | grep FSSH | ruby -pe '$_.sub!(/^(LC_FSSH_[A-Z_]*)=(.*)$/) { %Q[export #$1="#$2"] }' > $fssh_env
   chmod +x $fssh_env
 fi
