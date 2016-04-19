@@ -89,6 +89,8 @@ function prompt_delphinus_precmd {
 
   ruby-info
   RPROMPT+='%F{5}${ruby_info[version]}%f'
+  perl-info
+  RPROMPT+=' %F{6}${perl_info[version]}%f'
 
   # Compute slow commands in the background.
   trap prompt_delphinus_git_info WINCH
@@ -134,6 +136,9 @@ function prompt_delphinus_setup {
     'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
 
   zstyle ':prezto:module:ruby:info:version' format ' %v'
+
+  source $HOME/git/dotfiles/.zsh/prezto/functions/perl-info
+  zstyle ':prezto:module:perl:info:version' format ' %v'
 
   # Define prompts.
   PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}${_prompt_delphinus_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
