@@ -26,7 +26,7 @@ if (( $+commands[gls] )); then
   alias ls='gls --group-directories-first --color=auto'
   alias dircolors=gdircolors
 fi
-eval `dircolors --sh $HOME/.dir_colors`
+eval `dircolors --sh $H/.dir_colors`
 alias be='bundle exec'
 alias ce='carton exec --'
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
