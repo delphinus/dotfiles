@@ -46,7 +46,10 @@ elif [ -f $(ghq list --full-path rupa/z)/z.sh ]; then
 fi
 
 # grc
-unalias grc # needed for prezto `git` module
+# needed for prezto `git` module
+if (( $+commands[grc] )); then
+  unalias grc
+fi
 if which brew > /dev/null; then
   . /usr/local/etc/grc.bashrc
 elif [ -f '/etc/profile.d/grc.bashrc' ]; then
