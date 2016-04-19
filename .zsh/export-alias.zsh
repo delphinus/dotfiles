@@ -23,9 +23,9 @@ fi
 # needed for prezto `git` module
 if (( $+commands[gls] )); then
   unalias gls
+  alias ls='gls --group-directories-first --color=auto'
+  alias dircolors=gdircolors
 fi
-alias ls='gls --group-directories-first --color=auto'
-alias dircolors=gdircolors
 eval `dircolors --sh $HOME/.dir_colors`
 alias be='bundle exec'
 alias ce='carton exec --'
