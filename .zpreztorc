@@ -5,6 +5,12 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+# Add my custom modules
+fpath=(
+  ${HOME}/git/dotfiles/.zsh/prezto
+  ${fpath}
+)
+
 #
 # General
 #
@@ -94,7 +100,7 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' theme 'delphinus'
 
 #
 # Ruby
