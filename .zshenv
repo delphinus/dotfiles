@@ -28,3 +28,76 @@ $H/Dropbox/bin:\
 $H/bin:\
 $H/git/dotfiles/bin:\
 $PATH"
+
+# for python
+if [ -d '/usr/local/opt/pyenv' ]; then
+  export PYENV_ROOT=/usr/local/opt/pyenv
+else
+  export PYENV_ROOT=$HOME/.pyenv
+fi
+export PATH=$PYENV_ROOT/bin:$PATH
+alias py=pyenv
+alias pyv='pyenv versions'
+if which pyenv > /dev/null; then eval "$(pyenv init - --no-rehash zsh)"; fi
+if [[ $OSTYPE == darwin* ]]; then
+  user_base="$HOME/Library/Python/2.7"
+fi
+export PATH=$user_base/bin:$PATH
+
+# for ruby
+if [ -d '/usr/local/opt/rbenv' ]; then
+  export RBENV_ROOT=/usr/local/opt/rbenv
+else
+  export RBENV_ROOT=$HOME/.rbenv
+fi
+export PATH=$RBENV_ROOT/bin:$PATH
+alias rb=rbenv
+alias rbv='rbenv versions'
+if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash zsh)"; fi
+
+# for lua
+if [ -d '/usr/local/opt/luaenv' ]; then
+  export LUAENV_ROOT=/usr/local/opt/luaenv
+else
+  export LUAENV_ROOT=$HOME/.luaenv
+fi
+export PATH=$LUAENV_ROOT/bin:$PATH
+alias lu=luaenv
+alias luv='luaenv versions'
+if which luaenv > /dev/null; then eval "$(luaenv init - --no-rehash zsh)"; fi
+
+# perl
+if [ -d "$HOME/perl5" ]; then
+  if [[ $OSTYPE == darwin* ]]; then
+    arch=darwin-2level
+  fi
+  export PATH=$HOME/perl5/bin:$PATH
+  export PERL5LIB=$HOME/perl5/lib/perl5:$HOME/perl5/lib/perl5/$arch/auto:$PERL5LIB
+fi
+
+# for perlbrew
+if [[ $OSTYPE == darwin* && -f $HOME/perl5/perlbrew/etc/bashrc ]]; then
+  # Disable perlbrew beacause the initialization process is slow
+  #autoload -U compinit
+  #compinit -C
+  #source $HOME/perl5/perlbrew/etc/bashrc
+  #source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
+  #alias perl='perl -I$HOME/perl5/lib/perl5'
+else
+  # for plenv
+  if [ -d '/usr/local/opt/plenv' ]; then
+    export PLENV_ROOT=/usr/local/opt/plenv
+  else
+    export PLENV_ROOT=$HOME/.plenv
+  fi
+  export PATH=$PLENV_ROOT/bin:$PATH
+  alias pl=plenv
+  alias plv='plenv versions'
+  if which plenv > /dev/null; then eval "$(plenv init - --no-rehash zsh)"; fi
+fi
+
+# for go
+export GOPATH=$H/.go
+export PATH=$GOPATH/bin:$PATH
+
+export path_in_zshenv=$PATH
