@@ -239,6 +239,20 @@ func! s:CSH()
   endif
 endfunc
 
+" Pattern used to match file names which should not be inspected.
+" Currently finds compressed files.
+if !exists("g:ft_ignore_pat")
+  let g:ft_ignore_pat = '\.\(Z\|gz\|bz2\|zip\|tgz\)$'
+endif
+
+" Function used for patterns that end in a star: don't set the filetype if the
+" file name matches ft_ignore_pat.
+func! s:StarSetf(ft)
+  if expand("<amatch>") !~ g:ft_ignore_pat
+    exe 'setf ' . a:ft
+  endif
+endfunc
+
 " Z-Shell script
 au BufNewFile,BufRead .zprofile,*/etc/zprofile,.zfbfmarks  setf zsh
 au BufNewFile,BufRead .zsh*,.zlog*,.zcompdump*  call s:StarSetf('zsh')
