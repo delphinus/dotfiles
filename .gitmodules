@@ -27,4 +27,5 @@
 	url = https://github.com/delphinus35/xterm_colour_chart
 [submodule ".zprezto"]
 	path = .zprezto
-	url = https://github.com/sorin-ionescu/prezto
+	url = https://github.com/delphinus35/prezto
+	branch = feature/perl
