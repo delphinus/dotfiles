@@ -1,10 +1,12 @@
 {
     "Style": {
         "Selected": ["on_white", "black"],
-        "Matched": ["red"]
+        "Matched": ["red", "bold"]
     },
     "KeyMap": {
         "C-j": "peco.SelectDown",
         "C-k": "peco.SelectUp"
-    }
+    },
+    "Prompt": "❯❯❯",
+    "Layout": "bottom-up"
 }
