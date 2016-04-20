@@ -3,11 +3,14 @@ if [ "$H" != "$HOME" ]; then
   alias git="HOME=$H git"
   alias ghq="HOME=$H ghq"
   alias tig="HOME=$H tig"
+  export VISUAL=view.sh
+  export EDITOR=vim.sh
+else
+  export VISUAL=view
+  export EDITOR=vim
 fi
 
-export PAGER=vimpager
-export VIMPAGER_RC=$H/.vim/vimpagerrc
-export EDITOR=vim
+export PAGER=less
 export EDITRC=$H/.editrc
 export INPUTRC=$H/.inputrc
 export LANG=ja_JP.UTF-8
