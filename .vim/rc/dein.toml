@@ -204,6 +204,7 @@ hook_add = '''"{{{
         \ 'toml',
         \ 'typescript',
         \ 'vim',
+        \ 'xml',
         \ ]
   " set conceal feature: default value '#*dlaibBces'
   let g:markdown_conceal = '*dlaibBes'
