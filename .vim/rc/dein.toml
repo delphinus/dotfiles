@@ -33,7 +33,7 @@ let g:lightline = {
         \   'right': [
         \     [ 'lineinfo' ],
         \     [ 'percent' ],
-        \     [ 'fileformat', 'fileencoding', 'filetype' ],
+        \     [ 'char_code', 'fileformat', 'fileencoding', 'filetype' ],
         \   ],
         \ },
         \ 'component_function': {
@@ -45,6 +45,7 @@ let g:lightline = {
         \   'filetype': 'LightLineFiletype',
         \   'fileencoding': 'LightLineFileencoding',
         \   'mode': 'LightLineMode',
+        \   'char_code': 'LightLineCharCode',
         \ },
         \ 'component_expand': {
         \   'qfstatusline': 'qfstatusline#Update',
@@ -102,6 +103,12 @@ function! LightLineMode()
         \ fname =~# 'vimshell' ? 'VimShell' :
         \ fname =~# '__Gundo__' ? 'Gundo' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! LightLineCharCode()
+  redir => l:tmp | silent! ascii | redir END
+  let m = matchlist(l:tmp, '<\(.\+\)>\s*\(\d\+\)')
+  return len(m) > 0 ? printf('%s %X', m[1], m[2]) : ''
 endfunction
 "}}}'''
 
