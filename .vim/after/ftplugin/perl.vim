@@ -22,7 +22,7 @@ if exists(':NeoCompleteIncludeMakeCache')
   augroup END
 endif
 
-if filereadable('.noexpandtab') || (len($USER) && $USER ==# 'game')
+if filereadable('.noexpandtab')
   setlocal noexpandtab
 endif
 
