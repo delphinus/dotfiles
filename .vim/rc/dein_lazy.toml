@@ -221,11 +221,6 @@ on_cmd = ['Dash']
 gui    = 1
 
 [[plugins]]
-repo        = 'sgur/vim-lazygutter'
-on_cmd      = ['GitGutterToggle']
-hook_source = 'call delphinus#init#lazygutter#hook_source()'
-
-[[plugins]]
 repo   = 'sjl/gundo.vim'
 on_cmd = ['GundoToggle']
 
@@ -454,6 +449,11 @@ on_idle = 1
 repo             = 'itchyny/vim-parenmatch'
 on_idle          = 1
 hook_post_source = 'call parenmatch#highlight()'
+
+[[plugins]]
+repo        = 'sgur/vim-lazygutter'
+on_idle     = 1
+hook_source = 'call delphinus#init#lazygutter#hook_source()'
 
 [[plugins]]
 repo    = 'thinca/vim-visualstar'
