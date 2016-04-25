@@ -1,5 +1,6 @@
 if [ "$H" != "$HOME" ]; then
-  alias vim="vim -u $H/.vim/vimrc"
+  alias vim="/usr/local/bin/vim -u $H/.vim/vimrc"
+  alias view="/usr/local/bin/view -u $H/.vim/vimrc"
   alias git="HOME=$H git"
   alias ghq="HOME=$H ghq"
   alias tig="HOME=$H tig"
