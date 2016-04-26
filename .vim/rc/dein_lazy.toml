@@ -184,14 +184,6 @@ hook_add = '''"{{{
 "}}}'''
 
 [[plugins]]
-repo     = 'dhruvasagar/vim-table-mode'
-on_cmd   = ['tablemode']
-hook_add = '''
-  nnoremap `tm :call tablemode#Toggle()<CR>
-  let g:table_mode_corner='|'
-'''
-
-[[plugins]]
 repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
 on_ft  = ['howm_memo']
@@ -498,6 +490,14 @@ repo = 'dannyob/quickfixstatus'
 # }}}
 
 # others {{{
+[[plugins]]
+repo     = 'dhruvasagar/vim-table-mode'
+on_func  = ['tablemode#Toggle']
+hook_add = '''
+  nnoremap `tm :call tablemode#Toggle()<CR>
+  let g:table_mode_corner='|'
+'''
+
 [[plugins]]
 repo    = 'haya14busa/incsearch.vim'
 depends = [
