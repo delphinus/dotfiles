@@ -505,7 +505,7 @@ depends = [
     'incsearch-easymotion.vim'
     'incsearch-fuzzy.vim'
   ]
-on_func  = ['incsearch#']
+on_func  = ['incsearch#go']
 hook_add = 'noremap <silent><expr> <Space>/ incsearch#go(delphinus#incsearch#config_easyfuzzymotion())'
 
 [[plugins]]
