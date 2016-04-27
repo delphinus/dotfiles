@@ -440,6 +440,7 @@ on_idle = 1
 [[plugins]]
 repo             = 'itchyny/vim-parenmatch'
 on_idle          = 1
+hook_add         = 'let g:loaded_matchparen = 1'
 hook_post_source = 'call parenmatch#highlight()'
 
 [[plugins]]
