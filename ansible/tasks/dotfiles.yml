@@ -1,6 +1,4 @@
 ---
-- file: path={{ dotfiles_dir | dirname }} state=directory
-
 - command: git remote -v chdir={{ dotfiles_dir }}
   register: remote_stat
   changed_when: remote_stat.rc not in [0, 1]
