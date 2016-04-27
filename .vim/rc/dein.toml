@@ -135,6 +135,11 @@ hook_add = '''"{{{
 "}}}'''
 
 [[plugins]]
+repo     = 'tmux-plugins/vim-tmux-focus-events'
+if       = '''exists('$TMUX')'''
+hook_add = 'set autoread'
+
+[[plugins]]
 repo     = 'tpope/vim-capslock'
 hook_add = 'imap <C-L> <Plug>CapsLockToggle'
 
