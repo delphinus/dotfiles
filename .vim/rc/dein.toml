@@ -136,7 +136,7 @@ hook_add = '''"{{{
 
 [[plugins]]
 repo     = 'tmux-plugins/vim-tmux-focus-events'
-if       = '''exists('$TMUX')'''
+if       = '''exists('$TMUX') || ! has('gui_running')'''
 hook_add = 'set autoread'
 
 [[plugins]]
