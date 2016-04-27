@@ -10,6 +10,7 @@ set mouse=a                     " あらゆる場面でマウスを有効化
 set clipboard=                  " クリップボードのオプションはなし
 set guioptions=A                " モードレスセレクションに対する自動選択
 set title                       " ウィンドウタイトルを更新する
+set autoread                    " 外部でファイルが変更されていたら自動で読み直す
 
 if has('win32')
   set guifont=Ricty_Discord:h12
