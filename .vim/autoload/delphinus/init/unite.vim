@@ -6,7 +6,7 @@ function! delphinus#init#unite#hook_source() abort
   " ファイル名形式
   let g:neomru#filename_format = ':~:.'
   " プロンプト
-  let g:unite_prompt=' '
+  let g:unite_prompt='❯ '
   " ステータスラインを書き換えない
   let g:unite_force_overwrite_statusline=0
   " ロングリストにたくさんファイルを保存
