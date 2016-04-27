@@ -29,6 +29,15 @@ call s:load_rc('set')                 " オプション設定
 call s:load_rc('term')                " ターミナル固有の設定
 call s:load_rc('commands')            " ユーティリティコマンド
 
+" デフォルトプラグインを無効化
+let g:loaded_getscriptPlugin = 1
+let g:loaded_logipat = 1
+let g:loaded_rrhelper = 1
+let g:loaded_vimballPlugin = 1
+if ! has('gui_running')
+  let g:plugin_scrnmode_disable = 1
+endif
+
 " ローカル設定
 let g:local_vimrc = g:home . '/.vimrc-local'
 if filereadable(g:local_vimrc)
