@@ -1,7 +1,7 @@
 ---
 - command: git remote -v chdir={{ dotfiles_dir }}
   register: remote_stat
-  changed_when: remote_stat.rc not in [0, 1]
+  changed_when: remote_stat.rc != 0 or remote_stat.rc != 1
 
 - command: git remote add github {{ dotfiles_repo_github }} chdir={{ dotfiles_dir }}
   when: remote_stat.stdout.find(dotfiles_repo_github) == -1
