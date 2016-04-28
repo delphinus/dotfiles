@@ -41,6 +41,8 @@ alias pyv='pyenv versions'
 if which pyenv > /dev/null; then eval "$(pyenv init - --no-rehash zsh)"; fi
 if [[ $OSTYPE == darwin* ]]; then
   user_base="$HOME/Library/Python/2.7"
+else
+  user_base="$HOME/.local"
 fi
 export PATH=$user_base/bin:$PATH
 
