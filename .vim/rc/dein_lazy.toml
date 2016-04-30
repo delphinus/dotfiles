@@ -424,33 +424,33 @@ hook_add = '''"{{{
 "}}}'''
 # }}}
 
-# on_idle {{{
+# on_event {{{
 [[plugins]]
-repo    = 'delphinus35/vim-emacscommandline'
-on_idle = 1
+repo     = 'delphinus35/vim-emacscommandline'
+on_event = ['CursorHold']
 
 [[plugins]]
-repo    = 'delphinus35/vim-unimpaired'
-on_idle = 1
+repo     = 'delphinus35/vim-unimpaired'
+on_event = ['CursorHold']
 
 [[plugins]]
-repo    = 'itchyny/vim-cursorword'
-on_idle = 1
+repo     = 'itchyny/vim-cursorword'
+on_event = ['CursorHold']
 
 [[plugins]]
 repo             = 'itchyny/vim-parenmatch'
-on_idle          = 1
+on_event         = ['CursorHold']
 hook_add         = 'let g:loaded_matchparen = 1'
 hook_post_source = 'call parenmatch#highlight()'
 
 [[plugins]]
 repo        = 'sgur/vim-lazygutter'
-on_idle     = 1
+on_event    = ['CursorHold']
 hook_source = 'call delphinus#init#lazygutter#hook_source()'
 
 [[plugins]]
-repo    = 'thinca/vim-visualstar'
-on_idle = 1
+repo     = 'thinca/vim-visualstar'
+on_event = ['CursorHold']
 # }}}
 
 # watchdogs {{{
