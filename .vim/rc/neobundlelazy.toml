@@ -142,8 +142,9 @@ repo   = 'gregsexton/VimCalc'
 on_cmd = ['Calc']
 
 [[plugins]]
-repo   = 'kannokanno/previm'
-on_cmd = ['PrevimOpen']
+repo    = 'kannokanno/previm'
+depends = ['open-browser.vim']
+on_cmd  = ['PrevimOpen']
 
 [[plugins]]
 repo    = 'lambdalisue/vim-gista'
