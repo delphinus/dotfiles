@@ -375,6 +375,12 @@
         <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::SHIFT_L, KeyCode::CURSOR_LEFT, ModifierFlag::SHIFT_L</autogen>
         <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::SHIFT_L, KeyCode::CURSOR_RIGHT, ModifierFlag::SHIFT_L</autogen>
       </item>
+      <item>
+        <name>Shift_R to Fn</name>
+        <appendix>(+ When you type Shift_R only, toggle Vi Mode)</appendix>
+        <identifier>remap.vimode_toggle_shift_r_to_fn</identifier>
+        <autogen>__KeyOverlaidModifier__ KeyCode::SHIFT_R, KeyCode::FN, KeyCode::VK_CONFIG_TOGGLE_notsave_complete_vimode</autogen>
+      </item>
     </list>
   </item>
 </root>
