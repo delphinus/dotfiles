@@ -998,9 +998,6 @@
       <item>
         <name>Shift_R to Fn</name>
         <appendix>(+ When you type Shift_R only, toggle Vi Mode)</appendix>
-        <appendix>(not in terminal &amp; MacVim)</appendix>
-        <not>TERMINAL</not>
-        <not>MACVIM</not>
         <identifier>remap.vimode_toggle_shift_r_to_fn</identifier>
         <autogen>
           __KeyOverlaidModifier__
