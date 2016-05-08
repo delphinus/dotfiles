@@ -208,6 +208,10 @@ hook_add = '''
 hook_post_source = 'call delphinus#init#gista#hook_post_source()'
 
 [[plugins]]
+repo   = 'powerman/vim-plugin-AnsiEsc'
+on_cmd = ['AnsiEsc']
+
+[[plugins]]
 repo   = 'rizzatti/dash.vim'
 on_cmd = ['Dash']
 gui    = 1
@@ -248,10 +252,6 @@ hook_add = '''
   nmap g<CR> <Plug>(openbrowser-smart-search)
   vmap g<CR> <Plug>(openbrowser-smart-search)
 '''
-
-[[plugins]]
-repo   = 'AnsiEsc.vim'
-on_cmd = ['AnsiEsc']
 # }}}
 
 # on_ft {{{
