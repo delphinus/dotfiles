@@ -463,7 +463,7 @@ depends = [
   'shabadou.vim',
   'vim-quickrun',
 ]
-on_idle          = 1
+on_event         = ['FocusLost', 'CursorHold']
 hook_source      = 'call delphinus#init#watchdogs#hook_source()'
 hook_post_source = 'call delphinus#init#watchdogs#hook_post_source()'
 
