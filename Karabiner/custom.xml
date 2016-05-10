@@ -1008,18 +1008,18 @@
       </item>
       <item>
         <name>Move sheets in Google Spreadsheet (Browser only)</name>
-        <appendix>Control_L + Shift_L + X => Command_L + Shift_L + Fn + Up</appendix>
-        <appendix>Control_L + Shift_L + C => Command_L + Shift_L + Fn + Down</appendix>
+        <appendix>Control_L + Command_L + X => Command_L + Shift_L + Fn + Up</appendix>
+        <appendix>Control_L + Command_L + C => Command_L + Shift_L + Fn + Down</appendix>
         <identifier>remap.move_sheets_in_google_spreadsheet</identifier>
         <only>FIREFOX, GOOGLE_CHROME, OPERA, SAFARI</only>
         <autogen>
           __KeyToKey__
-          KeyCode::X, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L,
+          KeyCode::X, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L,
           KeyCode::CURSOR_UP, ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L, ModifierFlag::FN
         </autogen>
         <autogen>
           __KeyToKey__
-          KeyCode::C, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L,
+          KeyCode::C, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L,
           KeyCode::CURSOR_DOWN, ModifierFlag::COMMAND_L, ModifierFlag::SHIFT_L, ModifierFlag::FN
         </autogen>
       </item>
