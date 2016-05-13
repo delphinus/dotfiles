@@ -101,4 +101,9 @@ fi
 export GOPATH=$H/.go
 export PATH=$GOPATH/bin:$PATH
 
+# for hub
+if which hub > /dev/null; then
+  alias git=hub
+fi
+
 export path_in_zshenv=$PATH
