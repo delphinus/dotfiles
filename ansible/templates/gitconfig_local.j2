@@ -12,5 +12,9 @@
 	name = "{{ info.name }}"
 	email = {{ info.email }}
 {% endfor %}
+{%- if ansible_hostname in secret_office.hostnames %}
+[hub]
+	host = {{ secret_hub_host }}
+{% endif %}
 
 # vim:se ft=gitconfig:
