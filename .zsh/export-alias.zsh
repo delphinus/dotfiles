@@ -2,6 +2,7 @@ if [ "$H" != "$HOME" ]; then
   alias vim="/usr/local/bin/vim -u $H/.vim/vimrc"
   alias view="/usr/local/bin/view -u $H/.vim/vimrc"
   alias git="HOME=$H git"
+  alias gh="HOME=$H gh"
   alias ghq="HOME=$H ghq"
   alias tig="HOME=$H tig"
   export VISUAL=view.sh
@@ -37,7 +38,6 @@ alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias g=git
-alias gh=ghq
 alias l.="ls --color -d .*"
 alias lv='lv -c'
 alias nr='npm run'
