@@ -106,6 +106,9 @@ function! LightLineMode()
 endfunction
 
 function! LightLineCharCode()
+  if winwidth(0) <= 70
+    return ''
+  endif
   redir => l:tmp | silent! ascii | redir END
   let m = matchlist(l:tmp, '<\(.\+\)>\s*\(\d\+\)')
   return len(m) > 0 ? printf('%s %X', m[1], m[2]) : ''
