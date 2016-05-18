@@ -447,7 +447,6 @@ hook_post_source = 'call parenmatch#highlight()'
 repo        = 'sgur/vim-lazygutter'
 on_event    = ['FocusLost', 'CursorHold']
 hook_source = 'call delphinus#init#lazygutter#hook_source()'
-hook_add    = 'let g:gitgutter_highlight_lines = 1'
 
 [[plugins]]
 repo     = 'thinca/vim-visualstar'
