@@ -50,6 +50,3 @@ alias minvim='vim -N -u NONE -u NONE -i NONE --noplugin'
 alias ra=ranger
 
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
-
-# TODO: https://github.com/peco/peco/issues/283
-alias peco='peco --layout=bottom-up'
