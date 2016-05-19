@@ -38,7 +38,7 @@ alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
 alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias g=git
-alias l.="ls --color -d .*"
+alias l.="ls -d .*"
 alias lv='lv -c'
 alias nr='npm run'
 alias ns='npm start'
