@@ -76,9 +76,9 @@
 [tig "bind"]
 	generic = G none
 [pager]
-	log  = diff-highlight | lv -c
-	show = diff-highlight | lv -c
-	diff = diff-highlight | lv -c
+	log  = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less
 [ghq]
 	root = ~/git
 	root = ~/.cache/dein/repos
