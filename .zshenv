@@ -106,4 +106,10 @@ if which hub > /dev/null; then
   alias git=hub
 fi
 
+# for nvm
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR=$HOME/.nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+fi
+
 export path_in_zshenv=$PATH
