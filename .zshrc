@@ -100,6 +100,11 @@ if [ -f "$zshrc_local" ]; then
   . $zshrc_local
 fi
 
+# for vim solarized
+if [ -z "$TERM_PROGRAM" ]; then
+  export TERM_PROGRAM=iTerm.app
+fi
+
 if type zprof > /dev/null 2>&1; then
   zprof | less
 fi
