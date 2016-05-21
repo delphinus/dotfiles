@@ -24,14 +24,14 @@ if has('win32')
 elseif has('macunix')
   let s:resolution = system("osascript -e 'tell application " . '"Finder"' . " to get bounds of window of desktop' | awk -F', ' '{print $3}'")
   if s:resolution == 2560
-    set guifont=Hack:h16
-    set guifontwide=Ricty_Discord:h18
+    set guifont=Iosevka_Nerd_Font:h16
+    set guifontwide=Inziu_Iosevka_J:h16
   elseif s:resolution == 1366
-    set guifont=Hack:h18
-    set guifontwide=Ricty_Discord:h20
+    set guifont=Iosevka_Nerd_Font:h16
+    set guifontwide=Inziu_Iosevka_J:h16
   else
-    set guifont=Ricty_Discord:h16
-    set guifontwide=Ricty_Discord:h16
+    set guifont=Iosevka_Nerd_Font:h13
+    set guifontwide=Inziu_Iosevka_J:h13
   endif
   set lines=92 columns=190          " ウィンドウの大きさを指定する
   set linespace=0
@@ -39,7 +39,9 @@ elseif has('macunix')
   set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
   set macmeta                       " option キーを alt キーとして使う
   set transparency=0                " 画面を半透明にしない
+  set macligatures                  " リガチャ（合字）を使う
+  set listchars=tab:░\ ,trail:░,eol:₊,extends:→,precedes:←,nbsp:¯
 endif
 
 colorscheme solarized
-set background=dark
+set background=light
