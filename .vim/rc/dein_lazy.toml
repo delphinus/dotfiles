@@ -38,6 +38,7 @@ rev      = '8772648d551c75adeeeed82fd115253617845b97'
 hook_add = '''"{{{
   noremap za :Unite file_rec/async<CR>
   noremap zd :Unite dwm<CR>
+  noremap zD :Unite dein/log<CR>
   noremap zf :Unite qfixhowm/new qfixhowm<CR>
   noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
   noremap zg :Unite file_rec/git<CR>
