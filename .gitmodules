@@ -28,4 +28,4 @@
 [submodule ".zprezto"]
 	path = .zprezto
 	url = https://github.com/delphinus35/prezto
-	branch = feature/perl
+	branch = feature/custom
