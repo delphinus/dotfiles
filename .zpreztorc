@@ -42,7 +42,8 @@ zstyle ':prezto:load' pmodule \
   'syntax-highlighting' \
   'git' \
   'ruby' \
-  'perl'
+  'perl' \
+  'deer'
 
 #
 # Autosuggestions
