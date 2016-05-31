@@ -2,13 +2,13 @@ scriptencoding utf-8
 
 function! delphinus#init#qfixhowm#hook_source() abort
   " QFixMemo 設定
-  let g:dropbox_dir = isdirectory('/mnt/hgfs') ? '/mnt/hgfs/Dropbox' : expand(g:home . '/Dropbox')
+  let g:owncloud_dir = isdirectory('/mnt/hgfs') ? '/mnt/hgfs/ownCloud' : expand(g:home . '/ownCloud')
 
   " キーマップリーダー
   let g:QFixHowm_Key='g'
   " ファイル保存用
-  if isdirectory(g:dropbox_dir)
-    let g:howm_dir = g:dropbox_dir . '/Documents/howm'
+  if isdirectory(g:owncloud_dir)
+    let g:howm_dir = g:owncloud_dir . '/Documents/howm'
   else
     let g:howm_dir = expand('$H') . '/howm'
   endif
