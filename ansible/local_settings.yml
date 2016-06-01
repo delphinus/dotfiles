@@ -9,5 +9,4 @@
   tasks:
     - include: tasks/dotfiles.yml
     - include: tasks/secrets.yml
-    - include: tasks/env.yml
     - include: tasks/terminfo.yml
