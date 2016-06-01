@@ -28,3 +28,7 @@ data.location=~/.task
 #include /usr/local/Cellar/task/2.5.1/share/doc/task/rc/solarized-dark-256.theme
 #include /usr/local/Cellar/task/2.5.1/share/doc/task/rc/solarized-light-256.theme
 #include /usr/local/Cellar/task/2.5.1/share/doc/task/rc/no-color.theme
+
+include /usr/local/opt/task/share/doc/task/rc/holidays.jp-JP.rc
+include /usr/local/opt/task/share/doc/task/rc/solarized-light-256.theme
+calendar.holidays=full
