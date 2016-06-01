@@ -21,6 +21,7 @@
     - .myclirc
     - .proverc
     - .ptconfig.toml
+    - .taskrc
     - .tern-project
     - .tmux
     - .tmux.conf
