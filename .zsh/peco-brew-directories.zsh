@@ -6,7 +6,7 @@ function peco-brew-directories () {
   fi
 }
 zle -N peco-brew-directories
-bindkey '^k' peco-brew-directories
+#bindkey '^k' peco-brew-directories
 
 function peco-brew-directories-dir () {
   local current_buffer=$BUFFER
