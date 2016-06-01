@@ -11,6 +11,11 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+# change shortcut for deer on prezto
+bindkey -r '\ek'
+bindkey '^k' deer
+
 source $H/git/dotfiles/.zsh/basic.zshrc
 source $H/git/dotfiles/.zsh/peco-select-history.zsh
 source $H/git/dotfiles/.zsh/peco-git.zsh
