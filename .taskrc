@@ -34,3 +34,5 @@ include /usr/local/opt/task/share/doc/task/rc/solarized-light-256.theme
 calendar.holidays=full
 alias.lw=list pro=work
 alias.lh=list pro=home
+alias.aw=add pro=work
+alias.ah=add pro=home
