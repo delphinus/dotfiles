@@ -32,3 +32,5 @@ data.location=~/.task
 include /usr/local/opt/task/share/doc/task/rc/holidays.jp-JP.rc
 include /usr/local/opt/task/share/doc/task/rc/solarized-light-256.theme
 calendar.holidays=full
+alias.lw=list pro=work
+alias.lh=list pro=home
