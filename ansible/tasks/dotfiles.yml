@@ -7,7 +7,9 @@
   when: remote_stat.stdout.find(dotfiles_repo_public) == -1
 
 - file: path={{ home_dir }}/.config state=directory
-- file: src={{ '/'.join([dotfiles_dir, item]) }} dest={{ home_dir }}/{{ item }} state=link force=yes
+
+- name: make dotfiles symlink
+  file: src={{ '/'.join([dotfiles_dir, item]) }} dest={{ home_dir }}/{{ item }} state=link force=yes
   with_items:
     - .bash_profile
     - .config/ipython
@@ -34,13 +36,16 @@
     - .zprofile
     - .zshenv
     - .zshrc
-- file: >-
+
+- name: symlink dircolors
+  file: >-
     src={{ '/'.join([dotfiles_dir, 'submodules/dircolors-solarized/dircolors.ansi-light']) }}
     dest={{ home_dir }}/.dir_colors
     state=link
     force=yes
 
-- file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
+- name: symlink .grcat
+  file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
   with_items:
     - .grcat
 
