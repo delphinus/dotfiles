@@ -18,6 +18,7 @@
     - .config/ranger
     - .editrc
     - .gitconfig
+    - .grcat
     - .inputrc
     - .jshintrc
     - .myclirc
@@ -54,11 +55,6 @@
     dest={{ home_dir }}/.dir_colors
     state=link
     force=yes
-
-- name: symlink .grcat
-  file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
-  with_items:
-    - .grcat
 
 - file: path='{{ home_dir }}/Library/Application Support/Karabiner' state=directory
   when: ansible_system == 'Darwin'
