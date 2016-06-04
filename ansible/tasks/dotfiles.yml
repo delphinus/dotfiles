@@ -43,7 +43,7 @@
   register: task_st
 - name: symlink task dir
   file: >-
-    src={{ home_dir }}/ownCloud/Documents/task
+    src={{ '/'.join([home_dir, 'ownCloud/Documents/task']) }}
     dest={{ home_dir }}/.task
     state=link
     force=yes
