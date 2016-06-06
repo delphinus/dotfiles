@@ -36,4 +36,7 @@ alias.lw=list pro=work
 alias.lh=list pro=home
 alias.aw=add pro=work
 alias.ah=add pro=home
+alias.bd=burndown.daily
+alias.bw=burndown.weekly
+alias.bm=burndown.monthly
 color.due=color8
