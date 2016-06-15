@@ -224,7 +224,7 @@ on_cmd = ['GundoToggle']
 repo        = 'thinca/vim-fontzoom'
 on_cmd      = ['Fontzoom']
 on_map      = ['<Plug>(fontzoom-']
-gui         = 1
+if          = '''has('gui')'''
 hook_add    = '''"{{{
   nmap <unique> <silent> + <Plug>(fontzoom-larger)
   nmap <unique> <silent> - <Plug>(fontzoom-smaller)
