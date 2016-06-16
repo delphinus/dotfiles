@@ -77,9 +77,11 @@
 [tig "bind"]
 	generic = G none
 [pager]
-	log  = diff-highlight | less
-	show = diff-highlight | less
-	diff = diff-highlight | less
+	log  = diff-so-fancy | less
+	show = diff-so-fancy | less
+	diff = diff-so-fancy | less
+[interactive]
+	diffFilter = diff-so-fancy
 [ghq]
 	root = ~/git
 	root = ~/.cache/dein/repos
