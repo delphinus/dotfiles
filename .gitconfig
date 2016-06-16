@@ -7,6 +7,11 @@
 	diff = auto
 	branch = auto
 	grep = auto
+[color "diff-highlight"]
+	oldNormal = red
+	oldHighlight = 160 bold white
+	newNormal = green
+	newHighlight = 65 bold white
 [grep]
 	lineNumber = true
 [alias]
