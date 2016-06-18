@@ -1024,6 +1024,72 @@
         </autogen>
       </item>
       <item>
+        <name>Move between windows in tmux</name>
+        <appendix>Control_L + 0 .. 9 => Control_L + Z, 0 .. 9</appendix>
+        <identifier>remap.move_between_windows_in_tmux</identifier>
+        <only>TERMINAL</only>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_0, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_0
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_1, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_1
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_2, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_2
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_3, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_3
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_4, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_4
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_5, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_5
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_6, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_6
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_7, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_7
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_8, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_8
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_9, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::KEY_9
+        </autogen>
+      </item>
+      <item>
         <name>Move between panes in tmux</name>
         <appendix>Control_L + Option_L + 0 .. 9 => Control_L + Z, Q, 0 .. 9</appendix>
         <identifier>remap.move_between_panes_in_tmux</identifier>
