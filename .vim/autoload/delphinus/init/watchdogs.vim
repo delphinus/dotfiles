@@ -28,23 +28,6 @@ function! delphinus#init#watchdogs#hook_source() abort
     let g:quickrun_config['watchdogs_checker/ruby'] = {'command': s:rbenv_ruby}
   endif
 
-  let s:phpcs = expand(g:home . '/.composer/vendor/bin/phpcs')
-  if executable(s:phpcs)
-    let s:errorformat =
-          \ '%-GFile\,Line\,Column\,Type\,Message\,Source\,Severity%.%#,'.
-          \ '"%f"\,%l\,%c\,%t%*[a-zA-Z]\,"%m"\,%*[a-zA-Z0-9_.-]\,%*[0-9]%.%#'
-    let g:quickrun_config['watchdogs_checker/php'] = {
-          \ 'quickfix/errorformat': s:errorformat,
-          \ 'command':              s:phpcs,
-          \ 'cmdopt':               '--report=csv',
-          \ 'exec':                 '%c %o %s:p',
-          \ }
-    let g:quickrun_config['php.wordpress/watchdogs_checker'] = {
-          \ 'type':   'watchdogs_checker/php',
-          \ 'cmdopt': '--report=csv --standard=WordPress-Extra',
-          \ }
-  endif
-
   " Use tsuquyomi syntax check instead of watchdogs
   let g:watchdogs_check_BufWritePost_enables = {
         \ 'typescript': 0,
