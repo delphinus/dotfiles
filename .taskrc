@@ -39,3 +39,4 @@ alias.ah=add pro=home
 alias.bd=burndown.daily
 alias.bw=burndown.weekly
 alias.bm=burndown.monthly
+rule.precedence.color=deleted,completed,active,keyword.,tag.,project.,overdue,scheduled,blocked,blocking,due.today,due,recurring,tagged,uda.
