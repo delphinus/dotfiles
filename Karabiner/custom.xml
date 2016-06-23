@@ -1241,6 +1241,82 @@
           KeyCode::KEY_9
         </autogen>
       </item>
+      <item>
+        <name>Move between panes in tmux (alternative 2)</name>
+        <appendix>Control_L + 0 .. 9 => Control_L + Z, Q, 0 .. 9</appendix>
+        <identifier>remap.move_between_panes_in_tmux_alternative_2</identifier>
+        <only>TERMINAL</only>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_0, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_0
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_1, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_1
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_2, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_2
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_3, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_3
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_4, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_4
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_5, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_5
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_6, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_6
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_7, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_7
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_8, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_8
+        </autogen>
+        <autogen>
+          __KeyToKey__
+          KeyCode::KEY_9, ModifierFlag::CONTROL_L,
+          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::Q,
+          KeyCode::KEY_9
+        </autogen>
+      </item>
     </list>
   </item>
 </root>
