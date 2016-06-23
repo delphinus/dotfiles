@@ -40,3 +40,6 @@ alias.bd=burndown.daily
 alias.bw=burndown.weekly
 alias.bm=burndown.monthly
 rule.precedence.color=deleted,completed,active,keyword.,tag.,project.,overdue,scheduled,blocked,blocking,due.today,due,recurring,tagged,uda.
+color.due=color3
+color.calendar.due=color7 on color3
+color.calendar.holiday=color7 on color6
