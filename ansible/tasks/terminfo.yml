@@ -2,7 +2,7 @@
 - name: detect xterm-256color-italic terminfo
   shell: infocmp xterm-256color-italic
   register: term_st
-  failed_when: term_st.rc not in [0, 1]
+  failed_when: term_st.rc != 0 and term_st.rc != 1
   changed_when: false
 
 - template: >-
