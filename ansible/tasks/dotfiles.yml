@@ -24,7 +24,6 @@
     - .myclirc
     - .proverc
     - .ptconfig.toml
-    - .taskrc
     - .tern-project
     - .tmux
     - .tmux.conf
@@ -37,17 +36,6 @@
     - .zprofile
     - .zshenv
     - .zshrc
-
-- name: stat task dir
-  stat: path={{ home_dir }}/ownCloud/Documents/task
-  register: task_st
-- name: symlink task dir
-  file: >-
-    src={{ '/'.join([home_dir, 'ownCloud/Documents/task']) }}
-    dest={{ home_dir }}/.task
-    state=link
-    force=yes
-  when: task_st.stat.isdir
 
 - name: symlink dircolors
   file: >-
