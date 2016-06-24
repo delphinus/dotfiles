@@ -84,3 +84,4 @@ python_modules:
   - git+https://github.com/omega/powerlinex-segment-plenv
 python_modules_with_compiling:
   - pygit2
+task_rc_dir: '{{ "/usr/local/opt/task/rc" if ansible_system == "Darwin" else "/usr/local/share/doc/task/rc" }}'
