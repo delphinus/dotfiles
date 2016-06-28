@@ -32,10 +32,12 @@ data.location=~/.task
 include {{ task_rc_dir }}/holidays.jp-JP.rc
 include {{ task_rc_dir }}/solarized-light-256.theme
 calendar.holidays=full
-alias.lw=list pro=work
-alias.lh=list pro=home
-alias.aw=add pro=work
-alias.ah=add pro=home
+alias.lw=list pro=work and ( pri=M or pri=H or pri= )
+alias.lh=list pro=home and ( pri=M or pri=H or pri= )
+alias.lwa=list pro=work
+alias.lha=list pro=home
+alias.aw=add pro=work pri=M
+alias.ah=add pro=home pri=M
 alias.bd=burndown.daily
 alias.bw=burndown.weekly
 alias.bm=burndown.monthly
