@@ -27,6 +27,7 @@ export PATH="\
 $H/Dropbox/bin:\
 $H/bin:\
 $H/git/dotfiles/bin:\
+$H/.ghg/bin:\
 $PATH"
 
 # for python
