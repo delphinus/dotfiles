@@ -42,5 +42,9 @@ function! delphinus#gista#open_browser() abort
 endfunction
 
 function! delphinus#gista#_open_browser(candidate) abort
-  call openbrowser#open(a:candidate.action__uri)
+  if delphinus#fssh#is_enabled()
+    call delphinus#fssh#open(a:candidate.action__uri)
+  else
+    call openbrowser#open(a:candidate.action__uri)
+  endif
 endfunction
