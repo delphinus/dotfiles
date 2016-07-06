@@ -293,9 +293,8 @@ repo      = 'basyura/unite-rails'
 
 [[plugins]]
 repo      = 'lambdalisue/vim-gista-unite'
-hook_add = '''
-  let g:gista#default_yank_method = 'url'
-  let g:gista#auto_yank_after_post = 1
+hook_post_source = '''
+  call unite#custom#default_action('gista', 'narrow')
 '''
 
 [[plugins]]
