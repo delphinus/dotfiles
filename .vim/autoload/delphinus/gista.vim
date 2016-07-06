@@ -9,7 +9,7 @@ function! delphinus#gista#yank_url_to_system_clipboard() abort
         \ 'description':   'yank a gist url to system clipboard',
         \ }
 
-  if has('clipboard')
+  if has('clipboard') && has('macunix')
     let l:gista_action.func = function('delphinus#gista#star_register')
   else
     let l:gista_action.func = function('delphinus#gista#external')
@@ -19,16 +19,17 @@ function! delphinus#gista#yank_url_to_system_clipboard() abort
 endfunction
 
 function! delphinus#gista#star_register(candidate) abort
-  let l:gist = gista#command#browse#call({'gist': a:candidate.source__entry})
-  let @* = l:gist.url
+  let @* = a:candidate.action__uri
 endfunction
 
 function! delphinus#gista#external(candidate) abort
-  let l:gist = gista#command#browse#call({'gist': a:candidate.source__entry})
+  let l:uri = a:candidate.action__uri
   if s:F.which('pbcopy') !=# ''
-    call system(printf('echo "%s" | pbcopy', l:gist.url))
+    call system(printf('echo -n "%s" | pbcopy', l:uri))
+    echo printf('copy to system clipboard with pbcopy: %s', l:uri)
   elseif s:F.which('ui_copy') !=# ''
-    call system(printf('echo "%s" | ui_copy', l:gist.url))
+    call system(printf('echo "%s" | ui_copy', l:uri))
+    echo printf('copy to system clipboard with fssh: %s', l:uri)
   endif
 endfunction
 
@@ -41,6 +42,5 @@ function! delphinus#gista#open_browser() abort
 endfunction
 
 function! delphinus#gista#_open_browser(candidate) abort
-  let l:gista = gista#command#browse#call({'gist': a:candidate.source__entry})
-  call openbrowser#open(l:gista.url)
+  call openbrowser#open(a:candidate.action__uri)
 endfunction
