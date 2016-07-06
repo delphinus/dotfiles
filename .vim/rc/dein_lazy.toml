@@ -247,6 +247,7 @@ on_cmd = ['Capture']
 [[plugins]]
 repo     = 'tyru/open-browser.vim'
 on_cmd   = ['OpenBrowser', 'OpenBrowserSearch']
+on_func  = ['openbrowser#open']
 on_map   = ['<Plug>(openbrowser-']
 hook_add = '''
   nmap g<CR> <Plug>(openbrowser-smart-search)
