@@ -30,3 +30,6 @@ augroup SetMappingForView
   autocmd!
   autocmd VimEnter * if &readonly | nnoremap q :<C-u>qa<CR> | endif
 augroup END
+
+" オリジナル関数のマッピング
+nmap Y <Plug>DelphinusFsshCopy

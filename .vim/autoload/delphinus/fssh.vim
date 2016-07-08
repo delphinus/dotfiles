@@ -17,3 +17,17 @@ endfunction
 function! delphinus#fssh#open(url) abort
   call delphinus#fssh#execute('open ' . a:url)
 endfunction
+
+function! delphinus#fssh#copy() abort
+  if ! delphinus#fssh#is_enabled()
+    echoerr 'fssh is not enabled!'
+    return
+  endif
+
+  let l:error = systemlist('ui_copy 2>&1', split(@", '\n'))
+  if len(l:error)
+    echoerr string(l:error)
+  else
+    echo 'copied from @" to system clipboard'
+  endif
+endfunction
