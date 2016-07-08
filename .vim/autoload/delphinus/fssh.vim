@@ -24,7 +24,7 @@ function! delphinus#fssh#copy() abort
     return
   endif
 
-  let l:error = systemlist('ui_copy 2>&1', split(@", '\n'))
+  let l:error = systemlist('ui_copy', split(@", '\n'))
   if len(l:error)
     echoerr string(l:error)
   else
