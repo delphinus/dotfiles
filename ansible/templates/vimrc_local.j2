@@ -9,3 +9,5 @@ endif
 if index(['{{ secret_office.vm_hostnames | join("', '") }}'], hostname()) > -1
 {{ secret_vim_setting }}
 endif
+
+let g:WebDevIconsOS = '{{ ansible_system }}'
