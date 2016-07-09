@@ -56,12 +56,7 @@
           __KeyToKey__
           KeyCode::TAB, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
-          KeyCode::TAB
-        </autogen>
-        <autogen>
-          __KeyToKey__
-          KeyCode::TAB, ModifierFlag::CONTROL_R,
-          KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::TAB
         </autogen>
       </item>
@@ -74,60 +69,70 @@
           __KeyToKey__
           KeyCode::KEY_0, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_0
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_1, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_1
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_2, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_2
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_3, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_3
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_4, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_4
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_5, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_5
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_6, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_6
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_7, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_7
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_8, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_8
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_9, ModifierFlag::CONTROL_L,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_9
         </autogen>
       </item>
@@ -140,70 +145,90 @@
           __KeyToKey__
           KeyCode::KEY_0, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_0
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_1, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_1
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_2, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_2
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_3, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_3
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_4, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_4
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_5, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_5
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_6, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_6
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_7, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_7
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_8, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_8
         </autogen>
         <autogen>
           __KeyToKey__
           KeyCode::KEY_9, ModifierFlag::COMMAND_R,
           KeyCode::Z, ModifierFlag::CONTROL_L,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::Q,
+          KeyCode::VK_WAIT_50MS,
           KeyCode::KEY_9
         </autogen>
       </item>
