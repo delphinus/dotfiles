@@ -28,7 +28,7 @@ function! delphinus#gista#external(candidate) abort
     call system(printf('echo -n "%s" | pbcopy', l:uri))
     echo printf('copy to system clipboard with pbcopy: %s', l:uri)
   elseif s:F.which('ui_copy') !=# ''
-    call system(printf('echo "%s" | ui_copy', l:uri))
+    call system(printf('echo -n "%s" | ui_copy', l:uri))
     echo printf('copy to system clipboard with fssh: %s', l:uri)
   endif
 endfunction
