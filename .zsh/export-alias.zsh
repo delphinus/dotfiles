@@ -1,12 +1,16 @@
 if [ "$H" != "$HOME" ]; then
   alias vim="/usr/local/bin/vim -u $H/.vim/vimrc"
   alias view="/usr/local/bin/view -u $H/.vim/vimrc"
-  alias git="HOME=$H git"
   alias gh="HOME=$H gh"
   alias ghq="HOME=$H ghq"
   alias tig="HOME=$H tig"
   export VISUAL=view.sh
   export EDITOR=vim.sh
+  if which hub > /dev/null; then
+    alias git="HOME=$H hub"
+  else
+    alias git="HOME=$H git"
+  fi
 else
   export VISUAL=view
   export EDITOR=vim
