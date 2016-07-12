@@ -3,6 +3,7 @@ if [ "$H" != "$HOME" ]; then
   alias view="/usr/local/bin/view -u $H/.vim/vimrc"
   alias gh="HOME=$H gh"
   alias ghq="HOME=$H ghq"
+  alias ghg="HOME=$H ghg"
   alias tig="HOME=$H tig"
   export VISUAL=view.sh
   export EDITOR=vim.sh
