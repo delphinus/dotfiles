@@ -108,8 +108,8 @@ if which hub > /dev/null; then
 fi
 
 # for nvm
-if [ -d "$HOME/.nvm" ]; then
-  export NVM_DIR=$HOME/.nvm
+if [ -d "$H/.nvm" ]; then
+  export NVM_DIR=$H/.nvm
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 fi
 
