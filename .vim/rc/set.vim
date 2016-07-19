@@ -95,7 +95,7 @@ if exists('$TMUX') || &term =~# '^screen'
 
   " dvtm の場合
 elseif &term =~# 'dvtm'
-  ' ウィンドウタイトルを変える
+  " ウィンドウタイトルを変える
   let &t_IS = '\e]1;'
   let &t_ts = '\e]0;'
   let &t_fs = '\007'
