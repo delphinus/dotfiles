@@ -48,6 +48,7 @@ hook_add = '''"{{{
   noremap zl :Unite outline<CR>
   noremap zn :UniteWithBufferDir -buffer-name=files file file/new<CR>
   noremap zu :Unite bundler<CR>
+  noremap zU :UniteResume<CR>
   noremap zT :Unite tab<CR>
   noremap zN :Unite -buffer-name=files file file/new<CR>
   noremap zp :Unite dwm buffer_tab file_mru:long<CR>
