@@ -181,8 +181,7 @@ repo = 'cespare/vim-toml'
 repo = 'delphinus35/perl-test-base.vim'
 
 [[plugins]]
-repo = 'delphinus35/typescript-vim'
-rev  = 'colorize-template-strings'
+repo = 'leafgarland/typescript-vim'
 
 [[plugins]]
 repo     = 'delphinus35/vim-markdown'
