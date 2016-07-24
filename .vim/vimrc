@@ -18,9 +18,7 @@ let g:vim_home = g:home . '/.vim'
 let g:rc_dir   = g:vim_home . '/rc'
 execute 'set runtimepath+=' . g:vim_home . '/after'
 
-function s:load_rc(file)
-  execute 'source ' . g:rc_dir . '/' . a:file . '.vim'
-endfunction
+let s:load_rc = {file -> execute('source' . g:rc_dir . '/' . file . '.vim')}
 
 call s:load_rc('vimrc')               " $VIM/vimrc から抽出した設定
 call s:load_rc('dein')                " プラグインの読み込み
