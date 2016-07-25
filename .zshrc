@@ -91,13 +91,8 @@ if [ -d "$node_dir" ]; then
 fi
 
 # fssh
-if [ -z "$TMUX" -a -n "$LC_FSSH_PORT" ]; then
-  local fssh_env=$H/git/dotfiles/bin/fssh_env
-  if [ -f "$fssh_env" ]; then
-    rm -f $fssh_env
-  fi
-  env | grep FSSH | ruby -pe '$_.sub!(/^(LC_FSSH_[A-Z_]*)=(.*)$/) { %Q[export #$1="#$2"] }' > $fssh_env
-  chmod +x $fssh_env
+if [ -n "$TMUX" ]; then
+  $H/git/dotfiles/bin/set_env_for_fssh.rb
 fi
 
 # local settings
