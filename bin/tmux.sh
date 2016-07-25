@@ -14,6 +14,7 @@ if [ -z "$tmux_cmd" ]; then
   tmux_cmd="tmux -u2 -f $HOME/.tmux.conf"
 fi
 if $(tmux has-session 2> /dev/null); then
+  $H/git/dotfiles/bin/set_env_for_fssh.rb
   $tmux_cmd attach $@
 else
   $tmux_cmd $@
