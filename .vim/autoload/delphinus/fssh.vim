@@ -14,13 +14,15 @@ function! delphinus#fssh#is_enabled() abort
 endfunction
 
 function! delphinus#fssh#execute(command) abort
+  let l:tmpfile = tempname()
+  call writefile([a:command], l:tmpfile)
   let l:env = delphinus#fssh#fetch_env()
-  let l:cmd = printf('ssh -p %d -l %s %s localhost PATH=%s %s',
+  let l:cmd = printf("ssh -p %d -l %s %s localhost PATH=%s 'bash -s' < %s",
         \ l:env['LC_FSSH_PORT'],
         \ l:env['LC_FSSH_USER'],
         \ l:env['LC_FSSH_COPY_ARGS'],
         \ l:env['LC_FSSH_PATH'],
-        \ a:command,
+        \ l:tmpfile,
         \ )
   echo 'fssh execute: ' . a:command
   call system(l:cmd)
