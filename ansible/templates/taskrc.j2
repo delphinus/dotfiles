@@ -33,11 +33,13 @@ include {{ task_rc_dir }}/holidays.jp-JP.rc
 include {{ task_rc_dir }}/solarized-light-256.theme
 calendar.holidays=full
 alias.lw=list pro=work and ( pri=M or pri=H or pri= )
-alias.lh=list pro=home and ( pri=M or pri=H or pri= )
+alias.lh=list pro=home and ( pri=M or pri=H or pri= ) tag!={{ secret_task_tag }}
+alias.lht=list pro=home and ( pri=M or pri=H or pri= ) tag={{ secret_task_tag }}
 alias.lwa=list pro=work
 alias.lha=list pro=home
 alias.aw=add pro=work pri=M
 alias.ah=add pro=home pri=M
+alias.aht=add pro=home pri=M tag={{ secret_task_tag }}
 alias.bd=burndown.daily
 alias.bw=burndown.weekly
 alias.bm=burndown.monthly
