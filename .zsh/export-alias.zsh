@@ -44,6 +44,7 @@ alias dvim="dtach -A /tmp/vim-session -e \^\^ vim"
 alias dvtm="SHELL=/bin/zsh dvtm -m ^z"
 alias g=git
 alias l.="ls -d .*"
+alias le='less -L'
 alias lv='lv -c'
 alias nr='npm run'
 alias ns='npm start'
