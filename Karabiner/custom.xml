@@ -338,22 +338,6 @@
         </autogen>
       </item>
       <item>
-        <name>C-J, C-K to O-S-Down, O-S-Up</name>
-        <appendix>(for contexts)</appendix>
-        <identifier>remap.app_contexts_selector</identifier>
-        <only>CONTEXTS</only>
-        <autogen>
-          __KeyToKey__
-          KeyCode::J, ModifierFlag::CONTROL_L,
-          KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L
-        </autogen>
-        <autogen>
-          __KeyToKey__
-          KeyCode::K, ModifierFlag::CONTROL_L,
-          KeyCode::CURSOR_UP, ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L
-        </autogen>
-      </item>
-      <item>
         <name>O-ESCAPE to O-JIS_EISUU</name>
         <appendix>(for contexts)</appendix>
         <identifier>remap.app_contexts_app_changeer</identifier>
