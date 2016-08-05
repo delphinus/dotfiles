@@ -28,12 +28,14 @@ function! delphinus#init#watchdogs#hook_source() abort
     let g:quickrun_config['watchdogs_checker/ruby'] = {'command': s:rbenv_ruby}
   endif
 
-  " Use tsuquyomi syntax check instead of watchdogs
+  " Use other plugin syntax check instead of watchdogs
   let g:watchdogs_check_BufWritePost_enables = {
         \ 'typescript': 0,
+        \ 'go': 0,
         \ }
   let g:watchdogs_check_CursorHold_enables = {
         \ 'typescript': 0,
+        \ 'go': 0,
         \ }
 endfunction
 
