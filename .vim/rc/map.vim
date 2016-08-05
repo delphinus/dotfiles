@@ -7,7 +7,9 @@ set timeoutlen=300
 set ttimeoutlen=10
 
 nnoremap <C-D> 3<C-D>
+vnoremap <C-D> 3<C-D>
 nnoremap <C-U> 3<C-U>
+vnoremap <C-U> 3<C-U>
 " * 設定
 nnoremap * *N
 " QuickFix リスト切り替え
