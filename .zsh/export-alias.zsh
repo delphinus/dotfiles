@@ -25,7 +25,7 @@ export GREP_OPTIONS="--color=auto"
 export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 
 if [[ $OSTYPE == darwin* ]]; then
-  alias psl='ps -arcwwwxo "pid command %cpu %mem" | grep -v grep | head -13'
+  alias psl='ps -arcwwwxo "pid command %cpu %mem" | perl -pe "s/%(?=(?:cpu|mem))/ /ig" | grep -v grep | head -13'
   alias brew='TERM=xterm-256color brew'
   alias vagrant='TERM=xterm-256color vagrant'
 fi
