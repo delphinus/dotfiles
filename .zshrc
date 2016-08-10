@@ -106,6 +106,10 @@ if [ -z "$TERM_PROGRAM" ]; then
   export TERM_PROGRAM=iTerm.app
 fi
 
+# for GnuPG
+# http://unix.stackexchange.com/questions/257061/gentoo-linux-gpg-encrypts-properly-a-file-passed-through-parameter-but-throws-i
+export GPG_TTY=$(tty)
+
 if type zprof > /dev/null 2>&1; then
   zprof | less
 fi
