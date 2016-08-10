@@ -58,6 +58,7 @@
 [user]
 	email = delphinus@remora.cx
 	name = delphinus
+	signingkey = 32AB0B4F
 [github]
 [core]
 	excludesfile = ~/git/dotfiles/.gitignore-global
@@ -102,5 +103,8 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
+
+[gpg]
+	program = gpg2
 
 # vim:se noet:
