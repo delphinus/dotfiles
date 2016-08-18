@@ -102,6 +102,14 @@ fi
 export GOPATH=$H/.go
 export PATH=$GOPATH/bin:$PATH
 
+#if [ -d /usr/local/opt/goenv ]; then
+#  export GOENV_ROOT=/usr/local/opt/goenv
+#else
+#  export GOENV_ROOT=$H/.goenv
+#fi
+#export PATH=$GOENV_ROOT/bin:$PATH
+#if which goenv > /dev/null; then eval "$(goenv init - --no-rehash zsh)"; fi
+
 # for hub
 if which hub > /dev/null; then
   alias git=hub
