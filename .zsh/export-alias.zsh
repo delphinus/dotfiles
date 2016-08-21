@@ -54,5 +54,6 @@ alias tm="tmux_cmd='tmux -u2 -f $H/git/dotfiles/.tmux.conf' tmux.sh"
 alias vp=vimpager
 alias minvim='vim -N -u NONE -u NONE -i NONE --noplugin'
 alias ra=ranger
+alias pipes='pipes.sh -p 2 -t "c┃╭ ╮╯━╮  ╰┃╯╰ ╭━"'
 
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
