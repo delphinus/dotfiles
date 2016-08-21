@@ -18,16 +18,6 @@ if = '''! (has('macunix') && has('kaoriya') && isdirectory(expand('$VIM/plugins/
 hook_post_update = 'call delphinus#init#vimproc#hook_post_update()'
 
 [[plugins]]
-repo     = 'delphinus35/vim-colors-solarized'
-rev      = 'for-hydrozen-fork'
-hook_add = 'let g:solarized_menu = 0'
-
-[[plugins]]
-repo  = 'lifepillar/vim-solarized8'
-hook_add = 'let g:solarized_term_italics = 1'
-on_if = '''has('termguicolors')'''
-
-[[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''"{{{
 let g:lightline = {
@@ -167,6 +157,18 @@ repo = 'tpope/vim-repeat'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
+# }}}
+
+# colorscheme {{{
+[[plugins]]
+repo     = 'delphinus35/vim-colors-solarized'
+rev      = 'for-hydrozen-fork'
+hook_add = 'let g:solarized_menu = 0'
+
+[[plugins]]
+repo     = 'lifepillar/vim-solarized8'
+hook_add = 'let g:solarized_term_italics = 1'
+on_if    = '''has('termguicolors')'''
 # }}}
 
 # syntax {{{
