@@ -167,8 +167,17 @@ hook_add = 'let g:solarized_menu = 0'
 
 [[plugins]]
 repo     = 'lifepillar/vim-solarized8'
-hook_add = 'let g:solarized_term_italics = 1'
 on_if    = '''has('termguicolors')'''
+hook_add = '''
+  let g:solarized_diffmode = 'normal'
+  let g:solarized_visibility = 'normal'
+  let g:solarized_term_italics = 1
+
+  nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
+      \ ? substitute(g:colors_name, 'dark', 'light', '')
+      \ : substitute(g:colors_name, 'light', 'dark', '')
+      \ )<cr>
+'''
 # }}}
 
 # syntax {{{
