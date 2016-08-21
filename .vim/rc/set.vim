@@ -72,7 +72,16 @@ set clipboard=autoselectml " モードレスセレクション時に OS 標準�
 " }}}
 
 " カラースキーム {{{
-if dein#tap('vim-colors-solarized')
+if dein#is_sourced('vim-solarized8')
+  set termguicolors " true color を有効にする
+  syntax enable
+  colorscheme solarized8_light
+
+  augroup SetSearchColor
+    autocmd!
+    autocmd VimEnter * hi! link Search IncSearch
+  augroup END
+elseif dein#is_sourced('vim-colors-solarized')
   syntax enable
   set background=light
   colorscheme solarized

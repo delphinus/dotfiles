@@ -23,6 +23,11 @@ rev      = 'for-hydrozen-fork'
 hook_add = 'let g:solarized_menu = 0'
 
 [[plugins]]
+repo  = 'lifepillar/vim-solarized8'
+hook_add = 'let g:solarized_term_italics = 1'
+on_if = '''has('termguicolors')'''
+
+[[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''"{{{
 let g:lightline = {
