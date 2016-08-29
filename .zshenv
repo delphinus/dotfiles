@@ -121,4 +121,11 @@ if [ -d "$H/.nvm" ]; then
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 fi
 
+# for Google Cloud SDK
+export GCSDK_PATH=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+if [ -f "$GCSDK_PATH/path.zsh.inc" ]; then
+  source $GCSDK_PATH/path.zsh.inc
+  source $GCSDK_PATH/completion.zsh.inc
+fi
+
 export path_in_zshenv=$PATH
