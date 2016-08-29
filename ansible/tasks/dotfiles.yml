@@ -12,6 +12,7 @@
   file: src={{ '/'.join([dotfiles_dir, item]) }} dest={{ home_dir }}/{{ item }} state=link force=yes
   with_items:
     - .bash_profile
+    - .config/gocode
     - .config/ipython
     - .config/peco
     - .config/powerline
