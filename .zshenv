@@ -122,10 +122,12 @@ if [ -d "$H/.nvm" ]; then
 fi
 
 # for Google Cloud SDK
-export GCSDK_PATH=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
-if [ -f "$GCSDK_PATH/path.zsh.inc" ]; then
+export GCSDK_PATH=/usr/local/google-cloud-sdk
+if [ -d "$GCSDK_PATH" ]; then
   source $GCSDK_PATH/path.zsh.inc
   source $GCSDK_PATH/completion.zsh.inc
+  export GAE_ROOT=$GCSDK_PATH/platform/google_appengine
+  export PATH=$GAE_ROOT:$PATH
 fi
 
 export path_in_zshenv=$PATH
