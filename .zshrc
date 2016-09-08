@@ -12,9 +12,8 @@ fi
 
 # Customize to your needs...
 
-# change shortcut for deer on prezto
-bindkey -r '\ek'
-bindkey '^k' deer
+# change shortcut for autosuggestion on prezto
+bindkey '^e' autosuggest-accept
 
 source $H/git/dotfiles/.zsh/basic.zshrc
 source $H/git/dotfiles/.zsh/peco-select-history.zsh
