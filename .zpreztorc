@@ -40,6 +40,7 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'prompt' \
   'syntax-highlighting' \
+  'autosuggestions' \
   'git' \
   'ruby' \
   'perl' \
@@ -52,6 +53,7 @@ zstyle ':prezto:load' pmodule \
 
 # Set the query found color.
 # zstyle ':prezto:module:autosuggestions:color' found ''
+zstyle ':prezto:module:autosuggestions:color' found 'fg=110'
 
 #
 # Editor
