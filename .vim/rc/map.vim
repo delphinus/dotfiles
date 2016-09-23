@@ -19,7 +19,6 @@ nnoremap [C :<C-u>copen<CR>
 nnoremap ]C :<C-u>cclose<CR>
 " ウィンドウを最大化する
 nnoremap _ <C-W>_
-nnoremap # :<C-u>b #<CR>
 " タブ移動
 nnoremap ( gT
 nnoremap ) gt
