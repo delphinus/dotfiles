@@ -210,6 +210,14 @@ hook_add = '''
 hook_post_source = 'call delphinus#init#gista#hook_post_source()'
 
 [[plugins]]
+repo   = 'lambdalisue/vim-lista'
+on_cmd = ['Lista', 'ListaCursorWord']
+hook_add = '''
+  nnoremap # :<C-u>Lista<CR>
+  nnoremap g# :<C-u>ListaCursorWord<CR>
+'''
+
+[[plugins]]
 repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
 
