@@ -91,6 +91,7 @@
 [ghq]
 	root = ~/git
 	root = ~/.cache/dein/repos
+	root = ./vendor
 [ghq "ssh://git@git.remora.cx"]
 	vcs = git
 [filter "hawser"]
