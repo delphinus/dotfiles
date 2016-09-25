@@ -35,13 +35,12 @@ on_source = ['unite.vim', 'vimfiler', 'vimshell']
 [[plugins]]
 repo     = 'Shougo/unite.vim'
 hook_add = '''"{{{
-  noremap za :Unite file_rec/async<CR>
   noremap zd :Unite dwm<CR>
   noremap zD :Unite dein/log<CR>
   noremap zf :Unite qfixhowm/new qfixhowm<CR>
   noremap zF :Unite qfixhowm/new qfixhowm:nocache<CR>
-  noremap zg :Unite file_rec/git<CR>
-  noremap zG :Unite grep:.:--hidden:
+  noremap zg :Unite file_rec/async<CR>
+  noremap zG :Unite grep:.<CR>
   "noremap <c-]> :UniteWithCursorWord -immediately tag/include<CR>
   noremap zi :Unite tig<CR>
   noremap zI :Unite gista<CR>
