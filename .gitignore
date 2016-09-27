@@ -130,6 +130,7 @@ Temporary Items
 /.vim/chalice
 /.vim/ftplugin/html.vim
 /.vim/view
+/vim/view
 /ansible/hosts
 /ansible/local_settings.retry
 /history.sqlite
