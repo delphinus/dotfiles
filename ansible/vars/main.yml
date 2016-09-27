@@ -2,7 +2,7 @@
 homebrew_packages_taps:
   - caskroom/cask
   - caskroom/versions
-  - delphinus35/mosh
+  - delphinus/mosh
   - homebrew/binary
   - peco/peco
   - sanemat/font
@@ -73,14 +73,14 @@ home_dir: "{{ secret_home_dir }}"
 cache_dir: "{{ home_dir }}/Library/Caches/Ansible"
 fonts_dir: "{{ home_dir }}/Library/Fonts"
 dotfiles_dir:         "{{ home_dir }}/git/dotfiles"
-dotfiles_repo:        git@github.com:delphinus35/dotfiles-private
-dotfiles_repo_public: git@github.com:delphinus35/dotfiles
+dotfiles_repo:        git@github.com:delphinus/dotfiles-private
+dotfiles_repo_public: git@github.com:delphinus/dotfiles
 python_modules:
   - psutil
   - pyuv
   - vim-vint
   - git+https://github.com/powerline/powerline
-  - git+https://github.com/delphinus35/powerlinex-segment-rbenv
+  - git+https://github.com/delphinus/powerlinex-segment-rbenv
   - git+https://github.com/omega/powerlinex-segment-plenv
 python_modules_with_compiling:
   - pygit2
