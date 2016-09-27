@@ -67,7 +67,7 @@
 	quotepath = false
 	editor = vim
 [github]
-	user = delphinus35
+	user = delphinus
 [pull]
 	rebase = true
 [rebase]

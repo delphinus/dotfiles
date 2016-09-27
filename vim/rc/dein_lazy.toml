@@ -112,7 +112,7 @@ on_cmd = ['Vinarise']
 
 # for unite {{{
 [[plugins]]
-repo      = 'delphinus35/unite-ghq'
+repo      = 'delphinus/unite-ghq'
 on_source = ['unite.vim']
 hook_source = '''
   if exists('$H')
@@ -283,7 +283,7 @@ hook_source = '''
 hook_post_source = 'call delphinus#init#csv#hook_post_source()'
 
 [[plugins]]
-repo    = 'delphinus35/neocomplete-json-schema'
+repo    = 'delphinus/neocomplete-json-schema'
 depends = ['neocomplete.vim']
 on_ft   = ['json']
 on_i    = 1
@@ -352,7 +352,7 @@ on_map   = ['<Plug>(operator-concealedyank)']
 hook_add = 'xmap Y <Plug>(operator-concealedyank)'
 
 [[plugins]]
-repo     = 'delphinus35/vim-lycia'
+repo     = 'delphinus/vim-lycia'
 on_map   = ['<Plug>(lycia']
 hook_add = '''"{{{
   nmap go <Plug>(lycia)
@@ -457,11 +457,11 @@ hook_add = '''"{{{
 
 # on_event {{{
 [[plugins]]
-repo     = 'delphinus35/vim-emacscommandline'
+repo     = 'delphinus/vim-emacscommandline'
 on_event = ['FocusLost', 'CursorHold']
 
 [[plugins]]
-repo     = 'delphinus35/vim-unimpaired'
+repo     = 'delphinus/vim-unimpaired'
 on_event = ['FocusLost', 'CursorHold']
 
 [[plugins]]

@@ -161,7 +161,7 @@ repo = 'vim-jp/vimdoc-ja'
 
 # colorscheme {{{
 [[plugins]]
-repo     = 'delphinus35/vim-colors-solarized'
+repo     = 'delphinus/vim-colors-solarized'
 rev      = 'for-hydrozen-fork'
 hook_add = 'let g:solarized_menu = 0'
 
@@ -194,13 +194,13 @@ repo = 'aklt/plantuml-syntax'
 repo = 'cespare/vim-toml'
 
 [[plugins]]
-repo = 'delphinus35/perl-test-base.vim'
+repo = 'delphinus/perl-test-base.vim'
 
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
 
 [[plugins]]
-repo     = 'delphinus35/vim-markdown'
+repo     = 'delphinus/vim-markdown'
 rev      = 'merged-inline_and_code_fixes-conceal'
 hook_add = '''"{{{
   augroup SetMarkdown
@@ -278,7 +278,7 @@ repo = 'ap/vim-css-color'
 repo = 'c9s/perlomni.vim'
 
 [[plugins]]
-repo = 'delphinus35/vim-rails'
+repo = 'delphinus/vim-rails'
 rev  = 'feature/recognize-ridgepole'
 
 [[plugins]]
