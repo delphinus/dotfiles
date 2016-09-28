@@ -38,16 +38,15 @@ function! delphinus#init#unite#hook_source() abort
   let g:unite_enable_smart_case = 1
 
   " unite grep に ag(The Silver Searcher) を使う
-  if executable('pt')
-    if executable('rg')
-      let g:unite_source_grep_command = 'rg'
-      let g:unite_source_grep_default_opts = '--color never -n'
-      let g:unite_source_grep_recursive_opt = ''
-    else
-      let g:unite_source_grep_command = 'pt'
-      let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-      let g:unite_source_grep_recursive_opt = ''
-    endif
+  if executable('rg')
+    let g:unite_source_grep_command = 'rg'
+    let g:unite_source_grep_default_opts = '--color never -n'
+    let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_file_async_command = 'rg --color never -l .'
+  elseif executable('pt')
+    let g:unite_source_grep_command = 'pt'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
     let g:unite_source_file_async_command = 'pt --nocolor --nogroup -g .'
   elseif executable('ag')
     let g:unite_source_grep_command = 'ag'
