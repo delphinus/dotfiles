@@ -47,8 +47,7 @@ ignore_names_re = %r[
   \Abin/local_perl\.sh\z |
   \A\.git/ |
   \A\.screen/(?:cpu|memory)\z |
-  \A\.vim/bundle/ |
-  \A\.vim/view/ |
+  \A\.?vim/view/ |
   \A\.zsh/zsh-notify/ |
   \Asubmodules/ |
   \.pyc$ |
