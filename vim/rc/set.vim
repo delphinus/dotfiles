@@ -49,8 +49,7 @@ set t_Co=256             " 256 色表示ターミナル対応
 set showcmd              " コマンド、及び選択範囲の表示
 set noshowmode           " 【挿入】【ビジュアル】といった文字列を画面最下段に表示しない
 set showmatch            " 対応する括弧を自動的に装飾して表示
-set display=uhex         " 画面最下行もできるだけ表示する
-                         " 又、非表示文字を 16 進数で表示する
+set display=truncate     " 画面最下部で切り詰められたら @@@ と表示する
 set laststatus=2         " ステータスラインは常に表示
 set relativenumber       " 相対行番号を表示する
 set number               " 現在行の行番号を表示する
