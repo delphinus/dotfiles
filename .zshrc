@@ -31,9 +31,7 @@ source $H/git/dotfiles/.zsh/set-ssh-auth-sock.sh
 source $H/git/dotfiles/.zsh/export-alias.zsh
 #source $H/git/dotfiles/.zsh/iterm2_shell_integration.zsh
 
-if [ -n "$path_in_zshenv" ]; then
-  export PATH=$path_in_zshenv
-fi
+PATH=${PATH_IN_ZSHENV:-$PATH}
 
 # for Test::Pretty
 export TEST_PRETTY_COLOR_NAME=BRIGHT_GREEN
@@ -48,7 +46,7 @@ fi
 
 # z
 if which brew > /dev/null; then
-  . /usr/local/etc/profile.d/z.sh
+  . $(brew --prefix)/etc/profile.d/z.sh
 elif [ -f /etc/profile.d/z.sh ]; then
   . /etc/profile.d/z.sh
 elif [ -f $(ghq list --full-path rupa/z)/z.sh ]; then
@@ -61,18 +59,18 @@ if (( $+commands[grc] )); then
   unalias grc
 fi
 if which brew > /dev/null; then
-  . /usr/local/etc/grc.bashrc
+  . $(brew --prefix)/etc/grc.bashrc
 elif [ -f '/etc/profile.d/grc.bashrc' ]; then
   . /etc/profile.d/grc.bashrc
-  export MANPATH=/usr/local/share/man:$MANPATH
+  manpath=(/usr/local/shae/man $manpath)
 fi
 
 # custom mysql
-local mysql_bin=/usr/local/opt/mysql/bin
-if [ -d "$mysql_bin" ] && which mysql > /dev/null; then
-  export PATH=$PATH:$mysql_bin
+mysql_bin=/usr/local/opt/mysql/bin
+if which mysql > /dev/null; then
+  path=($path $mysql_bin(N-/))
 else
-  export PATH=$mysql_bin:$PATH
+  path=($mysql_bin(N-/) $path)
 fi
 
 # github access token
@@ -82,16 +80,10 @@ if [ -f "$homebrew_github_api_token" ]; then
 fi
 
 # PHP composer
-local composer_vender_bin=$H/.composer/vendor/bin
-if [ -d "$composer_vender_bin" ]; then
-  export PATH="$composer_vender_bin:$PATH"
-fi
+path=($H/.composer/vendor/bin(N-/) $path)
 
 # node
-local node_dir=/usr/local/node/bin
-if [ -d "$node_dir" ]; then
-  export PATH=$node_dir:$PATH
-fi
+path=(/usr/local/node/bin(N-/) $path)
 
 # fssh
 if [ -n "$TMUX" ]; then
@@ -99,19 +91,19 @@ if [ -n "$TMUX" ]; then
 fi
 
 # local settings
-local zshrc_local=$H/.zshrc.local
+zshrc_local=$H/.zshrc.local
 if [ -f "$zshrc_local" ]; then
   . $zshrc_local
 fi
 
 # for vim solarized
-if [ -z "$TERM_PROGRAM" ]; then
-  export TERM_PROGRAM=iTerm.app
-fi
+typeset -x TERM_PROGRAM
+TERM_PROGRAM=${TERM_PROGRAM:-iTerm.app}
 
 # for GnuPG
 # http://unix.stackexchange.com/questions/257061/gentoo-linux-gpg-encrypts-properly-a-file-passed-through-parameter-but-throws-i
-export GPG_TTY=$(tty)
+typeset -x GPG_TTY
+GPG_TTY=$(tty)
 
 if type zprof > /dev/null 2>&1; then
   zprof | less
