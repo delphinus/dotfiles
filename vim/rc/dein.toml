@@ -111,9 +111,6 @@ endfunction
 "}}}'''
 
 [[plugins]]
-repo = 'junegunn/vim-peekaboo'
-
-[[plugins]]
 repo = 'kana/vim-vspec'
 
 [[plugins]]
