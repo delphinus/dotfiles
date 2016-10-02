@@ -1,3 +1,7 @@
+if [ -n "$ZSHENV_LOADED" ]; then
+  return
+fi
+
 #
 # Defines environment variables.
 #
@@ -107,5 +111,6 @@ if [ -n "$GCSDK_PATH" ]; then
   path=($GAE_ROOT(N-/) $path)
 fi
 
-typeset -x PATH_IN_ZSHENV
+typeset -x ZSHENV_LOADED PATH_IN_ZSHENV
+ZSHENV_LOADED=1
 PATH_IN_ZSHENV=$PATH
