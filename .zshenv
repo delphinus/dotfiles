@@ -44,7 +44,14 @@ path=(\
   $path)
 
 # for python
-if which pyenv > /dev/null; then eval "$(pyenv init - --no-rehash zsh)"; fi
+if which pyenv > /dev/null; then
+  eval "$(pyenv init - --no-rehash zsh)"
+else
+  typeset -x PYENV_ROOT
+  PYENV_ROOT=$HOME/.pyenv
+  path=($PYENV_ROOT/bin(N-/) $path)
+  if [ -x "$PYENV_ROOT/bin/pyenv" ]; then eval "$(pyenv init - --no-rehash zsh)"; fi
+fi
 if [[ $OSTYPE == darwin* ]]; then
   user_base="$HOME/Library/Python/2.7"
 else
@@ -53,10 +60,24 @@ fi
 path=($user_base/bin(N-/) $path)
 
 # for ruby
-if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash zsh)"; fi
+if which rbenv > /dev/null; then
+  eval "$(rbenv init - --no-rehash zsh)"
+else
+  typeset -x RBENV_ROOT
+  RBENV_ROOT=$HOME/.rbenv
+  path=($RBENV_ROOT/bin(N-/) $path)
+  if [ -x "$RBENV_ROOT/bin/rbenv" ]; then eval "$(rbenv init - --no-rehash zsh)"; fi
+fi
 
 # for lua
-if which luaenv > /dev/null; then eval "$(luaenv init - --no-rehash zsh)"; fi
+if which luaenv > /dev/null; then
+  eval "$(luaenv init - --no-rehash zsh)"
+else
+  typeset -x LUAENV_ROOT
+  LUAENV_ROOT=$HOME/.luaenv
+  path=($LUAENV_ROOT/bin(N-/) $path)
+  if [ -x "$LUAENV_ROOT/bin/luaenv" ]; then eval "$(luaenv init -)"; fi
+fi
 
 # perl
 if [ -d "$HOME/perl5" ]; then
@@ -80,14 +101,28 @@ if [[ $OSTYPE == darwin* && -f $HOME/perl5/perlbrew/etc/bashrc ]]; then
   alias perl='perl -I$HOME/perl5/lib/perl5'
 else
   # for plenv
-  if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
+  if which plenv > /dev/null; then
+    eval "$(plenv init - zsh)"
+  else
+    typeset -x PLENV_ROOT
+    PLENV_ROOT=$HOME/.plenv
+    path=($PLENV_ROOT/bin(N-/) $path)
+    if [ -x "$PLENV_ROOT/bin/plenv" ]; then eval "$(plenv init - --no-rehash zsh)"; fi
+  fi
 fi
 
 # for go
-typeset -x GOPATH GOENV_ROOT
+typeset -x GOPATH
 GOPATH=($H/.go(N-/))
 path=($GOPATH/bin(N-/) $path)
-if which goenv > /dev/null; then eval "$(goenv init - --no-rehash zsh)"; fi
+if which goenv > /dev/null; then
+  eval "$(goenv init - --no-rehash zsh)"
+else
+  typeset -x GOENV_ROOT
+  GOENV_ROOT=$HOME/.goenv
+  path=($GOENV_ROOT/bin(N-/) $path)
+  if [ -x "$GOENV_ROOT/bin/goenv" ]; then eval "$(goenv init - --no-rehash zsh)"; fi
+fi
 
 # for hub
 if which hub > /dev/null; then
