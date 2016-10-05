@@ -3,7 +3,9 @@ if [ -n "$TMUX" ]; then
   exec tmux $@
 fi
 
-if [ `uname` = 'Darwin' ]; then
+if which python3 > /dev/null; then
+  python=python3
+elif [ `uname` = 'Darwin' ]; then
   python=/usr/bin/python
 else
   python=python
