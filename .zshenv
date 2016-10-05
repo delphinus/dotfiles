@@ -109,7 +109,7 @@ fi
 
 # for go
 typeset -x GOPATH
-GOPATH=($H/.go(N-/))
+GOPATH=$H/.go
 path=($GOPATH/bin(N-/) $path)
 if which goenv > /dev/null; then
   eval "$(goenv init - --no-rehash zsh)"
@@ -128,17 +128,17 @@ fi
 # for nvm
 if [ -d "$H/.nvm" ]; then
   typeset -x NVM_DIR
-  NVM_DIR=($H/.nvm(N-/))
+  NVM_DIR=$H/.nvm
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 fi
 
 # for Google Cloud SDK
 typeset -x GCSDK_PATH GAE_ROOT
-GCSDK_PATH=(/usr/local/google-cloud-sdk(N-/))
+GCSDK_PATH=/usr/local/google-cloud-sdk
 if [ -n "$GCSDK_PATH" ]; then
   source $GCSDK_PATH/path.zsh.inc
   source $GCSDK_PATH/completion.zsh.inc
-  GAE_ROOT=($GCSDK_PATH/platform/google_appengine(N-/))
+  GAE_ROOT=$GCSDK_PATH/platform/google_appengine
   path=($GAE_ROOT(N-/) $path)
 fi
 
