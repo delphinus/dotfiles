@@ -1,7 +1,3 @@
-if [ -n "$ZSHENV_LOADED" ]; then
-  return
-fi
-
 #
 # Defines environment variables.
 #
