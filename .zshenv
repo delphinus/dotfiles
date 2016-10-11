@@ -135,7 +135,7 @@ fi
 # for Google Cloud SDK
 typeset -x GCSDK_PATH GAE_ROOT
 GCSDK_PATH=/usr/local/google-cloud-sdk
-if [ -n "$GCSDK_PATH" ]; then
+if [ -d "$GCSDK_PATH" ]; then
   source $GCSDK_PATH/path.zsh.inc
   source $GCSDK_PATH/completion.zsh.inc
   GAE_ROOT=$GCSDK_PATH/platform/google_appengine
