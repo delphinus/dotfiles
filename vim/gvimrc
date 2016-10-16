@@ -24,8 +24,8 @@ if has('win32')
 elseif has('macunix')
   let s:resolution = system("osascript -e 'tell application " . '"Finder"' . " to get bounds of window of desktop' | awk -F', ' '{print $3}'")
   if s:resolution == 2560
-    set guifont=Iosevka_Slab:h16
-    set guifontwide=Ricty_Discord_Reduced:h16
+    set guifont=Iosevka_Slab:h14
+    set guifontwide=Ricty_Discord_Reduced:h14
   elseif s:resolution == 1366
     set guifont=Iosevka_Slab:h16
     set guifontwide=Ricty_Discord_Reduced:h16
