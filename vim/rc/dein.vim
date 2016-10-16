@@ -24,6 +24,11 @@ if dein#load_state(s:dein_dir)
   call dein#save_state()
 endif
 
+" install vimproc at first if needed
+if dein#tap('vimproc.vim') && dein#check_install([g:dein#name])
+  call dein#install([g:dein#name])
+endif
+
 if dein#check_install()
   call dein#install()
 endif
