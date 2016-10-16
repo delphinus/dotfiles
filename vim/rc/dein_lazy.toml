@@ -219,9 +219,12 @@ repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
 
 [[plugins]]
-repo   = 'rizzatti/dash.vim'
-on_cmd = ['Dash']
-gui    = 1
+repo     = 'rizzatti/dash.vim'
+if       = '''has('macunix')'''
+on_cmd   = ['Dash']
+hook_add = '''
+  nnoremap <Leader>d :Dash<CR>
+'''
 
 [[plugins]]
 repo   = 'sjl/gundo.vim'
