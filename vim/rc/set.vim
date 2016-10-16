@@ -146,4 +146,10 @@ augroup NoFiletypeForHugeBuffer
 augroup END
 " }}}
 
+" Python 設定 {{{
+if has('macunix') && has('kaoriya')
+  let $PYTHON3_DLL=' /usr/local/Cellar/python3/3.5.2_3/Frameworks/Python.framework/Versions/3.5/Python'
+endif
+" }}}
+
 " vim:et:fdm=marker:
