@@ -10,7 +10,6 @@ if &runtimepath !~# '/dein.vim'
   execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-let g:dein#install_max_processes = 16
 let g:dein#install_progress_type = 'title'
 let g:dein#enable_notification = 1
 let s:toml      = g:rc_dir . '/dein.toml'
