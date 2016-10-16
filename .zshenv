@@ -93,20 +93,15 @@ if [ -d "$HOME/perl5" ]; then
     $PERL5LIB)
 fi
 
-# for perlbrew
-if [[ $OSTYPE == darwin* && -f $HOME/perl5/perlbrew/etc/bashrc ]]; then
-  source $HOME/perl5/perlbrew/etc/bashrc
-  alias perl='perl -I$HOME/perl5/lib/perl5'
+# for plenv
+alias perl='perl -I$HOME/perl5/lib/perl5'
+if which plenv > /dev/null; then
+  eval "$(plenv init - zsh)"
 else
-  # for plenv
-  if which plenv > /dev/null; then
-    eval "$(plenv init - zsh)"
-  else
-    typeset -x PLENV_ROOT
-    PLENV_ROOT=$HOME/.plenv
-    path=($PLENV_ROOT/bin(N-/) $path)
-    if [ -x "$PLENV_ROOT/bin/plenv" ]; then eval "$(plenv init - --no-rehash zsh)"; fi
-  fi
+  typeset -x PLENV_ROOT
+  PLENV_ROOT=$HOME/.plenv
+  path=($PLENV_ROOT/bin(N-/) $path)
+  if [ -x "$PLENV_ROOT/bin/plenv" ]; then eval "$(plenv init - --no-rehash zsh)"; fi
 fi
 
 # for go
