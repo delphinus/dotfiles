@@ -96,7 +96,7 @@ hook_post_source = 'call delphinus#init#vimfiler#hook_post_source()'
 repo      = 'delphinus/unite-ghq'
 on_source = ['unite.vim']
 hook_source = '''
-  if exists('$H')
+  if exists($H) && $H != $HOME
     let g:unite_ghq_executable = 'ghq.sh'
   endif
 '''
