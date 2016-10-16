@@ -6,7 +6,9 @@
 #
 
 # http://qiita.com/scalper/items/86da115e6c76a692d687
-#zmodload zsh/zprof && zprof
+if [[ -n $ZPROF ]]; then
+  zmodload zsh/zprof && zprof
+fi
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
