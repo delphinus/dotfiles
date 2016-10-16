@@ -54,7 +54,7 @@ else
   if [ -x "$PYENV_ROOT/bin/pyenv" ]; then eval "$(pyenv init - --no-rehash zsh)"; fi
 fi
 if [[ $OSTYPE == darwin* ]]; then
-  user_base="$HOME/Library/Python/2.7"
+  user_base="$HOME/Library/Python/3.5"
 else
   user_base="$HOME/.local"
 fi
