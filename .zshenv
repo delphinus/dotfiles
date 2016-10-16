@@ -93,10 +93,7 @@ fi
 
 # for perlbrew
 if [[ $OSTYPE == darwin* && -f $HOME/perl5/perlbrew/etc/bashrc ]]; then
-  autoload -U compinit
-  compinit -C
   source $HOME/perl5/perlbrew/etc/bashrc
-  source $HOME/perl5/perlbrew/etc/perlbrew-completion.bash
   alias perl='perl -I$HOME/perl5/lib/perl5'
 else
   # for plenv
@@ -140,7 +137,8 @@ typeset -x GCSDK_PATH GAE_ROOT
 GCSDK_PATH=/usr/local/google-cloud-sdk
 if [ -d "$GCSDK_PATH" ]; then
   source $GCSDK_PATH/path.zsh.inc
-  source $GCSDK_PATH/completion.zsh.inc
+  # do not use original completions. it has redundant compinit.
+  #source $GCSDK_PATH/completion.zsh.inc
   GAE_ROOT=$GCSDK_PATH/platform/google_appengine
   path=($GAE_ROOT(N-/) $path)
 fi
