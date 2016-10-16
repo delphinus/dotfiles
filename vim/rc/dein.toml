@@ -109,13 +109,6 @@ endfunction
 "}}}'''
 
 [[plugins]]
-repo = 'kana/vim-vspec'
-
-[[plugins]]
-repo = 'rkitover/vimpager'
-if   = '''! has('macunix')'''
-
-[[plugins]]
 repo     = 'ryanoasis/vim-devicons'
 hook_add = '''"{{{
   let g:webdevicons_enable_unite = 0
@@ -134,10 +127,6 @@ hook_add = '''"{{{
 repo     = 'tmux-plugins/vim-tmux-focus-events'
 if       = '''exists('$TMUX') || ! has('gui_running')'''
 hook_add = 'set autoread'
-
-[[plugins]]
-repo     = 'tpope/vim-capslock'
-hook_add = 'imap <C-L> <Plug>CapsLockToggle'
 
 [[plugins]]
 repo     = 'tpope/vim-fugitive'
@@ -190,9 +179,6 @@ repo = 'aklt/plantuml-syntax'
 
 [[plugins]]
 repo = 'cespare/vim-toml'
-
-[[plugins]]
-repo = 'delphinus/perl-test-base.vim'
 
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
