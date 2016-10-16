@@ -14,9 +14,8 @@ else
   let g:home = expand('~')
 endif
 
-let g:vim_home = g:home . '/.vim'
-let g:rc_dir   = g:vim_home . '/rc'
-execute 'set runtimepath+=' . g:vim_home . '/after'
+let g:rc_dir   = g:home . '/.vim/rc'
+execute 'set runtimepath+=' . g:home . '/.vim/after'
 
 let s:load_rc = {file -> execute('source' . g:rc_dir . '/' . file . '.vim')}
 
