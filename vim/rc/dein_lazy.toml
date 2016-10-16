@@ -210,6 +210,7 @@ hook_post_source = 'call delphinus#init#gista#hook_post_source()'
 
 [[plugins]]
 repo        = 'lambdalisue/prompt.nvim'
+rev         = '87735e677579e2e6415baef8fab2ec4d8df25d5a'
 hook_source = '''
   let g:prompt#custom_mappings = [
     \ ['<C-D>', '<Del>', 1],
@@ -224,7 +225,8 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo     = 'lambdalisue/vim-lista'
+repo     = 'lambdalisue/lista.nvim'
+rev      = '4c52c03f13515de961820e01e2e97508c9f5c339'
 depends  = ['vim-rplugin', 'prompt.nvim']
 on_cmd   = ['Lista', 'ListaCursorWord']
 hook_add = '''
