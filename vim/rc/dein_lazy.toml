@@ -89,10 +89,6 @@ on_cmd    = [
 hook_add         = 'nnoremap `f :VimFilerBufferDir<CR>'
 hook_source      = 'call delphinus#init#vimfiler#hook_source()'
 hook_post_source = 'call delphinus#init#vimfiler#hook_post_source()'
-
-[[plugins]]
-repo   = 'Shougo/vinarise.vim'
-on_cmd = ['Vinarise']
 # }}}
 
 # for unite {{{
@@ -172,10 +168,6 @@ hook_add = '''"{{{
 repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
 on_ft  = ['howm_memo']
-
-[[plugins]]
-repo   = 'gregsexton/VimCalc'
-on_cmd = ['Calc']
 
 [[plugins]]
 repo    = 'kannokanno/previm'
