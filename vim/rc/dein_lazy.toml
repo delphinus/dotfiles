@@ -30,7 +30,7 @@ on_source = ['unite.vim']
 
 [[plugins]]
 repo      = 'Shougo/tabpagebuffer.vim'
-on_source = ['unite.vim', 'vimfiler', 'vimshell']
+on_source = ['unite.vim', 'vimfiler']
 
 [[plugins]]
 repo     = 'Shougo/unite.vim'
@@ -89,21 +89,6 @@ on_cmd    = [
 hook_add         = 'nnoremap `f :VimFilerBufferDir<CR>'
 hook_source      = 'call delphinus#init#vimfiler#hook_source()'
 hook_post_source = 'call delphinus#init#vimfiler#hook_post_source()'
-
-[[plugins]]
-repo   = 'Shougo/vimshell'
-on_cmd = [
-  'VimShell',
-  'VimShellExecute',
-  'VimShellInteractive',
-  'VimShellTerminal',
-  'VimShellPop',
-]
-hook_add = '''
-  nnoremap `vv :<C-U>VimShell<CR>
-  nnoremap `vc :<C-U>VimShellCreate<CR>
-'''
-hook_source = 'call delphinus#init#vimshell#hook_source()'
 
 [[plugins]]
 repo   = 'Shougo/vinarise.vim'
