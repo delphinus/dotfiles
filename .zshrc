@@ -105,6 +105,15 @@ TERM_PROGRAM=${TERM_PROGRAM:-iTerm.app}
 typeset -x GPG_TTY
 GPG_TTY=$(tty)
 
+# for direnv
+_direnv_hook() {
+  eval "$(direnv export zsh)";
+}
+typeset -ag precmd_functions;
+if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
+  precmd_functions+=_direnv_hook;
+fi
+
 if type zprof > /dev/null 2>&1; then
   zprof | less
 fi
