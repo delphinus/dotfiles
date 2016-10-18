@@ -129,17 +129,6 @@ if [ -d "$H/.nvm" ]; then
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 fi
 
-# for Google Cloud SDK
-typeset -x GCSDK_PATH GAE_ROOT
-GCSDK_PATH=/usr/local/google-cloud-sdk
-if [ -d "$GCSDK_PATH" ]; then
-  source $GCSDK_PATH/path.zsh.inc
-  # do not use original completions. it has redundant compinit.
-  #source $GCSDK_PATH/completion.zsh.inc
-  GAE_ROOT=$GCSDK_PATH/platform/google_appengine
-  path=($GAE_ROOT(N-/) $path)
-fi
-
 typeset -x ZSHENV_LOADED PATH_IN_ZSHENV
 ZSHENV_LOADED=1
 PATH_IN_ZSHENV=$PATH
