@@ -150,6 +150,12 @@ augroup END
 if has('macunix') && has('kaoriya')
   let $PYTHON3_DLL=' /usr/local/Cellar/python3/3.5.2_3/Frameworks/Python.framework/Versions/3.5/Python'
 endif
+
+" Force enable Python3
+augroup EnablePython3
+  autocmd!
+  autocmd VimEnter * python3 True
+augroup END
 " }}}
 
 " vim:et:fdm=marker:
