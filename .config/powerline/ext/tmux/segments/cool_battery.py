@@ -42,7 +42,7 @@ def battery(pl, format='{ac_state} {capacity:3.0%}', steps=5, gamify=False, full
 	elif iconfy:
 		icon_list = re.split(r'\s+', icons.strip())
 		denom = len(icon_list) - 1
-		icon = icon_list[denom * capacity / 100]
+		icon = icon_list[int(denom * capacity / 100)]
 		ret.append({
 			'contents': online if ac_powered else offline,
 			'draw_inner_divider': False,
