@@ -1,5 +1,5 @@
 {
-	"name": "Solarized dark",
+	"name": "Solarized light",
 	"groups": {
 		"information:additional":  { "fg": "solarized:base2", "bg": "solarized:base01", "attrs": [] },
 		"information:regular":     { "fg": "solarized:base3", "bg": "solarized:base01", "attrs": ["bold"] },
