@@ -3,7 +3,7 @@
 
 from __future__ import (unicode_literals, division, absolute_import, print_function)
 
-import commands
+import subprocess
 import multiprocessing
 import psutil
 import re
@@ -97,7 +97,7 @@ def used_memory(pl, steps=5, circle_glyph='●', memory_glyph='🔲'):
 
 def battery_percent_gradient(pl, format='{percent}%', charging='charging',
 		discharging='', charged='', remain='remain {0}'):
-	pmset_output = commands.getoutput('pmset -g ps')
+	pmset_output = subprocess.check_output('pmset -g ps')
 	r = re.compile(r"Currently drawing from '(.*)'" + \
 			r'.*-InternalBattery-\d+\s+(\d+)%;' + \
 			r'\s+((?:dis)?charging|charged);' + \
