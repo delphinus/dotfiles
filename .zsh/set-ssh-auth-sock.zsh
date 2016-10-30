@@ -1,5 +1,5 @@
 if [ -n "$SSH_AUTH_SOCK" ]; then
-  if [ -n "$SSH_CONNECTION"]; then
+  if [ -n "$SSH_CONNECTION" ]; then
     if [ "$SSH_AUTH_SOCK" != "$HOME/.ssh/auth_sock" ]; then
         ln -fs $SSH_AUTH_SOCK $HOME/.ssh/auth_sock
     fi
