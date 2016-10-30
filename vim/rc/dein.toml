@@ -158,7 +158,9 @@ on_if    = '''has('termguicolors')'''
 hook_add = '''
   let g:solarized_diffmode = 'normal'
   let g:solarized_visibility = 'normal'
-  let g:solarized_term_italics = 1
+  if $TERM =~# 'italic'
+    let g:solarized_term_italics = 1
+  endif
 
   nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
       \ ? substitute(g:colors_name, 'dark', 'light', '')
