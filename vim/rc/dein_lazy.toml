@@ -186,26 +186,24 @@ hook_add = '''
 hook_post_source = 'call delphinus#init#gista#hook_post_source()'
 
 [[plugins]]
-repo        = 'lambdalisue/prompt.nvim'
-rev         = '87735e677579e2e6415baef8fab2ec4d8df25d5a'
-hook_source = '''
-  let g:prompt#custom_mappings = [
-    \ ['<C-D>', '<Del>', 1],
-    \ ['<C-A>', '<Home>', 1],
-    \ ['<C-E>', '<End>', 1],
-    \ ['<C-F>', '<Right>', 1],
-    \ ['<C-B>', '<Left>', 1],
-    \ ['<C-K>', '<C-T>', 1],
-    \ ['<C-J>', '<C-G>', 1],
-    \ ['<C-C>', '<Esc>', 1],
-    \]
-'''
+repo        = 'lambdalisue/neovim-prompt'
 
 [[plugins]]
 repo     = 'lambdalisue/lista.nvim'
-rev      = '4c52c03f13515de961820e01e2e97508c9f5c339'
-depends  = ['vim-rplugin', 'prompt.nvim']
+depends  = ['vim-rplugin', 'neovim-prompt']
 on_cmd   = ['Lista', 'ListaCursorWord']
+hook_source = '''
+  let g:lista#custom_mappings = [
+    \ ['<C-D>', '<Del>'],
+    \ ['<C-A>', '<Home>'],
+    \ ['<C-E>', '<End>'],
+    \ ['<C-F>', '<Right>'],
+    \ ['<C-B>', '<Left>'],
+    \ ['<C-K>', '<lista:select_previous_candidate>', 'noremap'],
+    \ ['<C-J>', '<lista:select_next_candidate>', 'noremap'],
+    \ ['<C-C>', '<Esc>'],
+    \]
+'''
 hook_add = '''
   nnoremap # :<C-u>Lista<CR>
   nnoremap g# :<C-u>ListaCursorWord<CR>
