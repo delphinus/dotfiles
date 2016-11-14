@@ -1,6 +1,6 @@
 {
     "Style": {
-        "Selected": ["on_white", "black"],
+        "Selected": ["on_black", "white"],
         "Matched": ["red", "bold"]
     },
     "KeyMap": {

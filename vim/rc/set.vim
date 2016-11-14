@@ -74,7 +74,7 @@ set clipboard=autoselectml " モードレスセレクション時に OS 標準�
 if dein#is_sourced('vim-solarized8')
   set termguicolors " true color を有効にする
   syntax enable
-  colorscheme solarized8_light
+  colorscheme solarized8_dark
 
   augroup SetSearchColor
     autocmd!
@@ -82,7 +82,7 @@ if dein#is_sourced('vim-solarized8')
   augroup END
 elseif dein#is_sourced('vim-colors-solarized')
   syntax enable
-  set background=light
+  set background=dark
   colorscheme solarized
 
   augroup SetSearchColor
