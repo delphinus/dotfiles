@@ -331,6 +331,16 @@ on_ft = [
 
 # on_map {{{
 [[plugins]]
+repo = 'AndrewRadev/splitjoin.vim'
+on_map = ['<plug>Splitjoin']
+hook_add = '''"{{{
+  let g:splitjoin_join_mapping  = ''
+  let g:splitjoin_split_mapping = ''
+  nmap gs <plug>SplitjoinSplit
+  nmap gj <plug>SplitjoinJoin
+"}}}'''
+
+[[plugins]]
 repo     = 'LeafCage/yankround.vim'
 on_map   = ['<Plug>(yankround-']
 hook_add = '''"{{{
