@@ -43,11 +43,17 @@ alias.aht=add pro=home pri=M tag={{ secret_task_tag }}
 alias.bd=burndown.daily
 alias.bw=burndown.weekly
 alias.bm=burndown.monthly
-rule.precedence.color=deleted,completed,active,keyword.,tag.,project.,overdue,scheduled,blocked,blocking,due.today,due,recurring,tagged,uda.
+rule.precedence.color=deleted,completed,active,keyword.,project.,overdue,scheduled,blocked,blocking,due.today,due,tag.,recurring,tagged,uda.
 color.due=color3
 color.calendar.due=color7 on color3
 color.calendar.holiday=color7 on color6
 color.active=rgb422
+color.uda.priority.M=
+color.tagged=
+color.tag.none=color11
+{% for info in secret_task_tag_color %}
+color.tag.{{ info.tag }}=color{{ info.color }}
+{% endfor %}
 report.list.sort=priority-,start-,due+,project+,urgency-
 taskd.certificate={{ secret_taskd.certificate }}
 taskd.key={{ secret_taskd.key }}
