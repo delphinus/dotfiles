@@ -18,9 +18,7 @@ function! delphinus#title#string() abort
   let l:dir = len(l:with_h_dir) < len(l:with_current_dir) ? l:with_h_dir : l:with_current_dir
   let l:dir = len(l:dir) && l:dir !=# '.' ? ' (' . l:dir . ')' : ''
 
-  let l:search_string = len(@/) ? ' [' . @/ . ']' : ''
-
-  let l:str = l:filename . l:flag . l:dir . l:search_string
+  let l:str = l:filename . l:flag . l:dir
 
   " Screen などの時、タイトルバーに全角文字があったら化けるので対処する
   if !has('macunix') && !has('gui_running') && !len($TMUX)
