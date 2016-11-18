@@ -125,6 +125,7 @@ hook_add  = '''"{{{
 
   let s:toggle_set_master_pane_width = 0
 
+  let g:dwm_map_keys = 0
   nnoremap <C-J> <C-W>w
   nnoremap <C-K> <C-W>W
   nmap <C-S> <Plug>DWMRotateClockwise
@@ -133,8 +134,6 @@ hook_add  = '''"{{{
   nmap <C-C> <Plug>DWMClose
   nmap <C-Space> <Plug>DWMFocus
   nmap <C-L> <Plug>DWMGrowMaster
-  nmap <C-H> <Plug>DWMShrinkMaster
-  nmap <BS>  <Plug>DWMShrinkMaster
 
   command! DWMSetMasterPaneWidth call delphinus#dwm#set_master_pane_width()
   command! DWMDisable call delphinus#dwm#disable()
