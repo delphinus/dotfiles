@@ -356,6 +356,15 @@ hook_add = '''"{{{
 "}}}'''
 
 [[plugins]]
+repo     = 'arecarn/vim-fold-cycle'
+on_map   = ['<Plug>(fold-cycle-']
+hook_add = '''"{{{
+  nmap <CR> <Plug>(fold-cycle-open)
+  nmap <BS> <Plug>(fold-cycle-close)
+  nmap <C-h> <Plug>(fold-cycle-close)
+"}}}'''
+
+[[plugins]]
 repo     = 'chikatoike/concealedyank.vim'
 on_map   = ['<Plug>(operator-concealedyank)']
 hook_add = 'xmap Y <Plug>(operator-concealedyank)'
