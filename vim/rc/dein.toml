@@ -157,6 +157,9 @@ let g:lightline = {
         \   'mode': 'LightLineMode',
         \   'char_code': 'LightLineCharCode',
         \ },
+        \ 'component_function_visible_condition': {
+        \   'mode': 1,
+        \ },
         \ 'component_expand': {
         \   'qfstatusline': 'qfstatusline#Update',
         \ },
