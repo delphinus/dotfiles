@@ -232,3 +232,8 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
         \ | wincmd p | diffthis
 endif
+
+"---------------------------------------------------------------------------
+" for dein.vim
+" set &bg before loading state_vim.vim
+set background=dark
