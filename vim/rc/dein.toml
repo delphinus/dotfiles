@@ -24,7 +24,7 @@ let g:lightline = {
         \ 'colorscheme': 'solarized',
         \ 'mode_map': {'c': 'NORMAL'},
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'qfstatusline' ] ],
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive' ], [ 'filepath' ], [ 'filename', 'qfstatusline' ] ],
         \   'right': [
         \     [ 'lineinfo' ],
         \     [ 'percent' ],
@@ -35,6 +35,7 @@ let g:lightline = {
         \   'modified': 'LightLineModified',
         \   'readonly': 'LightLineReadonly',
         \   'fugitive': 'LightLineFugitive',
+        \   'filepath': 'LightLineFilePath',
         \   'filename': 'LightLineFilename',
         \   'fileformat': 'LightLineFileformat',
         \   'filetype': 'LightLineFiletype',
@@ -60,13 +61,18 @@ function! LightLineReadonly()
   return &ft == 'help' ? '' : &ft !~? 'vimfiler\|gundo' && &readonly ? '' : ''
 endfunction
 
-function! LightLineFilename()
+function! LightLineFilePath()
   return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
+        \ (&ft == 'vimfiler' || &ft == 'unite' ? '' :
         \ winwidth(0) > 70 ?
-        \   '' != expand('%') ? expand('%') : '[No Name]' :
-        \   '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \   '' != expand('%') ? expand('%:h') : '' :
+        \   '' != expand('%:t') ? expand('%:t') : '')
+endfunction
+
+function! LightLineFilename()
+  return (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
         \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
 endfunction
 
