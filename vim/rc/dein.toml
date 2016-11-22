@@ -246,12 +246,6 @@ hook_add = '''"{{{
 "}}}'''
 
 [[plugins]]
-repo     = 'pseewald/vim-anyfold'
-hook_add = '''"{{{
-  let g:anyfold_activate=1
-}}}"'''
-
-[[plugins]]
 repo     = 'ryanoasis/vim-devicons'
 hook_add = '''"{{{
   let g:webdevicons_enable_unite = 0
