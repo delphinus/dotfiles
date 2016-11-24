@@ -18,6 +18,7 @@ bindkey '^e' autosuggest-accept
 # disable some bindings
 # expand-cmd-path
 bindkey -r '^[e'
+bindkey -r '^[E'
 
 source $H/git/dotfiles/.zsh/basic.zshrc
 source $H/git/dotfiles/.zsh/peco-select-history.zsh
