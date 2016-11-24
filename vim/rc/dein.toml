@@ -179,11 +179,17 @@ function! LightLineReadonly()
 endfunction
 
 function! LightLineFilePath()
-  return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' || &ft == 'unite' ? '' :
-        \ winwidth(0) > 70 ?
-        \   '' != expand('%') ? expand('%:h') : '' :
-        \   '' != expand('%:t') ? expand('%:t') : '')
+  let l:ro_string = '' != LightLineReadonly() ? LightLineReadonly() . ' ' : ''
+  if $rt ==# 'vimfilter' || &ft ==# 'unite' || winwidth(0) < 70
+    let l:path_string = ''
+  else
+    let l:path_string = substitute(expand('%:h'), $HOME, '~', '')
+    if winwidth(0) < 120 && len(l:path_string) > 30
+      let l:path_string = substitute(l:path_string, '\v([^/])[^/]*%(/)@=', '\1', 'g')
+    endif
+  endif
+
+  return l:ro_string . l:path_string
 endfunction
 
 function! LightLineFilename()
