@@ -213,15 +213,15 @@ function! LightLineFugitive()
 endfunction
 
 function! LightLineFileformat()
-  return winwidth(0) > 100 ? &fileformat . ' ' . WebDevIconsGetFileFormatSymbol() : ''
+  return winwidth(0) > 120 ? &fileformat . ' ' . WebDevIconsGetFileFormatSymbol() : ''
 endfunction
 
 function! LightLineFiletype()
-  return winwidth(0) > 100 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  return winwidth(0) > 120 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
 
 function! LightLineFileencoding()
-  return winwidth(0) > 100 ? (strlen(&fenc) ? &fenc : &enc) : ''
+  return winwidth(0) > 120 ? (strlen(&fenc) ? &fenc : &enc) : ''
 endfunction
 
 function! LightLineMode()
@@ -233,7 +233,7 @@ function! LightLineMode()
 endfunction
 
 function! LightLineCharCode()
-  if winwidth(0) <= 100
+  if winwidth(0) <= 120
     return ''
   endif
   redir => l:tmp | silent! ascii | redir END
