@@ -73,8 +73,6 @@ home_dir: "{{ secret_home_dir }}"
 cache_dir: "{{ home_dir }}/Library/Caches/Ansible"
 fonts_dir: "{{ home_dir }}/Library/Fonts"
 dotfiles_dir:         "{{ home_dir }}/git/dotfiles"
-dotfiles_repo:        git@github.com:delphinus/dotfiles-private
-dotfiles_repo_public: git@github.com:delphinus/dotfiles
 python_modules:
   - psutil
   - pyuv
