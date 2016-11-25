@@ -314,6 +314,11 @@ repo  = 'msanders/cocoa.vim'
 on_ft = ['objc']
 
 [[plugins]]
+repo    = 'osyo-manga/vim-precious'
+on_ft   = ['toml']
+depends = ['context_filetype.vim']
+
+[[plugins]]
 repo    = 'rhysd/vim-textobj-ruby'
 depends = ['vim-textobj-user']
 on_ft   = ['ruby']
@@ -537,6 +542,9 @@ repo = 'dannyob/quickfixstatus'
 # }}}
 
 # others {{{
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
 [[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
 on_func  = ['tablemode#Toggle']
