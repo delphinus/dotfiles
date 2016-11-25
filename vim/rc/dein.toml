@@ -171,11 +171,15 @@ let g:lightline = {
         \ }
 
 function! LightLineModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '' : &modifiable ? '' : '-'
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' :
+        \ &modified ? '' : &modifiable ? '' :
+        \ '-'
 endfunction
 
 function! LightLineReadonly()
-  return &ft == 'help' ? '' : &ft !~? 'vimfiler\|gundo' && &readonly ? '' : ''
+  return &ft == 'help' ? '' :
+        \ &ft !~? 'vimfiler\|gundo' && &readonly ? '' :
+        \ ''
 endfunction
 
 function! LightLineFilePath()
