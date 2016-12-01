@@ -2,13 +2,13 @@ scriptencoding utf-8
 
 function! delphinus#init#qfixhowm#hook_source() abort
   " QFixMemo 設定
-  let g:owncloud_dir = isdirectory('/mnt/hgfs') ? '/mnt/hgfs/ownCloud' : expand(g:home . '/ownCloud')
+  let g:shared_dir = expand(g:home . '/Shared')
 
   " キーマップリーダー
   let g:QFixHowm_Key='g'
   " ファイル保存用
-  if isdirectory(g:owncloud_dir)
-    let g:howm_dir = g:owncloud_dir . '/Documents/howm'
+  if isdirectory(g:shared_dir)
+    let g:howm_dir = g:shared_dir . '/Documents/howm'
   else
     let g:howm_dir = expand('$H') . '/howm'
   endif
