@@ -189,6 +189,7 @@ repo        = 'lambdalisue/neovim-prompt'
 
 [[plugins]]
 repo     = 'lambdalisue/lista.nvim'
+rev      = '25d47e79e5291fc964aed9b5e6a5c9ea0d4d817a'
 depends  = ['vim-rplugin', 'neovim-prompt']
 on_cmd   = ['Lista', 'ListaCursorWord']
 hook_source = '''
