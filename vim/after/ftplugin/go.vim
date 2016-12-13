@@ -2,6 +2,7 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set includeexpr=substitute(v:fname,'\\.','/','g')
+set foldmethod=marker
 
 if ! exists('b:goroot_setting')
   if ! exists('g:goroot')
