@@ -474,6 +474,12 @@ hook_add = '''"{{{
 
 # on_event {{{
 [[plugins]]
+repo             = 'airblade/vim-gitgutter'
+on_event         = ['FocusLost', 'CursorHold']
+hook_source      = 'call delphinus#init#gitgutter#hook_source()'
+hook_post_source = 'call delphinus#init#gitgutter#hook_post_source()'
+
+[[plugins]]
 repo     = 'delphinus/vim-emacscommandline'
 on_event = ['FocusLost', 'CursorHold']
 
@@ -490,11 +496,6 @@ repo             = 'itchyny/vim-parenmatch'
 on_event         = ['FocusLost', 'CursorHold']
 hook_add         = 'let g:loaded_matchparen = 1'
 hook_post_source = 'call parenmatch#highlight()'
-
-[[plugins]]
-repo        = 'sgur/vim-lazygutter'
-on_event    = ['FocusLost', 'CursorHold']
-hook_source = 'call delphinus#init#lazygutter#hook_source()'
 
 [[plugins]]
 repo     = 'thinca/vim-visualstar'
