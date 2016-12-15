@@ -42,6 +42,7 @@ set formatoptions+=nmM " テキスト整形オプション
 set wrap               " ウィンドウの幅が足りないときは折り返す
 set breakindent        " 折り返し時にインデントする
 set showbreak=→\       " 折り返したときに行頭にマークを表示する
+set nofixendofline     " 保存時に最終行の改行を修正しない
 " 括弧付きの連番を認識する
 set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
 " }}}
