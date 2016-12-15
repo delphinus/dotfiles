@@ -34,19 +34,6 @@ set hlsearch   " 検索パターンを強調表示
 set incsearch  " インクリメンタルサーチ
 " }}}
 
-" インデントと整形 {{{
-set autoindent         " 自動インデント
-set smartindent        " スマートなインデント
-set textwidth=0        " 自動改行はオフ
-set formatoptions+=nmM " テキスト整形オプション
-set wrap               " ウィンドウの幅が足りないときは折り返す
-set breakindent        " 折り返し時にインデントする
-set showbreak=→\       " 折り返したときに行頭にマークを表示する
-set nofixendofline     " 保存時に最終行の改行を修正しない
-" 括弧付きの連番を認識する
-set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
-" }}}
-
 " 画面表示 {{{
 set ambiwidth=single     " 文字幅の指定が曖昧なときは半角と見なす
 set t_Co=256             " 256 色表示ターミナル対応
@@ -63,6 +50,19 @@ set listchars=tab:░\ ,trail:␣,eol:⏎,extends:→,precedes:←,nbsp:¯
 set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表示する
 set colorcolumn=141      " 141 桁目をハイライト
 set cmdheight=2          " 画面最下段のコマンド表示行数
+" }}}
+
+" インデントと整形 {{{
+set autoindent         " 自動インデント
+set smartindent        " スマートなインデント
+set textwidth=0        " 自動改行はオフ
+set formatoptions+=nmM " テキスト整形オプション
+set wrap               " ウィンドウの幅が足りないときは折り返す
+set breakindent        " 折り返し時にインデントする
+set showbreak=→\       " 折り返したときに行頭にマークを表示する
+set nofixendofline     " 保存時に最終行の改行を修正しない
+" 括弧付きの連番を認識する
+set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
 " }}}
 
 " マウス {{{
