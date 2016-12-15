@@ -35,10 +35,13 @@ set incsearch  " インクリメンタルサーチ
 " }}}
 
 " インデントと整形 {{{
-set autoindent       " 自動インデント
-set smartindent      " スマートなインデント
-set textwidth=0      " 自動改行はオフ
+set autoindent         " 自動インデント
+set smartindent        " スマートなインデント
+set textwidth=0        " 自動改行はオフ
 set formatoptions+=nmM " テキスト整形オプション
+set wrap               " ウィンドウの幅が足りないときは折り返す
+set breakindent        " 折り返し時にインデントする
+set showbreak=→\       " 折り返したときに行頭にマークを表示する
 " 括弧付きの連番を認識する
 set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
 " }}}
@@ -56,9 +59,6 @@ set number               " 現在行の行番号を表示する
 set numberwidth=3        " 行番号の幅は 3 桁
 set list                 " 空白の可視化
 set listchars=tab:░\ ,trail:␣,eol:⏎,extends:→,precedes:←,nbsp:¯
-set wrap                 " ウィンドウの幅が足りないときは折り返す
-set breakindent          " 折り返し時にインデントする
-set showbreak=→\         " 折り返したときに行頭にマークを表示する
 set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表示する
 set colorcolumn=141      " 141 桁目をハイライト
 set cmdheight=2          " 画面最下段のコマンド表示行数
