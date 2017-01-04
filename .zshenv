@@ -55,7 +55,7 @@ else
 fi
 if [[ $OSTYPE == darwin* ]]; then
   path=($HOME/Library/Python/2.7/bin/(N-/) $path)
-  user_base="$HOME/Library/Python/3.5"
+  user_base="$HOME/Library/Python/3.6"
 else
   user_base="$HOME/.local"
 fi
