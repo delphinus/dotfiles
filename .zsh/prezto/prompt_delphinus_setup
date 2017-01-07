@@ -88,9 +88,9 @@ function prompt_delphinus_precmd {
   fi
 
   ruby-info
-  RPROMPT+=' %F{5}${ruby_info[version]}%f'
+  RPROMPT+='%F{5}${ruby_info[version]}%f '
   perl-info
-  RPROMPT+=' %F{6}${perl_info[version]}%f'
+  RPROMPT+='%F{6}${perl_info[version]}%f '
 
   # Compute slow commands in the background.
   trap prompt_delphinus_git_info WINCH
