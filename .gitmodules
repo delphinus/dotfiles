@@ -13,18 +13,9 @@
 [submodule ".zsh/zsh-notify"]
 	path = .zsh/zsh-notify
 	url = https://github.com/marzocchi/zsh-notify
-[submodule "submodules/solarized-limechat"]
-	path = submodules/solarized-limechat
-	url = https://github.com/delphinus35/solarized-limechat
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "submodules/solarized"]
-	path = submodules/solarized
-	url = https://github.com/delphinus35/solarized
-[submodule "submodules/xterm_colour_chart"]
-	path = submodules/xterm_colour_chart
-	url = https://github.com/delphinus35/xterm_colour_chart
 [submodule ".zprezto"]
 	path = .zprezto
 	url = https://github.com/delphinus/prezto
