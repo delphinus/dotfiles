@@ -55,5 +55,10 @@ alias vp=vimpager
 alias minvim='vim -N -u NONE -u NONE -i NONE --noplugin'
 alias ra=ranger
 alias pipes='pipes.sh -p 2 -t "c┃╭ ╮╯━╮  ╰┃╯╰ ╭━"'
+alias m=memo
+alias mn='memo n'
+alias ml='memo l'
+alias me='memo e'
+alias mg='memo g'
 
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
