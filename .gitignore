@@ -126,6 +126,7 @@ Temporary Items
 /.pentadactyl/info
 /.screen/screen*.log
 /.tmux/plugins
+/.tmux/resurrect
 /.vim/.netrwhist
 /.vim/chalice
 /.vim/ftplugin/html.vim
