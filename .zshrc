@@ -28,6 +28,7 @@ source $H/git/dotfiles/.zsh/peco-z.zsh
 source $H/git/dotfiles/.zsh/peco-bundler.zsh
 source $H/git/dotfiles/.zsh/peco-brew-directories.zsh
 source $H/git/dotfiles/.zsh/peco-open-pullrequest.zsh
+source $H/git/dotfiles/.zsh/peco-view-sources.zsh
 source $H/git/dotfiles/.zsh/set-ssh-auth-sock.zsh
 source $H/git/dotfiles/.zsh/export-alias.zsh
 #source $H/git/dotfiles/.zsh/iterm2_shell_integration.zsh

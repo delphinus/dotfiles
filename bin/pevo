@@ -1,0 +1,2 @@
+#!/bin/sh
+exec rg -n "$@" . | peco --exec 'awk -F : '"'"'{print "+" $2 " " $1}'"'"' 2>&1 | xargs -o view'
