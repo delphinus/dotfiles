@@ -2,7 +2,7 @@
 function! delphinus#datetime#adjust_date(date, offset) abort
   let result = ''
 
-  python <<EOP
+  python3 <<EOP
 import vim
 import datetime
 
