@@ -329,7 +329,8 @@ repo = 'aklt/plantuml-syntax'
 repo = 'cespare/vim-toml'
 
 [[plugins]]
-repo = 'leafgarland/typescript-vim'
+repo   = 'leafgarland/typescript-vim'
+merged = 0
 
 [[plugins]]
 repo     = 'delphinus/vim-markdown'
