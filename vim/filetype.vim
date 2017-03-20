@@ -316,9 +316,6 @@ au BufNewFile,BufRead *.xmi			setf xml
 " CSPROJ files are Visual Studio.NET's XML-based project config files
 au BufNewFile,BufRead *.csproj,*.csproj.user	setf xml
 
-" Qt Linguist translation source and Qt User Interface Files are XML
-au BufNewFile,BufRead *.ts,*.ui			setf xml
-
 " TPM's are RDF-based descriptions of TeX packages (Nikolai Weibull)
 au BufNewFile,BufRead *.tpm			setf xml
 
