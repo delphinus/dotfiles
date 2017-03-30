@@ -148,11 +148,6 @@ augroup NoFiletypeForHugeBuffer
 augroup END
 " }}}
 
-" Python 設定 {{{
-if has('macunix') && has('kaoriya')
-  let $PYTHON3_DLL='/usr/local/Cellar/python3/3.6.0/Frameworks/Python.framework/Versions/3.6/Python'
-endif
-
 " Force enable Python3
 augroup EnablePython3
   autocmd!
