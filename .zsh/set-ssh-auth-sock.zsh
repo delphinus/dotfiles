@@ -2,11 +2,11 @@
 sock_link=$HOME/.ssh/auth_sock
 
 function set_sock_link() {
-  sock=$(ls /tmp/**/Listeners || true)
+  sock=$(ls /tmp/**/Listeners 2> /dev/null || true)
   if [ -n "$sock" ]; then
     ln -fs $sock $sock_link
   else
-    sock=$(ls /tmp/ssh*/agent* || true)
+    sock=$(ls /tmp/ssh*/agent* 2> /dev/null || true)
     if [ -n "$sock" ]; then
       ln -fs $sock $sock_link
     else
@@ -19,7 +19,6 @@ function set_sock_link() {
 if [ -n "$SSH_AUTH_SOCK" ]; then
   if [ "$SSH_AUTH_SOCK" != "$HOME/.ssh/auth_sock" ]; then
     ln -fs $SSH_AUTH_SOCK $HOME/.ssh/auth_sock
-    echo export SSH_AUTH_SOCK=$HOME/.ssh/auth_sock
   fi
   if ! [ -S "$SSH_AUTH_SOCK" ]; then
     set_sock_link
@@ -27,5 +26,4 @@ if [ -n "$SSH_AUTH_SOCK" ]; then
 else
   rm -f $sock_link
   set_sock_link
-  echo export SSH_AUTH_SOCK=$sock_link
 fi
