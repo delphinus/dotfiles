@@ -93,6 +93,7 @@ if [ -d "$HOME/perl5" ]; then
     $HOME/perl5/lib/perl5/$arch/auto(N-/)\
     $PERL5LIB)
 fi
+path=(/usr/local/opt/perl/bin(N-/) $path)
 
 # for plenv
 alias perl='perl -I$HOME/perl5/lib/perl5'
