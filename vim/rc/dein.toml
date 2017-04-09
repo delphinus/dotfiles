@@ -541,9 +541,6 @@ repo = 'nginx.vim'
 
 # dependencies {{{
 [[plugins]]
-repo = 'osyo-manga/shabadou.vim'
-
-[[plugins]]
 repo = 'kana/vim-textobj-user'
 # }}}
 
