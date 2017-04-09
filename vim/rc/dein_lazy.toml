@@ -249,6 +249,23 @@ on_cmd    = ['PP', 'PrettyPrint']
 on_source = ['capture.vim']
 
 [[plugins]]
+repo     = 'thinca/vim-quickrun'
+on_cmd   = ['QuickRun']
+hook_add = '''"{{{
+  let g:quickrun_no_default_key_mappings=1
+
+  for [s:key, s:com] in items({
+        \ 'x': '>message',
+        \ 's': '-runner shell',
+        \ 'w': '-runner vimproc >buffer',
+        \ 'q': '-runner vimproc >>buffer',
+        \ })
+    execute 'nnoremap <silent>' '`q' . s:key ':QuickRun' s:com '-mode n<CR>'
+    execute 'vnoremap <silent>' '`q' . s:key ':QuickRun' s:com '-mode v<CR>'
+  endfor
+"}}}'''
+
+[[plugins]]
 repo   = 'tyru/capture.vim'
 on_cmd = ['Capture']
 
@@ -302,15 +319,19 @@ hook_source = '''
   let g:go_fmt_command = 'goimports'
   let g:go_fmt_experimental = 1
   let g:go_gocode_unimported_packages = 1
+  let g:go_highlight_array_whitespace_error = 1
   let g:go_highlight_build_constraints = 1
+  let g:go_highlight_chan_whitespace_error = 1
+  let g:go_highlight_extra_types = 1
   let g:go_highlight_fields = 1
   let g:go_highlight_functions = 1
   let g:go_highlight_generate_tags = 1
   let g:go_highlight_methods = 1
   let g:go_highlight_operators = 1
+  let g:go_highlight_space_tab_error = 1
   let g:go_highlight_types = 1
   let g:go_info_mode = 'guru'
-  let g:go_metalinter_autosave = 1
+  let g:go_metalinter_autosave = 0
   let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
   let g:go_metalinter_deadline = '10s'
   let g:go_template_use_pkg = 1
@@ -505,43 +526,19 @@ hook_post_source = 'call parenmatch#highlight()'
 [[plugins]]
 repo     = 'thinca/vim-visualstar'
 on_event = ['FocusLost', 'CursorHold']
-# }}}
-
-# watchdogs {{{
-[[plugins]]
-repo    = 'osyo-manga/vim-watchdogs'
-depends = [
-  'vim-hier',
-  'quickfixstatus',
-  'shabadou.vim',
-  'vim-quickrun',
-]
-on_event         = ['FocusLost', 'CursorHold']
-hook_source      = 'call delphinus#init#watchdogs#hook_source()'
-hook_post_source = 'call delphinus#init#watchdogs#hook_post_source()'
 
 [[plugins]]
-repo = 'cohama/vim-hier'
-
-[[plugins]]
-repo     = 'thinca/vim-quickrun'
-on_cmd   = ['QuickRun']
-hook_add = '''"{{{
-  let g:quickrun_no_default_key_mappings=1
-
-  for [s:key, s:com] in items({
-        \ 'x': '>message',
-        \ 's': '-runner shell',
-        \ 'w': '-runner vimproc >buffer',
-        \ 'q': '-runner vimproc >>buffer',
-        \ })
-    execute 'nnoremap <silent>' '`q' . s:key ':QuickRun' s:com '-mode n<CR>'
-    execute 'vnoremap <silent>' '`q' . s:key ':QuickRun' s:com '-mode v<CR>'
-  endfor
-"}}}'''
-
-[[plugins]]
-repo = 'dannyob/quickfixstatus'
+repo     = 'w0rp/ale'
+on_event = ['FocusLost', 'CursorHold']
+hook_source = '''
+  let g:ale_sign_column_always = 1
+  let g:ale_sign_error = ' '
+  let g:ale_sign_warning = ' '
+  let g:ale_statusline_format = ['  %d', '  %d', '  ']
+  let g:ale_linters = {
+        \ 'go': [ 'gofmt', 'go vet', 'golint' ],
+        \ }
+'''
 # }}}
 
 # others {{{
