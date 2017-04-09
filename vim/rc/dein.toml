@@ -1,12 +1,5 @@
 # basic {{{
 [[plugins]]
-repo     = 'KazuakiM/vim-qfstatusline'
-hook_add = '''
-  " :WatchdogsRun後にlightline.vimを更新
-  let g:Qfstatusline#UpdateCmd = function('lightline#update')
-'''
-
-[[plugins]]
 repo = 'Konfekt/FastFold'
 
 [[plugins]]
@@ -130,7 +123,17 @@ let s:p.tabline.middle  = [ [ s:base0, s:base02 ] ]
 let s:p.tabline.right   = copy(s:p.normal.right)
 
 let s:p.normal.error    = [ [ s:base03, s:red ] ]
+let s:p.insert.error    = s:insert[5:5]
+let s:p.replace.error   = s:replace[5:5]
+let s:p.visual.error    = s:visual[5:5]
 let s:p.normal.warning  = [ [ s:base03, s:yellow ] ]
+let s:p.insert.warning  = s:insert[5:5]
+let s:p.replace.warning = s:replace[5:5]
+let s:p.visual.warning  = s:visual[5:5]
+let s:p.normal.ok       = [ [ s:green, s:base02 ] ]
+let s:p.insert.ok       = s:insert[5:5]
+let s:p.replace.ok      = s:replace[5:5]
+let s:p.visual.ok       = s:visual[5:5]
 
 let g:lightline#colorscheme#solarized_custom#palette = lightline#colorscheme#flatten(s:p)
 
@@ -138,10 +141,11 @@ let g:lightline = {
         \ 'colorscheme': 'solarized_custom',
         \ 'mode_map': {'c': 'NORMAL'},
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive' ], [ 'filepath' ], [ 'filename', 'qfstatusline' ] ],
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive' ], [ 'filepath' ], [ 'filename' ] ],
         \   'right': [
         \     [ 'lineinfo' ],
         \     [ 'percent' ],
+        \     [ 'ale', 'ale_ok' ],
         \     [ 'char_code', 'fileformat', 'fileencoding', 'filetype' ],
         \   ],
         \ },
@@ -161,10 +165,12 @@ let g:lightline = {
         \   'mode': 1,
         \ },
         \ 'component_expand': {
-        \   'qfstatusline': 'qfstatusline#Update',
+        \   'ale': 'LightLineALE',
+        \   'ale_ok': 'LightLineALEOK',
         \ },
         \ 'component_type': {
-        \   'qfstatusline': 'error',
+        \   'ale': 'error',
+        \   'ale_ok': 'ok',
         \ },
         \ 'separator': { 'left': '', 'right': '' },
         \ 'subseparator': { 'left': '', 'right': '' },
@@ -244,6 +250,52 @@ function! LightLineCharCode()
   let m = matchlist(l:tmp, '<\(.\+\)>\s*\(\d\+\)')
   return len(m) > 0 ? printf('%s %X', m[1], m[2]) : ''
 endfunction
+
+function! LightLineALEOKString()
+  let l:formats = get(g:, 'ale_statusline_format', [])
+  return get(l:formats, 2, '')
+endfunction
+
+let g:LightLineALECache = {}
+
+function! LightLineALEString(mode)
+  let l:ok = LightLineALEOKString()
+  if l:ok ==# ''
+    return ''
+  endif
+  let l:buf = bufname('')
+  if get(g:LightLineALECache, l:buf, '') ==# ''
+    let g:LightLineALECache[l:buf] = ale#statusline#Status()
+  endif
+  if a:mode == 1
+    if g:LightLineALECache[l:buf] ==# l:ok
+      return g:LightLineALECache[l:buf]
+    endif
+  else
+    if g:LightLineALECache[l:buf] !=# l:ok
+      return g:LightLineALECache[l:buf]
+    endif
+  endif
+  return ''
+endfunction
+
+function! LightLineALE()
+  return LightLineALEString(0)
+endfunction
+
+function! LightLineALEOK()
+  return LightLineALEString(1)
+endfunction
+
+function! LightLineALEUpdate()
+  let g:LightLineALECache[bufname('')] = ''
+  call lightline#update()
+endfunction
+
+augroup LightLineOnALE
+  autocmd!
+  autocmd User ALELint call LightLineALEUpdate()
+augroup END
 "}}}'''
 
 [[plugins]]
