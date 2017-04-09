@@ -1,12 +1,5 @@
 # basic {{{
 [[plugins]]
-repo     = 'KazuakiM/vim-qfstatusline'
-hook_add = '''
-  " :WatchdogsRun後にlightline.vimを更新
-  let g:Qfstatusline#UpdateCmd = function('lightline#update')
-'''
-
-[[plugins]]
 repo = 'Konfekt/FastFold'
 
 [[plugins]]
@@ -138,7 +131,7 @@ let g:lightline = {
         \ 'colorscheme': 'solarized_custom',
         \ 'mode_map': {'c': 'NORMAL'},
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive' ], [ 'filepath' ], [ 'filename', 'qfstatusline' ] ],
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive' ], [ 'filepath' ], [ 'filename' ] ],
         \   'right': [
         \     [ 'lineinfo' ],
         \     [ 'percent' ],
@@ -159,12 +152,6 @@ let g:lightline = {
         \ },
         \ 'component_function_visible_condition': {
         \   'mode': 1,
-        \ },
-        \ 'component_expand': {
-        \   'qfstatusline': 'qfstatusline#Update',
-        \ },
-        \ 'component_type': {
-        \   'qfstatusline': 'error',
         \ },
         \ 'separator': { 'left': '', 'right': '' },
         \ 'subseparator': { 'left': '', 'right': '' },
