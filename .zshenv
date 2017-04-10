@@ -42,6 +42,7 @@ path=(\
   $H/bin(N-/)\
   $H/git/dotfiles/bin(N-/)\
   $H/.ghg/bin(N-/)\
+  /usr/local/opt/perl/bin(N-/)\
   $path)
 
 # for python
