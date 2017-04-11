@@ -483,6 +483,9 @@ rev  = 'feature/recognize-ridgepole'
 repo = 'jason0x43/vim-js-indent'
 
 [[plugins]]
+repo  = 'pearofducks/ansible-vim'
+
+[[plugins]]
 repo = 'taskwarrior/task'
 rtp  = 'scripts/vim'
 
