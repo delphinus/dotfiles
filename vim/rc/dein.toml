@@ -347,6 +347,7 @@ repo = 'vim-jp/vimdoc-ja'
 repo     = 'w0rp/ale'
 on_event = ['FocusLost', 'CursorHold']
 hook_add = '''
+  let a:ale_echo_msg_format = '%severity%: %linter%: %s'
   let g:ale_sign_column_always = 1
   let g:ale_sign_error = ' '
   let g:ale_sign_warning = ' '
