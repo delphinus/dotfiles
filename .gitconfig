@@ -51,7 +51,7 @@
 [diff]
 	algorithm = histogram
 	renames = true
-	compactionHeuristic = true
+	indentHeuristic = true
 [url "git@github.com:"]
 	pushinstedof = "git://github.com/"
 	pushinstedof = "https://github.com/"

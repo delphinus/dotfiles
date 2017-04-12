@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 function! delphinus#init#gitgutter#hook_source() abort
-  let g:gitgutter_diff_args='-w --compaction-heuristic'
+  let g:gitgutter_diff_args='-w --indent-heuristic'
   let g:gitgutter_enabled=1
   let g:gitgutter_highlight_lines = 1
   let g:gitgutter_sign_added=''
