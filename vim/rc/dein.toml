@@ -145,7 +145,7 @@ let g:lightline = {
         \   'right': [
         \     [ 'lineinfo' ],
         \     [ 'percent' ],
-        \     [ 'ale', 'ale_ok' ],
+        \     [ 'ale_error', 'ale_warning', 'ale_ok' ],
         \     [ 'char_code', 'fileformat', 'fileencoding', 'filetype' ],
         \   ],
         \ },
@@ -165,11 +165,13 @@ let g:lightline = {
         \   'mode': 1,
         \ },
         \ 'component_expand': {
-        \   'ale': 'LightLineALE',
+        \   'ale_error': 'LightLineALEError',
+        \   'ale_warning': 'LightLineALEWarning',
         \   'ale_ok': 'LightLineALEOK',
         \ },
         \ 'component_type': {
-        \   'ale': 'error',
+        \   'ale_error': 'error',
+        \   'ale_warning': 'warning',
         \   'ale_ok': 'ok',
         \ },
         \ 'separator': { 'left': '', 'right': '' },
@@ -251,50 +253,39 @@ function! LightLineCharCode()
   return len(l:m) > 0 ? printf('%s %X', l:m[1], l:m[2]) : ''
 endfunction
 
-function! LightLineALEOKString()
-  let l:formats = get(g:, 'ale_statusline_format', [])
-  return get(l:formats, 2, '')
-endfunction
-
-let g:LightLineALECache = {}
-
 function! LightLineALEString(mode)
-  let l:ok = LightLineALEOKString()
-  if l:ok ==# ''
+  if !exists('g:ale_buffer_info')
     return ''
   endif
-  let l:buf = bufname('')
-  if get(g:LightLineALECache, l:buf, '') ==# ''
-    let g:LightLineALECache[l:buf] = ale#statusline#Status()
+
+  let l:buffer = bufnr('%')
+  let [l:error_count, l:warning_count] = ale#statusline#Count(l:buffer)
+  let [l:error_format, l:warning_format, l:no_errors] = g:ale_statusline_format
+
+  if a:mode == 0 " Error
+    return l:error_count ? printf(l:error_format, l:error_count) : ''
+  elseif a:mode == 1 " Warning
+    return l:warning_count ? printf(l:warning_format, l:warning_count) : ''
   endif
-  if a:mode == 1
-    if g:LightLineALECache[l:buf] ==# l:ok
-      return g:LightLineALECache[l:buf]
-    endif
-  else
-    if g:LightLineALECache[l:buf] !=# l:ok
-      return g:LightLineALECache[l:buf]
-    endif
-  endif
-  return ''
+
+  return l:error_count == 0 && l:warning_count == 0 ? l:no_errors : ''
 endfunction
 
-function! LightLineALE()
+function! LightLineALEError()
   return LightLineALEString(0)
 endfunction
 
-function! LightLineALEOK()
+function! LightLineALEWarning()
   return LightLineALEString(1)
 endfunction
 
-function! LightLineALEUpdate()
-  let g:LightLineALECache[bufname('')] = ''
-  call lightline#update()
+function! LightLineALEOK()
+  return LightLineALEString(2)
 endfunction
 
 augroup LightLineOnALE
   autocmd!
-  autocmd User ALELint call LightLineALEUpdate()
+  autocmd User ALELint call lightline#update()
 augroup END
 "}}}'''
 
