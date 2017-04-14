@@ -177,20 +177,20 @@ let g:lightline = {
         \ }
 
 function! LightLineModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' :
+  return &filetype =~# 'help\|vimfiler\|gundo' ? '' :
         \ &modified ? '' : &modifiable ? '' :
         \ '-'
 endfunction
 
 function! LightLineReadonly()
-  return &ft == 'help' ? '' :
-        \ &ft !~? 'vimfiler\|gundo' && &readonly ? '' :
+  return &filetype ==# 'help' ? '' :
+        \ &filetype !~# 'vimfiler\|gundo' && &readonly ? '' :
         \ ''
 endfunction
 
 function! LightLineFilePath()
-  let l:ro_string = '' != LightLineReadonly() ? LightLineReadonly() . ' ' : ''
-  if $rt ==# 'vimfilter' || &ft ==# 'unite' || winwidth(0) < 70
+  let l:ro_string = '' !=# LightLineReadonly() ? LightLineReadonly() . ' ' : ''
+  if &filetype ==# 'vimfilter' || &filetype ==# 'unite' || winwidth(0) < 70
     let l:path_string = ''
   else
     let l:path_string = substitute(expand('%:h'), $HOME, '~', '')
@@ -203,10 +203,10 @@ function! LightLineFilePath()
 endfunction
 
 function! LightLineFilename()
-  return (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+  return (&filetype ==# 'vimfiler' ? vimfiler#get_status_string() :
+        \  &filetype ==# 'unite' ? unite#get_status_string() :
+        \ '' !=# expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' !=# LightLineModified() ? ' ' . LightLineModified() : '')
 endfunction
 
 function! LightLineFugitive()
@@ -214,7 +214,7 @@ function! LightLineFugitive()
     return ''
   endif
   try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+    if &filetype !~? 'vimfiler\|gundo' && exists('*fugitive#head')
       return fugitive#head()
     endif
   catch
@@ -231,14 +231,14 @@ function! LightLineFiletype()
 endfunction
 
 function! LightLineFileencoding()
-  return winwidth(0) > 120 ? (strlen(&fenc) ? &fenc : &enc) : ''
+  return winwidth(0) > 120 ? (strlen(&fileencoding) ? &fileencoding : &encoding) : ''
 endfunction
 
 function! LightLineMode()
   let l:fname = expand('%:t')
-  return fname =~# 'unite' ? 'Unite' :
-        \ fname =~# 'vimfiler' ? 'VimFilter' :
-        \ fname =~# '__Gundo__' ? 'Gundo' :
+  return l:fname =~# 'unite' ? 'Unite' :
+        \ l:fname =~# 'vimfiler' ? 'VimFilter' :
+        \ l:fname =~# '__Gundo__' ? 'Gundo' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
@@ -247,8 +247,8 @@ function! LightLineCharCode()
     return ''
   endif
   redir => l:tmp | silent! ascii | redir END
-  let m = matchlist(l:tmp, '<\(.\+\)>\s*\(\d\+\)')
-  return len(m) > 0 ? printf('%s %X', m[1], m[2]) : ''
+  let l:m = matchlist(l:tmp, '<\(.\+\)>\s*\(\d\+\)')
+  return len(l:m) > 0 ? printf('%s %X', l:m[1], l:m[2]) : ''
 endfunction
 
 function! LightLineALEOKString()
