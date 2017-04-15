@@ -11,13 +11,6 @@ if = '''! (has('macunix') && has('kaoriya') && isdirectory(expand('$VIM/plugins/
 hook_post_update = 'call delphinus#init#vimproc#hook_post_update()'
 
 [[plugins]]
-repo = 'delphinus/lightline-delphinus'
-
-[[plugins]]
-repo    = 'itchyny/lightline.vim'
-depends = 'lightline-delphinus'
-
-[[plugins]]
 repo     = 'kana/vim-submode'
 hook_add = '''"{{{
   call submode#enter_with('DWM_size', 'n', '', '<C-w>>', ':call DWM_GrowMaster()<CR>')
@@ -61,19 +54,6 @@ repo = 'tpope/vim-repeat'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
-
-[[plugins]]
-repo     = 'w0rp/ale'
-hook_add = '''
-  let g:ale_echo_msg_format = '%severity%: %linter%: %s'
-  let g:ale_sign_column_always = 1
-  let g:ale_sign_error = ' '
-  let g:ale_sign_warning = ' '
-  let g:ale_statusline_format = ['  %d', '  %d', '  ']
-  let g:ale_linters = {
-        \ 'go': [ 'gofmt', 'go vet', 'golint' ],
-        \ }
-'''
 # }}}
 
 # colorscheme {{{
@@ -258,6 +238,28 @@ hook_add = '''"{{{
         \ 'tex': 1,
         \ }
 "}}}'''
+# }}}
+
+# for lightline {{{
+[[plugins]]
+repo = 'delphinus/lightline-delphinus'
+
+[[plugins]]
+repo    = 'itchyny/lightline.vim'
+depends = [ 'lightline_delphinus', 'ale' ]
+
+[[plugins]]
+repo     = 'w0rp/ale'
+hook_add = '''
+  let g:ale_echo_msg_format = '%severity%: %linter%: %s'
+  let g:ale_sign_column_always = 1
+  let g:ale_sign_error = ' '
+  let g:ale_sign_warning = ' '
+  let g:ale_statusline_format = ['  %d', '  %d', '  ']
+  let g:ale_linters = {
+        \ 'go': [ 'gofmt', 'go vet', 'golint' ],
+        \ }
+'''
 # }}}
 
 # vim-script {{{
