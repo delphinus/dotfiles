@@ -148,7 +148,6 @@ augroup NoFiletypeForHugeBuffer
   autocmd!
   autocmd BufRead,BufEnter * if line('$') > 3000 | set filetype= | endif
 augroup END
-" }}}
 
 " Force enable Python3
 augroup EnablePython3
