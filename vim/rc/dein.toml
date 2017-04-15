@@ -70,7 +70,14 @@ if &background ==# 'light'
   let [ s:base00, s:base0 ] = [ s:base0, s:base00 ]
 endif
 
-let s:normal = [ [ s:base03, s:base1, s:bold ], [ s:base03, s:base0 ], [ s:base3, s:base02 ] ]
+let s:normal = [
+        \ [ s:base03, s:green, s:bold ],
+        \ [ s:base03, s:base1, s:bold ],
+        \ [ s:base03, s:base0 ],
+        \ [ s:base3, s:base02 ],
+        \ [ s:base2, s:red ],
+        \ [ s:base2, s:yellow ],
+        \ [ s:green, s:base02 ] ]
 
 " http://paletton.com/#uid=13C0u0kw0w0jyC+oRxVy4oIDfjr
 let s:insert = [
@@ -79,7 +86,8 @@ let s:insert = [
         \ [ s:base03, [ '#3169ac', 61 ] ],
         \ [ s:base2, [ '#0e53a7', 25 ] ],
         \ [ s:base03, [ '#0e53a7', 25 ] ],
-        \ [ s:base2, [ '#0a4081', 24 ] ] ]
+        \ [ s:base2, [ '#0a4081', 24 ] ],
+        \ [ s:base2, [ '#0e53a7', 25 ] ] ]
 " http://paletton.com/#uid=1090u0kw0w0jyC+oRxVy4oIDfjr
 let s:replace = [
         \ [ s:red, s:base2, s:bold ],
@@ -87,7 +95,8 @@ let s:replace = [
         \ [ s:base03, [ '#ff5f39', 203 ] ],
         \ [ s:base2, [ '#ff3100', 202 ] ],
         \ [ s:base03, [ '#ff5f39', 203 ] ],
-        \ [ s:base2, [ '#c52600', 160 ] ] ]
+        \ [ s:base2, [ '#c52600', 160 ] ],
+        \ [ s:base2, [ '#ff5f39', 203 ] ] ]
 " http://paletton.com/#uid=14Q0u0kw0w0jyC+oRxVy4oIDfjr
 let s:visual = [
         \ [ s:magenta, s:base2, s:bold ],
@@ -95,11 +104,12 @@ let s:visual = [
         \ [ s:base03, [ '#962aad', 92 ] ],
         \ [ s:base2, [ '#8c04a8', 91 ] ],
         \ [ s:base03, [ '#962aad', 92 ] ],
-        \ [ s:base2, [ '#6c0382', 54 ] ] ]
+        \ [ s:base2, [ '#6c0382', 54 ] ],
+        \ [ s:base2, [ '#962aad', 92 ] ] ]
 
 let s:p = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}}
 
-let s:p.normal.left     = [ [ s:base03, s:green, s:bold ] ] + s:normal
+let s:p.normal.left     = s:normal[0:3]
 let s:p.inactive.left   = [ [ s:base0, s:base02 ], [ s:base0, s:base02 ] ]
 let s:p.insert.left     = s:insert[0:3]
 let s:p.replace.left    = s:replace[0:3]
@@ -122,18 +132,18 @@ let s:p.tabline.tabsel  = [ [ s:base03, s:base1 ] ]
 let s:p.tabline.middle  = [ [ s:base0, s:base02 ] ]
 let s:p.tabline.right   = copy(s:p.normal.right)
 
-let s:p.normal.error    = [ [ s:base2, s:red ] ]
-let s:p.insert.error    = [ [ s:base2, s:insert[4][1] ] ]
-let s:p.replace.error   = [ [ s:base2, s:replace[4][1] ] ]
-let s:p.visual.error    = [ [ s:base2, s:visual[4][1] ] ]
-let s:p.normal.warning  = [ [ s:base2, s:yellow ] ]
-let s:p.insert.warning  = [ [ s:base2, s:insert[4][1] ] ]
-let s:p.replace.warning = [ [ s:base2, s:replace[4][1] ] ]
-let s:p.visual.warning  = [ [ s:base2, s:visual[4][1] ] ]
-let s:p.normal.ok       = [ [ s:green, s:base02 ] ]
-let s:p.insert.ok       = [ [ s:base2, s:insert[4][1] ] ]
-let s:p.replace.ok      = [ [ s:base2, s:replace[4][1] ] ]
-let s:p.visual.ok       = [ [ s:base2, s:visual[4][1] ] ]
+let s:p.normal.error    = s:normal[4:4]
+let s:p.insert.error    = s:insert[6:6]
+let s:p.replace.error   = s:replace[6:6]
+let s:p.visual.error    = s:visual[6:6]
+let s:p.normal.warning  = s:normal[5:5]
+let s:p.insert.warning  = s:insert[6:6]
+let s:p.replace.warning = s:replace[6:6]
+let s:p.visual.warning  = s:visual[6:6]
+let s:p.normal.ok       = s:normal[6:6]
+let s:p.insert.ok       = s:insert[6:6]
+let s:p.replace.ok      = s:replace[6:6]
+let s:p.visual.ok       = s:visual[6:6]
 
 let g:lightline#colorscheme#solarized_custom#palette = lightline#colorscheme#flatten(s:p)
 
