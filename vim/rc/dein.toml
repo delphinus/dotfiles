@@ -268,6 +268,10 @@ repo = 'HiColors'
 repo = 'applescript.vim'
 
 [[plugins]]
+repo = 'autodate.vim'
+if   = '''!has('kaoriya')'''
+
+[[plugins]]
 repo = 'ingo-library'
 
 [[plugins]]

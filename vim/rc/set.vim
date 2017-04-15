@@ -141,6 +141,8 @@ set history=1000                  " コマンドライン履歴を 1000 個保�
 set completeopt+=menuone          " 候補が一つだけの時も補完する
 set completeopt-=preview          " プレビューウィンドウへの表示をやめる
 
+let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
+
 " 3,000 行を超えるようなバッファーではファイルタイプを無効にする
 augroup NoFiletypeForHugeBuffer
   autocmd!
