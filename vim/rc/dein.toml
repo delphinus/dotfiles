@@ -122,18 +122,18 @@ let s:p.tabline.tabsel  = [ [ s:base03, s:base1 ] ]
 let s:p.tabline.middle  = [ [ s:base0, s:base02 ] ]
 let s:p.tabline.right   = copy(s:p.normal.right)
 
-let s:p.normal.error    = [ [ s:base03, s:red ] ]
-let s:p.insert.error    = s:insert[5:5]
-let s:p.replace.error   = s:replace[5:5]
-let s:p.visual.error    = s:visual[5:5]
-let s:p.normal.warning  = [ [ s:base03, s:yellow ] ]
-let s:p.insert.warning  = s:insert[5:5]
-let s:p.replace.warning = s:replace[5:5]
-let s:p.visual.warning  = s:visual[5:5]
+let s:p.normal.error    = [ [ s:base2, s:red ] ]
+let s:p.insert.error    = [ [ s:base2, s:insert[4][1] ] ]
+let s:p.replace.error   = [ [ s:base2, s:replace[4][1] ] ]
+let s:p.visual.error    = [ [ s:base2, s:visual[4][1] ] ]
+let s:p.normal.warning  = [ [ s:base2, s:yellow ] ]
+let s:p.insert.warning  = [ [ s:base2, s:insert[4][1] ] ]
+let s:p.replace.warning = [ [ s:base2, s:replace[4][1] ] ]
+let s:p.visual.warning  = [ [ s:base2, s:visual[4][1] ] ]
 let s:p.normal.ok       = [ [ s:green, s:base02 ] ]
-let s:p.insert.ok       = s:insert[5:5]
-let s:p.replace.ok      = s:replace[5:5]
-let s:p.visual.ok       = s:visual[5:5]
+let s:p.insert.ok       = [ [ s:base2, s:insert[4][1] ] ]
+let s:p.replace.ok      = [ [ s:base2, s:replace[4][1] ] ]
+let s:p.visual.ok       = [ [ s:base2, s:visual[4][1] ] ]
 
 let g:lightline#colorscheme#solarized_custom#palette = lightline#colorscheme#flatten(s:p)
 
@@ -145,8 +145,7 @@ let g:lightline = {
         \   'right': [
         \     [ 'lineinfo' ],
         \     [ 'percent' ],
-        \     [ 'ale_error', 'ale_warning', 'ale_ok' ],
-        \     [ 'char_code', 'fileformat', 'fileencoding', 'filetype' ],
+        \     [ 'ale_error', 'ale_warning', 'ale_ok', 'char_code', 'fileformat', 'fileencoding', 'filetype' ],
         \   ],
         \ },
         \ 'component_function': {
