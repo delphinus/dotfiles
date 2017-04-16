@@ -242,7 +242,11 @@ hook_add = '''"{{{
 
 # for lightline {{{
 [[plugins]]
-repo = 'delphinus/lightline-delphinus'
+repo     = 'delphinus/lightline-delphinus'
+hook_add = '''
+  let g:lightline_delphinus_use_powerline_glyphs = 1
+  let g:lightline_delphinus_use_nerd_fonts_glyphs = 1
+'''
 
 [[plugins]]
 repo    = 'itchyny/lightline.vim'
