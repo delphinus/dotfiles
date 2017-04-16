@@ -13,7 +13,13 @@ endfunction
 function! delphinus#init#gitgutter#hook_post_source() abort
   nmap [h <Plug>GitGutterPrevHunk
   nmap ]h <Plug>GitGutterNextHunk
-  hi GitGutterAddLine ctermbg=233 guibg=#122b0c
-  hi GitGutterChangeLine ctermbg=236 guibg=#342e0e
-  hi GitGutterDeleteLine ctermbg=235 guibg=#4e2728
+  if &background ==# 'light'
+    hi GitGutterAddLine ctermbg=192 guibg=#f0f9e2
+    hi GitGutterChangeLine ctermbg=230 guibg=#fff4c9
+    hi GitGutterDeleteLine ctermbg=224 guibg=#ffe9ef
+  else
+    hi GitGutterAddLine ctermbg=233 guibg=#122b0c
+    hi GitGutterChangeLine ctermbg=236 guibg=#342e0e
+    hi GitGutterDeleteLine ctermbg=235 guibg=#4e2728
+  endif
 endfunction
