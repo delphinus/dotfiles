@@ -53,7 +53,9 @@ ignore_names_re = %r[
   \.pyc$ |
   \.sqlite$ |
   \.exe$ |
-  \.rpm$
+  \.rpm$ |
+  \.tmux/resurrect |
+  \.zprezto/modules/completion/external/src
 ]x
 
 scan_count = 0
