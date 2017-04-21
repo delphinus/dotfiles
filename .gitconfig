@@ -1,6 +1,5 @@
 [http]
 	sslVerify = true
-	postBuffer = 524288000
 [color]
 	ui = true
 	status = auto
