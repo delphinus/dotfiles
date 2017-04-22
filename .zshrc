@@ -71,6 +71,9 @@ if which brew > /dev/null; then
 elif [ -f /etc/profile.d/grc.bashrc ]; then
   . /etc/profile.d/grc.bashrc
   manpath=(/usr/local/share/man $manpath)
+elif [ -f $H/etc/profile.d/grc.bashrc ]; then
+  . $H/etc/profile.d/grc.bashrc
+  manpath=($H/usr/share/man $manpath)
 fi
 
 # custom mysql
