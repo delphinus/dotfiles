@@ -68,9 +68,9 @@ if (( $+commands[grc] )); then
 fi
 if which brew > /dev/null; then
   . $(brew --prefix)/etc/grc.bashrc
-elif [ -f '/etc/profile.d/grc.bashrc' ]; then
+elif [ -f /etc/profile.d/grc.bashrc ]; then
   . /etc/profile.d/grc.bashrc
-  manpath=(/usr/local/shae/man $manpath)
+  manpath=(/usr/local/share/man $manpath)
 fi
 
 # custom mysql
