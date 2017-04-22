@@ -71,12 +71,20 @@ set ttymouse=sgr           " マウスホイールを有効化
 set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
 " }}}
 
+" Solarized Light on iTerm2 reports 11;15 for $COLORFGBG
+if &background ==# 'dark' && $COLORFGBG ==# '11;15'
+  set background=light
+endif
+
 " カラースキーム {{{
 if dein#is_sourced('vim-solarized8')
   set termguicolors " true color を有効にする
   syntax enable
-  set background=dark
-  colorscheme solarized8_dark
+  if &background ==# 'light'
+    colorscheme solarized8_light
+  else
+    colorscheme solarized8_dark
+  endif
 
   augroup SetSearchColor
     autocmd!
@@ -84,7 +92,6 @@ if dein#is_sourced('vim-solarized8')
   augroup END
 elseif dein#is_sourced('vim-colors-solarized')
   syntax enable
-  set background=dark
   colorscheme solarized
 
   augroup SetSearchColor
