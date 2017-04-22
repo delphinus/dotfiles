@@ -72,7 +72,7 @@ set clipboard=autoselectml " モードレスセレクション時に OS 標準�
 " }}}
 
 " Solarized Light on iTerm2 reports 11;15 for $COLORFGBG
-if &background ==# 'dark' && $COLORFGBG ==# '11;15'
+if $COLORFGBG ==# '11;15'
   set background=light
 endif
 
