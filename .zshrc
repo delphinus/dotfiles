@@ -55,6 +55,12 @@ elif [ -f $(ghq list --full-path rupa/z)/z.sh ]; then
   . $(ghq list --full-path rupa/z)/z.sh
 fi
 
+# home usr directory
+path=($H/usr/local/bin(N-/) $H/usr/bin(N-/) $path)
+if [[ -d $HOME/usr/lib ]]; then
+  export LD_LIBRARY_PATH=$HOME/usr/lib:$LD_LIBRARY_PATH
+fi
+
 # grc
 # needed for prezto `git` module
 if (( $+commands[grc] )); then
