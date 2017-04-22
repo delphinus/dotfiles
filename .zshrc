@@ -106,3 +106,13 @@ TERM_PROGRAM=${TERM_PROGRAM:-iTerm.app}
 # http://unix.stackexchange.com/questions/257061/gentoo-linux-gpg-encrypts-properly-a-file-passed-through-parameter-but-throws-i
 typeset -x GPG_TTY
 GPG_TTY=$(tty)
+
+# update powerline setting according to $COLORFGBG
+if [[ -z $TMUX ]]; then
+  tmux_powerline_color=solarized
+  if [[ $COLORFGBG = '11;15' ]]; then # for solarized light
+    tmux_powerline_color=solarizedlight
+  fi
+  config_json=$H/.config/powerline/config.json
+  perl -i -0pe 's/(?<="tmux": \{\n\t\t\t"colorscheme": ")([^"]*)/'"$tmux_powerline_color"'/' $config_json
+fi
