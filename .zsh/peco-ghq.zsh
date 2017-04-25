@@ -1,6 +1,6 @@
 function peco-src () {
   local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
+  if [[ -n $selected_dir ]]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
   fi
@@ -11,7 +11,7 @@ bindkey '^]' peco-src
 function peco-src-dir () {
   local current_buffer=$BUFFER
   local selected_dir=$(ghq list --full-path | peco)
-  if [ -n "$selected_dir" ]; then
+  if [[ -n $selected_dir ]]; then
     BUFFER="${current_buffer}${selected_dir}"
     CURSOR=$#BUFFER
   fi
