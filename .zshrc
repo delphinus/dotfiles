@@ -75,7 +75,7 @@ if (( $+commands[brew] )) && [[ -f $(brew --prefix)/etc/grc.bashrc ]]; then
 elif [[ -f /etc/profile.d/grc.bashrc ]]; then
   . /etc/profile.d/grc.bashrc
   manpath=(/usr/local/share/man(N-/) $manpath)
-elif [ -f $H/etc/profile.d/grc.bashrc ]; then
+elif [[ -f $H/etc/profile.d/grc.bashrc ]]; then
   . $H/etc/profile.d/grc.bashrc
   manpath=($H/usr/share/man(N-/) $manpath)
 fi
@@ -98,7 +98,9 @@ fi
 path=($H/.composer/vendor/bin(N-/) $path)
 
 # node
-path=($(brew --prefix)/node/bin(N-/) $path)
+if (( $+commands[brew] )); then
+  path=($(brew --prefix)/node/bin(N-/) $path)
+fi
 
 # fssh
 if [[ -n $TMUX ]]; then
