@@ -11,7 +11,7 @@ if [[ -n $ZPROF ]]; then
 fi
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
-if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
+if [[ $SHLVL -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
@@ -27,122 +27,120 @@ path=
 if [ -x /usr/libexec/path_helper ]; then
   eval `/usr/libexec/path_helper -s`
 else
-  path=(\
-    /usr/local/bin\
-    /usr/bin\
-    /bin\
-    /usr/sbin\
-    /sbin\
-    /opt/X11/bin\
+  path=(
+    /usr{/local,}/bin
+    /bin
+    {/usr,}/sbin
+    /opt/X11/bin
     )
 fi
 
-path=(\
-  $H/Dropbox/bin(N-/)\
-  $H/bin(N-/)\
-  $H/git/dotfiles/bin(N-/)\
-  $H/.ghg/bin(N-/)\
-  /usr/local/opt/perl/bin(N-/)\
+path=(
+  $H/Dropbox/bin(N-/)
+  $H/bin(N-/)
+  $H/git/dotfiles/bin(N-/)
+  $H/.ghg/bin(N-/)
+  /usr/local/opt/perl/bin(N-/)
   $path)
 
 # for python
-if which pyenv > /dev/null; then
+if (( $+commands[pyenv] )); then
   eval "$(pyenv init - --no-rehash zsh)"
 else
-  typeset -x PYENV_ROOT
-  PYENV_ROOT=$HOME/.pyenv
-  path=($PYENV_ROOT/bin(N-/) $path)
-  if [ -x "$PYENV_ROOT/bin/pyenv" ]; then eval "$(pyenv init - --no-rehash zsh)"; fi
+  typeset -xT PYENV_ROOT pyenv_root
+  pyenv_root=$HOME/.pyenv
+  path=($pyenv_root/bin(N-/) $path)
+  if [[ -x $pyenv_root/bin/pyenv ]]; then eval "$(pyenv init - --no-rehash zsh)"; fi
 fi
 if [[ $OSTYPE == darwin* ]]; then
-  path=($HOME/Library/Python/2.7/bin/(N-/) $path)
-  user_base="$HOME/Library/Python/3.6"
+  path=($HOME/Library/Python/{3.6,2.7}/bin(N-/) $path)
 else
-  user_base="$HOME/.local"
+  path=($HOME/.local/bin(N-/) $path)
 fi
-path=($user_base/bin(N-/) $path)
 
 # for ruby
-if which rbenv > /dev/null; then
+if (( $+commands[rbenv] )); then
   eval "$(rbenv init - --no-rehash zsh)"
 else
-  typeset -x RBENV_ROOT
-  RBENV_ROOT=$HOME/.rbenv
-  path=($RBENV_ROOT/bin(N-/) $path)
-  if [ -x "$RBENV_ROOT/bin/rbenv" ]; then eval "$(rbenv init - --no-rehash zsh)"; fi
+  typeset -xT RBENV_ROOT rbenv_root
+  rbenv_root=$HOME/.rbenv
+  path=($rbenv_root/bin(N-/) $path)
+  if [[ -x $rbenv_root/bin/rbenv ]]; then eval "$(rbenv init - --no-rehash zsh)"; fi
 fi
 
 # for lua
-if which luaenv > /dev/null; then
+if (( $+commands[luaenv] )); then
   eval "$(luaenv init - --no-rehash zsh)"
 else
-  typeset -x LUAENV_ROOT
-  LUAENV_ROOT=$HOME/.luaenv
-  path=($LUAENV_ROOT/bin(N-/) $path)
-  if [ -x "$LUAENV_ROOT/bin/luaenv" ]; then eval "$(luaenv init -)"; fi
+  typeset -xT LUAENV_ROOT luaenv_root
+  luaenv_root=$HOME/.luaenv
+  path=($luaenv_root/bin(N-/) $path)
+  if [ -x $luaenv_root/bin/luaenv ]; then eval "$(luaenv init -)"; fi
 fi
 
 # perl
-if [ -d "$HOME/perl5" ]; then
+if [[ -d $HOME/perl5 ]]; then
   if [[ $OSTYPE == darwin* ]]; then
     arch=darwin-2level
   fi
-  typeset -x PERL5LIB
+  typeset -xT PERL5LIB perl5lib
   path=($HOME/perl5/bin(N-/) $path)
-  PERL5LIB=(\
-    $HOME/perl5/lib/perl5(N-/)\
-    $HOME/perl5/lib/perl5/$arch/auto(N-/)\
-    $PERL5LIB)
+  perl5lib=(
+    $HOME/perl5/lib/perl5(N-/)
+    $HOME/perl5/lib/perl5/$arch/auto(N-/)
+    $perl5lib)
 fi
 path=(/usr/local/opt/perl/bin(N-/) $path)
 
 # for plenv
 alias perl='perl -I$HOME/perl5/lib/perl5'
-if which plenv > /dev/null; then
+if (( $+commands[plenv] )); then
   eval "$(plenv init - zsh)"
 else
-  typeset -x PLENV_ROOT
-  PLENV_ROOT=$HOME/.plenv
-  path=($PLENV_ROOT/bin(N-/) $path)
-  if [ -x "$PLENV_ROOT/bin/plenv" ]; then eval "$(plenv init - --no-rehash zsh)"; fi
+  typeset -xT PLENV_ROOT plenv_root
+  plenv_root=$HOME/.plenv
+  path=($plenv_root/bin(N-/) $path)
+  if [[ -x $plenv_root/bin/plenv ]]; then eval "$(plenv init - --no-rehash zsh)"; fi
 fi
 
 # for go
-typeset -x GOPATH
-GOPATH=$H/.go
-path=($GOPATH/bin(N-/) $path)
-if which goenv > /dev/null; then
+typeset -xT GOPATH gopath
+gopath=$H/.go
+path=($gopath/bin(N-/) $path)
+if (( $+commands[goenv] )); then
   eval "$(goenv init - --no-rehash zsh)"
 else
-  typeset -x GOENV_ROOT
-  GOENV_ROOT=$HOME/.goenv
-  path=($GOENV_ROOT/bin(N-/) $path)
-  if [ -x "$GOENV_ROOT/bin/goenv" ]; then eval "$(goenv init - --no-rehash zsh)"; fi
+  typeset -xT GOENV_ROOT goenv_root
+  goenv_root=$HOME/.goenv
+  path=($goenv_root/bin(N-/) $path)
+  if [[ -x $goenv_root/bin/goenv ]]; then eval "$(goenv init - --no-rehash zsh)"; fi
 fi
 
 # for hub
-if which hub > /dev/null; then
+if (( $+commands[hub] )); then
   alias git=hub
 fi
 
 # for nvm
-if [ -d "$H/.nvm" ]; then
-  typeset -x NVM_DIR
-  NVM_DIR=$H/.nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+if [[ -d $H/.nvm ]]; then
+  typeset -xT NVM_DIR nvm_dir
+  nvm_dir=$H/.nvm
+  [[ -s $nvm_dir/nvm.sh ]] && . "$nvm_dir/nvm.sh"
 fi
 
 # for Google Cloud SDK
-typeset -x GCSDK_PATH GAE_ROOT
-GCSDK_PATH=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
-if [ -d "$GCSDK_PATH" ]; then
-  source $GCSDK_PATH/path.zsh.inc
+typeset -x GCSDK_PATH gcsdk_path
+typeset -xT GAE_ROOT gae_root
+gcsdk_path=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+if [[ -d $GCSDK_PATH ]]; then
+  source $gcsdk_path/path.zsh.inc
   # do not use original completions. it has redundant compinit.
-  #source $GCSDK_PATH/completion.zsh.inc
-  GAE_ROOT=$GCSDK_PATH/platform/google_appengine
-  path=($GAE_ROOT(N-/) $path)
+  #source $gcsdk_path/completion.zsh.inc
+  gae_root=$gcsdk_path/platform/google_appengine
+  path=($gae_root(N-/) $path)
 fi
 
-typeset -x ZSHENV_LOADED PATH_IN_ZSHENV
-ZSHENV_LOADED=1
-PATH_IN_ZSHENV=$PATH
+typeset -xT ZSHENV_LOADED zshenv_loaded
+typeset -xT PATH_IN_ZSHENV path_in_zshenv
+zshenv_loaded=1
+path_in_zshenv=$PATH

@@ -1,4 +1,4 @@
-if [ "$H" != "$HOME" ]; then
+if [[ $H != $HOME ]]; then
   alias vim="/usr/local/bin/vim -u $H/.vim/vimrc"
   alias view="/usr/local/bin/view -u $H/.vim/vimrc"
   alias gh="HOME=$H gh"
@@ -7,7 +7,7 @@ if [ "$H" != "$HOME" ]; then
   alias tig="HOME=$H tig"
   export VISUAL=view.sh
   export EDITOR=vim.sh
-  if which hub > /dev/null; then
+  if (( $+commands[hub] )); then
     alias git="HOME=$H hub"
   else
     alias git="HOME=$H git"
@@ -22,7 +22,6 @@ export EDITRC=$H/.editrc
 export INPUTRC=$H/.inputrc
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
-export CURL_CA_BUNDLE=~/git/dotfiles/ca-bundle.crt
 
 if [[ $OSTYPE == darwin* ]]; then
   alias psl='ps -arcwwwxo "pid command %cpu %mem" | perl -pe "s/%(?=(?:cpu|mem))/ /ig" | grep -v grep | head -13'
