@@ -1,8 +1,8 @@
 function peco-select-history() {
     local tac
-    if which tac > /dev/null; then
+    if (( $+commands[tac] )); then
         tac="tac"
-    elif which gtac > /dev/null; then
+      elif (( $+commands[gtac] )); then
         tac="gtac"
     else
         tac="tail -r"
