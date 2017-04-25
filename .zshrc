@@ -47,38 +47,42 @@ if [[ $OSTYPE == darwin* ]]; then
 fi
 
 # z
-if which brew > /dev/null; then
+if (( $+commands[brew] )); then
   . $(brew --prefix)/etc/profile.d/z.sh
-elif [ -f /etc/profile.d/z.sh ]; then
+elif [[ -f /etc/profile.d/z.sh ]]; then
   . /etc/profile.d/z.sh
-elif [ -f $(ghq list --full-path rupa/z)/z.sh ]; then
-  . $(ghq list --full-path rupa/z)/z.sh
+else
+  z=$(ghq list --full-path rupa/z)
+  if [[ -f $z/z.sh ]]; then
+    . $z/z.sh
+  fi
 fi
 
 # home usr directory
-path=($H/usr/local/bin(N-/) $H/usr/bin(N-/) $path)
-if [[ -d $HOME/usr/lib ]]; then
-  export LD_LIBRARY_PATH=$HOME/usr/lib:$LD_LIBRARY_PATH
-fi
+path=($H/usr{/local,}/bin(N-/) $path)
+
+typeset -xT LD_LIBRARY_PATH ld_library_path
+typeset -U ld_library_path
+ld_library_path=($H/usr/lib(N-/) $ld_library_path)
 
 # grc
 # needed for prezto `git` module
 if (( $+commands[grc] )); then
   unalias grc
 fi
-if which brew > /dev/null; then
+if (( $+commands[brew] )) && [[ -f $(brew --prefix)/etc/grc.bashrc ]]; then
   . $(brew --prefix)/etc/grc.bashrc
-elif [ -f /etc/profile.d/grc.bashrc ]; then
+elif [[ -f /etc/profile.d/grc.bashrc ]]; then
   . /etc/profile.d/grc.bashrc
-  manpath=(/usr/local/share/man $manpath)
+  manpath=(/usr/local/share/man(N-/) $manpath)
 elif [ -f $H/etc/profile.d/grc.bashrc ]; then
   . $H/etc/profile.d/grc.bashrc
-  manpath=($H/usr/share/man $manpath)
+  manpath=($H/usr/share/man(N-/) $manpath)
 fi
 
 # custom mysql
 mysql_bin=/usr/local/opt/mysql/bin
-if which mysql > /dev/null; then
+if (( $+commands[mysql] )); then
   path=($path $mysql_bin(N-/))
 else
   path=($mysql_bin(N-/) $path)
@@ -86,7 +90,7 @@ fi
 
 # github access token
 local homebrew_github_api_token=$H/.homebrew_github_api_token
-if [ -f "$homebrew_github_api_token" ]; then
+if [[ -f $homebrew_github_api_token ]]; then
   . $homebrew_github_api_token
 fi
 
@@ -94,34 +98,34 @@ fi
 path=($H/.composer/vendor/bin(N-/) $path)
 
 # node
-path=(/usr/local/node/bin(N-/) $path)
+path=($(brew --prefix)/node/bin(N-/) $path)
 
 # fssh
-if [ -n "$TMUX" ]; then
+if [[ -n $TMUX ]]; then
   $H/git/dotfiles/bin/set_env_for_fssh.rb
 fi
 
 # local settings
 zshrc_local=$H/.zshrc.local
-if [ -f "$zshrc_local" ]; then
+if [[ -f $zshrc_local ]]; then
   . $zshrc_local
 fi
 
 # for vim solarized
-typeset -x TERM_PROGRAM
-TERM_PROGRAM=${TERM_PROGRAM:-iTerm.app}
+typeset -xT TERM_PROGRAM term_program
+term_program=${term_program:-iTerm.app}
 
 # for GnuPG
 # http://unix.stackexchange.com/questions/257061/gentoo-linux-gpg-encrypts-properly-a-file-passed-through-parameter-but-throws-i
-typeset -x GPG_TTY
-GPG_TTY=$(tty)
+typeset -xT GPG_TTY gpg_tty
+gpg_tty=$(tty)
 
 # update powerline setting according to $COLORFGBG
 if [[ -z $TMUX ]]; then
-  tmux_powerline_color=solarized
+  local tmux_powerline_color=solarized
   if [[ $COLORFGBG = '11;15' ]]; then # for solarized light
     tmux_powerline_color=solarizedlight
   fi
-  config_json=$H/.config/powerline/config.json
+  local config_json=$H/.config/powerline/config.json
   perl -i -0pe 's/(?<="tmux": \{\n\t\t\t"colorscheme": ")([^"]*)/'"$tmux_powerline_color"'/' $config_json
 fi

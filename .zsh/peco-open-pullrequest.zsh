@@ -6,7 +6,7 @@ function peco-open-pullrequest() {
     | peco \
     )}
   if [ -n "$selected_pr" ]; then
-    if which lycia > /dev/null; then
+    if (( $+commands[lycia] )); then
       echo "opening $selected_pr"
       lycia p $(echo $selected_pr | perl -pe 's/#(\d+).*/$1/s')
       echo

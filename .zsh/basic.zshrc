@@ -12,7 +12,6 @@ stack: $LBUFFER"
 zle -N show_buffer_stack
 bindkey "^[q" show_buffer_stack
 
-export LANG=ja_JP.UTF-8
 setopt print_eight_bit   # 日本語ファイル名を表示可能にする
 setopt no_flow_control   # フローコントロールを無効にする
 setopt auto_cd           # ディレクトリ名だけで移動する
