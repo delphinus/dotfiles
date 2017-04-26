@@ -1,0 +1,2 @@
+#!/bin/bash -eu
+base64 | xargs echo -n | xargs -0 printf "\033]52;0;%s\033\\"
