@@ -44,7 +44,8 @@ zstyle ':prezto:load' pmodule \
   'git' \
   'ruby' \
   'perl' \
-  'taskwarrior'
+  'taskwarrior' \
+  'docker'
 
 #
 # Autosuggestions
