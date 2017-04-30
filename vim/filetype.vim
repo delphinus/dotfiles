@@ -24,6 +24,15 @@ au BufNewFile,BufRead *.h			setf c
 " Cascading Style Sheets
 au BufNewFile,BufRead *.css			setf css
 
+" Configure scripts
+au BufNewFile,BufRead configure.in,configure.ac setf config
+
+" CUDA  Cumpute Unified Device Architecture
+au BufNewFile,BufRead *.cu			setf cuda
+
+" Dockerfile
+au BufNewFile,BufRead Dockerfile,*.Dockerfile	setf dockerfile
+
 " Git
 au BufNewFile,BufRead COMMIT_EDITMSG		setf gitcommit
 au BufNewFile,BufRead MERGE_MSG			setf gitcommit
