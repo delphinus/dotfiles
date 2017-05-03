@@ -503,6 +503,17 @@ hook_add = '''"{{{
 
 # on_event {{{
 [[plugins]]
+repo     = 'Chiel92/vim-autoformat'
+on_event = ['FocusLost', 'CursorHold']
+hook_source = '''"{{{
+  let g:formatters_go = []
+  augroup VimAutoformat
+    autocmd!
+    autocmd BufWrite * :Autoformat
+  augroup END
+"}}}'''
+
+[[plugins]]
 repo             = 'airblade/vim-gitgutter'
 on_event         = ['FocusLost', 'CursorHold']
 hook_source      = 'call delphinus#init#gitgutter#hook_source()'
