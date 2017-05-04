@@ -269,20 +269,20 @@ hook_add = '''
 
 # vim-script {{{
 [[plugins]]
-repo = 'HiColors'
+repo = 'vim-scripts/HiColors'
 
 [[plugins]]
-repo = 'applescript.vim'
+repo = 'vim-scripts/applescript.vim'
 
 [[plugins]]
-repo = 'autodate.vim'
+repo = 'vim-scripts/autodate.vim'
 if   = '''!has('kaoriya')'''
 
 [[plugins]]
-repo = 'ingo-library'
+repo = 'vim-scripts/ingo-library'
 
 [[plugins]]
-repo = 'nginx.vim'
+repo = 'vim-scripts/nginx.vim'
 # }}}
 
 # dependencies {{{
