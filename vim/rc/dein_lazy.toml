@@ -288,6 +288,7 @@ hook_add = '''
 repo        = 'Quramy/tsuquyomi'
 on_ft       = ['typescript']
 hook_source = 'call delphinus#init#tsuquyomi#hook_source()'
+build       = 'npm install'
 
 [[plugins]]
 repo  = 'catalinciurea/perl-nextmethod'
