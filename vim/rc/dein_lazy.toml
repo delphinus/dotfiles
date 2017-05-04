@@ -507,10 +507,11 @@ hook_add = '''"{{{
 repo     = 'Chiel92/vim-autoformat'
 on_event = ['FocusLost', 'CursorHold']
 hook_source = '''"{{{
-  let g:formatters_go = []
   augroup VimAutoformat
     autocmd!
-    autocmd BufWrite * :Autoformat
+    autocmd FileType typscript BufWrite * :Autoformat
+    autocmd FileType javascript BufWrite * :Autoformat
+    autocmd FileType json BufWrite * :Autoformat
   augroup END
 "}}}'''
 
