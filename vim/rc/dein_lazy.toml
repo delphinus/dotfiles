@@ -509,9 +509,9 @@ on_event = ['FocusLost', 'CursorHold']
 hook_source = '''"{{{
   augroup VimAutoformat
     autocmd!
-    autocmd FileType typscript BufWrite * :Autoformat
-    autocmd FileType javascript BufWrite * :Autoformat
-    autocmd FileType json BufWrite * :Autoformat
+    autocmd BufWrite *.ts :Autoformat
+    autocmd BufWrite *.js :Autoformat
+    autocmd BufWrite *.json :Autoformat
   augroup END
 "}}}'''
 
