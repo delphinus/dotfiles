@@ -295,7 +295,7 @@ repo  = 'catalinciurea/perl-nextmethod'
 on_ft = ['perl']
 
 [[plugins]]
-repo             = 'csv.vim'
+repo             = 'vim-scripts/csv.vim'
 on_ft            = ['csv']
 hook_source = '''
   let g:csv_delim = ','
@@ -475,7 +475,7 @@ hook_add    = '''"{{{
 hook_source = 'call delphinus#init#easymotion#hook_source()'
 
 [[plugins]]
-repo    = 'LineJuggler'
+repo    = 'vim-scripts/LineJuggler'
 depends = [
   'vim-repeat',
   'ingo-library',
@@ -574,7 +574,7 @@ repo = 'vim-jp/vital.vim'
 on_func = ['vital#of']
 
 [[plugins]]
-repo = 'visualrepeat'
+repo = 'vim-scripts/visualrepeat'
 # }}}
 
 # vim:se fdm=marker:
