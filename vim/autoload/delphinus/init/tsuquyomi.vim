@@ -9,15 +9,7 @@ function! delphinus#init#tsuquyomi#hook_source() abort
     autocmd FileType typescript map <buffer> <C-]> <Plug>(TsuquyomiDefinition)
     autocmd FileType typescript map <buffer> <C-@> <Plug>(TsuquyomiReferences)
     autocmd FileType typescript nnoremap <buffer> <silent> K :<c-u>call <SID>openHint()<cr>
-    autocmd CursorHold,CursorHoldI *.ts call <SID>echoHint()
   augroup END
-endfunction
-
-function! s:echoHint() abort
-  let l:h = tsuquyomi#hint()
-  if l:h !=# '[Tsuquyomi] There is no hint at the cursor.'
-    echo split(l:h, '\n')[-1]
-  endif
 endfunction
 
 function! s:openHint() abort
