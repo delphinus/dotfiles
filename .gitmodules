@@ -16,9 +16,6 @@
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule ".zprezto"]
-	path = .zprezto
-	url = https://github.com/delphinus/prezto
 [submodule "submodules/solarized"]
 	path = submodules/solarized
 	url = https://github.com/delphinus/solarized
