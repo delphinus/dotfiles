@@ -59,5 +59,6 @@ alias mn='memo n'
 alias ml='memo l'
 alias me='memo e'
 alias mg='memo g'
+alias mycli='LESS= mycli'
 
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
