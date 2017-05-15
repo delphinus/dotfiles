@@ -49,7 +49,7 @@
 
 - git: >-
     repo=https://{{ item }}
-    version=feature/fix-hash-size
+    version=feature/fix-initialization
     dest={{ home_dir }}/.go/src/{{ item }}
   with_items:
     #- takaaki-kasai/git-foresta
