@@ -54,19 +54,14 @@
   with_items:
     #- takaaki-kasai/git-foresta
     - github.com/delphinus/git-foresta
-
-- name: detect git-foresta executable
-  command: which git-foresta
-  register: res
-  changed_when: false
-  failed_when: false
+  register: git_sync
 
 - file: path={{ home_dir }}/.ghg/bin state=directory
-  when: res.rc != 0
+  when: git_sync.changed
 
 - name: copy git-foresta executable
   shell: cp {{ home_dir }}/{.go/src/github.com/delphinus/git-foresta,.ghg/bin}/git-foresta
-  when: res.rc != 0
+  when: git_sync.changed
 
 - file: path={{ home_dir }}/.ghg/bin/git-foresta mode=0755
-  when: res.rc != 0
+  when: git_sync.changed
