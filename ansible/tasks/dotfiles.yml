@@ -49,18 +49,16 @@
 
 - git: >-
     repo=https://{{ item }}
-    version=feature/fix-initialization
     dest={{ home_dir }}/.go/src/{{ item }}
   with_items:
-    #- takaaki-kasai/git-foresta
-    - github.com/delphinus/git-foresta
+    - github.com/takaaki-kasai/git-foresta
   register: git_sync
 
 - file: path={{ home_dir }}/.ghg/bin state=directory
   when: git_sync.changed
 
 - name: copy git-foresta executable
-  shell: cp {{ home_dir }}/{.go/src/github.com/delphinus/git-foresta,.ghg/bin}/git-foresta
+  shell: cp {{ home_dir }}/{.go/src/github.com/takaaki-kasai/git-foresta,.ghg/bin}/git-foresta
   when: git_sync.changed
 
 - file: path={{ home_dir }}/.ghg/bin/git-foresta mode=0755
