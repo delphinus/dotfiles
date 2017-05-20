@@ -90,6 +90,9 @@ if dein#is_sourced('vim-solarized8')
     autocmd!
     autocmd VimEnter * hi! link Search IncSearch
   augroup END
+
+  command! ColorschemeToggle :call delphinus#colorscheme#toggle()
+
 elseif dein#is_sourced('vim-colors-solarized')
   syntax enable
   colorscheme solarized
