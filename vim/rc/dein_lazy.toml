@@ -295,6 +295,10 @@ repo  = 'catalinciurea/perl-nextmethod'
 on_ft = ['perl']
 
 [[plugins]]
+repo  = 'davidhalter/jedi-vim'
+on_ft = ['python']
+
+[[plugins]]
 repo             = 'vim-scripts/csv.vim'
 on_ft            = ['csv']
 hook_source = '''
