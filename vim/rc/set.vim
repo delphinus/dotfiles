@@ -149,7 +149,6 @@ set lazyredraw                    " 画面描画をできるだけ遅らせる
 set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞ " `%` で移動するペアを全角文字にも拡張する
 set history=1000                  " コマンドライン履歴を 1000 個保存する
 set completeopt+=menuone          " 候補が一つだけの時も補完する
-set completeopt-=preview          " プレビューウィンドウへの表示をやめる
 
 let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
 
