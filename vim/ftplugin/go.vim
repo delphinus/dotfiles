@@ -7,7 +7,7 @@ nnoremap <buffer> <silent> <C-w>] :<C-u>call go#def#Jump("split")<CR>
 set completeopt-=preview
 
 " Set guibg color for 24bit colorscheme
-if &background == 'light'
+if &background ==# 'light'
     hi def goSameId term=bold cterm=bold ctermbg=14 guibg=#eeeaec
 else
     hi def goSameId term=bold ctermbg=23 ctermfg=7 guifg=#eee8d5 guibg=#00533f
