@@ -14,7 +14,6 @@
     - .grcat
     - .inputrc
     - .jshintrc
-    - .myclirc
     - .proverc
     - .ptconfig.toml
     - .tern-project
