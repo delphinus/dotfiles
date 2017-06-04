@@ -256,6 +256,7 @@ hook_add = '''
   let g:ale_linters = {
         \ 'go': [ 'vet', 'golint'],
         \ }
+  let g:ale_sh_shellcheck_options = '-x'
 '''
 # }}}
 
