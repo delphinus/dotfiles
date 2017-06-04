@@ -1,0 +1,2 @@
+#!/bin/zsh
+brew list | while read cask; do printf "\e[1;34m$cask\e[0;33m"; brew deps $cask | awk '{printf(" %s ", $0)}'; printf "\e[m\n"; done
