@@ -188,7 +188,7 @@ hook_add = '''
 hook_post_source = 'call delphinus#init#gista#hook_post_source()'
 
 [[plugins]]
-repo        = 'lambdalisue/neovim-prompt'
+repo = 'lambdalisue/neovim-prompt'
 
 [[plugins]]
 repo     = 'lambdalisue/lista.nvim'
