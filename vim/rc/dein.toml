@@ -59,11 +59,6 @@ repo = 'vim-jp/vimdoc-ja'
 
 # colorscheme {{{
 [[plugins]]
-repo     = 'delphinus/vim-colors-solarized'
-rev      = 'for-hydrozen-fork'
-hook_add = 'let g:solarized_menu = 0'
-
-[[plugins]]
 repo     = 'lifepillar/vim-solarized8'
 on_if    = '''has('termguicolors')'''
 hook_add = '''
@@ -73,10 +68,7 @@ hook_add = '''
     let g:solarized_term_italics = 1
   endif
 
-  nnoremap  <leader>B :<c-u>exe "colors" (g:colors_name =~# "dark"
-      \ ? substitute(g:colors_name, 'dark', 'light', '')
-      \ : substitute(g:colors_name, 'light', 'dark', '')
-      \ )<cr>
+  command! ColorschemeToggle :call delphinus#colorscheme#toggle()
 '''
 # }}}
 
