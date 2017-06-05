@@ -15,7 +15,7 @@ set autoread                    " 外部でファイルが変更されていた�
 if has('win32')
   set guifont=Ricty_Discord:h12
   set guifontwide=Ricty_Discord:h12
-  set dir=$TEMP
+  set directory=$TEMP
   set backupdir=$TEMP
   set undodir=$TEMP
   set renderoptions=type:directx,gamma:1.8,contrast:1,level:1,geom:0,renmode:5,taamode:1
@@ -24,13 +24,13 @@ if has('win32')
 elseif has('macunix')
   let s:resolution = system("osascript -e 'tell application " . '"Finder"' . " to get bounds of window of desktop' | awk -F', ' '{print $3}'")
   if s:resolution == 2560
-    set guifont=Iosevka_Slab:h14
+    set guifont=Iosevka:h14
     set guifontwide=Ricty_Discord_Reduced:h14
   elseif s:resolution == 1366
-    set guifont=Iosevka_Slab:h16
+    set guifont=Iosevka:h16
     set guifontwide=Ricty_Discord_Reduced:h16
   else
-    set guifont=Iosevka_Slab:h16:h13
+    set guifont=Iosevka:h16:h13
     set guifontwide=Ricty_Discord_Reduced:h16:h13
   endif
   set lines=92 columns=190          " ウィンドウの大きさを指定する
@@ -43,5 +43,4 @@ elseif has('macunix')
   set listchars=tab:░\ ,trail:░,eol:₊,extends:→,precedes:←,nbsp:¯
 endif
 
-colorscheme solarized
-set background=light
+colorscheme solarized8_dark
