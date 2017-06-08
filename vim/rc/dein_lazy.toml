@@ -311,6 +311,10 @@ repo  = 'davidhalter/jedi-vim'
 on_ft = ['python']
 
 [[plugins]]
+repo  = 'machakann/vim-Verdin'
+on_ft = ['vim']
+
+[[plugins]]
 repo             = 'vim-scripts/csv.vim'
 on_ft            = ['csv']
 hook_source = '''
