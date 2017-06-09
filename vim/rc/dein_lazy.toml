@@ -315,14 +315,6 @@ repo  = 'machakann/vim-Verdin'
 on_ft = ['vim']
 
 [[plugins]]
-repo             = 'vim-scripts/csv.vim'
-on_ft            = ['csv']
-hook_source = '''
-  let g:csv_delim = ','
-'''
-hook_post_source = 'call delphinus#init#csv#hook_post_source()'
-
-[[plugins]]
 repo    = 'delphinus/neocomplete-json-schema'
 depends = ['neocomplete.vim']
 on_ft   = ['json']
