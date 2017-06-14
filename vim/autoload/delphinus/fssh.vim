@@ -10,7 +10,7 @@ endfunction
 
 function! delphinus#fssh#is_enabled() abort
   let l:env = delphinus#fssh#fetch_env()
-  return len(l:env['LC_FSSH_PORT'])
+  return len(get(l:env, 'LC_FSSH_PORT', ''))
 endfunction
 
 function! delphinus#fssh#execute(command) abort
