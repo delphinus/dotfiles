@@ -73,8 +73,8 @@ if (( $+commands[brew] )) && [[ -f $(brew --prefix)/etc/grc.bashrc ]]; then
 elif [[ -f /etc/profile.d/grc.bashrc ]]; then
   . /etc/profile.d/grc.bashrc
   manpath=(/usr/local/share/man(N-/) $manpath)
-elif [[ -f $H/etc/profile.d/grc.bashrc ]]; then
-  . $H/etc/profile.d/grc.bashrc
+elif [[ -f $H/usr/etc/profile.d/grc.bashrc ]]; then
+  . $H/usr/etc/profile.d/grc.bashrc
   manpath=($H/usr/share/man(N-/) $manpath)
 fi
 
