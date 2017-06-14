@@ -48,6 +48,7 @@ ignore_names_re = %r[
   \A\.git/ |
   \A\.screen/(?:cpu|memory)\z |
   \A\.?vim/view/ |
+  \A\.?vim/dict/ |
   \A\.zsh/zsh-notify/ |
   \Asubmodules/ |
   \.pyc$ |
