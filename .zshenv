@@ -143,6 +143,9 @@ if [[ -d $gcsdk_path ]]; then
     $path)
 fi
 
+# home usr directory
+path=($H/usr{/local,}/bin(N-/) $path)
+
 typeset -xT ZSHENV_LOADED zshenv_loaded
 typeset -xT PATH_IN_ZSHENV path_in_zshenv
 zshenv_loaded=1
