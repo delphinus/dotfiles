@@ -74,9 +74,6 @@ hook_add = '''
 
 # syntax {{{
 [[plugins]]
-repo = 'ChrisYip/Better-CSS-Syntax-for-Vim'
-
-[[plugins]]
 repo = 'Glench/Vim-Jinja2-Syntax'
 
 [[plugins]]
@@ -84,6 +81,9 @@ repo = 'aklt/plantuml-syntax'
 
 [[plugins]]
 repo = 'cespare/vim-toml'
+
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax'
 
 [[plugins]]
 repo   = 'leafgarland/typescript-vim'
@@ -162,7 +162,8 @@ repo = 'vim-perl/vim-perl'
 
 # filetype {{{
 [[plugins]]
-repo = 'ap/vim-css-color'
+repo   = 'ap/vim-css-color'
+merged = 0
 
 [[plugins]]
 repo = 'c9s/perlomni.vim'
