@@ -163,11 +163,6 @@ on_cmd = ['JpFormatAll', 'JpJoinAll']
 on_ft  = ['howm_memo']
 
 [[plugins]]
-repo    = 'kannokanno/previm'
-depends = 'open-browser.vim'
-on_cmd  = ['PrevimOpen']
-
-[[plugins]]
 repo     = 'lambdalisue/vim-gista'
 on_cmd   = ['Gista']
 on_func  = ['gista#']
@@ -208,14 +203,6 @@ repo = 'lambdalisue/vim-rplugin'
 [[plugins]]
 repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
-
-[[plugins]]
-repo     = 'rizzatti/dash.vim'
-if       = '''has('macunix')'''
-on_cmd   = ['Dash']
-hook_add = '''
-  nnoremap <Leader>d :Dash<CR>
-'''
 
 [[plugins]]
 repo   = 'sjl/gundo.vim'
