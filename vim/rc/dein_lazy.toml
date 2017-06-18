@@ -397,6 +397,20 @@ hook_add = '''"{{{
 "}}}'''
 
 [[plugins]]
+repo     = 'iamcco/markdown-preview.vim'
+on_map   = ['<Plug>MarkdownPreview', '<Plug>StopMarkdownPreview']
+hook_add = '''
+  augroup MapMarkdownPreview
+    autocmd!
+    autocmd FileType markdown nmap <buffer> <A-m> <Plug>MarkdownPreview
+    autocmd FileType markdown nmap <buffer> <A-M> <Plug>StopMarkdownPreview
+  augroup END
+'''
+hook_source = '''
+  let g:mkdp_path_to_chrome = 'open -a Safari'
+'''
+
+[[plugins]]
 repo        = 'junegunn/vim-easy-align'
 on_map      = ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']
 hook_add    = '''"{{{
