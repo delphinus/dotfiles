@@ -12,16 +12,6 @@ on_source = ['unite.vim']
 repo        = 'Shougo/neocomplete.vim'
 depends     = 'echodoc.vim'
 on_i        = 1
-hook_add    = '''"{{{
-  " Enable omni completion.
-  augroup NeocompleteFileType
-    autocmd!
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  augroup END
-"}}}'''
 hook_source = 'call delphinus#init#neocomplete#hook_source()'
 
 [[plugins]]
