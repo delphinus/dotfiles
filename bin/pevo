@@ -1,7 +1,2 @@
 #!/bin/sh
-OS=$(uname)
-if [[ $OS = Linux ]]; then
-  exec rg -n "$@" . | peco --exec 'echo awk -F : '"'"'{print "+" $2 " " $1}'"'"' 2>&1  xargs bash -c '"'"'</dev/tty view "'$@'" ignoreme'
-else
-  exec rg -n "$@" . | peco --exec 'awk -F : '"'"'{print "+" $2 " " $1}'"'"' 2>&1 | xargs -o view'
-fi
+exec rg -n "$@" . | peco --exec 'awk -F : '"'"'{print "+" $2 " " $1}'"'"' 2>&1 | xargs sh -c '"'"'view "$@" < /dev/tty'"'"' view'
