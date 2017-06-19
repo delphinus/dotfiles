@@ -134,12 +134,6 @@ set completeopt+=menuone          " 候補が一つだけの時も補完する
 
 let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
 
-" 3,000 行を超えるようなバッファーではファイルタイプを無効にする
-augroup NoFiletypeForHugeBuffer
-  autocmd!
-  autocmd BufRead,BufEnter * if line('$') > 3000 | set filetype= | endif
-augroup END
-
 " Force enable Python3
 augroup EnablePython3
   autocmd!
