@@ -62,7 +62,7 @@ zstyle ':prezto:module:autosuggestions:color' found 'fg=110'
 zstyle ':prezto:module:editor' key-bindings 'vi'
 
 # Auto convert .... to ../..
-zstyle ':prezto:module:editor' dot-expansion 'yes'
+#zstyle ':prezto:module:editor' dot-expansion 'yes'
 
 # Allow the zsh prompt context to be shown.
 zstyle ':prezto:module:editor' ps-context 'yes'
