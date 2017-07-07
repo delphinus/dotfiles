@@ -90,7 +90,6 @@
 [interactive]
 	diffFilter = diff-so-fancy
 [ghq]
-	root = ~/git
 	root = ~/.go/src
 	root = ~/.cache/dein/repos
 	root = ./vendor
