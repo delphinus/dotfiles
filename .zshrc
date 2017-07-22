@@ -129,3 +129,8 @@ if [[ -z $TMUX ]]; then
   local config_json=$H/.config/powerline/config.json
   perl -i -0pe 's/(?<="tmux": \{\n\t\t\t"colorscheme": ")([^"]*)/'"$tmux_powerline_color"'/' $config_json
 fi
+
+# for direnv
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
