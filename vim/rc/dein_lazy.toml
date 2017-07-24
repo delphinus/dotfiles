@@ -145,19 +145,6 @@ hook_source = 'call delphinus#init#ref#hook_source()'
 
 # on_cmd {{{
 [[plugins]]
-repo     = 'airblade/vim-rooter'
-on_cmd   = ['Rooter']
-hook_add = '''"{{{
-  let g:rooter_use_lcd = 1
-  let g:rooter_silent_chdir = 1
-  let g:rooter_manual_only = 1
-  augroup RunRooter
-    autocmd!
-    autocmd BufEnter * Rooter
-  augroup END
-"}}}'''
-
-[[plugins]]
 repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
 on_ft  = ['howm_memo']
