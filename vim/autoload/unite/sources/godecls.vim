@@ -19,7 +19,7 @@ function! s:source.gather_candidates(args, context) abort
     return []
   endif
 
-  let l:path = get(a:args, 0, expand('%:p:h'))
+  let l:path = expand(get(a:args, 0, '%:p:h'))
   if isdirectory(l:path)
     let l:mode = 'dir'
   elseif filereadable(l:path)
