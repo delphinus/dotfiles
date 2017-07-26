@@ -33,27 +33,31 @@ function! s:source.gather_candidates(args, context) abort
   let l:result = eval(unite#util#system(l:command))
   let l:candidates = get(l:result, 'decls', [])
 
-  return map(l:candidates, '{
-        \ "word": printf("%s linecol:(%d:%d) def:%s", fnamemodify(v:val.filename, ":~:."), v:val.line, v:val.col, v:val.full),
-        \ "kind": "jump_list",
-        \ "action__path": v:val.filename,
-        \ "action__line": v:val.line,
-        \ "action__col": v:val.col,
-        \ }')
+  return map(l:candidates, "{
+        \ 'word': printf('%s :%d:%d :%s', fnamemodify(v:val.filename, ':~:.'), v:val.line, v:val.col, v:val.full),
+        \ 'kind': 'jump_list',
+        \ 'action__path': v:val.filename,
+        \ 'action__line': v:val.line,
+        \ 'action__col': v:val.col,
+        \ }")
 endfunction
 
 function! s:source.hooks.on_syntax(args, context) abort
-  syntax match uniteSource__GoDecls_Filepath /.*\(linecol:\)\@=/ contained containedin=uniteSource__GoDecls
-  syntax match uniteSource__GoDecls_Linecol /\(linecol:\)\@<=(\d\+:\d\+)/ contained containedin=uniteSource__GoDecls
-  syntax match uniteSource__GoDecls_Definition /\(def:\)\@<=.*$/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_Filepath /\v[^:]*(:)@=/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_LineCol /\v\d+:\d+/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_Function /\v(func %(\([^)]+\) )?)@<=[^(]+/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_Type /\v(type )@<=\S+/ contained containedin=uniteSource__GoDecls
   highlight default link uniteSource__GoDecls_Filepath Comment
-  highlight default link uniteSource__GoDecls_Linecol LineNr
-  highlight default link uniteSource__GoDecls_Definition Function
+  highlight default link uniteSource__GoDecls_LineCol LineNr
+  highlight default link uniteSource__GoDecls_Function Function
+  highlight default link uniteSource__GoDecls_Type Type
 
   if has('conceal')
-    syntax match uniteSource__GoDecls_Ignore /\(linecol\|def\):/ contained containedin=uniteSource__GoDecls conceal
+    syntax match uniteSource__GoDecls_Ignore /:/ contained containedin=uniteSource__GoDecls conceal
+    syntax match uniteSource__GoDecls_Ignore /\v(:)@<=func / contained containedin=uniteSource__GoDecls conceal
+    syntax match uniteSource__GoDecls_Ignore /\v(:)@<=type / contained containedin=uniteSource__GoDecls conceal
   else
-    syntax match uniteSource__GoDecls_Ignore /\(linecol\|def\):/ contained containedin=uniteSource__GoDecls
+    syntax match uniteSource__GoDecls_Ignore /:/ contained containedin=uniteSource__GoDecls
     highlight default link uniteSource__GoDecls_Ignore Ignore
   endif
 endfunction
