@@ -34,7 +34,7 @@ function! s:source.gather_candidates(args, context) abort
   let l:candidates = get(l:result, 'decls', [])
 
   return map(l:candidates, "{
-        \ 'word': printf('%s :%d:%d :%s', fnamemodify(v:val.filename, ':~:.'), v:val.line, v:val.col, v:val.full),
+        \ 'word': printf('%s :%d :%s', fnamemodify(v:val.filename, ':~:.'), v:val.line, v:val.full),
         \ 'kind': 'jump_list',
         \ 'action__path': v:val.filename,
         \ 'action__line': v:val.line,
@@ -43,23 +43,20 @@ function! s:source.gather_candidates(args, context) abort
 endfunction
 
 function! s:source.hooks.on_syntax(args, context) abort
-  syntax match uniteSource__GoDecls_Filepath /\v[^:]*(:)@=/ contained containedin=uniteSource__GoDecls
-  syntax match uniteSource__GoDecls_LineCol /\v\d+:\d+/ contained containedin=uniteSource__GoDecls
-  syntax match uniteSource__GoDecls_Function /\v(func %(\([^)]+\) )?)@<=[^(]+/ contained containedin=uniteSource__GoDecls
-  syntax match uniteSource__GoDecls_Type /\v(type )@<=\S+/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_Filepath /[^:]*\ze:/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_Line /\d\+\ze :/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_WholeFunction /\vfunc %(\([^)]+\) )?[^(]+/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_Function /\S\+\ze(/ contained containedin=uniteSource__GoDecls_WholeFunction
+  syntax match uniteSource__GoDecls_WholeType /type \S\+/ contained containedin=uniteSource__GoDecls
+  syntax match uniteSource__GoDecls_Type /\v( )@<=\S+/ contained containedin=uniteSource__GoDecls_WholeType
   highlight default link uniteSource__GoDecls_Filepath Comment
-  highlight default link uniteSource__GoDecls_LineCol LineNr
+  highlight default link uniteSource__GoDecls_Line LineNr
   highlight default link uniteSource__GoDecls_Function Function
   highlight default link uniteSource__GoDecls_Type Type
 
-  if has('conceal')
-    syntax match uniteSource__GoDecls_Ignore /:/ contained containedin=uniteSource__GoDecls conceal
-    syntax match uniteSource__GoDecls_Ignore /\v(:)@<=func / contained containedin=uniteSource__GoDecls conceal
-    syntax match uniteSource__GoDecls_Ignore /\v(:)@<=type / contained containedin=uniteSource__GoDecls conceal
-  else
-    syntax match uniteSource__GoDecls_Ignore /:/ contained containedin=uniteSource__GoDecls
-    highlight default link uniteSource__GoDecls_Ignore Ignore
-  endif
+  syntax match uniteSource__GoDecls_Separator /:/ contained containedin=uniteSource__GoDecls conceal
+  syntax match uniteSource__GoDecls_SeparatorFunction /func / contained containedin=uniteSource__GoDecls_WholeFunction conceal
+  syntax match uniteSource__GoDecls_SeparatorType /type / contained containedin=uniteSource__GoDecls_WholeType conceal
 endfunction
 
 let &cpoptions = s:save_cpo
