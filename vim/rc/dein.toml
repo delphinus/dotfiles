@@ -7,7 +7,6 @@ repo = 'Shougo/dein.vim'
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
-if = '''! (has('macunix') && has('kaoriya') && isdirectory(expand('$VIM/plugins/vimproc')))'''
 hook_post_update = 'call delphinus#init#vimproc#hook_post_update()'
 
 [[plugins]]
