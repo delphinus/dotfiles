@@ -36,9 +36,11 @@
     state=link
     force=yes
 
-- file: path='{{ home_dir }}/Library/Application Support/Karabiner' state=directory
+- name: create karabiner directory
+  file: path='{{ home_dir }}/.config/karabiner/assets/complex_modifications' state=directory
   when: ansible_system == 'Darwin'
-- copy: src=private.xml dest='{{ home_dir }}/Library/Application Support/Karabiner/private.xml'
+- name: copy karabiner settings
+  copy: src=spreadsheets.json dest='{{ home_dir }}/.config/karabiner/assets/complex_modifications/spreadsheets.json'
   when: ansible_system == 'Darwin'
 
 - file: path={{ home_dir }}/.ssh/config state=touch
