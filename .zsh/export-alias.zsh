@@ -61,4 +61,9 @@ alias me='memo e'
 alias mg='memo g'
 alias mycli='LESS= mycli'
 
+if (( $+commands[exa] )); then
+  unalias l
+  alias l='exa -lF --color-scale --group-directories-first --git'
+fi
+
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
