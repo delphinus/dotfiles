@@ -42,6 +42,9 @@
 - name: copy karabiner settings
   copy: src=spreadsheets.json dest='{{ home_dir }}/.config/karabiner/assets/complex_modifications/spreadsheets.json'
   when: ansible_system == 'Darwin'
+- name: copy karabiner settings
+  copy: src=escape.json dest='{{ home_dir }}/.config/karabiner/assets/complex_modifications/escape.json'
+  when: ansible_system == 'Darwin'
 
 - file: path={{ home_dir }}/.ssh/config state=touch
   changed_when: false
