@@ -1,0 +1,26 @@
+{
+    "title": "Custom shortcut for C-[ to Escape",
+    "rules": [
+        {
+            "description": "Use left_control+[ to escape",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "open_bracket",
+                        "modifiers": {
+                            "mandatory": [
+                                "left_control"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "escape"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
