@@ -39,11 +39,14 @@
 - name: create karabiner directory
   file: path='{{ home_dir }}/.config/karabiner/assets/complex_modifications' state=directory
   when: ansible_system == 'Darwin'
-- name: copy karabiner settings
+- name: copy karabiner settings [spreadsheets.json]
   copy: src=spreadsheets.json dest='{{ home_dir }}/.config/karabiner/assets/complex_modifications/spreadsheets.json'
   when: ansible_system == 'Darwin'
-- name: copy karabiner settings
+- name: copy karabiner settings [escape.json]
   copy: src=escape.json dest='{{ home_dir }}/.config/karabiner/assets/complex_modifications/escape.json'
+  when: ansible_system == 'Darwin'
+- name: copy karabiner settings [tab.json]
+  copy: src=tab.json dest='{{ home_dir }}/.config/karabiner/assets/complex_modifications/tab.json'
   when: ansible_system == 'Darwin'
 
 - file: path={{ home_dir }}/.ssh/config state=touch
