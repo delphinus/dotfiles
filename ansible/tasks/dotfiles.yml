@@ -46,6 +46,7 @@
     - spreadsheets
     - escape
     - tab
+    - edgeview2
 
 - file: path={{ home_dir }}/.ssh/config state=touch
   changed_when: false
