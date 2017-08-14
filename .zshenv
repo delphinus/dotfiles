@@ -143,6 +143,13 @@ if [[ -d $gcsdk_path ]]; then
     $path)
 fi
 
+# for Rust
+if ! (( $+commands[rustc] )); then
+  if [[ -d $HOME/.cargo/bin ]]; then
+    path=($HOME/.cargo/bin $path)
+  fi
+fi
+
 # home usr directory
 path=($H/usr{/local,}/bin(N-/) $path)
 
