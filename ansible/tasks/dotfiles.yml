@@ -47,6 +47,7 @@
     - escape
     - tab
     - edgeview2
+    - slack
 
 - file: path={{ home_dir }}/.ssh/config state=touch
   changed_when: false
