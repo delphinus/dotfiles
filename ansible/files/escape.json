@@ -1,7 +1,7 @@
 {
-    "title": "Custom shortcut for C-[ to Escape",
+    "title": "Custom shortcut for escape",
     "rules": [{
-            "description": "Use left_control+[ to escape",
+        "description": "Use left_control/right_control+[ to escape",
             "manipulators": [{
                 "type": "basic",
                 "from": {
@@ -15,27 +15,41 @@
                 "to": [{
                     "key_code": "escape"
                 }]
-            }]
-        },
-        {
-            "description": "Change escape to fn. (Post escape if pressed alone)",
-            "manipulators": [{
+            },
+            {
                 "type": "basic",
                 "from": {
-                    "key_code": "escape",
+                    "key_code": "open_bracket",
                     "modifiers": {
-                        "optional": [
-                            "any"
+                        "mandatory": [
+                            "right_control"
                         ]
                     }
                 },
                 "to": [{
-                    "key_code": "fn"
-                }],
-                "to_if_alone": [{
                     "key_code": "escape"
                 }]
             }]
-        }
-    ]
+    },
+    {
+        "description": "Change escape to fn. (Post escape if pressed alone)",
+        "manipulators": [{
+            "type": "basic",
+            "from": {
+                "key_code": "escape",
+                "modifiers": {
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [{
+                "key_code": "fn"
+            }],
+            "to_if_alone": [{
+                "key_code": "escape"
+            }]
+        }]
+    }
+        ]
 }
