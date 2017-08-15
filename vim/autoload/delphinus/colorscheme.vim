@@ -9,7 +9,9 @@ function! delphinus#colorscheme#toggle() abort
   call delphinus#colorscheme#setGoSameId()
   let l:path = dein#get('lightline-delphinus').path
   execute 'source ' . l:path . '/autoload/lightline/colorscheme/solarized_improved.vim'
+  call lightline#init()
   call lightline#colorscheme()
+  call lightline#update()
 endfunction
 
 function! delphinus#colorscheme#setGoSameId() abort
