@@ -63,7 +63,7 @@ alias mycli='LESS= mycli'
 
 if (( $+commands[exa] )); then
   unalias l
-  alias l='exa -lF --color-scale --group-directories-first --git'
+  # use bin/l the executable
 fi
 
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
