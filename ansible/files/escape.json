@@ -1,7 +1,7 @@
 {
     "title": "Custom shortcut for escape",
     "rules": [{
-            "description": "Use left_control/right_control+[ to escape (without iTerm2)",
+            "description": "Use left_control/right_control+[ to escape (exclusive in iTerm2 & Safari)",
             "manipulators": [{
                     "type": "basic",
                     "from": {
@@ -18,7 +18,8 @@
                     "conditions": [{
                         "type": "frontmost_application_unless",
                         "bundle_identifiers": [
-                            "^com\\.googlecode\\.iterm2$"
+                            "^com\\.googlecode\\.iterm2$",
+                            "^com\\.apple\\.Safari$"
                         ]
                     }]
                 },
@@ -38,7 +39,8 @@
                     "conditions": [{
                         "type": "frontmost_application_unless",
                         "bundle_identifiers": [
-                            "^com\\.googlecode\\.iterm2$"
+                            "^com\\.googlecode\\.iterm2$",
+                            "^com\\.apple\\.Safari$"
                         ]
                     }]
                 }
