@@ -11,7 +11,10 @@ hook_post_update = 'call delphinus#init#vimproc#hook_post_update()'
 
 [[plugins]]
 repo     = 'airblade/vim-rooter'
-hook_add = 'let g:rooter_use_lcd = 1'
+hook_add = '''
+  let g:rooter_use_lcd = 1
+  let g:rooter_silent_chdir = 1
+'''
 
 [[plugins]]
 repo     = 'kana/vim-submode'
