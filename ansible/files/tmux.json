@@ -7,7 +7,7 @@
                 {
                     "type": "basic",
                     "from": {
-                        "key_code": "tab",
+                        "key_code": "tab"
                     },
                     "to": [
                         {
@@ -88,9 +88,10 @@
                 { "type": "basic", "from": { "key_code": "period" },        "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "period" } ],        "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] },
                 { "type": "basic", "from": { "key_code": "quote" },         "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "quote" } ],         "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] },
                 { "type": "basic", "from": { "key_code": "open_bracket" },  "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "open_bracket" } ],  "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] },
-                { "type": "basic", "from": { "key_code": "close_bracket" }, "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "close_bracket" } ], "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] }
+                { "type": "basic", "from": { "key_code": "close_bracket" }, "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "close_bracket" } ], "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] },
                 { "type": "basic", "from": { "key_code": "semicolon" },     "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "semicolon" } ],     "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] },
-                { "type": "basic", "from": { "key_code": "semicolon", "modifiers": { "mandatory": [ "left_shift" ] } }, "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "semicolon", "modifiers": [ "left_shift" ] } ],     "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] },
+                { "type": "basic", "from": { "key_code": "k",         "modifiers": { "mandatory": [ "left_shift" ] } }, "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "k",         "modifiers": [ "left_shift" ] } ], "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] },
+                { "type": "basic", "from": { "key_code": "semicolon", "modifiers": { "mandatory": [ "left_shift" ] } }, "to": [ { "key_code": "z", "modifiers": [ "left_control" ] }, { "key_code": "semicolon", "modifiers": [ "left_shift" ] } ], "conditions": [ { "type": "variable_if", "name": "tmux_prefix_mode", "value": 1 } ] }
             ]
         }
     ]
