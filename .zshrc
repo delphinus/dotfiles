@@ -136,3 +136,22 @@ fi
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
 fi
+
+# for Google Cloud SDK
+typeset -xT GCSDK_PATH gcsdk_path
+typeset -xT GAE_ROOT gae_root
+gcsdk_path=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+if [[ -d $gcsdk_path ]]; then
+  gae_root=$gcsdk_path/platform/google_appengine
+  path=(
+    $gae_root(N-/)
+    $gcsdk_path/bin(N-/)
+    $path)
+  source $gcsdk_path/path.zsh.inc
+  source $gcsdk_path/completion.zsh.inc
+fi
+
+# for kubectl
+if (( $+commands[kubectl] )); then
+  source <(kubectl completion zsh)
+fi
