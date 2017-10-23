@@ -50,6 +50,7 @@
     - slack
     - return_or_enter
     - tmux
+    - contexts
 
 - file: path={{ home_dir }}/.ssh/config state=touch
   changed_when: false
