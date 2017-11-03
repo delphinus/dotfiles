@@ -30,6 +30,15 @@ au BufNewFile,BufRead configure.in,configure.ac setf config
 " CUDA  Cumpute Unified Device Architecture
 au BufNewFile,BufRead *.cu			setf cuda
 
+" Diff files
+au BufNewFile,BufRead *.diff,*.rej		setf diff
+au BufNewFile,BufRead *.patch
+	\ if getline(1) =~ '^From [0-9a-f]\{40\} Mon Sep 17 00:00:00 2001$' |
+	\   setf gitsendemail |
+	\ else |
+	\   setf diff |
+	\ endif
+
 " Dockerfile
 au BufNewFile,BufRead Dockerfile,*.Dockerfile	setf dockerfile
 
