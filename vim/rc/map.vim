@@ -37,3 +37,8 @@ nmap Y <Plug>DelphinusFsshCopy
 
 " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
 nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr>
+if &shell !=# 'zsh'
+  if executable('/usr/local/bin/zsh')
+    set shell=/usr/local/bin/zsh
+  endif
+endif
