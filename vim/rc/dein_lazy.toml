@@ -269,10 +269,6 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo  = 'catalinciurea/perl-nextmethod'
-on_ft = ['perl']
-
-[[plugins]]
 repo  = 'davidhalter/jedi-vim'
 on_ft = ['python']
 
@@ -536,22 +532,6 @@ hook_add = '''
   nnoremap `tm :call tablemode#Toggle()<CR>
   let g:table_mode_corner='|'
 '''
-
-[[plugins]]
-repo    = 'haya14busa/incsearch.vim'
-depends = [
-    'vim-easymotion'
-    'incsearch-easymotion.vim'
-    'incsearch-fuzzy.vim'
-  ]
-on_func  = ['incsearch#go']
-hook_add = 'noremap <silent><expr> <Space>/ incsearch#go(delphinus#incsearch#config_easyfuzzymotion())'
-
-[[plugins]]
-repo = 'haya14busa/incsearch-easymotion.vim'
-
-[[plugins]]
-repo = 'haya14busa/incsearch-fuzzy.vim'
 
 [[plugins]]
 repo = 'vim-jp/vital.vim'
