@@ -26,6 +26,9 @@ hook_add = '''"{{{
 "}}}'''
 
 [[plugins]]
+repo = 'haya14busa/is.vim'
+
+[[plugins]]
 repo     = 'ryanoasis/vim-devicons'
 hook_add = '''"{{{
   let g:webdevicons_enable_unite = 0
