@@ -34,3 +34,6 @@ augroup END
 
 " オリジナル関数のマッピング
 nmap Y <Plug>DelphinusFsshCopy
+
+" open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
+nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr>
