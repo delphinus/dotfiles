@@ -51,6 +51,7 @@
     - return_or_enter
     - tmux
     - contexts
+    - excel
 
 - file: path={{ home_dir }}/.ssh/config state=touch
   changed_when: false
