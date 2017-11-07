@@ -3,18 +3,6 @@ if [ -n "$TMUX" ]; then
   exec tmux $@
 fi
 
-if which python3 > /dev/null; then
-  python=python3
-elif [ `uname` = 'Darwin' ]; then
-  python=/usr/bin/python
-else
-  python=python
-fi
-export POWERLINE_LIB=$($python -c 'import sys;import site;sys.stdout.write(site.USER_SITE)')/powerline
-export TERM=xterm-256color-italic
-if [ -z "$tmux_cmd" ]; then
-  tmux_cmd="tmux -u2 -f $HOME/.tmux.conf"
-fi
 if $(tmux has-session 2> /dev/null); then
   $H/git/dotfiles/bin/set_env_for_fssh.rb
   $tmux_cmd attach $@
