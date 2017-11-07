@@ -79,6 +79,13 @@ hook_add = '''
 
   command! ColorschemeToggle :call delphinus#colorscheme#toggle()
 '''
+
+[[plugins]]
+repo = 'arcticicestudio/nord-vim'
+hook_add = '''
+  let g:nord_italic_comments = 1
+  let g:nord_comment_brightness = 20
+'''
 # }}}
 
 # syntax {{{
@@ -250,6 +257,7 @@ depends  = [ 'lightline', 'ale' ]
 hook_add = '''
   let g:lightline_delphinus_use_powerline_glyphs = 1
   let g:lightline_delphinus_use_nerd_fonts_glyphs = 1
+  let g:lightline_delphinus_colorscheme = 'nord_improved'
 '''
 
 [[plugins]]
