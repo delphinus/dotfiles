@@ -82,7 +82,7 @@ syntax enable
 if &background ==# 'light'
   colorscheme solarized8_light
 else
-  colorscheme solarized8_dark
+  colorscheme nord
 endif
 " }}}
 
