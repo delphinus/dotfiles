@@ -50,6 +50,7 @@ set listchars=tab:░\ ,trail:␣,eol:⏎,extends:→,precedes:←,nbsp:¯
 set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表示する
 set colorcolumn=141      " 141 桁目をハイライト
 set cmdheight=2          " 画面最下段のコマンド表示行数
+set cursorline
 " }}}
 
 " インデントと整形 {{{
