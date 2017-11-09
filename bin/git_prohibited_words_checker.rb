@@ -56,6 +56,7 @@ ignore_names_re = %r[
   \.exe$ |
   \.rpm$ |
   \.tmux/resurrect |
+  \.tmux/tpm |
   \.zprezto/modules/completion/external/src
 ]x
 
