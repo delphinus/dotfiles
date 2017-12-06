@@ -4,7 +4,7 @@
 # License: MIT license
 # ============================================================================
 
-from denite.source.file_mru import Source as Base
+from .file_mru import Source as Base
 
 
 class Source(Base):
@@ -14,5 +14,8 @@ class Source(Base):
         self.name = 'my_file_mru'
 
     def highlight(self):
-        self.vim.command('syntax match {0}_Icon /[^/ \[\]]\+\s/ contained containedin={0}'.format(self.syntax_name))
-        self.vim.command('highlight default link {0}_Icon Function'.format(self.syntax_name))
+        self.vim.command(
+            r'syntax match {0}_Icon /[^/ \[\]]\+\s/ contained containedin={0}'.
+            format(self.syntax_name))
+        self.vim.command('highlight default link {0}_Icon Function'.
+                         format(self.syntax_name))
