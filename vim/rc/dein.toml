@@ -236,10 +236,12 @@ hook_add = '''
   call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
-  call denite#custom#option('default', 'prompt', '❯❯❯')
-  call denite#custom#option('default', 'statusline', v:false)
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
-  call denite#custom#option('default', 'highlight_matched_char', 'Underlined')
+  call denite#custom#option('default', {
+        \ 'prompt': '❯❯❯',
+        \ 'statusline': v:false,
+        \ 'highlight_matched_char': 'Underlined',
+        \ })
   function! s:dwm_new(context)
     call DWM_New()
     call denite#do_action(a:context, 'open', a:context['targets'])
