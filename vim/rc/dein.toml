@@ -218,12 +218,12 @@ hook_add = '''
   noremap zN :<C-u>Denite file<CR>
   noremap zl :<C-u>Denite outline<CR>
   noremap zL :<C-u>Denite unite:decls<CR>
-  noremap zg :<C-u>Denite file_rec<CR>
+  noremap zg :<C-u>Denite my_file_rec<CR>
   noremap zG :<C-u>Denite grep:.<CR>
   noremap zD :<C-u>Denite unite:dein/log<CR>
   noremap zp :<C-u>Denite unite:dwm buffer my_file_mru<CR>
   noremap zh :<C-u>Denite ghq<CR>
-  call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  call denite#custom#var('my_file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
   call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
   call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
@@ -249,7 +249,7 @@ hook_add = '''
   call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
   call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
-  call denite#custom#source('my_file_mru', 'converters', ['devicons_denite_converter'])
+  call denite#custom#source('my_file_mru,my_file_rec', 'converters', ['devicons_denite_converter'])
 '''
 
 [[plugins]]
