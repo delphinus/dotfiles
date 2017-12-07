@@ -217,7 +217,7 @@ hook_add = '''
   noremap zn :<C-u>DeniteBufferDir file file:new<CR>
   noremap zN :<C-u>Denite file<CR>
   noremap zl :<C-u>Denite outline<CR>
-  noremap zL :<C-u>Denite unite:decls<CR>
+  noremap zL :<C-u>Denite decls<CR>
   noremap zg :<C-u>Denite my_file_rec<CR>
   noremap zG :<C-u>Denite grep:.<CR>
   noremap zD :<C-u>Denite unite:dein/log<CR>
