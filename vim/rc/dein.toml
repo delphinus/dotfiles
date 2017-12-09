@@ -219,7 +219,7 @@ hook_add = '''
   noremap zl :<C-u>Denite outline<CR>
   noremap zL :<C-u>Denite decls<CR>
   noremap zg :<C-u>Denite my_file_rec<CR>
-  noremap zG :<C-u>Denite grep:.<CR>
+  noremap z/ :<C-u>Denite grep<CR>
   noremap zD :<C-u>Denite unite:dein/log<CR>
   noremap zp :<C-u>Denite unite:dwm buffer my_file_mru<CR>
   noremap zh :<C-u>Denite ghq<CR>
@@ -236,6 +236,7 @@ hook_add = '''
   call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
+  call denite#custom#source('grep', 'args', ['', '', '!'])
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('default', {
         \ 'prompt': '❯❯❯',
