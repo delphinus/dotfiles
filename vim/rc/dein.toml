@@ -208,9 +208,6 @@ repo = 'tmux-plugins/vim-tmux'
 
 # for unite {{{
 [[plugins]]
-repo      = 'Shougo/neomru.vim'
-
-[[plugins]]
 repo      = 'Shougo/unite-outline'
 
 [[plugins]]
