@@ -25,8 +25,10 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('directory', 'file_rec', function('s:file_rec'))
+  call denite#custom#action('directory', 'grep', function('s:grep'))
   call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:file_rec>')
+  call denite#custom#map('insert', '<C-g>', '<denite:do_action:grep>')
   call denite#custom#source('my_file_mru,my_file_rec', 'converters', ['devicons_denite_converter'])
 endfunction
 
@@ -36,10 +38,22 @@ function! s:dwm_new(context)
 endfunction
 
 function! s:file_rec(context)
+  call s:start_action_for_path(a:context, 'file_rec')
+endfunction
+
+function! s:grep(context)
+  call s:start_action_for_path(a:context, 'grep')
+endfunction
+
+function! s:start_action_for_path(context, action, ...)
   let l:target = a:context['targets'][0]
   let l:path = get(l:target, 'action__path', '')
   if isdirectory(l:path)
-    call denite#start([{'name': 'file_rec', 'args': [l:path]}])
+    if a:action ==# 'grep'
+      call denite#start([{'name': 'grep', 'args': [l:path, '', '!']}])
+    else
+      call denite#start([{'name': a:action, 'args': [l:path]}])
+    endif
   else
     call denite#util#print_error(printf('unknown path for target: %s', l:target))
   endif
