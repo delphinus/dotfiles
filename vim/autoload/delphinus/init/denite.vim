@@ -24,11 +24,23 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#option('dein', 'default_action', 'narrow')
   call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
+  call denite#custom#action('directory', 'file_rec', function('s:file_rec'))
   call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
+  call denite#custom#map('insert', '<C-a>', '<denite:do_action:file_rec>')
   call denite#custom#source('my_file_mru,my_file_rec', 'converters', ['devicons_denite_converter'])
 endfunction
 
 function! s:dwm_new(context)
   call DWM_New()
   call denite#do_action(a:context, 'open', a:context['targets'])
+endfunction
+
+function! s:file_rec(context)
+  let l:target = a:context['targets'][0]
+  let l:path = get(l:target, 'action__path', '')
+  if isdirectory(l:path)
+    call denite#start([{'name': 'file_rec', 'args': [l:path]}])
+  else
+    call denite#util#print_error(printf('unknown path for target: %s', l:target))
+  endif
 endfunction
