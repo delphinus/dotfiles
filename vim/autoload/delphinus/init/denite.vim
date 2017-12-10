@@ -1,0 +1,34 @@
+scriptencoding utf-8
+
+function! delphinus#init#denite#hook_source() abort
+  call denite#custom#var('my_file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
+  call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+  call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#map('insert', '<C-u>', '../', 'noremap')
+  call denite#custom#source('_', 'matchers', ['matcher_substring'])
+  " Ripgrep command on grep source
+  call denite#custom#var('grep', 'command', ['rg'])
+  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--no-heading'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+  call denite#custom#source('grep', 'args', ['', '', '!'])
+  " ref. https://github.com/arcticicestudio/nord-vim/issues/79
+  call denite#custom#option('default', {
+        \ 'prompt': '❯❯❯',
+        \ 'statusline': v:false,
+        \ 'highlight_matched_char': 'Underlined',
+        \ })
+  call denite#custom#option('dein', 'default_action', 'narrow')
+  call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
+  call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
+  call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
+  call denite#custom#source('my_file_mru,my_file_rec', 'converters', ['devicons_denite_converter'])
+endfunction
+
+function! s:dwm_new(context)
+  call DWM_New()
+  call denite#do_action(a:context, 'open', a:context['targets'])
+endfunction
