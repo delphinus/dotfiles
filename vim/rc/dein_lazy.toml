@@ -16,6 +16,7 @@ hook_source = 'call delphinus#init#neocomplete#hook_source()'
 
 [[plugins]]
 repo      = 'Shougo/neomru.vim'
+on_source = ['denite.nvim']
 
 [[plugins]]
 repo      = 'Shougo/tabpagebuffer.vim'
