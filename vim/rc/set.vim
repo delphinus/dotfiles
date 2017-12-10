@@ -136,10 +136,7 @@ set completeopt+=menuone          " 候補が一つだけの時も補完する
 let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
 
 " Force enable Python3
-augroup EnablePython3
-  autocmd!
-  autocmd VimEnter * python3 True
-augroup END
+python3 True
 " }}}
 
 " vim:et:fdm=marker:
