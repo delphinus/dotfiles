@@ -208,52 +208,6 @@ repo = 'tmux-plugins/vim-tmux'
 
 # for unite {{{
 [[plugins]]
-repo = 'Jagua/vim-denite-ghq'
-
-[[plugins]]
-repo = 'Shougo/denite.nvim'
-depends = ['unite.vim', 'vim-denite-ghq']
-hook_add = '''
-  noremap zn :<C-u>DeniteBufferDir file file:new<CR>
-  noremap zN :<C-u>Denite file<CR>
-  noremap zl :<C-u>Denite outline<CR>
-  noremap zL :<C-u>Denite decls<CR>
-  noremap zg :<C-u>Denite my_file_rec<CR>
-  noremap z/ :<C-u>Denite grep<CR>
-  noremap zD :<C-u>Denite unite:dein/log<CR>
-  noremap zp :<C-u>Denite unite:dwm buffer my_file_mru<CR>
-  noremap zh :<C-u>Denite ghq<CR>
-  call denite#custom#var('my_file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-  call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
-  call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-  call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-  call denite#custom#map('insert', '<C-u>', '../', 'noremap')
-  call denite#custom#source('_', 'matchers', ['matcher_substring'])
-  " Ripgrep command on grep source
-  call denite#custom#var('grep', 'command', ['rg'])
-  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--no-heading'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-  call denite#custom#source('grep', 'args', ['', '', '!'])
-  " ref. https://github.com/arcticicestudio/nord-vim/issues/79
-  call denite#custom#option('default', {
-        \ 'prompt': '❯❯❯',
-        \ 'statusline': v:false,
-        \ 'highlight_matched_char': 'Underlined',
-        \ })
-  function! s:dwm_new(context)
-    call DWM_New()
-    call denite#do_action(a:context, 'open', a:context['targets'])
-  endfunction
-  call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
-  call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
-  call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
-  call denite#custom#source('my_file_mru,my_file_rec', 'converters', ['devicons_denite_converter'])
-'''
-
-[[plugins]]
 repo      = 'Shougo/neomru.vim'
 
 [[plugins]]
@@ -302,7 +256,6 @@ hook_add = '''"{{{
 # for lightline {{{
 [[plugins]]
 repo     = 'delphinus/lightline-delphinus'
-rev      = 'feature/denite'
 depends  = [ 'lightline', 'ale' ]
 hook_add = '''
   let g:lightline_delphinus_use_powerline_glyphs = 1
