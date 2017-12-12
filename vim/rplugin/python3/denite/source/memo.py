@@ -35,7 +35,8 @@ class Source(Base):
             [fullpath, file, title] = row.split('\t')
             cut = self._stdwidthpart(file, col)
             return {
-                'word': '{0}{1}{2}'.format(cut, SEPARATOR, title),
+                'word': file,
+                'abbr': '{0}{1}{2}'.format(cut, SEPARATOR, title),
                 'action__path': fullpath,
                 }
         return list(map(make_candidates, rows))
