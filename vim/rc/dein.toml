@@ -1,6 +1,10 @@
 # basic {{{
 [[plugins]]
-repo = 'Konfekt/FastFold'
+repo     = 'Konfekt/FastFold'
+hook_add = '''
+  " remove 'zj', 'zk' because it is used for denite
+  let g:fastfold_fold_movement_commands = [']z', '[z']
+'''
 
 [[plugins]]
 repo = 'Shougo/dein.vim'
