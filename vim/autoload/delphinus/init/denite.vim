@@ -20,6 +20,7 @@ function! delphinus#init#denite#hook_source() abort
         \ 'prompt': '❯❯❯',
         \ 'statusline': v:false,
         \ 'highlight_matched_char': 'Underlined',
+        \ 'cursor_wrap': v:true,
         \ })
   call denite#custom#option('dein', 'default_action', 'narrow')
   call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
