@@ -1,9 +1,10 @@
-import subprocess
 from distutils.spawn import find_executable
-import denite.util
+import re
+import subprocess
 from .base import Base
 
 SEPARATOR = '{0}:{0}'.format(chr(0xa0))
+MEMO_DIR = re.compile(r'^memodir = "(.*?)"$', re.M)
 
 class Source(Base):
 
@@ -11,34 +12,68 @@ class Source(Base):
         super().__init__(vim)
 
         self.name = 'memo'
-        self.kind = 'file'
+        self.kind = 'memo'
 
     def gather_candidates(self, context):
-        memo = find_executable('memo')
-        if not memo:
-            return []
+        if context['args'] and context['args'][0] == 'new':
+            return self._is_new(context)
 
-        command = [memo, 'list', '--format',
-                   '{{.Fullpath}}\t{{.File}}\t{{.Title}}']
-
-        try:
-            cmd = subprocess.run(command, stdout=subprocess.PIPE, check=True)
-        except subprocess.CalledProcessError as err:
-            denite.util.error(self.vim,
-                              'command returned invalid response: ' + str(err))
+        args = ['list', '--format', '{{.Fullpath}}\t{{.File}}\t{{.Title}}']
+        txt = self._cmdrun(context, args, 'command returned invalid response')
+        if not txt:
             return []
-        rows = cmd.stdout.decode('utf-8').splitlines()
+        rows = txt.splitlines()
+
         opt = self.vim.options
         col = opt['column'] if 'column' in opt else 20
 
         def make_candidates(row):
-            [fullpath, file, title] = row.split('\t')
-            cut = self._stdwidthpart(file, col)
+            [fullpath, filename, title] = row.split('\t')
+            cut = self._stdwidthpart(filename, col)
             return {
-                'word': '{0}{1}{2}'.format(cut, SEPARATOR, title),
+                'word': filename,
+                'abbr': '{0}{1}{2}'.format(cut, SEPARATOR, title),
                 'action__path': fullpath,
                 }
         return list(map(make_candidates, rows))
+
+    def _is_new(self, context):
+        if 'memo_dir' not in self.vars or not self.vars['memo_dir']:
+            txt = self._cmdrun(context, ['config', '--cat'],
+                               'command returned invalid response')
+            if not txt:
+                return []
+            match = MEMO_DIR.search(txt)
+            if not match:
+                return []
+            self.vars['memo_dir'] = match.group(1)
+
+        context['is_interactive'] = True
+        title = context['input']
+        if not title:
+            return []
+        return [{
+            'word': title,
+            'abbr': '[new title] ' + title,
+            'action__memo_dir': self.vars['memo_dir'],
+            'action__title': title,
+            'action__is_new': True,
+            }]
+
+    def _cmdrun(self, context, args, errmsg):
+        if 'command' not in self.vars or not self.vars['command']:
+            self.vars['command'] = find_executable('memo')
+            if not self.vars['command']:
+                self.error_message(context, 'memo command not found')
+                return ''
+
+        command = [self.vars['command'], *args]
+        try:
+            cmd = subprocess.run(command, stdout=subprocess.PIPE, check=True)
+            return cmd.stdout.decode('utf-8')
+        except subprocess.CalledProcessError as err:
+            self.error_message(context, errmsg + ': ' + str(err))
+            return ''
 
     def _stdwidthpart(self, string, col):
         slen = self.vim.funcs.strwidth(string)
@@ -60,6 +95,12 @@ class Source(Base):
 
     def highlight(self):
         self.vim.command(
+            'syntax match {0}_Prefix /{1}/ contained containedin={0}'
+            .format(self.syntax_name, r'\[new title\]'))
+        self.vim.command('highlight default link {0}_Prefix String'
+                         .format(self.syntax_name))
+
+        self.vim.command(
             'syntax match {0}_File /{1}/ contained containedin={0}'
             .format(self.syntax_name, r'\v.*({0})@='.format(SEPARATOR)))
         self.vim.command('highlight default link {0}_File String'
@@ -67,5 +108,5 @@ class Source(Base):
         self.vim.command(
             'syntax match {0}_Title /{1}/ contained containedin={0}'
             .format(self.syntax_name, r'\v({0})@<=.*'.format(SEPARATOR)))
-        self.vim.command('highlight default link {0}_Title Todo'
+        self.vim.command('highlight default link {0}_Title Function'
                          .format(self.syntax_name))
