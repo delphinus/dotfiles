@@ -24,6 +24,7 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#option('dein', 'default_action', 'narrow')
   call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
+  call denite#custom#action('memo', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('directory', 'file_rec', function('s:file_rec'))
   call denite#custom#action('directory', 'grep', function('s:grep'))
   call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
