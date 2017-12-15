@@ -81,9 +81,9 @@ hook_add = '''"{{{
   noremap zN :<C-u>Denite file<CR>
   noremap zl :<C-u>Denite outline<CR>
   noremap zL :<C-u>Denite decls<CR>
-  noremap zg :<C-u>Denite my_file_rec<CR>
-  noremap z/ :<C-u>Denite grep<CR>
-  noremap z? :<C-u>DeniteCursorWord grep:.<CR>
+  noremap za :<C-u>Denite my_file_rec<CR>
+  noremap zg :<C-u>Denite grep<CR>
+  noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
   noremap zd :<C-u>Denite dein<CR>
   noremap zD :<C-u>Denite unite:dein/log<CR>
   noremap zp :<C-u>Denite buffer my_file_mru<CR>
