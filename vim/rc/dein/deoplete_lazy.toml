@@ -1,0 +1,15 @@
+[[plugins]]
+repo     = 'Shougo/deoplete.nvim'
+on_i     = 1
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1
+'''
+
+[[plugins]]
+repo             = 'zchee/deoplete-go'
+on_ft            = ['go']
+hook_post_update = 'make'
+
+[[plugins]]
+repo      = 'Shougo/neoinclude.vim'
+on_source = ['deoplete.nvim']
