@@ -1,0 +1,39 @@
+[[plugins]]
+repo     = 'Chiel92/vim-autoformat'
+on_event = ['FocusLost', 'CursorHold']
+hook_source = '''"{{{
+  augroup VimAutoformat
+    autocmd!
+    autocmd BufWrite *.ts :Autoformat
+    autocmd BufWrite *.js :Autoformat
+    autocmd BufWrite *.json :Autoformat
+  augroup END
+"}}}'''
+
+[[plugins]]
+repo             = 'airblade/vim-gitgutter'
+on_event         = ['FocusLost', 'CursorHold']
+hook_source      = 'call delphinus#init#gitgutter#hook_source()'
+hook_post_source = 'call delphinus#init#gitgutter#hook_post_source()'
+
+[[plugins]]
+repo     = 'delphinus/vim-emacscommandline'
+on_event = ['FocusLost', 'CursorHold']
+
+[[plugins]]
+repo     = 'delphinus/vim-unimpaired'
+on_event = ['FocusLost', 'CursorHold']
+
+[[plugins]]
+repo     = 'itchyny/vim-cursorword'
+on_event = ['FocusLost', 'CursorHold']
+
+[[plugins]]
+repo             = 'itchyny/vim-parenmatch'
+on_event         = ['FocusLost', 'CursorHold']
+hook_add         = 'let g:loaded_matchparen = 1'
+hook_post_source = 'call parenmatch#highlight()'
+
+[[plugins]]
+repo     = 'thinca/vim-visualstar'
+on_event = ['FocusLost', 'CursorHold']

@@ -259,21 +259,6 @@ repo = 'vim-scripts/nginx.vim'
 # dependencies {{{
 [[plugins]]
 repo = 'kana/vim-textobj-user'
-
-# for deoplete
-[[plugins]]
-repo = 'fishbullet/deoplete-ruby'
-
-[[plugins]]
-repo = 'zchee/deoplete-jedi'
-
-[[plugins]]
-repo = 'roxma/nvim-yarp'
-if = '''!has('nvim')'''
-
-[[plugins]]
-repo = 'roxma/vim-hug-neovim-rpc'
-if = '''!has('nvim')'''
 # }}}
 
 # vim:se fdm=marker:
