@@ -28,7 +28,7 @@ class Source(Base):
         col = opt['column'] if 'column' in opt else 20
 
         def make_candidates(row):
-            [fullpath, filename, title] = row.split('\t')
+            fullpath, filename, title = row.split('\t', 2)
             cut = self._stdwidthpart(filename, col)
             return {
                 'word': filename,
