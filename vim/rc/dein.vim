@@ -18,15 +18,14 @@ if dein#load_state(s:dein_dir)
     return printf('%s/dein/%s.toml', g:rc_dir, a:name)
   endfunction
   let s:toml = [
-        \ {'name': 'default'},
-        \ {'name': 'lazy', 'lazy': 1},
-        \ {'name': 'denite', 'lazy': 1},
+        \ {'name': 'default', 'non_lazy': 1},
+        \ {'name': 'lazy'},
+        \ {'name': 'denite'},
         \ {'name': 'deoplete'},
-        \ {'name': 'deoplete_lazy', 'lazy': 1},
-        \ {'name': 'map', 'lazy': 1},
-        \ {'name': 'cmd', 'lazy': 1},
-        \ {'name': 'ft', 'lazy': 1},
-        \ {'name': 'event', 'lazy': 1},
+        \ {'name': 'map'},
+        \ {'name': 'cmd'},
+        \ {'name': 'ft'},
+        \ {'name': 'event'},
         \ ]
   let s:names = []
   for s:t in s:toml
@@ -35,7 +34,7 @@ if dein#load_state(s:dein_dir)
 
   call dein#begin(s:dein_dir, s:names)
   for s:t in s:toml
-    let s:is_lazy = get(s:t, 'lazy', 0)
+    let s:is_lazy = !get(s:t, 'non_lazy', 0)
     call dein#load_toml(s:toml_path(s:t['name']), {'lazy': s:is_lazy})
   endfor
   call dein#end()
