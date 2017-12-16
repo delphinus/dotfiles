@@ -1,7 +1,8 @@
 [[plugins]]
-repo    = 'Shougo/denite.nvim'
-on_cmd  = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
-on_func = ['denite#']
+repo     = 'Shougo/denite.nvim'
+on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
+on_func  = ['denite#']
+depends  = ['dwm.vim']
 hook_add = '''"{{{
   noremap zn :<C-u>DeniteBufferDir file file:new<CR>
   noremap zN :<C-u>Denite file<CR>
