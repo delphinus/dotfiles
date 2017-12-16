@@ -16,6 +16,7 @@ hook_source = '''
         \ 'converter_truncate_menu',
         \ ])
 '''
+hook_post_update = 'pip3 install -U --user neovim'
 
 [[plugins]]
 repo      = 'Shougo/neoinclude.vim'
@@ -35,8 +36,9 @@ repo  = 'Shougo/neco-vim'
 on_ft = ['vim']
 
 [[plugins]]
-repo  = 'carlitux/deoplete-ternjs'
-on_ft = ['javascript']
+repo    = 'carlitux/deoplete-ternjs'
+depends = ['tern_for_vim']
+on_ft   = ['javascript']
 
 [[plugins]]
 repo      = 'wellle/tmux-complete.vim'
