@@ -259,6 +259,9 @@ repo = 'vim-scripts/nginx.vim'
 # dependencies {{{
 [[plugins]]
 repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'lambdalisue/vim-rplugin'
 # }}}
 
 # vim:se fdm=marker:
