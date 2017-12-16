@@ -1,13 +1,30 @@
 [[plugins]]
-repo = 'fishbullet/deoplete-ruby'
-
-[[plugins]]
-repo = 'zchee/deoplete-jedi'
+repo     = 'Shougo/deoplete.nvim'
+on_i     = 1
+depends  = ['nvim-yarp', 'vim-hug-neovim-rpc']
+hook_add = '''
+  let g:deoplete#enable_at_startup = 1
+'''
 
 [[plugins]]
 repo = 'roxma/nvim-yarp'
-if = '''!has('nvim')'''
 
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
-if = '''!has('nvim')'''
+
+[[plugins]]
+repo      = 'Shougo/neoinclude.vim'
+on_source = ['deoplete.nvim']
+
+[[plugins]]
+repo             = 'zchee/deoplete-go'
+on_ft            = ['go']
+hook_post_update = 'make'
+
+[[plugins]]
+repo  = 'fishbullet/deoplete-ruby'
+on_ft = ['ruby']
+
+[[plugins]]
+repo  = 'zchee/deoplete-jedi'
+on_ft = ['python']
