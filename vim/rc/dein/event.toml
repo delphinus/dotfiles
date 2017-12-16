@@ -2,6 +2,8 @@
 repo     = 'Chiel92/vim-autoformat'
 on_event = ['FocusLost', 'CursorHold']
 hook_source = '''"{{{
+  " check python3 has been enabled
+  python3 True
   augroup VimAutoformat
     autocmd!
     autocmd BufWrite *.ts :Autoformat

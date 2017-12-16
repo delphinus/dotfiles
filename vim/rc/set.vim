@@ -134,9 +134,6 @@ set history=1000                  " コマンドライン履歴を 1000 個保�
 set completeopt+=menuone          " 候補が一つだけの時も補完する
 
 let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
-
-" Force enable Python3
-python3 True
 " }}}
 
 " vim:et:fdm=marker:
