@@ -1,1 +1,1 @@
-nnoremap <C-]> :call jedi#goto()<cr>
+nnoremap <buffer> <C-]> :call jedi#goto()<cr>
