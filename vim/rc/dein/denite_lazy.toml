@@ -1,0 +1,31 @@
+[[plugins]]
+repo     = 'Shougo/denite.nvim'
+on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
+on_func  = ['denite#']
+depends  = ['dwm.vim']
+hook_add = '''"{{{
+  noremap zn :<C-u>DeniteBufferDir file file:new<CR>
+  noremap zN :<C-u>Denite file<CR>
+  noremap zl :<C-u>Denite outline<CR>
+  noremap zL :<C-u>Denite decls<CR>
+  noremap za :<C-u>Denite my_file_rec<CR>
+  noremap zg :<C-u>Denite grep<CR>
+  noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
+  noremap zd :<C-u>Denite dein<CR>
+  noremap zD :<C-u>Denite dein/log<CR>
+  noremap zp :<C-u>Denite buffer my_file_mru<CR>
+  noremap zh :<C-u>Denite ghq<CR>
+  noremap zm :<C-u>Denite memo memo:new<CR>
+  noremap zU :<C-u>Denite -resume<CR>
+  noremap zj :<C-u>Denite -resume -cursor-pos=+1 -immediately<CR>
+  noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
+"}}}'''
+hook_source = 'call delphinus#init#denite#hook_source()'
+
+[[plugins]]
+repo      = 'Shougo/neomru.vim'
+on_source = ['denite.nvim']
+
+[[plugins]]
+repo      = 'Jagua/vim-denite-ghq'
+on_source = ['denite.nvim']

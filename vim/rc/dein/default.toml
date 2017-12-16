@@ -165,50 +165,6 @@ build = 'npm install'
 repo = 'tmux-plugins/vim-tmux'
 # }}}
 
-# for unite {{{
-[[plugins]]
-repo      = 'Shougo/unite-outline'
-
-[[plugins]]
-repo      = 'Kocha/vim-unite-tig'
-
-[[plugins]]
-repo      = 'basyura/unite-rails'
-
-[[plugins]]
-repo      = 'lambdalisue/vim-gista-unite'
-hook_post_source = '''
-  call unite#custom#default_action('gista', 'narrow')
-'''
-
-[[plugins]]
-repo      = 'pekepeke/vim-unite-z'
-
-[[plugins]]
-repo      = 'sorah/unite-bundler'
-
-[[plugins]]
-repo      = 'tsukkee/unite-tag'
-
-[[plugins]]
-repo     = 'ujihisa/neco-look'
-hook_add = '''"{{{
-  let g:neocomplete#text_mode_filetypes = {
-        \ 'rst': 1,
-        \ 'markdown': 1,
-        \ 'howm_memo': 1,
-        \ 'howm_memo.markdown': 1,
-        \ 'gitrebase': 1,
-        \ 'gitcommit': 1,
-        \ 'vcs-commit': 1,
-        \ 'hybrid': 1,
-        \ 'text': 1,
-        \ 'help': 1,
-        \ 'tex': 1,
-        \ }
-"}}}'''
-# }}}
-
 # for lightline {{{
 [[plugins]]
 repo     = 'delphinus/lightline-delphinus'
