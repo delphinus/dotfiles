@@ -104,9 +104,7 @@ elseif &term =~# 'dvtm'
   let &t_fs = '\007'
 endif
 
-if has('gui_running') || &term =~# '^screen' || &term =~# '^xterm' || &term =~# '^dvtm'
-  set title
-endif
+set title
 
 " Vim が終了したらこのタイトルにする
 set titleold=zsh
