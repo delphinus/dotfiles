@@ -28,6 +28,7 @@ if dein#load_state(s:dein_dir)
         \ {'name': 'cmd'},
         \ {'name': 'ft'},
         \ {'name': 'event'},
+        \ {'name': 'unite'},
         \ ]
   let s:names = []
   for s:t in s:toml
