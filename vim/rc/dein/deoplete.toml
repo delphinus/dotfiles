@@ -2,7 +2,8 @@
 repo = 'zchee/deoplete-zsh'
 
 [[plugins]]
-repo = 'zchee/deoplete-jedi'
+repo    = 'zchee/deoplete-jedi'
+depends = ['jedi-vim']
 
 [[plugins]]
 repo = 'SevereOverfl0w/deoplete-github'
@@ -17,3 +18,21 @@ if   = '''!has('nvim')'''
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
 if   = '''!has('nvim')'''
+
+[[plugins]]
+repo     = 'ujihisa/neco-look'
+hook_add = '''"{{{
+  let g:neocomplete#text_mode_filetypes = {
+        \ 'rst': 1,
+        \ 'markdown': 1,
+        \ 'howm_memo': 1,
+        \ 'howm_memo.markdown': 1,
+        \ 'gitrebase': 1,
+        \ 'gitcommit': 1,
+        \ 'vcs-commit': 1,
+        \ 'hybrid': 1,
+        \ 'text': 1,
+        \ 'help': 1,
+        \ 'tex': 1,
+        \ }
+"}}}'''
