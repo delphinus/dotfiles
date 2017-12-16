@@ -19,9 +19,10 @@ if dein#load_state(s:dein_dir)
   endfunction
   let s:toml = [
         \ {'name': 'default', 'non_lazy': 1},
+        \ {'name': 'deoplete', 'non_lazy': 1},
         \ {'name': 'lazy'},
         \ {'name': 'denite'},
-        \ {'name': 'deoplete'},
+        \ {'name': 'deoplete_lazy'},
         \ {'name': 'map'},
         \ {'name': 'cmd'},
         \ {'name': 'ft'},

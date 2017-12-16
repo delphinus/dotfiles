@@ -36,9 +36,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'lambdalisue/vim-rplugin'
-
-[[plugins]]
 repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
 
