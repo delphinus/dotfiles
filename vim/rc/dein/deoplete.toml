@@ -1,9 +1,16 @@
 [[plugins]]
-repo     = 'Shougo/deoplete.nvim'
-on_i     = 1
-depends  = ['nvim-yarp', 'vim-hug-neovim-rpc']
-hook_add = '''
+repo        = 'Shougo/deoplete.nvim'
+on_i        = 1
+depends     = ['nvim-yarp', 'vim-hug-neovim-rpc']
+hook_source = '''
   let g:deoplete#enable_at_startup = 1
+  call deoplete#initialize()
+  call deoplete#custom#source('_', 'converters', [
+        \ 'converter_auto_paren',
+        \ 'converter_remove_overlap',
+        \ 'converter_truncate_abbr',
+        \ 'converter_truncate_menu',
+        \ ])
 '''
 
 [[plugins]]
@@ -14,6 +21,10 @@ repo = 'roxma/vim-hug-neovim-rpc'
 
 [[plugins]]
 repo      = 'Shougo/neoinclude.vim'
+on_source = ['deoplete.nvim']
+
+[[plugins]]
+repo      = 'Shougo/neopairs.vim'
 on_source = ['deoplete.nvim']
 
 [[plugins]]
