@@ -76,3 +76,7 @@ hook_add = '''
   nmap g<CR> <Plug>(openbrowser-smart-search)
   vmap g<CR> <Plug>(openbrowser-smart-search)
 '''
+
+[[plugins]]
+repo   = 'vifm/vifm.vim'
+on_cmd = ['EditVifm', 'VsplitVifm', 'SplitVifm', 'DiffVifm', 'TabVifm']
