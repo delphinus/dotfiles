@@ -16,6 +16,7 @@ hook_add = '''"{{{
   noremap zp :<C-u>Denite buffer my_file_mru<CR>
   noremap zh :<C-u>Denite ghq<CR>
   noremap zm :<C-u>Denite memo memo:new<CR>
+  noremap zM :<C-u>Denite memo/grep::!<CR>
   noremap zU :<C-u>Denite -resume<CR>
   noremap zj :<C-u>Denite -resume -cursor-pos=+1 -immediately<CR>
   noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
