@@ -14,12 +14,20 @@ class Source(Base):
         self.name = 'memo'
         self.kind = 'memo'
 
+    def on_init(self, context):
+        context['__memo'] = Memo()
+
     def gather_candidates(self, context):
         if context['args'] and context['args'][0] == 'new':
             return self._is_new(context)
 
-        args = ['list', '--format', '{{.Fullpath}}\t{{.File}}\t{{.Title}}']
-        txt = self._cmdrun(context, args, 'command returned invalid response')
+        try:
+            txt = context['__memo'].run(
+                'list', '--format', '{{.Fullpath}}\t{{.File}}\t{{.Title}}')
+        except subprocess.CalledProcessError as err:
+            self.error_message(
+                context, 'command returned invalid response: ' + str(err))
+            return []
         if not txt:
             return []
         rows = txt.splitlines()
@@ -39,14 +47,12 @@ class Source(Base):
 
     def _is_new(self, context):
         if 'memo_dir' not in self.vars or not self.vars['memo_dir']:
-            txt = self._cmdrun(context, ['config', '--cat'],
-                               'command returned invalid response')
-            if not txt:
+            try:
+                self.vars['memo_dir'] = context['__memo'].get_memo_dir()
+            except subprocess.CalledProcessError as err:
+                self.error_message(
+                    context, 'command returned invalid response: ' + str(err))
                 return []
-            match = MEMO_DIR.search(txt)
-            if not match:
-                return []
-            self.vars['memo_dir'] = match.group(1)
 
         context['is_interactive'] = True
         title = context['input']
@@ -59,21 +65,6 @@ class Source(Base):
             'action__title': title,
             'action__is_new': True,
             }]
-
-    def _cmdrun(self, context, args, errmsg):
-        if 'command' not in self.vars or not self.vars['command']:
-            self.vars['command'] = find_executable('memo')
-            if not self.vars['command']:
-                self.error_message(context, 'memo command not found')
-                return ''
-
-        command = [self.vars['command'], *args]
-        try:
-            cmd = subprocess.run(command, stdout=subprocess.PIPE, check=True)
-            return cmd.stdout.decode('utf-8')
-        except subprocess.CalledProcessError as err:
-            self.error_message(context, errmsg + ': ' + str(err))
-            return ''
 
     def _stdwidthpart(self, string, col):
         slen = self.vim.funcs.strwidth(string)
@@ -110,3 +101,26 @@ class Source(Base):
             .format(self.syntax_name, r'\v({0})@<=.*'.format(SEPARATOR)))
         self.vim.command('highlight default link {0}_Title Function'
                          .format(self.syntax_name))
+
+
+class CommandNotFoundError(Exception):
+    pass
+
+
+class Memo:
+
+    def __init__(self):
+        command = find_executable('memo')
+        if not command:
+            raise CommandNotFoundError
+        self.command = command
+
+    def run(self, *args):
+        command = [self.command, *args]
+        cmd = subprocess.run(command, stdout=subprocess.PIPE, check=True)
+        return cmd.stdout.decode('utf-8')
+
+    def get_memo_dir(self):
+        txt = self.run('config', '--cat')
+        match = MEMO_DIR.search(txt)
+        return match.group(1) if match else ''
