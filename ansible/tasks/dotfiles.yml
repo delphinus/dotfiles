@@ -1,5 +1,6 @@
 ---
-- file: path={{ home_dir }}/.config state=directory
+- name: prepare config dir
+  file: path={{ home_dir }}/.config/vifm/colors state=directory
 
 - name: make dotfiles symlink
   file: src={{ '/'.join([dotfiles_dir, item]) }} dest={{ home_dir }}/{{ item }} state=link force=yes
@@ -9,6 +10,8 @@
     - .config/peco
     - .config/powerline
     - .config/ranger
+    - .config/vifm/vifmrc
+    - .config/vifm/colors/nord.vifm
     - .editrc
     - .gitconfig
     - .grcat
