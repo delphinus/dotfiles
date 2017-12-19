@@ -16,7 +16,7 @@ hook_source = '''
         \ 'converter_truncate_menu',
         \ ])
 '''
-hook_post_update = 'pip3 install -U --user neovim'
+hook_post_update = '!pip3 install -U --user neovim'
 
 [[plugins]]
 repo      = 'Shougo/neoinclude.vim'
