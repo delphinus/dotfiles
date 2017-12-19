@@ -158,8 +158,8 @@ repo = 'taskwarrior/task'
 rtp  = 'scripts/vim'
 
 [[plugins]]
-repo  = 'ternjs/tern_for_vim'
-build = 'npm install'
+repo = 'ternjs/tern_for_vim'
+hook_post_update = '!npm install'
 
 [[plugins]]
 repo = 'tmux-plugins/vim-tmux'
