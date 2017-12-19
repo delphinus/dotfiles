@@ -80,3 +80,4 @@ hook_add = '''
 [[plugins]]
 repo   = 'vifm/vifm.vim'
 on_cmd = ['EditVifm', 'VsplitVifm', 'SplitVifm', 'DiffVifm', 'TabVifm']
+on_ft  = ['vifm']
