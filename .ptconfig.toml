@@ -17,4 +17,4 @@ home-ptignore = "~/.ptignore"
 skip-vcs-ignores = false
 depth = 25
 follow = false
-hidden = false
+hidden = true
