@@ -156,3 +156,7 @@ fi
 if (( $+commands[kubectl] )); then
   source <(kubectl completion zsh)
 fi
+
+# for grep
+export GREP_COLOR='3;4;93'          # BSD.
+export GREP_COLORS="mt=$GREP_COLOR" # GNU.
