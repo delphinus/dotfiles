@@ -32,7 +32,7 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:file_rec>')
   call denite#custom#map('insert', '<C-g>', '<denite:do_action:grep>')
-  call denite#custom#source('my_file_mru,my_file_rec', 'converters', ['devicons_denite_converter'])
+  call denite#custom#source('my_file_rec', 'converters', ['devicons_denite_converter'])
 endfunction
 
 function! s:dwm_new(context)
