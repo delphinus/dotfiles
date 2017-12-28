@@ -19,3 +19,15 @@ function! s:cleanUpStartUpTime() abort
 endfunction
 
 command! CleanUpStartUpTime call <SID>cleanUpStartUpTime()
+
+" from denite.nvim
+function! s:getchar() abort
+  redraw | echo 'Press any key: '
+  let l:c = getchar()
+  while l:c ==# "\<CursorHold>"
+    redraw | echo 'Press any key: '
+    let l:c = getchar()
+  endwhile
+  redraw | echomsg printf('Raw: "%s" | Char: "%s"', l:c, nr2char(l:c))
+endfunction
+command! GetChar call s:getchar()
