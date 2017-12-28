@@ -8,7 +8,7 @@ augroup QuickFixWindowHeight
   autocmd WinEnter * if &filetype ==# 'qf' | call delphinus#quickfix#set_height(3, 10) | endif
 augroup END
 
-function s:cleanUpStartUpTime() abort
+function! s:cleanUpStartUpTime() abort
   let l:vim = printf('%%s,%s,$VIM,', expand('$VIM'))
   execute l:vim
   let $DEIN = expand('~/.cache/dein')
