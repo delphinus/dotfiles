@@ -51,6 +51,7 @@ set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表
 set colorcolumn=141      " 141 桁目をハイライト
 set cmdheight=2          " 画面最下段のコマンド表示行数
 set cursorline
+set shortmess+=c         " 補完時のメッセージをステータスラインに表示しない（echodoc.vim 対策）
 " }}}
 
 " インデントと整形 {{{
