@@ -195,6 +195,8 @@ hook_add = '''
         \ }
   let g:ale_sh_shellcheck_options = '-x'
   let g:ale_go_gometalinter_options = '--fast'
+  nmap <silent> <A-k> <Plug>(ale_previous_wrap)
+  nmap <silent> <A-j> <Plug>(ale_next_wrap)
 '''
 # }}}
 
