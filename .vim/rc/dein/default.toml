@@ -187,7 +187,7 @@ hook_add = '''
   let g:ale_sign_warning = ' '
   let g:ale_statusline_format = ['  %d', '  %d', '  ']
   let g:ale_linters = {
-        \ 'go': [ 'vet', 'golint'],
+        \ 'go': [ 'vet', 'golint' ],
         \ 'typescript': [ 'tslint', 'tsserver' ],
         \ }
   let g:ale_sh_shellcheck_options = '-x'
