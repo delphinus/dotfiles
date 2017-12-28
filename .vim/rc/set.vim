@@ -50,7 +50,7 @@ set listchars=tab:░\ ,trail:␣,eol:⏎,extends:→,precedes:←,nbsp:¯
 set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表示する
 set colorcolumn=141      " 141 桁目をハイライト
 set cmdheight=2          " 画面最下段のコマンド表示行数
-set cursorline
+set cursorline           " カーソルのある行を強調表示する
 set shortmess+=c         " 補完時のメッセージをステータスラインに表示しない（echodoc.vim 対策）
 " }}}
 
