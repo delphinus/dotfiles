@@ -27,6 +27,10 @@ repo      = 'Shougo/neopairs.vim'
 on_source = ['deoplete.nvim']
 
 [[plugins]]
+repo      = 'Shougo/echodoc.vim'
+on_source = ['deoplete.nvim']
+
+[[plugins]]
 repo             = 'zchee/deoplete-go'
 on_ft            = ['go']
 hook_post_update = 'make'
