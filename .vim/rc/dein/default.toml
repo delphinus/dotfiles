@@ -10,6 +10,17 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo     = 'delphinus/direnv.vim'
+rev      = 'feature/extend-to-catch-all-output'
+hook_add = '''
+  let g:direnv_auto = 0
+  augroup ExecDirenv
+    autocmd!
+    autocmd User RooterChDir call direnv#export()
+  augroup END
+'''
+
+[[plugins]]
 repo     = 'kana/vim-submode'
 hook_add = '''"{{{
   call submode#enter_with('DWM_size', 'n', '', '<C-w>>', ':call DWM_GrowMaster()<CR>')
