@@ -19,6 +19,7 @@
     - .jshintrc
     - .proverc
     - .ptconfig.toml
+    - .ptpython/config.py
     - .tern-project
     - .tmux
     - .tmux.conf
