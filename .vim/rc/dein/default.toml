@@ -191,7 +191,7 @@ repo    = 'itchyny/lightline.vim'
 
 [[plugins]]
 repo     = 'w0rp/ale'
-hook_add = '''
+hook_add = """
   let g:ale_echo_msg_format = '%severity%  %linter% - %s'
   let g:ale_echo_msg_error_str = ' '
   let g:ale_echo_msg_warning_str = ' '
@@ -207,9 +207,13 @@ hook_add = '''
   let g:ale_sh_shellcheck_options = '-x'
   let g:ale_go_gometalinter_executable = 'eval $(direnv export zsh) && gometalinter'
   let g:ale_go_gometalinter_options = '--fast'
+  if dein#tap('denite.nvim')
+    let s:pylint_init_hook = 'import sys;sys.path.append("' . g:dein#plugin.rtp . '/rplugin/python3");'
+    let g:ale_python_pylint_options = '--init-hook=''' . s:pylint_init_hook . ''''
+  endif
   nmap <silent> <A-k> <Plug>(ale_previous_wrap)
   nmap <silent> <A-j> <Plug>(ale_next_wrap)
-'''
+"""
 # }}}
 
 # vim-script {{{
