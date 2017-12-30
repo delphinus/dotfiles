@@ -5,7 +5,7 @@
 # ============================================================================
 
 from denite.source.file import Source as Base
-from .my_buffer import abbr, highlight
+from my_util import abbr, highlight
 
 
 class Source(Base):
