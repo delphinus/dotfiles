@@ -10,7 +10,7 @@ hook_add = '''"{{{
   noremap zN :<C-u>Denite my_file<CR>
   noremap zl :<C-u>Denite outline<CR>
   noremap zL :<C-u>Denite decls<CR>
-  noremap za :<C-u>Denite my_file_rec<CR>
+  noremap za :<C-u>Denite file_rec<CR>
   noremap zg :<C-u>Denite grep<CR>
   noremap zi :<C-u>Denite gitlog<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
