@@ -12,6 +12,8 @@ hook_add = '''"{{{
   noremap zL :<C-u>Denite decls<CR>
   noremap za :<C-u>Denite my_file_rec<CR>
   noremap zg :<C-u>Denite grep<CR>
+  norempa zi :<C-u>Denite gitlog<CR>
+  noremap zI :<C-u>Denite gitlog:all<CR>
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
   noremap zd :<C-u>Denite dein<CR>
   noremap zD :<C-u>Denite dein/log<CR>
@@ -32,3 +34,11 @@ on_source = ['denite.nvim']
 [[plugins]]
 repo      = 'Jagua/vim-denite-ghq'
 on_source = ['denite.nvim']
+
+[[plugins]]
+repo      = 'neoclide/denite-git'
+on_source = ['denite.nvim']
+depends   = ['vim-easygit']
+
+[[plugins]]
+repo = 'neoclide/vim-easygit'
