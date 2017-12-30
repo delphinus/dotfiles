@@ -139,7 +139,7 @@ let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
 set pyxversion=3 " Python3 のみ使う
 python3 <<EOF
 import sys
-sys.path.append(str(vim.vars['home']) + '/.vim/rplugin/python3')
+sys.path.append(vim.vars['home'].decode() + '/.vim/rplugin/python3')
 EOF
 " }}}
 
