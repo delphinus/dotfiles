@@ -10,8 +10,7 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo     = 'delphinus/direnv.vim'
-rev      = 'feature/extend-to-catch-all-output'
+repo     = 'direnv/direnv.vim'
 hook_add = '''
   let g:direnv_auto = 0
   augroup ExecDirenv
