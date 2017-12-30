@@ -2,6 +2,9 @@
 - name: prepare config dir
   file: path={{ home_dir }}/.config/vifm/colors state=directory
 
+- name: prepare ptpython config dir
+  file: path={{ home_dir }}/.ptpython state=directory
+
 - name: make dotfiles symlink
   file: src={{ '/'.join([dotfiles_dir, item]) }} dest={{ home_dir }}/{{ item }} state=link force=yes
   with_items:
