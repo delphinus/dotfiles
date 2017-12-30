@@ -135,4 +135,12 @@ set completeopt+=menuone          " 候補が一つだけの時も補完する
 let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
 " }}}
 
+" Python 設定 {{{
+set pyxversion=3 " Python3 のみ使う
+python3 <<EOF
+import sys
+sys.path.append(str(vim.vars['home']) + '/.vim/rplugin/python3')
+EOF
+" }}}
+
 " vim:et:fdm=marker:
