@@ -5,7 +5,7 @@
 # ============================================================================
 
 from .file_mru import Source as Base
-from .my_file import word, abbr, highlight
+from .my_buffer import word, abbr, highlight
 
 
 class Source(Base):
