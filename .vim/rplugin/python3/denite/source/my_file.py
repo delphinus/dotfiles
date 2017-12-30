@@ -4,8 +4,8 @@
 # License: MIT license
 # ============================================================================
 
-from .file import Source as Base
-from .my_buffer import abbr, highlight, word
+from denite.source.file import Source as Base
+from .my_buffer import abbr, highlight
 
 
 class Source(Base):

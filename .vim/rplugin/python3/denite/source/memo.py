@@ -1,7 +1,13 @@
+# ============================================================================
+# FILE: memo.py
+# AUTHOR: delphinus <delphinus@remora.cx>
+# License: MIT license
+# ============================================================================
+
 from distutils.spawn import find_executable
 import re
 import subprocess
-from .base import Base
+from denite.source.base import Base
 
 SEPARATOR = '{0}:{0}'.format(chr(0xa0))
 MEMO_DIR = re.compile(r'^memodir = "(.*?)"$', re.M)
