@@ -5,7 +5,7 @@
 # ============================================================================
 
 from denite.source.file_mru import Source as Base
-from .my_buffer import word, abbr, highlight
+from my_util import word, abbr, highlight
 
 
 class Source(Base):
