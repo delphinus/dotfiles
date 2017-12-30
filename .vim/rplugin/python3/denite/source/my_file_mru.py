@@ -4,7 +4,7 @@
 # License: MIT license
 # ============================================================================
 
-from .file_mru import Source as Base
+from denite.source.file_mru import Source as Base
 from .my_buffer import word, abbr, highlight
 
 

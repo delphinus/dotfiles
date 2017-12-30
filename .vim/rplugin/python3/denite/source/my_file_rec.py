@@ -4,7 +4,8 @@
 # License: MIT license
 # ============================================================================
 
-from .file_rec import Source as Base
+from denite.source.file_rec import Source as Base
+from .my_buffer import word, abbr, highlight
 
 
 class Source(Base):
@@ -13,9 +14,12 @@ class Source(Base):
         super().__init__(vim)
         self.name = 'my_file_rec'
 
+    def gather_candidates(self, context):
+        return [{
+            'word': word(self.vim, x['action__path']),
+            'abbr': abbr(self.vim, x['action__path']),
+            'action__path': x['action__path'],
+        } for x in super().gather_candidates(context)]
+
     def highlight(self):
-        self.vim.command(
-            r'syntax match {0}_Icon /[^/ \[\]]\+\s/ contained containedin={0}'.
-            format(self.syntax_name))
-        self.vim.command('highlight default link {0}_Icon Function'.
-                         format(self.syntax_name))
+        highlight(self.vim, self.syntax_name)

@@ -1,5 +1,11 @@
-from .grep import Source as Grep
+# ============================================================================
+# FILE: memo_grep.py
+# AUTHOR: delphinus <delphinus@remora.cx>
+# License: MIT license
+# ============================================================================
+
 import subprocess
+from denite.source.grep import Source as Grep
 from .memo import Memo, CommandNotFoundError
 
 
