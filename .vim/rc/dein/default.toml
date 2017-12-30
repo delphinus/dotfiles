@@ -208,6 +208,7 @@ hook_add = """
   let g:ale_go_gometalinter_options = '--fast'
   if dein#tap('denite.nvim')
     let s:pylint_init_hook = 'import sys;sys.path.append("' . g:dein#plugin.rtp . '/rplugin/python3");'
+    let s:pylint_init_hook .= 'sys.path.append("' . g:home . '/.vim/rplugin/python3");'
     let g:ale_python_pylint_options = '--init-hook=''' . s:pylint_init_hook . ''''
   endif
   nmap <silent> <A-k> <Plug>(ale_previous_wrap)
