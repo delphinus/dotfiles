@@ -160,3 +160,8 @@ fi
 # for grep
 export GREP_COLOR='3;4;93'          # BSD.
 export GREP_COLORS="mt=$GREP_COLOR" # GNU.
+
+# for 3llo - the client for Trello
+if [[ -f $H/.3llo ]]; then
+  source $H/.3llo
+fi
