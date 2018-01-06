@@ -60,7 +60,7 @@
     - contexts
     - excel
 
-- file: path={{ home_dir }}/.ssh/config state=touch
+- file: path={{ home_dir }}/.ssh/config state=touch mode=0600
   changed_when: false
 - lineinfile: dest={{ home_dir }}/.ssh/config line='Host *' state=present
 - lineinfile: dest={{ home_dir }}/.ssh/config line='  ServerAliveInterval 120' insertafter='^Host \*$'
