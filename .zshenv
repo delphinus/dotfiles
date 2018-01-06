@@ -50,6 +50,10 @@ elif (( $+commands[python3.6] )); then
     mkdir -p $H/bin
     ln -s $(which python3.6) $H/bin/python3
   fi
+  if ! (( $+commands[pip3] )); then
+    mkdir -p $H/bin
+    ln -s $(which pip3.6) $H/bin/pip3
+  fi
 else
   typeset -xT PYENV_ROOT pyenv_root
   pyenv_root=$HOME/.pyenv
