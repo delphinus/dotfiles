@@ -45,6 +45,11 @@ path=(
 # for python
 if (( $+commands[pyenv] )); then
   eval "$(pyenv init - --no-rehash zsh)"
+elif (( $+commands[python3.6] )); then
+  if ! (( $+commands[python3] )); then
+    mkdir -p $H/bin
+    ln -s $(which python3.6) $H/bin/python3
+  fi
 else
   typeset -xT PYENV_ROOT pyenv_root
   pyenv_root=$HOME/.pyenv
