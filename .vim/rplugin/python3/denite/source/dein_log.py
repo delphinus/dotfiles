@@ -31,8 +31,6 @@ class Source(Base):
     def gather_candidates(self, context):
         dein_context = self.vim.call('dein#install#_get_context')
         context['is_async'] = bool(dein_context)
-        if not context['is_async']:
-            return []
         if context['args'] and context['args'][0] == '!':
             log_func = 'dein#install#_get_updates_log'
         else:
