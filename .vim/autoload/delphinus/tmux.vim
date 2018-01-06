@@ -1,6 +1,6 @@
 if ! dein#is_sourced('vital.vim') | call dein#source('vital.vim') | endif
 
-let s:V = vital#of('vital')
+let s:V = vital#vital#new()
 let s:FP = s:V.import('System.Filepath')
 
 function! delphinus#tmux#tmux_filetype() abort
