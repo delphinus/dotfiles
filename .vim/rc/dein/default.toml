@@ -60,6 +60,7 @@ hook_add = '''"{{{
   nnoremap g<space> :<c-u>Git 
   nnoremap d< :diffget //2<CR>
   nnoremap d> :diffget //3<CR>
+  nnoremap gs :Gstatus<CR>
 "}}}'''
 
 [[plugins]]
