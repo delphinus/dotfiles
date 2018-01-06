@@ -4,16 +4,16 @@
 # License: MIT license
 # ============================================================================
 
-from .base import Base
 import re
+from denite.source.base import Base
 
 HEADER_RE = re.compile(r'^\s*[a-zA-Z_]\w*://')
 SPACE_RE = re.compile(r'^\s+')
 DEIN_LOG_SYNTAX_HIGHLIGHT = [
-    {'name': 'Message',  're': r'.*',            'link': 'Comment'},
+    {'name': 'Message', 're': r'.*', 'link': 'Comment'},
     {'name': 'Progress', 're': r'(.\{-}):\s*.*', 'link': 'String'},
-    {'name': 'Source',   're': r'|.\{-}|',       'link': 'Type'},
-    {'name': 'URI',      're': r'-> diff URI',   'link': 'Underlined'},
+    {'name': 'Source', 're': r'|.\{-}|', 'link': 'Type'},
+    {'name': 'URI', 're': r'-> diff URI', 'link': 'Underlined'},
     ]
 
 
