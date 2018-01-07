@@ -5,7 +5,6 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
   call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
   call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-  call denite#custom#map('insert', '<C-u>', '../', 'noremap')
   call denite#custom#map('insert', '~', expand('~'), 'noremap')
   call denite#custom#source('_', 'matchers', ['matcher_substring'])
   " Pt command on grep source
@@ -29,9 +28,12 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#action('memo', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('directory', 'my_file_rec', function('s:file_rec'))
   call denite#custom#action('directory', 'grep', function('s:grep'))
+  call denite#custom#action('file', 'start_upper', function('s:start_upper'))
+  call denite#custom#action('directory', 'start_upper', function('s:start_upper'))
   call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
   call denite#custom#map('insert', '<C-g>', '<denite:do_action:grep>')
+  call denite#custom#map('insert', '<C-u>', '<denite:do_action:start_upper>')
   call denite#custom#source('my_file_rec', 'converters', ['devicons_denite_converter'])
 endfunction
 
@@ -60,4 +62,11 @@ function! s:start_action_for_path(context, action, ...)
   else
     call denite#util#print_error(printf('unknown path for target: %s', l:target))
   endif
+endfunction
+
+function! s:start_upper(context, ...)
+  let l:target = a:context['targets'][0]
+  let l:mod = get(l:target, 'kind', '') ==# 'file' ? ':p:h:h' : ':p:h:h:h'
+  let l:upper = fnamemodify(l:target['action__path'], l:mod)
+  call denite#start([{'name': 'my_file', 'args': ['', l:upper]}, {'name': 'my_file', 'args': ['new']}])
 endfunction
