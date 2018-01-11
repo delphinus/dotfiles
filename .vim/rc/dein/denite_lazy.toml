@@ -36,10 +36,6 @@ repo      = 'Jagua/vim-denite-ghq'
 on_source = ['denite.nvim']
 
 [[plugins]]
-repo      = 'delphinus/vim-denite-memo'
-on_source = ['denite.nvim']
-
-[[plugins]]
 repo      = 'neoclide/denite-git'
 on_source = ['denite.nvim']
 depends   = ['vim-easygit']
