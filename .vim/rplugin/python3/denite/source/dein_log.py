@@ -39,13 +39,13 @@ class Source(Base):
 
         def make_candidates(row):
             if HEADER_RE.match(row):
-                return {'word': row, 'kind': 'word'}
-            else:
                 return {
                     'word': ' -> diff URI',
                     'kind': 'uri',
                     'action__uri': SPACE_RE.sub(row, ''),
                     }
+            else:
+                return {'word': row, 'kind': 'word'}
 
         rows = len(context['__source_log'])
         candidates = list(map(make_candidates, logs[rows:]))
