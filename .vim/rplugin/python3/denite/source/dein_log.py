@@ -38,14 +38,11 @@ class Source(Base):
         logs = self.vim.call(log_func)
 
         def make_candidates(row):
-            if HEADER_RE.match(row):
-                return {
-                    'word': ' -> diff URI',
-                    'kind': 'uri',
-                    'action__uri': SPACE_RE.sub(row, ''),
-                    }
-            else:
-                return {'word': row, 'kind': 'word'}
+            return {
+                'word': ' -> diff URI',
+                'kind': 'file',
+                'action__path': SPACE_RE.sub(row, ''),
+                } if HEADER_RE.match(row) else {'word': row, 'kind': 'word'}
 
         rows = len(context['__source_log'])
         candidates = list(map(make_candidates, logs[rows:]))
