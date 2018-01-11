@@ -1,2 +1,5 @@
 [[plugins]]
 repo      = 'rafi/vim-denite-z'
+
+[[plugins]]
+repo      = 'delphinus/vim-denite-memo'
