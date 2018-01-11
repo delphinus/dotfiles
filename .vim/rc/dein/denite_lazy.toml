@@ -15,7 +15,7 @@ hook_add = '''"{{{
   noremap zi :<C-u>Denite gitlog<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
-  noremap zd :<C-u>Denite dein<CR>
+  noremap zd :<C-u>Denite -default-action=narrow dein<CR>
   noremap zD :<C-u>Denite dein/log<CR>
   noremap zp :<C-u>Denite my_buffer my_file_mru<CR>
   noremap zh :<C-u>Denite ghq<CR>
