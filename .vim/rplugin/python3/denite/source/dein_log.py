@@ -10,8 +10,7 @@ from denite.source.base import Base
 HEADER_RE = re.compile(r'^\s*[a-zA-Z_]\w*://')
 SPACE_RE = re.compile(r'^\s+')
 DEIN_LOG_SYNTAX_HIGHLIGHT = [
-    {'name': 'Message', 're': r'.*', 'link': 'Comment'},
-    {'name': 'Progress', 're': r'(.\{-}):\s*.*', 'link': 'String'},
+    {'name': 'Progress', 're': r'\[[ =]\+\]', 'link': 'String'},
     {'name': 'Source', 're': r'|.\{-}|', 'link': 'Type'},
     {'name': 'URI', 're': r'-> diff URI', 'link': 'Underlined'},
     ]
@@ -25,7 +24,6 @@ class Source(Base):
         self.name = 'dein/log'
 
     def on_init(self, context):
-        context['event'] = 'async'
         context['__source_log'] = []
 
     def gather_candidates(self, context):
@@ -41,7 +39,7 @@ class Source(Base):
             return {
                 'word': ' -> diff URI',
                 'kind': 'file',
-                'action__path': SPACE_RE.sub(row, ''),
+                'action__path': SPACE_RE.sub('', row),
                 } if HEADER_RE.match(row) else {'word': row, 'kind': 'word'}
 
         rows = len(context['__source_log'])
