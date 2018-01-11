@@ -5,6 +5,8 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
   call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
   call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#map('insert', '<C-t>', '<denite:input_command_line>', 'noremap')
+  call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
   call denite#custom#map('insert', '~', expand('~'), 'noremap')
   call denite#custom#source('_', 'matchers', ['matcher_substring'])
   " Pt command on grep source
