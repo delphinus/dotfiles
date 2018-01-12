@@ -1,7 +1,6 @@
 [[plugins]]
 repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
-on_ft  = ['howm_memo']
 
 [[plugins]]
 repo     = 'lambdalisue/vim-gista'

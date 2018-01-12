@@ -1,8 +1,4 @@
 [[plugins]]
-repo      = 'Shougo/tabpagebuffer.vim'
-on_source = ['unite.vim', 'vimfiler']
-
-[[plugins]]
 repo     = 'Shougo/unite.vim'
 on_cmd   = ['Unite', 'UniteWithBufferDir', 'UniteWithCursorWord']
 hook_add = '''"{{{
@@ -48,21 +44,6 @@ hook_add = '''"{{{
 hook_source = 'call delphinus#init#unite#hook_source()'
 
 [[plugins]]
-repo      = 'Shougo/vimfiler'
-on_source = ['unite.vim']
-on_cmd    = [
-  'VimFiler',
-  'VimFilerExplorer',
-  'Edit',
-  'Read',
-  'Source',
-  'Write',
-]
-hook_add         = 'nnoremap `f :VimFilerBufferDir<CR>'
-hook_source      = 'call delphinus#init#vimfiler#hook_source()'
-hook_post_source = 'call delphinus#init#vimfiler#hook_post_source()'
-
-[[plugins]]
 repo        = 'thinca/vim-ref'
 on_cmd      = ['Ref']
 on_source   = ['unite.vim']
@@ -72,14 +53,3 @@ hook_add    = '''"{{{
   noremap `rr :Unite ref/refe<CR>
 "}}}'''
 hook_source = 'call delphinus#init#ref#hook_source()'
-
-[[plugins]]
-repo        = 'fuenor/qfixhowm'
-on_map      = ['g,m', 'g,c', 'g,s', 'g,q']
-on_source   = ['unite.vim']
-hook_source = 'call delphinus#init#qfixhowm#hook_source()'
-
-[[plugins]]
-repo      = 'osyo-manga/unite-qfixhowm'
-depends   = ['qfixhowm']
-on_source = ['unite.vim']
