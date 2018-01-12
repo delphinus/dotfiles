@@ -1,6 +1,6 @@
 [[plugins]]
 repo        = 'Shougo/deoplete.nvim'
-on_i        = 1
+on_event    = ['InsertEnter']
 depends     = ['nvim-yarp', 'vim-hug-neovim-rpc']
 hook_source = '''
   let g:deoplete#enable_at_startup = 1
@@ -33,7 +33,7 @@ on_source = ['deoplete.nvim']
 [[plugins]]
 repo             = 'zchee/deoplete-go'
 on_ft            = ['go']
-hook_post_update = 'make'
+hook_post_update = '!make'
 
 [[plugins]]
 repo  = 'Shougo/neco-vim'
