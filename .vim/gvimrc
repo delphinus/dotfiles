@@ -8,8 +8,7 @@ set iminsert=0                          " インサートモードの初期値�
 set imsearch=-1                         " 挿入モードの初期値は iminsert に従う
 set guioptions=A                        " モードレスセレクションに対する自動選択
 
-set guifont=Ricty_Discord_Reduced:h14
-set guifontwide=Ricty_Discord_Reduced:h14
+set guifont=SF\ Mono:h13
 set lines=92 columns=190          " ウィンドウの大きさを指定する
 set antialias                     " 文字をなめらかに表示する
 set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
