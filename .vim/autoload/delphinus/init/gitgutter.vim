@@ -4,10 +4,10 @@ function! delphinus#init#gitgutter#hook_source() abort
   let g:gitgutter_diff_args='-w --indent-heuristic'
   let g:gitgutter_enabled=1
   let g:gitgutter_highlight_lines = 1
-  let g:gitgutter_sign_added=''
-  let g:gitgutter_sign_modified=''
-  let g:gitgutter_sign_modified_removed=''
-  let g:gitgutter_sign_removed=''
+  let g:gitgutter_sign_added='✓'
+  let g:gitgutter_sign_modified='⤷'
+  let g:gitgutter_sign_modified_removed='•'
+  let g:gitgutter_sign_removed='✗'
 endfunction
 
 function! delphinus#init#gitgutter#hook_post_source() abort
