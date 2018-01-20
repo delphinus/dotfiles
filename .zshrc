@@ -55,7 +55,7 @@ if (( $+commands[brew] )); then
   . $(brew --prefix)/etc/profile.d/z.sh
 elif [[ -f /etc/profile.d/z.sh ]]; then
   . /etc/profile.d/z.sh
-else
+elif (( $+commands[ghq] )); then
   z=$(ghq list --full-path rupa/z)
   if [[ -f $z/z.sh ]]; then
     . $z/z.sh
