@@ -41,8 +41,10 @@ on_ft = ['vim']
 
 [[plugins]]
 repo    = 'carlitux/deoplete-ternjs'
-depends = ['tern_for_vim']
 on_ft   = ['javascript']
+hook_post_update = '''
+  !npm install -g tern
+'''
 
 [[plugins]]
 repo      = 'wellle/tmux-complete.vim'
