@@ -225,6 +225,9 @@ repo = 'vim-scripts/autodate.vim'
 if   = '''!has('kaoriya')'''
 
 [[plugins]]
+repo = 'vim-scripts/fontforge_script.vim'
+
+[[plugins]]
 repo = 'vim-scripts/ingo-library'
 
 [[plugins]]
