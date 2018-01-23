@@ -85,7 +85,9 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'arcticicestudio/nord-vim'
+#repo = 'arcticicestudio/nord-vim'
+repo = 'delphinus/nord-vim'
+rev = 'feature/distinguish-identifier'
 hook_add = '''
   let g:nord_italic_comments = 1
   let g:nord_comment_brightness = 20
