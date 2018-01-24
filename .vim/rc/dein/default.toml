@@ -122,6 +122,9 @@ hook_add = '''
 repo = 'digitaltoad/vim-jade'
 
 [[plugins]]
+repo = 'isRuslan/vim-es6'
+
+[[plugins]]
 repo = 'kchmck/vim-coffee-script'
 
 [[plugins]]
@@ -134,15 +137,6 @@ repo = 'motemen/xslate-vim'
 
 [[plugins]]
 repo = 'moznion/vim-cpanfile'
-
-[[plugins]]
-repo = 'othree/html5.vim'
-
-[[plugins]]
-repo = 'othree/javascript-libraries-syntax.vim'
-
-[[plugins]]
-repo = 'othree/yajs.vim'
 
 [[plugins]]
 repo = 'vim-perl/vim-perl'
