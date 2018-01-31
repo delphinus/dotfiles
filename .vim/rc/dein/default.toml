@@ -92,7 +92,7 @@ hook_add = '''
 
   augroup nord-overrides
     autocmd!
-    autocmd ColorScheme nord highlight Identifier guifg=#8FBCBB guibg=NONE ctermfg=14 ctermbg=NONE gui=italic cterm=italic
+    autocmd ColorScheme nord highlight Identifier guifg=#8FBCBB guibg=NONE ctermfg=14 ctermbg=NONE
     autocmd ColorScheme nord highlight Special guifg=#D08770 guibg=NONE ctermfg=11 ctermbg=NONE
   augroup END
 '''
