@@ -89,6 +89,12 @@ repo = 'arcticicestudio/nord-vim'
 hook_add = '''
   let g:nord_italic_comments = 1
   let g:nord_comment_brightness = 20
+
+  augroup nord-overrides
+    autocmd!
+    autocmd ColorScheme nord highlight Identifier guifg=#8FBCBB guibg=NONE ctermfg=14 ctermbg=NONE gui=italic cterm=italic
+    autocmd ColorScheme nord highlight Special guifg=#D08770 guibg=NONE ctermfg=11 ctermbg=NONE
+  augroup END
 '''
 # }}}
 
