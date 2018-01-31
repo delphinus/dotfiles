@@ -94,6 +94,7 @@ hook_add = '''
     autocmd!
     autocmd ColorScheme nord highlight Identifier guifg=#8FBCBB guibg=NONE ctermfg=14 ctermbg=NONE
     autocmd ColorScheme nord highlight Special guifg=#D08770 guibg=NONE ctermfg=11 ctermbg=NONE
+    autocmd ColorScheme nord highlight IncSearch guifg=#3B4252 guibg=#81A1C1 ctermfg=0 ctermbg=4 gui=bold cterm=bold
   augroup END
 '''
 # }}}
