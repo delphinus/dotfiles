@@ -36,6 +36,9 @@
     - .zshenv
     - .zshrc
 
+- name: set config for kitty
+  file: src={{ dotfiles_dir }}/kitty.conf dest={{ home_dir }}/Library/Preferences/kitty/kitty.conf state=link force=yes
+
 - name: symlink dircolors
   file: >-
     src={{ '/'.join([dotfiles_dir, 'submodules/dircolors-solarized/dircolors.ansi-light']) }}
