@@ -1,95 +1,8 @@
 {
     "title": "Custom shortcut for escape",
     "rules": [{
-            "description": "Use left_control/right_control+[ to escape (exclusive in iTerm2 & Safari)",
+        "description": "Use left_control/right_control+[ to escape (exclusive in iTerm2 & Safari)",
             "manipulators": [{
-                    "type": "basic",
-                    "from": {
-                        "key_code": "open_bracket",
-                        "modifiers": {
-                            "mandatory": [
-                                "left_control"
-                            ]
-                        }
-                    },
-                    "to": [{
-                        "key_code": "escape"
-                    }],
-                    "conditions": [{
-                        "type": "frontmost_application_unless",
-                        "bundle_identifiers": [
-                            "^com\\.googlecode\\.iterm2$",
-                            "^com\\.apple\\.Safari$"
-                        ]
-                    }]
-                },
-                {
-                    "type": "basic",
-                    "from": {
-                        "key_code": "open_bracket",
-                        "modifiers": {
-                            "mandatory": [
-                                "right_control"
-                            ]
-                        }
-                    },
-                    "to": [{
-                        "key_code": "escape"
-                    }],
-                    "conditions": [{
-                        "type": "frontmost_application_unless",
-                        "bundle_identifiers": [
-                            "^com\\.googlecode\\.iterm2$",
-                            "^com\\.apple\\.Safari$"
-                        ]
-                    }]
-                }
-            ]
-        },
-        {
-            "description": "Change escape to fn. (Post escape if pressed alone)",
-            "manipulators": [{
-                "type": "basic",
-                "from": {
-                    "key_code": "escape",
-                    "modifiers": {
-                        "optional": [
-                            "any"
-                        ]
-                    }
-                },
-                "to": [{
-                    "key_code": "fn"
-                }],
-                "to_if_alone": [{
-                    "key_code": "escape"
-                }]
-            }]
-        },
-        {
-            "description": "Post escape/c-[ + eisuu if escape pressed in iTerm2",
-            "manipulators": [{
-                "type": "basic",
-                "from": {
-                    "key_code": "escape",
-                    "modifiers": {
-                        "optional": [
-                            "any"
-                        ]
-                    }
-                },
-                "to": [{
-                    "key_code": "escape"
-                }, {
-                    "key_code": "lang2"
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                        "^com\\.googlecode\\.iterm2$"
-                    ]
-                }]
-            }, {
                 "type": "basic",
                 "from": {
                     "key_code": "open_bracket",
@@ -101,16 +14,17 @@
                 },
                 "to": [{
                     "key_code": "escape"
-                }, {
-                    "key_code": "lang2"
                 }],
                 "conditions": [{
-                    "type": "frontmost_application_if",
+                    "type": "frontmost_application_unless",
                     "bundle_identifiers": [
-                        "^com\\.googlecode\\.iterm2$"
+                        "^com\\.googlecode\\.iterm2$",
+                        "^net\\.kovidgoyal\\.kitty$",
+                        "^com\\.apple\\.Safari$"
                     ]
                 }]
-            }, {
+            },
+            {
                 "type": "basic",
                 "from": {
                     "key_code": "open_bracket",
@@ -122,16 +36,107 @@
                 },
                 "to": [{
                     "key_code": "escape"
+                }],
+                "conditions": [{
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                        "^com\\.googlecode\\.iterm2$",
+                        "^net\\.kovidgoyal\\.kitty$",
+                        "^com\\.apple\\.Safari$"
+                    ]
+                }]
+            }
+            ]
+    },
+    {
+        "description": "Change escape to fn. (Post escape if pressed alone)",
+        "manipulators": [{
+            "type": "basic",
+            "from": {
+                "key_code": "escape",
+                "modifiers": {
+                    "optional": [
+                        "any"
+                    ]
+                }
+            },
+            "to": [{
+                "key_code": "fn"
+            }],
+            "to_if_alone": [{
+                "key_code": "escape"
+            }]
+        }]
+    },
+    {
+        "description": "Post escape/c-[ + eisuu if escape pressed in iTerm2",
+            "manipulators": [{
+                "type": "basic",
+                "from": {
+                    "key_code": "escape",
+                    "modifiers": {
+                        "optional": [
+                            "any"
+                        ]
+                    }
+                },
+                "to": [{
+                    "key_code": "escape"
                 }, {
-                    "key_code": "lang2"
+                "key_code": "lang2"
                 }],
                 "conditions": [{
                     "type": "frontmost_application_if",
                     "bundle_identifiers": [
-                        "^com\\.googlecode\\.iterm2$"
+                        "^com\\.googlecode\\.iterm2$",
+                        "^net\\.kovidgoyal\\.kitty$"
                     ]
                 }]
+            }, {
+            "type": "basic",
+            "from": {
+                "key_code": "open_bracket",
+                "modifiers": {
+                    "mandatory": [
+                        "left_control"
+                    ]
+                }
+            },
+            "to": [{
+                "key_code": "escape"
+            }, {
+            "key_code": "lang2"
+            }],
+            "conditions": [{
+                "type": "frontmost_application_if",
+                "bundle_identifiers": [
+                    "^com\\.googlecode\\.iterm2$",
+                    "^net\\.kovidgoyal\\.kitty$"
+                ]
             }]
-        }
-    ]
+            }, {
+            "type": "basic",
+            "from": {
+                "key_code": "open_bracket",
+                "modifiers": {
+                    "mandatory": [
+                        "right_control"
+                    ]
+                }
+            },
+            "to": [{
+                "key_code": "escape"
+            }, {
+            "key_code": "lang2"
+            }],
+            "conditions": [{
+                "type": "frontmost_application_if",
+                "bundle_identifiers": [
+                    "^com\\.googlecode\\.iterm2$",
+                    "^net\\.kovidgoyal\\.kitty$"
+                ]
+            }]
+            }]
+    }
+        ]
 }
