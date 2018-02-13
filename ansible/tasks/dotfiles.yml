@@ -38,6 +38,7 @@
 
 - name: set config for kitty
   file: src={{ dotfiles_dir }}/kitty.conf dest={{ home_dir }}/Library/Preferences/kitty/kitty.conf state=link force=yes
+  when: ansible_system == 'Darwin'
 
 - name: symlink dircolors
   file: >-
