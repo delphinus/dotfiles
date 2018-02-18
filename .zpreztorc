@@ -6,10 +6,10 @@
 #
 
 # Add my custom modules
-fpath=(
-  ${HOME}/git/dotfiles/.zsh/prezto
-  ${fpath}
-)
+# fpath=(
+#   ${HOME}/git/dotfiles/.zsh/prezto
+#   ${fpath}
+# )
 
 #
 # General
@@ -21,11 +21,15 @@ fpath=(
 # Color output (auto set to 'no' on dumb terminals).
 zstyle ':prezto:*:*' color 'yes'
 
+# Add additional directories to load prezto modules from
+# zstyle ':prezto:load' pmodule-dirs $HOME/.zprezto-contrib
+zstyle ':prezto:load' pmodule-dirs $HOME/git/dotfiles/.zsh/prezto
+
 # Set the Zsh modules to load (man zshmodules).
-zstyle ':prezto:load' zmodule 'attr' 'stat'
+# zstyle ':prezto:load' zmodule 'attr' 'stat'
 
 # Set the Zsh functions to load (man zshcontrib).
-zstyle ':prezto:load' zfunction 'zargs' 'zmv'
+# zstyle ':prezto:load' zfunction 'zargs' 'zmv'
 
 # Set the Prezto modules to load (browse modules).
 # The order matters.
@@ -41,10 +45,7 @@ zstyle ':prezto:load' pmodule \
   'prompt' \
   'syntax-highlighting' \
   'autosuggestions' \
-  'git' \
-  'ruby' \
-  'perl' \
-  'docker'
+  'git'
 
 #
 # Autosuggestions
@@ -55,6 +56,14 @@ zstyle ':prezto:load' pmodule \
 zstyle ':prezto:module:autosuggestions:color' found 'fg=110'
 
 #
+# Completions
+#
+
+# Set the entries to ignore in static */etc/hosts* for host completion.
+# zstyle ':prezto:module:completion:*:hosts' etc-host-ignores \
+#   '0.0.0.0' '127.0.0.1'
+
+#
 # Editor
 #
 
@@ -62,7 +71,7 @@ zstyle ':prezto:module:autosuggestions:color' found 'fg=110'
 zstyle ':prezto:module:editor' key-bindings 'vi'
 
 # Auto convert .... to ../..
-#zstyle ':prezto:module:editor' dot-expansion 'yes'
+# zstyle ':prezto:module:editor' dot-expansion 'yes'
 
 # Allow the zsh prompt context to be shown.
 zstyle ':prezto:module:editor' ps-context 'yes'
@@ -95,6 +104,13 @@ zstyle ':prezto:module:editor' ps-context 'yes'
 # zstyle ':prezto:module:history-substring-search' globbing-flags ''
 
 #
+# OS X
+#
+
+# Set the keyword used by `mand` to open man pages in Dash.app
+# zstyle ':prezto:module:osx:man' dash-keyword 'manpages'
+
+#
 # Pacman
 #
 
@@ -108,10 +124,17 @@ zstyle ':prezto:module:editor' ps-context 'yes'
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'delphinus'
+zstyle ':prezto:module:prompt' theme 'sorin'
 
-# Set how themes that use promptpwd function display the pwd, can be 'short', 'long', or 'full'
- zstyle ':prezto:module:prompt' pwd-length 'short'
+# Set the working directory prompt display length.
+# By default, it is set to 'short'. Set it to 'long' (without '~' expansion)
+# for longer or 'full' (with '~' expansion) for even longer prompt display.
+zstyle ':prezto:module:prompt' pwd-length 'short'
+
+# Set the prompt to display the return code along with an indicator for non-zero
+# return codes. This is not supported by all prompts.
+# zstyle ':prezto:module:prompt' show-return-val 'yes'
+zstyle ':prezto:module:prompt' show-return-val 'yes'
 
 #
 # Ruby
@@ -119,6 +142,16 @@ zstyle ':prezto:module:prompt' theme 'delphinus'
 
 # Auto switch the Ruby version on directory change.
 # zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
+
+#
+# Python
+#
+
+# Auto switch the Python virtualenv on directory change.
+# zstyle ':prezto:module:python:virtualenv' auto-switch 'yes'
+
+# Automatically initialize virtualenvwrapper if pre-requisites are met.
+# zstyle ':prezto:module:python:virtualenv' initialize 'yes'
 
 #
 # Screen
@@ -159,8 +192,6 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 #
 # Set syntax pattern styles.
 zstyle ':prezto:module:syntax-highlighting' pattern \
-  'rm*-rf*' 'fg=white,bold,bg=red'
-zstyle ':prezto:module:syntax-highlighting' pattern \
   'rm*-fr*' 'fg=white,bold,bg=red'
 
 #
@@ -194,3 +225,12 @@ zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
 
 # Set the default session name:
 # zstyle ':prezto:module:tmux:session' name 'YOUR DEFAULT SESSION NAME'
+
+#
+# Utility
+#
+
+# Enabled safe options. This aliases cp, ln, mv and rm so that they prompt
+# before deleting or overwriting files. Set to 'no' to disable this safer
+# behavior.
+zstyle ':prezto:module:utility' safe-ops 'yes'
