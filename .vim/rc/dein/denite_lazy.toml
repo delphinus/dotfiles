@@ -1,7 +1,7 @@
 [[plugins]]
-repo     = 'Shougo/denite.nvim'
-#repo     = 'delphinus/denite.nvim'
-#rev      = 'feature/avoid-errors'
+#repo     = 'Shougo/denite.nvim'
+repo     = 'delphinus/denite.nvim'
+rev      = 'feature/avoid-errors'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
 depends  = ['dwm.vim']
