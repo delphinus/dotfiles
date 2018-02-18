@@ -165,3 +165,8 @@ export GREP_COLORS="mt=$GREP_COLOR" # GNU.
 if [[ -f $H/.3llo ]]; then
   source $H/.3llo
 fi
+
+# http://qiita.com/scalper/items/86da115e6c76a692d687
+if which zprof > /dev/null; then
+  zprof
+fi
