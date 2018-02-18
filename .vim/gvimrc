@@ -1,14 +1,14 @@
 scriptencoding utf-8
 
-set ambiwidth=single                    " 文字幅が曖昧なときは半角と見なす
-set printfont=Ricty_Discord_Reduced:h10 " 印刷用フォント
-set printoptions=number:y               " 印刷時に行番号を付ける
-set visualbell                          " ビープ音を使わず画面をフラッシュさせる
-set iminsert=0                          " インサートモードの初期値は IME OFF
-set imsearch=-1                         " 挿入モードの初期値は iminsert に従う
-set guioptions=A                        " モードレスセレクションに対する自動選択
+set ambiwidth=single             " 文字幅が曖昧なときは半角と見なす
+set printfont=SFMono\ Square:h16 " 印刷用フォント
+set printoptions=number:y        " 印刷時に行番号を付ける
+set visualbell                   " ビープ音を使わず画面をフラッシュさせる
+set iminsert=0                   " インサートモードの初期値は IME OFF
+set imsearch=-1                  " 挿入モードの初期値は iminsert に従う
+set guioptions=A                 " モードレスセレクションに対する自動選択
 
-set guifont=SF\ Mono:h13
+set guifont=SFMono\ Square:h16
 set lines=92 columns=190          " ウィンドウの大きさを指定する
 set antialias                     " 文字をなめらかに表示する
 set fuoptions=maxvert,maxhorz     " フルスクリーン時に表示を拡張
