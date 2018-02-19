@@ -35,9 +35,12 @@ augroup END
 " オリジナル関数のマッピング
 nmap Y <Plug>DelphinusFsshCopy
 
-set termkey=<A-w>
-" open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
-nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
+if !has('nvim')
+  set termkey=<A-w>
+  " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
+  nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
+endif
+
 if &shell !=# 'zsh'
   if executable('/usr/local/bin/zsh')
     set shell=/usr/local/bin/zsh
