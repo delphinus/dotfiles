@@ -138,11 +138,9 @@ let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
 " }}}
 
 " Python 設定 {{{
-set pyxversion=3 " Python3 のみ使う
-python3 <<EOF
-import sys
-sys.path.append(vim.vars['home'].decode() + '/.vim/rplugin/python3')
-EOF
+if !has('nvim')
+  set pyxversion=3 " Python3 のみ使う
+endif
 " }}}
 
 " vim:et:fdm=marker:
