@@ -69,8 +69,10 @@ set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\
 
 " マウス {{{
 set mouse=a                " マウスを全ての場面で使う
-set ttymouse=sgr           " マウスホイールを有効化
-set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
+if !has('nvim')
+  set ttymouse=sgr           " マウスホイールを有効化
+  set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
+endif
 " }}}
 
 " カラースキーム {{{
@@ -136,11 +138,9 @@ let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
 " }}}
 
 " Python 設定 {{{
-set pyxversion=3 " Python3 のみ使う
-python3 <<EOF
-import sys
-sys.path.append(vim.vars['home'].decode() + '/.vim/rplugin/python3')
-EOF
+if !has('nvim')
+  set pyxversion=3 " Python3 のみ使う
+endif
 " }}}
 
 " vim:et:fdm=marker:
