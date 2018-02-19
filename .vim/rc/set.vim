@@ -69,8 +69,10 @@ set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\
 
 " マウス {{{
 set mouse=a                " マウスを全ての場面で使う
-set ttymouse=sgr           " マウスホイールを有効化
-set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
+if !has('nvim')
+  set ttymouse=sgr           " マウスホイールを有効化
+  set clipboard=autoselectml " モードレスセレクション時に OS 標準のクリップボードを使う
+endif
 " }}}
 
 " カラースキーム {{{
