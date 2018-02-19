@@ -1,4 +1,3 @@
-set encoding=utf-8     " internal encoding
 scriptencoding utf-8
 
 " エンコーディング {{{
@@ -24,7 +23,6 @@ set dir=/tmp
 set backupdir=/tmp
 set undodir=/tmp
 set backupskip^=/private/tmp/* " Mac で crontab を使うための設定
-set path+=lib,app/lib          " gf, gF, CTRL-W_f でファイルを開くときに検索するパス
 " }}}
 
 " 検索 {{{
@@ -95,16 +93,9 @@ endif
 set titlestring=%{delphinus#title#string()}
 
 " ウィンドウタイトルを更新する
-if exists('$TMUX') || &term =~# '^screen'
+if exists('$TMUX')
   set t_ts=k
   set t_fs=\
-
-  " dvtm の場合
-elseif &term =~# 'dvtm'
-  " ウィンドウタイトルを変える
-  let &t_IS = '\e]1;'
-  let &t_ts = '\e]0;'
-  let &t_fs = '\007'
 endif
 
 set title
