@@ -2,7 +2,9 @@
 repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
 hook_add   = '''
-  nmap <C-\><C-n> :<C-u>Deol -split<CR>
+  nnoremap <C-\><C-n> :<C-u>Deol -split<CR>
+  nnoremap <BS><C-n> :<C-u>Deol -split<CR>
+  tnoremap <BS><C-n> <C-\><C-n>
 '''
 
 [[plugins]]
