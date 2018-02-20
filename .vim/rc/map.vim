@@ -35,7 +35,7 @@ augroup END
 " オリジナル関数のマッピング
 nmap Y <Plug>DelphinusFsshCopy
 
-if !has('nvim')
+if !dein#tap('deol.nvim') && !has('nvim')
   set termkey=<A-w>
   " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
   nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>

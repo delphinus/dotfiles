@@ -1,4 +1,11 @@
 [[plugins]]
+repo       = 'Shougo/deol.nvim'
+on_command = ['Deol']
+hook_add   = '''
+  nmap <C-\><C-n> :<C-u>Deol -split<CR>
+'''
+
+[[plugins]]
 repo      = 'delphinus/dwm.vim'
 rev       = 'feature/disable-in-denite'
 on_map    = ['<Plug>DWM']
