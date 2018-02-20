@@ -137,10 +137,8 @@ if [[ -d $H/.nvm ]]; then
 fi
 
 # for Rust
-if (( $+commands[rustc] )); then
-  if [[ -d $HOME/.cargo/bin ]]; then
-    path=($HOME/.cargo/bin $path)
-  fi
+if [[ -d $HOME/.cargo/bin ]]; then
+  path=($HOME/.cargo/bin $path)
 fi
 
 # home usr directory
