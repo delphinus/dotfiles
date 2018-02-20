@@ -1,4 +1,13 @@
 [[plugins]]
+repo       = 'Shougo/deol.nvim'
+on_command = ['Deol']
+hook_add   = '''
+  nnoremap <C-\><C-n> :<C-u>Deol -split<CR>
+  nnoremap <BS><C-n> :<C-u>Deol -split<CR>
+  tnoremap <BS><C-n> <C-\><C-n>
+'''
+
+[[plugins]]
 repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
 
