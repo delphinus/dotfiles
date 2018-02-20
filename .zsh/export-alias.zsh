@@ -7,6 +7,7 @@ if [[ $H != $HOME ]]; then
   alias tig="HOME=$H tig"
   export VISUAL=view.sh
   export EDITOR=vim.sh
+  export GIT_EDITOR=vim.sh
   if (( $+commands[hub] )); then
     alias git="HOME=$H hub"
   else
@@ -15,6 +16,7 @@ if [[ $H != $HOME ]]; then
 else
   export VISUAL=view
   export EDITOR=vim
+  export GIT_EDITOR=vim
 fi
 
 export PAGER=less
@@ -67,3 +69,7 @@ if (( $+commands[exa] )); then
 fi
 
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
+
+# for NeoVim terminal
+export VIM=
+export VIMRUNTIME=
