@@ -77,6 +77,10 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo   = 'tweekmonster/startuptime.vim'
+on_cmd = ['StartupTime']
+
+[[plugins]]
 repo   = 'vifm/vifm.vim'
 on_cmd = ['EditVifm', 'VsplitVifm', 'SplitVifm', 'DiffVifm', 'TabVifm']
 on_ft  = ['vifm']
