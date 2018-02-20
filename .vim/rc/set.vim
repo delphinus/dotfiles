@@ -19,7 +19,7 @@ set smarttab        " スマートなタブ切り替え
 
 " ディレクトリ {{{
 set undofile                   " アンドゥファイルを保存する
-set dir=/tmp
+set directory=/tmp
 set backupdir=/tmp
 set undodir=/tmp
 set backupskip^=/private/tmp/* " Mac で crontab を使うための設定
