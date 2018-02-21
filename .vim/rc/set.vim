@@ -1,8 +1,13 @@
 scriptencoding utf-8
 
 " エンコーディング {{{
-set termencoding=utf-8 " ターミナルのエンコーディング
 set fileencoding=utf-8 " 新規ファイルのエンコーディング
+" 非GUI日本語コンソールを使っている場合の設定
+if !has('gui_running') && &encoding !=# 'cp932' && &term ==# 'win32'
+  set termencoding=cp932
+else
+  set termencoding=utf-8
+endif
 " ファイルエンコーディング
 if ! (has('gui_macvim') && has('kaoriya'))
   set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
@@ -34,7 +39,6 @@ set incsearch  " インクリメンタルサーチ
 
 " 画面表示 {{{
 set ambiwidth=single     " 文字幅の指定が曖昧なときは半角と見なす
-set t_Co=256             " 256 色表示ターミナル対応
 set showcmd              " コマンド、及び選択範囲の表示
 set noshowmode           " 【挿入】【ビジュアル】といった文字列を画面最下段に表示しない
 set showmatch            " 対応する括弧を自動的に装飾して表示
@@ -50,17 +54,17 @@ set colorcolumn=141      " 141 桁目をハイライト
 set cmdheight=2          " 画面最下段のコマンド表示行数
 set cursorline           " カーソルのある行を強調表示する
 set shortmess+=c         " 補完時のメッセージをステータスラインに表示しない（echodoc.vim 対策）
+set noruler              " ルーラーを表示しない
 " }}}
 
 " インデントと整形 {{{
-set autoindent         " 自動インデント
-set smartindent        " スマートなインデント
-set textwidth=0        " 自動改行はオフ
-set formatoptions+=nmM " テキスト整形オプション
-set wrap               " ウィンドウの幅が足りないときは折り返す
-set breakindent        " 折り返し時にインデントする
-set showbreak=→\       " 折り返したときに行頭にマークを表示する
-set nofixendofline     " 保存時に最終行の改行を修正しない
+set autoindent          " 自動インデント
+set smartindent         " スマートなインデント
+set formatoptions+=nmMj " テキスト整形オプション
+set wrap                " ウィンドウの幅が足りないときは折り返す
+set breakindent         " 折り返し時にインデントする
+set showbreak=→\        " 折り返したときに行頭にマークを表示する
+set nofixendofline      " 保存時に最終行の改行を修正しない
 " 括弧付きの連番を認識する
 set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
 " }}}
@@ -113,7 +117,6 @@ set backspace=indent,eol,start    " バックスペースを行を超えて有�
 set grepprg=pt                    " grep コマンドとして pt を使用する
 set diffopt=filler,vertical,iwhite " diffコマンド設定
 set synmaxcol=0                   " 構文強調表示桁数の制限を解除
-set notagbsearch                  " unite.vim + 日本語ヘルプでフリーズするときの対策
 set nrformats=                    " 5-5 10進数で数字の上げ下げ
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
 set updatetime=1000               " スワップファイルが書き込まれるまでの時間。

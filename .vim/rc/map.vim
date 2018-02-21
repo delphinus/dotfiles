@@ -19,9 +19,6 @@ nnoremap [C :<C-u>copen<CR>
 nnoremap ]C :<C-u>cclose<CR>
 " ウィンドウを最大化する
 nnoremap _ <C-W>_
-" タブ移動
-nnoremap ( gT
-nnoremap ) gt
 
 " https://github.com/mhinz/vim-galore#saner-ctrl-l
 nnoremap <ESC><ESC> :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
@@ -41,8 +38,6 @@ if !dein#tap('deol.nvim') && !has('nvim')
   nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
 endif
 
-if &shell !=# 'zsh'
-  if executable('/usr/local/bin/zsh')
-    set shell=/usr/local/bin/zsh
-  endif
+if &shell !=# 'zsh' && executable('/usr/local/bin/zsh')
+  set shell=/usr/local/bin/zsh
 endif
