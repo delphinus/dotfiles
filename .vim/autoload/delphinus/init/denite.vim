@@ -17,6 +17,8 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
   call denite#custom#source('grep', 'args', ['', '', '!'])
+  call denite#custom#source('file', 'sorters', ['sorter_word'])
+  call denite#custom#source('my_file', 'sorters', ['sorter_word'])
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('default', {
         \ 'prompt': '❯❯❯',
