@@ -14,8 +14,8 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('memo', 'dwm_new', function('s:dwm_new'))
-  call denite#custom#action('directory', 'my_file_rec', function('s:file_rec'))
-  call denite#custom#action('directory', 'grep', function('s:grep'))
+  call denite#custom#action('directory', 'my_file_rec', {ctx -> s:start_action_for_path(ctx, 'file_rec')})
+  call denite#custom#action('directory', 'grep', {ctx -> s:start_action_for_path(ctx, 'grep')})
   call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
   call denite#custom#map('insert', '<C-g>', '<denite:do_action:grep>')
@@ -43,14 +43,6 @@ endfunction
 function! s:dwm_new(context)
   call DWM_New()
   call denite#do_action(a:context, 'open', a:context['targets'])
-endfunction
-
-function! s:file_rec(context)
-  call s:start_action_for_path(a:context, 'file_rec')
-endfunction
-
-function! s:grep(context)
-  call s:start_action_for_path(a:context, 'grep')
 endfunction
 
 function! s:start_action_for_path(context, action, ...)
