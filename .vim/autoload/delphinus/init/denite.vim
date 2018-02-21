@@ -28,6 +28,7 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#source('_', 'matchers', ['matcher_substring'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('file', 'sorters', ['sorter_word'])
+  call denite#custom#source('grep', 'sorters', ['sorter_word'])
   call denite#custom#source('my_file', 'sorters', ['sorter_word'])
   call denite#custom#source('my_file_rec', 'converters', ['devicons_denite_converter'])
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
