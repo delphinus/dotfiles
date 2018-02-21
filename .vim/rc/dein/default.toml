@@ -34,7 +34,6 @@ repo = 'haya14busa/is.vim'
 [[plugins]]
 repo     = 'ryanoasis/vim-devicons'
 hook_add = '''"{{{
-  let g:webdevicons_enable_unite = 0
   let g:webdevicons_enable_nerdtree = 0
   let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = ''
   let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
