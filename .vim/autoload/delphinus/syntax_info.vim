@@ -17,11 +17,10 @@ function! delphinus#syntax_info#get_syn(transparent) abort
 endfunction
 
 function! delphinus#syntax_info#string(syn) abort
-  let l:str = ''
-  for l:attr in ['name', 'ctermfg', 'ctermbg', 'guifg', 'guibg']
-    let l:str .= l:attr . ': ' . a:syn[l:attr] . ' '
-  endfor
-  return substitute(l:str, ' $', '', '')
+  return join(
+        \ map(['name', 'ctermfg', 'ctermbg', 'guifg', 'guibg'],
+        \   {_, key -> key . ': ' . a:syn[key]}),
+        \ ' ')
 endfunction
 
 function! delphinus#syntax_info#get_info() abort

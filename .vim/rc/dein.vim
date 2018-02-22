@@ -14,31 +14,23 @@ let g:dein#install_progress_type = 'title'
 let g:dein#enable_notification = 1
 
 if dein#load_state(s:dein_dir)
-  function! s:toml_path(name) abort
-    return printf('%s/dein/%s.toml', g:rc_dir, a:name)
-  endfunction
   let s:toml = [
-        \ {'name': 'default', 'non_lazy': 1},
-        \ {'name': 'deoplete', 'non_lazy': 1},
-        \ {'name': 'denite', 'non_lazy': 1},
-        \ {'name': 'lazy'},
-        \ {'name': 'denite_lazy'},
-        \ {'name': 'deoplete_lazy'},
-        \ {'name': 'map'},
-        \ {'name': 'cmd'},
-        \ {'name': 'ft'},
-        \ {'name': 'event'},
+        \ {'name': 'default'},
+        \ {'name': 'deoplete'},
+        \ {'name': 'denite'},
+        \ {'name': 'lazy',          'lazy': 1},
+        \ {'name': 'denite_lazy',   'lazy': 1},
+        \ {'name': 'deoplete_lazy', 'lazy': 1},
+        \ {'name': 'map',           'lazy': 1},
+        \ {'name': 'cmd',           'lazy': 1},
+        \ {'name': 'ft',            'lazy': 1},
+        \ {'name': 'event',         'lazy': 1},
         \ ]
-  let s:names = []
-  for s:t in s:toml
-    call add(s:names, s:toml_path(s:t['name']))
-  endfor
+  let s:path = {name -> printf('%s/dein/%s.toml', g:rc_dir, name)}
+  let s:load_toml = {name, lazy -> dein#load_toml(s:path(name), {'lazy': lazy})}
 
-  call dein#begin(s:dein_dir, s:names)
-  for s:t in s:toml
-    let s:is_lazy = !get(s:t, 'non_lazy', 0)
-    call dein#load_toml(s:toml_path(s:t['name']), {'lazy': s:is_lazy})
-  endfor
+  call dein#begin(s:dein_dir, map(deepcopy(s:toml), {_, t -> t['name']}))
+  call map(s:toml, {_, t -> s:load_toml(t['name'], get(t, 'lazy', 0))})
   call dein#end()
   call dein#save_state()
 endif
