@@ -6,20 +6,26 @@ hook_add   = '''
   nnoremap <C-\><C-n> :<C-u>Deol -split<CR>
   nnoremap <BS><C-n> :<C-u>Deol -split<CR>
   tnoremap <BS><C-n> <C-\><C-n>
+  function! s:new_deol() abort
+    if exists('t:deol')
+      tabnew
+    endif
+    Deol
+  endfunction
   " map for terminal + dwm.vim
   if has('nvim')
     tmap À <C-\><C-n><C-@>
     tmap ã <C-\><C-n><C-c>
     tmap ê <C-\><C-n><C-j>
     tmap ë <C-\><C-n><C-k>
-    tmap î <C-\><C-n>:<C-u>tabnew<CR>:<C-u>Deol<CR>
+    tmap î <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
     tmap ñ <C-q>
     tmap ó <C-s>
     nmap À <C-@>
     nmap ã <C-c>
     nmap ê <C-j>
     nmap ë <C-k>
-    nmap î :<C-u>tabnew<CR>:<C-u>Deol<CR>
+    nmap î :<C-u>call <SID>new_deol()<CR>
     nmap ñ <C-q>
     nmap ó <C-s>
   else
@@ -27,14 +33,14 @@ hook_add   = '''
     tmap <A-c> <C-\><C-n><C-c>
     tmap <A-j> <C-\><C-n><C-j>
     tmap <A-k> <C-\><C-n><C-k>
-    tmap <A-n> <C-\><C-n>:<C-u>tabnew<CR>:<C-u>Deol<CR>
+    tmap <A-n> <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
     tmap <A-q> <C-q>
     tmap <A-s> <C-s>
     nmap <A-@> <C-@>
     nmap <A-c> <C-c>
     nmap <A-j> <C-j>
     nmap <A-k> <C-k>
-    nmap <A-n> :<C-u>tabnew<CR>:<C-u>Deol<CR>
+    nmap <A-n> :<C-u>call <SID>new_deol()<CR>
     nmap <A-q> <C-q>
     nmap <A-s> <C-s>
   endif
