@@ -167,6 +167,6 @@ if [[ -f $H/.3llo ]]; then
 fi
 
 # http://qiita.com/scalper/items/86da115e6c76a692d687
-if which zprof > /dev/null; then
+if which zprof > /dev/null 2>&1; then
   zprof
 fi
