@@ -209,8 +209,13 @@ hook_add = """
     let s:pylint_init_hook .= 'sys.path.append("' . g:home . '/.vim/rplugin/python3");'
     let g:ale_python_pylint_options = '--init-hook=''' . s:pylint_init_hook . ''''
   endif
-  nmap <silent> <A-k> <Plug>(ale_previous_wrap)
-  nmap <silent> <A-j> <Plug>(ale_next_wrap)
+  if has('nvim')
+    nmap <silent> Ë <Plug>(ale_previous_wrap)
+    nmap <silent> Ê <Plug>(ale_next_wrap)
+  else
+    nmap <silent> <A-K> <Plug>(ale_previous_wrap)
+    nmap <silent> <A-J> <Plug>(ale_next_wrap)
+  endif
 """
 # }}}
 
