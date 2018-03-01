@@ -29,6 +29,9 @@ set backupdir=/tmp
 set undodir=/tmp
 set backupskip^=/private/tmp/* " Mac で crontab を使うための設定
 
+if &shell !=# 'zsh' && executable('/usr/local/bin/zsh')
+  set shell=/usr/local/bin/zsh
+endif
 " Add -f (--no-rcs) option to use current PATH & GOPATH
 set shellcmdflag=-f\ -c
 " }}}
