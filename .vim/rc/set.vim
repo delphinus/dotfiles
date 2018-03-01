@@ -28,6 +28,9 @@ set directory=/tmp
 set backupdir=/tmp
 set undodir=/tmp
 set backupskip^=/private/tmp/* " Mac で crontab を使うための設定
+
+" Add -f (--no-rcs) option to use current PATH & GOPATH
+set shellcmdflag=-f\ -c
 " }}}
 
 " 検索 {{{
