@@ -5,7 +5,6 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo     = 'airblade/vim-rooter'
 hook_add = '''
-  let g:rooter_use_lcd = 1
   let g:rooter_silent_chdir = 1
 '''
 
