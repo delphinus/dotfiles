@@ -37,7 +37,3 @@ if !dein#tap('deol.nvim') && !has('nvim')
   " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
   nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
 endif
-
-if &shell !=# 'zsh' && executable('/usr/local/bin/zsh')
-  set shell=/usr/local/bin/zsh
-endif
