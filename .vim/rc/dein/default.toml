@@ -198,11 +198,10 @@ hook_add = """
   let g:ale_sign_warning = ' '
   let g:ale_statusline_format = ['  %d', '  %d', '  ']
   let g:ale_linters = {
-        \ 'go': [ 'go vet', 'golint', 'gometalinter' ],
+        \ 'go': [ 'gometalinter' ],
         \ 'typescript': [ 'tslint', 'tsserver' ],
         \ }
   let g:ale_sh_shellcheck_options = '-x'
-  let g:ale_go_gometalinter_executable = 'eval $(direnv export zsh) && gometalinter'
   let g:ale_go_gometalinter_options = '--fast'
   if dein#tap('denite.nvim')
     let s:pylint_init_hook = 'import sys;sys.path.append("' . g:dein#plugin.rtp . '/rplugin/python3");'
