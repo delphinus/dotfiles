@@ -35,7 +35,7 @@
 	ll = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
 	lo = log --decorate --graph --name-status --oneline
 	po = pull origin master
-	pu = !git push origin `git rev-parse --abbrev-ref HEAD`
+	pu = !git push origin $(git rev-parse --abbrev-ref HEAD)
 	pul = !git stash && git pull && git stash pop
 	re = remote
 	rh = reset --hard
@@ -45,7 +45,7 @@
 	rv = remote -v
 	sm = submodule
 	st = status -sb
-	su = !git br --set-upstream-to=origin/`git rev-parse --abbrev-ref HEAD`
+	su = !git br --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
 	wk = worktree
 [diff]
 	algorithm = histogram
