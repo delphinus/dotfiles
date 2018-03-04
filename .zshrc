@@ -123,16 +123,6 @@ term_program=${term_program:-iTerm.app}
 typeset -xT GPG_TTY gpg_tty
 gpg_tty=$(tty)
 
-# update powerline setting according to $COLORFGBG
-if [[ -z $TMUX ]]; then
-  local tmux_powerline_color=solarized
-  if [[ $COLORFGBG = '11;15' ]]; then # for solarized light
-    tmux_powerline_color=solarizedlight
-  fi
-  local config_json=$H/.config/powerline/config.json
-  perl -i -0pe 's/(?<="tmux": \{\n\t\t\t"colorscheme": ")([^"]*)/'"$tmux_powerline_color"'/' $config_json
-fi
-
 # for direnv
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
