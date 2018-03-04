@@ -47,6 +47,8 @@
 	st = status -sb
 	su = !git br --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
 	wk = worktree
+	clean-local = !git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d
+	clean-remote = !git branch -r --merged master | grep -v -e master -e develop | sed -e 's% *origin/%%' | xargs -I% git push --delete origin % && git remote prune origin
 [diff]
 	algorithm = histogram
 	renames = true
