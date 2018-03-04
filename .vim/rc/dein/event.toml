@@ -1,6 +1,5 @@
 [[plugins]]
 repo             = 'airblade/vim-gitgutter'
-rev              = '932ffaca092cca246b82c33e23d2d3a05e192e08'
 on_event         = ['FocusLost', 'CursorHold']
 hook_source      = 'call delphinus#init#gitgutter#hook_source()'
 hook_post_source = 'call delphinus#init#gitgutter#hook_post_source()'
