@@ -128,13 +128,6 @@ if (( $+commands[hub] )); then
   alias git=hub
 fi
 
-# for nvm
-if [[ -d $H/.nvm ]]; then
-  typeset -xT NVM_DIR nvm_dir
-  nvm_dir=$H/.nvm
-  [[ -s $nvm_dir/nvm.sh ]] && . "$nvm_dir/nvm.sh"
-fi
-
 # for Rust
 if [[ -d $HOME/.cargo/bin ]]; then
   path=($HOME/.cargo/bin $path)
