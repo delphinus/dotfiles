@@ -36,7 +36,6 @@ else
 fi
 
 path=(
-  $H/Dropbox/bin(N-/)
   $H/bin(N-/)
   $H/git/dotfiles/bin(N-/)
   $H/.ghg/bin(N-/)
