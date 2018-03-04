@@ -138,7 +138,6 @@ if [[ -d $gcsdk_path ]]; then
     $gae_root(N-/)
     $gcsdk_path/bin(N-/)
     $path)
-  source $gcsdk_path/path.zsh.inc
   source $gcsdk_path/completion.zsh.inc
 fi
 
