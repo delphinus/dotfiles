@@ -20,6 +20,7 @@ hook_add   = '''
     tmap ë <C-\><C-n><C-k>
     tmap î <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
     tmap ñ <C-q>
+    tnoremap <expr> ò '<C-\><C-N>"'.nr2char(getchar()).'pi'
     tmap ó <C-s>
     nmap À <C-@>
     nmap ã <C-c>
