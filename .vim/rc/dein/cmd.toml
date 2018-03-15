@@ -18,14 +18,16 @@ hook_add   = '''
     tmap ã <C-\><C-n><C-c>
     tmap ê <C-\><C-n><C-j>
     tmap ë <C-\><C-n><C-k>
+    tmap ï <C-\><C-n><C-w>oi
     tmap î <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
     tmap ñ <C-q>
-    tnoremap <expr> ò '<C-\><C-N>"'.nr2char(getchar()).'pi'
     tmap ó <C-s>
+    tnoremap <expr> ò '<C-\><C-N>"'.nr2char(getchar()).'pi'
     nmap À <C-@>
     nmap ã <C-c>
     nmap ê <C-j>
     nmap ë <C-k>
+    nmap ï <C-w>o
     nmap î :<C-u>call <SID>new_deol()<CR>
     nmap ñ <C-q>
     nmap ó <C-s>
@@ -34,13 +36,16 @@ hook_add   = '''
     tmap <A-c> <C-\><C-n><C-c>
     tmap <A-j> <C-\><C-n><C-j>
     tmap <A-k> <C-\><C-n><C-k>
+    tmap <A-o> <C-\><C-n><C-w>oi
     tmap <A-n> <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
     tmap <A-q> <C-q>
     tmap <A-s> <C-s>
+    tmap <expr> <C-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
     nmap <A-@> <C-@>
     nmap <A-c> <C-c>
     nmap <A-j> <C-j>
     nmap <A-k> <C-k>
+    nmap <A-o> <C-w>o
     nmap <A-n> :<C-u>call <SID>new_deol()<CR>
     nmap <A-q> <C-q>
     nmap <A-s> <C-s>
