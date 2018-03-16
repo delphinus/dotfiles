@@ -27,6 +27,7 @@ hook_add   = '''
     tmap î <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
     tmap ñ <C-\><C-n><C-q>:<C-u>call <SID>insertIfDeol()<CR>
     tmap ó <C-\><C-n><C-s>:<C-u>call <SID>insertIfDeol()<CR>
+    tmap   <C-\><C-n><C-@>:<C-u>call <SID>insertIfDeol()<CR>
     tmap ú <C-\><C-n>z
     tmap » <C-\><C-n>:
     tnoremap <expr> ò '<C-\><C-N>"'.nr2char(getchar()).'pi'
@@ -38,6 +39,7 @@ hook_add   = '''
     nmap î :<C-u>call <SID>new_deol()<CR>
     nmap ñ <C-q>:<C-u>call <SID>insertIfDeol()<CR>
     nmap ó <C-s>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap   <C-@>:<C-u>call <SID>insertIfDeol()<CR>
     nmap ú z
     nmap » :
   else
@@ -49,6 +51,7 @@ hook_add   = '''
     tmap <A-n> <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
     tmap <A-q> <C-\><C-n><C-q>:<C-u>call <SID>insertIfDeol()<CR>
     tmap <A-s> <C-\><C-n><C-s>:<C-u>call <SID>insertIfDeol()<CR>
+    tmap <A-Space> <C-\><C-n><C-@>:<C-u>call <SID>insertIfDeol()<CR>
     tmap <A-z> <C-\><C-n>z
     tmap <A-;> <C-\><C-n>:
     tmap <expr> <C-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
@@ -60,6 +63,7 @@ hook_add   = '''
     nmap <A-n> :<C-u>call <SID>new_deol()<CR>
     nmap <A-q> <C-q>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-s> <C-s>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap <A-Space> <C-@>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-z> z
     namp <A-;> :
   endif
