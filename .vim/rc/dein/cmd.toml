@@ -13,42 +13,55 @@ hook_add   = '''
     Deol
   endfunction
   " map for terminal + dwm.vim
+  function s:insertIfDeol() abort
+    if &filetype ==# 'deol'
+      startinsert
+    endif
+  endfunction
   if has('nvim')
-    tmap À <C-\><C-n><C-@>
+    tmap À <C-\><C-n><C-@>:<C-u>call <SID>insertIfDeol()<CR>
     tmap ã <C-\><C-n><C-c>
     tmap ê <C-\><C-n><C-j>
     tmap ë <C-\><C-n><C-k>
     tmap ï <C-\><C-n><C-w>oi
     tmap î <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
-    tmap ñ <C-q>
-    tmap ó <C-s>
+    tmap ñ <C-\><C-n><C-q>:<C-u>call <SID>insertIfDeol()<CR>
+    tmap ó <C-\><C-n><C-s>:<C-u>call <SID>insertIfDeol()<CR>
+    tmap ú <C-\><C-n>z
+    tmap » <C-\><C-n>:
     tnoremap <expr> ò '<C-\><C-N>"'.nr2char(getchar()).'pi'
-    nmap À <C-@>
-    nmap ã <C-c>
-    nmap ê <C-j>
-    nmap ë <C-k>
+    nmap À <C-@>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap ã <C-c>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap ê <C-j>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap ë <C-k>:<C-u>call <SID>insertIfDeol()<CR>
     nmap ï <C-w>o
     nmap î :<C-u>call <SID>new_deol()<CR>
-    nmap ñ <C-q>
-    nmap ó <C-s>
+    nmap ñ <C-q>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap ó <C-s>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap ú z
+    nmap » :
   else
-    tmap <A-@> <C-\><C-n><C-@>
+    tmap <A-@> <C-\><C-n><C-@>:<C-u>call <SID>insertIfDeol()<CR>
     tmap <A-c> <C-\><C-n><C-c>
     tmap <A-j> <C-\><C-n><C-j>
     tmap <A-k> <C-\><C-n><C-k>
     tmap <A-o> <C-\><C-n><C-w>oi
     tmap <A-n> <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
-    tmap <A-q> <C-q>
-    tmap <A-s> <C-s>
+    tmap <A-q> <C-\><C-n><C-q>:<C-u>call <SID>insertIfDeol()<CR>
+    tmap <A-s> <C-\><C-n><C-s>:<C-u>call <SID>insertIfDeol()<CR>
+    tmap <A-z> <C-\><C-n>z
+    tmap <A-;> <C-\><C-n>:
     tmap <expr> <C-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
-    nmap <A-@> <C-@>
-    nmap <A-c> <C-c>
-    nmap <A-j> <C-j>
-    nmap <A-k> <C-k>
+    nmap <A-@> <C-@>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap <A-c> <C-c>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap <A-j> <C-j>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap <A-k> <C-k>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-o> <C-w>o
     nmap <A-n> :<C-u>call <SID>new_deol()<CR>
-    nmap <A-q> <C-q>
-    nmap <A-s> <C-s>
+    nmap <A-q> <C-q>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap <A-s> <C-s>:<C-u>call <SID>insertIfDeol()<CR>
+    nmap <A-z> z
+    namp <A-;> :
   endif
 '''
 
