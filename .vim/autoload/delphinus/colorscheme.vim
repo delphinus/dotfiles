@@ -19,15 +19,3 @@ function! delphinus#colorscheme#toggle() abort
   call lightline#colorscheme()
   call lightline#update()
 endfunction
-
-function! delphinus#colorscheme#setGoSameId() abort
-  if !dein#is_sourced('vim-go')
-    return
-  endif
-
-  if &background ==# 'light'
-    hi! goSameId term=bold cterm=bold ctermbg=225 guibg=#eeeaec
-  else
-    hi! goSameId term=bold ctermbg=23 ctermfg=7 guifg=#eee8d5 guibg=#00533f
-  endif
-endfunction
