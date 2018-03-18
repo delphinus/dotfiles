@@ -110,6 +110,15 @@ repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
 
 [[plugins]]
+repo   = 'rhysd/ghpr-blame.vim'
+on_cmd = ['GHPRBlame']
+hook_source = '''
+let g:ghpr_github_auth_token = system('cat $HOME/.homebrew_github_api_token | cut -d= -f2')
+let g:ghpr_show_pr_mapping = 'ð'
+let g:ghpr_show_pr_in_message = 1
+'''
+
+[[plugins]]
 repo   = 'sjl/gundo.vim'
 on_cmd = ['GundoToggle']
 
