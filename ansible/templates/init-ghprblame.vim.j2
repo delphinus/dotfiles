@@ -1,0 +1,8 @@
+let g:ghpr_github_auth_token = {
+      \ 'github.com': '{{ secret_homebrew_github_api_token }}',
+      \ '{{ secret_office.github_host }}': '{{ secret_office.github_token.ghprblame }}',
+      \ }
+let g:ghpr_github_api_url = {
+      \ '{{ secret_office.github_host }}': '{{ secret_office.github_api_path }}',
+      \ }
+" vim:se ft=vim:
