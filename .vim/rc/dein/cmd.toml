@@ -1,7 +1,7 @@
 [[plugins]]
 repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
-hook_add   = '''
+hook_add   = '''"{{{
   let g:deol#enable_dir_changed = 0
   nnoremap <C-\><C-n> :<C-u>Deol -split<CR>
   nnoremap <BS><C-n> :<C-u>Deol -split<CR>
@@ -67,7 +67,7 @@ hook_add   = '''
     nmap <A-z> z
     namp <A-;> :
   endif
-'''
+"}}}'''
 
 [[plugins]]
 repo   = 'fuenor/JpFormat.vim'
@@ -155,3 +155,5 @@ on_cmd = ['StartupTime']
 repo   = 'vifm/vifm.vim'
 on_cmd = ['EditVifm', 'VsplitVifm', 'SplitVifm', 'DiffVifm', 'TabVifm']
 on_ft  = ['vifm']
+
+# vim:se fdm=marker:
