@@ -45,7 +45,7 @@
 
 - name: symlink dircolors
   file: >-
-    src={{ '/'.join([dotfiles_dir, 'submodules/dircolors-solarized/dircolors.ansi-light']) }}
+    src={{ '/'.join([dotfiles_dir, 'submodules/nord-dircolors/src/dir_colors']) }}
     dest={{ home_dir }}/.dir_colors
     state=link
     force=yes
