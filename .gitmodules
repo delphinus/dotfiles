@@ -22,3 +22,6 @@
 [submodule ".zprezto"]
 	path = .zprezto
 	url = https://github.com/sorin-ionescu/prezto
+[submodule "submodules/nord-dircolors"]
+	path = submodules/nord-dircolors
+	url = https://github.com/arcticicestudio/nord-dircolors
