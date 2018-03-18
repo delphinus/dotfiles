@@ -68,7 +68,7 @@ hook_add   = '''"{{{
     nmap <A-s> <C-s>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-Space> <C-@>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-z> z
-    namp <A-;> :
+    nmap <A-;> :
     nmap <A-t> gt:<C-u>call <SID>insertIfDeol()<CR>
   endif
 "}}}'''
