@@ -17,7 +17,7 @@ def main():
     parser = ArgumentParser(description=__doc__,
                             formatter_class=RawTextHelpFormatter)
     parser.add_argument('-v', '--verbose',
-                        help='log verbosely', action='store_true')
+                        help='echo verbosely', action='store_false')
     args = parser.parse_args()
 
     path = os.environ.get('NVIM_LISTEN_ADDRESS', None)
@@ -28,7 +28,7 @@ def main():
     pwd = os.getcwd().translate(str.maketrans({'"': r'\"', '\\': r'\\'}))
     nvim.command('let b:__pwd__ = "{}"'.format(pwd))
     if args.verbose:
-        nvim.command('echo "pwd changed"')
+        nvim.command('echo "b:__pwd__ changed"')
 
     return 0
 
