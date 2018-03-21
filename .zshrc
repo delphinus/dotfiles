@@ -157,7 +157,7 @@ fi
 
 # if in NeoVim, set chpwd function
 neovim-pwd() {
-  (( $+commands[neovim_pwd.py] )) && neovim_pwd.py
+  (( $+commands[neovim_pwd.py] )) && neovim_pwd.py -v
 }
 if [[ -n $NVIM_LISTEN_ADDRESS ]]; then
   neovim-pwd
