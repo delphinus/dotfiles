@@ -155,6 +155,15 @@ if [[ -f $H/.3llo ]]; then
   source $H/.3llo
 fi
 
+# if in NeoVim, set chpwd function
+neovim-pwd() {
+  (( $+commands[neovim_pwd.py] )) && neovim_pwd.py
+}
+if [[ -n $NVIM_LISTEN_ADDRESS ]]; then
+  neovim-pwd
+  chpwd_functions+=( neovim-pwd )
+fi
+
 # http://qiita.com/scalper/items/86da115e6c76a692d687
 if which zprof > /dev/null 2>&1; then
   zprof
