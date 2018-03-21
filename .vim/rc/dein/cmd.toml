@@ -28,7 +28,6 @@ hook_add   = '''"{{{
     tmap ñ <C-\><C-n><C-q>:<C-u>call <SID>insertIfDeol()<CR>
     tmap ó <C-\><C-n><C-s>:<C-u>call <SID>insertIfDeol()<CR>
     tmap   <C-\><C-n><C-@>:<C-u>call <SID>insertIfDeol()<CR>
-    tmap ú <C-\><C-n>z
     tmap » <C-\><C-n>:
     tmap ô <C-\><C-n>gt:<C-u>call <SID>insertIfDeol()<CR>
     tnoremap <expr> ò '<C-\><C-N>"'.nr2char(getchar()).'pi'
@@ -41,7 +40,6 @@ hook_add   = '''"{{{
     nmap ñ <C-q>:<C-u>call <SID>insertIfDeol()<CR>
     nmap ó <C-s>:<C-u>call <SID>insertIfDeol()<CR>
     nmap   <C-@>:<C-u>call <SID>insertIfDeol()<CR>
-    nmap ú z
     nmap » :
     nmap ô gt:<C-u>call <SID>insertIfDeol()<CR>
   else
@@ -54,7 +52,6 @@ hook_add   = '''"{{{
     tmap <A-q> <C-\><C-n><C-q>:<C-u>call <SID>insertIfDeol()<CR>
     tmap <A-s> <C-\><C-n><C-s>:<C-u>call <SID>insertIfDeol()<CR>
     tmap <A-Space> <C-\><C-n><C-@>:<C-u>call <SID>insertIfDeol()<CR>
-    tmap <A-z> <C-\><C-n>z
     tmap <A-;> <C-\><C-n>:
     tmap <A-t> <C-\><C-n>gt
     tmap <expr> <C-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
@@ -67,7 +64,6 @@ hook_add   = '''"{{{
     nmap <A-q> <C-q>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-s> <C-s>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-Space> <C-@>:<C-u>call <SID>insertIfDeol()<CR>
-    nmap <A-z> z
     nmap <A-;> :
     nmap <A-t> gt:<C-u>call <SID>insertIfDeol()<CR>
   endif
