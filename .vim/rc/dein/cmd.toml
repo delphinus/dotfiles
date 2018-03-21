@@ -54,7 +54,7 @@ hook_add   = '''"{{{
     tmap <A-Space> <C-\><C-n><C-@>:<C-u>call <SID>insertIfDeol()<CR>
     tmap <A-;> <C-\><C-n>:
     tmap <A-t> <C-\><C-n>gt
-    tmap <expr> <C-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
+    tmap <expr> <A-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
     nmap <A-@> <C-@>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-c> <C-c>:<C-u>call <SID>insertIfDeol()<CR>
     nmap <A-j> <C-j>:<C-u>call <SID>insertIfDeol()<CR>
