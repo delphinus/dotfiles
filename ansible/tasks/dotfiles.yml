@@ -36,8 +36,11 @@
     - .zshenv
     - .zshrc
 
-- name: make dotfiles for NeoVim
-  file: src={{ dotfiles_dir }}/.vim dest={{ home_dir }}/.config/nvim state=link force=yes
+- name: make directory for Neovim
+  file: dest={{ home_dir }}/.config/nvim state=directory
+
+- name: make init.vim for Neovim
+  file: src={{ dotfiles_dir }}/.vim/vimrc dest={{ home_dir }}/.config/nvim/init.vim state=link force=yes
 
 - name: set config for kitty
   file: src={{ dotfiles_dir }}/kitty.conf dest={{ home_dir }}/Library/Preferences/kitty/kitty.conf state=link force=yes
