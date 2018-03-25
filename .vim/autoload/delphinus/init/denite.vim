@@ -18,6 +18,7 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#action('directory', 'grep', {ctx -> s:start_action_for_path(ctx, 'grep')})
   call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
+  call denite#custom#map('insert', '<C-f>', 'Denite_toggle_sorter("sorter_abbr")', 'noremap expr nowait')
   call denite#custom#map('insert', '<C-g>', '<denite:do_action:grep>')
   call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
   call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
@@ -27,9 +28,7 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#map('insert', '~', expand('~'), 'noremap')
   call denite#custom#source('_', 'matchers', ['matcher_substring'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
-  call denite#custom#source('file', 'sorters', ['sorter_word'])
-  call denite#custom#source('grep', 'sorters', ['sorter_word'])
-  call denite#custom#source('my_file', 'sorters', ['sorter_word'])
+  call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
   call denite#custom#source('my_file_rec', 'converters', ['devicons_denite_converter'])
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('default', {
@@ -58,4 +57,17 @@ function! s:start_action_for_path(context, action, ...)
   else
     call denite#util#print_error(printf('unknown path for target: %s', l:target))
   endif
+endfunction
+
+function! Denite_toggle_sorter(sorter) abort
+  let l:sorters = split(b:denite_context.sorters, ',')
+  let l:i = index(l:sorters, a:sorter)
+  if l:i < 0
+    call add(l:sorters, a:sorter)
+  else
+    call remove(l:sorters, l:i)
+  endif
+  let b:denite_new_context = {}
+  let b:denite_new_context.sorters = join(l:sorters, ',')
+  return '<denite:nop>'
 endfunction
