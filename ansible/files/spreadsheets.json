@@ -1,63 +1,74 @@
 {
-    "title": "Custom shortcut for Google Spreadsheets",
-    "rules": [{
-        "description": "Use left_control+left_option+xc to cycle through sheets in web browser.",
-        "manipulators": [{
-                "type": "basic",
-                "from": {
-                    "key_code": "x",
-                    "modifiers": {
-                        "mandatory": [
-                            "left_control",
-                            "left_option"
-                        ]
-                    }
-                },
-                "to": [{
-                    "key_code": "page_up",
-                    "modifiers": [
-                        "fn",
-                        "left_command",
-                        "left_shift"
-                    ]
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                        "^org\\.mozilla\\.firefox$",
-                        "^com\\.google\\.Chrome$",
-                        "^com\\.apple\\.Safari$"
-                    ]
-                }]
-            },
-            {
-                "type": "basic",
-                "from": {
-                    "key_code": "c",
-                    "modifiers": {
-                        "mandatory": [
-                            "left_control",
-                            "left_option"
-                        ]
-                    }
-                },
-                "to": [{
-                    "key_code": "page_down",
-                    "modifiers": [
-                        "fn",
-                        "left_command",
-                        "left_shift"
-                    ]
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": [
-                        "^org\\.mozilla\\.firefox$",
-                        "^com\\.google\\.Chrome$",
-                        "^com\\.apple\\.Safari$"
-                    ]
-                }]
+  "title": "Custom shortcut for Google Spreadsheets",
+  "rules": [
+    {
+      "description": "Use left_control+left_option+xc to cycle through sheets in web browser.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "x",
+            "modifiers": {
+              "mandatory": [
+                "left_control",
+                "left_option"
+              ]
             }
-        ]
-    }]
+          },
+          "to": [
+            {
+              "key_code": "page_up",
+              "modifiers": [
+                "fn",
+                "left_command",
+                "left_shift"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^org\\.mozilla\\.firefox$",
+                "^com\\.google\\.Chrome$",
+                "^com\\.apple\\.Safari$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "c",
+            "modifiers": {
+              "mandatory": [
+                "left_control",
+                "left_option"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "page_down",
+              "modifiers": [
+                "fn",
+                "left_command",
+                "left_shift"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^org\\.mozilla\\.firefox$",
+                "^com\\.google\\.Chrome$",
+                "^com\\.apple\\.Safari$"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

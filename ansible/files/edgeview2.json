@@ -1,149 +1,200 @@
 {
-    "title": "Custom shortcut for EdgeView 2",
-    "rules": [{
-        "description": "Easy access to move between pages",
-        "manipulators": [{
-                "type": "basic",
-                "from": {
-                    "key_code": "f"
-                },
-                "to": [{
-                    "key_code": "right_arrow"
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^djhan\\.EdgeView-2$"]
-                }]
-            },
+  "title": "Custom shortcut for EdgeView 2",
+  "rules": [
+    {
+      "description": "Easy access to move between pages",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f"
+          },
+          "to": [
             {
-                "type": "basic",
-                "from": {
-                    "key_code": "s"
-                },
-                "to": [{
-                    "key_code": "left_arrow"
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^djhan\\.EdgeView-2$"]
-                }]
-            },
-            {
-                "type": "basic",
-                "from": {
-                    "key_code": "d"
-                },
-                "to": [{
-                    "key_code": "right_arrow",
-                    "modifiers": [
-                        "left_command"
-                    ]
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^djhan\\.EdgeView-2$"]
-                }]
-            },
-            {
-                "type": "basic",
-                "from": {
-                    "key_code": "e"
-                },
-                "to": [{
-                    "key_code": "left_arrow",
-                    "modifiers": [
-                        "left_command"
-                    ]
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^djhan\\.EdgeView-2$"]
-                }]
-            },
-            {
-                "type": "basic",
-                "from": {
-                    "key_code": "f",
-                    "modifiers": {
-                        "mandatory": [
-                            "left_shift"
-                        ]
-                    }
-                },
-                "to": [{
-                    "key_code": "right_arrow",
-                    "modifiers": [
-                        "left_shift"
-                    ]
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^djhan\\.EdgeView-2$"]
-                }]
-            },
-            {
-                "type": "basic",
-                "from": {
-                    "key_code": "s",
-                    "modifiers": {
-                        "mandatory": [
-                            "left_shift"
-                        ]
-                    }
-                },
-                "to": [{
-                    "key_code": "left_arrow",
-                    "modifiers": [
-                        "left_shift"
-                    ]
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^djhan\\.EdgeView-2$"]
-                }]
-            },
-            {
-                "type": "basic",
-                "from": {
-                    "key_code": "d",
-                    "modifiers": {
-                        "mandatory": [
-                            "left_shift"
-                        ]
-                    }
-                },
-                "to": [{
-                    "key_code": "equal_sign",
-                    "modifiers": [
-                        "left_command"
-                    ]
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^djhan\\.EdgeView-2$"]
-                }]
-            },
-            {
-                "type": "basic",
-                "from": {
-                    "key_code": "e",
-                    "modifiers": {
-                        "mandatory": [
-                            "left_shift"
-                        ]
-                    }
-                },
-                "to": [{
-                    "key_code": "hyphen",
-                    "modifiers": [
-                        "left_command"
-                    ]
-                }],
-                "conditions": [{
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^djhan\\.EdgeView-2$"]
-                }]
+              "key_code": "right_arrow"
             }
-        ]
-    }]
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^djhan\\.EdgeView-2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "s"
+          },
+          "to": [
+            {
+              "key_code": "left_arrow"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^djhan\\.EdgeView-2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "d"
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": [
+                "left_command"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^djhan\\.EdgeView-2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "e"
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": [
+                "left_command"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^djhan\\.EdgeView-2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f",
+            "modifiers": {
+              "mandatory": [
+                "left_shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": [
+                "left_shift"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^djhan\\.EdgeView-2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "s",
+            "modifiers": {
+              "mandatory": [
+                "left_shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": [
+                "left_shift"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^djhan\\.EdgeView-2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "d",
+            "modifiers": {
+              "mandatory": [
+                "left_shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "equal_sign",
+              "modifiers": [
+                "left_command"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^djhan\\.EdgeView-2$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "e",
+            "modifiers": {
+              "mandatory": [
+                "left_shift"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "hyphen",
+              "modifiers": [
+                "left_command"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^djhan\\.EdgeView-2$"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
