@@ -3,13 +3,13 @@ scriptencoding utf-8
 function! delphinus#init#denite#hook_source() abort
   " Use pt for searching files
   call denite#custom#var('grep', 'command', ['pt'])
-  call denite#custom#var('grep', 'default_opts', ['--nogroup', '--nocolor', '--smart-case'])
+  call denite#custom#var('grep', 'default_opts', ['--nogroup', '--nocolor', '--smart-case', '--ignore=.git'])
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'pattern_opt', [])
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
-  call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
-  call denite#custom#var('my_file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', '--ignore=.git', '-g', ''])
+  call denite#custom#var('my_file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', '--ignore=.git', '-g', ''])
 
   call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
