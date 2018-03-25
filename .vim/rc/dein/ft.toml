@@ -1,12 +1,11 @@
 [[plugins]]
 repo        = 'Chiel92/vim-autoformat'
-on_ft       = ['typescript', 'javascript', 'json']
+on_ft       = ['typescript', 'javascript']
 hook_source = '''"{{{
   augroup VimAutoformat
     autocmd!
     autocmd BufWrite *.ts :Autoformat
     autocmd BufWrite *.js :Autoformat
-    autocmd BufWrite *.json :Autoformat
   augroup END
 "}}}'''
 
