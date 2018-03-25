@@ -59,8 +59,7 @@ repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
 
 [[plugins]]
-#repo   = 'rhysd/ghpr-blame.vim'
-repo   = 'delphinus/ghpr-blame.vim'
+repo   = 'rhysd/ghpr-blame.vim'
 on_cmd = ['GHPRBlame']
 hook_source = '''
   source ~/.init-ghprblame.vim
