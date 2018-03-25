@@ -165,10 +165,6 @@ repo = 'jason0x43/vim-js-indent'
 repo  = 'pearofducks/ansible-vim'
 
 [[plugins]]
-repo = 'taskwarrior/task'
-rtp  = 'scripts/vim'
-
-[[plugins]]
 repo = 'tmux-plugins/vim-tmux'
 # }}}
 
