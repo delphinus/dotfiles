@@ -32,12 +32,12 @@ hook_add = '''"{{{
   tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('my_file')<CR>
   tnoremap úç         <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('grep')<CR>
   tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('grep')<CR>
-  noremap  úð         :<C-u>Denite my_buffer my_file_mru<CR>
-  noremap  <A-z><A-p> :<C-u>Denite my_buffer my_file_mru<CR>
-  noremap  úî         :<C-u>call delphinus#denite#with_pwd('my_file')<CR>
-  noremap  <A-z><A-n> :<C-u>call delphinus#denite#with_pwd('my_file')<CR>
-  noremap  úç         :<C-u>call delphinus#denite#with_pwd('grep')<CR>
-  noremap  <A-z><A-g> :<C-u>call delphinus#denite#with_pwd('grep')<CR>
+  nnoremap úð         :<C-u>Denite my_buffer my_file_mru<CR>
+  nnoremap <A-z><A-p> :<C-u>Denite my_buffer my_file_mru<CR>
+  nnoremap úî         :<C-u>call delphinus#denite#with_pwd('my_file')<CR>
+  nnoremap <A-z><A-n> :<C-u>call delphinus#denite#with_pwd('my_file')<CR>
+  nnoremap úç         :<C-u>call delphinus#denite#with_pwd('grep')<CR>
+  nnoremap <A-z><A-g> :<C-u>call delphinus#denite#with_pwd('grep')<CR>
 "}}}'''
 hook_source = 'call delphinus#init#denite#hook_source()'
 
