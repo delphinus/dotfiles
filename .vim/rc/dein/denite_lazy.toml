@@ -26,6 +26,8 @@ hook_add = '''"{{{
   noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
   tnoremap úð         <C-\><C-n>:<C-u>Denite my_buffer my_file_mru<CR>
   tnoremap <A-z><A-p> <C-\><C-n>:<C-u>Denite my_buffer my_file_mru<CR>
+  tnoremap úá         <C-\><C-n>:<C-u>Denite file_rec<CR>
+  tnoremap <A-z><A-a> <C-\><C-n>:<C-u>Denite file_rec<CR>
   tnoremap úî         <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('my_file')<CR>
   tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('my_file')<CR>
   tnoremap úç         <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('grep')<CR>
