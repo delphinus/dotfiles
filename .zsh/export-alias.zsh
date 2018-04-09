@@ -62,6 +62,7 @@ alias ml='memo l'
 alias me='memo e'
 alias mg='memo g'
 alias mycli='LESS= mycli'
+alias nvrs='nvr -cc split'
 
 if (( $+commands[exa] )); then
   unalias l
