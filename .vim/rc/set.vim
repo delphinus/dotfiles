@@ -56,7 +56,7 @@ set numberwidth=3        " 行番号の幅は 3 桁
 set list                 " 空白の可視化
 set listchars=tab:░\ ,trail:␣,eol:⤶,extends:→,precedes:←,nbsp:¯
 set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表示する
-set colorcolumn=141      " 141 桁目をハイライト
+set colorcolumn=80,140   " 80 桁目、140 桁目をハイライト
 set cmdheight=2          " 画面最下段のコマンド表示行数
 set cursorline           " カーソルのある行を強調表示する
 set shortmess+=c         " 補完時のメッセージをステータスラインに表示しない（echodoc.vim 対策）
