@@ -53,6 +53,7 @@
 	algorithm = histogram
 	renames = true
 	indentHeuristic = true
+	colorMoved = dimmed_zebra
 [url "git@github.com:"]
 	pushinstedof = "git://github.com/"
 	pushinstedof = "https://github.com/"
@@ -90,7 +91,8 @@
 	show = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
 	diff = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
 [interactive]
-	diffFilter = diff-so-fancy
+	# TODO: check fix in Git
+	#diffFilter = diff-so-fancy
 [ghq]
 	root = ~/.go/src
 	root = ~/.cache/dein/repos
