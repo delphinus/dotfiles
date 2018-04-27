@@ -12,6 +12,7 @@ hook_add = '''"{{{
   noremap zL :<C-u>Denite decls<CR>
   noremap za :<C-u>Denite file_rec<CR>
   noremap zg :<C-u>Denite grep<CR>
+  noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
   noremap zi :<C-u>Denite gitlog<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
@@ -24,7 +25,7 @@ hook_add = '''"{{{
   noremap zU :<C-u>Denite -resume<CR>
   noremap zj :<C-u>Denite -resume -cursor-pos=+1 -immediately<CR>
   noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
-  noremap zG :<C-u>call delphinus#denite#file_rec_goroot()<CR>
+  noremap zT :<C-u>call delphinus#denite#file_rec_goroot()<CR>
   tnoremap úð         <C-\><C-n>:<C-u>Denite my_buffer my_file_mru<CR>
   tnoremap <A-z><A-p> <C-\><C-n>:<C-u>Denite my_buffer my_file_mru<CR>
   tnoremap úá         <C-\><C-n>:<C-u>Denite file_rec<CR>
