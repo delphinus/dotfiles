@@ -59,7 +59,14 @@ hook_add = '''"{{{
   nnoremap d< :diffget //2<CR>
   nnoremap d> :diffget //3<CR>
   nnoremap gs :Gstatus<CR>
+  nnoremap gc :Gbrowse<CR>
+  vnoremap gc :Gbrowse<CR>
 "}}}'''
+
+[[plugins]]
+repo    = 'tpope/vim-rhubarb'
+depends = ['fugitive']
+# setting exists in .vimrc-local
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
