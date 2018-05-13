@@ -18,3 +18,15 @@ function! delphinus#denite#file_rec_goroot() abort
         \ [{'name': 'file_rec', 'args': [l:goroot]}],
         \ {'input': '.go '})
 endfunction
+
+function! delphinus#denite#outline() abort
+  execute 'Denite' &filetype ==# 'go' ? 'decls:''%:p''' : 'outline'
+endfunction
+
+function! delphinus#denite#decls() abort
+  if &filetype ==# 'go'
+    Denite decls
+  else
+    call denite#util#print_error('decls does not support filetypes except go')
+  endif
+endfunction

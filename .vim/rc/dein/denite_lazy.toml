@@ -8,8 +8,8 @@ depends  = ['dwm.vim']
 hook_add = '''"{{{
   noremap zn :<C-u>DeniteBufferDir my_file my_file:new<CR>
   noremap zN :<C-u>Denite my_file<CR>
-  noremap zl :<C-u>Denite decls:'%:p'<CR>
-  noremap zL :<C-u>Denite decls<CR>
+  noremap zl :<C-u>call delphinus#denite#outline()<CR>
+  noremap zL :<C-u>call delphinus#denite#decls()<CR>
   noremap za :<C-u>Denite file_rec<CR>
   noremap zg :<C-u>Denite grep<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
