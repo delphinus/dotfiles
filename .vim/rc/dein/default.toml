@@ -192,13 +192,13 @@ repo    = 'itchyny/lightline.vim'
 repo     = 'w0rp/ale'
 hook_add = """
   let g:ale_echo_msg_format = '%severity%  %linter% - %s'
-  let g:ale_echo_msg_error_str = ' '
-  let g:ale_echo_msg_warning_str = ' '
-  let g:ale_echo_msg_info_str = ' '
+  let g:ale_echo_msg_error_str = nr2char(0xf421) . ' ' " ' '
+  let g:ale_echo_msg_warning_str = nr2char(0xf420) . ' ' " ' '
+  let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' ' " ' '
   let g:ale_sign_column_always = 1
-  let g:ale_sign_error = ' '
-  let g:ale_sign_warning = ' '
-  let g:ale_statusline_format = ['  %d', '  %d', '  ']
+  let g:ale_sign_error = nr2char(0xf421) . ' ' " ' '
+  let g:ale_sign_warning = nr2char(0xf420) . ' ' " ' '
+  let g:ale_statusline_format = [nr2char(0xf421) . '  %d', nr2char(0xf420) . '  %d', nr2char(0xf4a1) . '  '] " '   '
   let g:ale_linters = {
         \ 'go': [ 'gometalinter' ],
         \ 'typescript': [ 'tslint', 'tsserver' ],
