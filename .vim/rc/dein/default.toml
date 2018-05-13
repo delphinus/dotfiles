@@ -204,7 +204,7 @@ hook_add = """
         \ 'typescript': [ 'tslint', 'tsserver' ],
         \ }
   let g:ale_sh_shellcheck_options = '-x'
-  let g:ale_go_gometalinter_options = '--fast -E lll -E dupl -E gofmt -E misspell'
+  let g:ale_go_gometalinter_options = '--fast -E lll -E dupl -E gofmt -E goimports -E misspell'
   if dein#tap('denite.nvim')
     let s:pylint_init_hook = 'import sys;sys.path.append("' . g:dein#plugin.rtp . '/rplugin/python3");'
     let s:pylint_init_hook .= 'sys.path.append("' . g:home . '/.vim/rplugin/python3");'
