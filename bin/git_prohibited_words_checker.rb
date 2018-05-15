@@ -21,7 +21,7 @@ class ProhibitedWordsNotFoundError < StandardError
   def to_s; 'specified prohibited words file is not found' end
 end
 
-params = ARGV.getopts 'd:p:'
+params = ARGV.getopts 'd:p:v'
 begin
   start_dir = if params['d']
                 Pathname(params['d']).expand_path
@@ -78,6 +78,8 @@ end.each_with_object [] do |file, ary|
 end
 
 mail_body_header = sprintf 'dotfiles scan for prohibited words; scaned: %d file(s), skipped: %d file(s), found: %d file(s)', scan_count, skip_count, errors.size
+
+puts(mail_body_header) if params['v']
 
 Syslog.open File.basename($0) do |syslog|
   syslog.notice mail_body_header
