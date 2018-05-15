@@ -1,9 +1,6 @@
 [submodule ".vim/bundle/neobundle.vim"]
 	path = .vim/bundle/neobundle.vim
 	url = https://github.com/Shougo/neobundle.vim
-[submodule "submodules/tmux-colors-solarized"]
-	path = submodules/tmux-colors-solarized
-	url = https://github.com/seebi/tmux-colors-solarized
 [submodule "submodules/iterm-colors-pencil"]
 	path = submodules/iterm-colors-pencil
 	url = https://github.com/mattly/iterm-colors-pencil
@@ -13,9 +10,6 @@
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "submodules/solarized"]
-	path = submodules/solarized
-	url = https://github.com/delphinus/solarized
 [submodule "submodules/xterm_colour_chart"]
 	path = submodules/xterm_colour_chart
 	url = https://github.com/delphinus/xterm_colour_chart
