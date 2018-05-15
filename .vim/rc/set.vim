@@ -58,7 +58,6 @@ set listchars=tab:░\ ,trail:␣,eol:⤶,extends:→,precedes:←,nbsp:¯
 set showtabline=1        " tabline をタブが 2 つ以上あるときだけ表示する
 set colorcolumn=80,140   " 80 桁目、140 桁目をハイライト
 set cmdheight=2          " 画面最下段のコマンド表示行数
-set cursorline           " カーソルのある行を強調表示する
 set shortmess+=c         " 補完時のメッセージをステータスラインに表示しない（echodoc.vim 対策）
 set noruler              " ルーラーを表示しない
 " }}}
@@ -141,6 +140,42 @@ let g:autodate_format = '%FT%T%z' " autodate.vim の書式設定
 if !has('nvim')
   set pyxversion=3 " Python3 のみ使う
 endif
+" }}}
+
+" auto cursorline {{{
+" https://thinca.hatenablog.com/entry/20090530/1243615055
+let s:cl_disabled = 0
+let s:cl_cursor = 1
+let s:cl_win = 2
+let s:cl_status = s:cl_disabled
+function! s:auto_cursorline(e)
+  if a:e ==# 'WinEnter'
+    setlocal cursorline
+    let s:cl_status = s:cl_win
+  elseif a:e ==# 'WinLeave'
+    setlocal nocursorline
+  elseif a:e ==# 'CursorMoved'
+    if s:cl_status == s:cl_disabled
+      return
+    elseif s:cl_status == s:cl_win
+      let s:cl_status = s:cl_cursor
+    else
+      setlocal nocursorline
+      let s:cl_status = s:cl_disabled
+    endif
+  elseif a:e ==# 'CursorHold'
+    setlocal cursorline
+    let s:cl_status = s:cl_cursor
+  endif
+endfunction
+
+augroup auto-cursorline
+  autocmd!
+  autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
+  autocmd CursorHold,CursorHoldI * call s:auto_cursorline('CursorHold')
+  autocmd WinEnter * call s:auto_cursorline('WinEnter')
+  autocmd WinLeave * call s:auto_cursorline('WinLeave')
+augroup END
 " }}}
 
 " vim:et:fdm=marker:
