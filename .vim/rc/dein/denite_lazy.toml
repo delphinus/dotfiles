@@ -18,7 +18,7 @@ hook_add = '''"{{{
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
   noremap zd :<C-u>Denite -default-action=narrow dein<CR>
   noremap zD :<C-u>Denite dein_log<CR>
-  noremap zp :<C-u>Denite my_buffer my_file_mru<CR>
+  noremap zp :<C-u>Denite my_buffer my_file_old<CR>
   noremap zh :<C-u>Denite ghq<CR>
   noremap zm :<C-u>Denite memo memo:new<CR>
   noremap ze :<C-u>Denite memo/grep::!<CR>
@@ -26,16 +26,16 @@ hook_add = '''"{{{
   noremap zj :<C-u>Denite -resume -cursor-pos=+1 -immediately<CR>
   noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
   noremap zT :<C-u>call delphinus#denite#file_rec_goroot()<CR>
-  tnoremap úð         <C-\><C-n>:<C-u>Denite my_buffer my_file_mru<CR>
-  tnoremap <A-z><A-p> <C-\><C-n>:<C-u>Denite my_buffer my_file_mru<CR>
+  tnoremap úð         <C-\><C-n>:<C-u>Denite my_buffer my_file_old<CR>
+  tnoremap <A-z><A-p> <C-\><C-n>:<C-u>Denite my_buffer my_file_old<CR>
   tnoremap úá         <C-\><C-n>:<C-u>Denite file_rec<CR>
   tnoremap <A-z><A-a> <C-\><C-n>:<C-u>Denite file_rec<CR>
   tnoremap úî         <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('my_file')<CR>
   tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('my_file')<CR>
   tnoremap úç         <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('grep')<CR>
   tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('grep')<CR>
-  nnoremap úð         :<C-u>Denite my_buffer my_file_mru<CR>
-  nnoremap <A-z><A-p> :<C-u>Denite my_buffer my_file_mru<CR>
+  nnoremap úð         :<C-u>Denite my_buffer my_file_old<CR>
+  nnoremap <A-z><A-p> :<C-u>Denite my_buffer my_file_old<CR>
   nnoremap úî         :<C-u>call delphinus#denite#with_pwd('my_file')<CR>
   nnoremap <A-z><A-n> :<C-u>call delphinus#denite#with_pwd('my_file')<CR>
   nnoremap úç         :<C-u>call delphinus#denite#with_pwd('grep')<CR>
