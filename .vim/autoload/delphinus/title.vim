@@ -1,37 +1,37 @@
 scriptencoding utf-8
 
 function! delphinus#title#string() abort
-  let l:modified = getbufvar('', '&mod') ? '+' : ''
-  let l:readonly = getbufvar('', '&ro') ? '=' : ''
-  let l:modifiable = getbufvar('', '&ma') ? '' : '-'
-  let l:flag = l:modified . l:readonly . l:modifiable
-  let l:flag = len(l:flag) ? ' ' . l:flag : ''
+  let modified = getbufvar('', '&mod') ? '+' : ''
+  let readonly = getbufvar('', '&ro') ? '=' : ''
+  let modifiable = getbufvar('', '&ma') ? '' : '-'
+  let flag = modified . readonly . modifiable
+  let flag = len(flag) ? ' ' . flag : ''
 
-  let l:host = hostname() . ':'
-  let l:filename = expand('%:t')
-  let l:filename = len(l:filename) ? l:filename : 'NEW FILE'
+  let host = hostname() . ':'
+  let filename = expand('%:t')
+  let filename = len(filename) ? filename : 'NEW FILE'
 
   " $H が設定してある場合は、パス内を置換する
-  let l:sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
-  let l:with_h_dir= expand('%:p' . l:sub_home . ':~:.:h')
-  let l:with_current_dir = expand('%:h')
-  let l:dir = len(l:with_h_dir) < len(l:with_current_dir) ? l:with_h_dir : l:with_current_dir
-  let l:dir = len(l:dir) && l:dir !=# '.' ? ' (' . l:dir . ')' : ''
+  let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
+  let with_h_dir= expand('%:p' . sub_home . ':~:.:h')
+  let with_current_dir = expand('%:h')
+  let dir = len(with_h_dir) < len(with_current_dir) ? with_h_dir : with_current_dir
+  let dir = len(dir) && dir !=# '.' ? ' (' . dir . ')' : ''
 
-  let l:str = l:filename . l:flag . l:dir
+  let str = filename . flag . dir
 
   " Screen などの時、タイトルバーに全角文字があったら化けるので対処する
   if !has('macunix') && !has('gui_running') && !len($TMUX)
-    let l:str2 = ''
-    for l:char in split(l:str, '\zs')
-      if char2nr(l:char) > 255
-        let l:str2 = l:str2 . '_'
+    let str2 = ''
+    for char in split(str, '\zs')
+      if char2nr(char) > 255
+        let str2 = str2 . '_'
       else
-        let l:str2 = l:str2 . l:char
+        let str2 = str2 . char
       endif
     endfor
-    let l:str = l:str2
+    let str = str2
   endif
 
-  return l:str
+  return str
 endfunction
