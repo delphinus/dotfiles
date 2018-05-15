@@ -13,7 +13,6 @@ repo = 'fishbullet/deoplete-ruby'
 
 [[plugins]]
 repo = 'roxma/nvim-yarp'
-if   = '''!has('nvim')'''
 hook_source = '''
   " Set path for python3 for python36u packages in CentOS7
   if !executable('python3') && executable('python3.6')
@@ -23,7 +22,6 @@ hook_source = '''
 
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
-if   = '''!has('nvim')'''
 
 [[plugins]]
 repo     = 'ujihisa/neco-look'
