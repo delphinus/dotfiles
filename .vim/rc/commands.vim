@@ -11,11 +11,13 @@ augroup END
 function! s:cleanUpStartUpTime() abort
   let vim = printf('silent! %%s,%s,$VIM,', expand('$VIM'))
   execute vim
+  let $INIT = expand('~/.cache/dein/.cache/init.vim/.dein')
+  execute printf('silent! %%s,%s,$INIT,', $INIT)
+  let $CACHE = expand('~/.cache/dein/.cache')
+  execute printf('silent! %%s,%s,$CACHE,', $CACHE)
   let $DEIN = expand('~/.cache/dein')
-  let dein = printf('silent! %%s,%s,$DEIN,', $DEIN)
-  execute dein
-  let home = printf('silent! %%s,%s,\~', expand('$HOME'))
-  execute home
+  execute printf('silent! %%s,%s,$DEIN,', $DEIN)
+  execute printf('silent! %%s,%s,\~', expand('$HOME'))
 endfunction
 
 command! CleanUpStartUpTime call <SID>cleanUpStartUpTime()
