@@ -46,28 +46,28 @@ function! s:dwm_new(context)
 endfunction
 
 function! s:start_action_for_path(context, action, ...)
-  let l:target = a:context['targets'][0]
-  let l:path = get(l:target, 'action__path', '')
-  if isdirectory(l:path)
+  let target = a:context['targets'][0]
+  let path = get(target, 'action__path', '')
+  if isdirectory(path)
     if a:action ==# 'grep'
-      call denite#start([{'name': 'grep', 'args': [l:path, '', '!']}])
+      call denite#start([{'name': 'grep', 'args': [path, '', '!']}])
     else
-      call denite#start([{'name': a:action, 'args': [l:path]}])
+      call denite#start([{'name': a:action, 'args': [path]}])
     endif
   else
-    call denite#util#print_error(printf('unknown path for target: %s', l:target))
+    call denite#util#print_error(printf('unknown path for target: %s', target))
   endif
 endfunction
 
 function! Denite_toggle_sorter(sorter) abort
-  let l:sorters = split(b:denite_context.sorters, ',')
-  let l:i = index(l:sorters, a:sorter)
-  if l:i < 0
-    call add(l:sorters, a:sorter)
+  let sorters = split(b:denite_context.sorters, ',')
+  let i = index(sorters, a:sorter)
+  if i < 0
+    call add(sorters, a:sorter)
   else
-    call remove(l:sorters, l:i)
+    call remove(sorters, i)
   endif
   let b:denite_new_context = {}
-  let b:denite_new_context.sorters = join(l:sorters, ',')
+  let b:denite_new_context.sorters = join(sorters, ',')
   return '<denite:nop>'
 endfunction

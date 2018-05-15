@@ -1,31 +1,31 @@
 function! delphinus#fssh#fetch_env() abort
-  let l:env_cmd = len($TMUX) ? 'tmux showenv' : 'env'
-  let l:env = {}
-  for l:line in systemlist(l:env_cmd . ' | grep LC_FSSH_')
-    let [l:tmp, l:name, l:value] = matchlist(l:line, '^\([^=]\+\)=\(.*\)$')[:2]
-    let l:env[l:name] = l:value
+  let env_cmd = len($TMUX) ? 'tmux showenv' : 'env'
+  let env = {}
+  for line in systemlist(env_cmd . ' | grep LC_FSSH_')
+    let [tmp, name, value] = matchlist(line, '^\([^=]\+\)=\(.*\)$')[:2]
+    let env[name] = value
   endfor
-  return l:env
+  return env
 endfunction
 
 function! delphinus#fssh#is_enabled() abort
-  let l:env = delphinus#fssh#fetch_env()
-  return len(get(l:env, 'LC_FSSH_PORT', ''))
+  let env = delphinus#fssh#fetch_env()
+  return len(get(env, 'LC_FSSH_PORT', ''))
 endfunction
 
 function! delphinus#fssh#execute(command) abort
-  let l:tmpfile = tempname()
-  call writefile([a:command], l:tmpfile)
-  let l:env = delphinus#fssh#fetch_env()
-  let l:cmd = printf("ssh -p %d -l %s %s localhost PATH=%s 'bash -s' < %s",
-        \ l:env['LC_FSSH_PORT'],
-        \ l:env['LC_FSSH_USER'],
-        \ l:env['LC_FSSH_COPY_ARGS'],
-        \ l:env['LC_FSSH_PATH'],
-        \ l:tmpfile,
+  let tmpfile = tempname()
+  call writefile([a:command], tmpfile)
+  let env = delphinus#fssh#fetch_env()
+  let cmd = printf("ssh -p %d -l %s %s localhost PATH=%s 'bash -s' < %s",
+        \ env['LC_FSSH_PORT'],
+        \ env['LC_FSSH_USER'],
+        \ env['LC_FSSH_COPY_ARGS'],
+        \ env['LC_FSSH_PATH'],
+        \ tmpfile,
         \ )
   echo 'fssh execute: ' . a:command
-  call system(l:cmd)
+  call system(cmd)
 endfunction
 
 function! delphinus#fssh#open(url) abort
@@ -38,9 +38,9 @@ function! delphinus#fssh#copy() abort
     return
   endif
 
-  let l:error = systemlist('ui_copy', split(@", '\n'))
-  if len(l:error)
-    echoerr string(l:error)
+  let error = systemlist('ui_copy', split(@", '\n'))
+  if len(error)
+    echoerr string(error)
   else
     echo 'copied from @" to system clipboard'
   endif

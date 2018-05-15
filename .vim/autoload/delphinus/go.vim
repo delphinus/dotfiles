@@ -11,15 +11,15 @@ let s:lacked_packages = {
       \ }
 
 function! delphinus#go#install_tester_binaries(isUpdate) abort
-  let l:opt = a:isUpdate ? '-u' : ''
-  for [l:binary, l:pkg] in items(s:lacked_packages)
-    if !a:isUpdate && executable(l:binary)
-      echo l:binary . ' is already installed'
+  let opt = a:isUpdate ? '-u' : ''
+  for [binary, pkg] in items(s:lacked_packages)
+    if !a:isUpdate && executable(binary)
+      echo binary . ' is already installed'
       continue
     endif
-    for l:p in l:pkg
-      echo l:binary . ': installing...'
-      call go#util#System(printf('go get %s %s', l:opt, shellescape(l:p)))
+    for p in pkg
+      echo binary . ': installing...'
+      call go#util#System(printf('go get %s %s', opt, shellescape(p)))
     endfor
   endfor
 endfunction

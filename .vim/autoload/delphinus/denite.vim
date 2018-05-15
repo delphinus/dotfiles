@@ -1,9 +1,9 @@
 function! delphinus#denite#with_pwd(action) abort
-  let l:pwd = get(b:, '__pwd__', '')
+  let pwd = get(b:, '__pwd__', '')
   if a:action ==# 'grep'
-    call denite#start([{'name': 'grep', 'args': [l:pwd, '', '!']}])
+    call denite#start([{'name': 'grep', 'args': [pwd, '', '!']}])
   else
-    call denite#start([{'name': a:action, 'args': ['', l:pwd]}])
+    call denite#start([{'name': a:action, 'args': ['', pwd]}])
   endif
 endfunction
 
@@ -12,10 +12,10 @@ function! delphinus#denite#file_rec_goroot() abort
     echoerr '`go` executable not found'
     return
   endif
-  let l:out = system('go env | grep ''^GOROOT='' | cut -d\" -f2')
-  let l:goroot = substitute(l:out, '\n', '', '')
+  let out = system('go env | grep ''^GOROOT='' | cut -d\" -f2')
+  let goroot = substitute(out, '\n', '', '')
   call denite#start(
-        \ [{'name': 'file_rec', 'args': [l:goroot]}],
+        \ [{'name': 'file_rec', 'args': [goroot]}],
         \ {'input': '.go '})
 endfunction
 

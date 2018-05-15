@@ -9,13 +9,13 @@ augroup QuickFixWindowHeight
 augroup END
 
 function! s:cleanUpStartUpTime() abort
-  let l:vim = printf('silent! %%s,%s,$VIM,', expand('$VIM'))
-  execute l:vim
+  let vim = printf('silent! %%s,%s,$VIM,', expand('$VIM'))
+  execute vim
   let $DEIN = expand('~/.cache/dein')
-  let l:dein = printf('silent! %%s,%s,$DEIN,', $DEIN)
-  execute l:dein
-  let l:home = printf('silent! %%s,%s,\~', expand('$HOME'))
-  execute l:home
+  let dein = printf('silent! %%s,%s,$DEIN,', $DEIN)
+  execute dein
+  let home = printf('silent! %%s,%s,\~', expand('$HOME'))
+  execute home
 endfunction
 
 command! CleanUpStartUpTime call <SID>cleanUpStartUpTime()
@@ -23,12 +23,12 @@ command! CleanUpStartUpTime call <SID>cleanUpStartUpTime()
 " from denite.nvim
 function! s:getchar() abort
   redraw | echo 'Press any key: '
-  let l:c = getchar()
-  while l:c ==# "\<CursorHold>"
+  let c = getchar()
+  while c ==# "\<CursorHold>"
     redraw | echo 'Press any key: '
-    let l:c = getchar()
+    let c = getchar()
   endwhile
-  redraw | echomsg printf('Raw: "%s" | Char: "%s"', l:c, nr2char(l:c))
+  redraw | echomsg printf('Raw: "%s" | Char: "%s"', c, nr2char(c))
 endfunction
 command! GetChar call s:getchar()
 

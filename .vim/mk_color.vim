@@ -27,12 +27,12 @@ fun <SID>grey_number(x)
 		if a:x < 14
 			return 0
 		else
-			let l:n = (a:x - 8) / 10
-			let l:m = (a:x - 8) % 10
-			if l:m < 5
-				return l:n
+			let n = (a:x - 8) / 10
+			let m = (a:x - 8) % 10
+			if m < 5
+				return n
 			else
-				return l:n + 1
+				return n + 1
 			endif
 		endif
 	endif
@@ -108,12 +108,12 @@ fun <SID>rgb_number(x)
 		if a:x < 75
 			return 0
 		else
-			let l:n = (a:x - 55) / 40
-			let l:m = (a:x - 55) % 40
-			if l:m < 20
-				return l:n
+			let n = (a:x - 55) / 40
+			let m = (a:x - 55) % 40
+			if m < 20
+				return n
 			else
-				return l:n + 1
+				return n + 1
 			endif
 		endif
 	endif
@@ -152,59 +152,59 @@ endfun
 " returns the palette index to approximate the given R/G/B color levels
 fun <SID>color(r, g, b)
 	" get the closest grey
-	let l:gx = <SID>grey_number(a:r)
-	let l:gy = <SID>grey_number(a:g)
-	let l:gz = <SID>grey_number(a:b)
+	let gx = <SID>grey_number(a:r)
+	let gy = <SID>grey_number(a:g)
+	let gz = <SID>grey_number(a:b)
 
 	" get the closest color
-	let l:x = <SID>rgb_number(a:r)
-	let l:y = <SID>rgb_number(a:g)
-	let l:z = <SID>rgb_number(a:b)
+	let x = <SID>rgb_number(a:r)
+	let y = <SID>rgb_number(a:g)
+	let z = <SID>rgb_number(a:b)
 
-	if l:gx == l:gy && l:gy == l:gz
+	if gx == gy && gy == gz
 		" there are two possibilities
-		let l:dgr = <SID>grey_level(l:gx) - a:r
-		let l:dgg = <SID>grey_level(l:gy) - a:g
-		let l:dgb = <SID>grey_level(l:gz) - a:b
-		let l:dgrey = (l:dgr * l:dgr) + (l:dgg * l:dgg) + (l:dgb * l:dgb)
-		let l:dr = <SID>rgb_level(l:gx) - a:r
-		let l:dg = <SID>rgb_level(l:gy) - a:g
-		let l:db = <SID>rgb_level(l:gz) - a:b
-		let l:drgb = (l:dr * l:dr) + (l:dg * l:dg) + (l:db * l:db)
-		if l:dgrey < l:drgb
+		let dgr = <SID>grey_level(gx) - a:r
+		let dgg = <SID>grey_level(gy) - a:g
+		let dgb = <SID>grey_level(gz) - a:b
+		let dgrey = (dgr * dgr) + (dgg * dgg) + (dgb * dgb)
+		let dr = <SID>rgb_level(gx) - a:r
+		let dg = <SID>rgb_level(gy) - a:g
+		let db = <SID>rgb_level(gz) - a:b
+		let drgb = (dr * dr) + (dg * dg) + (db * db)
+		if dgrey < drgb
 			" use the grey
-			return <SID>grey_color(l:gx)
+			return <SID>grey_color(gx)
 		else
 			" use the color
-			return <SID>rgb_color(l:x, l:y, l:z)
+			return <SID>rgb_color(x, y, z)
 		endif
 	else
 		" only one possibility
-		return <SID>rgb_color(l:x, l:y, l:z)
+		return <SID>rgb_color(x, y, z)
 	endif
 endfun
 
 " returns the palette index to approximate the 'rrggbb' hex string
 fun <SID>rgb(rgb)
-	let l:r = ("0x" . strpart(a:rgb, 0, 2)) + 0
-	let l:g = ("0x" . strpart(a:rgb, 2, 2)) + 0
-	let l:b = ("0x" . strpart(a:rgb, 4, 2)) + 0
-	return <SID>color(l:r, l:g, l:b)
+	let r = ('0x' . strpart(a:rgb, 0, 2)) + 0
+	let g = ('0x' . strpart(a:rgb, 2, 2)) + 0
+	let b = ('0x' . strpart(a:rgb, 4, 2)) + 0
+	return <SID>color(r, g, b)
 endfun
 
 " sets the highlighting for the given group
 fun <SID>X(group, fg, bg, attr)
-	if a:fg != ""
-		exec "hi ".a:group." guifg=#".a:fg." ctermfg=".<SID>rgb(a:fg)
+	if a:fg !=# ''
+		exec 'hi '.a:group.' guifg=#'.a:fg.' ctermfg='.<SID>rgb(a:fg)
 	endif
-	if a:bg != ""
-		exec "hi ".a:group." guibg=#".a:bg." ctermbg=".<SID>rgb(a:bg)
+	if a:bg !=# ''
+		exec 'hi '.a:group.' guibg=#'.a:bg.' ctermbg='.<SID>rgb(a:bg)
 	endif
-	if a:attr != ""
-		if a:attr == 'italic'
-			exec "hi ".a:group." gui=".a:attr." cterm=none"
+	if a:attr !=# ''
+		if a:attr ==# 'italic'
+			exec 'hi '.a:group.' gui='.a:attr.' cterm=none'
 		else
-			exec "hi ".a:group." gui=".a:attr." cterm=".a:attr
+			exec 'hi '.a:group.' gui='.a:attr.' cterm='.a:attr
 		endif
 	endif
 endfun
@@ -213,8 +213,8 @@ endfun
 
 " returns the palette index to approximate the 'rrggbb' hex string
 fun RGB(rgb)
-	let l:r = ("0x" . strpart(a:rgb, 0, 2)) + 0
-	let l:g = ("0x" . strpart(a:rgb, 2, 2)) + 0
-	let l:b = ("0x" . strpart(a:rgb, 4, 2)) + 0
-	return <SID>color(l:r, l:g, l:b)
+	let r = ('0x' . strpart(a:rgb, 0, 2)) + 0
+	let g = ('0x' . strpart(a:rgb, 2, 2)) + 0
+	let b = ('0x' . strpart(a:rgb, 4, 2)) + 0
+	return <SID>color(r, g, b)
 endfun

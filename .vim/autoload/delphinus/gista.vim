@@ -4,18 +4,18 @@ let s:V = vital#of('vital')
 let s:F = s:V.import('System.Filepath')
 
 function! delphinus#gista#yank_url_to_system_clipboard() abort
-  let l:gista_action = {
+  let gista_action = {
         \ 'is_selectable': 0,
         \ 'description':   'yank a gist url to system clipboard',
         \ }
 
   if has('clipboard') && has('macunix')
-    let l:gista_action.func = function('delphinus#gista#star_register')
+    let gista_action.func = function('delphinus#gista#star_register')
   else
-    let l:gista_action.func = function('delphinus#gista#external')
+    let gista_action.func = function('delphinus#gista#external')
   endif
 
-  return l:gista_action
+  return gista_action
 endfunction
 
 function! delphinus#gista#star_register(candidate) abort
@@ -23,13 +23,13 @@ function! delphinus#gista#star_register(candidate) abort
 endfunction
 
 function! delphinus#gista#external(candidate) abort
-  let l:uri = a:candidate.action__uri
+  let uri = a:candidate.action__uri
   if s:F.which('pbcopy') !=# ''
-    call system(printf('echo -n "%s" | pbcopy', l:uri))
-    echo printf('copy to system clipboard with pbcopy: %s', l:uri)
+    call system(printf('echo -n "%s" | pbcopy', uri))
+    echo printf('copy to system clipboard with pbcopy: %s', uri)
   elseif s:F.which('ui_copy') !=# ''
-    call system(printf('echo -n "%s" | ui_copy', l:uri))
-    echo printf('copy to system clipboard with fssh: %s', l:uri)
+    call system(printf('echo -n "%s" | ui_copy', uri))
+    echo printf('copy to system clipboard with fssh: %s', uri)
   endif
 endfunction
 

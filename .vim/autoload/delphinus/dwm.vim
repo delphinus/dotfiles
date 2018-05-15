@@ -25,6 +25,6 @@ endfunction
 function! delphinus#dwm#enable() abort
   augroup dwm
     autocmd!
-    autocmd BufWinEnter * if &l:buflisted || &l:filetype == 'help' | call DWM_AutoEnter() | endif
+    autocmd BufWinEnter * if &buflisted || &filetype == 'help' | call DWM_AutoEnter() | endif
   augroup END
 endfunction
