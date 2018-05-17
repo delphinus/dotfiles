@@ -1,7 +1,7 @@
 [[plugins]]
-#repo     = 'Shougo/denite.nvim'
-repo     = 'delphinus/denite.nvim'
-rev      = 'feature/sorter-abbr'
+repo     = 'Shougo/denite.nvim'
+#repo     = 'delphinus/denite.nvim'
+#ev      = 'feature/sorter-abbr'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
 depends  = ['dwm.vim']
