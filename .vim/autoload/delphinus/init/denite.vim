@@ -16,7 +16,7 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#action('memo', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('directory', 'my_file_rec', {ctx -> s:start_action_for_path(ctx, 'file_rec')})
   call denite#custom#action('directory', 'grep', {ctx -> s:start_action_for_path(ctx, 'grep')})
-  call denite#custom#action('file', 'grep', function('s:narrow_grep'), {'is_quit': v:false})
+  call denite#custom#action('file', 'grep', function('s:narrow_grep'))
   call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
   call denite#custom#map('insert', '<C-f>', 'Denite_toggle_sorter("sorter_abbr")', 'noremap expr nowait')
