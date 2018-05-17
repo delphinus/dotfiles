@@ -16,6 +16,7 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#action('memo', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('directory', 'my_file_rec', {ctx -> s:start_action_for_path(ctx, 'file_rec')})
   call denite#custom#action('directory', 'grep', {ctx -> s:start_action_for_path(ctx, 'grep')})
+  call denite#custom#action('file', 'grep', function('s:narrow_grep'), {'is_quit': v:false})
   call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
   call denite#custom#map('insert', '<C-f>', 'Denite_toggle_sorter("sorter_abbr")', 'noremap expr nowait')
@@ -29,6 +30,7 @@ function! delphinus#init#denite#hook_source() abort
   call denite#custom#source('_', 'matchers', ['matcher_substring'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
+  call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
   call denite#custom#source('my_file_rec', 'converters', ['devicons_denite_converter'])
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('default', {
@@ -57,6 +59,24 @@ function! s:start_action_for_path(context, action, ...)
   else
     call denite#util#print_error(printf('unknown path for target: %s', target))
   endif
+endfunction
+
+function! s:narrow_grep(context, ...) abort
+  let sources = get(a:context, 'sources', [])
+  let filtered = filter(copy(sources), {i, v -> get(v, 'name', '') ==# 'grep'})
+  if len(filtered) == 0
+    call denite#util#print_error('current sources does not include `grep`.')
+    return
+  endif
+  let args = get(filtered[0], 'args', [])
+  let pattern = get(args, 2, '')
+  if pattern !=# '!'
+    call denite#util#print_error('current grep source is not interactive')
+    return
+  endif
+  let input = get(a:context, 'input', '')
+  let pattern = substitute(input, '\s\+', '.*', 'g')
+  call denite#start([{'name': 'grep', 'args': [args[0], args[1], pattern]}])
 endfunction
 
 function! Denite_toggle_sorter(sorter) abort
