@@ -69,14 +69,17 @@ function! s:narrow_grep(context, ...) abort
     return
   endif
   let args = get(filtered[0], 'args', [])
-  let pattern = get(args, 2, '')
-  if pattern !=# '!'
-    call denite#util#print_error('current grep source is not interactive')
-    return
-  endif
+  " TODO: add feature to know is_interactive in context
+  "let pattern = get(args, 2, '')
+  "if pattern !=# '!'
+    "call denite#util#print_error('current grep source is not interactive')
+    "return
+  "endif
+  let path = get(args, 0, '')
+  let opt = get(args, 1, '')
   let input = get(a:context, 'input', '')
   let pattern = substitute(input, '\s\+', '.*', 'g')
-  call denite#start([{'name': 'grep', 'args': [args[0], args[1], pattern]}])
+  call denite#start([{'name': 'grep', 'args': [path, opt, pattern]}])
 endfunction
 
 function! Denite_toggle_sorter(sorter) abort
