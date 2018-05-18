@@ -29,6 +29,8 @@ function! delphinus#perl#manage_local_perl(path) abort
   let g:quickrun_config['watchdogs_checker/perl'] = get(g:quickrun_config, 'watchdogs_checker/perl', {})
   let g:quickrun_config['watchdogs_checker/perl'].command = perl_info.local_perl
   let g:quickrun_config['watchdogs_checker/perl'].cmdopt = get(perl_info, 'cmdopt', get(g:, 'local_perl_cmdopt', ''))
+  let b:ale_perl_perl_executable = perl_info.local_perl
+  let b:ale_perl_perl_options = get(perl_info, 'cmdopt', get(g:, 'local_perl_cmdopt', ''))
 endfunction
 
 function! delphinus#perl#perl_info(path) abort
