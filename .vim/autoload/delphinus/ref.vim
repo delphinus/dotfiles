@@ -1,6 +1,6 @@
 if ! dein#is_sourced('vital.vim') | call dein#source('vital.vim') | endif
 
-let s:V = vital#of('vital')
+let s:V = vital#vital#new()
 let s:P = s:V.import('Prelude')
 
 function! delphinus#ref#perl_module_edit(...) abort

@@ -1,7 +1,7 @@
 if ! dein#is_sourced('vital.vim') | call dein#source('vital.vim') | endif
 
 let s:cache_dir = expand('$HOME/.cache/vim')
-let s:V = vital#of('vital')
+let s:V = vital#vital#new()
 let s:CM = s:V.import('System.Cache.Memory')
 let s:CF = s:V.import('System.Cache.File')
 
