@@ -110,6 +110,9 @@ hook_add = '''
 repo = 'Glench/Vim-Jinja2-Syntax'
 
 [[plugins]]
+repo = 'Vimjas/vim-python-pep8-indent'
+
+[[plugins]]
 repo = 'aklt/plantuml-syntax'
 
 [[plugins]]
