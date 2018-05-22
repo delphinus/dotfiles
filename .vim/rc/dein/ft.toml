@@ -10,25 +10,6 @@ hook_source = '''"{{{
 "}}}'''
 
 [[plugins]]
-repo        = 'Quramy/tsuquyomi'
-on_ft       = ['typescript']
-build       = 'npm install'
-hook_source = '''
-  let g:tsuquyomi_disable_default_mappings = 1
-  let g:tsuquyomi_use_dev_node_module = 1
-  let g:tsuquyomi_definition_split = 1
-  let g:tsuquyomi_completion_detail = 1
-
-  augroup TsuquyomiMappings
-    autocmd!
-    autocmd FileType typescript map <buffer> <C-]> <Plug>(TsuquyomiDefinition)
-    autocmd FileType typescript map <buffer> <C-@> <Plug>(TsuquyomiReferences)
-    autocmd FileType typescript nnoremap <buffer> <silent> K :<c-u>echo tsuquyomi#hint()<CR>
-    autocmd FileType typescript map <buffer> gK <Plug>(TsuquyomiSignatureHelp)
-  augroup END
-'''
-
-[[plugins]]
 repo  = 'davidhalter/jedi-vim'
 on_ft = ['python']
 
