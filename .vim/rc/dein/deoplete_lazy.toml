@@ -4,10 +4,6 @@ on_event    = ['InsertEnter']
 depends     = ['nvim-yarp', 'vim-hug-neovim-rpc']
 hook_source = '''
   let g:deoplete#enable_at_startup = 1
-  let g:deoplete#omni#input_patterns = get(g:, 'deoplete#omni#input_patterns', {})
-  let g:deoplete#omni#input_patterns.typescript = '[^. \t]\.(?:[a-zA-Z_]\w*)?'
-  let g:deoplete#omni#functions = get(g:, 'deoplete#omni#functions', {})
-  let g:deoplete#omni#functions.typescript = 'tsuquyomi#complete'
   call deoplete#initialize()
   call deoplete#custom#source('_', 'converters', [
         \ 'converter_auto_paren',

@@ -12,6 +12,13 @@ repo = 'SevereOverfl0w/deoplete-github'
 repo = 'fishbullet/deoplete-ruby'
 
 [[plugins]]
+repo     = 'mhartington/nvim-typescript'
+hook_add = '''
+  let g:nvim_typescript#type_info_on_hold = 1
+  let g:nvim_typescript#default_mappings = 1
+'''
+
+[[plugins]]
 repo = 'roxma/nvim-yarp'
 hook_source = '''
   " Set path for python3 for python36u packages in CentOS7
