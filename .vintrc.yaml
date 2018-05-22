@@ -1,4 +1,0 @@
----
-policies:
-  ProhibitImplicitScopeVariable:
-    enabled: no

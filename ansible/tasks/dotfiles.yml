@@ -13,8 +13,8 @@
     - .config/peco
     - .config/powerline
     - .config/ranger
-    - .config/vifm/colors/nord.vifm
     - .config/vifm/vifmrc
+    - .config/vifm/colors/nord.vifm
     - .editrc
     - .gitconfig
     - .grcat
@@ -28,7 +28,6 @@
     - .tmux.conf
     - .vim
     - .vimrc_first.vim
-    - .vintrc.yaml
     - .zlogin
     - .zlogout
     - .zprezto
