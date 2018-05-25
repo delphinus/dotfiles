@@ -54,6 +54,10 @@ on_ft   = ['javascript']
 hook_post_update = '''
   !npm install -g tern
 '''
+hook_source = '''
+  let g:deoplete#sources#ternjs#types = 1
+  let g:deoplete#sources#ternjs#docs = 1
+'''
 
 [[plugins]]
 repo      = 'wellle/tmux-complete.vim'
