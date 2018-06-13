@@ -123,6 +123,15 @@ else
   if [[ -x $goenv_root/bin/goenv ]]; then eval "$(goenv init - --no-rehash zsh)"; fi
 fi
 
+# for nvm
+nvm_script=/usr/local/opt/nvm/nvm.sh
+if [[ -f $nvm_script ]]; then
+  typeset -xT NVM_DIR nvm_dir
+  nvm_dir=$H/.nvm
+  mkdir -p $nvm_dir
+  . $nvm_script
+fi
+
 # for hub
 if (( $+commands[hub] )); then
   alias git=hub
