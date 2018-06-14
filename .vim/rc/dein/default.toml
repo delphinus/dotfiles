@@ -175,6 +175,15 @@ repo = 'jason0x43/vim-js-indent'
 repo  = 'pearofducks/ansible-vim'
 
 [[plugins]]
+repo     = 'posva/vim-vue'
+hook_add = '''
+  augroup FileTypeVueIsKeyword
+    autocmd!
+    autocmd FileType vue setlocal iskeyword+=$ | setlocal iskeyword+=-
+  augroup END
+'''
+
+[[plugins]]
 repo = 'tmux-plugins/vim-tmux'
 # }}}
 
