@@ -40,6 +40,20 @@ repo      = 'Shougo/echodoc.vim'
 on_source = ['deoplete.nvim']
 
 [[plugins]]
+repo        = 'autozimu/LanguageClient-neovim'
+rev         = 'next'
+on_source   = ['deoplete.nvim']
+hook_source = '''
+  let g:LanguageClient_serverCommands = {
+        \ 'vue': ['vls'],
+        \ }
+'''
+hook_post_update = '''
+  !bash install.sh
+  !npm install -g vue-language-server
+'''
+
+[[plugins]]
 repo             = 'zchee/deoplete-go'
 on_ft            = ['go']
 hook_post_update = '!make'
