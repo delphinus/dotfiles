@@ -6,9 +6,6 @@ repo    = 'zchee/deoplete-jedi'
 depends = ['jedi-vim']
 
 [[plugins]]
-repo = 'SevereOverfl0w/deoplete-github'
-
-[[plugins]]
 repo = 'fishbullet/deoplete-ruby'
 
 [[plugins]]
