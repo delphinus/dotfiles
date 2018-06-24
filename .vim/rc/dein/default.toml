@@ -218,6 +218,7 @@ hook_add = """
         \ }
   let g:ale_sh_shellcheck_options = '-x'
   let g:ale_go_gometalinter_options = '--fast -E lll -E dupl -E gofmt -E goimports -E misspell'
+  let g:ale_python_pylint_change_directory = 0
   if has('nvim')
     nmap <silent> Ë <Plug>(ale_previous_wrap)
     nmap <silent> Ê <Plug>(ale_next_wrap)
@@ -225,10 +226,6 @@ hook_add = """
     nmap <silent> <A-K> <Plug>(ale_previous_wrap)
     nmap <silent> <A-J> <Plug>(ale_next_wrap)
   endif
-  augroup ALEPylintSetting
-    autocmd!
-    autocmd FileType python call delphinus#ale#pylint()
-  augroup END
 """
 # }}}
 
