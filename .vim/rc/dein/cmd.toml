@@ -19,6 +19,22 @@ hook_add   = '''"{{{
 "}}}'''
 
 [[plugins]]
+repo     = 'edkolev/tmuxline.vim'
+on_cmd   = ['Tmuxline']
+hook_add = '''
+  let g:tmuxline_preset = {
+        \ 'a': '#P',
+        \ 'b': '#{window_panes}',
+        \ 'c': '#{pane_current_path}',
+        \ 'win': ['#I', '#W'],
+        \ 'cwin': ['#I', '#W'],
+        \ 'x': '#(battery.tmux)',
+        \ 'y': ['%m/%d (%a)', '%R'],
+        \ 'z': '#H',
+        \ }
+'''
+
+[[plugins]]
 repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
 
