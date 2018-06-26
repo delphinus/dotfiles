@@ -25,7 +25,7 @@ hook_add = '''
   let g:tmuxline_preset = {
         \ 'a': '#P',
         \ 'b': '#{window_panes}',
-        \ 'c': '#{pane_current_path}',
+        \ 'c': '#{=-60:pane_current_path}',
         \ 'win': ['#I', '#W'],
         \ 'cwin': ['#I', '#W'],
         \ 'x': '#(battery.tmux)',
