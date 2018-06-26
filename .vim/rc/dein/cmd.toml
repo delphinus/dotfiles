@@ -20,7 +20,7 @@ hook_add   = '''"{{{
 
 [[plugins]]
 repo     = 'edkolev/tmuxline.vim'
-on_cmd   = ['Tmuxline']
+on_cmd   = ['Tmuxline', 'TmuxlineSimple', 'TmuxlineSnapshot']
 hook_add = '''
   let g:tmuxline_preset = {
         \ 'a': '#P',
