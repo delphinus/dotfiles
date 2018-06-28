@@ -253,6 +253,9 @@ repo = 'vim-scripts/nginx.vim'
 
 # dependencies {{{
 [[plugins]]
+repo     = 'Shougo/context_filetype.vim'
+
+[[plugins]]
 repo = 'kana/vim-textobj-user'
 
 [[plugins]]
