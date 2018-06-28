@@ -2,7 +2,8 @@
 repo      = 'delphinus/dwm.vim'
 rev       = 'feature/disable-in-denite'
 on_map    = ['<Plug>DWM']
-hook_add  = '''"{{{
+hook_add  = '''
+"{{{
   let g:delphinus#dwm#min_master_pane_width = get(g:, 'delphinus#dwm#min_master_pane_width', 86)
 
   let s:toggle_set_master_pane_width = 0
@@ -21,7 +22,8 @@ hook_add  = '''"{{{
   command! DWMSetMasterPaneWidth call delphinus#dwm#set_master_pane_width()
   command! DWMDisable call delphinus#dwm#disable()
   command! DWMEnable call delphinus#dwm#enable()
-"}}}'''
+"}}}
+'''
 
 [[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
