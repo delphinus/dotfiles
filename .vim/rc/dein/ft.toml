@@ -66,7 +66,6 @@ on_ft   = [
     'nyaos', 'perl6', 'python', 'vim', 'vimperator', 'vimshell', 'xhtml',
     'markdown', 'haml', 'jade', 'toml', 'go', 'asciidoc',
   ]
-'''
 
 [[plugins]]
 repo    = 'rhysd/vim-textobj-ruby'
