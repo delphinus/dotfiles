@@ -1,13 +1,15 @@
 [[plugins]]
 repo        = 'Chiel92/vim-autoformat'
 on_ft       = ['typescript', 'javascript']
-hook_source = '''"{{{
+hook_source = '''
+"{{{
   augroup VimAutoformat
     autocmd!
     autocmd BufWrite *.ts :Autoformat
     autocmd BufWrite *.js :Autoformat
   augroup END
-"}}}'''
+"}}}
+'''
 
 [[plugins]]
 repo  = 'davidhalter/jedi-vim'
@@ -21,6 +23,7 @@ on_ft = ['php']
 repo        = 'fatih/vim-go'
 on_ft       = ['go']
 hook_source = '''
+"{{{
   let g:go_addtags_transform = 'camelcase'
   let g:go_alternate_mode = 'split'
   let g:go_auto_sameids = 0
@@ -48,6 +51,7 @@ hook_source = '''
   let g:go_metalinter_autosave = 0
   let g:go_metalinter_deadline = '10s'
   let g:go_template_use_pkg = 1
+"}}}
 '''
 
 [[plugins]]

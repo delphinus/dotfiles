@@ -1,7 +1,8 @@
 [[plugins]]
 repo     = 'LeafCage/yankround.vim'
 on_map   = ['<Plug>(yankround-']
-hook_add = '''"{{{
+hook_add = '''
+"{{{
   nmap p <Plug>(yankround-p)
   xmap p <Plug>(yankround-p)
   nmap P <Plug>(yankround-P)
@@ -10,15 +11,18 @@ hook_add = '''"{{{
   nmap gP <Plug>(yankround-gP)
   nmap <c-p> <Plug>(yankround-prev)
   nmap <expr><c-n> yankround#is_active() ? "\<Plug>(yankround-next)" : "\<Plug>DWMNew"
-"}}}'''
+"}}}
+'''
 
 [[plugins]]
 repo     = 'arecarn/vim-fold-cycle'
 on_map   = ['<Plug>(fold-cycle-']
-hook_add = '''"{{{
+hook_add = '''
+"{{{
   nmap <CR> <Plug>(fold-cycle-open)
   nmap <C-h> <Plug>(fold-cycle-close)
-"}}}'''
+"}}}
+'''
 
 [[plugins]]
 repo     = 'chikatoike/concealedyank.vim'
@@ -42,18 +46,21 @@ hook_source = '''
 [[plugins]]
 repo        = 'junegunn/vim-easy-align'
 on_map      = ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']
-hook_add    = '''"{{{
+hook_add    = '''
+"{{{
   vmap <Enter>           <Plug>(EasyAlign)
   nmap <Leader>a         <Plug>(EasyAlign)
   vmap <Leader><Enter>   <Plug>(LiveEasyAlign)
   nmap <Leader><Leader>a <Plug>(LiveEasyAlign)
-"}}}'''
+"}}}
+'''
 hook_source = 'call delphinus#init#easyalign#hook_source()'
 
 [[plugins]]
 repo     = 't9md/vim-quickhl'
 on_map   = ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']
-hook_add = '''"{{{
+hook_add = '''
+"{{{
   nmap <Space>m <Plug>(quickhl-manual-this)
   xmap <Space>m <Plug>(quickhl-manual-this)
   nmap <Space>t <Plug>(quickhl-manual-toggle)
@@ -63,7 +70,8 @@ hook_add = '''"{{{
   nmap <Space>j <Plug>(quickhl-cword-toggle)
   nmap <Space>] <Plug>(quickhl-tag-toggle)
   map  <Space>H <Plug>(operator-quickhl-manual-this-motion)
-"}}}'''
+"}}}
+'''
 
 [[plugins]]
 repo     = 't9md/vim-choosewin'
@@ -77,7 +85,8 @@ hook_add = '''
 [[plugins]]
 repo        = 'easymotion/vim-easymotion'
 on_map      = ['<Plug>(easymotion-']
-hook_add    = '''"{{{
+hook_add    = '''
+"{{{
   map ' <Plug>(easymotion-prefix)
   nmap s <Plug>(easymotion-overwin-f2)
   xmap s <Plug>(easymotion-s2)
@@ -94,7 +103,8 @@ hook_add    = '''"{{{
   map  'N <Plug>(easymotion-prev)
   map  'L <Plug>(easymotion-bd-jk)
   nmap 'L <Plug>(easymotion-overwin-line)
-"}}}'''
+"}}}
+'''
 hook_source = 'call delphinus#init#easymotion#hook_source()'
 
 [[plugins]]
@@ -105,7 +115,8 @@ depends = [
   'visualrepeat',
 ]
 on_map   = ['<Plug>(LineJuggler']
-hook_add = '''"{{{
+hook_add = '''
+"{{{
   xmap [d       <Plug>(LineJugglerDupOverUp)
   nmap [d       <Plug>(LineJugglerDupOverUp)
   xmap [E       <Plug>(LineJugglerSwapUp)
@@ -122,4 +133,5 @@ hook_add = '''"{{{
   nmap ]e       <Plug>(LineJugglerMoveDown)
   xmap ]<Space> <Plug>(LineJugglerBlankDown)
   nmap ]<Space> <Plug>(LineJugglerBlankDown)
-"}}}'''
+"}}}
+'''

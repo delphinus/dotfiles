@@ -1,7 +1,8 @@
 [[plugins]]
 repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
-hook_add   = '''"{{{
+hook_add   = '''
+"{{{
   let g:deol#enable_dir_changed = 0
   function! s:new_deol() abort
     if exists('t:deol')
@@ -16,12 +17,14 @@ hook_add   = '''"{{{
   nnoremap <A-n> :<C-u>call <SID>new_deol()<CR>
   tnoremap î     <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
   tnoremap <A-n> <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
-"}}}'''
+"}}}
+'''
 
 [[plugins]]
 repo     = 'edkolev/tmuxline.vim'
 on_cmd   = ['Tmuxline', 'TmuxlineSimple', 'TmuxlineSnapshot']
 hook_add = '''
+"{{{
   let g:tmuxline_preset = {
         \ 'a': '#P',
         \ 'b': '#{window_panes}',
@@ -32,6 +35,7 @@ hook_add = '''
         \ 'y': ['%m/%d (%a)', '%R'],
         \ 'z': '#H',
         \ }
+"}}}
 '''
 
 [[plugins]]
@@ -92,15 +96,19 @@ repo        = 'thinca/vim-fontzoom'
 on_cmd      = ['Fontzoom']
 on_map      = ['<Plug>(fontzoom-']
 if          = '''has('gui')'''
-hook_add    = '''"{{{
+hook_add    = '''
+"{{{
   nmap <unique> <silent> + <Plug>(fontzoom-larger)
   nmap <unique> <silent> - <Plug>(fontzoom-smaller)
   nmap <unique> <silent> <C-ScrollWheelUp> <Plug>(fontzoom-larger)
   nmap <unique> <silent> <C-ScrollWheelDown> <Plug>(fontzoom-smaller)
-"}}}'''
-hook_source = '''"{{{
+"}}}
+'''
+hook_source = '''
+"{{{
   let g:fontzoom_no_default_key_mappings=1
-"}}}'''
+"}}}
+'''
 
 [[plugins]]
 repo      = 'thinca/vim-prettyprint'
