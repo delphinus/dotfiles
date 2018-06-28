@@ -58,6 +58,7 @@ repo     = 'lambdalisue/lista.nvim'
 depends  = ['vim-rplugin']
 on_cmd   = ['Lista', 'ListaCursorWord']
 hook_source = '''
+"{{{
   let g:lista#custom_mappings = [
     \ ['<C-D>', '<Del>'],
     \ ['<C-A>', '<Home>'],
@@ -68,6 +69,7 @@ hook_source = '''
     \ ['<C-J>', '<lista:select_next_candidate>'],
     \ ['<C-C>', '<Esc>'],
     \]
+"}}}
 '''
 hook_add = '''
   nnoremap # :<C-u>Lista<CR>
