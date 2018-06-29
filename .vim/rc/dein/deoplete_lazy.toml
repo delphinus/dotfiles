@@ -70,6 +70,7 @@ hook_post_update = '''
 '''
 hook_source = '''
   let g:deoplete#sources#ternjs#types = 1
+  let g:deoplete#sources#ternjs#depths = 1
   let g:deoplete#sources#ternjs#docs = 1
 '''
 
