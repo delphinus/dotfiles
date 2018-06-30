@@ -5,12 +5,6 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-# Add my custom modules
-# fpath=(
-#   ${HOME}/git/dotfiles/.zsh/prezto
-#   ${fpath}
-# )
-
 #
 # General
 #
@@ -74,7 +68,7 @@ zstyle ':prezto:module:editor' key-bindings 'vi'
 # zstyle ':prezto:module:editor' dot-expansion 'yes'
 
 # Allow the zsh prompt context to be shown.
-zstyle ':prezto:module:editor' ps-context 'yes'
+#zstyle ':prezto:module:editor' ps-context 'yes'
 
 #
 # Git
@@ -133,7 +127,6 @@ zstyle ':prezto:module:prompt' pwd-length 'short'
 
 # Set the prompt to display the return code along with an indicator for non-zero
 # return codes. This is not supported by all prompts.
-# zstyle ':prezto:module:prompt' show-return-val 'yes'
 zstyle ':prezto:module:prompt' show-return-val 'yes'
 
 #
