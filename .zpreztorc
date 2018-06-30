@@ -187,6 +187,12 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 zstyle ':prezto:module:syntax-highlighting' pattern \
   'rm*-fr*' 'fg=white,bold,bg=red'
 
+# Highlight with special styles
+zstyle ':prezto:module:syntax-highlighting' styles \
+  'builtin' 'fg=magenta,underline' \
+  'command' 'fg=green,bold' \
+  'function' 'fg=yellow,bold'
+
 #
 # Terminal
 #
