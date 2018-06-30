@@ -1,8 +1,8 @@
-source $H/git/dotfiles/.tmux/default.conf
-set-environment -g ZDOTDIR $H
-set-option -g default-shell $H/usr/local/bin/zsh
-source $H/git/dotfiles/.tmux/screen-keys.conf
-source $H/git/dotfiles/.tmux/vim-keys.conf
-source $H/git/dotfiles/.tmux/powerline.conf.office
+source $HOME/git/dotfiles/.tmux/default.conf
+set-environment -g ZDOTDIR $HOME
+set-option -g default-shell $HOME/usr/local/bin/zsh
+source $HOME/git/dotfiles/.tmux/screen-keys.conf
+source $HOME/git/dotfiles/.tmux/vim-keys.conf
+source $HOME/git/dotfiles/.tmux/powerline.conf.office
 
 # vim:se ft=tmux:

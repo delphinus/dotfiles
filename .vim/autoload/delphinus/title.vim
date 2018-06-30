@@ -11,8 +11,7 @@ function! delphinus#title#string() abort
   let filename = expand('%:t')
   let filename = len(filename) ? filename : 'NEW FILE'
 
-  " $H が設定してある場合は、パス内を置換する
-  let sub_home = len($H) ? ':s!' . $H . '!$H!' : ''
+  let sub_home = ':s!' . $HOME . '!~!'
   let with_h_dir= expand('%:p' . sub_home . ':~:.:h')
   let with_current_dir = expand('%:h')
   let dir = len(with_h_dir) < len(with_current_dir) ? with_h_dir : with_current_dir

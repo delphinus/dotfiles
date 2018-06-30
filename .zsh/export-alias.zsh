@@ -1,27 +1,10 @@
-if [[ $H != $HOME ]]; then
-  alias vim="/usr/local/bin/vim -u $H/.vim/vimrc"
-  alias view="/usr/local/bin/view -u $H/.vim/vimrc"
-  alias gh="HOME=$H gh"
-  alias ghq="HOME=$H ghq"
-  alias ghg="HOME=$H ghg"
-  alias tig="HOME=$H tig"
-  export VISUAL=view.sh
-  export EDITOR=vim.sh
-  export GIT_EDITOR=vim.sh
-  if (( $+commands[hub] )); then
-    alias git="HOME=$H hub"
-  else
-    alias git="HOME=$H git"
-  fi
-else
-  export VISUAL=view
-  export EDITOR=vim
-  export GIT_EDITOR=vim
-fi
+export VISUAL=view
+export EDITOR=vim
+export GIT_EDITOR=vim
 
 export PAGER=less
-export EDITRC=$H/.editrc
-export INPUTRC=$H/.inputrc
+export EDITRC=$HOME/.editrc
+export INPUTRC=$HOME/.inputrc
 export LANG=ja_JP.UTF-8
 export GREP_OPTIONS="--color=auto"
 
@@ -37,7 +20,7 @@ if (( $+commands[gls] )); then
   alias ls='gls --group-directories-first --color=auto'
   alias dircolors=gdircolors
 fi
-eval `dircolors --sh $H/.dir_colors`
+eval `dircolors --sh $HOME/.dir_colors`
 alias be='bundle exec'
 alias ce='carton exec --'
 alias dv="dtach -A /tmp/dvtm-session -r winch dvtm.sh"
@@ -51,7 +34,7 @@ alias nr='npm run'
 alias ns='npm start'
 alias pp=prettyping
 alias stripcolors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})*)?[mGK]//g"'
-alias tm="tmux_cmd='tmux -u2 -f $H/git/dotfiles/.tmux.conf' tmux.sh"
+alias tm=tmux.sh
 alias vp=vimpager
 alias minvim='vim -N -u NONE -u NONE -i NONE --noplugin'
 alias ra=ranger
