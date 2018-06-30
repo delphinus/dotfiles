@@ -36,9 +36,9 @@ else
 fi
 
 path=(
-  $H/bin(N-/)
-  $H/git/dotfiles/bin(N-/)
-  $H/.ghg/bin(N-/)
+  $HOME/bin(N-/)
+  $HOME/git/dotfiles/bin(N-/)
+  $HOME/.ghg/bin(N-/)
   $path)
 
 # for python
@@ -46,12 +46,12 @@ if (( $+commands[pyenv] )); then
   eval "$(pyenv init - --no-rehash zsh)"
 elif (( $+commands[python3.6] )); then
   if ! (( $+commands[python3] )); then
-    mkdir -p $H/bin
-    ln -s $(which python3.6) $H/bin/python3
+    mkdir -p $HOME/bin
+    ln -s $(which python3.6) $HOME/bin/python3
   fi
   if ! (( $+commands[pip3] )); then
-    mkdir -p $H/bin
-    ln -s $(which pip3.6) $H/bin/pip3
+    mkdir -p $HOME/bin
+    ln -s $(which pip3.6) $HOME/bin/pip3
   fi
 else
   typeset -xT PYENV_ROOT pyenv_root
@@ -112,7 +112,7 @@ fi
 
 # for go
 typeset -xT GOPATH gopath
-gopath=$H/.go
+gopath=$HOME/.go
 path=($gopath/bin(N-/) $path)
 if (( $+commands[goenv] )); then
   eval "$(goenv init - --no-rehash zsh)"
@@ -143,7 +143,7 @@ if [[ -d $HOME/.cargo/bin ]]; then
 fi
 
 # home usr directory
-path=($H/usr{/local,}/bin(N-/) $path)
+path=($HOME/usr{/local,}/bin(N-/) $path)
 
 typeset -xT ZSHENV_LOADED zshenv_loaded
 typeset -xT PATH_IN_ZSHENV path_in_zshenv

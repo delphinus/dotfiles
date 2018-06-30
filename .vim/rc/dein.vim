@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-let s:dein_dir = expand(g:home . '/.cache/dein')
+let s:dein_dir = $HOME . '/.cache/dein'
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 if &runtimepath !~# '/dein.vim'
@@ -26,7 +26,7 @@ if dein#load_state(s:dein_dir)
         \ {'name': 'ft',            'lazy': 1},
         \ {'name': 'event',         'lazy': 1},
         \ ]
-  let s:path = {name -> printf('%s/dein/%s.toml', g:rc_dir, name)}
+  let s:path = {name -> $HOME . '/.vim/rc/dein/' . name . '.toml'}
   let s:load_toml = {name, lazy -> dein#load_toml(s:path(name), {'lazy': lazy})}
 
   call dein#begin(s:dein_dir, map(deepcopy(s:toml), {_, t -> t['name']}))

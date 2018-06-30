@@ -3,6 +3,6 @@ source defaults
 caption always "%{= dd}%0`"
 backtick 0 0 0 $HOME/git/dotfiles/.screen/backtick.pl
 
-screen $H/usr/local/bin/screen -qUmc $H/git/dotfiles/.screen/inner.office
+screen $HOME/usr/local/bin/screen -qUmc $HOME/git/dotfiles/.screen/inner.office
 
 # vim:se ft=screen:

@@ -2,7 +2,7 @@ scriptencoding utf-8
 
 function! delphinus#init#qfixhowm#hook_source() abort
   " QFixMemo 設定
-  let g:shared_dir = expand(g:home . '/Shared')
+  let g:shared_dir = $HOME . '/Shared'
 
   " キーマップリーダー
   let g:QFixHowm_Key='g'
@@ -10,7 +10,7 @@ function! delphinus#init#qfixhowm#hook_source() abort
   if isdirectory(g:shared_dir)
     let g:howm_dir = g:shared_dir . '/Documents/howm'
   else
-    let g:howm_dir = expand('$H') . '/howm'
+    let g:howm_dir = $HOME . '/howm'
   endif
 
   " ファイル名

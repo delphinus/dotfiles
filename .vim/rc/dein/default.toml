@@ -58,7 +58,7 @@ hook_add = 'set autoread'
 repo     = 'tpope/vim-fugitive'
 hook_add = '''
 "{{{
-  let g:fugitive_git_executable = expand('HOME=$H git my-alias')
+  let g:fugitive_git_executable = 'git my-alias'
   nnoremap git :<c-u>Git
   nnoremap g<space> :<c-u>Git 
   nnoremap d< :diffget //2<CR>

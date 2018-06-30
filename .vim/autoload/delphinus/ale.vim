@@ -9,7 +9,7 @@ function! delphinus#ale#pylint() abort
     let top_dir = s:P.path2project_directory(expand('%:p'))
     let hook = 'import sys;'
     let hook .= 'sys.path.append("' . g:dein#plugin.rtp . '/rplugin/python3");'
-    let hook .= 'sys.path.append("' . g:home . '/.vim/rplugin/python3");'
+    let hook .= 'sys.path.append("' . $HOME . '/.vim/rplugin/python3");'
     let hook .= 'sys.path.append("' . top_dir . '/rplugin/python3");'
     let b:ale_python_pylint_options = '--init-hook=''' . hook . ''''
   endif

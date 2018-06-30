@@ -20,20 +20,20 @@ bindkey '^e' autosuggest-accept
 bindkey -r '^[e'
 bindkey -r '^[E'
 
-source $H/git/dotfiles/.zsh/basic.zshrc
-source $H/git/dotfiles/.zsh/peco-select-history.zsh
-source $H/git/dotfiles/.zsh/peco-git.zsh
-source $H/git/dotfiles/.zsh/peco-ghq.zsh
-source $H/git/dotfiles/.zsh/peco-z.zsh
-source $H/git/dotfiles/.zsh/peco-bundler.zsh
-source $H/git/dotfiles/.zsh/peco-brew-directories.zsh
-source $H/git/dotfiles/.zsh/peco-open-pullrequest.zsh
-source $H/git/dotfiles/.zsh/peco-view-sources.zsh
-source $H/git/dotfiles/.zsh/set-ssh-auth-sock.zsh
-source $H/git/dotfiles/.zsh/export-alias.zsh
-source $H/git/dotfiles/.zsh/git-foresta.zsh
-source $H/git/dotfiles/.zsh/iterm2.zsh
-#source $H/git/dotfiles/.zsh/iterm2_shell_integration.zsh
+source $HOME/git/dotfiles/.zsh/basic.zshrc
+source $HOME/git/dotfiles/.zsh/peco-select-history.zsh
+source $HOME/git/dotfiles/.zsh/peco-git.zsh
+source $HOME/git/dotfiles/.zsh/peco-ghq.zsh
+source $HOME/git/dotfiles/.zsh/peco-z.zsh
+source $HOME/git/dotfiles/.zsh/peco-bundler.zsh
+source $HOME/git/dotfiles/.zsh/peco-brew-directories.zsh
+source $HOME/git/dotfiles/.zsh/peco-open-pullrequest.zsh
+source $HOME/git/dotfiles/.zsh/peco-view-sources.zsh
+source $HOME/git/dotfiles/.zsh/set-ssh-auth-sock.zsh
+source $HOME/git/dotfiles/.zsh/export-alias.zsh
+source $HOME/git/dotfiles/.zsh/git-foresta.zsh
+source $HOME/git/dotfiles/.zsh/iterm2.zsh
+#source $HOME/git/dotfiles/.zsh/iterm2_shell_integration.zsh
 
 PATH=${PATH_IN_ZSHENV:-$PATH}
 
@@ -64,7 +64,7 @@ fi
 
 typeset -xT LD_LIBRARY_PATH ld_library_path
 typeset -U ld_library_path
-ld_library_path=($H/usr/lib(N-/) $ld_library_path)
+ld_library_path=($HOME/usr/lib(N-/) $ld_library_path)
 
 # grc
 # needed for prezto `git` module
@@ -76,9 +76,9 @@ if (( $+commands[brew] )) && [[ -f $(brew --prefix)/etc/grc.bashrc ]]; then
 elif [[ -f /etc/profile.d/grc.bashrc ]]; then
   . /etc/profile.d/grc.bashrc
   manpath=(/usr/local/share/man(N-/) $manpath)
-elif [[ -f $H/usr/etc/profile.d/grc.bashrc ]]; then
-  . $H/usr/etc/profile.d/grc.bashrc
-  manpath=($H/usr/share/man(N-/) $manpath)
+elif [[ -f $HOME/usr/etc/profile.d/grc.bashrc ]]; then
+  . $HOME/usr/etc/profile.d/grc.bashrc
+  manpath=($HOME/usr/share/man(N-/) $manpath)
 fi
 
 # custom mysql
@@ -90,13 +90,13 @@ else
 fi
 
 # github access token
-local homebrew_github_api_token=$H/.homebrew_github_api_token
+local homebrew_github_api_token=$HOME/.homebrew_github_api_token
 if [[ -f $homebrew_github_api_token ]]; then
   . $homebrew_github_api_token
 fi
 
 # PHP composer
-path=($H/.composer/vendor/bin(N-/) $path)
+path=($HOME/.composer/vendor/bin(N-/) $path)
 
 # node
 if (( $+commands[brew] )); then
@@ -105,11 +105,11 @@ fi
 
 # fssh
 if [[ -n $TMUX ]]; then
-  $H/git/dotfiles/bin/set_env_for_fssh.rb
+  $HOME/git/dotfiles/bin/set_env_for_fssh.rb
 fi
 
 # local settings
-zshrc_local=$H/.zshrc.local
+zshrc_local=$HOME/.zshrc.local
 if [[ -f $zshrc_local ]]; then
   . $zshrc_local
 fi
@@ -151,8 +151,8 @@ export GREP_COLOR='3;4;93'          # BSD.
 export GREP_COLORS="mt=$GREP_COLOR" # GNU.
 
 # for 3llo - the client for Trello
-if [[ -f $H/.3llo ]]; then
-  source $H/.3llo
+if [[ -f $HOME/.3llo ]]; then
+  source $HOME/.3llo
 fi
 
 # if in NeoVim, set chpwd function

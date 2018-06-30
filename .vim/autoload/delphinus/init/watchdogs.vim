@@ -21,7 +21,7 @@ function! delphinus#init#watchdogs#hook_source() abort
         \ }
 
   let g:quickrun_config['watchdogs_checker/gcc'] = {'cmdopt': '-std=c99'}
-  let g:quickrun_config['watchdogs_checker/jshint'] = {'cmdopt': '--config ' . g:home . '/git/dotfiles/.jshintrc'}
+  let g:quickrun_config['watchdogs_checker/jshint'] = {'cmdopt': '--config ' . $HOME . '/git/dotfiles/.jshintrc'}
 
   let s:rbenv_ruby = expand('/usr/local/opt/rbenv/shims/ruby')
   if executable(s:rbenv_ruby)
