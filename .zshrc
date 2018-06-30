@@ -142,9 +142,10 @@ if [[ -d $gcsdk_path ]]; then
 fi
 
 # for kubectl
-if (( $+commands[kubectl] )); then
-  source <(kubectl completion zsh)
-fi
+# NOTE: completion for kubectl is too slow to initialize.
+#if (( $+commands[kubectl] )); then
+#  source <(kubectl completion zsh)
+#fi
 
 # for grep
 export GREP_COLOR='3;4;93'          # BSD.
