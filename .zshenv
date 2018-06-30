@@ -124,13 +124,15 @@ else
 fi
 
 # for nvm
+# NOTE: nvm is too slow to initialize here.  Type `. $NVM_SCRIPT` to launch nvm.
+typeset -xT NVM_SCRIPT nvm_script
 nvm_script=/usr/local/opt/nvm/nvm.sh
-if [[ -f $nvm_script ]]; then
-  typeset -xT NVM_DIR nvm_dir
-  nvm_dir=$H/.nvm
-  mkdir -p $nvm_dir
-  . $nvm_script
-fi
+#if [[ -f $nvm_script ]]; then
+#  typeset -xT NVM_DIR nvm_dir
+#  nvm_dir=$HOME/.nvm
+#  mkdir -p $nvm_dir
+#  . $nvm_script
+#fi
 
 # for hub
 if (( $+commands[hub] )); then
