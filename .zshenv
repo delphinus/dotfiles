@@ -44,14 +44,14 @@ path=(
 # for python
 if (( $+commands[pyenv] )); then
   eval "$(pyenv init - --no-rehash zsh)"
-elif (( $+commands[python3.6] )); then
+elif (( $+commands[python3.7] )); then
   if ! (( $+commands[python3] )); then
     mkdir -p $HOME/bin
-    ln -s $(which python3.6) $HOME/bin/python3
+    ln -s $(which python3.7) $HOME/bin/python3
   fi
   if ! (( $+commands[pip3] )); then
     mkdir -p $HOME/bin
-    ln -s $(which pip3.6) $HOME/bin/pip3
+    ln -s $(which pip3.7) $HOME/bin/pip3
   fi
 else
   typeset -xT PYENV_ROOT pyenv_root
@@ -60,7 +60,7 @@ else
   if [[ -x $pyenv_root/bin/pyenv ]]; then eval "$(pyenv init - --no-rehash zsh)"; fi
 fi
 if [[ $OSTYPE == darwin* ]]; then
-  path=($HOME/Library/Python/{3.6,2.7}/bin(N-/) $path)
+  path=($HOME/Library/Python/{3.7,2.7}/bin(N-/) $path)
 else
   path=($HOME/.local/bin(N-/) $path)
 fi
