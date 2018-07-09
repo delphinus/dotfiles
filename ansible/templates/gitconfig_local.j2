@@ -1,3 +1,5 @@
+[github]
+    token = {{ secret_office.github_token.ghr }}
 {% for info in secret_repo_info %}
 [url "{{ info.url }}"]
 	insteadOf = {{ info.insteadOf }}
