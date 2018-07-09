@@ -1,4 +1,8 @@
 [[plugins]]
+repo       = 'Shougo/defx.nvim'
+on_command = ['Defx']
+
+[[plugins]]
 repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
 hook_add   = '''
