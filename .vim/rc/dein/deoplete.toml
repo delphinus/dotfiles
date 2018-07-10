@@ -2,18 +2,7 @@
 repo = 'zchee/deoplete-zsh'
 
 [[plugins]]
-repo    = 'zchee/deoplete-jedi'
-depends = ['jedi-vim']
-
-[[plugins]]
 repo = 'fishbullet/deoplete-ruby'
-
-[[plugins]]
-repo     = 'mhartington/nvim-typescript'
-hook_add = '''
-  let g:nvim_typescript#type_info_on_hold = 1
-  let g:nvim_typescript#default_mappings = 1
-'''
 
 [[plugins]]
 repo = 'roxma/nvim-yarp'
