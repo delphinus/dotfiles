@@ -19,10 +19,6 @@ if dein#load_state(s:dein_dir)
         \ {'name': 'lazy',          'lazy': 1},
         \ {'name': 'denite_lazy',   'lazy': 1},
         \ {'name': 'deoplete_lazy', 'lazy': 1},
-        \ {'name': 'map',           'lazy': 1},
-        \ {'name': 'cmd',           'lazy': 1},
-        \ {'name': 'ft',            'lazy': 1},
-        \ {'name': 'event',         'lazy': 1},
         \ ]
   let s:path = {name -> $HOME . '/.vim/rc/dein/' . name . '.toml'}
   let s:load_toml = {name, lazy -> dein#load_toml(s:path(name), {'lazy': lazy})}
