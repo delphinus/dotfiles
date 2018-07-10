@@ -1,8 +1,5 @@
 # vim:se ft=zsh:
 
-# 斜体を使えるようにする
-export TERM=xterm-256color-italic
-
 # http://d.hatena.ne.jp/kei_q/20110308/1299594629
 show_buffer_stack() {
   POSTDISPLAY="
