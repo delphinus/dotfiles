@@ -16,8 +16,6 @@ let g:dein#enable_notification = 1
 if dein#load_state(s:dein_dir)
   let s:toml = [
         \ {'name': 'default'},
-        \ {'name': 'deoplete'},
-        \ {'name': 'denite'},
         \ {'name': 'lazy',          'lazy': 1},
         \ {'name': 'denite_lazy',   'lazy': 1},
         \ {'name': 'deoplete_lazy', 'lazy': 1},

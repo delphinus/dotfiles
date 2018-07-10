@@ -1,7 +1,39 @@
-# basic {{{
+# Shougowares and their dependencies {{{
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'delphinus/vim-denite-memo'
+
+[[plugins]]
+repo = 'fishbullet/deoplete-ruby'
+
+[[plugins]]
+repo = 'rafi/vim-denite-z'
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+hook_source = '''
+  " Set path for python3 for python37u packages in CentOS7
+  if !executable('python3') && executable('python3.7')
+    let g:python3_host_prog = exepath('python3.7')
+  endif
+'''
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+
+[[plugins]]
+repo = 'ujihisa/neco-look'
+
+[[plugins]]
+repo = 'zchee/deoplete-zsh'
+# }}}
+
+# basic {{{
 [[plugins]]
 repo     = 'airblade/vim-rooter'
 hook_add = '''
@@ -259,9 +291,6 @@ repo = 'vim-scripts/nginx.vim'
 # }}}
 
 # dependencies {{{
-[[plugins]]
-repo     = 'Shougo/context_filetype.vim'
-
 [[plugins]]
 repo = 'kana/vim-textobj-user'
 
