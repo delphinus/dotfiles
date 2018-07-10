@@ -23,9 +23,11 @@ nnoremap _ <C-W>_
 " https://github.com/mhinz/vim-galore#saner-ctrl-l
 nnoremap <ESC><ESC> :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
-if v:progname ==# 'view'
-  nnoremap q :<C-u>qa<CR>
-endif
+" view で起動したときは q で終了
+augroup SetMappingForView
+  autocmd!
+  autocmd VimEnter * if &readonly | nnoremap q :<C-u>qa<CR> | endif
+augroup END
 
 " オリジナル関数のマッピング
 nmap Y <Plug>DelphinusFsshCopy
