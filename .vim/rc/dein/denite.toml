@@ -3,4 +3,3 @@ repo      = 'rafi/vim-denite-z'
 
 [[plugins]]
 repo = 'delphinus/vim-denite-memo'
-rev  = 'feature/separate-memo-class'
