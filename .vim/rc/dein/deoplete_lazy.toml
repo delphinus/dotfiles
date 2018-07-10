@@ -3,6 +3,7 @@ repo        = 'Shougo/deoplete.nvim'
 on_event    = ['InsertEnter']
 depends     = ['nvim-yarp', 'vim-hug-neovim-rpc']
 hook_source = '''
+"{{{
   let g:deoplete#enable_at_startup = 1
   call deoplete#initialize()
   call deoplete#custom#source('_', 'converters', [
@@ -24,6 +25,7 @@ hook_source = '''
     let col = col('.') - 1
     return !col || getline('.')[col - 1] =~# '\s'
   endfunction
+"}}}
 '''
 hook_post_update = '!pip3 install -U --user neovim'
 
