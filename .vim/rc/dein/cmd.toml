@@ -30,6 +30,14 @@ hook_add   = '''
 '''
 
 [[plugins]]
+repo     = 'dhruvasagar/vim-table-mode'
+on_cmd   = ['TableModeToggle']
+hook_add = '''
+  nnoremap `tm :TableModeToggle<CR>
+  let g:table_mode_corner='|'
+'''
+
+[[plugins]]
 repo     = 'edkolev/tmuxline.vim'
 on_cmd   = ['Tmuxline', 'TmuxlineSimple', 'TmuxlineSnapshot']
 hook_add = '''

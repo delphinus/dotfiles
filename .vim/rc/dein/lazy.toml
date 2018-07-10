@@ -26,14 +26,6 @@ hook_add  = '''
 '''
 
 [[plugins]]
-repo     = 'dhruvasagar/vim-table-mode'
-on_func  = ['tablemode#Toggle']
-hook_add = '''
-  nnoremap `tm :call tablemode#Toggle()<CR>
-  let g:table_mode_corner='|'
-'''
-
-[[plugins]]
 repo = 'vim-jp/vital.vim'
 on_func = ['vital#vital#new']
 
