@@ -1,7 +1,0 @@
-<service>
-    <id>clipboard_text_listener</id>
-    <name>clipboard_text_listener</name>
-    <description>clipboard_text_listener</description>
-    <executable>C:\Perl\bin\perl.exe</executable>
-    <arguments>C:\cygwin\home\jinnouchi.yasushi\git\ClipboardTextListener\clipboard_text_listener.pl -key delphinus -verbose 1</arguments>
-</service>
