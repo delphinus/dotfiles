@@ -14,8 +14,13 @@ hook_add   = '''
     endif
     Deol
   endfunction
-  nnoremap <C-\><C-n> :<C-u>Deol -split<CR>
-  nnoremap <BS><C-n> :<C-u>Deol -split<CR>
+  if has('nvim')
+    nnoremap <C-\><C-n> :<C-u>Deol -split<CR>
+    nnoremap <BS><C-n> :<C-u>Deol -split<CR>
+  else
+    nnoremap <C-\><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+  endif
   tnoremap <BS><C-n> <C-\><C-n>
   nnoremap î     :<C-u>call <SID>new_deol()<CR>
   nnoremap <A-n> :<C-u>call <SID>new_deol()<CR>
