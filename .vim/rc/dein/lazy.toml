@@ -323,11 +323,30 @@ rev       = 'feature/disable-in-denite'
 on_map    = ['<Plug>DWM']
 hook_add  = '''
 "{{{
-  let g:delphinus#dwm#min_master_pane_width = get(g:, 'delphinus#dwm#min_master_pane_width', 86)
+  function! s:dwm_reset_pane_width() abort
+    if !exists('*DWM_ResizeMasterPaneWidth')
+      return
+    endif
+    let half = &columns / 2
+    let min_width = get(g:, 'dwm_min_master_pane_width', 9999)
+    let g:dwm_master_pane_width = min([min_width, half])
+    call DWM_ResizeMasterPaneWidth()
+  endfunction
 
-  let s:toggle_set_master_pane_width = 0
+  function! s:dwm_disable() abort
+    autocmd! dwm BufWinEnter
+    augroup! dwm
+  endfunction
 
-  let g:dwm_map_keys = 0
+  function! s:dwm_enable() abort
+    augroup dwm
+      autocmd!
+      autocmd! BufWinEnter * if &buflisted || &filetype ==# 'help' | call DWM_AutoEnter() | endif
+    augroup END
+  endfunction
+
+  let g:dwm_min_master_pane_width = 86
+
   nnoremap <C-J> <C-W>w
   nnoremap <C-K> <C-W>W
   nmap <C-S> <Plug>DWMRotateClockwise
@@ -338,9 +357,9 @@ hook_add  = '''
   nmap <C-@> <Plug>DWMFocus
   nmap <C-L> <Plug>DWMGrowMaster
 
-  command! DWMSetMasterPaneWidth call delphinus#dwm#set_master_pane_width()
-  command! DWMDisable call delphinus#dwm#disable()
-  command! DWMEnable call delphinus#dwm#enable()
+  command! DWMResetPaneWidth call <SID>dwm_reset_pane_width()
+  command! DWMDisable call <SID>dwm_disable()
+  command! DWMEnable call <SID>dwm_enable()
 "}}}
 '''
 
