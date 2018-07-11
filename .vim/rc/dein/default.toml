@@ -145,7 +145,7 @@ hook_add = '''
     call lightline#update()
   endfunction
 
-  command! ColorschemeToggle :call delphinus#colorscheme#toggle()
+  command! ColorschemeToggle :call <SID>colorscheme_toggle()
 "}}}
 '''
 
