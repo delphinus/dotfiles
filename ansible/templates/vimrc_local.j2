@@ -1,7 +1,7 @@
 if index(['{{ secret_office.hostnames | join("', '") }}'], hostname()) > -1
   let g:gista#client#default_username = '{{ secret_office.github_user }}'
   let g:gista#client#default_apiname = 'GHE'
-  let g:delphinus#init#gista#apiurl = '{{ secret_office.github_api_path }}'
+  let g:gista_github_api_path = '{{ secret_office.github_api_path }}'
 else
   let g:gista#client#default_username = 'delphinus'
 endif

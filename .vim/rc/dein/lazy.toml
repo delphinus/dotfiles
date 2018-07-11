@@ -69,7 +69,48 @@ hook_add = '''
   nnoremap gl :<c-u>Gista list<CR>
   nnoremap gL :<c-u>Gista list 
 '''
-hook_post_source = 'call delphinus#init#gista#hook_post_source()'
+hook_post_source = '''
+"{{{
+  function! s:gista_mappings() abort
+    nmap <buffer> q <Plug>(gista-quit)
+    nmap <buffer> <C-n> <Plug>(gista-next-mode)
+    nmap <buffer> <C-p> <Plug>(gista-prev-mode)
+    nmap <buffer> ? <Plug>(gista-toggle-mapping-visibility)
+    nmap <buffer> <C-l> <Plug>(gista-redraw)
+    "nmap <buffer> <F5>   <Plug>(gista-update)
+    "nmap <buffer> <S-F5> <Plug>(gista-UPDATE)
+    nmap <buffer> uu   <Plug>(gista-update)
+    nmap <buffer> UU <Plug>(gista-UPDATE)
+    map <buffer> <Return> <Plug>(gista-edit)
+    map <buffer> ee <Plug>(gista-edit)
+    map <buffer> EE <Plug>(gista-edit-right)
+    map <buffer> tt <Plug>(gista-edit-tab)
+    map <buffer> pp <Plug>(gista-edit-preview)
+    map <buffer> ej <Plug>(gista-json)
+    map <buffer> EJ <Plug>(gista-json-right)
+    map <buffer> tj <Plug>(gista-json-tab)
+    map <buffer> pj <Plug>(gista-json-preview)
+    map <buffer> bb <Plug>(gista-browse-open)
+    map <buffer> yy <Plug>(gista-browse-yank)
+    map <buffer> rr <Plug>(gista-rename)
+    map <buffer> RR <Plug>(gista-RENAME)
+    map <buffer> df <Plug>(gista-remove)
+    map <buffer> DF <Plug>(gista-REMOVE)
+    map <buffer> dd <Plug>(gista-delete)
+    map <buffer> DD <Plug>(gista-DELETE)
+    map <buffer> ++ <Plug>(gista-star)
+    map <buffer> -- <Plug>(gista-unstar)
+    map <buffer> ff <Plug>(gista-fork)
+    map <buffer> cc <Plug>(gista-commits)
+  endfunction
+
+  let apinames = gista#client#get_available_apinames()
+  if index(apinames, 'GHE') == -1 && exists('g:gista_github_api_path')
+    call gista#client#register('GHT', g:gista_github_api_path)
+  endif
+  autocmd User GistaList call <SID>gista_mappings()
+"}}}
+'''
 
 [[plugins]]
 repo     = 'lambdalisue/lista.nvim'
