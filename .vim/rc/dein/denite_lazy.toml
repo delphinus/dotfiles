@@ -5,12 +5,45 @@ repo     = 'Shougo/denite.nvim'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
 depends  = ['dwm.vim']
-hook_add = '''
+hook_add = """
 "{{{
+  function! s:my_denite_outline(filetype) abort
+    execute 'Denite' a:filetype ==# 'go' ? 'decls:''%:p''' : 'outline'
+  endfunction
+
+  function! s:my_denite_decls(filetype) abort
+    if a:filetype ==# 'go'
+      Denite decls
+    else
+      call denite#util#print_error('decls does not support filetypes except go')
+    endif
+  endfunction
+
+  function! s:my_denite_file_rec_goroot() abort
+    if !executable('go')
+      call denite#util#print_error('`go` executable not found')
+      return
+    endif
+    let out = system('go env | grep ''^GOROOT='' | cut -d\" -f2')
+    let goroot = substitute(out, '\n', '', '')
+    call denite#start(
+          \ [{'name': 'file_rec', 'args': [goroot]}],
+          \ {'input': '.go'})
+  endfunction
+
+  function! s:my_denite_with_pwd(action) abort
+    let pwd = get(b:, '__pwd__', '')
+    if a:action ==# 'grep'
+      call denite#start([{'name': 'grep', 'args': [pwd, '', '!']}])
+    else
+      call denite#start([{'name': a:action, 'args': ['', pwd]}])
+    endif
+  endfunction
+
   noremap zn :<C-u>DeniteBufferDir my_file my_file:new<CR>
   noremap zN :<C-u>Denite my_file<CR>
-  noremap zl :<C-u>call delphinus#denite#outline()<CR>
-  noremap zL :<C-u>call delphinus#denite#decls()<CR>
+  noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
+  noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
   noremap za :<C-u>Denite file_rec<CR>
   noremap zg :<C-u>Denite grep<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
@@ -26,23 +59,23 @@ hook_add = '''
   noremap zU :<C-u>Denite -resume<CR>
   noremap zj :<C-u>Denite -resume -cursor-pos=+1 -immediately<CR>
   noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
-  noremap zT :<C-u>call delphinus#denite#file_rec_goroot()<CR>
+  noremap zT :<C-u>call <SID>my_denite_file_rec_goroot()<CR>
   tnoremap úð         <C-\><C-n>:<C-u>Denite my_buffer my_file_old<CR>
   tnoremap <A-z><A-p> <C-\><C-n>:<C-u>Denite my_buffer my_file_old<CR>
   tnoremap úá         <C-\><C-n>:<C-u>Denite file_rec<CR>
   tnoremap <A-z><A-a> <C-\><C-n>:<C-u>Denite file_rec<CR>
-  tnoremap úî         <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('my_file')<CR>
-  tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('my_file')<CR>
-  tnoremap úç         <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('grep')<CR>
-  tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call delphinus#denite#with_pwd('grep')<CR>
+  tnoremap úî         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
+  tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
+  tnoremap úç         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
+  tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   nnoremap úð         :<C-u>Denite my_buffer my_file_old<CR>
   nnoremap <A-z><A-p> :<C-u>Denite my_buffer my_file_old<CR>
-  nnoremap úî         :<C-u>call delphinus#denite#with_pwd('my_file')<CR>
-  nnoremap <A-z><A-n> :<C-u>call delphinus#denite#with_pwd('my_file')<CR>
-  nnoremap úç         :<C-u>call delphinus#denite#with_pwd('grep')<CR>
-  nnoremap <A-z><A-g> :<C-u>call delphinus#denite#with_pwd('grep')<CR>
+  nnoremap úî         :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
+  nnoremap <A-z><A-n> :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
+  nnoremap úç         :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
+  nnoremap <A-z><A-g> :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
 "}}}
-'''
+"""
 hook_source = 'call delphinus#init#denite#hook_source()'
 
 [[plugins]]
