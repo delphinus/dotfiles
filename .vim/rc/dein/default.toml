@@ -118,13 +118,35 @@ repo = 'vim-jp/vimdoc-ja'
 repo     = 'lifepillar/vim-solarized8'
 on_if    = '''has('termguicolors')'''
 hook_add = '''
+"{{{
   let g:solarized_diffmode = 'normal'
   let g:solarized_visibility = 'normal'
   if $TERM =~# 'italic'
     let g:solarized_term_italics = 1
   endif
 
+  function! s:colorscheme_toggle() abort
+    if &background ==# 'light'
+      set background=dark
+      colorscheme solarized8_dark
+    else
+      set background=light
+      colorscheme solarized8_light
+    endif
+    let path = dein#get('lightline-delphinus').path
+    let g:lightline_delphinus_colorscheme = 'solarized_improved'
+    execute 'source' path . '/autoload/lightline/colorscheme/solarized_improved.vim'
+    unlet g:loaded_lightline_delphinus
+    execute 'source' path . '/plugin/lightline_delphinus.vim'
+
+    " https://github.com/itchyny/lightline.vim/issues/241#issuecomment-322033789
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
+  endfunction
+
   command! ColorschemeToggle :call delphinus#colorscheme#toggle()
+"}}}
 '''
 
 [[plugins]]
