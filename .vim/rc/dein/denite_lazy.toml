@@ -77,6 +77,7 @@ hook_add = """
 "}}}
 """
 hook_source = '''
+"{{{
   function! s:dwm_new(context)
     call DWM_New()
     call denite#do_action(a:context, 'open', a:context['targets'])
@@ -182,6 +183,7 @@ hook_source = '''
         \ 'cursor_wrap': v:true,
         \ })
   call denite#custom#option('dein', 'default_action', 'narrow')
+"}}}
 '''
 
 [[plugins]]
