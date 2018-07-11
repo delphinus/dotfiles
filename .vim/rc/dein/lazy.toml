@@ -149,10 +149,6 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo   = 'sjl/gundo.vim'
-on_cmd = ['GundoToggle']
-
-[[plugins]]
 repo        = 'thinca/vim-fontzoom'
 on_cmd      = ['Fontzoom']
 on_map      = ['<Plug>(fontzoom-']
