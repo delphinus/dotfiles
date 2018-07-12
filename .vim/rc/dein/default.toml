@@ -263,7 +263,19 @@ hook_add = '''
 repo    = 'itchyny/lightline.vim'
 
 [[plugins]]
-repo    = 'majutsushi/tagbar'
+repo     = 'majutsushi/tagbar'
+hook_add = '''
+"{{{
+  let g:tagbar_left = 1
+  let g:tagbar_autoclose = 1
+  let g:tagbar_autofocus = 1
+  let g:tagbar_show_linenumbers = 1
+  let g:tagbar_iconchars = [nr2char(0xe5ff) . ' ', nr2char(0xe5fe) . ' '] "  , 
+  let g:tagbar_autopreview = 1
+  autocmd BufWinEnter * if &previewwindow | setlocal nonumber norelativenumber | endif
+  nmap <C-t> :<C-u>TagbarToggle<CR>
+"}}}
+'''
 
 [[plugins]]
 repo     = 'w0rp/ale'
