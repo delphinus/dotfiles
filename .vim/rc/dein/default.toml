@@ -251,8 +251,8 @@ repo = 'tmux-plugins/vim-tmux'
 
 # for lightline {{{
 [[plugins]]
-repo     = 'delphinus/lightline-delphinus'
-depends  = [ 'lightline', 'ale' ]
+repo    = 'delphinus/lightline-delphinus'
+depends = ['lightline', 'ale', 'tagbar']
 hook_add = '''
   let g:lightline_delphinus_use_powerline_glyphs = 1
   let g:lightline_delphinus_use_nerd_fonts_glyphs = 1
@@ -261,6 +261,9 @@ hook_add = '''
 
 [[plugins]]
 repo    = 'itchyny/lightline.vim'
+
+[[plugins]]
+repo    = 'majutsushi/tagbar'
 
 [[plugins]]
 repo     = 'w0rp/ale'
