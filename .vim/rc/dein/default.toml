@@ -171,6 +171,9 @@ hook_add = '''
 repo = 'Glench/Vim-Jinja2-Syntax'
 
 [[plugins]]
+repo = 'HerringtonDarkholme/yats.vim'
+
+[[plugins]]
 repo = 'Vimjas/vim-python-pep8-indent'
 
 [[plugins]]
@@ -181,10 +184,6 @@ repo = 'cespare/vim-toml'
 
 [[plugins]]
 repo = 'hail2u/vim-css3-syntax'
-
-[[plugins]]
-repo   = 'leafgarland/typescript-vim'
-merged = 0
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
