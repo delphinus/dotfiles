@@ -256,6 +256,11 @@ on_event = ['FocusLost', 'CursorHold']
 [[plugins]]
 repo        = 'Chiel92/vim-autoformat'
 on_ft       = ['typescript', 'javascript']
+hook_add    = '''
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 0
+'''
 hook_source = '''
 "{{{
   augroup VimAutoformat
