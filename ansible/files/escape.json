@@ -1,8 +1,8 @@
 {
-  "title": "Custom shortcut for escape",
+  "title": "[delphinus] Custom shortcut for escape",
   "rules": [
     {
-      "description": "Use left_control/right_control+[ to escape (exclusive in iTerm2 & Safari)",
+      "description": "[delphinus] Use left_control/right_control+[ to escape (exclusive in iTerm2 & Safari)",
       "manipulators": [
         {
           "type": "basic",
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "description": "Change escape to fn. (Post escape if pressed alone)",
+      "description": "[delphinus] Change escape to fn. (Post escape if pressed alone)",
       "manipulators": [
         {
           "type": "basic",
@@ -85,7 +85,7 @@
       ]
     },
     {
-      "description": "Post escape/c-[ + eisuu if escape pressed in Terminal",
+      "description": "[delphinus] Post escape/c-[ + eisuu if escape pressed in Terminal",
       "manipulators": [
         {
           "type": "basic",

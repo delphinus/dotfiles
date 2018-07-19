@@ -1,8 +1,8 @@
 {
-  "title": "Custom shortcut using TAB",
+  "title": "[delphinus] Custom shortcut using TAB",
   "rules": [
     {
-      "description": "Use left_control+xc to cycle through tabs in web browser.",
+      "description": "[delphinus] Use left_control+xc to cycle through tabs in web browser.",
       "manipulators": [
         {
           "type": "basic",

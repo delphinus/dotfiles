@@ -1,8 +1,8 @@
 {
-  "title": "Custom shortcut for EdgeView 2",
+  "title": "[delphinus] Custom shortcut for EdgeView 2",
   "rules": [
     {
-      "description": "Easy access to move between pages",
+      "description": "[delphinus] Easy access to move between pages",
       "manipulators": [
         {
           "type": "basic",

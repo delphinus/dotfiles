@@ -1,8 +1,8 @@
 {
-  "title": "Custom shortcut for Contexts",
+  "title": "[delphinus] Custom shortcut for Contexts",
   "rules": [
     {
-      "description": "Use Opt-Escape to Opt-Backtick",
+      "description": "[delphinus] Use Opt-Escape to Opt-Backtick",
       "manipulators": [
         {
           "type": "basic",

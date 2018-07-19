@@ -1,8 +1,8 @@
 {
-  "title": "Custom shortcut for Google Spreadsheets",
+  "title": "[delphinus] Custom shortcut for Google Spreadsheets",
   "rules": [
     {
-      "description": "Use left_control+left_option+xc to cycle through sheets in web browser.",
+      "description": "[delphinus] Use left_control+left_option+xc to cycle through sheets in web browser.",
       "manipulators": [
         {
           "type": "basic",

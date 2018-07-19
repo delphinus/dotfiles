@@ -1,8 +1,8 @@
 {
-  "title": "Custom shortcut for return_or_enter",
+  "title": "[delphinus] Custom shortcut for return_or_enter",
   "rules": [
     {
-      "description": "Change return_or_enter to fn. (Post return_or_enter if pressed alone)",
+      "description": "[delphinus] Change return_or_enter to fn. (Post return_or_enter if pressed alone)",
       "manipulators": [
         {
           "type": "basic",
