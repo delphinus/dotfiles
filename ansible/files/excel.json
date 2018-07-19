@@ -1,8 +1,8 @@
 {
-  "title": "Custom shortcut for Excel",
+  "title": "[delphinus] Custom shortcut for Excel",
   "rules": [
     {
-      "description": "Use diamon cursor",
+      "description": "[delphinus] Use diamon cursor",
       "manipulators": [
         {
           "type": "basic",

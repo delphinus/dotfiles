@@ -1,8 +1,8 @@
 {
-  "title": "Custom Tmux Prefix",
+  "title": "[delphinus] Custom Tmux Prefix",
   "rules": [
     {
-      "description": "Tmux Prefix Mode [Tab as trigger key]",
+      "description": "[delphinus] Tmux Prefix Mode [Tab as trigger key]",
       "manipulators": [
         {
           "type": "basic",
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "description": "Tmux Prefix Mode [ ctrl+Z as prefix and screen-keys.conf ]",
+      "description": "[delphinus] Tmux Prefix Mode [ ctrl+Z as prefix and screen-keys.conf ]",
       "manipulators": [
         {"type": "basic", "from": {"key_code": "a"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "a"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
         {"type": "basic", "from": {"key_code": "b"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "b"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},

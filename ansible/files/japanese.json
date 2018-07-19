@@ -1,8 +1,8 @@
 {
-  "title": "For Japanese（ただし VMware Fusion は除く）",
+  "title": "[delphinus] For Japanese（ただし VMware Fusion は除く）",
   "rules": [
     {
-      "description": "コマンドキーを単体で押したときに、英数・かなキーを送信する。（ただし VMware Fusion は除く）",
+      "description": "[delphinus] コマンドキーを単体で押したときに、英数・かなキーを送信する。（ただし VMware Fusion は除く）",
       "manipulators": [
         {
           "type": "basic",
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "description": "escキーを押したときに、英数キーも送信する(vim用)（ただし VMware Fusion は除く）",
+      "description": "[delphinus] escキーを押したときに、英数キーも送信する(vim用)（ただし VMware Fusion は除く）",
       "manipulators": [
         {
           "type": "basic",
@@ -92,7 +92,7 @@
       ]
     },
     {
-      "description": "Ctrl+[を押したときに、英数キーも送信する(vim用)（ただし VMware Fusion は除く）",
+      "description": "[delphinus] Ctrl+[を押したときに、英数キーも送信する(vim用)（ただし VMware Fusion は除く）",
       "manipulators": [
         {
           "type": "basic",

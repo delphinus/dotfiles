@@ -42,9 +42,9 @@
 - name: make init.vim for Neovim
   file: src={{ dotfiles_dir }}/.vim/vimrc dest={{ home_dir }}/.config/nvim/init.vim state=link force=yes
 
-- name: set config for kitty
-  file: src={{ dotfiles_dir }}/kitty.conf dest={{ home_dir }}/Library/Preferences/kitty/kitty.conf state=link force=yes
-  when: ansible_system == 'Darwin'
+  #- name: set config for kitty
+  #file: src={{ dotfiles_dir }}/kitty.conf dest={{ home_dir }}/Library/Preferences/kitty/kitty.conf state=link force=yes
+  #when: ansible_system == 'Darwin'
 
 - name: symlink dircolors
   file: >-
