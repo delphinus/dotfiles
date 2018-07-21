@@ -29,7 +29,6 @@ source $HOME/git/dotfiles/.zsh/peco-bundler.zsh
 source $HOME/git/dotfiles/.zsh/peco-brew-directories.zsh
 source $HOME/git/dotfiles/.zsh/peco-open-pullrequest.zsh
 source $HOME/git/dotfiles/.zsh/peco-view-sources.zsh
-source $HOME/git/dotfiles/.zsh/set-ssh-auth-sock.zsh
 source $HOME/git/dotfiles/.zsh/export-alias.zsh
 source $HOME/git/dotfiles/.zsh/git-foresta.zsh
 source $HOME/git/dotfiles/.zsh/iterm2.zsh
@@ -126,6 +125,11 @@ gpg_tty=$(tty)
 # for direnv
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
+fi
+
+# manage $SSH_AUTH_SOCK
+if (( $+commands[gosshauth] )); then
+  eval "$(gosshauth hook zsh)"
 fi
 
 # for Google Cloud SDK
