@@ -13,7 +13,9 @@ else
 endif
 
 if !has('nvim')
-  set termwinkey=<A-w>
+  if exists('&termwinkey')
+    set termwinkey=<A-w>
+  endif
   if !dein#tap('deol.nvim')
     " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
     nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
