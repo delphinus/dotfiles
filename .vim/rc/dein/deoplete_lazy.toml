@@ -59,7 +59,6 @@ hook_post_update = '''
 repo     = 'mhartington/nvim-typescript'
 on_ft    = ['typescript']
 hook_add = '''
-  let g:nvim_typescript#type_info_on_hold = 1
   let g:nvim_typescript#default_mappings = 1
 '''
 hook_post_update = '''
