@@ -13,7 +13,7 @@ autocmd BufNewFile,BufRead *.conf call delphinus#tmux#tmux_filetype()
 autocmd BufNewFile,BufRead *.tt2 setf tt2html
 autocmd BufNewFile,BufRead *.tt setf tt2html
 autocmd BufNewFile,BufRead .zpreztorc setf zsh
-autocmd BufNewFile,BufRead *.plist setf xml
+autocmd BufNewFile,BufRead *.plist,*.ttx setf xml
 
 function! s:detect_script_filetype()
   if len(&ft) == 0
