@@ -113,29 +113,6 @@ hook_post_source = '''
 '''
 
 [[plugins]]
-repo     = 'lambdalisue/lista.nvim'
-depends  = ['vim-rplugin']
-on_cmd   = ['Lista', 'ListaCursorWord']
-hook_source = '''
-"{{{
-  let g:lista#custom_mappings = [
-    \ ['<C-D>', '<Del>'],
-    \ ['<C-A>', '<Home>'],
-    \ ['<C-E>', '<End>'],
-    \ ['<C-F>', '<Right>'],
-    \ ['<C-B>', '<Left>'],
-    \ ['<C-K>', '<lista:select_previous_candidate>'],
-    \ ['<C-J>', '<lista:select_next_candidate>'],
-    \ ['<C-C>', '<Esc>'],
-    \]
-"}}}
-'''
-hook_add = '''
-  nnoremap # :<C-u>Lista<CR>
-  nnoremap g# :<C-u>ListaCursorWord<CR>
-'''
-
-[[plugins]]
 repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
 
