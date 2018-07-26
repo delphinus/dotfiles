@@ -32,45 +32,71 @@ augroup InsertIfTerminal
   endif
 augroup END
 
-tmap À     <C-\><C-n><C-@>
+" mapping for normal <A-> modifier
 tmap <A-@> <C-\><C-n><C-@>
-tmap ã     <C-\><C-n><C-c>
 tmap <A-c> <C-\><C-n><C-c>
-tmap ê     <C-\><C-n><C-j>
 tmap <A-j> <C-\><C-n><C-j>
-tmap ë     <C-\><C-n><C-k>
 tmap <A-k> <C-\><C-n><C-k>
-tmap ï     <C-\><C-n><C-w>oi
 tmap <A-o> <C-\><C-n><C-w>oi
-tmap ñ     <C-\><C-n><C-q>
 tmap <A-q> <C-\><C-n><C-q>
-tmap ó     <C-\><C-n><C-s>
 tmap <A-s> <C-\><C-n><C-s>
-tmap       <C-\><C-n><C-@>
 tmap <A-Space> <C-\><C-n><C-@>
-tmap »     <C-\><C-n>:
 tmap <A-;> <C-\><C-n>:
-tmap ô     <C-\><C-n>gt
 tmap <A-t> <C-\><C-n>gt
-tnoremap <expr> ò     '<C-\><C-n>"'.nr2char(getchar()).'pi'
 tnoremap <expr> <A-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
-nmap À     <C-@>
 nmap <A-@> <C-@>
-nmap ã     <C-c>
 nmap <A-c> <C-c>
-nmap ê     <C-j>
 nmap <A-j> <C-j>
-nmap ë     <C-k>
 nmap <A-k> <C-k>
-nmap ï     <C-w>o
 nmap <A-o> <C-w>o
-nmap ñ     <C-q>
 nmap <A-q> <C-q>
-nmap ó     <C-s>
 nmap <A-s> <C-s>
-nmap       <C-@>
 nmap <A-Space> <C-@>
-nmap »     :
 nmap <A-;> :
-nmap ô     gt
 nmap <A-t> gt
+
+" mapping for iTerm2 setting `Normal`
+tmap €     <C-\><C-n><C-@>
+tmap ç     <C-\><C-n><C-c>
+tmap ∆     <C-\><C-n><C-j>
+tmap ˚     <C-\><C-n><C-k>
+tmap ø     <C-\><C-n><C-w>oi
+tmap œ     <C-\><C-n><C-q>
+tmap ß     <C-\><C-n><C-s>
+tmap       <C-\><C-n><C-@>
+tmap …     <C-\><C-n>:
+tmap †     <C-\><C-n>gt
+tnoremap <expr> ® '<C-\><C-n>"'.nr2char(getchar()).'pi'
+nmap €     <C-@>
+nmap ç     <C-c>
+nmap ∆     <C-j>
+nmap ˚     <C-k>
+nmap ø     <C-w>o
+nmap œ     <C-q>
+nmap ß     <C-s>
+nmap       <C-@>
+nmap …     :
+nmap †     gt
+
+" mapping for iTerm2 setting `Meta`
+tmap À     <C-\><C-n><C-@>
+tmap ã     <C-\><C-n><C-c>
+tmap ê     <C-\><C-n><C-j>
+tmap ë     <C-\><C-n><C-k>
+tmap ï     <C-\><C-n><C-w>oi
+tmap ñ     <C-\><C-n><C-q>
+tmap ó     <C-\><C-n><C-s>
+tmap       <C-\><C-n><C-@>
+tmap »     <C-\><C-n>:
+tmap ô     <C-\><C-n>gt
+tnoremap <expr> ò '<C-\><C-n>"'.nr2char(getchar()).'pi'
+nmap À     <C-@>
+nmap ã     <C-c>
+nmap ê     <C-j>
+nmap ë     <C-k>
+nmap ï     <C-w>o
+nmap ñ     <C-q>
+nmap ó     <C-s>
+nmap       <C-@>
+nmap »     :
+nmap ô     gt
