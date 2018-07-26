@@ -74,6 +74,8 @@ hook_add = """
   nnoremap <A-z><A-n> :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   nnoremap úç         :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   nnoremap <A-z><A-g> :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
+  nnoremap #  :<C-u>Denite line<CR>
+  nnoremap g# :<C-u>Denite line:buffers<CR>
 "}}}
 """
 hook_source = '''
