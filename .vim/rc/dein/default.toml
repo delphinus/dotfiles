@@ -189,6 +189,9 @@ repo = 'cespare/vim-toml'
 repo = 'hail2u/vim-css3-syntax'
 
 [[plugins]]
+repo = 'isobit/vim-caddyfile'
+
+[[plugins]]
 repo = 'plasticboy/vim-markdown'
 hook_add = '''
   let g:vim_markdown_folding_style_pythonic = 1
