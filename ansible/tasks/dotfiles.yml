@@ -71,6 +71,7 @@
     - excel
     - japanese
     - emacs
+    - spotlight
 
 - file: path={{ home_dir }}/.ssh/config state=touch mode=0600
   changed_when: false
