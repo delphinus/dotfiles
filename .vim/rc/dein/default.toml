@@ -51,6 +51,9 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'freitass/todo.txt-vim'
+
+[[plugins]]
 repo     = 'kana/vim-submode'
 hook_add = '''
 "{{{
