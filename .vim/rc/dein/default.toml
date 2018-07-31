@@ -51,7 +51,10 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'freitass/todo.txt-vim'
+repo     = 'freitass/todo.txt-vim'
+hook_add = '''
+  let g:todo_load_python = 1
+'''
 
 [[plugins]]
 repo     = 'kana/vim-submode'
