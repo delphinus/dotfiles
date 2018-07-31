@@ -18,17 +18,7 @@ if exists('&termwinkey')
 endif
 
 " Deol setting
-if dein#tap('deol.nvim')
-  " mapping for normal <A-> modifier
-  tmap <A-z> <C-\><C-n><Plug>(deol_bg)
-  nmap <A-z> <Plug>(deol_bg)
-  " mapping for iTerm2 setting `Normal`
-  tmap Ω <C-\><C-n><Plug>(deol_bg)
-  nmap Ω <Plug>(deol_bg)
-  " mapping for iTerm2 setting `Meta`
-  tmap ú <C-\><C-n><Plug>(deol_bg)
-  nmap ú <Plug>(deol_bg)
-else
+if !dein#tap('deol.nvim')
   " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
   nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
 endif

@@ -17,6 +17,15 @@ hook_add   = '''
     nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
   endif
   tnoremap <BS><C-n> <C-\><C-n>
+  " mapping for normal <A-> modifier
+  tmap <A-z> <C-\><C-n><Plug>(deol_bg)
+  nmap <A-z> <Plug>(deol_bg)
+  " mapping for iTerm2 setting `Normal`
+  tmap Ω <C-\><C-n><Plug>(deol_bg)
+  nmap Ω <Plug>(deol_bg)
+  " mapping for iTerm2 setting `Meta`
+  tmap ú <C-\><C-n><Plug>(deol_bg)
+  nmap ú <Plug>(deol_bg)
 "}}}
 '''
 
