@@ -124,15 +124,19 @@ else
 fi
 
 # for nvm
-# NOTE: nvm is too slow to initialize here.  Type `. $NVM_SCRIPT` to launch nvm.
 typeset -xT NVM_SCRIPT nvm_script
 nvm_script=/usr/local/opt/nvm/nvm.sh
-#if [[ -f $nvm_script ]]; then
-#  typeset -xT NVM_DIR nvm_dir
-#  nvm_dir=$HOME/.nvm
-#  mkdir -p $nvm_dir
-#  . $nvm_script
-#fi
+if [[ -f $nvm_script ]]; then
+  typeset -xT NVM_DIR nvm_dir
+  nvm_dir=$HOME/.nvm
+  mkdir -p $nvm_dir
+  # https://qiita.com/uasi/items/80865646607b966aedc8
+  # pseudo nvm() to delay initialization until nvm() is executed
+  nvm() {
+    source $nvm_script
+    nvm "$@"
+  }
+fi
 
 # for hub
 if (( $+commands[hub] )); then
