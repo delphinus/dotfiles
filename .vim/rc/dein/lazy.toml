@@ -9,12 +9,6 @@ on_command = ['Deol']
 hook_add   = '''
 "{{{
   let g:deol#enable_dir_changed = 0
-  function! s:new_deol() abort
-    if exists('t:deol')
-      tabnew
-    endif
-    Deol
-  endfunction
   if has('nvim')
     nnoremap <C-\><C-n> :<C-u>Deol -split<CR>
     nnoremap <BS><C-n> :<C-u>Deol -split<CR>
@@ -23,10 +17,6 @@ hook_add   = '''
     nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
   endif
   tnoremap <BS><C-n> <C-\><C-n>
-  nnoremap î     :<C-u>call <SID>new_deol()<CR>
-  nnoremap <A-n> :<C-u>call <SID>new_deol()<CR>
-  tnoremap î     <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
-  tnoremap <A-n> <C-\><C-n>:<C-u>call <SID>new_deol()<CR>
 "}}}
 '''
 
