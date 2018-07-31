@@ -12,14 +12,15 @@ else
   let &t_EI = "\e]50;CursorShape=0\x7"
 endif
 
-if !has('nvim')
-  if exists('&termwinkey')
-    set termwinkey=<A-w>
-  endif
-  if !dein#tap('deol.nvim')
-    " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
-    nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
-  endif
+" for Vim
+if exists('&termwinkey')
+  set termwinkey=<A-w>
+endif
+
+" Deol setting
+if !dein#tap('deol.nvim')
+  " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
+  nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
 endif
 
 " map for terminal + dwm.vim
