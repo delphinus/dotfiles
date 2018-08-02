@@ -14,6 +14,7 @@ autocmd BufNewFile,BufRead *.tt2 setf tt2html
 autocmd BufNewFile,BufRead *.tt setf tt2html
 autocmd BufNewFile,BufRead .zpreztorc setf zsh
 autocmd BufNewFile,BufRead *.plist,*.ttx setf xml
+autocmd BufNewFile,BufRead *.applescript			setf applescript
 
 function! s:detect_script_filetype()
   if len(&ft) == 0
