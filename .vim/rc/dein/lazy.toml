@@ -9,23 +9,32 @@ on_command = ['Deol']
 hook_add   = '''
 "{{{
   let g:deol#enable_dir_changed = 0
+  tnoremap <BS><C-n> <C-\><C-n>
   if has('nvim')
-    nnoremap <C-\><C-n> :<C-u>Deol -split<CR>
-    nnoremap <BS><C-n> :<C-u>Deol -split<CR>
+    nnoremap <C-\><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    " mapping for normal <A-> modifier
+    tmap <A-z> <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    nmap <A-z> <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    " mapping for iTerm2 setting `Normal`
+    tmap Ω <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    nmap Ω <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    " mapping for iTerm2 setting `Meta`
+    tmap ú <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    nmap ú <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
   else
     nnoremap <C-\><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
     nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    " mapping for normal <A-> modifier
+    tmap <A-z> <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    nmap <A-z> <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    " mapping for iTerm2 setting `Normal`
+    tmap Ω <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    nmap Ω <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    " mapping for iTerm2 setting `Meta`
+    tmap ú <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    nmap ú <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
   endif
-  tnoremap <BS><C-n> <C-\><C-n>
-  " mapping for normal <A-> modifier
-  tmap <A-z> <C-\><C-n><Plug>(deol_bg)
-  nmap <A-z> <Plug>(deol_bg)
-  " mapping for iTerm2 setting `Normal`
-  tmap Ω <C-\><C-n><Plug>(deol_bg)
-  nmap Ω <Plug>(deol_bg)
-  " mapping for iTerm2 setting `Meta`
-  tmap ú <C-\><C-n><Plug>(deol_bg)
-  nmap ú <Plug>(deol_bg)
 "}}}
 '''
 
