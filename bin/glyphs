@@ -1,0 +1,21 @@
+#!/usr/bin/env perl
+use v5.14;
+use warnings;
+binmode STDOUT => ':utf8';
+
+my ($start, $end) = @ARGV;
+die 'specify start and end' if !$start || !$end;
+$start = hex $start;
+$end = hex $end;
+
+say '     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f';
+for (my $i = $start, my $need_prefix = 1; $i <= $end; $i++) {
+    my $hex_remain = $i % 16;
+    if ($need_prefix) {
+        printf '%x ', $i - $hex_remain;
+        print '   ' x $hex_remain;
+    }
+    printf '%s  ', chr $i;
+    $need_prefix = $hex_remain == 15 || $i == $end;
+    say '.' if $need_prefix;
+}
