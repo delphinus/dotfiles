@@ -77,12 +77,14 @@ hook_add = '''
   let g:webdevicons_enable_nerdtree = 0
   let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = ''
   let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
+  " overwrite setting for 'vue' to use U+F542 ' '
   let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {
         \ 'fcgi':     '',
         \ 'perl':     '',
         \ 'sqlite':   '',
         \ 'tt':       '',
         \ 'txt':      '',
+        \ 'vue':      '',
         \ }
 "}}}
 '''
