@@ -15,7 +15,10 @@ for (my $i = $start, my $need_prefix = 1; $i <= $end; $i++) {
         printf '%x ', $i - $hex_remain;
         print '   ' x $hex_remain;
     }
-    printf '%s  ', chr $i;
+    # avoid warnings for non-characters
+    # such as U+FDD0 .. U+FDEF
+    (my $chr = chr $i) =~ s/\p{NChar}/\x{FFFD}/;
+    print "$chr  ";
     $need_prefix = $hex_remain == 15 || $i == $end;
     say '.' if $need_prefix;
 }
