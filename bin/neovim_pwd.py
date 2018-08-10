@@ -24,7 +24,12 @@ def main():
     if not path:
         return 1
 
-    nvim = attach('socket', path=path)
+    try:
+        nvim = attach('socket', path=path)
+    except ConnectionRefusedError as e:
+        print('connection refused: $NVIM_LISTEN_ADDRESS=' + path,
+              file=sys.stderr)
+        return 1
     pwd = os.getcwd().translate(str.maketrans({'"': r'\"', '\\': r'\\'}))
     nvim.command('let b:__pwd__ = "{}"'.format(pwd))
     if args.verbose:
