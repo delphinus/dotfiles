@@ -3,7 +3,15 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
-repo = 'Shougo/context_filetype.vim'
+repo     = 'Shougo/context_filetype.vim'
+hook_add = '''
+"{{{
+  let g:context_filetype#filetypes = {
+        \ 'help': {},
+        \ 'vue': {},
+        \ }
+"}}}
+'''
 
 [[plugins]]
 repo = 'delphinus/vim-denite-memo'

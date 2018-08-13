@@ -307,17 +307,10 @@ on_ft = ['objc']
 repo    = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
 on_ft   = [
-    'c', 'cpp', 'd', 'eruby', 'help', 'html', 'int-nyaos', 'lua',
+    'c', 'cpp', 'd', 'eruby', 'html', 'int-nyaos', 'lua',
     'nyaos', 'perl6', 'python', 'vim', 'vimperator', 'vimshell', 'xhtml',
     'markdown', 'haml', 'jade', 'toml', 'go', 'asciidoc',
   ]
-hook_source = '''
-"{{{
-  let g:context_filetype#filetypes = {
-        \ 'vue': {},
-        \ }
-"}}}
-'''
 
 [[plugins]]
 repo    = 'rhysd/vim-textobj-ruby'
