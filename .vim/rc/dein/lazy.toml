@@ -201,8 +201,6 @@ hook_source      = '''
 '''
 hook_post_source = '''
 "{{{
-  nmap [h <Plug>GitGutterPrevHunk
-  nmap ]h <Plug>GitGutterNextHunk
   if &background ==# 'light'
     hi GitGutterAddLine ctermbg=192 guibg=#f0f9e2
     hi GitGutterChangeLine ctermbg=230 guibg=#fff4c9
