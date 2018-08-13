@@ -98,11 +98,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo     = 'tmux-plugins/vim-tmux-focus-events'
-if       = '''exists('$TMUX') || ! has('gui_running')'''
-hook_add = 'set autoread'
-
-[[plugins]]
 repo     = 'tpope/vim-fugitive'
 hook_add = '''
 "{{{
@@ -127,6 +122,9 @@ repo = 'tpope/vim-repeat'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
+repo     = 'wincent/terminus'
 # }}}
 
 # colorscheme {{{
