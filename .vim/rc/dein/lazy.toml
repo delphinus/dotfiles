@@ -190,7 +190,6 @@ on_event         = ['FocusLost', 'CursorHold']
 hook_source      = '''
 "{{{
   let g:gitgutter_diff_args='-w --indent-heuristic'
-  let g:gitgutter_enabled=1
   let g:gitgutter_highlight_lines = 1
   let g:gitgutter_sign_added='✓'
   let g:gitgutter_sign_modified='⤷'
