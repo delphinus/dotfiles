@@ -309,6 +309,7 @@ hook_add = """
         \ 'go': [ 'gometalinter' ],
         \ 'typescript': [ 'tslint', 'tsserver' ],
         \ 'perl': [ 'perl' ],
+        \ 'vim': [ 'vint' ],
         \ }
   let g:ale_sh_shellcheck_options = '-x'
   let g:ale_go_gometalinter_options = '--fast -E lll -E dupl -E gofmt -E goimports -E misspell'
