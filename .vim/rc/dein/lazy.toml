@@ -204,16 +204,7 @@ hook_post_source = '''
     hi GitGutterAddLine ctermbg=192 guibg=#f0f9e2
     hi GitGutterChangeLine ctermbg=230 guibg=#fff4c9
     hi GitGutterDeleteLine ctermbg=224 guibg=#ffe9ef
-  elseif g:colors_name ==# 'nord'
-    hi GitGutterAdd ctermfg=2 guifg=#a3be8c ctermbg=NONE guibg=NONE
-    hi GitGutterChange ctermfg=3 guifg=#ebcb8b ctermbg=NONE guibg=NONE
-    hi GitGutterChangeDelete ctermfg=5 guifg=#b48ead ctermbg=NONE guibg=NONE
-    hi GitGutterDelete ctermfg=1 guifg=#bf616a ctermbg=NONE guibg=NONE
-    hi link GitGutterAddLine GitGutterAdd
-    hi link GitGutterChangeLine GitGutterChange
-    hi link GitGutterChangeDeleteLine GitGutterChangeDelete
-    hi link GitGutterDeleteLine GitGutterDelete
-  else
+  elseif g:colors_name !=# 'nord'
     hi GitGutterAddLine ctermbg=233 guibg=#122b0c
     hi GitGutterChangeLine ctermbg=236 guibg=#342e0e
     hi GitGutterDeleteLine ctermbg=235 guibg=#4e2728
