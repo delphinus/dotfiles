@@ -207,7 +207,7 @@ hook_post_source = '''
   elseif g:colors_name ==# 'nord'
     hi GitGutterAdd ctermfg=2 guifg=#a3be8c ctermbg=NONE guibg=NONE
     hi GitGutterChange ctermfg=3 guifg=#ebcb8b ctermbg=NONE guibg=NONE
-    hi GitGutterChangeDelete ctermfg=1 guifg=#bf616a ctermbg=NONE guibg=NONE
+    hi GitGutterChangeDelete ctermfg=5 guifg=#b48ead ctermbg=NONE guibg=NONE
     hi GitGutterDelete ctermfg=1 guifg=#bf616a ctermbg=NONE guibg=NONE
     hi link GitGutterAddLine GitGutterAdd
     hi link GitGutterChangeLine GitGutterChange
