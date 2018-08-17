@@ -177,6 +177,14 @@ hook_add = '''
     autocmd ColorScheme nord highlight Identifier guifg=#8FBCBB guibg=NONE ctermfg=14 ctermbg=NONE
     autocmd ColorScheme nord highlight Special guifg=#D08770 guibg=NONE ctermfg=11 ctermbg=NONE
     autocmd ColorScheme nord highlight IncSearch guifg=#3B4252 guibg=#81A1C1 ctermfg=0 ctermbg=4 gui=bold cterm=bold
+    autocmd ColorScheme nord highlight GitGutterAdd ctermfg=2 guifg=#a3be8c ctermbg=NONE guibg=NONE
+    autocmd ColorScheme nord highlight GitGutterChange ctermfg=3 guifg=#ebcb8b ctermbg=NONE guibg=NONE
+    autocmd ColorScheme nord highlight GitGutterChangeDelete ctermfg=5 guifg=#b48ead ctermbg=NONE guibg=NONE
+    autocmd ColorScheme nord highlight GitGutterDelete ctermfg=1 guifg=#bf616a ctermbg=NONE guibg=NONE
+    autocmd ColorScheme nord highlight link GitGutterAddLine GitGutterAdd
+    autocmd ColorScheme nord highlight link GitGutterChangeLine GitGutterChange
+    autocmd ColorScheme nord highlight link GitGutterChangeDeleteLine GitGutterChangeDelete
+    autocmd ColorScheme nord highlight link GitGutterDeleteLine GitGutterDelete
   augroup END
 '''
 # }}}
