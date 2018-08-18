@@ -271,6 +271,27 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'ternjs/tern_for_vim'
+hook_add = '''
+"{{{
+  let g:tern#command = ['tern']
+  let g:tern#arguments = ['--persistent']
+  augroup TernForVim
+    autocmd!
+    autocmd FileType javascript nnoremap <buffer> <silent> gd :TernDef<CR>
+    autocmd FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<CR>
+    autocmd FileType javascript nnoremap <buffer> <silent> <C-LeftMouse> :TernDef<CR>
+    autocmd FileType javascript nnoremap <buffer> <silent> <C-w>] :TernDef<CR>
+    autocmd FileType javascript nnoremap <buffer> <silent> <C-w><C-]> :TernDef<CR>
+    autocmd FileType javascript nnoremap <buffer> <silent> K :TernType<CR>
+  augroup END
+"}}}
+'''
+hook_post_update = '''
+  !npm install -g tern
+'''
+
+[[plugins]]
 repo = 'tmux-plugins/vim-tmux'
 # }}}
 
