@@ -1,0 +1,129 @@
+#!/usr/bin/env node
+
+const version = '0.0.1'
+const author = 'JINNOUCHI Yasushi <delphinus@remora.cx>'
+const dayBreakMinutes = 60
+const midnightMinutes = 22 * 60
+const morningMinutes = (24 + 5) * 60
+const isUndefined = v => typeof v === 'undefined'
+const hhmm = minutes => {
+  const hour = Math.floor(minutes / 60)
+  const minute = minutes % 60
+  return [hour, minute].map(v => (v < 10 ? '0' : '') + v).join(':')
+}
+
+const opts = process.argv.splice(2)
+
+let times
+
+try {
+  times = parseTimes(opts)
+} catch (e) {
+  console.error(e)
+  helpAndExit(1)
+}
+
+showResults(times)
+
+process.exit()
+
+function showResults (times) {
+  let i = 0
+  console.log(`勤務開始:     {}   勤務終了:     {}
+深夜勤務開始: {}   深夜勤務終了: {}
+勤務時間:     {}   深夜勤務時間: {}
+休憩時間:     {}   深夜休憩時間: {}`.replace(/{}/g, () => hhmm([
+      times.workStart, times.workEnd,
+      times.homeWorkStart, times.homeWorkEnd,
+      times.workTime, times.midnightWorkTime,
+      times.dayBreak, times.midnightBreak][i++])))
+}
+
+function parseTimes (opts) {
+  if (opts.length !== 4) {
+    throw new Error('options should be 4')
+  }
+  return opts.reduce((a, b, i) => {
+    const [rawHour, rawMinute] = b.match(/^(\d+):?(\d+)$/)
+      .reduce((a, b, i) => {
+        if (i !== 0) {
+          a.push(parseInt(b, 10))
+        }
+        return a
+      }, [])
+    if ([rawHour, rawMinute].some(isUndefined)) {
+      throw new Error('options should be {hh:mm} or {hhmm}.')
+    }
+    const hour = rawHour < 6 ? rawHour + 24 : rawHour
+    const minutes = hour * 60 + rawMinute
+    switch (i) {
+      case 0:
+        a.workStart = minutes
+        break
+      case 1:
+        if (a.workStart + dayBreakMinutes >= minutes) {
+          throw new Error('work end should be after work start + 1 hour')
+        }
+        a.workEnd = minutes
+        if (a.workEnd <= midnightMinutes) {
+          a.workTime = a.workEnd - a.workStart - dayBreakMinutes
+          a.midnightWorkTime = 0
+        } else {
+          a.workTime = a.workEnd - midnightMinutes - a.workStart -
+            dayBreakMinutes
+          a.midnightWorkTime = a.workEnd - midnightMinutes
+        }
+        break
+      case 2:
+        if (morningMinutes <= minutes) {
+          throw new Error('home work start should be equal to or before 5:00')
+        }
+        a.homeWorkStart = minutes
+        a.dayBreak = dayBreakMinutes + a.homeWorkStart - a.workEnd
+        a.midnightBreak = a.homeWorkStart - midnightMinutes
+        break
+      case 3:
+        if (minutes <= a.homeWorkStart) {
+          throw new Error('home work end should be after home work start')
+        }
+        if (morningMinutes <= minutes) {
+          throw new Error('home work end should be equal to or before 5:00')
+        }
+        a.homeWorkEnd = minutes
+        a.midnightWorkTime += a.homeWorkEnd - a.homeWorkStart
+        break
+    }
+    return a
+  }, {})
+}
+
+function helpAndExit (status) {
+  console.log(`NAME:
+   kintai - Calculate schedule for working attendance
+
+USAGE:
+   kintai [work start] [work end] [home work start] [home work end]
+
+VERSION:
+   v${version}
+
+AUTHOR:
+   ${author}
+
+OPTIONS:
+   All options should be {hh}:{mm} or {hhmm} formats. Heading zero should
+   be omitted.
+
+   [work start], [work end}
+      These options mean standard working attendance that should be
+      between 10:00 - 18:30.  This range includes 1 hour break from
+      work.
+
+   [home work start], [home work end]
+      These options mean midnight working attendance.  These should not
+      be after 5:00 in the morning.
+`)
+  process.exit(status)
+}
+
+// vim:se ft=javascript ts=2 sts=2 sw=2:
