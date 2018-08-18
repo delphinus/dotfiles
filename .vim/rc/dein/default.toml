@@ -337,6 +337,7 @@ hook_add = """
   let g:ale_statusline_format = [nr2char(0xf42d) . '  %d', nr2char(0xf426) . '  %d', nr2char(0xf4e6) . '  '] " '   '
   let g:ale_linters = {
         \ 'go': [ 'gometalinter' ],
+        \ 'javascript': [ 'eslint' ],
         \ 'typescript': [ 'tslint', 'tsserver' ],
         \ 'perl': [ 'perl' ],
         \ 'vim': [ 'vint' ],
