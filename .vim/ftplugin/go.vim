@@ -1,5 +1,3 @@
-set completeopt-=preview
-
 if dein#is_sourced('vim-go')
   if &background ==# 'light'
     hi! goSameId term=bold cterm=bold ctermbg=225 guibg=#eeeaec
