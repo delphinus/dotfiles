@@ -11,6 +11,7 @@ const hhmm = minutes => {
   const minute = minutes % 60
   return [hour, minute].map(v => (v < 10 ? '0' : '') + v).join(':')
 }
+const addSpace = v => ' '.repeat(5 - v.toString().length) + v
 
 const opts = process.argv.splice(2)
 
@@ -32,11 +33,11 @@ function showResults (times) {
   console.log(`勤務開始:     {}   勤務終了:     {}
 深夜勤務開始: {}   深夜勤務終了: {}
 勤務時間:     {}   深夜勤務時間: {}
-休憩時間:     {}   深夜休憩時間: {}`.replace(/{}/g, () => hhmm([
-      times.workStart, times.workEnd,
-      times.homeWorkStart, times.homeWorkEnd,
-      times.workTime, times.midnightWorkTime,
-      times.dayBreak, times.midnightBreak][i++])))
+休憩時間:     {}   深夜休憩時間: {}`.replace(/{}/g, () => [
+      hhmm(times.workStart), hhmm(times.workEnd),
+      hhmm(times.homeWorkStart), hhmm(times.homeWorkEnd),
+      hhmm(times.workTime), hhmm(times.midnightWorkTime),
+      addSpace(times.dayBreak), addSpace(times.midnightBreak)][i++]))
 }
 
 function parseTimes (opts) {
