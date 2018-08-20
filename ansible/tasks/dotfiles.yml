@@ -19,6 +19,7 @@
     - .gitconfig
     - .grcat
     - .inputrc
+    - .jsbeautifyrc
     - .jshintrc
     - .proverc
     - .ptconfig.toml
