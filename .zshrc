@@ -97,9 +97,9 @@ fi
 # PHP composer
 path=($HOME/.composer/vendor/bin(N-/) $path)
 
-# node
+# node@8 for development
 if (( $+commands[brew] )); then
-  path=($(brew --prefix)/node/bin(N-/) $path)
+  path=($(brew --prefix)/opt/node@8/bin(N-/) $path)
 fi
 
 # fssh
