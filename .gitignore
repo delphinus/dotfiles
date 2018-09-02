@@ -216,4 +216,5 @@ typings/
 /mkmf.log
 /quickfix.err
 /bin/local_perl.sh
+/.tern-port
 
