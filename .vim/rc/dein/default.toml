@@ -231,11 +231,6 @@ repo = 'isRuslan/vim-es6'
 repo = 'kchmck/vim-coffee-script'
 
 [[plugins]]
-repo     = 'elzr/vim-json'
-if       = '''! has('kaoriya')'''
-hook_add = 'let g:vim_json_syntax_conceal = 0'
-
-[[plugins]]
 repo = 'motemen/xslate-vim'
 
 [[plugins]]
