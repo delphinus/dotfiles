@@ -95,3 +95,7 @@
 
 - file: path={{ home_dir }}/.ghg/bin/git-foresta mode=0755
   when: git_sync.changed
+
+- get_url: >-
+    url=https://iterm2.com/shell_integration/zsh
+    dest={{ home_dir }}/.iterm2_shell_integration.zsh
