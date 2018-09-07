@@ -101,6 +101,9 @@
     url=https://iterm2.com/shell_integration/zsh
     dest=~/.iterm2_shell_integration.zsh
 
+- name: prepare iTerm2 script directory
+  file: path=~/Library/ApplicationSupport/iTerm2/Scripts/Autolaunch state=directory
+
 - name: set up the battery component in iTerm2 status bar
   file: >-
     src={{ dotfiles_dir }}/bin/iterm2-battery.py
