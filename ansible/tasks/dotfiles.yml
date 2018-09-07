@@ -96,7 +96,8 @@
 - file: path=~/.ghg/bin/git-foresta mode=0755
   when: git_sync.changed
 
-- get_url: >-
+- name: set up iTerm2 shell integration
+  get_url: >-
     url=https://iterm2.com/shell_integration/zsh
     dest=~/.iterm2_shell_integration.zsh
 
