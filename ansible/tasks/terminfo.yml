@@ -1,8 +1,8 @@
 ---
-- file: path={{ home_dir }}/.terminfo state=directory
+- file: path=~/.terminfo state=directory
 
 - name: search customized xterm-256color terminfo
-  shell: find {{ home_dir }}/.terminfo -name xterm-256color | grep .
+  shell: find ~/.terminfo -name xterm-256color | grep .
   register: term_st
   failed_when: term_st.rc not in [0, 1]
   changed_when: false

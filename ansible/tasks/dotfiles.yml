@@ -1,12 +1,12 @@
 ---
 - name: prepare config dir
-  file: path={{ home_dir }}/.config/vifm/colors state=directory
+  file: path=~/.config/vifm/colors state=directory
 
 - name: prepare ptpython config dir
-  file: path={{ home_dir }}/.ptpython state=directory
+  file: path=~/.ptpython state=directory
 
 - name: make dotfiles symlink
-  file: src={{ '/'.join([dotfiles_dir, item]) }} dest={{ home_dir }}/{{ item }} state=link force=yes
+  file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
   with_items:
     - .config/gocode
     - .config/ipython
@@ -38,27 +38,27 @@
     - .zshrc
 
 - name: make directory for Neovim
-  file: dest={{ home_dir }}/.config/nvim state=directory
+  file: dest=~/.config/nvim state=directory
 
 - name: make init.vim for Neovim
-  file: src={{ dotfiles_dir }}/.vim/vimrc dest={{ home_dir }}/.config/nvim/init.vim state=link force=yes
+  file: src={{ dotfiles_dir }}/.vim/vimrc dest=~/.config/nvim/init.vim state=link force=yes
 
   #- name: set config for kitty
-  #file: src={{ dotfiles_dir }}/kitty.conf dest={{ home_dir }}/Library/Preferences/kitty/kitty.conf state=link force=yes
+  #file: src={{ dotfiles_dir }}/kitty.conf dest=~/Library/Preferences/kitty/kitty.conf state=link force=yes
   #when: ansible_system == 'Darwin'
 
 - name: symlink dircolors
   file: >-
     src={{ '/'.join([dotfiles_dir, 'submodules/nord-dircolors/src/dir_colors']) }}
-    dest={{ home_dir }}/.dir_colors
+    dest=~/.dir_colors
     state=link
     force=yes
 
 - name: create karabiner directory
-  file: path='{{ home_dir }}/.config/karabiner/assets/complex_modifications' state=directory
+  file: path='~/.config/karabiner/assets/complex_modifications' state=directory
   when: ansible_system == 'Darwin'
 - name: create karabiner setting
-  copy: src={{ item }}.json dest='{{ home_dir }}/.config/karabiner/assets/complex_modifications/{{ item }}.json'
+  copy: src={{ item }}.json dest='~/.config/karabiner/assets/complex_modifications/{{ item }}.json'
   when: ansible_system == 'Darwin'
   with_items:
     - spreadsheets
@@ -74,30 +74,30 @@
     - emacs
     - spotlight
 
-- file: path={{ home_dir }}/.ssh/config state=touch mode=0600
+- file: path=~/.ssh/config state=touch mode=0600
   changed_when: false
-- lineinfile: dest={{ home_dir }}/.ssh/config line='Host *' state=present
-- lineinfile: dest={{ home_dir }}/.ssh/config line='  ServerAliveInterval 120' insertafter='^Host \*$'
+- lineinfile: dest=~/.ssh/config line='Host *' state=present
+- lineinfile: dest=~/.ssh/config line='  ServerAliveInterval 120' insertafter='^Host \*$'
 
 - git: >-
     repo=https://{{ item }}
-    dest={{ home_dir }}/.go/src/{{ item }}
+    dest=~/.go/src/{{ item }}
   with_items:
     - github.com/takaaki-kasai/git-foresta
   register: git_sync
 
-- file: path={{ home_dir }}/.ghg/bin state=directory
+- file: path=~/.ghg/bin state=directory
   when: git_sync.changed
 
 - name: copy git-foresta executable
-  shell: cp {{ home_dir }}/{.go/src/github.com/takaaki-kasai/git-foresta,.ghg/bin}/git-foresta
+  shell: cp ~/{.go/src/github.com/takaaki-kasai/git-foresta,.ghg/bin}/git-foresta
   when: git_sync.changed
 
-- file: path={{ home_dir }}/.ghg/bin/git-foresta mode=0755
+- file: path=~/.ghg/bin/git-foresta mode=0755
   when: git_sync.changed
 
 - get_url: >-
     url=https://iterm2.com/shell_integration/zsh
-    dest={{ home_dir }}/.iterm2_shell_integration.zsh
+    dest=~/.iterm2_shell_integration.zsh
 
 # vim:se et:
