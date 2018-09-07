@@ -99,3 +99,5 @@
 - get_url: >-
     url=https://iterm2.com/shell_integration/zsh
     dest={{ home_dir }}/.iterm2_shell_integration.zsh
+
+# vim:se et:
