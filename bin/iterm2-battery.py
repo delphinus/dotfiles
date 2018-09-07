@@ -51,9 +51,11 @@ async def main(connection, argv):
             full_len = floor(char_len / unit)
             remained = char_len % unit
             battery = chars[-1] * full_len
-            battery += '' if remained == 0 else chars[remained - 1]
+            battery += "" if remained == 0 else chars[remained - 1]
+        else:
+            battery = " " * width
         matched = re.match(r'.*?(\d+:\d+)', out, flags=re.S)
-        elapsed = matched[1] if matched else ''
+        elapsed = matched[1] if matched and matched[1] != "0:00" else ""
         return "{0} {1} {2:d}% {3}".format(
             "🔋", battery, percent, elapsed)
 
