@@ -32,7 +32,6 @@ source $HOME/git/dotfiles/.zsh/peco-view-sources.zsh
 source $HOME/git/dotfiles/.zsh/export-alias.zsh
 source $HOME/git/dotfiles/.zsh/git-foresta.zsh
 source $HOME/git/dotfiles/.zsh/iterm2.zsh
-#source $HOME/git/dotfiles/.zsh/iterm2_shell_integration.zsh
 
 PATH=${PATH_IN_ZSHENV:-$PATH}
 
@@ -167,6 +166,11 @@ neovim-pwd() {
 if [[ -n $NVIM_LISTEN_ADDRESS ]]; then
   neovim-pwd
   chpwd_functions+=( neovim-pwd )
+fi
+
+# iTerm2 shell integration
+if [[ $TMUX == "" && -f ~/.iterm2_shell_integration.zsh ]]; then
+  source ~/.iterm2_shell_integration.zsh
 fi
 
 # http://qiita.com/scalper/items/86da115e6c76a692d687
