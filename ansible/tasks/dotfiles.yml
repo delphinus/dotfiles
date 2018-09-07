@@ -101,4 +101,11 @@
     url=https://iterm2.com/shell_integration/zsh
     dest=~/.iterm2_shell_integration.zsh
 
+- name: set up the battery component in iTerm2 status bar
+  file: >-
+    src={{ dotfiles_dir }}/bin/iterm2-battery.py
+    dest=~/Library/ApplicationSupport/iTerm2/Scripts/Autolaunch/battery.py 
+    state=link
+    force=yes
+
 # vim:se et:
