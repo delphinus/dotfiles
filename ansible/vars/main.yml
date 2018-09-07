@@ -69,10 +69,9 @@ homebrew_cask_packages_packages:
 
 ruby_version: 2.3.0
 perl_version: 5.22.0
-home_dir: "{{ secret_home_dir }}"
-cache_dir: "{{ home_dir }}/Library/Caches/Ansible"
-fonts_dir: "{{ home_dir }}/Library/Fonts"
-dotfiles_dir:         "{{ home_dir }}/git/dotfiles"
+cache_dir:    ~/Library/Caches/Ansible
+fonts_dir:    ~/Library/Fonts
+dotfiles_dir: ~/git/dotfiles
 python_modules:
   - psutil
   - pyuv
