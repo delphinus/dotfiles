@@ -59,7 +59,7 @@ async def main(connection, argv):
             battery = ' ' * width
         matched = re.match(r'.*?(\d+:\d+)', out, flags=re.S)
         elapsed = matched[1] if matched and matched[1] != '0:00' else ''
-        return '{0} {1} {2:d}% {3}'.format(
+        return '{0} |{1}| {2:d}% {3}'.format(
             '🔋', battery, percent, elapsed)
 
 
