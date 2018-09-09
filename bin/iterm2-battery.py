@@ -2,7 +2,7 @@
 
 import asyncio
 import iterm2
-from math import ceil, floor
+from math import floor
 import re
 import sys
 from subprocess import CalledProcessError, check_output
