@@ -18,6 +18,7 @@ chars = [
     '█']
 thunder = 'ϟ'
 width = 5
+interval = 30
 
 
 async def main(connection, argv):
@@ -28,7 +29,7 @@ async def main(connection, argv):
         'Show remaining time for battery',
         [],
         'xx%',
-        30)
+        interval)
 
     async def coro(knobs):
         try:
