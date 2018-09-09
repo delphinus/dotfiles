@@ -28,7 +28,7 @@ async def main(connection, argv):
         'Show battery remaining',
         'Show remaining time for battery',
         [],
-        'xx%',
+        '|███▎  | 66% 2:34',
         interval)
 
     async def coro(knobs):
