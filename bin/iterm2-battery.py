@@ -50,8 +50,11 @@ async def main(connection, argv):
             char_len = floor(total_char_len * percent / 100)
             full_len = floor(char_len / unit)
             remained = char_len % unit
+            space_len = width - full_len - (0 if remained == 0 else 1)
             battery = chars[-1] * full_len
-            battery += '' if remained == 0 else chars[remained - 1]
+            if remained != 0:
+                battery += chars[remained - 1]
+            battery += ' ' * space_len
         else:
             battery = ' ' * width
         matched = re.match(r'.*?(\d+:\d+)', out, flags=re.S)
