@@ -17,7 +17,7 @@ chars = [
     '▉',
     '█']
 thunder = 'ϟ'
-width = 3
+width = 5
 
 
 async def main(connection, argv):
