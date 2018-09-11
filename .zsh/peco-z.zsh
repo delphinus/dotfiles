@@ -1,4 +1,7 @@
 function peco-z() {
+  # @f is a parameter cuts off the input lines into array.  This line below makes @f only cut
+  # off by the newline character.
+  local IFS=$'\n'
   local selected_dir=${(@f)$(z | sort -k1nr \
     | ruby -pe '$_.sub! /(?<=^.{11})#{ENV["HOME"]}/, "~"' \
     | ruby -pe '$_.sub!(/^([\d.]+)\s+(.*)$/) { "%5d  %s" % [$1.to_i, $2] }' \
