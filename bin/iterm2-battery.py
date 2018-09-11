@@ -5,6 +5,7 @@ from iterm2 import StatusBarComponent, Registration, run
 from math import floor
 import re
 from subprocess import CalledProcessError, check_output
+from datetime import datetime
 
 chars = [
     '▏',
@@ -17,19 +18,42 @@ chars = [
     '█']
 thunder = 'ϟ'
 width = 5
-interval = 30
+
+class Timer:
+    interval_seconds = 30
+    updated = 0
+    last = ''
+
+    def can_run(self):
+        print('checking')
+        now = datetime.now().timestamp()
+        return now - self.updated >= self.interval_seconds
+
+    def last_text(self):
+        return self.last
+
+    def interval(self):
+        return self.interval_seconds
+
+    def update(self, text):
+        print('updated')
+        self.updated = datetime.now().timestamp()
+        self.last = text
 
 
 async def main(connection):
+    timer = Timer()
     component = StatusBarComponent(
         'Battery',
         'Show battery remaining',
         'Show remaining time for battery',
         [],
         '|███▎  | 66% 2:34',
-        interval)
+        timer.interval())
 
     async def coro(knobs):
+        if not timer.can_run():
+            return timer.last_text()
         try:
             out = check_output(
                 args=['/usr/bin/pmset', '-g', 'batt']).decode('utf-8')
@@ -58,7 +82,10 @@ async def main(connection):
             battery = ' ' * width
         matched = re.match(r'.*?(\d+:\d+)', out, flags=re.S)
         elapsed = matched[1] if matched and matched[1] != '0:00' else ''
-        return '{0} |{1}| {2:d}% {3}'.format('🔋', battery, percent, elapsed)
+        last_status = '{0} |{1}| {2:d}% {3}'.format(
+            '🔋', battery, percent, elapsed)
+        timer.update(last_status)
+        return last_status
 
 
     await Registration.async_register_status_bar_component(
