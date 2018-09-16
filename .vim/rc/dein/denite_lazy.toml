@@ -60,6 +60,7 @@ hook_add = '''
   noremap zj :<C-u>Denite -resume -cursor-pos=+1 -immediately<CR>
   noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
   noremap zT :<C-u>call <SID>my_denite_file_rec_goroot()<CR>
+  noremap zZ :<C-u>Denite buffer -input=term:// -immediately<CR>
   tnoremap úð         <C-\><C-n>:<C-u>Denite my_buffer my_file_old<CR>
   tnoremap <A-z><A-p> <C-\><C-n>:<C-u>Denite my_buffer my_file_old<CR>
   tnoremap úá         <C-\><C-n>:<C-u>Denite file_rec<CR>
