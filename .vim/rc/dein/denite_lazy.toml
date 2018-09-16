@@ -5,10 +5,10 @@ repo     = 'Shougo/denite.nvim'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
 depends  = ['dwm.vim']
-hook_add = """
+hook_add = '''
 "{{{
   function! s:my_denite_outline(filetype) abort
-    execute 'Denite' a:filetype ==# 'go' ? 'decls:''%:p''' : 'outline'
+    execute 'Denite' a:filetype ==# 'go' ? "decls:'%:p'" : 'outline'
   endfunction
 
   function! s:my_denite_decls(filetype) abort
@@ -77,7 +77,7 @@ hook_add = """
   nnoremap #  :<C-u>Denite line<CR>
   nnoremap g# :<C-u>Denite line:buffers<CR>
 "}}}
-"""
+'''
 hook_source = '''
 "{{{
   function! s:dwm_new(context)
