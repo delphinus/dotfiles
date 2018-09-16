@@ -182,6 +182,7 @@ hook_source = '''
         \ 'prompt': '❯❯❯',
         \ 'statusline': v:false,
         \ 'highlight_matched_char': 'Underlined',
+        \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
         \ })
   call denite#custom#option('dein', 'default_action', 'narrow')
