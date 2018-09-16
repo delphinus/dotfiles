@@ -34,6 +34,7 @@ def main():
     nvim.command('let b:__pwd__ = "{}"'.format(pwd))
     if args.verbose:
         nvim.command('echo "b:__pwd__ changed"')
+    nvim.close()
 
     return 0
 
