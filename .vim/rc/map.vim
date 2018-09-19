@@ -20,8 +20,7 @@ nnoremap ]C :<C-u>cclose<CR>
 " ウィンドウを最大化する
 nnoremap _ <C-W>_
 
-" https://github.com/mhinz/vim-galore#saner-ctrl-l
-nnoremap <ESC><ESC> :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+nnoremap <ESC><ESC> :nohlsearch<cr>
 
 " view で起動したときは q で終了
 augroup SetMappingForView
