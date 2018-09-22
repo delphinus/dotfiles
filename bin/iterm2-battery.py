@@ -68,7 +68,7 @@ async def main(connection):
             battery = width * chars[-1]
         elif status == 'charging':
             mid = floor(width / 2)
-            battery = mid * ' ' + thunder + (width - mid) * ' '
+            battery = mid * ' ' + thunder + (width - mid - 1) * ' '
         elif status == 'discharging':
             unit = len(chars)
             total_char_len = len(chars) * width
