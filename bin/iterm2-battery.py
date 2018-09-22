@@ -64,7 +64,9 @@ async def main(connection):
             percent = int(re.match(r'.*?(\d+)%', out, flags=re.S)[1])
         except:
             return '🔌'
-        if status == 'charging':
+        if status == 'charged':
+            battery = width * chars[-1]
+        elif status == 'charging':
             mid = floor(width / 2)
             battery = mid * ' ' + thunder + (width - mid) * ' '
         elif status == 'discharging':
