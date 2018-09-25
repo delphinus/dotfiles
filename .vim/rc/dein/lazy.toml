@@ -335,9 +335,12 @@ on_ft = [
 
 # on_map {{{
 [[plugins]]
-repo     = 'LeafCage/yankround.vim'
-on_map   = ['<Plug>(yankround-']
-hook_add = '''
+#repo     = 'LeafCage/yankround.vim'
+repo      = 'delphinus/yankround.vim'
+rev       = 'feature/denite'
+on_source = ['denite.nvim']
+on_map    = ['<Plug>(yankround-']
+hook_add  = '''
 "{{{
   nmap p <Plug>(yankround-p)
   xmap p <Plug>(yankround-p)
