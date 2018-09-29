@@ -4,9 +4,6 @@
 [submodule "submodules/iterm-colors-pencil"]
 	path = submodules/iterm-colors-pencil
 	url = https://github.com/mattly/iterm-colors-pencil
-[submodule ".zsh/zsh-notify"]
-	path = .zsh/zsh-notify
-	url = https://github.com/marzocchi/zsh-notify
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
@@ -19,3 +16,6 @@
 [submodule "submodules/nord-dircolors"]
 	path = submodules/nord-dircolors
 	url = https://github.com/arcticicestudio/nord-dircolors
+[submodule ".zsh/zsh-background-notify"]
+	path = .zsh/zsh-background-notify
+	url = https://github.com/t413/zsh-background-notify.git

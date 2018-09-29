@@ -40,14 +40,7 @@ PATH=${PATH_IN_ZSHENV:-$PATH}
 export TEST_PRETTY_COLOR_NAME=BRIGHT_GREEN
 
 # terminal-notifier
-if [[ $OSTYPE == darwin* ]]; then
-  # http://qiita.com/kei_s/items/96ee6929013f587b5878
-  typeset -xT SYS_NOTIFIER sys_notifier
-  SYS_NOTIFIER=$(which terminal-notifier)
-  typeset -xT NOTIFY_COMMAND_COMPLETE_TIMEOUT notify_command_complete_timeout
-  NOTIFY_COMMAND_COMPLETE_TIMEOUT=30
-  source ~/git/dotfiles/.zsh/zsh-notify/notify.plugin.zsh
-fi
+source $HOME/git/dotfiles/.zsh/zsh-background-notify/bgnotify.plugin.zsh
 
 # z
 if (( $+commands[brew] )); then
