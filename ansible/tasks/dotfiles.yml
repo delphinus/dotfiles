@@ -111,4 +111,12 @@
     state=link
     force=yes
 
+- name: prepare ctags setting directory
+  file: path=~/.ctags.d state=directory
+
+- name: download setting for ctags on TypeScript
+  get_url: >-
+    url=https://github.com/jb55/typescript-ctags/raw/master/.ctags
+    dest=~/.ctags.d/typescript.ctags
+
 # vim:se et:
