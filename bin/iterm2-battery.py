@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import asyncio
-from iterm2 import StatusBarComponent, Registration, run
+from iterm2 import StatusBarComponent, Registration, run_forever
 from math import floor
 import re
 from subprocess import CalledProcessError, check_output
@@ -91,10 +91,7 @@ async def main(connection):
 
 
     await Registration.async_register_status_bar_component(
-        connection, component, coro)
-
-    future = asyncio.Future()
-    await connection.async_dispatch_until_future(future)
+        connection, component, coro, defaults={})
 
 
-run(main)
+run_forever(main)
