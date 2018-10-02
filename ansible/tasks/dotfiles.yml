@@ -73,6 +73,7 @@
     - japanese
     - emacs
     - spotlight
+    - google-drawings
 
 - file: path=~/.ssh/config state=touch mode=0600
   changed_when: false
