@@ -328,6 +328,7 @@ hook_add = '''
 [[plugins]]
 repo     = 'w0rp/ale'
 hook_add = """
+  let g:ale_fix_on_save = 1
   let g:ale_echo_msg_format = '%severity%  %linter% - %s'
   let g:ale_echo_msg_error_str = nr2char(0xf42d) . ' ' " ' '
   let g:ale_echo_msg_warning_str = nr2char(0xf426) . ' ' " ' '
@@ -336,6 +337,11 @@ hook_add = """
   let g:ale_sign_error = nr2char(0xf42d) . ' ' " ' '
   let g:ale_sign_warning = nr2char(0xf426) . ' ' " ' '
   let g:ale_statusline_format = [nr2char(0xf42d) . '  %d', nr2char(0xf426) . '  %d', nr2char(0xf4e6) . '  '] " '   '
+  let g:ale_fixers = {
+        \ 'javascript': [ 'eslint', 'prettier' ],
+        \ 'python': [ 'black' ],
+        \ 'typescript': [ 'tslint', 'prettier' ],
+        \ }
   let g:ale_linters = {
         \ 'go': [ 'gometalinter' ],
         \ 'javascript': [ 'eslint' ],
