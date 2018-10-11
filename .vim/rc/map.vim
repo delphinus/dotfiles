@@ -34,3 +34,7 @@ nmap Y <Plug>DelphinusFsshCopy
 " for neovim-remote (nvr)
 " nvr needs the buffer to be deleted for knowing its editing finished.
 nnoremap QQ :<C-u>write \| bdelete<CR>
+augroup NeoVimRemoteClosing
+  autocmd!
+  autocmd BufEnter COMMIT_EDITMSG setlocal bufhidden=delete
+augroup END
