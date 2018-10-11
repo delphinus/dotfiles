@@ -1,6 +1,17 @@
-export VISUAL=view
-export EDITOR=vim
-export GIT_EDITOR=vim
+# use neovim-remote in :terminal
+if [[ -n $NVIM_LISTEN_ADDRESS ]]; then
+  export VISUAL='nvr -c "se ro" -cc split --remote'
+  export EDITOR='nvr -cc split --remote-wait'
+  export GIT_EDITOR='nvr -cc split --remote-wait'
+elif (( $+commands[nvim] )); then
+  export VISUAL='nvim -R'
+  export EDITOR=nvim
+  export GIT_EDITOR=nvim
+else
+  export VISUAL=view
+  export EDITOR=vim
+  export GIT_EDITOR=vim
+fi
 
 export PAGER=less
 export EDITRC=$HOME/.editrc
