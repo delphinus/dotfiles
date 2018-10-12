@@ -147,10 +147,10 @@ hook_source = '''
   call denite#custom#var('grep', 'final_opts', [])
   call denite#custom#var('file_rec', 'command',
         \ ['pt', '--follow', '--nocolor', '--nogroup',
-        \   '--vcs-ignore=', '--ignore=.git', '-g', ''])
+        \   '--ignore=.git', '-g', ''])
   call denite#custom#var('my_file_rec', 'command',
         \ ['pt', '--follow', '--nocolor', '--nogroup',
-        \   '--vcs-ignore=', '--ignore=.git', '-g', ''])
+        \   '--ignore=.git', '-g', ''])
 
   call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
