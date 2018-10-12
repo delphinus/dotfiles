@@ -1,8 +1,9 @@
 # use neovim-remote in :terminal
 if [[ -n $NVIM_LISTEN_ADDRESS ]]; then
-  export VISUAL='nvr -c "se ro" -cc split --remote'
-  export EDITOR='nvr -cc split --remote-wait'
-  export GIT_EDITOR='nvr -cc split --remote-wait'
+  alias nvr='nvr -cc split'
+  export VISUAL='nvr -c "se ro" --remote'
+  export EDITOR='nvr --remote-wait'
+  export GIT_EDITOR='nvr -cc split --remote-wait +"set bufhidden=delete"'
 elif (( $+commands[nvim] )); then
   export VISUAL='nvim -R'
   export EDITOR=nvim
