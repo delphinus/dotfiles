@@ -364,6 +364,10 @@ hook_add = """
   nmap <silent> Ô <Plug>(ale_next_wrap)
   nmap <silent> <A-K> <Plug>(ale_previous_wrap)
   nmap <silent> <A-J> <Plug>(ale_next_wrap)
+  augroup DisableALEInDiffBuffers
+    autocmd!
+    autocmd VimEnter,FilterWritePre * ALEDisableBuffer
+  augroup END
 """
 # }}}
 
