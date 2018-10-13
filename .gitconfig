@@ -49,11 +49,6 @@
 	wk = worktree
 	clean-local = !git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d
 	clean-remote = !git branch -r --merged master | grep -v -e master -e develop | sed -e 's% *origin/%%' | xargs -I% git push --delete origin % && git remote prune origin
-[diff]
-	algorithm = histogram
-	renames = true
-	indentHeuristic = true
-	colorMoved = dimmed_zebra
 [url "git@github.com:"]
 	pushinstedof = "git://github.com/"
 	pushinstedof = "https://github.com/"
@@ -74,8 +69,6 @@
 	rebase = true
 [rebase]
 	autosquash = true
-[merge]
-	ff = false
 [push]
 	default = nothing
 [tig]
@@ -109,6 +102,19 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
+[diff]
+	algorithm = histogram
+	renames = true
+	indentHeuristic = true
+	colorMoved = dimmed_zebra
+  tool = nvr
+[difftool "nvr"]
+  cmd = nvr -s -d $LOCAL $REMOTE
+[merge]
+	ff = false
+  tool = nvr
+[mergetool "nvr"]
+  cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
 
 [gpg]
 	program = gpg2
