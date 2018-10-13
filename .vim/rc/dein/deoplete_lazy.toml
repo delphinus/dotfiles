@@ -60,6 +60,7 @@ repo     = 'mhartington/nvim-typescript'
 on_ft    = ['typescript']
 hook_add = '''
   let g:nvim_typescript#default_mappings = 1
+  let g:nvim_typescript#diagnostics_enable = 0
 '''
 hook_post_update = '''
   !sh ./install.sh
