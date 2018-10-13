@@ -345,12 +345,14 @@ hook_add = """
   let g:ale_sign_column_always = 1
   let g:ale_fixers = {
         \ 'javascript': [ 'eslint' ],
+        \ 'json': [ 'prettier' ],
         \ 'python': [ 'black' ],
         \ 'typescript': [ 'tslint' ],
         \ }
   let g:ale_linters = {
         \ 'go': [ 'gometalinter' ],
         \ 'javascript': [ 'eslint' ],
+        \ 'json': [ 'prettier' ],
         \ 'typescript': [ 'tslint', 'tsserver' ],
         \ 'perl': [ 'perl' ],
         \ 'vim': [ 'vint' ],
