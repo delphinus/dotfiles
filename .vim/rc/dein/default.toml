@@ -344,9 +344,9 @@ hook_add = """
   let g:ale_statusline_format = [nr2char(0x25b8) . ' %d', nr2char(0x25b9) . ' %d', nr2char(0x25b4) . ' '] " '▸▹▴'
   let g:ale_sign_column_always = 1
   let g:ale_fixers = {
-        \ 'javascript': [ 'eslint', 'prettier' ],
+        \ 'javascript': [ 'eslint' ],
         \ 'python': [ 'black' ],
-        \ 'typescript': [ 'tslint', 'prettier' ],
+        \ 'typescript': [ 'tslint' ],
         \ }
   let g:ale_linters = {
         \ 'go': [ 'gometalinter' ],
