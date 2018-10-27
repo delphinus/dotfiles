@@ -35,6 +35,8 @@ hook_add = '''
     let pwd = get(b:, '__pwd__', '')
     if a:action ==# 'grep'
       call denite#start([{'name': 'grep', 'args': [pwd, '', '!']}])
+    elseif a:action ==# 'file_rec'
+      call denite#start([{'name': 'file_rec', 'args': [pwd]}])
     else
       call denite#start([{'name': a:action, 'args': ['', pwd]}])
     endif
@@ -63,18 +65,22 @@ hook_add = '''
   noremap zZ :<C-u>Denite buffer -input=term:// -immediately<CR>
   noremap zy :<C-u>Denite yankround<CR>
   noremap zY :<C-u>Denite -default-action=delete yankround<CR>
-  tnoremap úð         <C-\><C-n>:<C-u>Denite my_buffer my_file_old<CR>
-  tnoremap <A-z><A-p> <C-\><C-n>:<C-u>Denite my_buffer my_file_old<CR>
-  tnoremap úá         <C-\><C-n>:<C-u>Denite file_rec<CR>
-  tnoremap <A-z><A-a> <C-\><C-n>:<C-u>Denite file_rec<CR>
+  tnoremap úá         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('file_rec')<CR>
+  tnoremap Ωå         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('file_rec')<CR>
+  tnoremap <A-z><A-a> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('file_rec')<CR>
+  tnoremap Ω˜         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   tnoremap úî         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
+  tnoremap Ω©         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   tnoremap úç         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
+  nnoremap Ωπ         :<C-u>Denite my_buffer my_file_old<CR>
   nnoremap úð         :<C-u>Denite my_buffer my_file_old<CR>
   nnoremap <A-z><A-p> :<C-u>Denite my_buffer my_file_old<CR>
+  nnoremap Ω˜         :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   nnoremap úî         :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   nnoremap <A-z><A-n> :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
+  nnoremap Ω©         :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   nnoremap úç         :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   nnoremap <A-z><A-g> :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   nnoremap #  :<C-u>Denite line<CR>
