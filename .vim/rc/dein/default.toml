@@ -299,12 +299,13 @@ repo = 'tmux-plugins/vim-tmux'
 # for lightline {{{
 [[plugins]]
 repo    = 'delphinus/lightline-delphinus'
-rev     = 'feature/gitgutter'
-depends = ['lightline', 'ale', 'tagbar']
+depends = ['lightline', 'ale', 'tagbar', 'vim-gitgutter']
 hook_add = '''
   let g:lightline_delphinus_use_powerline_glyphs = 1
   let g:lightline_delphinus_use_nerd_fonts_glyphs = 1
   let g:lightline_delphinus_colorscheme = 'nord_improved'
+  let g:lightline_delphinus_tagbar_enable = 1
+  let g:lightline_delphinus_gitgutter_enable = 1
 '''
 
 [[plugins]]
