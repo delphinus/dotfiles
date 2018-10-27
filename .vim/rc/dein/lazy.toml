@@ -404,6 +404,8 @@ hook_add = '''
     autocmd!
     autocmd FileType markdown nmap <buffer> <A-m> <Plug>MarkdownPreview
     autocmd FileType markdown nmap <buffer> <A-M> <Plug>StopMarkdownPreview
+    autocmd FileType markdown nmap <buffer> µ <Plug>MarkdownPreview
+    autocmd FileType markdown nmap <buffer> Â <Plug>StopMarkdownPreview
   augroup END
 '''
 hook_source = '''
