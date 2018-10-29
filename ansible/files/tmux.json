@@ -73,7 +73,7 @@
         {"type": "basic", "from": {"key_code": "w"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "w"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
         {"type": "basic", "from": {"key_code": "x"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "x"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
         {"type": "basic", "from": {"key_code": "y"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "y"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
-        {"type": "basic", "from": {"key_code": "q"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "z", "modifiers": ["left_control"]}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
+        {"type": "basic", "from": {"key_code": "q"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "q"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
         {"type": "basic", "from": {"key_code": "0"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "0"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
         {"type": "basic", "from": {"key_code": "1"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "1"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
         {"type": "basic", "from": {"key_code": "2"}, "to": [{"key_code": "z", "modifiers": ["left_control"]}, {"key_code": "2"}], "conditions": [{"type": "variable_if", "name": "tmux_prefix_mode", "value": 1}]},
