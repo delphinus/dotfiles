@@ -190,9 +190,9 @@ on_ft  = ['vifm']
 
 # on_event {{{
 [[plugins]]
-repo             = 'airblade/vim-gitgutter'
-on_event         = ['FocusLost', 'CursorHold']
-hook_source      = '''
+repo     = 'airblade/vim-gitgutter'
+on_event = ['FocusLost', 'CursorHold']
+hook_add = '''
 "{{{
   let g:gitgutter_diff_args='-w --indent-heuristic'
   let g:gitgutter_highlight_lines = 0
