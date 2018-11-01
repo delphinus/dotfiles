@@ -49,7 +49,8 @@ async def main(connection):
         'Show remaining time for battery',
         [],
         '|███▎  | 66% 2:34',
-        timer.interval())
+        timer.interval(),
+        'cx.remora.battery')
 
     async def coro(knobs):
         if not timer.can_run():
@@ -90,8 +91,7 @@ async def main(connection):
         return last_status
 
 
-    await Registration.async_register_status_bar_component(
-        connection, component, coro, defaults={})
+    await component.async_register(connection, coro, timeout=None, defaults={})
 
 
 run_forever(main)
