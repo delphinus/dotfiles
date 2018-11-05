@@ -372,6 +372,11 @@ hook_add = """
     autocmd!
     autocmd VimEnter,FilterWritePre * ALEDisableBuffer
   augroup END
+  augroup DisableALEInDtsFiles
+    autocmd!
+    autocmd BufRead,BufNewFile *.d.ts ALEDisableBuffer
+    autocmd BufRead,BufNewFile *.d.ts.map ALEDisableBuffer
+  augroup END
 """
 # }}}
 
