@@ -237,6 +237,10 @@ hook_add         = 'let g:loaded_matchparen = 1'
 hook_post_source = 'call parenmatch#highlight()'
 
 [[plugins]]
+repo    = 'machakann/vim-highlightedyank'
+on_event = ['TextYankPost']
+
+[[plugins]]
 repo     = 'thinca/vim-visualstar'
 on_event = ['FocusLost', 'CursorHold']
 # }}}
