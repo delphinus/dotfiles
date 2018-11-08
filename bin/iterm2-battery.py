@@ -36,7 +36,7 @@ class Timer:
         return self.interval_seconds
 
     def update(self, text):
-        print('updated')
+        print('updated: ' + text)
         self.updated = datetime.now().timestamp()
         self.last = text
 
