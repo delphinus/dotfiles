@@ -41,6 +41,9 @@ set ignorecase " 検索時に大文字・小文字を区別しない
 set smartcase  " 検索パターンの大文字・小文字自動認識
 set hlsearch   " 検索パターンを強調表示
 set incsearch  " インクリメンタルサーチ
+if exists('+inccommand')
+  set inccommand=split
+endif
 " }}}
 
 " 画面表示 {{{
