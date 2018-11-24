@@ -94,19 +94,40 @@ hook_source = '''
     call denite#do_action(a:context, 'open', a:context['targets'])
   endfunction
 
-  function! s:start_action_for_here(context, action, ...)
+  function! s:start_action_for_path(context, action, ...)
     let target = a:context['targets'][0]
-    let action__path = substitute(get(target, 'action__path', ''), '/$', '', '')
-    if action__path == ''
-      call denite#util#print_error('unknown action__path')
+    let path = get(target, 'action__path', '')
+    if isdirectory(path)
+      if a:action ==# 'grep'
+        call denite#start([{'name': 'grep', 'args': [path, '', '!']}])
+      else
+        call denite#start([{'name': a:action, 'args': [path]}])
+      endif
+    else
+      call denite#util#print_error('unknown path for target: ' . target))
+    endif
+  endfunction
+
+  function! s:narrow_grep(context, ...) abort
+    let sources = get(a:context, 'sources', [])
+    let filtered = filter(copy(sources),
+          \ {i, v -> get(v, 'name', '') ==# 'grep'})
+    if len(filtered) == 0
+      call denite#util#print_error('current sources does not include `grep`.')
       return
     endif
-    let path = fnamemodify(action__path, ':h')
-    if a:action ==# 'grep'
-      call denite#start([{'name': 'grep', 'args': [path, '', '!']}])
-    else
-      call denite#start([{'name': a:action, 'args': [path]}])
-    endif
+    let args = get(filtered[0], 'args', [])
+    " TODO: add feature to know is_interactive in context
+    "let pattern = get(args, 2, '')
+    "if pattern !=# '!'
+      "call denite#util#print_error('current grep source is not interactive')
+      "return
+    "endif
+    let path = get(args, 0, '')
+    let opt = get(args, 1, '')
+    let input = get(a:context, 'input', '')
+    let pattern = substitute(input, '\s\+', '.*', 'g')
+    call denite#start([{'name': 'grep', 'args': [path, opt, pattern]}])
   endfunction
 
   function! Denite_toggle_sorter(sorter) abort
@@ -138,11 +159,10 @@ hook_source = '''
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('memo', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('directory', 'my_file_rec',
-        \ {ctx -> s:start_action_for_here(ctx, 'my_file_rec')})
+        \ {ctx -> s:start_action_for_path(ctx, 'my_file_rec')})
   call denite#custom#action('directory', 'grep',
-        \ {ctx -> s:start_action_for_here(ctx, 'grep')})
-  call denite#custom#action('file', 'grep',
-        \ {ctx -> s:start_action_for_here(ctx, 'grep')})
+        \ {ctx -> s:start_action_for_path(ctx, 'grep')})
+  call denite#custom#action('file', 'grep', function('s:narrow_grep'))
   call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
   call denite#custom#map('insert', '<C-f>',
