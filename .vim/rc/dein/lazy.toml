@@ -299,7 +299,7 @@ depends = ['context_filetype.vim']
 on_ft   = [
     'c', 'cpp', 'd', 'eruby', 'html', 'int-nyaos', 'lua',
     'nyaos', 'perl6', 'python', 'vim', 'vimperator', 'vimshell', 'xhtml',
-    'markdown', 'haml', 'jade', 'toml', 'go', 'asciidoc',
+    'haml', 'jade', 'toml', 'go', 'asciidoc',
   ]
 
 [[plugins]]
