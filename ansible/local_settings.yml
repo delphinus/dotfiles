@@ -10,4 +10,4 @@
     - include: tasks/secrets.yml
     - include: tasks/terminfo.yml
 
-# vim:se ft=ansible:
+# vim:se ft=yaml.ansible:
