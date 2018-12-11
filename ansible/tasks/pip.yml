@@ -1,0 +1,12 @@
+---
+- pip:
+    name:
+      - neovim
+      - neovim-remote
+      - vint
+      - yamllint
+    executable: pip3
+    extra_args: --user
+    state: latest
+
+# vim:se ft=yaml.ansible:
