@@ -9,5 +9,6 @@
     - include: tasks/dotfiles.yml
     - include: tasks/secrets.yml
     - include: tasks/terminfo.yml
+    - include: tasks/pip.yml
 
 # vim:se ft=yaml.ansible:
