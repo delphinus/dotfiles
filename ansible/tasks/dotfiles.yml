@@ -15,6 +15,7 @@
     - .config/ranger
     - .config/vifm/vifmrc
     - .config/vifm/colors/nord.vifm
+    - .config/yamllint
     - .editrc
     - .gitconfig
     - .grcat
