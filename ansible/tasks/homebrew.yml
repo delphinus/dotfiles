@@ -1,0 +1,35 @@
+---
+- homebrew:
+    state: latest
+    name:
+      - ansible
+      - ccze
+      - cmigemo
+      - coreutils
+      - delphinus/ghg/ghg
+      - diff-so-fancy
+      - docker
+      - exa
+      - gibo
+      - git
+      - go
+      - grc
+      - htop
+      - hub
+      - jq
+      - macvim
+      - mycli
+      - neovim
+      - peco
+      - prettyping
+      - pstree
+      - ricty
+      - shellcheck
+      - terminal-notifier
+      - the_platinum_searcher
+      - tig
+      - tmux
+      - tree
+      - universal-ctags
+      - watch
+      - z
