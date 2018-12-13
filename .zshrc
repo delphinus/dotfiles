@@ -90,11 +90,6 @@ fi
 # PHP composer
 path=($HOME/.composer/vendor/bin(N-/) $path)
 
-# node@8 for development
-if (( $+commands[brew] )); then
-  path=($(brew --prefix)/opt/node@8/bin(N-/) $path)
-fi
-
 # fssh
 if [[ -n $TMUX ]]; then
   $HOME/git/dotfiles/bin/set_env_for_fssh.rb
