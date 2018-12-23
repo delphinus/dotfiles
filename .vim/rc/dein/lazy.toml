@@ -74,6 +74,18 @@ repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
 
 [[plugins]]
+repo = 'lambdalisue/suda.vim'
+on_func  = ['suda#']
+hook_add = '''
+  let g:suda_startup = 0
+  let g:suda#prefix = 'sudo:'
+  augroup LoadSuda
+    autocmd!
+    autocmd VimEnter * call suda#init('sudo:*,sudo:*/*')
+  augroup END
+'''
+
+[[plugins]]
 repo     = 'lambdalisue/vim-gista'
 on_cmd   = ['Gista']
 on_func  = ['gista#']
