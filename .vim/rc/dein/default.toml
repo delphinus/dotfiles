@@ -395,13 +395,13 @@ if   = '''!has('kaoriya')'''
 repo = 'vim-scripts/fontforge_script.vim'
 
 [[plugins]]
-repo = 'vim-scripts/ingo-library'
-
-[[plugins]]
 repo = 'vim-scripts/nginx.vim'
 # }}}
 
 # dependencies {{{
+[[plugins]]
+repo = 'inkarkat/vim-ingo-library'
+
 [[plugins]]
 repo = 'kana/vim-textobj-user'
 # }}}
