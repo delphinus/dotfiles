@@ -530,10 +530,10 @@ hook_source = '''
 '''
 
 [[plugins]]
-repo    = 'vim-scripts/LineJuggler'
+repo    = 'inkarkat/vim-LineJuggler'
 depends = [
   'vim-repeat',
-  'ingo-library',
+  'vim-ingo-library',
   'visualrepeat',
 ]
 on_map   = ['<Plug>(LineJuggler']
