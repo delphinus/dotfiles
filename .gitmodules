@@ -16,3 +16,6 @@
 [submodule "submodules/nord-dircolors"]
 	path = submodules/nord-dircolors
 	url = https://github.com/arcticicestudio/nord-dircolors
+[submodule ".zsh/zsh-background-notify"]
+	path = .zsh/zsh-background-notify
+	url = https://github.com/delphinus/zsh-background-notify.git
