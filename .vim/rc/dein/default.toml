@@ -355,7 +355,7 @@ hook_add = """
         \ 'go': [ 'gometalinter' ],
         \ 'javascript': [ 'eslint' ],
         \ 'json': [ 'prettier' ],
-        \ 'typescript': [ 'tslint', 'tsserver' ],
+        \ 'typescript': [ 'tsserver' ],
         \ 'perl': [ 'perl' ],
         \ 'vim': [ 'vint' ],
         \ }
