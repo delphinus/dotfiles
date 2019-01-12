@@ -47,6 +47,7 @@ rev         = 'next'
 on_source   = ['deoplete.nvim']
 hook_add = '''
   let g:LanguageClient_serverCommands = {
+        \ 'go': ['golsp'],
         \ 'python': ['pyls'],
         \ 'ruby': ['solargraph', 'stdio'],
         \ 'vue': ['vls'],
@@ -57,6 +58,7 @@ hook_post_update = '''
   !npm install -g vue-language-server
   !pip3 install -U --user python-langauge-server
   !gem install --user-install solargraph
+  !go get -u golang.org/x/tools/cmd/golsp
 '''
 
 [[plugins]]
@@ -69,11 +71,6 @@ hook_add = '''
 hook_post_update = '''
   !sh ./install.sh
 '''
-
-[[plugins]]
-repo             = 'zchee/deoplete-go'
-on_ft            = ['go']
-hook_post_update = '!make'
 
 [[plugins]]
 repo  = 'Shougo/neco-vim'
