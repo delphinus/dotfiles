@@ -66,6 +66,7 @@ else
 fi
 
 # for ruby
+path=($HOME/.gem/ruby/2.3.0/bin $path)
 if (( $+commands[rbenv] )); then
   eval "$(rbenv init - --no-rehash zsh)"
 else
