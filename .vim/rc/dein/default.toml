@@ -164,7 +164,8 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'arcticicestudio/nord-vim'
+#repo = 'arcticicestudio/nord-vim'
+repo = 'delphinus/nord-vim'
 hook_add = '''
   let g:nord_italic = 1
   let g:nord_italic_comments = 1
