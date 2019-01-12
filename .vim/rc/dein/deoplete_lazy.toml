@@ -44,6 +44,7 @@ on_source = ['deoplete.nvim']
 [[plugins]]
 repo        = 'autozimu/LanguageClient-neovim'
 rev         = 'next'
+on_ft       = ['python', 'ruby', 'vue'] # for mappings
 on_source   = ['deoplete.nvim']
 hook_add = '''
   let g:LanguageClient_serverCommands = {
@@ -52,6 +53,13 @@ hook_add = '''
         \ 'ruby': ['solargraph', 'stdio'],
         \ 'vue': ['vls'],
         \ }
+  " vim-go is used for mappings in go
+  augroup LanguageClient
+    autocmd!
+    autocmd FileType python,ruby,vue nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
+    autocmd FileType python,ruby,vue nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    autocmd FileType python,ruby,vue nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+  augroup END
 '''
 hook_post_update = '''
   !bash install.sh
