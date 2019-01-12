@@ -6,7 +6,11 @@
   file: path=~/.ptpython state=directory
 
 - name: make dotfiles symlink
-  file: src={{ '/'.join([dotfiles_dir, item]) }} dest=~/{{ item }} state=link force=yes
+  file: >-
+    src={{ '/'.join([dotfiles_dir, item]) }}
+    dest=~/{{ item }}
+    state=link
+    force=yes
   with_items:
     - .config/gocode
     - .config/ipython
@@ -42,15 +46,15 @@
   file: dest=~/.config/nvim state=directory
 
 - name: make init.vim for Neovim
-  file: src={{ dotfiles_dir }}/.vim/vimrc dest=~/.config/nvim/init.vim state=link force=yes
-
-  #- name: set config for kitty
-  #file: src={{ dotfiles_dir }}/kitty.conf dest=~/Library/Preferences/kitty/kitty.conf state=link force=yes
-  #when: ansible_system == 'Darwin'
+  file: >-
+    src={{ dotfiles_dir }}/.vim/vimrc
+    dest=~/.config/nvim/init.vim
+    state=link
+    force=yes
 
 - name: symlink dircolors
   file: >-
-    src={{ '/'.join([dotfiles_dir, 'submodules/nord-dircolors/src/dir_colors']) }}
+    src={{ dotfiles_dir }}/submodules/nord-dircolors/src/dir_colors
     dest=~/.dir_colors
     state=link
     force=yes
@@ -59,7 +63,9 @@
   file: path='~/.config/karabiner/assets/complex_modifications' state=directory
   when: ansible_system == 'Darwin'
 - name: create karabiner setting
-  copy: src={{ item }}.json dest='~/.config/karabiner/assets/complex_modifications/{{ item }}.json'
+  copy: >-
+    src={{ item }}.json
+    dest='~/.config/karabiner/assets/complex_modifications/{{ item }}.json'
   when: ansible_system == 'Darwin'
   with_items:
     - spreadsheets
@@ -78,7 +84,10 @@
 - file: path=~/.ssh/config state=touch mode=0600
   changed_when: false
 - lineinfile: dest=~/.ssh/config line='Host *' state=present
-- lineinfile: dest=~/.ssh/config line='  ServerAliveInterval 120' insertafter='^Host \*$'
+- lineinfile: >-
+    dest=~/.ssh/config
+    line='  ServerAliveInterval 120'
+    insertafter='^Host \*$'
 
 - git: >-
     repo=https://{{ item }}
@@ -88,14 +97,11 @@
   register: git_sync
 
 - file: path=~/.ghg/bin state=directory
-  when: git_sync.changed
-
-- name: copy git-foresta executable
-  shell: cp ~/{.go/src/github.com/takaaki-kasai/git-foresta,.ghg/bin}/git-foresta
-  when: git_sync.changed
-
-- file: path=~/.ghg/bin/git-foresta mode=0755
-  when: git_sync.changed
+- file: >-
+    src=~/git/github.com/takaaki-kasai/git-foresta/git-foresta
+    dest=~/.ghg/bin/git-foresta
+    state=link
+    force=yes
 
 - name: set up iTerm2 shell integration
   get_url: >-
@@ -103,12 +109,14 @@
     dest=~/.iterm2_shell_integration.zsh
 
 - name: prepare iTerm2 script directory
-  file: path="~/Library/Application Support/iTerm2/Scripts/Autolaunch" state=directory
+  file: >-
+    path='~/Library/Application Support/iTerm2/Scripts/Autolaunch'
+    state=directory
 
 - name: set up the battery component in iTerm2 status bar
   file: >-
     src={{ dotfiles_dir }}/bin/iterm2-battery.py
-    dest="~/Library/Application Support/iTerm2/Scripts/Autolaunch/battery.py"
+    dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/battery.py'
     state=link
     force=yes
 
