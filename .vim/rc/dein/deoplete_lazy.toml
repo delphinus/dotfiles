@@ -45,14 +45,16 @@ on_source = ['deoplete.nvim']
 repo        = 'autozimu/LanguageClient-neovim'
 rev         = 'next'
 on_source   = ['deoplete.nvim']
-hook_source = '''
+hook_add = '''
   let g:LanguageClient_serverCommands = {
+        \ 'python': ['pyls'],
         \ 'vue': ['vls'],
         \ }
 '''
 hook_post_update = '''
   !bash install.sh
   !npm install -g vue-language-server
+  !pip3 install -U --user python-langauge-server
 '''
 
 [[plugins]]
@@ -70,11 +72,6 @@ hook_post_update = '''
 repo             = 'zchee/deoplete-go'
 on_ft            = ['go']
 hook_post_update = '!make'
-
-[[plugins]]
-repo    = 'zchee/deoplete-jedi'
-on_ft   = ['python']
-depends = ['jedi-vim']
 
 [[plugins]]
 repo  = 'Shougo/neco-vim'
