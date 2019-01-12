@@ -259,10 +259,6 @@ on_event = ['FocusLost', 'CursorHold']
 
 # on_ft {{{
 [[plugins]]
-repo  = 'davidhalter/jedi-vim'
-on_ft = ['python']
-
-[[plugins]]
 repo  = 'dsawardekar/wordpress.vim'
 on_ft = ['php']
 

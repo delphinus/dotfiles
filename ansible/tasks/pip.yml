@@ -4,6 +4,7 @@
       - ansible-lint
       - neovim
       - neovim-remote
+      - python-language-server
       - vint
       - yamllint
     executable: pip3
