@@ -1,6 +1,7 @@
 ---
 - pip:
     name:
+      - ansible-lint
       - neovim
       - neovim-remote
       - vint
