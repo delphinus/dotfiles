@@ -64,7 +64,7 @@ hook_add = '''
 hook_post_update = '''
   !bash install.sh
   !npm install -g vue-language-server
-  !pip3 install -U --user python-langauge-server
+  !pip3 install -U --user python-language-server
   !gem install --user-install solargraph
   !go get -u golang.org/x/tools/cmd/golsp
 '''
