@@ -23,7 +23,7 @@
       - peco
       - prettyping
       - pstree
-      - ricty
+      - sanemat/font/ricty
       - shellcheck
       - terminal-notifier
       - the_platinum_searcher
