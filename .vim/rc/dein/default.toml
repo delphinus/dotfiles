@@ -260,7 +260,11 @@ rev  = 'feature/recognize-ridgepole'
 repo = 'jason0x43/vim-js-indent'
 
 [[plugins]]
-repo  = 'pearofducks/ansible-vim'
+repo     = 'pearofducks/ansible-vim'
+hook_add = '''
+  let g:ansible_name_highlight = 'b'
+  let g:ansible_extra_keywords_highlight = 1
+'''
 
 [[plugins]]
 repo     = 'posva/vim-vue'
