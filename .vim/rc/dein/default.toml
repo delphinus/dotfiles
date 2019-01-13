@@ -354,6 +354,7 @@ hook_add = """
         \ 'javascript': [ 'eslint' ],
         \ 'json': [ 'prettier' ],
         \ 'python': [ 'black' ],
+        \ 'ruby': [ 'rubocop' ],
         \ 'typescript': [ 'tslint' ],
         \ }
   let g:ale_linters = {
