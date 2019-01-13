@@ -384,6 +384,11 @@ hook_add = """
     autocmd BufRead,BufNewFile *.d.ts.map ALEDisableBuffer
   augroup END
 """
+hook_post_update = '''
+  !pip3 install -U --user black vint
+  !npm install -g eslint tslint prettier
+  !gem install --user-install rubocop
+'''
 # }}}
 
 # vim-script {{{
