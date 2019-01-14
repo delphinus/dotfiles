@@ -2,8 +2,8 @@
 - pip:
     name:
       - ansible-lint
-      - neovim
       - neovim-remote
+      - pynvim
       - python-language-server
       - vint
       - yamllint
