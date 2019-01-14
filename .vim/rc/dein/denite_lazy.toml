@@ -1,6 +1,6 @@
 [[plugins]]
-repo     = 'Shougo/denite.nvim'
-#repo     = 'delphinus/denite.nvim'
+#repo     = 'Shougo/denite.nvim'
+repo     = 'delphinus/denite.nvim'
 #ev      = 'feature/sorter-abbr'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
@@ -176,8 +176,8 @@ hook_source = '''
   call denite#custom#map('insert', '<C-t>',
         \ '<denite:input_command_line>', 'noremap')
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
-  call denite#custom#map('insert', '~', expand('~'), 'noremap')
-  call denite#custom#source('_', 'matchers', ['matcher_substring'])
+  call denite#custom#source('_', 'matchers', ['matcher/substring'])
+  call denite#custom#source('file,file/old,file_old,my_buffer,my_file,my_file_old,my_file_rec', 'matchers', ['matcher/expand'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
   call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
