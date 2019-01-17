@@ -40,6 +40,23 @@ hook_add   = '''
   endfunction
 "}}}
 '''
+hook_source = '''
+"{{{
+  call defx#custom#option('_', {
+        \ 'columns': 'git:mark:filename:type:size:time',
+        \ })
+  " 0xe0a2  ;
+  " 0xe5fe  ;
+  " 0xe5ff  ;
+  call defx#custom#column('mark', {
+        \ 'directory_icon': nr2char(0xe5ff) . ' ',
+        \ 'readonly_icon': nr2char(0xe0a2) . ' ',
+        \ 'root_icon': nr2char(0xe5fe) . ' ',
+        \ 'selected_icon': '✓ ',
+        \ 'length': 2,
+        \ })
+"}}}
+'''
 
 [[plugins]]
 repo = 'kristijanhusak/defx-git'
