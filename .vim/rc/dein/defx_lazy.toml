@@ -1,7 +1,7 @@
 [[plugins]]
 repo       = 'Shougo/defx.nvim'
 on_command = ['Defx']
-depends    = ['defx-git']
+depends    = ['nvim-yarp', 'vim-hug-neovim-rpc', 'defx-git']
 hook_add   = '''
 "{{{
   nnoremap zf :<C-u>Defx -columns=git:mark:filename:type<CR>
