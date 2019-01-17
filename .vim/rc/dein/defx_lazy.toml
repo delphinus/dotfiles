@@ -4,7 +4,15 @@ on_command = ['Defx']
 depends    = ['nvim-yarp', 'vim-hug-neovim-rpc', 'defx-git']
 hook_add   = '''
 "{{{
-  nnoremap zf :<C-u>Defx -columns=git:mark:filename:type<CR>
+  function! s:dwm_new_defx() abort
+    if !dein#is_sourced('dwm.vim')
+      call dein#source('dwm.vim')
+    endif
+    call DWM_New()
+    Defx -new
+  endfunction
+  nnoremap zf :<C-u>Defx<CR>
+  nnoremap zF :<C-u>call <SID>dwm_new_defx()<CR>
   autocmd FileType defx call s:defx_my_settings()
   function! s:defx_my_settings() abort
     " Define mappings
