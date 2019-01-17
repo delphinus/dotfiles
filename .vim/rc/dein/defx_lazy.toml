@@ -53,6 +53,7 @@ hook_source = '''
 "{{{
   call defx#custom#option('_', {
         \ 'columns': 'git:mark:filename:type:size:time',
+        \ 'resume': v:true,
         \ })
   " 0xe0a2  ;
   " 0xe5fe  ;
