@@ -45,6 +45,7 @@ hook_add   = '''
     nnoremap <silent><buffer><expr> <C-l>   defx#do_action('redraw')
     nnoremap <silent><buffer><expr> <C-g>   defx#do_action('print')
     nnoremap <silent><buffer><expr> cd      defx#do_action('change_vim_cwd')
+    nnoremap <silent><buffer>       H       :<C-u>Denite defx/history<CR>
   endfunction
 "}}}
 '''
