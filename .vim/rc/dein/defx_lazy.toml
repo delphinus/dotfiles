@@ -59,11 +59,12 @@ hook_source = '''
   " 0xe0a2  ;
   " 0xe5fe  ;
   " 0xe5ff  ;
+  " 0xe92b  ;
   call defx#custom#column('mark', {
         \ 'directory_icon': nr2char(0xe5ff) . ' ',
         \ 'readonly_icon': nr2char(0xe0a2) . ' ',
         \ 'root_icon': nr2char(0xe5fe) . ' ',
-        \ 'selected_icon': '✓ ',
+        \ 'selected_icon': nr2char(0xe92b) . ' ',
         \ 'length': 2,
         \ })
 "}}}
