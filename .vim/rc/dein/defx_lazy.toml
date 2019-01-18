@@ -29,7 +29,7 @@ hook_add   = '''
     nnoremap <silent><buffer><expr> M       defx#do_action('new_multiple_files')
     nnoremap <silent><buffer><expr> C       defx#do_action('toggle_columns', 'mark:filename:type:size:time')
     nnoremap <silent><buffer><expr> S       defx#do_action('toggle_sort', 'time')
-    nnoremap <silent><buffer><expr> d       defx#do_action('remove')
+    nnoremap <silent><buffer><expr> d       defx#do_action('remove_trash')
     nnoremap <silent><buffer><expr> r       defx#do_action('rename')
     nnoremap <silent><buffer><expr> !       defx#do_action('execute_command')
     nnoremap <silent><buffer><expr> x       defx#do_action('execute_system')
