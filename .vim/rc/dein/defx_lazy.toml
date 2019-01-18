@@ -15,6 +15,7 @@ hook_add   = '''
   nnoremap zF :<C-u>call <SID>dwm_new_defx()<CR>
   autocmd FileType defx call s:defx_my_settings()
   function! s:defx_my_settings() abort
+    setlocal colorcolumn=
     " Define mappings
     nnoremap <silent><buffer><expr> <CR>    defx#do_action('open')
     nnoremap <silent><buffer><expr> c       defx#do_action('copy')
