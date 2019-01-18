@@ -1,6 +1,7 @@
 ---
 - pip:
     name:
+      - Send2Trash
       - ansible-lint
       - neovim-remote
       - pynvim
