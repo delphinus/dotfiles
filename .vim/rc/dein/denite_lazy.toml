@@ -1,6 +1,6 @@
 [[plugins]]
-#repo     = 'Shougo/denite.nvim'
-repo     = 'delphinus/denite.nvim'
+repo     = 'Shougo/denite.nvim'
+#repo     = 'delphinus/denite.nvim'
 #ev      = 'feature/sorter-abbr'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
@@ -42,11 +42,11 @@ hook_add = '''
     endif
   endfunction
 
-  noremap zn :<C-u>DeniteBufferDir my_file my_file:new<CR>
+  noremap zn :<C-u>DeniteBufferDir -expand my_file my_file:new<CR>
   noremap zN :<C-u>Denite npm<CR>
   noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
   noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
-  noremap za :<C-u>Denite my_file_rec<CR>
+  noremap za :<C-u>Denite -expand my_file_rec<CR>
   noremap zg :<C-u>Denite grep<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
   noremap zi :<C-u>Denite gitlog<CR>
@@ -54,7 +54,7 @@ hook_add = '''
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
   noremap zd :<C-u>Denite -default-action=narrow dein<CR>
   noremap zD :<C-u>Denite dein_log<CR>
-  noremap zp :<C-u>Denite my_buffer my_file_old<CR>
+  noremap zp :<C-u>Denite -expand my_buffer my_file_old<CR>
   noremap zh :<C-u>Denite ghq<CR>
   noremap zm :<C-u>Denite memo memo:new<CR>
   noremap ze :<C-u>Denite memo/grep::!<CR>
@@ -74,9 +74,9 @@ hook_add = '''
   tnoremap Ω©         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   tnoremap úç         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
-  nnoremap Ωπ         :<C-u>Denite my_buffer my_file_old<CR>
-  nnoremap úð         :<C-u>Denite my_buffer my_file_old<CR>
-  nnoremap <A-z><A-p> :<C-u>Denite my_buffer my_file_old<CR>
+  nnoremap Ωπ         :<C-u>Denite -expand my_buffer my_file_old<CR>
+  nnoremap úð         :<C-u>Denite -expand my_buffer my_file_old<CR>
+  nnoremap <A-z><A-p> :<C-u>Denite -expand my_buffer my_file_old<CR>
   nnoremap Ω˜         :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   nnoremap úî         :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   nnoremap <A-z><A-n> :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
@@ -177,7 +177,6 @@ hook_source = '''
         \ '<denite:input_command_line>', 'noremap')
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
   call denite#custom#source('_', 'matchers', ['matcher/substring'])
-  call denite#custom#source('file,file/old,file_old,my_buffer,my_file,my_file_old,my_file_rec', 'matchers', ['matcher/expand'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
   call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
