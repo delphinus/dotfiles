@@ -8,6 +8,7 @@ hook_add = '''
 "{{{
   let g:context_filetype#filetypes = {
         \ 'help': {},
+        \ 'markdown': {},
         \ 'vue': {},
         \ }
 "}}}
