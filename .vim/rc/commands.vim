@@ -11,7 +11,8 @@ augroup END
 function! s:cleanUpStartUpTime() abort
   let vim = printf('silent! %%s,%s,$VIM,', expand('$VIM'))
   execute vim
-  let $INIT = expand('~/.cache/dein/.cache/init.vim/.dein')
+  let vimrc = has('nvim') ? 'init.vim' : 'vimrc'
+  let $INIT = expand('~/.cache/dein/.cache/' . vimrc . '/.dein')
   execute printf('silent! %%s,%s,$INIT,', $INIT)
   let $CACHE = expand('~/.cache/dein/.cache')
   execute printf('silent! %%s,%s,$CACHE,', $CACHE)
