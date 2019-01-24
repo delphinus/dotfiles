@@ -176,7 +176,7 @@ on_ft  = ['vifm']
 # on_event {{{
 [[plugins]]
 repo     = 'airblade/vim-gitgutter'
-on_event = ['FocusLost', 'CursorHold']
+on_event = ['RooterChDir']
 hook_add = '''
 "{{{
   let g:gitgutter_diff_args='-w --indent-heuristic'
