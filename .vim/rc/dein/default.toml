@@ -259,6 +259,15 @@ repo = 'delphinus/vim-rails'
 rev  = 'feature/recognize-ridgepole'
 
 [[plugins]]
+repo = 'kchmck/vim-coffee-script'
+hook_add = '''
+  augroup DetectCSON
+    autocmd!
+    autocmd BufNewFile,BufRead *.cson set filetype=coffee
+  augroup END
+'''
+
+[[plugins]]
 repo = 'jason0x43/vim-js-indent'
 
 [[plugins]]
