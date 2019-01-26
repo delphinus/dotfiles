@@ -200,6 +200,9 @@ repo = 'aklt/plantuml-syntax'
 repo = 'cespare/vim-toml'
 
 [[plugins]]
+repo = 'delphinus/vim-toml-dein'
+
+[[plugins]]
 repo = 'hail2u/vim-css3-syntax'
 
 [[plugins]]
