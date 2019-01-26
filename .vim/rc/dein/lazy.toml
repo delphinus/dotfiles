@@ -273,15 +273,6 @@ repo  = 'msanders/cocoa.vim'
 on_ft = ['objc']
 
 [[plugins]]
-repo    = 'osyo-manga/vim-precious'
-depends = ['context_filetype.vim']
-on_ft   = [
-    'c', 'cpp', 'd', 'eruby', 'html', 'int-nyaos', 'lua',
-    'nyaos', 'perl6', 'python', 'vim', 'vimperator', 'vimshell', 'xhtml',
-    'haml', 'jade', 'toml', 'go', 'asciidoc',
-  ]
-
-[[plugins]]
 repo    = 'rhysd/vim-textobj-ruby'
 depends = ['vim-textobj-user']
 on_ft   = ['ruby']
