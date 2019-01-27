@@ -10,7 +10,7 @@ hook_add   = ''' "{{{
     call DWM_New()
     Defx -new
   endfunction
-  nnoremap zf :<C-u>Defx<CR>
+  nnoremap zf :<C-u>Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
   nnoremap zF :<C-u>call <SID>dwm_new_defx()<CR>
   autocmd FileType defx call s:defx_my_settings()
   function! s:defx_my_settings() abort
