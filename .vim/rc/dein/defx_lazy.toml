@@ -2,8 +2,7 @@
 repo       = 'Shougo/defx.nvim'
 on_command = ['Defx']
 depends    = ['nvim-yarp', 'vim-hug-neovim-rpc', 'defx-git']
-hook_add   = '''
-"{{{
+hook_add   = ''' "{{{
   function! s:dwm_new_defx() abort
     if !dein#is_sourced('dwm.vim')
       call dein#source('dwm.vim')
@@ -48,10 +47,8 @@ hook_add   = '''
     nnoremap <silent><buffer><expr> cd      defx#do_action('change_vim_cwd')
     nnoremap <silent><buffer>       H       :<C-u>Denite defx/history<CR>
   endfunction
-"}}}
-'''
-hook_source = '''
-"{{{
+"}}} '''
+hook_source = ''' "{{{
   call defx#custom#option('_', {
         \ 'columns': 'git:mark:filename:type:size:time',
         \ 'resume': v:true,
@@ -67,8 +64,7 @@ hook_source = '''
         \ 'selected_icon': nr2char(0xe92b) . ' ',
         \ 'length': 2,
         \ })
-"}}}
-'''
+"}}} '''
 
 [[plugins]]
 repo = 'kristijanhusak/defx-git'
