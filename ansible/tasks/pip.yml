@@ -3,6 +3,7 @@
     name:
       - Send2Trash
       - ansible-lint
+      - git+https://github.com/will8211/unimatrix
       - neovim-remote
       - pynvim
       - python-language-server
