@@ -5,8 +5,7 @@ repo     = 'Shougo/denite.nvim'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
 depends  = ['dwm.vim']
-hook_add = '''
-"{{{
+hook_add = ''' "{{{
   function! s:my_denite_outline(filetype) abort
     execute 'Denite' a:filetype ==# 'go' ? "decls:'%:p'" : 'outline'
   endfunction
@@ -85,10 +84,8 @@ hook_add = '''
   nnoremap <A-z><A-g> :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   nnoremap #  :<C-u>Denite line<CR>
   nnoremap g# :<C-u>Denite line:buffers<CR>
-"}}}
-'''
-hook_source = '''
-"{{{
+"}}} '''
+hook_source = ''' "{{{
   function! s:dwm_new(context)
     call DWM_New()
     call denite#do_action(a:context, 'open', a:context['targets'])
@@ -189,8 +186,7 @@ hook_source = '''
         \ 'cursor_wrap': v:true,
         \ })
   call denite#custom#option('dein', 'default_action', 'narrow')
-"}}}
-'''
+"}}} '''
 
 [[plugins]]
 repo      = 'Shougo/neomru.vim'

@@ -55,22 +55,19 @@ hook_add = '''
 
 [[plugins]]
 repo     = 'kana/vim-submode'
-hook_add = '''
-"{{{
+hook_add = ''' "{{{
   call submode#enter_with('DWM_size', 'n', '', '<C-w>>', ':call DWM_GrowMaster()<CR>')
   call submode#enter_with('DWM_size', 'n', '', '<C-w><', ':call DWM_ShrinkMaster()<CR>')
   call submode#map('DWM_size', 'n', '', '>', ':call DWM_GrowMaster()<CR>')
   call submode#map('DWM_size', 'n', '', '<', ':call DWM_ShrinkMaster()<CR>')
-"}}}
-'''
+"}}} '''
 
 [[plugins]]
 repo = 'haya14busa/is.vim'
 
 [[plugins]]
 repo     = 'ryanoasis/vim-devicons'
-hook_add = '''
-"{{{
+hook_add = ''' "{{{
   let g:webdevicons_enable_nerdtree = 0
   let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = ''
   let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
@@ -83,13 +80,11 @@ hook_add = '''
         \ 'txt':      '',
         \ 'vue':      '',
         \ }
-"}}}
-'''
+"}}} '''
 
 [[plugins]]
 repo     = 'tpope/vim-fugitive'
-hook_add = '''
-"{{{
+hook_add = ''' "{{{
   let g:fugitive_git_executable = 'git my-alias'
   nnoremap git :<c-u>Git
   nnoremap g<space> :<c-u>Git 
@@ -98,8 +93,7 @@ hook_add = '''
   nnoremap gs :Gstatus<CR>
   nnoremap gc :Gbrowse<CR>
   vnoremap gc :Gbrowse<CR>
-"}}}
-'''
+"}}} '''
 
 [[plugins]]
 repo    = 'tpope/vim-rhubarb'
@@ -120,8 +114,7 @@ repo     = 'wincent/terminus'
 [[plugins]]
 repo     = 'lifepillar/vim-solarized8'
 on_if    = '''has('termguicolors')'''
-hook_add = '''
-"{{{
+hook_add = ''' "{{{
   let g:solarized_diffmode = 'normal'
   let g:solarized_visibility = 'normal'
   if $TERM =~# 'italic'
@@ -149,8 +142,7 @@ hook_add = '''
   endfunction
 
   command! ColorschemeToggle :call <SID>colorscheme_toggle()
-"}}}
-'''
+"}}} '''
 
 [[plugins]]
 #repo = 'arcticicestudio/nord-vim'
@@ -211,13 +203,11 @@ repo = 'isobit/vim-caddyfile'
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
-hook_add = '''
-"{{{
+hook_add = ''' "{{{
   let g:vim_markdown_conceal = 0
   let g:vim_markdown_folding_disabled = 1
   let g:vim_markdown_new_list_item_indent = 2
-"}}}
-'''
+"}}} '''
 
 [[plugins]]
 repo = 'digitaltoad/vim-jade'
@@ -283,8 +273,7 @@ hook_add = '''
 
 [[plugins]]
 repo = 'ternjs/tern_for_vim'
-hook_add = '''
-"{{{
+hook_add = ''' "{{{
   let g:tern#command = ['tern']
   let g:tern#arguments = ['--persistent']
   augroup TernForVim
@@ -296,8 +285,7 @@ hook_add = '''
     autocmd FileType javascript nnoremap <buffer> <silent> <C-w><C-]> :TernDef<CR>
     autocmd FileType javascript nnoremap <buffer> <silent> K :TernType<CR>
   augroup END
-"}}}
-'''
+"}}} '''
 hook_post_update = '''
   !npm install -g tern
 '''
@@ -323,8 +311,7 @@ repo    = 'itchyny/lightline.vim'
 
 [[plugins]]
 repo     = 'majutsushi/tagbar'
-hook_add = '''
-"{{{
+hook_add = ''' "{{{
   let g:tagbar_left = 1
   let g:tagbar_autoclose = 1
   let g:tagbar_autofocus = 1
@@ -333,8 +320,7 @@ hook_add = '''
   let g:tagbar_autopreview = 1
   autocmd BufWinEnter * if &previewwindow | setlocal nonumber norelativenumber | endif
   nmap <C-t> :<C-u>TagbarToggle<CR>
-"}}}
-'''
+"}}} '''
 
 [[plugins]]
 repo     = 'w0rp/ale'
