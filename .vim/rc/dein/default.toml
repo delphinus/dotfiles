@@ -167,17 +167,24 @@ repo = 'haya14busa/is.vim'
 [[plugins]]
 repo     = 'ryanoasis/vim-devicons'
 hook_add = ''' "{{{
+  " U+E287 =>  :
+  " U+E601 =>  :
+  " U+E60E =>  :
+  " U+E769 =>  :
+  " U+E7C4 =>  :
+  " U+F07B =>  :
+  " U+F542 =>  :
   let g:webdevicons_enable_nerdtree = 0
-  let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = ''
-  let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
-  " overwrite setting for 'vue' to use U+F542 ' '
+  let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = nr2char(0xe287)
+  let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = nr2char(0xf07b)
+  " overwrite setting for 'vue' to use U+F542
   let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {
-        \ 'fcgi':     '',
-        \ 'perl':     '',
-        \ 'sqlite':   '',
-        \ 'tt':       '',
-        \ 'txt':      '',
-        \ 'vue':      '',
+        \ 'fcgi':     nr2char(0xe769),
+        \ 'perl':     nr2char(0xe769),
+        \ 'sqlite':   nr2char(0xe7c4),
+        \ 'tt':       nr2char(0xe60e),
+        \ 'txt':      nr2char(0xe601),
+        \ 'vue':      nr2char(0xf542),
         \ }
 "}}} '''
 
