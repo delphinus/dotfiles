@@ -1,3 +1,101 @@
+[ftplugin]
+applescript = ''' "{{{
+  inoremap <buffer> <A-m> ￢<CR>
+  inoremap <buffer> µ ￢<CR>
+"}}} '''
+
+c = ''' "{{{
+  setlocal tabstop=8
+  setlocal shiftwidth=8
+  setlocal softtabstop=8
+  setlocal noexpandtab
+"}}} '''
+
+css = 'setlocal iskeyword+=-'
+
+go_gohtmltmpl = ''' "{{{
+  set tabstop=4
+  set shiftwidth=4
+  set softtabstop=4
+"}}} '''
+
+help = 'setlocal nolist nonumber norelativenumber'
+
+html_javascript = ''' "{{{
+  setlocal tabstop=2
+  setlocal shiftwidth=2
+  setlocal softtabstop=2
+"}}} '''
+
+json = ''' "{{{
+  setlocal tabstop=4
+  setlocal shiftwidth=4
+  setlocal softtabstop=4
+  setlocal nocursorcolumn
+"}}} '''
+
+perl = ''' "{{{
+  let g:perl_include_pod = 1
+  unlet! g:perl_no_scope_in_variables
+  unlet! g:perl_no_extended_vars
+  let g:perl_string_as_statement = 1
+  unlet! g:perl_no_sync_on_sub
+  unlet! g:perl_no_sync_on_global_var
+  let g:perl_sync_dist = 1000
+  let g:perl_fold = 1
+  unlet! g:perl_fold_blocks
+  let g:perl_nofold_packages = 1
+  unlet! g:perl_nofold_subs
+  let g:perl_fold_anonymous_subs = 1
+  let g:perl_sub_signatures = 1
+
+  set iskeyword-=-
+  set iskeyword-=:
+
+  setlocal tabstop=4
+  setlocal shiftwidth=4
+  setlocal softtabstop=4
+
+  call delphinus#perl#manage_local_perl(expand('%'))
+"}}} '''
+
+php = 'setlocal expandtab'
+
+python = ''' "{{{
+  setlocal tabstop=4
+  setlocal softtabstop=4
+  setlocal shiftwidth=4
+
+  call delphinus#ale#set_pylintrc()
+"}}} '''
+
+ruby = ''' "{{{
+  setlocal tabstop=2
+  setlocal shiftwidth=2
+  setlocal softtabstop=2
+
+  function! s:rspec_syntax_highlight()
+    hi def link rubyRailsTestMethod Function
+    syn keyword rubyRailsTestMethod describe context it its specify shared_context shared_examples shared_examples_for shared_context include_examples include_context it_should_behave_like it_behaves_like before after around subject fixtures controller_name helper_name scenario feature background given described_class
+    syn match rubyRailsTestMethod '\<let\>!\='
+    syn keyword rubyRailsTestMethod violated pending expect expect_any_instance_of allow allow_any_instance_of double instance_double mock mock_model stub_model xit
+    syn match rubyRailsTestMethod '\.\@<!\<stub\>!\@!'
+  endfunction
+
+  autocmd Syntax ruby if ! RailsDetect() | call s:rspec_syntax_highlight() | endif
+"}}} '''
+
+scss = 'setlocal iskeyword+=-'
+
+toml = 'setlocal foldmethod=marker'
+
+vim = ''' "{{{
+  setlocal expandtab
+  setlocal shiftwidth=2
+  setlocal softtabstop=2
+  setlocal tabstop=2
+"}}} '''
+
 # Shougowares and their dependencies {{{
 [[plugins]]
 repo = 'Shougo/dein.vim'
