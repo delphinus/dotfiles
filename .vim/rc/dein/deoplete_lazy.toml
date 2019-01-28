@@ -78,6 +78,9 @@ hook_post_update = '''
   !sh ./install.sh
 '''
 
+[plugins.ftplugin]
+typescript = 'nnoremap <buffer> <silent> <C-w><C-]> :split \| TSTypeDef<CR>'
+
 [[plugins]]
 repo  = 'Shougo/neco-vim'
 on_ft = ['vim']
