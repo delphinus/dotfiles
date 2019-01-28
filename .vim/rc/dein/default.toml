@@ -1,4 +1,4 @@
-[ftplugin]
+[ftplugin] #{{{
 applescript = ''' "{{{
   inoremap <buffer> <A-m> ￢<CR>
   inoremap <buffer> µ ￢<CR>
@@ -95,6 +95,7 @@ vim = ''' "{{{
   setlocal softtabstop=2
   setlocal tabstop=2
 "}}} '''
+#}}}
 
 # Shougowares and their dependencies {{{
 [[plugins]]
