@@ -64,22 +64,22 @@
   when: ansible_system == 'Darwin'
 - name: create karabiner setting
   copy: >-
-    src={{ item }}.json
+    src=karabiner/{{ item }}.json
     dest='~/.config/karabiner/assets/complex_modifications/{{ item }}.json'
   when: ansible_system == 'Darwin'
   with_items:
-    - spreadsheets
-    - escape
-    - tab
-    - edgeview2
-    - slack
-    - return_or_enter
-    - tmux
     - contexts
+    - edgeview2
+    - emacs
+    - escape
     - excel
     - japanese
-    - emacs
+    - return_or_enter
+    - slack
     - spotlight
+    - spreadsheets
+    - tab
+    - tmux
 
 - file: path=~/.ssh/config state=touch mode=0600
   changed_when: false
