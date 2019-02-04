@@ -17,6 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^23.3.13",
+    "@types/meow": "^5.0.0",
     "@types/node": "^10.12.21",
     "eslint": "^5.4.0",
     "eslint-config-prettier": "^4.0.0",
@@ -35,6 +36,9 @@
     "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.3.1",
     "typescript-tslint-plugin": "^0.3.1"
+  },
+  "dependencies": {
+    "meow": "^5.0.0"
   },
   "jest": {
     "preset": "ts-jest",
