@@ -1,0 +1,30 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint:latest",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "array-type": [true, "array"],
+    "arrow-parens": false,
+    "cyclomatic-complexity": [true, 10],
+    "interface-name": [true, "never-prefix"],
+    "member-access": [true, "no-public"],
+    "no-console": false,
+    "no-implicit-dependencies": [true, ["tslint", "typescript"]],
+    "no-submodule-imports": false,
+    "prettier": [
+      true,
+      {
+        "semi": false,
+        "singleQuote": false,
+        "tabWidth": 4,
+        "trailingComma": "all"
+      }
+    ]
+  },
+  "linterOptions": {
+    "exclude": ["**/*.d.ts", "**/*.d.ts.map"]
+  }
+}
