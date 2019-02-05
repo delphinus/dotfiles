@@ -52,11 +52,11 @@ const cli = meow({
         }).then(result => !!result.proceed)
     try {
         const gitignore = await GitIgnore.create(cli.flags.filename)
-        await gitignore.read()
         if (!!cli.flags.update) {
             console.log("updating gibo...")
             await gitignore.update()
         }
+        await gitignore.read()
         const diffNames = gitignore.diffNames()
         if (diffNames.length === 0) {
             console.log("no updates found")
