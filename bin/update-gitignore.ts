@@ -66,7 +66,6 @@ const cli = meow({
         if (!!cli.flags.showDiff) {
             console.log("launching diff command...")
             await gitignore.showDiff()
-            return
         }
         if (!!cli.flags.yes || (await confirm())) {
             console.log("writing the latest .gitignore...")
