@@ -26,12 +26,10 @@ export class Latest {
         )
     }
 
-    async showDiff() {
+    async showDiff(original: string) {
         await this.write()
         await spawnAsync(
-            `git diff --color=always -u ${this.filename} ${
-                this.filename
-            } | less`,
+            `git diff --color=always -u ${original} ${this.filename} | less`,
             [],
             {
                 shell: true,

@@ -33,7 +33,7 @@ export class GitIgnore {
     }
 
     async showDiff() {
-        await this.latest.showDiff()
+        await this.latest.showDiff(this.filename)
     }
 
     async update() {
