@@ -71,7 +71,7 @@ Session.vim
 *~
 
 
-### https://raw.github.com/github/gitignore/7e854d39915457f55afe9886daeef4b2a35dc772/Global/OSX.gitignore
+### https://raw.github.com/github/gitignore/7e854d39915457f55afe9886daeef4b2a35dc772/Global/macOS.gitignore
 
 .DS_Store
 .AppleDouble
