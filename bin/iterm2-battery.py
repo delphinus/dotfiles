@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import asyncio
-from iterm2 import StatusBarComponent, Registration, run_forever
+from iterm2 import StatusBarComponent, run_forever
 from math import floor
 import re
 from subprocess import CalledProcessError, check_output
