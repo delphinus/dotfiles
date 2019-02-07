@@ -64,6 +64,11 @@ if [[ $OSTYPE == darwin* ]]; then
 else
   path=($HOME/.local/bin(N-/) $path)
 fi
+iterm2_lib=$HOME/Library/ApplicationSupport/iTerm2/iterm2env-3.7.1/versions/3.7.1/lib/python3.7/site-packages
+if [[ -d $iterm2_lib ]]; then
+  typeset -xT MYPYPATH mypypath
+  mypypath=($mypypath $iterm2_lib)
+fi
 
 # for ruby
 path=($HOME/.gem/ruby/2.3.0/bin $path)
