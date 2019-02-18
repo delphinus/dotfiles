@@ -173,6 +173,7 @@ hook_source = ''' "{{{
   call denite#custom#map('insert', '<C-t>',
         \ '<denite:input_command_line>', 'noremap')
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
+  call denite#custom#map('insert', '<C-x>', '<denite:quick_move>')
   call denite#custom#source('_', 'matchers', ['matcher/substring'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
