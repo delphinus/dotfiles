@@ -347,6 +347,9 @@ repo = 'delphinus/vim-rails'
 rev  = 'feature/recognize-ridgepole'
 
 [[plugins]]
+repo = 'delphinus/vim-firestore'
+
+[[plugins]]
 repo = 'kchmck/vim-coffee-script'
 hook_add = '''
   augroup DetectCSON
