@@ -263,6 +263,10 @@ go = ''' "{{{
 "}}} '''
 
 [[plugins]]
+repo  = 'junegunn/vader.vim'
+on_ft = ['vader']
+
+[[plugins]]
 repo  = 'msanders/cocoa.vim'
 on_ft = ['objc']
 
