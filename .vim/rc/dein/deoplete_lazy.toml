@@ -45,8 +45,11 @@ rev         = 'next'
 on_ft       = ['python', 'ruby', 'vue'] # for mappings
 on_source   = ['deoplete.nvim']
 hook_add = '''
+  let g:LanguageClient_rootMakers = {
+        \ 'go': ['.git', 'go.mod'],
+        \ }
   let g:LanguageClient_serverCommands = {
-        \ 'go': ['golsp'],
+        \ 'go': ['bingo'],
         \ 'python': ['pyls'],
         \ 'ruby': ['solargraph', 'stdio'],
         \ 'vue': ['vls'],
