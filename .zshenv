@@ -117,6 +117,8 @@ else
 fi
 
 # for go
+typeset -xT GO111MODULE go111module
+go111module=on
 typeset -xT GOPATH gopath
 gopath=$HOME/.go
 path=($gopath/bin(N-/) $path)
