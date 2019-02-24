@@ -45,11 +45,13 @@ rev         = 'next'
 on_ft       = ['python', 'ruby', 'vue'] # for mappings
 on_source   = ['deoplete.nvim']
 hook_add = '''
+  " for debugging
+  " let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
   let g:LanguageClient_rootMakers = {
         \ 'go': ['.git', 'go.mod'],
         \ }
   let g:LanguageClient_serverCommands = {
-        \ 'go': ['bingo'],
+        \ 'go': ['gopls'],
         \ 'python': ['pyls'],
         \ 'ruby': ['solargraph', 'stdio'],
         \ 'vue': ['vls'],
@@ -67,7 +69,7 @@ hook_post_update = '''
   !npm install -g vue-language-server
   !pip3 install -U --user python-language-server
   !gem install --user-install solargraph
-  !go get -u golang.org/x/tools/cmd/golsp
+  !go get -u golang.org/x/tools/cmd/gopls
 '''
 
 [[plugins]]
