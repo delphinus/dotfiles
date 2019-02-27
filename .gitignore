@@ -270,6 +270,11 @@ typings/
 .dynamodb/
 
 
+### https://raw.github.com/github/gitignore/f731569cfcc1dbe475f2d160e1e1e582c7cfe2a6/Global/Ansible.gitignore
+
+*.retry
+
+
 ### custom ignore
 /.ruby-version
 /.sass-cache
@@ -290,7 +295,6 @@ typings/
 /.vim/view
 /vim/view
 /ansible/hosts
-/ansible/local_settings.retry
 /history.sqlite
 /lastfm-lover-session-key.txt
 /mkmf.log
