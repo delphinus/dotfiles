@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: true
+  vars_files:
+    - vars/main.yml
+    - vars/secrets.yml
+
+  tasks:
+    - include: tasks/dotfiles.yml
+    - include: tasks/secrets.yml
+    - include: tasks/terminfo.yml
+
+# vim:se ft=yaml.ansible:
