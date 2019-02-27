@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  gather_facts: yes
+  gather_facts: true
   vars_files:
     - vars/main.yml
     - vars/secrets.yml
