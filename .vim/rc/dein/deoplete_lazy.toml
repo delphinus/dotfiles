@@ -84,7 +84,11 @@ hook_post_update = '''
 '''
 
 [plugins.ftplugin]
-typescript = 'nnoremap <buffer> <silent> <C-w><C-]> :split \| TSTypeDef<CR>'
+typescript = '''
+  nnoremap <buffer> <silent> gd :TSDefPreview<CR>
+  nnoremap <buffer> <silent> gD :split \| TSDef<CR>
+  nnoremap <buffer> <silent> <C-w><C-]> :split \| TSTypeDef<CR>
+'''
 
 [[plugins]]
 repo  = 'Shougo/neco-vim'
