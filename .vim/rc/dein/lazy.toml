@@ -6,6 +6,8 @@ hook_add   = ''' "{{{
   let g:deol#enable_dir_changed = 0
   tnoremap <BS><C-n> <C-\><C-n>
   if has('nvim')
+    "nnoremap <C-\><C-n> :<C-u>Deol -split=floating<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    "nnoremap <BS><C-n> :<C-u>Deol -split=floating<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     nnoremap <C-\><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     " mapping for normal <A-> modifier
@@ -18,6 +20,8 @@ hook_add   = ''' "{{{
     tmap úú <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     nmap úú <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
   else
+    "nnoremap <C-\><C-n> :<C-u>Deol -split=floating<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    "nnoremap <BS><C-n> :<C-u>Deol -split=floating<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
     nnoremap <C-\><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
     nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
     " mapping for normal <A-> modifier
