@@ -187,6 +187,7 @@ hook_source = ''' "{{{
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
         \ 'split': 'floating',
+        \ 'winwidth': &columns / 2,
         \ })
   call denite#custom#option('dein', 'default_action', 'narrow')
 "}}} '''
