@@ -21,9 +21,19 @@ augroup InsertIfTerminal
   endif
 augroup END
 
+function! s:close_quit_deol() abort
+  if exists('t:deol') && bufnr('%') == t:deol.bufnr
+    " call <Plug>deol_quit
+    normal q
+  else
+    " call close window
+    normal <C-c>
+  endif
+endfunction
+
 " mapping for normal <A-> modifier
 tmap <A-@> <C-\><C-n><C-@>
-tmap <A-c> <C-\><C-n><C-c>
+tmap <silent> <A-c> <C-\><C-n>:<C-u>call <SID>close_quit_deol()<CR>
 tmap <A-j> <C-\><C-n><C-j>
 tmap <A-k> <C-\><C-n><C-k>
 tmap <A-o> <C-\><C-n><C-w>oi
@@ -34,7 +44,7 @@ tmap <A-;> <C-\><C-n>:
 tmap <A-t> <C-\><C-n>gt
 tnoremap <expr> <A-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
 nmap <A-@> <C-@>
-nmap <A-c> <C-c>
+nmap <silent> <A-c> :<C-u>call <SID>close_quit_deol()<CR>
 nmap <A-j> <C-j>
 nmap <A-k> <C-k>
 nmap <A-o> <C-w>o
@@ -46,7 +56,7 @@ nmap <A-t> gt
 
 " mapping for iTerm2 setting `Normal`
 tmap €     <C-\><C-n><C-@>
-tmap ç     <C-\><C-n><C-c>
+tmap <silent> ç     <C-\><C-n>:<C-u>call <SID>close_quit_deol()<CR>
 tmap ∆     <C-\><C-n><C-j>
 tmap ˚     <C-\><C-n><C-k>
 tmap ø     <C-\><C-n><C-w>oi
@@ -57,7 +67,7 @@ tmap …     <C-\><C-n>:
 tmap †     <C-\><C-n>gt
 tnoremap <expr> ® '<C-\><C-n>"'.nr2char(getchar()).'pi'
 nmap €     <C-@>
-nmap ç     <C-c>
+nmap <silent> ç     :<C-u>call <SID>close_quit_deol()<CR>
 nmap ∆     <C-j>
 nmap ˚     <C-k>
 nmap ø     <C-w>o
@@ -69,7 +79,7 @@ nmap †     gt
 
 " mapping for iTerm2 setting `Meta`
 tmap À     <C-\><C-n><C-@>
-tmap ã     <C-\><C-n><C-c>
+tmap <silent> ã     <C-\><C-n>:<C-u>call <SID>close_quit_deol()<CR>
 tmap ê     <C-\><C-n><C-j>
 tmap ë     <C-\><C-n><C-k>
 tmap ï     <C-\><C-n><C-w>oi
@@ -80,7 +90,7 @@ tmap »     <C-\><C-n>:
 tmap ô     <C-\><C-n>gt
 tnoremap <expr> ò '<C-\><C-n>"'.nr2char(getchar()).'pi'
 nmap À     <C-@>
-nmap ã     <C-c>
+nmap <silent> ã     :<C-u>call <SID>close_quit_deol()<CR>
 nmap ê     <C-j>
 nmap ë     <C-k>
 nmap ï     <C-w>o
