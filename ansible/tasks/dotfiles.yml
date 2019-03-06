@@ -69,6 +69,7 @@
   when: ansible_system == 'Darwin'
   with_items:
     - contexts
+    - double
     - edgeview2
     - emacs
     - escape

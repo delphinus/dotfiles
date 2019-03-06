@@ -1,0 +1,93 @@
+{
+  "title": "[delphinus] Prevent unintentionally ⌘+W/Q",
+  "rules": [
+    {
+      "description": "[delphinus] Single press ⌘+W makes ⌘ and W. Double ⌘+W makes ⌘+W.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "w",
+            "modifiers": { "mandatory": ["command"] }
+          },
+          "to": [
+            { "set_variable": { "name": "press_command_w_key", "value": 0 } },
+            { "key_code": "w", "modifiers": ["command"] }
+          ],
+          "conditions": [
+            { "type": "variable_if", "name": "press_command_w_key", "value": 1 }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "w",
+            "modifiers": { "mandatory": ["command"] }
+          },
+          "to": [
+            { "set_variable": { "name": "press_command_w_key", "value": 1 } }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              { "set_variable": { "name": "press_command_w_key", "value": 0 } },
+              { "key_code": "left_command" },
+              { "key_code": "w" }
+            ],
+            "to_if_canceled": [
+              { "set_variable": { "name": "press_command_w_key", "value": 0 } },
+              { "key_code": "left_command" },
+              { "key_code": "w" }
+            ]
+          },
+          "conditions": [
+            { "type": "variable_if", "name": "press_command_w_key", "value": 0 }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "[delphinus] Single press ⌘+Q makes ⌘ and Q. Double ⌘+Q makes ⌘+Q.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "q",
+            "modifiers": { "mandatory": ["command"] }
+          },
+          "to": [
+            { "set_variable": { "name": "press_command_q_key", "value": 0 } },
+            { "key_code": "q", "modifiers": ["command"] }
+          ],
+          "conditions": [
+            { "type": "variable_if", "name": "press_command_q_key", "value": 1 }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "q",
+            "modifiers": { "mandatory": ["command"] }
+          },
+          "to": [
+            { "set_variable": { "name": "press_command_q_key", "value": 1 } }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              { "set_variable": { "name": "press_command_q_key", "value": 0 } },
+              { "key_code": "left_command" },
+              { "key_code": "q" }
+            ],
+            "to_if_canceled": [
+              { "set_variable": { "name": "press_command_q_key", "value": 0 } },
+              { "key_code": "left_command" },
+              { "key_code": "q" }
+            ]
+          },
+          "conditions": [
+            { "type": "variable_if", "name": "press_command_q_key", "value": 0 }
+          ]
+        }
+      ]
+    }
+  ]
+}
