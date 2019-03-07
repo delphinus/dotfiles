@@ -26,8 +26,8 @@ function! s:close_quit_deol() abort
     " call <Plug>deol_quit
     normal q
   else
-    " call close window
-    normal <C-c>
+    " call to close window
+    execute DWM_Close()
   endif
 endfunction
 
