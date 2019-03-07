@@ -6,11 +6,12 @@ on_command = ['Deol']
 hook_add   = ''' "{{{
   let g:deol#enable_dir_changed = 0
   tnoremap <BS><C-n> <C-\><C-n>
+  function! s:open_deol() abort
+    execute 'Deol -split=floating -winwidth=' . float2nr(&columns / 2) '-winheight=' . float2nr(&lines / 4 * 3) '-winrow=' . float2nr(&lines / 8) '-wincol=' . float2nr(&columns / 4)
+  endfunction
   if has('nvim')
-    "nnoremap <C-\><C-n> :<C-u>Deol -split=floating<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    "nnoremap <BS><C-n> :<C-u>Deol -split=floating<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    nnoremap <C-\><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
+    nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     " mapping for normal <A-> modifier
     tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     nmap <A-z><A-z> <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
@@ -21,10 +22,8 @@ hook_add   = ''' "{{{
     tmap úú <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     nmap úú <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
   else
-    "nnoremap <C-\><C-n> :<C-u>Deol -split=floating<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    "nnoremap <BS><C-n> :<C-u>Deol -split=floating<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    nnoremap <C-\><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    nnoremap <BS><C-n> :<C-u>Deol -split<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
+    nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
     " mapping for normal <A-> modifier
     tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
     nmap <A-z><A-z> <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
