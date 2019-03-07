@@ -1,6 +1,7 @@
 # on_cmd {{{
 [[plugins]]
-repo       = 'Shougo/deol.nvim'
+#repo       = 'Shougo/deol.nvim'
+repo       = 'delphinus/deol.nvim'
 on_command = ['Deol']
 hook_add   = ''' "{{{
   let g:deol#enable_dir_changed = 0
