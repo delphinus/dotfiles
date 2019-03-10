@@ -53,7 +53,7 @@
 	pushinstedof = "git://github.com/"
 	pushinstedof = "https://github.com/"
 [user]
-	email = delphinus@remora.cx
+	email = me@delphinus.dev
 	name = delphinus
 	signingkey = 32AB0B4F
 [github]
@@ -91,6 +91,8 @@
 	root = ~/.cache/dein/repos
 	root = ./vendor
 [ghq "ssh://git@git.remora.cx"]
+	vcs = git
+[ghq "ssh://git@git.delphinus.dev"]
 	vcs = git
 [filter "hawser"]
 	clean = git hawser clean %f
