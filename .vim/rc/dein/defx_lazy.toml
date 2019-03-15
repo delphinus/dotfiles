@@ -9,7 +9,7 @@ hook_add   = ''' "{{{
   function! s:defx_my_settings() abort
     setlocal colorcolumn=
     " Define mappings
-    nnoremap <silent><buffer><expr> <CR>    defx#do_action('open')
+    nnoremap <silent><buffer><expr> <CR>    defx#do_action('open', 'split')
     nnoremap <silent><buffer><expr> c       defx#do_action('copy')
     nnoremap <silent><buffer><expr> m       defx#do_action('move')
     nnoremap <silent><buffer><expr> p       defx#do_action('paste')
