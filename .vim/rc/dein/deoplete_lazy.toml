@@ -56,12 +56,19 @@ hook_add = '''
         \ 'ruby': ['solargraph', 'stdio'],
         \ 'vue': ['vls'],
         \ }
+
+  function! s:LanguageClient_restart() abort
+    LanguageClientStop
+    LanguageClientStart
+  endfunction
+
   " vim-go is used for mappings in go
   augroup LanguageClient
     autocmd!
     autocmd FileType python,ruby,vue nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
     autocmd FileType python,ruby,vue nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
     autocmd FileType python,ruby,vue nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+    autocmd FileType python,ruby,vue,go nnoremap <buffer> <silent> <C-l> :call <SID>LanguageClient_restart()<CR>
   augroup END
 '''
 hook_post_update = '''
