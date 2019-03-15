@@ -57,9 +57,18 @@ hook_add = '''
         \ 'vue': ['vls'],
         \ }
 
-  function! s:LanguageClient_restart() abort
-    LanguageClientStop
-    LanguageClientStart
+  function! s:check_gopls() abort
+    call jobstart(['pgrep', '-fl', 'gopls'], {'on_exit': function('s:on_exit')})
+  endfunction
+  
+  function! s:on_exit(job_id, code, event) abort
+    if a:code == 0
+      echo 'gopls is executing'
+    else
+      LanguageClientStop
+      LanguageClientStart
+      echo 'LanguageClient restarted'
+    endif
   endfunction
 
   " vim-go is used for mappings in go
@@ -68,7 +77,7 @@ hook_add = '''
     autocmd FileType python,ruby,vue nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
     autocmd FileType python,ruby,vue nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
     autocmd FileType python,ruby,vue nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-    autocmd FileType python,ruby,vue,go nnoremap <buffer> <silent> <C-l> :call <SID>LanguageClient_restart()<CR>
+    autocmd FileType go nnoremap <buffer> <silent> <C-l> :call <SID>check_gopls()<CR>
   augroup END
 '''
 hook_post_update = '''
