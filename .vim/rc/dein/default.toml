@@ -432,9 +432,9 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-#repo     = 'w0rp/ale'
-repo     = 'delphinus/ale'
-rev      = 'feature/detect-note-in-mypy'
+repo     = 'w0rp/ale'
+#repo     = 'delphinus/ale'
+#rev      = 'feature/detect-note-in-mypy'
 hook_add = """
   let g:ale_fix_on_save = 1
   let g:ale_completion_enabled = 1
