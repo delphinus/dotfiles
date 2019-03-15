@@ -2,27 +2,20 @@
   "title": "[delphinus] Custom shortcut for Google Spreadsheets",
   "rules": [
     {
-      "description": "[delphinus] Use left_control+left_option+xc to cycle through sheets in web browser.",
+      "description": "[delphinus] Use left_control+left_option+cv to cycle through sheets in web browser.",
       "manipulators": [
         {
           "type": "basic",
           "from": {
-            "key_code": "x",
+            "key_code": "c",
             "modifiers": {
-              "mandatory": [
-                "left_control",
-                "left_option"
-              ]
+              "mandatory": ["left_control", "left_option"]
             }
           },
           "to": [
             {
               "key_code": "page_up",
-              "modifiers": [
-                "fn",
-                "left_command",
-                "left_shift"
-              ]
+              "modifiers": ["fn", "left_command", "left_shift"]
             }
           ],
           "conditions": [
@@ -39,22 +32,15 @@
         {
           "type": "basic",
           "from": {
-            "key_code": "c",
+            "key_code": "v",
             "modifiers": {
-              "mandatory": [
-                "left_control",
-                "left_option"
-              ]
+              "mandatory": ["left_control", "left_option"]
             }
           },
           "to": [
             {
               "key_code": "page_down",
-              "modifiers": [
-                "fn",
-                "left_command",
-                "left_shift"
-              ]
+              "modifiers": ["fn", "left_command", "left_shift"]
             }
           ],
           "conditions": [
