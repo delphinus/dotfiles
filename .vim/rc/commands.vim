@@ -34,6 +34,3 @@ function! s:getchar() abort
   redraw | echomsg printf('Raw: "%s" | Char: "%s"', c, nr2char(c))
 endfunction
 command! GetChar call s:getchar()
-
-command! UpdateExtraGoCommand call delphinus#go#install_tester_binaries(1)
-command! InstallExtraGoCommand call delphinus#go#install_tester_binaries(0)
