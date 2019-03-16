@@ -22,6 +22,7 @@
     - .config/yamllint
     - .editrc
     - .gitconfig
+    - .golangci.yml
     - .grcat
     - .inputrc
     - .jsbeautifyrc
