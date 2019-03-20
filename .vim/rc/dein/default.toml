@@ -277,6 +277,9 @@ hook_add = '''
     hi link GitGutterChangeDeleteLine GitGutterChangeDelete
     hi link GitGutterDeleteLine GitGutterDelete
     hi Title gui=bold cterm=bold
+    " for floating windows
+    " see http://paletton.com/#uid=13J0u0kadhI5grB80mhc0brjvaS
+    hi Pmenu guibg=#1a253a
   endfunction
 
   augroup nord-overrides
