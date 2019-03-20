@@ -260,24 +260,28 @@ hook_add = '''
   let g:nord_comment_brightness = 20
   let g:nord_uniform_diff_background = 1
 
+  function! s:modify_colorscheme() abort
+    hi Identifier guifg=#8FBCBB guibg=NONE ctermfg=14 ctermbg=NONE
+    hi Special guifg=#D08770 guibg=NONE ctermfg=11 ctermbg=NONE
+    hi IncSearch guifg=#3B4252 guibg=#81A1C1 ctermfg=0 ctermbg=4 gui=bold cterm=bold
+    hi GitGutterAdd ctermfg=2 guifg=#a3be8c ctermbg=NONE guibg=NONE
+    hi GitGutterChange ctermfg=3 guifg=#ebcb8b ctermbg=NONE guibg=NONE
+    hi GitGutterChangeDelete ctermfg=5 guifg=#b48ead ctermbg=NONE guibg=NONE
+    hi GitGutterDelete ctermfg=1 guifg=#bf616a ctermbg=NONE guibg=NONE
+    "hi GitGutterAddLine guibg=#16230b
+    "hi GitGutterChangeLine guibg=#221907
+    "hi GitGutterChangeDeleteLine guibg=#180715
+    "hi GitGutterDeleteLine guibg=#1e070a
+    hi link GitGutterAddLine GitGutterAdd
+    hi link GitGutterChangeLine GitGutterChange
+    hi link GitGutterChangeDeleteLine GitGutterChangeDelete
+    hi link GitGutterDeleteLine GitGutterDelete
+    hi Title gui=bold cterm=bold
+  endfunction
+
   augroup nord-overrides
     autocmd!
-    autocmd ColorScheme nord highlight Identifier guifg=#8FBCBB guibg=NONE ctermfg=14 ctermbg=NONE
-    autocmd ColorScheme nord highlight Special guifg=#D08770 guibg=NONE ctermfg=11 ctermbg=NONE
-    autocmd ColorScheme nord highlight IncSearch guifg=#3B4252 guibg=#81A1C1 ctermfg=0 ctermbg=4 gui=bold cterm=bold
-    autocmd ColorScheme nord highlight GitGutterAdd ctermfg=2 guifg=#a3be8c ctermbg=NONE guibg=NONE
-    autocmd ColorScheme nord highlight GitGutterChange ctermfg=3 guifg=#ebcb8b ctermbg=NONE guibg=NONE
-    autocmd ColorScheme nord highlight GitGutterChangeDelete ctermfg=5 guifg=#b48ead ctermbg=NONE guibg=NONE
-    autocmd ColorScheme nord highlight GitGutterDelete ctermfg=1 guifg=#bf616a ctermbg=NONE guibg=NONE
-    "autocmd ColorScheme nord highlight GitGutterAddLine guibg=#16230b
-    "autocmd ColorScheme nord highlight GitGutterChangeLine guibg=#221907
-    "autocmd ColorScheme nord highlight GitGutterChangeDeleteLine guibg=#180715
-    "autocmd ColorScheme nord highlight GitGutterDeleteLine guibg=#1e070a
-    autocmd ColorScheme nord highlight link GitGutterAddLine GitGutterAdd
-    autocmd ColorScheme nord highlight link GitGutterChangeLine GitGutterChange
-    autocmd ColorScheme nord highlight link GitGutterChangeDeleteLine GitGutterChangeDelete
-    autocmd ColorScheme nord highlight link GitGutterDeleteLine GitGutterDelete
-    autocmd ColorScheme nord highlight Title gui=bold cterm=bold
+    autocmd ColorScheme nord call <SID>modify_colorscheme()
   augroup END
 '''
 # }}}
