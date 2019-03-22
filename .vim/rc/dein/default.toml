@@ -464,13 +464,13 @@ hook_add = """
         \ 'json': [ 'prettier' ],
         \ 'python': [ 'black' ],
         \ 'ruby': [ 'rubocop' ],
-        \ 'typescript': [ 'tslint' ],
+        \ 'typescript': [],
         \ }
   let g:ale_linters = {
         \ 'go': [ 'gometalinter' ],
         \ 'javascript': [ 'eslint' ],
         \ 'json': [ 'prettier' ],
-        \ 'typescript': [ 'tsserver' ],
+        \ 'typescript': [],
         \ 'perl': [ 'perl' ],
         \ 'vim': [ 'vint' ],
         \ }

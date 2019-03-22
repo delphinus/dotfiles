@@ -40,13 +40,21 @@ repo      = 'Shougo/echodoc.vim'
 on_source = ['deoplete.nvim']
 
 [[plugins]]
-repo        = 'autozimu/LanguageClient-neovim'
-rev         = 'next'
-on_ft       = ['python', 'ruby', 'vue'] # for mappings
-on_source   = ['deoplete.nvim']
+#repo        = 'autozimu/LanguageClient-neovim'
+#rev         = 'next'
+repo      = 'rhysd/LanguageClient-neovim'
+rev       = 'float-window-for-hover'
+on_func   = [
+  'LanguageClient#textDocument_definition',
+  'LanguageClient#textDocument_hover',
+  'LanguageClient#textDocument_rename',
+  'LanguageClient#textDocument_typeDefinition',
+]
+on_source = ['deoplete.nvim']
 hook_add = '''
   " for debugging
   " let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
+  let g:LanguageClient_useFloatingHover = 1
   let g:LanguageClient_rootMakers = {
         \ 'go': ['.git', 'go.mod'],
         \ }
@@ -54,9 +62,52 @@ hook_add = '''
         \ 'go': ['gopls'],
         \ 'python': ['pyls'],
         \ 'ruby': ['solargraph', 'stdio'],
+        \ 'typescript': ['typescript-language-server', '--stdio'],
         \ 'vue': ['vls'],
         \ }
+  " see setting for ALE
+  let g:LanguageClient_diagnosticsDisplay = {
+        \ '1': {
+        \   'name': 'Error',
+        \   'texthl': 'ALEError',
+        \   'signText': nr2char(0x25b8),
+        \   'signTexthl': 'ALEErrorSign',
+        \   'virtualTexthl': 'Error',
+        \ },
+        \ '2': {
+        \   'name': 'Warning',
+        \   'texthl': 'ALEWarning',
+        \   'signText': nr2char(0x25b9),
+        \   'signTexthl': 'ALEWarningSign',
+        \   'virtualTexthl': 'Todo',
+        \ },
+        \ '3': {
+        \   'name': 'Information',
+        \   'texthl': 'ALEInfo',
+        \   'signText': nr2char(0x25b4),
+        \   'signTexthl': 'ALEInfoSign',
+        \   'virtualTexthl': 'Todo',
+        \ },
+        \ '4': {
+        \   'name': 'Hint',
+        \   'texthl': 'ALEInfo',
+        \   'signText': nr2char(0x25b4),
+        \   'signTexthl': 'ALEInfoSign',
+        \   'virtualTexthl': 'Todo',
+        \ },
+        \ }
+'''
+hook_post_update = '''
+  !bash install.sh
+  !npm install -g vue-language-server
+  !npm install -g typescript-language-server
+  !pip3 install -U --user python-language-server
+  !gem install --user-install solargraph
+  !go get -u golang.org/x/tools/cmd/gopls
+'''
 
+[plugins.ftplugin]
+go = '''
   function! s:check_gopls() abort
     call jobstart(['pgrep', '-fl', 'gopls'], {'on_exit': function('s:on_exit')})
   endfunction
@@ -72,38 +123,39 @@ hook_add = '''
   endfunction
 
   " vim-go is used for mappings in go
-  augroup LanguageClient
-    autocmd!
-    autocmd FileType python,ruby,vue nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
-    autocmd FileType python,ruby,vue nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    autocmd FileType python,ruby,vue nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-    autocmd FileType go nnoremap <buffer> <silent> <C-l> :call <SID>check_gopls()<CR>
-  augroup END
+  nnoremap <buffer> <silent> <C-l> :call <SID>check_gopls()<CR>
 '''
-hook_post_update = '''
-  !bash install.sh
-  !npm install -g vue-language-server
-  !pip3 install -U --user python-language-server
-  !gem install --user-install solargraph
-  !go get -u golang.org/x/tools/cmd/gopls
+python = '''
+  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+'''
+ruby = '''
+  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+'''
+typescript = '''
+  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer> <silent> gd :split \| call LanguageClient#textDocument_definition<CR>
+  nnoremap <buffer> <silent> <C-]> :call LanguageClient#textDocument_typeDefinition<CR>
+  nnoremap <buffer> <silent> <C-w><C-]> :split \| LanguageClient#textDocument_typeDefinition<CR>
+'''
+vue = '''
+  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 '''
 
 [[plugins]]
 repo     = 'mhartington/nvim-typescript'
 on_ft    = ['typescript']
 hook_add = '''
-  let g:nvim_typescript#default_mappings = 1
+  let g:nvim_typescript#default_mappings = 0
   let g:nvim_typescript#diagnostics_enable = 0
 '''
 hook_post_update = '''
   !sh ./install.sh
-'''
-
-[plugins.ftplugin]
-typescript = '''
-  nnoremap <buffer> <silent> gd :TSDefPreview<CR>
-  nnoremap <buffer> <silent> gD :split \| TSDef<CR>
-  nnoremap <buffer> <silent> <C-w><C-]> :split \| TSTypeDef<CR>
 '''
 
 [[plugins]]
