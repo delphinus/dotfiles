@@ -4,14 +4,6 @@ on_event    = ['InsertEnter']
 depends     = ['nvim-yarp', 'vim-hug-neovim-rpc']
 hook_source = ''' "{{{
   let g:deoplete#enable_at_startup = 1
-  call deoplete#initialize()
-  call deoplete#custom#source('_', 'converters', [
-        \ 'converter_auto_paren',
-        \ 'converter_remove_overlap',
-        \ 'converter_truncate_abbr',
-        \ 'converter_truncate_menu',
-        \ ])
-  call deoplete#custom#source('look', 'rank', 0)
   inoremap <silent> <expr> <TAB>
         \ pumvisible() ? "\<C-n>" :
         \ <SID>check_back_space() ? "\<TAB>" :
@@ -24,6 +16,16 @@ hook_source = ''' "{{{
     let col = col('.') - 1
     return !col || getline('.')[col - 1] =~# '\s'
   endfunction
+"}}} '''
+hook_post_source = ''' "{{{
+  call deoplete#custom#source('_', 'converters', [
+        \ 'converter_auto_paren',
+        \ 'converter_remove_overlap',
+        \ 'converter_truncate_abbr',
+        \ 'converter_truncate_menu',
+        \ ])
+  call deoplete#custom#source('look', 'rank', 0)
+  call deoplete#initialize()
 "}}} '''
 hook_post_update = '!pip3 install -U --user neovim'
 
