@@ -44,8 +44,11 @@ on_source = ['deoplete.nvim']
 [[plugins]]
 #repo        = 'autozimu/LanguageClient-neovim'
 #rev         = 'next'
-repo      = 'rhysd/LanguageClient-neovim'
-rev       = 'float-window-for-hover'
+#repo      = 'rhysd/LanguageClient-neovim'
+#rev       = 'float-window-for-hover'
+# workaround for gopls
+repo = 'delphinus/LanguageClient-neovim'
+rev  = 'gopls-float-window'
 on_func   = [
   'LanguageClient#textDocument_definition',
   'LanguageClient#textDocument_hover',
