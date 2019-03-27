@@ -467,7 +467,7 @@ hook_add = """
         \ 'typescript': [],
         \ }
   let g:ale_linters = {
-        \ 'go': [ 'gometalinter' ],
+        \ 'go': [ 'golangci-lint' ],
         \ 'javascript': [ 'eslint' ],
         \ 'json': [ 'prettier' ],
         \ 'typescript': [],
@@ -475,7 +475,7 @@ hook_add = """
         \ 'vim': [ 'vint' ],
         \ }
   let g:ale_sh_shellcheck_options = '-x'
-  let g:ale_go_gometalinter_options = '--fast -E lll -E dupl -E gofmt -E goimports -E misspell'
+  let g:ale_go_golangci_lint_package = 1
   let g:ale_python_pylint_change_directory = 0
   let g:ale_python_mypy_options = '--ignore-missing-imports --show-column-numbers --strict'
   let g:ale_python_mypy_detect_notes = 1
