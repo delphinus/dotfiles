@@ -59,7 +59,6 @@ on_source = ['deoplete.nvim']
 hook_add = '''
   " for debugging
   " let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
-  let g:LanguageClient_useFloatingHover = 1
   let g:LanguageClient_rootMakers = {
         \ 'go': ['.git', 'go.mod'],
         \ }
