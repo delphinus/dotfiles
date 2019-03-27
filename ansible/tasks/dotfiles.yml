@@ -122,6 +122,18 @@
     state=link
     force=yes
 
+- name: set up sample components in iTerm2 status bar
+  file: >-
+    src={{ dotfiles_dir }}/ansible/files/iterm2/{{ item }}.py
+    dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/{{ item }}.py'
+    state=link
+    force=yes
+  with_items:
+    - escindicator
+    - jsonpretty
+    - mousemode
+    - statusbar
+
 - name: prepare ctags setting directory
   file: path=~/.ctags.d state=directory
 
