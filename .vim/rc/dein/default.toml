@@ -191,7 +191,6 @@ hook_add = ''' "{{{
 [[plugins]]
 repo     = 'tpope/vim-fugitive'
 hook_add = ''' "{{{
-  let g:fugitive_git_executable = 'git my-alias'
   nnoremap git :<c-u>Git
   nnoremap g<space> :<c-u>Git 
   nnoremap d< :diffget //2<CR>

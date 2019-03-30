@@ -17,10 +17,10 @@
 	ad = !git add $@ && git st
 	ap = add -p
 	br = branch
-	ca = commit-autouser --amend
-	caa = commit-autouser --amend --reuse-message HEAD
+	ca = commit --amend
+	caa = commit --amend --reuse-message HEAD
 	cf = clean -df
-	cm = commit-autouser
+	cm = commit
 	cn = clean -dn
 	co = checkout
 	cp = cherry-pick

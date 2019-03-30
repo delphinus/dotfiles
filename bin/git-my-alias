@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-# git commit-autouser in committing
-exec 'git' if ARGV.size == 0
-me = File.basename($0).sub /git-/, ''
-ARGV.shift if ARGV[0] == me
-if found_index = ARGV.index('commit')
-  ARGV[found_index] = 'commit-autouser'
-end
-exec 'git', *ARGV
