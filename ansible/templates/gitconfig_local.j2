@@ -12,16 +12,14 @@
 [ghq "{{ info.url }}"]
 	vcs = {{ info.vcs }}
 {% endfor -%}
-{%- for info in secret_autouser -%}
-[autouser-{{ info.repo }}]
-	url-regexp = {{ info.regexp }}
-	name = "{{ info.name }}"
-	email = {{ info.email }}
-{% endfor %}
 {%- if ansible_hostname in secret_office.hostnames %}
 [hub]
 	host = {{ secret_hub_host }}
 {% endif %}
+{%- for info in secret_includeif -%}
+[includeIf "gitdir:{{ info.gitdir }}"]
+    path = {{ info.path }}
+{% endfor -%}
 
 {# vim:se ft=gitconfig.jinja: #}
 # vim:se ft=gitconfig:
