@@ -366,18 +366,17 @@ hook_source = 'let g:dwm_min_master_pane_width = 86'
 [[plugins]]
 repo     = 'iamcco/markdown-preview.vim'
 on_map   = ['<Plug>MarkdownPreview', '<Plug>StopMarkdownPreview']
-hook_add = '''
-  augroup MapMarkdownPreview
-    autocmd!
-    autocmd FileType markdown nmap <buffer> <A-m> <Plug>MarkdownPreview
-    autocmd FileType markdown nmap <buffer> <A-M> <Plug>StopMarkdownPreview
-    autocmd FileType markdown nmap <buffer> µ <Plug>MarkdownPreview
-    autocmd FileType markdown nmap <buffer> Â <Plug>StopMarkdownPreview
-  augroup END
-'''
 hook_source = '''
   let g:mkdp_path_to_chrome = 'open -a Safari'
 '''
+
+[plugins.ftplugin]
+markdown = ''' "{{{
+  nmap <buffer> <A-m> <Plug>MarkdownPreview
+  nmap <buffer> <A-M> <Plug>StopMarkdownPreview
+  nmap <buffer> µ <Plug>MarkdownPreview
+  nmap <buffer> Â <Plug>StopMarkdownPreview
+"}}} '''
 
 [[plugins]]
 repo        = 'junegunn/vim-easy-align'
