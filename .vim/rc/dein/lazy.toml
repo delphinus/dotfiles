@@ -121,9 +121,7 @@ hook_add    = ''' "{{{
   nmap <unique> <silent> <C-ScrollWheelUp> <Plug>(fontzoom-larger)
   nmap <unique> <silent> <C-ScrollWheelDown> <Plug>(fontzoom-smaller)
 "}}} '''
-hook_source = '''
-  let g:fontzoom_no_default_key_mappings=1
-'''
+hook_source = 'let g:fontzoom_no_default_key_mappings = 1'
 
 [[plugins]]
 repo      = 'thinca/vim-prettyprint'
@@ -195,9 +193,9 @@ repo     = 'itchyny/vim-cursorword'
 on_event = ['FocusLost', 'CursorHold']
 
 [[plugins]]
-repo             = 'itchyny/vim-parenmatch'
-on_event         = ['FocusLost', 'CursorHold']
-hook_source      = 'let g:loaded_matchparen = 1'
+repo        = 'itchyny/vim-parenmatch'
+on_event    = ['FocusLost', 'CursorHold']
+hook_source = 'let g:loaded_matchparen = 1'
 hook_post_source = 'call parenmatch#highlight()'
 
 [[plugins]]
