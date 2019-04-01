@@ -165,6 +165,9 @@ hook_add = ''' "{{{
 repo = 'haya14busa/is.vim'
 
 [[plugins]]
+repo = 'ncm2/float-preview.nvim'
+
+[[plugins]]
 repo     = 'ryanoasis/vim-devicons'
 hook_add = ''' "{{{
   " U+E287 =>  :
