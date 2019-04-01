@@ -3,7 +3,6 @@
 repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
 hook_add   = ''' "{{{
-  let g:deol#enable_dir_changed = 0
   tnoremap <BS><C-n> <C-\><C-n>
   function! s:open_deol() abort
     execute 'Deol -split=floating -winwidth=' . float2nr(&columns / 2) '-winheight=' . float2nr(&lines / 4 * 3) '-winrow=' . float2nr(&lines / 8) '-wincol=' . float2nr(&columns / 4)
@@ -34,13 +33,14 @@ hook_add   = ''' "{{{
     nmap úú <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
   endif
 "}}} '''
+hook_source = 'let g:deol#enable_dir_changed = 0'
 
 [[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
 on_cmd   = ['TableModeToggle']
-hook_add = '''
-  nnoremap `tm :TableModeToggle<CR>
-  let g:table_mode_corner='|'
+hook_add = 'nnoremap `tm :TableModeToggle<CR>'
+hook_source = '''
+  let g:table_mode_corner = '|'
 '''
 
 [[plugins]]
@@ -172,7 +172,7 @@ on_ft  = ['vifm']
 [[plugins]]
 repo     = 'airblade/vim-gitgutter'
 on_event = ['RooterChDir']
-hook_add = ''' "{{{
+hook_source = ''' "{{{
   let g:gitgutter_diff_args='-w --indent-heuristic'
   let g:gitgutter_highlight_lines = 0
   let g:gitgutter_sign_added='✓'
@@ -209,7 +209,7 @@ on_event = ['FocusLost', 'CursorHold']
 [[plugins]]
 repo             = 'itchyny/vim-parenmatch'
 on_event         = ['FocusLost', 'CursorHold']
-hook_add         = 'let g:loaded_matchparen = 1'
+hook_source      = 'let g:loaded_matchparen = 1'
 hook_post_source = 'call parenmatch#highlight()'
 
 [[plugins]]
@@ -350,8 +350,6 @@ hook_add  = ''' "{{{
     augroup END
   endfunction
 
-  let g:dwm_min_master_pane_width = 86
-
   nnoremap <C-J> <C-W>w
   nnoremap <C-K> <C-W>W
   nmap <C-S> <Plug>DWMRotateClockwise
@@ -366,6 +364,7 @@ hook_add  = ''' "{{{
   command! DWMDisable call <SID>dwm_disable()
   command! DWMEnable call <SID>dwm_enable()
 "}}} '''
+hook_source = 'let g:dwm_min_master_pane_width = 86'
 
 [[plugins]]
 repo     = 'iamcco/markdown-preview.vim'
@@ -435,10 +434,10 @@ hook_add = ''' "{{{
 [[plugins]]
 repo     = 't9md/vim-choosewin'
 on_map   = ['<Plug>(choosewin)']
-hook_add = '''
-  nmap \ <Plug>(choosewin)
-  let g:choosewin_statusline_replace=0
-  let g:choosewin_overlay_enable=1
+hook_add = 'nmap \ <Plug>(choosewin)'
+hook_source = '''
+  let g:choosewin_statusline_replace = 0
+  let g:choosewin_overlay_enable = 1
 '''
 
 [[plugins]]
