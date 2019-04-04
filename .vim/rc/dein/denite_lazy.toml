@@ -179,6 +179,10 @@ hook_source = ''' "{{{
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
   call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
+  let s:denite_winheight = 20
+  let s:denite_winrow = &lines > s:denite_winheight ? (&lines - s:denite_winheight) / 2 : 0
+  let s:denite_winwidth = &columns > 240 ? &columns / 2 : 120
+  let s:denite_wincol = &columns > s:denite_winwidth ? (&columns - s:denite_winwidth) / 2 : 0
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('default', {
         \ 'prompt': '❯❯❯',
@@ -187,7 +191,10 @@ hook_source = ''' "{{{
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
         \ 'split': 'floating',
-        \ 'winwidth': &columns / 2,
+        \ 'winheight': s:denite_winheight,
+        \ 'winrow': s:denite_winrow,
+        \ 'winwidth': s:denite_winwidth,
+        \ 'wincol': s:denite_wincol,
         \ })
   call denite#custom#option('dein', 'default_action', 'narrow')
 "}}} '''
