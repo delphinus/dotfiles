@@ -86,15 +86,17 @@ endif
 " }}}
 
 " カラースキーム {{{
-" Solarized Light on iTerm2 reports 11;15 for $COLORFGBG
-if $COLORFGBG ==# '11;15'
-  set background=light
-endif
-
 set termguicolors " true color を有効にする
 syntax enable
-if &background ==# 'light'
-  colorscheme solarized8_light
+
+" Solarized Light on iTerm2 reports 11;15 for $COLORFGBG
+let g:bg_light = $COLORFGBG ==# '11;15'
+if g:bg_light
+  set background=light
+endif
+let g:use_solarized = g:bg_light || $SOLARIZED
+if g:use_solarized
+  colorscheme solarized8
 else
   colorscheme nord
 endif
