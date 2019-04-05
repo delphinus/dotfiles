@@ -32,7 +32,7 @@ if filereadable(s:local_vimrc)
   execute 'source ' . s:local_vimrc
 endif
 
-let g:imseelct_debug = 1
+let g:imselect_debug = 1
 let g:imselect_default_method = 'com.apple.inputmethod.Kotoeri.Roman'
 set runtimepath+=~/git/github.com/prabirshrestha/async.vim
 set runtimepath+=~/git/github.com/delphinus/coc-imselect
