@@ -227,6 +227,23 @@ hook_add = ''' "{{{
   let g:solarized_enable_extra_hi_groups = 1
   let g:solarized_visibility = 'normal'
   let g:solarized_term_italics = 1
+
+  function! s:modify_solarized8() abort
+    if &background ==# 'dark'
+      " http://paletton.com/#uid=13n0u0ktsdoiDobogi-Bm8GNF4y
+      " hi Pmenu ctermfg=247 ctermbg=236 guifg=#93a1a1 guibg=#073642 guisp=NONE cterm=NONE gui=NONE
+      hi Pmenu guibg=#01232b
+    else
+      " http://paletton.com/#uid=11d0u0k3ntS0aU61mDI6apq9Ult
+      " hi Pmenu ctermfg=242 ctermbg=254 guifg=#586e75 guibg=#eee8d5 guisp=NONE cterm=NONE gui=NONE
+      hi Pmenu guibg=#fffcf4
+    endif
+  endfunction
+
+  augroup solarized8-override
+    autocmd!
+    autocmd ColorScheme solarized8 call <SID>modify_solarized8()
+  augroup END
 "}}} '''
 
 [[plugins]]
