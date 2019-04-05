@@ -22,6 +22,7 @@ function! delphinus#perl#manage_local_perl(path) abort
   endif
 
   let g:perlpath = perl_info.perlpath
+  let &l:path = g:perlpath
   let b:ale_perl_perl_executable = perl_info.local_perl
   let b:ale_perl_perl_options = get(perl_info, 'cmdopt', get(g:, 'local_perl_cmdopt', ''))
 endfunction
@@ -41,7 +42,7 @@ function! delphinus#perl#perl_info(path) abort
     " plenv with carton
     if filereadable(s:FP.join(pwd, s:cpanfile)) && executable(s:carton)
       let local_perl = s:carton
-      let cmdopt = 'exec -- perl'
+      let cmdopt = 'exec -- perl -Ilib'
 
     " plenv without carton
     elseif executable('plenv')
@@ -54,20 +55,21 @@ function! delphinus#perl#perl_info(path) abort
     " local_perl
     elseif executable(s:local_perl)
       let local_perl = system(s:local_perl . ' ' . pwd)
-      let cmdopt = '-Iapp/lib -Iapp/t/lib -Iapp/extlib/lib/perl5 -Iapp/extlib/lib/perl5/i386-linux-thread-multi'
+      let cmdopt = '-Ilib -Iapp/lib -Iapp/t/lib -Iapp/extlib/lib/perl5 -Iapp/extlib/lib/perl5/i386-linux-thread-multi'
 
     " other
     else
       let local_perl = 'perl'
     endif
 
+    let perlpath = pwd . '/lib,'
     if local_perl ==# s:carton
-      let perl_info[pwd] = {'local_perl': local_perl, 'perlpath': '', 'cmdopt': cmdopt}
+      let perl_info[pwd] = {'local_perl': local_perl, 'perlpath': perlpath, 'cmdopt': cmdopt}
     elseif exists('cmdopt')
-      let perlpath = systemlist(local_perl . ' ' . cmdopt . s:print_perlpath)[0]
+      let perlpath .= systemlist(local_perl . ' ' . cmdopt . s:print_perlpath)[0]
       let perl_info[pwd] = {'local_perl': local_perl, 'perlpath': perlpath, 'cmdopt': cmdopt}
     else
-      let perlpath = systemlist(local_perl . s:print_perlpath)[0]
+      let perlpath .= systemlist(local_perl . s:print_perlpath)[0]
       let perl_info[pwd] = {'local_perl': local_perl, 'perlpath': perlpath}
     endif
     call delphinus#cache#file().set(cache_key, perl_info)
