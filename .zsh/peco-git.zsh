@@ -60,3 +60,19 @@ function peco-git-ls-files() {
 }
 zle -N peco-git-ls-files
 bindkey '^x^f' peco-ls-files
+
+function peco-git-submodules() {
+  local current_buffer=$BUFFER
+  local selected="$(git submodule | perl -anle '
+    $len = length $F[1] if $len < length $F[1];
+    push @repos, [$F[1], $F[2]];
+    END { printf "%-${len}s  %s\n", @$_ for @repos }
+  ' | peco | cut -d' ' -f1)"
+  if [[ -n $selected ]]; then
+    BUFFER="${current_buffer}${selected}"
+    CURSOR=$#BUFFER
+    zle accept-line
+  fi
+}
+zle -N peco-git-submodules
+bindkey '^x^s' peco-git-submodules
