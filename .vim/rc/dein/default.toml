@@ -220,67 +220,26 @@ repo     = 'wincent/terminus'
 
 # colorscheme {{{
 [[plugins]]
-repo     = 'lifepillar/vim-solarized8'
+#repo     = 'lifepillar/vim-solarized8'
+repo     = 'delphinus/vim-solarized8'
+rev      = 'feature/custom'
 hook_add = ''' "{{{
   let g:solarized_diffmode = 'normal'
   let g:solarized_enable_extra_hi_groups = 1
   let g:solarized_visibility = 'normal'
   let g:solarized_term_italics = 1
-
-  function! s:modify_solarized8() abort
-    if &background ==# 'dark'
-      " http://paletton.com/#uid=13n0u0ktsdoiDobogi-Bm8GNF4y
-      " hi Pmenu ctermfg=247 ctermbg=236 guifg=#93a1a1 guibg=#073642 guisp=NONE cterm=NONE gui=NONE
-      hi Pmenu guibg=#01232b
-    else
-      " http://paletton.com/#uid=11d0u0k3ntS0aU61mDI6apq9Ult
-      " hi Pmenu ctermfg=242 ctermbg=254 guifg=#586e75 guibg=#eee8d5 guisp=NONE cterm=NONE gui=NONE
-      hi Pmenu guibg=#fffcf4
-    endif
-  endfunction
-
-  augroup solarized8-override
-    autocmd!
-    autocmd ColorScheme solarized8 call <SID>modify_solarized8()
-  augroup END
 "}}} '''
 
 [[plugins]]
 #repo = 'arcticicestudio/nord-vim'
 repo = 'delphinus/nord-vim'
+rev  = 'feature/custom'
 hook_add = '''
   let g:nord_italic = 1
   let g:nord_italic_comments = 1
   let g:nord_underline = 1
   let g:nord_uniform_diff_background = 1
   let g:nord_cursor_line_number_background = 1
-
-  function! s:modify_colorscheme() abort
-    hi Identifier guifg=#8FBCBB guibg=NONE ctermfg=14 ctermbg=NONE
-    hi Special guifg=#D08770 guibg=NONE ctermfg=11 ctermbg=NONE
-    hi IncSearch guifg=#3B4252 guibg=#81A1C1 ctermfg=0 ctermbg=4 gui=bold cterm=bold
-    hi GitGutterAdd ctermfg=2 guifg=#a3be8c ctermbg=NONE guibg=NONE
-    hi GitGutterChange ctermfg=3 guifg=#ebcb8b ctermbg=NONE guibg=NONE
-    hi GitGutterChangeDelete ctermfg=5 guifg=#b48ead ctermbg=NONE guibg=NONE
-    hi GitGutterDelete ctermfg=1 guifg=#bf616a ctermbg=NONE guibg=NONE
-    "hi GitGutterAddLine guibg=#16230b
-    "hi GitGutterChangeLine guibg=#221907
-    "hi GitGutterChangeDeleteLine guibg=#180715
-    "hi GitGutterDeleteLine guibg=#1e070a
-    hi link GitGutterAddLine GitGutterAdd
-    hi link GitGutterChangeLine GitGutterChange
-    hi link GitGutterChangeDeleteLine GitGutterChangeDelete
-    hi link GitGutterDeleteLine GitGutterDelete
-    hi Title gui=bold cterm=bold
-    " for floating windows
-    " see http://paletton.com/#uid=13J0u0kadhI5grB80mhc0brjvaS
-    hi Pmenu guibg=#1a253a
-  endfunction
-
-  augroup nord-overrides
-    autocmd!
-    autocmd ColorScheme nord call <SID>modify_colorscheme()
-  augroup END
 "}}} '''
 
 # syntax {{{
