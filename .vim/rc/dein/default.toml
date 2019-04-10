@@ -221,7 +221,6 @@ repo     = 'wincent/terminus'
 # colorscheme {{{
 [[plugins]]
 repo     = 'lifepillar/vim-solarized8'
-on_if    = '''has('termguicolors')'''
 hook_add = ''' "{{{
   let g:solarized_diffmode = 'normal'
   let g:solarized_enable_extra_hi_groups = 1
