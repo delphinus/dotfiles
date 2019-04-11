@@ -129,6 +129,121 @@ repo = 'ujihisa/neco-look'
 repo = 'zchee/deoplete-zsh'
 # }}}
 
+# for lightline {{{
+[[plugins]]
+repo     = 'itchyny/lightline.vim'
+
+[[plugins]]
+repo     = 'delphinus/lightline-delphinus'
+depends  = ['lightline', 'ale', 'tagbar', 'vim-gitgutter']
+hook_add = ''' "{{{
+  let g:lightline_delphinus_use_powerline_glyphs = 1
+  let g:lightline_delphinus_use_nerd_fonts_glyphs = 1
+  let g:lightline_delphinus_tagbar_enable = 1
+  let g:lightline_delphinus_gitgutter_enable = 1
+
+  function! s:lightline_start() abort
+    let g:lightline_delphinus_colorscheme = g:use_solarized || g:colors_name =~# '^solarized' ? 'solarized_improved' : 'nord_improved'
+    " execute codes below only after loading lightline because this function
+    " will be called BEFORE it. Strange.
+    if !get(g:, 'loaded_lightline', 0)
+      return
+    endif
+    let path = dein#get('lightline-delphinus').path
+    " source this always to detect 'background'
+    execute 'source' path . '/autoload/lightline/colorscheme/' . g:lightline.colorscheme . '.vim'
+    let g:lightline.colorscheme = g:lightline_delphinus_colorscheme
+
+    " https://github.com/itchyny/lightline.vim/issues/241#issuecomment-322033789
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
+  endfunction
+
+  " s:lightline_start will be called in changing colorscheme or 'background'
+  augroup LightlineStart
+    autocmd!
+    autocmd ColorScheme * call <SID>lightline_start()
+  augroup END
+"}}} '''
+
+[[plugins]]
+repo     = 'majutsushi/tagbar'
+hook_add = ''' "{{{
+  let g:tagbar_left = 1
+  let g:tagbar_autoclose = 1
+  let g:tagbar_autofocus = 1
+  let g:tagbar_show_linenumbers = 1
+  let g:tagbar_iconchars = [nr2char(0xe5ff) . ' ', nr2char(0xe5fe) . ' '] "  , 
+  let g:tagbar_autopreview = 1
+  autocmd BufWinEnter * if &previewwindow | setlocal nonumber norelativenumber | endif
+  nmap <C-t> :<C-u>TagbarToggle<CR>
+"}}} '''
+
+[[plugins]]
+repo     = 'w0rp/ale'
+#repo     = 'delphinus/ale'
+#rev      = 'feature/detect-note-in-mypy'
+hook_add = '''
+  let g:ale_fix_on_save = 1
+  let g:ale_completion_enabled = 1
+  let g:ale_echo_msg_format = '%severity%  %linter% - %s'
+  "let g:ale_echo_msg_error_str = nr2char(0xf42d) . ' ' " ' '
+  "let g:ale_echo_msg_warning_str = nr2char(0xf426) . ' ' " ' '
+  "let g:ale_sign_error = nr2char(0xf42d) . ' ' " ' '
+  "let g:ale_echo_msg_info_str = nr2char(0xf05a) . ' ' " ' '
+  "let g:ale_sign_warning = nr2char(0xf426) . ' ' " ' '
+  "let g:ale_statusline_format = [nr2char(0xf42d) . '  %d', nr2char(0xf426) . '  %d', nr2char(0xf4e6) . '  '] " '   '
+  let g:ale_echo_msg_error_str = nr2char(0x25b8) " '▸'
+  let g:ale_echo_msg_warning_str = nr2char(0x25b9) " '▹'
+  let g:ale_echo_msg_info_str = nr2char(0x25b4) " '▴'
+  let g:ale_sign_error =  nr2char(0x25b8) " '▸'
+  let g:ale_sign_warning =  nr2char(0x25b9) " '▹'
+  let g:ale_statusline_format = [nr2char(0x25b8) . ' %d', nr2char(0x25b9) . ' %d', nr2char(0x25b4) . ' '] " '▸▹▴'
+  let g:ale_sign_column_always = 1
+  let g:ale_fixers = {
+        \ 'javascript': [ 'eslint' ],
+        \ 'json': [ 'prettier' ],
+        \ 'python': [ 'black' ],
+        \ 'ruby': [ 'rubocop' ],
+        \ 'typescript': [],
+        \ }
+  let g:ale_linters = {
+        \ 'go': [ 'golangci-lint' ],
+        \ 'javascript': [ 'eslint' ],
+        \ 'json': [ 'prettier' ],
+        \ 'typescript': [],
+        \ 'perl': [ 'perl' ],
+        \ 'vim': [ 'vint' ],
+        \ }
+  let g:ale_sh_shellcheck_options = '-x'
+  let g:ale_go_golangci_lint_package = 1
+  let g:ale_python_pylint_change_directory = 0
+  let g:ale_python_mypy_options = '--ignore-missing-imports --show-column-numbers --strict'
+  let g:ale_python_mypy_detect_notes = 1
+  nmap <silent> Ë <Plug>(ale_previous_wrap)
+  nmap <silent> Ê <Plug>(ale_next_wrap)
+  nmap <silent>  <Plug>(ale_previous_wrap)
+  nmap <silent> Ô <Plug>(ale_next_wrap)
+  nmap <silent> <A-K> <Plug>(ale_previous_wrap)
+  nmap <silent> <A-J> <Plug>(ale_next_wrap)
+  augroup DisableALEInDiffBuffers
+    autocmd!
+    autocmd VimEnter,FilterWritePre * ALEDisableBuffer
+  augroup END
+  augroup DisableALEInDtsFiles
+    autocmd!
+    autocmd BufRead,BufNewFile *.d.ts ALEDisableBuffer
+    autocmd BufRead,BufNewFile *.d.ts.map ALEDisableBuffer
+  augroup END
+'''
+hook_post_update = '''
+  !pip3 install -U --user black vint
+  !npm install -g eslint tslint prettier
+  !gem install --user-install rubocop
+'''
+# }}}
+
 # basic {{{
 [[plugins]]
 repo     = 'airblade/vim-rooter'
