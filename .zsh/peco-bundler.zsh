@@ -1,5 +1,5 @@
 function peco-bundler () {
-  local selected_dir=$(bundler show --paths | peco --query "$LBUFFER")
+  local selected_dir=$(bundler show --paths | fzf --query "$LBUFFER")
   if [[ -n $selected_dir ]]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
@@ -10,7 +10,7 @@ bindkey '^g' peco-bundler
 
 function peco-bundler-dir () {
   local current_buffer=$BUFFER
-  local selected_dir=$(bundler show --paths | peco --query)
+  local selected_dir=$(bundler show --paths | fzf --query)
   if [[ -n $selected_dir ]]; then
     BUFFER="${current_buffer}${selected_dir}"
     CURSOR=$#BUFFER

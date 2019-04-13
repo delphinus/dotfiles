@@ -8,7 +8,7 @@ function peco-git-branch() {
     # commiterdate:relativeを commiterdate:localに変更すると普通の時刻表示
     local selected_line="$(git for-each-ref --format='%(refname:short) | %(committerdate:relative) | %(committername) | %(subject)' --sort=-committerdate refs/heads refs/remotes \
         | column -t -s '|' \
-        | peco \
+        | fzf \
         | head -n 1 \
         | awk '{print $1}')"
     if [ -n "$selected_line" ]; then
@@ -35,7 +35,7 @@ function peco-git-open() {
       remote = "https://#$1/#$2"
     end
     puts remote
-    ' | peco --prompt "OPEN REPOSITORY>")"
+    ' | fzf --prompt "OPEN REPOSITORY>")"
   if [ -n "$selected_url" ]; then
     if [ -n "$LC_FSSH_PORT" ]; then
       BUFFER="ssh $LC_FSSH_COPY_ARGS -l $LC_FSSH_USER -p $LC_FSSH_PORT localhost 'open $selected_url'"
@@ -52,7 +52,7 @@ bindkey '^x^o' peco-git-open
 
 function peco-git-ls-files() {
   local current_buffer=$BUFFER
-  local selected=$(git ls-files | peco --query "$LBUFFER")
+  local selected=$(git ls-files | fzf --query "$LBUFFER")
   if [ -n "$selected" ]; then
     BUFFER="${current_buffer}${selected}"
     CURSOR=$#BUFFER
@@ -67,7 +67,7 @@ function peco-git-submodules() {
     $len = length $F[1] if $len < length $F[1];
     push @repos, [$F[1], $F[2]];
     END { printf "%-${len}s  %s\n", @$_ for @repos }
-  ' | peco | cut -d' ' -f1)"
+  ' | fzf | cut -d' ' -f1)"
   if [[ -n $selected ]]; then
     BUFFER="${current_buffer}${selected}"
     CURSOR=$#BUFFER
