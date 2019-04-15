@@ -283,7 +283,8 @@ hook_add = ''' "{{{
 repo = 'haya14busa/is.vim'
 
 [[plugins]]
-repo = 'ncm2/float-preview.nvim'
+repo  = 'ncm2/float-preview.nvim'
+on_if = 'has("nvim")'
 
 [[plugins]]
 repo     = 'ryanoasis/vim-devicons'
