@@ -1,55 +1,30 @@
 #!/usr/bin/env python3
 
-import asyncio
-from iterm2 import StatusBarComponent, StatusBarRPC, run_forever
+from iterm2 import Connection, StatusBarComponent, StatusBarRPC, run_forever
+from iterm2.statusbar import Knob
 from math import floor
-import re
 from subprocess import CalledProcessError, check_output
-from datetime import datetime
+from typing import List
+import re
 
 chars = ["▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"]
 thunder = "ϟ"
 width = 5
 
 
-class Timer:
-    interval_seconds: float = 30
-    updated: float = 0
-    last: str = ""
-
-    def can_run(self) -> bool:
-        print("checking")
-        now: float = datetime.now().timestamp()
-        return now - self.updated >= self.interval_seconds
-
-    def last_text(self) -> str:
-        return self.last
-
-    def interval(self) -> float:
-        return self.interval_seconds
-
-    def update(self, text) -> None:
-        print("updated: " + text)
-        self.updated = datetime.now().timestamp()
-        self.last = text
-
-
-async def main(connection) -> None:
-    timer: Timer = Timer()
+async def main(connection: Connection) -> None:
     component: StatusBarComponent = StatusBarComponent(
         "Battery",
         "Show battery remaining",
         [],
         "|███▎  | 66% 2:34",
-        timer.interval(),
+        30,
         "cx.remora.battery",
     )
     plugged = "🔌"
 
     @StatusBarRPC
-    async def coro(knobs) -> str:
-        if not timer.can_run():
-            return timer.last_text()
+    async def coro(knobs: List[Knob]) -> str:
         try:
             out: str = check_output(args=["/usr/bin/pmset", "-g", "batt"]).decode(
                 "utf-8"
@@ -92,7 +67,6 @@ async def main(connection) -> None:
         matched = re.match(r".*?(\d+:\d+)", out, flags=re.S)
         elapsed: str = matched[1] if matched and matched[1] != "0:00" else ""
         last_status: str = "{0} |{1}| {2:d}% {3}".format("🔋", battery, percent, elapsed)
-        timer.update(last_status)
         return last_status
 
     await component.async_register(connection, coro, timeout=None)
