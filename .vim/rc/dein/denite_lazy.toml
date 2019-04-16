@@ -101,7 +101,7 @@ hook_source = ''' "{{{
         call denite#start([{'name': a:action, 'args': [path]}])
       endif
     else
-      call denite#util#print_error('unknown path for target: ' . target))
+      call denite#util#print_error('unknown path for target: ' . target)
     endif
   endfunction
 
