@@ -279,6 +279,9 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'delphinus/vim-auto-cursorline'
+
+[[plugins]]
 repo     = 'direnv/direnv.vim'
 hook_add = '''
   let g:direnv_auto = 0
