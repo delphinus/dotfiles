@@ -9,7 +9,7 @@ else
   set termencoding=utf-8
 endif
 " ファイルエンコーディング
-if ! (has('gui_macvim') && has('kaoriya'))
+if ! has('gui_macvim')
   set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 endif
 " }}}
