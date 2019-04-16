@@ -91,7 +91,7 @@ hook_source = ''' "{{{
     call denite#do_action(a:context, 'open', a:context['targets'])
   endfunction
 
-  function! s:start_action_for_path(context, action, ...)
+  function! s:start_action_for_path(action, context)
     let target = a:context['targets'][0]
     let path = get(target, 'action__path', '')
     if isdirectory(path)
@@ -157,9 +157,9 @@ hook_source = ''' "{{{
   call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('memo', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('directory', 'my_file_rec',
-        \ {ctx -> s:start_action_for_path(ctx, 'my_file_rec')})
+        \ function('s:start_action_for_path', ['my_file_rec']))
   call denite#custom#action('directory', 'grep',
-        \ {ctx -> s:start_action_for_path(ctx, 'grep')})
+        \ function('s:start_action_for_path', ['grep']))
   call denite#custom#action('file', 'grep', function('s:narrow_grep'))
   call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
   call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
