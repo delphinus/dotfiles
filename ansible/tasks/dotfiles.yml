@@ -25,6 +25,8 @@
     - .golangci.yml
     - .grcat
     - .inputrc
+    - .iterm2
+    - .iterm2_shell_integration.zsh
     - .jsbeautifyrc
     - .jshintrc
     - .proverc
@@ -104,11 +106,6 @@
     dest=~/.ghg/bin/git-foresta
     state=link
     force=yes
-
-- name: set up iTerm2 shell integration
-  get_url: >-
-    url=https://iterm2.com/shell_integration/zsh
-    dest=~/.iterm2_shell_integration.zsh
 
 - name: prepare iTerm2 script directory
   file: >-
