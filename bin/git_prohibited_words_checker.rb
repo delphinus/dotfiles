@@ -45,6 +45,7 @@ prohibited_words_pre = Regexp.new IO.readlines(prohibited_words_file).map(&:chom
 
 ignore_names_re = %r[
   \.exe$ |
+  \.mypy_cache\b |
   \.pyc$ |
   \.rpm$ |
   \.sqlite$ |
@@ -58,6 +59,7 @@ ignore_names_re = %r[
   \A\.zsh/zsh-notify/ |
   \Abin/local_perl\.sh\z |
   \Asubmodules/ |
+  \bnode_modules\b |
 ]x
 
 scan_count = 0
