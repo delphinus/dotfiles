@@ -158,7 +158,7 @@ if [[ -n $NVIM_LISTEN_ADDRESS ]]; then
 fi
 
 # iTerm2 shell integration
-if [[ $TMUX == "" && -f ~/.iterm2_shell_integration.zsh ]]; then
+if [[ -f ~/.iterm2_shell_integration.zsh ]]; then
   source ~/.iterm2_shell_integration.zsh
 fi
 
