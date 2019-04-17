@@ -17,8 +17,8 @@
     - .config/peco
     - .config/powerline
     - .config/ranger
-    - .config/vifm/vifmrc
     - .config/vifm/colors/nord.vifm
+    - .config/vifm/vifmrc
     - .config/yamllint
     - .editrc
     - .gitconfig
