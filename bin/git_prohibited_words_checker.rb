@@ -44,20 +44,20 @@ end
 prohibited_words_pre = Regexp.new IO.readlines(prohibited_words_file).map(&:chomp).join '|'
 
 ignore_names_re = %r[
-  \Abin/local_perl\.sh\z |
+  \.exe$ |
+  \.pyc$ |
+  \.rpm$ |
+  \.sqlite$ |
+  \.tmux/plugins |
+  \.tmux/resurrect |
+  \.zprezto/modules/completion/external/src
+  \A\.?vim/dict/ |
+  \A\.?vim/view/ |
   \A\.git/ |
   \A\.screen/(?:cpu|memory)\z |
-  \A\.?vim/view/ |
-  \A\.?vim/dict/ |
   \A\.zsh/zsh-notify/ |
+  \Abin/local_perl\.sh\z |
   \Asubmodules/ |
-  \.pyc$ |
-  \.sqlite$ |
-  \.exe$ |
-  \.rpm$ |
-  \.tmux/resurrect |
-  \.tmux/plugins |
-  \.zprezto/modules/completion/external/src
 ]x
 
 scan_count = 0
