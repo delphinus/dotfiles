@@ -114,7 +114,7 @@ mail.delivery_method :smtp, {
   address: 'smtp.gmail.com',
   port: 587,
   domain: 'smtp.gmail.com',
-  user_name: 'delphinus@remora.cx',
+  user_name: 'me@delphinus.dev',
   password: IO.read(MAIL_PASSWORD_FILE).chomp,
   authentication: :plain,
 }
