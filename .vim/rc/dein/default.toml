@@ -133,6 +133,7 @@ repo = 'zchee/deoplete-zsh'
 [[plugins]]
 repo     = 'airblade/vim-gitgutter'
 hook_add = ''' "{{{
+  set updatetime=100
   let g:gitgutter_diff_args='-w --indent-heuristic'
   let g:gitgutter_highlight_lines = 0
   let g:gitgutter_sign_added='✓'
