@@ -129,7 +129,6 @@ set diffopt=filler,vertical,iwhite " diffコマンド設定
 set synmaxcol=0                   " 構文強調表示桁数の制限を解除
 set nrformats=                    " 5-5 10進数で数字の上げ下げ
 set virtualedit=block             " ビジュアルブロックモードのみ、カーソルを自由移動させる
-set updatetime=100                " Shorten this for gitgutter
 set wildmenu                      " コマンドラインモードでの補完メニュー
 set wildmode=full
 set helplang=ja                   " ヘルプは日本語のものを優先する
