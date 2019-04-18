@@ -515,6 +515,7 @@ repo = 'vim-scripts/applescript.vim'
 
 [[plugins]]
 repo = 'vim-scripts/autodate.vim'
+hook_add = '''let g:autodate_format = '%FT%T%z' '''
 
 [[plugins]]
 repo = 'vim-scripts/fontforge_script.vim'
