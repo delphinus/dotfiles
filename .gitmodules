@@ -19,3 +19,6 @@
 [submodule ".zsh/zsh-background-notify"]
 	path = .zsh/zsh-background-notify
 	url = https://github.com/delphinus/zsh-background-notify.git
+[submodule "dircolors-solarized"]
+	path = dircolors-solarized
+	url = https://github.com/seebi/dircolors-solarized
