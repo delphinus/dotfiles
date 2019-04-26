@@ -4,10 +4,10 @@ let s:V = vital#vital#new()
 let s:P = s:V.import('Prelude')
 let s:FP = s:V.import('System.Filepath')
 
-let s:plenv_carton = expand('/usr/local/opt/plenv/shims/carton')
-let s:perlbrew_carton = expand('carton')
+let s:plenv_carton = '/usr/local/opt/plenv/shims/carton'
+let s:cpanm_carton = 'carton'
 let s:carton = executable(s:plenv_carton) ? s:plenv_carton :
-      \ executable(s:perlbrew_carton) ? s:perlbrew_carton :
+      \ executable(s:cpanm_carton) ? s:cpanm_carton :
       \ ''
 let s:local_perl = expand('$HOME/git/dotfiles/bin/local_perl.sh')
 let s:cpanfile = 'cpanfile'
