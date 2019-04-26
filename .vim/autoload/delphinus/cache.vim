@@ -20,3 +20,16 @@ function! delphinus#cache#file() abort
 
   return g:delphinus#cache#file_instance
 endfunction
+
+function! delphinus#cache#clear(...) abort
+  let cache_key = get(a:, 1, '')
+  if cache_key
+    g:delphinus#cache#memory_instance.remove(cache_key)
+    g:delphinus#cache#file_instance.remove(cache_key)
+    echo '[delphinus#cache] remove cache for ' . cache_key
+  else
+    g:delphinus#cache#memory_instance.clear()
+    g:delphinus#cache#file_instance.clear()
+    echo '[delphinus#cache] clear all cache'
+  endif
+endfunction
