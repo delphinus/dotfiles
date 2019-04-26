@@ -9,7 +9,7 @@ let s:cpanm_carton = 'carton'
 let s:carton = executable(s:plenv_carton) ? s:plenv_carton :
       \ executable(s:cpanm_carton) ? s:cpanm_carton :
       \ ''
-let s:local_perl = expand('$HOME/git/dotfiles/bin/local_perl.sh')
+let s:local_perl = expand('~/git/dotfiles/bin/local_perl.sh')
 let s:cpanfile = 'cpanfile'
 let s:print_perlpath = " -e 'print join(q/,/,@INC)'"
 
