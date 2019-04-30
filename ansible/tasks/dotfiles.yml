@@ -12,6 +12,7 @@
     state=link
     force=yes
   with_items:
+    - .config/direnv/direnvrc
     - .config/gocode
     - .config/ipython
     - .config/peco
