@@ -24,7 +24,7 @@ async def main(connection: Connection) -> None:
     plugged = "🔌"
 
     @StatusBarRPC
-    async def coro(knobs: List[Knob]) -> str:
+    async def battery_status(knobs: List[Knob]) -> str:
         try:
             out: str = check_output(args=["/usr/bin/pmset", "-g", "batt"]).decode(
                 "utf-8"
@@ -69,7 +69,7 @@ async def main(connection: Connection) -> None:
         last_status: str = "{0} |{1}| {2:d}% {3}".format("🔋", battery, percent, elapsed)
         return last_status
 
-    await component.async_register(connection, coro, timeout=None)
+    await component.async_register(connection, battery_status, timeout=None)
 
 
 run_forever(main)
