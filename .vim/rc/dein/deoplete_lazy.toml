@@ -185,6 +185,7 @@ hook_source = '''
 [[plugins]]
 repo      = 'wellle/tmux-complete.vim'
 on_source = ['deoplete.nvim']
+hook_add  = 'let g:tmuxcomplete#trigger = ""'
 
 [[plugins]]
 repo      = 'Shougo/neco-syntax'
