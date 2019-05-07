@@ -5,6 +5,9 @@
 - name: prepare ptpython config dir
   file: path=~/.ptpython state=directory
 
+- name: prepare direnv config dir
+  file: path=~/.config/direnv state=directory
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
