@@ -118,7 +118,7 @@
 
 - name: set up the battery component in iTerm2 status bar
   file: >-
-    src={{ dotfiles_dir }}/bin/iterm2-battery.py
+    src={{ dotfiles_dir }}/submodules/iterm2-battery-status/iterm2-battery.py
     dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/battery.py'
     state=link
     force=yes
