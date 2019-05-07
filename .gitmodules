@@ -25,3 +25,6 @@
 [submodule "submodules/dircolors-solarized"]
 	path = submodules/dircolors-solarized
 	url = https://github.com/seebi/dircolors-solarized
+[submodule "submodules/iterm2-battery-status"]
+	path = submodules/iterm2-battery-status
+	url = https://github.com/delphinus/iterm2-battery-status
