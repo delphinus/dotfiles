@@ -67,6 +67,8 @@ hook_source = '''
         \ 'go': ['.git', 'go.mod'],
         \ }
   let g:LanguageClient_serverCommands = {
+        \ 'c': ['ccls'],
+        \ 'cpp': ['ccls'],
         \ 'go': ['gopls'],
         \ 'python': ['pyls'],
         \ 'ruby': ['solargraph', 'stdio'],
