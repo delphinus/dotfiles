@@ -157,6 +157,7 @@ hook_post_source = ''' "{{{
 
 [[plugins]]
 repo     = 'delphinus/lightline-delphinus'
+rev      = 'feature/denite-ui'
 depends  = ['lightline', 'ale', 'tagbar', 'vim-gitgutter']
 hook_add = ''' "{{{
   let g:lightline_delphinus_use_powerline_glyphs = 1
