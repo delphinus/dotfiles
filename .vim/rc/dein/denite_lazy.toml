@@ -7,6 +7,7 @@ depends  = ['dwm.vim', 'fruzzy']
 hook_add = ''' "{{{
   autocmd FileType denite call s:denite_my_settings()
   function! s:denite_my_settings() abort
+    let b:auto_cursorline_disabled = 1
     nnoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
     nnoremap <silent><buffer><expr> <C-a>   denite#do_map('do_action', 'my_file_rec')
     nnoremap <silent><buffer><expr> <C-g>   denite#do_map('do_action', 'grep')
@@ -17,6 +18,11 @@ hook_add = ''' "{{{
     nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
     nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
     nnoremap <silent><buffer><expr> q       denite#do_map('quit')
+  endfunction
+
+  autocmd FileType denite-filter call s:denite_filter_my_setting()
+  function! s:denite_filter_my_setting() abort
+    let b:auto_cursorline_disabled = 1
   endfunction
 
   function! s:my_denite_outline(filetype) abort
