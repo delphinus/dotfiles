@@ -10,15 +10,15 @@ hook_add = ''' "{{{
     let b:auto_cursorline_disabled = 1
     nnoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
     nnoremap <silent><buffer><expr> <C-a>   denite#do_map('do_action', 'my_file_rec')
-    nnoremap <silent><buffer><expr> <C-c>   denite#do_map('do_action', 'my_file_rec')
+    nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
     nnoremap <silent><buffer><expr> <C-g>   denite#do_map('do_action', 'grep')
     nnoremap <silent><buffer><expr> <C-n>   denite#do_map('do_action', 'dwm_new')
     nnoremap <silent><buffer><expr> <C-x>   denite#do_map('do_action', 'quick_move')
     nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
     nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select).'j'
-    nnoremap <silent><buffer><expr> <Tab>   denite#do_map('choose_action).'j'
-    nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Tab>   denite#do_map('choose_action)
     nnoremap <silent><buffer><expr> a       denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
     nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
     nnoremap <silent><buffer><expr> q       denite#do_map('quit')
   endfunction
