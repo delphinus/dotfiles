@@ -10,6 +10,7 @@ hook_add = ''' "{{{
     let b:auto_cursorline_disabled = 1
     nnoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
     nnoremap <silent><buffer><expr> <C-a>   denite#do_map('do_action', 'my_file_rec')
+    nnoremap <silent><buffer><expr> <C-c>   denite#do_map('do_action', 'my_file_rec')
     nnoremap <silent><buffer><expr> <C-g>   denite#do_map('do_action', 'grep')
     nnoremap <silent><buffer><expr> <C-n>   denite#do_map('do_action', 'dwm_new')
     nnoremap <silent><buffer><expr> <C-x>   denite#do_map('do_action', 'quick_move')
