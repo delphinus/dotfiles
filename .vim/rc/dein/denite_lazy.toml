@@ -25,6 +25,7 @@ hook_add = ''' "{{{
   autocmd FileType denite-filter call s:denite_filter_my_setting()
   function! s:denite_filter_my_setting() abort
     let b:auto_cursorline_disabled = 1
+    inoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
     inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
     nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
   endfunction
