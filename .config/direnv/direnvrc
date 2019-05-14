@@ -1,4 +1,4 @@
-add_extra_vimrc() {
+use_vim() {
   local extravim="$(find_up .vimrc.local)"
   if [ -n "$extravim" ]; then
     echo "Adding extra .vimrc: ${extravim}"
