@@ -289,20 +289,7 @@ hook_add = '''
   augroup ExecDirenv
     autocmd!
     autocmd User RooterChDir call direnv#export()
-  augroup END
-  function! s:direnv_extra_vimrc() abort
-    if exists('$EXTRA_VIM')
-      for path in split($EXTRA_VIM, ':')
-        if filereadable(path)
-          echo 'Adding extra .vimrc:' path
-          execute 'source' path
-        endif
-      endfor
-    endif
-  endfunction
-  augroup direnv-extra-vimrc
-    autocmd!
-    autocmd User DirenvExportPost call <SID>direnv_extra_vimrc()
+    autocmd BufEnter * call direnv#extra_vimrc#check()
   augroup END
 '''
 
