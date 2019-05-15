@@ -184,7 +184,7 @@ hook_source = ''' "{{{
   let s:denite_winwidth = &columns > 240 ? &columns / 2 : 120
   let s:denite_wincol = &columns > s:denite_winwidth ? (&columns - s:denite_winwidth) / 2 : 0
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
-  call denite#custom#option('default', {
+  call denite#custom#option('_', {
         \ 'prompt': '❯❯❯',
         \ 'statusline': v:false,
         \ 'highlight_matched_char': 'Underlined',
@@ -196,7 +196,6 @@ hook_source = ''' "{{{
         \ 'winwidth': s:denite_winwidth,
         \ 'wincol': s:denite_wincol,
         \ })
-  call denite#custom#option('dein', 'default_action', 'narrow')
 "}}} '''
 
 [[plugins]]
