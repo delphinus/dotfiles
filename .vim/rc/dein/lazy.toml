@@ -4,6 +4,10 @@ repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
 hook_add   = ''' "{{{
   tnoremap <BS><C-n> <C-\><C-n>
+  augroup deol-disable-dwm
+    autocmd!
+    autocmd BufEnter * if &filetype ==# 'deol' && t:deol.options.split ==# 'floating' && !get(b:, 'dwm_disabled', 0) | let b:dwm_disabled = 1 | endif
+  augroup END
   function! s:open_deol() abort
     let winheight = &lines > 52 ? &lines / 4 * 3 : 40
     let winrow = &lines > winheight ? (&lines - winheight) / 2 : 0
