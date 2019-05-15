@@ -301,7 +301,7 @@ hook_add = 'xmap Y <Plug>(operator-concealedyank)'
 
 [[plugins]]
 repo      = 'delphinus/dwm.vim'
-rev       = 'feature/disable-in-denite'
+rev       = 'feature/disable'
 on_map    = ['<Plug>DWM']
 hook_add  = ''' "{{{
   function! s:dwm_reset_pane_width() abort
