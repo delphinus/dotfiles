@@ -193,20 +193,6 @@ hook_source = ''' "{{{
   call denite#custom#action('directory', 'grep',
         \ function('s:start_action_for_path', ['grep']))
   call denite#custom#action('file', 'grep', function('s:narrow_grep'))
-  call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
-  call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
-  call denite#custom#map('insert', '<C-f>',
-        \ 'Denite_toggle_sorter("sorter_abbr")', 'noremap expr nowait')
-  call denite#custom#map('insert', '<C-g>', '<denite:do_action:grep>')
-  call denite#custom#map('insert', '<C-j>',
-        \ '<denite:move_to_next_line>', 'noremap')
-  call denite#custom#map('insert', '<C-k>',
-        \ '<denite:move_to_previous_line>', 'noremap')
-  call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
-  call denite#custom#map('insert', '<C-t>',
-        \ '<denite:input_command_line>', 'noremap')
-  call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
-  call denite#custom#map('insert', '<C-x>', '<denite:quick_move>')
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
   let s:denite_winheight = 20
