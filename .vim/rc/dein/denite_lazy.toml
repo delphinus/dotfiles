@@ -9,6 +9,8 @@ hook_add = ''' "{{{
   function! s:denite_my_settings() abort
     let b:dwm_disabled = 1
     let b:auto_cursorline_disabled = 1
+    nnoremap <silent><buffer> <C-j> j
+    nnoremap <silent><buffer> <C-k> k
     nnoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
     nnoremap <silent><buffer><expr> <C-a>   denite#do_map('do_action', 'my_file_rec')
     nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
