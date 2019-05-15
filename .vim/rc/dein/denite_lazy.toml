@@ -51,7 +51,7 @@ hook_add = ''' "{{{
   noremap zi :<C-u>Denite gitlog<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
-  noremap zd :<C-u>Denite -default-action=narrow dein<CR>
+  noremap zd :<C-u>Denite z<CR>
   noremap zD :<C-u>Denite dein_log<CR>
   noremap zp :<C-u>Denite -expand my_buffer my_file_old<CR>
   noremap zh :<C-u>Denite ghq<CR>
@@ -234,3 +234,6 @@ hook_post_update = '''
 
 [[plugins]]
 repo = 'neoclide/vim-easygit'
+
+[[plugins]]
+repo = 'rafi/vim-denite-z'
