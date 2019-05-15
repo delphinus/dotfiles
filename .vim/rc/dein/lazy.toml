@@ -119,6 +119,28 @@ hook_source = '''
 '''
 
 [[plugins]]
+repo   = 'rhysd/git-messenger.vim'
+on_cmd = 'GitMessenger'
+on_map = '<Plug>(git-messenger'
+hook_add = ''' "{{{
+  let g:git_messenger_no_default_mappings = v:true
+  autocmd FileType gitmessengerpopup call s:git_messenger_my_settings()
+  function! s:git_messenger_my_settings() abort
+    nmap <buffer> <A-b> o
+    nmap <buffer> <C-c> q
+    nmap <buffer> <C-i> o
+    nmap <buffer> <C-o> O
+    nmap <buffer> <CR>  q
+    nmap <buffer> <Esc> q
+    nmap <buffer> â     o
+    nmap <buffer> ∫     o
+  endfunction
+  nnoremap <A-b> :GitMessenger<CR>
+  nnoremap ∫     :GitMessenger<CR>
+  nnoremap â     :GitMessenger<CR>
+"}}} '''
+
+[[plugins]]
 repo        = 'thinca/vim-fontzoom'
 on_cmd      = ['Fontzoom']
 on_map      = ['<Plug>(fontzoom-']
