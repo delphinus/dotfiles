@@ -34,9 +34,9 @@ hook_add = ''' "{{{
     inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
     nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
 
-    " https://github.com/Shougo/denite.nvim/pull/624#issuecomment-492212850
-    inoremap <silent><buffer> <C-j>   <Esc><C-w>pj<C-w>pA
-    inoremap <silent><buffer> <C-k>   <Esc><C-w>pk<C-w>pA
+    " These mappings are not recommended in doc.
+    inoremap <silent><buffer> <C-j>   <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
+    inoremap <silent><buffer> <C-k>   <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
   endfunction
 
   function! s:my_denite_outline(filetype) abort
