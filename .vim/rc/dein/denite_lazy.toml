@@ -51,7 +51,7 @@ hook_add = ''' "{{{
   noremap zi :<C-u>Denite gitlog<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
-  noremap zd :<C-u>Denite z<CR>
+  noremap zd :<C-u>Denite -buffer-name=denite-z z<CR>
   noremap zD :<C-u>Denite dein/log<CR>
   noremap zp :<C-u>Denite -expand my_buffer my_file_old<CR>
   noremap zh :<C-u>Denite ghq<CR>
@@ -196,6 +196,7 @@ hook_source = ''' "{{{
         \ 'winwidth': s:denite_winwidth,
         \ 'wincol': s:denite_wincol,
         \ })
+  call denite#custom#option('denite-z', 'default_action', 'narrow')
 "}}} '''
 
 [[plugins]]
