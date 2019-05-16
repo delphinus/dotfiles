@@ -235,4 +235,5 @@ hook_post_update = '''
 repo = 'neoclide/vim-easygit'
 
 [[plugins]]
-repo = 'rafi/vim-denite-z'
+repo      = 'rafi/vim-denite-z'
+on_source = ['denite.nvim']
