@@ -283,7 +283,9 @@ hook_add = '''
 repo = 'delphinus/vim-auto-cursorline'
 
 [[plugins]]
-repo     = 'direnv/direnv.vim'
+#repo     = 'direnv/direnv.vim'
+repo     = 'delphinus/direnv.vim'
+rev      = 'feature/direnv-export-post'
 hook_add = '''
   let g:direnv_auto = 0
   augroup ExecDirenv
