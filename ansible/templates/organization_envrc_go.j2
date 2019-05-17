@@ -1,0 +1,4 @@
+layout go
+export GOROOT="$(cd $HOME; go env | grep GOROOT | cut -d= -f2 | cut -d\" -f2 | tr -d "\n")"
+{{ secret_office_dev_envrc.content }}
+{# vim:se ft=direnv.jinja2: #}
