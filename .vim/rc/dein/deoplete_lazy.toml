@@ -60,7 +60,7 @@ on_func   = [
   'LanguageClient#textDocument_typeDefinition',
 ]
 on_source = ['deoplete.nvim']
-hook_source = '''
+hook_source = ''' "{{{
   " for debugging
   " let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
   let g:LanguageClient_rootMakers = {
@@ -106,15 +106,15 @@ hook_source = '''
         \   'virtualTexthl': 'Todo',
         \ },
         \ }
-'''
-hook_post_update = '''
+"}}} '''
+hook_post_update = ''' "{{{
   !bash install.sh
   !npm install -g vue-language-server
   !npm install -g typescript-language-server
   !pip3 install -U --user python-language-server
   !gem install --user-install solargraph
   !go get -u golang.org/x/tools/cmd/gopls
-'''
+"}}} '''
 
 [plugins.ftplugin]
 go = '''
