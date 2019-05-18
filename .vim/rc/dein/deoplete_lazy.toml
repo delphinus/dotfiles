@@ -117,7 +117,7 @@ hook_post_update = ''' "{{{
 "}}} '''
 
 [plugins.ftplugin]
-go = '''
+go = ''' "{{{
   function! s:check_gopls() abort
     call jobstart(['pgrep', '-fl', 'gopls'], {'on_exit': function('s:on_exit')})
   endfunction
@@ -132,35 +132,41 @@ go = '''
     endif
   endfunction
 
-  " vim-go is used for mappings in go
-  nnoremap <buffer> <silent> <C-]> :call LanguageClient#textDocument_definition()<CR>
-  nnoremap <buffer> <silent> <C-l> :call <SID>check_gopls()<CR>
-  nnoremap <buffer> <silent> <C-w><C-]> :split \| call LanguageClient#textDocument_definition()<CR>
-  nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
-'''
-python = '''
-  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
-  nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-'''
-ruby = '''
-  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
-  nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-'''
-typescript = '''
-  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <buffer> <silent> gd :split \| call LanguageClient#textDocument_definition<CR>
-  nnoremap <buffer> <silent> <C-]> :call LanguageClient#textDocument_typeDefinition<CR>
-  nnoremap <buffer> <silent> <C-w><C-]> :split \| LanguageClient#textDocument_typeDefinition<CR>
-'''
-vue = '''
-  nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
-  nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-'''
+  nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer><silent> <C-l> call <SID>check_gopls()<CR>
+  nnoremap <buffer><silent> <C-w><C-]> split \| call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer><silent> <F2> call LanguageClient#textDocument_rename()<CR>
+  nnoremap <buffer><silent> K call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer><silent> gd call LanguageClient#textDocument_definition()<CR>
+"}}} '''
+python = ''' "{{{
+  nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer><silent> <C-w><C-]> split \| call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer><silent> <F2> call LanguageClient#textDocument_rename()<CR>
+  nnoremap <buffer><silent> K call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer><silent> gd call LanguageClient#textDocument_definition()<CR>
+"}}} '''
+ruby = ''' "{{{
+  nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer><silent> <C-w><C-]> split \| call LanguageClient#textDocument_definition()<CR>
+  nnoremap <buffer><silent> <F2> call LanguageClient#textDocument_rename()<CR>
+  nnoremap <buffer><silent> K call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer><silent> gd call LanguageClient#textDocument_definition()<CR>
+"}}} '''
+typescript = ''' "{{{
+  nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_typeDefinition<CR>
+  nnoremap <buffer><silent> <C-w><C-]> split \| LanguageClient#textDocument_typeDefinition<CR>
+  nnoremap <buffer><silent> <F2> call LanguageClient#textDocument_rename()<CR>
+  nnoremap <buffer><silent> K call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer><silent> gd split \| call LanguageClient#textDocument_definition<CR>
+"}}} '''
+vue = ''' "{{{
+  nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_typeDefinition<CR>
+  nnoremap <buffer><silent> <C-w><C-]> split \| LanguageClient#textDocument_typeDefinition<CR>
+  nnoremap <buffer><silent> <F2> call LanguageClient#textDocument_rename()<CR>
+  nnoremap <buffer><silent> K call LanguageClient#textDocument_hover()<CR>
+  nnoremap <buffer><silent> gd call LanguageClient#textDocument_definition()<CR>
+"}}} '''
 
 [[plugins]]
 repo     = 'mhartington/nvim-typescript'
