@@ -283,14 +283,6 @@ repo = 'delphinus/vim-auto-cursorline'
 #repo     = 'direnv/direnv.vim'
 repo     = 'delphinus/direnv.vim'
 rev      = 'feature/direnv-export-post'
-hook_add = '''
-  let g:direnv_auto = 0
-  augroup ExecDirenv
-    autocmd!
-    autocmd User RooterChDir call direnv#export()
-    autocmd BufEnter * call direnv#extra_vimrc#check()
-  augroup END
-'''
 
 [[plugins]]
 repo     = 'freitass/todo.txt-vim'
