@@ -275,9 +275,6 @@ hook_post_update = '''
 # basic {{{
 [[plugins]]
 repo     = 'airblade/vim-rooter'
-hook_add = '''
-  let g:rooter_silent_chdir = 1
-'''
 
 [[plugins]]
 repo = 'delphinus/vim-auto-cursorline'
