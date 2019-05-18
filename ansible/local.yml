@@ -11,5 +11,7 @@
     - include: tasks/terminfo.yml
     - include: tasks/pip.yml
     - include: tasks/homebrew.yml
+    - include_tasks: tasks/secrets_office.yml
+      when: ansible_hostname in secret_office.hostnames
 
 # vim:se ft=yaml.ansible:
