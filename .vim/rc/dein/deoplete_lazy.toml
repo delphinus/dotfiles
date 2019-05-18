@@ -121,7 +121,7 @@ go = '''
   function! s:check_gopls() abort
     call jobstart(['pgrep', '-fl', 'gopls'], {'on_exit': function('s:on_exit')})
   endfunction
-  
+
   function! s:on_exit(job_id, code, event) abort
     if a:code == 0
       echo 'gopls is executing'
