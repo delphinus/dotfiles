@@ -1,0 +1,23 @@
+Host *
+  ForwardAgent yes
+  GSSAPIAuthentication yes
+  GSSAPIDelegateCredentials yes
+  PubkeyAuthentication yes
+  ServerAliveCountMax 20
+  ServerAliveInterval 15
+
+{% for host in secret_ssh.hosts -%}
+Host {{ host.name }}.delphinus.dev
+  DynamicForward {{ secret_ssh.dynamic_port }}
+  Hostname {{ secret_ssh.target }}
+  Port {{ host.port }}
+  User {{ secret_ssh.user }}
+
+{% endfor -%}
+
+Host {{ secret_ssh.target }}
+  User delphinus
+
+Match exec "[[ %h = {{ secret_ssh.git }} ]] && pgrep -fl ssh | grep {{ secret_ssh.hosts[0].name }}.delphinus.dev > /dev/null"
+  ProxyCommand nc -x localhost:{{ secret_ssh.dynamic_port }} %h %p
+{#- vim:se ft=sshconfig.jinja #}
