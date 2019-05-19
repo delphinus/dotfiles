@@ -8,7 +8,9 @@ Host *
 
 {% for host in secret_ssh.hosts -%}
 Host {{ host.name }}.delphinus.dev
+  {% if host.need_socks -%}
   DynamicForward {{ secret_ssh.dynamic_port }}
+  {% endif -%}
   Hostname {{ secret_ssh.target }}
   Port {{ host.port }}
   User {{ secret_ssh.user }}
