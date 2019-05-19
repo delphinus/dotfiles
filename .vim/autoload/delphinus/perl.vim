@@ -9,7 +9,6 @@ let s:cpanm_carton = 'carton'
 let s:carton = executable(s:plenv_carton) ? s:plenv_carton :
       \ executable(s:cpanm_carton) ? s:cpanm_carton :
       \ ''
-let s:local_perl = expand('~/git/dotfiles/bin/local_perl.sh')
 let s:cpanfile = 'cpanfile'
 let s:print_perlpath = " -e 'print join(q/,/,@INC)'"
 
@@ -24,7 +23,6 @@ function! delphinus#perl#manage_local_perl(path) abort
   let g:perlpath = perl_info.perlpath
   let &l:path = g:perlpath
   let b:ale_perl_perl_executable = perl_info.local_perl
-  let b:ale_perl_perl_options = get(perl_info, 'cmdopt', get(g:, 'local_perl_cmdopt', ''))
 endfunction
 
 function! delphinus#perl#perl_info(path) abort
@@ -51,11 +49,6 @@ function! delphinus#perl#perl_info(path) abort
     " perlbrew
     elseif filereadable(expand('$HOME/perl5/perlbrew/etc/bashrc'))
       let local_perl = systemlist('source $HOME/perl5/perlbrew/etc/bashrc && which perl')[0]
-
-    " local_perl
-    elseif executable(s:local_perl)
-      let local_perl = system(s:local_perl . ' ' . pwd)
-      let cmdopt = '-Ilib -Iapp/lib -Iapp/t/lib -Iapp/extlib/lib/perl5 -Iapp/extlib/lib/perl5/i386-linux-thread-multi'
 
     " other
     else
