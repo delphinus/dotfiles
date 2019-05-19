@@ -66,9 +66,11 @@ else
 fi
 
 # for ruby
-path=($HOME/.gem/ruby/2.3.0/bin $path)
+path=($HOME/.gem/ruby/2.3.0/bin(N-/) $path)
 if (( $+commands[rbenv] )); then
   eval "$(rbenv init - --no-rehash zsh)"
+elif [[ -x /usr/local/opt/ruby/bin/ruby ]]; then
+  path=(/usr/local/opt/ruby/bin(N-/) $path)
 else
   typeset -xT RBENV_ROOT rbenv_root
   rbenv_root=$HOME/.rbenv
@@ -98,12 +100,13 @@ if [[ -d $HOME/perl5 ]]; then
     $HOME/perl5/lib/perl5/$arch/auto(N-/)
     $perl5lib)
 fi
-path=(/usr/local/opt/perl/bin(N-/) $path)
 
 # for plenv
 alias perl='perl -I$HOME/perl5/lib/perl5'
 if (( $+commands[plenv] )); then
   eval "$(plenv init - zsh)"
+elif [[ -x /usr/local/opt/perl/bin/perl ]]; then
+  path=(/usr/local/opt/perl/bin(N-/) $path)
 else
   typeset -xT PLENV_ROOT plenv_root
   plenv_root=$HOME/.plenv
