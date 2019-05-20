@@ -25,6 +25,9 @@ hook_post_source = ''' "{{{
         \ 'converter_truncate_menu',
         \ ])
   call deoplete#custom#source('look', 'rank', 0)
+  call deoplete#custom#option('omni_patterns', {
+        \ 'go': '[^. *\t]\.\w*',
+        \ })
   call deoplete#initialize()
 "}}} '''
 hook_post_update = '!pip3 install -U --user neovim'
@@ -63,13 +66,9 @@ on_source = ['deoplete.nvim']
 hook_source = ''' "{{{
   " for debugging
   " let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
-  let g:LanguageClient_rootMakers = {
-        \ 'go': ['.git', 'go.mod'],
-        \ }
   let g:LanguageClient_serverCommands = {
         \ 'c': ['ccls'],
         \ 'cpp': ['ccls'],
-        \ 'go': ['gopls'],
         \ 'python': ['pyls'],
         \ 'ruby': ['solargraph', 'stdio'],
         \ 'typescript': ['typescript-language-server', '--stdio'],
@@ -113,32 +112,9 @@ hook_post_update = ''' "{{{
   !npm install -g typescript-language-server
   !pip3 install -U --user python-language-server
   !gem install --user-install solargraph
-  !go get -u golang.org/x/tools/cmd/gopls
 "}}} '''
 
 [plugins.ftplugin]
-go = ''' "{{{
-  function! s:check_gopls() abort
-    call jobstart(['pgrep', '-fl', 'gopls'], {'on_exit': function('s:on_exit')})
-  endfunction
-
-  function! s:on_exit(job_id, code, event) abort
-    if a:code == 0
-      echo 'gopls is executing'
-    else
-      LanguageClientStop
-      LanguageClientStart
-      echo 'LanguageClient restarted'
-    endif
-  endfunction
-
-  nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_definition()<CR>
-  nnoremap <buffer><silent> <C-l> call <SID>check_gopls()<CR>
-  nnoremap <buffer><silent> <C-w><C-]> split \| call LanguageClient#textDocument_definition()<CR>
-  nnoremap <buffer><silent> <F2> call LanguageClient#textDocument_rename()<CR>
-  nnoremap <buffer><silent> K call LanguageClient#textDocument_hover()<CR>
-  nnoremap <buffer><silent> gd call LanguageClient#textDocument_definition()<CR>
-"}}} '''
 python = ''' "{{{
   nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_definition()<CR>
   nnoremap <buffer><silent> <C-w><C-]> split \| call LanguageClient#textDocument_definition()<CR>
