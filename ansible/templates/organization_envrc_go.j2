@@ -1,4 +1,10 @@
-export GOROOT="$(cd $HOME; go env | grep GOROOT | cut -d= -f2 | cut -d\" -f2 | tr -d "\n")"
+# enable goenv in this script
+eval "$(goenv init - --no-rehash zsh)"
+# $GOPATH is derived from goenv
+PATH_add $GOPATH/bin
+# set this to install binaries into goenv bin dir.
+export GOBIN=$GOPATH/bin
 layout go
+use vim
 {{ secret_office_dev_envrc.content }}
 {# vim:se ft=direnv.jinja: #}

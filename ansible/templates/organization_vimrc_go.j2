@@ -1,0 +1,5 @@
+let b:ale_fix_on_save = 0
+if &filetype ==# 'go'
+  setlocal omnifunc=go#complete#GocodeComplete
+endif
+{# vim:se ft=vim.jinja: #}
