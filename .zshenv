@@ -130,17 +130,17 @@ else
   if [[ -x $goenv_root/bin/goenv ]]; then eval "$(goenv init - --no-rehash zsh)"; fi
 fi
 
-# for nvm
-typeset -xT NVM_SCRIPT nvm_script
-nvm_script=/usr/local/opt/nvm/nvm.sh
-if [[ -f $nvm_script ]]; then
+# for Node.js
+if (( $+commands[nodenv] )); then
+  eval "$(nodenv init - --no-rehash zsh)"
+elif [[ -f /usr/local/opt/nvm/nvm.sh ]]; then
   typeset -xT NVM_DIR nvm_dir
   nvm_dir=$HOME/.nvm
   mkdir -p $nvm_dir
   # https://qiita.com/uasi/items/80865646607b966aedc8
   # pseudo nvm() to delay initialization until nvm() is executed
   nvm() {
-    source $nvm_script
+    source /usr/local/opt/nvm/nvm.sh
     nvm "$@"
   }
 fi
