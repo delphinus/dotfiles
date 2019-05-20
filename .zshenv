@@ -121,6 +121,7 @@ typeset -xT GOPATH gopath
 gopath=$HOME/.go
 path=($gopath/bin(N-/) $path)
 if (( $+commands[goenv] )); then
+  export GOENV_GOPATH_PREFIX=$gopath
   eval "$(goenv init - --no-rehash zsh)"
 else
   typeset -xT GOENV_ROOT goenv_root
