@@ -7,7 +7,7 @@ Host *
   ServerAliveInterval 15
 
 {% for host in secret_ssh.hosts -%}
-Host {{ host.name }}.delphinus.dev
+Host {{ host.name }}
   {% if host.need_socks -%}
   DynamicForward {{ secret_ssh.dynamic_port }}
   {% endif -%}
@@ -20,6 +20,6 @@ Host {{ host.name }}.delphinus.dev
 Host {{ secret_ssh.target }}
   User delphinus
 
-Match exec "[[ %h = {{ secret_ssh.git }} ]] && pgrep -fl ssh | grep {{ secret_ssh.hosts[0].name }}.delphinus.dev > /dev/null"
+Match exec "[[ %h = {{ secret_ssh.git }} ]] && pgrep -fl ssh | grep {{ secret_ssh.hosts[0].name }} > /dev/null"
   ProxyCommand nc -x localhost:{{ secret_ssh.dynamic_port }} %h %p
 {#- vim:se ft=sshconfig.jinja #}
