@@ -208,7 +208,7 @@ hook_source = ''' "{{{
         \ 'highlight_matched_char': 'Underlined',
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
-        \ 'highlight_window_background': 'PMenu',
+        \ 'highlight_window_background': 'NormalFloat',
         \ 'matchers': 'matcher/fruzzy',
         \ 'split': 'floating',
         \ 'start_filter': v:true,
