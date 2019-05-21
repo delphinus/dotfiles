@@ -138,6 +138,15 @@ set history=1000                  " コマンドライン履歴を 1000 個保�
 set completeopt+=menuone          " 候補が一つだけの時も補完する
 " }}}
 
+augroup Terminal
+  autocmd!
+  if has('nvim')
+    autocmd TermOpen * setlocal scrolloff=0
+  else
+    autocmd TerminalOpen * setlocal scrolloff=0
+  endif
+augroup END
+
 " Python 設定 {{{
 if !has('nvim')
   set pyxversion=3 " Python3 のみ使う
