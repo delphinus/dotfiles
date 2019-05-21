@@ -206,6 +206,7 @@ hook_source = ''' "{{{
         \ 'prompt': '$ ',
         \ 'statusline': v:false,
         \ 'highlight_matched_char': 'Underlined',
+        \ 'highlight_filter_background': 'DeniteFilter',
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
         \ 'highlight_window_background': 'NormalFloat',
