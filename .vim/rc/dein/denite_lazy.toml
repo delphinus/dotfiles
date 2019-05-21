@@ -203,20 +203,19 @@ hook_source = ''' "{{{
   let s:denite_wincol = &columns > s:denite_winwidth ? (&columns - s:denite_winwidth) / 2 : 0
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('_', {
-        \ 'prompt': '$ ',
-        \ 'statusline': v:false,
-        \ 'highlight_matched_char': 'Underlined',
-        \ 'highlight_filter_background': 'DeniteFilter',
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
-        \ 'highlight_window_background': 'NormalFloat',
+        \ 'highlight_filter_background': 'DeniteFilter',
+        \ 'highlight_matched_char': 'Underlined',
         \ 'matchers': 'matcher/fruzzy',
+        \ 'prompt': '$ ',
         \ 'split': 'floating',
         \ 'start_filter': v:true,
+        \ 'statusline': v:false,
+        \ 'wincol': s:denite_wincol,
         \ 'winheight': s:denite_winheight,
         \ 'winrow': s:denite_winrow,
         \ 'winwidth': s:denite_winwidth,
-        \ 'wincol': s:denite_wincol,
         \ })
   call denite#custom#option('denite-z', 'default_action', 'narrow')
 "}}} '''
