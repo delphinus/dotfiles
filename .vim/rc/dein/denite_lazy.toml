@@ -203,7 +203,7 @@ hook_source = ''' "{{{
   let s:denite_wincol = &columns > s:denite_winwidth ? (&columns - s:denite_winwidth) / 2 : 0
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('_', {
-        \ 'prompt': '❯❯❯',
+        \ 'prompt': '$ ',
         \ 'statusline': v:false,
         \ 'highlight_matched_char': 'Underlined',
         \ 'cursor_shape': v:true,
