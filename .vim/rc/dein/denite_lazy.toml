@@ -39,6 +39,12 @@ hook_add = ''' "{{{
     inoremap <silent><buffer> <C-k>   <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
   endfunction
 
+  augroup denite-change-cursorline
+    autocmd!
+    autocmd BufEnter * if &filetype ==# 'denite' | hi CursorLine guibg=#183203 | endif
+    autocmd BufLeave * if &filetype ==# 'denite' | hi CursorLine guibg=#3b4252 | endif
+  augroup END
+
   function! s:my_denite_outline(filetype) abort
     execute 'Denite' a:filetype ==# 'go' ? "decls:'%:p'" : 'outline'
   endfunction
