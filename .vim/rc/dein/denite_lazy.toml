@@ -85,7 +85,7 @@ hook_add = ''' "{{{
   noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
   noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
   noremap za :<C-u>Denite -expand my_file_rec<CR>
-  noremap zg :<C-u>Denite grep<CR>
+  noremap zg :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
   noremap zi :<C-u>Denite gitlog<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
