@@ -128,8 +128,8 @@ hook_add = ''' "{{{
   function! s:git_messenger_my_settings() abort
     nmap <buffer> <A-b> o
     nmap <buffer> <C-c> q
-    nmap <buffer> <C-i> o
-    nmap <buffer> <C-o> O
+    nmap <buffer> <C-i> O
+    nmap <buffer> <C-o> o
     nmap <buffer> <CR>  q
     nmap <buffer> <Esc> q
     nmap <buffer> â     o
