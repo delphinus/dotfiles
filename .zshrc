@@ -21,8 +21,6 @@ bindkey -r '^[e'
 bindkey -r '^[E'
 
 source $HOME/git/dotfiles/.zsh/basic.zshrc
-source $HOME/git/dotfiles/.zsh/peco-select-history.zsh
-source $HOME/git/dotfiles/.zsh/peco-git.zsh
 source $HOME/git/dotfiles/.zsh/peco-ghq.zsh
 source $HOME/git/dotfiles/.zsh/peco-z.zsh
 source $HOME/git/dotfiles/.zsh/peco-bundler.zsh
@@ -161,6 +159,9 @@ fi
 if [[ -f ~/.iterm2_shell_integration.zsh ]]; then
   source ~/.iterm2_shell_integration.zsh
 fi
+
+# for FZF
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
 # http://qiita.com/scalper/items/86da115e6c76a692d687
 if which zprof > /dev/null 2>&1; then
