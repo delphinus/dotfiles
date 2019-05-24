@@ -69,12 +69,11 @@ function fzf-z() {
     cut -f2 |
     perl -pe "s|^~|$HOME|"
     )
-  echo $selected_dir
   if [[ -z $selected_dir ]]; then
     zle redisplay
     return 0
   fi
-  echo cd $(printf %q "$selected_dir")
+  cd $(printf %q "$selected_dir")
   local ret=$?
   zle fzf-redraw-prompt
   return $ret
