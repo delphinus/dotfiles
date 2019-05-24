@@ -64,8 +64,9 @@ function fzf-z() {
   local selected_dir=$(
     z |
     perl -pe "s|(?<=^.{11})$HOME|~|" |
-    perl -pe 's|^([\d.]+)\s+(.*)$|sprintf "%5d  %s", $1, $2|e' |
+    perl -pe 's|^([\d.]+)\s+(.*)$|sprintf "%5d\t%s", $1, $2|e' |
     FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS -n2..,.. --query=${(qqq)LBUFFER} --tac +m" $(__fzfcmd) |
+    cut -f2 |
     perl -pe "s|^~|$HOME|"
     )
   echo $selected_dir
