@@ -61,7 +61,6 @@ zle -N fzf-ghq-dir
 bindkey '^x^]' fzf-ghq-dir
 
 function fzf-z() {
-  local IFS=$'\n'
   local selected_dir=$(
     z |
     perl -pe "s|(?<=^.{11})$HOME|~|" |
