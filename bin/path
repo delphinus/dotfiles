@@ -1,4 +1,6 @@
-#!/usr/bin/env ruby
-require 'optparse'
-params = ARGV.getopts 's'
-puts ENV['PATH'].split(':').tap { |x| x.sort! if params['s'] }.join "\n"
+#!/usr/bin/env perl
+use 5.12.0;
+use warnings;
+my @paths = map { s|^$ENV{HOME}|~|; $_ } split /:/, $ENV{PATH};
+@paths = sort @paths if defined $ARGV[0] && $ARGV[0] eq '-s';
+say join "\n", @paths;
