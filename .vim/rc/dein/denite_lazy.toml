@@ -64,6 +64,7 @@ hook_add = ''' "{{{
   noremap zZ :<C-u>Denite buffer -input=term:// -immediately<CR>
   noremap zy :<C-u>Denite yankround<CR>
   noremap zY :<C-u>Denite -default-action=delete yankround<CR>
+  noremap zS :<C-u>Denite scriptnames<CR>
   tnoremap úá         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file_rec')<CR>
   tnoremap Ωå         <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file_rec')<CR>
   tnoremap <A-z><A-a> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file_rec')<CR>
@@ -209,6 +210,10 @@ on_source = ['denite.nvim']
 
 [[plugins]]
 repo      = 'delphinus/my-denite-sources'
+on_source = ['denite.nvim']
+
+[[plugins]]
+repo      = 'delphinus/vim-denite-scriptnames'
 on_source = ['denite.nvim']
 
 [[plugins]]
