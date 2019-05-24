@@ -209,6 +209,11 @@ on_event = ['VimEnter']
 hook_source = '''
   let g:suda_startup = 0
   let g:suda#prefix = 'sudo:'
+  " do here instead of setting suda_smart_edit
+  augroup suda_smart_edit
+    autocmd!
+    autocmd BufEnter * nested call suda#BufEnter()
+  augroup END
 '''
 hook_post_source = '''
   call suda#init('sudo:*,sudo:*/*')
