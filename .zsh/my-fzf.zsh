@@ -1,6 +1,14 @@
 # These are derived from fzf original scripts
 # {{{
-source /usr/local/opt/fzf/shell/completion.zsh
+if (( ! $+commands[fzf] )); then
+  path=(~/.fzf/bin(N-/) $path)
+fi
+
+if [[ -f /usr/local/opt/fzf/shell/completion.zsh ]]; then
+  source /usr/local/opt/fzf/shell/completion.zsh
+elif [[ -f ~/.fzf/shell/completion.zsh ]]; then
+  source ~/.fzf/shell/completion.zsh
+fi
 
 export FZF_DEFAULT_OPTS='--border --inline-info --prompt="❯❯❯ "'
 

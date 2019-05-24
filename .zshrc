@@ -20,14 +20,14 @@ bindkey '^e' autosuggest-accept
 bindkey -r '^[e'
 bindkey -r '^[E'
 
+PATH=${PATH_IN_ZSHENV:-$PATH}
+
 source $HOME/git/dotfiles/.zsh/basic.zshrc
 source $HOME/git/dotfiles/.zsh/my-fzf.zsh
 source $HOME/git/dotfiles/.zsh/export-alias.zsh
 source $HOME/git/dotfiles/.zsh/git-foresta.zsh
 source $HOME/git/dotfiles/.zsh/iterm2.zsh
 source $HOME/git/dotfiles/.zsh/pretty-print-array.zsh
-
-PATH=${PATH_IN_ZSHENV:-$PATH}
 
 # for Test::Pretty
 export TEST_PRETTY_COLOR_NAME=BRIGHT_GREEN
