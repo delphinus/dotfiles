@@ -138,7 +138,7 @@ hook_source = ''' "{{{
     let path = get(target, 'action__path', '')
     if isdirectory(path)
       if a:action ==# 'grep'
-        call denite#start([{'name': 'grep', 'args': [path, '', '!']}])
+        call denite#start([{'name': 'grep', 'args': [path, '', '!']}], {'is_interactive': v:false})
       else
         call denite#start([{'name': a:action, 'args': [path]}])
       endif
