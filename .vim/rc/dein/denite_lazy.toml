@@ -212,10 +212,12 @@ hook_source = ''' "{{{
 
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
+
   let s:denite_winheight = 20
   let s:denite_winrow = &lines > s:denite_winheight ? (&lines - s:denite_winheight) / 2 : 0
   let s:denite_winwidth = &columns > 240 ? &columns / 2 : 120
   let s:denite_wincol = &columns > s:denite_winwidth ? (&columns - s:denite_winwidth) / 2 : 0
+
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('_', {
         \ 'cached_filter': v:true,
