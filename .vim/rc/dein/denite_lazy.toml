@@ -173,7 +173,10 @@ hook_source = ''' "{{{
     let opt = get(args, 1, '')
     let input = get(a:context, 'input', '')
     let pattern = substitute(input, '\s\+', '.*', 'g')
-    call denite#start([{'name': 'grep', 'args': [path, opt, pattern]}])
+    let sources_queue = a:context['sources_queue'] + [[
+          \ {'name': 'grep', 'args': [path, opt, pattern]},
+          \ ]]
+    return {'sources_queue': sources_queue}
   endfunction
 
   function! Denite_toggle_sorter(sorter) abort
