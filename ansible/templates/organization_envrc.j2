@@ -1,3 +1,6 @@
 PATH_add ~/.plenv/versions/{{ secret_office_perl }}/bin
+export PERL_CPANM_OPT="
+{%- for mirror in secret_cpanm_mirrors %}--mirror {{ mirror }} {% endfor -%}
+$PERL_CPANM_OPT"
 use vim
 {# vim:se ft=direnv.jinja: #}
