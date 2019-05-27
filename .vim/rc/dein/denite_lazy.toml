@@ -135,18 +135,23 @@ hook_source = ''' "{{{
     call denite#do_action(a:context, 'open', a:context['targets'])
   endfunction
 
-  function! s:start_action_for_path(action, context)
-    let target = a:context['targets'][0]
-    let path = get(target, 'action__path', '')
-    if isdirectory(path)
-      if a:action ==# 'grep'
-        call denite#start([{'name': 'grep', 'args': [path, '', '!']}], {'is_interactive': v:false})
-      else
-        call denite#start([{'name': a:action, 'args': [path]}])
-      endif
-    else
-      call denite#util#print_error('unknown path for target: ' . target)
-    endif
+  " from doc
+  function! s:candidate_file_rec(context) abort
+    let path = a:context['targets'][0]['action__path']
+    let dir = denite#util#path2directory(path)
+    let sources_queue = a:context['sources_queue'] + [[
+          \ {'name': 'my_file_rec', 'args': [dir]},
+          \ ]]
+    return {'sources_queue': sources_queue}
+  endfunction
+
+  function! s:candidate_grep(context) abort
+    let path = a:context['targets'][0]['action__path']
+    let dir = denite#util#path2directory(path)
+    let sources_queue = a:context['sources_queue'] + [[
+          \ {'name': 'grep', 'args': [path, '', '!']},
+          \ ]]
+    return {'is_interactive': v:false, 'sources_queue': sources_queue}
   endfunction
 
   function! s:narrow_grep(context, ...) abort
@@ -198,10 +203,8 @@ hook_source = ''' "{{{
         \ ['fd', '--follow', '--hidden', '--exclude', '.git', '.*'])
 
   call denite#custom#action('buffer,directory,file,memo,openable', 'dwm_new', function('s:dwm_new'))
-  call denite#custom#action('directory', 'my_file_rec',
-        \ function('s:start_action_for_path', ['my_file_rec']))
-  call denite#custom#action('directory', 'grep',
-        \ function('s:start_action_for_path', ['grep']))
+  call denite#custom#action('buffer,directory,file,openable', 'my_file_rec', function('s:candidate_file_rec'))
+  call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
   call denite#custom#action('file', 'grep', function('s:narrow_grep'))
 
   call denite#custom#source('grep', 'args', ['', '', '!'])
