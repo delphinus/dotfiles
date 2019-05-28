@@ -4,7 +4,7 @@ repo     = 'Shougo/denite.nvim'
 #ev      = 'feature/sorter-abbr'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
-depends  = ['dwm.vim']
+depends  = ['dwm.vim', 'fruzzy']
 hook_add = ''' "{{{
   function! s:my_denite_outline(filetype) abort
     execute 'Denite' a:filetype ==# 'go' ? "decls:'%:p'" : 'outline'
@@ -176,7 +176,7 @@ hook_source = ''' "{{{
         \ '<denite:input_command_line>', 'noremap')
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
   call denite#custom#map('insert', '<C-x>', '<denite:quick_move>')
-  call denite#custom#source('_', 'matchers', ['matcher/substring'])
+  call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
   call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
@@ -239,6 +239,15 @@ hook_post_update = '''
 
 [[plugins]]
 repo = 'neoclide/vim-easygit'
+
+[[plugins]]
+repo      = 'raghur/fruzzy'
+on_source = ['denite.nvim']
+hook_add  = ''' "{{{
+  let g:fruzzy#usenative = 1
+  let g:fruzzy#sortonempty = 1
+"}}} '''
+hook_post_update = 'call fruzzy#install()'
 
 [[plugins]]
 repo      = 'rafi/vim-denite-z'
