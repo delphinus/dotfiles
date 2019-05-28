@@ -190,7 +190,7 @@ hook_source = ''' "{{{
         \ 'highlight_matched_char': 'Underlined',
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
-        \ 'matchers': ['matcher/fruzzy'],
+        \ 'matchers': 'matcher/fruzzy',
         \ 'split': 'floating',
         \ 'winheight': s:denite_winheight,
         \ 'winrow': s:denite_winrow,
