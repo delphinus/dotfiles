@@ -176,7 +176,6 @@ hook_source = ''' "{{{
         \ '<denite:input_command_line>', 'noremap')
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
   call denite#custom#map('insert', '<C-x>', '<denite:quick_move>')
-  call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
   call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
@@ -191,6 +190,7 @@ hook_source = ''' "{{{
         \ 'highlight_matched_char': 'Underlined',
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
+        \ 'matchers': ['matcher/fruzzy'],
         \ 'split': 'floating',
         \ 'winheight': s:denite_winheight,
         \ 'winrow': s:denite_winrow,
