@@ -231,16 +231,16 @@ hook_add = '''
   let g:ale_sign_column_always = 1
   let g:ale_fixers = {
         \ 'javascript': [ 'eslint' ],
-        \ 'json': [ 'prettier' ],
+        \ 'json': [ 'eslint' ],
         \ 'python': [ 'black' ],
         \ 'ruby': [ 'rubocop' ],
-        \ 'typescript': [],
+        \ 'typescript': [ 'eslint' ],
         \ }
   let g:ale_linters = {
         \ 'go': [ 'golangci-lint' ],
         \ 'javascript': [ 'eslint' ],
-        \ 'json': [ 'prettier' ],
-        \ 'typescript': [],
+        \ 'json': [ 'eslint' ],
+        \ 'typescript': [ 'eslint' ],
         \ 'perl': [ 'perl' ],
         \ 'vim': [ 'vint' ],
         \ }
