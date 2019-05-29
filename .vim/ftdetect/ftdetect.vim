@@ -1,4 +1,4 @@
-autocmd BufNewFile,BufRead .amethyst set filetype=javascript
+autocmd BufNewFile,BufRead *.gs,.amethyst set filetype=javascript
 autocmd BufNewFile,BufRead *.jbuilder set filetype=ruby
 autocmd BufNewFile,BufRead */nginx* set filetype=nginx
 autocmd BufNewFile,BufRead *.m setf objc
