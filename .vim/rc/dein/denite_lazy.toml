@@ -177,7 +177,6 @@ hook_source = ''' "{{{
   call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
   call denite#custom#map('insert', '<C-x>', '<denite:quick_move>')
   call denite#custom#source('grep', 'args', ['', '', '!'])
-  call denite#custom#source('grep', 'sorters', ['sorter_abbr'])
   call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
   let s:denite_winheight = 20
   let s:denite_winrow = &lines > s:denite_winheight ? (&lines - s:denite_winheight) / 2 : 0
