@@ -1,11 +1,53 @@
 [[plugins]]
 repo     = 'Shougo/denite.nvim'
-#repo     = 'delphinus/denite.nvim'
-#ev      = 'feature/sorter-abbr'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
 depends  = ['dwm.vim', 'fruzzy']
 hook_add = ''' "{{{
+  autocmd FileType denite call s:denite_my_settings()
+  function! s:denite_my_settings() abort
+    let b:dwm_disabled = 1
+    let b:auto_cursorline_disabled = 1
+    nnoremap <silent><buffer> <C-j> j
+    nnoremap <silent><buffer> <C-k> k
+    nnoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
+    nnoremap <silent><buffer><expr> <C-a>   denite#do_map('do_action', 'my_file_rec')
+    nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+    nnoremap <silent><buffer><expr> <C-g>   denite#do_map('do_action', 'grep')
+    nnoremap <silent><buffer><expr> <C-n>   denite#do_map('do_action', 'dwm_new')
+    nnoremap <silent><buffer><expr> <C-x>   denite#do_map('do_action', 'quick_move')
+    nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select).'j'
+    nnoremap <silent><buffer><expr> <Tab>   denite#do_map('choose_action')
+    nnoremap <silent><buffer><expr> a       denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q       denite#do_map('quit')
+  endfunction
+
+  autocmd FileType denite-filter call s:denite_filter_my_setting()
+  function! s:denite_filter_my_setting() abort
+    let b:dwm_disabled = 1
+    let b:auto_cursorline_disabled = 1
+    inoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
+    inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+    nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+
+    " These mappings are not recommended in doc.
+    inoremap <silent><buffer> <C-j>   <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
+    inoremap <silent><buffer> <C-k>   <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
+  endfunction
+
+  if has('nvim')
+    autocmd BufEnter \[denite\] call s:denite_change_cursorline()
+    function! s:denite_change_cursorline() abort
+      let output = execute('hi Cursorline')
+      let guibg = matchstr(output, '\(guibg=\)\@<=#[a-zA-Z0-9]\+')
+      hi CursorLine guibg=#183203
+      execute 'autocmd BufLeave <buffer> hi Cursorline guibg=' . guibg
+    endfunction
+  endif
+
   function! s:my_denite_outline(filetype) abort
     execute 'Denite' a:filetype ==# 'go' ? "decls:'%:p'" : 'outline'
   endfunction
@@ -46,7 +88,7 @@ hook_add = ''' "{{{
   noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
   noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
   noremap za :<C-u>Denite -expand my_file_rec<CR>
-  noremap zg :<C-u>Denite grep<CR>
+  noremap zg :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
   noremap zi :<C-u>Denite gitlog<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
@@ -92,18 +134,23 @@ hook_source = ''' "{{{
     call denite#do_action(a:context, 'open', a:context['targets'])
   endfunction
 
-  function! s:start_action_for_path(action, context)
-    let target = a:context['targets'][0]
-    let path = get(target, 'action__path', '')
-    if isdirectory(path)
-      if a:action ==# 'grep'
-        call denite#start([{'name': 'grep', 'args': [path, '', '!']}])
-      else
-        call denite#start([{'name': a:action, 'args': [path]}])
-      endif
-    else
-      call denite#util#print_error('unknown path for target: ' . target)
-    endif
+  " from doc
+  function! s:candidate_file_rec(context) abort
+    let path = a:context['targets'][0]['action__path']
+    let dir = denite#util#path2directory(path)
+    let sources_queue = a:context['sources_queue'] + [[
+          \ {'name': 'my_file_rec', 'args': [dir]},
+          \ ]]
+    return {'sources_queue': sources_queue}
+  endfunction
+
+  function! s:candidate_grep(context) abort
+    let path = a:context['targets'][0]['action__path']
+    let dir = denite#util#path2directory(path)
+    let sources_queue = a:context['sources_queue'] + [[
+          \ {'name': 'grep', 'args': [path, '', '!']},
+          \ ]]
+    return {'is_interactive': v:false, 'sources_queue': sources_queue}
   endfunction
 
   function! s:narrow_grep(context, ...) abort
@@ -125,20 +172,10 @@ hook_source = ''' "{{{
     let opt = get(args, 1, '')
     let input = get(a:context, 'input', '')
     let pattern = substitute(input, '\s\+', '.*', 'g')
-    call denite#start([{'name': 'grep', 'args': [path, opt, pattern]}])
-  endfunction
-
-  function! Denite_toggle_sorter(sorter) abort
-    let sorters = split(b:denite_context.sorters, ',')
-    let i = index(sorters, a:sorter)
-    if i < 0
-      call add(sorters, a:sorter)
-    else
-      call remove(sorters, i)
-    endif
-    let b:denite_new_context = {}
-    let b:denite_new_context.sorters = join(sorters, ',')
-    return '<denite:nop>'
+    let sources_queue = a:context['sources_queue'] + [[
+          \ {'name': 'grep', 'args': [path, opt, pattern]},
+          \ ]]
+    return {'sources_queue': sources_queue}
   endfunction
 
   " Use pt for grepping files
@@ -154,48 +191,48 @@ hook_source = ''' "{{{
   call denite#custom#var('my_file_rec', 'command',
         \ ['fd', '--follow', '--hidden', '--exclude', '.git', '.*'])
 
-  call denite#custom#action('file', 'dwm_new', function('s:dwm_new'))
-  call denite#custom#action('buffer', 'dwm_new', function('s:dwm_new'))
-  call denite#custom#action('memo', 'dwm_new', function('s:dwm_new'))
-  call denite#custom#action('directory', 'my_file_rec',
-        \ function('s:start_action_for_path', ['my_file_rec']))
-  call denite#custom#action('directory', 'grep',
-        \ function('s:start_action_for_path', ['grep']))
+  call denite#custom#action('buffer,directory,file,memo,openable', 'dwm_new', function('s:dwm_new'))
+  call denite#custom#action('buffer,directory,file,openable', 'my_file_rec', function('s:candidate_file_rec'))
+  call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
   call denite#custom#action('file', 'grep', function('s:narrow_grep'))
-  call denite#custom#map('insert', '<BS>', '<denite:move_up_path>')
-  call denite#custom#map('insert', '<C-a>', '<denite:do_action:my_file_rec>')
-  call denite#custom#map('insert', '<C-f>',
-        \ 'Denite_toggle_sorter("sorter_abbr")', 'noremap expr nowait')
-  call denite#custom#map('insert', '<C-g>', '<denite:do_action:grep>')
-  call denite#custom#map('insert', '<C-j>',
-        \ '<denite:move_to_next_line>', 'noremap')
-  call denite#custom#map('insert', '<C-k>',
-        \ '<denite:move_to_previous_line>', 'noremap')
-  call denite#custom#map('insert', '<C-n>', '<denite:do_action:dwm_new>')
-  call denite#custom#map('insert', '<C-t>',
-        \ '<denite:input_command_line>', 'noremap')
-  call denite#custom#map('insert', '<Esc>', '<denite:enter_mode:normal>')
-  call denite#custom#map('insert', '<C-x>', '<denite:quick_move>')
+
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
-  let s:denite_winheight = 20
-  let s:denite_winrow = &lines > s:denite_winheight ? (&lines - s:denite_winheight) / 2 : 0
-  let s:denite_winwidth = &columns > 240 ? &columns / 2 : 120
-  let s:denite_wincol = &columns > s:denite_winwidth ? (&columns - s:denite_winwidth) / 2 : 0
+
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('_', {
-        \ 'prompt': '❯❯❯',
-        \ 'statusline': v:false,
-        \ 'highlight_matched_char': 'Underlined',
+        \ 'cached_filter': v:true,
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
+        \ 'highlight_filter_background': 'DeniteFilter',
+        \ 'highlight_matched_char': 'Underlined',
         \ 'matchers': 'matcher/fruzzy',
+        \ 'prompt': '$ ',
         \ 'split': 'floating',
-        \ 'winheight': s:denite_winheight,
-        \ 'winrow': s:denite_winrow,
-        \ 'winwidth': s:denite_winwidth,
-        \ 'wincol': s:denite_wincol,
+        \ 'start_filter': v:true,
+        \ 'statusline': v:false,
         \ })
+
+  function! s:denite_detect_size() abort
+    let s:denite_winheight = 20
+    let s:denite_winrow = &lines > s:denite_winheight ? (&lines - s:denite_winheight) / 2 : 0
+    let s:denite_winwidth = &columns > 240 ? &columns / 2 : 120
+    let s:denite_wincol = &columns > s:denite_winwidth ? (&columns - s:denite_winwidth) / 2 : 0
+    call denite#custom#option('_', {
+          \ 'wincol': s:denite_wincol,
+          \ 'winheight': s:denite_winheight,
+          \ 'winrow': s:denite_winrow,
+          \ 'winwidth': s:denite_winwidth,
+          \ })
+  endfunction
+
+  augroup denite-detect-size
+    autocmd!
+    autocmd VimResized * call <SID>denite_detect_size()
+  augroup END
+
+  call s:denite_detect_size()
+
   call denite#custom#option('denite-z', 'default_action', 'narrow')
 "}}} '''
 
