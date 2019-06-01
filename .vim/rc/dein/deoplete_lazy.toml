@@ -75,7 +75,6 @@ hook_source = ''' "{{{
         \ 'cpp': ['ccls'],
         \ 'python': ['pyls'],
         \ 'ruby': ['solargraph', 'stdio'],
-        \ 'typescript': ['typescript-language-server', '--stdio'],
         \ 'vue': ['vls'],
         \ }
   " see setting for ALE
@@ -113,7 +112,6 @@ hook_source = ''' "{{{
 hook_post_update = ''' "{{{
   !bash install.sh
   !npm install -g vue-language-server
-  !npm install -g typescript-language-server
   !pip3 install -U --user python-language-server
   !gem install --user-install solargraph
 "}}} '''
@@ -133,13 +131,6 @@ ruby = ''' "{{{
   nnoremap <buffer><silent> K call LanguageClient#textDocument_hover()<CR>
   nnoremap <buffer><silent> gd call LanguageClient#textDocument_definition()<CR>
 "}}} '''
-typescript = ''' "{{{
-  nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_typeDefinition<CR>
-  nnoremap <buffer><silent> <C-w><C-]> split \| LanguageClient#textDocument_typeDefinition<CR>
-  nnoremap <buffer><silent> <F2> call LanguageClient#textDocument_rename()<CR>
-  nnoremap <buffer><silent> K call LanguageClient#textDocument_hover()<CR>
-  nnoremap <buffer><silent> gd split \| call LanguageClient#textDocument_definition<CR>
-"}}} '''
 vue = ''' "{{{
   nnoremap <buffer><silent> <C-]> call LanguageClient#textDocument_typeDefinition<CR>
   nnoremap <buffer><silent> <C-w><C-]> split \| LanguageClient#textDocument_typeDefinition<CR>
@@ -158,6 +149,12 @@ hook_source = '''
 hook_post_update = '''
   !sh ./install.sh
 '''
+
+[plugins.ftplugin]
+typescript = ''' "{{{
+  nnoremap <buffer> <silent> K     :TSType<CR>
+  nnoremap <buffer> <silent> <C-]> :TSDef<CR>
+"}}} '''
 
 [[plugins]]
 repo  = 'Shougo/neco-vim'
