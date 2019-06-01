@@ -244,7 +244,7 @@ repo      = 'raghur/fruzzy'
 on_source = ['denite.nvim']
 hook_add  = ''' "{{{
   let g:fruzzy#usenative = 1
-  let g:fruzzy#sortonempty = 1
+  let g:fruzzy#sortonempty = 0
 "}}} '''
 hook_post_update = 'call fruzzy#install()'
 
