@@ -128,7 +128,7 @@ hook_add = ''' "{{{
   nnoremap #  :<C-u>Denite line<CR>
   nnoremap g# :<C-u>Denite line:buffers<CR>
 "}}} '''
-hook_source = ''' "{{{
+hook_post_source = ''' "{{{
   function! s:dwm_new(context)
     call DWM_New()
     call denite#do_action(a:context, 'open', a:context['targets'])
