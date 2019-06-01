@@ -25,9 +25,13 @@ hook_post_source = ''' "{{{
         \ 'converter_truncate_menu',
         \ ])
   call deoplete#custom#source('look', 'rank', 0)
-  call deoplete#custom#option('omni_patterns', {
-        \ 'go': '[^. *\t]\.\w*',
-        \ })
+  call deoplete#custom#option({
+        \ 'omni_patterns': {
+        \   'go': '[^. *\t]\.\w*',
+        \ },
+        \ 'ignore_sources': {
+        \   'denite-filter': ['look'],
+        \ }})
   call deoplete#initialize()
 "}}} '''
 hook_post_update = '!pip3 install -U --user neovim'
