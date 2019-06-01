@@ -435,6 +435,9 @@ repo   = 'ap/vim-css-color'
 merged = 0
 
 [[plugins]]
+repo = 'asciidoc/vim-asciidoc'
+
+[[plugins]]
 repo = 'c9s/perlomni.vim'
 
 [[plugins]]
