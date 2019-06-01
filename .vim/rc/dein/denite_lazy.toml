@@ -1,6 +1,5 @@
 [[plugins]]
 repo     = 'Shougo/denite.nvim'
-rev      = 'ui'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
 depends  = ['dwm.vim', 'fruzzy']
