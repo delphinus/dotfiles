@@ -237,10 +237,6 @@ hook_post_source = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo      = 'Shougo/neomru.vim'
-on_source = ['denite.nvim']
-
-[[plugins]]
 repo      = 'Jagua/vim-denite-ghq'
 on_source = ['denite.nvim']
 
