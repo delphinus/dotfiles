@@ -179,19 +179,6 @@ hook_source = ''' "{{{
     return {'sources_queue': sources_queue}
   endfunction
 
-  function! Denite_toggle_sorter(sorter) abort
-    let sorters = split(b:denite_context.sorters, ',')
-    let i = index(sorters, a:sorter)
-    if i < 0
-      call add(sorters, a:sorter)
-    else
-      call remove(sorters, i)
-    endif
-    let b:denite_new_context = {}
-    let b:denite_new_context.sorters = join(sorters, ',')
-    return '<denite:nop>'
-  endfunction
-
   " Use pt for grepping files
   call denite#custom#var('grep', 'command', ['pt'])
   call denite#custom#var('grep', 'default_opts',
