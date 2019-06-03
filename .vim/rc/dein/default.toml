@@ -240,7 +240,7 @@ hook_add = '''
         \ 'go': [ 'golangci-lint' ],
         \ 'javascript': [ 'eslint' ],
         \ 'json': [ 'eslint' ],
-        \ 'typescript': [ 'eslint' ],
+        \ 'typescript': [ 'eslint', 'tsc' ],
         \ 'perl': [ 'perl' ],
         \ 'vim': [ 'vint' ],
         \ }
