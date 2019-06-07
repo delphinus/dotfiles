@@ -62,6 +62,7 @@ hook_add = ''' "{{{
   noremap zd :<C-u>Denite -buffer-name=denite-z z<CR>
   noremap zD :<C-u>Denite -no-start-filter -post-action=open dein/log:!<CR>
   noremap zp :<C-u>Denite -expand my_buffer my_file_old<CR>
+  noremap zP :<C-u>Denite packages<CR>
   noremap zh :<C-u>Denite ghq<CR>
   noremap zm :<C-u>Denite memo memo:new<CR>
   noremap ze :<C-u>Denite memo/grep::!<CR>
@@ -244,6 +245,10 @@ repo      = 'delphinus/my-denite-sources'
 on_source = ['denite.nvim']
 
 [[plugins]]
+repo      = 'delphinus/vim-denite-npm-packages'
+on_source = ['denite.nvim']
+
+[[plugins]]
 repo      = 'delphinus/vim-denite-scriptnames'
 on_source = ['denite.nvim']
 
@@ -251,22 +256,6 @@ on_source = ['denite.nvim']
 repo      = 'neoclide/denite-git'
 on_source = ['denite.nvim', 'my-denite-sources']
 depends   = ['vim-easygit']
-
-[[plugins]]
-repo      = 'neoclide/npm.nvim'
-on_source = ['denite.nvim']
-hook_source = '''
-  let npm_py = 'rplugin/python3/denite/kind/npm.py'
-  let npm_nvim_npm_py = g:dein#plugin.path . '/' . npm_py
-  let denite = g:dein#_plugins['denite.nvim'].path
-  let denite_npm_py = denite . '/' . npm_py
-  if !filereadable(denite_npm_py)
-    execute '!cp ' . npm_nvim_npm_py . ' ' . denite_npm_py
-  endif
-'''
-hook_post_update = '''
-  !npm install
-'''
 
 [[plugins]]
 repo = 'neoclide/vim-easygit'
