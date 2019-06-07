@@ -50,7 +50,7 @@ hook_add = ''' "{{{
   endfunction
 
   noremap zn :<C-u>DeniteBufferDir -expand my_file my_file:new<CR>
-  noremap zN :<C-u>Denite npm<CR>
+  noremap zN :<C-u>DeniteProjectDir -expand my_file my_file:new<CR>
   noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
   noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
   noremap za :<C-u>Denite -expand my_file_rec<CR>
