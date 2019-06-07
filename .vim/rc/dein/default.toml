@@ -448,6 +448,15 @@ rev  = 'feature/recognize-ridgepole'
 repo = 'delphinus/vim-firestore'
 
 [[plugins]]
+repo = 'gisphm/vim-gitignore'
+hook_add = '''
+  augroup DetectOtherIgnores
+    autocmd!
+    autocmd BufNewFile,BufRead .gcloudignore set filetype=gitignore
+  augroup END
+'''
+
+[[plugins]]
 repo = 'kchmck/vim-coffee-script'
 hook_add = '''
   augroup DetectCSON
