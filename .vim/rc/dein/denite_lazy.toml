@@ -62,7 +62,7 @@ hook_add = ''' "{{{
   noremap zd :<C-u>Denite -buffer-name=denite-z z<CR>
   noremap zD :<C-u>Denite -no-start-filter -post-action=open dein/log:!<CR>
   noremap zp :<C-u>Denite -expand my_buffer my_file_old<CR>
-  noremap zP :<C-u>Denite packages<CR>
+  noremap zP :<C-u>Denite node_modules<CR>
   noremap zh :<C-u>Denite ghq<CR>
   noremap zm :<C-u>Denite memo memo:new<CR>
   noremap ze :<C-u>Denite memo/grep::!<CR>
@@ -245,7 +245,7 @@ repo      = 'delphinus/my-denite-sources'
 on_source = ['denite.nvim']
 
 [[plugins]]
-repo      = 'delphinus/vim-denite-npm-packages'
+repo      = 'delphinus/vim-denite-node-modules'
 on_source = ['denite.nvim']
 
 [[plugins]]
