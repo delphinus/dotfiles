@@ -565,12 +565,6 @@ hook_add = ''' "{{{
 "}}} '''
 # }}}
 
-# on_if {{{
-[[plugins]]
-repo  = 'ncm2/float-preview.nvim'
-on_if = 'has("nvim")'
-# }}}
-
 # dependencies {{{
 [[plugins]]
 repo = 'vim-jp/vital.vim'
