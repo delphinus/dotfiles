@@ -166,6 +166,7 @@ hook_add = ''' "{{{
 
 [[plugins]]
 repo     = 'itchyny/lightline.vim'
+# }}}
 
 # basic {{{
 [[plugins]]
