@@ -131,33 +131,8 @@ repo = 'zchee/deoplete-zsh'
 
 # for lightline {{{
 [[plugins]]
-repo     = 'airblade/vim-gitgutter'
-hook_add = ''' "{{{
-  set updatetime=100
-  let g:gitgutter_diff_args='-w --indent-heuristic'
-  let g:gitgutter_highlight_lines = 0
-  let g:gitgutter_sign_added='✓'
-  let g:gitgutter_sign_modified='⤷'
-  let g:gitgutter_sign_removed='✗'
-  let g:gitgutter_sign_removed_first_line='↑'
-  let g:gitgutter_sign_modified_removed='•'
-  let g:gitgutter_terminal_reports_focus=0
-"}}} '''
-hook_post_source = ''' "{{{
-  if &background ==# 'light'
-    hi GitGutterAddLine ctermbg=192 guibg=#f0f9e2
-    hi GitGutterChangeLine ctermbg=230 guibg=#fff4c9
-    hi GitGutterDeleteLine ctermbg=224 guibg=#ffe9ef
-  elseif g:colors_name !=# 'nord'
-    hi GitGutterAddLine ctermbg=233 guibg=#122b0c
-    hi GitGutterChangeLine ctermbg=236 guibg=#342e0e
-    hi GitGutterDeleteLine ctermbg=235 guibg=#4e2728
-  endif
-"}}} '''
-
-[[plugins]]
 repo     = 'delphinus/lightline-delphinus'
-depends  = ['lightline', 'ale', 'tagbar', 'vim-gitgutter']
+depends  = ['lightline']
 hook_add = ''' "{{{
   let g:lightline_delphinus_use_powerline_glyphs = 1
   let g:lightline_delphinus_use_nerd_fonts_glyphs = 1
@@ -191,22 +166,6 @@ hook_add = ''' "{{{
 
 [[plugins]]
 repo     = 'itchyny/lightline.vim'
-
-[[plugins]]
-repo     = 'majutsushi/tagbar'
-hook_add = ''' "{{{
-  let g:tagbar_left = 1
-  let g:tagbar_autoclose = 1
-  let g:tagbar_autofocus = 1
-  let g:tagbar_show_linenumbers = 1
-  let g:tagbar_iconchars = [nr2char(0xe5ff) . ' ', nr2char(0xe5fe) . ' '] "  , 
-  let g:tagbar_autopreview = 1
-  augroup TagbarWindow
-    autocmd!
-    autocmd BufWinEnter * if &previewwindow | setlocal nonumber norelativenumber | endif
-  augroup END
-  nmap <C-t> :<C-u>TagbarToggle<CR>
-"}}} '''
 
 # basic {{{
 [[plugins]]
