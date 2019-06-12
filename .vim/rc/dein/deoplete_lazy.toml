@@ -74,11 +74,10 @@ if        = 'has("nvim")'
 on_source = ['deoplete.nvim']
 hook_add = ''' "{{{
   let g:float_preview#docked = 0
-  let g:float_preview#winhl = 'Normal:DeniteFilter'
+  let g:float_preview#winhl = 'Normal:FloatPreview,NonText:FloatPreviewTransparent,EndOfBuffer:FloatPreviewTransparent'
   function! s:float_preview_win_open() abort
     call nvim_win_set_option(g:float_preview#win, 'colorcolumn', '')
     call nvim_win_set_option(g:float_preview#win, 'list', v:false)
-    call nvim_win_set_option(g:float_preview#win, 'showbreak', '')
   endfunction
   autocmd User FloatPreviewWinOpen call s:float_preview_win_open()
 "}}} '''
