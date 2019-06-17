@@ -177,7 +177,6 @@ hook_post_source = ''' "{{{
         \ 'prompt': '$ ',
         \ 'split': 'floating',
         \ 'start_filter': v:true,
-        \ 'statusline': v:false,
         \ })
 
   function! s:denite_detect_size() abort
