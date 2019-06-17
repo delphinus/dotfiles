@@ -27,11 +27,11 @@ hook_post_source = ''' "{{{
   call deoplete#custom#source('look', 'rank', 0)
   call deoplete#custom#option({
         \ 'candidate_marks': ['A', 'S', 'D', 'F', 'G'],
-        \ 'omni_patterns': {
-        \   'go': '[^. *\t]\.\w*',
-        \ },
         \ 'ignore_sources': {
         \   'denite-filter': ['look'],
+        \ },
+        \ 'omni_patterns': {
+        \   'go': '[^. *\t]\.\w*',
         \ }})
   inoremap <expr> A pumvisible() ? deoplete#insert_candidate(0) : 'A'
   inoremap <expr> S pumvisible() ? deoplete#insert_candidate(1) : 'S'
