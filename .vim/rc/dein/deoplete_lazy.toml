@@ -26,6 +26,7 @@ hook_post_source = ''' "{{{
         \ ])
   call deoplete#custom#source('ale', 'dup', v:true)
   call deoplete#custom#source('look', 'rank', 0)
+  call deoplete#custom#source('denite', 'rank', 300)
   call deoplete#custom#option({
         \ 'candidate_marks': ['A', 'S', 'D', 'F', 'G'],
         \ 'ignore_sources': {
