@@ -36,6 +36,10 @@ hook_post_source = ''' "{{{
         \   'go': '[^. *\t]\.\w*',
         \ }})
   call deoplete#custom#option('keyword_patterns', {'denite-filter': '[\w.-]*'})
+  function! s:my_cr_function() abort
+    return deoplete#close_popup() . "\<CR>"
+  endfunction
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
   inoremap <expr> A pumvisible() ? deoplete#insert_candidate(0) : 'A'
   inoremap <expr> S pumvisible() ? deoplete#insert_candidate(1) : 'S'
   inoremap <expr> D pumvisible() ? deoplete#insert_candidate(2) : 'D'
