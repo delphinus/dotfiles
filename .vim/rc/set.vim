@@ -103,9 +103,6 @@ endif
 " }}}
 
 " タイトル {{{
-" タイトル文字列指定
-set titlestring=%{delphinus#title#string()}
-
 " ウィンドウタイトルを更新する
 if exists('$TMUX')
   set t_ts=k
@@ -113,9 +110,6 @@ if exists('$TMUX')
 endif
 
 set title
-
-" Vim が終了したらこのタイトルにする
-set titleold=zsh
 " }}}
 
 " その他 {{{
