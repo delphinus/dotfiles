@@ -24,6 +24,7 @@ hook_post_source = ''' "{{{
         \ 'converter_truncate_abbr',
         \ 'converter_truncate_menu',
         \ ])
+  call deoplete#custom#source('ale', 'dup', v:true)
   call deoplete#custom#source('look', 'rank', 0)
   call deoplete#custom#option({
         \ 'candidate_marks': ['A', 'S', 'D', 'F', 'G'],
