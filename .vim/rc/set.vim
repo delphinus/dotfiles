@@ -150,6 +150,7 @@ augroup END
 
 " Python 設定 {{{
 if !has('nvim')
+  let g:python3_host_prog = '/usr/local/bin/python3'
   set pyxversion=3 " Python3 のみ使う
 endif
 " }}}
