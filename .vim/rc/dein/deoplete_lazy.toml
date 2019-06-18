@@ -32,6 +32,9 @@ hook_post_source = ''' "{{{
         \ 'ignore_sources': {
         \   'denite-filter': ['look'],
         \ },
+        \ 'keyword_patterns': {
+        \   'denite-filter': '[\w.-]*',
+        \ },
         \ 'omni_patterns': {
         \   'go': '[^. *\t]\.\w*',
         \ }})
