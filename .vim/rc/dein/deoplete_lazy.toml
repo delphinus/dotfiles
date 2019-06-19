@@ -96,7 +96,9 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo      = 'w0rp/ale'
+#repo      = 'w0rp/ale'
+repo      = 'delphinus/ale'
+rev       = 'feature/better-completion-for-deoplete'
 on_source = ['deoplete.nvim']
 on_cmd    = ['ALE']
 on_map    = ['<Plug>(ale-']
