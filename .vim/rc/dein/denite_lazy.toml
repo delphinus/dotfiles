@@ -9,7 +9,15 @@ hook_add = ''' "{{{
     function! s:denite_change_cursorline() abort
       let output = execute('hi Cursorline')
       let guibg = matchstr(output, '\(guibg=\)\@<=#[a-zA-Z0-9]\+')
-      hi CursorLine guibg=#183203
+      if g:colors_name ==# 'nord'
+        hi CursorLine guibg=#183203
+      elseif g:colors_name =~# '^solarized8'
+        if &background ==# 'dark'
+          hi Cursorline guibg=#073742
+        else
+          hi Cursorline guibg=#d8ee5b
+        endif
+      endif
       execute 'autocmd BufLeave <buffer> hi Cursorline guibg=' . guibg
     endfunction
   endif
