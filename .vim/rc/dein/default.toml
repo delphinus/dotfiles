@@ -302,6 +302,10 @@ hook_add = ''' "{{{
   augroup END
 "}}} '''
 
+[[plugins]]
+repo = 'mtyn/polar'
+rtp  = 'vim'
+
 # syntax {{{
 [[plugins]]
 repo = 'Glench/Vim-Jinja2-Syntax'
