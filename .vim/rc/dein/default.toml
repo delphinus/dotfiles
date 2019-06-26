@@ -251,6 +251,27 @@ repo     = 'wincent/terminus'
 
 # colorscheme {{{
 [[plugins]]
+repo     = 'arcticicestudio/nord-vim'
+hook_add = ''' "{{{
+  let g:nord_italic = 1
+  let g:nord_italic_comments = 1
+  let g:nord_underline = 1
+  let g:nord_uniform_diff_background = 1
+  let g:nord_cursor_line_number_background = 1
+
+  augroup nord-overrides
+    autocmd!
+    autocmd ColorScheme nord hi Identifier guifg=#8FBCBB
+    autocmd ColorScheme nord hi Special guifg=#D08770
+    autocmd ColorScheme nord hi Title gui=bold cterm=bold
+    autocmd ColorScheme nord hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
+    autocmd ColorScheme nord hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+    autocmd ColorScheme nord hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+    autocmd ColorScheme nord hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+  augroup END
+"}}} '''
+
+[[plugins]]
 repo     = 'lifepillar/vim-solarized8'
 hook_add = ''' "{{{
   let g:solarized_diffmode = 'normal'
@@ -278,27 +299,6 @@ hook_add = ''' "{{{
     autocmd ColorScheme solarized8_flat call <SID>solarized8_overrides(&background)
     autocmd ColorScheme solarized8_high call <SID>solarized8_overrides(&background)
     autocmd ColorScheme solarized8_low call <SID>solarized8_overrides(&background)
-  augroup END
-"}}} '''
-
-[[plugins]]
-repo = 'arcticicestudio/nord-vim'
-hook_add = '''
-  let g:nord_italic = 1
-  let g:nord_italic_comments = 1
-  let g:nord_underline = 1
-  let g:nord_uniform_diff_background = 1
-  let g:nord_cursor_line_number_background = 1
-
-  augroup nord-overrides
-    autocmd!
-    autocmd ColorScheme nord hi Identifier guifg=#8FBCBB
-    autocmd ColorScheme nord hi Special guifg=#D08770
-    autocmd ColorScheme nord hi Title gui=bold cterm=bold
-    autocmd ColorScheme nord hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
-    autocmd ColorScheme nord hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
-    autocmd ColorScheme nord hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
-    autocmd ColorScheme nord hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
   augroup END
 "}}} '''
 
