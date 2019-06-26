@@ -251,14 +251,34 @@ repo     = 'wincent/terminus'
 
 # colorscheme {{{
 [[plugins]]
-#repo     = 'lifepillar/vim-solarized8'
-repo     = 'delphinus/vim-solarized8'
-rev      = 'feature/custom'
+repo     = 'lifepillar/vim-solarized8'
 hook_add = ''' "{{{
   let g:solarized_diffmode = 'normal'
   let g:solarized_enable_extra_hi_groups = 1
   let g:solarized_visibility = 'normal'
   let g:solarized_term_italics = 1
+
+  function! s:solarized8_overrides(background) abort
+    if a:background ==# 'dark'
+      hi NormalFloat ctermfg=247 ctermbg=236 guifg=#93a1a1 guibg=#01232b guisp=NONE cterm=NONE gui=NONE
+      hi DeniteFilter ctermfg=247 ctermbg=236 guifg=#93a1a1 guibg=#262c00 guisp=NONE cterm=NONE gui=NONE
+      hi FloatPreview ctermfg=247 ctermbg=236 guifg=#93a1a1 guibg=#262c00 guisp=NONE cterm=NONE gui=NONE
+      hi FloatPreviewTransparent ctermfg=247 ctermbg=236 guifg=#262c00 guibg=#262c00 guisp=NONE cterm=NONE gui=NONE
+    else
+      hi NormalFloat ctermfg=242 ctermbg=254 guifg=#586e75 guibg=#fffcf4 guisp=NONE cterm=NONE gui=NONE
+      hi DeniteFilter ctermfg=242 ctermbg=254 guifg=#586e75 guibg=#c2d735 guisp=NONE cterm=NONE gui=NONE
+      hi FloatPreview ctermfg=242 ctermbg=254 guifg=#586e75 guibg=#c2d735 guisp=NONE cterm=NONE gui=NONE
+      hi FloatPreviewTransparent ctermfg=242 ctermbg=254 guifg=#c2d735 guibg=#c2d735 guisp=NONE cterm=NONE gui=NONE
+    endif
+  endfunction
+
+  augroup solarized8-overrides
+    autocmd!
+    autocmd ColorScheme solarized8 call <SID>solarized8_overrides(&background)
+    autocmd ColorScheme solarized8_flat call <SID>solarized8_overrides(&background)
+    autocmd ColorScheme solarized8_high call <SID>solarized8_overrides(&background)
+    autocmd ColorScheme solarized8_low call <SID>solarized8_overrides(&background)
+  augroup END
 "}}} '''
 
 [[plugins]]
