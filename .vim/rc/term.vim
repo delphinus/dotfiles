@@ -21,6 +21,15 @@ augroup InsertIfTerminal
   endif
 augroup END
 
+augroup terminal-open
+  autocmd!
+  if has('nvim')
+    autocmd TermOpen * setlocal scrolloff=0
+  else
+    autocmd TerminalOpen * setlocal scrolloff=0
+  endif
+augroup END
+
 function! s:close_quit_deol() abort
   if exists('t:deol') && bufnr('%') == t:deol.bufnr
     " call <Plug>deol_quit
