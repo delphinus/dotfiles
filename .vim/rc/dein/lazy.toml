@@ -3,6 +3,9 @@
 repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
 hook_add   = ''' "{{{
+  let g:deol#enable_dir_changed = 0
+  let g:deol#prompt_pattern = '^.\{-}❯❯❯ '
+
   tnoremap <BS><C-n> <C-\><C-n>
   augroup deol-disable-dwm
     autocmd!
@@ -41,7 +44,6 @@ hook_add   = ''' "{{{
     nmap úú <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
   endif
 "}}} '''
-hook_source = 'let g:deol#enable_dir_changed = 0'
 
 [[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
