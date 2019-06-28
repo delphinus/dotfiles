@@ -128,6 +128,7 @@ set virtualedit=block
 set wildmenu
 set wildmode=full
 set wildoptions=pum
+set pumblend=30
 set helplang=ja
 set lazyredraw
 set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞
