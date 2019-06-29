@@ -45,6 +45,9 @@ hook_add   = ''' "{{{
   endif
 "}}} '''
 
+[plugins.ftplugin]
+deol = 'setlocal winblend=30'
+
 [[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
 on_cmd   = ['TableModeToggle']
