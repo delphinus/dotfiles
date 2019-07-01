@@ -32,7 +32,7 @@ hook_post_source = ''' "{{{
   call deoplete#custom#source('denite', 'rank', 300)
   call deoplete#custom#option({
         \ 'camel_case': v:true,
-        \ 'candidate_marks': ['!', '@', '#', '$', '%'],
+        \ 'candidate_marks': ['<A-a>', '<A-s>', '<A-d>', '<A-f>', '<A-g>'],
         \ 'ignore_sources': {
         \   'denite-filter': ['look'],
         \ },
@@ -44,11 +44,11 @@ hook_post_source = ''' "{{{
     return deoplete#close_popup() . "\<CR>"
   endfunction
   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-  inoremap <expr> ! pumvisible() ? deoplete#insert_candidate(0) : '!'
-  inoremap <expr> @ pumvisible() ? deoplete#insert_candidate(1) : '@'
-  inoremap <expr> # pumvisible() ? deoplete#insert_candidate(2) : '#'
-  inoremap <expr> $ pumvisible() ? deoplete#insert_candidate(3) : '$'
-  inoremap <expr> % pumvisible() ? deoplete#insert_candidate(4) : '%'
+  inoremap <expr> å pumvisible() ? deoplete#insert_candidate(0) : 'å'
+  inoremap <expr> ß pumvisible() ? deoplete#insert_candidate(1) : 'ß'
+  inoremap <expr> ∂ pumvisible() ? deoplete#insert_candidate(2) : '∂'
+  inoremap <expr> ƒ pumvisible() ? deoplete#insert_candidate(3) : 'ƒ'
+  inoremap <expr> © pumvisible() ? deoplete#insert_candidate(4) : '©'
   call deoplete#initialize()
 "}}} '''
 hook_post_update = '!pip3 install -U --user neovim'
