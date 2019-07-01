@@ -62,7 +62,11 @@ set colorcolumn=80,140
 set cmdheight=2
 set noruler
 
-if !has('nvim')
+if has('nvim')
+  " transparency
+  set wildoptions=pum
+  set pumblend=30
+else
   " for echodoc
   set shortmess+=c
 endif
@@ -127,8 +131,6 @@ set nrformats=
 set virtualedit=block
 set wildmenu
 set wildmode=full
-set wildoptions=pum
-set pumblend=30
 set helplang=ja
 set lazyredraw
 set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞
