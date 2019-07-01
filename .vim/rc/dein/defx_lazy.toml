@@ -63,5 +63,8 @@ hook_source = ''' "{{{
         \ })
 "}}} '''
 
+[plugins.ftplugin]
+defx = 'setlocal winblend=30'
+
 [[plugins]]
 repo = 'kristijanhusak/defx-git'
