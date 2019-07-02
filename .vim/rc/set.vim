@@ -64,7 +64,6 @@ set noruler
 
 if has('nvim')
   " transparency
-  set wildoptions=pum
   set pumblend=30
 else
   " for echodoc
