@@ -228,6 +228,9 @@ on_event = ['FocusLost', 'CursorHold']
 repo     = 'itchyny/vim-cursorword'
 on_event = ['FocusLost', 'CursorHold']
 
+[plugins.ftplugin]
+help = 'let b:cursorword = 0'
+
 [[plugins]]
 repo        = 'itchyny/vim-parenmatch'
 on_event    = ['FocusLost', 'CursorHold']
