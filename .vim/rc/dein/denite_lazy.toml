@@ -6,21 +6,40 @@ on_func  = ['denite#']
 depends  = ['dwm.vim', 'fruzzy']
 hook_add = ''' "{{{
   if has('nvim')
-    autocmd BufEnter \[denite\] call s:denite_change_cursorline()
-    function! s:denite_change_cursorline() abort
+    let s:denite_cursorline = ''
+
+    function! s:denite_save_cursorline() abort
       let output = execute('hi Cursorline')
-      let guibg = matchstr(output, '\(guibg=\)\@<=#[a-zA-Z0-9]\+')
-      if g:colors_name ==# 'nord'
+      let s:denite_cursorline  = matchstr(output, '\(guibg=\)\@<=#[a-zA-Z0-9]\+')
+    endfunction
+
+    function! s:denite_change_cursorline() abort
+      if g:colors_name is# 'nord'
         hi CursorLine guibg=#183203
       elseif g:colors_name =~# '^solarized8'
-        if &background ==# 'dark'
+        if &background is# 'dark'
           hi Cursorline guibg=#073742
         else
           hi Cursorline guibg=#d8ee5b
         endif
       endif
-      execute 'autocmd BufLeave <buffer> hi Cursorline guibg=' . guibg
+      if s:denite_cursorline isnot# ''
+        execute 'autocmd BufLeave <buffer> hi Cursorline guibg=' . s:denite_cursorline
+      endif
     endfunction
+
+    function! s:denite_restore_cursorline() abort
+      if s:denite_cursorline isnot# ''
+        execute 'hi Cursorline guibg=' . s:denite_cursorline
+      endif
+    endfunction
+
+    augroup denite-cursorline
+      autocmd!
+      autocmd ColorScheme * call <SID>denite_save_cursorline()
+      autocmd BufEnter \[denite\] call <SID>denite_change_cursorline()
+      autocmd BufEnter denite-filter call <SID>denite_restore_cursorline()
+    augroup END
   endif
 
   function! s:my_denite_outline(filetype) abort
