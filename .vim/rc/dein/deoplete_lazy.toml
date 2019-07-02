@@ -44,6 +44,7 @@ hook_post_source = ''' "{{{
     return deoplete#close_popup() . "\<CR>"
   endfunction
   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  " Map ⌥ 1〜⌥ 5 for candidate marks
   inoremap <expr> ¡ pumvisible() ? deoplete#insert_candidate(0) : '¡'
   inoremap <expr> ™ pumvisible() ? deoplete#insert_candidate(1) : '™'
   inoremap <expr> £ pumvisible() ? deoplete#insert_candidate(2) : '£'
