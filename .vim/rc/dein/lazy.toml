@@ -371,8 +371,11 @@ hook_add  = ''' "{{{
 repo     = 'arecarn/vim-fold-cycle'
 on_map   = ['<Plug>(fold-cycle-']
 hook_add = ''' "{{{
-  nmap <CR> <Plug>(fold-cycle-open)
-  nmap <C-h> <Plug>(fold-cycle-close)
+  let g:fold_cycle_default_mapping = 0
+  nmap <A-l> <Plug>(fold-cycle-open)
+  nmap <A-h> <Plug>(fold-cycle-close)
+  nmap ¬ <Plug>(fold-cycle-open)
+  nmap ˙ <Plug>(fold-cycle-close)
 "}}} '''
 
 [[plugins]]
