@@ -430,28 +430,27 @@ hook_add = ''' "{{{
   let g:jasegment_no_default_key_mappings = 1
   " Use `1` to define buffer-specific autocmd
   let g:jasegment#highlight = 1
-  function! s:jasegment_my_settings() abort
-    augroup JaSegmentHighlight
-      autocmd!
-      autocmd InsertLeave <buffer> call jasegment#OnInsertLeave()
-    augroup END
-    nmap <silent><buffer> e <Plug>JaSegmentMoveNE
-    nmap <silent><buffer> w <Plug>JaSegmentMoveNW
-    nmap <silent><buffer> b <Plug>JaSegmentMoveNB
-    omap <silent><buffer> e <Plug>JaSegmentMoveOE
-    omap <silent><buffer> w <Plug>JaSegmentMoveOW
-    omap <silent><buffer> b <Plug>JaSegmentMoveOB
-    xmap <silent><buffer> e <Plug>JaSegmentMoveVE
-    xmap <silent><buffer> w <Plug>JaSegmentMoveVW
-    xmap <silent><buffer> b <Plug>JaSegmentMoveVB
-    omap <silent><buffer> aw <Plug>JaSegmentTextObjA
-    omap <silent><buffer> iw <Plug>JaSegmentTextObjI
-    xmap <silent><buffer> aw <Plug>JaSegmentTextObjVA
-    xmap <silent><buffer> iw <Plug>JaSegmentTextObjVI
-  endfunction
-  autocmd FileType markdown call s:jasegment_my_settings()
-  autocmd BufNewFile,BufRead *.txt call s:jasegment_my_settings()
-  command JaSegmentEnable call <SID>jasegment_my_settings()
+"}}} '''
+
+[plugins.ftplugin]
+markdown = ''' "{{{
+augroup JaSegmentHighlight
+  autocmd!
+  autocmd InsertLeave <buffer> call jasegment#OnInsertLeave()
+augroup END
+nmap <silent><buffer> e <Plug>JaSegmentMoveNE
+nmap <silent><buffer> w <Plug>JaSegmentMoveNW
+nmap <silent><buffer> b <Plug>JaSegmentMoveNB
+omap <silent><buffer> e <Plug>JaSegmentMoveOE
+omap <silent><buffer> w <Plug>JaSegmentMoveOW
+omap <silent><buffer> b <Plug>JaSegmentMoveOB
+xmap <silent><buffer> e <Plug>JaSegmentMoveVE
+xmap <silent><buffer> w <Plug>JaSegmentMoveVW
+xmap <silent><buffer> b <Plug>JaSegmentMoveVB
+omap <silent><buffer> aw <Plug>JaSegmentTextObjA
+omap <silent><buffer> iw <Plug>JaSegmentTextObjI
+xmap <silent><buffer> aw <Plug>JaSegmentTextObjVA
+xmap <silent><buffer> iw <Plug>JaSegmentTextObjVI
 "}}} '''
 
 [[plugins]]
