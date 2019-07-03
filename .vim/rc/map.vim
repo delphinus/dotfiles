@@ -12,11 +12,6 @@ nnoremap <C-U> 3<C-U>
 vnoremap <C-U> 3<C-U>
 " * 設定
 nnoremap * *N
-" QuickFix リスト切り替え
-nnoremap [w :<C-u>colder<CR>
-nnoremap ]w :<C-u>cnewer<CR>
-nnoremap [C :<C-u>copen<CR>
-nnoremap ]C :<C-u>cclose<CR>
 " ウィンドウを最大化する
 nnoremap _ <C-W>_
 

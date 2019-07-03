@@ -223,6 +223,14 @@ on_event = ['FocusLost', 'CursorHold']
 [[plugins]]
 repo     = 'delphinus/vim-unimpaired'
 on_event = ['FocusLost', 'CursorHold']
+hook_add = ''' "{{{
+  nnoremap [w :<C-u>colder<CR>
+  nnoremap ]w :<C-u>cnewer<CR>
+  nnoremap [C :<C-u>copen<CR>
+  nnoremap ]C :<C-u>cclose<CR>
+  nnoremap [O :<C-u>lopen<CR>
+  nnoremap ]O :<C-u>lclose<CR>
+"}}} '''
 
 [[plugins]]
 repo     = 'itchyny/vim-cursorword'
