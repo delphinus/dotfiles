@@ -69,6 +69,15 @@ python = ''' "{{{
   call delphinus#ale#set_pylintrc()
 "}}} '''
 
+qf = ''' "{{{
+  let b:dwm_disabled = 1
+  let b:cursorword = 0
+  set nonumber
+  set norelativenumber
+  set nolist
+  set colorcolumn=
+"}}} '''
+
 ruby = ''' "{{{
   setlocal tabstop=2
   setlocal shiftwidth=2
