@@ -1,0 +1,26 @@
+#!/bin/bash
+DEFAULT='#2e3440'
+PROD='#2f0005'
+DEV='#251900'
+OTHER='#001c1a'
+if [[ -n $TMUX ]]; then
+  if [[ $1 = prod ]]; then
+    tmux select-pane -P "bg=$PROD"
+  elif [[ $1 = dev ]]; then
+    tmux select-pane -P "bg=$DEV"
+  elif [[ $1 = other ]]; then
+    tmux select-pane -P "bg=$OTHER"
+  else
+    tmux select-pane -P "bg=$DEFAULT"
+  fi;
+else
+  if [[ $1 = prod ]]; then
+    printf "\e]1337;SetColors=bg=%s\a\e\\" ${PROD:1}
+  elif [[ $1 = dev ]]; then
+    printf "\e]1337;SetColors=bg=%s\a\e\\" ${DEV:1}
+  elif [[ $1 = other ]]; then
+    printf "\e]1337;SetColors=bg=%s\a\e\\" ${OTHER:1}
+  else
+    printf "\e]1337;SetColors=bg=%s\a\e\\" ${DEFAULT:1}
+  fi
+fi
