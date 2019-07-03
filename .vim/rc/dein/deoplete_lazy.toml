@@ -159,7 +159,7 @@ hook_add = ''' "{{{
   let g:ale_python_pylint_change_directory = 0
   let g:ale_python_mypy_options = '--ignore-missing-imports --show-column-numbers --strict'
   let g:ale_python_mypy_detect_notes = 1
-  let g:ale_set_quickfix = 1
+  let g:ale_set_loclist = 1
   nmap <silent> Ë <Plug>(ale_previous_wrap)
   nmap <silent> Ê <Plug>(ale_next_wrap)
   nmap <silent>  <Plug>(ale_previous_wrap)
