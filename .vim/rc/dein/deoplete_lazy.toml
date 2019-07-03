@@ -120,7 +120,7 @@ on_ft     = [
 ]
 #repo     = 'delphinus/ale'
 #rev      = 'feature/detect-note-in-mypy'
-hook_add = '''
+hook_add = ''' "{{{
   let g:ale_fix_on_save = 1
   let g:ale_echo_msg_format = '%severity%  %linter% - %s'
   "let g:ale_echo_msg_error_str = nr2char(0xf42d) . ' ' " ' '
@@ -165,7 +165,7 @@ hook_add = '''
   nmap <silent> Ô <Plug>(ale_next_wrap)
   nmap <silent> <A-K> <Plug>(ale_previous_wrap)
   nmap <silent> <A-J> <Plug>(ale_next_wrap)
-'''
+"}}} '''
 hook_post_update = '''
   !gem install --user-install rubocop solargraph
   !npm install -g eslint tslint prettier vue-language-server
