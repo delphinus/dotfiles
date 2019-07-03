@@ -185,6 +185,9 @@ repo     = 'airblade/vim-rooter'
 repo = 'delphinus/vim-auto-cursorline'
 
 [[plugins]]
+repo = 'delphinus/vim-quickfix-height'
+
+[[plugins]]
 #repo     = 'direnv/direnv.vim'
 repo     = 'delphinus/direnv.vim'
 rev      = 'feature/direnv-export-post'
