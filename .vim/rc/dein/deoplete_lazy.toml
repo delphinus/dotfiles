@@ -96,6 +96,7 @@ hook_add = ''' "{{{
   function! s:float_preview_win_open() abort
     call nvim_win_set_option(g:float_preview#win, 'colorcolumn', '')
     call nvim_win_set_option(g:float_preview#win, 'list', v:false)
+    call nvim_win_set_option(g:float_preview#win, 'winblend', 30)
   endfunction
   autocmd User FloatPreviewWinOpen call s:float_preview_win_open()
 "}}} '''
