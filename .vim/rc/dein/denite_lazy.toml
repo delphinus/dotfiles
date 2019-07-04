@@ -37,7 +37,7 @@ hook_add = ''' "{{{
     augroup denite-cursorline
       autocmd!
       autocmd ColorScheme * call <SID>denite_save_cursorline()
-      autocmd BufEnter \[denite\] call <SID>denite_change_cursorline()
+      autocmd BufEnter \[denite\]-* call <SID>denite_change_cursorline()
       autocmd BufEnter denite-filter call <SID>denite_restore_cursorline()
     augroup END
   endif
