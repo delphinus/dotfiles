@@ -49,6 +49,10 @@ hook_add   = ''' "{{{
 deol = 'setlocal winblend=30'
 
 [[plugins]]
+repo   = 'cocopon/colorswatch.vim'
+on_cmd = ['ColorSwatchGenerate']
+
+[[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
 on_cmd   = ['TableModeToggle']
 hook_add = 'nnoremap `tm :TableModeToggle<CR>'
