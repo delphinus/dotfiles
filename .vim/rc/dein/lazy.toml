@@ -488,9 +488,6 @@ repo        = 'junegunn/vim-easy-align'
 on_map      = ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)']
 hook_add    = ''' "{{{
   vmap <Enter>           <Plug>(EasyAlign)
-  nmap <Leader>a         <Plug>(EasyAlign)
-  vmap <Leader><Enter>   <Plug>(LiveEasyAlign)
-  nmap <Leader><Leader>a <Plug>(LiveEasyAlign)
 "}}} '''
 hook_source = ''' "{{{
   let g:easy_align_delimiters = {
