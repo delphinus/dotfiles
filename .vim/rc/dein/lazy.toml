@@ -49,8 +49,19 @@ hook_add   = ''' "{{{
 deol = 'setlocal winblend=30'
 
 [[plugins]]
-repo   = 'cocopon/colorswatch.vim'
-on_cmd = ['ColorSwatchGenerate']
+repo    = 'cocopon/colorswatch.vim'
+on_func = ['colorswatch#']
+on_cmd  = ['ColorSwatchGenerate']
+
+[[plugins]]
+#repo   = 'cocopon/inspecthi.vim'
+repo   = 'delphinus/inspecthi.vim'
+rev    = 'feature/neovim'
+on_cmd = ['Inspecthi', 'InspecthiShowInspector', 'InspecthiHideInspector']
+hook_add = ''' "{{{
+  let g:inspecthi_floatwin_blend = 30
+  let g:inspecthi_floatwin_hl = 'FloatPreview'
+"}}} '''
 
 [[plugins]]
 repo     = 'dhruvasagar/vim-table-mode'
