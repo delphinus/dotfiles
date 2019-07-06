@@ -46,7 +46,11 @@ hook_add   = ''' "{{{
 "}}} '''
 
 [plugins.ftplugin]
-deol = 'setlocal winblend=30'
+deol = ''' "{{{
+  if exists('&winblend')
+    setlocal winblend=30
+  endif
+"}}} '''
 
 [[plugins]]
 repo    = 'cocopon/colorswatch.vim'
