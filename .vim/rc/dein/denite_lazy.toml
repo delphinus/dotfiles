@@ -182,8 +182,13 @@ hook_post_source = ''' "{{{
   call denite#custom#var('grep', 'final_opts', [])
 
   " Use fd for finding files
-  call denite#custom#var('my_file_rec', 'command',
-        \ ['fd', '--follow', '--hidden', '--exclude', '.git', '.*'])
+  if executable('fd')
+    call denite#custom#var('my_file_rec', 'command',
+          \ ['fd', '--follow', '--hidden', '--exclude', '.git', '.*'])
+  else
+    call denite#custom#var('my_file_rec', 'command',
+          \ ['pt', '--follow', '--nocolor', '--nogroup'])
+  endif
 
   call denite#custom#action('buffer,directory,file,memo,openable', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer,directory,file,openable', 'my_file_rec', function('s:candidate_file_rec'))
