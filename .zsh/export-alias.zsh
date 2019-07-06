@@ -11,6 +11,10 @@ elif (( $+commands[nvim] )); then
   export VISUAL='nvim -R'
   export EDITOR=nvim
   export GIT_EDITOR=nvim
+elif [[ -x /usr/local/bin/vim ]]; then
+  export VISUAL=/usr/local/bin/view
+  export EDITOR=/usr/local/bin/vim
+  export GIT_EDITOR=/usr/local/bin/vim
 else
   export VISUAL=view
   export EDITOR=vim
