@@ -133,6 +133,7 @@ else
   set incsearch
   set laststatus=2
   set nrformats=bin,hex
+  set pyxversion=3
   set shortmess+=c  " for echodoc
   set showcmd
   set sidescroll=1
@@ -141,9 +142,6 @@ else
   set ttymouse=sgr
   set viminfo='1000,<50,s10,h
   set wildmenu
-
-  let g:python3_host_prog = '/usr/local/bin/python3'
-  set pyxversion=3
 endif
 " }}}
 
