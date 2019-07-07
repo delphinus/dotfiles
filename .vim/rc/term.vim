@@ -31,12 +31,11 @@ augroup terminal-open
 augroup END
 
 function! s:close_quit_deol() abort
-  if exists('t:deol') && bufnr('%') == t:deol.bufnr
-    " call <Plug>deol_quit
-    normal q
-  else
-    " call to close window
-    execute DWM_Close()
+  if exists('t:deol')
+    let win = bufwinnr(t:deol.bufnr)
+    if win > -1
+      execute win . 'q'
+    endif
   endif
 endfunction
 
