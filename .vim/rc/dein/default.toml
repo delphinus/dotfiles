@@ -123,8 +123,12 @@ repo = 'rafi/vim-denite-z'
 repo = 'roxma/nvim-yarp'
 hook_add = '''
   " Set path for python3 for python37u packages in CentOS7
-  if !executable('python3') && executable('python3.7')
+  if executable('python3')
+    let g:python3_host_prog = exepath('python3')
+  elseif executable('python3.7')
     let g:python3_host_prog = exepath('python3.7')
+  elseif executable('python3.6')
+    let g:python3_host_prog = exepath('python3.6')
   endif
 '''
 
