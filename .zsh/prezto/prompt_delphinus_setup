@@ -51,7 +51,7 @@ function prompt_delphinus_async_callback {
       else
         # Git target detected, update the git fragment and redisplay the prompt.
         _prompt_delphinus_git="${_git_target}${_git_post_target}"
-        zle && zle reset-prompt
+        zle && zle .reset-prompt
       fi
       ;;
   esac
