@@ -133,9 +133,7 @@ hook_add = '''
 '''
 
 [[plugins]]
-#repo = 'roxma/vim-hug-neovim-rpc'
-repo = 'delphinus/vim-hug-neovim-rpc'
-rev  = 'feature/fix-module-name'
+repo = 'roxma/vim-hug-neovim-rpc'
 
 [[plugins]]
 repo = 'ujihisa/neco-look'
