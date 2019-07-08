@@ -48,17 +48,17 @@ hook_source = ''' "{{{
         \ 'winwidth': &columns / 4,
         \ 'wincol': &columns * 3 / 8,
         \ })
-  " 0xe0a2  ;
-  " 0xe5fe  ;
-  " 0xe5ff  ;
-  " 0xe92b  ;
+  "   U+E0A2
+  "   U+E5FE
+  "   U+E5FF
+  "   U+E92B
   call defx#custom#column('filename', {
-        \ 'directory_icon': nr2char(0xe5ff) . ' ',
-        \ 'root_icon': nr2char(0xe5fe) . ' ',
+        \ 'directory_icon': "\ue5ff ",
+        \ 'root_icon': "\ue5fe ",
         \ })
   call defx#custom#column('mark', {
-        \ 'readonly_icon': nr2char(0xe0a2) . ' ',
-        \ 'selected_icon': nr2char(0xe92b) . ' ',
+        \ 'readonly_icon': "\ue0a2 ",
+        \ 'selected_icon': "\ue92b ",
         \ 'length': 2,
         \ })
 "}}} '''
