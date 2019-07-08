@@ -32,44 +32,53 @@
 # Load dependencies.
 pmodload 'helper'
 
-function prompt_delphinus_pwd {
-  local pwd="${PWD/#$HOME/~}"
+function prompt_delphinus_async_callback {
+  case $1 in
+    prompt_delphinus_async_git)
+      # We can safely split on ':' because it isn't allowed in ref names.
+      IFS=':' read _git_target _git_post_target <<<"$3"
 
-  if [[ "$pwd" == (#m)[/~] ]]; then
-    _prompt_delphinus_pwd="$MATCH"
-    unset MATCH
-  else
-    _prompt_delphinus_pwd="${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
-  fi
+      # The target actually contains 3 space separated possibilities, so we need to
+      # make sure we grab the first one.
+      _git_target=$(coalesce ${(@)${(z)_git_target}})
+
+      if [[ -z "$_git_target" ]]; then
+        # No git target detected, flush the git fragment and redisplay the prompt.
+        if [[ -n "$_prompt_delphinus_git" ]]; then
+          _prompt_delphinus_git=''
+          zle && zle reset-prompt
+        fi
+      else
+        # Git target detected, update the git fragment and redisplay the prompt.
+        _prompt_delphinus_git="${_git_target}${_git_post_target}"
+        zle && zle reset-prompt
+      fi
+      ;;
+  esac
 }
 
-function prompt_delphinus_git_info {
-  if (( _prompt_delphinus_precmd_async_pid > 0 )); then
-    # Append Git status.
-    if [[ -s "$_prompt_delphinus_precmd_async_data" ]]; then
-      alias typeset='typeset -g'
-      source "$_prompt_delphinus_precmd_async_data"
-      RPROMPT+='${git_info:+${(e)git_info[status]}}'
-      unalias typeset
-    fi
-
-    # Reset PID.
-    _prompt_delphinus_precmd_async_pid=0
-
-    # Redisplay prompt.
-    zle && zle reset-prompt
-  fi
-}
-
-function prompt_delphinus_precmd_async {
-  # Get Git repository information.
+function prompt_delphinus_async_git {
+  cd -q "$1"
   if (( $+functions[git-info] )); then
     git-info
-    typeset -p git_info >! "$_prompt_delphinus_precmd_async_data"
+    print ${git_info[status]}
+  fi
+}
+
+function prompt_delphinus_async_tasks {
+  # Initialize async worker. This needs to be done here and not in
+  # prompt_sorin_setup so the git formatting can be overridden by other prompts.
+  if (( !${prompt_prezto_async_init:-0} )); then
+    async_start_worker prompt_delphinus -n
+    async_register_callback prompt_delphinus prompt_delphinus_async_callback
+    typeset -g prompt_prezto_async_init=1
   fi
 
-  # Signal completion to parent process.
-  kill -WINCH $$
+  # Kill the old process of slow commands if it is still running.
+  async_flush_jobs prompt_delphinus
+
+  # Compute slow commands in the background.
+  async_job prompt_delphinus prompt_delphinus_async_git "$PWD"
 }
 
 function prompt_delphinus_precmd {
@@ -77,36 +86,34 @@ function prompt_delphinus_precmd {
   unsetopt XTRACE KSH_ARRAYS
 
   # Format PWD.
-  prompt_delphinus_pwd
+  _prompt_delphinus_pwd=$(prompt-pwd)
 
-  # Define prompts.
-  RPROMPT='${editor_info[overwrite]}%(?:: %F{1}⏎%f)${VIM:+" %B%F{6}V%f%b"}'
-
-  # Kill the old process of slow commands if it is still running.
-  if (( _prompt_delphinus_precmd_async_pid > 0 )); then
-    kill -KILL "$_prompt_delphinus_precmd_async_pid" &>/dev/null
+  # Handle updating git data. We also clear the git prompt data if we're in a
+  # different git root now.
+  if (( $+functions[git-dir] )); then
+    local new_git_root="$(git-dir 2> /dev/null)"
+    if [[ $new_git_root != $_delphinus_cur_git_root ]]; then
+      _prompt_delphinus_git=''
+      _delphinus_cur_git_root=$new_git_root
+    fi
   fi
 
-  ruby-info
-  RPROMPT+='%F{5}${ruby_info[version]}%f '
-  perl-info
-  RPROMPT+='%F{6}${perl_info[version]}%f '
+  # Run python info (this should be fast and not require any async)
+  if (( $+functions[python-info] )); then
+    python-info
+  fi
 
-  # Compute slow commands in the background.
-  trap prompt_delphinus_git_info WINCH
-  prompt_delphinus_precmd_async &!
-  _prompt_delphinus_precmd_async_pid=$!
+  prompt_delphinus_async_tasks
 }
 
 function prompt_delphinus_setup {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
-  prompt_opts=(cr percent subst)
-  _prompt_delphinus_precmd_async_pid=0
-  _prompt_delphinus_precmd_async_data="${TMPPREFIX}-prompt_delphinus_data"
+  prompt_opts=(cr percent sp subst)
 
   # Load required functions.
   autoload -Uz add-zsh-hook
+  autoload -Uz async && async
 
   # Add hook for calling git-info before each command.
   add-zsh-hook precmd prompt_delphinus_precmd
@@ -114,33 +121,48 @@ function prompt_delphinus_setup {
   # Set editor-info parameters.
   zstyle ':prezto:module:editor:info:completing' format '%B%F{7}...%f%b'
   zstyle ':prezto:module:editor:info:keymap:primary' format ' %B%F{1}❯%F{3}❯%F{2}❯%f%b'
-  zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format ' %F{3}♺ %f'
+  zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format ' %F{3}♺%f'
   zstyle ':prezto:module:editor:info:keymap:alternate' format ' %B%F{2}❮%F{3}❮%F{1}❮%f%b'
 
   # Set git-info parameters.
   zstyle ':prezto:module:git:info' verbose 'yes'
   zstyle ':prezto:module:git:info:action' format '%F{7}:%f%%B%F{9}%s%f%%b'
-  zstyle ':prezto:module:git:info:added' format ' %%B%F{2}✚ %f%%b'
-  zstyle ':prezto:module:git:info:ahead' format ' %%B%F{13}⬆ %f%%b'
-  zstyle ':prezto:module:git:info:behind' format ' %%B%F{13}⬇ %f%%b'
+  zstyle ':prezto:module:git:info:added' format ' %%B%F{2}✚%f%%b'
+  zstyle ':prezto:module:git:info:ahead' format ' %%B%F{13}⬆%f%%b'
+  zstyle ':prezto:module:git:info:behind' format ' %%B%F{13}⬇%f%%b'
   zstyle ':prezto:module:git:info:branch' format ' %%B%F{2}%b%f%%b'
   zstyle ':prezto:module:git:info:commit' format ' %%B%F{3}%.7c%f%%b'
-  zstyle ':prezto:module:git:info:deleted' format ' %%B%F{1}✖ %f%%b'
-  zstyle ':prezto:module:git:info:modified' format ' %%B%F{4}✱ %f%%b'
+  zstyle ':prezto:module:git:info:deleted' format ' %%B%F{1}✖%f%%b'
+  zstyle ':prezto:module:git:info:modified' format ' %%B%F{4}✱%f%%b'
   zstyle ':prezto:module:git:info:position' format ' %%B%F{13}%p%f%%b'
-  zstyle ':prezto:module:git:info:renamed' format ' %%B%F{5}➜ %f%%b'
-  zstyle ':prezto:module:git:info:stashed' format ' %%B%F{6}✭ %f%%b'
-  zstyle ':prezto:module:git:info:unmerged' format ' %%B%F{3}═ %f%%b'
-  zstyle ':prezto:module:git:info:untracked' format ' %%B%F{7}◼ %f%%b'
+  zstyle ':prezto:module:git:info:renamed' format ' %%B%F{5}➜%f%%b'
+  zstyle ':prezto:module:git:info:stashed' format ' %%B%F{6}✭%f%%b'
+  zstyle ':prezto:module:git:info:unmerged' format ' %%B%F{3}═%f%%b'
+  zstyle ':prezto:module:git:info:untracked' format ' %%B%F{7}◼%f%%b'
   zstyle ':prezto:module:git:info:keys' format \
-    'status' '$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u'
+    'status' '%b %p %c:%s%A%B%S%a%d%m%r%U%u'
 
-  zstyle ':prezto:module:ruby:info:version' format ' %v'
-  zstyle ':prezto:module:perl:info:version' format ' %v'
+  # Set python-info parameters.
+  zstyle ':prezto:module:python:info:virtualenv' format '%f%F{3}(%v)%F{7} '
+
+  # Set up non-zero return value display
+  local show_return="✘ "
+  # Default is to show the return value
+  if zstyle -T ':prezto:module:prompt' show-return-val; then
+    show_return+='%? '
+  fi
+
+  # Get the async worker set up.
+  _delphinus_cur_git_root=''
+
+  _prompt_delphinus_git=''
+  _prompt_delphinus_pwd=''
 
   # Define prompts.
   PROMPT='${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}%F{4}${_prompt_delphinus_pwd}%(!. %B%F{1}#%f%b.)${editor_info[keymap]} '
-  RPROMPT=''
+  RPROMPT='$python_info[virtualenv]${editor_info[overwrite]}%(?:: %F{1}'
+  RPROMPT+=${show_return}
+  RPROMPT+='%f)${VIM:+" %B%F{6}V%f%b"}${_prompt_delphinus_git}'
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
 
@@ -149,10 +171,8 @@ function prompt_delphinus_preview {
   local +h RPROMPT=''
   local +h SPROMPT=''
 
-  editor-info 2>/dev/null
+  editor-info 2> /dev/null
   prompt_preview_theme 'delphinus'
 }
 
 prompt_delphinus_setup "$@"
-
-# vim:se ft=zsh:
