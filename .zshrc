@@ -155,6 +155,14 @@ if [[ -f ~/.iterm2_shell_integration.zsh ]]; then
   source ~/.iterm2_shell_integration.zsh
 fi
 
+if type diff-highlight > /dev/null; then
+else
+  path=(
+    /usr/local/share/git-core/contrib/diff-highlight(N-/)
+    $HOME/git/github.com/git/git/contrib/diff-highlight(N-/)
+    $path)
+fi
+
 # http://qiita.com/scalper/items/86da115e6c76a692d687
 if which zprof > /dev/null 2>&1; then
   zprof
