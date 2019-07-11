@@ -5,4 +5,12 @@ for s:project in s:projects_to_fix
     let b:ale_fix_on_save = 0
   endif
 endfor
+
+let s:perl_projects = {{ secret_office_perl_options | to_json }}
+for [s:project, s:paths] in items(s:perl_projects)
+  if stridx(s:dir, s:project) > -1
+    let s:opts = map(s:paths, {i, path -> '-I' . path})
+    let b:ale_perl_perl_options = '-c -Mwarnings ' . join(s:opts)
+  endif
+endfor
 {# vim:se ft=vim.jinja: #}
