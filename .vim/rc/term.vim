@@ -22,6 +22,9 @@ augroup terminal-autocmd
     autocmd WinEnter * if &buftype ==# 'terminal' | normal i | endif
     autocmd TerminalOpen * setlocal scrolloff=0
   endif
+  " invoke focus events in/out terminals
+  autocmd WinEnter * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusGained % | endif
+  autocmd WinLeave * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusLost % | endif
 augroup END
 
 function! s:close_quit_deol() abort
