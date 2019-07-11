@@ -3,7 +3,6 @@ let s:dir = expand('%:p:h')
 for s:project in s:projects_to_fix
   if stridx(s:dir, s:project) == -1
     let b:ale_fix_on_save = 0
-    finish
   endif
 endfor
 {# vim:se ft=vim.jinja: #}
