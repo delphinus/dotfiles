@@ -11,21 +11,15 @@ if !dein#tap('deol.nvim')
   nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
 endif
 
-" map for terminal + dwm.vim
-augroup InsertIfTerminal
+augroup terminal-autocmd
   autocmd!
   if has('nvim')
+    " change to insert mode if in terminal
     autocmd WinEnter * if &buftype ==# 'terminal' | startinsert | endif
-  else
-    autocmd WinEnter * if &buftype ==# 'terminal' | normal i | endif
-  endif
-augroup END
-
-augroup terminal-open
-  autocmd!
-  if has('nvim')
+    " set option for terminals
     autocmd TermOpen * setlocal scrolloff=0
   else
+    autocmd WinEnter * if &buftype ==# 'terminal' | normal i | endif
     autocmd TerminalOpen * setlocal scrolloff=0
   endif
 augroup END
