@@ -151,6 +151,7 @@ hook_add = ''' "{{{
         \ }
   let g:ale_sh_shellcheck_options = '-x'
   let g:ale_go_golangci_lint_package = 1
+  let g:ale_perl_perl_options = '-c -Mwarnings -Ilib -Iapp/lib'
   let g:ale_python_pylint_change_directory = 0
   let g:ale_python_mypy_options = '--ignore-missing-imports --show-column-numbers --strict'
   let g:ale_python_mypy_detect_notes = 1
