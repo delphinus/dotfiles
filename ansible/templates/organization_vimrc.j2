@@ -1,8 +1,4 @@
-let s:projects_to_fix = [
-  {%- for project in secret_office_projects_to_fix -%}
-  '{{ project }}',
-  {%- endfor -%}
-]
+let s:projects_to_fix = {{ secret_office_projects_to_fix | to_json }}
 let s:dir = expand('%:p:h')
 for s:project in s:projects_to_fix
   if stridx(s:dir, s:project) > -1
