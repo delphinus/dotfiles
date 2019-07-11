@@ -104,7 +104,7 @@ hook_add = ''' "{{{
 [[plugins]]
 #repo      = 'w0rp/ale'
 repo      = 'delphinus/ale'
-rev       = 'feature/better-completion-for-deoplete'
+rev       = 'feature/custom'
 on_source = ['deoplete.nvim']
 on_cmd    = ['ALE']
 on_map    = ['<Plug>(ale-']
