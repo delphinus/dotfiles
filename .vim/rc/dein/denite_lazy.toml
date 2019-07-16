@@ -264,7 +264,7 @@ denite-filter = ''' "{{{
   let b:dwm_disabled = 1
   let b:auto_cursorline_disabled = 1
   let b:cursorword = 0
-  if exists('winblend')
+  if exists('&winblend')
     setlocal winblend=30
   endif
   inoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
