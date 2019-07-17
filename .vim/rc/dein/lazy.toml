@@ -608,6 +608,12 @@ hook_add = ''' "{{{
 "}}} '''
 # }}}
 
+# on_func {{{
+[[plugins]]
+repo    = 'sainnhe/artify.vim'
+on_func = ['Artify']
+# }}}
+
 # dependencies {{{
 [[plugins]]
 repo = 'vim-jp/vital.vim'
