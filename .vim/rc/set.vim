@@ -14,24 +14,24 @@ endif
 
 " Tabs {{{
 set expandtab
-set tabstop=2
-set softtabstop=2
 set shiftwidth=2
+set softtabstop=2
+set tabstop=2
 " }}}
 
 " Directories {{{
-set undofile
-set directory=/tmp
 set backupdir=/tmp
-set undodir=/tmp
 " needed for editing crontab in macOS
 set backupskip^=/private/tmp/*
+set directory=/tmp
+" Add -f (--no-rcs) option to use current PATH & GOPATH
+set shellcmdflag=-f\ -c
+set undodir=/tmp
+set undofile
 
 if &shell !=# 'zsh' && executable('/usr/local/bin/zsh')
   set shell=/usr/local/bin/zsh
 endif
-" Add -f (--no-rcs) option to use current PATH & GOPATH
-set shellcmdflag=-f\ -c
 " }}}
 
 " Searching {{{
@@ -44,28 +44,28 @@ endif
 
 " Display {{{
 set ambiwidth=single
-set noshowmode
-set showmatch
-set relativenumber
-set number
-set numberwidth=3
+set cmdheight=2
+set colorcolumn=80,140
 set list
 set listchars=tab:░\ ,trail:␣,eol:⤶,extends:→,precedes:←,nbsp:¯
-set showtabline=1
-set colorcolumn=80,140
-set cmdheight=2
 set noruler
+set noshowmode
+set number
+set numberwidth=3
+set relativenumber
+set showmatch
+set showtabline=1
 " }}}
 
 " Indents and arranging formats {{{
-set smartindent
+set breakindent
 set formatoptions+=nmMj
 " Detect sequence numbers with parentheses
 set formatlistpat=^\\s*\\%(\\d\\+\\\|[-a-z]\\)\\%(\\\ -\\\|[]:.)}\\t]\\)\\?\\s\\+
-set wrap
-set breakindent
-set showbreak=→\  
 set nofixendofline
+set showbreak=→\  
+set smartindent
+set wrap
 " }}}
 
 " Mouse {{{
@@ -99,23 +99,23 @@ set title
 " }}}
 
 " その他 {{{
-set scrolloff=3
-set sidescrolloff=5
+set completeopt+=menuone
+set completeopt-=preview
+set diffopt=internal,filler,vertical,iwhite,algorithm:patience
 set fileformat=unix
 set fileformats=unix,dos
 set grepprg=pt\ --nogroup\ --nocolor
-set diffopt=internal,filler,vertical,iwhite,algorithm:patience
-set synmaxcol=0
-set virtualedit=block
-set wildmode=full
-set helplang=ja
-set lazyredraw
-set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞
-set completeopt+=menuone
-set completeopt-=preview
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
       \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
       \,sm:block-blinkwait175-blinkoff150-blinkon175
+set helplang=ja
+set lazyredraw
+set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞
+set scrolloff=3
+set sidescrolloff=5
+set synmaxcol=0
+set virtualedit=block
+set wildmode=full
 " }}}
 
 " Neovim specific settings {{{
