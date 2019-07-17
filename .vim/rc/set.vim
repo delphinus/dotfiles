@@ -120,14 +120,14 @@ set wildmode=full
 
 " Neovim specific settings {{{
 if has('nvim')
-  set fillchars=diff:░,eob:‣
+  set fillchars=diff:░,eob:‣,fold:\ 
   set pumblend=30  " transparency
   set shada=!,'1000,<50,s10,h  " Store 1000 entries on oldfiles
 else
   set autoindent
   set backspace=indent,eol,start
   set clipboard=autoselectml
-  set fillchars=diff:░,vert:│
+  set fillchars=diff:░,fold:\ ,vert:│
   set history=10000
   set hlsearch
   set incsearch
