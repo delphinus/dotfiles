@@ -13,6 +13,8 @@ c = ''' "{{{
 
 css = 'setlocal iskeyword+=-'
 
+gitcommit = 'setlocal colorcolumn=50'
+
 go_gohtmltmpl = ''' "{{{
   set tabstop=4
   set shiftwidth=4
