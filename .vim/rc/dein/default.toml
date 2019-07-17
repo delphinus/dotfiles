@@ -280,6 +280,7 @@ hook_add = ''' "{{{
     autocmd ColorScheme nord hi Identifier guifg=#8FBCBB
     autocmd ColorScheme nord hi Special guifg=#D08770
     autocmd ColorScheme nord hi Title gui=bold cterm=bold
+    autocmd ColorScheme nord hi Folded guifg=#D08770 gui=NONE
     autocmd ColorScheme nord hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
     autocmd ColorScheme nord hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
     autocmd ColorScheme nord hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
