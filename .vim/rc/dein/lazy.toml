@@ -467,8 +467,6 @@ repo   = 'deton/jasegment.vim'
 on_map = ['<Plug>JaSegment']
 hook_add = ''' "{{{
   let g:jasegment_no_default_key_mappings = 1
-  " Use `1` to define buffer-specific autocmd
-  let g:jasegment#highlight = 1
 "}}} '''
 
 [plugins.ftplugin]
