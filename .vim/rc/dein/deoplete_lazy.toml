@@ -163,15 +163,6 @@ hook_add = ''' "{{{
   nmap <silent> <A-K> <Plug>(ale_previous_wrap)
   nmap <silent> <A-J> <Plug>(ale_next_wrap)
 "}}} '''
-hook_post_source = ''' "{{{
-  if has('nvim')
-    hi ALEErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
-    hi ALEStyleErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
-    hi ALEWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
-    hi ALEStyleWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
-    hi ALEInfoSignLineNr guifg=#a3be8c guibg=#163601 gui=bold
-  endif
-"}}} '''
 hook_post_update = '''
   !gem install --user-install rubocop solargraph
   !npm install -g eslint tslint prettier vue-language-server

@@ -226,23 +226,6 @@ hook_add = ''' "{{{
   let g:gitgutter_sign_modified_removed='•'
   let g:gitgutter_terminal_reports_focus=0
 "}}} '''
-hook_post_source = ''' "{{{
-  if &background ==# 'light'
-    hi GitGutterAddLine ctermbg=192 guibg=#f0f9e2
-    hi GitGutterChangeLine ctermbg=230 guibg=#fff4c9
-    hi GitGutterDeleteLine ctermbg=224 guibg=#ffe9ef
-  elseif g:colors_name !=# 'nord'
-    hi GitGutterAddLine ctermbg=233 guibg=#122b0c
-    hi GitGutterChangeLine ctermbg=236 guibg=#342e0e
-    hi GitGutterDeleteLine ctermbg=235 guibg=#4e2728
-  endif
-  if has('nvim')
-    hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold
-    hi GitGutterChangeLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
-    hi GitGutterDeleteLineNr guifg=#bf616a guibg=#52050c gui=bold
-    hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
-  endif
-"}}} '''
 
 [[plugins]]
 repo     = 'delphinus/vim-emacscommandline'
