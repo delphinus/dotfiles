@@ -273,6 +273,25 @@ hook_add = ''' "{{{
     autocmd ColorScheme nord hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
     autocmd ColorScheme nord hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
     autocmd ColorScheme nord hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+
+    " for gitgutter
+    autocmd ColorScheme nord hi GitGutterAddLine ctermbg=233 guibg=#122b0c
+    autocmd ColorScheme nord hi GitGutterChangeLine ctermbg=236 guibg=#342e0e
+    autocmd ColorScheme nord hi GitGutterDeleteLine ctermbg=235 guibg=#4e2728
+
+    if has('nvim')
+      autocmd ColorScheme nord hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold
+      autocmd ColorScheme nord hi GitGutterChangeLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+      autocmd ColorScheme nord hi GitGutterDeleteLineNr guifg=#bf616a guibg=#52050c gui=bold
+      autocmd ColorScheme nord hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+
+      " for ALE
+      autocmd ColorScheme nord hi ALEErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
+      autocmd ColorScheme nord hi ALEStyleErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
+      autocmd ColorScheme nord hi ALEWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+      autocmd ColorScheme nord hi ALEStyleWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+      autocmd ColorScheme nord hi ALEInfoSignLineNr guifg=#a3be8c guibg=#163601 gui=bold
+    endif
   augroup END
 "}}} '''
 
@@ -290,11 +309,50 @@ hook_add = ''' "{{{
       hi DeniteFilter ctermfg=247 ctermbg=236 guifg=#93a1a1 guibg=#262c00 guisp=NONE cterm=NONE gui=NONE
       hi FloatPreview ctermfg=247 ctermbg=236 guifg=#93a1a1 guibg=#262c00 guisp=NONE cterm=NONE gui=NONE
       hi FloatPreviewTransparent ctermfg=247 ctermbg=236 guifg=#262c00 guibg=#262c00 guisp=NONE cterm=NONE gui=NONE
+
+      " for gitgutter
+      hi GitGutterAddLine ctermbg=192 guibg=#262c00
+      hi GitGutterChangeLine ctermbg=230 guibg=#674e00
+      hi GitGutterDeleteLine ctermbg=224 guibg=#7d2500
+      hi GitGutterAddLine ctermbg=192 guibg=#262c00
+      hi GitGutterChangeLine ctermbg=230 guibg=#423200
+      hi GitGutterDeleteLine ctermbg=224 guibg=#571a00
+      if has('nvim')
+        hi GitGutterAddLineNr guifg=#859900 guibg=#424c00 gui=bold
+        hi GitGutterChangeLineNr guifg=#b58900 guibg=#674e00 gui=bold
+        hi GitGutterDeleteLineNr guifg=#cb4b16 guibg=#7d2500 gui=bold
+        hi GitGutterChangeDeleteLineNr guifg=#b58900 guibg=#674e00 gui=bold
+
+        " for ALE
+        hi ALEErrorSignLineNr guifg=#cb4b16 guibg=#674e00 gui=bold
+        hi ALEStyleErrorSignLineNr guifg=#cb4b16 guibg=#674e00 gui=bold
+        hi ALEWarningSignLineNr guifg=#b58900 guibg=#674e00 gui=bold
+        hi ALEStyleWarningSignLineNr guifg=#b58900 guibg=#674e00 gui=bold
+        hi ALEInfoSignLineNr guifg=#859900 guibg=#424c00 gui=bold
+      endif
     else
       hi NormalFloat ctermfg=242 ctermbg=254 guifg=#586e75 guibg=#fffcf4 guisp=NONE cterm=NONE gui=NONE
       hi DeniteFilter ctermfg=242 ctermbg=254 guifg=#586e75 guibg=#c2d735 guisp=NONE cterm=NONE gui=NONE
       hi FloatPreview ctermfg=242 ctermbg=254 guifg=#586e75 guibg=#c2d735 guisp=NONE cterm=NONE gui=NONE
       hi FloatPreviewTransparent ctermfg=242 ctermbg=254 guifg=#c2d735 guibg=#c2d735 guisp=NONE cterm=NONE gui=NONE
+
+      " fot gitgutter
+      hi GitGutterAddLine ctermbg=192 guibg=#f0f9e2
+      hi GitGutterChangeLine ctermbg=230 guibg=#fff4c9
+      hi GitGutterDeleteLine ctermbg=224 guibg=#ffe9ef
+      if has('nvim')
+        hi GitGutterAddLineNr guifg=#ebfa88 guibg=#a3b812 gui=bold
+        hi GitGutterChangeLineNr guifg=#fff6d8 guibg=#dbae0e gui=bold
+        hi GitGutterDeleteLineNr guifg=#ffe4d8 guibg=#e66f3c gui=bold
+        hi GitGutterChangeDeleteLineNr guifg=#fff6d8 guibg=#dbae0e gui=bold
+
+        " for ALE
+        hi ALEErrorSignLineNr guifg=#ffe4d8 guibg=#e66f3c gui=bold
+        hi ALEStyleErrorSignLineNr guifg=#ffe4d8 guibg=#e66f3c gui=bold
+        hi ALEWarningSignLineNr guifg=#fff6d8 guibg=#dbae0e gui=bold
+        hi ALEStyleWarningSignLineNr guifg=#fff6d8 guibg=#dbae0e gui=bold
+        hi ALEInfoSignLineNr guifg=#ebfa88 guibg=#a3d812 gui=bold
+      endif
     endif
   endfunction
 
