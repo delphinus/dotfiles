@@ -432,7 +432,6 @@ hook_add  = ''' "{{{
   nmap <C-@> <Plug>DWMFocus
   nmap <C-l> <Plug>DWMGrowMaster
 "}}} '''
-hook_source = 'let g:dwm_min_master_pane_width = 86'
 
 [[plugins]]
 repo   = 'deton/jasegment.vim'
