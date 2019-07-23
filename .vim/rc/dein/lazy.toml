@@ -429,15 +429,15 @@ hook_add  = ''' "{{{
     augroup END
   endfunction
 
-  nnoremap <C-J> <C-W>w
-  nnoremap <C-K> <C-W>W
-  nmap <C-S> <Plug>DWMRotateClockwise
-  nmap <C-Q> <Plug>DWMRotateCounterclockwise
-  nmap <C-N> <Plug>DWMNew
-  nmap <C-C> <Plug>DWMClose
+  nnoremap <C-j> <C-w>w
+  nnoremap <C-k> <C-w>W
+  nmap <C-s> <Plug>DWMRotateClockwise
+  nmap <C-q> <Plug>DWMRotateCounterclockwise
+  nmap <C-n> <Plug>DWMNew
+  nmap <C-c> <Plug>DWMClose
   nmap <C-Space> <Plug>DWMFocus
   nmap <C-@> <Plug>DWMFocus
-  nmap <C-L> <Plug>DWMGrowMaster
+  nmap <C-l> <Plug>DWMGrowMaster
 
   command! DWMResetPaneWidth call <SID>dwm_reset_pane_width()
   command! DWMDisable call <SID>dwm_disable()
