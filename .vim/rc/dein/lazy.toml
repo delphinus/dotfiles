@@ -417,17 +417,10 @@ hook_add  = ''' "{{{
     call DWM_ResizeMasterPaneWidth()
   endfunction
 
-  function! s:dwm_disable() abort
-    autocmd! dwm BufWinEnter
-    augroup! dwm
-  endfunction
-
-  function! s:dwm_enable() abort
-    augroup dwm
-      autocmd!
-      autocmd! BufWinEnter * if &buflisted || &filetype ==# 'help' | call DWM_AutoEnter() | endif
-    augroup END
-  endfunction
+  nnoremap <silent> <Plug>DWMResetPaneWidth :call <SID>dwm_reset_pane_width()<CR>
+  nmap <A-r> <Plug>DWMResetPaneWidth
+  nmap ®     <Plug>DWMResetPaneWidth
+  nmap ò     <Plug>DWMResetPaneWidth
 
   nnoremap <C-j> <C-w>w
   nnoremap <C-k> <C-w>W
@@ -438,10 +431,6 @@ hook_add  = ''' "{{{
   nmap <C-Space> <Plug>DWMFocus
   nmap <C-@> <Plug>DWMFocus
   nmap <C-l> <Plug>DWMGrowMaster
-
-  command! DWMResetPaneWidth call <SID>dwm_reset_pane_width()
-  command! DWMDisable call <SID>dwm_disable()
-  command! DWMEnable call <SID>dwm_enable()
 "}}} '''
 hook_source = 'let g:dwm_min_master_pane_width = 86'
 
