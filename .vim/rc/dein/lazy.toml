@@ -430,6 +430,7 @@ hook_add  = ''' "{{{
   nmap <C-c> <Plug>DWMClose
   nmap <C-Space> <Plug>DWMFocus
   nmap <C-@> <Plug>DWMFocus
+  nmap <A-CR> <Plug>DWMFocus
   nmap <C-l> <Plug>DWMGrowMaster
 "}}} '''
 
