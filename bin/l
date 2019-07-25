@@ -4,4 +4,4 @@ COLOR_SCALE=
 if [[ $COLORFGBG != '11;15' ]]; then
   COLOR_SCALE=--color-scale
 fi
-exec exa -lF $COLOR_SCALE --group-directories-first --git "$@"
+exec exa -lF $COLOR_SCALE --group-directories-first "$@"
