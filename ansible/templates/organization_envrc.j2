@@ -1,5 +1,8 @@
-PATH_add ~/.plenv/versions/{{ secret_office_perl }}/bin
-export PERL_CPANM_OPT="
+{% for env in secret_office_env_vars -%}
+export {{ env.name }}={{ env.value }}
+{% endfor -%}
+export PERL5LIB={{ ':'.join(secret_office_perl_perl5lib) }}:$PERL5LIB
+export PERL_CPANM_OPT="--no-lwp 
 {%- for mirror in secret_cpanm_mirrors %}--mirror {{ mirror }} {% endfor -%}
 $PERL_CPANM_OPT"
 use vim
