@@ -150,6 +150,7 @@ hook_add = ''' "{{{
         \ 'vue': [ 'vls' ],
         \ }
   let g:ale_sh_shellcheck_options = '-x'
+  let g:ale_go_golangci_lint_options = '--enable-all -D gochecknoglobals,gochecknoinits'
   let g:ale_go_golangci_lint_package = 1
   let g:ale_perl_perl_options = '-c -Mwarnings -Ilib -Iapp/lib'
   let g:ale_python_pylint_change_directory = 0
