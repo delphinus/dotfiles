@@ -21,27 +21,13 @@ hook_add   = ''' "{{{
   if has('nvim')
     nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    " mapping for normal <A-> modifier
     tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
     nmap <A-z><A-z> <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    " mapping for iTerm2 setting `Normal`
-    tmap ΩΩ <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    nmap ΩΩ <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    " mapping for iTerm2 setting `Meta`
-    tmap úú <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    nmap úú <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
   else
     nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
     nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    " mapping for normal <A-> modifier
     tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
     nmap <A-z><A-z> <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    " mapping for iTerm2 setting `Normal`
-    tmap ΩΩ <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    nmap ΩΩ <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    " mapping for iTerm2 setting `Meta`
-    tmap úú <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    nmap úú <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
   endif
 "}}} '''
 
@@ -156,12 +142,8 @@ hook_add = ''' "{{{
     nmap <buffer> <C-o> o
     nmap <buffer> <CR>  q
     nmap <buffer> <Esc> q
-    nmap <buffer> â     o
-    nmap <buffer> ∫     o
   endfunction
   nnoremap <A-b> :GitMessenger<CR>
-  nnoremap ∫     :GitMessenger<CR>
-  nnoremap â     :GitMessenger<CR>
 "}}} '''
 
 [[plugins]]
@@ -393,8 +375,6 @@ hook_add = ''' "{{{
   let g:fold_cycle_default_mapping = 0
   nmap <A-l> <Plug>(fold-cycle-open)
   nmap <A-h> <Plug>(fold-cycle-close)
-  nmap ¬ <Plug>(fold-cycle-open)
-  nmap ˙ <Plug>(fold-cycle-close)
 "}}} '''
 
 [[plugins]]
@@ -419,8 +399,6 @@ hook_add  = ''' "{{{
 
   nnoremap <silent> <Plug>DWMResetPaneWidth :call <SID>dwm_reset_pane_width()<CR>
   nmap <A-r> <Plug>DWMResetPaneWidth
-  nmap ®     <Plug>DWMResetPaneWidth
-  nmap ò     <Plug>DWMResetPaneWidth
 
   nnoremap <C-j> <C-w>w
   nnoremap <C-k> <C-w>W
@@ -473,8 +451,6 @@ hook_source = '''
 markdown = ''' "{{{
   nmap <buffer> <A-m> <Plug>MarkdownPreview
   nmap <buffer> <A-M> <Plug>StopMarkdownPreview
-  nmap <buffer> µ <Plug>MarkdownPreview
-  nmap <buffer> Â <Plug>StopMarkdownPreview
 "}}} '''
 
 [[plugins]]

@@ -36,6 +36,24 @@ function! s:close_quit_deol() abort
   endif
 endfunction
 
+if !has('nvim')
+  " s:map_alt_keys is for Vim. It defines special characters to behave as
+  " <A-*> key bindings. Neovim does NOT need this. (See :h vim-diff)
+  " TODO: These bindings have no means in terminal windows.
+  function! s:map_alt_keys() abort
+    let code = 97  " 'a'
+    while code <= 122  " 'z'
+      let c = nr2char(code)
+      let cc = toupper(c)
+      execute 'map <Esc>' . c . ' <A-' . c . '>'
+      execute 'map <Esc>' . cc . ' <A-' . cc . '>'
+      let code = code + 1
+    endwhile
+  endfunction
+
+  call s:map_alt_keys()
+endif
+
 " mapping for normal <A-> modifier
 tmap <silent> <A-c> <C-\><C-n>:<C-u>call <SID>close_quit_deol()<CR>
 tmap <A-j> <C-\><C-n><C-j>
@@ -55,45 +73,3 @@ nmap <A-q> <C-q>
 nmap <A-s> <C-s>
 nmap <A-;> :
 nmap <A-t> gt
-
-" mapping for iTerm2 setting `Normal`
-tmap <silent> ç     <C-\><C-n>:<C-u>call <SID>close_quit_deol()<CR>
-tmap ∆     <C-\><C-n><C-j>
-tmap ˚     <C-\><C-n><C-k>
-tmap ø     <C-\><C-n><C-w>oi
-tmap œ     <C-\><C-n><C-q>
-tmap ß     <C-\><C-n><C-s>
-tmap       <C-\><C-n><A-CR>
-tmap …     <C-\><C-n>:
-tmap †     <C-\><C-n>gt
-tnoremap <expr> ® '<C-\><C-n>"'.nr2char(getchar()).'pi'
-nmap <silent> ç     :<C-u>call <SID>close_quit_deol()<CR>
-nmap ∆     <C-j>
-nmap ˚     <C-k>
-nmap ø     <C-w>o
-nmap œ     <C-q>
-nmap ß     <C-s>
-nmap       <A-CR>
-nmap …     :
-nmap †     gt
-
-" mapping for iTerm2 setting `Meta`
-tmap <silent> ã     <C-\><C-n>:<C-u>call <SID>close_quit_deol()<CR>
-tmap ê     <C-\><C-n><C-j>
-tmap ë     <C-\><C-n><C-k>
-tmap ï     <C-\><C-n><C-w>oi
-tmap ñ     <C-\><C-n><C-q>
-tmap ó     <C-\><C-n><C-s>
-tmap       <C-\><C-n><A-CR>
-tmap »     <C-\><C-n>:
-tmap ô     <C-\><C-n>gt
-tnoremap <expr> ò '<C-\><C-n>"'.nr2char(getchar()).'pi'
-nmap <silent> ã     :<C-u>call <SID>close_quit_deol()<CR>
-nmap ê     <C-j>
-nmap ë     <C-k>
-nmap ï     <C-w>o
-nmap ñ     <C-q>
-nmap ó     <C-s>
-nmap       <A-CR>
-nmap »     :
-nmap ô     gt

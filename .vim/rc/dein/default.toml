@@ -1,8 +1,5 @@
 [ftplugin] #{{{
-applescript = ''' "{{{
-  inoremap <buffer> <A-m> ￢<CR>
-  inoremap <buffer> µ ￢<CR>
-"}}} '''
+applescript = 'inoremap <buffer> <A-m> ￢<CR>'
 
 c = ''' "{{{
   setlocal tabstop=8
