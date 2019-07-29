@@ -2,8 +2,8 @@
 export {{ env.name }}={{ env.value }}
 {% endfor -%}
 export PERL5LIB={{ ':'.join(secret_office_perl_perl5lib) }}:$PERL5LIB
-export PERL_CPANM_OPT="--no-lwp 
+export PERL_CPANM_OPT="
 {%- for mirror in secret_cpanm_mirrors %}--mirror {{ mirror }} {% endfor -%}
-$PERL_CPANM_OPT"
+--no-lwp $PERL_CPANM_OPT"
 use vim
 {# vim:se ft=direnv.jinja: #}
