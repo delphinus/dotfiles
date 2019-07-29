@@ -157,10 +157,6 @@ hook_add = ''' "{{{
   let g:ale_python_mypy_options = '--ignore-missing-imports --show-column-numbers --strict'
   let g:ale_python_mypy_detect_notes = 1
   let g:ale_set_loclist = 1
-  nmap <silent> Ë <Plug>(ale_previous_wrap)
-  nmap <silent> Ê <Plug>(ale_next_wrap)
-  nmap <silent>  <Plug>(ale_previous_wrap)
-  nmap <silent> Ô <Plug>(ale_next_wrap)
   nmap <silent> <A-K> <Plug>(ale_previous_wrap)
   nmap <silent> <A-J> <Plug>(ale_next_wrap)
 "}}} '''
