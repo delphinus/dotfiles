@@ -86,7 +86,7 @@ hook_add = ''' "{{{
   noremap zi :<C-u>Denite gitlog<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
-  noremap zd :<C-u>Denite -buffer-name=denite-z z<CR>
+  noremap zd :<C-u>Denite z<CR>
   noremap zD :<C-u>Denite -no-start-filter -post-action=open -matchers=matcher/substring dein/log:!<CR>
   noremap zp :<C-u>Denite -expand my_buffer my_file_old<CR>
   noremap zP :<C-u>Denite node_modules<CR>
@@ -197,6 +197,7 @@ hook_post_source = ''' "{{{
 
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
+  call denite#custom#source('z', 'default_action', 'narrow')
 
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   call denite#custom#option('_', {
@@ -230,8 +231,6 @@ hook_post_source = ''' "{{{
   augroup END
 
   call s:denite_detect_size()
-
-  call denite#custom#option('denite-z', 'default_action', 'narrow')
 "}}} '''
 
 [plugins.ftplugin]
