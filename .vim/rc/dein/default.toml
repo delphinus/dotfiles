@@ -291,6 +291,9 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
+repo = 'jan-warchol/selenized'
+
+[[plugins]]
 repo     = 'lifepillar/vim-solarized8'
 hook_add = ''' "{{{
   let g:solarized_diffmode = 'normal'
