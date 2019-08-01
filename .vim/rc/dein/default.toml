@@ -169,6 +169,9 @@ repo     = 'airblade/vim-rooter'
 repo = 'delphinus/vim-auto-cursorline'
 
 [[plugins]]
+repo = 'delphinus/vim-data-section-simple'
+
+[[plugins]]
 repo = 'delphinus/vim-quickfix-height'
 
 [[plugins]]
