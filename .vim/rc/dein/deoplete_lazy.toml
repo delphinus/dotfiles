@@ -45,11 +45,11 @@ hook_post_source = ''' "{{{
   endfunction
   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
   " Map ⌥ 1〜⌥ 5 for candidate marks
-  inoremap <expr> ¡ pumvisible() ? deoplete#insert_candidate(0) : '¡'
-  inoremap <expr> ™ pumvisible() ? deoplete#insert_candidate(1) : '™'
-  inoremap <expr> £ pumvisible() ? deoplete#insert_candidate(2) : '£'
-  inoremap <expr> ¢ pumvisible() ? deoplete#insert_candidate(3) : '¢'
-  inoremap <expr> ∞ pumvisible() ? deoplete#insert_candidate(4) : '∞'
+  inoremap <expr> <A-1> pumvisible() ? deoplete#insert_candidate(0) : "\<A-1>"
+  inoremap <expr> <A-2> pumvisible() ? deoplete#insert_candidate(1) : "\<A-2>"
+  inoremap <expr> <A-3> pumvisible() ? deoplete#insert_candidate(2) : "\<A-3>"
+  inoremap <expr> <A-4> pumvisible() ? deoplete#insert_candidate(3) : "\<A-4>"
+  inoremap <expr> <A-5> pumvisible() ? deoplete#insert_candidate(4) : "\<A-5>"
   call deoplete#initialize()
 "}}} '''
 hook_post_update = '!pip3 install -U --user neovim'
