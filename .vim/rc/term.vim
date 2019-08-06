@@ -41,7 +41,7 @@ if !has('nvim')
   " <A-*> key bindings. Neovim does NOT need this. (See :h vim-diff)
   " TODO: These bindings have no means in terminal windows.
   function! s:map_alt_keys() abort
-    let code = 97  " 'a'
+    let code = 91  " '['
     while code <= 122  " 'z'
       let c = nr2char(code)
       let cc = toupper(c)
