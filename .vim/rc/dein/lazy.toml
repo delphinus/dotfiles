@@ -413,6 +413,14 @@ hook_add  = ''' "{{{
 "}}} '''
 
 [[plugins]]
+repo   = 'delphinus/vim-tmux-copy'
+on_map = ['<Plug>TmuxCopy']
+hook_add = '''
+  let g:tmux_copy_map = 0
+  map <A-[> <Plug>TmuxCopy>
+'''
+
+[[plugins]]
 repo   = 'deton/jasegment.vim'
 on_map = ['<Plug>JaSegment']
 hook_add = ''' "{{{
