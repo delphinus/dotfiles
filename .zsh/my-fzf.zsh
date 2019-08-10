@@ -81,7 +81,7 @@ function fzf-z() {
     zle redisplay
     return 0
   fi
-  cd $(printf %q "$selected_dir")
+  cd "$selected_dir"
   local ret=$?
   zle fzf-redraw-prompt
   return $ret
