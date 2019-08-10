@@ -18,7 +18,7 @@ async def main(connection: Connection) -> None:
 
     @StatusBarRPC
     async def load_average(knobs: List[Knob]) -> str:
-        return " ".join([f"{f:.2f}" for x in getloadavg()])
+        return " ".join([f"{x:.2f}" for x in getloadavg()])
 
     await component.async_register(connection, load_average, timeout=None)
 
