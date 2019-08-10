@@ -126,6 +126,7 @@
   with_items:
     - escindicator
     - jsonpretty
+    - load_average
     - mousemode
     - statusbar
 
