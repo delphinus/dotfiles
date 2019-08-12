@@ -130,6 +130,19 @@
     - mousemode
     - statusbar
 
+- git: >-
+    repo=https://{{ item }}
+    dest=~/.go/src/{{ item }}
+  with_items:
+    - github.com/delphinus/iterm2-imap-status
+
+- name: set up IMAP status component in iTerm2 dir
+  file: >-
+    src=~/.go/src/github.com/delphinus/iterm2-imap-status/imap_status.py
+    dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/imap_status.py'
+    state=link
+    force=yes
+
 - name: prepare ctags setting directory
   file: path=~/.ctags.d state=directory
 
