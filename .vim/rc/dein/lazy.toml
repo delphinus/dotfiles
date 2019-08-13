@@ -192,9 +192,7 @@ on_ft  = ['vifm']
 
 # on_event {{{
 [[plugins]]
-#repo     = 'airblade/vim-gitgutter'
-repo     = 'delphinus/vim-gitgutter'
-rev = 'feature/sign-numhl'
+repo     = 'airblade/vim-gitgutter'
 on_event = ['FocusLost', 'CursorHold']
 hook_add = ''' "{{{
   set updatetime=100
