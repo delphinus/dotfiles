@@ -12,6 +12,7 @@ function! s:project_setting() abort
     if stridx(dir, project) > -1
       let b:ale_perl_perl_executable = expand('~/.plenv/versions/' . perl_ver . '/bin/perl')
     endif
+    call delphinus#perlpath#set(perl_ver)
   endfor
 endfunction
 
