@@ -176,7 +176,7 @@ hook_post_source = ''' "{{{
           \ ['fd', '--follow', '--hidden', '--exclude', '.git', '.*'])
   else
     call denite#custom#var('my_file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup'])
+          \ ['pt', '--follow', '--nocolor', '--nogroup', '-g=', ''])
   endif
 
   call denite#custom#action('buffer,directory,file,memo,openable', 'dwm_new', function('s:dwm_new'))
