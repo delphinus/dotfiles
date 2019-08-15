@@ -61,7 +61,7 @@ hook_add = ''' "{{{
     let out = system('go env | grep ''^GOROOT='' | cut -d\" -f2')
     let goroot = substitute(out, '\n', '', '')
     call denite#start(
-          \ [{'name': 'my_file_rec', 'args': [goroot]}],
+          \ [{'name': 'file/rec', 'args': [goroot]}],
           \ {'input': '.go'})
   endfunction
 
@@ -69,8 +69,8 @@ hook_add = ''' "{{{
     let pwd = get(b:, '__pwd__', '')
     if a:action ==# 'grep'
       call denite#start([{'name': 'grep', 'args': [pwd, '', '!']}])
-    elseif a:action ==# 'my_file_rec'
-      call denite#start([{'name': 'my_file_rec', 'args': [pwd]}])
+    elseif a:action ==# 'file/rec'
+      call denite#start([{'name': 'file/rec', 'args': [pwd]}])
     else
       call denite#start([{'name': a:action, 'args': ['', pwd]}])
     endif
@@ -80,7 +80,7 @@ hook_add = ''' "{{{
   noremap zN :<C-u>DeniteProjectDir -expand my_file my_file:new<CR>
   noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
   noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
-  noremap za :<C-u>Denite -expand my_file_rec<CR>
+  noremap za :<C-u>Denite -expand file/rec<CR>
   noremap zg :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
   noremap zi :<C-u>Denite gitlog<CR>
@@ -101,7 +101,7 @@ hook_add = ''' "{{{
   noremap zy :<C-u>Denite yankround<CR>
   noremap zY :<C-u>Denite -default-action=delete yankround<CR>
   noremap zS :<C-u>Denite scriptnames<CR>
-  tnoremap <A-z><A-a> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file_rec')<CR>
+  tnoremap <A-z><A-a> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('file/rec')<CR>
   tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
   nnoremap <A-z><A-p> :<C-u>Denite -expand my_buffer my_file_old<CR>
@@ -121,7 +121,7 @@ hook_post_source = ''' "{{{
     let path = a:context['targets'][0]['action__path']
     let dir = denite#util#path2directory(path)
     let sources_queue = a:context['sources_queue'] + [[
-          \ {'name': 'my_file_rec', 'args': [dir]},
+          \ {'name': 'file/rec', 'args': [dir]},
           \ ]]
     return {'sources_queue': sources_queue}
   endfunction
@@ -171,15 +171,16 @@ hook_post_source = ''' "{{{
 
   " Use fd for finding files
   if executable('fd')
-    call denite#custom#var('my_file_rec', 'command',
-          \ ['fd', '--follow', '--hidden', '--exclude', '.git', '.*'])
+    let file_rec_cmd = ['fd', '--follow', '--hidden', '--exclude', '.git', '.*']
   else
-    call denite#custom#var('my_file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup', '-g=', ''])
+    let file_rec_cmd = ['pt', '--follow', '--nocolor', '--nogroup', '-g=', '']
   endif
+  call denite#custom#var('my_file_rec', 'command', file_rec_cmd)
+  call denite#custom#var('file/rec', 'command', file_rec_cmd)
 
   call denite#custom#action('buffer,directory,file,memo,openable', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer,directory,file,openable', 'my_file_rec', function('s:candidate_file_rec'))
+  call denite#custom#action('buffer,directory,file,openable', 'file/rec', function('s:candidate_file_rec'))
   call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
   call denite#custom#action('file', 'grep', function('s:narrow_grep'))
 
@@ -232,7 +233,7 @@ denite = ''' "{{{
   nnoremap <silent><buffer> <C-j> j
   nnoremap <silent><buffer> <C-k> k
   nnoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
-  nnoremap <silent><buffer><expr> <C-a>   denite#do_map('do_action', 'my_file_rec')
+  nnoremap <silent><buffer><expr> <C-a>   denite#do_map('do_action', 'file/rec')
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
   nnoremap <silent><buffer><expr> <C-g>   denite#do_map('do_action', 'grep')
   nnoremap <silent><buffer><expr> <C-n>   denite#do_map('do_action', 'dwm_new')
