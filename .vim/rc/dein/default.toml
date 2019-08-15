@@ -78,7 +78,10 @@ scss = 'setlocal iskeyword+=-'
 
 toml = 'setlocal foldmethod=marker'
 
-undotree = 'let b:dwm_disabled = 1'
+undotree = ''' "{{{
+  let b:dwm_disabled = 1
+  execute 'vertical resize' g:undotree_SplitWidth
+"}}} '''
 
 vim = ''' "{{{
   setlocal expandtab
