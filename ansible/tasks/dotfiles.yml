@@ -59,6 +59,14 @@
     state=link
     force=yes
 
+- file: >-
+    dest=~/.local/share/nvim/{{ item }}
+    state=directory
+  with_items:
+    - backup
+    - swap
+    - undo
+
 - name: symlink dircolors
   file: >-
     src={{ dotfiles_dir }}/submodules/nord-dircolors/src/dir_colors
