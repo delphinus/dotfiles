@@ -20,14 +20,20 @@ set tabstop=2
 " }}}
 
 " Directories {{{
-set backupdir=/tmp
+set backupcopy=auto
+set backupdir^=~/.local/share/nvim/backup//
 " needed for editing crontab in macOS
 set backupskip^=/private/tmp/*
-set directory=/tmp
+" Use dir for Neovim's default
+set directory^=~/.local/share/nvim/swap//
+set nobackup
 " Add -f (--no-rcs) option to use current PATH & GOPATH
 set shellcmdflag=-f\ -c
-set undodir=/tmp
+set swapfile
+" Use dir for Neovim's default
+set undodir^=/.local/share/nvim/undo//
 set undofile
+set writebackup
 
 if &shell !=# 'zsh' && executable('/usr/local/bin/zsh')
   set shell=/usr/local/bin/zsh
