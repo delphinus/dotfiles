@@ -114,6 +114,18 @@ hook_post_source = ''' "{{{
 "}}} '''
 
 [[plugins]]
+repo   = 'mbbill/undotree'
+on_cmd = ['UndotreeToggle']
+hook_add = ''' "{{{
+  let g:undotree_HelpLine = 0
+  let g:undotree_SetFocusWhenToggle = 1
+  let g:undotree_ShortIndicators = 1
+  let g:undotree_TreeNodeShape = '●'
+  let g:undotree_WindowLayout = 2
+  nnoremap <A-u> :UndotreeToggle<CR>
+"}}} '''
+
+[[plugins]]
 repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
 
