@@ -31,7 +31,7 @@ set nobackup
 set shellcmdflag=-f\ -c
 set swapfile
 " Use dir for Neovim's default
-set undodir^=/.local/share/nvim/undo//
+set undodir^=~/.local/share/nvim/undo//
 set undofile
 set writebackup
 
