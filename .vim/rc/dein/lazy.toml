@@ -57,9 +57,7 @@ hook_add = ''' "{{{
 repo     = 'dhruvasagar/vim-table-mode'
 on_cmd   = ['TableModeToggle']
 hook_add = 'nnoremap `tm :TableModeToggle<CR>'
-hook_source = '''
-  let g:table_mode_corner = '|'
-'''
+hook_source = "let g:table_mode_corner = '|'"
 
 [[plugins]]
 repo   = 'fuenor/JpFormat.vim'
@@ -69,11 +67,11 @@ on_cmd = ['JpFormatAll', 'JpJoinAll']
 repo     = 'lambdalisue/vim-gista'
 on_cmd   = ['Gista']
 on_func  = ['gista#']
-hook_add = '''
+hook_add = ''' "{{{
   let g:gista#command#list#enable_default_mappings = 0
   nnoremap gl :<c-u>Gista list<CR>
   nnoremap gL :<c-u>Gista list 
-'''
+"}}} '''
 hook_post_source = ''' "{{{
   function! s:gista_mappings() abort
     nmap <buffer> q <Plug>(gista-quit)
