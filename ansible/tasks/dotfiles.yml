@@ -62,6 +62,7 @@
 - file: >-
     dest=~/.local/share/nvim/{{ item }}
     state=directory
+    mode=0700
   with_items:
     - backup
     - swap
