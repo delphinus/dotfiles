@@ -137,6 +137,7 @@
     - jsonpretty
     - load_average
     - mousemode
+    - ping
     - statusbar
 
 - git: >-
