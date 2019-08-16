@@ -8,8 +8,11 @@ Host *
 
 {% for host in secret_ssh.hosts -%}
 Host {{ host.name }}
-  {% if host.need_socks -%}
-  DynamicForward {{ secret_ssh.dynamic_port }}
+  {% if 'socks_port' in host -%}
+  DynamicForward {{ host.socks_port }}
+  {% endif -%}
+  {% if 'vnc_port' in host -%}
+  LocalForward {{ host.vnc_port }} localhost:5900
   {% endif -%}
   Hostname {{ secret_ssh.target }}
   Port {{ host.port }}
@@ -21,5 +24,5 @@ Host {{ secret_ssh.target }}
   User delphinus
 
 Match exec "[[ %h = {{ secret_ssh.git }} ]] && pgrep -fl ssh | grep {{ secret_ssh.hosts[0].name }} > /dev/null"
-  ProxyCommand nc -x localhost:{{ secret_ssh.dynamic_port }} %h %p
+  ProxyCommand nc -x localhost:{{ secret_ssh.socks_port }} %h %p
 {#- vim:se ft=sshconfig.jinja #}
