@@ -9,6 +9,7 @@
     - include: tasks/dotfiles.yml
     - include: tasks/secrets.yml
     - include: tasks/terminfo.yml
+    - include: tasks/pip.yml
     - include_tasks: tasks/secrets_office.yml
       when: ansible_hostname in secret_office.hostnames
 
