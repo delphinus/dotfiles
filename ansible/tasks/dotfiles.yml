@@ -123,22 +123,10 @@
 
 - name: prepare iTerm2 script directory
   file: >-
-    path='~/Library/Application Support/iTerm2/Scripts/Autolaunch'
-    state=directory
-
-- name: set up sample components in iTerm2 status bar
-  file: >-
-    src={{ dotfiles_dir }}/ansible/files/iterm2/{{ item }}.py
-    dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/{{ item }}.py'
+    src={{ dotfiles_dir }}/iterm2
+    dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch'
     state=link
     force=yes
-  with_items:
-    - escindicator
-    - jsonpretty
-    - load_average
-    - mousemode
-    - ping
-    - statusbar
 
 - git: >-
     repo=https://{{ item }}

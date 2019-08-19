@@ -276,8 +276,6 @@ typings/
 
 
 ### custom ignore
-/.ruby-version
-/.sass-cache
 /.config/git
 /.config/powerline/config.json
 /.config/powerline/ext/segments/local_perl.py
@@ -286,18 +284,21 @@ typings/
 /.config/ranger/history
 /.config/vim/yankround
 /.pentadactyl/info
+/.ruby-version
+/.sass-cache
 /.screen/screen*.log
+/.tern-port
 /.tmux/plugins
 /.tmux/resurrect
 /.vim/.netrwhist
 /.vim/chalice
 /.vim/ftplugin/html.vim
 /.vim/view
-/vim/view
 /ansible/hosts
+/bin/local_perl.sh
 /history.sqlite
+/iterm2/imap_status.py
 /lastfm-lover-session-key.txt
 /mkmf.log
 /quickfix.err
-/bin/local_perl.sh
-/.tern-port
+/vim/view
