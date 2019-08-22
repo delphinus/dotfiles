@@ -99,20 +99,11 @@
     - tmux
     - tweetdeck
 
-- file: path=~/.ssh/config state=touch mode=0600
-  changed_when: false
-- lineinfile: dest=~/.ssh/config line='Host *' state=present
-- lineinfile: >-
-    dest=~/.ssh/config
-    line='  ServerAliveInterval 120'
-    insertafter='^Host \*$'
-
 - git: >-
     repo=https://{{ item }}
     dest=~/.go/src/{{ item }}
   with_items:
     - github.com/takaaki-kasai/git-foresta
-  register: git_sync
 
 - file: path=~/.ghg/bin state=directory
 - file: >-
