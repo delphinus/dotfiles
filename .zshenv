@@ -64,6 +64,13 @@ if [[ $OSTYPE == darwin* ]]; then
 else
   path=($HOME/.local/bin(N-/) $path)
 fi
+typeset -xT PYTHONPATH pythonpath
+pythonpath=(
+  $HOME/.cache/dein/repos/github.com/Shougo/defx.nvim/rplugin/python3(N-/)
+  $HOME/.cache/dein/repos/github.com/Shougo/denite.nvim/rplugin/python3(N-/)
+  $HOME/.cache/dein/repos/github.com/Shougo/deol.nvim/rplugin/python3(N-/)
+  $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3(N-/)
+  $pythonpath)
 
 # for ruby
 path=($HOME/.gem/ruby/2.6.0/bin(N-/) $path)
