@@ -277,6 +277,10 @@ repo      = 'delphinus/vim-denite-node-modules'
 on_source = ['denite.nvim']
 
 [[plugins]]
+repo      = 'delphinus/vim-denite-output-files'
+on_source = ['denite.nvim']
+
+[[plugins]]
 repo      = 'delphinus/vim-denite-scriptnames'
 on_source = ['denite.nvim']
 
