@@ -103,9 +103,7 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-#repo      = 'w0rp/ale'
-repo      = 'delphinus/ale'
-rev       = 'feature/custom'
+repo      = 'w0rp/ale'
 on_source = ['deoplete.nvim']
 on_cmd    = ['ALE']
 on_map    = ['<Plug>(ale-']
