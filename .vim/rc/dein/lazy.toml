@@ -289,6 +289,10 @@ on_event = ['FocusLost', 'CursorHold']
 
 # on_ft {{{
 [[plugins]]
+repo = 'derekwyatt/vim-scala'
+on_ft = ['scala']
+
+[[plugins]]
 repo  = 'dsawardekar/wordpress.vim'
 on_ft = ['php']
 
