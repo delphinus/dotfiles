@@ -94,6 +94,18 @@ vim = ''' "{{{
 # Shougowares and their dependencies {{{
 [[plugins]]
 repo = 'Shougo/dein.vim'
+hook_add = ''' "{{{
+  function s:dein_cleanup() abort
+    echo '[dein] Removing disabled plugins...'
+    call map(dein#check_clean(), "delete(v:val, 'rf')")
+    call dein#recache_runtimepath()
+    echohl WarningMsg
+    echo '[dein] Successfully removed disabled plugins'
+    echohl None
+  endfunction
+
+  command DeinCleanUp call s:dein_cleanup()
+"}}} '''
 
 [[plugins]]
 repo = 'delphinus/vim-denite-memo'
