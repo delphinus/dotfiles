@@ -257,8 +257,7 @@ denite-filter = ''' "{{{
   endif
   inoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
   inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
-  inoremap <silent><buffer><expr> <C-t>   denite#do_map('toggle_matchers', 'matcher/fruzzy')
-  inoremap <silent><buffer><expr> <C-r>   denite#do_map('toggle_matchers', 'matcher/regexp')
+  inoremap <silent><buffer><expr> <C-t>   denite#do_map('toggle_matchers', 'matcher/regexp')
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
 
   " These mappings are not recommended in doc.
