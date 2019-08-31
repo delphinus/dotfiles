@@ -64,13 +64,13 @@ if [[ $OSTYPE == darwin* ]]; then
 else
   path=($HOME/.local/bin(N-/) $path)
 fi
-typeset -xT PYTHONPATH pythonpath
-pythonpath=(
+typeset -xTU PYTHONPATH pythonpath
+pythonpath+=(
   $HOME/.cache/dein/repos/github.com/Shougo/defx.nvim/rplugin/python3(N-/)
   $HOME/.cache/dein/repos/github.com/Shougo/denite.nvim/rplugin/python3(N-/)
   $HOME/.cache/dein/repos/github.com/Shougo/deol.nvim/rplugin/python3(N-/)
   $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3(N-/)
-  $pythonpath)
+  )
 
 # for ruby
 path=($HOME/.gem/ruby/2.6.0/bin(N-/) $path)
@@ -100,12 +100,12 @@ if [[ -d $HOME/perl5 ]]; then
   if [[ $OSTYPE == darwin* ]]; then
     arch=darwin-2level
   fi
-  typeset -xT PERL5LIB perl5lib
+  typeset -xTU PERL5LIB perl5lib
   path=($HOME/perl5/bin(N-/) $path)
-  perl5lib=(
+  perl5lib+=(
     $HOME/perl5/lib/perl5(N-/)
     $HOME/perl5/lib/perl5/$arch/auto(N-/)
-    $perl5lib)
+    )
 fi
 
 # for plenv

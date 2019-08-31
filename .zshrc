@@ -51,9 +51,8 @@ elif (( $+commands[ghq] )); then
   fi
 fi
 
-typeset -xT LD_LIBRARY_PATH ld_library_path
-typeset -U ld_library_path
-ld_library_path=($HOME/usr/lib(N-/) $ld_library_path)
+typeset -xTU LD_LIBRARY_PATH ld_library_path
+ld_library_path+=($HOME/usr/lib(N-/))
 
 # grc
 # needed for prezto `git` module
