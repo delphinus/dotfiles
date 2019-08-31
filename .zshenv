@@ -70,6 +70,7 @@ pythonpath+=(
   $HOME/.cache/dein/repos/github.com/Shougo/denite.nvim/rplugin/python3(N-/)
   $HOME/.cache/dein/repos/github.com/Shougo/deol.nvim/rplugin/python3(N-/)
   $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3(N-/)
+  /usr/local/Cellar/fontforge/*/lib/python3.7/site-packages(N-/)
   )
 
 # for ruby
