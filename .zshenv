@@ -65,6 +65,7 @@ else
   path=($HOME/.local/bin(N-/) $path)
 fi
 typeset -xTU PYTHONPATH pythonpath
+typeset -xTU MYPYPATH mypypath
 pythonpath+=(
   $HOME/.cache/dein/repos/github.com/Shougo/defx.nvim/rplugin/python3(N-/)
   $HOME/.cache/dein/repos/github.com/Shougo/denite.nvim/rplugin/python3(N-/)
@@ -72,6 +73,7 @@ pythonpath+=(
   $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3(N-/)
   /usr/local/Cellar/fontforge/*/lib/python3.7/site-packages(N-/)
   )
+mypypath=$pythonpath
 
 # for ruby
 path=($HOME/.gem/ruby/2.6.0/bin(N-/) $path)
