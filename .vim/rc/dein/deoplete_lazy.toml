@@ -56,6 +56,10 @@ hook_post_source = ''' "{{{
 hook_post_update = '!pip3 install -U --user neovim'
 
 [[plugins]]
+repo      = 'Shougo/deoplete-terminal'
+on_source = ['deoplete.nvim']
+
+[[plugins]]
 repo      = 'Shougo/echodoc.vim'
 on_source = ['deoplete.nvim']
 hook_source = ''' "{{{
