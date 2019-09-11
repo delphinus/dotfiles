@@ -56,6 +56,17 @@ hook_post_source = ''' "{{{
 "}}} '''
 hook_post_update = '!pip3 install -U --user neovim'
 
+# TODO: use this only on Neovim lsp version
+[[plugins]]
+repo      = 'Shougo/deoplete-lsp'
+on_source = ['deoplete.nvim']
+if        = '!empty(globpath(&rtp, "autoload/lsp.vim"))'
+hook_add  = ''' "{{{
+  call lsp#add_server_config('python', { 'execute_path': 'pyls', 'args': [] }, {})
+  call lsp#add_server_config('go', { 'execute_path': 'gopls', 'args': [] }, {})
+  call lsp#add_server_config('typescript', { 'execute_path': 'tsserver', 'args': []}, {})
+"}}} '''
+
 [[plugins]]
 repo      = 'Shougo/deoplete-terminal'
 on_source = ['deoplete.nvim']
@@ -131,17 +142,31 @@ hook_add = ''' "{{{
         \ 'ruby': [ 'rubocop' ],
         \ 'typescript': [ 'eslint' ],
         \ }
-  let g:ale_linters = {
-        \ 'go': [ 'golangci-lint', 'gopls' ],
-        \ 'javascript': [ 'eslint' ],
-        \ 'json': [ 'eslint' ],
-        \ 'typescript': [ 'eslint', 'tsserver' ],
-        \ 'perl': [ 'perl' ],
-        \ 'python': [ 'mypy', 'pyls' ],
-        \ 'ruby': [ 'solargraph' ],
-        \ 'vim': [ 'vint' ],
-        \ 'vue': [ 'vls' ],
-        \ }
+  " TODO: Use ALE lsp feature
+  if empty(globpath(&rtp, 'autoload/lsp.vim'))
+    let g:ale_linters = {
+          \ 'go': [ 'golangci-lint', 'gopls' ],
+          \ 'javascript': [ 'eslint' ],
+          \ 'json': [ 'eslint' ],
+          \ 'typescript': [ 'eslint', 'tsserver' ],
+          \ 'perl': [ 'perl' ],
+          \ 'python': [ 'mypy', 'pyls' ],
+          \ 'ruby': [ 'solargraph' ],
+          \ 'vim': [ 'vint' ],
+          \ 'vue': [ 'vls' ],
+          \ }
+  " TODO: Use Neovim lsp feature
+  else
+    let g:ale_linters = {
+          \ 'go': [ 'golangci-lint' ],
+          \ 'javascript': [ 'eslint' ],
+          \ 'json': [ 'eslint' ],
+          \ 'typescript': [ 'eslint' ],
+          \ 'perl': [ 'perl' ],
+          \ 'python': [ 'mypy' ],
+          \ 'vim': [ 'vint' ],
+          \ }
+  endif
   let g:ale_sh_shellcheck_options = '-x'
   let g:ale_go_golangci_lint_options = '--enable-all -D gochecknoglobals,gochecknoinits'
   let g:ale_go_golangci_lint_package = 1
