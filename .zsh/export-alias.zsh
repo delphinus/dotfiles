@@ -1,3 +1,8 @@
+# TODO: Use the default Neovim after merging lsp version
+if [[ -x $HOME/local/nvim/bin/nvim ]]; then
+  alias nvim=$HOME/local/nvim/bin/nvim
+fi
+
 # use neovim-remote in :terminal
 if [[ -n $NVIM_LISTEN_ADDRESS ]]; then
   alias nvr='nvr -cc split'
