@@ -388,6 +388,7 @@ hook_add = ''' "{{{
 [[plugins]]
 repo = 'mtyn/polar'
 rtp  = 'vim'
+# }}}
 
 # syntax {{{
 [[plugins]]
