@@ -26,6 +26,13 @@ html_javascript = ''' "{{{
   setlocal softtabstop=2
 "}}} '''
 
+jinja = ''' "{{{
+  if &filetype =~ '\.jinja$'
+    ALEDisableBuffer
+    let b:ale_fix_on_save = 0
+  endif
+"}}} '''
+
 json = ''' "{{{
   setlocal tabstop=4
   setlocal shiftwidth=4
