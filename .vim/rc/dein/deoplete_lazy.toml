@@ -138,6 +138,7 @@ hook_add = ''' "{{{
   let g:ale_fixers = {
         \ 'javascript': [ 'eslint' ],
         \ 'json': [ 'eslint' ],
+        \ 'python': [ 'black' ],
         \ 'ruby': [ 'rubocop' ],
         \ 'typescript': [ 'eslint' ],
         \ }
