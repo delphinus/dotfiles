@@ -284,6 +284,7 @@ hook_add = ''' "{{{
 
   augroup nord-overrides
     autocmd!
+    autocmd ColorScheme nord hi Delimiter guifg=#81A1C1
     autocmd ColorScheme nord hi Identifier guifg=#8FBCBB
     autocmd ColorScheme nord hi Special guifg=#D08770
     autocmd ColorScheme nord hi Title gui=bold cterm=bold
