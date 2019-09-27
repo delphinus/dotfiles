@@ -34,7 +34,7 @@ hook_post_source = ''' "{{{
         \ 'camel_case': v:true,
         \ 'candidate_marks': ['⌥1', '⌥2', '⌥3', '⌥4', '⌥5'],
         \ 'ignore_sources': {
-        \   'denite-filter': ['look'],
+        \   'denite-filter': ['ghq', 'look'],
         \   'perl': ['ale'],
         \ },
         \ 'omni_patterns': {
@@ -106,6 +106,10 @@ hook_source = '''
   let g:deoplete#sources#ternjs#depths = 1
   let g:deoplete#sources#ternjs#docs = 1
 '''
+
+[[plugins]]
+repo      = 'delphinus/deoplete-ghq'
+on_source = ['deoplete.nvim']
 
 [[plugins]]
 repo      = 'dense-analysis/ale'
