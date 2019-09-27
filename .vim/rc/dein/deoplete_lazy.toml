@@ -157,6 +157,7 @@ hook_add = ''' "{{{
           \ 'typescript': [ 'eslint' ],
           \ 'perl': [ 'perl' ],
           \ 'python': [ 'mypy' ],
+          \ 'sh': [ 'shellcheck' ],
           \ 'vim': [ 'vint' ],
           \ }
   " TODO: Use ALE lsp feature
@@ -169,6 +170,7 @@ hook_add = ''' "{{{
           \ 'perl': [ 'perl' ],
           \ 'python': [ 'mypy', 'pyls' ],
           \ 'ruby': [ 'solargraph' ],
+          \ 'sh': [ 'language_server', 'shellcheck' ],
           \ 'vim': [ 'vint' ],
           \ 'vue': [ 'vls' ],
           \ }
@@ -186,7 +188,7 @@ hook_add = ''' "{{{
 "}}} '''
 hook_post_update = '''
   !gem install --user-install rubocop solargraph
-  !npm install -g eslint tslint prettier vue-language-server
+  !npm install -g bash-language-server eslint tslint prettier vue-language-server
   !pip3 install -U --user black vint python-language-server
 '''
 # }}}
