@@ -254,7 +254,7 @@ hook_source = '''
   " do here instead of setting suda_smart_edit
   augroup suda_smart_edit
     autocmd!
-    autocmd BufEnter * nested call suda#BufEnter()
+    autocmd BufEnter * nested if stridx(expand('%'), $GOPATH) != 0 | call suda#BufEnter() | endif
   augroup END
 '''
 hook_post_source = '''
