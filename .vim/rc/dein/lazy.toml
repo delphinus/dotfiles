@@ -432,6 +432,7 @@ hook_add  = ''' "{{{
 [[plugins]]
 repo   = 'delphinus/vim-tmux-copy'
 on_map = ['<Plug>TmuxCopy']
+if     = 'has("nvim")'
 hook_add = '''
   let g:tmux_copy_map = 0
   map <A-[> <Plug>TmuxCopy>
