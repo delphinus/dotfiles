@@ -307,7 +307,8 @@ hook_source = ''' "{{{
   let g:go_autodetect_gopath = 0
   let g:go_code_completion_enabled = 0
   let g:go_def_mapping_enabled = 1
-  let g:go_doc_keywordprg_enabled = 0
+  let g:go_doc_keywordprg_enabled = 1
+  let g:go_doc_popup_window = 1
   let g:go_fmt_command = 'goimports'
   let g:go_fmt_experimental = 1
   let g:go_fmt_fail_silently = 1
@@ -334,8 +335,11 @@ go = ''' "{{{
   else
     hi! goSameId gui=bold term=bold ctermbg=23 ctermfg=7 guifg=#eee8d5 guibg=#00533f
   endif
+"}}} '''
 
-  nnoremap <buffer> <silent> K :GoInfo<CR>
+godoc = ''' "{{{
+  setlocal colorcolumn=
+  let b:auto_cursorline_disabled = 1
 "}}} '''
 
 [[plugins]]
