@@ -120,6 +120,8 @@ set matchpairs+=（:）,「:」,【:】,［:］,｛:｝,＜:＞
 set scrolloff=3
 set sidescrolloff=5
 set synmaxcol=0
+" shorten this for CursorHold events
+set updatetime=1000
 set virtualedit=block
 set wildmode=full
 " }}}

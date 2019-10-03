@@ -154,7 +154,7 @@ hook_add = ''' "{{{
   let g:lightline_delphinus_use_powerline_glyphs = 1
   let g:lightline_delphinus_use_nerd_fonts_glyphs = 1
   let g:lightline_delphinus_tagbar_enable = 1
-  let g:lightline_delphinus_gitgutter_enable = 1
+  let g:lightline_delphinus_signify_enable = 1
 
   function! s:lightline_start() abort
     let g:lightline_delphinus_colorscheme = g:use_solarized || g:colors_name =~# '^solarized' ? 'solarized_improved' : 'nord_improved'
@@ -295,9 +295,9 @@ hook_add = ''' "{{{
     autocmd ColorScheme nord hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
 
     " for gitgutter
-    autocmd ColorScheme nord hi GitGutterAddLine ctermbg=233 guibg=#122b0c
-    autocmd ColorScheme nord hi GitGutterChangeLine ctermbg=236 guibg=#342e0e
-    autocmd ColorScheme nord hi GitGutterDeleteLine ctermbg=235 guibg=#4e2728
+    autocmd ColorScheme nord hi SignifyLineAdd ctermbg=233 guibg=#122b0c
+    autocmd ColorScheme nord hi SignifyLineChange ctermbg=236 guibg=#342e0e
+    autocmd ColorScheme nord hi SignifyLineDelete ctermbg=235 guibg=#4e2728
 
     if has('nvim')
       autocmd ColorScheme nord hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold
@@ -331,12 +331,12 @@ hook_add = ''' "{{{
       hi FloatPreviewTransparent ctermfg=247 ctermbg=236 guifg=#262c00 guibg=#262c00 guisp=NONE cterm=NONE gui=NONE
 
       " for gitgutter
-      hi GitGutterAddLine ctermbg=192 guibg=#262c00
-      hi GitGutterChangeLine ctermbg=230 guibg=#674e00
-      hi GitGutterDeleteLine ctermbg=224 guibg=#7d2500
-      hi GitGutterAddLine ctermbg=192 guibg=#262c00
-      hi GitGutterChangeLine ctermbg=230 guibg=#423200
-      hi GitGutterDeleteLine ctermbg=224 guibg=#571a00
+      hi SignifyLineAdd ctermbg=192 guibg=#262c00
+      hi SignifyLineChange ctermbg=230 guibg=#674e00
+      hi SignifyLineDelete ctermbg=224 guibg=#7d2500
+      hi SignifyLineAdd ctermbg=192 guibg=#262c00
+      hi SignifyLineChange ctermbg=230 guibg=#423200
+      hi SignifyLineDelete ctermbg=224 guibg=#571a00
       if has('nvim')
         hi GitGutterAddLineNr guifg=#859900 guibg=#424c00 gui=bold
         hi GitGutterChangeLineNr guifg=#b58900 guibg=#674e00 gui=bold
@@ -357,9 +357,9 @@ hook_add = ''' "{{{
       hi FloatPreviewTransparent ctermfg=242 ctermbg=254 guifg=#c2d735 guibg=#c2d735 guisp=NONE cterm=NONE gui=NONE
 
       " fot gitgutter
-      hi GitGutterAddLine ctermbg=192 guibg=#f0f9e2
-      hi GitGutterChangeLine ctermbg=230 guibg=#fff4c9
-      hi GitGutterDeleteLine ctermbg=224 guibg=#ffe9ef
+      hi SignifyLineAdd ctermbg=192 guibg=#f0f9e2
+      hi SignifyLineChange ctermbg=230 guibg=#fff4c9
+      hi SignifyLineDelete ctermbg=224 guibg=#ffe9ef
       if has('nvim')
         hi GitGutterAddLineNr guifg=#ebfa88 guibg=#a3b812 gui=bold
         hi GitGutterChangeLineNr guifg=#fff6d8 guibg=#dbae0e gui=bold
