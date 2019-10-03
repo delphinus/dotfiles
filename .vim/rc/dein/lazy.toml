@@ -201,19 +201,37 @@ on_ft  = ['vifm']
 # }}}
 
 # on_event {{{
+#[[plugins]]
+#repo     = 'airblade/vim-gitgutter'
+#on_event = ['FocusLost', 'CursorHold']
+#hook_add = ''' "{{{
+#  set updatetime=100
+#  let g:gitgutter_diff_args='-w --indent-heuristic'
+#  let g:gitgutter_highlight_lines = 0
+#  let g:gitgutter_sign_added='✓'
+#  let g:gitgutter_sign_modified='⤷'
+#  let g:gitgutter_sign_removed='✗'
+#  let g:gitgutter_sign_removed_first_line='↑'
+#  let g:gitgutter_sign_modified_removed='•'
+#  let g:gitgutter_terminal_reports_focus=0
+#"}}} '''
+
 [[plugins]]
-repo     = 'airblade/vim-gitgutter'
+repo = 'mhinz/vim-signify'
 on_event = ['FocusLost', 'CursorHold']
 hook_add = ''' "{{{
-  set updatetime=100
-  let g:gitgutter_diff_args='-w --indent-heuristic'
-  let g:gitgutter_highlight_lines = 0
-  let g:gitgutter_sign_added='✓'
-  let g:gitgutter_sign_modified='⤷'
-  let g:gitgutter_sign_removed='✗'
-  let g:gitgutter_sign_removed_first_line='↑'
-  let g:gitgutter_sign_modified_removed='•'
-  let g:gitgutter_terminal_reports_focus=0
+  let g:signify_vcs_list = ['git']
+  let g:signify_realtime = 1
+  let g:signify_sign_add = '✓'
+  let g:signify_sign_delete = '✗'
+  let g:signify_sign_delete_first_line = '↑'
+  let g:signify_sign_change = '⤷'
+  let g:signify_sign_changedelete = '•'
+
+  omap ic <Plug>(signify-motion-inner-pending)
+  xmap ic <Plug>(signify-motion-inner-visual)
+  omap ac <Plug>(signify-motion-outer-pending)
+  xmap ac <Plug>(signify-motion-outer-visual)
 "}}} '''
 
 [[plugins]]
@@ -226,8 +244,6 @@ on_event = ['FocusLost', 'CursorHold']
 hook_add = ''' "{{{
   nnoremap [w :<C-u>colder<CR>
   nnoremap ]w :<C-u>cnewer<CR>
-  nnoremap [C :<C-u>copen<CR>
-  nnoremap ]C :<C-u>cclose<CR>
   nnoremap [O :<C-u>lopen<CR>
   nnoremap ]O :<C-u>lclose<CR>
 "}}} '''
