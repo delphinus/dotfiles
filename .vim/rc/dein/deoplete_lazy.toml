@@ -139,6 +139,7 @@ hook_add = ''' "{{{
   let g:ale_sign_warning =  "\u25b9" " '▹'
   let g:ale_statusline_format = ["\u25b8 %d", "\u25b9 %d", "\u25b4 "] " ▸, ▹, ▴
   let g:ale_sign_column_always = 1
+  let g:ale_sign_highlight_linenrs = 1
   let g:ale_virtualtext_cursor = 1
   let g:ale_virtualtext_prefix = '‣ '
   let g:ale_fixers = {
