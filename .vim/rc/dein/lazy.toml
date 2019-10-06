@@ -313,7 +313,9 @@ repo  = 'dsawardekar/wordpress.vim'
 on_ft = ['php']
 
 [[plugins]]
-repo        = 'fatih/vim-go'
+#repo        = 'fatih/vim-go'
+repo        = 'delphinus/vim-go'
+rev         = 'feature/use-own-interval'
 on_ft       = ['go']
 hook_source = ''' "{{{
   let g:go_addtags_transform = 'camelcase'
