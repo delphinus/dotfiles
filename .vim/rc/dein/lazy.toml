@@ -341,6 +341,7 @@ hook_source = ''' "{{{
   let g:go_metalinter_autosave = 0
   let g:go_metalinter_deadline = '10s'
   let g:go_template_use_pkg = 1
+  let g:go_updatetime = 1
 "}}} '''
 [plugins.ftplugin]
 go = ''' "{{{
