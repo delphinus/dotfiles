@@ -485,6 +485,36 @@ xmap <silent><buffer> iw <Plug>JaSegmentTextObjVI
 "}}} '''
 
 [[plugins]]
+repo   = 'lilydjwg/colorizer'
+on_map = ['<Plug>Colorizer']
+on_cmd = ['ColorHighlight', 'ColorClear', 'ColorToggle']
+hook_add = ''' "{{{
+  let g:colorizer_startup = 0
+  nmap <A-C> <Plug>Colorizer
+"}}} '''
+
+[plugins.ftplugin]
+css        = 'ColorHighlight'
+go         = 'ColorHighlight'
+html       = 'ColorHighlight'
+javascript = 'ColorHighlight'
+json       = 'ColorHighlight'
+jsx        = 'ColorHighlight'
+perl       = 'ColorHighlight'
+php        = 'ColorHighlight'
+plantuml   = 'ColorHighlight'
+python     = 'ColorHighlight'
+ruby       = 'ColorHighlight'
+sass       = 'ColorHighlight'
+scss       = 'ColorHighlight'
+sh         = 'ColorHighlight'
+toml       = 'ColorHighlight'
+typescript = 'ColorHighlight'
+vim        = 'ColorHighlight'
+xml        = 'ColorHighlight'
+yaml       = 'ColorHighlight'
+
+[[plugins]]
 repo     = 'iamcco/markdown-preview.vim'
 on_map   = ['<Plug>MarkdownPreview', '<Plug>StopMarkdownPreview']
 hook_source = '''

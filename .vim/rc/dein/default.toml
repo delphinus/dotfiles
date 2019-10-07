@@ -463,10 +463,6 @@ hook_add = ''' "{{{
 
 # filetype {{{
 [[plugins]]
-repo   = 'ap/vim-css-color'
-merged = 0
-
-[[plugins]]
 repo = 'asciidoc/vim-asciidoc'
 
 [[plugins]]
