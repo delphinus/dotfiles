@@ -215,7 +215,7 @@ hook_add = ''' "{{{
 
 [[plugins]]
 repo     = 'delphinus/vim-emacscommandline'
-on_event = ['FocusLost', 'CursorHold']
+on_event = ['CmdlineEnter']
 
 [[plugins]]
 repo     = 'delphinus/vim-unimpaired'
