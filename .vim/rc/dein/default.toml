@@ -96,6 +96,11 @@ vim = ''' "{{{
   setlocal softtabstop=2
   setlocal tabstop=2
 "}}} '''
+
+vue = ''' "{{{
+  setlocal iskeyword+=$
+  setlocal iskeyword+=-
+"}}} '''
 #}}}
 
 # Shougowares and their dependencies {{{
@@ -508,31 +513,26 @@ hook_add = '''
 
 [[plugins]]
 repo     = 'posva/vim-vue'
-hook_add = '''
-  augroup FileTypeVueIsKeyword
-    autocmd!
-    autocmd FileType vue setlocal iskeyword+=$ | setlocal iskeyword+=-
-  augroup END
-'''
 
 [[plugins]]
 repo = 'ternjs/tern_for_vim'
 hook_add = ''' "{{{
   let g:tern#command = ['tern']
   let g:tern#arguments = ['--persistent']
-  augroup TernForVim
-    autocmd!
-    autocmd FileType javascript nnoremap <buffer> <silent> gd :TernDef<CR>
-    autocmd FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<CR>
-    autocmd FileType javascript nnoremap <buffer> <silent> <C-LeftMouse> :TernDef<CR>
-    autocmd FileType javascript nnoremap <buffer> <silent> <C-w>] :TernDef<CR>
-    autocmd FileType javascript nnoremap <buffer> <silent> <C-w><C-]> :TernDef<CR>
-    autocmd FileType javascript nnoremap <buffer> <silent> K :TernType<CR>
-  augroup END
 "}}} '''
 hook_post_update = '''
   !npm install -g tern
 '''
+
+[plugins.ftplugin]
+javascript = ''' "{{{
+  nnoremap <buffer> <silent> gd :TernDef<CR>
+  nnoremap <buffer> <silent> <C-]> :TernDef<CR>
+  nnoremap <buffer> <silent> <C-LeftMouse> :TernDef<CR>
+  nnoremap <buffer> <silent> <C-w>] :TernDef<CR>
+  nnoremap <buffer> <silent> <C-w><C-]> :TernDef<CR>
+  nnoremap <buffer> <silent> K :TernType<CR>
+"}}} '''
 
 [[plugins]]
 repo = 'tmux-plugins/vim-tmux'

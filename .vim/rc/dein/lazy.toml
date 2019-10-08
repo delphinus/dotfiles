@@ -8,10 +8,6 @@ hook_add   = ''' "{{{
   let g:deol#prompt_pattern = '^.\{-}❯❯❯ '
 
   tnoremap <BS><C-n> <C-\><C-n>
-  augroup deol-disable-dwm
-    autocmd!
-    autocmd BufEnter * if &filetype ==# 'deol' && t:deol.options.split ==# 'floating' && !get(b:, 'dwm_disabled', 0) | let b:dwm_disabled = 1 | endif
-  augroup END
   function! s:open_deol() abort
     let winheight = &lines > 52 ? &lines / 4 * 3 : 40
     let winrow = &lines > winheight ? (&lines - winheight) / 2 : 0
@@ -34,6 +30,9 @@ hook_add   = ''' "{{{
 
 [plugins.ftplugin]
 deol = ''' "{{{
+  if exists('t:deol') && t:deol.options.split ==# 'floating'
+    let b:dwm_disabled = 1
+  endif
   if exists('&winblend')
     setlocal winblend=30
   endif
@@ -145,16 +144,17 @@ on_cmd = 'GitMessenger'
 on_map = '<Plug>(git-messenger'
 hook_add = ''' "{{{
   let g:git_messenger_no_default_mappings = v:true
-  autocmd FileType gitmessengerpopup call s:git_messenger_my_settings()
-  function! s:git_messenger_my_settings() abort
-    nmap <buffer> <A-b> o
-    nmap <buffer> <C-c> q
-    nmap <buffer> <C-i> O
-    nmap <buffer> <C-o> o
-    nmap <buffer> <CR>  q
-    nmap <buffer> <Esc> q
-  endfunction
   nnoremap <A-b> :GitMessenger<CR>
+"}}} '''
+
+[plugins.ftplugin]
+gitmessengerpopup = ''' "{{{
+  nmap <buffer> <A-b> o
+  nmap <buffer> <C-c> q
+  nmap <buffer> <C-i> O
+  nmap <buffer> <C-o> o
+  nmap <buffer> <CR>  q
+  nmap <buffer> <Esc> q
 "}}} '''
 
 [[plugins]]
