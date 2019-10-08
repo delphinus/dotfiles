@@ -107,8 +107,6 @@ hook_add = ''' "{{{
   nnoremap <A-z><A-p> :<C-u>Denite -expand my_buffer my_file_old<CR>
   nnoremap <A-z><A-n> :<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   nnoremap <A-z><A-g> :<C-u>call <SID>my_denite_with_pwd('grep')<CR>
-  nnoremap #  :<C-u>Denite line<CR>
-  nnoremap g# :<C-u>Denite line:buffers<CR>
 "}}} '''
 hook_post_source = ''' "{{{
   function! s:dwm_new(context)

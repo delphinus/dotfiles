@@ -556,6 +556,16 @@ hook_source = ''' "{{{
 "}}} '''
 
 [[plugins]]
+repo     = 'ripxorip/aerojump.nvim'
+on_map   = ['<Plug>(Aerojump']
+hook_add = ''' "{{{
+  nmap # <Plug>(AerojumpBolt)
+  nmap g# <Plug>(AerojumpFromCursorBolt)
+  nmap <A-3> <Plug>(AerojumpSpace)
+  nmap <A-#> <Plug>(AerojumpDefault)
+"}}} '''
+
+[[plugins]]
 repo     = 't9md/vim-quickhl'
 on_map   = ['<Plug>(quickhl-', '<Plug>(operator-quickhl-']
 hook_add = ''' "{{{
