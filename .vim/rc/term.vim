@@ -8,23 +8,25 @@ endif
 " Deol setting
 if !dein#tap('deol.nvim')
   " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
-  nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<cr><A-w>:silent set nonumber norelativenumber nolist colorcolumn=0<cr>
+  nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<CR>
 endif
 
 augroup terminal-autocmd
   autocmd!
   if has('nvim')
-    " change to insert mode if in terminal
-    autocmd WinEnter * if &buftype ==# 'terminal' | startinsert | endif
     " set option for terminals
-    autocmd TermOpen * setlocal scrolloff=0
+    autocmd TermOpen term://* setlocal scrolloff=0 nonumber norelativenumber | startinsert
+    " change to insert mode if in terminal
+    autocmd WinEnter term://* startinsert
+    " invoke focus events in/out terminals
+    autocmd WinEnter term://* doautocmd <nomodeline> FocusGained %
+    autocmd WinLeave term://* doautocmd <nomodeline> FocusLost % 
   else
+    autocmd TerminalOpen * setlocal scrolloff=0 nonumber norelativenumber nolist colorcolumn=0 | normal i
     autocmd WinEnter * if &buftype ==# 'terminal' | normal i | endif
-    autocmd TerminalOpen * setlocal scrolloff=0
+    autocmd WinEnter * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusGained % | endif
+    autocmd WinLeave * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusLost % | endif
   endif
-  " invoke focus events in/out terminals
-  autocmd WinEnter * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusGained % | endif
-  autocmd WinLeave * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusLost % | endif
 augroup END
 
 function! s:close_quit_deol() abort

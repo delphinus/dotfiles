@@ -15,17 +15,10 @@ hook_add   = ''' "{{{
     let wincol = &columns > winwidth ? (&columns - winwidth) / 2 : 0
     execute 'Deol -split=floating -winwidth=' . winwidth '-winheight=' . winheight '-winrow=' . winrow '-wincol=' . wincol
   endfunction
-  if has('nvim')
-    nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-    nmap <A-z><A-z> <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber<CR>:startinsert<CR>
-  else
-    nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR><C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-    nmap <A-z><A-z> <Plug>(deol_bg)<C-\><C-n>:silent setlocal nonumber norelativenumber nolist colorcolumn=0<CR>i
-  endif
+  nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR>
+  nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR>
+  tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)
+  nmap <A-z><A-z> <Plug>(deol_bg)
 "}}} '''
 
 [plugins.ftplugin]
