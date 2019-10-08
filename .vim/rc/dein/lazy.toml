@@ -2,6 +2,7 @@
 [[plugins]]
 repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
+on_map     = ['<Plug>(deol']
 hook_add   = ''' "{{{
   let g:deol#enable_dir_changed = 0
   let g:deol#prompt_pattern = '^.\{-}❯❯❯ '
