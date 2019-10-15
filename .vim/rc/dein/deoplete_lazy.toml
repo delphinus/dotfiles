@@ -194,7 +194,7 @@ hook_add = ''' "{{{
 "}}} '''
 hook_post_update = '''
   !gem install --user-install rubocop solargraph
-  !npm install -g bash-language-server eslint tslint prettier vue-language-server
+  !npm install -g bash-language-server eslint tslint typescript prettier vue-language-server
   !pip3 install -U --user black vint python-language-server
 '''
 # }}}
