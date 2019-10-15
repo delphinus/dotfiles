@@ -538,6 +538,9 @@ hook_source = ''' "{{{
 repo     = 'ripxorip/aerojump.nvim'
 on_map   = ['<Plug>(Aerojump']
 hook_add = ''' "{{{
+  let g:aerojump_keymaps = {
+    \ '<C-c>': 'AerojumpExit',
+    \ }
   nmap # <Plug>(AerojumpBolt)
   nmap g# <Plug>(AerojumpFromCursorBolt)
   nmap <A-3> <Plug>(AerojumpSpace)
