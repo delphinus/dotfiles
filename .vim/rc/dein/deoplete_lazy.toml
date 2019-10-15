@@ -34,6 +34,7 @@ hook_post_source = ''' "{{{
         \ 'camel_case': v:true,
         \ 'candidate_marks': ['⌥1', '⌥2', '⌥3', '⌥4', '⌥5'],
         \ 'ignore_sources': {
+        \   'AerojumpFilter': ['ghq', 'look'],
         \   'denite-filter': ['ghq', 'look'],
         \   'perl': ['ale'],
         \ },
