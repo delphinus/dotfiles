@@ -64,7 +64,8 @@ repo      = 'Shougo/deoplete-lsp'
 on_source = ['deoplete.nvim']
 if        = 'exists("*luaeval") && luaeval("vim.lsp ~= nil")'
 hook_source  = ''' "{{{
-  call lsp#add_server_config({'filetype': 'go', 'cmd': 'gopls'})
+  " TODO: use this instead of vim-go's omnifunc
+  "call lsp#add_server_config({'filetype': 'go', 'cmd': 'gopls'})
   call lsp#add_server_config({'filetype': 'python', 'cmd': 'pyls'})
   call lsp#add_server_config({'filetype': 'ruby', 'cmd': 'solargraph'})
   call lsp#add_server_config({'filetype': 'sh', 'cmd': 'language_server'})
