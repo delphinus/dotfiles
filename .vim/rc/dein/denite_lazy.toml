@@ -88,7 +88,7 @@ hook_add = ''' "{{{
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
   noremap zd :<C-u>Denite z<CR>
   noremap zD :<C-u>Denite -no-start-filter -post-action=open -matchers=matcher/substring dein/log:!<CR>
-  noremap zp :<C-u>Denite -expand my_buffer my_file_old<CR>
+  noremap zp :<C-u>Denite -expand buffer file/old<CR>
   noremap zP :<C-u>Denite node_modules<CR>
   noremap zh :<C-u>Denite ghq<CR>
   noremap zm :<C-u>Denite memo memo:new<CR>
