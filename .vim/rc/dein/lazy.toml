@@ -121,6 +121,7 @@ hook_add = ''' "{{{
 [[plugins]]
 repo     = 'norcalli/nvim-colorizer.lua'
 on_cmd   = ['ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerReloadAllBuffers']
+if       = 'has("nvim")'
 hook_add = ''' "{{{
   function! s:toggle_colorizer() abort
     if get(b:, 'colorizer_enabled', 0)
