@@ -138,7 +138,7 @@ hook_add = ''' "{{{
       echohl None
     endif
   endfunction
-  nnoremap <A-C> :<C-u>call <SID>toggle_colorizer()<CR>
+  nnoremap <silent> <A-C> :<C-u>call <SID>toggle_colorizer()<CR>
 "}}} '''
 
 [[plugins]]
