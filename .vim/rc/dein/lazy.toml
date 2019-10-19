@@ -119,6 +119,28 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
+repo     = 'norcalli/nvim-colorizer.lua'
+on_cmd   = ['ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerReloadAllBuffers']
+hook_add = ''' "{{{
+  function! s:toggle_colorizer() abort
+    if get(b:, 'colorizer_enabled', 0)
+      ColorizerDetachFromBuffer
+      let b:colorizer_enabled = 0
+      echohl Debug
+      echomsg 'colorizer.lua disabled'
+      echohl None
+    else
+      ColorizerAttachToBuffer
+      let b:colorizer_enabled = 1
+      echohl Debug
+      echomsg 'colorizer.lua enabled'
+      echohl None
+    endif
+  endfunction
+  nnoremap <A-C> :<C-u>call <SID>toggle_colorizer()<CR>
+"}}} '''
+
+[[plugins]]
 repo   = 'powerman/vim-plugin-AnsiEsc'
 on_cmd = ['AnsiEsc']
 
@@ -460,36 +482,6 @@ omap <silent><buffer> iw <Plug>JaSegmentTextObjI
 xmap <silent><buffer> aw <Plug>JaSegmentTextObjVA
 xmap <silent><buffer> iw <Plug>JaSegmentTextObjVI
 "}}} '''
-
-[[plugins]]
-repo   = 'lilydjwg/colorizer'
-on_map = ['<Plug>Colorizer']
-on_cmd = ['ColorHighlight', 'ColorClear', 'ColorToggle']
-hook_add = ''' "{{{
-  let g:colorizer_startup = 0
-  nmap <A-C> <Plug>Colorizer
-"}}} '''
-
-[plugins.ftplugin]
-css        = 'ColorHighlight'
-go         = 'ColorHighlight'
-html       = 'ColorHighlight'
-javascript = 'ColorHighlight'
-json       = 'ColorHighlight'
-jsx        = 'ColorHighlight'
-perl       = 'ColorHighlight'
-php        = 'ColorHighlight'
-plantuml   = 'ColorHighlight'
-python     = 'ColorHighlight'
-ruby       = 'ColorHighlight'
-sass       = 'ColorHighlight'
-scss       = 'ColorHighlight'
-sh         = 'ColorHighlight'
-toml       = 'ColorHighlight'
-typescript = 'ColorHighlight'
-vim        = 'ColorHighlight'
-xml        = 'ColorHighlight'
-yaml       = 'ColorHighlight'
 
 [[plugins]]
 repo     = 'iamcco/markdown-preview.vim'
