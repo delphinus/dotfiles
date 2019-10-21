@@ -82,6 +82,18 @@ set mouse=a
 set termguicolors
 syntax enable
 
+function! s:toggle_colorscheme() abort
+  if &background ==# 'light'
+    set background=dark
+    colorscheme nord
+  elseif &background ==# 'dark'
+    set background=light
+    colorscheme solarized8
+  endif
+endfunction
+
+command! ToggleColorscheme call <SID>toggle_colorscheme()
+
 " Use Solarized Light when iTerm2 reports 11;15 for $COLORFGBG
 let g:bg_light = $COLORFGBG ==# '11;15'
 if g:bg_light
