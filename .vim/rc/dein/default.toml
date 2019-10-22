@@ -215,15 +215,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo     = 'kana/vim-submode'
-hook_add = ''' "{{{
-  call submode#enter_with('DWM_size', 'n', '', '<C-w>>', ':call DWM_GrowMaster()<CR>')
-  call submode#enter_with('DWM_size', 'n', '', '<C-w><', ':call DWM_ShrinkMaster()<CR>')
-  call submode#map('DWM_size', 'n', '', '>', ':call DWM_GrowMaster()<CR>')
-  call submode#map('DWM_size', 'n', '', '<', ':call DWM_ShrinkMaster()<CR>')
-"}}} '''
-
-[[plugins]]
 repo = 'haya14busa/is.vim'
 
 [[plugins]]
