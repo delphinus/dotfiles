@@ -381,6 +381,11 @@ on_ft = [
     'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet',
     'aspvbs', 'vim', 'c', 'cpp', 'xdefaults', 'objc', 'matlab',
   ]
+
+[[plugins]]
+repo  = 'delphinus/vim-rails'
+rev   = 'feature/recognize-ridgepole'
+on_ft = ['ruby']
 # }}}
 
 # on_map {{{
