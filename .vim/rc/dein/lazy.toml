@@ -291,7 +291,7 @@ hook_add = ''' "{{{
   let g:tagbar_autoclose = 1
   let g:tagbar_autofocus = 1
   let g:tagbar_show_linenumbers = 1
-  let g:tagbar_iconchars = [nr2char(0xe5ff) . ' ', nr2char(0xe5fe) . ' '] "  , 
+  let g:tagbar_iconchars = ["\ue5ff ", "\ue5fe "] "  , 
   let g:tagbar_autopreview = 1
   augroup TagbarWindow
     autocmd!
