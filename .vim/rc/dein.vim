@@ -21,6 +21,12 @@ if dein#load_state(s:dein_dir)
         \ {'name': $HOME . '/.vim/rc/dein/denite_lazy.toml',   'lazy': 1},
         \ {'name': $HOME . '/.vim/rc/dein/deoplete_lazy.toml', 'lazy': 1},
         \ ]
+  " TODO: migrate to crystalline completely
+  if $LIGHTLINE
+    call add(s:toml, {'name': $HOME . '/.vim/rc/dein/lightline.toml', 'lazy': 0})
+  else
+    call add(s:toml, {'name': $HOME . '/.vim/rc/dein/crystalline.toml', 'lazy': 0})
+  endif
 
   call dein#begin(s:dein_dir, map(deepcopy(s:toml), {_, t -> t['name']}))
   call map(s:toml, {_, t -> dein#load_toml(t['name'], {'lazy': t['lazy']})})
