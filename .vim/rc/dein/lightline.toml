@@ -1,0 +1,38 @@
+[[plugins]]
+repo     = 'delphinus/lightline-delphinus'
+depends  = ['lightline']
+hook_add = ''' "{{{
+  let g:lightline_delphinus_use_powerline_glyphs = 1
+  let g:lightline_delphinus_use_nerd_fonts_glyphs = 1
+  let g:lightline_delphinus_tagbar_enable = 1
+  let g:lightline_delphinus_signify_enable = 1
+
+  function! s:lightline_start() abort
+    let g:lightline_delphinus_colorscheme = g:use_solarized || g:colors_name =~# '^solarized' ? 'solarized_improved' : 'nord_improved'
+    " execute codes below only after loading lightline because this function
+    " will be called BEFORE it. Strange.
+    if !get(g:, 'loaded_lightline', 0)
+      return
+    endif
+    let path = dein#get('lightline-delphinus').path
+    " source this always to detect 'background'
+    execute 'source' path . '/autoload/lightline/colorscheme/' . g:lightline.colorscheme . '.vim'
+    let g:lightline.colorscheme = g:lightline_delphinus_colorscheme
+
+    " https://github.com/itchyny/lightline.vim/issues/241#issuecomment-322033789
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
+  endfunction
+
+  " s:lightline_start will be called in changing colorscheme or 'background'
+  augroup LightlineStart
+    autocmd!
+    autocmd ColorScheme * call <SID>lightline_start()
+  augroup END
+"}}} '''
+
+[[plugins]]
+repo     = 'itchyny/lightline.vim'
+
+# vim:se fdm=marker:
