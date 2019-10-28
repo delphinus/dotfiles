@@ -15,17 +15,21 @@ let g:dein#enable_notification = 1
 
 if dein#load_state(s:dein_dir)
   let s:toml = [
-        \ {'name': 'default'},
-        \ {'name': 'lazy',          'lazy': 1},
-        \ {'name': 'defx_lazy',     'lazy': 1},
-        \ {'name': 'denite_lazy',   'lazy': 1},
-        \ {'name': 'deoplete_lazy', 'lazy': 1},
+        \ {'name': $HOME . '/.vim/rc/dein/default.toml',       'lazy': 0},
+        \ {'name': $HOME . '/.vim/rc/dein/lazy.toml',          'lazy': 1},
+        \ {'name': $HOME . '/.vim/rc/dein/defx_lazy.toml',     'lazy': 1},
+        \ {'name': $HOME . '/.vim/rc/dein/denite_lazy.toml',   'lazy': 1},
+        \ {'name': $HOME . '/.vim/rc/dein/deoplete_lazy.toml', 'lazy': 1},
         \ ]
-  let s:path = {name -> $HOME . '/.vim/rc/dein/' . name . '.toml'}
-  let s:load_toml = {name, lazy -> dein#load_toml(s:path(name), {'lazy': lazy})}
+  " TODO: migrate to crystalline completely
+  if $LIGHTLINE
+    call add(s:toml, {'name': $HOME . '/.vim/rc/dein/lightline.toml', 'lazy': 0})
+  else
+    call add(s:toml, {'name': $HOME . '/.vim/rc/dein/crystalline.toml', 'lazy': 0})
+  endif
 
   call dein#begin(s:dein_dir, map(deepcopy(s:toml), {_, t -> t['name']}))
-  call map(s:toml, {_, t -> s:load_toml(t['name'], get(t, 'lazy', 0))})
+  call map(s:toml, {_, t -> dein#load_toml(t['name'], {'lazy': t['lazy']})})
   call dein#end()
   call dein#save_state()
 endif
