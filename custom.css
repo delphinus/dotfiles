@@ -1,0 +1,37 @@
+@font-face {
+	font-family: serif;
+	src: local('YuMincho +36p Kana');
+}
+@font-face {
+	font-family: sans-serif;
+	src: local('Hiragino Sans');
+}
+@font-face {
+	font-family: monospace;
+	src: local('Menlo');
+}
+@font-face {
+	font-family: 'MS Gothic';
+	src: local(HiraginoSans);
+}
+textarea,textarea *,pre,pre *,code,code *,tt,tt *,
+.syntaxhighlighter .gutter div,
+.blob-num, .blob-code,
+.syntaxhighlighter a,
+.syntaxhighlighter div,
+.syntaxhighlighter code,
+.syntaxhighlighter table,
+.syntaxhighlighter table td,
+.syntaxhighlighter table tr,
+.syntaxhighlighter table tbody,
+.syntaxhighlighter table thead,
+.syntaxhighlighter table caption,
+.syntaxhighlighter textarea,
+.p6n-logs-entry
+{
+	font-family: Menlo !important;
+}
+
+body {
+	font-family: -apple-system, HiraginoSans;
+}
