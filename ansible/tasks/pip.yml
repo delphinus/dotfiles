@@ -1,6 +1,6 @@
 ---
 - dnf:
-    name: gcc
+    name: gcc, rpm-build
   become: true
   when: ansible_system == 'Linux'
 - pip:
