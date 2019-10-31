@@ -1,6 +1,7 @@
 ---
 - dnf:
     name: gcc
+  become: true
   when: ansible_system == 'Linux'
 - pip:
     name:
