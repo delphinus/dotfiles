@@ -118,12 +118,14 @@
     dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch'
     state=link
     force=yes
+  when: ansible_system == 'Darwin'
 
 - git: >-
     repo=https://{{ item }}
     dest=~/.go/src/{{ item }}
   with_items:
     - github.com/delphinus/iterm2-imap-status
+  when: ansible_system == 'Darwin'
 
 - name: set up IMAP status component in iTerm2 dir
   file: >-
@@ -131,6 +133,7 @@
     dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/imap_status.py'
     state=link
     force=yes
+  when: ansible_system == 'Darwin'
 
 - name: prepare ctags setting directory
   file: path=~/.ctags.d state=directory
