@@ -33,3 +33,4 @@
       - universal-ctags
       - watch
       - z
+  when: ansible_system == 'Darwin'
