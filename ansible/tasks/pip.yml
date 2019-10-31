@@ -1,4 +1,7 @@
 ---
+- dnf:
+    name: gcc
+  when: ansible_system == 'Linux'
 - pip:
     name:
       - ansible-lint
