@@ -25,4 +25,4 @@ Host {{ secret_ssh.target }}
 
 Match exec "[[ %h = {{ secret_ssh.git }} ]] && pgrep -fl ssh | grep {{ secret_ssh.hosts[0].name }} > /dev/null"
   ProxyCommand nc -x localhost:{{ secret_ssh.socks_port }} %h %p
-{#- vim:se ft=sshconfig.jinja #}
+{#- vim:se ft=sshconfig.jinja: #}
