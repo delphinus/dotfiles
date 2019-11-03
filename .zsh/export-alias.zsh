@@ -30,7 +30,6 @@ export PAGER=less
 export EDITRC=$HOME/.editrc
 export INPUTRC=$HOME/.inputrc
 export LANG=ja_JP.UTF-8
-export GREP_OPTIONS="--color=auto"
 
 if [[ $OSTYPE == darwin* ]]; then
   alias psl='ps -arcwwwxo "pid command %cpu %mem" | perl -pe "s/%(?=(?:cpu|mem))/ /ig" | grep -v grep | head -13'
