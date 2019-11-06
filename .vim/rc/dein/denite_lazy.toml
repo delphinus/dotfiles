@@ -101,6 +101,7 @@ hook_add = ''' "{{{
   noremap zy :<C-u>Denite miniyank<CR>
   noremap zY :<C-u>Denite -default-action=delete miniyank<CR>
   noremap zS :<C-u>Denite scriptnames<CR>
+  noremap #  :<C-u>Denite line<CR>
   tnoremap <A-z><A-a> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('file/rec')<CR>
   tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
