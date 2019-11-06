@@ -535,8 +535,9 @@ hook_add = ''' "{{{
   let g:aerojump_keymaps = {
     \ '<C-c>': 'AerojumpExit',
     \ }
-  nmap # <Plug>(AerojumpBolt)
-  nmap g# <Plug>(AerojumpFromCursorBolt)
+  " TODO: use `:Denite line` instead
+  "nmap # <Plug>(AerojumpBolt)
+  "nmap g# <Plug>(AerojumpFromCursorBolt)
   nmap <A-3> <Plug>(AerojumpSpace)
   nmap <A-#> <Plug>(AerojumpDefault)
 "}}} '''
