@@ -4,7 +4,7 @@
 }
 @font-face {
 	font-family: sans-serif;
-	src: local('Hiragino Sans');
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: monospace;
@@ -12,7 +12,15 @@
 }
 @font-face {
 	font-family: 'MS Gothic';
-	src: local(HiraginoSans);
+	src: local(-apple-system);
+}
+@font-face {
+	font-family: 'Meiryo';
+	src: local(-apple-system);
+}
+@font-face {
+	font-family: 'メイリオ';
+	src: local(-apple-system);
 }
 textarea,textarea *,pre,pre *,code,code *,tt,tt *,
 .syntaxhighlighter .gutter div,
