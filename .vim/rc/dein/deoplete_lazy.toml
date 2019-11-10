@@ -62,12 +62,12 @@ on_source = ['deoplete.nvim']
 if        = 'exists("*luaeval") && luaeval("vim.lsp ~= nil")'
 hook_source  = ''' "{{{
   " TODO: use this instead of vim-go's omnifunc
-  "call lsp#add_server_config({'filetype': 'go', 'cmd': 'gopls'})
-  call lsp#add_server_config({'filetype': 'python', 'cmd': 'pyls'})
-  call lsp#add_server_config({'filetype': 'ruby', 'cmd': 'solargraph'})
-  call lsp#add_server_config({'filetype': 'sh', 'cmd': 'language_server'})
-  call lsp#add_server_config({'filetype': 'typescript', 'cmd': 'tsserver'})
-  call lsp#add_server_config({'filetype': 'vue', 'cmd': 'vls'})
+  call lsp#add_filetype_config({'filetype': 'go', 'name': 'gopls', 'cmd': 'gopls'})
+  call lsp#add_filetype_config({'filetype': 'python', 'name': 'pyls', 'cmd': 'pyls'})
+  call lsp#add_filetype_config({'filetype': 'ruby', 'name': 'solargraph', 'cmd': 'solargraph'})
+  call lsp#add_filetype_config({'filetype': 'sh', 'name': 'language_server', 'cmd': 'language_server'})
+  call lsp#add_filetype_config({'filetype': 'typescript', 'name': 'tsserver', 'cmd': 'tsserver'})
+  call lsp#add_filetype_config({'filetype': 'vue', 'name': 'vls', 'cmd': 'vls'})
 "}}} '''
 
 [[plugins]]
