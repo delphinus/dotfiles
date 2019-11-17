@@ -427,6 +427,9 @@ repo = 'asciidoc/vim-asciidoc'
 repo = 'c9s/perlomni.vim'
 
 [[plugins]]
+repo = 'dag/vim-fish'
+
+[[plugins]]
 repo = 'delphinus/vim-firestore'
 
 [[plugins]]
