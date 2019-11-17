@@ -276,6 +276,7 @@ typings/
 
 
 ### custom ignore
+/.config/fish/fish_variables
 /.config/git
 /.config/powerline/config.json
 /.config/powerline/ext/segments/local_perl.py
