@@ -12,6 +12,7 @@ if status is-interactive
   assert_user_paths \
     ~/bin \
     ~/.ghg/bin \
+    ~/.go/bin \
     ~/git/dotfiles/bin \
     ~/Library/Python/3.7/bin
 
