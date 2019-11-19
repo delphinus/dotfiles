@@ -84,4 +84,10 @@ if status is-interactive
   bind -M insert \ct fzf_z
 
   direnv hook fish | source
+
+  if test -n $NVIM_LISTEN_ADDRESS
+    set -x VISUAL 'command nvr -c "se ro" --remote'
+    set -x EDITOR 'command nvr --remote-wait'
+    set -x GIT_EDITOR 'command nvr -cc split --remote-tab-wait +"set bufhidden=delete"'
+  end
 end
