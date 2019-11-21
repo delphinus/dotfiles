@@ -74,12 +74,10 @@ if status is-interactive
   test "$fish_key_bindings" != 'fish_hybrid_key_bindings'
     and fish_hybrid_key_bindings
 
-  # for decors/fish-ghq
-  set GHQ_SELECTOR_OPTS '--border --inline-info --prompt="❯❯❯ " --height=40%'
-  bind \c] __ghq_repository_search
-  bind -M insert \c] __ghq_repository_search
+  set FZF_DEFAULT_OPTS '--border --inline-info --prompt="❯❯❯ " --height=40%'
+  bind \c] fzf_ghq
+  bind -M insert \c] fzf_ghq
 
-  set FZF_DEFAULT_OPTS $GHQ_SELECTOR_OPTS
   bind \ct fzf_z
   bind -M insert \ct fzf_z
 
