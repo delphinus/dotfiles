@@ -81,6 +81,12 @@ if status is-interactive
   bind \ct fzf_z
   bind -M insert \ct fzf_z
 
+  # TODO: contribute?
+  bind -m insert cf begin-selection forward-jump kill-selection end-selection
+  bind -m insert ct begin-selection forward-jump backward-selection end-selection
+  bind -m insert cF begin-selection backward-jump kill-selection end-selection
+  bind -m insert cT begin-selection backward-jump backward-selection end-selection
+
   direnv hook fish | source
 
   if test -n $NVIM_LISTEN_ADDRESS
