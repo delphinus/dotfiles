@@ -243,15 +243,15 @@ hook_add = ''' "{{{
   augroup nord-overrides
     autocmd!
     autocmd ColorScheme nord hi Delimiter guifg=#81A1C1
-    autocmd ColorScheme nord hi HelpExample guifg=#848EA1 gui=italic
-    autocmd ColorScheme nord hi Identifier guifg=#8FBCBB
-    autocmd ColorScheme nord hi Special guifg=#D08770
-    autocmd ColorScheme nord hi Title gui=bold cterm=bold
-    autocmd ColorScheme nord hi Folded guifg=#D08770 gui=NONE
-    autocmd ColorScheme nord hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
     autocmd ColorScheme nord hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
     autocmd ColorScheme nord hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
     autocmd ColorScheme nord hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+    autocmd ColorScheme nord hi Folded guifg=#D08770 gui=NONE
+    autocmd ColorScheme nord hi HelpExample guifg=#848EA1 gui=italic
+    autocmd ColorScheme nord hi Identifier guifg=#8FBCBB
+    autocmd ColorScheme nord hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
+    autocmd ColorScheme nord hi Special guifg=#D08770
+    autocmd ColorScheme nord hi Title gui=bold cterm=bold
 
     " for gitgutter
     autocmd ColorScheme nord hi SignifyLineAdd ctermbg=233 guibg=#122b0c
@@ -260,16 +260,16 @@ hook_add = ''' "{{{
 
     if has('nvim')
       autocmd ColorScheme nord hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold
+      autocmd ColorScheme nord hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
       autocmd ColorScheme nord hi GitGutterChangeLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
       autocmd ColorScheme nord hi GitGutterDeleteLineNr guifg=#bf616a guibg=#52050c gui=bold
-      autocmd ColorScheme nord hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
 
       " for ALE
       autocmd ColorScheme nord hi ALEErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
-      autocmd ColorScheme nord hi ALEStyleErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
-      autocmd ColorScheme nord hi ALEWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
-      autocmd ColorScheme nord hi ALEStyleWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
       autocmd ColorScheme nord hi ALEInfoSignLineNr guifg=#a3be8c guibg=#163601 gui=bold
+      autocmd ColorScheme nord hi ALEStyleErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
+      autocmd ColorScheme nord hi ALEStyleWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+      autocmd ColorScheme nord hi ALEWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
     endif
   augroup END
 "}}} '''
