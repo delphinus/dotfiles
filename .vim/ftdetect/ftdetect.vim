@@ -15,6 +15,10 @@ autocmd BufNewFile,BufRead *.tt setf tt2html
 autocmd BufNewFile,BufRead .zpreztorc setf zsh
 autocmd BufNewFile,BufRead *.plist,*.ttx setf xml
 autocmd BufNewFile,BufRead *.applescript			setf applescript
+autocmd BufNewFile,BufRead *.cc setf cpp
+autocmd BufNewFile,BufRead *.cpp setf cpp
+autocmd BufNewFile,BufRead *.cxx,*.c++,*.hh,*.hxx,*.hpp,*.ipp,*.moc,*.tcc,*.inl setf cpp
+autocmd BufNewFile,BufRead *.h			call dist#ft#FTheader()
 
 function! s:detect_script_filetype()
   if len(&ft) == 0
