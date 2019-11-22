@@ -167,6 +167,8 @@ hook_add = ''' "{{{
   " TODO: Use ALE lsp feature
   else
     let g:ale_linters = {
+          \ 'c': [ 'clangd' ],
+          \ 'cpp': [ 'clangd' ],
           \ 'go': [ 'golangci-lint', 'gopls' ],
           \ 'javascript': [ 'eslint' ],
           \ 'json': [ 'eslint' ],
@@ -178,6 +180,9 @@ hook_add = ''' "{{{
           \ 'vim': [ 'vint' ],
           \ 'vue': [ 'vls' ],
           \ }
+  endif
+  if executable('/usr/local/opt/llvm/bin/clangd')
+    let g:ale_cpp_clangd_executable = '/usr/local/opt/llvm/bin/clangd'
   endif
   let g:ale_sh_shellcheck_options = '-x'
   let g:ale_go_golangci_lint_options = '--enable-all -D gochecknoglobals,gochecknoinits'
@@ -213,6 +218,18 @@ hook_add = ''' "{{{
 "}}} '''
 
 [plugins.ftplugin]
+c = ''' "{{{
+  nmap <buffer> <silent> K          <Plug>(ale_hover)
+  nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)
+  nmap <buffer> <silent> <C-]>      <Plug>(ale_go_to_definition)
+  nmap <buffer> <silent> <C-w><C-]> <Plug>(ale_go_to_definition_in_split)
+"}}} '''
+cpp = ''' "{{{
+  nmap <buffer> <silent> K          <Plug>(ale_hover)
+  nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)
+  nmap <buffer> <silent> <C-]>      <Plug>(ale_go_to_definition)
+  nmap <buffer> <silent> <C-w><C-]> <Plug>(ale_go_to_definition_in_split)
+"}}} '''
 python = ''' "{{{
   nmap <buffer> <silent> K          <Plug>(ale_hover)
   nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)

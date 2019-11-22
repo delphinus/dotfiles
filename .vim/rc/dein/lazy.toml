@@ -384,6 +384,10 @@ on_ft = [
 repo  = 'delphinus/vim-rails'
 rev   = 'feature/recognize-ridgepole'
 on_ft = ['ruby']
+
+[[plugins]]
+repo = 'vim-scripts/a.vim'
+on_ft = ['c', 'cpp']
 # }}}
 
 # on_map {{{
