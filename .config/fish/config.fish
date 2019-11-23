@@ -15,6 +15,7 @@ if status is-interactive
     ~/.local/bin \
     ~/.ghg/bin \
     ~/.go/bin \
+    ~/local/nvim/bin \
     ~/git/dotfiles/bin \
     ~/Library/Python/3.7/bin
 
