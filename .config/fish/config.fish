@@ -11,6 +11,8 @@ if status is-interactive
 
   assert_user_paths \
     ~/bin \
+    ~/.cargo/bin \
+    ~/.local/bin \
     ~/.ghg/bin \
     ~/.go/bin \
     ~/git/dotfiles/bin \
