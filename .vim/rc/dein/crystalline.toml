@@ -35,7 +35,7 @@ endfunction
 function AsciiChar() abort
   " if char on cursor is `Λ̊`, :ascii returns below.
   " <Λ> 923, 16進数 039b, 8進数 1633 < ̊> 778, 16進数 030a, 8進数 1412
-  redir => tmp | silent! ascii | redir END
+  let tmp = execute(':ascii')
   let chars = []
   call substitute(tmp, '<.>\s\+\d\+,\s\+\S\+ \x\+,\s\+\S\+ \d\+', '\=add(chars, submatch(0))', 'g')
   if len(chars) == 0
