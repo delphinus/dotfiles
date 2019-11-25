@@ -56,9 +56,7 @@ hook_post_source = ''' "{{{
 hook_post_update = '!pip3 install -U --user neovim'
 
 [[plugins]]
-#repo      = 'Shougo/deoplete-lsp'
-repo      = 'fmoralesc/deoplete-lsp'
-rev       = 'patch-1'
+repo      = 'Shougo/deoplete-lsp'
 on_source = ['deoplete.nvim']
 if        = 'has("nvim-0.5")'
 
