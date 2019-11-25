@@ -526,7 +526,3 @@ repo = 'inkarkat/vim-ingo-library'
 [[plugins]]
 repo = 'kana/vim-textobj-user'
 # }}}
-
-[[plugins]]
-repo = 'neovim/nvim-lsp'
-if   = 'has("nvim-0.5")'
