@@ -111,4 +111,8 @@ if status is-interactive
   set -x LESS_TERMCAP_ue $e'[0m'          # Ends underline.
   set -x LESS_TERMCAP_us $e'[01;32m'      # Begins underline.
   set -x LESS '-g -i -M -R -S -W -z-4 -x4 +3'
+
+  if test -f ~/.config/fish/config-local.fish
+    source ~/.config/fish/config-local.fish
+  end
 end

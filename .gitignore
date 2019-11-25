@@ -276,6 +276,7 @@ typings/
 
 
 ### custom ignore
+/.config/fish/config-local.fish
 /.config/fish/fish_variables
 /.config/git
 /.config/powerline/config.json
