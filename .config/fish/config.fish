@@ -72,6 +72,9 @@ if status is-interactive
   alias rm 'rm -i'
 
   alias g git
+  alias gf 'git foresta | less'
+  alias gfa 'git foresta --all | less'
+
   alias l. 'l -d .*'
   alias nvr 'nvr -cc split'
   alias dircolors gdircolors
