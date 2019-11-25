@@ -67,12 +67,13 @@ if status is-interactive
   set fish_pager_color_secondary $nord1s
 
   alias cp 'cp -i'
-  alias dircolors gdircolors
+  alias mv 'mv -i'
+  alias rm 'rm -i'
+
   alias g git
   alias l. 'l -d .*'
   alias nvr 'nvr -cc split'
-  alias rm 'rm -i'
-  alias mv 'mv -i'
+  mlias dircolors gdircolors
 
   test "$fish_key_bindings" != 'fish_hybrid_key_bindings'
     and fish_hybrid_key_bindings
