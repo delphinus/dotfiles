@@ -10,6 +10,12 @@ c = ''' "{{{
 
 css = 'setlocal iskeyword+=-'
 
+fish = ''' "{{{
+  set tabstop=2
+  set shiftwidth=2
+  set softtabstop=2
+"}}} '''
+
 gitcommit = 'setlocal colorcolumn=50,72'
 
 go_gohtmltmpl = ''' "{{{
@@ -83,7 +89,12 @@ ruby = ''' "{{{
 
 scss = 'setlocal iskeyword+=-'
 
-toml = 'setlocal foldmethod=marker'
+toml = ''' "{{{
+  set tabstop=2
+  set shiftwidth=2
+  set softtabstop=2
+  setlocal foldmethod=marker
+"}}} '''
 
 undotree = ''' "{{{
   let b:dwm_disabled = 1
@@ -515,5 +526,3 @@ repo = 'inkarkat/vim-ingo-library'
 [[plugins]]
 repo = 'kana/vim-textobj-user'
 # }}}
-
-# vim:se fdm=marker:
