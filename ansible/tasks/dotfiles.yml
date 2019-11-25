@@ -41,13 +41,6 @@
     - .tmux.conf
     - .vim
     - .vimrc_first.vim
-    - .zlogin
-    - .zlogout
-    - .zprezto
-    - .zpreztorc
-    - .zprofile
-    - .zshenv
-    - .zshrc
 
 - name: make directory for Neovim
   file: dest=~/.config/nvim state=directory

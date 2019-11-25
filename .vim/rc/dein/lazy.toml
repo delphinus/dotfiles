@@ -5,7 +5,6 @@ on_command = ['Deol']
 on_map     = ['<Plug>(deol']
 hook_add   = ''' "{{{
   let g:deol#enable_dir_changed = 0
-  let g:deol#prompt_pattern = '^.\{-}❯❯❯ '
 
   tnoremap <BS><C-n> <C-\><C-n>
   function! s:open_deol() abort
@@ -385,6 +384,10 @@ on_ft = [
 repo  = 'delphinus/vim-rails'
 rev   = 'feature/recognize-ridgepole'
 on_ft = ['ruby']
+
+[[plugins]]
+repo = 'vim-scripts/a.vim'
+on_ft = ['c', 'cpp']
 # }}}
 
 # on_map {{{

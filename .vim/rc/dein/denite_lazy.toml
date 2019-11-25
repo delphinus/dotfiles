@@ -168,6 +168,12 @@ hook_post_source = ''' "{{{
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
 
+  " Use fish's z for denite-z
+  let z_data = $HOME . '/.local/share/z/data'
+  if filereadable(z_data)
+    call denite#custom#var('z', 'data', z_data)
+  endif
+
   " Use fd for finding files
   if executable('fd')
     let file_rec_cmd = ['fd', '--follow', '--hidden', '--exclude', '.git', '.*']

@@ -27,17 +27,11 @@ set backupskip^=/private/tmp/*
 " Use dir for Neovim's default
 set directory^=~/.local/share/nvim/swap//
 set nobackup
-" Add -f (--no-rcs) option to use current PATH & GOPATH
-set shellcmdflag=-f\ -c
 set swapfile
 " Use dir for Neovim's default
 set undodir^=~/.local/share/nvim/undo//
 set undofile
 set writebackup
-
-if &shell !=# 'zsh' && executable('/usr/local/bin/zsh')
-  set shell=/usr/local/bin/zsh
-endif
 " }}}
 
 " Searching {{{
