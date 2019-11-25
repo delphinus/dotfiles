@@ -74,7 +74,7 @@ if status is-interactive
   alias g git
   alias l. 'l -d .*'
   alias nvr 'nvr -cc split'
-  mlias dircolors gdircolors
+  alias dircolors gdircolors
 
   test "$fish_key_bindings" != 'fish_hybrid_key_bindings'
     and fish_hybrid_key_bindings
