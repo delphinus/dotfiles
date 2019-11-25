@@ -112,6 +112,9 @@ if status is-interactive
   set -x LESS_TERMCAP_us $e'[01;32m'      # Begins underline.
   set -x LESS '-g -i -M -R -S -W -z-4 -x4 +3'
 
+  set -x GOPATH $HOME/.go
+  set -x GO111MODULE on
+
   if test -f ~/.config/fish/config-local.fish
     source ~/.config/fish/config-local.fish
   end
