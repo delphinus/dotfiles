@@ -59,7 +59,7 @@ hook_post_update = '!pip3 install -U --user neovim'
 [[plugins]]
 repo      = 'Shougo/deoplete-lsp'
 on_source = ['deoplete.nvim']
-if        = 'exists("*luaeval") && luaeval("vim.lsp ~= nil")'
+if        = 'has("nvim-0.5")'
 hook_source  = ''' "{{{
   " TODO: use this instead of vim-go's omnifunc
   call lsp#add_filetype_config({'filetype': 'go', 'name': 'gopls', 'cmd': 'gopls'})
@@ -153,7 +153,7 @@ hook_add = ''' "{{{
         \ 'typescript': [ 'eslint' ],
         \ }
   " TODO: Use Neovim lsp feature
-  if exists('*luaeval') && luaeval('vim.lsp ~= nil')
+  if has('nvim-0.5')
     let g:ale_linters = {
           \ 'go': [ 'golangci-lint' ],
           \ 'javascript': [ 'eslint' ],
