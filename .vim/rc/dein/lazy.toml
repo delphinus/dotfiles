@@ -631,6 +631,30 @@ hook_add = ''' "{{{
 [[plugins]]
 repo    = 'sainnhe/artify.vim'
 on_func = ['Artify']
+
+[[plugins]]
+repo        = 'neovim/nvim-lsp'
+on_func     = ['nvim_lsp#setup']
+if          = 'has("nvim-0.5")'
+hook_source = ''' "{{{
+  " debug print in ~/.local/share/nvim/vim-lsp.log
+  "lua vim.lsp.set_log_level("debug")
+"}}} '''
+
+[plugins.ftplugin]
+go = ''' "{{{
+  call nvim_lsp#setup('gopls', {
+    \ 'settings': {
+    \   'hoverKind': 'NoDocumentation',
+    \   'deepCompletion': v:true,
+    \   'fuzzyMatching': v:true,
+    \   'completeUnimported': v:true,
+    \   'usePlaceholders': v:true,
+    \ },
+    \ })
+  " TODO: use vim-go completion instead
+  "setlocal omnifunc=v:lua.vim.lsp.omnifunc
+"}}} '''
 # }}}
 
 # dependencies {{{
