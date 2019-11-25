@@ -176,7 +176,7 @@ hook_add = ''' "{{{
           \ 'perl': [ 'perl' ],
           \ 'python': [ 'mypy', 'pyls' ],
           \ 'ruby': [ 'solargraph' ],
-          \ 'sh': [ 'language_server', 'shellcheck' ],
+          \ 'sh': [ 'shellcheck' ],
           \ 'vim': [ 'vint' ],
           \ 'vue': [ 'vls' ],
           \ }
