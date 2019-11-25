@@ -67,6 +67,7 @@ if status is-interactive
   set fish_pager_color_secondary $nord1s
 
   alias cp 'cp -i'
+  alias ln 'ln -i'
   alias mv 'mv -i'
   alias rm 'rm -i'
 
