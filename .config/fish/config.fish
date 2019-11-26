@@ -17,7 +17,9 @@ if status is-interactive
     ~/.go/bin \
     ~/local/nvim/bin \
     ~/git/dotfiles/bin \
-    ~/Library/Python/3.7/bin
+    ~/Library/Python/3.7/bin \
+    ~/.gem/ruby/2.3.0/bin \
+    /usr/local/opt/llvm/bin/
 
   set gcsdk_path /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
   if test -d $gcsdk_path
