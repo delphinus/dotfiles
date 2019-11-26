@@ -319,8 +319,8 @@ hook_source = ''' "{{{
   let g:go_auto_type_info = 1
   let g:go_autodetect_gopath = 0
   let g:go_code_completion_enabled = 1
-  let g:go_def_mapping_enabled = 1
-  let g:go_doc_keywordprg_enabled = 1
+  let g:go_def_mapping_enabled = 0
+  let g:go_doc_keywordprg_enabled = 0
   let g:go_doc_popup_window = 1
   let g:go_fmt_command = 'goimports'
   let g:go_fmt_experimental = 1
@@ -642,6 +642,24 @@ hook_source = ''' "{{{
 "}}} '''
 
 [plugins.ftplugin]
+c = ''' "{{{
+  call nvim_lsp#setup("clangd", {
+    \ 'cmd': ['clangd', '--background-index'],
+    \ })
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+cpp = ''' "{{{
+  call nvim_lsp#setup("clangd", {
+    \ 'cmd': ['clangd', '--background-index'],
+    \ })
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
 go = ''' "{{{
   call nvim_lsp#setup('gopls', {
     \ 'settings': {
@@ -654,7 +672,40 @@ go = ''' "{{{
     \ })
   " TODO: use vim-go completion instead
   "setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
+python = ''' "{{{
+  call nvim_lsp#setup('pyls', {})
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+ruby = ''' "{{{
+  call nvim_lsp#setup('solargraph', {})
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+sh = ''' "{{{
+  call nvim_lsp#setup('bashls', {})
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+typescript = ''' "{{{
+  call nvim_lsp#setup('tsserver', {})
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+
 # }}}
 
 # dependencies {{{

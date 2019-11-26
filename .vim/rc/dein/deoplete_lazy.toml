@@ -172,9 +172,9 @@ hook_add = ''' "{{{
           \ 'vim': [ 'vint' ],
           \ 'vue': [ 'vls' ],
           \ }
-  endif
-  if executable('/usr/local/opt/llvm/bin/clangd')
-    let g:ale_cpp_clangd_executable = '/usr/local/opt/llvm/bin/clangd'
+    if executable('/usr/local/opt/llvm/bin/clangd')
+      let g:ale_cpp_clangd_executable = '/usr/local/opt/llvm/bin/clangd'
+    endif
   endif
   let g:ale_sh_shellcheck_options = '-x'
   let g:ale_go_golangci_lint_options = '--enable-all -D gochecknoglobals,gochecknoinits'
@@ -207,44 +207,6 @@ hook_add = ''' "{{{
     call nvim_win_set_option(g:float_preview#win, 'winblend', 30)
   endfunction
   autocmd User FloatPreviewWinOpen call s:float_preview_win_open()
-"}}} '''
-
-[plugins.ftplugin]
-c = ''' "{{{
-  nmap <buffer> <silent> K          <Plug>(ale_hover)
-  nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-]>      <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-w><C-]> <Plug>(ale_go_to_definition_in_split)
-"}}} '''
-cpp = ''' "{{{
-  nmap <buffer> <silent> K          <Plug>(ale_hover)
-  nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-]>      <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-w><C-]> <Plug>(ale_go_to_definition_in_split)
-"}}} '''
-python = ''' "{{{
-  nmap <buffer> <silent> K          <Plug>(ale_hover)
-  nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-]>      <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-w><C-]> <Plug>(ale_go_to_definition_in_split)
-"}}} '''
-ruby = ''' "{{{
-  nmap <buffer> <silent> K          <Plug>(ale_hover)
-  nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-]>      <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-w><C-]> <Plug>(ale_go_to_definition_in_split)
-"}}} '''
-typescript = ''' "{{{
-  nmap <buffer> <silent> K          <Plug>(ale_hover)
-  nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-]>      <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-w><C-]> <Plug>(ale_go_to_definition_in_split)
-"}}} '''
-vue = ''' "{{{
-  nmap <buffer> <silent> K          <Plug>(ale_hover)
-  nmap <buffer> <silent> gd         <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-]>      <Plug>(ale_go_to_definition)
-  nmap <buffer> <silent> <C-w><C-]> <Plug>(ale_go_to_definition_in_split)
 "}}} '''
 
 [[plugins]]
