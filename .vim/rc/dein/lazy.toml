@@ -406,9 +406,7 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-#repo      = 'bfredl/nvim-miniyank'
-repo      = 'delphinus/nvim-miniyank'
-rev       = 'feature/add-delete-action'
+repo      = 'bfredl/nvim-miniyank'
 on_source = ['denite.nvim']
 on_map    = ['<Plug>(miniyank-']
 hook_add = ''' "{{{
