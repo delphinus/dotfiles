@@ -700,10 +700,15 @@ sh = ''' "{{{
 "}}} '''
 typescript = ''' "{{{
   call nvim_lsp#setup('tsserver', {})
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  " TODO: LSP features does not work forMe ;( So use ALE instead.
+  "nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  "nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  "nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  "nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> K          <Cmd>ALEHover<CR>
+  nmap <buffer> <silent> gd         <Cmd>ALEGoToTypeDefinition<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>ALEGoToDefinition<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>ALEGoToDefinition<CR>
 "}}} '''
 
 # }}}

@@ -150,7 +150,7 @@ hook_add = ''' "{{{
           \ 'go': [ 'golangci-lint' ],
           \ 'javascript': [ 'eslint' ],
           \ 'json': [ 'eslint' ],
-          \ 'typescript': [ 'eslint' ],
+          \ 'typescript': [ 'eslint', 'tsserver' ],
           \ 'perl': [ 'perl' ],
           \ 'python': [ 'mypy' ],
           \ 'sh': [ 'shellcheck' ],
