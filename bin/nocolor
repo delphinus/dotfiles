@@ -1,0 +1,2 @@
+#!/usr/bin/env perl -p
+s/[[:cntrl:]]\[(?:\d+;)*\d+m//g
