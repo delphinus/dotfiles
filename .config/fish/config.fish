@@ -73,6 +73,7 @@ if status is-interactive
   alias mv 'mv -i'
   alias rm 'rm -i'
 
+  alias git hub
   alias g git
   alias gf 'git foresta | less'
   alias gfa 'git foresta --all | less'
