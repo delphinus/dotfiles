@@ -176,9 +176,9 @@ repo = 'delphinus/vim-data-section-simple'
 repo = 'delphinus/vim-quickfix-height'
 
 [[plugins]]
-#repo     = 'direnv/direnv.vim'
-repo     = 'delphinus/direnv.vim'
-rev      = 'feature/direnv-export-post'
+repo     = 'direnv/direnv.vim'
+#repo     = 'delphinus/direnv.vim'
+#rev      = 'feature/direnv-export-post'
 
 [[plugins]]
 repo     = 'freitass/todo.txt-vim'
