@@ -49,7 +49,8 @@ if status is-interactive
   set fish_color_quote $nord14
   set fish_color_redirection $nord9
   set fish_color_end $nord6
-  set fish_color_error $nord11
+  #set fish_color_error $nord11
+  set fish_color_error $nord12
   set fish_color_param $nord4
   set fish_color_comment $nord3
   set fish_color_match $nord8
