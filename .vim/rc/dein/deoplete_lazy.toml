@@ -147,7 +147,7 @@ hook_add = ''' "{{{
   " TODO: Use Neovim lsp feature
   if has('nvim-0.5')
     let g:ale_linters = {
-          \ 'go': [ 'golangci-lint' ],
+          \ 'go': [ 'golangci-lint', 'gopls' ],
           \ 'javascript': [ 'eslint' ],
           \ 'json': [ 'eslint' ],
           \ 'typescript': [ 'eslint', 'tsserver' ],
