@@ -632,6 +632,7 @@ on_func = ['Artify']
 
 [[plugins]]
 repo        = 'neovim/nvim-lsp'
+on_ft       = ['c', 'cpp', 'go', 'python', 'ruby', 'sh', 'typescript']
 on_func     = ['nvim_lsp#setup']
 if          = 'has("nvim-0.5")'
 hook_source = ''' "{{{
@@ -641,35 +642,34 @@ hook_source = ''' "{{{
 
 [plugins.ftplugin]
 c = ''' "{{{
-  call nvim_lsp#setup("clangd", {
-    \ 'cmd': ['clangd', '--background-index'],
-    \ })
+  lua require'nvim_lsp'.clangd.setup{}
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 cpp = ''' "{{{
-  call nvim_lsp#setup("clangd", {
-    \ 'cmd': ['clangd', '--background-index'],
-    \ })
+  lua require'nvim_lsp'.clangd.setup{}
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 go = ''' "{{{
-  call nvim_lsp#setup('gopls', {
-    \ 'settings': {
-    \   'hoverKind': 'NoDocumentation',
-    \   'deepCompletion': v:true,
-    \   'fuzzyMatching': v:true,
-    \   'completeUnimported': v:true,
-    \   'usePlaceholders': v:true,
-    \ },
-    \ })
-  " TODO: use ALE completion instead
-  "setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  lua << EOF
+    require'nvim_lsp'.gopls.setup{
+      settings = {
+        hoverKind = 'NoDocumentation';
+        deepCompletion = true;
+        fuzzyMatching = true;
+        completeUnimported = true;
+        usePlaceholders = true;
+      }
+    }
+EOF
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
   "nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   "nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   "nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -680,28 +680,32 @@ go = ''' "{{{
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>ALEGoToDefinition<CR>
 "}}} '''
 python = ''' "{{{
-  call nvim_lsp#setup('pyls', {})
+  lua require'nvim_lsp'.pyls.setup{}
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 ruby = ''' "{{{
-  call nvim_lsp#setup('solargraph', {})
+  lua require'nvim_lsp'.solargraph.setup{}
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 sh = ''' "{{{
-  call nvim_lsp#setup('bashls', {})
+  lua require'nvim_lsp'.bashls.setup{}
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 typescript = ''' "{{{
-  call nvim_lsp#setup('tsserver', {})
+  lua require'nvim_lsp'.tsserver.setup{}
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
   " TODO: LSP features does not work forMe ;( So use ALE instead.
   "nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   "nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
