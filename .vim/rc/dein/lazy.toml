@@ -632,6 +632,7 @@ on_func = ['Artify']
 
 [[plugins]]
 repo        = 'neovim/nvim-lsp'
+on_cmd      = ['LspInstall', 'LspInstallInfo']
 on_ft       = ['c', 'cpp', 'go', 'python', 'ruby', 'sh', 'typescript']
 on_func     = ['nvim_lsp#setup']
 if          = 'has("nvim-0.5")'
