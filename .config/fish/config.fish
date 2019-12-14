@@ -122,4 +122,8 @@ if status is-interactive
   if test -f ~/.config/fish/config-local.fish
     source ~/.config/fish/config-local.fish
   end
+
+  if type plenv > /dev/null
+    . (plenv init -|psub)
+  end
 end
