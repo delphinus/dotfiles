@@ -202,7 +202,7 @@ hook_post_source = ''' "{{{
         \ 'highlight_matched_char': 'Underlined',
         \ 'matchers': 'matcher/fruzzy',
         \ 'max_dynamic_update_candidates': 100000,
-        \ 'prompt': '$ ',
+        \ 'prompt': '❯ ',
         \ 'split': 'floating',
         \ 'start_filter': v:true,
         \ })
