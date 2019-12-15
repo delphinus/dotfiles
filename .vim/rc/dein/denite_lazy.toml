@@ -80,6 +80,7 @@ hook_add = ''' "{{{
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
   noremap zD :<C-u>Denite -no-start-filter -post-action=open -matchers=matcher/substring dein/log:!<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
+  noremap zH :<C-u>Denite help<CR>
   noremap zI :<C-u>Denite gitlog:all<CR>
   noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
   noremap zN :<C-u>DeniteProjectDir -expand my_file my_file:new<CR>
