@@ -76,32 +76,32 @@ hook_add = ''' "{{{
     endif
   endfunction
 
-  noremap zn :<C-u>DeniteBufferDir -expand my_file my_file:new<CR>
-  noremap zN :<C-u>DeniteProjectDir -expand my_file my_file:new<CR>
-  noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
-  noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
-  noremap za :<C-u>Denite -expand file/rec<CR>
-  noremap zg :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
-  noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
-  noremap zi :<C-u>Denite gitlog<CR>
-  noremap zI :<C-u>Denite gitlog:all<CR>
+  noremap #  :<C-u>Denite line<CR>
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
-  noremap zd :<C-u>Denite z<CR>
   noremap zD :<C-u>Denite -no-start-filter -post-action=open -matchers=matcher/substring dein/log:!<CR>
-  noremap zp :<C-u>Denite -expand buffer file/old<CR>
+  noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
+  noremap zI :<C-u>Denite gitlog:all<CR>
+  noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
+  noremap zN :<C-u>DeniteProjectDir -expand my_file my_file:new<CR>
   noremap zP :<C-u>Denite node_modules<CR>
-  noremap zh :<C-u>Denite ghq<CR>
-  noremap zm :<C-u>Denite memo memo:new<CR>
-  noremap ze :<C-u>Denite memo/grep::!<CR>
+  noremap zS :<C-u>Denite scriptnames<CR>
+  noremap zT :<C-u>call <SID>my_denite_file_rec_goroot()<CR>
   noremap zU :<C-u>Denite -resume<CR>
+  noremap zY :<C-u>Denite -default-action=delete miniyank<CR>
+  noremap zZ :<C-u>Denite buffer -input=term:// -immediately<CR>
+  noremap za :<C-u>Denite -expand file/rec<CR>
+  noremap zd :<C-u>Denite z<CR>
+  noremap ze :<C-u>Denite memo/grep::!<CR>
+  noremap zg :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
+  noremap zh :<C-u>Denite ghq<CR>
+  noremap zi :<C-u>Denite gitlog<CR>
   noremap zj :<C-u>Denite -resume -cursor-pos=+1 -immediately<CR>
   noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
-  noremap zT :<C-u>call <SID>my_denite_file_rec_goroot()<CR>
-  noremap zZ :<C-u>Denite buffer -input=term:// -immediately<CR>
+  noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
+  noremap zm :<C-u>Denite memo memo:new<CR>
+  noremap zn :<C-u>DeniteBufferDir -expand my_file my_file:new<CR>
+  noremap zp :<C-u>Denite -expand buffer file/old<CR>
   noremap zy :<C-u>Denite miniyank<CR>
-  noremap zY :<C-u>Denite -default-action=delete miniyank<CR>
-  noremap zS :<C-u>Denite scriptnames<CR>
-  noremap #  :<C-u>Denite line<CR>
   tnoremap <A-z><A-a> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('file/rec')<CR>
   tnoremap <A-z><A-n> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('my_file')<CR>
   tnoremap <A-z><A-g> <C-\><C-n>:<C-u>call <SID>my_denite_with_pwd('grep')<CR>
