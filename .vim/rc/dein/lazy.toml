@@ -697,7 +697,7 @@ lua = ''' "{{{
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 python = ''' "{{{
-  lua require'nvim_lsp'.pyls.setup{}
+  lua require'nvim_lsp'.pyls_ms.setup{}
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
