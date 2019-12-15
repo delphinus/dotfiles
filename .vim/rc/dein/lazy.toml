@@ -633,7 +633,7 @@ on_func = ['Artify']
 [[plugins]]
 repo        = 'neovim/nvim-lsp'
 on_cmd      = ['LspInstall', 'LspInstallInfo']
-on_ft       = ['c', 'cpp', 'go', 'python', 'ruby', 'typescript']
+on_ft       = ['c', 'cpp', 'go', 'lua', 'python', 'ruby', 'typescript']
 on_func     = ['nvim_lsp#setup']
 if          = 'has("nvim-0.5")'
 hook_source = ''' "{{{
@@ -679,6 +679,14 @@ EOF
   nmap <buffer> <silent> gd         <Cmd>ALEGoToTypeDefinition<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>ALEGoToDefinition<CR>
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>ALEGoToDefinition<CR>
+"}}} '''
+lua = ''' "{{{
+  lua require'nvim_lsp'.sumneko_lua.setup{}
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 python = ''' "{{{
   lua require'nvim_lsp'.pyls.setup{}
