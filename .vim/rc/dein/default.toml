@@ -281,6 +281,12 @@ hook_add = ''' "{{{
       autocmd ColorScheme nord hi ALEStyleErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
       autocmd ColorScheme nord hi ALEStyleWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
       autocmd ColorScheme nord hi ALEWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+
+      " LSP diagnostics
+      autocmd ColorScheme nord hi LSPDiagnosticsError guifg=#bf616a guibg=#52050c gui=bold
+      autocmd ColorScheme nord hi LSPDiagnosticsWarning guifg=#d08770 guibg=#5d1c08
+      autocmd ColorScheme nord hi LSPDiagnosticsInformation guifg=#5e81ac guibg=#153b68
+      autocmd ColorScheme nord hi LSPDiagnosticsHint guifg=#a3be8c guibg=#456c26
     endif
   augroup END
 "}}} '''
