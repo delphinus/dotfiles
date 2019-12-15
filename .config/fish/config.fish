@@ -119,6 +119,14 @@ if status is-interactive
   set -x GOPATH $HOME/.go
   set -x GO111MODULE on
 
+  set -x PYTHONPATH \
+    ./src \
+    $HOME/.cache/dein/repos/github.com/Shougo/defx.nvim/rplugin/python3 \
+    $HOME/.cache/dein/repos/github.com/Shougo/denite.nvim/rplugin/pythonh3 \
+    $HOME/.cache/dein/repos/github.com/Shougo/deol.nvim/rplugin/python3 \
+    $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3 \
+    /usr/local/Cellar/fontforge/*/lib/python3.7/site-packages
+
   if test -f ~/.config/fish/config-local.fish
     source ~/.config/fish/config-local.fish
   end
