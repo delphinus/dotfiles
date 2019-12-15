@@ -633,7 +633,7 @@ on_func = ['Artify']
 [[plugins]]
 repo        = 'neovim/nvim-lsp'
 on_cmd      = ['LspInstall', 'LspInstallInfo']
-on_ft       = ['c', 'cpp', 'go', 'lua', 'python', 'ruby', 'typescript']
+on_ft       = ['c', 'cpp', 'dockerfile', 'go', 'lua', 'python', 'ruby', 'typescript']
 on_func     = ['nvim_lsp#setup']
 if          = 'has("nvim-0.5")'
 hook_source = ''' "{{{
@@ -652,6 +652,14 @@ c = ''' "{{{
 "}}} '''
 cpp = ''' "{{{
   lua require'nvim_lsp'.clangd.setup{}
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+dockerfile = ''' "{{{
+  lua require'nvim_lsp'.dockerls.setup{}
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
