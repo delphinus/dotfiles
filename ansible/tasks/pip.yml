@@ -8,7 +8,6 @@
       - ansible-lint
       - iterm2
       - neovim-remote
-      - python-language-server
       - vint
       - yamllint
     executable: pip3
