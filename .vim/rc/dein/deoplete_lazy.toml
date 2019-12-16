@@ -184,7 +184,8 @@ hook_add = ''' "{{{
   let g:ale_sign_warning =  "\u25b9" " '▹'
   let g:ale_statusline_format = ["\u25b8 %d", "\u25b9 %d", "\u25b4 "] " ▸, ▹, ▴
   let g:ale_virtualtext_cursor = 1
-  let g:ale_virtualtext_prefix = '‣ '
+  let g:ale_virtualtext_delay = 100
+  let g:ale_virtualtext_prefix = "\u25a0 " " '■'
   nmap <silent> <A-K> <Plug>(ale_previous_wrap)
   nmap <silent> <A-J> <Plug>(ale_next_wrap)
 "}}} '''
