@@ -125,6 +125,7 @@ on_ft     = [
 #repo     = 'delphinus/ale'
 #rev      = 'feature/detect-note-in-mypy'
 hook_add = ''' "{{{
+  " All highlights are defined on colorscheme setting in default.toml.
   let g:ale_fixers = {
         \ 'javascript': [ 'eslint' ],
         \ 'json': [ 'eslint' ],
