@@ -125,18 +125,6 @@ on_ft     = [
 #repo     = 'delphinus/ale'
 #rev      = 'feature/detect-note-in-mypy'
 hook_add = ''' "{{{
-  let g:ale_fix_on_save = 1
-  let g:ale_echo_msg_format = '%severity%  %linter% - %s'
-  let g:ale_echo_msg_error_str = "\u25b8" " '▸'
-  let g:ale_echo_msg_warning_str = "\u25b9" " '▹'
-  let g:ale_echo_msg_info_str = "\u25b4" " '▴'
-  let g:ale_sign_error =  "\u25b8" " '▸'
-  let g:ale_sign_warning =  "\u25b9" " '▹'
-  let g:ale_statusline_format = ["\u25b8 %d", "\u25b9 %d", "\u25b4 "] " ▸, ▹, ▴
-  let g:ale_sign_column_always = 1
-  let g:ale_sign_highlight_linenrs = 1
-  let g:ale_virtualtext_cursor = 1
-  let g:ale_virtualtext_prefix = '‣ '
   let g:ale_fixers = {
         \ 'javascript': [ 'eslint' ],
         \ 'json': [ 'eslint' ],
@@ -176,14 +164,26 @@ hook_add = ''' "{{{
       let g:ale_cpp_clangd_executable = '/usr/local/opt/llvm/bin/clangd'
     endif
   endif
-  let g:ale_sh_shellcheck_options = '-x'
+  let g:ale_echo_msg_error_str = "\u25b8" " '▸'
+  let g:ale_echo_msg_format = '%severity%  %linter% - %s'
+  let g:ale_echo_msg_info_str = "\u25b4" " '▴'
+  let g:ale_echo_msg_warning_str = "\u25b9" " '▹'
+  let g:ale_fix_on_save = 1
   let g:ale_go_golangci_lint_options = '--enable-all -D gochecknoglobals,gochecknoinits'
   let g:ale_go_golangci_lint_package = 1
   let g:ale_perl_perl_executable = '~/.plenv/shims/perl'
-  let g:ale_python_pylint_change_directory = 0
-  let g:ale_python_mypy_options = '--show-column-numbers --strict'
   let g:ale_python_mypy_detect_notes = 1
+  let g:ale_python_mypy_options = '--show-column-numbers --strict'
+  let g:ale_python_pylint_change_directory = 0
   let g:ale_set_loclist = 1
+  let g:ale_sh_shellcheck_options = '-x'
+  let g:ale_sign_column_always = 1
+  let g:ale_sign_error =  "\u25b8" " '▸'
+  let g:ale_sign_highlight_linenrs = 1
+  let g:ale_sign_warning =  "\u25b9" " '▹'
+  let g:ale_statusline_format = ["\u25b8 %d", "\u25b9 %d", "\u25b4 "] " ▸, ▹, ▴
+  let g:ale_virtualtext_cursor = 1
+  let g:ale_virtualtext_prefix = '‣ '
   nmap <silent> <A-K> <Plug>(ale_previous_wrap)
   nmap <silent> <A-J> <Plug>(ale_next_wrap)
 "}}} '''
