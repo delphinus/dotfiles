@@ -134,4 +134,8 @@ if status is-interactive
   if type -q plenv > /dev/null
     . (plenv init -|psub)
   end
+
+  if type -q gosshauth > /dev/null
+    gosshauth hook fish | source
+  end
 end
