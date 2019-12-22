@@ -35,11 +35,12 @@ textarea,textarea *,pre,pre *,code,code *,tt,tt *,
 .syntaxhighlighter table thead,
 .syntaxhighlighter table caption,
 .syntaxhighlighter textarea,
-.p6n-logs-entry
+.p6n-logs-entry,
+.ace_editor
 {
 	font-family: Menlo !important;
 }
 
 body {
-	font-family: -apple-system, HiraginoSans;
+	font-family: '凸版文久ゴシック', -apple-system, HiraginoSans;
 }
