@@ -132,7 +132,7 @@ if status is-interactive
   end
 
   if type -q plenv > /dev/null
-    . (plenv init -|psub)
+    source (plenv init -| psub)
   end
 
   if type -q gosshauth
