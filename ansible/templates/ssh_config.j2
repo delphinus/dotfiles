@@ -18,6 +18,10 @@ Host {{ h.name }}
   {% endif -%}
   {% if 'vnc_port' in h -%}
   LocalForward {{ h.vnc_port }} localhost:5900
+  {% endif -%}
+  {% if 'ignore_check' in h -%}
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
   {% endif %}
 
 {% endfor -%}
