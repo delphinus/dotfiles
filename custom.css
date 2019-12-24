@@ -22,6 +22,16 @@
 	font-family: 'メイリオ';
 	src: local(-apple-system);
 }
+@font-face {
+    font-family: -apple-system-subset;
+    src: local(-apple-system);
+    unicode-range: U+0000-05C7;
+}
+@font-face {
+    font-family: -serif-cyrillic;
+    src: local(Times);
+    unicode-range: U+0400-052F;
+}
 textarea,textarea *,pre,pre *,code,code *,tt,tt *,
 .syntaxhighlighter .gutter div,
 .blob-num, .blob-code,
@@ -42,5 +52,5 @@ textarea,textarea *,pre,pre *,code,code *,tt,tt *,
 }
 
 body {
-	font-family: '凸版文久ゴシック', -apple-system, HiraginoSans;
+	font-family: -apple-system-subset, '凸版文久ゴシック', HiraginoSans;
 }
