@@ -135,6 +135,10 @@ if status is-interactive
     source (plenv init -| psub)
   end
 
+  if type -q goenv > /dev/null
+    source (goenv init -| psub)
+  end
+
   if type -q gosshauth
     gosshauth hook fish | source
   end
