@@ -71,8 +71,6 @@
 	rebase = true
 [rebase]
 	autosquash = true
-[push]
-	default = nothing
 [tig]
 	tab-size = 4
 	line-graphics = utf-8
