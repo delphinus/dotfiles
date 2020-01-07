@@ -636,6 +636,10 @@ on_cmd      = ['LspInstall', 'LspInstallInfo']
 on_ft       = ['c', 'cpp', 'dockerfile', 'go', 'lua', 'python', 'ruby', 'typescript']
 on_func     = ['nvim_lsp#setup']
 if          = 'has("nvim-0.5")'
+hook_add    = ''' "{{{
+  " This dict stores Neovim LSP's settings are loaded by filetypes.
+  let g:my_lsp_loaded = {}
+"}}} '''
 hook_source = ''' "{{{
   " debug print in ~/.local/share/nvim/vim-lsp.log
   "lua vim.lsp.set_log_level("debug")
@@ -643,7 +647,10 @@ hook_source = ''' "{{{
 
 [plugins.ftplugin]
 c = ''' "{{{
-  lua require'nvim_lsp'.clangd.setup{}
+  if !get(g:my_lsp_loaded, 'c')
+    let g:my_lsp_loaded.c = v:true
+    lua require'nvim_lsp'.clangd.setup{}
+  endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -651,7 +658,10 @@ c = ''' "{{{
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 cpp = ''' "{{{
-  lua require'nvim_lsp'.clangd.setup{}
+  if !get(g:my_lsp_loaded, 'cpp')
+    let g:my_lsp_loaded.cpp = v:true
+    lua require'nvim_lsp'.clangd.setup{}
+  endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -659,7 +669,10 @@ cpp = ''' "{{{
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 dockerfile = ''' "{{{
-  lua require'nvim_lsp'.dockerls.setup{}
+  if !get(g:my_lsp_loaded, 'dockerfile')
+    let g:my_lsp_loaded.dockerfile = v:true
+    lua require'nvim_lsp'.dockerls.setup{}
+  endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -667,17 +680,20 @@ dockerfile = ''' "{{{
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 go = ''' "{{{
-  lua << EOF
-    require'nvim_lsp'.gopls.setup{
-      settings = {
-        hoverKind = 'NoDocumentation';
-        deepCompletion = true;
-        fuzzyMatching = true;
-        completeUnimported = true;
-        usePlaceholders = true;
+  if !get(g:my_lsp_loaded, 'go')
+    let g:my_lsp_loaded.go = v:true
+    lua << EOF
+      require'nvim_lsp'.gopls.setup{
+        settings = {
+          hoverKind = 'NoDocumentation';
+          deepCompletion = true;
+          fuzzyMatching = true;
+          completeUnimported = true;
+          usePlaceholders = true;
+        }
       }
-    }
 EOF
+  endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   "nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   "nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -689,7 +705,10 @@ EOF
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>ALEGoToDefinition<CR>
 "}}} '''
 lua = ''' "{{{
-  lua require'nvim_lsp'.sumneko_lua.setup{}
+  if !get(g:my_lsp_loaded, 'lua')
+    let g:my_lsp_loaded.lua = v:true
+    lua require'nvim_lsp'.sumneko_lua.setup{}
+  endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -697,18 +716,21 @@ lua = ''' "{{{
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 python = ''' "{{{
-  lua <<EOF
-    require'nvim_lsp'.pyls_ms.setup{
-      init_options = {
-        interpreter = {
-          properties = {
-            InterpreterPath = '/usr/local/bin/python3';
-            Version = '3.7';
+  if !get(g:my_lsp_loaded, 'python')
+    let g:my_lsp_loaded.python = v:true
+    lua <<EOF
+      require'nvim_lsp'.pyls_ms.setup{
+        init_options = {
+          interpreter = {
+            properties = {
+              InterpreterPath = '/usr/local/bin/python3';
+              Version = '3.7';
+            }
           }
         }
       }
-    }
 EOF
+  endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -716,7 +738,10 @@ EOF
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 ruby = ''' "{{{
-  lua require'nvim_lsp'.solargraph.setup{}
+  if !get(g:my_lsp_loaded, 'ruby')
+    let g:my_lsp_loaded.ruby = v:true
+    lua require'nvim_lsp'.solargraph.setup{}
+  endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -724,7 +749,10 @@ ruby = ''' "{{{
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 typescript = ''' "{{{
-  lua require'nvim_lsp'.tsserver.setup{}
+  if !get(g:my_lsp_loaded, 'typescript')
+    let g:my_lsp_loaded.typescript = v:true
+    lua require'nvim_lsp'.tsserver.setup{}
+  endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   " TODO: LSP features does not work forMe ;( So use ALE instead.
   "nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
