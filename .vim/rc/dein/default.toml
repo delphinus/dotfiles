@@ -415,7 +415,7 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo = 'digitaltoad/vim-jade'
+repo = 'digitaltoad/vim-pug'
 
 [[plugins]]
 repo = 'isRuslan/vim-es6'
@@ -454,6 +454,11 @@ repo = 'asciidoc/vim-asciidoc'
 
 [[plugins]]
 repo = 'c9s/perlomni.vim'
+
+[[plugins]]
+#repo = 'dNitro/vim-pug-complete'
+repo = 'delphinus/vim-pug-complete'
+rev = 'feature/deoplete'
 
 [[plugins]]
 repo = 'dag/vim-fish'
