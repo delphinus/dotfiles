@@ -39,6 +39,7 @@ hook_post_source = ''' "{{{
         \   'perl': ['ale'],
         \ },
         \ 'keyword_patterns': {
+        \   '_': '\w\k*',
         \   'denite-filter': '[\w.-]*',
         \ }})
   call deoplete#custom#var('terminal', 'require_same_tab', v:false)
