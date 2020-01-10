@@ -245,6 +245,7 @@ denite = ''' "{{{
   nnoremap <silent><buffer><expr> <C-g>   denite#do_map('do_action', 'grep')
   nnoremap <silent><buffer><expr> <C-n>   denite#do_map('do_action', 'dwm_new')
   nnoremap <silent><buffer><expr> <C-s>   denite#do_map('change_sorters', 'sorter/rank,sorter/word')
+  nnoremap <silent><buffer><expr> <C-t>   denite#do_map('toggle_matchers', 'matcher/regexp')
   nnoremap <silent><buffer><expr> <C-x>   denite#do_map('quick_move')
   nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
   nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
@@ -263,6 +264,7 @@ denite-filter = ''' "{{{
   endif
   inoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
   inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+  inoremap <silent><buffer><expr> <C-s>   denite#do_map('change_sorters', 'sorter/rank,sorter/word')
   inoremap <silent><buffer><expr> <C-t>   denite#do_map('toggle_matchers', 'matcher/regexp')
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
 
