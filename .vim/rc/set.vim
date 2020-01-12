@@ -128,9 +128,9 @@ set wildmode=full
 " Neovim specific settings {{{
 if has('nvim')
   if has('nvim-0.5')
-    set fillchars=diff:░,eob:‣,fold:\ ,foldopen:▾,foldsep:│,foldclose:▸
+    set fillchars=diff:░,eob:‣,fold:░,foldopen:▾,foldsep:│,foldclose:▸
   else
-    set fillchars=diff:░,eob:‣,fold:\ 
+    set fillchars=diff:░,eob:‣,fold:░
   endif
   set pumblend=30  " transparency
   set shada=!,'1000,<50,s10,h  " Store 1000 entries on oldfiles
