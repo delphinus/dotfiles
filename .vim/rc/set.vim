@@ -2,11 +2,6 @@ scriptencoding utf-8
 
 " Encodings {{{
 set fileencoding=utf-8
-if !has('gui_running') && &encoding !=# 'cp932' && &term ==# 'win32'
-  set termencoding=cp932
-else
-  set termencoding=utf-8
-endif
 if !has('gui_macvim')
   set fileencodings=ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp
 endif
