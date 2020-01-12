@@ -204,7 +204,7 @@ hook_post_source = ''' "{{{
         \ 'matchers': 'matcher/fruzzy',
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
-        \ 'split': 'floating',
+        \ 'split': has('nvim') ? 'floating' : 'horizontal',
         \ 'start_filter': v:true,
         \ })
 
