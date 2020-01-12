@@ -584,17 +584,15 @@ repo     = 'easymotion/vim-easymotion'
 on_cmd   = ['EMCommandLineMap', 'EMCommandLineNoreMap', 'EMCommandLineUnMap']
 on_map   = ['<Plug>(easymotion-']
 hook_add = ''' "{{{
+  let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+  let g:EasyMotion_grouping = 1
+  let g:EasyMotion_use_migemo = 1
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
   map ' <Plug>(easymotion-prefix)
   nmap s <Plug>(easymotion-overwin-f2)
   xmap s <Plug>(easymotion-s2)
   omap s <Plug>(easymotion-s2)
-"}}} '''
-hook_source = ''' "{{{
-  let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
-  let g:EasyMotion_grouping =1
-  let g:EasyMotion_use_migemo = 1
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
 "}}} '''
 
 [[plugins]]
