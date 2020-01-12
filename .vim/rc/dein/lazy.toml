@@ -631,7 +631,7 @@ on_func = ['Artify']
 [[plugins]]
 repo        = 'neovim/nvim-lsp'
 on_cmd      = ['LspInstall', 'LspInstallInfo']
-on_ft       = ['c', 'cpp', 'dockerfile', 'go', 'lua', 'python', 'ruby', 'typescript']
+on_ft       = ['c', 'cpp', 'dockerfile', 'go', 'lua', 'python', 'ruby', 'typescript', 'yaml', 'vim']
 on_func     = ['nvim_lsp#setup']
 if          = 'has("nvim-0.5")'
 hook_add    = ''' "{{{
@@ -761,6 +761,20 @@ typescript = ''' "{{{
   nmap <buffer> <silent> gd         <Cmd>ALEGoToTypeDefinition<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>ALEGoToDefinition<CR>
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>ALEGoToDefinition<CR>
+"}}} '''
+yaml = ''' "{{{
+  if !get(g:my_lsp_loaded, 'yamlls')
+    let g:my_lsp_loaded.yamlls = v:true
+    lua require'nvim_lsp'.yamlls.setup{}
+  endif
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+"}}} '''
+vim = ''' "{{{
+  if !get(g:my_lsp_loaded, 'vim')
+    let g:my_lsp_loaded.vim = v:true
+    lua require'nvim_lsp'.vimls.setup{}
+  endif
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
 "}}} '''
 
 # }}}
