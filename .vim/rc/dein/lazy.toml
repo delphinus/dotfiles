@@ -12,7 +12,8 @@ hook_add   = ''' "{{{
     let winrow = &lines > winheight ? (&lines - winheight) / 2 : 0
     let winwidth = &columns > 240 ? &columns / 2 : 120
     let wincol = &columns > winwidth ? (&columns - winwidth) / 2 : 0
-    execute 'Deol -split=floating -winwidth=' . winwidth '-winheight=' . winheight '-winrow=' . winrow '-wincol=' . wincol
+    let split = has('nvim') ? '-split=floating' : ''
+    execute 'Deol' split '-winwidth=' . winwidth '-winheight=' . winheight '-winrow=' . winrow '-wincol=' . wincol
   endfunction
   nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR>
   nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR>

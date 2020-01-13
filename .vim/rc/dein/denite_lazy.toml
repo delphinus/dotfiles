@@ -204,7 +204,7 @@ hook_post_source = ''' "{{{
         \ 'matchers': 'matcher/fruzzy',
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
-        \ 'split': 'floating',
+        \ 'split': has('nvim') ? 'floating' : 'horizontal',
         \ 'start_filter': v:true,
         \ })
 
@@ -269,8 +269,10 @@ denite-filter = ''' "{{{
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
 
   " These mappings are not recommended in doc.
-  inoremap <silent><buffer> <C-j>   <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
-  inoremap <silent><buffer> <C-k>   <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
+  if has('nvim')
+    inoremap <silent><buffer> <C-j>   <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
+    inoremap <silent><buffer> <C-k>   <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
+  endif
 "}}} '''
 
 [[plugins]]

@@ -41,14 +41,13 @@ endfunction
 if !has('nvim')
   " s:map_alt_keys is for Vim. It defines special characters to behave as
   " <A-*> key bindings. Neovim does NOT need this. (See :h vim-diff)
-  " TODO: These bindings have no means in terminal windows.
   function! s:map_alt_keys() abort
     let code = 91  " '['
     while code <= 122  " 'z'
       let c = nr2char(code)
       let cc = toupper(c)
-      execute 'map <Esc>' . c . ' <A-' . c . '>'
-      execute 'map <Esc>' . cc . ' <A-' . cc . '>'
+      execute 'set <A-' . c . '>=' . c
+      execute 'set <A-' . cc . '>=' . cc
       let code = code + 1
     endwhile
   endfunction
