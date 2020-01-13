@@ -21,11 +21,13 @@ function __prompt_git_info
 
       # TODO: action
 
-      set ahead_and_behind (command git rev-list --count --left-right 'HEAD...@{upstream}')
-      set ahead (echo -n $ahead_and_behind | cut -f1)
-      set behind (echo -n $ahead_and_behind | cut -f2)
-      test $ahead -ne 0 ;and echo -n (set_color brmagenta)" ⬆ $ahead"(set_color normal)
-      test $behind -ne 0 ;and echo -n (set_color brmagenta)" ⬇ $behind"(set_color normal)
+      set ahead_and_behind (command git rev-list --count --left-right 'HEAD...@{upstream}' 2> /dev/null)
+      if test -n "$ahead_and_behind"
+        set ahead (echo -n $ahead_and_behind | cut -f1)
+        set behind (echo -n $ahead_and_behind | cut -f2)
+        test $ahead -ne 0 ;and echo -n (set_color brmagenta)" ⬆ $ahead"(set_color normal)
+        test $behind -ne 0 ;and echo -n (set_color brmagenta)" ⬇ $behind"(set_color normal)
+      end
     end
 
     functions -e _git_branch_info
