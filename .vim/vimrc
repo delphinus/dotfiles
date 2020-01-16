@@ -19,7 +19,7 @@ call s:load_rc('commands')            " ユーティリティコマンド
 
 " デフォルトプラグインを無効化
 let g:loaded_getscriptPlugin = 1
-let g:loaded_logipat = 1
+let g:loaded_logiPat = 1
 let g:loaded_rrhelper = 1
 let g:loaded_vimballPlugin = 1
 if ! has('gui_running')
