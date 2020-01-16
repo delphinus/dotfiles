@@ -44,6 +44,19 @@ json = ''' "{{{
   setlocal shiftwidth=4
   setlocal softtabstop=4
   setlocal nocursorcolumn
+  setlocal foldmethod=syntax
+  setlocal foldtext=JsonFoldText()
+
+  function! JsonFoldText() abort
+    let line = getline(v:foldstart)
+    let sub = substitute(line, '\v^\s+([^"]*")?', '', '')
+    let sub = substitute(sub, '\v("[^"]*)?\s*$', '', '')
+    let level = len(v:folddashes)
+    if level <= 12
+      let level = nr2char(0x2170 + level - 1) . ' '
+    endif
+    return printf('%s %3d 行: %s ', level, v:foldend - v:foldstart + 1, sub)
+  endfunction
 "}}} '''
 
 perl = ''' "{{{
