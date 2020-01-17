@@ -16,6 +16,7 @@
     force=yes
   with_items:
     - .config/direnv/direnvrc
+    - .config/fish
     - .config/gocode
     - .config/ipython
     - .config/peco
