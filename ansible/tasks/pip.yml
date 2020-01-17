@@ -2,7 +2,7 @@
 - dnf:
     name: gcc, python36-devel, rpm-build
   become: true
-  when: ansible_system == 'Linux'
+  when: ansible_system == 'Linux' and ansible_distribution === 'CentOS'
 - pip:
     name:
       - ansible-lint
