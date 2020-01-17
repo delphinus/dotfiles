@@ -11,6 +11,7 @@
     - include: tasks/terminfo.yml
     - include: tasks/pip.yml
     - include: tasks/homebrew.yml
+      when: ansible_system == 'Darwin'
     - include_tasks: tasks/secrets_office.yml
       when: ansible_hostname in secret_office.hostnames
 
