@@ -24,12 +24,6 @@ assert_user_paths \
   ~/.gem/ruby/2.3.0/bin \
   /usr/local/opt/llvm/bin/
 
-set gcsdk_path /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
-if test -d $gcsdk_path
-  source "$gcsdk_path/path.fish.inc"
-  bass source "$gcsdk_path/completion.bash.inc"
-end
-
 set nord0 2e3440
 set nord1 3b4252
 set nord2 434c5e
@@ -102,8 +96,6 @@ bind -m insert ct begin-selection forward-jump backward-selection end-selection
 bind -m insert cF begin-selection backward-jump kill-selection end-selection
 bind -m insert cT begin-selection backward-jump backward-selection end-selection
 
-direnv hook fish | source
-
 set -x EDITOR nvim
 set -x GIT_EDITOR nvim
 set -x VISUAL nvim
@@ -129,6 +121,16 @@ set -x PYTHONPATH \
   $HOME/.cache/dein/repos/github.com/Shougo/deol.nvim/rplugin/python3 \
   $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3 \
   /usr/local/Cellar/fontforge/*/lib/python3.7/site-packages
+
+set gcsdk_path /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+if test -d $gcsdk_path
+  source "$gcsdk_path/path.fish.inc"
+  bass source "$gcsdk_path/completion.bash.inc"
+end
+
+if type -q direnv > /dev/null
+  direnv hook fish | source
+end
 
 if test -f ~/.config/fish/config-local.fish
   source ~/.config/fish/config-local.fish
