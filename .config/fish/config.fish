@@ -71,7 +71,9 @@ alias ln 'ln -i'
 alias mv 'mv -i'
 alias rm 'rm -i'
 
-alias git hub
+if type -q hub
+  alias git hub
+end
 alias g git
 alias gf 'git foresta | less'
 alias gfa 'git foresta --all | less'
