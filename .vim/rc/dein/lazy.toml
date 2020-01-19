@@ -649,8 +649,8 @@ hook_source = ''' "{{{
 [plugins.ftplugin]
 c = ''' "{{{
   if !get(g:my_lsp_loaded, 'c')
-    let g:my_lsp_loaded.c = v:true
     lua require'nvim_lsp'.clangd.setup{}
+    let g:my_lsp_loaded.c = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
@@ -660,8 +660,8 @@ c = ''' "{{{
 "}}} '''
 cpp = ''' "{{{
   if !get(g:my_lsp_loaded, 'cpp')
-    let g:my_lsp_loaded.cpp = v:true
     lua require'nvim_lsp'.clangd.setup{}
+    let g:my_lsp_loaded.cpp = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
@@ -671,8 +671,8 @@ cpp = ''' "{{{
 "}}} '''
 dockerfile = ''' "{{{
   if !get(g:my_lsp_loaded, 'dockerfile')
-    let g:my_lsp_loaded.dockerfile = v:true
     lua require'nvim_lsp'.dockerls.setup{}
+    let g:my_lsp_loaded.dockerfile = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
@@ -682,7 +682,6 @@ dockerfile = ''' "{{{
 "}}} '''
 go = ''' "{{{
   if !get(g:my_lsp_loaded, 'go')
-    let g:my_lsp_loaded.go = v:true
     lua << EOF
       require'nvim_lsp'.gopls.setup{
         settings = {
@@ -694,6 +693,7 @@ go = ''' "{{{
         }
       }
 EOF
+    let g:my_lsp_loaded.go = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   "nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
@@ -707,8 +707,8 @@ EOF
 "}}} '''
 lua = ''' "{{{
   if !get(g:my_lsp_loaded, 'lua')
-    let g:my_lsp_loaded.lua = v:true
     lua require'nvim_lsp'.sumneko_lua.setup{}
+    let g:my_lsp_loaded.lua = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
@@ -718,7 +718,6 @@ lua = ''' "{{{
 "}}} '''
 python = ''' "{{{
   if !get(g:my_lsp_loaded, 'python')
-    let g:my_lsp_loaded.python = v:true
     lua <<EOF
       local path = vim.fn.exepath('python3')
 
@@ -743,6 +742,7 @@ python = ''' "{{{
         }
       }
 EOF
+    let g:my_lsp_loaded.python = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
@@ -752,8 +752,8 @@ EOF
 "}}} '''
 ruby = ''' "{{{
   if !get(g:my_lsp_loaded, 'ruby')
-    let g:my_lsp_loaded.ruby = v:true
     lua require'nvim_lsp'.solargraph.setup{}
+    let g:my_lsp_loaded.ruby = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
@@ -763,8 +763,8 @@ ruby = ''' "{{{
 "}}} '''
 typescript = ''' "{{{
   if !get(g:my_lsp_loaded, 'typescript')
-    let g:my_lsp_loaded.typescript = v:true
     lua require'nvim_lsp'.tsserver.setup{}
+    let g:my_lsp_loaded.typescript = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
   " TODO: LSP features does not work forMe ;( So use ALE instead.
@@ -779,15 +779,15 @@ typescript = ''' "{{{
 "}}} '''
 yaml = ''' "{{{
   if !get(g:my_lsp_loaded, 'yamlls')
-    let g:my_lsp_loaded.yamlls = v:true
     lua require'nvim_lsp'.yamlls.setup{}
+    let g:my_lsp_loaded.yamlls = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
 "}}} '''
 vim = ''' "{{{
   if !get(g:my_lsp_loaded, 'vim')
-    let g:my_lsp_loaded.vim = v:true
     lua require'nvim_lsp'.vimls.setup{}
+    let g:my_lsp_loaded.vim = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
 "}}} '''
