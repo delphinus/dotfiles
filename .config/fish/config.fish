@@ -18,7 +18,7 @@ assert_user_paths \
   ~/git/dotfiles/bin \
   ~/Library/Python/3.7/bin \
   ~/.gem/ruby/2.3.0/bin \
-  /usr/local/opt/llvm/bin/
+  /usr/local/opt/llvm/bin
 
 set nord0 2e3440
 set nord1 3b4252
@@ -67,13 +67,13 @@ alias ln 'ln -i'
 alias mv 'mv -i'
 alias rm 'rm -i'
 
-type -q hub; and alias git hub
 alias g git
 alias gf 'git foresta | less'
 alias gfa 'git foresta --all | less'
-
 alias l. 'l -d .*'
 alias nvr 'nvr -cc split'
+
+type -q hub; and alias git hub
 type -q gdircolors; and alias dircolors gdircolors
 
 test "$fish_key_bindings" != 'fish_hybrid_key_bindings'; and fish_hybrid_key_bindings
@@ -124,11 +124,8 @@ if test -d $gcsdk_path
 end
 
 type -q direnv; and direnv hook fish | source
-
-test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
-
+type -q gosshauth; and gosshauth hook fish | source
 type -q plenv; and source (plenv init -| psub)
-
 type -q goenv; and source (goenv init -| psub)
 
-type -q gosshauth; and gosshauth hook fish | source
+test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
