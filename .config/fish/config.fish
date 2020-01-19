@@ -81,6 +81,8 @@ test "$fish_key_bindings" != 'fish_hybrid_key_bindings'; and fish_hybrid_key_bin
 set FZF_DEFAULT_OPTS '--border --inline-info --prompt="❯❯❯ " --height=40%'
 bind \c] fzf_ghq
 bind -M insert \c] fzf_ghq
+bind \cx\c] fzf_ghq_insert
+bind -M insert \cx\c] fzf_ghq_insert
 
 bind \ct fzf_z
 bind -M insert \ct fzf_z
