@@ -1,13 +1,9 @@
-if ! status is-interactive
-  exit 0
-end
+not status is-interactive; and exit 0
 
 function assert_user_paths --description 'assert $fish_user_paths contains the path'
   for i in $argv
     if not contains $i $fish_user_paths
-      if test -d $i
-        set -U fish_user_paths $i $fish_user_paths
-      end
+      test -d $i; and set -U fish_user_paths $i $fish_user_paths
     end
   end
 end
@@ -71,21 +67,16 @@ alias ln 'ln -i'
 alias mv 'mv -i'
 alias rm 'rm -i'
 
-if type -q hub
-  alias git hub
-end
+type -q hub; and alias git hub
 alias g git
 alias gf 'git foresta | less'
 alias gfa 'git foresta --all | less'
 
 alias l. 'l -d .*'
 alias nvr 'nvr -cc split'
-if type -q gdircolors
-  alias dircolors gdircolors
-end
+type -q gdircolors; and alias dircolors gdircolors
 
-test "$fish_key_bindings" != 'fish_hybrid_key_bindings'
-  and fish_hybrid_key_bindings
+test "$fish_key_bindings" != 'fish_hybrid_key_bindings'; and fish_hybrid_key_bindings
 
 set FZF_DEFAULT_OPTS '--border --inline-info --prompt="❯❯❯ " --height=40%'
 bind \c] fzf_ghq
@@ -132,22 +123,12 @@ if test -d $gcsdk_path
   bass source "$gcsdk_path/completion.bash.inc"
 end
 
-if type -q direnv > /dev/null
-  direnv hook fish | source
-end
+type -q direnv; and direnv hook fish | source
 
-if test -f ~/.config/fish/config-local.fish
-  source ~/.config/fish/config-local.fish
-end
+test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
 
-if type -q plenv > /dev/null
-  source (plenv init -| psub)
-end
+type -q plenv; and source (plenv init -| psub)
 
-if type -q goenv > /dev/null
-  source (goenv init -| psub)
-end
+type -q goenv; and source (goenv init -| psub)
 
-if type -q gosshauth
-  gosshauth hook fish | source
-end
+type -q gosshauth; and gosshauth hook fish | source
