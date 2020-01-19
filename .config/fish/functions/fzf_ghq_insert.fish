@@ -1,4 +1,4 @@
-function fzf_ghq_insert --description 'Move with FZF + ghq'
+function fzf_ghq_insert --description 'Insert with FZF + ghq'
   set select (ghq list --full-path | \
     perl -pe 's,$ENV{HOME},~,' | \
     eval "fzf $FZF_DEFAULT_OPTS" | \
