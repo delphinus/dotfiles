@@ -80,7 +80,9 @@ alias gfa 'git foresta --all | less'
 
 alias l. 'l -d .*'
 alias nvr 'nvr -cc split'
-alias dircolors gdircolors
+if type -q gdircolors
+  alias dircolors gdircolors
+end
 
 test "$fish_key_bindings" != 'fish_hybrid_key_bindings'
   and fish_hybrid_key_bindings
