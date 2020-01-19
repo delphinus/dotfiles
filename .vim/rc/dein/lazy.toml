@@ -718,12 +718,24 @@ python = ''' "{{{
   if !get(g:my_lsp_loaded, 'python')
     let g:my_lsp_loaded.python = v:true
     lua <<EOF
+      local path = vim.fn.exepath('python3')
+
+      if not path then
+        error('python3 executable not found')
+      end
+
+      -- This is from pyls_ms.get_python_version()
+      local f = io.popen(path .. ' --version')
+      local l = f:read('*a')
+      f:close()
+      local version = l:match('^Python%s*(...).*%s*$')
+
       require'nvim_lsp'.pyls_ms.setup{
         init_options = {
           interpreter = {
             properties = {
-              InterpreterPath = '/usr/local/bin/python3';
-              Version = '3.7';
+              InterpreterPath = path;
+              Version = version;
             }
           }
         }
