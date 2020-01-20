@@ -469,9 +469,7 @@ repo = 'asciidoc/vim-asciidoc'
 repo = 'c9s/perlomni.vim'
 
 [[plugins]]
-#repo = 'dNitro/vim-pug-complete'
-repo = 'delphinus/vim-pug-complete'
-rev = 'feature/deoplete'
+repo = 'dNitro/vim-pug-complete'
 
 [[plugins]]
 repo = 'dag/vim-fish'
