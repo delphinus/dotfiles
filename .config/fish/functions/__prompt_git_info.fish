@@ -12,22 +12,26 @@ function __prompt_git_info
     set branch (command git symbolic-ref HEAD 2> /dev/null | perl -pe 's,^refs/heads/,,')
     if test -n "$branch"
       echo -n (set_color --bold green)$branch(set_color normal)
+    end
 
-      set position (command git describe --contains --all HEAD 2> /dev/null)
+    set position (command git describe --contains --all HEAD 2> /dev/null)
+    if test "$branch" != "$position"
       echo -n (set_color brmagenta) $position(set_color normal)
+    else if test -z "$branch"
+      echo -n (set_color brmagenta)$position(set_color normal)
+    end
 
-      set commit (command git rev-parse HEAD 2> /dev/null | cut -c-7)
-      echo -n (set_color yellow) $commit(set_color normal)
+    set commit (command git rev-parse HEAD 2> /dev/null | cut -c-7)
+    echo -n (set_color yellow) $commit(set_color normal)
 
-      # TODO: action
+    # TODO: action
 
-      set ahead_and_behind (command git rev-list --count --left-right 'HEAD...@{upstream}' 2> /dev/null)
-      if test -n "$ahead_and_behind"
-        set ahead (echo -n $ahead_and_behind | cut -f1)
-        set behind (echo -n $ahead_and_behind | cut -f2)
-        test $ahead -ne 0 ;and echo -n (set_color brmagenta)" ⬆ $ahead"(set_color normal)
-        test $behind -ne 0 ;and echo -n (set_color brmagenta)" ⬇ $behind"(set_color normal)
-      end
+    set ahead_and_behind (command git rev-list --count --left-right 'HEAD...@{upstream}' 2> /dev/null)
+    if test -n "$ahead_and_behind"
+      set ahead (echo -n $ahead_and_behind | cut -f1)
+      set behind (echo -n $ahead_and_behind | cut -f2)
+      test $ahead -ne 0 ;and echo -n (set_color brmagenta)" ⬆ $ahead"(set_color normal)
+      test $behind -ne 0 ;and echo -n (set_color brmagenta)" ⬇ $behind"(set_color normal)
     end
 
     functions -e _git_branch_info
