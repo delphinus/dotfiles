@@ -61,7 +61,7 @@ ignore_names_re = %r{
   \.sqlite$ |
   \.tmux/plugins |
   \.tmux/resurrect |
-  \.zprezto/modules/completion/external/src
+  \.zprezto/modules |
   \A\.?vim/dict/ |
   \A\.?vim/view/ |
   \A\.git/ |
@@ -69,6 +69,7 @@ ignore_names_re = %r{
   \A\.zsh/zsh-notify/ |
   \Abin/local_perl\.sh\z |
   \Asubmodules/ |
+  \bmigemo-dict\b |
   \bnode_modules\b
 }x
 
