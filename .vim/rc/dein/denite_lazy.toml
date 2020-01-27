@@ -86,12 +86,12 @@ hook_add = ''' "{{{
   noremap zN :<C-u>DeniteProjectDir -expand my_file my_file:new<CR>
   noremap zP :<C-u>Denite node_modules<CR>
   noremap zS :<C-u>Denite scriptnames<CR>
-  noremap zT :<C-u>call <SID>my_denite_file_rec_goroot()<CR>
+  noremap zT :<C-u>Denite z<CR>
   noremap zU :<C-u>Denite -resume<CR>
   noremap zY :<C-u>Denite -default-action=delete miniyank<CR>
   noremap zZ :<C-u>Denite buffer -input=term:// -immediately<CR>
   noremap za :<C-u>Denite -expand file/rec<CR>
-  noremap zd :<C-u>Denite z<CR>
+  noremap zd :<C-u>Denite dwm:no-current:all<CR>
   noremap ze :<C-u>Denite memo/grep::!<CR>
   noremap zg :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
   noremap zh :<C-u>Denite ghq<CR>
