@@ -120,6 +120,7 @@ set -x PYTHONPATH \
   $HOME/.cache/dein/repos/github.com/Shougo/deol.nvim/rplugin/python3 \
   $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3 \
   /usr/local/Cellar/fontforge/*/lib/python3.7/site-packages
+set -x MYPYPATH $PYTHONPATH
 
 set gcsdk_path /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 if test -d $gcsdk_path
