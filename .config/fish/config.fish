@@ -114,8 +114,9 @@ set -x GO111MODULE on
 
 set -x PYTHONPATH \
   ./src \
+  ./rplugin/python3 \
   $HOME/.cache/dein/repos/github.com/Shougo/defx.nvim/rplugin/python3 \
-  $HOME/.cache/dein/repos/github.com/Shougo/denite.nvim/rplugin/pythonh3 \
+  $HOME/.cache/dein/repos/github.com/Shougo/denite.nvim/rplugin/python3 \
   $HOME/.cache/dein/repos/github.com/Shougo/deol.nvim/rplugin/python3 \
   $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3 \
   /usr/local/Cellar/fontforge/*/lib/python3.7/site-packages
