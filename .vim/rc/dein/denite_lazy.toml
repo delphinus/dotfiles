@@ -298,6 +298,10 @@ repo      = 'delphinus/vim-denite-scriptnames'
 on_source = ['denite.nvim']
 
 [[plugins]]
+repo      = 'delphinus/vim-denite-window'
+on_source = ['denite.nvim']
+
+[[plugins]]
 repo      = 'neoclide/denite-git'
 on_source = ['denite.nvim', 'my-denite-sources']
 depends   = ['vim-easygit']
