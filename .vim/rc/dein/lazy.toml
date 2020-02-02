@@ -3,10 +3,10 @@
 repo       = 'Shougo/deol.nvim'
 on_command = ['Deol']
 on_map     = ['<Plug>(deol']
+if         = 0  # TODO: use floaterm instead
 hook_add   = ''' "{{{
   let g:deol#enable_dir_changed = 0
 
-  tnoremap <BS><C-n> <C-\><C-n>
   function! s:open_deol() abort
     let winheight = &lines > 52 ? &lines / 4 * 3 : 40
     let winrow = &lines > winheight ? (&lines - winheight) / 2 : 0
@@ -15,10 +15,23 @@ hook_add   = ''' "{{{
     let split = has('nvim') ? '-split=floating' : ''
     execute 'Deol' split '-winwidth=' . winwidth '-winheight=' . winheight '-winrow=' . winrow '-wincol=' . wincol
   endfunction
-  nnoremap <C-\><C-n> :<C-u>call <SID>open_deol()<CR>
-  nnoremap <BS><C-n> :<C-u>call <SID>open_deol()<CR>
-  tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)
+
+  function! s:close_quit_deol() abort
+    if exists('t:deol')
+      let win = bufwinnr(t:deol.bufnr)
+      if win > -1
+        execute win . 'q'
+      endif
+    endif
+  endfunction
+
+  tnoremap <BS><C-n> <C-\><C-n>
+  nnoremap <silent> <BS><C-n> :<C-u>call <SID>open_deol()<CR>
+  nnoremap <silent> <C-\><C-n> :<C-u>call <SID>open_deol()<CR>
   nmap <A-z><A-z> <Plug>(deol_bg)
+  tmap <A-z><A-z> <C-\><C-n><Plug>(deol_bg)
+  nmap <silent> <A-c> :<C-u>call <SID>close_quit_deol()<CR>
+  tmap <silent> <A-c> <C-\><C-n>:<C-u>call <SID>close_quit_deol()<CR>
 "}}} '''
 
 [plugins.ftplugin]
