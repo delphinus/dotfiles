@@ -42,7 +42,7 @@ set ambiwidth=single
 set cmdheight=2
 set colorcolumn=80,140
 set list
-set listchars=tab:░\ ,trail:↔,eol:⏎,extends:→,precedes:←,nbsp:␣
+set listchars=tab:▓░,trail:↔,eol:⏎,extends:→,precedes:←,nbsp:␣
 set noruler
 set noshowmode
 set number
@@ -134,16 +134,6 @@ if has('nvim')
   endif
   set pumblend=30  " transparency
   set shada=!,'1000,<50,s10,h  " Store 1000 entries on oldfiles
-  if exists('$TMUX')
-    let g:clipboard = {
-          \ 'name': 'tmux-clipboard',
-          \ 'copy': {
-          \   '*': 'tmux load-buffer -',
-          \ },
-          \ 'paste': {
-          \   '*': 'tmux save-buffer -',
-          \ }}
-  endif
 else
   set autoindent
   set backspace=indent,eol,start

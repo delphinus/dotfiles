@@ -5,12 +5,6 @@ if exists('&termwinkey')
   set termwinkey=<A-w>
 endif
 
-" Deol setting
-if !dein#tap('deol.nvim')
-  " open terminal in new window (<C-N> should be mapped to <Plug>DWMNew)
-  nmap <C-\><C-N> <C-N>:terminal ++close ++curwin<CR>
-endif
-
 augroup terminal-autocmd
   autocmd!
   if has('nvim')
@@ -28,15 +22,6 @@ augroup terminal-autocmd
     autocmd WinLeave * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusLost % | endif
   endif
 augroup END
-
-function! s:close_quit_deol() abort
-  if exists('t:deol')
-    let win = bufwinnr(t:deol.bufnr)
-    if win > -1
-      execute win . 'q'
-    endif
-  endif
-endfunction
 
 if !has('nvim')
   " s:map_alt_keys is for Vim. It defines special characters to behave as
@@ -56,7 +41,6 @@ if !has('nvim')
 endif
 
 " mapping for normal <A-> modifier
-tmap <silent> <A-c> <C-\><C-n>:<C-u>call <SID>close_quit_deol()<CR>
 tmap <A-j> <C-\><C-n><C-j>
 tmap <A-k> <C-\><C-n><C-k>
 tmap <A-o> <C-\><C-n><C-w>oi
@@ -66,7 +50,6 @@ tmap <A-CR> <C-\><C-n><A-CR>
 tmap <A-;> <C-\><C-n>:
 tmap <A-t> <C-\><C-n>gt
 tnoremap <expr> <A-r> '<C-\><C-n>"'.nr2char(getchar()).'pi'
-nmap <silent> <A-c> :<C-u>call <SID>close_quit_deol()<CR>
 nmap <A-j> <C-j>
 nmap <A-k> <C-k>
 nmap <A-o> <C-w>o
