@@ -42,7 +42,7 @@ set ambiwidth=single
 set cmdheight=2
 set colorcolumn=80,140
 set list
-set listchars=tab:░\ ,trail:↔,eol:⏎,extends:→,precedes:←,nbsp:␣
+set listchars=tab:▓░,trail:↔,eol:⏎,extends:→,precedes:←,nbsp:␣
 set noruler
 set noshowmode
 set number
