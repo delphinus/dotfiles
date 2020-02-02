@@ -320,3 +320,40 @@ hook_post_update = 'call fruzzy#install()'
 [[plugins]]
 repo      = 'rafi/vim-denite-z'
 on_source = ['denite.nvim']
+
+[[plugins]]
+repo      = 'voldikss/vim-floaterm'
+on_cmd    = ['FloatermNew', 'FloatermPrev', 'FloatermNext', 'FloatermToggle']
+on_source = ['denite.nvim']
+hook_add  = ''' "{{{
+  let g:floaterm_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+  "let g:floaterm_borderchars = ['═', '║', '═', '║', '╔', '╗', '╝', '╚']
+  let g:floaterm_position = 'center'
+  let g:floaterm_winblend = 30
+  tnoremap <BS><C-n> <C-\><C-n>
+  if has('nvim')
+    nnoremap <C-\><C-n> <Cmd>FloatermToggle<CR>
+    nnoremap <BS><C-n> <Cmd>FloatermToggle<CR>
+    nnoremap <A-c> <Cmd>FloatermToggle<CR>
+    tnoremap <A-c> <Cmd>FloatermToggle<CR>
+    nnoremap <A-n> <Cmd>FloatermNew<CR>
+    tnoremap <A-n> <Cmd>FloatermNew<CR>
+    nnoremap <A-f> <Cmd>Denite floaterm floaterm:new -auto-action=preview<CR>
+    tnoremap <A-f> <Cmd>Denite floaterm floaterm:new -auto-action=preview<CR>
+  else
+    nnoremap <C-\><C-n> :FloatermToggle<CR>
+    nnoremap <BS><C-n> :FloatermToggle<CR>
+    nnoremap <A-c> :FloatermToggle<CR>
+    tnoremap <A-c> <C-\><C-n>:FloatermToggle<CR>
+    nnoremap <A-n> :FloatermNew<CR>
+    tnoremap <A-n> <C-\><C-n>:FloatermNew<CR>
+    nnoremap <A-f> :Denite floaterm floaterm:new -auto-action=preview<CR>
+    tnoremap <A-f> <C-\><C-n>:Denite floaterm floaterm:new -auto-action=preview<CR>
+  endif
+"}}} '''
+
+[plugins.ftplugin]
+floaterm = ''' "{{{
+  let b:dwm_disabled = 1
+  setlocal nocursorline
+"}}} '''
