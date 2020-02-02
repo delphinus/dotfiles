@@ -205,7 +205,6 @@ hook_post_source = ''' "{{{
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
         \ 'split': has('nvim') ? 'floating' : 'horizontal',
-        \ 'start_filter': v:true,
         \ })
 
   function! s:denite_detect_size() abort
