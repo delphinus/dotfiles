@@ -9,14 +9,14 @@ augroup terminal-autocmd
   autocmd!
   if has('nvim')
     " set option for terminals
-    autocmd TermOpen term://* setlocal scrolloff=0 nonumber norelativenumber | startinsert
+    autocmd TermOpen term://* setlocal scrolloff=0 nonumber norelativenumber nocursorline | startinsert
     " change to insert mode if in terminal
     autocmd WinEnter term://* startinsert
     " invoke focus events in/out terminals
     autocmd WinEnter term://* doautocmd <nomodeline> FocusGained %
     autocmd WinLeave term://* doautocmd <nomodeline> FocusLost % 
   else
-    autocmd TerminalOpen * setlocal scrolloff=0 nonumber norelativenumber nolist colorcolumn=0 | normal i
+    autocmd TerminalOpen * setlocal scrolloff=0 nonumber norelativenumber nolist colorcolumn=0 nocursorline | normal i
     autocmd WinEnter * if &buftype ==# 'terminal' | normal i | endif
     autocmd WinEnter * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusGained % | endif
     autocmd WinLeave * if &buftype ==# 'terminal' | doautocmd <nomodeline> FocusLost % | endif
