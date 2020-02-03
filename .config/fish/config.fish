@@ -132,5 +132,6 @@ type -q direnv; and direnv hook fish | source
 type -q gosshauth; and gosshauth hook fish | source
 type -q plenv; and source (plenv init -| psub)
 type -q goenv; and source (goenv init -| psub)
+type -q nodenv; and source (nodenv init -| psub)
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
