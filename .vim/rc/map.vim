@@ -25,3 +25,18 @@ augroup END
 
 " オリジナル関数のマッピング
 nmap Y <Plug>DelphinusFsshCopy
+
+" When editing a file, always jump to the last known cursor position. Don't do
+" it when the position is invalid or when inside an event handler (happens
+" when dropping a file on gvim).
+function s:jump_to_last_pos() abort
+  let last_pos = line("'\"")
+  if last_pos >= 1 && last_pos <= line('$')
+    execute 'normal! g`"'
+  endif
+endfunction
+
+augroup JumpToTheLastPosition
+  autocmd!
+  autocmd BufReadPost * call <SID>jump_to_last_pos()
+augroup END

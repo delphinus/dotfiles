@@ -125,6 +125,37 @@ set virtualedit=block
 set wildmode=full
 " }}}
 
+" OS specific {{{
+if has('osx')
+  " Use Japanese for menus on macOS.
+  " This is needed to be set before showing menus.
+  set langmenu=ja_ja.utf-8.macvim
+
+  " Set iskeyword to manage CP932 texts on macOS
+  set iskeyword=@,48-57,_,128-167,224-235
+
+  " For printing
+  set printmbfont=r:HiraMinProN-W3,b:HiraMinProN-W6
+  set printencoding=utf-8
+  set printmbcharset=UniJIS
+endif
+
+" Set guioptions in case menu.vim does not exist.
+if has('gui_running') && !filereadable($VIMRUNTIME . '/menu.vim')
+  set guioptions+=M
+endif
+
+" Exclude some $TERM not to communicate with X servers.
+if !has('gui_running') && has('xterm_clipboard')
+  set clipboard=exclude:cons\\\|linux\\\|cygwin\\\|rxvt\\\|screen
+endif
+
+" Set $VIM into $PATH to search vim.exe itself.
+if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
+  let $PATH = $VIM . ';' . $PATH
+endif
+" }}}
+
 " Neovim specific settings {{{
 if has('nvim')
   if has('nvim-0.5')
