@@ -10,7 +10,7 @@ if &runtimepath !~# '/dein.vim'
   execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-let g:dein#install_progress_type = 'title'
+let g:dein#install_progress_type = has('nvim') ? 'title' : 'tabline'
 let g:dein#enable_notification = 1
 
 if dein#load_state(s:dein_dir)
