@@ -91,7 +91,7 @@ hook_add = ''' "{{{
   noremap zY :<C-u>Denite -default-action=delete miniyank<CR>
   noremap zZ :<C-u>Denite buffer -input=term:// -immediately<CR>
   noremap za :<C-u>Denite -expand file/rec<CR>
-  noremap zd :<C-u>Denite dwm:no-current:all<CR>
+  noremap zd :<C-u>Denite -buffer-name=dwm dwm:no-current:all<CR>
   noremap ze :<C-u>Denite memo/grep::!<CR>
   noremap zg :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
   noremap zh :<C-u>Denite ghq<CR>
@@ -255,6 +255,10 @@ denite = ''' "{{{
   nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
   nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
   nnoremap <silent><buffer><expr> q       denite#do_map('quit')
+
+  if b:denite.buffer_name is 'dwm'
+    nnoremap <silent><buffer><expr> o denite#do_map('do_action', 'only')
+  endif
 "}}} '''
 denite-filter = ''' "{{{
   let b:dwm_disabled = 1
