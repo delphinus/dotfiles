@@ -112,6 +112,15 @@ hook_add = ''' "{{{
 "}}} '''
 hook_post_source = ''' "{{{
   function! s:dwm_new(context)
+    let target = a:context['targets'][0]
+    for w in range(1, winnr('$'))
+      let bufnr = winbufnr(w)
+      let path = fnamemodify(bufname(bufnr), ':p')
+      if path ==# target['action__path']
+        call DWM_Focus()
+        return
+      endif
+    endfor
     call DWM_New()
     call denite#do_action(a:context, 'open', a:context['targets'])
   endfunction
@@ -238,6 +247,7 @@ denite = ''' "{{{
   endif
   nnoremap <silent><buffer> <C-j> j
   nnoremap <silent><buffer> <C-k> k
+  nnoremap <silent><buffer><expr> <A-c>   denite#do_map('quit')
   nnoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
   nnoremap <silent><buffer><expr> <C-a>   denite#do_map('do_action', 'file/rec')
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
@@ -267,6 +277,7 @@ denite-filter = ''' "{{{
   if exists('&winblend')
     setlocal winblend=30
   endif
+  nnoremap <silent><buffer><expr> <A-c>   denite#do_map('quit')
   inoremap <silent><buffer><expr> <BS>    denite#do_map('move_up_path')
   inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
   inoremap <silent><buffer><expr> <C-s>   denite#do_map('change_sorters', 'sorter/rank,sorter/word')
@@ -326,7 +337,9 @@ repo      = 'rafi/vim-denite-z'
 on_source = ['denite.nvim']
 
 [[plugins]]
-repo      = 'voldikss/vim-floaterm'
+#repo      = 'voldikss/vim-floaterm'
+repo      = 'delphinus/vim-floaterm'
+rev       = 'feature/show-last-preview'
 on_cmd    = ['FloatermNew', 'FloatermPrev', 'FloatermNext', 'FloatermToggle']
 on_source = ['denite.nvim']
 hook_add  = ''' "{{{
