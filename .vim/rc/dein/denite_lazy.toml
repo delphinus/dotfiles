@@ -113,14 +113,17 @@ hook_add = ''' "{{{
 hook_post_source = ''' "{{{
   function! s:dwm_new(context)
     let target = a:context['targets'][0]
-    for w in range(1, winnr('$'))
-      let bufnr = winbufnr(w)
-      let path = fnamemodify(bufname(bufnr), ':p')
-      if path ==# target['action__path']
-        call DWM_Focus()
-        return
-      endif
-    endfor
+    let action_path = get(target, 'action__path', '')
+    if action_path isnot ''
+      for w in range(1, winnr('$'))
+        let bufnr = winbufnr(w)
+        let path = fnamemodify(bufname(bufnr), ':p')
+        if path ==# action_path
+          call DWM_Focus()
+          return
+        endif
+      endfor
+    endif
     call DWM_New()
     call denite#do_action(a:context, 'open', a:context['targets'])
   endfunction
