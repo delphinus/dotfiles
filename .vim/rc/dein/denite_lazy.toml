@@ -125,8 +125,12 @@ hook_post_source = ''' "{{{
         endif
       endfor
     endif
-    call DWM_New()
-    call denite#do_action(a:context, 'open', a:context['targets'])
+    if get(target, 'action__command', '') is ''
+      call DWM_New()
+      call denite#do_action(a:context, 'open', a:context['targets'])
+    else
+      call denite#do_action(a:context, 'execute', a:context['targets'])
+    endif
   endfunction
 
   " from doc
@@ -197,7 +201,7 @@ hook_post_source = ''' "{{{
   call denite#custom#var('my_file_rec', 'command', file_rec_cmd)
   call denite#custom#var('file/rec', 'command', file_rec_cmd)
 
-  call denite#custom#action('buffer,directory,file,memo,openable', 'dwm_new', function('s:dwm_new'))
+  call denite#custom#action('buffer,directory,file,memo,openable,command', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer,directory,file,openable', 'my_file_rec', function('s:candidate_file_rec'))
   call denite#custom#action('buffer,directory,file,openable', 'file/rec', function('s:candidate_file_rec'))
   call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
