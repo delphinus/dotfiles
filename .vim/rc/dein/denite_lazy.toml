@@ -119,6 +119,7 @@ hook_post_source = ''' "{{{
         let bufnr = winbufnr(w)
         let path = fnamemodify(bufname(bufnr), ':p')
         if path ==# action_path
+          execute w . 'wincmd w'
           call DWM_Focus()
           return
         endif
