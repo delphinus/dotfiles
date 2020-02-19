@@ -5,11 +5,9 @@
   when: ansible_system == 'Linux' and ansible_distribution == 'CentOS'
 - pip:
     name:
-      - ansible-lint
       - iterm2
       - neovim-remote
       - vint
-      - yamllint
     executable: pip3
     extra_args: --user
     state: latest
