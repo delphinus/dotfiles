@@ -216,12 +216,14 @@ hook_post_source = ''' "{{{
         \ 'cached_filter': v:true,
         \ 'cursor_shape': v:true,
         \ 'cursor_wrap': v:true,
+        \ 'floating_preview': v:true,
         \ 'highlight_filter_background': 'DeniteFilter',
         \ 'highlight_matched_char': 'Underlined',
         \ 'matchers': 'matcher/fuzzy',
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
         \ 'split': has('nvim') ? 'floating' : 'horizontal',
+        \ 'vertical_preview': v:true,
         \ })
 
   function! s:denite_detect_size() abort
