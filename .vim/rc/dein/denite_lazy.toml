@@ -340,8 +340,8 @@ on_source = ['denite.nvim']
 [[plugins]]
 #repo      = 'voldikss/vim-floaterm'
 repo      = 'delphinus/vim-floaterm'
-rev       = 'feature/show-last-preview'
-on_cmd    = ['FloatermNew', 'FloatermPrev', 'FloatermNext', 'FloatermToggle']
+rev = 'feature/clean-up-denite'
+on_cmd    = ['FloatermNew', 'FloatermPrev', 'FloatermNext', 'FloatermToggle', 'FloatermInfo']
 on_source = ['denite.nvim']
 hook_add  = ''' "{{{
   let g:floaterm_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
