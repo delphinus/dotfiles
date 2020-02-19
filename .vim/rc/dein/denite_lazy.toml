@@ -2,7 +2,7 @@
 repo     = 'Shougo/denite.nvim'
 on_cmd   = ['Denite', 'DeniteBufferDir', 'DeniteCursorWord']
 on_func  = ['denite#']
-depends  = ['dwm.vim', 'fruzzy']
+depends  = ['dwm.vim']
 hook_add = ''' "{{{
   if has('nvim')
     let s:denite_cursorline = ''
@@ -330,15 +330,6 @@ depends   = ['vim-easygit']
 
 [[plugins]]
 repo = 'neoclide/vim-easygit'
-
-[[plugins]]
-repo      = 'raghur/fruzzy'
-on_source = ['denite.nvim']
-hook_add  = ''' "{{{
-  let g:fruzzy#usenative = 1
-  let g:fruzzy#sortonempty = 0
-"}}} '''
-hook_post_update = 'call fruzzy#install()'
 
 [[plugins]]
 repo      = 'rafi/vim-denite-z'
