@@ -338,9 +338,7 @@ repo      = 'rafi/vim-denite-z'
 on_source = ['denite.nvim']
 
 [[plugins]]
-#repo      = 'voldikss/vim-floaterm'
-repo      = 'delphinus/vim-floaterm'
-rev = 'feature/clean-up-denite'
+repo      = 'voldikss/vim-floaterm'
 on_cmd    = ['FloatermNew', 'FloatermPrev', 'FloatermNext', 'FloatermToggle', 'FloatermInfo']
 on_source = ['denite.nvim']
 hook_add  = ''' "{{{
