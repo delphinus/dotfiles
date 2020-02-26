@@ -10,6 +10,11 @@ if index(['{{ secret_office.vm_hostnames | join("', '") }}'], hostname()) > -1
 {{ secret_vim_setting }}
 endif
 
+augroup SpecialIndent
+  autocmd!
+  autocmd FileType json if expand('%:p') =~# '{{ secret_special_indent_json }}' | se ts=3 sts=3 sw=3 | endif
+augroup END
+
 let g:WebDevIconsOS = '{{ ansible_system }}'
 
 " for fugitive & rhubarb
