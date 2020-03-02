@@ -201,7 +201,7 @@ hook_post_source = ''' "{{{
   call denite#custom#var('my_file_rec', 'command', file_rec_cmd)
   call denite#custom#var('file/rec', 'command', file_rec_cmd)
 
-  call denite#custom#action('buffer,directory,file,memo,openable,command', 'dwm_new', function('s:dwm_new'))
+  call denite#custom#action('buffer,directory,file,memo,openable,command,ref', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer,directory,file,openable', 'my_file_rec', function('s:candidate_file_rec'))
   call denite#custom#action('buffer,directory,file,openable', 'file/rec', function('s:candidate_file_rec'))
   call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
@@ -335,6 +335,12 @@ repo = 'neoclide/vim-easygit'
 
 [[plugins]]
 repo      = 'rafi/vim-denite-z'
+on_source = ['denite.nvim']
+
+[[plugins]]
+#repo = 'thinca/vim-ref'
+repo = 'delphinus/vim-ref'
+rev = 'feature/denite'
 on_source = ['denite.nvim']
 
 [[plugins]]
