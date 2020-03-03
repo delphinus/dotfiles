@@ -350,6 +350,7 @@ on_source = ['denite.nvim']
 hook_add  = ''' "{{{
   let g:floaterm_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
   "let g:floaterm_borderchars = ['═', '║', '═', '║', '╔', '╗', '╝', '╚']
+  let g:floaterm_open_command = 'split'
   let g:floaterm_position = 'center'
   let g:floaterm_winblend = 30
   tnoremap <BS><C-n> <C-\><C-n>
