@@ -63,6 +63,10 @@ perl = ''' "{{{
   setlocal tabstop=4
   setlocal shiftwidth=4
   setlocal softtabstop=4
+
+  if $PERL5LIB !=# ''
+    let &l:path = substitute($PERL5LIB, ':', ',', 'g')
+  endif
 "}}} '''
 
 php = 'setlocal expandtab'
