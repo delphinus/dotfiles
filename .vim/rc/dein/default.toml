@@ -511,6 +511,12 @@ repo = 'motemen/xslate-vim'
 repo = 'moznion/vim-cpanfile'
 
 [[plugins]]
+repo = 'pboettch/vim-cmake-syntax'
+hook_add = ''' "{{{
+  autocmd BufNewFile,BufRead CMake*,*.cmake.*,*.cmake set filetype=cmake
+"}}} '''
+
+[[plugins]]
 repo     = 'vim-perl/vim-perl'
 hook_add = ''' "{{{
   let g:perl_include_pod = 1
