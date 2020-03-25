@@ -32,7 +32,7 @@ hook_post_source = ''' "{{{
   call deoplete#custom#source('denite', 'rank', 300)
   call deoplete#custom#option({
         \ 'camel_case': v:true,
-        \ 'candidate_marks': ['⌥1', '⌥2', '⌥3', '⌥4', '⌥5'],
+        \ 'candidate_marks': ['⌥Z', '⌥X', '⌥C', '⌥V', '⌥B'],
         \ 'ignore_sources': {
         \   'AerojumpFilter': ['ghq', 'look'],
         \   'denite-filter': ['ghq', 'look'],
@@ -49,11 +49,11 @@ hook_post_source = ''' "{{{
   inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
   inoremap <expr><silent> <C-f> pumvisible() ? deoplete#close_popup() : "\<C-f>"
   " Map ⌥ 1〜⌥ 5 for candidate marks
-  inoremap <expr> <A-1> pumvisible() ? deoplete#insert_candidate(0) : "\<A-1>"
-  inoremap <expr> <A-2> pumvisible() ? deoplete#insert_candidate(1) : "\<A-2>"
-  inoremap <expr> <A-3> pumvisible() ? deoplete#insert_candidate(2) : "\<A-3>"
-  inoremap <expr> <A-4> pumvisible() ? deoplete#insert_candidate(3) : "\<A-4>"
-  inoremap <expr> <A-5> pumvisible() ? deoplete#insert_candidate(4) : "\<A-5>"
+  inoremap <expr> <A-z> pumvisible() ? deoplete#insert_candidate(0) : "\<A-z>"
+  inoremap <expr> <A-x> pumvisible() ? deoplete#insert_candidate(1) : "\<A-x>"
+  inoremap <expr> <A-c> pumvisible() ? deoplete#insert_candidate(2) : "\<A-c>"
+  inoremap <expr> <A-v> pumvisible() ? deoplete#insert_candidate(3) : "\<A-v>"
+  inoremap <expr> <A-b> pumvisible() ? deoplete#insert_candidate(4) : "\<A-b>"
   call deoplete#initialize()
 "}}} '''
 hook_post_update = '!pip3 install -U --user neovim'
