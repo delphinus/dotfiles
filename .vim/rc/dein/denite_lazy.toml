@@ -378,5 +378,6 @@ hook_add  = ''' "{{{
 [plugins.ftplugin]
 floaterm = ''' "{{{
   set nocursorline
+  setlocal scrolloff=0
   let b:dwm_disabled = 1
 "}}} '''
