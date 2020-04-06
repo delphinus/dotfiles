@@ -48,7 +48,7 @@ def comment(string):
 def gen_script():
     # Use the following instead of /usr/bin/env to read environment so we can
     # deal with multi-line environment variables (and other odd cases).
-    env_reader = "python -c 'import os,json; print(json.dumps({k:v for k,v in os.environ.items()}))'"
+    env_reader = "%s -c 'import os,json; print(json.dumps({k:v for k,v in os.environ.items()}))'" % (sys.executable)
     args = [BASH, '-c', env_reader]
     output = subprocess.check_output(args, universal_newlines=True)
     old_env = output.strip()
@@ -61,11 +61,17 @@ def gen_script():
         pipe_w
     )
     args = [BASH, '-c', command, 'bass', ' '.join(sys.argv[1:])]
-    subprocess.check_call(args, universal_newlines=True, close_fds=False)
+    p = subprocess.Popen(args, universal_newlines=True, close_fds=False)
     os.close(pipe_w)
     with os.fdopen(pipe_r) as f:
         new_env = f.readline()
         alias = f.read()
+    if p.wait() != 0:
+        raise subprocess.CalledProcessError(
+            returncode=p.returncode,
+            cmd=' '.join(sys.argv[1:]),
+            output=new_env + alias
+        )
     new_env = new_env.strip()
 
     old_env = json.loads(old_env)
