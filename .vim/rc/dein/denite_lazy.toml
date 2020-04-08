@@ -219,7 +219,7 @@ hook_post_source = ''' "{{{
         \ 'floating_preview': v:true,
         \ 'highlight_filter_background': 'DeniteFilter',
         \ 'highlight_matched_char': 'Underlined',
-        \ 'matchers': 'matcher/fuzzy',
+        \ 'matchers': 'matcher_fzf',
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
         \ 'split': has('nvim') ? 'floating' : 'horizontal',
@@ -303,6 +303,12 @@ denite-filter = ''' "{{{
 
 [[plugins]]
 repo      = 'Jagua/vim-denite-ghq'
+on_source = ['denite.nvim']
+
+[[plugins]]
+#repo      = 'blankname/denite_fzf_matcher'
+repo      = 'delphinus/denite_fzf_matcher'
+rev       = 'feature/detect-executable-from-path'
 on_source = ['denite.nvim']
 
 [[plugins]]
