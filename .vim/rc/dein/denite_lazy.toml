@@ -219,7 +219,7 @@ hook_post_source = ''' "{{{
         \ 'floating_preview': v:true,
         \ 'highlight_filter_background': 'DeniteFilter',
         \ 'highlight_matched_char': 'Underlined',
-        \ 'matchers': 'matcher_fzf',
+        \ 'matchers': 'matcher/fuzzy',
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
         \ 'split': has('nvim') ? 'floating' : 'horizontal',
