@@ -211,8 +211,20 @@ repo = 'haya14busa/is.vim'
 [[plugins]]
 repo     = 'rbong/vim-crystalline'
 hook_add = ''' "{{{
+  let s:is_using_dein = exists('*dein#is_sourced')
+  let s:exists_fugitive = 0
+  let s:exists_tagbar = 0
+  let s:currenttag_last_lookup = 0
+  let s:currenttag = ''
+
   function! StatusLine(current, width)
     let l:s = ''
+    if !s:exists_fugitive
+      let s:exists_fugitive = get(g:, 'loaded_fugitive')
+    endif
+    if !s:exists_tagbar
+      let s:exists_tagbar = s:is_using_dein ? dein#is_sourced('tagbar') : get(g:, 'loaded_tagbar')
+    endif
 
     if a:current
       let l:s .= crystalline#mode() . crystalline#right_mode_sep('')
@@ -220,8 +232,25 @@ hook_add = ''' "{{{
       let l:s .= '%#CrystallineInactive#'
     endif
     let l:s .= ' %f%h%w%m%r '
-    if a:current
-      let l:s .= crystalline#right_sep('', 'Fill') . ' %{exists("*fugitive#head") ? fugitive#head() : ""}'
+    if a:current && a:width > 80
+      let l:infos = []
+
+      if s:exists_fugitive
+        call add(l:infos, fugitive#head())
+      endif
+
+      if s:exists_tagbar
+        let l:now = localtime()
+        if s:currenttag_last_lookup != now
+          let s:currenttag_last_lookup = now
+          let s:currenttag = tagbar#currenttag('%s', '')
+        endif
+        if s:currenttag != ''
+          call add(l:infos, s:currenttag)
+        endif
+      endif
+
+      let l:s .= crystalline#right_sep('', 'Fill') . ' ' . join(l:infos, " \ue0b1 ")  " U+E0B1: 
     endif
 
     let l:s .= '%='
