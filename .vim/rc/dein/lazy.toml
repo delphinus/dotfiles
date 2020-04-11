@@ -648,9 +648,7 @@ repo    = 'sainnhe/artify.vim'
 on_func = ['Artify']
 
 [[plugins]]
-#repo        = 'neovim/nvim-lsp'
-repo        = 'delphinus/nvim-lsp'
-rev = 'hotfix/overwrite-when-not-exists'
+repo        = 'neovim/nvim-lsp'
 on_cmd      = ['LspInstall', 'LspInstallInfo']
 on_ft       = ['c', 'cpp', 'dockerfile', 'go', 'lua', 'python', 'ruby', 'typescript', 'yaml', 'vim']
 on_func     = ['nvim_lsp#setup']
