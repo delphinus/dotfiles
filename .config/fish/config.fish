@@ -84,6 +84,8 @@ bind \c] fzf_ghq
 bind -M insert \c] fzf_ghq
 bind \cx\c] fzf_ghq_insert
 bind -M insert \cx\c] fzf_ghq_insert
+bind \cxf fzf_git_insert
+bind -M insert \cxf fzf_git_insert
 
 bind \ct fzf_z
 bind -M insert \ct fzf_z
@@ -133,6 +135,11 @@ type -q gosshauth; and gosshauth hook fish | source
 type -q plenv; and source (plenv init -| psub)
 type -q goenv; and source (goenv init -| psub)
 type -q nodenv; and source (nodenv init -| psub)
-type -q floaterm; and alias f floaterm
+
+if type -q floaterm
+  alias f floaterm
+  bind \cx\cf fzf_git_floaterm
+  bind -M insert \cx\cf fzf_git_floaterm
+end
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
