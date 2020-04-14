@@ -222,7 +222,7 @@ hook_post_source = ''' "{{{
         \ 'matchers': 'matcher/fuzzy',
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
-        \ 'split': has('nvim') ? 'floating' : 'horizontal',
+        \ 'split': has('nvim') ? 'floating_relative' : 'horizontal',
         \ 'vertical_preview': v:true,
         \ })
 
