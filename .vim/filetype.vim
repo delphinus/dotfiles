@@ -137,6 +137,9 @@ au BufNewFile,BufRead .inputrc,inputrc		setf readline
 " Robots.txt
 au BufNewFile,BufRead robots.txt		setf robots
 
+" reStructuredText Documentation Format
+au BufNewFile,BufRead *.rst			setf rst
+
 " Interactive Ruby shell
 au BufNewFile,BufRead .irbrc,irbrc		setf ruby
 
