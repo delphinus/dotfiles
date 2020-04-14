@@ -80,6 +80,7 @@
 [tig "bind"]
 	generic = G none
 [pager]
+	branch = false
 	log  = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
 	show = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
 	diff = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
