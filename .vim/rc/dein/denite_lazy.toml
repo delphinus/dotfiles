@@ -306,12 +306,6 @@ repo      = 'Jagua/vim-denite-ghq'
 on_source = ['denite.nvim']
 
 [[plugins]]
-#repo      = 'blankname/denite_fzf_matcher'
-repo      = 'delphinus/denite_fzf_matcher'
-rev       = 'feature/detect-executable-from-path'
-on_source = ['denite.nvim']
-
-[[plugins]]
 repo      = 'delphinus/my-denite-sources'
 on_source = ['denite.nvim']
 
