@@ -84,8 +84,11 @@ bind \c] fzf_ghq
 bind -M insert \c] fzf_ghq
 bind \cx\c] fzf_ghq_insert
 bind -M insert \cx\c] fzf_ghq_insert
-bind \cxf fzf_git_insert
-bind -M insert \cxf fzf_git_insert
+
+bind \cxf fzf_git_status
+bind -M insert \cxf fzf_git_status
+bind \cx\cf 'fzf_git_status --editor'
+bind -M insert \cx\cf 'fzf_git_status --editor'
 
 bind \ct fzf_z
 bind -M insert \ct fzf_z
@@ -96,9 +99,16 @@ bind -m insert ct begin-selection forward-jump backward-selection end-selection
 bind -m insert cF begin-selection backward-jump kill-selection end-selection
 bind -m insert cT begin-selection backward-jump backward-selection end-selection
 
-set -x EDITOR nvim
-set -x GIT_EDITOR nvim
-set -x VISUAL nvim
+if type -q floaterm
+  alias f floaterm
+  set -x EDITOR floaterm
+  set -x GIT_EDITOR nvim
+  set -x VISUAL floaterm
+else
+  set -x EDITOR nvim
+  set -x GIT_EDITOR nvim
+  set -x VISUAL nvim
+end
 
 # from prezto
 set -l e (printf "\e")
@@ -135,11 +145,5 @@ type -q gosshauth; and gosshauth hook fish | source
 type -q plenv; and source (plenv init -| psub)
 type -q goenv; and source (goenv init -| psub)
 type -q nodenv; and source (nodenv init -| psub)
-
-if type -q floaterm
-  alias f floaterm
-  bind \cx\cf fzf_git_floaterm
-  bind -M insert \cx\cf fzf_git_floaterm
-end
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
