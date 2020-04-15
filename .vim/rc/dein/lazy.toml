@@ -480,27 +480,43 @@ repo   = 'deton/jasegment.vim'
 on_map = ['<Plug>JaSegment']
 hook_add = ''' "{{{
   let g:jasegment_no_default_key_mappings = 1
-"}}} '''
-
-[plugins.ftplugin]
-markdown = ''' "{{{
-augroup JaSegmentHighlight
-  autocmd!
-  autocmd InsertLeave <buffer> call jasegment#OnInsertLeave()
-augroup END
-nmap <silent><buffer> e <Plug>JaSegmentMoveNE
-nmap <silent><buffer> w <Plug>JaSegmentMoveNW
-nmap <silent><buffer> b <Plug>JaSegmentMoveNB
-omap <silent><buffer> e <Plug>JaSegmentMoveOE
-omap <silent><buffer> w <Plug>JaSegmentMoveOW
-omap <silent><buffer> b <Plug>JaSegmentMoveOB
-xmap <silent><buffer> e <Plug>JaSegmentMoveVE
-xmap <silent><buffer> w <Plug>JaSegmentMoveVW
-xmap <silent><buffer> b <Plug>JaSegmentMoveVB
-omap <silent><buffer> aw <Plug>JaSegmentTextObjA
-omap <silent><buffer> iw <Plug>JaSegmentTextObjI
-xmap <silent><buffer> aw <Plug>JaSegmentTextObjVA
-xmap <silent><buffer> iw <Plug>JaSegmentTextObjVI
+  function! ToggleJaSegment()
+    augroup JaSegmentHighlight
+      autocmd!
+      if get(b:, 'is_ja_segment_enabled')
+        nunmap <silent><buffer> e
+        nunmap <silent><buffer> w
+        nunmap <silent><buffer> b
+        ounmap <silent><buffer> e
+        ounmap <silent><buffer> w
+        ounmap <silent><buffer> b
+        xunmap <silent><buffer> e
+        xunmap <silent><buffer> w
+        xunmap <silent><buffer> b
+        ounmap <silent><buffer> aw
+        ounmap <silent><buffer> iw
+        xunmap <silent><buffer> aw
+        xunmap <silent><buffer> iw
+        let b:is_ja_segment_enabled = v:false
+      else
+        autocmd InsertLeave <buffer> call jasegment#OnInsertLeave()
+        nmap <silent><buffer> e <Plug>JaSegmentMoveNE
+        nmap <silent><buffer> w <Plug>JaSegmentMoveNW
+        nmap <silent><buffer> b <Plug>JaSegmentMoveNB
+        omap <silent><buffer> e <Plug>JaSegmentMoveOE
+        omap <silent><buffer> w <Plug>JaSegmentMoveOW
+        omap <silent><buffer> b <Plug>JaSegmentMoveOB
+        xmap <silent><buffer> e <Plug>JaSegmentMoveVE
+        xmap <silent><buffer> w <Plug>JaSegmentMoveVW
+        xmap <silent><buffer> b <Plug>JaSegmentMoveVB
+        omap <silent><buffer> aw <Plug>JaSegmentTextObjA
+        omap <silent><buffer> iw <Plug>JaSegmentTextObjI
+        xmap <silent><buffer> aw <Plug>JaSegmentTextObjVA
+        xmap <silent><buffer> iw <Plug>JaSegmentTextObjVI
+        let b:is_ja_segment_enabled = v:true
+      endif
+    augroup END
+  endfunction
 "}}} '''
 
 [[plugins]]
