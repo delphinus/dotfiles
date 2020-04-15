@@ -82,8 +82,8 @@ test "$fish_key_bindings" != 'fish_hybrid_key_bindings'; and fish_hybrid_key_bin
 set FZF_DEFAULT_OPTS '--border --inline-info --prompt="❯❯❯ " --height=40%'
 bind \c] fzf_ghq
 bind -M insert \c] fzf_ghq
-bind \cx\c] fzf_ghq_insert
-bind -M insert \cx\c] fzf_ghq_insert
+bind \cx\c] 'fzf_ghq --insert'
+bind -M insert \cx\c] 'fzf_ghq --insert'
 
 bind \cxf fzf_git_status
 bind -M insert \cxf fzf_git_status
@@ -97,6 +97,8 @@ bind -M insert \cx\co '__fzf_open --editor'
 
 bind \ct fzf_z
 bind -M insert \ct fzf_z
+bind \cx\ct 'fzf_z --insert'
+bind -M insert \cx\ct 'fzf_z --insert'
 
 # TODO: contribute?
 bind -m insert cf begin-selection forward-jump kill-selection end-selection
