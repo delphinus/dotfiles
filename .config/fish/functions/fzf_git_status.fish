@@ -18,6 +18,5 @@ function fzf_git_status --description 'List / open files shown by `git status`'
     end
   end
   commandline -f repaint
-  emit fish_prompt
   return $st
 end

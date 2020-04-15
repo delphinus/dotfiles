@@ -13,8 +13,8 @@ function fzf_ghq --description 'Move with FZF + ghq'
       commandline -i "$select"
     else
       cd "$select"
+      emit fish_prompt
     end
   end
   commandline -f repaint
-  emit fish_prompt
 end

@@ -14,8 +14,8 @@ function fzf_z --description 'Move with FZF + z'
       commandline -i "$select"
     else
       cd "$select"
+      emit fish_prompt
     end
   end
   commandline -f repaint
-  emit fish_prompt
 end
