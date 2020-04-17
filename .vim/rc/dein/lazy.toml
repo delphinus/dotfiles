@@ -564,11 +564,6 @@ hook_source = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo    = 'junegunn/vim-peekaboo'
-on_map  = ['"', '@']
-augroup = 'peekaboo_init'
-
-[[plugins]]
 repo     = 'ripxorip/aerojump.nvim'
 on_map   = ['<Plug>(Aerojump']
 hook_add = ''' "{{{
