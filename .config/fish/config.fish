@@ -73,6 +73,7 @@ alias gf 'git foresta | less'
 alias gfa 'git foresta --all | less'
 alias l. 'l -d .*'
 alias nvr 'nvr -cc split'
+alias pe path-extractor
 
 type -q hub; and alias git hub
 type -q gdircolors; and alias dircolors gdircolors
