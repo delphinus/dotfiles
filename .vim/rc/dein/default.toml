@@ -250,7 +250,7 @@ hook_add = ''' "{{{
         endif
       endif
 
-      let l:s .= crystalline#right_sep('', 'Fill') . ' ' . join(l:infos, " \ue0b1 ")  " U+E0B1: 
+      let l:s .= crystalline#right_sep('', 'Fill') . ' ' . join(l:infos, " \ue0b1 ") . ' '  " U+E0B1: 
     endif
 
     let l:s .= '%='
