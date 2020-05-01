@@ -667,6 +667,10 @@ if          = 'has("nvim-0.5")'
 hook_add    = ''' "{{{
   " This dict stores Neovim LSP's settings are loaded by filetypes.
   let g:my_lsp_loaded = {}
+  let g:LspDiagnosticsErrorSign = "\u25cf"  " ●
+  let g:LspDiagnosticsWarningSign = "\u2b58"  " ⭘
+  let g:LspDiagnosticsInformationSign = "\u25c6"  " ◆
+  let g:LspDiagnosticsHintSign = "\u25ca"  " ◊
 "}}} '''
 hook_source = ''' "{{{
   " debug print in ~/.local/share/nvim/vim-lsp.log
