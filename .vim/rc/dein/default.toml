@@ -63,10 +63,41 @@ perl = ''' "{{{
   setlocal tabstop=4
   setlocal shiftwidth=4
   setlocal softtabstop=4
+  setlocal foldtext=PerlFoldText()
 
   if $PERL5LIB !=# ''
     let &l:path = substitute($PERL5LIB, ':', ',', 'g')
   endif
+
+  let s:subtest_re = '\vsubtest\s*([''"])(.{-})\1.*'
+
+  function! PerlFoldText() abort
+    let line = getline(v:foldstart)
+    let sub = substitute(line, '^\s\+', '', '')
+    let sub = substitute(sub, '\s\+$', '', '')
+    let cases_part = ''
+    if sub =~# s:subtest_re
+      let sub = substitute(sub, s:subtest_re, '\2', '')
+      let cases = 0
+      let i = v:foldstart + 1
+      while i <= v:foldend
+        if getline(i) =~# s:subtest_re
+          let cases = cases + 1
+        endif
+        let i = i + 1
+      endwhile
+      if cases > 0
+        let cases_part = printf(' (+ %d case%s)', cases, cases > 1 ? 's' : '')
+      endif
+    endif
+
+    let level = len(v:folddashes)
+    if level <= 12
+      let level = nr2char(0x2170 + level - 1) . ' '
+    endif
+
+    return printf('%s %3d 行: %s%s ', level, v:foldend - v:foldstart + 1, sub, cases_part)
+  endfunction
 "}}} '''
 
 php = 'setlocal expandtab'
