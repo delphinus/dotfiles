@@ -262,7 +262,8 @@ hook_add = ''' "{{{
     else
       let l:s .= '%#CrystallineInactive#'
     endif
-    let l:s .= ' %f%h%w%m%r '
+
+    let l:info_part = ''
     if a:current && a:width > 80
       let l:infos = []
 
@@ -281,19 +282,30 @@ hook_add = ''' "{{{
         endif
       endif
 
-      let l:s .= crystalline#right_sep('', 'Fill') . ' ' . join(l:infos, " \ue0b1 ") . ' '  " U+E0B1: 
+      let l:info_part = crystalline#right_sep('', 'Fill') . ' ' . join(l:infos, " \ue0b1 ") . ' '  " U+E0B1: 
     endif
 
-    let l:s .= '%='
+    let l:s .= len(l:info_part) && a:width <= 120 ? ' %t' : ' %f'
+    let l:s .= '%h%w%m%r ' . l:info_part . '%='
 
     if a:current
       let l:s .= crystalline#left_sep('', 'Fill') . ' %{AsciiChar()} %{&paste ?"PASTE ":""}%{&spell?"SPELL ":""}'
       let l:s .= crystalline#left_mode_sep('')
     endif
-    if a:width > 80
-      let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+    if len(l:info_part)
+      if a:width > 120
+        let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+      elseif a:width > 80
+        let l:s .= ' %{&ft} %P '
+      else
+        let l:s .= ' '
+      endif
     else
-      let l:s .= ' '
+      if a:width > 80
+        let l:s .= ' %{&ft}[%{&fenc!=#""?&fenc:&enc}][%{&ff}] %l/%L %c%V %P '
+      else
+        let l:s .= ' '
+      endif
     endif
 
     return l:s
