@@ -1,0 +1,14 @@
+#!/bin/bash -eu
+DOTFILE_DIR=$(ghq list -p github.com/delphinus/dotfiles)
+if [[ ! -d  $DOTFILE_DIR ]]; then
+  echo "dir not found: $DOTFILE_DIR" >&2
+  exit 1
+fi
+SECRETS=$DOTFILE_DIR/ansible/vars/secrets.yml
+PASSWORD=$DOTFILE_DIR/bin/ansible-vault-password
+
+gcloud kms decrypt --location asia-northeast1 --keyring delphinus --key delphinus --ciphertext-file "$SECRETS.gz.encrypted" --plaintext-file "$SECRETS.gz" --account me@delphinus.dev --project delphinus-dev
+gunzip -f "$SECRETS.gz"
+ansible-vault edit --vault-password-file "$PASSWORD" "$SECRETS"
+gzip "$SECRETS"
+gcloud kms encrypt --location asia-northeast1 --keyring delphinus --key delphinus --ciphertext-file "$SECRETS.gz.encrypted" --plaintext-file "$SECRETS.gz" --account me@delphinus.dev --project delphinus-dev
