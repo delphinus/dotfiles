@@ -649,6 +649,9 @@ hook_add = '''
 repo = 'jason0x43/vim-js-indent'
 
 [[plugins]]
+repo = 'mustache/vim-mustache-handlebars'
+
+[[plugins]]
 repo = 'pangloss/vim-javascript'
 
 [[plugins]]
