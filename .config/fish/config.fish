@@ -154,4 +154,10 @@ type -q plenv; and source (plenv init -| psub)
 type -q goenv; and source (goenv init -| psub)
 type -q nodenv; and source (nodenv init -| psub)
 
+set -x FISH_GIT_INFO '%b %p %c:%s%A%B%S%a%d%m%r%U%u'
+set -x FISH_GIT_INFO_ACTION (set_color white):(set_color -o brred)%s
+set -x FISH_GIT_INFO_BRANCH (set_color -o green)%s
+set -x FISH_GIT_INFO_POSITION (set_color brmagenta)%s
+set -x FISH_GIT_INFO_COMMIT (set_color yellow)%s
+
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
