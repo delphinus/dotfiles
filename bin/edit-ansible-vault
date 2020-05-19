@@ -9,6 +9,6 @@ PASSWORD=$DOTFILE_DIR/bin/ansible-vault-password
 
 gcloud kms decrypt --location asia-northeast1 --keyring delphinus --key delphinus --ciphertext-file "$SECRETS.gz.encrypted" --plaintext-file "$SECRETS.gz" --account me@delphinus.dev --project delphinus-dev
 gunzip -f "$SECRETS.gz"
-ansible-vault edit --vault-password-file "$PASSWORD" "$SECRETS"
+EDITOR=nvim ansible-vault edit --vault-password-file "$PASSWORD" "$SECRETS"
 gzip "$SECRETS"
 gcloud kms encrypt --location asia-northeast1 --keyring delphinus --key delphinus --ciphertext-file "$SECRETS.gz.encrypted" --plaintext-file "$SECRETS.gz" --account me@delphinus.dev --project delphinus-dev
