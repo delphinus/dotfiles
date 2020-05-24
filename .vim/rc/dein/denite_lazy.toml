@@ -212,6 +212,8 @@ hook_post_source = ''' "{{{
   call denite#custom#source('z', 'default_action', 'narrow')
 
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
+  " match_highlight needs the latest (Neo)Vim
+  " ref. https://github.com/neovim/neovim/pull/12325
   call denite#custom#option('_', {
         \ 'cached_filter': v:true,
         \ 'cursor_shape': v:true,
@@ -220,6 +222,7 @@ hook_post_source = ''' "{{{
         \ 'highlight_filter_background': 'DeniteFilter',
         \ 'highlight_matched_char': 'Underlined',
         \ 'matchers': 'matcher/fuzzy',
+        \ 'match_highlight': v:true,
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
         \ 'split': has('nvim') ? 'floating_relative' : 'horizontal',
