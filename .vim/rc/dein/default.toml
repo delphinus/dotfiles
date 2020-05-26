@@ -192,8 +192,11 @@ repo = 'rafi/vim-denite-z'
 [[plugins]]
 repo = 'roxma/nvim-yarp'
 hook_add = '''
+  " Homebrew-ed Vim uses python@3.8.
+  if !has('nvim') && executable('/usr/local/opt/python@3.8/bin/python3')
+    let g:python3_host_prog = '/usr/local/opt/python@3.8/bin/python3'
   " Set path for python3 for python37u packages in CentOS7
-  if executable('python3')
+  elseif executable('python3')
     let g:python3_host_prog = exepath('python3')
   elseif executable('python3.7')
     let g:python3_host_prog = exepath('python3.7')
