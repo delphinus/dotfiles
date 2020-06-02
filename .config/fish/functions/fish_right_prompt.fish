@@ -5,5 +5,6 @@ function fish_right_prompt
   end
   set_color normal
 
+  echo (set_color --bold cyan) (gcloud config get-value project 2>/dev/null) (set_color normal)
   __git_info
 end
