@@ -5,8 +5,5 @@ function fish_right_prompt
   end
   set_color normal
 
-  __prompt_git_info
-  #set_color --bold green
-  #__fish_git_prompt
-  #set_color normal
+  __git_info
 end
