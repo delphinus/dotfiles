@@ -154,25 +154,4 @@ type -q plenv; and source (plenv init -| psub)
 type -q goenv; and source (goenv init -| psub)
 type -q nodenv; and source (nodenv init -| psub)
 
-set -x FISH_GIT_INFO '%b%p%c:%s%A%B%S%a%d%m%r%U%u%D%C'
-#set -x FISH_GIT_INFO '%b%p%c:%s%A%B%S%i%I%u%D%C'
-set -x FISH_GIT_INFO_VERBOSE yes
-set -x FISH_GIT_INFO_ACTION (set_color -o brred)%s       # %s
-set -x FISH_GIT_INFO_BRANCH (set_color -o green)'%s '    # %b
-set -x FISH_GIT_INFO_POSITION (set_color brmagenta)'%s ' # %p
-set -x FISH_GIT_INFO_COMMIT (set_color yellow)%s         # %c
-set -x FISH_GIT_INFO_STASHED (set_color blue)'✭ %d'      # %S
-set -x FISH_GIT_INFO_AHEAD (set_color brmagenta)'⬆ %d'   # %A
-set -x FISH_GIT_INFO_BEHIND (set_color brmagenta)'⬇ %d'  # %B
-set -x FISH_GIT_INFO_ADDED (set_color green)'✚ %d'       # %a
-set -x FISH_GIT_INFO_DELETED (set_color red)'✖ %d'       # %d
-set -x FISH_GIT_INFO_MODIFIED (set_color blue)'✱ %d'     # %m
-set -x FISH_GIT_INFO_RENAMED (set_color magenta)'➜ %d'   # %r
-set -x FISH_GIT_INFO_UNMERGED (set_color blue)'═ %d'     # %U
-set -x FISH_GIT_INFO_UNTRACKED (set_color white)'◼ %d'   # %u
-set -x FISH_GIT_INFO_INDEXED (set_color brblue)'◆ %d'    # %i
-set -x FISH_GIT_INFO_UNINDEXED (set_color brblue)'◇ %d'  # %I
-set -x FISH_GIT_INFO_DIRTY (set_color brred)'✖ '         # %D
-set -x FISH_GIT_INFO_CLEAN (set_color -o brgreen)'✔ '    # %C
-
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
