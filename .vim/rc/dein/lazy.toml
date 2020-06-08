@@ -652,6 +652,24 @@ hook_add = ''' "{{{
   xmap <unique> * <Plug>(visualstar-*)
 "}}} '''
 
+[[plugins]]
+repo     = 'tyru/columnskip.vim'
+on_map   = ['<Plug>(columnskip:']
+hook_add = ''' "{{{
+  nmap [j <Plug>(columnskip:nonblank:next)
+  omap [j <Plug>(columnskip:nonblank:next)
+  xmap [j <Plug>(columnskip:nonblank:next)
+  nmap [k <Plug>(columnskip:nonblank:prev)
+  omap [k <Plug>(columnskip:nonblank:prev)
+  xmap [k <Plug>(columnskip:nonblank:prev)
+  nmap ]j <Plug>(columnskip:first-nonblank:next)
+  omap ]j <Plug>(columnskip:first-nonblank:next)
+  xmap ]j <Plug>(columnskip:first-nonblank:next)
+  nmap ]k <Plug>(columnskip:first-nonblank:prev)
+  omap ]k <Plug>(columnskip:first-nonblank:prev)
+  xmap ]k <Plug>(columnskip:first-nonblank:prev)
+"}}} '''
+
 # }}}
 
 # on_func {{{
