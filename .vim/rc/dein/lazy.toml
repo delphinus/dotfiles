@@ -520,11 +520,54 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
+repo     = 'easymotion/vim-easymotion'
+on_cmd   = ['EMCommandLineMap', 'EMCommandLineNoreMap', 'EMCommandLineUnMap']
+on_map   = ['<Plug>(easymotion-']
+hook_add = ''' "{{{
+  let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+  let g:EasyMotion_grouping = 1
+  let g:EasyMotion_use_migemo = 1
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+  map ' <Plug>(easymotion-prefix)
+  nmap s <Plug>(easymotion-overwin-f2)
+  xmap s <Plug>(easymotion-s2)
+  omap s <Plug>(easymotion-s2)
+"}}} '''
+
+[[plugins]]
 repo     = 'iamcco/markdown-preview.vim'
 on_map   = ['<Plug>MarkdownPreview', '<Plug>StopMarkdownPreview']
 hook_source = '''
   let g:mkdp_path_to_chrome = 'open -a Safari'
 '''
+
+[[plugins]]
+repo    = 'inkarkat/vim-LineJuggler'
+depends = [
+  'vim-repeat',
+  'vim-ingo-library',
+  'visualrepeat',
+]
+on_map   = ['<Plug>(LineJuggler']
+hook_add = ''' "{{{
+  xmap [d       <Plug>(LineJugglerDupOverUp)
+  nmap [d       <Plug>(LineJugglerDupOverUp)
+  xmap [E       <Plug>(LineJugglerSwapUp)
+  nmap [E       <Plug>(LineJugglerSwapUp)
+  xmap [e       <Plug>(LineJugglerMoveUp)
+  nmap [e       <Plug>(LineJugglerMoveUp)
+  xmap [<Space> <Plug>(LineJugglerBlankUp)
+  nmap [<Space> <Plug>(LineJugglerBlankUp)
+  xmap ]d       <Plug>(LineJugglerDupOverDown)
+  nmap ]d       <Plug>(LineJugglerDupOverDown)
+  xmap ]E       <Plug>(LineJugglerSwapDown)
+  nmap ]E       <Plug>(LineJugglerSwapDown)
+  xmap ]e       <Plug>(LineJugglerMoveDown)
+  nmap ]e       <Plug>(LineJugglerMoveDown)
+  xmap ]<Space> <Plug>(LineJugglerBlankDown)
+  nmap ]<Space> <Plug>(LineJugglerBlankDown)
+"}}} '''
 
 [plugins.ftplugin]
 markdown = ''' "{{{
@@ -609,48 +652,6 @@ hook_add = ''' "{{{
   xmap <unique> * <Plug>(visualstar-*)
 "}}} '''
 
-[[plugins]]
-repo     = 'easymotion/vim-easymotion'
-on_cmd   = ['EMCommandLineMap', 'EMCommandLineNoreMap', 'EMCommandLineUnMap']
-on_map   = ['<Plug>(easymotion-']
-hook_add = ''' "{{{
-  let g:EasyMotion_keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
-  let g:EasyMotion_grouping = 1
-  let g:EasyMotion_use_migemo = 1
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
-  map ' <Plug>(easymotion-prefix)
-  nmap s <Plug>(easymotion-overwin-f2)
-  xmap s <Plug>(easymotion-s2)
-  omap s <Plug>(easymotion-s2)
-"}}} '''
-
-[[plugins]]
-repo    = 'inkarkat/vim-LineJuggler'
-depends = [
-  'vim-repeat',
-  'vim-ingo-library',
-  'visualrepeat',
-]
-on_map   = ['<Plug>(LineJuggler']
-hook_add = ''' "{{{
-  xmap [d       <Plug>(LineJugglerDupOverUp)
-  nmap [d       <Plug>(LineJugglerDupOverUp)
-  xmap [E       <Plug>(LineJugglerSwapUp)
-  nmap [E       <Plug>(LineJugglerSwapUp)
-  xmap [e       <Plug>(LineJugglerMoveUp)
-  nmap [e       <Plug>(LineJugglerMoveUp)
-  xmap [<Space> <Plug>(LineJugglerBlankUp)
-  nmap [<Space> <Plug>(LineJugglerBlankUp)
-  xmap ]d       <Plug>(LineJugglerDupOverDown)
-  nmap ]d       <Plug>(LineJugglerDupOverDown)
-  xmap ]E       <Plug>(LineJugglerSwapDown)
-  nmap ]E       <Plug>(LineJugglerSwapDown)
-  xmap ]e       <Plug>(LineJugglerMoveDown)
-  nmap ]e       <Plug>(LineJugglerMoveDown)
-  xmap ]<Space> <Plug>(LineJugglerBlankDown)
-  nmap ]<Space> <Plug>(LineJugglerBlankDown)
-"}}} '''
 # }}}
 
 # on_func {{{
