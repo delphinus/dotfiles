@@ -662,7 +662,7 @@ on_func = ['Artify']
 [[plugins]]
 repo        = 'neovim/nvim-lsp'
 on_cmd      = ['LspInstall', 'LspInstallInfo']
-on_ft       = ['c', 'cpp', 'dockerfile', 'go', 'lua', 'python', 'ruby', 'typescript', 'yaml', 'vim']
+on_ft       = ['c', 'cpp', 'dockerfile', 'go', 'lua', 'python', 'ruby', 'sh', 'typescript', 'yaml', 'vim']
 on_func     = ['nvim_lsp#setup']
 if          = 'has("nvim-0.5")'
 hook_add    = ''' "{{{
@@ -788,6 +788,17 @@ ruby = ''' "{{{
     let g:my_lsp_loaded.ruby = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+sh = ''' "{{{
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  if !get(g:my_lsp_loaded, 'sh')
+    lua require'nvim_lsp'.bashls.setup{}
+    let g:my_lsp_loaded.sh = v:true
+  endif
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
