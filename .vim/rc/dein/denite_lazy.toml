@@ -84,7 +84,7 @@ hook_add = ''' "{{{
   noremap zI :<C-u>Denite gitlog:all<CR>
   noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
   noremap zN :<C-u>DeniteProjectDir -expand my_file my_file:new<CR>
-  noremap zP :<C-u>Denite ref:perldoc<CR>
+  noremap zP :<C-u>Denite node_modules<CR>
   noremap zS :<C-u>Denite scriptnames<CR>
   noremap zT :<C-u>Denite z<CR>
   noremap zU :<C-u>Denite -resume<CR>
