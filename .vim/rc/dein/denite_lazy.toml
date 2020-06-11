@@ -207,8 +207,11 @@ hook_post_source = ''' "{{{
   call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
   call denite#custom#action('file', 'grep', function('s:narrow_grep'))
 
-  call denite#custom#source('grep', 'args', ['', '', '!'])
-  call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
+  call denite#custom#source('grep', {
+        \ 'args': ['', '', '!'],
+        \ 'converters': ['converter/abbr_word'],
+        \ })
+  call denite#custom#source('node_modules', 'sorters', [])
   call denite#custom#source('z', 'default_action', 'narrow')
 
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
