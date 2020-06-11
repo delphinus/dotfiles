@@ -746,14 +746,10 @@ EOF
     let g:my_lsp_loaded.go = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  "nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  "nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  "nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  "nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> K          <Cmd>ALEHover<CR>
-  nmap <buffer> <silent> gd         <Cmd>ALEGoToTypeDefinition<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>ALEGoToDefinition<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>ALEGoToDefinition<CR>
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 lua = ''' "{{{
   if !get(g:my_lsp_loaded, 'lua')
@@ -828,15 +824,10 @@ typescript = ''' "{{{
     let g:my_lsp_loaded.typescript = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  " TODO: LSP features does not work forMe ;( So use ALE instead.
-  "nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  "nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  "nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  "nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> K          <Cmd>ALEHover<CR>
-  nmap <buffer> <silent> gd         <Cmd>ALEGoToTypeDefinition<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>ALEGoToDefinition<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>ALEGoToDefinition<CR>
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 yaml = ''' "{{{
   if !get(g:my_lsp_loaded, 'yamlls')
@@ -844,6 +835,10 @@ yaml = ''' "{{{
     let g:my_lsp_loaded.yamlls = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 vim = ''' "{{{
   if !get(g:my_lsp_loaded, 'vim')
@@ -851,6 +846,10 @@ vim = ''' "{{{
     let g:my_lsp_loaded.vim = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
 
 # }}}
