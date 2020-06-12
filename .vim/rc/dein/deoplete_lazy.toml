@@ -26,7 +26,7 @@ hook_post_source = ''' "{{{
         \ ])
   call deoplete#custom#source('ale', {
         \ 'dup': v:true,
-        \ 'max_menu_width': 0,
+        \ 'max_menu_width': 40,
         \ 'rank': 100
         \ })
   call deoplete#custom#source('look', 'rank', 0)
