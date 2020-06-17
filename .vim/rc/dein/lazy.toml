@@ -680,7 +680,24 @@ on_func = ['Artify']
 [[plugins]]
 repo        = 'neovim/nvim-lsp'
 on_cmd      = ['LspInstall', 'LspInstallInfo']
-on_ft       = ['c', 'cpp', 'dockerfile', 'go', 'lua', 'python', 'ruby', 'sh', 'typescript', 'yaml', 'vim']
+on_ft       = [
+  'c',
+  'cpp',
+  'css',
+  'dockerfile',
+  'go',
+  'html',
+  'json',
+  'less',
+  'lua',
+  'python',
+  'ruby',
+  'scss',
+  'sh',
+  'typescript',
+  'yaml',
+  'vim',
+]
 on_func     = ['nvim_lsp#setup']
 if          = 'has("nvim-0.5")'
 hook_add    = ''' "{{{
@@ -719,6 +736,18 @@ cpp = ''' "{{{
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
 "}}} '''
+css = ''' "{{{
+  if !get(g:my_lsp_loaded, 'css')
+    lua require'nvim_lsp'.cssls.setup{}
+    let g:my_lsp_loaded.css = v:true
+  endif
+  " TODO: work for css
+  "setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
 dockerfile = ''' "{{{
   if !get(g:my_lsp_loaded, 'dockerfile')
     lua require'nvim_lsp'.dockerls.setup{}
@@ -746,6 +775,40 @@ EOF
     let g:my_lsp_loaded.go = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+html = ''' "{{{
+  if !get(g:my_lsp_loaded, 'html')
+    lua require'nvim_lsp'.html.setup{}
+    let g:my_lsp_loaded.html = v:true
+  endif
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+json = ''' "{{{
+  if !get(g:my_lsp_loaded, 'json')
+    lua require'nvim_lsp'.jsonls.setup{}
+    let g:my_lsp_loaded.json = v:true
+  endif
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+less = ''' "{{{
+  if !get(g:my_lsp_loaded, 'css')
+    lua require'nvim_lsp'.cssls.setup{}
+    let g:my_lsp_loaded.css = v:true
+  endif
+  " TODO: work for css
+  "setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -802,6 +865,18 @@ ruby = ''' "{{{
     let g:my_lsp_loaded.ruby = v:true
   endif
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+scss = ''' "{{{
+  if !get(g:my_lsp_loaded, 'css')
+    lua require'nvim_lsp'.cssls.setup{}
+    let g:my_lsp_loaded.css = v:true
+  endif
+  " TODO: work for css
+  "setlocal omnifunc=v:lua.vim.lsp.omnifunc
   nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
   nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
   nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
