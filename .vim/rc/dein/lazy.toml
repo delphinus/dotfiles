@@ -707,6 +707,33 @@ hook_add    = ''' "{{{
   let g:LspDiagnosticsWarningSign = "\u2b58"  " ⭘
   let g:LspDiagnosticsInformationSign = "\u25c6"  " ◆
   let g:LspDiagnosticsHintSign = "\u25ca"  " ◊
+
+  function ShowLSPSettings() abort
+    lua print(vim.inspect(vim.lsp.buf_get_clients()))
+  endfunction
+
+  function ReloadLSPSettings() abort
+    lua vim.lsp.stop_client(vim.lsp.get_active_clients())
+    edit
+  endfunction
+
+  function MyLSPSettings() abort
+    " TODO: workaround for cssls
+    if &filetype !=# 'css' && &filetype !=# 'scss' && $filetype !=# 'less'
+      setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    endif
+    " lsp.txt suggests <C-k> for signature_help(). But here it uses <C-x><C-k>
+    " to avoid the duplication.
+    nnoremap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.declaration()<CR>
+    nnoremap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <buffer> <silent> gD         <Cmd>lua vim.lsp.buf.implementation()<CR>
+    nnoremap <buffer> <silent> <C-x><C-k> <Cmd>lua vim.lsp.buf.signature_help()<CR>
+    nnoremap <buffer> <silent> 1gD        <Cmd>lua vim.lsp.buf.type_definition()<CR>
+    nnoremap <buffer> <silent> gr         <Cmd>lua vim.lsp.buf.references()<CR>
+    nnoremap <buffer> <silent> g0         <Cmd>lua vim.lsp.buf.document_symbol()<CR>
+    nnoremap <buffer> <silent> gW         <Cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+  endfunction
 "}}} '''
 hook_source = ''' "{{{
   " debug print in ~/.local/share/nvim/vim-lsp.log
@@ -719,45 +746,28 @@ c = ''' "{{{
     lua require'nvim_lsp'.clangd.setup{}
     let g:my_lsp_loaded.c = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 cpp = ''' "{{{
   if !get(g:my_lsp_loaded, 'cpp')
     lua require'nvim_lsp'.clangd.setup{}
     let g:my_lsp_loaded.cpp = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 css = ''' "{{{
   if !get(g:my_lsp_loaded, 'css')
     lua require'nvim_lsp'.cssls.setup{}
     let g:my_lsp_loaded.css = v:true
   endif
-  " TODO: work for css
-  "setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 dockerfile = ''' "{{{
   if !get(g:my_lsp_loaded, 'dockerfile')
     lua require'nvim_lsp'.dockerls.setup{}
     let g:my_lsp_loaded.dockerfile = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 go = ''' "{{{
   if !get(g:my_lsp_loaded, 'go')
@@ -774,56 +784,35 @@ go = ''' "{{{
 EOF
     let g:my_lsp_loaded.go = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 html = ''' "{{{
   if !get(g:my_lsp_loaded, 'html')
     lua require'nvim_lsp'.html.setup{}
     let g:my_lsp_loaded.html = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 json = ''' "{{{
   if !get(g:my_lsp_loaded, 'json')
     lua require'nvim_lsp'.jsonls.setup{}
     let g:my_lsp_loaded.json = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 less = ''' "{{{
   if !get(g:my_lsp_loaded, 'css')
     lua require'nvim_lsp'.cssls.setup{}
     let g:my_lsp_loaded.css = v:true
   endif
-  " TODO: work for css
-  "setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 lua = ''' "{{{
   if !get(g:my_lsp_loaded, 'lua')
     lua require'nvim_lsp'.sumneko_lua.setup{}
     let g:my_lsp_loaded.lua = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 python = ''' "{{{
   if !get(g:my_lsp_loaded, 'python')
@@ -853,34 +842,21 @@ python = ''' "{{{
 EOF
     let g:my_lsp_loaded.python = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 ruby = ''' "{{{
   if !get(g:my_lsp_loaded, 'ruby')
     lua require'nvim_lsp'.solargraph.setup{}
     let g:my_lsp_loaded.ruby = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 scss = ''' "{{{
   if !get(g:my_lsp_loaded, 'css')
     lua require'nvim_lsp'.cssls.setup{}
     let g:my_lsp_loaded.css = v:true
   endif
-  " TODO: work for css
-  "setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 sh = ''' "{{{
   setlocal omnifunc=v:lua.vim.lsp.omnifunc
@@ -888,21 +864,14 @@ sh = ''' "{{{
     lua require'nvim_lsp'.bashls.setup{}
     let g:my_lsp_loaded.sh = v:true
   endif
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 typescript = ''' "{{{
   if !get(g:my_lsp_loaded, 'typescript')
     lua require'nvim_lsp'.tsserver.setup{}
     let g:my_lsp_loaded.typescript = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 yaml = ''' "{{{
   if !get(g:my_lsp_loaded, 'yamlls')
@@ -920,11 +889,7 @@ vim = ''' "{{{
     lua require'nvim_lsp'.vimls.setup{}
     let g:my_lsp_loaded.vim = v:true
   endif
-  setlocal omnifunc=v:lua.vim.lsp.omnifunc
-  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+  call MyLSPSettings()
 "}}} '''
 
 # }}}
