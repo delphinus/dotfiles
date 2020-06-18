@@ -40,3 +40,12 @@ augroup JumpToTheLastPosition
   autocmd!
   autocmd BufReadPost * call <SID>jump_to_last_pos()
 augroup END
+
+" The native implementation of vim-higlihghtedyank in NeoVim
+" ( https://github.com/machakann/vim-highlightedyank )
+if has('nvim')
+  augroup HighlightedYank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+  augroup END
+endif

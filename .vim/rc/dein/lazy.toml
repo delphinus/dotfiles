@@ -292,7 +292,8 @@ hook_post_source = '''
 '''
 
 [[plugins]]
-repo    = 'machakann/vim-highlightedyank'
+repo     = 'machakann/vim-highlightedyank'
+if       = '''!has('nvim')'''
 on_event = ['TextYankPost']
 
 [[plugins]]
