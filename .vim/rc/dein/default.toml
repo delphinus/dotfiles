@@ -719,6 +719,212 @@ repo = 'vim-scripts/fontforge_script.vim'
 repo = 'vim-scripts/nginx.vim'
 # }}}
 
+[[plugins]]
+repo        = 'neovim/nvim-lsp'
+if          = 'has("nvim-0.5")'
+hook_add    = ''' "{{{
+  let g:LspDiagnosticsErrorSign = "\u25cf"  " ●
+  let g:LspDiagnosticsWarningSign = "\u2b58"  " ⭘
+  let g:LspDiagnosticsInformationSign = "\u25c6"  " ◆
+  let g:LspDiagnosticsHintSign = "\u25ca"  " ◊
+
+  function ShowLSPSettings() abort
+    lua print(vim.inspect(vim.lsp.buf_get_clients()))
+  endfunction
+
+  function ReloadLSPSettings() abort
+    lua vim.lsp.stop_client(vim.lsp.get_active_clients())
+    edit
+  endfunction
+
+  function! MyLSPSettings() abort
+    " TODO: workaround for cssls
+    if &filetype !=# 'css' && &filetype !=# 'scss' && $filetype !=# 'less'
+      setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    endif
+    " lsp.txt suggests <C-k> for signature_help(). But here it uses <C-x><C-k>
+    " to avoid the duplication.
+    nnoremap <buffer> <silent> 1gD        <Cmd>lua vim.lsp.buf.type_definition()<CR>
+    nnoremap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <buffer> <silent> <C-x><C-k> <Cmd>lua vim.lsp.buf.signature_help()<CR>
+    nnoremap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+    nnoremap <buffer> <silent> g0         <Cmd>lua vim.lsp.buf.document_symbol()<CR>
+    nnoremap <buffer> <silent> gD         <Cmd>lua vim.lsp.buf.implementation()<CR>
+    nnoremap <buffer> <silent> gK         <Cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+    nnoremap <buffer> <silent> gW         <Cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+    nnoremap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.declaration()<CR>
+    nnoremap <buffer> <silent> gr         <Cmd>lua vim.lsp.buf.references()<CR>
+  endfunction
+
+  " This dict stores Neovim LSP's settings are loaded by filetypes.
+  let g:my_lsp_loaded = {'efm': v:true}
+  lua require'nvim_lsp'.efm.setup{}
+"}}} '''
+hook_source = ''' "{{{
+  " debug print in ~/.local/share/nvim/vim-lsp.log
+  "lua vim.lsp.set_log_level("debug")
+"}}} '''
+
+[plugins.ftplugin]
+c = ''' "{{{
+  if !get(g:my_lsp_loaded, 'c')
+    lua require'nvim_lsp'.clangd.setup{}
+    let g:my_lsp_loaded.c = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+cpp = ''' "{{{
+  if !get(g:my_lsp_loaded, 'cpp')
+    lua require'nvim_lsp'.clangd.setup{}
+    let g:my_lsp_loaded.cpp = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+css = ''' "{{{
+  if !get(g:my_lsp_loaded, 'css')
+    lua require'nvim_lsp'.cssls.setup{}
+    let g:my_lsp_loaded.css = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+dockerfile = ''' "{{{
+  if !get(g:my_lsp_loaded, 'dockerfile')
+    lua require'nvim_lsp'.dockerls.setup{}
+    let g:my_lsp_loaded.dockerfile = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+go = ''' "{{{
+  if !get(g:my_lsp_loaded, 'go')
+    lua << EOF
+      require'nvim_lsp'.gopls.setup{
+        settings = {
+          hoverKind = 'NoDocumentation';
+          deepCompletion = true;
+          fuzzyMatching = true;
+          completeUnimported = true;
+          usePlaceholders = true;
+        }
+      }
+EOF
+    let g:my_lsp_loaded.go = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+html = ''' "{{{
+  if !get(g:my_lsp_loaded, 'html')
+    lua require'nvim_lsp'.html.setup{}
+    let g:my_lsp_loaded.html = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+json = ''' "{{{
+  if !get(g:my_lsp_loaded, 'json')
+    lua require'nvim_lsp'.jsonls.setup{}
+    let g:my_lsp_loaded.json = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+javascript = ''' "{{{
+  if !get(g:my_lsp_loaded, 'tsserver')
+    lua require'nvim_lsp'.tsserver.setup{}
+    let g:my_lsp_loaded.tsserver = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+less = ''' "{{{
+  if !get(g:my_lsp_loaded, 'css')
+    lua require'nvim_lsp'.cssls.setup{}
+    let g:my_lsp_loaded.css = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+lua = ''' "{{{
+  if !get(g:my_lsp_loaded, 'lua')
+    lua require'nvim_lsp'.sumneko_lua.setup{}
+    let g:my_lsp_loaded.lua = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+python = ''' "{{{
+  if !get(g:my_lsp_loaded, 'python')
+    lua <<EOF
+      local path = vim.fn.exepath('python3')
+
+      if not path then
+        error('python3 executable not found')
+      end
+
+      -- This is from pyls_ms.get_python_version()
+      local f = io.popen(path .. ' --version')
+      local l = f:read('*a')
+      f:close()
+      local version = l:match('^Python%s*(...).*%s*$')
+
+      require'nvim_lsp'.pyls_ms.setup{
+        init_options = {
+          interpreter = {
+            properties = {
+              InterpreterPath = path;
+              Version = version;
+            }
+          }
+        }
+      }
+EOF
+    let g:my_lsp_loaded.python = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+ruby = ''' "{{{
+  if !get(g:my_lsp_loaded, 'ruby')
+    lua require'nvim_lsp'.solargraph.setup{}
+    let g:my_lsp_loaded.ruby = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+scss = ''' "{{{
+  if !get(g:my_lsp_loaded, 'css')
+    lua require'nvim_lsp'.cssls.setup{}
+    let g:my_lsp_loaded.css = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+sh = ''' "{{{
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  if !get(g:my_lsp_loaded, 'sh')
+    lua require'nvim_lsp'.bashls.setup{}
+    let g:my_lsp_loaded.sh = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+typescript = ''' "{{{
+  if !get(g:my_lsp_loaded, 'tsserver')
+    lua require'nvim_lsp'.tsserver.setup{}
+    let g:my_lsp_loaded.tsserver = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+yaml = ''' "{{{
+  if !get(g:my_lsp_loaded, 'yamlls')
+    lua require'nvim_lsp'.yamlls.setup{}
+    let g:my_lsp_loaded.yamlls = v:true
+  endif
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nmap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
+  nmap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+  nmap <buffer> <silent> <C-w><C-]> <Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>
+"}}} '''
+vim = ''' "{{{
+  if !get(g:my_lsp_loaded, 'vim')
+    lua require'nvim_lsp'.vimls.setup{}
+    let g:my_lsp_loaded.vim = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
+
 # dependencies {{{
 [[plugins]]
 repo = 'inkarkat/vim-ingo-library'
