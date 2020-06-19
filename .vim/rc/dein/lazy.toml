@@ -731,15 +731,15 @@ hook_add    = ''' "{{{
     endif
     " lsp.txt suggests <C-k> for signature_help(). But here it uses <C-x><C-k>
     " to avoid the duplication.
-    nnoremap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.declaration()<CR>
-    nnoremap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
-    nnoremap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
-    nnoremap <buffer> <silent> gD         <Cmd>lua vim.lsp.buf.implementation()<CR>
-    nnoremap <buffer> <silent> <C-x><C-k> <Cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <buffer> <silent> 1gD        <Cmd>lua vim.lsp.buf.type_definition()<CR>
-    nnoremap <buffer> <silent> gr         <Cmd>lua vim.lsp.buf.references()<CR>
+    nnoremap <buffer> <silent> <C-]>      <Cmd>lua vim.lsp.buf.definition()<CR>
+    nnoremap <buffer> <silent> <C-x><C-k> <Cmd>lua vim.lsp.buf.signature_help()<CR>
+    nnoremap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <buffer> <silent> g0         <Cmd>lua vim.lsp.buf.document_symbol()<CR>
+    nnoremap <buffer> <silent> gD         <Cmd>lua vim.lsp.buf.implementation()<CR>
     nnoremap <buffer> <silent> gW         <Cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+    nnoremap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.declaration()<CR>
+    nnoremap <buffer> <silent> gr         <Cmd>lua vim.lsp.buf.references()<CR>
   endfunction
 "}}} '''
 hook_source = ''' "{{{
