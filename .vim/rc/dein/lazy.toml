@@ -737,6 +737,7 @@ hook_add    = ''' "{{{
     nnoremap <buffer> <silent> K          <Cmd>lua vim.lsp.buf.hover()<CR>
     nnoremap <buffer> <silent> g0         <Cmd>lua vim.lsp.buf.document_symbol()<CR>
     nnoremap <buffer> <silent> gD         <Cmd>lua vim.lsp.buf.implementation()<CR>
+    nnoremap <buffer> <silent> gK         <Cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
     nnoremap <buffer> <silent> gW         <Cmd>lua vim.lsp.buf.workspace_symbol()<CR>
     nnoremap <buffer> <silent> gd         <Cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <buffer> <silent> gr         <Cmd>lua vim.lsp.buf.references()<CR>

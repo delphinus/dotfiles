@@ -459,9 +459,13 @@ hook_add = ''' "{{{
 
       " LSP diagnostics
       autocmd ColorScheme nord hi LspDiagnosticsError guifg=#bf616a guibg=#52050c gui=bold
+      autocmd ColorScheme nord hi LspDiagnosticsErrorFloating guifg=#bf616a guibg=NONE gui=bold
       autocmd ColorScheme nord hi LspDiagnosticsHint guifg=#a3be8c guibg=#456c26
+      autocmd ColorScheme nord hi LspDiagnosticsHintFloating guifg=#a3be8c guibg=NONE
       autocmd ColorScheme nord hi LspDiagnosticsInformation guifg=#5e81ac guibg=#153b68
+      autocmd ColorScheme nord hi LspDiagnosticsInformationFloating guifg=#5e81ac guibg=NONE
       autocmd ColorScheme nord hi LspDiagnosticsWarning guifg=#ebcb8b guibg=#432d00
+      autocmd ColorScheme nord hi LspDiagnosticsWarningFloating guifg=#ebcb8b guibg=NONE
       autocmd ColorScheme nord hi link LspReferenceText LspDiagnosticsInformation
       autocmd ColorScheme nord hi link LspReferenceRead LspDiagnosticsHint
       autocmd ColorScheme nord hi link LspReferenceWrite LspDiagnosticsWarning
