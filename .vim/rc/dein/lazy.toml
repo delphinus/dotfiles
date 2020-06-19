@@ -693,6 +693,7 @@ on_ft       = [
   'dockerfile',
   'go',
   'html',
+  'javascript',
   'json',
   'less',
   'lua',
@@ -806,6 +807,13 @@ json = ''' "{{{
   endif
   call MyLSPSettings()
 "}}} '''
+javascript = ''' "{{{
+  if !get(g:my_lsp_loaded, 'tsserver')
+    lua require'nvim_lsp'.tsserver.setup{}
+    let g:my_lsp_loaded.tsserver = v:true
+  endif
+  call MyLSPSettings()
+"}}} '''
 less = ''' "{{{
   if !get(g:my_lsp_loaded, 'css')
     lua require'nvim_lsp'.cssls.setup{}
@@ -873,9 +881,9 @@ sh = ''' "{{{
   call MyLSPSettings()
 "}}} '''
 typescript = ''' "{{{
-  if !get(g:my_lsp_loaded, 'typescript')
+  if !get(g:my_lsp_loaded, 'tsserver')
     lua require'nvim_lsp'.tsserver.setup{}
-    let g:my_lsp_loaded.typescript = v:true
+    let g:my_lsp_loaded.tsserver = v:true
   endif
   call MyLSPSettings()
 "}}} '''

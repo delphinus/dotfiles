@@ -399,6 +399,9 @@ repo = 'tpope/vim-repeat'
 repo = 'vim-jp/vimdoc-ja'
 
 [[plugins]]
+repo = 'wbthomason/lsp-status.nvim'
+
+[[plugins]]
 repo     = 'wincent/terminus'
 # }}}
 
