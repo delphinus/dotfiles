@@ -537,11 +537,16 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo     = 'iamcco/markdown-preview.vim'
-on_map   = ['<Plug>MarkdownPreview', '<Plug>StopMarkdownPreview']
-hook_source = '''
-  let g:mkdp_path_to_chrome = 'open -a Safari'
-'''
+repo   = 'iamcco/markdown-preview.nvim'
+on_cmd = ['MarkdownPreview', 'MarkdownPreviewStop']
+on_ft  = ['markdown']
+on_map = ['<Plug>Markdown']
+build  = 'bash -c "cd app & yarn install"'
+hook_add = ''' "{{{
+  let g:mkdp_auto_close = 0
+  let g:mkdp_echo_preview_url = 1
+  let g:mkdp_open_to_the_world = 1
+"}}} '''
 
 [[plugins]]
 repo    = 'inkarkat/vim-LineJuggler'
