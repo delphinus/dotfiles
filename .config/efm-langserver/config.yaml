@@ -68,11 +68,12 @@ tools:
       - '%f:%l %m'
 
   sh-shellcheck: &sh-shellcheck
-    lint-command: 'shellcheck -f gcc -x'
+    lint-command: 'shellcheck -f gcc -x ${INPUT} | sed -e s/note:/info:/'
+    lint-ignore-exit-code: true
     lint-formats:
       - '%f:%l:%c: %trror: %m'
       - '%f:%l:%c: %tarning: %m'
-      - '%f:%l:%c: %tote: %m'
+      - '%f:%l:%c: %tnfo: %m'
 
   sh-shfmt: &sh-shfmt
     format-command: 'shfmt -ci -s -bn'
