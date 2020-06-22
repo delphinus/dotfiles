@@ -7,7 +7,7 @@
     name:
       - iterm2
       - neovim-remote
-      - vint
+      - git+https://github.com/Vimjas/vint
     executable: pip3
     extra_args: --user
     state: latest
