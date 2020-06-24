@@ -368,7 +368,7 @@ hook_add  = ''' "{{{
     nnoremap <A-c> <Cmd>FloatermToggle<CR>
     tnoremap <A-c> <Cmd>FloatermToggle<CR>
     nnoremap <A-n> <Cmd>FloatermNew<CR>
-    tnoremap <A-n> <Cmd>FloatermNew<CR><Cmd>startinsert<CR>
+    tnoremap <A-n> <Cmd>FloatermNew<CR>
     nnoremap <A-f> <Cmd>FloatermNext<CR>
     tnoremap <A-f> <Cmd>FloatermNext<CR>
   else
