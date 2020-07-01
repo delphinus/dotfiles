@@ -138,4 +138,9 @@
     url=https://github.com/jb55/typescript-ctags/raw/master/.ctags
     dest=~/.ctags.d/typescript.ctags
 
+- name: make .ptignore file
+  copy:
+    content: '{{ secret_ptignore }}'
+    dest: ~/.ptignore
+
 # vim:se et:
