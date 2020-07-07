@@ -1,10 +1,10 @@
 # on_cmd {{{
 [[plugins]]
-repo       = 'Shougo/deol.nvim'
-on_command = ['Deol']
-on_map     = ['<Plug>(deol']
-if         = 0  # TODO: use floaterm instead
-hook_add   = ''' "{{{
+repo     = 'Shougo/deol.nvim'
+on_cmd   = ['Deol']
+on_map   = ['<Plug>(deol']
+if       = 0  # TODO: use floaterm instead
+hook_add = ''' "{{{
   let g:deol#enable_dir_changed = 0
 
   function! s:open_deol() abort

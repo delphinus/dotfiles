@@ -1,8 +1,8 @@
 [[plugins]]
-repo       = 'Shougo/defx.nvim'
-on_command = ['Defx']
-depends    = ['nvim-yarp', 'vim-hug-neovim-rpc', 'defx-git']
-hook_add   = ''' "{{{
+repo     = 'Shougo/defx.nvim'
+on_cmd   = ['Defx']
+depends  = ['nvim-yarp', 'vim-hug-neovim-rpc', 'defx-git']
+hook_add = ''' "{{{
   nnoremap zf :<C-u>Defx `expand('%:p:h')` -search=`expand('%:p')` -split=floating<CR>
   nnoremap zr :<C-u>Defx -resume<CR>
 "}}} '''
