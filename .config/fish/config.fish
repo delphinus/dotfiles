@@ -17,7 +17,7 @@ assert_user_paths \
   ~/local/nvim/bin \
   ~/git/dotfiles/bin \
   ~/Library/Python/3.7/bin \
-  ~/.gem/ruby/2.6.0/bin \
+  ~/.gem/ruby/2.3.0/bin \
   /usr/local/opt/llvm/bin \
   /usr/local/opt/perl/bin
 
