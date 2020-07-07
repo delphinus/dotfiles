@@ -385,6 +385,81 @@ repo  = 'msanders/cocoa.vim'
 on_ft = ['objc']
 
 [[plugins]]
+repo   = 'nvim-treesitter/nvim-treesitter'
+merged = 0
+if     = 'has("nvim")'
+on_ft  = [
+  'bash',
+  'c',
+  'c_sharp',
+  'cpp',
+  'css',
+  'elm',
+  'go',
+  'haskell',
+  'html',
+  'java',
+  'javascript',
+  'json',
+  'julia',
+  'lua',
+  'markdown',
+  'ocaml',
+  'php',
+  'python',
+  'ruby',
+  'rust',
+  'scala',
+  'swift',
+  'toml',
+  'typescript',
+  'vue',
+  'yaml',
+]
+on_cmd = [
+  'TSBufDisable',
+  'TSBufEnable',
+  'TSDisableAll',
+  'TSEnableAll',
+  'TSInstall',
+  'TSInstallInfo',
+  'TSModuleInfo',
+]
+hook_source = ''' "{{{
+  lua <<EOF
+    require'nvim-treesitter.configs'.setup {
+      highlight = {
+        enable = true
+      },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = 'gnn',
+          node_incremental = 'grn',
+          scope_incremental = 'grc',
+          node_decremental = 'grm',
+        },
+      },
+      refactor = {
+        highlight_definitions = {
+          enable = true
+        },
+        smart_rename = {
+          enable = true,
+          smart_rename = 'grr'
+        },
+        navigation = {
+          enable = true,
+          goto_definition = 'gnd',
+          list_definition = 'gnD',
+        },
+      },
+      ensure_installed = 'all',
+    }
+EOF
+"}}} '''
+
+[[plugins]]
 repo    = 'rhysd/vim-textobj-ruby'
 depends = ['vim-textobj-user']
 on_ft   = ['ruby']
