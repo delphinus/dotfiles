@@ -388,11 +388,6 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo    = 'tpope/vim-rhubarb'
-depends = ['fugitive']
-# setting exists in .vimrc-local
-
-[[plugins]]
 repo = 'tpope/vim-repeat'
 
 [[plugins]]

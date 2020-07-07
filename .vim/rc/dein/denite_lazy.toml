@@ -336,10 +336,7 @@ on_source = ['denite.nvim']
 [[plugins]]
 repo      = 'neoclide/denite-git'
 on_source = ['denite.nvim', 'my-denite-sources']
-depends   = ['vim-easygit']
-
-[[plugins]]
-repo = 'neoclide/vim-easygit'
+depends   = ['vim-fugitive']
 
 [[plugins]]
 repo      = 'rafi/vim-denite-z'
