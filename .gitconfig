@@ -89,6 +89,7 @@
 	#diffFilter = diff-so-fancy
 [ghq]
 	root = ~/.go/src
+	root = ~/git
 	root = ~/.cache/dein/repos
 	root = ./vendor
 [ghq "ssh://git@git.remora.cx"]
