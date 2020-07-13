@@ -88,10 +88,8 @@
 	# TODO: check fix in Git
 	#diffFilter = diff-so-fancy
 [ghq]
-	root = ~/.go/src
-	root = ~/git
 	root = ~/.cache/dein/repos
-	root = ./vendor
+	root = ~/git
 [ghq "ssh://git@git.remora.cx"]
 	vcs = git
 [ghq "ssh://git@git.delphinus.dev"]
