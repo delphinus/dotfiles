@@ -413,60 +413,64 @@ hook_add = ''' "{{{
   let g:nord_uniform_status_lines = 1
   let g:nord_cursor_line_number_background = 1
 
-  augroup nord-overrides
-    autocmd!
-    autocmd ColorScheme nord hi Comment guifg=#CDD0BB
-    autocmd ColorScheme nord hi Delimiter guifg=#81A1C1
-    autocmd ColorScheme nord hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
-    autocmd ColorScheme nord hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
-    autocmd ColorScheme nord hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
-    autocmd ColorScheme nord hi Folded guifg=#D08770 gui=NONE
-    autocmd ColorScheme nord hi Identifier guifg=#8FBCBB
-    autocmd ColorScheme nord hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
-    autocmd ColorScheme nord hi Special guifg=#D08770
-    autocmd ColorScheme nord hi Title gui=bold cterm=bold
+  function s:nord_overrides() abort
+    hi Comment guifg=#CDD0BB
+    hi Delimiter guifg=#81A1C1
+    hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+    hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+    hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+    hi Folded guifg=#D08770 gui=NONE
+    hi Identifier guifg=#8FBCBB
+    hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
+    hi Special guifg=#D08770
+    hi Title gui=bold cterm=bold
 
     " for gitgutter
-    autocmd ColorScheme nord hi SignifyLineAdd ctermbg=233 guibg=#122b0c
-    autocmd ColorScheme nord hi SignifyLineChange ctermbg=236 guibg=#342e0e
-    autocmd ColorScheme nord hi SignifyLineDelete ctermbg=235 guibg=#4e2728
+    hi SignifyLineAdd ctermbg=233 guibg=#122b0c
+    hi SignifyLineChange ctermbg=236 guibg=#342e0e
+    hi SignifyLineDelete ctermbg=235 guibg=#4e2728
 
     if has('nvim')
-      autocmd ColorScheme nord hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold
-      autocmd ColorScheme nord hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
-      autocmd ColorScheme nord hi GitGutterChangeLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
-      autocmd ColorScheme nord hi GitGutterDeleteLineNr guifg=#bf616a guibg=#52050c gui=bold
+      hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold
+      hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+      hi GitGutterChangeLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+      hi GitGutterDeleteLineNr guifg=#bf616a guibg=#52050c gui=bold
 
       " for ALE
-      autocmd ColorScheme nord hi ALEErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
-      autocmd ColorScheme nord hi ALEInfoSignLineNr guifg=#5e81ac guibg=#153b68 gui=bold
-      autocmd ColorScheme nord hi ALEStyleErrorSignLineNr guifg=#bf616a guibg=NONE gui=bold
-      autocmd ColorScheme nord hi ALEStyleWarningSignLineNr guifg=#ebcb8b guibg=NONE gui=bold
-      autocmd ColorScheme nord hi ALEWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
-      autocmd ColorScheme nord hi ALEErrorSign guifg=#bf616a guibg=#52050c gui=bold
-      autocmd ColorScheme nord hi ALEInfoSign guifg=#5e81ac guibg=#153b68 gui=bold
-      autocmd ColorScheme nord hi ALEStyleErrorSign guifg=#bf616a guibg=NONE gui=bold
-      autocmd ColorScheme nord hi ALEStyleWarningSign guifg=#ebcb8b guibg=NONE gui=bold
-      autocmd ColorScheme nord hi ALEWarningSign guifg=#ebcb8b guibg=#432d00 gui=bold
-      autocmd ColorScheme nord hi ALEVirtualTextError guifg=#bf616a guibg=#52050c gui=bold
-      autocmd ColorScheme nord hi ALEVirtualTextInfo guifg=#5e81ac guibg=#153b68
-      autocmd ColorScheme nord hi ALEVirtualTextStyleError guifg=#bf616a guibg=NONE
-      autocmd ColorScheme nord hi ALEVirtualTextStyleWarning guifg=#ebcb8b guibg=NONE
-      autocmd ColorScheme nord hi ALEVirtualTextWarning guifg=#ebcb8b guibg=#432d00
+      hi ALEErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold
+      hi ALEInfoSignLineNr guifg=#5e81ac guibg=#153b68 gui=bold
+      hi ALEStyleErrorSignLineNr guifg=#bf616a guibg=NONE gui=bold
+      hi ALEStyleWarningSignLineNr guifg=#ebcb8b guibg=NONE gui=bold
+      hi ALEWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
+      hi ALEErrorSign guifg=#bf616a guibg=#52050c gui=bold
+      hi ALEInfoSign guifg=#5e81ac guibg=#153b68 gui=bold
+      hi ALEStyleErrorSign guifg=#bf616a guibg=NONE gui=bold
+      hi ALEStyleWarningSign guifg=#ebcb8b guibg=NONE gui=bold
+      hi ALEWarningSign guifg=#ebcb8b guibg=#432d00 gui=bold
+      hi ALEVirtualTextError guifg=#bf616a guibg=#52050c gui=bold
+      hi ALEVirtualTextInfo guifg=#5e81ac guibg=#153b68
+      hi ALEVirtualTextStyleError guifg=#bf616a guibg=NONE
+      hi ALEVirtualTextStyleWarning guifg=#ebcb8b guibg=NONE
+      hi ALEVirtualTextWarning guifg=#ebcb8b guibg=#432d00
 
       " LSP diagnostics
-      autocmd ColorScheme nord hi LspDiagnosticsError guifg=#bf616a guibg=#52050c gui=bold
-      autocmd ColorScheme nord hi LspDiagnosticsErrorFloating guifg=#bf616a guibg=NONE gui=bold
-      autocmd ColorScheme nord hi LspDiagnosticsHint guifg=#a3be8c guibg=#456c26
-      autocmd ColorScheme nord hi LspDiagnosticsHintFloating guifg=#a3be8c guibg=NONE
-      autocmd ColorScheme nord hi LspDiagnosticsInformation guifg=#5e81ac guibg=#153b68
-      autocmd ColorScheme nord hi LspDiagnosticsInformationFloating guifg=#5e81ac guibg=NONE
-      autocmd ColorScheme nord hi LspDiagnosticsWarning guifg=#ebcb8b guibg=#432d00
-      autocmd ColorScheme nord hi LspDiagnosticsWarningFloating guifg=#ebcb8b guibg=NONE
-      autocmd ColorScheme nord hi link LspReferenceText LspDiagnosticsInformation
-      autocmd ColorScheme nord hi link LspReferenceRead LspDiagnosticsHint
-      autocmd ColorScheme nord hi link LspReferenceWrite LspDiagnosticsWarning
+      hi LspDiagnosticsError guifg=#bf616a guibg=#52050c gui=bold
+      hi LspDiagnosticsErrorFloating guifg=#bf616a guibg=NONE gui=bold
+      hi LspDiagnosticsHint guifg=#a3be8c guibg=#456c26
+      hi LspDiagnosticsHintFloating guifg=#a3be8c guibg=NONE
+      hi LspDiagnosticsInformation guifg=#5e81ac guibg=#153b68
+      hi LspDiagnosticsInformationFloating guifg=#5e81ac guibg=NONE
+      hi LspDiagnosticsWarning guifg=#ebcb8b guibg=#432d00
+      hi LspDiagnosticsWarningFloating guifg=#ebcb8b guibg=NONE
+      hi link LspReferenceText LspDiagnosticsInformation
+      hi link LspReferenceRead LspDiagnosticsHint
+      hi link LspReferenceWrite LspDiagnosticsWarning
     endif
+  endfunction
+
+  augroup nord-overrides
+    autocmd!
+    autocmd ColorScheme nord call s:nord_overrides()
   augroup END
 "}}} '''
 
