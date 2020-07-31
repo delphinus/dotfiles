@@ -430,6 +430,20 @@ hook_add = ''' "{{{
     hi SignifyLineChange ctermbg=236 guibg=#342e0e
     hi SignifyLineDelete ctermbg=235 guibg=#4e2728
 
+    " for vim-go
+    " See https://github.com/arcticicestudio/nord-vim/pull/219
+    hi goDeclaration  guifg=#b48ead
+    hi goBuiltins     guifg=#88c0d0
+    hi goFunctionCall guifg=#5e81ac
+    hi goVarDefs      guifg=#bf616a
+    hi goVarAssign    guifg=#bf616a
+    hi goVar          guifg=#b48ead
+    hi goConst        guifg=#b48ead
+    hi goType         guifg=#ebcb8b
+    hi goTypeName     guifg=#ebcb8b
+    hi goDeclType     guifg=#88c0d0
+    hi goTypeDecl     guifg=#b48ead
+
     if has('nvim')
       hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold
       hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
