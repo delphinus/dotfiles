@@ -68,6 +68,7 @@ ignore_names_re = %r{
   \A\.screen/(?:cpu|memory)\z |
   \A\.zsh/zsh-notify/ |
   \Abin/local_perl\.sh\z |
+  \Abin/macos-askpass\z |
   \Asubmodules/ |
   \bmigemo-dict\b |
   \bnode_modules\b
