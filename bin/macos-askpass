@@ -1,0 +1,7 @@
+#!/usr/bin/env osascript -l JavaScript
+var app = Application.currentApplication()
+app.includeStandardAdditions = true
+app.displayDialog("Enter password:", {
+  hiddenAnswer: true,
+  defaultAnswer: ""
+}).textReturned
