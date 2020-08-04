@@ -391,6 +391,10 @@ hook_add = ''' "{{{
 repo = 'tpope/vim-repeat'
 
 [[plugins]]
+repo    = 'tpope/vim-rhubarb'
+depends = ['vim-fugitive']
+
+[[plugins]]
 repo = 'vim-jp/vimdoc-ja'
 
 [[plugins]]
