@@ -665,7 +665,8 @@ repo = 'c9s/perlomni.vim'
 repo = 'dNitro/vim-pug-complete'
 
 [[plugins]]
-repo = 'dag/vim-fish'
+#repo = 'dag/vim-fish'
+repo = 'blankname/vim-fish'
 
 [[plugins]]
 repo = 'delphinus/vim-firestore'
