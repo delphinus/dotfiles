@@ -4,7 +4,7 @@
 }
 @font-face {
 	font-family: sans-serif;
-	src: local('Hiragino Sans');
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: monospace;
@@ -12,19 +12,19 @@
 }
 @font-face {
 	font-family: 'MS Gothic';
-	src: local('Hiragino Sans');
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'Meiryo';
-	src: local('Hiragino Sans');
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'メイリオ';
-	src: local('Hiragino Sans');
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'Osaka';
-	src: local('Hiragino Sans');
+	src: local(-apple-system);
 }
 @font-face {
     font-family: -apple-system-subset;
@@ -56,5 +56,5 @@ textarea,textarea *,pre,pre *,code,code *,tt,tt *,
 }
 
 body {
-	font-family: -apple-system-subset, '凸版文久ゴシック', 'Hiragino Sans';
+	font-family: -apple-system;
 }
