@@ -409,9 +409,7 @@ depends = ['vim-fugitive']
 repo = 'vim-jp/vimdoc-ja'
 
 [[plugins]]
-#repo = 'wbthomason/lsp-status.nvim'
-repo = 'delphinus/lsp-status.nvim'
-rev = 'hotfix/help'
+repo = 'wbthomason/lsp-status.nvim'
 
 [[plugins]]
 repo     = 'wincent/terminus'
