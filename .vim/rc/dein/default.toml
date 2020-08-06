@@ -376,15 +376,10 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo = 'tpope/vim-eunuch'
-hook_add = ''' "{{{
-  " A stopgap measure to pass passwords to $SUDO_ASKPASS
-  " https://github.com/tpope/vim-eunuch/issues/56#issuecomment-626665562
-  if len($SECURITYSESSIONID) == 0
-    let $SECURITYSESSIONID = 'dummy'
-  endif
-  let $SUDO_ASKPASS = expand('~/git/dotfiles/bin/macos-askpass')
-"}}} '''
+#repo = 'tpope/vim-eunuch'
+repo = 'delphinus/vim-eunuch'
+rev = 'feature/detect-terminal'
+hook_add = "let $SUDO_ASKPASS = expand('~/git/dotfiles/bin/macos-askpass')"
 
 [[plugins]]
 repo     = 'tpope/vim-fugitive'
