@@ -215,6 +215,13 @@ hook_post_source = ''' "{{{
   call denite#custom#source('node_modules', 'sorters', [])
   call denite#custom#source('z', 'default_action', 'narrow')
 
+  if dein#tap('vim-clap')
+    call denite#custom#filter('matcher/clap', 'clap_path', g:dein#plugin.path)
+    call denite#custom#option('_', 'matchers', 'matcher/clap')
+  else
+    call denite#custom#option('_', 'matchers', 'matcher/fuzzy')
+  endif
+
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   " match_highlight needs the latest (Neo)Vim
   " ref. https://github.com/neovim/neovim/pull/12325
@@ -226,7 +233,6 @@ hook_post_source = ''' "{{{
         \ 'highlight_filter_background': 'DeniteFilter',
         \ 'highlight_matched_char': 'Directory',
         \ 'highlight_matched_range': 'PreProc',
-        \ 'matchers': 'matcher/fuzzy',
         \ 'match_highlight': v:true,
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
@@ -332,6 +338,18 @@ on_source = ['denite.nvim']
 [[plugins]]
 repo      = 'delphinus/vim-denite-window'
 on_source = ['denite.nvim']
+
+# vim-clap is needed only for its matcher by denite.nvim. So this definition
+# has no starting point to source.
+[[plugins]]
+repo = 'liuchengxu/vim-clap'
+hook_post_update = ''' "{{{
+  if executable('cargo')
+    !bash -c 'cd pythonx/clap && make build'
+  else
+    call dein#util#_error('Need the cargo executable for vim-clap')
+  endif
+"}}} '''
 
 [[plugins]]
 repo      = 'neoclide/denite-git'
