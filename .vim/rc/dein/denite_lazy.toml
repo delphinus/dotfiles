@@ -81,7 +81,6 @@ hook_add = ''' "{{{
   noremap zD :<C-u>Denite -no-start-filter -post-action=open -matchers=matcher/substring dein/log:!<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
   noremap zH :<C-u>Denite help<CR>
-  noremap zI :<C-u>Denite gitlog:all<CR>
   noremap zL :<C-u>call <SID>my_denite_decls(&filetype)<CR>
   noremap zN :<C-u>DeniteProjectDir -expand my_file my_file:new<CR>
   noremap zP :<C-u>Denite node_modules<CR>
@@ -94,9 +93,13 @@ hook_add = ''' "{{{
   noremap zd :<C-u>Denite -buffer-name=dwm dwm:no-current:all window:no-current:all<CR>
   noremap ze :<C-u>Denite memo/grep::!<CR>
   noremap zf :<C-u>Denite floaterm floaterm:new -auto-action=preview<CR>
-  noremap zg :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
+  noremap zgI :<C-u>Denite gitlog:all<CR>
+  noremap zgc :<C-u>Denite gitchanged<CR>
+  noremap zgf :<C-u>Denite gitfiles<CR>
+  noremap zgi :<C-u>Denite gitlog<CR>
+  noremap zgs :<C-u>Denite gitstatus<CR>
   noremap zh :<C-u>Denite ghq<CR>
-  noremap zi :<C-u>Denite gitlog<CR>
+  noremap zi :<C-u>Denite -max-dynamic-update-candidates=0 grep<CR>
   noremap zj :<C-u>Denite -resume -cursor-pos=+1 -immediately<CR>
   noremap zk :<C-u>Denite -resume -cursor-pos=-1 -immediately<CR>
   noremap zl :<C-u>call <SID>my_denite_outline(&filetype)<CR>
@@ -202,7 +205,7 @@ hook_post_source = ''' "{{{
   call denite#custom#var('my_file_rec', 'command', file_rec_cmd)
   call denite#custom#var('file/rec', 'command', file_rec_cmd)
 
-  call denite#custom#action('buffer,directory,file,memo,openable,command,ref', 'dwm_new', function('s:dwm_new'))
+  call denite#custom#action('buffer,directory,file,memo,openable,command,ref,git_object,gitlog,gitstatus', 'dwm_new', function('s:dwm_new'))
   call denite#custom#action('buffer,directory,file,openable', 'my_file_rec', function('s:candidate_file_rec'))
   call denite#custom#action('buffer,directory,file,openable', 'file/rec', function('s:candidate_file_rec'))
   call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
