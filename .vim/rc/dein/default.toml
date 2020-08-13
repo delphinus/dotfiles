@@ -376,9 +376,7 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-#repo = 'tpope/vim-eunuch'
-repo = 'delphinus/vim-eunuch'
-rev = 'feature/detect-terminal'
+repo     = 'tpope/vim-eunuch'
 hook_add = "let $SUDO_ASKPASS = expand('~/git/dotfiles/bin/macos-askpass')"
 
 [[plugins]]
