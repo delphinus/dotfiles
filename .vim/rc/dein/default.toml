@@ -450,6 +450,10 @@ hook_add = ''' "{{{
     hi goDeclType     guifg=#88c0d0
     hi goTypeDecl     guifg=#b48ead
 
+    " for visual-eof.lua
+    hi VisualEOL   guifg=#a3be8c
+    hi VisualNoEOL guifg=#bf616a
+
     if has('nvim')
       hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold
       hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold
@@ -741,6 +745,25 @@ repo = 'vim-scripts/fontforge_script.vim'
 repo = 'vim-scripts/nginx.vim'
 # }}}
 
+# lua-script {{{
+[[plugins]]
+repo     = 'LumaKernel/nvim-visual-eof.lua'
+if       = 'has("nvim")'
+hook_add = ''' "{{{
+  lua << EOF
+    require'visual-eof'.setup{
+      text_EOL = ' ';
+      text_NOEOL = ' ';
+      ft_ng = {
+        'denite',
+        'denite-filter',
+        'fugitive.*',
+        'git.*',
+      };
+    }
+EOF
+"}}} '''
+
 [[plugins]]
 repo        = 'neovim/nvim-lsp'
 if          = 'has("nvim-0.5")'
@@ -946,6 +969,7 @@ vim = ''' "{{{
   endif
   call MyLSPSettings()
 "}}} '''
+# }}}
 
 # dependencies {{{
 [[plugins]]
