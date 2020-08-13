@@ -139,7 +139,7 @@ hook_add = ''' "{{{
           \ 'json': [ 'eslint' ],
           \ 'typescript': [ 'eslint', 'tsserver' ],
           \ 'perl': [ 'perl' ],
-          \ 'python': [ 'mypy' ],
+          \ 'python': [ 'pyright' ],
           \ 'sh': [ 'shellcheck' ],
           \ 'vim': [ 'vint' ],
           \ }
