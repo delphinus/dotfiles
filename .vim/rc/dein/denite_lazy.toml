@@ -355,7 +355,8 @@ hook_post_update = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo      = 'neoclide/denite-git'
+#repo      = 'neoclide/denite-git'
+repo      = 'delphinus/denite-git'
 on_source = ['denite.nvim', 'my-denite-sources']
 depends   = ['vim-fugitive']
 
