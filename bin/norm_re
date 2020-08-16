@@ -1,0 +1,8 @@
+#!/usr/bin/env perl
+use Encode;
+use Unicode::Normalize;
+binmode STDOUT => ":utf8";
+for (shift @ARGV) {
+    $_ = decode_utf8 $_;
+    print NFC($_) . "|" . NFD($_);
+}
