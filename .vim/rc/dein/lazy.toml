@@ -378,7 +378,9 @@ repo  = 'msanders/cocoa.vim'
 on_ft = ['objc']
 
 [[plugins]]
-repo   = 'nvim-treesitter/nvim-treesitter'
+#repo   = 'nvim-treesitter/nvim-treesitter'
+repo   = 'delphinus/nvim-treesitter'
+rev = 'feature/fix-typo-in-doc'
 merged = 0
 if     = 'has("nvim")'
 on_ft  = [
