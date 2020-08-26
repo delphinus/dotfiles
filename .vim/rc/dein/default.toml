@@ -725,6 +725,9 @@ javascript = ''' "{{{
 
 [[plugins]]
 repo = 'tmux-plugins/vim-tmux'
+
+[[plugins]]
+repo = 'uarun/vim-protobuf'
 # }}}
 
 # vim-script {{{
