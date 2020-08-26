@@ -211,19 +211,21 @@ hook_post_source = ''' "{{{
   call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
   call denite#custom#action('file', 'grep', function('s:narrow_grep'))
 
-  call denite#custom#source('grep', {
-        \ 'args': ['', '', '!'],
-        \ 'converters': ['converter/abbr_word'],
-        \ })
+  call denite#custom#source('grep', 'args', ['', '', '!'])
+  call denite#custom#source('grep,memo', 'converters', ['converter/abbr_word'])
   call denite#custom#source('node_modules', 'sorters', [])
   call denite#custom#source('z', 'default_action', 'narrow')
 
   if dein#tap('vim-clap')
     call denite#custom#filter('matcher/clap', 'clap_path', g:dein#plugin.path)
-    call denite#custom#option('_', 'matchers', 'matcher/clap')
+    call denite#custom#source('_', 'matchers', ['matcher/clap'])
   else
-    call denite#custom#option('_', 'matchers', 'matcher/fuzzy')
+    call denite#custom#source('_', 'matchers', ['matcher/fuzzy'])
   endif
+
+  " migemo matcher
+  call denite#custom#filter('matcher/migemo', 'dict_path', '/usr/local/share/migemo/utf-8/migemo-dict')
+  call denite#custom#source('line,memo', 'matchers', ['matcher/migemo'])
 
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   " match_highlight needs the latest (Neo)Vim
@@ -358,6 +360,10 @@ hook_post_update = ''' "{{{
 repo      = 'neoclide/denite-git'
 on_source = ['denite.nvim', 'my-denite-sources']
 depends   = ['vim-fugitive']
+
+[[plugins]]
+repo      = 'nekowasabi/denite-migemo'
+on_source = ['denite.nvim', 'my-denite-sources']
 
 [[plugins]]
 repo      = 'rafi/vim-denite-z'
