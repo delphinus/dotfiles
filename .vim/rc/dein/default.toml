@@ -489,6 +489,9 @@ hook_add = ''' "{{{
       hi link LspReferenceText LspDiagnosticsInformation
       hi link LspReferenceRead LspDiagnosticsHint
       hi link LspReferenceWrite LspDiagnosticsWarning
+
+      " nvim-treesitter
+      hi TSCurrentScope guibg=#313743
     endif
   endfunction
 
