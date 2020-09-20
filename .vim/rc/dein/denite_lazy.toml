@@ -78,6 +78,7 @@ hook_add = ''' "{{{
 
   noremap #  :<C-u>Denite line<CR>
   noremap z/ :<C-u>DeniteCursorWord grep:.<CR>
+  noremap z<C-]> :<C-u>DeniteCursorWord -immediately outline<CR>
   noremap zD :<C-u>Denite -no-start-filter -post-action=open -matchers=matcher/substring dein/log:!<CR>
   noremap zG :<C-u>execute 'Denite grep:' . expand('%:h') . '::!'<CR>
   noremap zH :<C-u>Denite help<CR>
@@ -211,6 +212,7 @@ hook_post_source = ''' "{{{
   call denite#custom#action('buffer,directory,file,openable', 'grep', function('s:candidate_grep'))
   call denite#custom#action('file', 'grep', function('s:narrow_grep'))
 
+  call denite#custom#source('file/old', 'sorters', ['sorter/oldfiles'])
   call denite#custom#source('grep', 'args', ['', '', '!'])
   call denite#custom#source('grep,memo', 'converters', ['converter/abbr_word'])
   call denite#custom#source('node_modules', 'sorters', [])
@@ -241,7 +243,7 @@ hook_post_source = ''' "{{{
         \ 'match_highlight': v:true,
         \ 'max_dynamic_update_candidates': 100000,
         \ 'prompt': '❯ ',
-        \ 'split': has('nvim') ? 'floating_relative' : 'horizontal',
+        \ 'split': has('nvim') ? 'floating_relative_cursor' : 'horizontal',
         \ 'vertical_preview': v:true,
         \ })
 
