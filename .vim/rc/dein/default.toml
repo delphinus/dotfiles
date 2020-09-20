@@ -772,7 +772,7 @@ EOF
 "}}} '''
 
 [[plugins]]
-repo        = 'neovim/nvim-lsp'
+repo        = 'neovim/nvim-lspconfig'
 if          = 'has("nvim-0.5")'
 hook_add    = ''' "{{{
   let g:LspDiagnosticsErrorSign = "\u25cf"  " ●
