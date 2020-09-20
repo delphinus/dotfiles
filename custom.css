@@ -4,7 +4,7 @@
 }
 @font-face {
 	font-family: sans-serif;
-	src: local(-apple-system);
+	src: local('ヒラギノ角ゴシック');
 }
 @font-face {
 	font-family: monospace;
@@ -12,23 +12,31 @@
 }
 @font-face {
 	font-family: 'MS Gothic';
-	src: local(-apple-system);
+	src: local('ヒラギノ角ゴシック');
+}
+@font-face {
+	font-family: 'MS UI Gothic';
+	src: local('ヒラギノ角ゴシック');
+}
+@font-face {
+	font-family: 'ＭＳ Ｐゴシック';
+	src: local('ヒラギノ角ゴシック');
 }
 @font-face {
 	font-family: 'Meiryo';
-	src: local(-apple-system);
+	src: local('ヒラギノ角ゴシック');
 }
 @font-face {
 	font-family: 'メイリオ';
-	src: local(-apple-system);
+	src: local('ヒラギノ角ゴシック');
 }
 @font-face {
 	font-family: 'Osaka';
-	src: local(-apple-system);
+	src: local('ヒラギノ角ゴシック');
 }
 @font-face {
     font-family: -apple-system-subset;
-    src: local(-apple-system);
+    src: local('ヒラギノ角ゴシック');
     unicode-range: U+0000-05C7;
 }
 @font-face {
@@ -63,5 +71,5 @@ table td b a.extiw
 }
 
 body {
-	font-family: -apple-system;
+	font-family: 'ヒラギノ角ゴシック';
 }
