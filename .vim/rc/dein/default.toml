@@ -178,6 +178,10 @@ hook_add = ''' "{{{
   endfunction
 
   command DeinCleanUp call s:dein_cleanup()
+
+  if exists('$DEIN_GITHUB_TOKEN')
+    let g:dein#install_github_api_token = $DEIN_GITHUB_TOKEN
+  endif
 "}}} '''
 
 [[plugins]]
