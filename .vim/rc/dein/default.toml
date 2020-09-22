@@ -776,6 +776,44 @@ EOF
 "}}} '''
 
 [[plugins]]
+repo = 'Xuyuanp/scrollbar.nvim'
+if = 'has("nvim")'
+hook_add = ''' "{{{
+  let g:scrollbar_shape = {
+    \ 'head': '╽',
+    \ 'body': '┃',
+    \ 'tail': '╿',
+    \ }
+  let g:scrollbar_highlight = {
+    \ 'head': 'Todo',
+    \ 'body': 'Todo',
+    \ 'tail': 'Todo',
+    \ }
+  let g:scrollbar_excluded_filetypes = ['denite-filter']
+
+  augroup your_config_scrollbar_nvim
+    autocmd!
+    autocmd BufEnter    * silent! lua require('scrollbar').show()
+    autocmd BufLeave    * silent! lua require('scrollbar').clear()
+
+    autocmd CursorMoved * silent! lua require('scrollbar').show()
+    autocmd VimResized  * silent! lua require('scrollbar').show()
+
+    autocmd FocusGained * silent! lua require('scrollbar').show()
+    autocmd FocusLost   * silent! lua require('scrollbar').clear()
+  augroup end
+
+  " TODO: deal with :only in this plugin
+  function! s:only_and_show() abort
+    only
+    unlet b:scrollbar_state
+    lua require('scrollbar').show()
+  endfunction
+
+  map <C-w>o :call <SID>only_and_show()<CR>
+"}}} '''
+
+[[plugins]]
 repo        = 'neovim/nvim-lspconfig'
 if          = 'has("nvim-0.5")'
 hook_add    = ''' "{{{
