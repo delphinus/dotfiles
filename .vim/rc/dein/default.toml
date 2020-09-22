@@ -793,24 +793,17 @@ hook_add = ''' "{{{
 
   augroup your_config_scrollbar_nvim
     autocmd!
-    autocmd BufEnter    * silent! lua require('scrollbar').show()
-    autocmd BufLeave    * silent! lua require('scrollbar').clear()
-
-    autocmd CursorMoved * silent! lua require('scrollbar').show()
-    autocmd VimResized  * silent! lua require('scrollbar').show()
-
-    autocmd FocusGained * silent! lua require('scrollbar').show()
-    autocmd FocusLost   * silent! lua require('scrollbar').clear()
+    autocmd WinEnter,FocusGained,CursorMoved,VimResized * silent! lua require('scrollbar').show()
+    autocmd WinLeave,FocusLost                          * silent! lua require('scrollbar').clear()
   augroup end
 
   " TODO: deal with :only in this plugin
   function! s:only_and_show() abort
     only
-    unlet b:scrollbar_state
-    lua require('scrollbar').show()
+    silent! lua require('scrollbar').show()
   endfunction
 
-  map <C-w>o :call <SID>only_and_show()<CR>
+  map <C-w>o :silent call <SID>only_and_show()<CR>
 "}}} '''
 
 [[plugins]]
