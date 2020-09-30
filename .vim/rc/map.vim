@@ -17,6 +17,10 @@ nnoremap _ <C-W>_
 
 nnoremap <ESC><ESC> :nohlsearch<cr>
 
+" For QuickFix
+nnoremap qn :cnext<CR>
+nnoremap qp :cprev<CR>
+
 " view で起動したときは q で終了
 augroup SetMappingForView
   autocmd!
