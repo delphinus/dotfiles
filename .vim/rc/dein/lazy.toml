@@ -288,7 +288,7 @@ if       = '''!has('nvim')'''
 on_event = ['TextYankPost']
 
 [[plugins]]
-repo     = 'majutsushi/tagbar'
+repo     = 'preservim/tagbar'
 on_event = ['FocusLost', 'CursorHold']
 hook_add = ''' "{{{
   let g:tagbar_left = 1
