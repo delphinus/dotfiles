@@ -794,7 +794,7 @@ hook_add = ''' "{{{
   augroup your_config_scrollbar_nvim
     autocmd!
     autocmd WinEnter,FocusGained,CursorMoved,VimResized * silent! lua require('scrollbar').show()
-    autocmd WinLeave,FocusLost                          * silent! lua require('scrollbar').clear()
+    autocmd WinLeave,FocusLost,BufLeave                 * silent! lua require('scrollbar').clear()
   augroup end
 
   " TODO: deal with :only in this plugin
