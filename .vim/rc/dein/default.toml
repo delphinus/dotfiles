@@ -606,6 +606,10 @@ repo = 'hail2u/vim-css3-syntax'
 repo = 'isobit/vim-caddyfile'
 
 [[plugins]]
+repo     = 'motemen/vim-syntax-hatena'
+hook_add = 'let g:hatena_syntax_html = v:true'
+
+[[plugins]]
 repo = 'nikvdp/ejs-syntax'
 
 [[plugins]]
