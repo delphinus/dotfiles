@@ -795,11 +795,26 @@ hook_add = ''' "{{{
     \ }
   let g:scrollbar_excluded_filetypes = ['denite-filter']
 
-  augroup your_config_scrollbar_nvim
-    autocmd!
-    autocmd WinEnter,FocusGained,CursorMoved,VimResized * silent! lua require('scrollbar').show()
-    autocmd WinLeave,FocusLost,BufLeave                 * silent! lua require('scrollbar').clear()
-  augroup end
+  let s:scrollbar_enabled = v:false
+  function s:scrollbar_toggle() abort
+    if s:scrollbar_enabled
+      silent! lua require('scrollbar').clear()
+      augroup my_scrollbar_nvim
+        autocmd!
+      augroup end
+      let s:scrollbar_enabled = v:false
+    else
+      silent! lua require('scrollbar').show()
+      augroup my_scrollbar_nvim
+        autocmd!
+        autocmd WinEnter,FocusGained,CursorMoved,VimResized * silent! lua require('scrollbar').show()
+        autocmd WinLeave,FocusLost,BufLeave                 * silent! lua require('scrollbar').clear()
+      augroup end
+      let s:scrollbar_enabled = v:true
+    endif
+  endfunction
+  call s:scrollbar_toggle()
+  command! ToggleScrollbar call <SID>scrollbar_toggle()
 
   " TODO: deal with :only in this plugin
   function! s:only_and_show() abort
