@@ -8,6 +8,9 @@
 - name: prepare direnv config dir
   file: path=~/.config/direnv state=directory
 
+- name: prepare bat config dir
+  file: path=~/.config/bat state=directory
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
@@ -15,6 +18,7 @@
     state=link
     force=yes
   with_items:
+    - .config/bat/config
     - .config/direnv/direnvrc
     - .config/efm-langserver
     - .config/fish
