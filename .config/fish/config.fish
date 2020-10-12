@@ -118,6 +118,10 @@ else
   set -x GIT_EDITOR nvim
   set -x VISUAL nvim
 end
+if type -q bat
+  set -x PAGER bat
+  set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+end
 
 # from prezto
 set -l e (printf "\e")
