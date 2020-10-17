@@ -223,6 +223,11 @@ repo = 'zchee/deoplete-zsh'
 [[plugins]]
 repo     = 'airblade/vim-rooter'
 
+# TODO: https://github.com/antoinemadec/FixCursorHold.nvim
+[[plugins]]
+repo     = 'antoinemadec/FixCursorHold.nvim'
+hook_add = 'let g:cursorhold_updatetime = 100'
+
 [[plugins]]
 repo = 'delphinus/vim-auto-cursorline'
 
