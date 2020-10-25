@@ -667,6 +667,9 @@ hook_add = ''' "{{{
 
 # filetype {{{
 [[plugins]]
+repo = 'aliou/bats.vim'
+
+[[plugins]]
 repo = 'asciidoc/vim-asciidoc'
 
 [[plugins]]
