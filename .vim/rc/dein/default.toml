@@ -374,13 +374,13 @@ hook_add = ''' "{{{
   let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = "\ue287"
   let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = "\uf07b"
   " overwrite setting for 'vue' to use U+F542
-  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {
-        \ 'fcgi':     "\ue769",
-        \ 'perl':     "\ue769",
-        \ 'sqlite':   "\ue7c4",
-        \ 'tt':       "\ue60e",
-        \ 'txt':      "\ue601",
-        \ 'vue':      "\uf542",
+  let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = #{
+        \ fcgi:     "\ue769",
+        \ perl:     "\ue769",
+        \ sqlite:   "\ue7c4",
+        \ tt:       "\ue60e",
+        \ txt:      "\ue601",
+        \ vue:      "\uf542",
         \ }
 "}}} '''
 
@@ -788,15 +788,15 @@ EOF
 repo = 'Xuyuanp/scrollbar.nvim'
 if = 'has("nvim")'
 hook_add = ''' "{{{
-  let g:scrollbar_shape = {
-    \ 'head': '╽',
-    \ 'body': '┃',
-    \ 'tail': '╿',
+  let g:scrollbar_shape = #{
+    \ head: '╽',
+    \ body: '┃',
+    \ tail: '╿',
     \ }
-  let g:scrollbar_highlight = {
-    \ 'head': 'Todo',
-    \ 'body': 'Todo',
-    \ 'tail': 'Todo',
+  let g:scrollbar_highlight = #{
+    \ head: 'Todo',
+    \ body: 'Todo',
+    \ tail: 'Todo',
     \ }
   let g:scrollbar_excluded_filetypes = ['denite-filter']
 
@@ -869,7 +869,7 @@ hook_add    = ''' "{{{
   endfunction
 
   " This dict stores Neovim LSP's settings are loaded by filetypes.
-  let g:my_lsp_loaded = {'efm': v:true}
+  let g:my_lsp_loaded = #{efm: v:true}
   lua require'nvim_lsp'.efm.setup{}
 "}}} '''
 hook_source = ''' "{{{

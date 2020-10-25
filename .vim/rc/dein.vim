@@ -15,17 +15,17 @@ let g:dein#enable_notification = 1
 
 if dein#load_state(s:dein_dir)
   let s:toml = [
-        \ {'name': $HOME . '/.vim/rc/dein/default.toml',       'lazy': 0},
-        \ {'name': $HOME . '/.vim/rc/dein/lazy.toml',          'lazy': 1},
-        \ {'name': $HOME . '/.vim/rc/dein/defx_lazy.toml',     'lazy': 1},
-        \ {'name': $HOME . '/.vim/rc/dein/denite_lazy.toml',   'lazy': 1},
-        \ {'name': $HOME . '/.vim/rc/dein/deoplete_lazy.toml', 'lazy': 1},
+        \ #{name: $HOME . '/.vim/rc/dein/default.toml',       lazy: 0},
+        \ #{name: $HOME . '/.vim/rc/dein/lazy.toml',          lazy: 1},
+        \ #{name: $HOME . '/.vim/rc/dein/defx_lazy.toml',     lazy: 1},
+        \ #{name: $HOME . '/.vim/rc/dein/denite_lazy.toml',   lazy: 1},
+        \ #{name: $HOME . '/.vim/rc/dein/deoplete_lazy.toml', lazy: 1},
         \ ]
   " TODO: backup lightline settings
-  " call add(s:toml, {'name': $HOME . '/.vim/rc/dein/lightline.toml', 'lazy': 0})
+  " call add(s:toml, #{name: $HOME . '/.vim/rc/dein/lightline.toml', lazy: 0})
 
   call dein#begin(s:dein_dir, map(deepcopy(s:toml), {_, t -> t['name']}))
-  call map(s:toml, {_, t -> dein#load_toml(t['name'], {'lazy': t['lazy']})})
+  call map(s:toml, {_, t -> dein#load_toml(t['name'], #{lazy: t['lazy']})})
   call dein#end()
   call dein#save_state()
 endif

@@ -330,7 +330,7 @@ hook_source = ''' "{{{
   let g:go_fmt_command = 'goimports'
   let g:go_fmt_experimental = 1
   let g:go_fmt_fail_silently = 1
-  let g:go_fmt_options = {'gofmt': '-s'}
+  let g:go_fmt_options = #{gofmt: '-s'}
   let g:go_gocode_unimported_packages = 1
   let g:go_gopls_enabled = 1
   let g:go_gopls_complete_unimported = 1
@@ -723,25 +723,25 @@ hook_add    = ''' "{{{
 "}}} '''
 hook_source = ''' "{{{
   let g:easy_align_delimiters = {
-        \ '>': { 'pattern': '>>\|=>\|>' },
-        \ '/': { 'pattern': '//\+\|/\*\|\*/', 'ignore_groups': ['String'] },
-        \ '#': { 'pattern': '#\+', 'ignore_groups': ['String'], 'delimiter_align': 'l' },
-        \ ']': {
-        \     'pattern':       '[[\]]',
-        \     'left_margin':   0,
-        \     'right_margin':  0,
-        \     'stick_to_left': 0
+        \ '>': #{ pattern: '>>\|=>\|>' },
+        \ '/': #{ pattern: '//\+\|/\*\|\*/', ignore_groups: ['String'] },
+        \ '#': #{ pattern: '#\+', ignore_groups: ['String'], delimiter_align: 'l' },
+        \ ']': #{
+        \     pattern:       '[[\]]',
+        \     left_margin:   0,
+        \     right_margin:  0,
+        \     stick_to_left: 0
         \   },
-        \ ')': {
-        \     'pattern':       '[()]',
-        \     'left_margin':   0,
-        \     'right_margin':  0,
-        \     'stick_to_left': 0
+        \ ')': #{
+        \     pattern:       '[()]',
+        \     left_margin:   0,
+        \     right_margin:  0,
+        \     stick_to_left: 0
         \   },
-        \ 'd': {
-        \     'pattern': ' \(\S\+\s*[;=]\)\@=',
-        \     'left_margin': 0,
-        \     'right_margin': 0
+        \ 'd': #{
+        \     pattern: ' \(\S\+\s*[;=]\)\@=',
+        \     left_margin:  0,
+        \     right_margin: 0
         \   }
         \ }
 "}}} '''

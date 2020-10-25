@@ -61,18 +61,18 @@ hook_add = ''' "{{{
     let out = system('go env | grep ''^GOROOT='' | cut -d\" -f2')
     let goroot = substitute(out, '\n', '', '')
     call denite#start(
-          \ [{'name': 'file/rec', 'args': [goroot]}],
-          \ {'input': '.go'})
+          \ [#{name: 'file/rec', args: [goroot]}],
+          \ #{input: '.go'})
   endfunction
 
   function! s:my_denite_with_pwd(action) abort
     let pwd = get(b:, '__pwd__', '')
     if a:action ==# 'grep'
-      call denite#start([{'name': 'grep', 'args': [pwd, '', '!']}])
+      call denite#start([#{name: 'grep', args: [pwd, '', '!']}])
     elseif a:action ==# 'file/rec'
-      call denite#start([{'name': 'file/rec', 'args': [pwd]}])
+      call denite#start([#{name: 'file/rec', args: [pwd]}])
     else
-      call denite#start([{'name': a:action, 'args': ['', pwd]}])
+      call denite#start([#{name: a:action, args: ['', pwd]}])
     endif
   endfunction
 
@@ -144,18 +144,18 @@ hook_post_source = ''' "{{{
     let path = a:context['targets'][0]['action__path']
     let dir = denite#util#path2directory(path)
     let sources_queue = a:context['sources_queue'] + [[
-          \ {'name': 'file/rec', 'args': [dir]},
+          \ #{name: 'file/rec', args: [dir]},
           \ ]]
-    return {'sources_queue': sources_queue}
+    return #{sources_queue: sources_queue}
   endfunction
 
   function! s:candidate_grep(context) abort
     let path = a:context['targets'][0]['action__path']
     let dir = denite#util#path2directory(path)
     let sources_queue = a:context['sources_queue'] + [[
-          \ {'name': 'grep', 'args': [path, '', '!']},
+          \ #{name: 'grep', args: [path, '', '!']},
           \ ]]
-    return {'is_interactive': v:false, 'sources_queue': sources_queue}
+    return #{is_interactive: v:false, sources_queue: sources_queue}
   endfunction
 
   function! s:narrow_grep(context, ...) abort
@@ -178,9 +178,9 @@ hook_post_source = ''' "{{{
     let input = get(a:context, 'input', '')
     let pattern = substitute(input, '\s\+', '.*', 'g')
     let sources_queue = a:context['sources_queue'] + [[
-          \ {'name': 'grep', 'args': [path, opt, pattern]},
+          \ #{name: 'grep', args: [path, opt, pattern]},
           \ ]]
-    return {'sources_queue': sources_queue}
+    return #{sources_queue: sources_queue}
   endfunction
 
   " Use pt for grepping files
@@ -228,24 +228,24 @@ hook_post_source = ''' "{{{
 
   " migemo matcher
   call denite#custom#filter('matcher/migemo', 'dict_path', '/usr/local/share/migemo/utf-8/migemo-dict')
-  call denite#custom#source('line,memo', 'matchers', ['matcher/migemo'])
+  "call denite#custom#source('line,memo', 'matchers', ['matcher/migemo'])
 
   " ref. https://github.com/arcticicestudio/nord-vim/issues/79
   " match_highlight needs the latest (Neo)Vim
   " ref. https://github.com/neovim/neovim/pull/12325
-  call denite#custom#option('_', {
-        \ 'cached_filter': v:true,
-        \ 'cursor_shape': v:true,
-        \ 'cursor_wrap': v:true,
-        \ 'floating_preview': v:true,
-        \ 'highlight_filter_background': 'DeniteFilter',
-        \ 'highlight_matched_char': 'Directory',
-        \ 'highlight_matched_range': 'PreProc',
-        \ 'match_highlight': v:true,
-        \ 'max_dynamic_update_candidates': 100000,
-        \ 'prompt': '❯ ',
-        \ 'split': has('nvim') ? 'floating_relative_cursor' : 'horizontal',
-        \ 'vertical_preview': v:true,
+  call denite#custom#option('_', #{
+        \ cached_filter: v:true,
+        \ cursor_shape: v:true,
+        \ cursor_wrap: v:true,
+        \ floating_preview: v:true,
+        \ highlight_filter_background: 'DeniteFilter',
+        \ highlight_matched_char: 'Directory',
+        \ highlight_matched_range: 'PreProc',
+        \ match_highlight: v:true,
+        \ max_dynamic_update_candidates: 100000,
+        \ prompt: '❯ ',
+        \ split: has('nvim') ? 'floating_relative_cursor' : 'horizontal',
+        \ vertical_preview: v:true,
         \ })
 
   function! s:denite_detect_size() abort
@@ -253,11 +253,11 @@ hook_post_source = ''' "{{{
     let s:denite_winrow = &lines > s:denite_winheight ? (&lines - s:denite_winheight) / 2 : 0
     let s:denite_winwidth = &columns > 240 ? &columns / 2 : 120
     let s:denite_wincol = &columns > s:denite_winwidth ? (&columns - s:denite_winwidth) / 2 : 0
-    call denite#custom#option('_', {
-          \ 'wincol': s:denite_wincol,
-          \ 'winheight': s:denite_winheight,
-          \ 'winrow': s:denite_winrow,
-          \ 'winwidth': s:denite_winwidth,
+    call denite#custom#option('_', #{
+          \ wincol: s:denite_wincol,
+          \ winheight: s:denite_winheight,
+          \ winrow: s:denite_winrow,
+          \ winwidth: s:denite_winwidth,
           \ })
   endfunction
 

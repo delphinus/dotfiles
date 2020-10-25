@@ -7,24 +7,24 @@ hook_add = ''' "{{{
   nnoremap zr :<C-u>Defx -resume<CR>
 "}}} '''
 hook_source = ''' "{{{
-  call defx#custom#option('_', {
-        \ 'columns': 'git:mark:filename:type:size:time',
-        \ 'split': 'floating',
-        \ 'winwidth': &columns / 4,
-        \ 'wincol': &columns * 3 / 8,
+  call defx#custom#option('_', #{
+        \ columns: 'git:mark:filename:type:size:time',
+        \ split: 'floating',
+        \ winwidth: &columns / 4,
+        \ wincol: &columns * 3 / 8,
         \ })
   "   U+E0A2
   "   U+E5FE
   "   U+E5FF
   "   U+E92B
-  call defx#custom#column('filename', {
-        \ 'directory_icon': "\ue5ff ",
-        \ 'root_icon': "\ue5fe ",
+  call defx#custom#column('filename', #{
+        \ directory_icon: "\ue5ff ",
+        \ root_icon: "\ue5fe ",
         \ })
-  call defx#custom#column('mark', {
-        \ 'readonly_icon': "\ue0a2 ",
-        \ 'selected_icon': "\ue92b ",
-        \ 'length': 2,
+  call defx#custom#column('mark', #{
+        \ readonly_icon: "\ue0a2 ",
+        \ selected_icon: "\ue92b ",
+        \ length: 2,
         \ })
 "}}} '''
 
