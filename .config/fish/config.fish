@@ -160,3 +160,6 @@ type -q goenv; and source (goenv init -| psub)
 type -q nodenv; and source (nodenv init -| psub)
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
+
+# TODO: Now google-cloud-sdk does not work with Python 3.9!
+set -x CLOUDSDK_PYTHON /usr/local/opt/python@3.8/bin/python3
