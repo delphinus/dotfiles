@@ -307,6 +307,10 @@ hook_add = ''' "{{{
 
 # on_ft {{{
 [[plugins]]
+repo = 'aliou/bats.vim'
+on_ft = ['bats']
+
+[[plugins]]
 repo = 'derekwyatt/vim-scala'
 on_ft = ['scala']
 
