@@ -39,6 +39,7 @@
     - .iterm2_shell_integration.zsh
     - .jsbeautifyrc
     - .jshintrc
+    - .nbrc
     - .proverc
     - .ptconfig.toml
     - .ptpython/config.py
