@@ -139,6 +139,8 @@ scss = 'setlocal iskeyword+=-'
 
 sh = 'setlocal ts=2 sts=2 sw=2'
 
+tagbar = 'let b:dwm_disabled = 1'
+
 toml = ''' "{{{
   set tabstop=2
   set shiftwidth=2
