@@ -843,7 +843,7 @@ hook_add    = ''' "{{{
       vim.fn.nvim_buf_set_keymap(0, type, key, value, { noremap = true, silent = true });
     end
 
-    lsp_on_attach = function(client)
+    local lsp_on_attach = function(client)
       print('LSP started.');
 
       map('n', '1gD',        '<Cmd>lua vim.lsp.buf.type_definition()<CR>')
@@ -863,34 +863,22 @@ hook_add    = ''' "{{{
       map('n', 'gli',        '<Cmd>lua vim.lsp.buf.incoming_calls()<CR>')
       map('n', 'glo',        '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
     end
-EOF
 
-  lua require'nvim_lsp'.efm.setup{on_attach = lsp_on_attach}
-"}}} '''
-hook_source = ''' "{{{
-  " debug print in ~/.local/share/nvim/vim-lsp.log
-  "lua vim.lsp.set_log_level("debug")
-"}}} '''
+    local lsp = require'nvim_lsp'
+    lsp.bashls.setup{on_attach = lsp_on_attach}
+    lsp.clangd.setup{on_attach = lsp_on_attach}
+    lsp.cssls.setup{on_attach = lsp_on_attach}
+    lsp.dockerls.setup{on_attach = lsp_on_attach}
+    lsp.efm.setup{on_attach = lsp_on_attach}
+    lsp.html.setup{on_attach = lsp_on_attach}
+    lsp.jsonls.setup{on_attach = lsp_on_attach}
+    lsp.solargraph.setup{on_attach = lsp_on_attach}
+    lsp.tsserver.setup{on_attach = lsp_on_attach}
+    lsp.vimls.setup{on_attach = lsp_on_attach}
+    lsp.yamlls.setup{on_attach = lsp_on_attach}
 
-[plugins.ftplugin]
-c          = 'lua require"nvim_lsp".clangd.setup{on_attach = lsp_on_attach}'
-cpp        = 'lua require"nvim_lsp".clangd.setup{on_attach = lsp_on_attach}'
-css        = 'lua require"nvim_lsp".cssls.setup{on_attach = lsp_on_attach}'
-dockerfile = 'lua require"nvim_lsp".dockerls.setup{on_attach = lsp_on_attach}'
-html       = 'lua require"nvim_lsp".html.setup{on_attach = lsp_on_attach}'
-json       = 'lua require"nvim_lsp".jsonls.setup{on_attach = lsp_on_attach}'
-javascript = 'lua require"nvim_lsp".tsserver.setup{on_attach = lsp_on_attach}'
-less       = 'lua require"nvim_lsp".cssls.setup{on_attach = lsp_on_attach}'
-ruby       = 'lua require"nvim_lsp".solargraph.setup{on_attach = lsp_on_attach}'
-scss       = 'lua require"nvim_lsp".cssls.setup{on_attach = lsp_on_attach}'
-sh         = 'lua require"nvim_lsp".bashls.setup{on_attach = lsp_on_attach}'
-typescript = 'lua require"nvim_lsp".tsserver.setup{on_attach = lsp_on_attach}'
-yaml       = 'lua require"nvim_lsp".yamlls.setup{on_attach = lsp_on_attach}'
-vim        = 'lua require"nvim_lsp".vimls.setup{on_attach = lsp_on_attach}'
-
-go = ''' "{{{
-  lua << EOF
-    require'nvim_lsp'.gopls.setup{
+    -- for Go
+    lsp.gopls.setup{
       on_attach = lsp_on_attach,
       settings = {
         hoverKind = 'NoDocumentation',
@@ -900,11 +888,9 @@ go = ''' "{{{
         usePlaceholders = true,
       },
     }
-EOF
-"}}} '''
-lua = ''' "{{{
-  lua <<EOF
-    require'nvim_lsp'.sumneko_lua.setup{
+
+    -- for Lua
+    lsp.sumneko_lua.setup{
       on_attach = lsp_on_attach,
       settings = {
         Lua = {
@@ -930,10 +916,8 @@ lua = ''' "{{{
         }
       }
     }
-EOF
-"}}} '''
-python = ''' "{{{
-  lua <<EOF
+
+    -- for Python
     local path = vim.fn.exepath('python3')
 
     if not path then
@@ -946,7 +930,7 @@ python = ''' "{{{
     f:close()
     local version = l:match('^Python%s*(...).*%s*$')
 
-    require'nvim_lsp'.pyls_ms.setup{
+    lsp.pyls_ms.setup{
       on_attach = lsp_on_attach,
       init_options = {
         interpreter = {
@@ -958,6 +942,11 @@ python = ''' "{{{
       },
     }
 EOF
+
+"}}} '''
+hook_source = ''' "{{{
+  " debug print in ~/.local/share/nvim/vim-lsp.log
+  "lua vim.lsp.set_log_level("debug")
 "}}} '''
 # }}}
 
