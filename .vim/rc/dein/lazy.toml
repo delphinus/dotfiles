@@ -291,12 +291,21 @@ on_event = ['TextYankPost']
 repo     = 'preservim/tagbar'
 on_event = ['FocusLost', 'CursorHold']
 hook_add = ''' "{{{
-  let g:tagbar_left = 1
   let g:tagbar_autoclose = 1
   let g:tagbar_autofocus = 1
-  let g:tagbar_show_linenumbers = 1
-  let g:tagbar_iconchars = ["\ue5ff ", "\ue5fe "] "  , 
   let g:tagbar_autopreview = 1
+  let g:tagbar_iconchars = ["\ue5ff ", "\ue5fe "] "  , 
+  let g:tagbar_left = 1
+  let g:tagbar_show_linenumbers = 1
+  " public:    ○
+  " protected: □
+  " private:   ●
+  let g:tagbar_visibility_symbols = #{
+      \ public: "\u25cb ",
+      \ protected: "\u25a1 ",
+      \ private: "\u25cf ",
+      \ }
+
   augroup TagbarWindow
     autocmd!
     autocmd BufWinEnter * if &previewwindow | setlocal nonumber norelativenumber | endif
