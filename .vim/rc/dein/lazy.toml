@@ -599,6 +599,11 @@ hook_add  = ''' "{{{
     call DWM_ResizeMasterPaneWidth()
   endfunction
 
+  augroup DWMPreview
+    autocmd!
+    autocmd BufRead * if &previewwindow | let b:dwm_disabled = 1 | endif
+  augroup END
+
   nnoremap <silent> <Plug>DWMResetPaneWidth :call <SID>dwm_reset_pane_width()<CR>
   nmap <A-r> <Plug>DWMResetPaneWidth
 
