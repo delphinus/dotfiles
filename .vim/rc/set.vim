@@ -191,4 +191,8 @@ else
 endif
 " }}}
 
+" syntax settings
+let g:vimsyn_embed = 'lP'
+let g:vimsyn_folding = 'aflP'
+
 " vim:se fdm=marker:
