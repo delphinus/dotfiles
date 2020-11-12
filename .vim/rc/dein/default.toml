@@ -822,7 +822,7 @@ hook_add = ''' "{{{
 
 [[plugins]]
 repo        = 'neovim/nvim-lspconfig'
-if          = 'has("nvim-0.5")'
+depends     = ['diagnostic-nvim']
 hook_add    = ''' "{{{
   let g:LspDiagnosticsErrorSign = "\u25cf"  " ●
   let g:LspDiagnosticsWarningSign = "\u2b58"  " ⭘
@@ -845,6 +845,7 @@ hook_add    = ''' "{{{
 
     local lsp_on_attach = function(client)
       print('LSP started.');
+      require'diagnostic'.on_attach(client)
 
       map('n', '1gD',        '<Cmd>lua vim.lsp.buf.type_definition()<CR>')
       map('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>')
@@ -869,7 +870,7 @@ hook_add    = ''' "{{{
     lsp.clangd.setup{on_attach = lsp_on_attach}
     lsp.cssls.setup{on_attach = lsp_on_attach}
     lsp.dockerls.setup{on_attach = lsp_on_attach}
-    lsp.efm.setup{on_attach = lsp_on_attach}
+    -- lsp.efm.setup{on_attach = lsp_on_attach}
     lsp.html.setup{on_attach = lsp_on_attach}
     lsp.jsonls.setup{on_attach = lsp_on_attach}
     lsp.solargraph.setup{on_attach = lsp_on_attach}
@@ -947,6 +948,13 @@ EOF
 hook_source = ''' "{{{
   " debug print in ~/.local/share/nvim/vim-lsp.log
   "lua vim.lsp.set_log_level("debug")
+"}}} '''
+
+[[plugins]]
+repo     = 'nvim-lua/diagnostic-nvim'
+hook_add = ''' "{{{
+  nmap <A-K> <Cmd>PrevDiagnostic<CR>
+  nmap <A-J> <Cmd>NextDiagnostic<CR>
 "}}} '''
 # }}}
 

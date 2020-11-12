@@ -134,13 +134,13 @@ hook_add = ''' "{{{
   " TODO: Use Neovim lsp feature
   if has('nvim-0.5')
     let g:ale_linters = #{
-          \ go: [ 'golangci-lint', 'gopls' ],
-          \ javascript: [ 'eslint' ],
-          \ json: [ 'eslint' ],
-          \ typescript: [ 'eslint', 'tsserver' ],
+          \ go: [],
+          \ javascript: [],
+          \ json: [],
+          \ typescript: [],
           \ perl: [ 'perl' ],
-          \ python: [ 'pyright' ],
-          \ sh: [ 'shellcheck' ],
+          \ python: [],
+          \ sh: [],
           \ vim: [ 'vint' ],
           \ }
   " TODO: Use ALE lsp feature
@@ -186,8 +186,8 @@ hook_add = ''' "{{{
   let g:ale_virtualtext_cursor = 1
   let g:ale_virtualtext_delay = 100
   let g:ale_virtualtext_prefix = "\u25a0ALE: " " '■'
-  nmap <silent> <A-K> <Plug>(ale_previous_wrap)
-  nmap <silent> <A-J> <Plug>(ale_next_wrap)
+  "nmap <silent> <A-K> <Plug>(ale_previous_wrap)
+  "nmap <silent> <A-J> <Plug>(ale_next_wrap)
 "}}} '''
 hook_post_update = '''
   !gem install --user-install rubocop solargraph
