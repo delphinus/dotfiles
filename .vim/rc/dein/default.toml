@@ -477,17 +477,21 @@ hook_add = ''' "{{{
       hi ALEVirtualTextWarning guifg=#ebcb8b guibg=#432d00
 
       " LSP diagnostics
-      hi LspDiagnosticsError guifg=#bf616a guibg=#52050c gui=bold
-      hi LspDiagnosticsErrorFloating guifg=#bf616a guibg=NONE gui=bold
-      hi LspDiagnosticsHint guifg=#a3be8c guibg=#456c26
-      hi LspDiagnosticsHintFloating guifg=#a3be8c guibg=NONE
-      hi LspDiagnosticsInformation guifg=#5e81ac guibg=#153b68
-      hi LspDiagnosticsInformationFloating guifg=#5e81ac guibg=NONE
-      hi LspDiagnosticsWarning guifg=#ebcb8b guibg=#432d00
-      hi LspDiagnosticsWarningFloating guifg=#ebcb8b guibg=NONE
-      hi link LspReferenceText LspDiagnosticsInformation
-      hi link LspReferenceRead LspDiagnosticsHint
-      hi link LspReferenceWrite LspDiagnosticsWarning
+      hi LspDiagnosticsDefaultError guifg=#bf616a guibg=#52050c gui=bold
+      hi LspDiagnosticsFloatingError guifg=#bf616a guibg=NONE gui=bold
+      hi LspDiagnosticsUnderlineError guifg=#bf616a guibg=NONE gui=underline
+      hi LspDiagnosticsDefaultHint guifg=#a3be8c guibg=#456c26
+      hi LspDiagnosticsFloatingHint guifg=#a3be8c guibg=NONE
+      hi LspDiagnosticsUnderlineHint guifg=#a3be8c guibg=NONE
+      hi LspDiagnosticsDefaultInformation guifg=#5e81ac guibg=#153b68
+      hi LspDiagnosticsFloatingInformation guifg=#5e81ac guibg=NONE
+      hi LspDiagnosticsUnderlineInformation guifg=#5e81ac guibg=NONE gui=underline
+      hi LspDiagnosticsDefaultWarning guifg=#ebcb8b guibg=#432d00
+      hi LspDiagnosticsFloatingWarning guifg=#ebcb8b guibg=NONE
+      hi LspDiagnosticsUnderlineWarning guifg=#ebcb8b guibg=NONE gui=underline
+      hi link LspReferenceText LspDiagnosticsDefaultInformation
+      hi link LspReferenceRead LspDiagnosticsDefaultHint
+      hi link LspReferenceWrite LspDiagnosticsDefaultWarning
 
       " nvim-treesitter
       hi TSCurrentScope guibg=#313743
@@ -822,12 +826,11 @@ hook_add = ''' "{{{
 
 [[plugins]]
 repo        = 'neovim/nvim-lspconfig'
-depends     = ['diagnostic-nvim']
 hook_add    = ''' "{{{
-  let g:LspDiagnosticsErrorSign = "\u25cf"  " ●
-  let g:LspDiagnosticsWarningSign = "\u2b58"  " ⭘
-  let g:LspDiagnosticsInformationSign = "\u25c6"  " ◆
-  let g:LspDiagnosticsHintSign = "\u25ca"  " ◊
+  sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
+  sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
+  sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
+  sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
 
   function ShowLSPSettings() abort
     lua print(vim.inspect(vim.lsp.buf_get_clients()))
@@ -845,25 +848,34 @@ hook_add    = ''' "{{{
 
     local lsp_on_attach = function(client)
       print('LSP started.');
-      require'diagnostic'.on_attach(client)
 
       map('n', '1gD',        '<Cmd>lua vim.lsp.buf.type_definition()<CR>')
+      map('n', '<A-J>',      '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+      map('n', '<A-K>',      '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
       map('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>')
-      map('n', '<C-w><C-]>', '<Cmd>split<cmd>lua vim.lsp.buf.definition()<CR>')
+      map('n', '<C-w><C-]>', '<Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
       map('n', '<C-x><C-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>')
       map('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>')
-      map('n', 'gD',         '<Cmd>lua vim.lsp.buf.implementation()<CR>')
-      map('n', 'gd',         '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-      map('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>')
       map('n', 'g0',         '<Cmd>lua vim.lsp.buf.document_symbol()<CR>')
-      map('n', 'gW',         '<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
+      map('n', 'g=',         '<Cmd>lua vim.lsp.buf.formatting()<CR>')
       map('n', 'gA',         '<Cmd>lua vim.lsp.buf.code_action()<CR>')
+      map('n', 'gD',         '<Cmd>lua vim.lsp.buf.implementation()<CR>')
       map('n', 'gK',         '<Cmd>lua vim.lsp.util.show_line_diagnostics()<CR>')
       map('n', 'gR',         '<Cmd>lua vim.lsp.buf.rename()<CR>')
-      map('n', 'g=',         '<Cmd>lua vim.lsp.buf.formatting()<CR>')
+      map('n', 'gW',         '<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
+      map('n', 'gd',         '<Cmd>lua vim.lsp.buf.declaration()<CR>')
       map('n', 'gli',        '<Cmd>lua vim.lsp.buf.incoming_calls()<CR>')
       map('n', 'glo',        '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
+      map('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>')
     end
+
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        virtual_text = true,
+        update_in_insert = true,
+      }
+    )
 
     local lsp = require'nvim_lsp'
     lsp.bashls.setup{on_attach = lsp_on_attach}
@@ -948,13 +960,6 @@ EOF
 hook_source = ''' "{{{
   " debug print in ~/.local/share/nvim/vim-lsp.log
   "lua vim.lsp.set_log_level("debug")
-"}}} '''
-
-[[plugins]]
-repo     = 'nvim-lua/diagnostic-nvim'
-hook_add = ''' "{{{
-  nmap <A-K> <Cmd>PrevDiagnostic<CR>
-  nmap <A-J> <Cmd>NextDiagnostic<CR>
 "}}} '''
 # }}}
 
