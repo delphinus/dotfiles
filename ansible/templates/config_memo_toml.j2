@@ -1,7 +1,7 @@
-memodir = "{{ ansible_env.HOME }}/Documents/memo"
-editor = "vim"
+memodir = "{{ ansible_env.HOME }}/.nb/home"
+editor = "nvim"
 column = 20
-selectcmd = "peco"
+selectcmd = "fzf"
 grepcmd = "grep -nH ${PATTERN} ${FILES}"
 assetsdir = "."
 {# vim:se ft=toml.jinja: #}
