@@ -1,14 +1,6 @@
 not status is-interactive; and exit 0
 
-function assert_user_paths --description 'assert $fish_user_paths contains the path'
-  for i in $argv
-    if not contains $i $fish_user_paths
-      test -d $i; and set -U fish_user_paths $i $fish_user_paths
-    end
-  end
-end
-
-assert_user_paths \
+set -l paths \
   ~/bin \
   ~/.cargo/bin \
   ~/.local/bin \
@@ -21,6 +13,10 @@ assert_user_paths \
   /usr/local/opt/ruby/bin \
   /usr/local/opt/llvm/bin \
   /usr/local/opt/perl/bin
+
+if test "$paths" != "$fish_user_paths"
+  set -U fish_user_paths $paths
+end
 
 set nord0 2e3440
 set nord1 3b4252
