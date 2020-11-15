@@ -18,22 +18,22 @@ if test "$paths" != "$fish_user_paths"
   set -U fish_user_paths $paths
 end
 
-set nord0 2e3440
-set nord1 3b4252
-set nord2 434c5e
-set nord3 4c566a
-set nord4 d8dee9
-set nord5 e5e9f0
-set nord6 eceff4
-set nord7 8fbcbb
-set nord8 88c0d0
-set nord9 81a1c1
-set nord10 5e81ac
-set nord11 bf616a
-set nord12 d08770
-set nord13 ebcb8b
-set nord14 a3be8c
-set nord15 b48ead
+set -l nord0 2e3440
+set -l nord1 3b4252
+set -l nord2 434c5e
+set -l nord3 4c566a
+set -l nord4 d8dee9
+set -l nord5 e5e9f0
+set -l nord6 eceff4
+set -l nord7 8fbcbb
+set -l nord8 88c0d0
+set -l nord9 81a1c1
+set -l nord10 5e81ac
+set -l nord11 bf616a
+set -l nord12 d08770
+set -l nord13 ebcb8b
+set -l nord14 a3be8c
+set -l nord15 b48ead
 
 set fish_color_normal $nord4
 set fish_color_command $nord9
