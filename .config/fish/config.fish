@@ -16,7 +16,7 @@ assert_user_paths \
   ~/.go/bin \
   ~/local/nvim/bin \
   ~/git/dotfiles/bin \
-  ~/Library/Python/3.8/bin \
+  ~/Library/Python/3.9/bin \
   ~/.gem/ruby/2.7.0/bin \
   /usr/local/opt/ruby/bin \
   /usr/local/opt/llvm/bin \
