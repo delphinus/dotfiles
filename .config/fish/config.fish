@@ -120,14 +120,13 @@ if type -q bat
 end
 
 # from prezto
-set -l e (printf "\e")
-set -x LESS_TERMCAP_mb $e'[01;31m'      # Begins blinking.
-set -x LESS_TERMCAP_md $e'[01;31m'      # Begins bold.
-set -x LESS_TERMCAP_me $e'[0m'          # Ends mode.
-set -x LESS_TERMCAP_se $e'[0m'          # Ends standout-mode.
-set -x LESS_TERMCAP_so $e'[00;47;30m'   # Begins standout-mode.
-set -x LESS_TERMCAP_ue $e'[0m'          # Ends underline.
-set -x LESS_TERMCAP_us $e'[01;32m'      # Begins underline.
+set -x LESS_TERMCAP_mb \e'[01;31m'      # Begins blinking.
+set -x LESS_TERMCAP_md \e'[01;31m'      # Begins bold.
+set -x LESS_TERMCAP_me \e'[0m'          # Ends mode.
+set -x LESS_TERMCAP_se \e'[0m'          # Ends standout-mode.
+set -x LESS_TERMCAP_so \e'[00;47;30m'   # Begins standout-mode.
+set -x LESS_TERMCAP_ue \e'[0m'          # Ends underline.
+set -x LESS_TERMCAP_us \e'[01;32m'      # Begins underline.
 set -x LESS '-g -i -M -R -S -W -z-4 -x4 +3'
 
 set -x GOPATH $HOME/.go
