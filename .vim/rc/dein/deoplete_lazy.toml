@@ -140,7 +140,7 @@ hook_add = ''' "{{{
           \ typescript: [],
           \ perl: [ 'perl' ],
           \ python: [],
-          \ sh: [],
+          \ sh: [ 'shellcheck' ],
           \ vim: [ 'vint' ],
           \ }
   " TODO: Use ALE lsp feature
