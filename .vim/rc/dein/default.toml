@@ -695,6 +695,9 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'kevinoid/vim-jsonc'
+
+[[plugins]]
 repo = 'jason0x43/vim-js-indent'
 
 [[plugins]]
