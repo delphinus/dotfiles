@@ -1,0 +1,36 @@
+#!/usr/bin/env perl
+use 5.14.0;
+use warnings;
+use File::Basename;
+use File::Temp;
+use Time::Piece;
+
+sub with_timestamp($) {
+    (my $str = shift) =~ s/^/(localtime->datetime) . "\t"/egm;
+    return $str;
+}
+
+sub safe_system($) {
+    my $cmd = shift;
+
+    my $stderr_file = File::Temp->new->filename;
+    chomp(my $stdout = `$cmd 2> $stderr_file`);
+    my $stderr = do {
+        open my $fh, '<', $stderr_file or die;
+        local $/;
+        <$fh>;
+    };
+    die with_timestamp "failed to execute: $cmd\n$stderr" if $? != 0 || $stderr;
+    return $stdout;
+}
+
+my $latest_backup = safe_system '/usr/bin/tmutil latestbackup';
+my $t = Time::Piece->strptime(basename($latest_backup), '%F-%H%M%S');
+say with_timestamp 'The latest backup: ' . $t->datetime;
+if ((time - $t->epoch) > 12 * 60 * 60) {
+    say with_timestamp 'starting backup...';
+    safe_system '/usr/bin/tmutil startbackup --auto';
+    say with_timestamp 'finished!';
+} else {
+    say with_timestamp 'need not to backup';
+}
