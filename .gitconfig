@@ -51,6 +51,7 @@
 	wk = worktree
 	clean-local = !git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d
 	clean-remote = !git branch -r --merged master | grep -v -e master -e develop | sed -e 's% *origin/%%' | xargs -I% git push --delete origin % && git remote prune origin
+	show-name = diff-tree --no-commit-id --name-only -r
 [url "git@github.com:"]
 	pushinstedof = "git://github.com/"
 	pushinstedof = "https://github.com/"
