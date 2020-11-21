@@ -876,7 +876,7 @@ hook_add    = ''' "{{{
       vim.lsp.diagnostic.on_publish_diagnostics, {
         underline = true,
         virtual_text = true,
-        update_in_insert = true,
+        signs = true,
       }
     )
 
