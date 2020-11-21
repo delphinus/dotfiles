@@ -1,7 +1,0 @@
-use_vim() {
-  local extra_vimrc
-  extra_vimrc="$(find_up .vimrc.local)"
-  if [[ -n $extra_vimrc ]]; then
-    path_add DIRENV_EXTRA_VIMRC "$extra_vimrc"
-  fi
-}
