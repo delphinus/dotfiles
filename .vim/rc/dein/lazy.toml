@@ -612,7 +612,7 @@ hook_add  = ''' "{{{
   nmap <C-s> <Plug>DWMRotateClockwise
   nmap <C-q> <Plug>DWMRotateCounterclockwise
   nmap <C-n> <Plug>DWMNew
-  nmap <C-c> <Plug>DWMClose
+  nmap <C-c> :silent! lua require('scrollbar').clear()<CR><Plug>DWMClose
   nmap <C-Space> <Plug>DWMFocus
   nmap <C-@> <Plug>DWMFocus
   nmap <A-CR> <Plug>DWMFocus
