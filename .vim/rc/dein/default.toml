@@ -888,6 +888,7 @@ hook_add    = ''' "{{{
     -- lsp.efm.setup{on_attach = lsp_on_attach}
     lsp.html.setup{on_attach = lsp_on_attach}
     lsp.jsonls.setup{on_attach = lsp_on_attach}
+    lsp.pyright.setup{on_attach = lsp_on_attach}
     lsp.solargraph.setup{on_attach = lsp_on_attach}
     lsp.tsserver.setup{on_attach = lsp_on_attach}
     lsp.vimls.setup{on_attach = lsp_on_attach}
@@ -931,31 +932,6 @@ hook_add    = ''' "{{{
           },
         }
       }
-    }
-
-    -- for Python
-    local path = vim.fn.exepath('python3')
-
-    if not path then
-      error('python3 executable not found')
-    end
-
-    -- This is from pyls_ms.get_python_version()
-    local f = io.popen(path .. ' --version')
-    local l = f:read('*a')
-    f:close()
-    local version = l:match('^Python%s*(...).*%s*$')
-
-    lsp.pyls_ms.setup{
-      on_attach = lsp_on_attach,
-      init_options = {
-        interpreter = {
-          properties = {
-            InterpreterPath = path,
-            Version = version,
-          },
-        },
-      },
     }
 EOF
 
