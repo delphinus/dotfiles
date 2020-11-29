@@ -537,6 +537,39 @@ depends = ['vim-textobj-user']
 on_ft   = ['ruby']
 
 [[plugins]]
+repo    = 'romgrk/nvim-treesitter-context'
+depends = ['nvim-treesitter']
+if      = 'has("nvim")'
+on_ft   = [
+  'bash',
+  'c',
+  'c_sharp',
+  'cpp',
+  'css',
+  'elm',
+  'go',
+  'haskell',
+  'html',
+  'java',
+  'javascript',
+  'json',
+  'julia',
+  'lua',
+  'markdown',
+  'ocaml',
+  'php',
+  'python',
+  'ruby',
+  'rust',
+  'scala',
+  'swift',
+  'toml',
+  'typescript',
+  'vue',
+  'yaml',
+]
+
+[[plugins]]
 repo  = 'rust-lang/rust.vim'
 on_ft = ['rust']
 
