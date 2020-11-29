@@ -1,0 +1,121 @@
+#!/usr/bin/env perl
+use 5.14.0;
+use warnings;
+use File::Temp;
+use JSON::PP;
+use Time::Piece;
+
+sub with_timestamp($) {
+    (my $str = shift) =~ s/^/(localtime->datetime) . "\t"/egm;
+    return $str;
+}
+
+sub fetch {
+    my $cmd = 'tmutil status';
+    my $stderr_file = File::Temp->new->filename;
+    chomp(my $stdout = `$cmd 2> $stderr_file`);
+    my $stderr = do {
+        open my $fh, '<', $stderr_file or die;
+        local $/;
+        <$fh>;
+    };
+    die with_timestamp "failed to execute: $cmd\n$stderr" if $? != 0 || $stderr;
+    return $stdout;
+}
+
+sub parse {
+    my @lines = @_;
+    my $result = +{};
+    my $inside;
+    for (@lines) {
+        if (/^\s*\{/) {
+            # This is the start
+        } elsif (/^\s*(\w+)\s*=\s*\{/) {
+            $result->{lcfirst $1} = $inside = +{};
+        } elsif (/^\s*\};/) {
+            undef $inside;
+        } elsif (/"?(\w+)"?\s*=\s*"?(.*?)"?;/) {
+            my ($key, $value) = ($1, $2);
+            $key = lcfirst $key;
+            my $first = 1;
+            $key =~ s/_([[:alpha:]]+)/
+                if ($first) {
+                    $first = 0;
+                    $1;
+                } else {
+                    ucfirst $1;
+                }
+            /eg;
+            $value += 0 if $value =~ /^-?\d+$/;
+            if ($inside) {
+                $inside->{$key} = $value;
+            } else {
+                $result->{$key} = $value;
+            }
+        } elsif (/^\s*}/) {
+            # This is the end
+            return $result;
+        }
+    }
+    $result;
+}
+
+sub commify($) {
+    my $text = reverse $_[0];
+    $text =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
+    return scalar reverse $text;
+}
+
+sub arrange {
+    my $result = shift;
+    if (exists $result->{dateOfStateChange}) {
+        my $v = $result->{dateOfStateChange};
+        my $t = localtime(Time::Piece->strptime($v, '%F %T %z')->epoch);
+        $result->{dateOfStateChangeFormatted} = $t->strftime('%F %T %z');
+    }
+    my $p = $result->{progress};
+    if (exists $p->{bytes}) {
+        my $v = $p->{bytes};
+        $p->{bytesFormatted} = substr(commify($v / 1e9), 0, 5) . 'GB';
+    }
+    if (exists $p->{timeRemaining}) {
+        my $v = $p->{timeRemaining};
+        $p->{timeRemainingFormatted} = sprintf '%dm %ds', int($v / 60), $v % 60;
+    }
+    if (exists $p->{totalBytes}) {
+        my $v = $p->{totalBytes};
+        $p->{totalBytesFormatted} = substr(commify($v / 1e9), 0, 5) . 'GB';
+    }
+    $result;
+}
+
+sub process {
+    my $out = fetch;
+    my $result = parse(split "\n", $out);
+    my $arranged = arrange($result);
+    print JSON::PP->new->canonical(1)->encode($arranged);
+}
+
+process if __FILE__ eq $0;
+
+__END__
+# sample JSON
+
+{
+  "backupPhase": "Copying",
+  "clientID": "com.apple.backupd",
+  "dateOfStateChange": "2020-11-29 08:38:40 +0000",
+  "destinationID": "18E167B2-EA8C-4847-AD6A-84780BD58AB2",
+  "progress": {
+    "bytes": 15740062375,
+    "files": 53588,
+    "percent": "0.5366037135411036",
+    "rawPercent": "0.5366037135411036",
+    "rawTotalBytes": 29332749621,
+    "timeRemaining": 1675,
+    "totalBytes": 29332749621,
+    "totalFiles": 53588
+  },
+  "running": 1,
+  "stopping": 0
+}

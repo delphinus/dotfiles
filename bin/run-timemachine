@@ -3,11 +3,16 @@ use 5.14.0;
 use warnings;
 use File::Basename;
 use File::Temp;
+use JSON::PP;
 use Time::Piece;
 
 sub with_timestamp($) {
     (my $str = shift) =~ s/^/(localtime->datetime) . "\t"/egm;
     return $str;
+}
+
+sub logger($) {
+    say with_timestamp shift;
 }
 
 sub safe_system($) {
@@ -24,13 +29,36 @@ sub safe_system($) {
     return $stdout;
 }
 
+my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
+my $status = do { decode_json($json) };
+if ($@) {
+    die with_timestamp $@;
+} elsif ($status->{running} || $status->{stopping}) {
+    # Starting
+    # MountingBackupVol
+    # ThinningPreBackup
+    # Copying
+    # LazyThinning
+    logger 'Timemachine is running: ' . $status->{backupPhase};
+    logger sprintf '%s / %s EST %s',
+        $status->{progress}{bytesFormatted},
+        $status->{progress}{totalBytesFormatted},
+        $status->{progress}{timeRemainingFormatted};
+    exit;
+} elsif ($status->{backupPhase}) {
+    logger 'status => ' . $status->{backupPhase};
+} else {
+    logger "status: $json";
+    exit;
+}
+
 my $latest_backup = safe_system '/usr/bin/tmutil latestbackup';
 my $t = Time::Piece->strptime(basename($latest_backup), '%F-%H%M%S');
-say with_timestamp 'The latest backup: ' . $t->datetime;
+logger 'The latest backup: ' . $t->datetime;
 if ((time - $t->epoch) > 12 * 60 * 60) {
-    say with_timestamp 'starting backup...';
+    logger 'starting backup...';
     safe_system '/usr/bin/tmutil startbackup --auto';
-    say with_timestamp 'finished!';
+    logger 'finished!';
 } else {
-    say with_timestamp 'need not to backup';
+    logger 'need not to backup';
 }
