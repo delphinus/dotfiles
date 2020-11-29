@@ -828,8 +828,9 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo        = 'neovim/nvim-lspconfig'
-hook_add    = ''' "{{{
+repo     = 'neovim/nvim-lspconfig'
+if       = 'has("nvim")'
+hook_add = ''' "{{{
   sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
   sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
   sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
