@@ -31,34 +31,39 @@ sub safe_system($) {
 
 my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
 my $status = do { decode_json($json) };
-if ($@) {
-    die with_timestamp $@;
-} elsif ($status->{running} || $status->{stopping}) {
+die with_timestamp $@ if $@;
+
+if ($status->{running} || $status->{stopping}) {
     # Starting
     # MountingBackupVol
     # ThinningPreBackup
     # Copying
     # LazyThinning
     logger 'Timemachine is running: ' . $status->{backupPhase};
-    logger sprintf '%s / %s EST %s',
-        $status->{progress}{bytesFormatted},
-        $status->{progress}{totalBytesFormatted},
-        $status->{progress}{timeRemainingFormatted};
+    my $p = $status->{progress};
+    my @out;
+    push @out,
+        sprintf '%s / %s', $p->{bytesFormatted}, $p->{totalBytesFormatted}
+            if exists $p->{bytesFormatted} && exists $p->{totalBytesFormatted};
+    push @out, 'EST ' . $p->{timeRemainingFormatted}
+        if exists $p->{timeRemainingFormatted};
+    logger join ' ', @out if @out;
     exit;
 } elsif ($status->{backupPhase}) {
     logger 'status => ' . $status->{backupPhase};
-} else {
-    logger "status: $json";
+}
+
+my $latest_backup = eval { safe_system '/usr/bin/tmutil latestbackup' };
+if ($_ = $@) {
+    exit if /Unable to locate machine directory for host\./;
+    die $@;
+}
+my $t = Time::Piece->strptime(basename($latest_backup), '%F-%H%M%S');
+if ((time - $t->epoch) < 12 * 60 * 60) {
     exit;
 }
 
-my $latest_backup = safe_system '/usr/bin/tmutil latestbackup';
-my $t = Time::Piece->strptime(basename($latest_backup), '%F-%H%M%S');
 logger 'The latest backup: ' . $t->datetime;
-if ((time - $t->epoch) > 12 * 60 * 60) {
-    logger 'starting backup...';
-    safe_system '/usr/bin/tmutil startbackup --auto';
-    logger 'finished!';
-} else {
-    logger 'need not to backup';
-}
+logger 'starting backup...';
+safe_system '/usr/bin/tmutil startbackup --auto';
+logger 'finished!';
