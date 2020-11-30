@@ -195,4 +195,11 @@ endif
 let g:vimsyn_embed = 'lP'
 let g:vimsyn_folding = 'aflP'
 
+" for VV
+if exists('g:vv')
+  VVset fontfamily=SF\ Mono\ Square
+  VVset fontsize=16
+  VVset lineheight=1.0
+endif
+
 " vim:se fdm=marker:
