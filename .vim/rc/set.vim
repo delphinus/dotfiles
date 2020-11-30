@@ -163,7 +163,7 @@ if has('nvim')
   else
     set fillchars=diff:░,eob:‣,fold:░
   endif
-  set foldcolumn=auto:9
+  set foldcolumn=auto:4
   set pumblend=30  " transparency
   set shada=!,'1000,<50,s10,h  " Store 1000 entries on oldfiles
 else
