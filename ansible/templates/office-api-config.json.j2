@@ -1,7 +1,12 @@
 {
+{%- if 'client_id' in item %}
   "client_id": "{{ item.client_id }}",
   "client_secret": "{{ item.client_secret }}",
   "connect_origin": "{{ item.connect_origin }}",
+{%- else %}
+  "user": "{{ item.user }}",
+  "pass": "{{ item.pass }}",
+{%- endif %}
   "origin": "{{ item.origin }}",
   "schema_dir": "{{ item.schema_dir }}"
 }{# vim:se ft=json.jinja2: #}
