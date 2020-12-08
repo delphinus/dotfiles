@@ -1,2 +1,4 @@
 --theme=Nord
 --italic-text=always
+# https://github.com/sharkdp/bat/issues/1413#issuecomment-736271401
+--pager='less -FRX'
