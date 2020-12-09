@@ -15,16 +15,28 @@ sub logger($) {
     say with_timestamp shift;
 }
 
+sub load($) {
+    my $file = shift;
+    if (-f $file) {
+        open my $fh, '<', $file or die;
+        local $/;
+        return <$fh>;
+    }
+    '';
+}
+
+sub save($$) {
+    my ($file, $content) = @_;
+    open my $fh, '>', $file or die;
+    $fh->print($content);
+}
+
 sub safe_system($) {
     my $cmd = shift;
 
     my $stderr_file = File::Temp->new->filename;
     chomp(my $stdout = `$cmd 2> $stderr_file`);
-    my $stderr = do {
-        open my $fh, '<', $stderr_file or die;
-        local $/;
-        <$fh>;
-    };
+    my $stderr = load $stderr_file;
     die with_timestamp "failed to execute: $cmd\n$stderr" if $? != 0 || $stderr;
     return $stdout;
 }
@@ -56,14 +68,20 @@ if ($status->{running} || $status->{stopping}) {
 my $latest_backup = eval { safe_system '/usr/bin/tmutil latestbackup' };
 if ($_ = $@) {
     exit if /Unable to locate machine directory for host\./;
-    die $@;
+    die;
 }
 my $t = Time::Piece->strptime(basename($latest_backup), '%F-%H%M%S');
 if ((time - $t->epoch) < 12 * 60 * 60) {
     exit;
 }
 
-logger 'The latest backup: ' . $t->datetime;
+my $dt = $t->datetime;
+my $file = '/tmp/run-timemachine-latest';
+my $latest = load $file;
+exit if $dt eq $latest;
+
+logger "The latest backup: $dt";
 logger 'starting backup...';
 safe_system '/usr/bin/tmutil startbackup --auto';
-logger 'finished!';
+logger 'done!';
+save $file, $dt;
