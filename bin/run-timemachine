@@ -18,11 +18,11 @@ sub logger($) {
 sub load($) {
     my $file = shift;
     if (-f $file) {
-        open my $fh, '<', $file or die;
+        open my $fh, '<', $file
+            or die with_timestamp "failed to load $file: $!";
         local $/;
         return <$fh>;
     }
-    '';
 }
 
 sub save($$) {
@@ -76,6 +76,19 @@ sub detect_latest_backup() {
 }
 
 sub process() {
+    my ($exit_code, $latest) = detect_latest_backup;
+    return $exit_code if $exit_code;
+
+    if (defined $latest) {
+        my $dt = $latest->datetime;
+        my $file = '/tmp/run-timemachine-latest';
+        my $saved = load $file;
+        if (defined $saved && $dt ne $saved) {
+            logger "The latest backup: $dt";
+            save $file, $dt;
+        }
+    }
+
     my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
     my $status = do { decode_json($json) };
     die with_timestamp $@ if $@;
@@ -84,22 +97,11 @@ sub process() {
         return $exit_code;
     }
 
-    my ($exit_code, $latest_backup) = detect_latest_backup;
-    return $exit_code if defined $exit_code;
-    if ((time - $latest_backup->epoch) < 12 * 60 * 60) {
-        return 0;
+    if (defined $latest && (time - $latest->epoch) > 12 * 60 * 60) {
+        logger 'starting backup...';
+        safe_system '/usr/bin/tmutil startbackup --auto';
+        logger 'done!';
     }
-
-    my $dt = $latest_backup->datetime;
-    my $file = '/tmp/run-timemachine-latest';
-    my $latest = load $file;
-    return 0 if $dt eq $latest;
-
-    logger "The latest backup: $dt";
-    logger 'starting backup...';
-    safe_system '/usr/bin/tmutil startbackup --auto';
-    logger 'done!';
-    save $file, $dt;
     return 0;
 }
 
