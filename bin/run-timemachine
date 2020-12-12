@@ -65,12 +65,16 @@ sub show_status($) {
     } elsif (defined(my $phase = get $status, 'backupPhase')) {
         logger "status => $phase";
     }
+    undef;
 }
 
 sub detect_latest_backup() {
     my $t = eval { safe_system '/usr/bin/tmutil latestbackup' };
     if ($_ = $@) {
-        return /Unable to locate machine directory for host\./ ? 0 : 1;
+        if (/Unable to locate machine directory for host\./) {
+            return 0;
+        }
+        die with_timestamp $@;
     }
     undef, Time::Piece->strptime(basename($t), '%F-%H%M%S');
 }
@@ -83,7 +87,7 @@ sub process() {
         my $dt = $latest->datetime;
         my $file = '/tmp/run-timemachine-latest';
         my $saved = load $file;
-        if (defined $saved && $dt ne $saved) {
+        if (!defined $saved || $dt ne $saved) {
             logger "The latest backup: $dt";
             save $file, $dt;
         }
