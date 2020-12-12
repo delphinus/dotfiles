@@ -403,7 +403,6 @@ depends = [
   'nvim-treesitter-textobjects',
   'nvim-treesitter-refactor',
 ]
-merged = 0
 if     = 'has("nvim")'
 on_ft  = [
   'bash',
