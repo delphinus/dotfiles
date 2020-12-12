@@ -41,28 +41,30 @@ sub safe_system($) {
     return $stdout;
 }
 
+sub get($$;$) {
+    my ($hash, $key, $default) = @_;
+    exists $hash->{$key} ? $hash->{$key} : $default;
+}
+
 my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
 my $status = do { decode_json($json) };
 die with_timestamp $@ if $@;
 
-if ($status->{running} || $status->{stopping}) {
+if (get($status, 'running') || get($status, 'stopping')) {
     # Starting
     # MountingBackupVol
     # ThinningPreBackup
     # Copying
     # LazyThinning
-    logger 'Timemachine is running: ' . $status->{backupPhase};
-    my $p = $status->{progress};
-    my @out;
-    push @out,
-        sprintf '%s / %s', $p->{bytesFormatted}, $p->{totalBytesFormatted}
-            if exists $p->{bytesFormatted} && exists $p->{totalBytesFormatted};
-    push @out, 'EST ' . $p->{timeRemainingFormatted}
-        if exists $p->{timeRemainingFormatted};
-    logger join ' ', @out if @out;
+    logger 'Timemachine is running: ' . get $status, 'backupPhase', 'Unknown';
+    my $p = get $status, 'progress', +{};
+    logger sprintf '%s / %s EST %s',
+        get($p, 'bytesFormatted', 0),
+        get($p, 'totalBytesFormatted', 0),
+        get($p, 'timeRemainingFormatted', 'Unknown');
     exit;
-} elsif ($status->{backupPhase}) {
-    logger 'status => ' . $status->{backupPhase};
+} elsif (defined(my $phase = get $status, 'backupPhase')) {
+    logger "status => $phase";
 }
 
 my $latest_backup = eval { safe_system '/usr/bin/tmutil latestbackup' };
