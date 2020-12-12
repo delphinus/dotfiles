@@ -67,6 +67,14 @@ sub show_status($) {
     }
 }
 
+sub detect_latest_backup() {
+    my $t = eval { safe_system '/usr/bin/tmutil latestbackup' };
+    if ($_ = $@) {
+        return /Unable to locate machine directory for host\./ ? 0 : 1;
+    }
+    undef, Time::Piece->strptime(basename($t), '%F-%H%M%S');
+}
+
 sub process() {
     my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
     my $status = do { decode_json($json) };
@@ -76,16 +84,13 @@ sub process() {
         return $exit_code;
     }
 
-    my $latest_backup = eval { safe_system '/usr/bin/tmutil latestbackup' };
-    if ($_ = $@) {
-        return /Unable to locate machine directory for host\./ ? 0 : 1;
-    }
-    my $t = Time::Piece->strptime(basename($latest_backup), '%F-%H%M%S');
-    if ((time - $t->epoch) < 12 * 60 * 60) {
+    my ($exit_code, $latest_backup) = detect_latest_backup;
+    return $exit_code if defined $exit_code;
+    if ((time - $latest_backup->epoch) < 12 * 60 * 60) {
         return 0;
     }
 
-    my $dt = $t->datetime;
+    my $dt = $latest_backup->datetime;
     my $file = '/tmp/run-timemachine-latest';
     my $latest = load $file;
     return 0 if $dt eq $latest;
