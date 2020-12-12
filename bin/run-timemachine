@@ -46,44 +46,48 @@ sub get($$;$) {
     exists $hash->{$key} ? $hash->{$key} : $default;
 }
 
-my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
-my $status = do { decode_json($json) };
-die with_timestamp $@ if $@;
+sub process() {
+    my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
+    my $status = do { decode_json($json) };
+    die with_timestamp $@ if $@;
 
-if (get($status, 'running') || get($status, 'stopping')) {
-    # Starting
-    # MountingBackupVol
-    # ThinningPreBackup
-    # Copying
-    # LazyThinning
-    logger 'Timemachine is running: ' . get $status, 'backupPhase', 'Unknown';
-    my $p = get $status, 'progress', +{};
-    logger sprintf '%s / %s EST %s',
-        get($p, 'bytesFormatted', 0),
-        get($p, 'totalBytesFormatted', 0),
-        get($p, 'timeRemainingFormatted', 'Unknown');
-    exit;
-} elsif (defined(my $phase = get $status, 'backupPhase')) {
-    logger "status => $phase";
+    if (get($status, 'running') || get($status, 'stopping')) {
+        # Starting
+        # MountingBackupVol
+        # ThinningPreBackup
+        # Copying
+        # LazyThinning
+        logger 'Timemachine is running: ' . get $status, 'backupPhase', 'Unknown';
+        my $p = get $status, 'progress', +{};
+        logger sprintf '%s / %s EST %s',
+            get($p, 'bytesFormatted', 0),
+            get($p, 'totalBytesFormatted', 0),
+            get($p, 'timeRemainingFormatted', 'Unknown');
+        return 0;
+    } elsif (defined(my $phase = get $status, 'backupPhase')) {
+        logger "status => $phase";
+    }
+
+    my $latest_backup = eval { safe_system '/usr/bin/tmutil latestbackup' };
+    if ($_ = $@) {
+        return /Unable to locate machine directory for host\./ ? 0 : 1;
+    }
+    my $t = Time::Piece->strptime(basename($latest_backup), '%F-%H%M%S');
+    if ((time - $t->epoch) < 12 * 60 * 60) {
+        return 0;
+    }
+
+    my $dt = $t->datetime;
+    my $file = '/tmp/run-timemachine-latest';
+    my $latest = load $file;
+    return 0 if $dt eq $latest;
+
+    logger "The latest backup: $dt";
+    logger 'starting backup...';
+    safe_system '/usr/bin/tmutil startbackup --auto';
+    logger 'done!';
+    save $file, $dt;
+    return 0;
 }
 
-my $latest_backup = eval { safe_system '/usr/bin/tmutil latestbackup' };
-if ($_ = $@) {
-    exit if /Unable to locate machine directory for host\./;
-    die;
-}
-my $t = Time::Piece->strptime(basename($latest_backup), '%F-%H%M%S');
-if ((time - $t->epoch) < 12 * 60 * 60) {
-    exit;
-}
-
-my $dt = $t->datetime;
-my $file = '/tmp/run-timemachine-latest';
-my $latest = load $file;
-exit if $dt eq $latest;
-
-logger "The latest backup: $dt";
-logger 'starting backup...';
-safe_system '/usr/bin/tmutil startbackup --auto';
-logger 'done!';
-save $file, $dt;
+exit process if $0 eq __FILE__;
