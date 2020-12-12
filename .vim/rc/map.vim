@@ -19,6 +19,7 @@ nnoremap <ESC><ESC> :nohlsearch<cr>
 
 " For QuickFix / Location List
 function! s:qf_or_loc(cmd) abort
+  " https://vi.stackexchange.com/questions/18079/how-to-check-whether-the-location-list-for-the-current-window-is-open
   let is_loc = get(getloclist(0, {'winid': 0}), 'winid', 0)
   let prefix = is_loc ? 'l' : 'c'
   let cmd = ':' . prefix . a:cmd
