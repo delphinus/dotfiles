@@ -17,10 +17,21 @@ nnoremap _ <C-W>_
 
 nnoremap <ESC><ESC> :nohlsearch<cr>
 
-" For QuickFix
-nnoremap qn :cnext<CR>
-nnoremap qp :cprev<CR>
-nnoremap qq :cclose<CR>
+" For QuickFix / Location List
+function! s:qf_or_loc(cmd) abort
+  let is_loc = get(getloclist(0, {'winid': 0}), 'winid', 0)
+  let prefix = is_loc ? 'l' : 'c'
+  let cmd = ':' . prefix . a:cmd
+  echo cmd
+  try
+    execute cmd
+  catch /E553:/
+  catch /E42:/
+  endtry
+endfunction
+nnoremap qn :call <SID>qf_or_loc('next')<CR>
+nnoremap qp :call <SID>qf_or_loc('prev')<CR>
+nnoremap qq :call <SID>qf_or_loc('close')<CR>
 
 " view で起動したときは q で終了
 augroup SetMappingForView
