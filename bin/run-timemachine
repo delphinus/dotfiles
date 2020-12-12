@@ -46,10 +46,8 @@ sub get($$;$) {
     exists $hash->{$key} ? $hash->{$key} : $default;
 }
 
-sub process() {
-    my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
-    my $status = do { decode_json($json) };
-    die with_timestamp $@ if $@;
+sub show_status($) {
+    my $status = shift;
 
     if (get($status, 'running') || get($status, 'stopping')) {
         # Starting
@@ -66,6 +64,16 @@ sub process() {
         return 0;
     } elsif (defined(my $phase = get $status, 'backupPhase')) {
         logger "status => $phase";
+    }
+}
+
+sub process() {
+    my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
+    my $status = do { decode_json($json) };
+    die with_timestamp $@ if $@;
+
+    if (defined(my $exit_code = show_status $status)) {
+        return $exit_code;
     }
 
     my $latest_backup = eval { safe_system '/usr/bin/tmutil latestbackup' };
