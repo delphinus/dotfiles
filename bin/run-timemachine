@@ -55,7 +55,8 @@ sub show_status($) {
         # ThinningPreBackup
         # Copying
         # LazyThinning
-        logger 'Timemachine is running: ' . get $status, 'backupPhase', 'Unknown';
+        # ThinningPostBackup
+        logger 'Status: ' . get $status, 'backupPhase', 'Unknown';
         my $p = get $status, 'progress', +{};
         logger sprintf '%s / %s EST %s',
             get($p, 'bytesFormatted', 0),
