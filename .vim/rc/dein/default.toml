@@ -852,6 +852,9 @@ hook_add = ''' "{{{
 
     local lsp_on_attach = function(client)
       print('LSP started.');
+      if client.config.flags then
+        client.config.flags.allow_incremental_sync = true
+      end
 
       map('n', '1gD',        '<Cmd>lua vim.lsp.buf.type_definition()<CR>')
       map('n', '<A-J>',      '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
