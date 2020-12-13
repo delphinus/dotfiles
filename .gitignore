@@ -335,6 +335,45 @@ dist
 *.retry
 
 
+### https://raw.github.com/github/gitignore/218a941be92679ce67d0484547e3e142b2f5f6f0/Perl.gitignore
+
+!Build/
+.last_cover_stats
+/META.yml
+/META.json
+/MYMETA.*
+*.o
+*.pm.tdy
+*.bs
+
+# Devel::Cover
+cover_db/
+
+# Devel::NYTProf
+nytprof.out
+
+# Dizt::Zilla
+/.build/
+
+# Module::Build
+_build/
+Build
+Build.bat
+
+# Module::Install
+inc/
+
+# ExtUtils::MakeMaker
+/blib/
+/_eumm/
+/*.gz
+/Makefile
+/Makefile.old
+/MANIFEST.bak
+/pm_to_blib
+/*.zip
+
+
 ### custom ignore
 /.config/fish/config-local.fish
 /.config/fish/fish_variables
@@ -363,6 +402,7 @@ dist
 /history.sqlite
 /iterm2/imap_status.py
 /lastfm-lover-session-key.txt
+/local
 /mkmf.log
 /quickfix.err
 /vim/view
