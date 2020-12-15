@@ -869,6 +869,7 @@ hook_source = ''' "{{{
     }
 EOF
 "}}} '''
+hook_post_update = 'TSUpdate'
 
 [[plugins]]
 #repo    = 'nvim-treesitter/nvim-treesitter-refactor'
