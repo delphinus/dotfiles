@@ -540,7 +540,9 @@ EOF
 "}}} '''
 
 [[plugins]]
-repo    = 'nvim-treesitter/nvim-treesitter-refactor'
+#repo    = 'nvim-treesitter/nvim-treesitter-refactor'
+repo    = 'delphinus/nvim-treesitter-refactor'
+rev    = 'hotfix/help-tags'
 
 [[plugins]]
 repo    = 'nvim-treesitter/nvim-treesitter-textobjects'
