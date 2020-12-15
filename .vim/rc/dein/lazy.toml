@@ -706,6 +706,7 @@ depends = [
   'nvim-treesitter-textobjects',
   'nvim-treesitter-refactor',
   'nvim-ts-rainbow'
+  'playground',
 ]
 if     = 'has("nvim")'
 on_ft  = [ #{{{
@@ -777,6 +778,12 @@ hook_source = ''' "{{{
         },
       },
       ensure_installed = 'all',
+      playground = {
+        enable = true,
+        disable = {},
+        updatetime = 25,
+        persist_queries = false,
+      },
       refactor = {
         highlight_definitions = { enable = true },
         highlight_current_scope = { enable = true },
@@ -870,6 +877,9 @@ rev    = 'hotfix/help-tags'
 
 [[plugins]]
 repo    = 'nvim-treesitter/nvim-treesitter-textobjects'
+
+[[plugins]]
+repo    = 'nvim-treesitter/playground'
 
 [[plugins]]
 repo = 'p00f/nvim-ts-rainbow'
