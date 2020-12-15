@@ -11,6 +11,10 @@
 	src: local('Menlo');
 }
 @font-face {
+	font-family: 'ヒラギノ角ゴ ProN W3';
+	src: local('ヒラギノ角ゴシック');
+}
+@font-face {
 	font-family: 'MS Gothic';
 	src: local('ヒラギノ角ゴシック');
 }
