@@ -495,6 +495,13 @@ hook_add = ''' "{{{
 
       " nvim-treesitter
       hi TSCurrentScope guibg=#313743
+      hi rainbowcol1 guifg=#bf616a
+      hi rainbowcol2 guifg=#d08770
+      hi rainbowcol3 guifg=#b48ead
+      hi rainbowcol4 guifg=#ebcb8b
+      hi rainbowcol5 guifg=#a3b812
+      hi rainbowcol6 guifg=#81a1c1
+      hi rainbowcol7 guifg=#8fbcbb
     endif
   endfunction
 
