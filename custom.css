@@ -7,6 +7,10 @@
 	src: local('ヒラギノ角ゴシック');
 }
 @font-face {
+	font-family: Arial;
+	src: local('ヒラギノ角ゴシック');
+}
+@font-face {
 	font-family: monospace;
 	src: local('Menlo');
 }
