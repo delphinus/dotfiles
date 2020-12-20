@@ -1,42 +1,52 @@
 #!/usr/bin/env perl
-use 5.14.0;
+use 5.20.0;
 use warnings;
+use feature 'signatures';
+no warnings 'experimental::signatures';
 use File::Temp;
 use JSON::PP;
 use Time::Piece;
 
-sub with_timestamp($) {
-    (my $str = shift) =~ s/^/(localtime->datetime) . "\t"/egm;
-    return $str;
+# for testing
+our $tmstatus_cmd = 'tmutil status';
+
+sub with_timestamp :prototype($) ($msg) {
+    $msg =~ s/^/(localtime->datetime) . "\t"/egm;
+    return $msg;
 }
 
-sub fetch {
-    my $cmd = 'tmutil status';
+sub load :prototype($) ($file) {
+    if (!-f $file) {
+        return
+    }
+    open my $fh, '<', $file
+        or die with_timestamp "failed to load $file: $!";
+    local $/;
+    <$fh>;
+}
+
+sub safe_system :prototype($) ($cmd) {
     my $stderr_file = File::Temp->new->filename;
     chomp(my $stdout = `$cmd 2> $stderr_file`);
-    my $stderr = do {
-        open my $fh, '<', $stderr_file or die;
-        local $/;
-        <$fh>;
-    };
+    my $stderr = load $stderr_file;
     die with_timestamp "failed to execute: $cmd\n$stderr" if $? != 0 || $stderr;
-    return $stdout;
+    $stdout;
 }
 
-sub parse {
-    my @lines = @_;
+sub parse :prototype($) ($output) {
     my $result = +{};
     my $inside;
-    for (@lines) {
+    for (split "\n", $output) {
         if (/^\s*\{/) {
             # This is the start
         } elsif (/^\s*(\w+)\s*=\s*\{/) {
+            (my $key = lcfirst $1) =~ s/ID/Id/;
             $result->{lcfirst $1} = $inside = +{};
         } elsif (/^\s*\};/) {
             undef $inside;
         } elsif (/"?(\w+)"?\s*=\s*"?(.*?)"?;/) {
             my ($key, $value) = ($1, $2);
-            $key = lcfirst $key;
+            ($key = lcfirst $key) =~ s/ID/Id/;
             my $first = 1;
             $key =~ s/_([[:alpha:]]+)/
                 if ($first) {
@@ -60,43 +70,44 @@ sub parse {
     $result;
 }
 
-sub commify($) {
-    my $text = reverse $_[0];
+sub commify :prototype($) ($text) {
+    $text = reverse $text;
     $text =~ s/(\d\d\d)(?=\d)(?!\d*\.)/$1,/g;
-    return scalar reverse $text;
+    scalar reverse $text;
 }
 
-sub arrange {
-    my $result = shift;
-    if (exists $result->{dateOfStateChange}) {
-        my $v = $result->{dateOfStateChange};
+sub get :prototype($$;$) ($hash, $key, $default = undef) {
+    exists $hash->{$key} ? $hash->{$key} : $default;
+}
+
+sub arrange :prototype($) ($result) {
+    if (defined(my $v = get $result, 'dateOfStateChange')) {
         my $t = localtime(Time::Piece->strptime($v, '%F %T %z')->epoch);
         $result->{dateOfStateChangeFormatted} = $t->strftime('%F %T %z');
     }
-    my $p = $result->{progress};
-    if (exists $p->{bytes}) {
-        my $v = $p->{bytes};
-        $p->{bytesFormatted} = substr(commify($v / 1e9), 0, 5) . 'GB';
+    my $p = get $result, 'progress', +{};
+    if (defined(my $v = get $p, 'bytes')) {
+        $p->{bytesFormatted} = substr(commify $v / 1e9, 0, 5) . 'GB';
     }
-    if (exists $p->{timeRemaining}) {
-        my $v = $p->{timeRemaining};
+    if (defined(my $v = get $p, 'timeRemaining')) {
         $p->{timeRemainingFormatted} = sprintf '%dm %ds', int($v / 60), $v % 60;
     }
-    if (exists $p->{totalBytes}) {
-        my $v = $p->{totalBytes};
-        $p->{totalBytesFormatted} = substr(commify($v / 1e9), 0, 5) . 'GB';
+    if (defined(my $v = get $p, 'totalBytes')) {
+        $p->{totalBytesFormatted} = substr(commify $v / 1e9, 0, 5) . 'GB';
     }
     $result;
 }
 
 sub process {
-    my $out = fetch;
-    my $result = parse(split "\n", $out);
-    my $arranged = arrange($result);
+    my $out = safe_system 'tmutil status';
+    my $result = parse $out;
+    my $arranged = arrange $result;
     print JSON::PP->new->canonical(1)->encode($arranged);
 }
 
 process if __FILE__ eq $0;
+
+1;
 
 __END__
 # sample JSON

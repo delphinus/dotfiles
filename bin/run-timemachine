@@ -56,7 +56,9 @@ sub show_status($) {
         # Copying
         # LazyThinning
         # ThinningPostBackup
-        logger 'Status: ' . get $status, 'backupPhase', 'Unknown';
+        logger sprintf 'Status: %s from %s',
+            get($status, 'backupPhase', 'Unknown'),
+            get($status, 'dateOfStateChangeFormatted', 'Unknown');
         my $p = get $status, 'progress', +{};
         logger sprintf '%s / %s EST %s',
             get($p, 'bytesFormatted', 0),
@@ -82,7 +84,7 @@ sub detect_latest_backup() {
 
 sub process() {
     my ($exit_code, $latest) = detect_latest_backup;
-    return $exit_code if $exit_code;
+    return $exit_code if defined $exit_code;
 
     if (defined $latest) {
         my $dt = $latest->datetime;
