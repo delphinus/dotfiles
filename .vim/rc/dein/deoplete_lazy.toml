@@ -42,7 +42,9 @@ hook_post_source = ''' "{{{
         \ keyword_patterns: #{
         \   _: '\w\k*',
         \   denite-filter: '[\w.-]*',
-        \ }})
+        \ },
+        \ min_pattern_length: 1,
+        \ })
   call deoplete#custom#var('terminal', 'require_same_tab', v:false)
   function! s:my_cr_function() abort
     return deoplete#close_popup() . "\<CR>"
