@@ -31,15 +31,15 @@ hook_post_source = ''' "{{{
         \ })
   call deoplete#custom#source('look', 'rank', 0)
   call deoplete#custom#source('denite', 'rank', 300)
-  call deoplete#custom#option({
-        \ 'camel_case': v:true,
-        \ 'candidate_marks': ['⌥Z', '⌥X', '⌥C', '⌥V', '⌥B'],
-        \ 'ignore_sources': #{
+  call deoplete#custom#option(#{
+        \ camel_case: v:true,
+        \ candidate_marks: ['⌥Z', '⌥X', '⌥C', '⌥V', '⌥B'],
+        \ ignore_sources: #{
         \   AerojumpFilter: ['look'],
         \   denite-filter: ['look'],
         \   perl: ['ale'],
         \ },
-        \ 'keyword_patterns': #{
+        \ keyword_patterns: #{
         \   _: '\w\k*',
         \   denite-filter: '[\w.-]*',
         \ }})
