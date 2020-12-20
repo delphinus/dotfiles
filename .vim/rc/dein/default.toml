@@ -16,6 +16,8 @@ fish = ''' "{{{
   set softtabstop=2
 "}}} '''
 
+floaterm = 'set winblend=30'
+
 gitcommit = 'setlocal colorcolumn=50,72'
 
 go_gohtmltmpl = ''' "{{{
