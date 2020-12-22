@@ -18,6 +18,8 @@ fish = ''' "{{{
 
 floaterm = 'set winblend=30'
 
+git = 'let b:dwm_disabled = v:true'
+
 gitcommit = 'setlocal colorcolumn=50,72'
 
 go_gohtmltmpl = ''' "{{{
