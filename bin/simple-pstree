@@ -17,6 +17,6 @@ while ($_ = <$out>) {
     next if !defined $cmd1 || $cmd1 eq '(bash)';
     $cmd1 = basename $cmd1;
     $cmd2 = $cmd2 ? basename $cmd2 : '';
-    say join " ", $tree, $pid, $user, $cmd1, $cmd2;
+    say join " ", $tree, $pid, $cmd1, $cmd2;
 }
 close $out;
