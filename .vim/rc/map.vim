@@ -17,6 +17,9 @@ nnoremap _ <C-W>_
 
 nnoremap <ESC><ESC> :nohlsearch<cr>
 
+" https://twitter.com/uvrub/status/1341036672364945408
+inoremap <silent> <CR> <C-g>u<CR>
+
 " For QuickFix / Location List
 function! s:qf_or_loc(cmd) abort
   " https://vi.stackexchange.com/questions/18079/how-to-check-whether-the-location-list-for-the-current-window-is-open
