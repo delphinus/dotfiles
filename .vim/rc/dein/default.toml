@@ -726,9 +726,6 @@ repo = 'jason0x43/vim-js-indent'
 repo = 'mustache/vim-mustache-handlebars'
 
 [[plugins]]
-repo = 'pangloss/vim-javascript'
-
-[[plugins]]
 repo     = 'pearofducks/ansible-vim'
 hook_add = '''
   let g:ansible_name_highlight = 'b'
@@ -737,26 +734,6 @@ hook_add = '''
 
 [[plugins]]
 repo     = 'posva/vim-vue'
-
-[[plugins]]
-repo = 'ternjs/tern_for_vim'
-hook_add = ''' "{{{
-  let g:tern#command = ['tern']
-  let g:tern#arguments = ['--persistent']
-"}}} '''
-hook_post_update = '''
-  !npm install -g tern
-'''
-
-[plugins.ftplugin]
-javascript = ''' "{{{
-  nnoremap <buffer> <silent> gd :TernDef<CR>
-  nnoremap <buffer> <silent> <C-]> :TernDef<CR>
-  nnoremap <buffer> <silent> <C-LeftMouse> :TernDef<CR>
-  nnoremap <buffer> <silent> <C-w>] :TernDef<CR>
-  nnoremap <buffer> <silent> <C-w><C-]> :TernDef<CR>
-  nnoremap <buffer> <silent> K :TernType<CR>
-"}}} '''
 
 [[plugins]]
 repo = 'tmux-plugins/vim-tmux'
