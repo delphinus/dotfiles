@@ -497,6 +497,9 @@ hook_add = ''' "{{{
       hi link LspReferenceRead LspDiagnosticsDefaultHint
       hi link LspReferenceWrite LspDiagnosticsDefaultWarning
 
+      " for git-blame.nvim
+      hi gitblame guifg=#4c566a gui=italic
+
       " nvim-treesitter
       hi TSCurrentScope guibg=#313743
       hi rainbowcol1 guifg=#bf616a
@@ -943,6 +946,10 @@ hook_source = ''' "{{{
   " debug print in ~/.local/share/nvim/vim-lsp.log
   "lua vim.lsp.set_log_level("debug")
 "}}} '''
+
+[[plugins]]
+repo = 'f-person/git-blame.nvim'
+if   = 'has("nvim")'
 # }}}
 
 # dependencies {{{
