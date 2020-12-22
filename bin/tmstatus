@@ -80,6 +80,27 @@ sub get :prototype($$;$) ($hash, $key, $default = undef) {
     exists $hash->{$key} ? $hash->{$key} : $default;
 }
 
+sub readableBytes :prototype($) ($bytes) {
+use Test2;
+note explain 'p1';
+    if ($bytes >= 1e12) {
+note explain 'p2';
+        substr(commify $bytes / 1e12, 0, 5) . 'TB';
+    } elsif ($bytes >= 1e9) {
+note explain 'p3';
+        substr(commify $bytes / 1e9, 0, 5) . 'GB';
+    } elsif ($bytes >= 1e6) {
+note explain 'p4';
+        substr(commify $bytes / 1e6, 0, 5) . 'MB';
+    } elsif ($bytes >= 1e3) {
+note explain 'p5';
+        substr(commify $bytes / 1e3, 0, 5) . 'KB';
+    } else {
+note explain 'p6';
+        substr(commify $bytes, 0, 5) . 'KB';
+    }
+}
+
 sub arrange :prototype($) ($result) {
     if (defined(my $v = get $result, 'dateOfStateChange')) {
         my $t = localtime(Time::Piece->strptime($v, '%F %T %z')->epoch);

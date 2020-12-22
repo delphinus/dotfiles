@@ -126,8 +126,20 @@ subtest 'get()' => sub {
 
 subtest 'arrange()' => sub {
 
-    is arrange(+{
+    like arrange(+{
+        dateOfStateChange => '2020-12-14 00:32:41 +0000',
+        progress => +{
+            bytes => 24705,
+            timeRemaining => 1675,
+            totalBytes => 647975044,
+        },
     }), +{
+        dateOfStateChangeFormatted => '2020-12-14 09:32:41 +0900',
+        progress => +{
+            bytesFormatted => '24.70MB',
+            timeRemainingFormatted => '27m55s',
+            totalBytesFormatted => '647.9GB',
+        },
     }, 'returns a valid hash';
 };
 
