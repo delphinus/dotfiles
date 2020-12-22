@@ -165,6 +165,7 @@ hook_add = ''' "{{{
       let g:ale_cpp_clangd_executable = '/usr/local/opt/llvm/bin/clangd'
     endif
   endif
+  let g:ale_completion_autoimport = 1
   let g:ale_echo_msg_error_str = "\u25b8" " '▸'
   let g:ale_echo_msg_format = '%severity%  %linter% - %s'
   let g:ale_echo_msg_info_str = "\u25b4" " '▴'
@@ -190,6 +191,34 @@ hook_add = ''' "{{{
   let g:ale_virtualtext_prefix = "\u25a0ALE: " " '■'
   "nmap <silent> <A-K> <Plug>(ale_previous_wrap)
   "nmap <silent> <A-J> <Plug>(ale_next_wrap)
+  let g:ale_completion_symbols = {
+        \ 'text': ' ',
+        \ 'method': '',
+        \ 'function': ' ',
+        \ 'constructor': ' ',
+        \ 'field': ' ',
+        \ 'variable': ' ',
+        \ 'class': ' ',
+        \ 'interface': ' ',
+        \ 'module': ' ',
+        \ 'property': ' ',
+        \ 'unit': 'unit',
+        \ 'value': 'val',
+        \ 'enum': ' ',
+        \ 'keyword': 'keyword',
+        \ 'snippet': ' ',
+        \ 'color': 'color',
+        \ 'file': ' ',
+        \ 'reference': 'ref',
+        \ 'folder': ' ',
+        \ 'enum member': ' ',
+        \ 'constant': ' ',
+        \ 'struct': ' ',
+        \ 'event': 'event',
+        \ 'operator': ' ',
+        \ 'type_parameter': 'type param',
+        \ '<default>': 'v'
+        \ }
 "}}} '''
 hook_post_update = '''
   !gem install --user-install rubocop solargraph
