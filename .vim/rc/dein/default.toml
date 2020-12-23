@@ -20,7 +20,10 @@ floaterm = 'set winblend=30'
 
 git = 'let b:dwm_disabled = v:true'
 
-gitcommit = 'setlocal colorcolumn=50,72'
+gitcommit = ''' "{{{
+  setlocal colorcolumn=50,72
+  setlocal spell
+"}}} '''
 
 go_gohtmltmpl = ''' "{{{
   set tabstop=4
