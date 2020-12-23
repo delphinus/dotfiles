@@ -32,6 +32,7 @@
 	dn = diff --name-only
 	dp = diff -w --patience
 	dpc = diff -w --color-words --patience
+	dt = difftool
 	ll = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
 	lo = log --decorate --graph --name-status --oneline
 	po = pull origin master
@@ -80,9 +81,11 @@
 	mouse = true
 [tig "bind"]
 	generic = G none
+	main = R !git rebase -i %(commit)
+	main = D !git difftool %(commit)~ %(commit)
 [pager]
 	branch = false
-	log  = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
+	log = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
 	show = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
 	diff = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
 [interactive]
@@ -110,15 +113,18 @@
 	renames = true
 	indentHeuristic = true
 	colorMoved = dimmed_zebra
-  tool = nvr
+	tool = nvimdiff
 [difftool "nvr"]
-  cmd = nvr -s -d $LOCAL $REMOTE
+	cmd = nvr -s -d $LOCAL $REMOTE
+[difftool "nvimdiff"]
+	cmd = nvim -R -d -c 'wincmd l | nnoremap q <Cmd>qa<CR>' -d $LOCAL $REMOTE
 [merge]
 	ff = false
-  tool = nvr
+	tool = nvimdiff
 [mergetool "nvr"]
-  cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
-
+	cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
+[mergetool "nvimdiff"]
+	cmd = nvim -d -c '4wincmd w | wincmd J | nnoremap q <Cmd>qa<CR>' $LOCAL $BASE $REMOTE $MERGED
 [gpg]
 	program = gpg2
 
