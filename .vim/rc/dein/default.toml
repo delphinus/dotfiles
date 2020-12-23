@@ -358,6 +358,20 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
+repo = 'rhysd/committia.vim'
+hook_add = ''' "{{{
+  let g:committia_hooks = {}
+  function! g:committia_hooks.edit_open(info)
+    if a:info.vcs ==# 'git' && getline(1) ==# ''
+      startinsert
+    endif
+
+    imap <buffer> <C-d> <Plug>(committia-scroll-diff-down-half)
+    imap <buffer> <C-u> <Plug>(committia-scroll-diff-up-half)
+  endfunction
+"}}} '''
+
+[[plugins]]
 repo     = 'ryanoasis/vim-devicons'
 hook_add = ''' "{{{
   "   U+E287
