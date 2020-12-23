@@ -366,8 +366,8 @@ hook_add = ''' "{{{
       startinsert
     endif
 
-    imap <buffer> <C-d> <Plug>(committia-scroll-diff-down-half)
-    imap <buffer> <C-u> <Plug>(committia-scroll-diff-up-half)
+    imap <buffer> <A-d> <Plug>(committia-scroll-diff-down-half)
+    imap <buffer> <A-u> <Plug>(committia-scroll-diff-up-half)
   endfunction
 "}}} '''
 
