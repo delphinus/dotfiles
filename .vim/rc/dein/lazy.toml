@@ -70,6 +70,29 @@ repo   = 'fuenor/JpFormat.vim'
 on_cmd = ['JpFormatAll', 'JpJoinAll']
 
 [[plugins]]
+repo    = 'iberianpig/tig-explorer.vim'
+depends = ['bclose.vim']
+on_cmd  = [
+  'Tig',
+  'TigOpenCurrentFile',
+  'TigOpenProjectRootDir',
+  'TigGrep',
+  'TigBlame',
+  'TigGrepResume',
+  'TigStatus',
+  'TigOpenFileWithCommit',
+]
+hook_add = ''' "{{{
+  nnoremap <Leader>T :TigOpenCurrentFile<CR>
+  nnoremap <Leader>t :TigOpenProjectRootDir<CR>
+  nnoremap <Leader>g :TigGrep<CR>
+  nnoremap <Leader>r :TigGrepResume<CR>
+  vnoremap <Leader>g y:TigGrep<Space><C-R>"<CR>
+  nnoremap <Leader>cg :<C-u>:TigGrep<Space><C-R><C-W><CR>
+  nnoremap <Leader>b :TigBlame<CR>
+"}}} '''
+
+[[plugins]]
 repo     = 'lambdalisue/vim-gista'
 on_cmd   = ['Gista']
 on_func  = ['gista#']
@@ -690,6 +713,9 @@ on_func = ['Artify']
 # }}}
 
 # dependencies {{{
+[[plugins]]
+repo = 'rbgrouleff/bclose.vim'
+
 [[plugins]]
 repo = 'vim-jp/vital.vim'
 on_func = ['vital#vital#new']
