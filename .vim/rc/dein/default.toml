@@ -441,6 +441,7 @@ hook_add = ''' "{{{
 
   function s:nord_overrides() abort
     hi Comment guifg=#CDD0BB
+    hi CursorLine guibg=#313743
     hi Delimiter guifg=#81A1C1
     hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
     hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
