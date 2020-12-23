@@ -669,15 +669,6 @@ hook_add = ''' "{{{
 "}}} '''
 
 [[plugins]]
-repo     = 't9md/vim-choosewin'
-on_map   = ['<Plug>(choosewin)']
-hook_add = 'nmap \ <Plug>(choosewin)'
-hook_source = '''
-  let g:choosewin_statusline_replace = 0
-  let g:choosewin_overlay_enable = 1
-'''
-
-[[plugins]]
 repo     = 'thinca/vim-visualstar'
 on_map   = ['<Plug>(visualstar']
 hook_add = ''' "{{{
