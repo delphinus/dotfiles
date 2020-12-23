@@ -16,7 +16,7 @@ fish = ''' "{{{
   set softtabstop=2
 "}}} '''
 
-floaterm = 'set winblend=30'
+floaterm = 'set winblend=10'
 
 git = 'let b:dwm_disabled = v:true'
 
