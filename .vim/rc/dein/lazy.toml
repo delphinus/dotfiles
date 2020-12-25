@@ -783,7 +783,7 @@ hook_source = ''' "{{{
     require'nvim-treesitter.configs'.setup {
       highlight = {
         enable = true,
-        disable = { 'go', 'toml' },
+        disable = { 'toml', 'typescript' },
       },
       incremental_selection = {
         enable = true,
