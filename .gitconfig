@@ -83,6 +83,7 @@
 	generic = G none
 	main = R !git rebase -i %(commit)
 	main = D !git difftool %(commit)~ %(commit)
+	main = Y @sh -c 'printf %s %(commit) | pbcopy'
 [pager]
 	branch = false
 	log = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
