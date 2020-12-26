@@ -94,7 +94,6 @@ hook_add = ''' "{{{
   noremap za :<C-u>Denite -expand file/rec<CR>
   noremap zd :<C-u>Denite -buffer-name=dwm dwm:no-current:all window:no-current:all<CR>
   noremap ze :<C-u>Denite memo/grep::!<CR>
-  noremap zf :<C-u>Denite floaterm floaterm:new -auto-action=preview<CR>
   noremap zgI :<C-u>Denite gitlog:all<CR>
   noremap zgc :<C-u>Denite gitchanged<CR>
   noremap zgf :<C-u>Denite gitfiles<CR>
@@ -379,42 +378,3 @@ on_source = ['denite.nvim']
 repo = 'delphinus/vim-ref'
 rev = 'feature/denite'
 on_source = ['denite.nvim']
-
-[[plugins]]
-repo      = 'voldikss/vim-floaterm'
-on_cmd    = ['FloatermNew', 'FloatermPrev', 'FloatermNext', 'FloatermToggle', 'FloatermInfo']
-on_source = ['denite.nvim']
-hook_add  = ''' "{{{
-  let g:floaterm_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
-  "let g:floaterm_borderchars = ['═', '║', '═', '║', '╔', '╗', '╝', '╚']
-  let g:floaterm_open_command = 'split'
-  let g:floaterm_position = 'center'
-  let g:floaterm_winblend = 30
-  tnoremap <BS><C-n> <C-\><C-n>
-  if has('nvim')
-    nnoremap <C-\><C-n> <Cmd>FloatermToggle<CR>
-    nnoremap <BS><C-n> <Cmd>FloatermToggle<CR>
-    nnoremap <A-c> <Cmd>FloatermToggle<CR>
-    tnoremap <A-c> <Cmd>FloatermToggle<CR>
-    nnoremap <A-n> <Cmd>FloatermNew<CR>
-    tnoremap <A-n> <Cmd>FloatermNew<CR>
-    nnoremap <A-f> <Cmd>FloatermNext<CR>
-    tnoremap <A-f> <Cmd>FloatermNext<CR>
-  else
-    nnoremap <C-\><C-n> :FloatermToggle<CR>
-    nnoremap <BS><C-n> :FloatermToggle<CR>
-    nnoremap <A-c> :FloatermToggle<CR>
-    tnoremap <A-c> <C-\><C-n>:FloatermToggle<CR>
-    nnoremap <A-n> :FloatermNew<CR>
-    tnoremap <A-n> <C-\><C-n>:FloatermNew<CR>
-    nnoremap <A-f> :FloatermNext<CR>
-    tnoremap <A-f> <C-\><C-n>:FloatermNext<CR>
-  endif
-"}}} '''
-
-[plugins.ftplugin]
-floaterm = ''' "{{{
-  set nocursorline
-  setlocal scrolloff=0
-  let b:dwm_disabled = 1
-"}}} '''

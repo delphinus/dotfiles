@@ -16,8 +16,6 @@ fish = ''' "{{{
   set softtabstop=2
 "}}} '''
 
-floaterm = 'set winblend=10'
-
 git = 'let b:dwm_disabled = v:true'
 
 gitcommit = ''' "{{{
@@ -793,9 +791,9 @@ hook_add = ''' "{{{
       ft_ng = {
         'denite',
         'denite-filter',
-        'floaterm',
         'fugitive.*',
         'git.*',
+        'toggleterm',
       };
     }
 EOF
