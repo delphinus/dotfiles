@@ -104,9 +104,16 @@ bind -m insert ct begin-selection forward-jump backward-char kill-selection end-
 bind -m insert cF begin-selection backward-jump kill-selection end-selection
 bind -m insert cT begin-selection backward-jump forward-char kill-selection end-selection
 
-set -x EDITOR nvim
-set -x GIT_EDITOR nvim
-set -x VISUAL nvim
+if type -q floaterm
+  alias f floaterm
+  set -x EDITOR floaterm
+  set -x GIT_EDITOR nvim
+  set -x VISUAL floaterm
+else
+  set -x EDITOR nvim
+  set -x GIT_EDITOR nvim
+  set -x VISUAL nvim
+end
 if type -q bat
   set -x PAGER bat
   set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"

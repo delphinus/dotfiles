@@ -3,7 +3,7 @@
 repo     = 'Shougo/deol.nvim'
 on_cmd   = ['Deol']
 on_map   = ['<Plug>(deol']
-if       = 0  # TODO: use toggleterm instead
+if       = 0  # TODO: use floaterm instead
 hook_add = ''' "{{{
   let g:deol#enable_dir_changed = 0
 
@@ -42,33 +42,6 @@ deol = ''' "{{{
   if exists('&winblend')
     setlocal winblend=30
   endif
-"}}} '''
-
-[[plugins]]
-repo   = 'akinsho/nvim-toggleterm.lua'
-if     = "has('nvim')"
-on_cmd = ['ToggleTerm', 'TermExec']
-hook_add = ''' "{{{
-  nnoremap <A-c> <Cmd>ToggleTerm<CR>
-"}}} '''
-hook_source = ''' "{{{
-  lua <<EOF
-    require"toggleterm".setup{
-      size = 20,
-      open_mapping = [[<A-c>]],
-      shade_filetypes = {},
-      shade_terminals = true,
-      persist_size = true,
-      direction = 'horizontal',
-    }
-EOF
-"}}} '''
-
-[plugin.ftplugin]
-toggleterm = ''' "{{{
-  setlocal nocursorline
-  setlocal scrolloff=0
-  let b:dwm_disabled = 0
 "}}} '''
 
 [[plugins]]
