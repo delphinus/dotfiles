@@ -389,7 +389,6 @@ hook_add  = ''' "{{{
   "let g:floaterm_borderchars = ['═', '║', '═', '║', '╔', '╗', '╝', '╚']
   let g:floaterm_open_command = 'split'
   let g:floaterm_position = 'center'
-  let g:floaterm_winblend = 30
   tnoremap <BS><C-n> <C-\><C-n>
   if has('nvim')
     nnoremap <C-\><C-n> <Cmd>FloatermToggle<CR>
@@ -414,7 +413,8 @@ hook_add  = ''' "{{{
 
 [plugins.ftplugin]
 floaterm = ''' "{{{
-  set nocursorline
+  setlocal winblend=10
+  setlocal nocursorline
   setlocal scrolloff=0
   let b:dwm_disabled = 1
 "}}} '''
