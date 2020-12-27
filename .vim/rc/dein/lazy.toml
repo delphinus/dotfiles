@@ -343,6 +343,125 @@ repo = 'aliou/bats.vim'
 on_ft = ['bats']
 
 [[plugins]]
+repo      = 'dense-analysis/ale'
+on_cmd    = ['ALE']
+on_map    = ['<Plug>(ale-']
+on_ft     = [
+  'go',
+  'javascript',
+  'json',
+  'perl',
+  'python',
+  'ruby',
+  'sh',
+  'typescript',
+  'vim',
+  'vue',
+]
+hook_add = ''' "{{{
+  " All highlights are defined on colorscheme setting in default.toml.
+  let g:ale_fixers = #{
+        \ javascript: [ 'eslint' ],
+        \ json: [ 'eslint' ],
+        \ python: [ 'black' ],
+        \ ruby: [ 'rubocop' ],
+        \ typescript: [ 'eslint' ],
+        \ }
+  " TODO: Use Neovim lsp feature
+  if has('nvim-0.5')
+    let g:ale_linters = #{
+          \ go: [],
+          \ javascript: [],
+          \ json: [],
+          \ typescript: [],
+          \ perl: [ 'perl' ],
+          \ python: [],
+          \ sh: [ 'shellcheck' ],
+          \ vim: [ 'vint' ],
+          \ }
+  " TODO: Use ALE lsp feature
+  else
+    let g:ale_linters = #{
+          \ c: [ 'clangd' ],
+          \ cpp: [ 'clangd' ],
+          \ go: [ 'golangci-lint', 'gopls' ],
+          \ javascript: [ 'eslint' ],
+          \ json: [ 'eslint' ],
+          \ typescript: [ 'eslint', 'tsserver' ],
+          \ perl: [ 'perl' ],
+          \ python: [ 'mypy', 'pyls' ],
+          \ ruby: [ 'solargraph' ],
+          \ sh: [ 'shellcheck' ],
+          \ vim: [ 'vint' ],
+          \ vue: [ 'vls' ],
+          \ }
+    if executable('/usr/local/opt/llvm/bin/clangd')
+      let g:ale_cpp_clangd_executable = '/usr/local/opt/llvm/bin/clangd'
+    endif
+  endif
+  let g:ale_completion_autoimport = 1
+  let g:ale_echo_msg_error_str = "\u25b8" " '▸'
+  let g:ale_echo_msg_format = '%severity%  %linter% - %s'
+  let g:ale_echo_msg_info_str = "\u25b4" " '▴'
+  let g:ale_echo_msg_warning_str = "\u25b9" " '▹'
+  let g:ale_fix_on_save = 1
+  let g:ale_go_golangci_lint_options = '--enable-all -D gochecknoglobals,gochecknoinits'
+  let g:ale_go_golangci_lint_package = 1
+  let g:ale_javascript_eslint_suppress_eslintignore = 1
+  let g:ale_javascript_eslint_suppress_missing_config = 1
+  let g:ale_perl_perl_executable = $HOME . '/.plenv/shims/perl'
+  let g:ale_python_mypy_detect_notes = 1
+  let g:ale_python_mypy_options = '--show-column-numbers --strict'
+  let g:ale_python_pylint_change_directory = 0
+  let g:ale_set_loclist = 1
+  let g:ale_sh_shellcheck_options = '-x'
+  let g:ale_sign_column_always = 1
+  let g:ale_sign_error =  "\u25b8" " '▸'
+  let g:ale_sign_highlight_linenrs = 1
+  let g:ale_sign_warning =  "\u25b9" " '▹'
+  let g:ale_statusline_format = ["\u25b8 %d", "\u25b9 %d", "\u25b4 "] " ▸, ▹, ▴
+  let g:ale_virtualtext_cursor = 1
+  let g:ale_virtualtext_delay = 100
+  let g:ale_virtualtext_prefix = "\u25a0ALE: " " '■'
+  "nmap <silent> <A-K> <Plug>(ale_previous_wrap)
+  "nmap <silent> <A-J> <Plug>(ale_next_wrap)
+  let g:ale_completion_symbols = {
+        \ 'text': ' ',
+        \ 'method': '',
+        \ 'function': ' ',
+        \ 'constructor': ' ',
+        \ 'field': ' ',
+        \ 'variable': ' ',
+        \ 'class': ' ',
+        \ 'interface': ' ',
+        \ 'module': ' ',
+        \ 'property': ' ',
+        \ 'unit': 'unit',
+        \ 'value': 'val',
+        \ 'enum': ' ',
+        \ 'keyword': 'keyword',
+        \ 'snippet': ' ',
+        \ 'color': 'color',
+        \ 'file': ' ',
+        \ 'reference': 'ref',
+        \ 'folder': ' ',
+        \ 'enum member': ' ',
+        \ 'constant': ' ',
+        \ 'struct': ' ',
+        \ 'event': 'event',
+        \ 'operator': ' ',
+        \ 'type_parameter': 'type param',
+        \ '<default>': 'v'
+        \ }
+"}}} '''
+hook_post_update = '''
+  !gem install --user-install rubocop solargraph
+  !npm install -g eslint tslint typescript prettier vue-language-server
+  !pip3 install -U --user black git+https://github.com/Vimjas/vint
+'''
+# }}}
+
+[[plugins]]
 repo = 'derekwyatt/vim-scala'
 on_ft = ['scala']
 

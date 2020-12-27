@@ -1,6 +1,5 @@
 [[plugins]]
 repo     = 'neovim/nvim-lspconfig'
-if       = 'has("nvim")'
 hook_add = ''' "{{{
   sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
   sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
