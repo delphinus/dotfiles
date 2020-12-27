@@ -123,6 +123,7 @@ set sidescrolloff=5
 set synmaxcol=0
 set virtualedit=block
 set wildmode=full
+set dictionary=/usr/share/dict/words
 " }}}
 
 " OS specific {{{
