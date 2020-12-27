@@ -121,34 +121,40 @@ hook_source = ''' "{{{
 [[plugins]]
 repo = 'nvim-lua/completion-nvim'
 hook_add = ''' "{{{
-  augroup EnableCompletionNvim
-    autocmd!
-    autocmd BufEnter * lua require'completion'.on_attach()
-  augroup END
+  lua <<EOF
+    require'vimp'
 
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  imap <C-j> <Plug>(completion_next_source)
-  imap <C-k> <Plug>(completion_prev_source)
-  set completeopt=menuone,noinsert,noselect
-  let g:completion_auto_change_source = 1
-  let g:completion_confirm_key = "\<C-y>"
-  let g:completion_chain_complete_list = #{
-        \ default: #{
-        \   default: [
-        \     #{ complete_items: ['lsp', 'tags'] },
-        \     #{ complete_items: ['ts', 'buffers', 'tmux'] },
-        \     #{ complete_items: ['path'], triggered_only: ['/'] },
-        \     #{ mode: '<C-p>' },
-        \     #{ mode: '<C-n>' },
-        \     #{ mode: 'keyn' },
-        \     #{ mode: 'keyp' },
-        \     #{ mode: 'file' },
-        \     #{ mode: 'dict' },
-        \   ],
-        \   comment: [],
-        \ },
-        \ }
+    vim.cmd('augroup EnableCompletionNvim')
+    vim.cmd('autocmd!')
+    vim.cmd('autocmd BufEnter * lua require"completion".on_attach()')
+    vim.cmd('augroup END')
+
+    vimp.inoremap({'expr'}, '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
+    vimp.inoremap({'expr'}, '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+    vimp.imap('<C-j>', [[<Plug>(completion_next_source)]])
+    vimp.imap('<C-k>', [[<Plug>(completion_prev_source)]])
+
+    vim.o.completeopt = 'menuone,noinsert,noselect'
+    vim.g.completion_auto_change_source = 1
+    vim.g.completion_confirm_key = [[\<C-y>]]
+    vim.g.completion_matching_strategy_list = {'exact', 'fuzzy'}
+    vim.g.completion_chain_complete_list = {
+      default = {
+        default = {
+          {complete_items = {'lsp', 'tags'}},
+          {complete_items = {'ts', 'buffers', 'tmux'}},
+          {complete_items = {'path'}, triggered_only = {'/'}},
+          {mode = '<C-p>'},
+          {mode = '<C-n>'},
+          {mode = '<keyn>'},
+          {mode = '<keyp>'},
+          {mode = '<file>'},
+          {mode = '<dict>'},
+        },
+        comment = {},
+      },
+    }
+EOF
 "}}} '''
 
 [[plugins]]
@@ -354,3 +360,6 @@ repo = 'p00f/nvim-ts-rainbow'
 [[plugins]]
 repo    = 'romgrk/nvim-treesitter-context'
 # }}}
+
+[[plugins]]
+repo = 'svermeulen/vimpeccable'
