@@ -315,12 +315,6 @@ denite-filter = ''' "{{{
   inoremap <silent><buffer><expr> <C-s>   denite#do_map('change_sorters', 'sorter/rank,sorter/word')
   inoremap <silent><buffer><expr> <C-t>   denite#do_map('toggle_matchers', 'matcher/regexp')
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
-
-  " These mappings are not recommended in doc.
-  if has('nvim')
-    inoremap <silent><buffer> <C-j>   <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
-    inoremap <silent><buffer> <C-k>   <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
-  endif
 "}}} '''
 
 [[plugins]]

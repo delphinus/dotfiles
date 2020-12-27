@@ -1,0 +1,357 @@
+[[plugins]]
+repo     = 'neovim/nvim-lspconfig'
+if       = 'has("nvim")'
+hook_add = ''' "{{{
+  sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
+  sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
+  sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
+  sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
+
+  function ShowLSPSettings() abort
+    lua print(vim.inspect(vim.lsp.buf_get_clients()))
+  endfunction
+
+  function ReloadLSPSettings() abort
+    lua vim.lsp.stop_client(vim.lsp.get_active_clients())
+    edit
+  endfunction
+
+  lua <<EOF
+    local map = function(type, key, value)
+      vim.fn.nvim_buf_set_keymap(0, type, key, value, { noremap = true, silent = true });
+    end
+
+    local lsp_on_attach = function(client)
+      print('LSP & completion started.')
+      require'completion'.on_attach()
+
+      if client.config.flags then
+        client.config.flags.allow_incremental_sync = true
+      end
+
+      map('n', '1gD',        '<Cmd>lua vim.lsp.buf.type_definition()<CR>')
+      map('n', '<A-J>',      '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+      map('n', '<A-K>',      '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+      map('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>')
+      map('n', '<C-w><C-]>', '<Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
+      map('n', '<C-x><C-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>')
+      map('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>')
+      map('n', 'g0',         '<Cmd>lua vim.lsp.buf.document_symbol()<CR>')
+      map('n', 'g=',         '<Cmd>lua vim.lsp.buf.formatting()<CR>')
+      map('n', 'gA',         '<Cmd>lua vim.lsp.buf.code_action()<CR>')
+      map('n', 'gD',         '<Cmd>lua vim.lsp.buf.implementation()<CR>')
+      map('n', 'gK',         '<Cmd>lua vim.lsp.util.show_line_diagnostics()<CR>')
+      map('n', 'gR',         '<Cmd>lua vim.lsp.buf.rename()<CR>')
+      map('n', 'gW',         '<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
+      map('n', 'gd',         '<Cmd>lua vim.lsp.buf.declaration()<CR>')
+      map('n', 'gli',        '<Cmd>lua vim.lsp.buf.incoming_calls()<CR>')
+      map('n', 'glo',        '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
+      map('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>')
+    end
+
+    vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        virtual_text = true,
+        signs = true,
+      }
+    )
+
+    local lsp = require'lspconfig'
+    lsp.bashls.setup{on_attach = lsp_on_attach}
+    lsp.clangd.setup{on_attach = lsp_on_attach}
+    lsp.cssls.setup{on_attach = lsp_on_attach}
+    lsp.dockerls.setup{on_attach = lsp_on_attach}
+    -- lsp.efm.setup{on_attach = lsp_on_attach}
+    lsp.html.setup{on_attach = lsp_on_attach}
+    lsp.jsonls.setup{on_attach = lsp_on_attach}
+    lsp.pyright.setup{on_attach = lsp_on_attach}
+    lsp.solargraph.setup{on_attach = lsp_on_attach}
+    lsp.tsserver.setup{on_attach = lsp_on_attach}
+    lsp.vimls.setup{on_attach = lsp_on_attach}
+    lsp.yamlls.setup{on_attach = lsp_on_attach}
+
+    -- for Go
+    lsp.gopls.setup{
+      on_attach = lsp_on_attach,
+      settings = {
+        hoverKind = 'NoDocumentation',
+        deepCompletion = true,
+        fuzzyMatching = true,
+        completeUnimported = true,
+        usePlaceholders = true,
+      },
+    }
+
+    -- for Lua
+    lsp.sumneko_lua.setup{
+      on_attach = lsp_on_attach,
+      settings = {
+        Lua = {
+          runtime = {
+            version = 'LuaJIT',
+            path = vim.split(package.path, ';'),
+          },
+          completion = {
+            keywordSnippet = 'Disable',
+          },
+          diagnostics = {
+            enable = true,
+            globals = {
+              'vim', 'describe', 'it', 'before_each', 'after_each',
+            },
+          },
+          workspace = {
+            library = {
+              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+            },
+          },
+        }
+      }
+    }
+EOF
+
+"}}} '''
+hook_source = ''' "{{{
+  " debug print in ~/.local/share/nvim/vim-lsp.log
+  "lua vim.lsp.set_log_level("debug")
+"}}} '''
+
+# completion {{{
+[[plugins]]
+repo = 'nvim-lua/completion-nvim'
+hook_add = ''' "{{{
+  augroup EnableCompletionNvim
+    autocmd!
+    autocmd BufEnter * lua require'completion'.on_attach()
+  augroup END
+
+  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  imap <C-j> <Plug>(completion_next_source)
+  imap <C-k> <Plug>(completion_prev_source)
+  set completeopt=menuone,noinsert,noselect
+  let g:completion_auto_change_source = 1
+  let g:completion_matching_smtart_case = 1
+  let g:completion_confirm_key = "\<C-y>"
+  let g:completion_chain_complete_list = #{
+        \ default: #{
+        \   default: [
+        \     #{ complete_items: ['lsp', 'tags'] },
+        \     #{ complete_items: ['ts', 'buffers', 'tmux'] },
+        \     #{ mode: '<C-p>' },
+        \     #{ mode: '<C-n>' },
+        \     #{ mode: 'keyn' },
+        \     #{ mode: 'keyp' },
+        \     #{ mode: 'file' },
+        \     #{ mode: 'dict' },
+        \   ],
+        \   comment: [],
+        \ },
+        \ }
+"}}} '''
+
+[[plugins]]
+repo = 'steelsojka/completion-buffers'
+
+[[plugins]]
+repo = 'nvim-treesitter/completion-treesitter'
+
+[[plugins]]
+repo = 'kristijanhusak/completion-tags'
+
+[[plugins]]
+repo = 'albertoCaroM/completion-tmux'
+# }}}
+
+# treesitter {{{
+[[plugins]]
+repo   = 'nvim-treesitter/nvim-treesitter'
+depends = [
+  'nvim-treesitter-context',
+  'nvim-treesitter-textobjects',
+  'nvim-treesitter-refactor',
+  'nvim-ts-rainbow'
+  'playground',
+]
+if     = 'has("nvim")'
+on_ft  = [ #{{{
+  'elm',
+  'c',
+  'teal',
+  'java',
+  'python',
+  'dart',
+  'lua',
+  'ocaml',
+  'go',
+  'nix',
+  'yaml',
+  'json',
+  'jsdoc',
+  'php',
+  'julia',
+  'html',
+  'typescript',
+  'fennel',
+  'swift',
+  'verilog',
+  'regex',
+  'query',
+  'ql',
+  'cpp',
+  'rst',
+  'kotlin',
+  'ruby',
+  'vue',
+  'ocamllex',
+  'scala',
+  'toml',
+  'rust',
+  'clojure',
+  'bash',
+  'javascript',
+  'css',
+  'haskell',
+  'graphql',
+  'c_sharp',
+  'ocaml_interface',
+  'tsx',
+] #}}}
+on_cmd = [
+  'TSBufDisable',
+  'TSBufEnable',
+  'TSDisableAll',
+  'TSEnableAll',
+  'TSInstall',
+  'TSInstallInfo',
+  'TSModuleInfo',
+]
+hook_source = ''' "{{{
+  lua <<EOF
+    require'nvim-treesitter.configs'.setup {
+      highlight = {
+        enable = true,
+        disable = { 'toml', 'typescript' },
+      },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = 'gnn',
+          node_incremental = 'grn',
+          scope_incremental = 'grc',
+          node_decremental = 'grm',
+        },
+      },
+      ensure_installed = 'all',
+      playground = {
+        enable = true,
+        disable = {},
+        updatetime = 25,
+        persist_queries = false,
+      },
+      refactor = {
+        highlight_definitions = { enable = true },
+        highlight_current_scope = { enable = true },
+        smart_rename = {
+          enable = true,
+          keymaps = {
+            smart_rename = 'grr',
+          },
+        },
+        navigation = {
+          enable = true,
+          keymaps = {
+            goto_definition = 'gnd',
+            list_definition = 'gnD',
+            list_definition_toc = 'gO',
+            goto_next_usage = '<A-*>',
+            goto_previous_usage = '<A-#>',
+          },
+        },
+      },
+      textobjects = {
+        select = {
+          enable = true,
+          keymaps = {
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['aC'] = '@class.outer',
+            ['iC'] = '@class.inner',
+            ['ac'] = '@conditional.outer',
+            ['ic'] = '@conditional.inner',
+            ['ae'] = '@block.outer',
+            ['ie'] = '@block.inner',
+            ['al'] = '@loop.outer',
+            ['il'] = '@loop.inner',
+            ['is'] = '@statement.inner',
+            ['as'] = '@statement.outer',
+            ['ad'] = '@comment.outer',
+            ['am'] = '@call.outer',
+            ['im'] = '@call.inner',
+          },
+        },
+        swap = {
+          enable = true,
+          swap_next = {
+            ['<leader>a'] = '@parameter.inner',
+          },
+          swap_previous = {
+            ['<leader>A'] = '@parameter.inner',
+          },
+        },
+        move = {
+          enable = true,
+          goto_next_start = {
+            [']m'] = '@function.outer',
+            [']]'] = '@class.outer',
+          },
+          goto_next_end = {
+            [']M'] = '@function.outer',
+            [']['] = '@class.outer',
+          },
+          goto_previous_start = {
+            ['[m'] = '@function.outer',
+            ['[['] = '@class.outer',
+          },
+          goto_previous_end = {
+            ['[M'] = '@function.outer',
+            ['[]'] = '@class.outer',
+          },
+        },
+        lsp_interop = {
+          enable = true,
+          peek_definition_code = {
+            ['Df'] = '@function.outer',
+            ['DF'] = '@class.outer',
+          },
+        },
+      },
+      rainbow = {
+        enable = true,
+        -- See https://github.com/p00f/nvim-ts-rainbow/issues/1
+        disable = {'bash'},
+      },
+    }
+EOF
+"}}} '''
+hook_post_update = 'TSUpdate'
+
+[[plugins]]
+#repo    = 'nvim-treesitter/nvim-treesitter-refactor'
+repo    = 'delphinus/nvim-treesitter-refactor'
+rev    = 'hotfix/help-tags'
+
+[[plugins]]
+repo    = 'nvim-treesitter/nvim-treesitter-textobjects'
+
+[[plugins]]
+repo    = 'nvim-treesitter/playground'
+
+[[plugins]]
+repo = 'p00f/nvim-ts-rainbow'
+
+[[plugins]]
+repo    = 'romgrk/nvim-treesitter-context'
+# }}}
