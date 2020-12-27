@@ -112,10 +112,6 @@ hook_add = ''' "{{{
 EOF
 
 "}}} '''
-hook_source = ''' "{{{
-  " debug print in ~/.local/share/nvim/vim-lsp.log
-  "lua vim.lsp.set_log_level("debug")
-"}}} '''
 
 # completion {{{
 [[plugins]]
@@ -180,65 +176,12 @@ depends = [
   'nvim-ts-rainbow'
   'playground',
 ]
-if     = 'has("nvim")'
-on_ft  = [ #{{{
-  'elm',
-  'c',
-  'teal',
-  'java',
-  'python',
-  'dart',
-  'lua',
-  'ocaml',
-  'go',
-  'nix',
-  'yaml',
-  'json',
-  'jsdoc',
-  'php',
-  'julia',
-  'html',
-  'typescript',
-  'fennel',
-  'swift',
-  'verilog',
-  'regex',
-  'query',
-  'ql',
-  'cpp',
-  'rst',
-  'kotlin',
-  'ruby',
-  'vue',
-  'ocamllex',
-  'scala',
-  'toml',
-  'rust',
-  'clojure',
-  'bash',
-  'javascript',
-  'css',
-  'haskell',
-  'graphql',
-  'c_sharp',
-  'ocaml_interface',
-  'tsx',
-] #}}}
-on_cmd = [
-  'TSBufDisable',
-  'TSBufEnable',
-  'TSDisableAll',
-  'TSEnableAll',
-  'TSInstall',
-  'TSInstallInfo',
-  'TSModuleInfo',
-]
-hook_source = ''' "{{{
+hook_add = ''' "{{{
   lua <<EOF
     require'nvim-treesitter.configs'.setup {
       highlight = {
         enable = true,
-        disable = { 'toml', 'typescript' },
+        disable = { 'toml' },
       },
       incremental_selection = {
         enable = true,
