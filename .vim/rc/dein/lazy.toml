@@ -536,6 +536,10 @@ repo  = 'junegunn/vader.vim'
 on_ft = ['vader']
 
 [[plugins]]
+repo  = 'leafo/moonscript-vim'
+on_ft = ['moon']
+
+[[plugins]]
 repo  = 'msanders/cocoa.vim'
 on_ft = ['objc']
 
