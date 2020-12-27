@@ -1,5 +1,6 @@
 [[plugins]]
-repo     = 'neovim/nvim-lspconfig'
+repo    = 'neovim/nvim-lspconfig'
+depends = ['vimpeccable']
 hook_add = ''' "{{{
   sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
   sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
@@ -16,9 +17,7 @@ hook_add = ''' "{{{
   endfunction
 
   lua <<EOF
-    local map = function(type, key, value)
-      vim.fn.nvim_buf_set_keymap(0, type, key, value, { noremap = true, silent = true });
-    end
+    require'vimp'
 
     local lsp_on_attach = function(client)
       print('LSP & completion started.')
@@ -28,24 +27,24 @@ hook_add = ''' "{{{
         client.config.flags.allow_incremental_sync = true
       end
 
-      map('n', '1gD',        '<Cmd>lua vim.lsp.buf.type_definition()<CR>')
-      map('n', '<A-J>',      '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-      map('n', '<A-K>',      '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-      map('n', '<C-]>',      '<Cmd>lua vim.lsp.buf.definition()<CR>')
-      map('n', '<C-w><C-]>', '<Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>')
-      map('n', '<C-x><C-k>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>')
-      map('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>')
-      map('n', 'g0',         '<Cmd>lua vim.lsp.buf.document_symbol()<CR>')
-      map('n', 'g=',         '<Cmd>lua vim.lsp.buf.formatting()<CR>')
-      map('n', 'gA',         '<Cmd>lua vim.lsp.buf.code_action()<CR>')
-      map('n', 'gD',         '<Cmd>lua vim.lsp.buf.implementation()<CR>')
-      map('n', 'gK',         '<Cmd>lua vim.lsp.util.show_line_diagnostics()<CR>')
-      map('n', 'gR',         '<Cmd>lua vim.lsp.buf.rename()<CR>')
-      map('n', 'gW',         '<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
-      map('n', 'gd',         '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-      map('n', 'gli',        '<Cmd>lua vim.lsp.buf.incoming_calls()<CR>')
-      map('n', 'glo',        '<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
-      map('n', 'gr',         '<Cmd>lua vim.lsp.buf.references()<CR>')
+      vimp.nnoremap({'buffer'}, '1gD',        [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]])
+      vimp.nnoremap({'buffer'}, '<A-J>',      [[<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>]])
+      vimp.nnoremap({'buffer'}, '<A-K>',      [[<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>]])
+      vimp.nnoremap({'buffer'}, '<C-]>',      [[<Cmd>lua vim.lsp.buf.definition()<CR>]])
+      vimp.nnoremap({'buffer'}, '<C-w><C-]>', [[<Cmd>split<CR><Cmd>lua vim.lsp.buf.definition()<CR>]])
+      vimp.nnoremap({'buffer'}, '<C-x><C-k>', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]])
+      vimp.nnoremap({'buffer'}, 'K',          [[<Cmd>lua vim.lsp.buf.hover()<CR>]])
+      vimp.nnoremap({'buffer'}, 'g0',         [[<Cmd>lua vim.lsp.buf.document_symbol()<CR>]])
+      vimp.nnoremap({'buffer'}, 'g=',         [[<Cmd>lua vim.lsp.buf.formatting()<CR>]])
+      vimp.nnoremap({'buffer'}, 'gA',         [[<Cmd>lua vim.lsp.buf.code_action()<CR>]])
+      vimp.nnoremap({'buffer'}, 'gD',         [[<Cmd>lua vim.lsp.buf.implementation()<CR>]])
+      vimp.nnoremap({'buffer'}, 'gK',         [[<Cmd>lua vim.lsp.util.show_line_diagnostics()<CR>]])
+      vimp.nnoremap({'buffer'}, 'gR',         [[<Cmd>lua vim.lsp.buf.rename()<CR>]])
+      vimp.nnoremap({'buffer'}, 'gW',         [[<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>]])
+      vimp.nnoremap({'buffer'}, 'gd',         [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
+      vimp.nnoremap({'buffer'}, 'gli',        [[<Cmd>lua vim.lsp.buf.incoming_calls()<CR>]])
+      vimp.nnoremap({'buffer'}, 'glo',        [[<Cmd>lua vim.lsp.buf.outgoing_calls()<CR>]])
+      vimp.nnoremap({'buffer'}, 'gr',         [[<Cmd>lua vim.lsp.buf.references()<CR>]])
     end
 
     vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
