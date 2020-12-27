@@ -132,13 +132,13 @@ hook_add = ''' "{{{
   imap <C-k> <Plug>(completion_prev_source)
   set completeopt=menuone,noinsert,noselect
   let g:completion_auto_change_source = 1
-  let g:completion_matching_smtart_case = 1
   let g:completion_confirm_key = "\<C-y>"
   let g:completion_chain_complete_list = #{
         \ default: #{
         \   default: [
         \     #{ complete_items: ['lsp', 'tags'] },
         \     #{ complete_items: ['ts', 'buffers', 'tmux'] },
+        \     #{ complete_items: ['path'], triggered_only: ['/'] },
         \     #{ mode: '<C-p>' },
         \     #{ mode: '<C-n>' },
         \     #{ mode: 'keyn' },
