@@ -114,7 +114,8 @@ EOF
 
 # completion {{{
 [[plugins]]
-repo = 'nvim-lua/completion-nvim'
+repo    = 'nvim-lua/completion-nvim'
+depends = ['vimpeccable']
 hook_add = ''' "{{{
   lua <<EOF
     require'vimp'
