@@ -94,6 +94,8 @@
 	#diffFilter = diff-so-fancy
 [ghq]
 	root = ~/.cache/dein/repos
+	root = ~/.local/share/nvim/site/pack/packer/opt
+	root = ~/.local/share/nvim/site/pack/packer/start
 	root = ~/git
 [ghq "ssh://git@git.remora.cx"]
 	vcs = git
