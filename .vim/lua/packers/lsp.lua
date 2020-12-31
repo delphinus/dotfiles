@@ -1,7 +1,6 @@
 return {
   {
     'neovim/nvim-lspconfig',
-    event = {'InsertEnter'},
     config = function()
       local vimp = require'vimp'
 
