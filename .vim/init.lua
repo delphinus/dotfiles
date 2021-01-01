@@ -2,6 +2,7 @@ vim.o.runtimepath = vim.o.runtimepath..','..vim.env.HOME..'/git/dotfiles/.vim'
 require'util'
 require'packers'
 require'set'
+require'map'
 
 nvim_create_augroups{
   hello_world = {
