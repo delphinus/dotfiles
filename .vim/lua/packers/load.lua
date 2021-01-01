@@ -47,8 +47,9 @@ local function init()
   for _, name in pairs{
     'start',
     'opt',
-    'denite',
+    -- 'denite',
     'lsp',
+    'telescope',
   } do packer.use(require('packers.'..name)) end
 end
 
