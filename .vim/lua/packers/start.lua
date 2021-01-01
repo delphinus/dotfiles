@@ -49,8 +49,10 @@ return {
           vim.cmd[[startinsert]]
         end
         local vimp = require'vimp'
-        vimp.imap({'buffer'}, '<A-d>', [[<Plug>(committia-scroll-diff-down-half)]])
-        vimp.imap({'buffer'}, '<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
+        vimp.add_buffer_maps(function()
+          vimp.imap('<A-d>', [[<Plug>(committia-scroll-diff-down-half)]])
+          vimp.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
+        end)
       end
       vim.cmd[[let g:TempFunc = {info -> v:lua.committia_hook_edit_open(info)}]]
       vim.g.committia_hooks = vim.empty_dict()
