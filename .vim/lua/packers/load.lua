@@ -26,14 +26,12 @@ local function init()
           vim.api.nvim_buf_set_name(win.bufnr, name)
           vim.api.nvim_win_set_option(win.win_id, 'winblend', 10)
 
-          function _G.restore_cursor()
-            vim.api.nvim_set_current_win(last_win)
-            vim.api.nvim_win_set_cursor(last_win, last_pos)
-          end
-
-          nvim_create_augroups{
+          require'augroups'.set{
             packer_wipe_out = {
-              {'BufWipeout', '<buffer>', 'lua restore_cursor()'},
+              {'BufWipeout', '<buffer>', function()
+                vim.api.nvim_set_current_win(last_win)
+                vim.api.nvim_win_set_cursor(last_win, last_pos)
+              end},
             },
           }
 

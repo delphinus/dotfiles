@@ -130,9 +130,9 @@ return {
 
       local vimp = require'vimp'
 
-      nvim_create_augroups{
+      require'augroups'.set{
         enable_completion_nvim = {
-          {'BufEnter', '*', [[lua require'completion'.on_attach()]]},
+          {'BufEnter', '*', require'completion'.on_attach},
         },
       }
 

@@ -4,9 +4,9 @@ require'packers'
 require'set'
 require'map'
 
-nvim_create_augroups{
+require'augroups'.set{
   hello_world = {
-    {'VimEnter', '*', [[lua print'Hello, World!']]},
+    {'VimEnter', '*', function() print'Hello, World!' end},
   },
 }
 

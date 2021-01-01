@@ -1,6 +1,5 @@
 return {
   {'wbthomason/packer.nvim', opt = true},
-  {'nvim-lua/plenary.nvim', opt = true},
 
   -- cmd {{{
   {'cocopon/colorswatch.vim', cmd = {'ColorSwatchGenerate'}},
@@ -60,44 +59,42 @@ return {
     end,
     config = function()
       local vimp = require'vimp'
-      function _G.gista_mappings()
-        -- nmap <buffer> <F5>   <Plug>(gista-update)
-        -- nmap <buffer> <S-F5> <Plug>(gista-UPDATE)
-        vimp.add_buffer_maps(function()
-          vimp.nmap('q', [[<Plug>(gista-quit)]])
-          vimp.nmap('<C-n>', [[<Plug>(gista-next-mode)]])
-          vimp.nmap('<C-p>', [[<Plug>(gista-prev-mode)]])
-          vimp.nmap('?', [[<Plug>(gista-toggle-mapping-visibility)]])
-          vimp.nmap('<C-l>', [[<Plug>(gista-redraw)]])
-          vimp.nmap('uu', [[<Plug>(gista-update)]])
-          vimp.nmap('UU', [[<Plug>(gista-UPDATE)]])
-          vimp.nmap('<Return>', [[<Plug>(gista-edit)]])
-          vimp.nmap('ee', [[<Plug>(gista-edit)]])
-          vimp.nmap('EE', [[<Plug>(gista-edit-right)]])
-          vimp.nmap('tt', [[<Plug>(gista-edit-tab)]])
-          vimp.nmap('pp', [[<Plug>(gista-edit-preview)]])
-          vimp.nmap('ej', [[<Plug>(gista-json)]])
-          vimp.nmap('EJ', [[<Plug>(gista-json-right)]])
-          vimp.nmap('tj', [[<Plug>(gista-json-tab)]])
-          vimp.nmap('pj', [[<Plug>(gista-json-preview)]])
-          vimp.nmap('bb', [[<Plug>(gista-browse-open)]])
-          vimp.nmap('yy', [[<Plug>(gista-browse-yank)]])
-          vimp.nmap('rr', [[<Plug>(gista-rename)]])
-          vimp.nmap('RR', [[<Plug>(gista-RENAME)]])
-          vimp.nmap('df', [[<Plug>(gista-remove)]])
-          vimp.nmap('DF', [[<Plug>(gista-REMOVE)]])
-          vimp.nmap('dd', [[<Plug>(gista-delete)]])
-          vimp.nmap('DD', [[<Plug>(gista-DELETE)]])
-          vimp.nmap('++', [[<Plug>(gista-star)]])
-          vimp.nmap('--', [[<Plug>(gista-unstar)]])
-          vimp.nmap('ff', [[<Plug>(gista-fork)]])
-          vimp.nmap('cc', [[<Plug>(gista-commits)]])
-        end)
-      end
-
-      nvim_create_augroups{
+      require'augroups'.set{
         gista_mappings = {
-          {'User', 'GistaList', [[lua gista_mappings()]]},
+          {'User', 'GistaList', function()
+            -- nmap <buffer> <F5>   <Plug>(gista-update)
+            -- nmap <buffer> <S-F5> <Plug>(gista-UPDATE)
+            vimp.add_buffer_maps(function()
+              vimp.nmap('q', [[<Plug>(gista-quit)]])
+              vimp.nmap('<C-n>', [[<Plug>(gista-next-mode)]])
+              vimp.nmap('<C-p>', [[<Plug>(gista-prev-mode)]])
+              vimp.nmap('?', [[<Plug>(gista-toggle-mapping-visibility)]])
+              vimp.nmap('<C-l>', [[<Plug>(gista-redraw)]])
+              vimp.nmap('uu', [[<Plug>(gista-update)]])
+              vimp.nmap('UU', [[<Plug>(gista-UPDATE)]])
+              vimp.nmap('<Return>', [[<Plug>(gista-edit)]])
+              vimp.nmap('ee', [[<Plug>(gista-edit)]])
+              vimp.nmap('EE', [[<Plug>(gista-edit-right)]])
+              vimp.nmap('tt', [[<Plug>(gista-edit-tab)]])
+              vimp.nmap('pp', [[<Plug>(gista-edit-preview)]])
+              vimp.nmap('ej', [[<Plug>(gista-json)]])
+              vimp.nmap('EJ', [[<Plug>(gista-json-right)]])
+              vimp.nmap('tj', [[<Plug>(gista-json-tab)]])
+              vimp.nmap('pj', [[<Plug>(gista-json-preview)]])
+              vimp.nmap('bb', [[<Plug>(gista-browse-open)]])
+              vimp.nmap('yy', [[<Plug>(gista-browse-yank)]])
+              vimp.nmap('rr', [[<Plug>(gista-rename)]])
+              vimp.nmap('RR', [[<Plug>(gista-RENAME)]])
+              vimp.nmap('df', [[<Plug>(gista-remove)]])
+              vimp.nmap('DF', [[<Plug>(gista-REMOVE)]])
+              vimp.nmap('dd', [[<Plug>(gista-delete)]])
+              vimp.nmap('DD', [[<Plug>(gista-DELETE)]])
+              vimp.nmap('++', [[<Plug>(gista-star)]])
+              vimp.nmap('--', [[<Plug>(gista-unstar)]])
+              vimp.nmap('ff', [[<Plug>(gista-fork)]])
+              vimp.nmap('cc', [[<Plug>(gista-commits)]])
+            end)
+          end},
         },
       }
 
@@ -206,7 +203,7 @@ return {
       {'v', 'g<CR>'},
     },
     setup = function()
-      nvim_create_augroups{
+      require'augroups'.set{
         load_open_browser = {
           {'FuncUndefined', 'openbrowser#open', 'packadd open-browser.vim'},
         },
@@ -263,10 +260,8 @@ return {
       vim.g.signify_sign_changedelete = '•'
 
       local vimp = require'vimp'
-      vimp.omap('ic', [[<Plug>(signify-motion-inner-pending)]])
-      vimp.xmap('ic', [[<Plug>(signify-motion-inner-visual)]])
-      vimp.omap('ac', [[<Plug>(signify-motion-outer-pending)]])
-      vimp.xmap('ac', [[<Plug>(signify-motion-outer-visual)]])
+      vimp.bind('ox', 'ic', [[<Plug>(signify-motion-inner-pending)]])
+      vimp.bind('ox', 'ac', [[<Plug>(signify-motion-outer-pending)]])
     end,
   },
 
@@ -312,16 +307,14 @@ return {
         private = '● ', -- 0x25cf
       }
 
-      function _G.tagbar_window()
-        if vim.wo.previewwindow == 1 then
-          vim.wo.number = false
-          vim.wo.relativenumber = false
-        end
-      end
-
-      nvim_create_augroups{
+      require'augroups'.set{
         tagbar_window = {
-          {'BufWinEnter', '*', 'lua tagbar_window()'},
+          {'BufWinEnter', '*', function()
+            if vim.wo.previewwindow == 1 then
+              vim.wo.number = false
+              vim.wo.relativenumber = false
+            end
+          end},
         },
       }
 

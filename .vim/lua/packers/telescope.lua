@@ -1,7 +1,7 @@
 return {
   'nvim-telescope/telescope.nvim',
   requires = {
-    {'nvim-lua/plenary.nvim'},
+    {'plenary.nvim'},
     {'nvim-lua/popup.nvim'},
     {'kyazdani42/nvim-web-devicons'},
   },
