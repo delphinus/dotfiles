@@ -62,24 +62,6 @@ return {
   },
 
   {
-    'ryanoasis/vim-devicons',
-    config = function()
-      vim.g.webdevicons_enable_nerdtree = 0
-      vim.g.WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = '' -- 0xe287
-      vim.g.WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = '' -- 0xf07b
-      -- overwrite setting for 'vue' to use U+F542
-      vim.g.WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {
-        fcgi = '', -- 0xe769
-        perl = '', -- 0xe769
-        sqlite = '', -- 0xe7c4
-        tt = '', -- 0xe60e
-        txt = '', -- 0xe601
-        vue = '', -- 0xf542
-      }
-    end
-  },
-
-  {
     'tpope/vim-eunuch',
     config = function()
       vim.env.SUDO_ASKPASS = vim.fn.expand'~/git/dotfiles/bin/macos-askpass'
