@@ -5,7 +5,7 @@ local function init()
     packer = require'packer'
     packer.init{
       disable_commands = true,
-      max_jobs = 20,
+      max_jobs = 30,
       display = {
         -- open_fn = require'packer.util'.float,
         -- https://github.com/tjdevries/config_manager/blob/0c89222a53baf997371de0ec1ca4056b834a4d62/xdg_config/nvim/lua/tj/plugins.lua#L331
