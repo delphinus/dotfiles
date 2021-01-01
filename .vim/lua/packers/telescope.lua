@@ -1,6 +1,10 @@
 return {
   'nvim-telescope/telescope.nvim',
-  requires = {{'nvim-lua/plenary.nvim'}, {'nvim-lua/popup.nvim'}},
+  requires = {
+    {'nvim-lua/plenary.nvim'},
+    {'nvim-lua/popup.nvim'},
+    {'kyazdani42/nvim-web-devicons'},
+  },
   -- TODO: lazyloading
   --[[
   cmd = {'Telescope'},
