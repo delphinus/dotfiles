@@ -22,8 +22,6 @@ return {
     vimp.nnoremap('<Leader>fb', function() require'telescope.builtin'.buffers() end)
     vimp.nnoremap('<Leader>fh', function() require'telescope.builtin'.help_tags() end)
     vimp.nnoremap('<Leader>fo', function() require'telescope.builtin'.oldfiles() end)
-    vim.cmd[[packadd plenary.nvim]]
-    vim.cmd[[packadd popup.nvim]]
 
     require'telescope'.setup{
       defaults = {
