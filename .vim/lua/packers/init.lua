@@ -6,7 +6,7 @@ end
 
 nvim_create_augroups{
   packer_compile = {
-    {'BufWritePost', 'packers/*.lua', 'PackerCompile'},
+    {'BufWritePost', '*/packers/*.lua', 'PackerCompile'},
   },
 }
 
