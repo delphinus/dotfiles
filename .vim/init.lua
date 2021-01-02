@@ -1,4 +1,4 @@
-vim.o.runtimepath = vim.o.runtimepath..','..vim.env.HOME..'/git/dotfiles/.vim'
+vim.o.runtimepath = vim.o.runtimepath..','..vim.env.HOME..'/git/dotfiles/.vim,'..vim.env.HOME..'/git/dotfiles/.vim/after'
 require'util'
 require'packers'
 require'set'
