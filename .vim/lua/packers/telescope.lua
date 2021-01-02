@@ -23,8 +23,22 @@ return {
     vimp.nnoremap('<Leader>fh', function() require'telescope.builtin'.help_tags() end)
     vimp.nnoremap('<Leader>fo', function() require'telescope.builtin'.oldfiles() end)
 
+    local actions = require'telescope.actions'
     require'telescope'.setup{
       defaults = {
+        mappings = {
+          i = {
+            ['<C-j>'] = actions.move_selection_next,
+            ['<C-k>'] = actions.move_selection_previous,
+            ['<C-n>'] = actions.goto_file_selection_split,
+          },
+          n = {
+            ['<C-c>'] = actions.close,
+            ['<C-j>'] = actions.move_selection_next,
+            ['<C-k>'] = actions.move_selection_previous,
+            ['<C-n>'] = actions.goto_file_selection_split,
+          },
+        },
         winblend = 10,
       },
     }
