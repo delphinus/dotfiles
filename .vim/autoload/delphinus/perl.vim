@@ -1,4 +1,5 @@
-if ! dein#is_sourced('vital.vim') | call dein#source('vital.vim') | endif
+"if ! dein#is_sourced('vital.vim') | call dein#source('vital.vim') | endif
+packadd vital.vim
 
 let s:V = vital#vital#new()
 let s:P = s:V.import('Prelude')
