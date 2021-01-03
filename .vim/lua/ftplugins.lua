@@ -69,7 +69,7 @@ M = {
     vim.wo.list = false
     vim.wo.number = false
     vim.wo.relativenumber = false
-    vim.bo.cursorword = 0
+    vim.b.cursorword = 0
   end,
 
   html_javascript = function()
@@ -163,7 +163,7 @@ M = {
     vim.wo.number = false
     vim.wo.relativenumber = false
     vim.wo.list = false
-    vim.wo.cursorcolumn = ''
+    vim.wo.cursorcolumn = false
   end,
 
   ruby = function()

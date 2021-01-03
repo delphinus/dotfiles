@@ -55,7 +55,7 @@ vim.o.formatlistpat = [[^\s*\%(\d\+\|[-a-z]\)\%(\ -\|[]:.)}\t]\)\?\s\+]]
 vim.bo.formatlistpat = vim.o.formatlistpat
 vim.o.fixendofline = false
 vim.bo.fixendofline = false
-vim.o.showbreak = [[→\  ]]
+vim.o.showbreak = [[→  ]]
 vim.o.smartindent = true
 vim.bo.smartindent = true
 -- }}}
