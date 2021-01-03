@@ -3,6 +3,8 @@ require'util'
 require'packers'
 require'set'
 require'map'
+require'term'
+require'commands'
 
 require'augroups'.set{
   hello_world = {
