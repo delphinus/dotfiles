@@ -7,12 +7,21 @@ local M = {
 }
 
 M.set = function(groups)
-  assert(type(groups) == 'table', 'group definitions must be a table')
+  vim.validate{groups = {groups, 'table'}}
   for name, definitions in pairs(groups) do
-    assert(type(name) == 'string', 'augroup name must be a string')
-    assert(type(definitions) == 'table', 'definitions must be a table')
+    vim.validate{
+      name = {name, 'string'},
+      definitions = {definitions, 'table'},
+    }
     local cmds = {}
     for _, d in ipairs(definitions) do
+      vim.validate{
+        d = {
+          d,
+          function() return type(d) == 'table' and vim.tbl_count(d) == 3 end,
+          'each definition containing 3 values'
+        },
+      }
       local events, patterns, cmd_or_func = d[1], d[2], d[3]
       local command
       if type(cmd_or_func) == 'string' then
