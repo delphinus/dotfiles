@@ -326,6 +326,7 @@ return {
   -- }}}
 
   -- ft {{{
+  {'Vimjas/vim-python-pep8-indent', ft = {'python'}},
   {'aliou/bats.vim', ft = {'bats'}},
   {'delphinus/vim-data-section-simple', ft = {'perl'}},
 

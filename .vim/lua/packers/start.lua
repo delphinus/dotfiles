@@ -220,7 +220,6 @@ return {
 
   -- Syntax {{{
   {'Glench/Vim-Jinja2-Syntax'},
-  {'Vimjas/vim-python-pep8-indent'},
   {'aklt/plantuml-syntax'},
   {'cespare/vim-toml'},
   {'delphinus/vim-toml-dein'},
