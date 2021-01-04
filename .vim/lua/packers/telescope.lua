@@ -23,6 +23,7 @@ return {
     vimp.nnoremap('<Leader>fb', function() require'telescope.builtin'.buffers() end)
     vimp.nnoremap('<Leader>fh', function() require'telescope.builtin'.help_tags() end)
     vimp.nnoremap('<Leader>fo', function() require'telescope.builtin'.oldfiles() end)
+    vimp.nnoremap('#', function() require'telescope.builtin'.current_buffer_fuzzy_find() end)
 
     local actions = require'telescope.actions'
     require'telescope'.setup{
