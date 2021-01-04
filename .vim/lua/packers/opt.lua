@@ -425,6 +425,7 @@ return {
 
   {
     'fatih/vim-go',
+    ft = {'go'},
     setup = function()
       vim.g.go_addtags_transform = 'camelcase'
       vim.g.go_alternate_mode = 'split'
