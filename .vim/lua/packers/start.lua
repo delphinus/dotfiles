@@ -39,6 +39,7 @@ return {
 
   {
     'rhysd/committia.vim',
+    opt = true,
     setup = function()
       function _G.committia_hook_edit_open(info)
         if info.vcs == 'git' and vim.fn.getline(1) == '' then
