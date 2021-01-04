@@ -83,8 +83,12 @@ return {
         },
       }
 
+      local sumneko_root_path = vim.env.HOME..'/git/github.com/sumneko/lua-language-server'
+      local sumneko_binary = sumneko_root_path..'/bin/macOS/lua-language-server'
+
       lsp.sumneko_lua.setup{
         on_attach = lsp_on_attach,
+        cmd = {sumneko_binary, '-E', sumneko_root_path..'/main.lua'},
         settings = {
           Lua = {
             runtime = {
@@ -102,13 +106,29 @@ return {
             },
             workspace = {
               library = {
-                [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                [vim.fn.expand'$VIMRUNTIME/lua'] = true,
+                [vim.fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
+                -- TODO: use robust way to detect plugins
+                [vim.fn.expand'~/.local/share/nvim/site/pack/packer/start/vimpeccable/lua'] = true,
               },
             },
           }
         }
       }
+    end,
+    run = function()
+      -- TODO: update sumneko_lua automatically
+      vim.cmd[[!gem install --user-install solargraph]]
+      vim.cmd[[!go get -v -u golang.org/x/tools/gopls@latest]]
+      vim.cmd[[!npm i -g bash-language-server]]
+      vim.cmd[[!npm i -g dockerfile-language-server-nodejs]]
+      vim.cmd[[!npm i -g pyright]]
+      vim.cmd[[!npm i -g typescript typescript-language-server]]
+      vim.cmd[[!npm i -g vim-language-server]]
+      vim.cmd[[!npm i -g vscode-css-languageserver-bin]]
+      vim.cmd[[!npm i -g vscode-html-languageserver-bin]]
+      vim.cmd[[!npm i -g vscode-json-languageserver]]
+      vim.cmd[[!npm i -g yaml-language-server]]
     end,
   },
 
