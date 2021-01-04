@@ -265,7 +265,9 @@ return {
     end,
   },
 
-  {'delphinus/vim-emacscommandline', event = {'CmdlineEnter'}},
+  -- TODO: use CmdlineEnter
+  -- {'delphinus/vim-emacscommandline', event = {'CmdlineEnter'}},
+  {'delphinus/vim-emacscommandline'},
 
   {
     'delphinus/vim-unimpaired',
