@@ -39,7 +39,7 @@ return {
 
   {
     'rhysd/committia.vim',
-    config = function()
+    setup = function()
       function _G.committia_hook_edit_open(info)
         if info.vcs == 'git' and vim.fn.getline(1) == '' then
           vim.cmd[[startinsert]]
@@ -54,6 +54,20 @@ return {
       vim.g.committia_hooks = vim.empty_dict()
       vim.cmd[[let g:committia_hooks.edit_open = g:TempFunc]]
       vim.g.TempFunc = nil
+
+      -- Re-implement plugin/comittia.vim in Lua
+      vim.g.loaded_committia = true
+      require'augroups'.set{
+        ['plugin-committia'] = {
+          {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
+            if vim.bo.filetype == 'gitcommit' and vim.fn.has'vim_starting'
+              and vim.fn.exists'b:committia_opened' == 0 then
+              vim.cmd[[packadd committia.vim]]
+              vim.fn['committia#open']'git'
+            end
+          end},
+        },
+      }
     end,
   },
 
