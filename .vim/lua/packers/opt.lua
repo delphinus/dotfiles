@@ -327,6 +327,7 @@ return {
 
   -- ft {{{
   {'aliou/bats.vim', ft = {'bats'}},
+  {'delphinus/vim-data-section-simple', ft = {'perl'}},
 
   {
     'dense-analysis/ale',

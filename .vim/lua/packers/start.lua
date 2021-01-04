@@ -14,7 +14,6 @@ return {
   },
 
   {'delphinus/vim-auto-cursorline'},
-  {'delphinus/vim-data-section-simple'},
   {'delphinus/vim-quickfix-height'},
   {'direnv/direnv.vim'},
 
