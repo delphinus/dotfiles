@@ -658,6 +658,9 @@ return {
     'junegunn/vim-easy-align',
     keys = {{'v', '<CR>'}},
     setup = function()
+      local vimp = require'vimp'
+      vimp.vmap('<CR>', '<Plug>(EasyAlign)')
+
       vim.g.easy_align_delimiters = {
         ['>'] = { pattern = [[>>\|=>\|>]] },
         ['/'] = { pattern = [[//\+\|/\*\|\*/]], ignore_groups = {'String'} },
