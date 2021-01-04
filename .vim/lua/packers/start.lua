@@ -102,6 +102,7 @@ return {
   -- Colorscheme {{{
   {
     'arcticicestudio/nord-vim',
+    opt = true,
     config = function()
       vim.g.nord_italic = 1
       vim.g.nord_italic_comments = 1
