@@ -1,7 +1,7 @@
 -- Encodings {{{
 vim.o.fileencoding = 'utf-8'
 vim.bo.fileencoding = 'utf-8'
-if vim.fn.has('gui_macvim') == 0 then
+if vim.fn.has'gui_macvim' == 0 then
   vim.o.fileencodings = 'ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp'
 end
 -- }}}
