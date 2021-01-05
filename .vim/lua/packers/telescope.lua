@@ -64,6 +64,16 @@ return {
             ['<C-n>'] = actions.goto_file_selection_split,
           },
         },
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+          '--hidden',
+        },
         winblend = 10,
       },
     }
