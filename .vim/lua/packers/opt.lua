@@ -5,7 +5,7 @@ return {
   {
     'arcticicestudio/nord-vim',
     opt = true,
-    config = function()
+    setup = function()
       vim.g.nord_italic = 1
       vim.g.nord_italic_comments = 1
       vim.g.nord_underline = 1
