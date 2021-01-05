@@ -38,6 +38,23 @@ return {
   },
 
   {
+    'mhinz/vim-signify',
+    config = function()
+      vim.g.signify_vcs_list = {'git'}
+      vim.g.signify_realtime = 1
+      vim.g.signify_sign_add = '✓'
+      vim.g.signify_sign_delete = '✗'
+      vim.g.signify_sign_delete_first_line = '↑'
+      vim.g.signify_sign_change = '⤷'
+      vim.g.signify_sign_changedelete = '•'
+
+      local vimp = require'vimp'
+      vimp.bind('ox', 'ic', [[<Plug>(signify-motion-inner-pending)]])
+      vimp.bind('ox', 'ac', [[<Plug>(signify-motion-outer-pending)]])
+    end,
+  },
+
+  {
     'rhysd/committia.vim',
     opt = true,
     setup = function()
