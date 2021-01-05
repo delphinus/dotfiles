@@ -101,7 +101,7 @@ M = {
       end
       return ('%s %3d 行: %s '):format(level, vim.v.foldend - vim.v.foldstart + 1, sub)
     end
-    vim.cmd[[let g:JsonFoldText = {-> v:lua.json_fold_text()')}]]
+    vim.cmd[[let g:JsonFoldText = {-> v:lua.json_fold_text()}]]
     vim.cmd[[setlocal foldtext=g:JsonFoldText()]]
   end,
 
