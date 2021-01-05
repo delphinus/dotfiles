@@ -130,5 +130,7 @@
 	cmd = nvim -d -c '4wincmd w | wincmd J | nnoremap q <Cmd>qa<CR>' $LOCAL $BASE $REMOTE $MERGED
 [gpg]
 	program = gpg2
+[init]
+	defaultBranch = main
 
 # vim:se noet:
