@@ -27,6 +27,7 @@ return {
             vim.cmd[[hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE]]
             vim.cmd[[hi Special guifg=#D08770]]
             vim.cmd[[hi Title gui=bold cterm=bold]]
+            vim.cmd[[hi FloatermBorder gui=bold guifg=#5e81ac]]
 
             -- for gitgutter
             vim.cmd[[hi SignifyLineAdd ctermbg=233 guibg=#122b0c]]
