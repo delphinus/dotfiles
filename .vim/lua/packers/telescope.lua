@@ -1,9 +1,9 @@
 return {
   'nvim-telescope/telescope.nvim',
   requires = {
-    {'delphinus/telescope-ghq.nvim'},
     {'kyazdani42/nvim-web-devicons'},
     {'nvim-lua/popup.nvim'},
+    {'nvim-telescope/telescope-ghq.nvim'},
     {'nvim-telescope/telescope-github.nvim'},
     {'nvim-telescope/telescope-packer.nvim'},
     {'nvim-telescope/telescope-symbols.nvim'},
