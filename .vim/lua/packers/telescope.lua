@@ -46,12 +46,25 @@ return {
       require'telescope.builtin'.find_files{cwd = selection.value}
     end
 
+    local run_live_grep = function(prompt_bufnr)
+      local selection = actions.get_selected_entry()
+      if vim.fn.isdirectory(selection.value) == 1 then
+        actions.close(prompt_bufnr)
+        require'telescope.builtin'.live_grep{cwd = selection.value}
+      else
+        vim.cmd[[echohl WarningMsg]]
+        vim.cmd[[echomsg 'This is not a directory.']]
+        vim.cmd[[echohl None]]
+      end
+    end
+
     telescope.setup{
       defaults = {
         mappings = {
           i = {
             ['<C-a>'] = run_find_files,
             ['<C-c>'] = actions.close,
+            ['<C-g>'] = run_live_grep,
             ['<C-j>'] = actions.move_selection_next,
             ['<C-k>'] = actions.move_selection_previous,
             ['<C-n>'] = actions.goto_file_selection_split,
@@ -59,6 +72,7 @@ return {
           n = {
             ['<C-a>'] = run_find_files,
             ['<C-c>'] = actions.close,
+            ['<C-g>'] = run_live_grep,
             ['<C-j>'] = actions.move_selection_next,
             ['<C-k>'] = actions.move_selection_previous,
             ['<C-n>'] = actions.goto_file_selection_split,
