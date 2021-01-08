@@ -1,6 +1,6 @@
 function __z_add -d "Add PATH to .z file"
   for i in $Z_EXCLUDE
-    if contains -- $PWD $i
+    if string match -r $i $PWD > /dev/null
       return 0 #Path excluded
     end
   end
@@ -44,6 +44,4 @@ function __z_add -d "Add PATH to .z file"
     command mv $tmpfile $Z_DATA
     or command rm $tmpfile
   end
-
-  __z_complete
 end

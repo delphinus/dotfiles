@@ -1,0 +1,1 @@
+/Users/jinnouchi.yasushi/git/github.com/xwmx/nb/etc/nb-completion.fish
