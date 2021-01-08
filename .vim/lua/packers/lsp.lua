@@ -171,8 +171,7 @@ return {
             {complete_items = {'lsp', 'tags'}},
             {complete_items = {'ts', 'buffers', 'tmux'}},
             {complete_items = {'path'}, triggered_only = {'/'}},
-            -- TODO: disable omnifunc due to vim-rhubarb (this is too slow)
-            -- {mode = 'omni'},
+            {mode = 'omni'},
             {mode = '<C-p>'},
             {mode = '<C-n>'},
             {mode = 'keyn'},
@@ -180,7 +179,17 @@ return {
             {mode = 'file'},
             {mode = 'dict'},
           },
-          comment = {},
+          -- TODO: omnifunc from vim-rhubarb is too slow
+          gitcommit = {
+            {complete_items = {'buffers', 'tmux'}},
+            {complete_items = {'path'}, triggered_only = {'/'}},
+            {mode = 'dict'},
+            {mode = 'file'},
+            {mode = '<C-p>'},
+            {mode = '<C-n>'},
+            {mode = 'keyn'},
+            {mode = 'keyp'},
+          },
         },
       }
     end,
