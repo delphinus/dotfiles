@@ -189,11 +189,7 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     requires = {
-      {
-        'delphinus/nvim-treesitter-refactor',
-        branch = 'hotfix/help-tags',
-      },
-
+      {'nvim-treesitter/nvim-treesitter-refactor'},
       {'nvim-treesitter/nvim-treesitter-textobjects'},
       {'nvim-treesitter/playground'},
       {'p00f/nvim-ts-rainbow'},
