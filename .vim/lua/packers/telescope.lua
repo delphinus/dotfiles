@@ -25,7 +25,7 @@ return {
     local telescope = require'telescope'
     local vimp = require'vimp'
 
-    telescope.load_extension'ghcli'
+    telescope.load_extension'gh'
     telescope.load_extension'ghq'
 
     vimp.nnoremap('<Leader>ff', builtin.git_files)
