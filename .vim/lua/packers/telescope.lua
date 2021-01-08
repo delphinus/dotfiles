@@ -33,7 +33,7 @@ return {
     vimp.nnoremap('<Leader>fb', builtin.buffers)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
     vimp.nnoremap('<Leader>fo', builtin.oldfiles)
-    vimp.nnoremap('<Leader>fq', builtin.ghq_list)
+    vimp.nnoremap('<Leader>fq', telescope.extensions.ghq.list)
     vimp.nnoremap('<Leader>sr', builtin.lsp_references)
     vimp.nnoremap('<Leader>sd', builtin.lsp_document_symbols)
     vimp.nnoremap('<Leader>sw', builtin.lsp_workspace_symbols)
