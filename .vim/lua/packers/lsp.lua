@@ -117,18 +117,40 @@ return {
       }
     end,
     run = function()
-      -- TODO: update sumneko_lua automatically
-      vim.cmd[[!gem install --user-install solargraph]]
-      vim.cmd[[!go get -v -u golang.org/x/tools/gopls@latest]]
-      vim.cmd[[!npm i -g bash-language-server]]
-      vim.cmd[[!npm i -g dockerfile-language-server-nodejs]]
-      vim.cmd[[!npm i -g pyright]]
-      vim.cmd[[!npm i -g typescript typescript-language-server]]
-      vim.cmd[[!npm i -g vim-language-server]]
-      vim.cmd[[!npm i -g vscode-css-languageserver-bin]]
-      vim.cmd[[!npm i -g vscode-html-languageserver-bin]]
-      vim.cmd[[!npm i -g vscode-json-languageserver]]
-      vim.cmd[[!npm i -g yaml-language-server]]
+      local file = vim.fn.stdpath'cache'..'/lspconfig_updated'
+      local last_updated = 0
+      do
+        local fd = vim.loop.fs_open(file, 'r', '0666')
+        if fd then
+          local stat = vim.loop.fs_fstat(fd)
+          local data = vim.loop.fs_read(fd, stat.size, 0)
+          vim.loop.fs_close(fd)
+          last_updated = tonumber(data) or 0
+        end
+      end
+      local now = os.time()
+      if now - last_updated > 24 * 3600 * 7 then
+        -- TODO: update sumneko_lua automatically
+        vim.cmd[[!gem install --user-install solargraph]]
+        vim.cmd[[!go get -v -u golang.org/x/tools/gopls@latest]]
+        vim.cmd[[!npm i -g bash-language-server]]
+        vim.cmd[[!npm i -g dockerfile-language-server-nodejs]]
+        vim.cmd[[!npm i -g pyright]]
+        vim.cmd[[!npm i -g typescript typescript-language-server]]
+        vim.cmd[[!npm i -g vim-language-server]]
+        vim.cmd[[!npm i -g vscode-css-languageserver-bin]]
+        vim.cmd[[!npm i -g vscode-html-languageserver-bin]]
+        vim.cmd[[!npm i -g vscode-json-languageserver]]
+        vim.cmd[[!npm i -g yaml-language-server]]
+
+        local fd = vim.loop.fs_open(file, 'w', '0600')
+        if fd then
+          vim.loop.write(fd, now)
+          vim.loop.fs_close(fd)
+        else
+          error('cannot open the file to write: '..file)
+        end
+      end
     end,
   },
 
