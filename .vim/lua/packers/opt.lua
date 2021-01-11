@@ -516,9 +516,9 @@ return {
       }
     end,
     run = function()
-      os.execute[[gem install --user-install rubocop solargraph]]
-      os.execute[[npm install -g eslint tslint typescript prettier vue-language-server]]
-      os.execute[[pip3 install -U --user black git+https://github.com/Vimjas/vint]]
+      vim.cmd[[!gem install --user-install rubocop]]
+      vim.cmd[[!npm install -g eslint prettier]]
+      vim.cmd[[!pip3 install -U --user black git+https://github.com/Vimjas/vint]]
     end,
   },
 
