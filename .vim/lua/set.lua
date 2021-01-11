@@ -94,9 +94,10 @@ else
 end
 nvim_create_augroups{
   set_colorscheme = {
-    {'VimEnter', '*', 'colorscheme '..scheme},
+    {'VimEnter', '*', 'doautocmd ColorScheme '..scheme},
   },
 }
+vim.cmd('colorscheme '..scheme)
 -- }}}
 
 -- Title {{{
