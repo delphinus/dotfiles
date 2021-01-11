@@ -18,23 +18,12 @@ return {
   {'direnv/direnv.vim'},
 
   {
-    'datwaft/bubbly.nvim',
+    'hoob3rt/lualine.nvim',
     config = function()
-      vim.g.bubbly_palette = {
-        background = '#4c566a',
-        foreground = '#88c0d0',
-        black = '#2e3440',
-        red = '#bf616a',
-        green = '#a3be8c',
-        yellow = '#ebcb8b',
-        blue = '#8aa1c1',
-        purple = '#b48ead',
-        cyan = '#88c0d0',
-        white = '#d8dee9',
-        lightgrey = '#616e88',
-        darkgrey = '#3b4252',
-      }
-    end
+      local lualine = require'lualine'
+      lualine.theme = 'nord'
+      lualine.status()
+    end,
   },
 
   {
