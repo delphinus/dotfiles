@@ -1,25 +1,43 @@
 return {
   'nvim-telescope/telescope.nvim',
   requires = {
-    {'kyazdani42/nvim-web-devicons'},
-    {'nvim-lua/popup.nvim'},
-    {'nvim-telescope/telescope-ghq.nvim'},
-    {'nvim-telescope/telescope-github.nvim'},
-    {'nvim-telescope/telescope-packer.nvim'},
-    {'nvim-telescope/telescope-symbols.nvim'},
+    {'delphinus/telescope-z.nvim', opt = true},
+    {'kyazdani42/nvim-web-devicons', opt = true},
+    {'nvim-lua/popup.nvim', opt = true},
+    {'nvim-telescope/telescope-ghq.nvim', opt = true},
+    {'nvim-telescope/telescope-github.nvim', opt = true},
+    {'nvim-telescope/telescope-packer.nvim', opt = true},
+    {'nvim-telescope/telescope-symbols.nvim', opt = true},
     {'plenary.nvim'},
   },
-  -- TODO: lazyloading
-  --[[
   cmd = {'Telescope'},
   keys = {
     '<Leader>ff',
     '<Leader>fg',
     '<Leader>fb',
     '<Leader>fh',
+    '<Leader>fo',
+    '<Leader>fq',
+    '<Leader>fz',
+    '<Leader>sr',
+    '<Leader>sd',
+    '<Leader>sw',
+    '<Leader>sc',
+    '#',
   },
-  ]]
   config = function()
+    for _, name in pairs{
+      'nvim-web-devicons',
+      'popup.nvim',
+      'telescope-ghq.nvim',
+      'telescope-github.nvim',
+      'telescope-packer.nvim',
+      'telescope-symbols.nvim',
+      'telescope-z.nvim',
+    } do
+      vim.cmd('packadd '..name)
+    end
+
     local actions = require'telescope.actions'
     local builtin = require'telescope.builtin'
     local telescope = require'telescope'
@@ -27,6 +45,7 @@ return {
 
     telescope.load_extension'gh'
     telescope.load_extension'ghq'
+    telescope.load_extension'z'
 
     vimp.nnoremap('<Leader>ff', builtin.git_files)
     vimp.nnoremap('<Leader>fg', builtin.live_grep)
@@ -34,11 +53,12 @@ return {
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
     vimp.nnoremap('<Leader>fo', builtin.oldfiles)
     vimp.nnoremap('<Leader>fq', telescope.extensions.ghq.list)
+    vimp.nnoremap('<Leader>fz', telescope.extensions.z.list)
     vimp.nnoremap('<Leader>sr', builtin.lsp_references)
     vimp.nnoremap('<Leader>sd', builtin.lsp_document_symbols)
     vimp.nnoremap('<Leader>sw', builtin.lsp_workspace_symbols)
     vimp.nnoremap('<Leader>sc', builtin.lsp_code_actions)
-    vimp.nnoremap('#', function() require'telescope.builtin'.current_buffer_fuzzy_find() end)
+    vimp.nnoremap('#', builtin.current_buffer_fuzzy_find)
 
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
