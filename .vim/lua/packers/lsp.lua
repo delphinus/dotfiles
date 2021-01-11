@@ -163,13 +163,6 @@ return {
       {'albertoCaroM/completion-tmux'},
     },
     config = function()
-      for _, name in ipairs{
-        'completion-buffers',
-        'completion-treesitter',
-        'completion-tags',
-        'completion-tmux',
-      } do vim.cmd('packadd '..name) end
-
       local vimp = require'vimp'
 
       require'augroups'.set{
@@ -227,14 +220,6 @@ return {
       {'romgrk/nvim-treesitter-context'},
     },
     config = function()
-      for _, name in ipairs{
-        'nvim-treesitter-context',
-        'nvim-treesitter-textobjects',
-        'nvim-treesitter-refactor',
-        'nvim-ts-rainbow',
-        'playground',
-      } do vim.cmd('packadd '..name) end
-
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,

@@ -163,9 +163,6 @@ return {
       vimp.nnoremap('<Leader>cg', [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]])
       vimp.nnoremap('<Leader>b', [[<Cmd>TigBlame<CR>]])
     end,
-    config = function()
-      vim.cmd[[packadd bclose.vim]]
-    end,
   },
 
   {
@@ -304,19 +301,16 @@ return {
     end,
   },
 
-  {'thinca/vim-prettyprint', cmd = {'PP', 'PrettyPrint'}},
-
   {
     'tyru/capture.vim',
+    requires = {
+      {'thinca/vim-prettyprint', cmd = {'PP', 'PrettyPrint'}},
+    },
     cmd = {'Capture'},
-    config = function()
-      vim.cmd[[packadd vim-prettyprint]]
-    end,
   },
 
   {
     'tyru/open-browser.vim',
-    requries = {{'vimpeccable'}},
     cmd = {'OpenBrowser', 'OpenBrowserSearch'},
     keys = {
       'g<CR>',
@@ -599,9 +593,6 @@ return {
     'rhysd/vim-textobj-ruby',
     requires = {{'kana/vim-textobj-user'}},
     ft = {'ruby'},
-    config = function()
-      vim.cmd[[packadd vim-textobj-user]]
-    end,
   },
 
   {'rust-lang/rust.vim', ft = {'rust'}},
@@ -772,10 +763,6 @@ return {
       '[<Space>',
       ']<Space>',
     },
-    config = function()
-      vim.cmd[[packadd vim-ingo-library]]
-      vim.cmd[[packadd visualrepeat]]
-    end,
   },
 
   {
