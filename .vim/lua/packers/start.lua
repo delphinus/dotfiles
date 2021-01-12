@@ -25,6 +25,7 @@ return {
     config = function()
       local lualine = require'lualine'
       lualine.theme = 'nord'
+      lualine.separator = '❘'
       lualine.status()
     end,
   },
