@@ -23,9 +23,17 @@ return {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
     config = function()
+      local function ascii_char()
+        local char = vim.fn.strpart(vim.fn.getline'.', vim.fn.col'.' - 1, 1, true)
+        return ([['%s' %s]]):format(char, '%B')
+      end
+
       local lualine = require'lualine'
       lualine.theme = 'nord'
       lualine.separator = '❘'
+      lualine.sections.lualine_x = {
+        ascii_char, 'encoding', 'fileformat', 'filetype',
+      }
       lualine.status()
     end,
   },
