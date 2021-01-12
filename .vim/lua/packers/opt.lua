@@ -155,13 +155,13 @@ return {
     },
     setup = function()
       local vimp = require'vimp'
-      vimp.nnoremap('<Leader>T', [[<Cmd>TigOpenCurrentFile<CR>]])
-      vimp.nnoremap('<Leader>t', [[<Cmd>TigOpenProjectRootDir<CR>]])
-      vimp.nnoremap('<Leader>g', [[<Cmd>TigGrep<CR>]])
-      vimp.nnoremap('<Leader>r', [[<Cmd>TigGrepResume<CR>]])
-      vimp.vnoremap('<Leader>g', [[y<Cmd>TigGrep<Space><C-R>"<CR>]])
-      vimp.nnoremap('<Leader>cg', [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]])
-      vimp.nnoremap('<Leader>b', [[<Cmd>TigBlame<CR>]])
+      vimp.nnoremap('<Leader>tT', [[<Cmd>TigOpenCurrentFile<CR>]])
+      vimp.nnoremap('<Leader>tt', [[<Cmd>TigOpenProjectRootDir<CR>]])
+      vimp.nnoremap('<Leader>tg', [[<Cmd>TigGrep<CR>]])
+      vimp.nnoremap('<Leader>tr', [[<Cmd>TigGrepResume<CR>]])
+      vimp.vnoremap('<Leader>tG', [[y<Cmd>TigGrep<Space><C-R>"<CR>]])
+      vimp.nnoremap('<Leader>tc', [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]])
+      vimp.nnoremap('<Leader>tb', [[<Cmd>TigBlame<CR>]])
     end,
   },
 
