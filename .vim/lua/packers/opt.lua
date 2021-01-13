@@ -16,7 +16,7 @@ return {
       require'augroups'.set{
         nord_overrides = {
           {'ColorScheme', 'nord', function()
-            vim.cmd[[hi Comment guifg=#CDD0BB]]
+            vim.cmd[[hi Comment guifg=#CDD0BB gui=italic]]
             vim.cmd[[hi CursorLine guibg=#313743]]
             vim.cmd[[hi Delimiter guifg=#81A1C1]]
             vim.cmd[[hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE]]
