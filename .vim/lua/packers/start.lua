@@ -15,7 +15,11 @@ return {
 
   {'delphinus/vim-auto-cursorline'},
   {'delphinus/vim-quickfix-height'},
-  {'direnv/direnv.vim'},
+
+  {
+    'direnv/direnv.vim',
+    config = function() vim.g.direnv_silent_load = 1 end,
+  },
 
   {
     'hoob3rt/lualine.nvim',
