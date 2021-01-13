@@ -94,6 +94,8 @@ return {
     end,
   },
 
+  {'tpope/vim-characterize'},
+
   {
     'tpope/vim-eunuch',
     config = function()
