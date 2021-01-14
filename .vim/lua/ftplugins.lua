@@ -112,8 +112,8 @@ M = {
       vimp.nmap('<A-M>', '<Plug>StopMarkdownPreview')
     end)
     ]]
-    vim.nvim_buf_set_keymap(0, 'n', '<A-m>', '<Plug>MarkdownPreview')
-    vim.nvim_buf_set_keymap(0, 'n', '<A-M>', '<Plug>StopMarkdownPreview')
+    vim.api.nvim_buf_set_keymap(0, 'n', '<A-m>', '<Plug>MarkdownPreview', {})
+    vim.api.nvim_buf_set_keymap(0, 'n', '<A-M>', '<Plug>StopMarkdownPreview', {})
   end,
 
   perl = function()
