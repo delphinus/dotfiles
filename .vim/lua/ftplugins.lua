@@ -106,10 +106,14 @@ M = {
   end,
 
   markdown = function()
+    --[[ vimperator say errors for this. why?
     vimp.add_buffer_maps(function()
       vimp.nmap('<A-m>', '<Plug>MarkdownPreview')
       vimp.nmap('<A-M>', '<Plug>StopMarkdownPreview')
     end)
+    ]]
+    vim.nvim_buf_set_keymap(0, 'n', '<A-m>', '<Plug>MarkdownPreview')
+    vim.nvim_buf_set_keymap(0, 'n', '<A-M>', '<Plug>StopMarkdownPreview')
   end,
 
   perl = function()
