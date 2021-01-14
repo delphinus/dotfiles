@@ -863,6 +863,40 @@ return {
   -- }}}
 
   -- func {{{
+  {
+    'rhysd/committia.vim',
+    fn = {'committia#open'},
+    setup = function()
+      function _G.committia_hook_edit_open(info)
+        if info.vcs == 'git' and vim.fn.getline(1) == '' then
+          vim.cmd[[startinsert]]
+        end
+        local vimp = require'vimp'
+        vimp.add_buffer_maps(function()
+          vimp.imap('<A-d>', [[<Plug>(committia-scroll-diff-down-half)]])
+          vimp.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
+        end)
+      end
+      vim.cmd[[let g:TempFunc = {info -> v:lua.committia_hook_edit_open(info)}]]
+      vim.g.committia_hooks = vim.empty_dict()
+      vim.cmd[[let g:committia_hooks.edit_open = g:TempFunc]]
+      vim.g.TempFunc = nil
+
+      -- Re-implement plugin/comittia.vim in Lua
+      vim.g.loaded_committia = true
+      require'augroups'.set{
+        ['plugin-committia'] = {
+          {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
+            if vim.bo.filetype == 'gitcommit' and vim.fn.has'vim_starting'
+              and vim.fn.exists'b:committia_opened' == 0 then
+              vim.fn['committia#open']'git'
+            end
+          end},
+        },
+      }
+    end,
+  },
+
   {'sainnhe/artify.vim', fn = {'Artify'}},
   {'vim-jp/vital.vim', fn = {'vital#vital#new'}},
   -- }}}
