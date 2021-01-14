@@ -223,7 +223,7 @@ return {
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,
-          disable = { 'toml' },
+          disable = {'toml'},
         },
         incremental_selection = {
           enable = true,
