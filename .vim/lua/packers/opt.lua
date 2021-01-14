@@ -316,13 +316,7 @@ return {
       'g<CR>',
       {'v', 'g<CR>'},
     },
-    setup = function()
-      require'augroups'.set{
-        load_open_browser = {
-          {'FuncUndefined', 'openbrowser#open', 'packadd open-browser.vim'},
-        },
-      }
-    end,
+    fn = {'openbrowser#open'},
     config = function()
       require'vimp'.rbind('nv', 'g<CR>', [[<Plug>(openbrowser-smart-search)]])
     end,
@@ -869,29 +863,8 @@ return {
   -- }}}
 
   -- func {{{
-  {
-    'sainnhe/artify.vim',
-    opt = true,
-    setup = function()
-      nvim_create_augroups{
-        load_artify = {
-          {'FuncUndefined', 'Artify', 'packadd artify.vim'},
-        },
-      }
-    end,
-  },
-
-  {
-    'vim-jp/vital.vim',
-    opt = true,
-    setup = function()
-      nvim_create_augroups{
-        load_vital = {
-          {'FuncUndefined', 'vital#vital#new', 'packadd artify.vim'},
-        },
-      }
-    end,
-  },
+  {'sainnhe/artify.vim', fn = {'Artify'}},
+  {'vim-jp/vital.vim', fn = {'vital#vital#new'}},
   -- }}}
 }
 
