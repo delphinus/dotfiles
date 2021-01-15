@@ -166,6 +166,18 @@ return {
   },
 
   {
+    'iamcco/markdown-preview.nvim',
+    cmd = {'MarkdownPreview', 'MarkdownPreviewStop'},
+    ft = {'markdown'},
+    setup = function()
+      vim.g.mkdp_auto_close = 0
+      vim.g.mkdp_echo_preview_url = 1
+      vim.g.mkdp_open_to_the_world = 1
+    end,
+    run = 'cd app && yarn',
+  },
+
+  {
     'lambdalisue/vim-gista',
     cmd = {'Gista'},
     setup = function()
@@ -312,10 +324,7 @@ return {
   {
     'tyru/open-browser.vim',
     cmd = {'OpenBrowser', 'OpenBrowserSearch'},
-    keys = {
-      'g<CR>',
-      {'v', 'g<CR>'},
-    },
+    keys = {'<Plug>(openbrowser-smart-search)'},
     fn = {'openbrowser#open'},
     config = function()
       require'vimp'.rbind('nv', 'g<CR>', [[<Plug>(openbrowser-smart-search)]])
@@ -616,8 +625,8 @@ return {
   -- keys {{{
   {
     'arecarn/vim-fold-cycle',
-    keys = {'<A-l>', '<A-h>'},
-    config = function()
+    keys = {{'n', '<Plug>(fold-cycle-'}},
+    setup = function()
       vim.g.fold_cycle_default_mapping = 0
       local vimp = require'vimp'
       vimp.nmap('<A-l>', [[<Plug>(fold-cycle-open)]])
@@ -627,8 +636,8 @@ return {
 
   {
     'bfredl/nvim-miniyank',
-    keys = {'p', 'P', '<A-p>', '<A-P>'},
-    config = function()
+    keys = {{'n', '<Plug>(miniyank-'}},
+    setup = function()
       vim.g.miniyank_maxitems = 100
       local vimp = require'vimp'
       vimp.nmap('p', [[<Plug>(miniyank-autoput)]])
@@ -640,8 +649,8 @@ return {
 
   {
     'chikatoike/concealedyank.vim',
-    keys = {{'x', 'Y'}},
-    config = function()
+    keys = {{'x', '<Plug>(operator-concealedyank)'}},
+    setup = function()
       require'vimp'.xmap('Y', [[<Plug>(operator-concealedyank)]])
     end
   },
@@ -649,32 +658,15 @@ return {
   {
     'delphinus/dwm.vim',
     branch = 'feature/disable',
-    keys = {
-      '<A-CR>',
-      '<A-r>',
-      '<C-@>',
-      '<C-Space>',
-      '<C-c>',
-      '<C-j>',
-      '<C-k>',
-      '<C-l>',
-      '<C-n>',
-      '<C-q>',
-      '<C-s>',
-    },
+    keys = {{'n', '<Plug>DWM'}},
     setup = function()
       vim.g.dwm_map_keys = 0
-    end,
-    config = function()
-      function _G.dwm_preview()
-        if vim.wo.previewwindow == 1 then
-          vim.b.dwm_disabled = 1
-        end
-      end
 
-      nvim_create_augroups{
+      require'augroups'.set{
         dwm_preview = {
-          {'BufRead', '*', [[lua dwm_preview()]]},
+          {'BufRead', '*', function()
+            if vim.wo.previewwindow == 1 then vim.b.dwm_disabled = 1 end
+          end},
         },
       }
 
@@ -706,10 +698,10 @@ return {
     'easymotion/vim-easymotion',
     cmd = {'EMCommandLineMap', 'EMCommandLineNoreMap', 'EMCommandLineUnMap'},
     keys = {
-      [[']],
+      {'n', [[']]},
       {'x', [[']]},
       {'o', [[']]},
-      's',
+      {'n', 's'},
       {'x', 's'},
       {'o', 's'},
     },
@@ -724,18 +716,6 @@ return {
     config = function()
       require'vimp'.rbind('nxo', 's', [[<Plug>(easymotion-s2)]])
     end,
-  },
-
-  {
-    'iamcco/markdown-preview.nvim',
-    cmd = {'MarkdownPreview', 'MarkdownPreviewStop'},
-    ft = {'markdown'},
-    setup = function()
-      vim.g.mkdp_auto_close = 0
-      vim.g.mkdp_echo_preview_url = 1
-      vim.g.mkdp_open_to_the_world = 1
-    end,
-    run = 'cd app && yarn',
   },
 
   {
@@ -761,7 +741,7 @@ return {
 
   {
     'junegunn/vim-easy-align',
-    keys = {{'v', '<CR>'}},
+    keys = {{'v', '<Plug>(EasyAlign)'}},
     setup = function()
       local vimp = require'vimp'
       vimp.vmap('<CR>', '<Plug>(EasyAlign)')
@@ -798,14 +778,10 @@ return {
   {
     't9md/vim-quickhl',
     keys = {
-      '<Space>m',
-      '<Space>M',
-      '<Space>t',
-      {'x', '<Space>m'},
-      {'x', '<Space>M'},
-      {'x', '<Space>t'},
+      {'n', '<Plug>(quickhl-'},
+      {'x', '<Plug>(quickhl-'},
     },
-    config = function()
+    setup = function()
       local vimp = require'vimp'
       vimp.rbind('nx', '<Space>m', [[<Plug>(quickhl-manual-this)]])
       vimp.rbind('nx', '<Space>t', [[<Plug>(quickhl-manual-toggle)]])
@@ -816,22 +792,22 @@ return {
   {
     'thinca/vim-fontzoom',
     -- TODO: set these mapping in GUI only?
-    keys = {'+', '-', '<C-ScrollWheelUp>', '<C-ScrollWheelDown>'},
-    cond = [[vim.fn.has('gui') == 1]],
-    config = function()
-      local vimp = require'vimp'
-      vimp.rbind('n', {'unique', 'silent'}, {'+', '<C-ScrollWheelUp>'}, [[<Plug>(fontzoom-larger)]])
-      vimp.rbind('n', {'unique', 'silent'}, {'-', '<C-ScrollWheelDown>'}, [[<Plug>(fontzoom-smaller)]])
+    keys = {{'n', '<Plug>(fontzoon-'}},
+    cond = [[vim.fn.has'gui' == 1]],
+    setup = function()
+      if vim.fn.has'gui' == 1 then
+        local vimp = require'vimp'
+        vimp.rbind('n', {'unique', 'silent'}, {'+', '<C-ScrollWheelUp>'}, [[<Plug>(fontzoom-larger)]])
+        vimp.rbind('n', {'unique', 'silent'}, {'-', '<C-ScrollWheelDown>'}, [[<Plug>(fontzoom-smaller)]])
+      end
     end,
   },
 
   {
     'thinca/vim-visualstar',
-    keys = {'*'},
+    keys = {{'x', '<Plug>(visualstar-'}},
     setup = function()
       vim.g.visualstar_no_default_key_mappings = 1
-    end,
-    config = function()
       require'vimp'.xmap({'unique'}, '*', [[<Plug>(visualstar-*)]])
     end,
   },
@@ -839,20 +815,11 @@ return {
   {
     'tyru/columnskip.vim',
     keys = {
-      '[j',
-      '[k',
-      ']j',
-      ']k',
-      {'o', '[j'},
-      {'o', '[k'},
-      {'o', ']j'},
-      {'o', ']k'},
-      {'x', '[j'},
-      {'x', '[k'},
-      {'x', ']j'},
-      {'x', ']k'},
+      {'n', '<Plug>(columnskip:'},
+      {'x', '<Plug>(columnskip:'},
+      {'o', '<Plug>(columnskip:'},
     },
-    config = function()
+    setup = function()
       local vimp = require'vimp'
       vimp.rbind('nxo', '[j', [[<Plug>(columnskip:nonblank:next)]])
       vimp.rbind('nxo', '[k', [[<Plug>(columnskip:nonblank:prev)]])
@@ -867,21 +834,6 @@ return {
     'rhysd/committia.vim',
     fn = {'committia#open'},
     setup = function()
-      function _G.committia_hook_edit_open(info)
-        if info.vcs == 'git' and vim.fn.getline(1) == '' then
-          vim.cmd[[startinsert]]
-        end
-        local vimp = require'vimp'
-        vimp.add_buffer_maps(function()
-          vimp.imap('<A-d>', [[<Plug>(committia-scroll-diff-down-half)]])
-          vimp.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
-        end)
-      end
-      vim.cmd[[let g:TempFunc = {info -> v:lua.committia_hook_edit_open(info)}]]
-      vim.g.committia_hooks = vim.empty_dict()
-      vim.cmd[[let g:committia_hooks.edit_open = g:TempFunc]]
-      vim.g.TempFunc = nil
-
       -- Re-implement plugin/comittia.vim in Lua
       vim.g.loaded_committia = true
       require'augroups'.set{
@@ -889,6 +841,20 @@ return {
           {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
             if vim.bo.filetype == 'gitcommit' and vim.fn.has'vim_starting'
               and vim.fn.exists'b:committia_opened' == 0 then
+              function _G.committia_hook_edit_open(info)
+                if info.vcs == 'git' and vim.fn.getline(1) == '' then
+                  vim.cmd[[startinsert]]
+                end
+                local vimp = require'vimp'
+                vimp.add_buffer_maps(function()
+                  vimp.imap('<A-d>', [[<Plug>(committia-scroll-diff-down-half)]])
+                  vimp.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
+                end)
+              end
+              vim.cmd[[let g:TempFunc = {info -> v:lua.committia_hook_edit_open(info)}]]
+              vim.g.committia_hooks = vim.empty_dict()
+              vim.cmd[[let g:committia_hooks.edit_open = g:TempFunc]]
+              vim.g.TempFunc = nil
               vim.fn['committia#open']'git'
             end
           end},

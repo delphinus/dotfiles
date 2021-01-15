@@ -92,7 +92,7 @@ if is_light or vim.env.SOLARIZED then
 else
   scheme = 'nord'
 end
-nvim_create_augroups{
+require'augroups'.set{
   set_colorscheme = {
     {'VimEnter', '*', 'doautocmd ColorScheme '..scheme},
   },

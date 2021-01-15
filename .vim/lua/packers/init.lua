@@ -4,12 +4,6 @@ if vim.fn.isdirectory(install_path) == 0 then
   vim.cmd'packadd packer.nvim'
 end
 
-require'augroups'.set{
-  packer_compile = {
-    {'BufWritePost', '*/packers/*.lua', 'PackerCompile'},
-  },
-}
-
 function _G.run_packer(method)
   vim.cmd[[packadd packer.nvim]]
   require'packers.load'[method]()
