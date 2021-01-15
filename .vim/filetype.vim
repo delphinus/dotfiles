@@ -305,6 +305,7 @@ au BufNewFile,BufRead *.t,*.xt setf perl
 
 " Tags
 au BufNewFile,BufRead tags			setf tags
+au BufNewFile,BufRead tags-?? setf tags
 
 " TeX
 au BufNewFile,BufRead *.latex,*.sty,*.dtx,*.ltx,*.bbl	setf tex
