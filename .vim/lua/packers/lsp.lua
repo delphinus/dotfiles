@@ -117,7 +117,7 @@ return {
       }
     end,
     run = function()
-      local file = vim.fn.stdpath'cache'..'/lspconfig_updated'
+      local file = vim.fn.stdpath'cache'..'/lspconfig/updated'
       local last_updated = 0
       do
         local fd = vim.loop.fs_open(file, 'r', '0666')
@@ -133,17 +133,9 @@ return {
         -- TODO: update sumneko_lua automatically
         vim.cmd[[!gem install --user-install solargraph]]
         vim.cmd[[!go get -v -u golang.org/x/tools/gopls@latest]]
-        vim.cmd[[!npm i -g bash-language-server]]
-        vim.cmd[[!npm i -g dockerfile-language-server-nodejs]]
-        vim.cmd[[!npm i -g pyright]]
-        vim.cmd[[!npm i -g typescript typescript-language-server]]
-        vim.cmd[[!npm i -g vim-language-server]]
-        vim.cmd[[!npm i -g vscode-css-languageserver-bin]]
-        vim.cmd[[!npm i -g vscode-html-languageserver-bin]]
-        vim.cmd[[!npm i -g vscode-json-languageserver]]
-        vim.cmd[[!npm i -g yaml-language-server]]
+        vim.cmd[[!npm i -g bash-language-server dockerfile-language-server-nodejs pyright typescript typescript-language-server vim-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server]]
 
-        local fd = vim.loop.fs_open(file, 'w', '0600')
+        local fd = vim.loop.fs_open(file, 'w', '022')
         if fd then
           vim.loop.write(fd, now)
           vim.loop.fs_close(fd)
