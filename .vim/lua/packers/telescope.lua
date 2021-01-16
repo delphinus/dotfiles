@@ -20,10 +20,15 @@ return {
     '<Leader>fo',
     '<Leader>fq',
     '<Leader>fz',
+    '<Leader>mm',
     '<Leader>sr',
     '<Leader>sd',
     '<Leader>sw',
     '<Leader>sc',
+    '<Leader>gc',
+    '<Leader>gb',
+    '<Leader>gr',
+    '<Leader>gs',
     '#',
   },
   config = function()
@@ -47,7 +52,9 @@ return {
 
     telescope.load_extension'gh'
     telescope.load_extension'ghq'
+    telescope.load_extension'memo'
     telescope.load_extension'z'
+    local extensions = telescope.extensions
 
     -- file finders
     vimp.nnoremap('<Leader>ff', builtin.git_files)
@@ -55,8 +62,11 @@ return {
     vimp.nnoremap('<Leader>fb', builtin.buffers)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
     vimp.nnoremap('<Leader>fo', builtin.oldfiles)
-    vimp.nnoremap('<Leader>fq', telescope.extensions.ghq.list)
-    vimp.nnoremap('<Leader>fz', telescope.extensions.z.list)
+    vimp.nnoremap('<Leader>fq', extensions.ghq.list)
+    vimp.nnoremap('<Leader>fz', extensions.z.list)
+
+    -- for Memo
+    vimp.nnoremap('<Leader>mm', extensions.memo.list)
 
     -- for LSP
     vimp.nnoremap('<Leader>sr', builtin.lsp_references)
