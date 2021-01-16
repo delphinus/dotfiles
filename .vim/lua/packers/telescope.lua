@@ -1,6 +1,7 @@
 return {
   'nvim-telescope/telescope.nvim',
   requires = {
+    {'delphinus/telescope-memo.nvim', opt = true},
     {'delphinus/telescope-z.nvim', opt = true},
     {'kyazdani42/nvim-web-devicons', opt = true},
     {'nvim-lua/popup.nvim', opt = true},
@@ -31,6 +32,7 @@ return {
       'popup.nvim',
       'telescope-ghq.nvim',
       'telescope-github.nvim',
+      'telescope-memo.nvim',
       'telescope-packer.nvim',
       'telescope-symbols.nvim',
       'telescope-z.nvim',
