@@ -174,29 +174,27 @@ return {
       vim.g.completion_matching_strategy_list = {'exact', 'fuzzy'}
       vim.g.completion_chain_complete_list = {
         default = {
-          default = {
-            {complete_items = {'lsp', 'tags'}},
-            {complete_items = {'ts', 'buffers', 'tmux'}},
-            {complete_items = {'path'}, triggered_only = {'/'}},
-            {mode = 'omni'},
-            {mode = '<C-p>'},
-            {mode = '<C-n>'},
-            {mode = 'keyn'},
-            {mode = 'keyp'},
-            {mode = 'file'},
-            {mode = 'dict'},
-          },
-          -- TODO: omnifunc from vim-rhubarb is too slow
-          gitcommit = {
-            {complete_items = {'buffers', 'tmux'}},
-            {complete_items = {'path'}, triggered_only = {'/'}},
-            {mode = 'dict'},
-            {mode = 'file'},
-            {mode = '<C-p>'},
-            {mode = '<C-n>'},
-            {mode = 'keyn'},
-            {mode = 'keyp'},
-          },
+          {complete_items = {'lsp', 'tags'}},
+          {complete_items = {'ts', 'buffers', 'tmux'}},
+          {complete_items = {'path'}, triggered_only = {'/'}},
+          {mode = 'omni'},
+          {mode = '<C-p>'},
+          {mode = '<C-n>'},
+          {mode = 'keyn'},
+          {mode = 'keyp'},
+          {mode = 'file'},
+          {mode = 'dict'},
+        },
+        -- TODO: omnifunc from vim-rhubarb is too slow
+        gitcommit = {
+          {complete_items = {'buffers', 'tmux'}},
+          {complete_items = {'path'}, triggered_only = {'/'}},
+          {mode = 'dict'},
+          {mode = 'file'},
+          {mode = '<C-p>'},
+          {mode = '<C-n>'},
+          {mode = 'keyn'},
+          {mode = 'keyp'},
         },
       }
     end,
