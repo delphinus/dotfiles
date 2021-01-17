@@ -1,3 +1,5 @@
+vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
+vim.env.HOME = vim.env.HOME or vim.fn.expand('~')
 vim.o.runtimepath = vim.o.runtimepath..','..vim.env.HOME..'/git/dotfiles/.vim,'..vim.env.HOME..'/git/dotfiles/.vim/after'
 require'util'
 require'packers'
