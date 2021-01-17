@@ -17,6 +17,7 @@ return {
     '<Leader>fg',
     '<Leader>fb',
     '<Leader>fh',
+    '<Leader>fm',
     '<Leader>fo',
     '<Leader>fq',
     '<Leader>fz',
@@ -61,6 +62,7 @@ return {
     vimp.nnoremap('<Leader>fg', builtin.live_grep)
     vimp.nnoremap('<Leader>fb', builtin.buffers)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
+    vimp.nnoremap('<Leader>fm', builtin.man_pages)
     vimp.nnoremap('<Leader>fo', builtin.oldfiles)
     vimp.nnoremap('<Leader>fq', extensions.ghq.list)
     vimp.nnoremap('<Leader>fz', extensions.z.list)
