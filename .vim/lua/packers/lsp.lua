@@ -63,7 +63,7 @@ return {
       lsp.clangd.setup{on_attach = lsp_on_attach}
       lsp.cssls.setup{on_attach = lsp_on_attach}
       lsp.dockerls.setup{on_attach = lsp_on_attach}
-      -- lsp.efm.setup{on_attach = lsp_on_attach}
+      lsp.efm.setup{on_attach = lsp_on_attach}
       lsp.html.setup{on_attach = lsp_on_attach}
       lsp.jsonls.setup{on_attach = lsp_on_attach}
       lsp.pyright.setup{on_attach = lsp_on_attach}

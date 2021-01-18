@@ -433,6 +433,7 @@ return {
   {'delphinus/vim-data-section-simple', ft = {'perl'}},
   {'delphinus/vim-toml-dein', ft = {'toml'}},
 
+  --[=[
   {
     'dense-analysis/ale',
     ft = {
@@ -524,6 +525,7 @@ return {
       vim.cmd[[!pip3 install -U --user black git+https://github.com/Vimjas/vint]]
     end,
   },
+  ]=]
 
   {'derekwyatt/vim-scala', ft = {'scala'}},
   {'dsawardekar/wordpress.vim', ft = {'php'}},
