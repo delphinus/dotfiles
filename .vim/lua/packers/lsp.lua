@@ -47,6 +47,8 @@ return {
           vimp.nnoremap('gli', vim.lsp.buf.incoming_calls)
           vimp.nnoremap('glo', vim.lsp.buf.outgoing_calls)
           vimp.nnoremap('gr', vim.lsp.buf.references)
+          vimp.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
+          vimp.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
         end)
       end
 
@@ -63,7 +65,6 @@ return {
       lsp.clangd.setup{on_attach = lsp_on_attach}
       lsp.cssls.setup{on_attach = lsp_on_attach}
       lsp.dockerls.setup{on_attach = lsp_on_attach}
-      lsp.efm.setup{on_attach = lsp_on_attach}
       lsp.html.setup{on_attach = lsp_on_attach}
       lsp.jsonls.setup{on_attach = lsp_on_attach}
       lsp.pyright.setup{on_attach = lsp_on_attach}
@@ -71,6 +72,17 @@ return {
       lsp.tsserver.setup{on_attach = lsp_on_attach}
       lsp.vimls.setup{on_attach = lsp_on_attach}
       lsp.yamlls.setup{on_attach = lsp_on_attach}
+
+      lsp.efm.setup{
+        on_attach = lsp_on_attach,
+        init_options = {
+          documentFormatting = true,
+          hover = true,
+          documentSymbol = true,
+          codeAction = true,
+          completion = true
+        }
+      }
 
       lsp.gopls.setup{
         on_attach = lsp_on_attach,
