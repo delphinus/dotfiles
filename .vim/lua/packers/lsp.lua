@@ -133,6 +133,7 @@ return {
         -- TODO: update sumneko_lua automatically
         vim.cmd[[!gem install --user-install solargraph]]
         vim.cmd[[!go get -v -u golang.org/x/tools/gopls@latest]]
+        vim.cmd[[!go get -v -u github.com/mattn/efm-langserver@latest]]
         vim.cmd[[!npm i -g bash-language-server dockerfile-language-server-nodejs pyright typescript typescript-language-server vim-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server]]
 
         local fd = vim.loop.fs_open(file, 'w', '022')
