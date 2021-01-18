@@ -9,7 +9,7 @@ autocmd BufNewFile,BufRead *.xt call delphinus#perl#test_filetype()
 autocmd BufNewFile,BufRead * :if getline(1) =~ '^.*startuml.*$'|  setfiletype plantuml | endif
 autocmd BufNewFile,BufRead *.psgi set filetype=perl
 autocmd BufNewFile,BufRead *.pu,*.uml,*.plantuml setfiletype plantuml
-autocmd BufNewFile,BufRead *.conf call delphinus#tmux#tmux_filetype()
+autocmd BufNewFile,BufRead *.conf lua require'ftdetect'.tmux()
 autocmd BufNewFile,BufRead *.tt2 setf tt2html
 autocmd BufNewFile,BufRead *.tt setf tt2html
 autocmd BufNewFile,BufRead .zpreztorc setf zsh
