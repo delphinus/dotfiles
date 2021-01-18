@@ -14,7 +14,7 @@ while ($_ = <$out>) {
     my ($tree, $pid, $user, $commands) = /^(\D+)(\d+) (\S+) (.*)/;
     next unless defined $commands;
     my ($cmd1, $cmd2) = $commands =~ /^(\S+)(?: (\S+))?/;
-    next if !defined $cmd1 || $cmd1 eq '(bash)';
+    next if !defined $cmd1 || $cmd1 eq '(bash)' || $cmd1 eq '(fish)';
     $cmd1 = basename $cmd1;
     $cmd2 = $cmd2 ? basename $cmd2 : '';
     say join " ", $tree, $pid, $cmd1, $cmd2;
