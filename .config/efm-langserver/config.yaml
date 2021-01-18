@@ -48,6 +48,7 @@ tools:
   yaml-yamllint: &yaml-yamllint
     lint-command: 'yamllint -f auto -'
     lint-stdin: true
+    lint-ignore-exit-code: true
     lint-formats:
       - '  %l:%c       %tarning  %m'
       - '  %l:%c       %trror    %m'
