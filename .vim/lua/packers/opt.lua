@@ -181,10 +181,7 @@ return {
     'lambdalisue/vim-gista',
     cmd = {'Gista'},
     setup = function()
-      local vimp = require'vimp'
       vim.g['gista#command#list#enable_default_mappings'] = 0
-      vimp.nnoremap('gl', [[<Cmd>Gista list<CR>]])
-      vimp.nnoremap('gL', [[<Cmd>Gista list ]])
     end,
     config = function()
       local vimp = require'vimp'
