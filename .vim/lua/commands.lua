@@ -30,6 +30,17 @@ vimp.map_command('SyntaxInfo', function()
   print(syn_string(get_syn(true)))
 end)
 
+-- https://github.com/arcticicestudio/nord-vim/issues/242#issuecomment-761756223
+vimp.map_command('SynStack', function()
+  if vim.fn.exists'*synstack' then
+    local stacks = vim.fn.synstack(vim.fn.line'.', vim.fn.col'.')
+    local attrs = vim.fn.tbl_map(function(stack)
+      return vim.fn.synIDattr(stack, 'name')
+    end, stacks)
+    vim.inspect(attrs)
+  end
+end)
+
 -- clean up result of `--startuptime`
 vimp.map_command('CleanUpStartUpTime', function()
   vim.env.PACKER = vim.fn.stdpath'data'..'/site/pack/packer'
