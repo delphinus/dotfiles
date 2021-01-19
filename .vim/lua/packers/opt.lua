@@ -755,10 +755,12 @@ return {
                   vimp.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
                 end)
               end
-              vim.cmd[[let g:TempFunc = {info -> v:lua.committia_hook_edit_open(info)}]]
               vim.g.committia_hooks = vim.empty_dict()
-              vim.cmd[[let g:committia_hooks.edit_open = g:TempFunc]]
-              vim.g.TempFunc = nil
+              vim.api.nvim_exec([[
+                function! g:committia_hooks.edit_open(info)
+                  call luaeval('committia_hook_edit_open(_A)', a:info)
+                endfunction
+              ]], false)
               vim.fn['committia#open']'git'
             end
           end},
