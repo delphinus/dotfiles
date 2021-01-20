@@ -12,7 +12,9 @@ return {
     {'plenary.nvim'},
 
     {
-      'nvim-telescope/telescope-frecency.nvim',
+      -- 'nvim-telescope/telescope-frecency.nvim',
+      'delphinus/telescope-frecency.nvim',
+      branch = 'feature/custom-sorter',
       requires = {'tami5/sql.nvim'},
       opt = true,
     },
