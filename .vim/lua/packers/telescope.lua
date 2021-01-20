@@ -145,6 +145,7 @@ return {
           '--hidden',
         },
         winblend = 10,
+        file_sorter = require'telescope.sorters'.get_fzy_sorter,
       },
     }
     -- TODO: how to use this?
