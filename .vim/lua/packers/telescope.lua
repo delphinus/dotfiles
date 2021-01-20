@@ -10,6 +10,12 @@ return {
     {'nvim-telescope/telescope-packer.nvim', opt = true},
     {'nvim-telescope/telescope-symbols.nvim', opt = true},
     {'plenary.nvim'},
+
+    {
+      'nvim-telescope/telescope-frecency.nvim',
+      requires = {'tami5/sql.nvim'},
+      opt = true,
+    },
   },
   cmd = {'Telescope'},
   keys = {
@@ -36,6 +42,8 @@ return {
     for _, name in pairs{
       'nvim-web-devicons',
       'popup.nvim',
+      'sql.nvim',
+      'telescope-frecency.nvim',
       'telescope-ghq.nvim',
       'telescope-github.nvim',
       'telescope-memo.nvim',
@@ -51,6 +59,7 @@ return {
     local telescope = require'telescope'
     local vimp = require'vimp'
 
+    telescope.load_extension'frecency'
     telescope.load_extension'gh'
     telescope.load_extension'ghq'
     telescope.load_extension'memo'
@@ -63,7 +72,7 @@ return {
     vimp.nnoremap('<Leader>fb', builtin.buffers)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
     vimp.nnoremap('<Leader>fm', builtin.man_pages)
-    vimp.nnoremap('<Leader>fo', builtin.oldfiles)
+    vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
     vimp.nnoremap('<Leader>fq', extensions.ghq.list)
     vimp.nnoremap('<Leader>fz', extensions.z.list)
 
