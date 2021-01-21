@@ -56,10 +56,10 @@
 - name: make directory for Neovim
   file: dest=~/.config/nvim state=directory
 
-- name: make init.vim for Neovim
+- name: make init.lua for Neovim
   file: >-
-    src={{ dotfiles_dir }}/.vim/vimrc
-    dest=~/.config/nvim/init.vim
+    src={{ dotfiles_dir }}/.vim/init.lua
+    dest=~/.config/nvim/init.lua
     state=link
     force=yes
 
