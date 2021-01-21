@@ -11,6 +11,9 @@
 - name: prepare bat config dir
   file: path=~/.config/bat state=directory
 
+- name: prepare docker config dir
+  file: path=~/.docker state=directory
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
@@ -30,6 +33,7 @@
     - .config/vifm/colors/nord.vifm
     - .config/vifm/vifmrc
     - .config/yamllint
+    - .docker/config.json
     - .editrc
     - .gitconfig
     - .golangci.yml
