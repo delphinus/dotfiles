@@ -327,7 +327,7 @@ return {
           },
         },
         rainbow = {
-          enable = false,
+          enable = true,
           -- See https://github.com/p00f/nvim-ts-rainbow/issues/1
           disable = {'bash'},
         },
