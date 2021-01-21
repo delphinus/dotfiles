@@ -61,41 +61,6 @@ return {
     local telescope = require'telescope'
     local vimp = require'vimp'
 
-    telescope.load_extension'frecency'
-    telescope.load_extension'gh'
-    telescope.load_extension'ghq'
-    telescope.load_extension'memo'
-    telescope.load_extension'z'
-    local extensions = telescope.extensions
-
-    -- file finders
-    vimp.nnoremap('<Leader>ff', builtin.git_files)
-    vimp.nnoremap('<Leader>fg', builtin.live_grep)
-    vimp.nnoremap('<Leader>fb', builtin.buffers)
-    vimp.nnoremap('<Leader>fh', builtin.help_tags)
-    vimp.nnoremap('<Leader>fm', builtin.man_pages)
-    vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
-    vimp.nnoremap('<Leader>fq', extensions.ghq.list)
-    vimp.nnoremap('<Leader>fz', extensions.z.list)
-
-    -- for Memo
-    vimp.nnoremap('<Leader>mm', extensions.memo.list)
-
-    -- for LSP
-    vimp.nnoremap('<Leader>sr', builtin.lsp_references)
-    vimp.nnoremap('<Leader>sd', builtin.lsp_document_symbols)
-    vimp.nnoremap('<Leader>sw', builtin.lsp_workspace_symbols)
-    vimp.nnoremap('<Leader>sc', builtin.lsp_code_actions)
-
-    -- for Git
-    vimp.nnoremap('<Leader>gc', builtin.git_commits)
-    vimp.nnoremap('<Leader>gb', builtin.git_bcommits)
-    vimp.nnoremap('<Leader>gr', builtin.git_branches)
-    vimp.nnoremap('<Leader>gs', builtin.git_status)
-
-    -- for buffer
-    vimp.nnoremap('#', builtin.current_buffer_fuzzy_find)
-
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
       actions.close(prompt_bufnr)
@@ -147,8 +112,48 @@ return {
         winblend = 10,
         file_sorter = require'telescope.sorters'.get_fzy_sorter,
       },
+      extensions = {
+        frecency = {
+          show_scores = true,
+        },
+      },
     }
     -- TODO: how to use this?
     -- telescope.load_extension'packer'
+
+    telescope.load_extension'frecency'
+    telescope.load_extension'gh'
+    telescope.load_extension'ghq'
+    telescope.load_extension'memo'
+    telescope.load_extension'z'
+    local extensions = telescope.extensions
+
+    -- file finders
+    vimp.nnoremap('<Leader>ff', builtin.git_files)
+    vimp.nnoremap('<Leader>fg', builtin.live_grep)
+    vimp.nnoremap('<Leader>fb', builtin.buffers)
+    vimp.nnoremap('<Leader>fh', builtin.help_tags)
+    vimp.nnoremap('<Leader>fm', builtin.man_pages)
+    vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
+    vimp.nnoremap('<Leader>fq', extensions.ghq.list)
+    vimp.nnoremap('<Leader>fz', extensions.z.list)
+
+    -- for Memo
+    vimp.nnoremap('<Leader>mm', extensions.memo.list)
+
+    -- for LSP
+    vimp.nnoremap('<Leader>sr', builtin.lsp_references)
+    vimp.nnoremap('<Leader>sd', builtin.lsp_document_symbols)
+    vimp.nnoremap('<Leader>sw', builtin.lsp_workspace_symbols)
+    vimp.nnoremap('<Leader>sc', builtin.lsp_code_actions)
+
+    -- for Git
+    vimp.nnoremap('<Leader>gc', builtin.git_commits)
+    vimp.nnoremap('<Leader>gb', builtin.git_bcommits)
+    vimp.nnoremap('<Leader>gr', builtin.git_branches)
+    vimp.nnoremap('<Leader>gs', builtin.git_status)
+
+    -- for buffer
+    vimp.nnoremap('#', builtin.current_buffer_fuzzy_find)
   end,
 }
