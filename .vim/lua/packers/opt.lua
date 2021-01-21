@@ -389,6 +389,7 @@ return {
   {
     'preservim/tagbar',
     event = {'FocusLost', 'CursorHold'},
+    cmd = {'TagbarToggle'},
     setup = function()
       vim.g.tagbar_autoclose = 1
       vim.g.tagbar_autofocus = 1
