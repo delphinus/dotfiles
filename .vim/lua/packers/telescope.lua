@@ -114,6 +114,7 @@ return {
       extensions = {
         frecency = {
           show_scores = true,
+          ignore_patterns = {'/.git/'},
         },
       },
     }
