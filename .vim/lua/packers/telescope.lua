@@ -2,6 +2,7 @@ return {
   'nvim-telescope/telescope.nvim',
   requires = {
     {'delphinus/telescope-memo.nvim', opt = true},
+    {'delphinus/telescope-node-modules.nvim', opt = true},
     {'delphinus/telescope-z.nvim', opt = true},
     {'kyazdani42/nvim-web-devicons', opt = true},
     {'nvim-lua/popup.nvim', opt = true},
@@ -26,6 +27,7 @@ return {
     '<Leader>fh',
     '<Leader>fm',
     '<Leader>fo',
+    '<Leader>fp',
     '<Leader>fq',
     '<Leader>fz',
     '<Leader>mm',
@@ -48,6 +50,7 @@ return {
       'telescope-ghq.nvim',
       'telescope-github.nvim',
       'telescope-memo.nvim',
+      'telescope-node-modules.nvim',
       'telescope-packer.nvim',
       'telescope-symbols.nvim',
       'telescope-z.nvim',
@@ -126,6 +129,7 @@ return {
     telescope.load_extension'ghq'
     telescope.load_extension'memo'
     telescope.load_extension'z'
+    telescope.load_extension'node_modules'
     local extensions = telescope.extensions
 
     -- file finders
@@ -135,6 +139,7 @@ return {
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
     vimp.nnoremap('<Leader>fm', builtin.man_pages)
     vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
+    vimp.nnoremap('<Leader>fp', extensions.node_modules.list)
     vimp.nnoremap('<Leader>fq', extensions.ghq.list)
     vimp.nnoremap('<Leader>fz', extensions.z.list)
 
