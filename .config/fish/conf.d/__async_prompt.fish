@@ -1,16 +1,18 @@
 status is-interactive
 or exit 0
 
-set -l xdg_runtime_dir "$XDG_RUNTIME_DIR"
-test -z "$xdg_runtime_dir"
-and set xdg_runtime_dir /tmp
-
-set -g __async_prompt_tmpdir "$xdg_runtime_dir/fish-async-prompt"
+set -g __async_prompt_tmpdir /tmp/fish-async-prompt
 mkdir -p $__async_prompt_tmpdir
 
-# Setup after the user defined prompt functions are loaded.
 function __async_prompt_setup_on_startup --on-event fish_prompt
     functions -e (status current-function)
+
+    __async_prompt_setup
+end
+
+function __async_prompt_setup
+    set -q async_prompt_functions
+    and set -g __async_prompt_functions_internal $async_prompt_functions
 
     for func in (__async_prompt_config_functions)
         function $func -V func
@@ -24,16 +26,9 @@ function __async_prompt_fire --on-event fish_prompt
     set st $status
 
     for func in (__async_prompt_config_functions)
-        set -l tmpfile $__async_prompt_tmpdir'/'$fish_pid'_'$func
-
-        if functions -q $func'_loading_indicator' && test -e $tmpfile
-            read -zl last_prompt <$tmpfile
-            eval (string escape -- $func'_loading_indicator' "$last_prompt") >$tmpfile
-        end
-
         __async_prompt_config_inherit_variables | __async_prompt_spawn $st \
             $func' | read -z prompt
-            echo -n $prompt >'$tmpfile
+            echo -n $prompt >'$__async_prompt_tmpdir'/'$fish_pid'_'$func
     end
 end
 
@@ -101,8 +96,8 @@ end
 
 function __async_prompt_config_functions
     set -l funcs (
-        if set -q $async_prompt_functions
-            string join \n $async_prompt_functions
+        if set -q __async_prompt_functions_internal
+            string join \n $__async_prompt_functions_internal
         else
             echo fish_prompt
             echo fish_right_prompt
