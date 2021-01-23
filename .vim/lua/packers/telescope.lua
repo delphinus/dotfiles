@@ -66,14 +66,14 @@ return {
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
       actions.close(prompt_bufnr)
-      require'telescope.builtin'.find_files{cwd = selection.value}
+      builtin.find_files{cwd = selection.value}
     end
 
     local run_live_grep = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
       if vim.fn.isdirectory(selection.value) == 1 then
         actions.close(prompt_bufnr)
-        require'telescope.builtin'.live_grep{cwd = selection.value}
+        builtin.live_grep{cwd = selection.value}
       else
         vim.api.nvim_echo({{'This is not a directory.', 'WarningMsg'}}, true, {})
       end
