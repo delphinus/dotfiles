@@ -137,10 +137,17 @@ return {
       }
     end,
     run = function()
-      local file = vim.fn.stdpath'cache'..'/lspconfig/updated'
+      local dir = vim.fn.stdpath'cache'..'/lspconfig'
+      do
+        local stat = vim.loop.fs_stat(dir)
+        if not stat then
+          assert(vim.loop.fs_mkdir(dir, 448))
+        end
+      end
+      local file = dir..'/updated'
       local last_updated = 0
       do
-        local fd = vim.loop.fs_open(file, 'r', '0666')
+        local fd = vim.loop.fs_open(file, 'r', 438)
         if fd then
           local stat = vim.loop.fs_fstat(fd)
           local data = vim.loop.fs_read(fd, stat.size, 0)
@@ -156,9 +163,9 @@ return {
         vim.cmd[[!go get -v -u github.com/mattn/efm-langserver@latest]]
         vim.cmd[[!npm i -g bash-language-server dockerfile-language-server-nodejs pyright typescript typescript-language-server vim-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server]]
 
-        local fd = vim.loop.fs_open(file, 'w', '022')
+        local fd = vim.loop.fs_open(file, 'w', 438)
         if fd then
-          vim.loop.write(fd, now)
+          vim.loop.fs_write(fd, now, -1)
           vim.loop.fs_close(fd)
         else
           error('cannot open the file to write: '..file)
