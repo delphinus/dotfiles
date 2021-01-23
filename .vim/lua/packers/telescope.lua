@@ -75,9 +75,7 @@ return {
         actions.close(prompt_bufnr)
         require'telescope.builtin'.live_grep{cwd = selection.value}
       else
-        vim.cmd[[echohl WarningMsg]]
-        vim.cmd[[echomsg 'This is not a directory.']]
-        vim.cmd[[echohl None]]
+        vim.api.nvim_echo({{'This is not a directory.', 'WarningMsg'}}, true, {})
       end
     end
 

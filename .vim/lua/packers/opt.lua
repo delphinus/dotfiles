@@ -261,15 +261,11 @@ return {
         if vim.b.colorizer_enabled then
           vim.cmd[[ColorizerDetachFromBuffer]]
           vim.b.colorizer_enabled = false
-          vim.cmd[[echohl Debug]]
-          vim.cmd[[echomsg 'colorizer.lua disabled']]
-          vim.cmd[[echohl None]]
+          vim.api.nvim_echo({{'colorizer.lua disabled', 'Debug'}}, true, {})
         else
           vim.cmd[[ColorizerAttachToBuffer]]
-          vim.b.colorizer_enabled = 1
-          vim.cmd[[echohl Debug]]
-          vim.cmd[[echomsg 'colorizer.lua enabled']]
-          vim.cmd[[echohl None]]
+          vim.b.colorizer_enabled = true
+          vim.api.nvim_echo({{'colorizer.lua enabled', 'Debug'}}, true, {})
         end
       end)
     end,
