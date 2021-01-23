@@ -17,7 +17,7 @@ return {
         vim.cmd[[edit]]
       end)
 
-      local lsp_on_attach = function(client, bufnr)
+      local lsp_on_attach = function(client)
         print('LSP & completion started.')
         require'completion'.on_attach()
 
@@ -25,8 +25,8 @@ return {
           client.config.flags.allow_incremental_sync = true
         end
 
-        if not pcall(vim.api.nvim_buf_get_var, bufnr, 'lsp_mappings') then
-          vimp.add_buffer_maps(bufnr, function()
+        if not vim.b.lsp_mappings then
+          vimp.add_buffer_maps(function()
             vimp.nnoremap('1gD', vim.lsp.buf.type_definition)
             vimp.nnoremap('<A-J>', vim.lsp.diagnostic.goto_next)
             vimp.nnoremap('<A-K>', vim.lsp.diagnostic.goto_prev)
@@ -56,7 +56,7 @@ return {
               vimp.nnoremap('<space>f', vim.lsp.buf.formatting)
             end
           end)
-          vim.api.nvim_buf_set_var(bufnr, 'lsp_mappings', true)
+          vim.b.lsp_mappings = true
         end
       end
 
