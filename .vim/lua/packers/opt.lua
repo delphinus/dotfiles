@@ -479,7 +479,6 @@ return {
 
   {'hail2u/vim-css3-syntax', ft = {'css'}},
   {'junegunn/vader.vim', ft = {'vader'}},
-  {'leafo/moonscript-vim', ft = {'moon'}},
 
   {
     'motemen/vim-syntax-hatena',

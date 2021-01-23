@@ -148,6 +148,7 @@ return {
   },
 
   {'kevinoid/vim-jsonc'},
+  {'leafo/moonscript-vim'},
   {'mustache/vim-mustache-handlebars'},
 
   {
