@@ -274,7 +274,6 @@ return {
   {
     'npxbr/glow.nvim',
     cmd = {'Glow', 'GlowInstall'},
-    setup = [=[require'vimp'.nnoremap('<Leader>p', [[<Cmd>Glow<CR>]])]=],
     run = [[:GlowInstall]],
   },
 
