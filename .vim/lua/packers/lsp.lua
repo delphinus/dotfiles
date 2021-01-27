@@ -194,8 +194,8 @@ return {
 
       vimp.inoremap({'expr'}, '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
       vimp.inoremap({'expr'}, '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
-      vimp.imap('<C-j>', [[<Plug>(completion_next_source)]])
-      vimp.imap('<C-k>', [[<Plug>(completion_prev_source)]])
+      vimp.imap('<A-j>', [[<Plug>(completion_next_source)]])
+      vimp.imap('<A-k>', [[<Plug>(completion_prev_source)]])
 
       vim.o.completeopt = 'menuone,noinsert,noselect'
       vim.g.completion_auto_change_source = 1
