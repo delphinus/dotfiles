@@ -30,6 +30,7 @@ return {
     '<Leader>fq',
     '<Leader>fz',
     '<Leader>mm',
+    '<Leader>mg',
     '<Leader>sr',
     '<Leader>sd',
     '<Leader>sw',
@@ -142,6 +143,7 @@ return {
 
     -- for Memo
     vimp.nnoremap('<Leader>mm', extensions.memo.list)
+    vimp.nnoremap('<Leader>mg', extensions.memo.grep)
 
     -- for LSP
     vimp.nnoremap('<Leader>sr', builtin.lsp_references)
