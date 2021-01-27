@@ -74,6 +74,7 @@ return {
       lsp.cssls.setup{on_attach = lsp_on_attach}
       lsp.dockerls.setup{on_attach = lsp_on_attach}
       lsp.html.setup{on_attach = lsp_on_attach}
+      lsp.intelephense.setup{on_attach = lsp_on_attach}
       lsp.jsonls.setup{on_attach = lsp_on_attach}
       lsp.pyright.setup{on_attach = lsp_on_attach}
       lsp.solargraph.setup{on_attach = lsp_on_attach}
@@ -161,7 +162,7 @@ return {
         vim.cmd[[!gem install --user-install solargraph]]
         vim.cmd[[!go get -v -u golang.org/x/tools/gopls@latest]]
         vim.cmd[[!go get -v -u github.com/mattn/efm-langserver@latest]]
-        vim.cmd[[!npm i -g bash-language-server dockerfile-language-server-nodejs pyright typescript typescript-language-server vim-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server]]
+        vim.cmd[[!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript typescript-language-server vim-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server]]
 
         local fd = vim.loop.fs_open(file, 'w', 438)
         if fd then
