@@ -1,12 +1,6 @@
 return {
-  { -- {{{ nvim-lspconfig
+  {
     'neovim/nvim-lspconfig',
-    requires = {
-      {
-        'glepnir/lspsaga.nvim',
-        config = function() require'lspsaga'.init_lsp_saga() end,
-      },
-    },
     config = function()
       local vimp = require'vimp'
 
@@ -32,37 +26,24 @@ return {
         end
 
         if not vim.b.lsp_mappings then
-          -- local saga_diag = require'lspsaga.diagnostic'
-          local saga_sighelp = require'lspsaga.signaturehelp'
-          local saga_rename = require'lspsaga.rename'
-          local saga_provider = require'lspsaga.provider'
-          -- local saga_codeaction = require'lspsaga.codeaction'
-
           vimp.add_buffer_maps(function()
             vimp.nnoremap('1gD', vim.lsp.buf.type_definition)
             vimp.nnoremap('<A-J>', vim.lsp.diagnostic.goto_next)
             vimp.nnoremap('<A-K>', vim.lsp.diagnostic.goto_prev)
-            -- vimp.nnoremap('<A-J>', saga_diag.lsp_jump_diagnostic_next)
-            -- vimp.nnoremap('<A-K>', saga_diag.lsp_jump_diagnostic_prev)
             vimp.nnoremap('<C-]>', vim.lsp.buf.definition)
             vimp.nnoremap('<C-w><C-]>', function()
               vim.cmd[[split]]
               vim.lsp.buf.definition()
             end)
-            -- vimp.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
-            vimp.nnoremap('<C-x><C-k>', saga_sighelp.signature_help)
+            vimp.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
             vimp.nnoremap('K', vim.lsp.buf.hover)
             vimp.nnoremap('g0', vim.lsp.buf.document_symbol)
             vimp.nnoremap('g=', vim.lsp.buf.formatting)
             vimp.nnoremap('gA', vim.lsp.buf.code_action)
-            -- vimp.nnoremap('gA', saga_codeaction.code_action)
             vimp.nnoremap('gD', vim.lsp.buf.implementation)
-            vimp.nnoremap('gh', saga_provider.lsp_finder)
             vimp.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
-            vimp.nnoremap('gR', saga_rename.rename)
+            vimp.nnoremap('gR', vim.lsp.buf.rename)
             vimp.nnoremap('gW', vim.lsp.buf.workspace_symbol)
-            -- vimp.nnoremap('gd', vim.lsp.buf.declaration)
-            vimp.nnoremap('gd', saga_provider.preview_definition)
             vimp.nnoremap('gd', vim.lsp.buf.declaration)
             vimp.nnoremap('gli', vim.lsp.buf.incoming_calls)
             vimp.nnoremap('glo', vim.lsp.buf.outgoing_calls)
