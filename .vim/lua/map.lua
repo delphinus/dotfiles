@@ -14,7 +14,7 @@ vimp.inoremap({'silent'}, '<CR>', '<C-g>u<CR>')
 local function qf_or_loc(mode)
   return function()
     local is_loc = vim.fn.getloclist(0, {winid = 0}).winid
-    local prefix = is_loc and 'l' or 'c'
+    local prefix = is_loc == 0 and 'c' or 'l'
     local cmd = ':'..prefix..mode
     print(cmd)
     pcall(vim.cmd, cmd)
