@@ -192,9 +192,9 @@ return {
         end
       end
     end,
-  },
+  }, -- }}}
 
-  {
+  { -- {{{ completion-nvim
     'nvim-lua/completion-nvim',
     requires = {
       {'steelsojka/completion-buffers'},
@@ -246,9 +246,9 @@ return {
         },
       }
     end,
-  },
+  }, -- }}}
 
-  {
+  { -- {{{ nvim-treesitter
     'nvim-treesitter/nvim-treesitter',
     requires = {
       {'nvim-treesitter/nvim-treesitter-refactor'},
@@ -364,5 +364,7 @@ return {
       }
     end,
     run = ':TSUpdate'
-  },
+  }, -- }}}
 }
+
+-- vim:se fdm=marker:
