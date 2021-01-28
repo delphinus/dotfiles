@@ -2,14 +2,14 @@ return {
   'nvim-telescope/telescope.nvim',
   requires = {
     {'delphinus/telescope-memo.nvim', opt = true},
-    {'delphinus/telescope-node-modules.nvim', opt = true},
-    {'delphinus/telescope-z.nvim', opt = true},
     {'kyazdani42/nvim-web-devicons', opt = true},
     {'nvim-lua/popup.nvim', opt = true},
     {'nvim-telescope/telescope-ghq.nvim', opt = true},
     {'nvim-telescope/telescope-github.nvim', opt = true},
+    {'nvim-telescope/telescope-node-modules.nvim', opt = true},
     {'nvim-telescope/telescope-packer.nvim', opt = true},
     {'nvim-telescope/telescope-symbols.nvim', opt = true},
+    {'nvim-telescope/telescope-z.nvim', opt = true},
     {'plenary.nvim'},
 
     {
