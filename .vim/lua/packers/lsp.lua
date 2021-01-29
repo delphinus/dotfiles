@@ -1,5 +1,5 @@
 return {
-  {
+  { -- {{{ nvim-lspconfig
     'neovim/nvim-lspconfig',
     config = function()
       local vimp = require'vimp'
