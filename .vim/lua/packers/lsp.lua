@@ -213,6 +213,18 @@ return {
           {mode = 'file'},
           {mode = 'dict'},
         },
+        c = {
+          {complete_items = {'lsp', 'tags'}},
+          {complete_items = {'buffers', 'tmux'}},
+          {complete_items = {'path'}, triggered_only = {'/'}},
+          {mode = 'omni'},
+          {mode = '<C-p>'},
+          {mode = '<C-n>'},
+          {mode = 'keyn'},
+          {mode = 'keyp'},
+          {mode = 'file'},
+          {mode = 'dict'},
+        },
         -- TODO: omnifunc from vim-rhubarb is too slow
         gitcommit = {
           {complete_items = {'buffers', 'tmux'}},
@@ -259,6 +271,8 @@ return {
           updatetime = 25,
           persist_queries = false,
         },
+        -- TODO: disable because too slow in C
+        --[[
         refactor = {
           highlight_definitions = { enable = true },
           highlight_current_scope = { enable = true },
@@ -279,6 +293,7 @@ return {
             },
           },
         },
+        ]]
         textobjects = {
           select = {
             enable = true,
@@ -339,7 +354,7 @@ return {
         rainbow = {
           enable = true,
           -- See https://github.com/p00f/nvim-ts-rainbow/issues/1
-          disable = {'bash'},
+          disable = {'bash', 'c'},
         },
       }
     end,
