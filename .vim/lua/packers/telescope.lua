@@ -147,7 +147,25 @@ return {
     local extensions = telescope.extensions
 
     -- file finders
-    vimp.nnoremap('<Leader>ff', builtin.git_files)
+    vimp.nnoremap('<Leader>ff', function()
+      -- TODO: stopgap measure
+      local cwd = vim.fn.getcwd()
+      if cwd == vim.loop.os_homedir() then
+        vim.api.nvim_echo({
+          {'find_files on $HOME is danger. Launch ghq instead.', 'WarningMsg'},
+        }, true, {})
+        extensions.ghq.list{}
+      elseif vim.fn.isdirectory(cwd..'/.git') then
+        builtin.git_files{}
+      else
+        builtin.find_files{}
+      end
+    end)
+
+    vimp.nnoremap('<Leader>fa', function()
+      builtin.find_files{hidden = true}
+    end)
+
     vimp.nnoremap('<Leader>fg', builtin.live_grep)
     vimp.nnoremap('<Leader>fb', builtin.buffers)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
