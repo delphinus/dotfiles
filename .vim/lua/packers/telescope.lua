@@ -90,6 +90,7 @@ return {
             ['<C-g>'] = run_live_grep,
             ['<C-j>'] = actions.move_selection_next,
             ['<C-k>'] = actions.move_selection_previous,
+            ['<C-s>'] = actions.goto_file_selection_split,
             ['<C-n>'] = actions.goto_file_selection_split,
           },
           n = {
@@ -98,6 +99,7 @@ return {
             ['<C-g>'] = run_live_grep,
             ['<C-j>'] = actions.move_selection_next,
             ['<C-k>'] = actions.move_selection_previous,
+            ['<C-s>'] = actions.goto_file_selection_split,
             ['<C-n>'] = actions.goto_file_selection_split,
           },
         },
