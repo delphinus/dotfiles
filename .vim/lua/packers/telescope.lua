@@ -119,12 +119,24 @@ return {
       extensions = {
         frecency = {
           show_scores = true,
+          show_unindexed = false,
           ignore_patterns = {'/.git/'},
+          workspaces = {
+            vimrc = vim.env.HOME..'/git/github.com/delphinus/dotfiles/.vim',
+          },
         },
       },
     }
     -- TODO: how to use this?
     -- telescope.load_extension'packer'
+
+    -- for telescope-frecency
+    vim.api.nvim_exec([[
+      hi link TelescopeBufferLoaded String
+      hi link TelescopePathSeparator None
+      hi link TelescopeFrecencyScores TelescopeResultsIdentifier
+      hi link TelescopeQueryFilter Type
+    ]], false)
 
     telescope.load_extension'frecency'
     telescope.load_extension'gh'
