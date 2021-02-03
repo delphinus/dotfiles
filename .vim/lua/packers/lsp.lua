@@ -25,7 +25,8 @@ return {
           client.config.flags.allow_incremental_sync = true
         end
 
-        if not vim.b.lsp_mappings then
+        -- ignore errors when executed multi times
+        pcall(function()
           vimp.add_buffer_maps(function()
             vimp.nnoremap('1gD', vim.lsp.buf.type_definition)
             vimp.nnoremap('<A-J>', vim.lsp.diagnostic.goto_next)
@@ -56,8 +57,7 @@ return {
               vimp.nnoremap('<space>f', vim.lsp.buf.formatting)
             end
           end)
-          vim.b.lsp_mappings = true
-        end
+        end)
       end
 
       vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
