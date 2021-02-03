@@ -13,7 +13,9 @@ return {
     {'plenary.nvim'},
 
     {
-      'nvim-telescope/telescope-frecency.nvim',
+      --'nvim-telescope/telescope-frecency.nvim',
+      'delphinus/telescope-frecency.nvim',
+      branch = 'hotfix/disable-mappings-override',
       requires = {'tami5/sql.nvim'},
       opt = true,
     },
