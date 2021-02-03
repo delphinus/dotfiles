@@ -84,6 +84,20 @@ return {
 
   {'tpope/vim-repeat'},
   {'tpope/vim-rhubarb'},
+
+  {
+    -- 'tpope/vim-unimpaired',
+    'delphinus/vim-unimpaired',
+    config = function()
+      local vimp = require'vimp'
+      vimp.nnoremap('[w', [[<Cmd>colder<CR>]])
+      vimp.nnoremap(']w', [[<Cmd>cnewer<CR>]])
+      vimp.nnoremap('[O', [[<Cmd>lopen<CR>]])
+      vimp.nnoremap(']O', [[<Cmd>lclose<CR>]])
+    end,
+  },
+
+
   {'vim-jp/vimdoc-ja'},
   {'wincent/terminus'},
   -- }}}

@@ -360,18 +360,6 @@ return {
   -- {'delphinus/vim-emacscommandline', event = {'CmdlineEnter'}},
   {'delphinus/vim-emacscommandline'},
 
-  {
-    'delphinus/vim-unimpaired',
-    event = {'FocusLost', 'CursorHold'},
-    setup = function()
-      local vimp = require'vimp'
-      vimp.nnoremap('[w', [[<Cmd>colder<CR>]])
-      vimp.nnoremap(']w', [[<Cmd>cnewer<CR>]])
-      vimp.nnoremap('[O', [[<Cmd>lopen<CR>]])
-      vimp.nnoremap(']O', [[<Cmd>lclose<CR>]])
-    end,
-  },
-
   {'itchyny/vim-cursorword', event = {'FocusLost', 'CursorHold'}},
 
   {
