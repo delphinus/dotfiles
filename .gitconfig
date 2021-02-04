@@ -68,6 +68,7 @@
 	autocrlf = false
 	quotepath = false
 	editor = vim
+	pager = delta
 [github]
 	user = delphinus
 [pull]
@@ -87,12 +88,8 @@
 	main = Y @sh -c 'printf %s %(commit) | pbcopy'
 [pager]
 	branch = false
-	log = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
-	show = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
-	diff = diff-so-fancy | less --pattern='^(added|deleted|modified|renamed): '
 [interactive]
-	# TODO: check fix in Git
-	#diffFilter = diff-so-fancy
+	diffFilter = delta --color-only
 [ghq]
 	root = ~/.cache/dein/repos
 	root = ~/.local/share/nvim/site/pack/packer/opt
@@ -133,5 +130,13 @@
 	program = gpg2
 [init]
 	defaultBranch = main
+[delta]
+	features = side-by-side line-numbers decorations
+	whitespace-error-style = 22 reverse
+	syntax-theme = Nord
+[delta "decorations"]
+	commit-decoration-style = bold yellow box ul
+	file-style = bold yellow ul
+	file-decoration-style = none
 
 # vim:se noet:

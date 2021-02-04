@@ -117,6 +117,7 @@ end
 if type -q bat
   set -x PAGER bat
   set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+  set -x DELTA_PAGER 'bat -p'
 end
 
 # from prezto
