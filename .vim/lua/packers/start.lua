@@ -99,7 +99,8 @@ return {
 
 
   {'vim-jp/vimdoc-ja'},
-  {'wincent/terminus'},
+  --{'wincent/terminus'},
+  {'delphinus/terminus'},
   -- }}}
 
   -- Syntax {{{
