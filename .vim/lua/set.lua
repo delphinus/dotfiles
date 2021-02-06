@@ -44,6 +44,28 @@ vim.wo.numberwidth = 3
 vim.o.relativenumber = true
 vim.wo.relativenumber = true
 vim.o.showmatch = true
+
+if vim.fn.exists'*setcellwidths' == 1 then
+  vim.fn.setcellwidths({
+    --{0x2329, 0x2329, 1}, -- 〈
+    --{0x232a, 0x232a, 1}, -- 〈
+    {0x23be, 0x23cc, 2}, -- ⎾  .. ⏌
+    {0x2469, 0x24e9, 2}, -- ⑩ .. ⓩ
+    {0x24eb, 0x24fe, 2}, -- ⓫ .. ⓾
+    {0x2600, 0x266f, 2}, -- ☀ .. ♯
+
+    -- {0x23cf, 0x23cf, 2}, -- ⏏
+    -- {0x23fb, 0x23fe, 2}, -- ⏻  .. ⏾ -- power-symbols-1
+    {0x2b58, 0x2b58, 2}, -- ⭘ -- power-symbols-2
+    {0xe000, 0xe00a, 2}, --  ..  -- pomicons
+    -- {0xe0a0, 0xe0a2, 1}, --  ..  -- powerline-1
+    -- {0xe0b0, 0xe0b3, 1}, --  ..  -- powerline-2
+    -- {0xe0a3, 0xe0a3, 1}, --  -- powerline-extra-1
+    -- {0xe0b4, 0xe0b7, 1}, --  ..  -- powerline-extra-2
+    {0xe0b8, 0xefff, 2}, --  ..  -- material-1
+    {0xf500, 0xf546, 2}, --  ..  -- material-2
+  })
+end
 -- }}}
 
 -- Indents and arranging formats {{{
