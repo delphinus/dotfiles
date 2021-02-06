@@ -84,6 +84,12 @@ return {
       end
     end
 
+    local preview_scroll = function(direction)
+      return function(prompt_bufnr)
+        actions.get_current_picker(prompt_bufnr).previewer:scroll_fn(direction)
+      end
+    end
+
     telescope.setup{
       defaults = {
         mappings = {
@@ -95,6 +101,8 @@ return {
             ['<C-k>'] = actions.move_selection_previous,
             ['<C-s>'] = actions.goto_file_selection_split,
             ['<C-n>'] = actions.goto_file_selection_split,
+            ['<C-d>'] = preview_scroll(3),
+            ['<C-u>'] = preview_scroll(-3),
           },
           n = {
             ['<C-a>'] = run_find_files,
@@ -104,6 +112,8 @@ return {
             ['<C-k>'] = actions.move_selection_previous,
             ['<C-s>'] = actions.goto_file_selection_split,
             ['<C-n>'] = actions.goto_file_selection_split,
+            ['<C-d>'] = preview_scroll(3),
+            ['<C-u>'] = preview_scroll(-3),
           },
         },
         vimgrep_arguments = {
