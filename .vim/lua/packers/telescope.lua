@@ -22,6 +22,13 @@ return {
       requires = {'tami5/sql.nvim'},
       opt = true,
     },
+
+    {
+      --'nvim-telescope/telescope-fzf-writer.nvim',
+      'delphinus/telescope-fzf-writer.nvim',
+      branch = 'feature/use-cwd',
+      opt = true,
+    },
   },
   cmd = {'Telescope'},
   keys = {
@@ -52,6 +59,7 @@ return {
       'popup.nvim',
       'sql.nvim',
       'telescope-frecency.nvim',
+      'telescope-fzf-writer.nvim',
       'telescope-ghq.nvim',
       'telescope-github.nvim',
       'telescope-memo.nvim',
@@ -66,6 +74,7 @@ return {
     local actions = require'telescope.actions'
     local builtin = require'telescope.builtin'
     local telescope = require'telescope'
+    local extensions = telescope.extensions
     local vimp = require'vimp'
 
     local run_find_files = function(prompt_bufnr)
@@ -78,7 +87,7 @@ return {
       local selection = actions.get_selected_entry()
       if vim.fn.isdirectory(selection.value) == 1 then
         actions.close(prompt_bufnr)
-        builtin.live_grep{cwd = selection.value}
+        extensions.fzf_writer.staged_grep{cwd = selection.value}
       else
         vim.api.nvim_echo({{'This is not a directory.', 'WarningMsg'}}, true, {})
       end
@@ -152,12 +161,12 @@ return {
     ]], false)
 
     telescope.load_extension'frecency'
+    telescope.load_extension'fzf_writer'
     telescope.load_extension'gh'
     telescope.load_extension'ghq'
     telescope.load_extension'memo'
-    telescope.load_extension'z'
     telescope.load_extension'node_modules'
-    local extensions = telescope.extensions
+    telescope.load_extension'z'
 
     -- file finders
     vimp.nnoremap('<Leader>ff', function()
