@@ -2,6 +2,9 @@ not status is-interactive; and exit 0
 
 set -l paths \
   ~/bin \
+  ~/.nodenv/bin \
+  ~/.goenv/bin \
+  ~/.rbenv/bin \
   ~/.cargo/bin \
   ~/.local/bin \
   ~/.ghg/bin \
@@ -9,7 +12,7 @@ set -l paths \
   ~/local/nvim/bin \
   ~/git/dotfiles/bin \
   ~/Library/Python/3.9/bin \
-  ~/.gem/ruby/2.7.0/bin \
+  ~/.gem/ruby/3.0.0/bin \
   /usr/local/opt/ruby/bin \
   /usr/local/opt/llvm/bin \
   /usr/local/opt/perl/bin
@@ -154,6 +157,7 @@ type -q gosshauth; and gosshauth hook fish | source
 type -q plenv;     and source (plenv init -| psub)
 type -q goenv;     and source (goenv init -| psub)
 type -q nodenv;    and source (nodenv init -| psub)
+type -q rbenv;     and source (rbenv init -| psub)
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
 
