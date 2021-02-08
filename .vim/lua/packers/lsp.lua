@@ -107,7 +107,7 @@ return {
       local sumneko_root_path = vim.env.HOME..'/git/github.com/sumneko/lua-language-server'
       local sumneko_binary = ('%s/bin/%s/lua-language-server'):format(
         sumneko_root_path,
-        vim.loop.os_uname().sysname
+        vim.loop.os_uname().sysname == 'Darwin' and 'macOS' or 'Linux'
       )
 
       lsp.sumneko_lua.setup{
