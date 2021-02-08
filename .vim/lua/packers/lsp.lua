@@ -76,6 +76,7 @@ return {
       lsp.html.setup{on_attach = lsp_on_attach}
       lsp.intelephense.setup{on_attach = lsp_on_attach}
       lsp.jsonls.setup{on_attach = lsp_on_attach}
+      lsp.perlls.setup{on_attach = lsp_on_attach}
       lsp.pyright.setup{on_attach = lsp_on_attach}
       lsp.solargraph.setup{on_attach = lsp_on_attach}
       lsp.tsserver.setup{on_attach = lsp_on_attach}
