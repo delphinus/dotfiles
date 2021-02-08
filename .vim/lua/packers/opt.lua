@@ -663,6 +663,14 @@ return {
   },
 
   {
+    'phaazon/hop.nvim',
+    keys = {{'n', '<Leader>h'}},
+    config = function()
+      vimp.nnoremap('<Leader>h', function() require'hop'.jump_words() end)
+    end,
+  },
+
+  {
     't9md/vim-quickhl',
     keys = {
       {'n', '<Plug>(quickhl-'},
