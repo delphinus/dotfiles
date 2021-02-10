@@ -16,8 +16,7 @@ return {
     {'plenary.nvim'},
 
     {
-      --'nvim-telescope/telescope-frecency.nvim',
-      'delphinus/telescope-frecency.nvim',
+      'nvim-telescope/telescope-frecency.nvim',
       requires = {'tami5/sql.nvim'},
       opt = true,
     },
