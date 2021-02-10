@@ -54,12 +54,15 @@ function _hydro_prompt --on-event fish_prompt
 
         set branch (
             command git symbolic-ref --short HEAD 2>/dev/null ||
-            command git describe --tags --exact-match HEAD 2>/dev/null ||
+            command git describe --tags --exact-match HEAD 2>/dev/null
+        )
+
+        set commit (
             command git rev-parse --short HEAD 2>/dev/null |
                 string replace --regex -- '(.+)' '@\$1'
         )
 
-        test -z \"\$$_hydro_git\" && set --universal $_hydro_git \"\$branch \"
+        test -z \"\$$_hydro_git\" && set --universal $_hydro_git \"\$branch\$commit \"
 
         ! command git diff-index --quiet HEAD 2>/dev/null ||
             count (command git ls-files --others --exclude-standard) >/dev/null &&
@@ -79,7 +82,7 @@ function _hydro_prompt --on-event fish_prompt
                     set upstream \" $hydro_symbol_git_ahead\$ahead $hydro_symbol_git_behind\$behind\"
             end
 
-            set --universal $_hydro_git \"\$branch\$info\$upstream \"
+            set --universal $_hydro_git \"\$branch\$commit\$info\$upstream \"
 
             test \$fetch = true && command git fetch --no-tags 2>/dev/null
         end
