@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+use 5.14.0;
+use warnings;
+use File::Path 'remove_tree';
+use Term::ReadKey;
+use Time::Piece;
+
+sub prompt($) {
+    my $question = shift;
+    while (1) {
+        print "$question (y/n)";
+        ReadMode 'cbreak';
+        my $char = ReadKey 0;
+        ReadMode 'restore';
+        say '';
+        if ($char =~ /[yn]/i) {
+            return $char =~ /y/i;
+        }
+        say 'input y/n';
+    }
+}
+
+my $dir = shift;
+-d $dir or die "cannot stat $dir";
+my $file = "$dir.zip";
+-f $file or die "cannot stat $file";
+my ($atime, $mtime, $ctime) = map {
+    say $_;
+    Time::Piece->strptime($_, '%s')
+} (stat $file)[8, 9, 10];
+say <<EOL;
+original:
+    atime: @{[$atime->epoch]} @{[$atime->datetime]}
+    mtime: @{[$mtime->epoch]} @{[$mtime->datetime]}
+    ctime: @{[$ctime->epoch]} @{[$ctime->datetime]}
+
+EOL
+
+rename $file => "$file.bak" or die "failed to rename: $file => $file.bak";
+say 'zipping...';
+my $res = system 'zip', '-r', $file, $dir;
+if ($res != 0) {
+    say "failed: status=$res";
+    unlink $file or die "failed to unlink file: $file";
+    rename "$file.bak" => $file;
+    utime $atime->epoch, $mtime->epoch, $file;
+    exit 1;
+}
+
+my $answer = prompt 'finished. Can I delete these file/dir?';
+if (!$answer) {
+    say 'cancelled';
+    exit 1;
+}
+
+utime $atime->epoch, $mtime->epoch, $file;
+unlink "$file.bak" or die "failed to unlink file: $file.bak";
+remove_tree $dir or die "failed to unlink dir: $dir";
