@@ -49,7 +49,7 @@ vimp.map_command('CleanUpStartUpTime', function()
   vim.cmd('silent! %s,'..vim.fn.expand'$VIM'..',$VIM,')
   vim.cmd('silent! %s,'..vim.fn.resolve(vim.fn.expand'$VIM')..',$VIM,')
   vim.cmd('silent! %s,'..vim.env.PACKER..',$PACKER,')
-  vim.cmd('silent! %s,'..vim.env.HOME..[[,\~,]])
+  vim.cmd('silent! %s,'..vim.loop.os_homedir()..[[,\~,]])
 end)
 
 -- echo a string for map definitions from an input key

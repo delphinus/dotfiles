@@ -1,6 +1,7 @@
+local home = vim.loop.os_homedir()
+
 vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
-vim.env.HOME = vim.loop.os_homedir()
-vim.o.runtimepath = vim.o.runtimepath..','..vim.env.HOME..'/git/dotfiles/.vim,'..vim.env.HOME..'/git/dotfiles/.vim/after'
+vim.o.runtimepath = vim.o.runtimepath..','..home..'/git/dotfiles/.vim,'..home..'/git/dotfiles/.vim/after'
 require'util'
 require'packers'
 require'set'
@@ -22,7 +23,7 @@ if vim.fn.has('gui_running') ~= 1 then
   vim.g.plugin_scrnmode_disable = true
 end
 
-local local_vimrc = vim.env.HOME..'/.vimrc-local'
+local local_vimrc = home..'/.vimrc-local'
 if vim.fn.filereadable(local_vimrc) then
   vim.cmd('source '..local_vimrc)
 end

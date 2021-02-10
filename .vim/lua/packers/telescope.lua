@@ -142,7 +142,7 @@ return {
           show_unindexed = false,
           ignore_patterns = {'/.git/'},
           workspaces = {
-            vimrc = vim.env.HOME..'/git/github.com/delphinus/dotfiles/.vim',
+            vimrc = vim.loop.os_homedir()..'/git/github.com/delphinus/dotfiles/.vim',
           },
         },
       },

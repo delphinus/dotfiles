@@ -64,7 +64,7 @@ return {
   {
     'tpope/vim-eunuch',
     config = function()
-      vim.env.SUDO_ASKPASS = vim.env.HOME..'/git/dotfiles/bin/macos-askpass'
+      vim.env.SUDO_ASKPASS = vim.loop.os_homedir()..'/git/dotfiles/bin/macos-askpass'
     end,
   },
 
