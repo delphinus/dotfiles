@@ -122,6 +122,14 @@ tools:
     hover-command: 'excitetranslate'
     hover-stdin: true
 
+  luacheck: &luacheck
+    lint-command: 'luacheck --globals vim --formatter visual_studio -'
+    lint-stdin: true
+    lint-ignore-exit-code: true
+    lint-formats:
+      - '%f(%l,%c) : %tarning %m'
+      - '%f(%l,%c) : %trror %m'
+
 languages:
   eruby:
     - <<: *eruby-erb
@@ -177,6 +185,9 @@ languages:
 
   csv:
     - <<: *csv-csvlint
+
+  lua:
+    - <<: *luacheck
 
   _:
     - <<: *any-excitetranslate
