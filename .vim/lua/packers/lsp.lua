@@ -105,6 +105,7 @@ return {
         },
       }
 
+      --[[
       local sumneko_root_path = vim.loop.os_homedir()..'/git/github.com/sumneko/lua-language-server'
       local sumneko_binary = ('%s/bin/%s/lua-language-server'):format(
         sumneko_root_path,
@@ -140,6 +141,7 @@ return {
           }
         }
       }
+      ]]
     end,
     run = function()
       local dir = vim.fn.stdpath'cache'..'/lspconfig'
