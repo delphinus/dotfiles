@@ -84,6 +84,7 @@ return {
       lsp.yamlls.setup{on_attach = lsp_on_attach}
 
       lsp.efm.setup{
+        on_attach = lsp_on_attach,
         init_options = {
           documentFormatting = true,
           hover = true,
