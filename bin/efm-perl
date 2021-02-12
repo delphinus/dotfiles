@@ -1,0 +1,96 @@
+#!/usr/bin/env perl
+
+=head1 NAME
+
+efm-perl - perl -c executable with errorformat friendly outputs.
+
+=head1 SYNOPSIS
+
+efm-perl [options]
+
+    Options:
+      --filename, -f [filename]    Filename to lint. This is mandatory.
+      --help, -h                   Show help message.
+
+    cat /path/to/script.pl | efm-perl -f /path/to/script.pl
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--filename>, B<-f>
+
+Filename to lint. This is mandatory.
+
+=item B<--help>, B<-h>
+
+Print a help message.
+
+=back
+
+=head1 DESCRIPTION
+
+This is a tiny script to use with L<mattn/efm-langserver|https://github.com/mattn/efm-langserver>.
+It parses C<perl -c> outputs and arrange them to errorformat-friendly ones.
+
+For efm-langserver, set config.yaml as below.
+
+    tools:
+      efm-perl: &efm-perl
+        lint-command: efm-perl -f ${INPUT}
+        lint-ignore-exit-code: true
+        lint-stdin: true
+        lint-formats:
+          - '%f:%l:%m'
+
+    languages:
+      perl:
+        - <<: *efm-perl
+
+=cut
+
+use strict;
+use warnings;
+use File::Basename;
+use File::Temp qw/tempfile/;
+use Getopt::Long qw/:config posix_default no_ignore_case bundling auto_help/;
+use Pod::Usage qw/pod2usage/;
+
+GetOptions(
+    \my %opt, qw/
+    filename|f=s
+    help|h
+/) or pod2usage(1);
+
+pod2usage(-exitval => 1, -verbose => 2) if $opt{help};
+pod2usage(2) if grep { !exists $opt{$_} } qw/filename/;
+pod2usage(3) if ! -p '/dev/stdin';
+
+my ($script_fh, $script) = tempfile();
+{ local $/; $script_fh->print(<>) }
+$script_fh->close;
+
+chdir dirname $opt{filename};
+chomp(my $git_root = `git rev-parse --show-toplevel`);
+chdir $git_root if $git_root;
+
+my ($runner_fh, $runner) = tempfile();
+$runner_fh->print(<<EOS);
+#!/bin/bash
+eval "\$(plenv init -)"
+export PERL5LIB=lib:t/lib:../perlbrew/lib/5.20.2:../perlbrew/lib/site_perl/5.20.2:
+perl -c $script 2>&1
+EOS
+$runner_fh->close;
+
+my $error = qr{^(.*)\sat\s(.*)\sline\s(\d+)(\.|,\snear\s\".*\"?)$};
+open my $fh, "sh $runner |" or die $!;
+while (my $line = <$fh>) {
+    chomp $line;
+    if (my ($message, $extracted_file, $lineno, $rest) = $line =~ $error) {
+        next unless $extracted_file eq $script;
+        $message .= $rest if $rest =~ s/^,//;
+        print "$script:$lineno:$message\n";
+    }
+}
+close $fh;

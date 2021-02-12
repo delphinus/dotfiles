@@ -9,6 +9,13 @@ commands:
     title: メモ帳
 
 tools:
+  efm-perl: &efm-perl
+    lint-command: efm-perl -f ${INPUT}
+    lint-ignore-exit-code: true
+    lint-stdin: true
+    lint-formats:
+      - '%f:%l:%m'
+
   eruby-erb: &eruby-erb
     lint-command: 'erb -x -T - | ruby -c'
     lint-stdin: true
@@ -187,6 +194,9 @@ languages:
 
   csv:
     - <<: *csv-csvlint
+
+  perl:
+    - <<: *efm-perl
 
   lua:
     - <<: *luacheck
