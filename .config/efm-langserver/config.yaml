@@ -1,5 +1,7 @@
 ---
 version: 2
+root-markers:
+  - .git/
 commands:
   - command: notepad
     arguments:
