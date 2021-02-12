@@ -1,8 +1,7 @@
 return {
-  --'nvim-telescope/telescope.nvim',
-  --'Conni2461/telescope.nvim',
-  'delphinus/telescope.nvim',
-  branch = 'file_browser',
+  'nvim-telescope/telescope.nvim',
+  --'delphinus/telescope.nvim',
+  --branch = 'file_browser',
   requires = {
     {'delphinus/telescope-memo.nvim', opt = true},
     {'kyazdani42/nvim-web-devicons', opt = true},
