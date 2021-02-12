@@ -194,7 +194,6 @@ return {
     end)
 
     vimp.nnoremap('<Leader>fg', builtin.live_grep)
-    vimp.nnoremap('<Leader>fb', builtin.buffers)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
     vimp.nnoremap('<Leader>fm', function() builtin.man_pages{sections = {'ALL'}} end)
     vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
