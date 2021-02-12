@@ -13,6 +13,7 @@ return {
     config = [[vim.g.cursorhold_updatetime = 100]],
   },
 
+  {'delphinus/characterize.nvim'},
   {'delphinus/vim-auto-cursorline'},
   {'delphinus/vim-quickfix-height'},
 
