@@ -21,5 +21,8 @@ if pcall(vim.cmd, [[packadd vimpeccable]]) then
   vimp.nnoremap('<Leader>pu', function() run_packer'update' end)
   vimp.nnoremap('<Leader>ps', function() run_packer'sync' end)
   vimp.nnoremap('<Leader>pc', function() run_packer'clean' end)
-  vimp.nnoremap('<Leader>po', function() run_packer'compile' end)
+  vimp.nnoremap('<Leader>po', function()
+    vimp.unmap_all()
+    run_packer'compile'
+  end)
 end
