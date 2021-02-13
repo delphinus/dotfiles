@@ -24,6 +24,7 @@ if vim.fn.has('gui_running') ~= 1 then
 end
 
 local local_vimrc = home..'/.vimrc-local'
-if vim.fn.filereadable(local_vimrc) then
+local st = vim.loop.fs_stat(local_vimrc)
+if st and st.type == 'file' then
   vim.cmd('source '..local_vimrc)
 end
