@@ -13,7 +13,13 @@ return {
     config = [[vim.g.cursorhold_updatetime = 100]],
   },
 
-  {'delphinus/characterize.nvim'},
+  {
+    'delphinus/characterize.nvim',
+    config = function()
+      require'characterize'.setup{}
+    end,
+  },
+
   {'delphinus/vim-auto-cursorline'},
   {'delphinus/vim-quickfix-height'},
 
@@ -28,16 +34,11 @@ return {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
     config = function()
-      local function ascii_char()
-        local char = vim.fn.strpart(vim.fn.getline'.', vim.fn.col'.' - 1, 1, true)
-        return ([['%s' %s]]):format(char, '%B')
-      end
-
       local lualine = require'lualine'
       lualine.theme = 'nord'
       lualine.separator = '❘'
       lualine.sections.lualine_x = {
-        ascii_char, 'encoding', 'fileformat', 'filetype',
+        require'characterize'.cursor_info, 'encoding', 'fileformat', 'filetype',
       }
       lualine.status()
     end,
@@ -59,8 +60,6 @@ return {
       vimp.bind('ox', 'ac', [[<Plug>(signify-motion-outer-pending)]])
     end,
   },
-
-  {'tpope/vim-characterize'},
 
   {
     'tpope/vim-eunuch',
