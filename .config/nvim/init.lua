@@ -1,7 +1,6 @@
 local home = vim.loop.os_homedir()
 
 vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
-vim.o.runtimepath = vim.o.runtimepath..','..home..'/git/dotfiles/.vim,'..home..'/git/dotfiles/.vim/after'
 require'util'
 require'packers'
 require'set'
