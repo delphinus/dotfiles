@@ -378,6 +378,7 @@ inc/
 /.config/fish/config-local.fish
 /.config/fish/fish_variables
 /.config/git
+/.config/nvim/plugin/packer_compiled.vim
 /.config/powerline/config.json
 /.config/powerline/ext/segments/local_perl.py
 /.config/powerline/themes/tmux/custom.json
