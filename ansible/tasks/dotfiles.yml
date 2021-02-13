@@ -27,6 +27,7 @@
     - .config/fish
     - .config/gocode
     - .config/ipython
+    - .config/nvim
     - .config/peco
     - .config/powerline
     - .config/ranger
@@ -50,18 +51,7 @@
     - .tern-project
     - .tmux
     - .tmux.conf
-    - .vim
     - .vimrc_first.vim
-
-- name: make directory for Neovim
-  file: dest=~/.config/nvim state=directory
-
-- name: make init.lua for Neovim
-  file: >-
-    src={{ dotfiles_dir }}/.vim/init.lua
-    dest=~/.config/nvim/init.lua
-    state=link
-    force=yes
 
 - file: >-
     dest=~/.local/share/nvim/{{ item }}
