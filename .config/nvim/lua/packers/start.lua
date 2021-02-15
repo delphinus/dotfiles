@@ -34,11 +34,26 @@ return {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
     config = function()
+      local characterize = require'characterize'
+      local function char_info()
+        local char = characterize.cursor_char()
+        local results = characterize.info_table(char)
+        if #results == 0 then return 'NUL' end
+        local r = results[1]
+        local text = ('<%s> %s'):format(r.char, r.codepoint)
+        if r.digraphs then
+          for _, d in ipairs(r.digraphs) do
+            text = text..', \\<C-K>'..d
+          end
+        end
+        return text
+      end
+
       local lualine = require'lualine'
       lualine.theme = 'nord'
       lualine.separator = '❘'
       lualine.sections.lualine_x = {
-        require'characterize'.cursor_info, 'encoding', 'fileformat', 'filetype',
+        char_info, 'encoding', 'fileformat', 'filetype',
       }
       lualine.status()
     end,
