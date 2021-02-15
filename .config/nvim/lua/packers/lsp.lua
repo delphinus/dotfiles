@@ -31,11 +31,13 @@ return {
             vimp.nnoremap('1gD', vim.lsp.buf.type_definition)
             vimp.nnoremap('<A-J>', vim.lsp.diagnostic.goto_next)
             vimp.nnoremap('<A-K>', vim.lsp.diagnostic.goto_prev)
-            vimp.nnoremap('<C-]>', vim.lsp.buf.definition)
-            vimp.nnoremap('<C-w><C-]>', function()
-              vim.cmd[[split]]
-              vim.lsp.buf.definition()
-            end)
+            if vim.bo.filetype ~= 'help' then
+              vimp.nnoremap('<C-]>', vim.lsp.buf.definition)
+              vimp.nnoremap('<C-w><C-]>', function()
+                vim.cmd[[split]]
+                vim.lsp.buf.definition()
+              end)
+            end
             vimp.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
             vimp.nnoremap('K', vim.lsp.buf.hover)
             vimp.nnoremap('g0', vim.lsp.buf.document_symbol)
