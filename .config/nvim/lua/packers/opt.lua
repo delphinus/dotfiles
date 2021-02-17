@@ -119,6 +119,11 @@ return {
       }
     end,
   },
+
+  {
+    'lifepillar/vim-solarized8',
+    opt = true,
+  },
   -- }}}
 
   -- cmd {{{
