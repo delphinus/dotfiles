@@ -44,6 +44,7 @@
 	ri = rev-list --pretty --oneline
 	rt = revert
 	rv = remote -v
+	ra = remote-add
 	sm = submodule
 	st = status -sb
 	su = !git br --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
