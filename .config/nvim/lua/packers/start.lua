@@ -69,19 +69,18 @@ return {
   },
 
   {
-    'mhinz/vim-signify',
+    'lewis6991/gitsigns.nvim',
     config = function()
-      vim.g.signify_vcs_list = {'git'}
-      vim.g.signify_realtime = 1
-      vim.g.signify_sign_add = '✓'
-      vim.g.signify_sign_delete = '✗'
-      vim.g.signify_sign_delete_first_line = '↑'
-      vim.g.signify_sign_change = '⤷'
-      vim.g.signify_sign_changedelete = '•'
-
-      local vimp = require'vimp'
-      vimp.bind('ox', 'ic', [[<Plug>(signify-motion-inner-pending)]])
-      vimp.bind('ox', 'ac', [[<Plug>(signify-motion-outer-pending)]])
+      require'gitsigns'.setup{
+        signs = {
+          add = {hl = 'GitSignsAdd'},
+          change = {hl = 'GitSignsChange'},
+          delete = {hl = 'GitSignsDelete', text = '✗'},
+          topdelete = {hl = 'GitSignsDelete', text = '↑'},
+          changedelete = {hl = 'GitSignsChange', text = '•'},
+        },
+        numhl = true,
+      }
     end,
   },
 

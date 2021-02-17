@@ -29,10 +29,10 @@ return {
             vim.cmd[[hi Title gui=bold cterm=bold]]
             vim.cmd[[hi FloatermBorder gui=bold guifg=#5e81ac]]
 
-            -- for gitgutter
-            vim.cmd[[hi SignifyLineAdd ctermbg=233 guibg=#122b0c]]
-            vim.cmd[[hi SignifyLineChange ctermbg=236 guibg=#342e0e]]
-            vim.cmd[[hi SignifyLineDelete ctermbg=235 guibg=#4e2728]]
+            -- for gitsigns
+            vim.cmd[[hi GitSignsAdd guifg=#a3be8c]]
+            vim.cmd[[hi GitSignsChange guifg=#ebcb8b]]
+            vim.cmd[[hi GitSignsDelete guifg=#bf616a]]
 
             -- for vim-go
             -- See https://github.com/arcticicestudio/nord-vim/pull/219
