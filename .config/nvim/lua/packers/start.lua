@@ -41,19 +41,28 @@ return {
         if #results == 0 then return 'NUL' end
         local r = results[1]
         local text = ('<%s> %s'):format(r.char, r.codepoint)
-        if r.digraphs then
-          for _, d in ipairs(r.digraphs) do
-            text = text..', \\<C-K>'..d
+        if r.digraphs and #r.digraphs > 0 then
+          text = text..', \\<C-K>'..r.digraphs[1]
+          if #r.digraphs > 1 then
+            text = text..', ……'
           end
         end
         return text
       end
 
       local lualine = require'lualine'
-      lualine.theme = 'nord'
+      lualine.options.theme = 'nord'
       lualine.separator = '❘'
+      lualine.sections.lualine_c = {
+        {'filename', full_path = true, shorten = true},
+      }
       lualine.sections.lualine_x = {
-        char_info, 'encoding', 'fileformat', 'filetype',
+        {char_info, separator = '❘'},
+        'encoding',
+        {'fileformat', right_padding = 2},
+      }
+      lualine.sections.lualine_y = {
+         'filetype',
       }
       lualine.status()
     end,
