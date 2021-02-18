@@ -34,20 +34,6 @@ return {
             vim.cmd[[hi GitSignsChange guifg=#ebcb8b]]
             vim.cmd[[hi GitSignsDelete guifg=#bf616a]]
 
-            -- for vim-go
-            -- See https://github.com/arcticicestudio/nord-vim/pull/219
-            vim.cmd[[hi goDeclaration  guifg=#b48ead]]
-            vim.cmd[[hi goBuiltins     guifg=#88c0d0]]
-            vim.cmd[[hi goFunctionCall guifg=#5e81ac]]
-            vim.cmd[[hi goVarDefs      guifg=#bf616a]]
-            vim.cmd[[hi goVarAssign    guifg=#bf616a]]
-            vim.cmd[[hi goVar          guifg=#b48ead]]
-            vim.cmd[[hi goConst        guifg=#b48ead]]
-            vim.cmd[[hi goType         guifg=#ebcb8b]]
-            vim.cmd[[hi goTypeName     guifg=#ebcb8b]]
-            vim.cmd[[hi goDeclType     guifg=#88c0d0]]
-            vim.cmd[[hi goTypeDecl     guifg=#b48ead]]
-
             -- for visual-eof.lua
             vim.cmd[[hi VisualEOL   guifg=#a3be8c]]
             vim.cmd[[hi VisualNoEOL guifg=#bf616a]]
