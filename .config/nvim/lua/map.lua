@@ -5,7 +5,6 @@ vim.o.ttimeoutlen = 10
 local vimp = require'vimp'
 vimp.bind('nv', '<C-d>', '3<C-d>')
 vimp.bind('nv', '<C-u>', '3<C-u>')
-vimp.nnoremap('*', '*N')
 vimp.nnoremap('_', '<C-w>_')
 vimp.nnoremap('<Esc><Esc>', [[<Cmd>nohlsearch<CR>]])
 -- https://twitter.com/uvrub/status/1341036672364945408
