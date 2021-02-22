@@ -2,6 +2,8 @@
 version: 2
 root-markers:
   - .git/
+log-file: /tmp/efm.log
+log-level: 1
 commands:
   - command: notepad
     arguments:
@@ -81,7 +83,8 @@ tools:
       - '%f:%l %m'
 
   sh-shellcheck: &sh-shellcheck
-    lint-command: 'shellcheck -f gcc -x ${INPUT} | sed -e s/note:/info:/'
+    lint-command: 'shellcheck -f gcc -x - | sed -e s/note:/info:/'
+    lint-stdin: true
     lint-ignore-exit-code: true
     lint-formats:
       - '%f:%l:%c: %trror: %m'
