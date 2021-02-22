@@ -29,7 +29,9 @@ return {
   },
 
   {
-    'hoob3rt/lualine.nvim',
+    --'hoob3rt/lualine.nvim',
+    'delphinus/lualine.nvim',
+    branch = 'feature/diagnostics-symbols',
     requires = {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
@@ -52,12 +54,23 @@ return {
 
       local lualine = require'lualine'
       lualine.options.theme = 'nord'
-      lualine.separator = '❘'
       lualine.sections.lualine_c = {
-        {'filename', full_path = true, shorten = true},
+        'filename',
+        {
+          'diagnostics',
+          sources = {'nvim_lsp'},
+          --color_error = 'LspDiagnosticsDefaultError',
+          --color_warn = 'LspDiagnosticsDefaultWarning',
+          --color_info = 'LspDiagnosticsDefaultInformation',
+          symbols = {
+            error = '● ', -- U+25CF
+            warn = '○ ', -- U+25CB
+            info = '■ ', -- U+25A0
+          },
+        },
       }
       lualine.sections.lualine_x = {
-        {char_info, separator = '❘'},
+        {char_info, separator = ''}, -- U+E0B3
         'encoding',
         {'fileformat', right_padding = 2},
       }
