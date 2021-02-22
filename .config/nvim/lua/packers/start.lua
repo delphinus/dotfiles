@@ -29,9 +29,7 @@ return {
   },
 
   {
-    --'hoob3rt/lualine.nvim',
-    'delphinus/lualine.nvim',
-    branch = 'feature/diagnostics-symbols',
+    'hoob3rt/lualine.nvim',
     requires = {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
@@ -54,6 +52,8 @@ return {
 
       local lualine = require'lualine'
       lualine.options.theme = 'nord'
+      lualine.options.section_separators = nil
+      lualine.options.component_separators = '❘'
       lualine.sections.lualine_c = {
         'filename',
         {
@@ -70,7 +70,7 @@ return {
         },
       }
       lualine.sections.lualine_x = {
-        {char_info, separator = ''}, -- U+E0B3
+        {char_info, separator = '❘'},
         'encoding',
         {'fileformat', right_padding = 2},
       }
