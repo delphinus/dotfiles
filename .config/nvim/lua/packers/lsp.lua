@@ -44,7 +44,7 @@ return {
             vimp.nnoremap('g=', vim.lsp.buf.formatting)
             vimp.nnoremap('gA', vim.lsp.buf.code_action)
             vimp.nnoremap('gD', vim.lsp.buf.implementation)
-            vimp.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
+            --vimp.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
             vimp.nnoremap('gR', vim.lsp.buf.rename)
             vimp.nnoremap('gW', vim.lsp.buf.workspace_symbol)
             vimp.nnoremap('gd', vim.lsp.buf.declaration)
