@@ -86,14 +86,14 @@ return {
     config = function()
       -- TODO: use Lua for this block
       vim.api.nvim_exec([[
-        noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>
-        noremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>
+        nnoremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>
+        nnoremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>
         " Use with vim-visualstar
         nmap * *<Cmd>lua require('hlslens').start()<CR>
         " # will be used in telescope
-        "noremap # #<Cmd>lua require('hlslens').start()<CR>
-        noremap g* g*<Cmd>lua require('hlslens').start()<CR>
-        noremap g# g#<Cmd>lua require('hlslens').start()<CR>
+        "nnoremap # #<Cmd>lua require('hlslens').start()<CR>
+        nnoremap g* g*<Cmd>lua require('hlslens').start()<CR>
+        nnoremap g# g#<Cmd>lua require('hlslens').start()<CR>
       ]], false)
     end,
   },
