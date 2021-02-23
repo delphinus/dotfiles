@@ -59,9 +59,9 @@ return {
         {
           'diagnostics',
           sources = {'nvim_lsp'},
-          --color_error = 'LspDiagnosticsDefaultError',
-          --color_warn = 'LspDiagnosticsDefaultWarning',
-          --color_info = 'LspDiagnosticsDefaultInformation',
+          color_error = '#e5989f',
+          color_warn = '#ebcb8b',
+          color_info = '#8ca9cd',
           symbols = {
             error = '● ', -- U+25CF
             warn = '○ ', -- U+25CB
