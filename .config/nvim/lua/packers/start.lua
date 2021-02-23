@@ -346,6 +346,6 @@ return {
 
   {'f-person/git-blame.nvim'},
   -- }}}
-
-  -- }}}
 }
+
+-- vim:se fdm=marker:
