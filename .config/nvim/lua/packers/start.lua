@@ -63,9 +63,9 @@ return {
           color_warn = '#ebcb8b',
           color_info = '#8ca9cd',
           symbols = {
-            error = '● ', -- U+25CF
-            warn = '○ ', -- U+25CB
-            info = '■ ', -- U+25A0
+            error = '●', -- U+25CF
+            warn = '○', -- U+25CB
+            info = '■', -- U+25A0
           },
         },
       }
