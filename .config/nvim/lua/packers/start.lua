@@ -29,7 +29,9 @@ return {
   },
 
   {
-    'hoob3rt/lualine.nvim',
+    --'hoob3rt/lualine.nvim',
+    'delphinus/lualine.nvim',
+    branch = 'feature/diff-symbols',
     requires = {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
@@ -56,6 +58,14 @@ return {
       lualine.options.component_separators = '❘'
       lualine.sections.lualine_c = {
         'filename',
+        {
+          'diff',
+          symbols = {
+            added = '↑',
+            modified = '→',
+            removed = '↓',
+          },
+        },
         {
           'diagnostics',
           sources = {'nvim_lsp'},
