@@ -182,16 +182,8 @@ return {
     vimp.nnoremap('<Leader>fa', function()
       builtin.find_files{hidden = true}
     end)
-    vimp.nnoremap('<Leader>fb', function()
-      local ok, _ = pcall(builtin.file_browser, {})
-      if not ok then
-        vim.api.nvim_echo({
-          {'This revision does not have :Telescope file_browser', 'WarningMsg'},
-        }, true, {})
-      end
-    end)
-
-    vimp.nnoremap('<Leader>fg', builtin.live_grep)
+    vimp.nnoremap('<Leader>fb', function() builtin.file_browser{cwd = '%:h'} end)
+    vimp.nnoremap('<Leader>fg', builtin.grep_string)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
     vimp.nnoremap('<Leader>fm', function() builtin.man_pages{sections = {'ALL'}} end)
     vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
