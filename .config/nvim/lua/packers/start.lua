@@ -293,6 +293,7 @@ return {
           'floaterm',
           'fugitive.*',
           'git.*',
+          'packer',
         },
       }
     end,

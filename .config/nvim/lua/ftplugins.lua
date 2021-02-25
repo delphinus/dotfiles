@@ -56,7 +56,7 @@ M = {
 
   godoc = function()
     vim.wo.colorcolumn = ''
-    vim.bo.auto_cursorline_disabled = 1
+    vim.b.auto_cursorline_disabled = 1
   end,
 
   go_gohtmltmpl = function()
@@ -114,6 +114,10 @@ M = {
     ]]
     vim.api.nvim_buf_set_keymap(0, 'n', '<A-m>', '<Plug>MarkdownPreview', {})
     vim.api.nvim_buf_set_keymap(0, 'n', '<A-M>', '<Plug>StopMarkdownPreview', {})
+  end,
+
+  packer = function()
+    vim.b.auto_cursorline_disabled = 1
   end,
 
   perl = function()
