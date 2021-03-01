@@ -64,6 +64,8 @@ ignore_names_re = %r{
   \.zprezto/modules |
   \A\.?vim/dict/ |
   \A\.?vim/view/ |
+  \A\.config/fish/config-local\.fish\z |
+  \A\.config/nvim/\.netrwhist\z |
   \A\.git/ |
   \A\.screen/(?:cpu|memory)\z |
   \A\.zsh/zsh-notify/ |
