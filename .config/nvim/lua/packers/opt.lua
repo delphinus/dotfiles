@@ -673,6 +673,13 @@ return {
       vimp.nnoremap([[s]], hop.hint_char2)
       vimp.nnoremap([['j]], hop.hint_lines)
       vimp.nnoremap([['k]], hop.hint_lines)
+      if vim.o.background == 'dark' then
+        vim.api.nvim_exec([[
+          hi HopNextKey guifg=#bf616a
+          hi HopNextKey1 guifg=#88c0d0
+          hi HopNextKey2 guifg=#5e81ac
+        ]], false)
+      end
     end,
   },
 
