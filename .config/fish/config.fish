@@ -171,3 +171,6 @@ test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local
 # TODO: Now google-cloud-sdk does not work with Python 3.9!
 set -x CLOUDSDK_PYTHON /usr/bin/python
 set -x CLOUDSDK_GSUTIL_PYTHON /usr/bin/python
+
+# fish-grc removes this definition
+_grc_wrap ps
