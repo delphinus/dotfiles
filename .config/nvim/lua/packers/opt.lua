@@ -657,9 +657,22 @@ return {
 
   {
     'phaazon/hop.nvim',
-    keys = {{'n', '<Leader>h'}},
+    keys = {
+      {'n', [[']]},
+      {'n', 's'},
+    },
     config = function()
-      vimp.nnoremap('<Leader>h', function() require'hop'.jump_words() end)
+      local hop = require'hop'
+      hop.setup{
+        keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB',
+      }
+      local vimp = require'vimp'
+      vimp.nnoremap([['w]], hop.hint_words)
+      vimp.nnoremap([['/]], hop.hint_patterns)
+      vimp.nnoremap([['s]], hop.hint_char1)
+      vimp.nnoremap([[s]], hop.hint_char2)
+      vimp.nnoremap([['j]], hop.hint_lines)
+      vimp.nnoremap([['k]], hop.hint_lines)
     end,
   },
 
