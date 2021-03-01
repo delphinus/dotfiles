@@ -572,6 +572,7 @@ return {
 
   {'delphinus/vim-tmux-copy', keys = {'<A-[>'}},
 
+  --[=[
   {
     'easymotion/vim-easymotion',
     cmd = {'EMCommandLineMap', 'EMCommandLineNoreMap', 'EMCommandLineUnMap'},
@@ -595,6 +596,7 @@ return {
       require'vimp'.rbind('nxo', 's', [[<Plug>(easymotion-s2)]])
     end,
   },
+  ]=]
 
   {
     'inkarkat/vim-LineJuggler',
