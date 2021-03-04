@@ -183,7 +183,13 @@ return {
       builtin.find_files{hidden = true}
     end)
     vimp.nnoremap('<Leader>fb', function() builtin.file_browser{cwd = '%:h'} end)
-    vimp.nnoremap('<Leader>fg', builtin.grep_string)
+    vimp.nnoremap('<Leader>fg', function()
+      builtin.grep_string{
+        only_sort_text = true,
+        search = vim.fn.input('Grep For > '),
+      }
+    end)
+    vimp.nnoremap('<Leader>fG', builtin.grep_string)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
     vimp.nnoremap('<Leader>fm', function() builtin.man_pages{sections = {'ALL'}} end)
     vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
