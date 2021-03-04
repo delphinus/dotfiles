@@ -268,7 +268,7 @@ return {
     end,
   },
 
-  {'kevinoid/vim-jsonc'},
+  {'neoclide/jsonc.vim'},
   {'leafo/moonscript-vim'},
   {'mustache/vim-mustache-handlebars'},
 
