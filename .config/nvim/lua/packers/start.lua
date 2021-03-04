@@ -53,14 +53,15 @@ return {
       end
 
       local artify = require'artify'
+      local monospace = function(f)
+        return function() return artify(f(), 'monospace') end
+      end
       local lualine = require'lualine'
-      local mode = require'lualine.components.mode'
-      local filename = require'lualine.components.filename'.init{}
       lualine.options.theme = 'nord'
       lualine.options.section_separators = nil
       lualine.options.component_separators = '❘'
       lualine.sections.lualine_a = {
-        function() return artify(mode(), 'monospace') end,
+        monospace(require'lualine.components.mode'),
       }
       lualine.sections.lualine_b = {
         'branch',
@@ -74,7 +75,7 @@ return {
         },
       }
       lualine.sections.lualine_c = {
-        function() return artify(filename(), 'monospace') end,
+        'filename',
         {
           'diagnostics',
           sources = {'nvim_lsp'},
