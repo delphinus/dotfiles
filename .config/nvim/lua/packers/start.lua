@@ -13,6 +13,8 @@ return {
     config = [[vim.g.cursorhold_updatetime = 100]],
   },
 
+  'delphinus/artify.nvim',
+
   {
     'delphinus/characterize.nvim',
     config = function()
