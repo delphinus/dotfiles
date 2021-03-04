@@ -108,7 +108,6 @@ return {
         },
       }
 
-      --[[
       local sumneko_root_path = vim.loop.os_homedir()..'/git/github.com/sumneko/lua-language-server'
       local sumneko_binary = ('%s/bin/%s/lua-language-server'):format(
         sumneko_root_path,
@@ -137,14 +136,12 @@ return {
               library = {
                 [vim.fn.expand'$VIMRUNTIME/lua'] = true,
                 [vim.fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
-                -- TODO: use robust way to detect plugins
-                [vim.fn.expand'~/.local/share/nvim/site/pack/packer/start/vimpeccable/lua'] = true,
+                [packer_plugins.vimpeccable.path..'/lua'] = true,
               },
             },
           }
         }
       }
-      ]]
     end,
     run = function()
       local dir = vim.fn.stdpath'cache'..'/lspconfig'
