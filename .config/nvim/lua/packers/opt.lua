@@ -659,20 +659,23 @@ return {
     'phaazon/hop.nvim',
     keys = {
       {'n', [[']]},
+      {'v', [[']]},
       {'n', 's'},
+      {'v', 's'},
     },
     config = function()
       local hop = require'hop'
       hop.setup{
         keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB',
+        extend_visual = true,
       }
       local vimp = require'vimp'
-      vimp.nnoremap([['w]], hop.hint_words)
-      vimp.nnoremap([['/]], hop.hint_patterns)
-      vimp.nnoremap([['s]], hop.hint_char1)
-      vimp.nnoremap([[s]], hop.hint_char2)
-      vimp.nnoremap([['j]], hop.hint_lines)
-      vimp.nnoremap([['k]], hop.hint_lines)
+      vimp.bind('nv', [['w]], hop.hint_words)
+      vimp.bind('nv', [['/]], hop.hint_patterns)
+      vimp.bind('nv', [['s]], hop.hint_char1)
+      vimp.bind('nv', [[s]], hop.hint_char2)
+      vimp.bind('nv', [['j]], hop.hint_lines)
+      vimp.bind('nv', [['k]], hop.hint_lines)
       if vim.o.background == 'dark' then
         vim.api.nvim_exec([[
           hi HopNextKey guifg=#bf616a
