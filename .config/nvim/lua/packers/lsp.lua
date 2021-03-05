@@ -129,7 +129,8 @@ return {
             diagnostics = {
               enable = true,
               globals = {
-                'vim', 'describe', 'it', 'before_each', 'after_each',
+                'vim', 'describe', 'it', 'before_each', 'after_each', 'vimp',
+                'packer_plugins',
               },
             },
             workspace = {
@@ -168,7 +169,9 @@ return {
         vim.cmd[[!gem install --user-install solargraph]]
         vim.cmd[[!brew install gopls efm-langserver && brew upgrade gopls efm-langserver]]
         vim.cmd[[!luarocks install luacheck]]
-        vim.cmd[[!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript typescript-language-server vim-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server]]
+        vim.cmd('!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript'
+          ..'typescript-language-server vim-language-server vscode-css-languageserver-bin'
+          ..'vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
 
         local fd = vim.loop.fs_open(file, 'w', 438)
         if fd then
