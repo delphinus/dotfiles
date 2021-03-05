@@ -135,7 +135,9 @@ tools:
     hover-stdin: true
 
   luacheck: &luacheck
-    lint-command: 'luacheck --globals vim --formatter visual_studio -'
+    lint-command: >-
+      luacheck --formatter visual_studio - --globals vim
+      --read-globals after_each before_each it packer_plugins vimp
     lint-stdin: true
     lint-ignore-exit-code: true
     lint-formats:
