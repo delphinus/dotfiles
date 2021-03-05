@@ -105,16 +105,25 @@ return {
     'kevinhwang91/nvim-hlslens',
     config = function()
       -- TODO: use Lua for this block
-      vim.api.nvim_exec([[
-        nnoremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>
-        nnoremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>
-        " Use with vim-visualstar
-        nmap * *<Cmd>lua require('hlslens').start()<CR>
-        " # will be used in telescope
-        "nnoremap # #<Cmd>lua require('hlslens').start()<CR>
-        nnoremap g* g*<Cmd>lua require('hlslens').start()<CR>
-        nnoremap g# g#<Cmd>lua require('hlslens').start()<CR>
-      ]], false)
+      local do_hlslens = function(map, need_count1)
+        return function()
+          local count1 = need_count1 and (vim.v.count1 or '1') or ''
+          local ok, err = pcall(vim.cmd, 'normal! '..count1..map)
+          if ok then
+            require'hlslens'.start()
+          else
+            vim.api.nvim_err_writeln(err)
+          end
+        end
+      end
+      vimp.nnoremap({'silent'}, 'n', do_hlslens('n', true))
+      vimp.nnoremap({'silent'}, 'N', do_hlslens('N', true))
+      vimp.nnoremap('g*', do_hlslens('g*', true))
+      vimp.nnoremap('g#', do_hlslens('g#', true))
+      -- Use with vim-visualstar
+      vimp.nmap('*', [[*<Cmd>lua require('hlslens').start()<CR>]])
+      -- # will be used in telescope
+      -- vimp.nnoremap('#', do_hlslens('#', true))
     end,
   },
 
