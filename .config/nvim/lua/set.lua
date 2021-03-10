@@ -129,6 +129,24 @@ if vim.env.TMUX then
   vim.o.t_fs = [[\]]
 end
 vim.o.title = true
+local home_re = vim.loop.os_homedir():gsub('%.', '%.')
+function _G.my_tabline_path()
+  if vim.bo.filetype == 'help' then
+    return 'ヘルプ'
+  elseif vim.wo.previewwindow == 1 then
+    return 'プレビュー'
+  end
+  local filename = vim.api.nvim_buf_get_name(0)
+  if vim.g.gh_e_host then
+    filename = filename:gsub('^'..home_re..'/git/'..vim.g.gh_e_host..'/', '', 1)
+  end
+  return filename:gsub(
+    '^'..home_re..'/git/github%.com/', '', 1
+  ):gsub(
+    '^'..home_re, '~', 1
+  ):gsub('/[^/]+$', '', 1)
+end
+vim.o.titlestring = [[%t%( %M%)%( (%{v:lua.my_tabline_path()})%)%( %a%)]]
 -- }}}
 
 -- Others {{{
