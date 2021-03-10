@@ -776,7 +776,7 @@ return {
     end,
   },
 
-  {'sainnhe/artify.vim', fn = {'Artify'}},
+  {'sainnhe/artify.vim', fn = {'artify#convert'}},
   {'vim-jp/vital.vim', fn = {'vital#vital#new'}},
   -- }}}
 }
