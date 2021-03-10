@@ -44,6 +44,7 @@ vim.wo.numberwidth = 3
 vim.o.relativenumber = true
 vim.wo.relativenumber = true
 vim.o.showmatch = true
+vim.o.showtabline = 2
 
 if vim.fn.exists'*setcellwidths' == 1 then
   vim.fn.setcellwidths({

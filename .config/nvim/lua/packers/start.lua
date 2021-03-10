@@ -45,9 +45,6 @@ return {
         local text = ('<%s> %s'):format(r.char, r.codepoint)
         if r.digraphs and #r.digraphs > 0 then
           text = text..', \\<C-K>'..r.digraphs[1]
-          if #r.digraphs > 1 then
-            text = text..', ……'
-          end
         end
         return text
       end
@@ -63,41 +60,54 @@ return {
       lualine.sections.lualine_a = {
         monospace(require'lualine.components.mode'),
       }
-      lualine.sections.lualine_b = {
-        'branch',
-        {
-          'diff',
-          symbols = {
-            added = '↑',
-            modified = '→',
-            removed = '↓',
-          },
-        },
-      }
+      lualine.sections.lualine_b = {}
       lualine.sections.lualine_c = {
-        'filename',
-        {
-          'diagnostics',
-          sources = {'nvim_lsp'},
-          color_error = '#e5989f',
-          color_warn = '#ebcb8b',
-          color_info = '#8ca9cd',
-          symbols = {
-            error = '●', -- U+25CF
-            warn = '○', -- U+25CB
-            info = '■', -- U+25A0
-          },
-        },
+         'filename',
       }
-      lualine.sections.lualine_x = {
-        {char_info, separator = '❘'},
-        'encoding',
-        {'fileformat', right_padding = 2},
-      }
+      lualine.sections.lualine_x = {}
       lualine.sections.lualine_y = {
          'filetype',
       }
+      lualine.tabline = {
+         lualine_a = {},
+         lualine_b = {
+           monospace(require'lualine.components.branch'.init{}),
+           {
+             'diff',
+             symbols = {
+               added = '↑',
+               modified = '→',
+               removed = '↓',
+             },
+           },
+           {
+             'diagnostics',
+             sources = {'nvim_lsp'},
+             color_error = '#e5989f',
+             color_warn = '#ebcb8b',
+             color_info = '#8ca9cd',
+             symbols = {
+               error = '●', -- U+25CF
+               warn = '○', -- U+25CB
+               info = '■', -- U+25A0
+             },
+           },
+         },
+         lualine_c = {},
+         lualine_x = {
+           {char_info, separator = '❘'},
+           'encoding',
+           {'fileformat', right_padding = 2},
+         },
+         lualine_y = {},
+         lualine_z = {},
+      }
       lualine.status()
+      require'augroups'.set{
+         redraw_tabline = {
+            {'CursorMoved', '*', 'redrawtabline'},
+         },
+      }
     end,
   },
 
