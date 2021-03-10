@@ -33,6 +33,7 @@ return {
     '<Leader>fg',
     '<Leader>fb',
     '<Leader>fh',
+    '<Leader>fH',
     '<Leader>fm',
     '<Leader>fo',
     '<Leader>fp',
@@ -191,6 +192,7 @@ return {
     end)
     vimp.nnoremap('<Leader>fG', builtin.grep_string)
     vimp.nnoremap('<Leader>fh', builtin.help_tags)
+    vimp.nnoremap('<Leader>fH', function() builtin.help_tags{lang = 'en'} end)
     vimp.nnoremap('<Leader>fm', function() builtin.man_pages{sections = {'ALL'}} end)
     vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
     vimp.nnoremap('<Leader>fp', extensions.node_modules.list)
