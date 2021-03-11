@@ -10,7 +10,7 @@ if [[ $git_url =~ ^(http|git|ssh):// ]]; then
     NAME="$name" perl -F/ -ape '$F[3] = $ENV{NAME}; $_ = join "/", @F')"
 elif [[ $git_url =~ ^git@ ]]; then
   url="$(echo "$git_url" | \
-    NAME=hoob3rt perl -pe '($host, $repo) = (split m|[:/@]|)[1, 3]; $_ = "https://git\@$host/$ENV{NAME}/$repo"')"
+    NAME="$name" perl -pe '($host, $repo) = (split m|[:/@]|)[1, 3]; $_ = "https://$host/$ENV{NAME}/$repo"')"
 else
   echo "failed to parse url: $git_url" 2>&1
   exit 1
