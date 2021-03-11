@@ -656,7 +656,9 @@ return {
   },
 
   {
-    'phaazon/hop.nvim',
+    --'phaazon/hop.nvim',
+    'delphinus/hop.nvim',
+    branch = 'feature/migemo',
     keys = {
       {'n', [[']]},
       {'v', [[']]},
@@ -668,6 +670,7 @@ return {
       hop.setup{
         keys = 'hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB',
         extend_visual = true,
+        use_migemo = true,
       }
       local vimp = require'vimp'
       vimp.bind('nv', [['w]], hop.hint_words)
