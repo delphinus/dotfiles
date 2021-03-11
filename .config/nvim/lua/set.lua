@@ -130,6 +130,7 @@ if vim.env.TMUX then
 end
 vim.o.title = true
 local home_re = vim.loop.os_homedir():gsub('%.', '%.')
+local package_root_re = (vim.fn.stdpath'data'..'/site/pack/packer/'):gsub('%.', '%.')
 function _G.my_tabline_path()
   if vim.bo.filetype == 'help' then
     return 'ヘルプ'
@@ -137,6 +138,9 @@ function _G.my_tabline_path()
     return 'プレビュー'
   end
   local filename = vim.api.nvim_buf_get_name(0)
+  if package_root_re then
+    filename = filename:gsub(package_root_re, '', 1)
+  end
   if vim.g.gh_e_host then
     filename = filename:gsub('^'..home_re..'/git/'..vim.g.gh_e_host..'/', '', 1)
   end
