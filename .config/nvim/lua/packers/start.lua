@@ -149,6 +149,7 @@ return {
           changedelete = {hl = 'GitSignsChange', text = '•'},
         },
         numhl = true,
+        use_decoration_api = true,
       }
     end,
   },
