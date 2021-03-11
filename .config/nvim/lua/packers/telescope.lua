@@ -110,6 +110,8 @@ return {
             ['<C-n>'] = actions.select_horizontal,
             ['<C-d>'] = preview_scroll(3),
             ['<C-u>'] = preview_scroll(-3),
+            ['<C-f>'] = preview_scroll(30),
+            ['<C-b>'] = preview_scroll(-30),
           },
           n = {
             ['<C-a>'] = run_find_files,
