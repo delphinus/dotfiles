@@ -137,7 +137,7 @@ tools:
   luacheck: &luacheck
     lint-command: >-
       luacheck --formatter visual_studio - --globals vim
-      --read-globals after_each before_each it packer_plugins vimp
+      --read-globals after_each assert before_each describe it packer_plugins vimp
     lint-stdin: true
     lint-ignore-exit-code: true
     lint-formats:
