@@ -37,6 +37,7 @@
     - .docker/config.json
     - .editrc
     - .gitconfig
+    - .gitignore-global
     - .golangci.yml
     - .grcat
     - .inputrc
