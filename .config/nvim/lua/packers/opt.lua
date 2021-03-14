@@ -650,7 +650,7 @@ return {
       vimp.bind('nv', [['w]], hop.hint_words)
       vimp.bind('nv', [['/]], hop.hint_patterns)
       vimp.bind('nv', [['s]], hop.hint_char1)
-      vimp.bind('nv', [[s]], hop.hint_char2)
+      vimp.bind('nv', [[s]], function() hop.hint_char2{verbose = true} end)
       vimp.bind('nv', [['j]], hop.hint_lines)
       vimp.bind('nv', [['k]], hop.hint_lines)
       if vim.o.background == 'dark' then
