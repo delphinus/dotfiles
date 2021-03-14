@@ -335,6 +335,9 @@ return {
           'git.*',
           'packer',
         },
+        buf_filter = function(bufnr)
+          return vim.api.nvim_buf_get_option(bufnr, 'buftype') == ''
+        end,
       }
     end,
   },
