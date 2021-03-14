@@ -13,6 +13,7 @@ smart-case = true
 word-regexp = false
 ignore = "_worktree"
 vcs-ignore = ".gitignore"
+global-gitignore = "~/.gitignore-global"
 home-ptignore = "~/.ptignore"
 skip-vcs-ignores = false
 depth = 25
