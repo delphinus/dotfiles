@@ -1,7 +1,7 @@
 local vimp = require'vimp'
 local M
 M = {
-  applescript = function() vimp.inoremap({'buffer'}, '<A-m>', [[￢<CR>]]) end,
+  applescript = function() vimp.bind('i', {'buffer'}, {'<A-m>', '<A-µ>'}, [[￢<CR>]]) end,
 
   c = function()
     vim.bo.tabstop = 8
@@ -40,7 +40,7 @@ M = {
   gitmessengerpopup = function()
     vimp.add_buffer_maps(function()
       vimp.nmap('<C-i>', 'O')
-      vimp.rbind({'<A-b>', '<C-o>'}, 'o')
+      vimp.rbind({'<A-b>', '<A-∫>', '<C-o>'}, 'o')
       vimp.rbind({'<C-c>', '<CR>', '<Esc>'}, 'q')
     end)
   end,
@@ -112,6 +112,7 @@ M = {
       vimp.nmap('<A-M>', '<Plug>StopMarkdownPreview')
     end)
     ]]
+    -- TODO: mappings for VV
     vim.api.nvim_buf_set_keymap(0, 'n', '<A-m>', '<Plug>MarkdownPreview', {})
     vim.api.nvim_buf_set_keymap(0, 'n', '<A-M>', '<Plug>StopMarkdownPreview', {})
   end,

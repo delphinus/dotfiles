@@ -248,7 +248,7 @@ return {
       'ColorizerReloadAllBuffers',
     },
     setup = function()
-      require'vimp'.nnoremap({'silent'}, '<A-C>', function()
+      vimp.bind('n', {'silent'}, {'<A-C>', '<A-S-Ç>'}, function()
         if vim.b.colorizer_enabled then
           vim.cmd[[ColorizerDetachFromBuffer]]
           vim.b.colorizer_enabled = false
@@ -277,6 +277,7 @@ return {
       local settings = vim.fn.expand'~/.ghpr-blame.vim'
       if vim.fn.filereadable(settings) == 1 then
         vim.cmd('source '..settings)
+        -- TODO: mappings for VV
         vim.g.ghpr_show_pr_mapping = '<A-g>'
         vim.g.ghpr_show_pr_in_message = 1
       else
@@ -292,7 +293,7 @@ return {
     cmd = {'GitMessenger'},
     setup = function()
       vim.g.git_messenger_no_default_mappings = true
-      require'vimp'.nnoremap('<A-b>', [[<Cmd>GitMessenger<CR>]])
+      vimp.bind('n', {'<A-b>', '<A-∫>'}, [[<Cmd>GitMessenger<CR>]])
     end,
   },
 
@@ -336,12 +337,9 @@ return {
       vimp.tnoremap('<BS><C-n>', [[<C-\><C-n>]])
       vimp.nnoremap([[<C-\><C-n>]], [[<Cmd>FloatermToggle<CR>]])
       vimp.nnoremap('<BS><C-n>', [[<Cmd>FloatermToggle<CR>]])
-      vimp.nnoremap('<A-c>', [[<Cmd>FloatermToggle<CR>]])
-      vimp.tnoremap('<A-c>', [[<Cmd>FloatermToggle<CR>]])
-      vimp.nnoremap('<A-n>', [[<Cmd>FloatermNew<CR>]])
-      vimp.tnoremap('<A-n>', [[<Cmd>FloatermNew<CR>]])
-      vimp.nnoremap('<A-f>', [[<Cmd>FloatermNext<CR>]])
-      vimp.tnoremap('<A-f>', [[<Cmd>FloatermNext<CR>]])
+      vimp.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FloatermToggle<CR>]])
+      vimp.bind('nt', {'<A-t>', '<A-†>'}, [[<Cmd>FloatermNew<CR>]])
+      vimp.bind('nt', {'<A-f>', '<A-ƒ>'}, [[<Cmd>FloatermNext<CR>]])
     end,
   },
   -- }}}
@@ -506,9 +504,8 @@ return {
     keys = {{'n', '<Plug>(fold-cycle-'}},
     setup = function()
       vim.g.fold_cycle_default_mapping = 0
-      local vimp = require'vimp'
-      vimp.nmap('<A-l>', [[<Plug>(fold-cycle-open)]])
-      vimp.nmap('<A-h>', [[<Plug>(fold-cycle-close)]])
+      vimp.rbind('n', {'<A-l>', '<A-¬>'}, [[<Plug>(fold-cycle-open)]])
+      vimp.rbind('n', {'<A-h>', '<A-˙>'}, [[<Plug>(fold-cycle-open)]])
     end,
   },
 
@@ -520,8 +517,8 @@ return {
       local vimp = require'vimp'
       vimp.nmap('p', [[<Plug>(miniyank-autoput)]])
       vimp.nmap('P', [[<Plug>(miniyank-autoPut)]])
-      vimp.nmap('<A-p>', [[<Plug>(miniyank-cycle)]])
-      vimp.nmap('<A-P>', [[<Plug>(miniyank-cycleback)]])
+      vimp.rbind('n', {'<A-p>', '<A-π>'}, [[<Plug>(miniyank-cycle)]])
+      vimp.rbind('n', {'<A-P>', '<A-S-∏>'}, [[<Plug>(miniyank-cycleback)]])
     end,
   },
 
@@ -557,7 +554,7 @@ return {
       end)
 
       vimp.nmap('<A-CR>', [[<Plug>DWMFocus]])
-      vimp.nmap('<A-r>', [[<Plug>DWMResetPaneWidth]])
+      vimp.rbind('n', {'<A-r>', '<A-®>'}, [[<Plug>DWMResetPaneWidth]])
       vimp.nmap('<C-@>', [[<Plug>DWMFocus]])
       vimp.nmap('<C-Space>', [[<Plug>DWMFocus]])
       vimp.nmap('<C-c>', [[<Cmd>lua require'scrollbar'.clear()<CR><Plug>DWMClose]])
@@ -570,7 +567,7 @@ return {
     end,
   },
 
-  {'delphinus/vim-tmux-copy', keys = {'<A-[>'}},
+  {'delphinus/vim-tmux-copy', keys = {{'n', '<A-[>'}, {'n', '<A-“>'}}},
 
   {
     'inkarkat/vim-LineJuggler',
@@ -733,9 +730,8 @@ return {
                 if info.vcs == 'git' and vim.fn.getline(1) == '' then
                   vim.cmd[[startinsert]]
                 end
-                local vimp = require'vimp'
                 vimp.add_buffer_maps(function()
-                  vimp.imap('<A-d>', [[<Plug>(committia-scroll-diff-down-half)]])
+                  vimp.rbind('i', {'<A-d>', '<A-∂>'}, [[<Plug>(committia-scroll-diff-down-half)]])
                   vimp.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
                 end)
               end

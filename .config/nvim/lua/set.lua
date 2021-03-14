@@ -208,4 +208,17 @@ if vim.fn.has'win32' then
 end
 -- }}}
 
+-- for VV {{{
+if vim.g.vv then
+  vim.o.shell = '/usr/local/bin/fish'
+  vim.api.nvim_exec([[
+    VVset fontfamily=SF\ Mono\ Square
+    VVset fontsize=16
+    VVset lineheight=1.0
+    VVset width=1280
+    VVset height=1280
+  ]], false)
+end
+-- }}}
+
 -- vim:se fdm=marker:

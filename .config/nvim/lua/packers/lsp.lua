@@ -29,8 +29,8 @@ return {
         pcall(function()
           vimp.add_buffer_maps(function()
             vimp.nnoremap('1gD', vim.lsp.buf.type_definition)
-            vimp.nnoremap('<A-J>', vim.lsp.diagnostic.goto_next)
-            vimp.nnoremap('<A-K>', vim.lsp.diagnostic.goto_prev)
+            vimp.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
+            vimp.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
             if vim.bo.filetype ~= 'help' then
               vimp.nnoremap('<C-]>', vim.lsp.buf.definition)
               vimp.nnoremap('<C-w><C-]>', function()
@@ -204,8 +204,8 @@ return {
 
       vimp.inoremap({'expr'}, '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
       vimp.inoremap({'expr'}, '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
-      vimp.imap('<A-j>', [[<Plug>(completion_next_source)]])
-      vimp.imap('<A-k>', [[<Plug>(completion_prev_source)]])
+      vimp.rbind('i', {'<A-j>', '<A-∆>'}, [[<Plug>(completion_next_source)]])
+      vimp.rbind('i', {'<A-k>', '<A-˚>'}, [[<Plug>(completion_prev_source)]])
 
       vim.o.completeopt = 'menuone,noinsert,noselect'
       vim.g.completion_auto_change_source = 1

@@ -13,20 +13,19 @@ require'augroups'.set{
   },
 }
 
-local vimp = require'vimp'
-vimp.tmap('<A-j>', [[<C-\><C-n><C-j>]])
-vimp.tmap('<A-k>', [[<C-\><C-n><C-k>]])
-vimp.tmap('<A-o>', [[<C-\><C-n><C-w>oi]])
-vimp.tmap('<A-q>', [[<C-\><C-n><C-q>]])
-vimp.tmap('<A-s>', [[<C-\><C-n><C-s>]])
-vimp.tmap('<A-;>', [[<C-\><C-n>:]])
-vimp.tmap('<A-t>', [[<C-\><C-n>gt]])
-vimp.nmap('<A-j>', [[<C-j>]])
-vimp.nmap('<A-k>', [[<C-k>]])
-vimp.nmap('<A-o>', [[<C-w>o]])
-vimp.nmap('<A-q>', [[<C-q>]])
-vimp.nmap('<A-s>', [[<C-s>]])
-vimp.nmap('<A-;>', [[:]])
-vimp.nmap('<A-t>', [[gt]])
-vimp.tmap('<A-CR>', [[<C-\><C-n><A-CR>]])
-vimp.tnoremap({'expr'}, '<A-r>', [['<C-\><C-n>"'.nr2char(getchar()).'pi']])
+for map, keys in pairs{
+  ['<C-j>']  = {'<A-j>', '<A-∆>'},
+  ['<C-k>']  = {'<A-k>', '<A-˚>'},
+  ['<C-q>']  = {'<A-q>', '<A-œ>'},
+  ['<C-s>']  = {'<A-s>', '<A-ß>'},
+  [':']      = {'<A-;>', '<A-…>'},
+  ['gt']     = {'<A-t>', '<A-†>'},
+} do
+  vimp.rbind('t', keys, [[<C-\><C-n>]]..map)
+  vimp.rbind('n', keys, map)
+end
+
+vimp.rbind('t', {'<A-o>', '<A-ø>'}, [[<C-\><C-n><C-w>oi]])
+vimp.rbind('n', {'<A-o>', '<A-ø>'}, [[<C-w>o]])
+vimp.rbind('t', '<A-CR>', [[<C-\><C-n><A-CR>]])
+vimp.bind('t', {'expr'}, {'<A-r>', '<A-®>'}, [['<C-\><C-n>"'.nr2char(getchar()).'pi']])
