@@ -85,6 +85,7 @@ return {
       lsp.tsserver.setup{on_attach = lsp_on_attach}
       lsp.vimls.setup{on_attach = lsp_on_attach}
       lsp.yamlls.setup{on_attach = lsp_on_attach}
+      lsp.vuels.setup{on_attach = lsp_on_attach}
 
       lsp.efm.setup{
         on_attach = lsp_on_attach,
@@ -170,7 +171,7 @@ return {
         vim.cmd[[!brew install gopls efm-langserver && brew upgrade gopls efm-langserver]]
         vim.cmd[[!luarocks install luacheck]]
         vim.cmd('!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript'
-          ..'typescript-language-server vim-language-server vscode-css-languageserver-bin'
+          ..'typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
           ..'vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
 
         local fd = vim.loop.fs_open(file, 'w', 438)
