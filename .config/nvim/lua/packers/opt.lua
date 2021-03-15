@@ -338,7 +338,7 @@ return {
       vimp.nnoremap([[<C-\><C-n>]], [[<Cmd>FloatermToggle<CR>]])
       vimp.nnoremap('<BS><C-n>', [[<Cmd>FloatermToggle<CR>]])
       vimp.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FloatermToggle<CR>]])
-      vimp.bind('nt', {'<A-t>', '<A-†>'}, [[<Cmd>FloatermNew<CR>]])
+      vimp.bind('nt', '<A-n>', [[<Cmd>FloatermNew<CR>]])
       vimp.bind('nt', {'<A-f>', '<A-ƒ>'}, [[<Cmd>FloatermNext<CR>]])
     end,
   },
