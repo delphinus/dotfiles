@@ -39,6 +39,7 @@ return {
     '<Leader>fp',
     '<Leader>fq',
     '<Leader>fz',
+    '<Leader>f:',
     '<Leader>mm',
     '<Leader>mg',
     '<Leader>sr',
@@ -200,6 +201,7 @@ return {
     vimp.nnoremap('<Leader>fp', extensions.node_modules.list)
     vimp.nnoremap('<Leader>fq', extensions.ghq.list)
     vimp.nnoremap('<Leader>fz', extensions.z.list)
+    vimp.nnoremap('<Leader>f:', builtin.command_history)
 
     -- for Memo
     vimp.nnoremap('<Leader>mm', extensions.memo.list)
