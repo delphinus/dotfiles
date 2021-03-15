@@ -205,7 +205,12 @@ return {
 
     -- for Memo
     vimp.nnoremap('<Leader>mm', extensions.memo.list)
-    vimp.nnoremap('<Leader>mg', extensions.memo.grep)
+    vimp.nnoremap('<Leader>mg', function()
+      extensions.memo.grep_string{
+        only_sort_text = true,
+        search = vim.fn.input('Memo Grep For > '),
+      }
+    end)
 
     -- for LSP
     vimp.nnoremap('<Leader>sr', builtin.lsp_references)
