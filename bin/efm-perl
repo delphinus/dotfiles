@@ -10,17 +10,31 @@ efm-perl [options]
 
     Options:
       --filename, -f [filename]    Filename to lint. This is mandatory.
+      --lib, -I [paths]            Additional paths for $PERL5LIB.
+      --verbose, -v                Print all outputs.
       --help, -h                   Show help message.
 
-    cat /path/to/script.pl | efm-perl -f /path/to/script.pl
+    # load the script from -f option
+    efm-perl -f /path/to/script.pl
+
+    # load the script from STDIN but filter out by filename from -f option
+    cat /tmp/script.pl | efm-perl -f /path/to/script.pl
 
 =head1 OPTIONS
 
 =over 4
 
+=item B<--lib>, B<-I>
+
+Additional paths for C<PERL5LIB>
+
 =item B<--filename>, B<-f>
 
 Filename to lint. This is mandatory.
+
+=item B<--verbose>, B<-v>
+
+Print out all outputs. Without this, it shows errors only.
 
 =item B<--help>, B<-h>
 
@@ -52,42 +66,57 @@ For efm-langserver, set config.yaml as below.
 use strict;
 use warnings;
 use File::Basename;
+use File::Copy;
 use File::Temp qw/tempfile/;
 use Getopt::Long qw/:config posix_default no_ignore_case bundling auto_help/;
+use IO::Handle;
 use Pod::Usage qw/pod2usage/;
 
 GetOptions(
     \my %opt, qw/
+    lib|I=s
     filename|f=s
+    verbose|v
     help|h
 /) or pod2usage(1);
 
 pod2usage(-exitval => 1, -verbose => 2) if $opt{help};
 pod2usage(2) if grep { !exists $opt{$_} } qw/filename/;
-pod2usage(3) if ! -p '/dev/stdin';
 
+STDIN->blocking(0);
+my $script_text = do { local $/; <STDIN> };
 my ($script_fh, $script) = tempfile();
-{ local $/; $script_fh->print(<>) }
+if (defined $script_text) {
+    $script_fh->print($script_text);
+} else {
+    copy $opt{filename} => $script_fh;
+}
 $script_fh->close;
 
 chdir dirname $opt{filename};
 chomp(my $git_root = `git rev-parse --show-toplevel`);
-chdir $git_root if $git_root;
+chdir $git_root if -d $git_root;
 
 my ($runner_fh, $runner) = tempfile();
 $runner_fh->print(<<EOS);
 #!/bin/bash
-eval "\$(plenv init -)"
-export PERL5LIB=lib:t/lib:../perlbrew/lib/5.20.2:../perlbrew/lib/site_perl/5.20.2:
-perl -c $script 2>&1
+if which plenv > /dev/null; then
+  eval "\$(plenv init -)"
+fi
+if which direnv > /dev/null; then
+  eval "\$(direnv export bash)"
+fi
+export PERL5LIB=@{[$opt{lib} // '']}:\$PERL5LIB
+perl -c $script
 EOS
 $runner_fh->close;
 
 my $error = qr{^(.*)\sat\s(.*)\sline\s(\d+)(\.|,\snear\s\".*\"?)$};
-open my $fh, "sh $runner |" or die $!;
-while (my $line = <$fh>) {
-    chomp $line;
-    if (my ($message, $extracted_file, $lineno, $rest) = $line =~ $error) {
+open my $fh, "sh $runner 2>&1 |" or die $!;
+while (<$fh>) {
+    print if $opt{verbose};
+    chomp;
+    if (my ($message, $extracted_file, $lineno, $rest) = /$error/) {
         next unless $extracted_file eq $script;
         $message .= $rest if $rest =~ s/^,//;
         print "$script:$lineno:$message\n";
