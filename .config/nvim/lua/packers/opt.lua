@@ -790,6 +790,20 @@ return {
   {'sainnhe/artify.vim', fn = {'artify#convert'}},
   {'vim-jp/vital.vim', fn = {'vital#vital#new'}},
   -- }}}
+
+  -- temporarily
+  {
+    'easymotion/vim-easymotion',
+    keys = {
+      {'n', [[\\s]]},
+    },
+    setup = function()
+      vim.g.EasyMotion_use_migemo = 1
+    end,
+    config = function()
+      vimp.nmap([[\\s]], '<Plug>(easymotion-s2)')
+    end,
+  },
 }
 
 -- vim:se fdm=marker:

@@ -31,16 +31,6 @@ return {
   },
 
   {
-    'easymotion/vim-easymotion',
-    setup = function()
-      vim.g.EasyMotion_use_migemo = 1
-    end,
-    config = function()
-      vimp.nmap([[\\s]], '<Plug>(easymotion-s2)')
-    end,
-  },
-
-  {
     'hoob3rt/lualine.nvim',
     requires = {
       {'kyazdani42/nvim-web-devicons', opt = true},
