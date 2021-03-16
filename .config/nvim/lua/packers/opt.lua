@@ -16,90 +16,78 @@ return {
       require'augroups'.set{
         nord_overrides = {
           {'ColorScheme', 'nord', function()
-            vim.cmd[[hi Comment guifg=#CDD0BB gui=italic]]
-            vim.cmd[[hi CursorLine guibg=#313743]]
-            vim.cmd[[hi Delimiter guifg=#81A1C1]]
-            vim.cmd[[hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE]]
-            vim.cmd[[hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE]]
-            vim.cmd[[hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE]]
-            vim.cmd[[hi Folded guifg=#D08770 gui=NONE]]
-            vim.cmd[[hi Identifier guifg=#8FBCBB]]
-            vim.cmd[[hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE]]
-            vim.cmd[[hi Special guifg=#D08770]]
-            vim.cmd[[hi Title gui=bold cterm=bold]]
-            vim.cmd[[hi FloatermBorder gui=bold guifg=#5e81ac]]
+            vim.api.nvim_exec([[
+              hi Comment guifg=#CDD0BB gui=italic
+              hi CursorLine guibg=#313743
+              hi Delimiter guifg=#81A1C1
+              hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+              hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+              hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
+              hi Folded guifg=#D08770 gui=NONE
+              hi Identifier guifg=#8FBCBB
+              hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
+              hi Special guifg=#D08770
+              hi Title gui=bold cterm=bold
+              hi FloatermBorder gui=bold guifg=#5e81ac
+            ]], false)
 
             -- for gitsigns
-            vim.cmd[[hi GitSignsAdd guifg=#a3be8c]]
-            vim.cmd[[hi GitSignsChange guifg=#ebcb8b]]
-            vim.cmd[[hi GitSignsDelete guifg=#bf616a]]
+            vim.api.nvim_exec([[
+              hi GitSignsAdd guifg=#a3be8c
+              hi GitSignsChange guifg=#ebcb8b
+              hi GitSignsDelete guifg=#bf616a
+            ]], false)
 
             -- for visual-eof.lua
-            vim.cmd[[hi VisualEOL   guifg=#a3be8c]]
-            vim.cmd[[hi VisualNoEOL guifg=#bf616a]]
-
-            vim.cmd[[hi GitGutterAddLineNr guifg=#a3be8c guibg=#163601 gui=bold]]
-            vim.cmd[[hi GitGutterChangeDeleteLineNr guifg=#ebcb8b guibg=#432d00 gui=bold]]
-            vim.cmd[[hi GitGutterChangeLineNr guifg=#ebcb8b guibg=#432d00 gui=bold]]
-            vim.cmd[[hi GitGutterDeleteLineNr guifg=#bf616a guibg=#52050c gui=bold]]
-
-            -- for ALE
-            vim.cmd[[hi ALEErrorSignLineNr guifg=#bf616a guibg=#52050c gui=bold]]
-            vim.cmd[[hi ALEInfoSignLineNr guifg=#5e81ac guibg=#153b68 gui=bold]]
-            vim.cmd[[hi ALEStyleErrorSignLineNr guifg=#bf616a guibg=NONE gui=bold]]
-            vim.cmd[[hi ALEStyleWarningSignLineNr guifg=#ebcb8b guibg=NONE gui=bold]]
-            vim.cmd[[hi ALEWarningSignLineNr guifg=#ebcb8b guibg=#432d00 gui=bold]]
-            vim.cmd[[hi ALEErrorSign guifg=#bf616a guibg=#52050c gui=bold]]
-            vim.cmd[[hi ALEInfoSign guifg=#5e81ac guibg=#153b68 gui=bold]]
-            vim.cmd[[hi ALEStyleErrorSign guifg=#bf616a guibg=NONE gui=bold]]
-            vim.cmd[[hi ALEStyleWarningSign guifg=#ebcb8b guibg=NONE gui=bold]]
-            vim.cmd[[hi ALEWarningSign guifg=#ebcb8b guibg=#432d00 gui=bold]]
-            vim.cmd[[hi ALEVirtualTextError guifg=#bf616a guibg=#52050c gui=bold]]
-            vim.cmd[[hi ALEVirtualTextInfo guifg=#5e81ac guibg=#153b68]]
-            vim.cmd[[hi ALEVirtualTextStyleError guifg=#bf616a guibg=NONE]]
-            vim.cmd[[hi ALEVirtualTextStyleWarning guifg=#ebcb8b guibg=NONE]]
-            vim.cmd[[hi ALEVirtualTextWarning guifg=#ebcb8b guibg=#432d00]]
+            vim.api.nvim_exec([[
+              hi VisualEOL   guifg=#a3be8c
+              hi VisualNoEOL guifg=#bf616a
+            ]], false)
 
             -- LSP diagnostics
-            vim.cmd[[hi LspDiagnosticsDefaultError guifg=#bf616a guibg=#52050c gui=bold]]
-            vim.cmd[[hi LspDiagnosticsFloatingError guifg=#bf616a guibg=NONE gui=bold]]
-            vim.cmd[[hi LspDiagnosticsUnderlineError guifg=#bf616a guibg=NONE gui=underline]]
-            vim.cmd[[hi LspDiagnosticsDefaultHint guifg=#a3be8c guibg=#456c26]]
-            vim.cmd[[hi LspDiagnosticsFloatingHint guifg=#a3be8c guibg=NONE]]
-            vim.cmd[[hi LspDiagnosticsUnderlineHint guifg=#a3be8c guibg=NONE]]
-            vim.cmd[[hi LspDiagnosticsDefaultInformation guifg=#5e81ac guibg=#153b68]]
-            vim.cmd[[hi LspDiagnosticsFloatingInformation guifg=#5e81ac guibg=NONE]]
-            vim.cmd[[hi LspDiagnosticsUnderlineInformation guifg=#5e81ac guibg=NONE gui=underline]]
-            vim.cmd[[hi LspDiagnosticsDefaultWarning guifg=#ebcb8b guibg=#432d00]]
-            vim.cmd[[hi LspDiagnosticsFloatingWarning guifg=#ebcb8b guibg=NONE]]
-            vim.cmd[[hi LspDiagnosticsUnderlineWarning guifg=#ebcb8b guibg=NONE gui=underline]]
-            vim.cmd[[hi link LspReferenceText LspDiagnosticsDefaultInformation]]
-            vim.cmd[[hi link LspReferenceRead LspDiagnosticsDefaultHint]]
-            vim.cmd[[hi link LspReferenceWrite LspDiagnosticsDefaultWarning]]
+            vim.api.nvim_exec([[
+              hi LspDiagnosticsDefaultError guifg=#bf616a guibg=#52050c gui=bold
+              hi LspDiagnosticsFloatingError guifg=#bf616a guibg=NONE gui=bold
+              hi LspDiagnosticsUnderlineError guifg=#bf616a guibg=NONE gui=underline
+              hi LspDiagnosticsDefaultHint guifg=#a3be8c guibg=#456c26
+              hi LspDiagnosticsFloatingHint guifg=#a3be8c guibg=NONE
+              hi LspDiagnosticsUnderlineHint guifg=#a3be8c guibg=NONE
+              hi LspDiagnosticsDefaultInformation guifg=#5e81ac guibg=#153b68
+              hi LspDiagnosticsFloatingInformation guifg=#5e81ac guibg=NONE
+              hi LspDiagnosticsUnderlineInformation guifg=#5e81ac guibg=NONE gui=underline
+              hi LspDiagnosticsDefaultWarning guifg=#ebcb8b guibg=#432d00
+              hi LspDiagnosticsFloatingWarning guifg=#ebcb8b guibg=NONE
+              hi LspDiagnosticsUnderlineWarning guifg=#ebcb8b guibg=NONE gui=underline
+              hi link LspReferenceText LspDiagnosticsDefaultInformation
+              hi link LspReferenceRead LspDiagnosticsDefaultHint
+              hi link LspReferenceWrite LspDiagnosticsDefaultWarning
+            ]], false)
 
             -- for git-blame.nvim
             vim.cmd[[hi gitblame guifg=#4c566a gui=italic]]
 
             -- nvim-treesitter
-            vim.cmd[[hi TSCurrentScope guibg=#313743]]
-            vim.cmd[[hi rainbowcol1 guifg=#bf616a]]
-            vim.cmd[[hi rainbowcol2 guifg=#d08770]]
-            vim.cmd[[hi rainbowcol3 guifg=#b48ead]]
-            vim.cmd[[hi rainbowcol4 guifg=#ebcb8b]]
-            vim.cmd[[hi rainbowcol5 guifg=#a3b812]]
-            vim.cmd[[hi rainbowcol6 guifg=#81a1c1]]
-            vim.cmd[[hi rainbowcol7 guifg=#8fbcbb]]
+            vim.api.nvim_exec([[
+              hi TSCurrentScope guibg=#313743
+              hi rainbowcol1 guifg=#bf616a
+              hi rainbowcol2 guifg=#d08770
+              hi rainbowcol3 guifg=#b48ead
+              hi rainbowcol4 guifg=#ebcb8b
+              hi rainbowcol5 guifg=#a3b812
+              hi rainbowcol6 guifg=#81a1c1
+              hi rainbowcol7 guifg=#8fbcbb
 
-            vim.cmd[[hi TSConditional guifg=#88c0d0]]
-            vim.cmd[[hi TSConstant guifg=#d8dee9 gui=bold]]
-            vim.cmd[[hi TSConstructor guifg=#ebcb8b gui=bold]]
-            vim.cmd[[hi TSException guifg=#88c0d0 gui=italic]]
-            vim.cmd[[hi TSKeyword guifg=#9a6590 gui=bold]]
-            vim.cmd[[hi TSMethod guifg=#ebcb8b]]
-            vim.cmd[[hi TSProperty guifg=#8fbcbb gui=italic]]
-            vim.cmd[[hi TSRepeat guifg=#88c0d0]]
-            vim.cmd[[hi TSTypeBuiltin guifg=#81a1c1 gui=bold]]
-            vim.cmd[[hi TSVariableBuiltin guifg=#d08770]]
+              hi TSConditional guifg=#88c0d0
+              hi TSConstant guifg=#d8dee9 gui=bold
+              hi TSConstructor guifg=#ebcb8b gui=bold
+              hi TSException guifg=#88c0d0 gui=italic
+              hi TSKeyword guifg=#9a6590 gui=bold
+              hi TSMethod guifg=#ebcb8b
+              hi TSProperty guifg=#8fbcbb gui=italic
+              hi TSRepeat guifg=#88c0d0
+              hi TSTypeBuiltin guifg=#81a1c1 gui=bold
+              hi TSVariableBuiltin guifg=#d08770
+            ]], false)
           end},
         },
       }
