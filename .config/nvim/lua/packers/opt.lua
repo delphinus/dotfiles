@@ -274,7 +274,7 @@ return {
     'rhysd/ghpr-blame.vim',
     cmd = {'GHPRBlame'},
     config = function()
-      local settings = vim.fn.expand'~/.ghpr-blame.vim'
+      local settings = vim.loop.os_homedir()..'/.ghpr-blame.vim'
       if vim.fn.filereadable(settings) == 1 then
         vim.cmd('source '..settings)
         -- TODO: mappings for VV
