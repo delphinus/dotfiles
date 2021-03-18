@@ -36,6 +36,12 @@ return {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
     config = function()
+      require'augroups'.set{
+         redraw_tabline = {
+            {'CursorMoved', '*', 'redrawtabline'},
+         },
+      }
+
       local characterize = require'characterize'
       local function char_info()
         local char = characterize.cursor_char()
@@ -48,65 +54,58 @@ return {
         end
         return text
       end
-
       local artify = require'artify'
       local monospace = function(f)
         return function() return artify(f(), 'monospace') end
       end
-      local lualine = require'lualine'
-      lualine.options.theme = 'nord'
-      lualine.options.section_separators = nil
-      lualine.options.component_separators = '❘'
-      lualine.sections.lualine_a = {
-        monospace(require'lualine.components.mode'),
-      }
-      lualine.sections.lualine_b = {}
-      lualine.sections.lualine_c = {
-         'filename',
-      }
-      lualine.sections.lualine_x = {}
-      lualine.sections.lualine_y = {
-         'filetype',
-      }
-      lualine.tabline = {
-         lualine_a = {},
-         lualine_b = {
-           monospace(require'lualine.components.branch'.init{}),
-           {
-             'diff',
-             symbols = {
-               added = '↑',
-               modified = '→',
-               removed = '↓',
-             },
-           },
-           {
-             'diagnostics',
-             sources = {'nvim_lsp'},
-             color_error = '#e5989f',
-             color_warn = '#ebcb8b',
-             color_info = '#8ca9cd',
-             symbols = {
-               error = '●', -- U+25CF
-               warn = '○', -- U+25CB
-               info = '■', -- U+25A0
-             },
-           },
-         },
-         lualine_c = {},
-         lualine_x = {
-           {char_info, separator = '❘'},
-           'encoding',
-           {'fileformat', right_padding = 2},
-         },
-         lualine_y = {},
-         lualine_z = {},
-      }
-      lualine.status()
-      require'augroups'.set{
-         redraw_tabline = {
-            {'CursorMoved', '*', 'redrawtabline'},
-         },
+      require'lualine'.setup{
+        options = {
+          theme = 'nord',
+          section_separators = nil,
+          component_separators = nil,
+        },
+        sections = {
+          lualine_a = {monospace(require'lualine.components.mode')},
+          lualine_b = {},
+          lualine_c = {'filename'},
+          lualine_x = {},
+          lualine_y = {'filetype'},
+          lualine_z = {'location'},
+        },
+        tabline = {
+          lualine_a = {},
+          lualine_b = {
+            monospace(require'lualine.components.branch'.init{}),
+            {
+              'diff',
+              symbols = {
+                added = '↑',
+                modified = '→',
+                removed = '↓',
+              },
+            },
+            {
+              'diagnostics',
+              sources = {'nvim_lsp'},
+              color_error = '#e5989f',
+              color_warn = '#ebcb8b',
+              color_info = '#8ca9cd',
+              symbols = {
+                error = '●', -- U+25CF
+                warn = '○', -- U+25CB
+                info = '■', -- U+25A0
+              },
+            },
+          },
+          lualine_c = {monospace(require'lualine.components.filename'.init{})},
+          lualine_x = {
+            {char_info, separator = '❘'},
+            'encoding',
+            {'fileformat', right_padding = 2},
+          },
+          lualine_y = {},
+          lualine_z = {},
+        },
       }
     end,
   },
