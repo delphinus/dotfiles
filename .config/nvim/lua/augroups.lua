@@ -2,7 +2,7 @@ local M = {
   funcs = {},
   name = (function()
     local file = debug.getinfo(1, 'S').source
-    return file:match('/(%a+)%.lua$')
+    return file:match'/(%a+)%.lua$'
   end)()
 }
 
