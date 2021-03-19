@@ -2,7 +2,7 @@ vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
 require'util'
 require'packers'
 require'set'
-require'map'
+require'mapping'
 require'term'
 require'commands'
 
