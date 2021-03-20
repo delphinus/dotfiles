@@ -61,8 +61,8 @@ return {
       require'lualine'.setup{
         options = {
           theme = 'nord',
-          section_separators = nil,
-          component_separators = nil,
+          section_separators = '',
+          component_separators = '❘',
         },
         sections = {
           lualine_a = {monospace(require'lualine.components.mode')},
