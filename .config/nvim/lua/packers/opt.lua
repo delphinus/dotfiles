@@ -569,43 +569,6 @@ return {
     end
   },
 
-  {
-    'delphinus/dwm.vim',
-    branch = 'feature/disable',
-    keys = {{'n', '<Plug>DWM'}},
-    setup = function()
-      vim.g.dwm_map_keys = 0
-
-      require'augroups'.set{
-        dwm_preview = {
-          {'BufRead', '*', function()
-            if vim.wo.previewwindow == 1 then vim.b.dwm_disabled = 1 end
-          end},
-        },
-      }
-
-      local vimp = require'vimp'
-      vimp.nnoremap({'silent'}, '<Plug>DWMResetPaneWidth', function()
-        local half = vim.o.columns / 2
-        local width = vim.g.dwm_min_master_pane_width or 9999
-        vim.g.dwm_master_pane_width = math.min(width, half)
-        vim.fn.DWM_ResizeMasterPaneWidth()
-      end)
-
-      vimp.nmap('<A-CR>', [[<Plug>DWMFocus]])
-      vimp.rbind('n', {'<A-r>', '<A-®>'}, [[<Plug>DWMResetPaneWidth]])
-      vimp.nmap('<C-@>', [[<Plug>DWMFocus]])
-      vimp.nmap('<C-Space>', [[<Plug>DWMFocus]])
-      vimp.nmap('<C-c>', [[<Cmd>lua require'scrollbar'.clear()<CR><Plug>DWMClose]])
-      vimp.nnoremap('<C-j>', [[<C-w>w]])
-      vimp.nnoremap('<C-k>', [[<C-w>W]])
-      vimp.nmap('<C-l>', [[<Plug>DWMGrowMaster]])
-      vimp.nmap('<C-n>', [[<Plug>DWMNew]])
-      vimp.nmap('<C-q>', [[<Plug>DWMRotateCounterclockwise]])
-      vimp.nmap('<C-s>', [[<Plug>DWMRotateClockwise]])
-    end,
-  },
-
   {'delphinus/vim-tmux-copy', keys = {{'n', '<A-[>'}, {'n', '<A-“>'}}},
 
   {
