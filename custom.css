@@ -3,6 +3,10 @@
 	src: local('凸版文久明朝');
 }
 @font-face {
+	font-family: '游明朝';
+	src: local('游明朝体');
+}
+@font-face {
 	font-family: sans-serif;
 	src: local('ヒラギノ角ゴシック');
 }
@@ -16,6 +20,10 @@
 }
 @font-face {
 	font-family: 'ヒラギノ角ゴ ProN W3';
+	src: local('ヒラギノ角ゴシック');
+}
+@font-face {
+	font-family: 'ヒラギノ角ゴ Pro W3';
 	src: local('ヒラギノ角ゴシック');
 }
 @font-face {
