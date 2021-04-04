@@ -1,4 +1,4 @@
-local vimp = require'vimp'
+local m = require'mapper'
 
 -- echo syntax highlight information on the cursor
 -- http://cohama.hateblo.jp/entry/2013/08/11/020849
@@ -24,14 +24,14 @@ local function syn_string(syn)
   return table.concat(values, ' ')
 end
 
-vimp.map_command('SyntaxInfo', function()
+function _G.SyntaxInfo()
   print(syn_string(get_syn()))
   print'linked_to'
   print(syn_string(get_syn(true)))
-end)
+end
 
 -- https://github.com/arcticicestudio/nord-vim/issues/242#issuecomment-761756223
-vimp.map_command('SynStack', function()
+function _G.SynStack()
   if vim.fn.exists'*synstack' then
     local stacks = vim.fn.synstack(vim.fn.line'.', vim.fn.col'.')
     local attrs = vim.fn.tbl_map(function(stack)
@@ -39,10 +39,11 @@ vimp.map_command('SynStack', function()
     end, stacks)
     vim.inspect(attrs)
   end
-end)
+end
 
 -- clean up result of `--startuptime`
-vimp.map_command('CleanUpStartUpTime', function()
+function _G.CleanUpStartUpTime()
+  -- TODO: use Lua
   vim.env.PACKER = vim.fn.stdpath'data'..'/site/pack/packer'
   vim.cmd('silent! %s,'..vim.fn.expand'$VIMRUNTIME'..',$VIMRUNTIME,')
   vim.cmd('silent! %s,'..vim.fn.resolve(vim.fn.expand'$VIMRUNTIME')..',$VIMRUNTIME,')
@@ -50,10 +51,10 @@ vimp.map_command('CleanUpStartUpTime', function()
   vim.cmd('silent! %s,'..vim.fn.resolve(vim.fn.expand'$VIM')..',$VIM,')
   vim.cmd('silent! %s,'..vim.env.PACKER..',$PACKER,')
   vim.cmd('silent! %s,'..vim.loop.os_homedir()..[[,\~,]])
-end)
+end
 
 -- echo a string for map definitions from an input key
-vimp.map_command('GetChar', function()
+function _G.GetChar()
   -- TODO: does not redraw??
   vim.cmd[[redraw]]
   print'Press any key:'
@@ -65,4 +66,4 @@ vimp.map_command('GetChar', function()
   end
   vim.cmd[[redraw]]
   print(([[Raw: '%s' | Char: '%s']]):format(c, vim.fn.nr2char(c)))
-end)
+end

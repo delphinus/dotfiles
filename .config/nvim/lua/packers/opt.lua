@@ -164,7 +164,7 @@ return {
     cmd = {'TableModeToggle'},
     setup = function()
       vim.g.table_mode_corner = '|'
-      require'vimp'.nnoremap('`tm', [[<Cmd>TableModeToggle<CR>]])
+      require'mapper'.nnoremap('`tm', [[<Cmd>TableModeToggle<CR>]])
     end,
   },
 
@@ -184,14 +184,14 @@ return {
       'TigOpenFileWithCommit',
     },
     setup = function()
-      local vimp = require'vimp'
-      vimp.nnoremap('<Leader>tT', [[<Cmd>TigOpenCurrentFile<CR>]])
-      vimp.nnoremap('<Leader>tt', [[<Cmd>TigOpenProjectRootDir<CR>]])
-      vimp.nnoremap('<Leader>tg', [[<Cmd>TigGrep<CR>]])
-      vimp.nnoremap('<Leader>tr', [[<Cmd>TigGrepResume<CR>]])
-      vimp.vnoremap('<Leader>tG', [[y<Cmd>TigGrep<Space><C-R>"<CR>]])
-      vimp.nnoremap('<Leader>tc', [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]])
-      vimp.nnoremap('<Leader>tb', [[<Cmd>TigBlame<CR>]])
+      local m = require'mapper'
+      m.nnoremap('<Leader>tT', [[<Cmd>TigOpenCurrentFile<CR>]])
+      m.nnoremap('<Leader>tt', [[<Cmd>TigOpenProjectRootDir<CR>]])
+      m.nnoremap('<Leader>tg', [[<Cmd>TigGrep<CR>]])
+      m.nnoremap('<Leader>tr', [[<Cmd>TigGrepResume<CR>]])
+      m.vnoremap('<Leader>tG', [[y<Cmd>TigGrep<Space><C-R>"<CR>]])
+      m.nnoremap('<Leader>tc', [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]])
+      m.nnoremap('<Leader>tb', [[<Cmd>TigBlame<CR>]])
     end,
   },
 
@@ -214,41 +214,41 @@ return {
       vim.g['gista#command#list#enable_default_mappings'] = 0
     end,
     config = function()
-      local vimp = require'vimp'
+      local m = require'mapper'
       require'augroups'.set{
         gista_mappings = {
           {'User', 'GistaList', function()
             -- nmap <buffer> <F5>   <Plug>(gista-update)
             -- nmap <buffer> <S-F5> <Plug>(gista-UPDATE)
-            vimp.add_buffer_maps(function()
-              vimp.nmap('q', [[<Plug>(gista-quit)]])
-              vimp.nmap('<C-n>', [[<Plug>(gista-next-mode)]])
-              vimp.nmap('<C-p>', [[<Plug>(gista-prev-mode)]])
-              vimp.nmap('?', [[<Plug>(gista-toggle-mapping-visibility)]])
-              vimp.nmap('<C-l>', [[<Plug>(gista-redraw)]])
-              vimp.nmap('uu', [[<Plug>(gista-update)]])
-              vimp.nmap('UU', [[<Plug>(gista-UPDATE)]])
-              vimp.nmap('<Return>', [[<Plug>(gista-edit)]])
-              vimp.nmap('ee', [[<Plug>(gista-edit)]])
-              vimp.nmap('EE', [[<Plug>(gista-edit-right)]])
-              vimp.nmap('tt', [[<Plug>(gista-edit-tab)]])
-              vimp.nmap('pp', [[<Plug>(gista-edit-preview)]])
-              vimp.nmap('ej', [[<Plug>(gista-json)]])
-              vimp.nmap('EJ', [[<Plug>(gista-json-right)]])
-              vimp.nmap('tj', [[<Plug>(gista-json-tab)]])
-              vimp.nmap('pj', [[<Plug>(gista-json-preview)]])
-              vimp.nmap('bb', [[<Plug>(gista-browse-open)]])
-              vimp.nmap('yy', [[<Plug>(gista-browse-yank)]])
-              vimp.nmap('rr', [[<Plug>(gista-rename)]])
-              vimp.nmap('RR', [[<Plug>(gista-RENAME)]])
-              vimp.nmap('df', [[<Plug>(gista-remove)]])
-              vimp.nmap('DF', [[<Plug>(gista-REMOVE)]])
-              vimp.nmap('dd', [[<Plug>(gista-delete)]])
-              vimp.nmap('DD', [[<Plug>(gista-DELETE)]])
-              vimp.nmap('++', [[<Plug>(gista-star)]])
-              vimp.nmap('--', [[<Plug>(gista-unstar)]])
-              vimp.nmap('ff', [[<Plug>(gista-fork)]])
-              vimp.nmap('cc', [[<Plug>(gista-commits)]])
+            m.add_buffer_maps(function()
+              m.nmap('q', [[<Plug>(gista-quit)]])
+              m.nmap('<C-n>', [[<Plug>(gista-next-mode)]])
+              m.nmap('<C-p>', [[<Plug>(gista-prev-mode)]])
+              m.nmap('?', [[<Plug>(gista-toggle-mapping-visibility)]])
+              m.nmap('<C-l>', [[<Plug>(gista-redraw)]])
+              m.nmap('uu', [[<Plug>(gista-update)]])
+              m.nmap('UU', [[<Plug>(gista-UPDATE)]])
+              m.nmap('<Return>', [[<Plug>(gista-edit)]])
+              m.nmap('ee', [[<Plug>(gista-edit)]])
+              m.nmap('EE', [[<Plug>(gista-edit-right)]])
+              m.nmap('tt', [[<Plug>(gista-edit-tab)]])
+              m.nmap('pp', [[<Plug>(gista-edit-preview)]])
+              m.nmap('ej', [[<Plug>(gista-json)]])
+              m.nmap('EJ', [[<Plug>(gista-json-right)]])
+              m.nmap('tj', [[<Plug>(gista-json-tab)]])
+              m.nmap('pj', [[<Plug>(gista-json-preview)]])
+              m.nmap('bb', [[<Plug>(gista-browse-open)]])
+              m.nmap('yy', [[<Plug>(gista-browse-yank)]])
+              m.nmap('rr', [[<Plug>(gista-rename)]])
+              m.nmap('RR', [[<Plug>(gista-RENAME)]])
+              m.nmap('df', [[<Plug>(gista-remove)]])
+              m.nmap('DF', [[<Plug>(gista-REMOVE)]])
+              m.nmap('dd', [[<Plug>(gista-delete)]])
+              m.nmap('DD', [[<Plug>(gista-DELETE)]])
+              m.nmap('++', [[<Plug>(gista-star)]])
+              m.nmap('--', [[<Plug>(gista-unstar)]])
+              m.nmap('ff', [[<Plug>(gista-fork)]])
+              m.nmap('cc', [[<Plug>(gista-commits)]])
             end)
           end},
         },
@@ -275,7 +275,7 @@ return {
       vim.g.undotree_ShortIndicators = 1
       vim.g.undotree_TreeNodeShape = '●'
       vim.g.undotree_WindowLayout = 2
-      require'vimp'.nnoremap('<A-u>', [[<Cmd>UndotreeToggle<CR>]])
+      require'mapper'.nnoremap('<A-u>', [[<Cmd>UndotreeToggle<CR>]])
     end,
   },
 
@@ -287,7 +287,7 @@ return {
       'ColorizerReloadAllBuffers',
     },
     setup = function()
-      vimp.bind('n', {'silent'}, {'<A-C>', '<A-S-Ç>'}, function()
+      require'mapper'.bind('n', {'silent'}, {'<A-C>', '<A-S-Ç>'}, function()
         if vim.b.colorizer_enabled then
           vim.cmd[[ColorizerDetachFromBuffer]]
           vim.b.colorizer_enabled = false
@@ -332,7 +332,7 @@ return {
     cmd = {'GitMessenger'},
     setup = function()
       vim.g.git_messenger_no_default_mappings = true
-      vimp.bind('n', {'<A-b>', '<A-∫>'}, [[<Cmd>GitMessenger<CR>]])
+      require'mapper'.bind('n', {'<A-b>', '<A-∫>'}, [[<Cmd>GitMessenger<CR>]])
     end,
   },
 
@@ -350,7 +350,7 @@ return {
     keys = {'<Plug>(openbrowser-smart-search)'},
     fn = {'openbrowser#open'},
     config = function()
-      require'vimp'.rbind('nv', 'g<CR>', [[<Plug>(openbrowser-smart-search)]])
+      require'mapper'.rbind('nv', 'g<CR>', [[<Plug>(openbrowser-smart-search)]])
     end,
   },
 
@@ -372,13 +372,13 @@ return {
       vim.g.floaterm_borderchars = {'─', '│', '─', '│', '╭', '╮', '╯', '╰'}
       vim.g.floaterm_open_command = 'split'
       vim.g.floaterm_position = 'center'
-      local vimp = require'vimp'
-      vimp.tnoremap('<BS><C-n>', [[<C-\><C-n>]])
-      vimp.nnoremap([[<C-\><C-n>]], [[<Cmd>FloatermToggle<CR>]])
-      vimp.nnoremap('<BS><C-n>', [[<Cmd>FloatermToggle<CR>]])
-      vimp.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FloatermToggle<CR>]])
-      vimp.bind('nt', '<A-n>', [[<Cmd>FloatermNew<CR>]])
-      vimp.bind('nt', {'<A-f>', '<A-ƒ>'}, [[<Cmd>FloatermNext<CR>]])
+      local m = require'mapper'
+      m.tnoremap('<BS><C-n>', [[<C-\><C-n>]])
+      m.nnoremap([[<C-\><C-n>]], [[<Cmd>FloatermToggle<CR>]])
+      m.nnoremap('<BS><C-n>', [[<Cmd>FloatermToggle<CR>]])
+      m.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FloatermToggle<CR>]])
+      m.bind('nt', '<A-n>', [[<Cmd>FloatermNew<CR>]])
+      m.bind('nt', {'<A-f>', '<A-ƒ>'}, [[<Cmd>FloatermNext<CR>]])
     end,
   },
   -- }}}
@@ -428,7 +428,7 @@ return {
         },
       }
 
-      require'vimp'.nmap('<C-t>', [[<Cmd>TagbarToggle<CR>]])
+      require'mapper'.nmap('<C-t>', [[<Cmd>TagbarToggle<CR>]])
     end,
   },
   -- }}}
@@ -543,8 +543,9 @@ return {
     keys = {{'n', '<Plug>(fold-cycle-'}},
     setup = function()
       vim.g.fold_cycle_default_mapping = 0
-      vimp.rbind('n', {'<A-l>', '<A-¬>'}, [[<Plug>(fold-cycle-open)]])
-      vimp.rbind('n', {'<A-h>', '<A-˙>'}, [[<Plug>(fold-cycle-open)]])
+      local m = require'mapper'
+      m.rbind('n', {'<A-l>', '<A-¬>'}, [[<Plug>(fold-cycle-open)]])
+      m.rbind('n', {'<A-h>', '<A-˙>'}, [[<Plug>(fold-cycle-open)]])
     end,
   },
 
@@ -553,11 +554,11 @@ return {
     keys = {{'n', '<Plug>(miniyank-'}},
     setup = function()
       vim.g.miniyank_maxitems = 100
-      local vimp = require'vimp'
-      vimp.nmap('p', [[<Plug>(miniyank-autoput)]])
-      vimp.nmap('P', [[<Plug>(miniyank-autoPut)]])
-      vimp.rbind('n', {'<A-p>', '<A-π>'}, [[<Plug>(miniyank-cycle)]])
-      vimp.rbind('n', {'<A-P>', '<A-S-∏>'}, [[<Plug>(miniyank-cycleback)]])
+      local m = require'mapper'
+      m.nmap('p', [[<Plug>(miniyank-autoput)]])
+      m.nmap('P', [[<Plug>(miniyank-autoPut)]])
+      m.rbind('n', {'<A-p>', '<A-π>'}, [[<Plug>(miniyank-cycle)]])
+      m.rbind('n', {'<A-P>', '<A-S-∏>'}, [[<Plug>(miniyank-cycleback)]])
     end,
   },
 
@@ -565,7 +566,7 @@ return {
     'chikatoike/concealedyank.vim',
     keys = {{'x', '<Plug>(operator-concealedyank)'}},
     setup = function()
-      require'vimp'.xmap('Y', [[<Plug>(operator-concealedyank)]])
+      require'mapper'.xmap('Y', [[<Plug>(operator-concealedyank)]])
     end
   },
 
@@ -596,8 +597,7 @@ return {
     'junegunn/vim-easy-align',
     keys = {{'v', '<Plug>(EasyAlign)'}},
     setup = function()
-      local vimp = require'vimp'
-      vimp.vmap('<CR>', '<Plug>(EasyAlign)')
+      require'mapper'.vmap('<CR>', '<Plug>(EasyAlign)')
 
       vim.g.easy_align_delimiters = {
         ['>'] = { pattern = [[>>\|=>\|>]] },
@@ -645,13 +645,13 @@ return {
         extend_visual = true,
         use_migemo = true,
       }
-      local vimp = require'vimp'
-      vimp.bind('nv', [['w]], hop.hint_words)
-      vimp.bind('nv', [['/]], hop.hint_patterns)
-      vimp.bind('nv', [['s]], hop.hint_char1)
-      vimp.bind('nv', [[s]], function() hop.hint_char2{verbose = true} end)
-      vimp.bind('nv', [['j]], hop.hint_lines)
-      vimp.bind('nv', [['k]], hop.hint_lines)
+      local m = require'mapper'
+      m.bind('nv', [['w]], hop.hint_words)
+      m.bind('nv', [['/]], hop.hint_patterns)
+      m.bind('nv', [['s]], hop.hint_char1)
+      m.bind('nv', [[s]], function() hop.hint_char2{verbose = true} end)
+      m.bind('nv', [['j]], hop.hint_lines)
+      m.bind('nv', [['k]], hop.hint_lines)
       if vim.o.background == 'dark' then
         vim.api.nvim_exec([[
           hi HopNextKey guifg=#bf616a
@@ -669,10 +669,10 @@ return {
       {'x', '<Plug>(quickhl-'},
     },
     setup = function()
-      local vimp = require'vimp'
-      vimp.rbind('nx', '<Space>m', [[<Plug>(quickhl-manual-this)]])
-      vimp.rbind('nx', '<Space>t', [[<Plug>(quickhl-manual-toggle)]])
-      vimp.rbind('nx', '<Space>M', [[<Plug>(quickhl-manual-reset)]])
+      local m = require'mapper'
+      m.rbind('nx', '<Space>m', [[<Plug>(quickhl-manual-this)]])
+      m.rbind('nx', '<Space>t', [[<Plug>(quickhl-manual-toggle)]])
+      m.rbind('nx', '<Space>M', [[<Plug>(quickhl-manual-reset)]])
     end,
   },
 
@@ -683,9 +683,9 @@ return {
     cond = [[vim.fn.has'gui' == 1]],
     setup = function()
       if vim.fn.has'gui' == 1 then
-        local vimp = require'vimp'
-        vimp.rbind('n', {'unique', 'silent'}, {'+', '<C-ScrollWheelUp>'}, [[<Plug>(fontzoom-larger)]])
-        vimp.rbind('n', {'unique', 'silent'}, {'-', '<C-ScrollWheelDown>'}, [[<Plug>(fontzoom-smaller)]])
+        local m = require'mapper'
+        m.rbind('n', {'unique', 'silent'}, {'+', '<C-ScrollWheelUp>'}, [[<Plug>(fontzoom-larger)]])
+        m.rbind('n', {'unique', 'silent'}, {'-', '<C-ScrollWheelDown>'}, [[<Plug>(fontzoom-smaller)]])
       end
     end,
   },
@@ -695,7 +695,7 @@ return {
     keys = {{'x', '<Plug>(visualstar-'}},
     setup = function()
       vim.g.visualstar_no_default_key_mappings = 1
-      require'vimp'.xmap({'unique'}, '*', [[<Plug>(visualstar-*)]])
+      require'mapper'.xmap({'unique'}, '*', [[<Plug>(visualstar-*)]])
     end,
   },
 
@@ -707,11 +707,11 @@ return {
       {'o', '<Plug>(columnskip:'},
     },
     setup = function()
-      local vimp = require'vimp'
-      vimp.rbind('nxo', '[j', [[<Plug>(columnskip:nonblank:next)]])
-      vimp.rbind('nxo', '[k', [[<Plug>(columnskip:nonblank:prev)]])
-      vimp.rbind('nxo', ']j', [[<Plug>(columnskip:first-nonblank:next)]])
-      vimp.rbind('nxo', ']k', [[<Plug>(columnskip:first-nonblank:prev)]])
+      local m = require'mapper'
+      m.rbind('nxo', '[j', [[<Plug>(columnskip:nonblank:next)]])
+      m.rbind('nxo', '[k', [[<Plug>(columnskip:nonblank:prev)]])
+      m.rbind('nxo', ']j', [[<Plug>(columnskip:first-nonblank:next)]])
+      m.rbind('nxo', ']k', [[<Plug>(columnskip:first-nonblank:prev)]])
     end,
   },
   -- }}}
@@ -723,6 +723,7 @@ return {
     setup = function()
       -- Re-implement plugin/comittia.vim in Lua
       vim.g.loaded_committia = true
+      local m = require'mapper'
       require'augroups'.set{
         ['plugin-committia'] = {
           {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
@@ -732,9 +733,9 @@ return {
                 if info.vcs == 'git' and vim.fn.getline(1) == '' then
                   vim.cmd[[startinsert]]
                 end
-                vimp.add_buffer_maps(function()
-                  vimp.rbind('i', {'<A-d>', '<A-∂>'}, [[<Plug>(committia-scroll-diff-down-half)]])
-                  vimp.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
+                m.add_buffer_maps(function()
+                  m.rbind('i', {'<A-d>', '<A-∂>'}, [[<Plug>(committia-scroll-diff-down-half)]])
+                  m.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
                 end)
               end
               vim.g.committia_hooks = vim.empty_dict()
@@ -765,7 +766,7 @@ return {
       vim.g.EasyMotion_use_migemo = 1
     end,
     config = function()
-      vimp.nmap([[\\s]], '<Plug>(easymotion-s2)')
+      require'mapper'.nmap([[\\s]], '<Plug>(easymotion-s2)')
     end,
   },
 }

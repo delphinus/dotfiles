@@ -2,20 +2,20 @@ return {
   { -- {{{ nvim-lspconfig
     'neovim/nvim-lspconfig',
     config = function()
-      local vimp = require'vimp'
+      local m = require'mapper'
 
       vim.cmd[[sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=]]
       vim.cmd[[sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=]]
       vim.cmd[[sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=]]
       vim.cmd[[sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=]]
 
-      vimp.map_command('ShowLSPSettings', function()
+      function _G.ShowLSPSettings()
         print(vim.inspect(vim.lsp.buf_get_clients()))
-      end)
-      vimp.map_command('ReloadLSPSettings', function()
+      end
+      function _G.ReloadLSPSettings()
         vim.lsp.stop_client(vim.lsp.get_active_clients())
         vim.cmd[[edit]]
-      end)
+      end
 
       local lsp_on_attach = function(client)
         print('LSP & completion started.')
@@ -27,36 +27,36 @@ return {
 
         -- ignore errors when executed multi times
         pcall(function()
-          vimp.add_buffer_maps(function()
-            vimp.nnoremap('1gD', vim.lsp.buf.type_definition)
-            vimp.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
-            vimp.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
+          m.add_buffer_maps(function()
+            m.nnoremap('1gD', vim.lsp.buf.type_definition)
+            m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
+            m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
             if vim.bo.filetype ~= 'help' then
-              vimp.nnoremap('<C-]>', vim.lsp.buf.definition)
-              vimp.nnoremap('<C-w><C-]>', function()
+              m.nnoremap('<C-]>', vim.lsp.buf.definition)
+              m.nnoremap('<C-w><C-]>', function()
                 vim.cmd[[split]]
                 vim.lsp.buf.definition()
               end)
             end
-            vimp.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
-            vimp.nnoremap('K', vim.lsp.buf.hover)
-            vimp.nnoremap('g0', vim.lsp.buf.document_symbol)
-            vimp.nnoremap('g=', vim.lsp.buf.formatting)
-            vimp.nnoremap('gA', vim.lsp.buf.code_action)
-            vimp.nnoremap('gD', vim.lsp.buf.implementation)
-            --vimp.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
-            vimp.nnoremap('gR', vim.lsp.buf.rename)
-            vimp.nnoremap('gW', vim.lsp.buf.workspace_symbol)
-            vimp.nnoremap('gd', vim.lsp.buf.declaration)
-            vimp.nnoremap('gli', vim.lsp.buf.incoming_calls)
-            vimp.nnoremap('glo', vim.lsp.buf.outgoing_calls)
-            vimp.nnoremap('gr', vim.lsp.buf.references)
-            vimp.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
-            vimp.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
+            m.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
+            m.nnoremap('K', vim.lsp.buf.hover)
+            m.nnoremap('g0', vim.lsp.buf.document_symbol)
+            m.nnoremap('g=', vim.lsp.buf.formatting)
+            m.nnoremap('gA', vim.lsp.buf.code_action)
+            m.nnoremap('gD', vim.lsp.buf.implementation)
+            --m.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
+            m.nnoremap('gR', vim.lsp.buf.rename)
+            m.nnoremap('gW', vim.lsp.buf.workspace_symbol)
+            m.nnoremap('gd', vim.lsp.buf.declaration)
+            m.nnoremap('gli', vim.lsp.buf.incoming_calls)
+            m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
+            m.nnoremap('gr', vim.lsp.buf.references)
+            m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
+            m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
 
             if client.resolved_capabilities.document_formatting
               or client.resolved_capabilities.document_range_formatting then
-              vimp.nnoremap('<space>f', vim.lsp.buf.formatting)
+              m.nnoremap('<space>f', vim.lsp.buf.formatting)
             end
           end)
         end)
@@ -131,7 +131,7 @@ return {
             diagnostics = {
               enable = true,
               globals = {
-                'vim', 'describe', 'it', 'before_each', 'after_each', 'vimp',
+                'vim', 'describe', 'it', 'before_each', 'after_each',
                 'packer_plugins',
               },
             },
@@ -139,7 +139,6 @@ return {
               library = {
                 [vim.fn.expand'$VIMRUNTIME/lua'] = true,
                 [vim.fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
-                [packer_plugins.vimpeccable.path..'/lua'] = true,
               },
             },
           }
@@ -196,7 +195,7 @@ return {
       {'albertoCaroM/completion-tmux'},
     },
     config = function()
-      local vimp = require'vimp'
+      local m = require'mapper'
 
       require'augroups'.set{
         enable_completion_nvim = {
@@ -204,10 +203,10 @@ return {
         },
       }
 
-      vimp.inoremap({'expr'}, '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
-      vimp.inoremap({'expr'}, '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
-      vimp.rbind('i', {'<A-j>', '<A-∆>'}, [[<Plug>(completion_next_source)]])
-      vimp.rbind('i', {'<A-k>', '<A-˚>'}, [[<Plug>(completion_prev_source)]])
+      m.inoremap({'expr'}, '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
+      m.inoremap({'expr'}, '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+      m.rbind('i', {'<A-j>', '<A-∆>'}, [[<Plug>(completion_next_source)]])
+      m.rbind('i', {'<A-k>', '<A-˚>'}, [[<Plug>(completion_prev_source)]])
 
       vim.o.completeopt = 'menuone,noinsert,noselect'
       vim.g.completion_auto_change_source = 1

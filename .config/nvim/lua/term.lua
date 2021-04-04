@@ -13,6 +13,8 @@ require'augroups'.set{
   },
 }
 
+local m = require'mapper'
+
 for map, keys in pairs{
   ['<C-j>']  = {'<A-j>', '<A-∆>'},
   ['<C-k>']  = {'<A-k>', '<A-˚>'},
@@ -21,11 +23,11 @@ for map, keys in pairs{
   [':']      = {'<A-;>', '<A-…>'},
   ['gt']     = {'<A-t>', '<A-†>'},
 } do
-  vimp.rbind('t', keys, [[<C-\><C-n>]]..map)
-  vimp.rbind('n', keys, map)
+  m.rbind('t', keys, [[<C-\><C-n>]]..map)
+  m.rbind('n', keys, map)
 end
 
-vimp.rbind('t', {'<A-o>', '<A-ø>'}, [[<C-\><C-n><C-w>oi]])
-vimp.rbind('n', {'<A-o>', '<A-ø>'}, [[<C-w>o]])
-vimp.rbind('t', '<A-CR>', [[<C-\><C-n><A-CR>]])
-vimp.bind('t', {'expr'}, {'<A-r>', '<A-®>'}, [['<C-\><C-n>"'.nr2char(getchar()).'pi']])
+m.rbind('t', {'<A-o>', '<A-ø>'}, [[<C-\><C-n><C-w>oi]])
+m.rbind('n', {'<A-o>', '<A-ø>'}, [[<C-w>o]])
+m.rbind('t', '<A-CR>', [[<C-\><C-n><A-CR>]])
+m.bind('t', {'expr'}, {'<A-r>', '<A-®>'}, [['<C-\><C-n>"'.nr2char(getchar()).'pi']])

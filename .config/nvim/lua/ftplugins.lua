@@ -1,7 +1,7 @@
-local vimp = require'vimp'
+local _, m = pcall(require, 'mapper')
 local M
 M = {
-  applescript = function() vimp.bind('i', {'buffer'}, {'<A-m>', '<A-µ>'}, [[￢<CR>]]) end,
+  applescript = function() m.bind('i', {'buffer'}, {'<A-m>', '<A-µ>'}, [[￢<CR>]]) end,
 
   c = function()
     vim.bo.tabstop = 8
@@ -38,10 +38,10 @@ M = {
   end,
 
   gitmessengerpopup = function()
-    vimp.add_buffer_maps(function()
-      vimp.nmap('<C-i>', 'O')
-      vimp.rbind({'<A-b>', '<A-∫>', '<C-o>'}, 'o')
-      vimp.rbind({'<C-c>', '<CR>', '<Esc>'}, 'q')
+    m.add_buffer_maps(function()
+      m.nmap('<C-i>', 'O')
+      m.rbind({'<A-b>', '<A-∫>', '<C-o>'}, 'o')
+      m.rbind({'<C-c>', '<CR>', '<Esc>'}, 'q')
     end)
   end,
 
@@ -106,15 +106,11 @@ M = {
   end,
 
   markdown = function()
-    --[[ vimperator say errors for this. why?
-    vimp.add_buffer_maps(function()
-      vimp.nmap('<A-m>', '<Plug>MarkdownPreview')
-      vimp.nmap('<A-M>', '<Plug>StopMarkdownPreview')
-    end)
-    ]]
     -- TODO: mappings for VV
-    vim.api.nvim_buf_set_keymap(0, 'n', '<A-m>', '<Plug>MarkdownPreview', {})
-    vim.api.nvim_buf_set_keymap(0, 'n', '<A-M>', '<Plug>StopMarkdownPreview', {})
+    m.add_buffer_maps(function()
+      m.nmap('<A-m>', '<Plug>MarkdownPreview')
+      m.nmap('<A-M>', '<Plug>StopMarkdownPreview')
+    end)
   end,
 
   packer = function()

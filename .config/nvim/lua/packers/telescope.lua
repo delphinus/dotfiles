@@ -74,7 +74,7 @@ return {
     local builtin = require'telescope.builtin'
     local telescope = require'telescope'
     local extensions = telescope.extensions
-    local vimp = require'vimp'
+    local m = require'mapper'
 
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
@@ -168,7 +168,7 @@ return {
     telescope.load_extension'z'
 
     -- file finders
-    vimp.nnoremap('<Leader>ff', function()
+    m.nnoremap('<Leader>ff', function()
       -- TODO: stopgap measure
       local cwd = vim.fn.getcwd()
       if cwd == vim.loop.os_homedir() then
@@ -183,29 +183,29 @@ return {
       end
     end)
 
-    vimp.nnoremap('<Leader>fa', function()
+    m.nnoremap('<Leader>fa', function()
       builtin.find_files{hidden = true}
     end)
-    vimp.nnoremap('<Leader>fb', function() builtin.file_browser{cwd = '%:h'} end)
-    vimp.nnoremap('<Leader>fg', function()
+    m.nnoremap('<Leader>fb', function() builtin.file_browser{cwd = '%:h'} end)
+    m.nnoremap('<Leader>fg', function()
       builtin.grep_string{
         only_sort_text = true,
         search = vim.fn.input('Grep For > '),
       }
     end)
-    vimp.nnoremap('<Leader>fG', builtin.grep_string)
-    vimp.nnoremap('<Leader>fh', builtin.help_tags)
-    vimp.nnoremap('<Leader>fH', function() builtin.help_tags{lang = 'en'} end)
-    vimp.nnoremap('<Leader>fm', function() builtin.man_pages{sections = {'ALL'}} end)
-    vimp.nnoremap('<Leader>fo', extensions.frecency.frecency)
-    vimp.nnoremap('<Leader>fp', extensions.node_modules.list)
-    vimp.nnoremap('<Leader>fq', extensions.ghq.list)
-    vimp.nnoremap('<Leader>fz', extensions.z.list)
-    vimp.nnoremap('<Leader>f:', builtin.command_history)
+    m.nnoremap('<Leader>fG', builtin.grep_string)
+    m.nnoremap('<Leader>fh', builtin.help_tags)
+    m.nnoremap('<Leader>fH', function() builtin.help_tags{lang = 'en'} end)
+    m.nnoremap('<Leader>fm', function() builtin.man_pages{sections = {'ALL'}} end)
+    m.nnoremap('<Leader>fo', extensions.frecency.frecency)
+    m.nnoremap('<Leader>fp', extensions.node_modules.list)
+    m.nnoremap('<Leader>fq', extensions.ghq.list)
+    m.nnoremap('<Leader>fz', extensions.z.list)
+    m.nnoremap('<Leader>f:', builtin.command_history)
 
     -- for Memo
-    vimp.nnoremap('<Leader>mm', extensions.memo.list)
-    vimp.nnoremap('<Leader>mg', function()
+    m.nnoremap('<Leader>mm', extensions.memo.list)
+    m.nnoremap('<Leader>mg', function()
       extensions.memo.grep_string{
         only_sort_text = true,
         search = vim.fn.input('Memo Grep For > '),
@@ -213,18 +213,18 @@ return {
     end)
 
     -- for LSP
-    vimp.nnoremap('<Leader>sr', builtin.lsp_references)
-    vimp.nnoremap('<Leader>sd', builtin.lsp_document_symbols)
-    vimp.nnoremap('<Leader>sw', builtin.lsp_workspace_symbols)
-    vimp.nnoremap('<Leader>sc', builtin.lsp_code_actions)
+    m.nnoremap('<Leader>sr', builtin.lsp_references)
+    m.nnoremap('<Leader>sd', builtin.lsp_document_symbols)
+    m.nnoremap('<Leader>sw', builtin.lsp_workspace_symbols)
+    m.nnoremap('<Leader>sc', builtin.lsp_code_actions)
 
     -- for Git
-    vimp.nnoremap('<Leader>gc', builtin.git_commits)
-    vimp.nnoremap('<Leader>gb', builtin.git_bcommits)
-    vimp.nnoremap('<Leader>gr', builtin.git_branches)
-    vimp.nnoremap('<Leader>gs', builtin.git_status)
+    m.nnoremap('<Leader>gc', builtin.git_commits)
+    m.nnoremap('<Leader>gb', builtin.git_bcommits)
+    m.nnoremap('<Leader>gr', builtin.git_branches)
+    m.nnoremap('<Leader>gs', builtin.git_status)
 
     -- for buffer
-    vimp.nnoremap('#', builtin.current_buffer_fuzzy_find)
+    m.nnoremap('#', builtin.current_buffer_fuzzy_find)
   end,
 }

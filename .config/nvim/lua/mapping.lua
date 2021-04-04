@@ -2,13 +2,13 @@ vim.o.timeout = true
 vim.o.timeoutlen = 300
 vim.o.ttimeoutlen = 10
 
-local vimp = require'vimp'
-vimp.bind('nv', '<C-d>', '3<C-d>')
-vimp.bind('nv', '<C-u>', '3<C-u>')
-vimp.nnoremap('_', '<C-w>_')
-vimp.nnoremap('<Esc><Esc>', [[<Cmd>nohlsearch<CR>]])
+local m = require'mapper'
+m.bind('nv', '<C-d>', '3<C-d>')
+m.bind('nv', '<C-u>', '3<C-u>')
+m.nnoremap('_', '<C-w>_')
+m.nnoremap('<Esc><Esc>', [[<Cmd>nohlsearch<CR>]])
 -- https://twitter.com/uvrub/status/1341036672364945408
-vimp.inoremap({'silent'}, '<CR>', '<C-g>u<CR>')
+m.inoremap({'silent'}, '<CR>', '<C-g>u<CR>')
 
 local function qf_or_loc(mode)
   return function()
@@ -20,9 +20,9 @@ local function qf_or_loc(mode)
   end
 end
 
-vimp.nnoremap('qn', qf_or_loc('next'))
-vimp.nnoremap('qp', qf_or_loc('prev'))
-vimp.nnoremap('qq', qf_or_loc('close'))
+m.nnoremap('qn', qf_or_loc('next'))
+m.nnoremap('qp', qf_or_loc('prev'))
+m.nnoremap('qq', qf_or_loc('close'))
 
 require'augroups'.set{
   -- quit with `q` when started by `view`

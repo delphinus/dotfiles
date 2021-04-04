@@ -2,8 +2,6 @@ return {
   -- TODO: needed here?
   {'nvim-lua/plenary.nvim'},
 
-  {'svermeulen/vimpeccable'},
-
   -- basic {{{
   {'airblade/vim-rooter'},
 
@@ -14,6 +12,7 @@ return {
   },
 
   'delphinus/artify.nvim',
+  'delphinus/mapper.nvim',
 
   {
     'delphinus/characterize.nvim',
@@ -37,24 +36,24 @@ return {
         },
       }
 
-      vimp.nnoremap({'silent'}, '<Plug>DWMResetPaneWidth', function()
+      local m = require'mapper'
+      m.nnoremap({'silent'}, '<Plug>DWMResetPaneWidth', function()
         local half = vim.o.columns / 2
         local width = vim.g.dwm_min_master_pane_width or 9999
         vim.g.dwm_master_pane_width = math.min(width, half)
         vim.fn.DWM_ResizeMasterPaneWidth()
       end)
-
-      vimp.nmap('<A-CR>', [[<Plug>DWMFocus]])
-      vimp.rbind('n', {'<A-r>', '<A-®>'}, [[<Plug>DWMResetPaneWidth]])
-      vimp.nmap('<C-@>', [[<Plug>DWMFocus]])
-      vimp.nmap('<C-Space>', [[<Plug>DWMFocus]])
-      vimp.nmap('<C-c>', [[<Cmd>lua require'scrollbar'.clear()<CR><Plug>DWMClose]])
-      vimp.nnoremap('<C-j>', [[<C-w>w]])
-      vimp.nnoremap('<C-k>', [[<C-w>W]])
-      vimp.nmap('<C-l>', [[<Plug>DWMGrowMaster]])
-      vimp.nmap('<C-n>', [[<Plug>DWMNew]])
-      vimp.nmap('<C-q>', [[<Plug>DWMRotateCounterclockwise]])
-      vimp.nmap('<C-s>', [[<Plug>DWMRotateClockwise]])
+      m.nmap('<A-CR>', [[<Plug>DWMFocus]])
+      m.rbind('n', {'<A-r>', '<A-®>'}, [[<Plug>DWMResetPaneWidth]])
+      m.nmap('<C-@>', [[<Plug>DWMFocus]])
+      m.nmap('<C-Space>', [[<Plug>DWMFocus]])
+      m.nmap('<C-c>', [[<Cmd>lua require'scrollbar'.clear()<CR><Plug>DWMClose]])
+      m.nnoremap('<C-j>', [[<C-w>w]])
+      m.nnoremap('<C-k>', [[<C-w>W]])
+      m.nmap('<C-l>', [[<Plug>DWMGrowMaster]])
+      m.nmap('<C-n>', [[<Plug>DWMNew]])
+      m.nmap('<C-q>', [[<Plug>DWMRotateCounterclockwise]])
+      m.nmap('<C-s>', [[<Plug>DWMRotateClockwise]])
     end,
   },
 
@@ -161,14 +160,15 @@ return {
           end
         end
       end
-      vimp.nnoremap({'silent'}, 'n', do_hlslens('n', true))
-      vimp.nnoremap({'silent'}, 'N', do_hlslens('N', true))
-      vimp.nnoremap('g*', do_hlslens('g*', true))
-      vimp.nnoremap('g#', do_hlslens('g#', true))
+      local m = require'mapper'
+      m.nnoremap({'silent'}, 'n', do_hlslens('n', true))
+      m.nnoremap({'silent'}, 'N', do_hlslens('N', true))
+      m.nnoremap('g*', do_hlslens('g*', true))
+      m.nnoremap('g#', do_hlslens('g#', true))
       -- Use with vim-visualstar
-      vimp.nmap('*', [[*<Cmd>lua require('hlslens').start()<CR>]])
+      m.nmap('*', [[*<Cmd>lua require('hlslens').start()<CR>]])
       -- # will be used in telescope
-      -- vimp.nnoremap('#', do_hlslens('#', true))
+      -- m.nnoremap('#', do_hlslens('#', true))
     end,
   },
 
@@ -232,14 +232,14 @@ return {
   {
     'tpope/vim-fugitive',
     config = function()
-      local vimp = require'vimp'
-      vimp.nnoremap('git', [[<Cmd>Git<CR>]])
-      vimp.nnoremap('g<Space>', [[<Cmd>Git<CR>]])
-      vimp.nnoremap('d<', [[<Cmd>diffget //2<CR>]])
-      vimp.nnoremap('d>', [[<Cmd>diffget //3<CR>]])
-      vimp.nnoremap('gs', [[<Cmd>Gstatus<CR>]])
-      vimp.nnoremap('gc', [[<Cmd>Gbrowse<CR>]])
-      vimp.vnoremap('gc', [[<Cmd>Gbrowse<CR>]])
+      local m = require'mapper'
+      m.nnoremap('git', [[<Cmd>Git<CR>]])
+      m.nnoremap('g<Space>', [[<Cmd>Git<CR>]])
+      m.nnoremap('d<', [[<Cmd>diffget //2<CR>]])
+      m.nnoremap('d>', [[<Cmd>diffget //3<CR>]])
+      m.nnoremap('gs', [[<Cmd>Gstatus<CR>]])
+      m.nnoremap('gc', [[<Cmd>Gbrowse<CR>]])
+      m.vnoremap('gc', [[<Cmd>Gbrowse<CR>]])
     end,
   },
 
@@ -250,11 +250,11 @@ return {
     -- 'tpope/vim-unimpaired',
     'delphinus/vim-unimpaired',
     config = function()
-      local vimp = require'vimp'
-      vimp.nnoremap('[w', [[<Cmd>colder<CR>]])
-      vimp.nnoremap(']w', [[<Cmd>cnewer<CR>]])
-      vimp.nnoremap('[O', [[<Cmd>lopen<CR>]])
-      vimp.nnoremap(']O', [[<Cmd>lclose<CR>]])
+      local m = require'mapper'
+      m.nnoremap('[w', [[<Cmd>colder<CR>]])
+      m.nnoremap(']w', [[<Cmd>cnewer<CR>]])
+      m.nnoremap('[O', [[<Cmd>lopen<CR>]])
+      m.nnoremap(']O', [[<Cmd>lclose<CR>]])
     end,
   },
 
@@ -307,6 +307,8 @@ return {
       }
     end,
   },
+
+  {'hashivim/vim-terraform'},
 
   {
     'kchmck/vim-coffee-script',
@@ -382,12 +384,11 @@ return {
       }
       vim.g.scrollbar_excluded_filetypes = {'denite-filter'}
 
-      local vimp = require'vimp'
       local scrollbar = require'scrollbar'
       local augroups = require'augroups'
       local enabled = false
 
-      vimp.map_command('ToggleScrollbar', function()
+      function _G.ToggleScrollbar()
         if enabled then
           scrollbar.clear()
           augroups.set{my_scrollbar_nvim = {}}
@@ -410,16 +411,16 @@ return {
           }
           enabled = true
         end
-      end)
+      end
 
       -- TODO: deal with :only in this plugin
-      vimp.nnoremap('<C-w>o', function()
+      require'mapper'.nnoremap('<C-w>o', function()
         vim.cmd[[only]]
         scrollbar.show()
       end)
 
       -- start scrollbar
-      vim.cmd[[ToggleScrollbar]]
+      ToggleScrollbar()
     end,
   },
 
