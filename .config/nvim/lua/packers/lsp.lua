@@ -82,6 +82,7 @@ return {
       --lsp.perlls.setup{on_attach = lsp_on_attach}
       lsp.pyright.setup{on_attach = lsp_on_attach}
       lsp.solargraph.setup{on_attach = lsp_on_attach}
+      lsp.terraformls.setup{on_attach = lsp_on_attach}
       lsp.tsserver.setup{on_attach = lsp_on_attach}
       lsp.vimls.setup{on_attach = lsp_on_attach}
       lsp.yamlls.setup{on_attach = lsp_on_attach}
@@ -168,7 +169,8 @@ return {
       if now - last_updated > 24 * 3600 * 7 then
         -- TODO: update sumneko_lua automatically
         vim.cmd[[!gem install --user-install solargraph]]
-        vim.cmd[[!brew install gopls efm-langserver && brew upgrade gopls efm-langserver]]
+        vim.cmd('!brew install gopls efm-langserver terraform-ls'
+          ..'&& brew upgrade gopls efm-langserver terraform-ls')
         vim.cmd[[!luarocks install luacheck]]
         vim.cmd('!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript'
           ..'typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
