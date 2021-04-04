@@ -5,6 +5,7 @@ set -l paths \
   ~/.nodenv/bin \
   ~/.goenv/bin \
   ~/.rbenv/bin \
+  ~/.luaenv/bin \
   ~/.cargo/bin \
   ~/.local/bin \
   ~/.ghg/bin \
@@ -165,6 +166,7 @@ type -q plenv;     and source (plenv init -| psub)
 type -q goenv;     and source (goenv init -| psub)
 type -q nodenv;    and source (nodenv init -| psub)
 type -q rbenv;     and source (rbenv init -| psub)
+type -q luaenv;    and source (luaenv init -| psub)
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
 
