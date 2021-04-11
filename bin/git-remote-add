@@ -1,8 +1,36 @@
 #!/bin/bash -eu
+usage_and_exit() {
+  if [[ -n ${1:-} ]]; then
+    echo "$1" 1>&2
+  fi
+  cat <<EOH 1>&2
+  Usage: git remote-add <name>
+
+  This adds a new remote setting for Git.
+
+  example:
+    git remote-add hoge
+    # This adds (hoge) https://github.com/hoge/foobar when the origin is
+    # https://github.com/someone/foobar
+EOH
+  exit 1
+}
+
+while getopts h opt; do
+  case $opt in
+    h)
+      usage_and_exit
+      ;;
+    *)
+      usage_and_exit
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
 name=${1:-}
 if [[ -z $name ]]; then
-  echo 'set name' 2>&1
-  exit 1
+  usage_and_exit 'set name' 2>&1
 fi
 git_url="$(git remote -v | grep origin | head -1 | cut -f2 | cut -d' ' -f1)"
 if [[ $git_url =~ ^(https|git|ssh):// ]]; then
