@@ -5,7 +5,7 @@ if [[ -z $name ]]; then
   exit 1
 fi
 git_url="$(git remote -v | grep origin | head -1 | cut -f2 | cut -d' ' -f1)"
-if [[ $git_url =~ ^(http|git|ssh):// ]]; then
+if [[ $git_url =~ ^(https|git|ssh):// ]]; then
   url="$(echo "$git_url" | \
     NAME="$name" perl -F/ -ape '$F[3] = $ENV{NAME}; $_ = join "/", @F')"
 elif [[ $git_url =~ ^git@ ]]; then
