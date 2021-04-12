@@ -26,39 +26,37 @@ return {
         end
 
         -- ignore errors when executed multi times
-        pcall(function()
-          m.add_buffer_maps(function()
-            m.nnoremap('1gD', vim.lsp.buf.type_definition)
-            m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
-            m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
-            if vim.bo.filetype ~= 'help' then
-              m.nnoremap('<C-]>', vim.lsp.buf.definition)
-              m.nnoremap('<C-w><C-]>', function()
-                vim.cmd[[split]]
-                vim.lsp.buf.definition()
-              end)
-            end
-            m.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
-            m.nnoremap('K', vim.lsp.buf.hover)
-            m.nnoremap('g0', vim.lsp.buf.document_symbol)
-            m.nnoremap('g=', vim.lsp.buf.formatting)
-            m.nnoremap('gA', vim.lsp.buf.code_action)
-            m.nnoremap('gD', vim.lsp.buf.implementation)
-            --m.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
-            m.nnoremap('gR', vim.lsp.buf.rename)
-            m.nnoremap('gW', vim.lsp.buf.workspace_symbol)
-            m.nnoremap('gd', vim.lsp.buf.declaration)
-            m.nnoremap('gli', vim.lsp.buf.incoming_calls)
-            m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
-            m.nnoremap('gr', vim.lsp.buf.references)
-            m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
-            m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
+        m.add_buffer_maps(function()
+          m.nnoremap('1gD', vim.lsp.buf.type_definition)
+          m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
+          m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
+          if vim.bo.filetype ~= 'help' then
+            m.nnoremap('<C-]>', vim.lsp.buf.definition)
+            m.nnoremap('<C-w><C-]>', function()
+              vim.cmd[[split]]
+              vim.lsp.buf.definition()
+            end)
+          end
+          m.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
+          m.nnoremap('K', vim.lsp.buf.hover)
+          m.nnoremap('g0', vim.lsp.buf.document_symbol)
+          m.nnoremap('g=', vim.lsp.buf.formatting)
+          m.nnoremap('gA', vim.lsp.buf.code_action)
+          m.nnoremap('gD', vim.lsp.buf.implementation)
+          --m.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
+          m.nnoremap('gR', vim.lsp.buf.rename)
+          m.nnoremap('gW', vim.lsp.buf.workspace_symbol)
+          m.nnoremap('gd', vim.lsp.buf.declaration)
+          m.nnoremap('gli', vim.lsp.buf.incoming_calls)
+          m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
+          m.nnoremap('gr', vim.lsp.buf.references)
+          m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
+          m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
 
-            if client.resolved_capabilities.document_formatting
-              or client.resolved_capabilities.document_range_formatting then
-              m.nnoremap('<space>f', vim.lsp.buf.formatting)
-            end
-          end)
+          if client.resolved_capabilities.document_formatting
+            or client.resolved_capabilities.document_range_formatting then
+            m.nnoremap('<space>f', vim.lsp.buf.formatting)
+          end
         end)
       end
 
