@@ -89,9 +89,8 @@ return {
         end
         return text
       end
-      local artify = require'artify'
-      local monospace = function(f)
-        return function() return artify(f(), 'monospace') end
+      local monospace = function(value)
+        return require'artify'(value, 'monospace')
       end
       require'lualine'.setup{
         options = {
@@ -100,7 +99,9 @@ return {
           component_separators = '❘',
         },
         sections = {
-          lualine_a = {monospace(require'lualine.components.mode')},
+          lualine_a = {
+            {'mode', format = monospace},
+          },
           lualine_b = {},
           lualine_c = {'filename'},
           lualine_x = {},
@@ -110,7 +111,7 @@ return {
         tabline = {
           lualine_a = {},
           lualine_b = {
-            monospace(require'lualine.components.branch'.init{}),
+            {'branch', format = monospace},
             {
               'diff',
               symbols = {
@@ -132,7 +133,9 @@ return {
               },
             },
           },
-          lualine_c = {monospace(require'lualine.components.filename'.init{})},
+          lualine_c = {
+            {'filename', format = monospace},
+          },
           lualine_x = {
             {char_info, separator = '❘'},
             'encoding',
