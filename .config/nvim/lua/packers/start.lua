@@ -47,7 +47,7 @@ return {
       m.rbind('n', {'<A-r>', '<A-®>'}, [[<Plug>DWMResetPaneWidth]])
       m.nmap('<C-@>', [[<Plug>DWMFocus]])
       m.nmap('<C-Space>', [[<Plug>DWMFocus]])
-      m.nmap('<C-c>', [[<Cmd>lua require'scrollbar'.clear()<CR><Plug>DWMClose]])
+      m.nmap('<C-c>', [[<Cmd>lua pcall(require'scrollbar'.clear)<CR><Plug>DWMClose]])
       m.nnoremap('<C-j>', [[<C-w>w]])
       m.nnoremap('<C-k>', [[<C-w>W]])
       m.nmap('<C-l>', [[<Plug>DWMGrowMaster]])
