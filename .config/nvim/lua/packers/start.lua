@@ -403,12 +403,20 @@ return {
               {
                 'WinEnter,FocusGained,CursorMoved,VimResized',
                 '*',
-                scrollbar.show,
+                function()
+                  if vim.fn.getcmdwintype() == '' then
+                    scrollbar.show()
+                  end
+                end,
               },
               {
                 'WinLeave,FocusLost,BufLeave',
                 '*',
-                scrollbar.clear,
+                function()
+                  if vim.fn.getcmdwintype() == '' then
+                    scrollbar.clear()
+                  end
+                end,
               },
             },
           }
