@@ -71,6 +71,22 @@ set hydro_color_pwd $nord10 # #5e81ac
 set hydro_fetch true
 set hydro_symbol_prompt \e'[1;31m'❱\e'[1;33m'❱\e'[1;32m'❱\e'[m'
 
+set __fish_git_prompt_showdirtystate true
+set __fish_git_prompt_showstashstate true
+set __fish_git_prompt_showuntrackedfiles true
+set __fish_git_prompt_showupstream auto
+set __fish_git_prompt_show_informative_status true
+set __fish_git_prompt_char_upstream_prefix ''
+set __fish_git_prompt_char_upstream_ahead  ↑
+set __fish_git_prompt_char_upstream_behind ↓
+set __fish_git_prompt_char_stateseparator  |
+set __fish_git_prompt_char_dirtystate      ∑
+set __fish_git_prompt_char_invalidstate    ✗
+set __fish_git_prompt_char_stagedstate     ●
+set __fish_git_prompt_char_untrackedfiles  …
+set __fish_git_prompt_char_stashstate      ∏
+set __fish_git_prompt_char_cleanstate      ✓
+
 alias cp 'cp -i'
 alias ln 'ln -i'
 alias mv 'mv -i'
