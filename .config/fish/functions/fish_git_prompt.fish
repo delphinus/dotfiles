@@ -618,7 +618,9 @@ function __fish_git_prompt_operation_branch_bare --description "fish_git_prompt 
     end
 
     if test -z "$branch"
-        if not set branch (command git symbolic-ref HEAD 2>/dev/null)
+        if set branch (command git symbolic-ref HEAD 2>/dev/null)
+          set branch $branch:(command git rev-parse --short HEAD 2>/dev/null)
+        else
             set detached yes
             set branch (switch "$__fish_git_prompt_describe_style"
 						case contains
