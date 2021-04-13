@@ -76,14 +76,20 @@ sub detect_latest_backup() {
     if ($_ = $@) {
         if (/Unable to locate machine directory for host\./) {
             return 0;
+        } elsif (/Unable to locate latest snapshot for host\./) {
+            return undef;
         }
         die with_timestamp $@;
     }
-    undef, Time::Piece->strptime(basename($t), '%F-%H%M%S');
+    my $name = basename $t;
+    my $in_progress_re = qr/\.inProgress$/;
+    my $is_in_progress = $name =~ $in_progress_re;
+    (my $canonical = $name) =~ s/$in_progress_re//;
+    undef, Time::Piece->strptime($canonical, '%F-%H%M%S'), $is_in_progress
 }
 
 sub process() {
-    my ($exit_code, $latest) = detect_latest_backup;
+    my ($exit_code, $latest, $is_in_progress) = detect_latest_backup;
     return $exit_code if defined $exit_code;
 
     if (defined $latest) {
@@ -91,13 +97,14 @@ sub process() {
         my $file = '/tmp/run-timemachine-latest';
         my $saved = load $file;
         if (!defined $saved || $dt ne $saved) {
-            logger "The latest backup: $dt";
+            my $indicator = $is_in_progress ? ' (inProgress)' : '';
+            logger sprintf 'The latest backup: %s%s', $dt, $indicator;
             save $file, $dt;
         }
     }
 
     my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
-    my $status = do { decode_json($json) };
+    my $status = eval { decode_json($json) };
     die with_timestamp $@ if $@;
 
     if (defined(my $exit_code = show_status $status)) {
