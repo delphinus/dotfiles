@@ -74,10 +74,11 @@ set hydro_symbol_prompt \e'[1;31m'❱\e'[1;33m'❱\e'[1;32m'❱\e'[m'
 set __fish_git_prompt_showdirtystate true
 set __fish_git_prompt_showstashstate true
 set __fish_git_prompt_showuntrackedfiles true
-set __fish_git_prompt_showupstream auto
 set __fish_git_prompt_showcolorhints true
 
-# This is extremely slow
+# These are extremely slow
+set __fish_git_prompt_showupstream none
+#set __fish_git_prompt_showupstream auto
 #set __fish_git_prompt_show_informative_status true
 
 set __fish_git_prompt_char_cleanstate ✓
