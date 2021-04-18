@@ -376,7 +376,7 @@ return {
       m.tnoremap('<BS><C-n>', [[<C-\><C-n>]])
       m.nnoremap([[<C-\><C-n>]], [[<Cmd>FloatermToggle<CR>]])
       m.nnoremap('<BS><C-n>', [[<Cmd>FloatermToggle<CR>]])
-      m.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FloatermToggle<CR>]])
+      m.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FTermToggle<CR>]])
       m.bind('nt', '<A-n>', [[<Cmd>FloatermNew<CR>]])
       m.bind('nt', {'<A-f>', '<A-ƒ>'}, [[<Cmd>FloatermNext<CR>]])
     end,

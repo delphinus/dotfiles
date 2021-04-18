@@ -436,6 +436,15 @@ return {
   {'f-person/git-blame.nvim'},
 
   {
+    'numToStr/FTerm.nvim',
+    config = function()
+      require'FTerm'.setup{
+        border = 'shadow',
+      }
+    end,
+  },
+
+  {
     'ruifm/gitlinker.nvim',
     requires = {'nvim-lua/plenary.nvim'},
     config = function()
