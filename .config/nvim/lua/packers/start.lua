@@ -241,8 +241,6 @@ return {
       m.nnoremap('d<', [[<Cmd>diffget //2<CR>]])
       m.nnoremap('d>', [[<Cmd>diffget //3<CR>]])
       m.nnoremap('gs', [[<Cmd>Gstatus<CR>]])
-      m.nnoremap('gc', [[<Cmd>Gbrowse<CR>]])
-      m.vnoremap('gc', [[<Cmd>Gbrowse<CR>]])
     end,
   },
 
@@ -436,6 +434,23 @@ return {
   },
 
   {'f-person/git-blame.nvim'},
+
+  {
+    'ruifm/gitlinker.nvim',
+    requires = {'nvim-lua/plenary.nvim'},
+    config = function()
+      require'gitlinker'.setup{
+        mappings = {
+          n = 'gc',
+          v = 'gc',
+        },
+        action_callback = require"gitlinker.actions".open_in_browser,
+        callbacks= {
+          [vim.g.gh_e_host] = require"gitlinker.hosts".get_github_type_url,
+        },
+      }
+    end,
+  },
   -- }}}
 }
 
