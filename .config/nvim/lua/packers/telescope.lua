@@ -74,7 +74,7 @@ return {
     local builtin = require'telescope.builtin'
     local telescope = require'telescope'
     local extensions = telescope.extensions
-    local m = require'mapper'
+    local m = require'mappy'
 
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()

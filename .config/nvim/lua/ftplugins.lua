@@ -1,4 +1,4 @@
-local _, m = pcall(require, 'mapper')
+local _, m = pcall(require, 'mappy')
 local M
 M = {
   applescript = function() m.bind('i', {'buffer'}, {'<A-m>', '<A-µ>'}, [[￢<CR>]]) end,

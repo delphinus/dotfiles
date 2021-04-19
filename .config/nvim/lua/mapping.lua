@@ -2,7 +2,7 @@ vim.o.timeout = true
 vim.o.timeoutlen = 300
 vim.o.ttimeoutlen = 10
 
-local m = require'mapper'
+local m = require'mappy'
 m.bind('nv', '<C-d>', '3<C-d>')
 m.bind('nv', '<C-u>', '3<C-u>')
 m.nnoremap('_', '<C-w>_')

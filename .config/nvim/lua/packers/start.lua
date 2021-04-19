@@ -12,7 +12,7 @@ return {
   },
 
   'delphinus/artify.nvim',
-  'delphinus/mapper.nvim',
+  'delphinus/mappy.nvim',
 
   {
     'delphinus/characterize.nvim',
@@ -36,7 +36,7 @@ return {
         },
       }
 
-      local m = require'mapper'
+      local m = require'mappy'
       m.nnoremap({'silent'}, '<Plug>DWMResetPaneWidth', function()
         local half = vim.o.columns / 2
         local width = vim.g.dwm_min_master_pane_width or 9999
@@ -163,7 +163,7 @@ return {
           end
         end
       end
-      local m = require'mapper'
+      local m = require'mappy'
       m.nnoremap({'silent'}, 'n', do_hlslens('n', true))
       m.nnoremap({'silent'}, 'N', do_hlslens('N', true))
       m.nnoremap('g*', do_hlslens('g*', true))
@@ -235,7 +235,7 @@ return {
   {
     'tpope/vim-fugitive',
     config = function()
-      local m = require'mapper'
+      local m = require'mappy'
       m.nnoremap('git', [[<Cmd>Git<CR>]])
       m.nnoremap('g<Space>', [[<Cmd>Git<CR>]])
       m.nnoremap('d<', [[<Cmd>diffget //2<CR>]])
@@ -251,7 +251,7 @@ return {
     -- 'tpope/vim-unimpaired',
     'delphinus/vim-unimpaired',
     config = function()
-      local m = require'mapper'
+      local m = require'mappy'
       m.nnoremap('[w', [[<Cmd>colder<CR>]])
       m.nnoremap(']w', [[<Cmd>cnewer<CR>]])
       m.nnoremap('[O', [[<Cmd>lopen<CR>]])
@@ -423,7 +423,7 @@ return {
       end
 
       -- TODO: deal with :only in this plugin
-      require'mapper'.nnoremap('<C-w>o', function()
+      require'mappy'.nnoremap('<C-w>o', function()
         vim.cmd[[only]]
         scrollbar.show()
       end)

@@ -1,4 +1,4 @@
-local m = require'mapper'
+local m = require'mappy'
 
 -- echo syntax highlight information on the cursor
 -- http://cohama.hateblo.jp/entry/2013/08/11/020849

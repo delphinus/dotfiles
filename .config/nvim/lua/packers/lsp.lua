@@ -2,7 +2,7 @@ return {
   { -- {{{ nvim-lspconfig
     'neovim/nvim-lspconfig',
     config = function()
-      local m = require'mapper'
+      local m = require'mappy'
 
       vim.cmd[[sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=]]
       vim.cmd[[sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=]]
@@ -193,7 +193,7 @@ return {
       {'albertoCaroM/completion-tmux'},
     },
     config = function()
-      local m = require'mapper'
+      local m = require'mappy'
 
       require'augroups'.set{
         enable_completion_nvim = {

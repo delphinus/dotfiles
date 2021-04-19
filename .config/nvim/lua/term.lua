@@ -13,7 +13,7 @@ require'augroups'.set{
   },
 }
 
-local m = require'mapper'
+local m = require'mappy'
 
 for map, keys in pairs{
   ['<C-j>']  = {'<A-j>', '<A-∆>'},

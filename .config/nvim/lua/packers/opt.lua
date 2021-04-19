@@ -164,7 +164,7 @@ return {
     cmd = {'TableModeToggle'},
     setup = function()
       vim.g.table_mode_corner = '|'
-      require'mapper'.nnoremap('`tm', [[<Cmd>TableModeToggle<CR>]])
+      require'mappy'.nnoremap('`tm', [[<Cmd>TableModeToggle<CR>]])
     end,
   },
 
@@ -184,7 +184,7 @@ return {
       'TigOpenFileWithCommit',
     },
     setup = function()
-      local m = require'mapper'
+      local m = require'mappy'
       m.nnoremap('<Leader>tT', [[<Cmd>TigOpenCurrentFile<CR>]])
       m.nnoremap('<Leader>tt', [[<Cmd>TigOpenProjectRootDir<CR>]])
       m.nnoremap('<Leader>tg', [[<Cmd>TigGrep<CR>]])
@@ -214,7 +214,7 @@ return {
       vim.g['gista#command#list#enable_default_mappings'] = 0
     end,
     config = function()
-      local m = require'mapper'
+      local m = require'mappy'
       require'augroups'.set{
         gista_mappings = {
           {'User', 'GistaList', function()
@@ -275,7 +275,7 @@ return {
       vim.g.undotree_ShortIndicators = 1
       vim.g.undotree_TreeNodeShape = '●'
       vim.g.undotree_WindowLayout = 2
-      require'mapper'.nnoremap('<A-u>', [[<Cmd>UndotreeToggle<CR>]])
+      require'mappy'.nnoremap('<A-u>', [[<Cmd>UndotreeToggle<CR>]])
     end,
   },
 
@@ -287,7 +287,7 @@ return {
       'ColorizerReloadAllBuffers',
     },
     setup = function()
-      require'mapper'.bind('n', {'silent'}, {'<A-C>', '<A-S-Ç>'}, function()
+      require'mappy'.bind('n', {'silent'}, {'<A-C>', '<A-S-Ç>'}, function()
         if vim.b.colorizer_enabled then
           vim.cmd[[ColorizerDetachFromBuffer]]
           vim.b.colorizer_enabled = false
@@ -332,7 +332,7 @@ return {
     cmd = {'GitMessenger'},
     setup = function()
       vim.g.git_messenger_no_default_mappings = true
-      require'mapper'.bind('n', {'<A-b>', '<A-∫>'}, [[<Cmd>GitMessenger<CR>]])
+      require'mappy'.bind('n', {'<A-b>', '<A-∫>'}, [[<Cmd>GitMessenger<CR>]])
     end,
   },
 
@@ -350,7 +350,7 @@ return {
     keys = {'<Plug>(openbrowser-smart-search)'},
     fn = {'openbrowser#open'},
     config = function()
-      require'mapper'.rbind('nv', 'g<CR>', [[<Plug>(openbrowser-smart-search)]])
+      require'mappy'.rbind('nv', 'g<CR>', [[<Plug>(openbrowser-smart-search)]])
     end,
   },
 
@@ -372,7 +372,7 @@ return {
       vim.g.floaterm_borderchars = {'─', '│', '─', '│', '╭', '╮', '╯', '╰'}
       vim.g.floaterm_open_command = 'split'
       vim.g.floaterm_position = 'center'
-      local m = require'mapper'
+      local m = require'mappy'
       m.tnoremap('<BS><C-n>', [[<C-\><C-n>]])
       m.nnoremap([[<C-\><C-n>]], [[<Cmd>FloatermToggle<CR>]])
       m.nnoremap('<BS><C-n>', [[<Cmd>FloatermToggle<CR>]])
@@ -428,7 +428,7 @@ return {
         },
       }
 
-      require'mapper'.nmap('<C-t>', [[<Cmd>TagbarToggle<CR>]])
+      require'mappy'.nmap('<C-t>', [[<Cmd>TagbarToggle<CR>]])
     end,
   },
   -- }}}
@@ -543,7 +543,7 @@ return {
     keys = {{'n', '<Plug>(fold-cycle-'}},
     setup = function()
       vim.g.fold_cycle_default_mapping = 0
-      local m = require'mapper'
+      local m = require'mappy'
       m.rbind('n', {'<A-l>', '<A-¬>'}, [[<Plug>(fold-cycle-open)]])
       m.rbind('n', {'<A-h>', '<A-˙>'}, [[<Plug>(fold-cycle-open)]])
     end,
@@ -554,7 +554,7 @@ return {
     keys = {{'n', '<Plug>(miniyank-'}},
     setup = function()
       vim.g.miniyank_maxitems = 100
-      local m = require'mapper'
+      local m = require'mappy'
       m.nmap('p', [[<Plug>(miniyank-autoput)]])
       m.nmap('P', [[<Plug>(miniyank-autoPut)]])
       m.rbind('n', {'<A-p>', '<A-π>'}, [[<Plug>(miniyank-cycle)]])
@@ -566,7 +566,7 @@ return {
     'chikatoike/concealedyank.vim',
     keys = {{'x', '<Plug>(operator-concealedyank)'}},
     setup = function()
-      require'mapper'.xmap('Y', [[<Plug>(operator-concealedyank)]])
+      require'mappy'.xmap('Y', [[<Plug>(operator-concealedyank)]])
     end
   },
 
@@ -597,7 +597,7 @@ return {
     'junegunn/vim-easy-align',
     keys = {{'v', '<Plug>(EasyAlign)'}},
     setup = function()
-      require'mapper'.vmap('<CR>', '<Plug>(EasyAlign)')
+      require'mappy'.vmap('<CR>', '<Plug>(EasyAlign)')
 
       vim.g.easy_align_delimiters = {
         ['>'] = { pattern = [[>>\|=>\|>]] },
@@ -645,7 +645,7 @@ return {
         extend_visual = true,
         use_migemo = true,
       }
-      local m = require'mapper'
+      local m = require'mappy'
       m.bind('nv', [['w]], hop.hint_words)
       m.bind('nv', [['/]], hop.hint_patterns)
       m.bind('nv', [['s]], hop.hint_char1)
@@ -669,7 +669,7 @@ return {
       {'x', '<Plug>(quickhl-'},
     },
     setup = function()
-      local m = require'mapper'
+      local m = require'mappy'
       m.rbind('nx', '<Space>m', [[<Plug>(quickhl-manual-this)]])
       m.rbind('nx', '<Space>t', [[<Plug>(quickhl-manual-toggle)]])
       m.rbind('nx', '<Space>M', [[<Plug>(quickhl-manual-reset)]])
@@ -683,7 +683,7 @@ return {
     cond = [[vim.fn.has'gui' == 1]],
     setup = function()
       if vim.fn.has'gui' == 1 then
-        local m = require'mapper'
+        local m = require'mappy'
         m.rbind('n', {'unique', 'silent'}, {'+', '<C-ScrollWheelUp>'}, [[<Plug>(fontzoom-larger)]])
         m.rbind('n', {'unique', 'silent'}, {'-', '<C-ScrollWheelDown>'}, [[<Plug>(fontzoom-smaller)]])
       end
@@ -695,7 +695,7 @@ return {
     keys = {{'x', '<Plug>(visualstar-'}},
     setup = function()
       vim.g.visualstar_no_default_key_mappings = 1
-      require'mapper'.xmap({'unique'}, '*', [[<Plug>(visualstar-*)]])
+      require'mappy'.xmap({'unique'}, '*', [[<Plug>(visualstar-*)]])
     end,
   },
 
@@ -707,7 +707,7 @@ return {
       {'o', '<Plug>(columnskip:'},
     },
     setup = function()
-      local m = require'mapper'
+      local m = require'mappy'
       m.rbind('nxo', '[j', [[<Plug>(columnskip:nonblank:next)]])
       m.rbind('nxo', '[k', [[<Plug>(columnskip:nonblank:prev)]])
       m.rbind('nxo', ']j', [[<Plug>(columnskip:first-nonblank:next)]])
@@ -723,7 +723,7 @@ return {
     setup = function()
       -- Re-implement plugin/comittia.vim in Lua
       vim.g.loaded_committia = true
-      local m = require'mapper'
+      local m = require'mappy'
       require'augroups'.set{
         ['plugin-committia'] = {
           {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
@@ -766,7 +766,7 @@ return {
       vim.g.EasyMotion_use_migemo = 1
     end,
     config = function()
-      require'mapper'.nmap([[\\s]], '<Plug>(easymotion-s2)')
+      require'mappy'.nmap([[\\s]], '<Plug>(easymotion-s2)')
     end,
   },
 }
