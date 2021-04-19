@@ -436,10 +436,78 @@ return {
   {'f-person/git-blame.nvim'},
 
   {
-    'numToStr/FTerm.nvim',
+    --'numToStr/FTerm.nvim',
+    'delphinus/FTerm.nvim',
+    branch = 'feature/autocmd',
     config = function()
+      vim.api.nvim_exec([[
+        hi WinBorderTop guifg=#ebf5f5 blend=30
+        hi WinBorderLeft guifg=#c2dddc blend=30
+        hi WinBorderRight guifg=#8fbcba blend=30
+        hi WinBorderBottom guifg=#5d9794 blend=30
+        hi WinBorderLight guifg=#c2dddc guibg=#5d9794 blend=30
+        hi WinBorderDark guifg=#5d9794 guibg=#c2dddc blend=30
+        hi WinBorderTransparent guibg=#111a2c
+      ]], false)
       require'FTerm'.setup{
-        border = 'shadow',
+        border = {
+          --[[
+          {'╭', 'WinBorderTop'},
+          {'─', 'WinBorderTop'},
+          {' ', 'WinBorderTransparent'},
+          {' ', 'WinBorderTransparent'},
+          {' ', 'WinBorderTransparent'},
+          {' ', 'WinBorderTransparent'},
+          {' ', 'WinBorderTransparent'},
+          {'│', 'WinBorderLeft'},
+          ]]
+          --[[
+          {'█', 'WinBorderLight'},
+          {'▀', 'WinBorderLight'},
+          {'▀', 'WinBorderLight'},
+          {'█', 'WinBorderDark'},
+          {'▄', 'WinBorderLight'},
+          {'▄', 'WinBorderLight'},
+          {'█', 'WinBorderLight'},
+          {'█', 'WinBorderLight'},
+          ]]
+          --[[
+          {'▟', 'WinBorderLight'},
+          {'▀', 'WinBorderLight'},
+          {'▀', 'WinBorderLight'},
+          {'▙', 'WinBorderDark'},
+          {'█', 'WinBorderDark'},
+          {'▛', 'WinBorderDark'},
+          {'▄', 'WinBorderDark'},
+          {'▜', 'WinBorderLight'},
+          {'█', 'WinBorderLight'},
+          ]]
+          --[[
+          {'╭', 'WinBorderTop'},
+          {'─', 'WinBorderTop'},
+          {'╮', 'WinBorderTop'},
+          {'│', 'WinBorderRight'},
+          {'╯', 'WinBorderBottom'},
+          {'─', 'WinBorderBottom'},
+          {'╰', 'WinBorderLeft'},
+          {'│', 'WinBorderLeft'},
+          ]]
+          {'⣤', 'WinBorderTop'},
+          {'⣤', 'WinBorderTop'},
+          {'⣤', 'WinBorderTop'},
+          {'⣿', 'WinBorderRight'},
+          {'⠛', 'WinBorderBottom'},
+          {'⠛', 'WinBorderBottom'},
+          {'⠛', 'WinBorderLeft'},
+          {'⣿', 'WinBorderLeft'},
+        },
+      }
+      require'augroups'.set{
+        fterm_open = {
+          {'User', 'FTermOpen', function()
+            vim.wo.winblend = 10
+          end},
+        },
       }
     end,
   },
