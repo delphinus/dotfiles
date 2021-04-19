@@ -164,21 +164,25 @@ return {
       end
       local now = os.time()
       if now - last_updated > 24 * 3600 * 7 then
-        -- TODO: update sumneko_lua automatically
-        vim.cmd[[!gem install --user-install solargraph]]
-        vim.cmd('!brew install gopls efm-langserver terraform-ls'
-          ..'&& brew upgrade gopls efm-langserver terraform-ls')
-        vim.cmd[[!luarocks install luacheck]]
-        vim.cmd('!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript'
-          ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
-          ..' vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
+        local ok = pcall(function()
+          -- TODO: update sumneko_lua automatically
+          vim.cmd[[!gem install --user-install solargraph]]
+          vim.cmd('!brew install gopls efm-langserver terraform-ls'
+            ..'&& brew upgrade gopls efm-langserver terraform-ls')
+          vim.cmd[[!luarocks install luacheck]]
+          vim.cmd('!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript'
+            ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
+            ..' vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
+        end)
 
-        local fd = vim.loop.fs_open(file, 'w', 438)
-        if fd then
-          vim.loop.fs_write(fd, now, -1)
-          vim.loop.fs_close(fd)
-        else
-          error('cannot open the file to write: '..file)
+        if ok then
+          local fd = vim.loop.fs_open(file, 'w', 438)
+          if fd then
+            vim.loop.fs_write(fd, now, -1)
+            vim.loop.fs_close(fd)
+          else
+            error('cannot open the file to write: '..file)
+          end
         end
       end
     end,
