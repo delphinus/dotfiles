@@ -170,8 +170,8 @@ return {
           ..'&& brew upgrade gopls efm-langserver terraform-ls')
         vim.cmd[[!luarocks install luacheck]]
         vim.cmd('!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript'
-          ..'typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
-          ..'vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
+          ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
+          ..' vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
 
         local fd = vim.loop.fs_open(file, 'w', 438)
         if fd then
