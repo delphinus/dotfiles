@@ -14,6 +14,9 @@
 - name: prepare docker config dir
   file: path=~/.docker state=directory
 
+- name: prepare bpytop config dir
+  file: path=~/.config/bpytop state=directory
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
@@ -22,6 +25,7 @@
     force=yes
   with_items:
     - .config/bat/config
+    - .config/bpytop/bpytop.conf
     - .config/direnv/direnvrc
     - .config/efm-langserver
     - .config/fish
