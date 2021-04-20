@@ -14,6 +14,7 @@ vim.cmd[[command! PackerUpdate  lua run_packer'update']]
 vim.cmd[[command! PackerSync    lua run_packer'sync']]
 vim.cmd[[command! PackerClean   lua run_packer'clean']]
 vim.cmd[[command! PackerCompile lua run_packer'compile']]
+vim.cmd[[command! PackerProfile lua run_packer'profile_output']]
 
 local ok, m = pcall(require, 'mappy')
 if ok then

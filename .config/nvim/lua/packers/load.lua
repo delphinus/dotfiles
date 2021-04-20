@@ -4,6 +4,10 @@ local function init()
   if packer == nil then
     packer = require'packer'
     packer.init{
+      profile = {
+        enable = true,
+        threshold = 1,
+      },
       disable_commands = true,
       max_jobs = 50,
       display = {
