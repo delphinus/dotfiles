@@ -28,7 +28,6 @@ return {
               hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
               hi Special guifg=#D08770
               hi Title gui=bold cterm=bold
-              hi FloatermBorder gui=bold guifg=#5e81ac
             ]], false)
 
             -- for gitsigns
@@ -360,26 +359,6 @@ return {
     'vifm/vifm.vim',
     cmd = {'EditVifm', 'VsplitVifm', 'SplitVifm', 'DiffVifm', 'TabVifm'},
     ft = {'vifm'},
-  },
-
-  {
-    'voldikss/vim-floaterm',
-    cmd = {
-      'FloatermNew', 'FloatermPrev', 'FloatermNext',
-      'FloatermToggle', 'FloatermInfo',
-    },
-    setup = function()
-      vim.g.floaterm_borderchars = {'─', '│', '─', '│', '╭', '╮', '╯', '╰'}
-      vim.g.floaterm_open_command = 'split'
-      vim.g.floaterm_position = 'center'
-      local m = require'mappy'
-      m.tnoremap('<BS><C-n>', [[<C-\><C-n>]])
-      m.nnoremap([[<C-\><C-n>]], [[<Cmd>FloatermToggle<CR>]])
-      m.nnoremap('<BS><C-n>', [[<Cmd>FloatermToggle<CR>]])
-      m.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FTermToggle<CR>]])
-      m.bind('nt', '<A-n>', [[<Cmd>FloatermNew<CR>]])
-      m.bind('nt', {'<A-f>', '<A-ƒ>'}, [[<Cmd>FloatermNext<CR>]])
-    end,
   },
   -- }}}
 
