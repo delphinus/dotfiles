@@ -20,8 +20,8 @@ return {
       end
 
       local lsp_on_attach = function(client)
-        print('LSP & completion started.')
-        require'completion'.on_attach()
+        print('LSP started.')
+        --require'completion'.on_attach()
 
         if client.config.flags then
           client.config.flags.allow_incremental_sync = true
@@ -190,6 +190,7 @@ return {
     end,
   }, -- }}}
 
+  --[=[
   { -- {{{ completion-nvim
     'nvim-lua/completion-nvim',
     requires = {
@@ -255,6 +256,7 @@ return {
       }
     end,
   }, -- }}}
+  ]=]
 
   { -- {{{ nvim-treesitter
     'nvim-treesitter/nvim-treesitter',
