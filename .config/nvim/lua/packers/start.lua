@@ -507,12 +507,16 @@ return {
     'ruifm/gitlinker.nvim',
     requires = {'nvim-lua/plenary.nvim'},
     config = function()
+      local actions = require'gitlinker.actions'
       require'gitlinker'.setup{
-        mappings = {
-          n = 'gc',
-          v = 'gc',
+        opts = {
+          add_current_line_on_normal_mode = false,
+          mappings = 'gc',
+          action_callback = function(url)
+            actions.copy_to_clipboard(url)
+            actions.open_in_browser(url)
+          end,
         },
-        action_callback = require"gitlinker.actions".open_in_browser,
         callbacks= {
           [vim.g.gh_e_host] = require"gitlinker.hosts".get_github_type_url,
         },
