@@ -438,7 +438,7 @@ return {
   {
     --'numToStr/FTerm.nvim',
     'delphinus/FTerm.nvim',
-    branch = 'feature/autocmd',
+    branch = 'feature/filetype',
     config = function()
       vim.api.nvim_exec([[
         hi WinBorderTop guifg=#ebf5f5 blend=30
@@ -504,7 +504,7 @@ return {
       }
       require'augroups'.set{
         fterm_open = {
-          {'User', 'FTermOpen', function()
+          {'FileType', 'FTerm', function()
             vim.wo.winblend = 10
           end},
         },
