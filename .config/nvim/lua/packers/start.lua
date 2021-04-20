@@ -436,9 +436,7 @@ return {
   {'f-person/git-blame.nvim'},
 
   {
-    --'numToStr/FTerm.nvim',
-    'delphinus/FTerm.nvim',
-    branch = 'feature/filetype',
+    'numToStr/FTerm.nvim',
     config = function()
       vim.api.nvim_exec([[
         hi WinBorderTop guifg=#ebf5f5 blend=30
@@ -500,13 +498,6 @@ return {
           {'⠛', 'WinBorderBottom'},
           {'⠛', 'WinBorderLeft'},
           {'⣿', 'WinBorderLeft'},
-        },
-      }
-      require'augroups'.set{
-        fterm_open = {
-          {'FileType', 'FTerm', function()
-            vim.wo.winblend = 10
-          end},
         },
       }
     end,

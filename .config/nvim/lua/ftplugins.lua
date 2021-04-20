@@ -1,6 +1,10 @@
 local _, m = pcall(require, 'mappy')
 local M
 M = {
+  FTerm = function()
+    vim.wo.winblend = 10
+  end,
+
   applescript = function() m.bind('i', {'buffer'}, {'<A-m>', '<A-µ>'}, [[￢<CR>]]) end,
 
   c = function()
