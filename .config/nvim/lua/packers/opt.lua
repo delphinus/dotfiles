@@ -608,6 +608,80 @@ return {
   },
 
   {
+    'numToStr/FTerm.nvim',
+    keys = {
+      {'n', '<A-c>'},
+      {'n', '<A-ç>'},
+    },
+    config = function()
+      local m = require'mappy'
+      m.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FTermToggle<CR>]])
+      vim.api.nvim_exec([[
+        hi WinBorderTop guifg=#ebf5f5 blend=30
+        hi WinBorderLeft guifg=#c2dddc blend=30
+        hi WinBorderRight guifg=#8fbcba blend=30
+        hi WinBorderBottom guifg=#5d9794 blend=30
+        hi WinBorderLight guifg=#c2dddc guibg=#5d9794 blend=30
+        hi WinBorderDark guifg=#5d9794 guibg=#c2dddc blend=30
+        hi WinBorderTransparent guibg=#111a2c
+      ]], false)
+      require'FTerm'.setup{
+        border = {
+          --[[
+          {'╭', 'WinBorderTop'},
+          {'─', 'WinBorderTop'},
+          {' ', 'WinBorderTransparent'},
+          {' ', 'WinBorderTransparent'},
+          {' ', 'WinBorderTransparent'},
+          {' ', 'WinBorderTransparent'},
+          {' ', 'WinBorderTransparent'},
+          {'│', 'WinBorderLeft'},
+          ]]
+          --[[
+          {'█', 'WinBorderLight'},
+          {'▀', 'WinBorderLight'},
+          {'▀', 'WinBorderLight'},
+          {'█', 'WinBorderDark'},
+          {'▄', 'WinBorderLight'},
+          {'▄', 'WinBorderLight'},
+          {'█', 'WinBorderLight'},
+          {'█', 'WinBorderLight'},
+          ]]
+          --[[
+          {'▟', 'WinBorderLight'},
+          {'▀', 'WinBorderLight'},
+          {'▀', 'WinBorderLight'},
+          {'▙', 'WinBorderDark'},
+          {'█', 'WinBorderDark'},
+          {'▛', 'WinBorderDark'},
+          {'▄', 'WinBorderDark'},
+          {'▜', 'WinBorderLight'},
+          {'█', 'WinBorderLight'},
+          ]]
+          --[[
+          {'╭', 'WinBorderTop'},
+          {'─', 'WinBorderTop'},
+          {'╮', 'WinBorderTop'},
+          {'│', 'WinBorderRight'},
+          {'╯', 'WinBorderBottom'},
+          {'─', 'WinBorderBottom'},
+          {'╰', 'WinBorderLeft'},
+          {'│', 'WinBorderLeft'},
+          ]]
+          {'⣤', 'WinBorderTop'},
+          {'⣤', 'WinBorderTop'},
+          {'⣤', 'WinBorderTop'},
+          {'⣿', 'WinBorderRight'},
+          {'⠛', 'WinBorderBottom'},
+          {'⠛', 'WinBorderBottom'},
+          {'⠛', 'WinBorderLeft'},
+          {'⣿', 'WinBorderLeft'},
+        },
+      }
+    end,
+  },
+
+  {
     --'phaazon/hop.nvim',
     'delphinus/hop.nvim',
     branch = 'feature/migemo',
@@ -642,6 +716,31 @@ return {
   },
 
   {
+    'ruifm/gitlinker.nvim',
+    keys = {
+      {'n', 'gc'},
+      {'v', 'gc'},
+    },
+    requires = {'nvim-lua/plenary.nvim'},
+    config = function()
+      local actions = require'gitlinker.actions'
+      require'gitlinker'.setup{
+        opts = {
+          add_current_line_on_normal_mode = false,
+          mappings = 'gc',
+          action_callback = function(url)
+            actions.copy_to_clipboard(url)
+            actions.open_in_browser(url)
+          end,
+        },
+        callbacks= {
+          [vim.g.gh_e_host] = require"gitlinker.hosts".get_github_type_url,
+        },
+      }
+    end,
+  },
+
+  {
     't9md/vim-quickhl',
     keys = {
       {'n', '<Plug>(quickhl-'},
@@ -652,20 +751,6 @@ return {
       m.rbind('nx', '<Space>m', [[<Plug>(quickhl-manual-this)]])
       m.rbind('nx', '<Space>t', [[<Plug>(quickhl-manual-toggle)]])
       m.rbind('nx', '<Space>M', [[<Plug>(quickhl-manual-reset)]])
-    end,
-  },
-
-  {
-    'thinca/vim-fontzoom',
-    -- TODO: set these mapping in GUI only?
-    keys = {{'n', '<Plug>(fontzoon-'}},
-    cond = [[vim.fn.has'gui' == 1]],
-    setup = function()
-      if vim.fn.has'gui' == 1 then
-        local m = require'mappy'
-        m.rbind('n', {'unique', 'silent'}, {'+', '<C-ScrollWheelUp>'}, [[<Plug>(fontzoom-larger)]])
-        m.rbind('n', {'unique', 'silent'}, {'-', '<C-ScrollWheelDown>'}, [[<Plug>(fontzoom-smaller)]])
-      end
     end,
   },
 

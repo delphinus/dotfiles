@@ -356,9 +356,9 @@ return {
         text_EOL = ' ',
         text_NOEOL = ' ',
         ft_ng = {
+          'FTerm',
           'denite',
           'denite-filter',
-          'floaterm',
           'fugitive.*',
           'git.*',
           'packer',
@@ -434,95 +434,6 @@ return {
   },
 
   {'f-person/git-blame.nvim'},
-
-  {
-    'numToStr/FTerm.nvim',
-    config = function()
-      vim.api.nvim_exec([[
-        hi WinBorderTop guifg=#ebf5f5 blend=30
-        hi WinBorderLeft guifg=#c2dddc blend=30
-        hi WinBorderRight guifg=#8fbcba blend=30
-        hi WinBorderBottom guifg=#5d9794 blend=30
-        hi WinBorderLight guifg=#c2dddc guibg=#5d9794 blend=30
-        hi WinBorderDark guifg=#5d9794 guibg=#c2dddc blend=30
-        hi WinBorderTransparent guibg=#111a2c
-      ]], false)
-      require'FTerm'.setup{
-        border = {
-          --[[
-          {'╭', 'WinBorderTop'},
-          {'─', 'WinBorderTop'},
-          {' ', 'WinBorderTransparent'},
-          {' ', 'WinBorderTransparent'},
-          {' ', 'WinBorderTransparent'},
-          {' ', 'WinBorderTransparent'},
-          {' ', 'WinBorderTransparent'},
-          {'│', 'WinBorderLeft'},
-          ]]
-          --[[
-          {'█', 'WinBorderLight'},
-          {'▀', 'WinBorderLight'},
-          {'▀', 'WinBorderLight'},
-          {'█', 'WinBorderDark'},
-          {'▄', 'WinBorderLight'},
-          {'▄', 'WinBorderLight'},
-          {'█', 'WinBorderLight'},
-          {'█', 'WinBorderLight'},
-          ]]
-          --[[
-          {'▟', 'WinBorderLight'},
-          {'▀', 'WinBorderLight'},
-          {'▀', 'WinBorderLight'},
-          {'▙', 'WinBorderDark'},
-          {'█', 'WinBorderDark'},
-          {'▛', 'WinBorderDark'},
-          {'▄', 'WinBorderDark'},
-          {'▜', 'WinBorderLight'},
-          {'█', 'WinBorderLight'},
-          ]]
-          --[[
-          {'╭', 'WinBorderTop'},
-          {'─', 'WinBorderTop'},
-          {'╮', 'WinBorderTop'},
-          {'│', 'WinBorderRight'},
-          {'╯', 'WinBorderBottom'},
-          {'─', 'WinBorderBottom'},
-          {'╰', 'WinBorderLeft'},
-          {'│', 'WinBorderLeft'},
-          ]]
-          {'⣤', 'WinBorderTop'},
-          {'⣤', 'WinBorderTop'},
-          {'⣤', 'WinBorderTop'},
-          {'⣿', 'WinBorderRight'},
-          {'⠛', 'WinBorderBottom'},
-          {'⠛', 'WinBorderBottom'},
-          {'⠛', 'WinBorderLeft'},
-          {'⣿', 'WinBorderLeft'},
-        },
-      }
-    end,
-  },
-
-  {
-    'ruifm/gitlinker.nvim',
-    requires = {'nvim-lua/plenary.nvim'},
-    config = function()
-      local actions = require'gitlinker.actions'
-      require'gitlinker'.setup{
-        opts = {
-          add_current_line_on_normal_mode = false,
-          mappings = 'gc',
-          action_callback = function(url)
-            actions.copy_to_clipboard(url)
-            actions.open_in_browser(url)
-          end,
-        },
-        callbacks= {
-          [vim.g.gh_e_host] = require"gitlinker.hosts".get_github_type_url,
-        },
-      }
-    end,
-  },
   -- }}}
 }
 
