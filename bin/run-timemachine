@@ -111,10 +111,15 @@ sub process() {
         return $exit_code;
     }
 
-    if (defined $latest && (time - $latest->epoch) > 12 * 60 * 60) {
-        logger 'starting backup...';
-        safe_system '/usr/bin/tmutil startbackup --auto';
-        logger 'done!';
+    if (defined $latest) {
+        my $now = localtime;
+        my $is_old = ($now->epoch - $latest->epoch) > 12 * 60 * 60;
+        my $is_night = $now->hour >= 2 && $now->hour <= 6;
+        if ($is_old && $is_night) {
+            logger 'starting backup...';
+            safe_system '/usr/bin/tmutil startbackup --auto';
+            logger 'done!';
+        }
     }
     return 0;
 }

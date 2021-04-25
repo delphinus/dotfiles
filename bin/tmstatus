@@ -111,7 +111,18 @@ sub arrange :prototype($) ($result) {
         $p->{bytesFormatted} = substr(commify $v / 1e9, 0, 5) . 'GB';
     }
     if (defined(my $v = get $p, 'timeRemaining')) {
-        $p->{timeRemainingFormatted} = sprintf '%dm %ds', int($v / 60), $v % 60;
+        my $formatted;
+        if ($v > 3600 * 24) {
+            $formatted = sprintf '%dd %dh %dm %ds',
+                int($v / 3600 * 24), int($v % (3600 * 24) / 3600),
+                int(($v % (3600 * 24)) % 3600 / 60), $v % 60;
+        } elsif ($v > 3600) {
+            $formatted = sprintf '%dh %dm %ds',
+                int($v / 3600), int($v % 3600 / 60), $v % 60;
+        } else {
+            $formatted = sprintf '%dm %ds', int($v / 60), $v % 60;
+        }
+        $p->{timeRemainingFormatted} = $formatted;
     }
     if (defined(my $v = get $p, 'totalBytes')) {
         $p->{totalBytesFormatted} = substr(commify $v / 1e9, 0, 5) . 'GB';
