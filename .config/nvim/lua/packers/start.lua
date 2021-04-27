@@ -377,9 +377,9 @@ return {
     'Xuyuanp/scrollbar.nvim',
     config = function()
       vim.g.scrollbar_shape = {
-        head = '╽',
-        body = '┃',
-        tail = '╿',
+        head = '⣼',
+        body = '⣿',
+        tail = '⢻',
       }
       vim.g.scrollbar_highlight = {
         head = 'Todo',
