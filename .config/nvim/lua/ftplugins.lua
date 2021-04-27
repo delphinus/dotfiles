@@ -152,6 +152,17 @@ M = {
       return ('%s %3d 行: %s%s'):format(level, lines, test_name, cases_part)
     end
 
+    local found
+    for p in vim.gsplit(vim.o.path, ',', true) do
+      if p == 'lib' then
+        found = true
+        break
+      end
+    end
+    if not found then
+      vim.o.path = 'lib,'..vim.o.path
+    end
+
     vim.cmd[[let g:PerlFoldText = {-> v:lua.perl_fold_text()}]]
     vim.cmd[[setlocal foldtext=g:PerlFoldText()]]
   end,
