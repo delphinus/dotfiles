@@ -171,6 +171,7 @@ return {
           vim.cmd[[!gem install --user-install solargraph]]
           vim.cmd('!brew install gopls efm-langserver terraform-ls'
             ..'&& brew upgrade gopls efm-langserver terraform-ls')
+          vim.cmd[[!brew uninstall vint && brew install vint --HEAD]]
           vim.cmd[[!luarocks install luacheck]]
           vim.cmd('!npm i -g bash-language-server dockerfile-language-server-nodejs intelephense pyright typescript'
             ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
