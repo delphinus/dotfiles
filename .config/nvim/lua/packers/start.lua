@@ -87,6 +87,9 @@ return {
         if r.digraphs and #r.digraphs > 0 then
           text = text..', \\<C-K>'..r.digraphs[1]
         end
+        if r.description ~= '<unknown>' then
+          text = text..', '..r.description
+        end
         return text
       end
       local monospace = function(value)
@@ -429,7 +432,7 @@ return {
       end)
 
       -- start scrollbar
-      ToggleScrollbar()
+      _G.ToggleScrollbar()
     end,
   },
 
