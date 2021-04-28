@@ -85,7 +85,9 @@ sub detect_latest_backup() {
     my $in_progress_re = qr/\.inProgress$/;
     my $is_in_progress = $name =~ $in_progress_re;
     (my $canonical = $name) =~ s/$in_progress_re//;
-    undef, Time::Piece->strptime($canonical, '%F-%H%M%S'), $is_in_progress
+    my $no_tz = Time::Piece->strptime($canonical, '%F-%H%M%S');
+    my $latest = localtime($no_tz->epoch - 9 * 60 * 60);
+    undef, $latest, $is_in_progress;
 }
 
 sub process() {
