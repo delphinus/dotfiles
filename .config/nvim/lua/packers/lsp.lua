@@ -132,13 +132,14 @@ return {
               enable = true,
               globals = {
                 'vim', 'describe', 'it', 'before_each', 'after_each',
-                'packer_plugins',
+                'packer_plugins', 'hs',
               },
             },
             workspace = {
               library = {
                 [vim.fn.expand'$VIMRUNTIME/lua'] = true,
                 [vim.fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
+                ['/Applications/Hammerspoon.app/Contents/Resources/extensions'] = true,
               },
             },
           }
