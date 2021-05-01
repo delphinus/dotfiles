@@ -17,6 +17,9 @@
 - name: prepare bpytop config dir
   file: path=~/.config/bpytop state=directory
 
+- name: prepare hammerspoon config dir
+  file: path=~/.hammerspoon state=directory
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
@@ -44,6 +47,7 @@
     - .gitignore-global
     - .golangci.yml
     - .grcat
+    - .hammerspoon/init.lua
     - .inputrc
     - .iterm2
     - .iterm2_shell_integration.zsh
