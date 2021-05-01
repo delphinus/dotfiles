@@ -608,80 +608,6 @@ return {
   },
 
   {
-    'numToStr/FTerm.nvim',
-    keys = {
-      {'n', '<A-c>'},
-      {'n', '<A-ç>'},
-    },
-    config = function()
-      local m = require'mappy'
-      m.bind('nt', {'<A-c>', '<A-ç>'}, [[<Cmd>FTermToggle<CR>]])
-      vim.api.nvim_exec([[
-        hi WinBorderTop guifg=#ebf5f5 blend=30
-        hi WinBorderLeft guifg=#c2dddc blend=30
-        hi WinBorderRight guifg=#8fbcba blend=30
-        hi WinBorderBottom guifg=#5d9794 blend=30
-        hi WinBorderLight guifg=#c2dddc guibg=#5d9794 blend=30
-        hi WinBorderDark guifg=#5d9794 guibg=#c2dddc blend=30
-        hi WinBorderTransparent guibg=#111a2c
-      ]], false)
-      require'FTerm'.setup{
-        border = {
-          --[[
-          {'╭', 'WinBorderTop'},
-          {'─', 'WinBorderTop'},
-          {' ', 'WinBorderTransparent'},
-          {' ', 'WinBorderTransparent'},
-          {' ', 'WinBorderTransparent'},
-          {' ', 'WinBorderTransparent'},
-          {' ', 'WinBorderTransparent'},
-          {'│', 'WinBorderLeft'},
-          ]]
-          --[[
-          {'█', 'WinBorderLight'},
-          {'▀', 'WinBorderLight'},
-          {'▀', 'WinBorderLight'},
-          {'█', 'WinBorderDark'},
-          {'▄', 'WinBorderLight'},
-          {'▄', 'WinBorderLight'},
-          {'█', 'WinBorderLight'},
-          {'█', 'WinBorderLight'},
-          ]]
-          --[[
-          {'▟', 'WinBorderLight'},
-          {'▀', 'WinBorderLight'},
-          {'▀', 'WinBorderLight'},
-          {'▙', 'WinBorderDark'},
-          {'█', 'WinBorderDark'},
-          {'▛', 'WinBorderDark'},
-          {'▄', 'WinBorderDark'},
-          {'▜', 'WinBorderLight'},
-          {'█', 'WinBorderLight'},
-          ]]
-          --[[
-          {'╭', 'WinBorderTop'},
-          {'─', 'WinBorderTop'},
-          {'╮', 'WinBorderTop'},
-          {'│', 'WinBorderRight'},
-          {'╯', 'WinBorderBottom'},
-          {'─', 'WinBorderBottom'},
-          {'╰', 'WinBorderLeft'},
-          {'│', 'WinBorderLeft'},
-          ]]
-          {'⣤', 'WinBorderTop'},
-          {'⣤', 'WinBorderTop'},
-          {'⣤', 'WinBorderTop'},
-          {'⣿', 'WinBorderRight'},
-          {'⠛', 'WinBorderBottom'},
-          {'⠛', 'WinBorderBottom'},
-          {'⠛', 'WinBorderLeft'},
-          {'⣿', 'WinBorderLeft'},
-        },
-      }
-    end,
-  },
-
-  {
     --'phaazon/hop.nvim',
     'delphinus/hop.nvim',
     branch = 'feature/migemo',
@@ -819,6 +745,84 @@ return {
   {'sainnhe/artify.vim', fn = {'artify#convert'}},
   {'vim-jp/vital.vim', fn = {'vital#vital#new'}},
   -- }}}
+
+  {
+    'numToStr/FTerm.nvim',
+    module = {'FTerm'},
+    setup = function()
+      local loaded
+      require'mappy'.bind('nt', {'<A-c>', '<A-ç>'}, function()
+        if not loaded then
+          require'FTerm'.setup{
+            border = {
+              --[[
+              {'╭', 'WinBorderTop'},
+              {'─', 'WinBorderTop'},
+              {' ', 'WinBorderTransparent'},
+              {' ', 'WinBorderTransparent'},
+              {' ', 'WinBorderTransparent'},
+              {' ', 'WinBorderTransparent'},
+              {' ', 'WinBorderTransparent'},
+              {'│', 'WinBorderLeft'},
+              ]]
+              --[[
+              {'█', 'WinBorderLight'},
+              {'▀', 'WinBorderLight'},
+              {'▀', 'WinBorderLight'},
+              {'█', 'WinBorderDark'},
+              {'▄', 'WinBorderLight'},
+              {'▄', 'WinBorderLight'},
+              {'█', 'WinBorderLight'},
+              {'█', 'WinBorderLight'},
+              ]]
+              --[[
+              {'▟', 'WinBorderLight'},
+              {'▀', 'WinBorderLight'},
+              {'▀', 'WinBorderLight'},
+              {'▙', 'WinBorderDark'},
+              {'█', 'WinBorderDark'},
+              {'▛', 'WinBorderDark'},
+              {'▄', 'WinBorderDark'},
+              {'▜', 'WinBorderLight'},
+              {'█', 'WinBorderLight'},
+              ]]
+              --[[
+              {'╭', 'WinBorderTop'},
+              {'─', 'WinBorderTop'},
+              {'╮', 'WinBorderTop'},
+              {'│', 'WinBorderRight'},
+              {'╯', 'WinBorderBottom'},
+              {'─', 'WinBorderBottom'},
+              {'╰', 'WinBorderLeft'},
+              {'│', 'WinBorderLeft'},
+              ]]
+              {'⣤', 'WinBorderTop'},
+              {'⣤', 'WinBorderTop'},
+              {'⣤', 'WinBorderTop'},
+              {'⣿', 'WinBorderRight'},
+              {'⠛', 'WinBorderBottom'},
+              {'⠛', 'WinBorderBottom'},
+              {'⠛', 'WinBorderLeft'},
+              {'⣿', 'WinBorderLeft'},
+            },
+          }
+          loaded = true
+        end
+        require'FTerm'.toggle()
+      end)
+    end,
+    config = function()
+      vim.api.nvim_exec([[
+        hi WinBorderTop guifg=#ebf5f5 blend=30
+        hi WinBorderLeft guifg=#c2dddc blend=30
+        hi WinBorderRight guifg=#8fbcba blend=30
+        hi WinBorderBottom guifg=#5d9794 blend=30
+        hi WinBorderLight guifg=#c2dddc guibg=#5d9794 blend=30
+        hi WinBorderDark guifg=#5d9794 guibg=#c2dddc blend=30
+        hi WinBorderTransparent guibg=#111a2c
+      ]], false)
+    end,
+  },
 
   -- temporarily
   {
