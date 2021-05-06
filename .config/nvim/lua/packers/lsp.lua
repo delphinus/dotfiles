@@ -19,47 +19,51 @@ return {
         vim.cmd[[edit]]
       end
 
-      local lsp_on_attach = function(client)
-        print('LSP started.')
-        --require'completion'.on_attach()
+      local lsp_on_attach = function(diag_maps_only)
+        return function(client, bufnr)
+          print(('LSP started: bufnr = %d'):format(bufnr))
+          --require'completion'.on_attach()
 
-        if client.config.flags then
-          client.config.flags.allow_incremental_sync = true
+          if client.config.flags then
+            client.config.flags.allow_incremental_sync = true
+          end
+
+          -- ignore errors when executed multi times
+          m.add_buffer_maps(function()
+            m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
+            m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
+            if not diag_maps_only then
+              m.nnoremap('1gD', vim.lsp.buf.type_definition)
+              if vim.bo.filetype ~= 'help' then
+                m.nnoremap('<C-]>', vim.lsp.buf.definition)
+                m.nnoremap('<C-w><C-]>', function()
+                  vim.cmd[[split]]
+                  vim.lsp.buf.definition()
+                end)
+              end
+              m.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
+              m.nnoremap('K', vim.lsp.buf.hover)
+              m.nnoremap('g0', vim.lsp.buf.document_symbol)
+              m.nnoremap('g=', vim.lsp.buf.formatting)
+              m.nnoremap('gA', vim.lsp.buf.code_action)
+              m.nnoremap('gD', vim.lsp.buf.implementation)
+              --m.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
+              m.nnoremap('gR', vim.lsp.buf.rename)
+              m.nnoremap('gW', vim.lsp.buf.workspace_symbol)
+              m.nnoremap('gd', vim.lsp.buf.declaration)
+              m.nnoremap('gli', vim.lsp.buf.incoming_calls)
+              m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
+              m.nnoremap('gr', vim.lsp.buf.references)
+              m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
+              m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
+
+              if client.resolved_capabilities.document_formatting
+                or client.resolved_capabilities.document_range_formatting then
+                m.nnoremap('<space>f', vim.lsp.buf.formatting)
+              end
+            end
+          end)
         end
-
-        -- ignore errors when executed multi times
-        m.add_buffer_maps(function()
-          m.nnoremap('1gD', vim.lsp.buf.type_definition)
-          m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
-          m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
-          if vim.bo.filetype ~= 'help' then
-            m.nnoremap('<C-]>', vim.lsp.buf.definition)
-            m.nnoremap('<C-w><C-]>', function()
-              vim.cmd[[split]]
-              vim.lsp.buf.definition()
-            end)
-          end
-          m.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
-          m.nnoremap('K', vim.lsp.buf.hover)
-          m.nnoremap('g0', vim.lsp.buf.document_symbol)
-          m.nnoremap('g=', vim.lsp.buf.formatting)
-          m.nnoremap('gA', vim.lsp.buf.code_action)
-          m.nnoremap('gD', vim.lsp.buf.implementation)
-          --m.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
-          m.nnoremap('gR', vim.lsp.buf.rename)
-          m.nnoremap('gW', vim.lsp.buf.workspace_symbol)
-          m.nnoremap('gd', vim.lsp.buf.declaration)
-          m.nnoremap('gli', vim.lsp.buf.incoming_calls)
-          m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
-          m.nnoremap('gr', vim.lsp.buf.references)
-          m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
-          m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
-
-          if client.resolved_capabilities.document_formatting
-            or client.resolved_capabilities.document_range_formatting then
-            m.nnoremap('<space>f', vim.lsp.buf.formatting)
-          end
-        end)
       end
 
       vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
@@ -71,25 +75,25 @@ return {
       )
 
       local lsp = require'lspconfig'
-      lsp.bashls.setup{on_attach = lsp_on_attach}
-      lsp.clangd.setup{on_attach = lsp_on_attach}
-      lsp.cssls.setup{on_attach = lsp_on_attach}
-      lsp.dockerls.setup{on_attach = lsp_on_attach}
-      lsp.html.setup{on_attach = lsp_on_attach}
-      lsp.intelephense.setup{on_attach = lsp_on_attach}
-      lsp.jsonls.setup{on_attach = lsp_on_attach}
+      lsp.bashls.setup{on_attach = lsp_on_attach()}
+      lsp.clangd.setup{on_attach = lsp_on_attach()}
+      lsp.cssls.setup{on_attach = lsp_on_attach()}
+      lsp.dockerls.setup{on_attach = lsp_on_attach()}
+      lsp.html.setup{on_attach = lsp_on_attach()}
+      lsp.intelephense.setup{on_attach = lsp_on_attach()}
+      lsp.jsonls.setup{on_attach = lsp_on_attach()}
       -- TODO: diagnostics from Perl::LanguageServer is unreliable
-      --lsp.perlls.setup{on_attach = lsp_on_attach}
-      lsp.pyright.setup{on_attach = lsp_on_attach}
-      lsp.solargraph.setup{on_attach = lsp_on_attach}
-      lsp.terraformls.setup{on_attach = lsp_on_attach}
-      lsp.tsserver.setup{on_attach = lsp_on_attach}
-      lsp.vimls.setup{on_attach = lsp_on_attach}
-      lsp.yamlls.setup{on_attach = lsp_on_attach}
-      lsp.vuels.setup{on_attach = lsp_on_attach}
+      --lsp.perlls.setup{on_attach = lsp_on_attach()}
+      lsp.pyright.setup{on_attach = lsp_on_attach()}
+      lsp.solargraph.setup{on_attach = lsp_on_attach()}
+      lsp.terraformls.setup{on_attach = lsp_on_attach()}
+      lsp.tsserver.setup{on_attach = lsp_on_attach()}
+      lsp.vimls.setup{on_attach = lsp_on_attach()}
+      lsp.yamlls.setup{on_attach = lsp_on_attach()}
+      lsp.vuels.setup{on_attach = lsp_on_attach()}
 
       lsp.efm.setup{
-        on_attach = lsp_on_attach,
+        on_attach = lsp_on_attach(true),
         init_options = {
           documentFormatting = true,
           hover = true,
@@ -100,7 +104,7 @@ return {
       }
 
       lsp.gopls.setup{
-        on_attach = lsp_on_attach,
+        on_attach = lsp_on_attach(),
         settings = {
           hoverKind = 'NoDocumentation',
           deepCompletion = true,
@@ -117,7 +121,7 @@ return {
       )
 
       lsp.sumneko_lua.setup{
-        on_attach = lsp_on_attach,
+        on_attach = lsp_on_attach(),
         cmd = {sumneko_binary, '-E', sumneko_root_path..'/main.lua'},
         settings = {
           Lua = {
