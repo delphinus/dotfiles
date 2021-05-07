@@ -754,6 +754,7 @@ return {
       require'mappy'.bind('nt', {'<A-c>', '<A-ç>'}, function()
         if not loaded then
           require'FTerm'.setup{
+            cmd = vim.o.shell,
             border = {
               --[[
               {'╭', 'WinBorderTop'},
