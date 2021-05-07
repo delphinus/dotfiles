@@ -95,11 +95,6 @@ table td b a.extiw
 	font-family: ui-sans-serif !important;
 }
 
-h1, h2, h3, h4, h5, h6,
-dt, th, strong, b {
-  font-family: ui-rounded;
-}
-
 html {
 	font-family: ui-rounded;
 }
