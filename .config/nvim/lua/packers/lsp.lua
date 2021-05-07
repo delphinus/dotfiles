@@ -33,34 +33,57 @@ return {
             m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
             m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
             if not diag_maps_only then
-              m.nnoremap('1gD', vim.lsp.buf.type_definition)
+              m.nnoremap('K', vim.lsp.buf.hover)
+              local wk = require'which-key'
+              wk.register({
+                g = {
+                  name = 'LSP',
+                  D = {
+                    vim.lsp.buf.type_definition,
+                    'Type definition',
+                    buffer = bufnr,
+                  },
+                },
+              }, {prefix = '1', buffer = bufnr})
               if vim.bo.filetype ~= 'help' then
                 m.nnoremap('<C-]>', vim.lsp.buf.definition)
-                m.nnoremap('<C-w><C-]>', function()
-                  vim.cmd[[split]]
-                  vim.lsp.buf.definition()
-                end)
+                wk.register({
+                  ['<C-]>'] = {
+                    function()
+                      vim.cmd[[split]]
+                      vim.lsp.buf.definition()
+                    end,
+                    'Definition',
+                  },
+                }, {prefix = '<C-w>', buffer = bufnr})
               end
-              m.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
-              m.nnoremap('K', vim.lsp.buf.hover)
-              m.nnoremap('g0', vim.lsp.buf.document_symbol)
-              m.nnoremap('g=', vim.lsp.buf.formatting)
-              m.nnoremap('gA', vim.lsp.buf.code_action)
-              m.nnoremap('gD', vim.lsp.buf.implementation)
-              --m.nnoremap('gK', vim.lsp.util.show_line_diagnostics)
-              m.nnoremap('gR', vim.lsp.buf.rename)
-              m.nnoremap('gW', vim.lsp.buf.workspace_symbol)
-              m.nnoremap('gd', vim.lsp.buf.declaration)
-              m.nnoremap('gli', vim.lsp.buf.incoming_calls)
-              m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
-              m.nnoremap('gr', vim.lsp.buf.references)
-              m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
-              m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
-
-              if client.resolved_capabilities.document_formatting
-                or client.resolved_capabilities.document_range_formatting then
-                m.nnoremap('<space>f', vim.lsp.buf.formatting)
-              end
+              wk.register({
+                ['<C-k>'] = {vim.lsp.buf.signature_help, 'Signature help'},
+              }, {prefix = '<C-x>', buffer = bufnr})
+              wk.register({
+                name = 'LSP',
+                ['0'] = {vim.lsp.buf.document_symbol, 'Document symbol'},
+                ['='] = {vim.lsp.buf.formatting, 'Formatting'},
+                A = {vim.lsp.buf.code_action, 'Code action'},
+                D = {vim.lsp.buf.implementation, 'Implementation'},
+                R = {vim.lsp.buf.rename, 'Rename'},
+                W = {vim.lsp.buf.workspace_symbol, 'Workspace symbol'},
+                d = {vim.lsp.buf.declaration, 'Declaration'},
+                l = {
+                  name = 'LSP - calls',
+                  i = {vim.lsp.buf.incoming_calls, 'Incoming calls'},
+                  o = {vim.lsp.buf.incoming_calls, 'Outgoing calls'},
+                },
+                r = {vim.lsp.buf.references, 'References'},
+              }, {prefix = 'g', buffer = bufnr})
+              wk.register({
+                name = 'LSP',
+                e = {
+                  vim.lsp.diagnostic.show_line_diagnostics,
+                  'Show line diagnostics',
+                },
+                q = {vim.lsp.diagnostic.set_loclist, 'Set loclist'},
+              }, {prefix = '<Space>', buffer = bufnr})
             end
           end)
         end
