@@ -93,7 +93,8 @@ return {
         return text
       end
       local monospace = function(value)
-        return require'artify'(value, 'monospace')
+        return vim.g.goneovim == 1 and value or
+          require'artify'(value, 'monospace')
       end
       require'lualine'.setup{
         options = {

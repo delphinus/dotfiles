@@ -223,4 +223,11 @@ if vim.g.vv then
 end
 -- }}}
 
+-- for Goneovim {{{
+if vim.g.goneovim then
+  vim.o.shell = '/usr/local/bin/fish'
+  vim.env.LANG = 'ja_JP.UTF-8'
+end
+-- }}}
+
 -- vim:se fdm=marker:
