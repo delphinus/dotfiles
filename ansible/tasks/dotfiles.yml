@@ -20,6 +20,9 @@
 - name: prepare hammerspoon config dir
   file: path=~/.hammerspoon state=directory
 
+- name: prepare goneovim config dir
+  file: path=~/.config/goneovim state=directory
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
@@ -33,6 +36,7 @@
     - .config/efm-langserver
     - .config/fish
     - .config/gocode
+    - .config/goneovim/settings.toml
     - .config/ipython
     - .config/nvim
     - .config/peco
