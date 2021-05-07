@@ -32,7 +32,7 @@ return {
   setup = function()
     local builtin = function(name) return require'telescope.builtin'[name] end
     local extensions = function(name)
-      return require'telescope'.extensions[name]
+      return require'telescope'.load_extension(name)
     end
     require'mappy'.nnoremap('#', function()
       builtin'current_buffer_fuzzy_find'{}
@@ -54,12 +54,12 @@ return {
                   'WarningMsg',
                 },
               }, true, {})
-              extensions().ghq.list{}
+              extensions'ghq'.list{}
             -- TODO: use vim.loop.fs_stat ?
             elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') then
-              builtin'ghq'.list{}
+              extensions'ghq'.list{}
             else
-              builtin'find_files'{}
+              extensions'fzf_writer'.files{}
             end
           end, 'git files / find files'},
           g = {function()
@@ -143,21 +143,22 @@ return {
     end
 
     local actions = require'telescope.actions'
-    local builtin = require'telescope.builtin'
     local telescope = require'telescope'
-    local extensions = telescope.extensions
+    local extensions = function(name)
+      return require'telescope'.load_extension(name)
+    end
 
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
       actions.close(prompt_bufnr)
-      builtin.find_files{cwd = selection.value}
+      extensions'fzf_writer'.files{cwd = selection.value}
     end
 
     local run_live_grep = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
       if vim.fn.isdirectory(selection.value) == 1 then
         actions.close(prompt_bufnr)
-        extensions.fzf_writer.staged_grep{cwd = selection.value}
+        extensions'fzf_writer'.staged_grep{cwd = selection.value}
       else
         vim.api.nvim_echo({{'This is not a directory.', 'WarningMsg'}}, true, {})
       end
@@ -229,13 +230,5 @@ return {
       hi link TelescopeFrecencyScores TelescopeResultsIdentifier
       hi link TelescopeQueryFilter Type
     ]], false)
-
-    telescope.load_extension'frecency'
-    telescope.load_extension'fzf_writer'
-    telescope.load_extension'gh'
-    telescope.load_extension'ghq'
-    telescope.load_extension'memo'
-    telescope.load_extension'node_modules'
-    telescope.load_extension'z'
   end,
 }
