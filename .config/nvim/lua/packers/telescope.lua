@@ -28,30 +28,102 @@ return {
     },
   },
   cmd = {'Telescope'},
-  keys = {
-    '<Leader>ff',
-    '<Leader>fg',
-    '<Leader>fb',
-    '<Leader>fh',
-    '<Leader>fH',
-    '<Leader>fm',
-    '<Leader>fo',
-    '<Leader>fp',
-    '<Leader>fq',
-    '<Leader>fz',
-    '<Leader>f:',
-    '<Leader>mm',
-    '<Leader>mg',
-    '<Leader>sr',
-    '<Leader>sd',
-    '<Leader>sw',
-    '<Leader>sc',
-    '<Leader>gc',
-    '<Leader>gb',
-    '<Leader>gr',
-    '<Leader>gs',
-    '#',
-  },
+  module = {'telescope'},
+  setup = function()
+    local builtin = function(name) return require'telescope.builtin'[name] end
+    local extensions = function(name)
+      return require'telescope'.extensions[name]
+    end
+    require'mappy'.nnoremap('#', function()
+      builtin'current_buffer_fuzzy_find'{}
+    end)
+    require'which-key'.register(
+      {
+        f = {
+          name = '+[Telescope]',
+          b = {
+            function() builtin'file_browser'{cwd = '%:h'} end,
+            'File Browser',
+          },
+          f = {function()
+            -- TODO: stopgap measure
+            if vim.loop.cwd() == vim.loop.os_homedir() then
+              vim.api.nvim_echo({
+                {
+                  'find_files on $HOME is danger. Launch ghq instead.',
+                  'WarningMsg',
+                },
+              }, true, {})
+              extensions().ghq.list{}
+            -- TODO: use vim.loop.fs_stat ?
+            elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') then
+              builtin'ghq'.list{}
+            else
+              builtin'find_files'{}
+            end
+          end, 'git files / find files'},
+          g = {function()
+            builtin'grep_string'{
+              only_sort_text = true,
+              search = vim.fn.input'Grep For > ',
+            }
+          end, 'Grep'},
+          G = {
+            function() builtin'grep_string'{} end,
+            'Grep the word on cursor',
+          },
+          h = {function() builtin'help_tags'{} end, 'Help'},
+          H = {function() builtin'help_tags'{lang = 'en'} end, 'Help (en)'},
+          m = {function() builtin'man_pages'{sections = {'ALL'}} end, 'Man'},
+          o = {function() extensions'frecency'.frecency{} end, 'Frecency'},
+          p = {
+            function() extensions'node_modules'.list{} end,
+            'List up in node_modules',
+          },
+          q = {function() extensions'ghq'.list{} end, 'Ghq'},
+          z = {function() extensions'z'.list{} end, 'Z'},
+          [':'] = {
+            function() builtin'command_history'{} end,
+            'Show command history',
+          },
+        },
+        m = {
+          name = '+[Telescope] memo',
+          m = {function() extensions'memo'.list{} end, 'Memo'},
+          g = {
+            function()
+              extensions'memo'.grep_string{
+                only_sort_text = true,
+                search = vim.fn.input'Memo Grep For >',
+              }
+            end,
+            'Grep memo',
+          },
+        },
+        s = {
+          name = '+[Telescope] LSP',
+          r = {function() builtin'lsp_references'{} end, 'Show references'},
+          d = {
+            function() builtin'lsp_document_symbols'{} end,
+            'Show document symbols',
+          },
+          w = {
+            function() builtin'lsp_workspace_symbols'{} end,
+            'Show workspace symbols',
+          },
+          c = {function() builtin'lsp_code_actions'{} end, 'Show code actions'},
+        },
+        g = {
+          name = '+[Telescope] Git',
+          c = {function() builtin'git_commits'{} end, 'Commits'},
+          b = {function() builtin'git_bcommits'{} end, 'Commits for buffer'},
+          r = {function() builtin'git_branches'{} end, 'Branches'},
+          s = {function() builtin'git_status'{} end, 'Status'},
+        },
+      },
+      {prefix = '<Leader>'}
+    )
+  end,
   config = function()
     for _, name in pairs{
       'nvim-web-devicons',
@@ -74,7 +146,6 @@ return {
     local builtin = require'telescope.builtin'
     local telescope = require'telescope'
     local extensions = telescope.extensions
-    local m = require'mappy'
 
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
@@ -166,65 +237,5 @@ return {
     telescope.load_extension'memo'
     telescope.load_extension'node_modules'
     telescope.load_extension'z'
-
-    -- file finders
-    m.nnoremap('<Leader>ff', function()
-      -- TODO: stopgap measure
-      local cwd = vim.fn.getcwd()
-      if cwd == vim.loop.os_homedir() then
-        vim.api.nvim_echo({
-          {'find_files on $HOME is danger. Launch ghq instead.', 'WarningMsg'},
-        }, true, {})
-        extensions.ghq.list{}
-      elseif vim.fn.isdirectory(cwd..'/.git') then
-        builtin.git_files{}
-      else
-        builtin.find_files{}
-      end
-    end)
-
-    m.nnoremap('<Leader>fa', function()
-      builtin.find_files{hidden = true}
-    end)
-    m.nnoremap('<Leader>fb', function() builtin.file_browser{cwd = '%:h'} end)
-    m.nnoremap('<Leader>fg', function()
-      builtin.grep_string{
-        only_sort_text = true,
-        search = vim.fn.input('Grep For > '),
-      }
-    end)
-    m.nnoremap('<Leader>fG', builtin.grep_string)
-    m.nnoremap('<Leader>fh', builtin.help_tags)
-    m.nnoremap('<Leader>fH', function() builtin.help_tags{lang = 'en'} end)
-    m.nnoremap('<Leader>fm', function() builtin.man_pages{sections = {'ALL'}} end)
-    m.nnoremap('<Leader>fo', extensions.frecency.frecency)
-    m.nnoremap('<Leader>fp', extensions.node_modules.list)
-    m.nnoremap('<Leader>fq', extensions.ghq.list)
-    m.nnoremap('<Leader>fz', extensions.z.list)
-    m.nnoremap('<Leader>f:', builtin.command_history)
-
-    -- for Memo
-    m.nnoremap('<Leader>mm', extensions.memo.list)
-    m.nnoremap('<Leader>mg', function()
-      extensions.memo.grep_string{
-        only_sort_text = true,
-        search = vim.fn.input('Memo Grep For > '),
-      }
-    end)
-
-    -- for LSP
-    m.nnoremap('<Leader>sr', builtin.lsp_references)
-    m.nnoremap('<Leader>sd', builtin.lsp_document_symbols)
-    m.nnoremap('<Leader>sw', builtin.lsp_workspace_symbols)
-    m.nnoremap('<Leader>sc', builtin.lsp_code_actions)
-
-    -- for Git
-    m.nnoremap('<Leader>gc', builtin.git_commits)
-    m.nnoremap('<Leader>gb', builtin.git_bcommits)
-    m.nnoremap('<Leader>gr', builtin.git_branches)
-    m.nnoremap('<Leader>gs', builtin.git_status)
-
-    -- for buffer
-    m.nnoremap('#', builtin.current_buffer_fuzzy_find)
   end,
 }
