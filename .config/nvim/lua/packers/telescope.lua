@@ -1,7 +1,5 @@
 return {
   'nvim-telescope/telescope.nvim',
-  --'delphinus/telescope.nvim',
-  --branch = 'file_browser',
   requires = {
     {'delphinus/telescope-memo.nvim', opt = true},
     {'kyazdani42/nvim-web-devicons', opt = true},
@@ -56,8 +54,8 @@ return {
               }, true, {})
               extensions'ghq'.list{}
             -- TODO: use vim.loop.fs_stat ?
-            elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') then
-              extensions'ghq'.list{}
+            elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') == 1 then
+              builtin'git_files'{}
             else
               extensions'fzf_writer'.files{}
             end
