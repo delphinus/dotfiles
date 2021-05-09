@@ -109,6 +109,7 @@ return {
       --lsp.perlls.setup{on_attach = lsp_on_attach()}
       lsp.pyright.setup{on_attach = lsp_on_attach()}
       lsp.solargraph.setup{on_attach = lsp_on_attach()}
+      lsp.sourcekit.setup{on_attach = lsp_on_attach()}
       lsp.terraformls.setup{on_attach = lsp_on_attach()}
       lsp.tsserver.setup{on_attach = lsp_on_attach()}
       lsp.vimls.setup{on_attach = lsp_on_attach()}

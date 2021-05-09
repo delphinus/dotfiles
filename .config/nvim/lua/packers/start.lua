@@ -330,9 +330,10 @@ return {
     end,
   },
 
-  {'neoclide/jsonc.vim'},
+  {'keith/swift.vim'},
   {'leafo/moonscript-vim'},
   {'mustache/vim-mustache-handlebars'},
+  {'neoclide/jsonc.vim'},
 
   {
     'pearofducks/ansible-vim',
