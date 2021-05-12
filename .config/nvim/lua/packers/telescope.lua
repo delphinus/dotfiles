@@ -63,7 +63,7 @@ return {
           g = {function()
             builtin'grep_string'{
               only_sort_text = true,
-              search = vim.fn.input'Grep For > ',
+              search = vim.fn.input'Grep For ❯ ',
             }
           end, 'Grep'},
           G = {
@@ -92,7 +92,7 @@ return {
             function()
               extensions'memo'.grep_string{
                 only_sort_text = true,
-                search = vim.fn.input'Memo Grep For >',
+                search = vim.fn.input'Memo Grep For ❯ ',
               }
             end,
             'Grep memo',
