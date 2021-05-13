@@ -139,5 +139,6 @@
 	commit-decoration-style = bold yellow box ul
 	file-style = bold yellow ul
 	file-decoration-style = none
+	line-numbers-left-format = {nm:^4}⡇
 
 # vim:se noet:
