@@ -65,6 +65,8 @@ return {
     config = function() vim.g.direnv_silent_load = 1 end,
   },
 
+  {'editorconfig/editorconfig-vim'},
+
   {
     'hoob3rt/lualine.nvim',
     requires = {
