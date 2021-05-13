@@ -303,7 +303,6 @@ return {
   {
     'npxbr/glow.nvim',
     cmd = {'Glow', 'GlowInstall'},
-    run = [[:GlowInstall]],
   },
 
   {'powerman/vim-plugin-AnsiEsc', cmd = {'AnsiEsc'}},
