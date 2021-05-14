@@ -464,12 +464,8 @@ return {
     end,
   },
 
-  {
-    'folke/which-key.nvim',
-    config = function()
-      require'which-key'.setup{}
-    end,
-  },
+  {'folke/todo-comments.nvim'},
+  {'folke/which-key.nvim'},
 
   {'f-person/git-blame.nvim'},
   -- }}}
