@@ -396,6 +396,7 @@ return {
               ['is'] = '@statement.inner',
               ['as'] = '@statement.outer',
               ['ad'] = '@comment.outer',
+              ['id'] = '@comment.inner',
               ['am'] = '@call.outer',
               ['im'] = '@call.inner',
             },
