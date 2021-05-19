@@ -21,6 +21,7 @@ return {
     end,
   },
 
+  --[=[
   {
     'delphinus/dwm.vim',
     branch = 'feature/disable',
@@ -56,6 +57,7 @@ return {
       m.nmap('<C-s>', [[<Plug>DWMRotateClockwise]])
     end,
   },
+  ]=]
 
   {'delphinus/vim-auto-cursorline'},
   {'delphinus/vim-quickfix-height'},
@@ -441,6 +443,39 @@ return {
   },
 
   {
+    'delphinus/dwm.nvim',
+    config = function()
+      local dwm = require'dwm'
+      dwm.setup{
+        key_maps = false,
+      }
+      dwm.map('<C-j>', '<C-w>w')
+      dwm.map('<C-k>', '<C-w>W')
+      dwm.map('<A-CR>', dwm.focus)
+      dwm.map('<C-@>', dwm.focus)
+      dwm.map('<C-Space>', dwm.focus)
+      dwm.map('<C-l>', dwm.grow)
+      dwm.map('<C-h>', dwm.shrink)
+      dwm.map('<C-n>', dwm.new)
+      dwm.map('<C-q>', dwm.rotateLeft)
+      dwm.map('<C-s>', dwm.rotate)
+      dwm.map('<C-c>', function()
+        pcall(require'scrollbar'.clear)
+        dwm.close()
+      end)
+
+      require'augroups'.set{
+        dwm_preview = {
+          {'BufRead', '*', function()
+            if vim.wo.previewwindow == 1 then vim.b.dwm_disabled = 1 end
+          end},
+        },
+      }
+    end,
+  },
+
+  --[[
+  {
     'edluffy/specs.nvim',
     config = function()
       local specs = require'specs'
@@ -463,6 +498,7 @@ return {
       }
     end,
   },
+  ]]
 
   {'folke/todo-comments.nvim'},
   {'folke/which-key.nvim'},
