@@ -10,19 +10,24 @@ m.nnoremap('<Esc><Esc>', [[<Cmd>nohlsearch<CR>]])
 -- https://twitter.com/uvrub/status/1341036672364945408
 m.inoremap({'silent'}, '<CR>', '<C-g>u<CR>')
 
-local function qf_or_loc(mode)
-  return function()
-    local is_loc = vim.fn.getloclist(0, {winid = 0}).winid
-    local prefix = is_loc == 0 and 'c' or 'l'
-    local cmd = ':'..prefix..mode
-    print(cmd)
-    pcall(vim.cmd, cmd)
+m.nnoremap('qq', function()
+  local cmd
+  local loclist = vim.fn.getloclist(0, {size = 0, winid = 0})
+  if loclist.size > 0 then
+    cmd = loclist.winid == 0 and ':lopen' or ':lclose'
+  else
+    local is_opened
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.api.nvim_buf_get_option(buf, 'filetype') == 'qf' then
+        is_opened = true
+      end
+    end
+    cmd = is_opened and ':cclose' or ':copen'
   end
-end
-
-m.nnoremap('qn', qf_or_loc('next'))
-m.nnoremap('qp', qf_or_loc('prev'))
-m.nnoremap('qq', qf_or_loc('close'))
+  print(cmd)
+  vim.cmd(cmd)
+end)
 
 require'augroups'.set{
   -- quit with `q` when started by `view`
