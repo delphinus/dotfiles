@@ -1,14 +1,9 @@
 {% for profile in secret_aws_profile -%}
 [profile {{ profile.name }}]
-output = json
-{% if 'region' in profile %}region = {{ profile.region }}
+{% for key, value in profile.items() -%}
+{% if key != 'name' -%}{{ key }} = {{ value }}
 {% endif %}
-{% if 'mfa_serial' in profile %}mfa_serial = {{ profile.mfa_serial }}
-{% endif %}
-{% if 'role_arn' in profile %}role_arn = {{ profile.role_arn }}
-{% endif %}
-{% if 'role_session_name' in profile %}role_session_name = {{ profile.role_session_name }}
-{% endif %}
+{% endfor %}
 
 {% endfor %}
 {#- se:ft=conf.jinja: #}
