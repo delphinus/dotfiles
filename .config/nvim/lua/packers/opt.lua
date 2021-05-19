@@ -796,13 +796,13 @@ return {
               {'╰', 'WinBorderLeft'},
               {'│', 'WinBorderLeft'},
               ]]
+              {'⣠', 'WinBorderTop'},
               {'⣤', 'WinBorderTop'},
-              {'⣤', 'WinBorderTop'},
-              {'⣤', 'WinBorderTop'},
+              {'⣄', 'WinBorderTop'},
               {'⣿', 'WinBorderRight'},
+              {'⠋', 'WinBorderBottom'},
               {'⠛', 'WinBorderBottom'},
-              {'⠛', 'WinBorderBottom'},
-              {'⠛', 'WinBorderLeft'},
+              {'⠙', 'WinBorderLeft'},
               {'⣿', 'WinBorderLeft'},
             },
           }
