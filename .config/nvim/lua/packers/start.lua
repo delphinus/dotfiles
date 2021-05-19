@@ -468,6 +468,7 @@ return {
   {'folke/which-key.nvim'},
 
   {'f-person/git-blame.nvim'},
+  {'kevinhwang91/nvim-bqf'},
   -- }}}
 }
 
