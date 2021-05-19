@@ -102,8 +102,11 @@ alias g git
 alias gf 'git foresta | less'
 alias gfa 'git foresta --all | less'
 alias l. 'l -d .*'
-alias nvr 'nvr -cc split'
 alias pe path-extractor
+
+if test -n $NVIM_LISTEN_ADDRESS
+  alias nvr 'nvr -cc \'lua require"FTerm".toggle()\' -cc split'
+end
 
 type -q hub; and alias git hub
 type -q gdircolors; and alias dircolors gdircolors
