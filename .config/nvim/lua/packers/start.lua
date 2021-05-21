@@ -100,6 +100,14 @@ return {
         return vim.g.goneovim == 1 and value or
           require'artify'(value, 'monospace')
       end
+      local treesitter = function()
+        return require'nvim-treesitter'.statusline{
+          separator = ' » ',
+          transform_fn = function(line)
+            return line:gsub('%s*[%[%(%{].*$', '')
+          end,
+        }
+      end
       require'lualine'.setup{
         options = {
           theme = 'nord',
@@ -143,6 +151,7 @@ return {
           },
           lualine_c = {
             {'filename', format = monospace},
+            {treesitter, separator = '❘'},
           },
           lualine_x = {
             {char_info, separator = '❘'},
