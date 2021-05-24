@@ -82,7 +82,9 @@ textarea,textarea *,pre,pre *,code,code *,tt,tt *,
 .syntaxhighlighter table caption,
 .syntaxhighlighter textarea,
 .p6n-logs-entry,
-.ace_editor
+.ace_editor,
+.logs__log-events-table__cell,
+.logs__log-events-table__content
 {
 	font-family: ui-monospace !important;
 }
