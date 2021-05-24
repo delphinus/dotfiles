@@ -23,6 +23,10 @@
   src: local(ui-monospace);
 }
 @font-face {
+  font-family: Monaco;
+  src: local(ui-monospace);
+}
+@font-face {
 	font-family: 'ヒラギノ角ゴ ProN W3';
 	src: local(ui-sans-serif);
 }
