@@ -106,7 +106,7 @@ return {
       lsp.dockerls.setup{on_attach = lsp_on_attach()}
       lsp.html.setup{on_attach = lsp_on_attach()}
       lsp.intelephense.setup{on_attach = lsp_on_attach()}
-      lsp.jsonls.setup{on_attach = lsp_on_attach()}
+      --lsp.jsonls.setup{on_attach = lsp_on_attach()}
       -- TODO: diagnostics from Perl::LanguageServer is unreliable
       --lsp.perlls.setup{on_attach = lsp_on_attach()}
       lsp.pyright.setup{on_attach = lsp_on_attach()}
@@ -340,7 +340,7 @@ return {
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,
-          disable = {'toml'},
+          disable = {'toml', 'json'},
         },
         incremental_selection = {
           enable = true,
