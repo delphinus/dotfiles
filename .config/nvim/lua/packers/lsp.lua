@@ -445,6 +445,53 @@ return {
           disable = {'bash', 'c'},
         },
       }
+
+      local wk = require'which-key'
+      --[[
+      wk.register({
+        f = '@function.outer',
+        C = '@class.outer',
+        c = '@conditional.outer',
+        e = '@block.outer',
+        l = '@loop.outer',
+        s = '@statement.outer',
+        d = '@comment.outer',
+        m = '@call.outer',
+      }, {prefix = 'a'})
+      wk.register({
+        f = '@function.inner',
+        C = '@class.inner',
+        c = '@conditional.inner',
+        e = '@block.inner',
+        l = '@loop.inner',
+        s = '@statement.inner',
+        d = '@comment.inner',
+        m = '@call.inner',
+      }, {prefix = 'i'})
+      ]]
+      wk.register({
+        a = 'swap next',
+        A = 'swap previous',
+      }, {prefix = '<Leader>'})
+      wk.register({
+        m = 'next start of function',
+        [']'] = 'next start of class',
+        M = 'next end of function',
+        ['['] = 'next end of class',
+      }, {prefix = ']'})
+      wk.register({
+        m = 'previous start of function',
+        [']'] = 'previous start of class',
+        M = 'previous end of function',
+        ['['] = 'previous end of class',
+      }, {prefix = '['})
+      wk.register({
+        D = {
+          name = '[Treesitter] LSP',
+          f = '@function.outer',
+          F = '@class.outer',
+        }
+      }, {prefix = '<Leader>'})
     end,
     run = ':TSUpdate'
   }, -- }}}
