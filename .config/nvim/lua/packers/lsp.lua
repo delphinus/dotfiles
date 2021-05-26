@@ -28,6 +28,8 @@ return {
             client.config.flags.allow_incremental_sync = true
           end
 
+          vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
           -- ignore errors when executed multi times
           m.add_buffer_maps(function()
             m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
