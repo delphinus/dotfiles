@@ -457,6 +457,7 @@ return {
       local dwm = require'dwm'
       dwm.setup{
         key_maps = false,
+        master_pane_width = '60%',
       }
       dwm.map('<C-j>', '<C-w>w')
       dwm.map('<C-k>', '<C-w>W')
