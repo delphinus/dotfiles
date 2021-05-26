@@ -470,7 +470,17 @@ return {
       dwm.map('<C-q>', dwm.rotateLeft)
       dwm.map('<C-s>', dwm.rotate)
       dwm.map('<C-c>', function()
-        pcall(require'scrollbar'.clear)
+        -- TODO: copied logic from require'scrollbar'.clear
+        local state = vim.b.scrollbar_state
+        if state and state.winnr then
+          local ok = pcall(vim.api.nvim_win_close, state.winnr, true)
+          if not ok then
+            vim.api.nvim_echo({
+              {'cannot found scrollbar win: '..state.winnr, 'WarningMsg'},
+            }, true, {})
+          end
+          vim.b.scrollbar_state = {size = state.size, bufnr = state.bufnr}
+        end
         dwm.close()
       end)
 
