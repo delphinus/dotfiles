@@ -47,7 +47,7 @@ return {
                   },
                 },
               }, {prefix = '1', buffer = bufnr})
-              if vim.bo.filetype ~= 'help' then
+              if vim.opt.filetype:get() ~= 'help' then
                 m.nnoremap('<C-]>', vim.lsp.buf.definition)
                 wk.register({
                   ['<C-]>'] = {

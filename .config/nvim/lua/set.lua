@@ -1,50 +1,54 @@
 -- Encodings {{{
-vim.o.fileencoding = 'utf-8'
-vim.bo.fileencoding = 'utf-8'
+vim.opt.fileencoding = 'utf-8'
 if vim.fn.has'gui_macvim' == 0 then
-  vim.o.fileencodings = 'ucs-bom,utf-8,eucjp,cp932,ucs-2le,latin1,iso-2022-jp'
+  vim.opt.fileencodings = {
+    'ucs-bom',
+    'utf-8',
+    'eucjp',
+    'cp932',
+    'ucs-2le',
+    'latin1',
+    'iso-2022-jp',
+  }
 end
 -- }}}
 
 --Tabs {{{
-vim.o.expandtab = true
-vim.bo.expandtab = true
-vim.o.shiftwidth = 2
-vim.bo.shiftwidth = 2
-vim.o.softtabstop = 2
-vim.bo.softtabstop = 2
-vim.o.tabstop = 2
-vim.bo.tabstop = 2
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.tabstop = 2
 -- }}}
 
 -- Undo {{{
-vim.o.undofile = true
-vim.bo.undofile = true
+vim.opt.undofile = true
 -- }}}
 
 -- Searching {{{
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.inccommand = 'split'
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.inccommand = 'split'
 -- }}}
 
 -- Display {{{
-vim.o.cmdheight = 2
-vim.o.colorcolumn = '80,140'
-vim.wo.colorcolumn = '80,140'
-vim.o.list = true
-vim.wo.list = true
-vim.o.listchars = 'tab:▓░,trail:↔,eol:⏎,extends:→,precedes:←,nbsp:␣'
-vim.o.ruler = false
-vim.o.showmode = false
-vim.o.number = true
-vim.wo.number = true
-vim.o.numberwidth = 3
-vim.wo.numberwidth = 3
-vim.o.relativenumber = true
-vim.wo.relativenumber = true
-vim.o.showmatch = true
-vim.o.showtabline = 2
+vim.opt.cmdheight = 2
+vim.opt.colorcolumn = {'80', '140'}
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = '▓░',
+  trail = '↔',
+  eol = '⏎',
+  extends = '→',
+  precedes = '←',
+  nbsp = '␣',
+}
+vim.opt.ruler = false
+vim.opt.showmode = false
+vim.opt.number = true
+vim.opt.numberwidth = 3
+vim.opt.relativenumber = true
+vim.opt.showmatch = true
+vim.opt.showtabline = 2
 
 if vim.fn.exists'*setcellwidths' == 1 then
   vim.fn.setcellwidths({
@@ -70,33 +74,30 @@ end
 -- }}}
 
 -- Indents and arranging formats {{{
-vim.o.breakindent = true
-vim.wo.breakindent = true
-vim.o.formatoptions = add_option_string(vim.o.formatoptions,'nmMj')
-vim.bo.formatoptions = vim.o.formatoptions
-vim.o.formatlistpat = [[^\s*\%(\d\+\|[-a-z]\)\%(\ -\|[]:.)}\t]\)\?\s\+]]
-vim.bo.formatlistpat = vim.o.formatlistpat
-vim.o.fixendofline = false
-vim.bo.fixendofline = false
-vim.o.showbreak = [[→  ]]
-vim.o.smartindent = true
-vim.bo.smartindent = true
+vim.opt.breakindent = true
+-- TODO: cannot set formatoptions?
+--vim.opt.formatoptions:append{'n', 'm', 'M', 'j'}
+vim.o.formatoptions = vim.o.formatoptions..'nmMj'
+vim.opt.formatlistpat = [[^\s*\%(\d\+\|[-a-z]\)\%(\ -\|[]:.)}\t]\)\?\s\+]]
+vim.opt.fixendofline = false
+vim.opt.showbreak = [[→  ]]
+vim.opt.smartindent = true
 -- }}}
 
 -- Mouse
-vim.o.mouse = 'a'
+vim.opt.mouse = 'a'
 
 -- ColorScheme {{{
-vim.o.termguicolors = true
+vim.opt.termguicolors = true
 vim.cmd'syntax enable'
 
 function _G.toggle_colorscheme()
   local scheme
-  if vim.o.background == 'light' then
-    vim.o.background = 'dark'
+  if vim.opt.background:get() == 'light' then
+    vim.opt.background = 'dark'
     scheme = 'nord'
   else
-    vim.o.background = 'light'
+    vim.opt.background = 'light'
     scheme = 'solarized8'
   end
   vim.cmd('colorscheme '..scheme)
@@ -125,15 +126,19 @@ vim.cmd('colorscheme '..scheme)
 
 -- Title {{{
 if vim.env.TMUX then
-  vim.o.t_ts = [[k]]
-  vim.o.t_fs = [[\]]
+  -- TODO: vim.opt has no options below?
+  vim.api.nvim_exec([[
+   let &t_ts = 'k'
+   let &t_fs = '\\'
+  ]], false)
 end
-vim.o.title = true
+vim.opt.title = true
 local home_re = vim.loop.os_homedir():gsub('%.', '%.')
 local package_root_re = (vim.fn.stdpath'data'..'/site/pack/packer/'):gsub('%.', '%.')
 function _G.my_tabline_path()
-  if vim.bo.filetype == 'help' then
+  if vim.opt.filetype:get() == 'help' then
     return 'ヘルプ'
+  -- TODO: vim.opt has no 'previewwindow'?
   elseif vim.wo.previewwindow == 1 then
     return 'プレビュー'
   end
@@ -150,54 +155,58 @@ function _G.my_tabline_path()
     '^'..home_re, '~', 1
   ):gsub('/[^/]+$', '', 1)
 end
-vim.o.titlestring = [[%t%( %M%)%( (%{v:lua.my_tabline_path()})%)%( %a%)]]
+vim.opt.titlestring = [[%t%( %M%)%( (%{v:lua.my_tabline_path()})%)%( %a%)]]
 -- }}}
 
 -- Others {{{
-vim.o.diffopt = vim.o.diffopt..',vertical,iwhite,algorithm:patience'
-vim.o.fileformat = 'unix'
-vim.bo.fileformat = 'unix'
-vim.o.fileformats = 'unix,dos'
-vim.o.grepprg = 'pt --nogroup --nocolor'
-vim.o.guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50'..
-      ',a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor'..
-      ',sm:block-blinkwait175-blinkoff150-blinkon175'
-vim.o.helplang = 'ja'
-vim.o.lazyredraw = true
-vim.bo.matchpairs = vim.bo.matchpairs..',（:）,「:」,【:】,［:］,｛:｝,＜:＞'
-vim.o.scroll = 3
-vim.wo.scroll = 3
-vim.o.scrolloff = 3
-vim.o.sidescrolloff = 5
-vim.bo.synmaxcol = 0
-vim.o.virtualedit = 'block'
-vim.o.wildmode = 'full'
-vim.o.dictionary = '/usr/share/dict/words'
+vim.opt.diffopt:append{'vertical', 'iwhite', 'algorithm:patience'}
+vim.opt.fileformat = 'unix'
+vim.opt.fileformats = {'unix', 'dos'}
+vim.opt.grepprg = 'pt --nogroup --nocolor'
+vim.opt.guicursor = {
+  'n-v-c:block',
+  'i-ci-ve:ver25',
+  'r-cr:hor20',
+  'o:hor50',
+  'a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor',
+  'sm:block-blinkwait175-blinkoff150-blinkon175',
+}
+vim.opt.helplang = 'ja'
+vim.opt.lazyredraw = true
+vim.opt.matchpairs:append{'（:）', '「:」', '【:】', '［:］', '｛:｝', '＜:＞'}
+vim.opt.scroll = 3
+vim.opt.scrolloff = 3
+vim.opt.sidescrolloff = 5
+vim.opt.virtualedit = 'block'
+vim.opt.wildmode = 'full'
+vim.opt.dictionary = '/usr/share/dict/words'
 -- }}}
 
 -- OS specific {{{
 if vim.fn.has'osx' then
   -- Use Japanese for menus on macOS.
   -- This is needed to be set before showing menus.
-  vim.o.langmenu = 'ja_ja.utf-8.macvim'
+  vim.opt.langmenu = 'ja_ja.utf-8.macvim'
 
   -- Set iskeyword to manage CP932 texts on macOS
-  vim.bo.iskeyword = '@,48-57,_,128-167,224-235'
+  vim.opt.iskeyword = {'@', '48-57', '_', '128-167', '224-235'}
 
   -- For printing
-  vim.o.printmbfont = 'r:HiraMinProN-W3,b:HiraMinProN-W6'
-  vim.o.printencoding = 'utf-8'
-  vim.o.printmbcharset = 'UniJIS'
+  -- TODO: printmbfont does not have a list
+  vim.opt.printmbfont = 'r:HiraMinProN-W3,b:HiraMinProN-W6'
+  vim.opt.printencoding = 'utf-8'
+  vim.opt.printmbcharset = 'UniJIS'
 end
 
 -- Set guioptions in case menu.vim does not exist.
 if vim.fn.has'gui_running'
   and vim.fn.filereadable(vim.env.VIMRUNTIME..'/menu.vim') == 0 then
-  vim.o.guioptions = add_option_string(vim.o.guioptions, 'M')
+  vim.opt.guioptions:append{'M'}
 end
 
 -- Exclude some $TERM not to communicate with X servers.
 if vim.fn.has'gui_running' == 0 and vim.fn.has'xterm_clipboard' == 1 then
+  -- TODO: This is a valud value?
   vim.o.clipboard = [[exclude:cons\|linux\|cygwin\|rxvt\|screen]]
 end
 
@@ -212,7 +221,7 @@ end
 
 -- for VV {{{
 if vim.g.vv then
-  vim.o.shell = '/usr/local/bin/fish'
+  vim.opt.shell = '/usr/local/bin/fish'
   vim.api.nvim_exec([[
     VVset fontfamily=SF\ Mono\ Square
     VVset fontsize=16
@@ -225,7 +234,7 @@ end
 
 -- for Goneovim {{{
 if vim.g.goneovim then
-  vim.o.shell = '/usr/local/bin/fish'
+  vim.opt.shell = '/usr/local/bin/fish'
   vim.env.LANG = 'ja_JP.UTF-8'
 end
 -- }}}

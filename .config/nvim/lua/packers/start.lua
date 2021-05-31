@@ -223,7 +223,7 @@ return {
         my_vim_ghost = {
           {
             'User', 'vim-ghost#connected', function()
-              vim.bo.filetype = 'markdown'
+              vim.opt.filetype = 'markdown'
               local bufnr = vim.fn.bufnr()
               augroups.set{
                 my_vim_ghost_buffer = {
@@ -487,7 +487,8 @@ return {
       require'augroups'.set{
         dwm_preview = {
           {'BufRead', '*', function()
-            if vim.wo.previewwindow == 1 then vim.b.dwm_disabled = 1 end
+            -- TODO: vim.opt has no 'previewwindow'?
+            if vim.wo.previewwindow then vim.b.dwm_disabled = 1 end
           end},
         },
       }

@@ -398,9 +398,10 @@ return {
       require'augroups'.set{
         tagbar_window = {
           {'BufWinEnter', '*', function()
-            if vim.wo.previewwindow == 1 then
-              vim.wo.number = false
-              vim.wo.relativenumber = false
+            -- TODO: vim.opt has no 'previewwindow'?
+            if vim.wo.previewwindow then
+              vim.opt.number = false
+              vim.opt.relativenumber = false
             end
           end},
         },
@@ -630,7 +631,7 @@ return {
       m.bind('nv', [[s]], function() hop.hint_char2{verbose = true} end)
       m.bind('nv', [['j]], hop.hint_lines)
       m.bind('nv', [['k]], hop.hint_lines)
-      if vim.o.background == 'dark' then
+      if vim.opt.background:get() == 'dark' then
         vim.api.nvim_exec([[
           hi HopNextKey guifg=#bf616a
           hi HopNextKey1 guifg=#88c0d0
@@ -716,7 +717,8 @@ return {
       require'augroups'.set{
         ['plugin-committia'] = {
           {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
-            if vim.bo.filetype == 'gitcommit' and vim.fn.has'vim_starting'
+            if vim.opt.filetype:get() == 'gitcommit'
+              and vim.fn.has'vim_starting' == 1
               and vim.fn.exists'b:committia_opened' == 0 then
               function _G.committia_hook_edit_open(info)
                 if info.vcs == 'git' and vim.fn.getline(1) == '' then
@@ -753,7 +755,7 @@ return {
       require'mappy'.bind('nt', {'<A-c>', '<A-ç>'}, function()
         if not loaded then
           require'FTerm'.setup{
-            cmd = vim.o.shell,
+            cmd = vim.opt.shell:get(),
             border = {
               --[[
               {'╭', 'WinBorderTop'},

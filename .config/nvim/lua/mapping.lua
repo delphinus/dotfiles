@@ -1,6 +1,6 @@
-vim.o.timeout = true
-vim.o.timeoutlen = 300
-vim.o.ttimeoutlen = 10
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
+vim.opt.ttimeoutlen = 10
 
 local m = require'mappy'
 m.bind('nv', '<C-d>', '3<C-d>')

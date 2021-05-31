@@ -1,10 +1,10 @@
 require'augroups'.set{
   terminal_command = {
     {'TermOpen', 'term://*', function()
-      vim.wo.scrolloff = 0
-      vim.wo.number = false
-      vim.wo.relativenumber = false
-      vim.wo.cursorline = false
+      vim.opt.scrolloff = 0
+      vim.opt.number = false
+      vim.opt.relativenumber = false
+      vim.opt.cursorline = false
       vim.cmd[[startinsert]]
     end},
     {'WinEnter', 'term://*', 'startinsert'},
