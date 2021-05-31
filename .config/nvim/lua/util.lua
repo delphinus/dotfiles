@@ -1,6 +1,7 @@
 function _G.dump(...)
   local objects = vim.tbl_map(vim.inspect, {...})
-  print(unpack(objects))
+  local str = unpack(objects)
+  print(str == '' and 'nil' or str)
 end
 
 function _G.add_option_string(opt, to_add)
