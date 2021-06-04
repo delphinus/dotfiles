@@ -158,11 +158,19 @@ end
 vim.opt.titlestring = [[%t%( %M%)%( (%{v:lua.my_tabline_path()})%)%( %a%)]]
 -- }}}
 
+-- grep {{{
+vim.opt.grepprg = 'pt --nogroup --nocolor --'
+require'augroups'.set{
+  open_quickfix_window = {
+    {'QuickFixCmdPost', '*grep*', 'cwindow'},
+  },
+}
+-- }}}
+
 -- Others {{{
 vim.opt.diffopt:append{'vertical', 'iwhite', 'algorithm:patience'}
 vim.opt.fileformat = 'unix'
 vim.opt.fileformats = {'unix', 'dos'}
-vim.opt.grepprg = 'pt --nogroup --nocolor'
 vim.opt.guicursor = {
   'n-v-c:block',
   'i-ci-ve:ver25',
