@@ -434,8 +434,8 @@ return {
           lsp_interop = {
             enable = true,
             peek_definition_code = {
-              ['Df'] = '@function.outer',
-              ['DF'] = '@class.outer',
+              ['<Leader>Df'] = '@function.outer',
+              ['<Leader>DF'] = '@class.outer',
             },
           },
         },
