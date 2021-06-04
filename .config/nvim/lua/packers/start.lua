@@ -388,6 +388,7 @@ return {
     end,
   },
 
+  --[=[
   {
     'Xuyuanp/scrollbar.nvim',
     config = function()
@@ -450,6 +451,7 @@ return {
       _G.ToggleScrollbar()
     end,
   },
+  ]=]
 
   {
     'delphinus/dwm.nvim',
