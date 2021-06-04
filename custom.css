@@ -63,6 +63,10 @@
 	src: local(ui-sans-serif);
 }
 @font-face {
+	font-family: 'Osaka-Mono';
+	src: local(ui-monospace);
+}
+@font-face {
     font-family: -apple-system-subset;
     src: local('ヒラギノ角ゴシック');
     unicode-range: U+0000-05C7;
@@ -74,7 +78,7 @@
 }
 textarea,textarea *,pre,pre *,code,code *,tt,tt *,
 .syntaxhighlighter .gutter div,
-.blob-num, .blob-code,
+.blob-num, .blob-code, .Vimdoc,
 .syntaxhighlighter a,
 .syntaxhighlighter div,
 .syntaxhighlighter code,
