@@ -1,6 +1,8 @@
-#!/usr/bin/env perl
-use 5.14.0;
+#!/usr/local/bin/perl
+use 5.34.0;
 use warnings;
+use feature 'try';
+no warnings 'experimental::try';
 use File::Basename;
 use File::Temp;
 use JSON::PP;
@@ -72,15 +74,16 @@ sub show_status($) {
 }
 
 sub detect_latest_backup() {
-    my $t = eval { safe_system '/usr/bin/tmutil latestbackup' };
-    if ($_ = $@) {
-        if (/Unable to locate machine directory for host\./) {
-            return 0;
-        } elsif (/Unable to locate latest snapshot for host\./) {
-            return undef;
+    my $t = do {
+        try { safe_system '/usr/bin/tmutil latestbackup' } catch ($e) {
+            if ($e =~ /Unable to locate machine directory for host\./) {
+                return 0;
+            } elsif ($e =~ /Unable to locate latest snapshot for host\./) {
+                return undef;
+            }
+            die with_timestamp $e;
         }
-        die with_timestamp $@;
-    }
+    };
     my $name = basename $t;
     my $in_progress_re = qr/\.inProgress$/;
     my $is_in_progress = $name =~ $in_progress_re;
@@ -106,8 +109,9 @@ sub process() {
     }
 
     my $json = safe_system "$ENV{HOME}/git/dotfiles/bin/tmstatus";
-    my $status = eval { decode_json($json) };
-    die with_timestamp $@ if $@;
+    my $status = do {
+        try { decode_json($json) } catch ($e) { die with_timestamp $e }
+    };
 
     if (defined(my $exit_code = show_status $status)) {
         return $exit_code;
