@@ -78,7 +78,7 @@
 }
 textarea,textarea *,pre,pre *,code,code *,tt,tt *,
 .syntaxhighlighter .gutter div,
-.blob-num, .blob-code, .Vimdoc,
+.blob-num, .blob-code, .blob-code-inner, .Vimdoc,
 .syntaxhighlighter a,
 .syntaxhighlighter div,
 .syntaxhighlighter code,
