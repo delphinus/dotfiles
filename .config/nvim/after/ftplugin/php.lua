@@ -1,0 +1,1 @@
+vim.opt.expandtab = true
