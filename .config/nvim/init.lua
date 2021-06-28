@@ -6,7 +6,7 @@ require'mapping'
 require'term'
 require'commands'
 
-require'augroups'.set{
+require'agrp'.set{
   hello_world = {
     {'VimEnter', '*', function() print'Hello, World!' end},
   },

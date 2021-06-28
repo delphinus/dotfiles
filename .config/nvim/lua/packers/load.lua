@@ -30,7 +30,7 @@ local function init()
           vim.api.nvim_buf_set_name(win.bufnr, name)
           vim.api.nvim_win_set_option(win.win_id, 'winblend', 10)
 
-          require'augroups'.set{
+          require'agrp'.set{
             packer_wipe_out = {
               {'BufWipeout', '<buffer>', function()
                 vim.api.nvim_set_current_win(last_win)

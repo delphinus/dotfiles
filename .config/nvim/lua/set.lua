@@ -116,7 +116,7 @@ if is_light or vim.env.SOLARIZED then
 else
   scheme = 'nord'
 end
-require'augroups'.set{
+require'agrp'.set{
   set_colorscheme = {
     {'VimEnter', '*', 'doautocmd ColorScheme '..scheme},
   },
@@ -160,7 +160,7 @@ vim.opt.titlestring = [[%t%( %M%)%( (%{v:lua.my_tabline_path()})%)%( %a%)]]
 
 -- grep {{{
 vim.opt.grepprg = 'pt --nogroup --nocolor --'
-require'augroups'.set{
+require'agrp'.set{
   open_quickfix_window = {
     {'QuickFixCmdPost', '*grep*', 'cwindow'},
   },

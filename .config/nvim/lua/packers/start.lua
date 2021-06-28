@@ -29,7 +29,7 @@ return {
       vim.g.dwm_map_keys = 0
     end,
     config = function()
-      require'augroups'.set{
+      require'agrp'.set{
         dwm_preview = {
           {'BufRead', '*', function()
             if vim.wo.previewwindow == 1 then vim.b.dwm_disabled = 1 end
@@ -75,7 +75,7 @@ return {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
     config = function()
-      require'augroups'.set{
+      require'agrp'.set{
          redraw_tabline = {
             {'CursorMoved', '*', 'redrawtabline'},
          },
@@ -218,14 +218,14 @@ return {
       vim.g.ghost_autostart = true
     end,
     config = function()
-      local augroups = require'augroups'
-      augroups.set{
+      local agrp = require'agrp'
+      agrp.set{
         my_vim_ghost = {
           {
             'User', 'vim-ghost#connected', function()
               vim.opt.filetype = 'markdown'
               local bufnr = vim.fn.bufnr()
-              augroups.set{
+              agrp.set{
                 my_vim_ghost_buffer = {
                   {
                     'BufLeave', '<buffer>', function()
@@ -314,7 +314,7 @@ return {
   {
     'gisphm/vim-gitignore',
     config = function()
-      require'augroups'.set{
+      require'agrp'.set{
         detect_other_ignores = {
           {
             'BufNewFile,BufRead',
@@ -331,7 +331,7 @@ return {
   {
     'kchmck/vim-coffee-script',
     config = function()
-      require'augroups'.set{
+      require'agrp'.set{
         detect_cson = {
           {
             'BufNewFile,BufRead',
@@ -405,17 +405,17 @@ return {
       vim.g.scrollbar_excluded_filetypes = {'denite-filter'}
 
       local scrollbar = require'scrollbar'
-      local augroups = require'augroups'
+      local agrp = require'agrp'
       local enabled = false
 
       function _G.ToggleScrollbar()
         if enabled then
           scrollbar.clear()
-          augroups.set{my_scrollbar_nvim = {}}
+          agrp.set{my_scrollbar_nvim = {}}
           enabled = false
         else
           scrollbar.show()
-          augroups.set{
+          agrp.set{
             my_scrollbar_nvim = {
               {
                 'WinEnter,FocusGained,CursorMoved,VimResized',
@@ -487,7 +487,7 @@ return {
         dwm.close()
       end)
 
-      require'augroups'.set{
+      require'agrp'.set{
         dwm_preview = {
           {'BufRead', '*', function()
             -- TODO: vim.opt has no 'previewwindow'?
@@ -497,6 +497,8 @@ return {
       }
     end,
   },
+
+  {'delphinus/agrp.nvim'},
 
   --[[
   {

@@ -1,4 +1,4 @@
-require'augroups'.set{
+require'agrp'.set{
   terminal_command = {
     {'TermOpen', 'term://*', function()
       vim.opt.scrolloff = 0

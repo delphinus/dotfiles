@@ -189,7 +189,7 @@ M = {
     vim.bo.shiftwidth = 2
     vim.bo.softtabstop = 2
 
-    require'augroups'.set{
+    require'agrp'.set{
       ruby_syntax = {
         {'Syntax', 'ruby', function()
           if vim.fn.RailsDetect == 0 then

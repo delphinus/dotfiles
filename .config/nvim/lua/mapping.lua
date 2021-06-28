@@ -29,7 +29,7 @@ m.nnoremap('qq', function()
   vim.cmd(cmd)
 end)
 
-require'augroups'.set{
+require'agrp'.set{
   -- quit with `q` when started by `view`
   set_mapping_for_view = {
     {'VimEnter', '*', 'if &readonly | nnoremap q <Cmd>qa<CR> | endif'},

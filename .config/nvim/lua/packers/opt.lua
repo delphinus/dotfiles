@@ -13,7 +13,7 @@ return {
       vim.g.nord_uniform_status_lines = 1
       vim.g.nord_cursor_line_number_background = 1
 
-      require'augroups'.set{
+      require'agrp'.set{
         nord_overrides = {
           {'ColorScheme', 'nord', function()
             vim.api.nvim_exec([[
@@ -214,7 +214,7 @@ return {
     end,
     config = function()
       local m = require'mappy'
-      require'augroups'.set{
+      require'agrp'.set{
         gista_mappings = {
           {'User', 'GistaList', function()
             -- nmap <buffer> <F5>   <Plug>(gista-update)
@@ -395,7 +395,7 @@ return {
         private = '● ', -- 0x25cf
       }
 
-      require'augroups'.set{
+      require'agrp'.set{
         tagbar_window = {
           {'BufWinEnter', '*', function()
             -- TODO: vim.opt has no 'previewwindow'?
@@ -714,7 +714,7 @@ return {
       -- Re-implement plugin/comittia.vim in Lua
       vim.g.loaded_committia = true
       local m = require'mappy'
-      require'augroups'.set{
+      require'agrp'.set{
         ['plugin-committia'] = {
           {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
             if vim.opt.filetype:get() == 'gitcommit'

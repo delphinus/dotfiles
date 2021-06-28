@@ -234,7 +234,7 @@ return {
     config = function()
       local m = require'mappy'
 
-      require'augroups'.set{
+      require'agrp'.set{
         enable_completion_nvim = {
           {'BufEnter', '*', require'completion'.on_attach},
         },
