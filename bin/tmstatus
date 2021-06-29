@@ -7,9 +7,6 @@ use File::Temp;
 use JSON::PP;
 use Time::Piece;
 
-# for testing
-our $tmstatus_cmd = 'tmutil status';
-
 sub with_timestamp :prototype($) ($msg) {
     $msg =~ s/^/(localtime->datetime) . "\t"/egm;
     return $msg;
