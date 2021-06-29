@@ -624,13 +624,18 @@ return {
         extend_visual = true,
         use_migemo = true,
       }
+      local direction = require'hop.hint'.HintDirection
       local m = require'mappy'
       m.bind('nv', [['w]], hop.hint_words)
       m.bind('nv', [['/]], hop.hint_patterns)
       m.bind('nv', [['s]], hop.hint_char1)
-      m.bind('nv', [[s]], function() hop.hint_char2{verbose = true} end)
-      m.bind('nv', [['j]], hop.hint_lines)
-      m.bind('nv', [['k]], hop.hint_lines)
+      m.bind('nv', [[s]], hop.hint_char2)
+      m.bind('nv', [['j]], function()
+        hop.hint_lines{direction = direction.AFTER_CURSOR}
+      end)
+      m.bind('nv', [['k]], function()
+        hop.hint_lines{direction = direction.BEFORE_CURSOR}
+      end)
       if vim.opt.background:get() == 'dark' then
         vim.api.nvim_exec([[
           hi HopNextKey guifg=#bf616a
