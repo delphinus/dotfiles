@@ -39,6 +39,7 @@ return {
       {
         f = {
           name = '+[Telescope]',
+          B = {function() builtin'buffers'{} end, 'buffers'},
           b = {
             function() builtin'file_browser'{cwd = '%:h'} end,
             'File Browser',
@@ -48,11 +49,11 @@ return {
             if vim.loop.cwd() == vim.loop.os_homedir() then
               vim.api.nvim_echo({
                 {
-                  'find_files on $HOME is danger. Launch ghq instead.',
+                  'find_files on $HOME is danger. Launch file_browser instead.',
                   'WarningMsg',
                 },
               }, true, {})
-              extensions'ghq'.list{}
+              builtin'file_browser'{}
             -- TODO: use vim.loop.fs_stat ?
             elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') == 1 then
               builtin'git_files'{}
