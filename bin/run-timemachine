@@ -77,7 +77,7 @@ sub detect_latest_backup() {
     my $t = do {
         try { safe_system '/usr/bin/tmutil latestbackup' } catch ($e) {
             if ($e =~ /Unable to locate machine directory for host\./) {
-                return 0;
+                return 2;
             } elsif ($e =~ /Unable to locate latest snapshot for host\./) {
                 return undef;
             }
@@ -95,7 +95,12 @@ sub detect_latest_backup() {
 
 sub process() {
     my ($exit_code, $latest, $is_in_progress) = detect_latest_backup;
-    return $exit_code if defined $exit_code;
+    if (defined $exit_code) {
+        if ($exit_code == 2) {
+            logger 'Unable to find the drive.';
+        }
+        return $exit_code;
+    }
 
     if (defined $latest) {
         my $dt = $latest->datetime;
