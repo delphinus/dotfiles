@@ -210,39 +210,6 @@ return {
   },
 
   {
-    'raghur/vim-ghost',
-    run = ':GhostInstall',
-    setup = function()
-      vim.g.ghost_darwin_app = 'iTerm2'
-      vim.g.ghost_cmd = 'split'
-      vim.g.ghost_autostart = true
-    end,
-    config = function()
-      local agrp = require'agrp'
-      agrp.set{
-        my_vim_ghost = {
-          {
-            'User', 'vim-ghost#connected', function()
-              vim.opt.filetype = 'markdown'
-              local bufnr = vim.fn.bufnr()
-              agrp.set{
-                my_vim_ghost_buffer = {
-                  {
-                    'BufLeave', '<buffer>', function()
-                      vim.cmd[[bdelete!]]
-                      vim.fn.GhostNotify('closed', bufnr)
-                    end,
-                  },
-                },
-              }
-            end,
-          },
-        },
-      }
-    end,
-  },
-
-  {
     'tpope/vim-eunuch',
     config = function()
       vim.env.SUDO_ASKPASS = vim.loop.os_homedir()..'/git/dotfiles/bin/macos-askpass'
