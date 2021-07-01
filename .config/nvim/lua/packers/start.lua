@@ -11,6 +11,7 @@ return {
     config = [[vim.g.cursorhold_updatetime = 100]],
   },
 
+  'delphinus/agrp.nvim',
   'delphinus/artify.nvim',
   'delphinus/mappy.nvim',
 
@@ -464,8 +465,6 @@ return {
       }
     end,
   },
-
-  {'delphinus/agrp.nvim'},
 
   --[[
   {
