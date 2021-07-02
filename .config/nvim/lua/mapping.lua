@@ -10,7 +10,7 @@ m.nnoremap('<Esc><Esc>', [[<Cmd>nohlsearch<CR>]])
 -- https://twitter.com/uvrub/status/1341036672364945408
 m.inoremap({'silent'}, '<CR>', '<C-g>u<CR>')
 
-m.nnoremap('qq', function()
+local toggle_quickfix = function()
   local cmd
   local loclist = vim.fn.getloclist(0, {size = 0, winid = 0})
   if loclist.size > 0 then
@@ -27,9 +27,21 @@ m.nnoremap('qq', function()
   end
   print(cmd)
   vim.cmd(cmd)
-end)
+end
+
+m.nnoremap('qq', toggle_quickfix)
 
 require'agrp'.set{
+  toggle_quickfix_with_enter = {
+    {'FileType', 'qf', function()
+      require'agrp'.set{
+        toggle_qf_once = {
+          {'BufWinLeave', '*', {'once'}, toggle_quickfix},
+        },
+      }
+    end},
+  },
+
   -- quit with `q` when started by `view`
   set_mapping_for_view = {
     {'VimEnter', '*', 'if &readonly | nnoremap q <Cmd>qa<CR> | endif'},
@@ -52,4 +64,3 @@ require'agrp'.set{
     {'TextYankPost', '*', vim.highlight.on_yank},
   },
 }
-
