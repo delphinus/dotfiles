@@ -549,7 +549,8 @@ return {
     end
   },
 
-  {'delphinus/vim-tmux-copy', keys = {{'n', '<A-[>'}, {'n', '<A-“>'}}},
+  -- Add a space in the closing paren to enable to use folding
+  {'delphinus/vim-tmux-copy', keys = {{'n', '<A-[>'}, {'n', '<A-“>'}} },
 
   {
     'inkarkat/vim-LineJuggler',
