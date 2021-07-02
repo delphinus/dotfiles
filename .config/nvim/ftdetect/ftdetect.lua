@@ -9,7 +9,11 @@ require'agrp'.set{
       {'*pentadactylrc*,*.penta ', [[set filetype=pentadactyl]]},
       {'*.t', [[call delphinus#perl#test_filetype()]]},
       {'*.xt', [[call delphinus#perl#test_filetype()]]},
-      {'*', [[if getline(1) =~ '^.*startuml.*$'|  ', [[setfiletype plantuml | endif]]},
+      {'*', function()
+        if vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]:match'startuml' then
+          vim.cmd[[setfiletype plantuml]]
+        end
+      end},
       {'*.psgi ', [[set filetype=perl]]},
       {'*.pu,*.uml,*.plantuml ', [[setfiletype plantuml]]},
       {'*.conf', function()
