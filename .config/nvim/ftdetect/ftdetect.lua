@@ -1,7 +1,7 @@
 require'agrp'.set{
   my_ftdetect = {
     ['BufNewFile,BufRead'] = {
-      {'*.gs,.amethyst ', [[set filetype=javascript]]},
+      {'*.gs,.amethyst', [[set filetype=javascript]]},
       {'*.jbuilder ', [[set filetype=ruby]]},
       {'*/nginx* ', [[set filetype=nginx]]},
       {'*.m ', [[setf objc]]},
