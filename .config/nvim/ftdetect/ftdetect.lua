@@ -12,7 +12,16 @@ require'agrp'.set{
       {'*', [[if getline(1) =~ '^.*startuml.*$'|  ', [[setfiletype plantuml | endif]]},
       {'*.psgi ', [[set filetype=perl]]},
       {'*.pu,*.uml,*.plantuml ', [[setfiletype plantuml]]},
-      {'*.conf', require'ftdetect'.tmux},
+      {'*.conf', function()
+        if vim.opt.filetype:get() == 'tmux' then return end
+        local sep = package.config:sub(1, 1)
+        for _, item in ipairs(vim.split(vim.fn.expand'%:p', sep)) do
+          if item == '.tmux' or item == 'tmux' then
+            vim.cmd[[setfiletype tmux]]
+            return
+          end
+        end
+      end},
       {'*.tt2 ', [[setf tt2html]]},
       {'*.tt ', [[setf tt2html]]},
       {'.zpreztorc ', [[setf zsh]]},
