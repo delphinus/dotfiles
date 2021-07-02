@@ -4,5 +4,3 @@ set-option -g default-shell $HOME/usr/local/bin/zsh
 source $HOME/git/dotfiles/.tmux/screen-keys.conf
 source $HOME/git/dotfiles/.tmux/vim-keys.conf
 source $HOME/git/dotfiles/.tmux/powerline.conf.office
-
-# vim:se ft=tmux:
