@@ -426,10 +426,13 @@ return {
   -- ft {{{
   {'Vimjas/vim-python-pep8-indent', ft = {'python'}},
   {'aliou/bats.vim', ft = {'bats'}},
+  -- {'dag/vim-fish' ft = {'fish'}},
+  {'blankname/vim-fish', ft = {'fish'}},
   {'c9s/perlomni.vim', ft = {'perl'}},
   {'cespare/vim-toml', ft = {'toml'}},
   {'dNitro/vim-pug-complete', ft = {'pug'}},
   {'delphinus/vim-data-section-simple', ft = {'perl'}},
+  {'delphinus/vim-firestore', ft = {'firestore'}},
   {'delphinus/vim-toml-dein', ft = {'toml'}},
   {'derekwyatt/vim-scala', ft = {'scala'}},
   {'dsawardekar/wordpress.vim', ft = {'php'}},
@@ -483,8 +486,34 @@ return {
     end,
   },
 
+  {
+    'gisphm/vim-gitignore',
+    ft = {'gitignore'},
+    setup = function()
+      require'agrp'.set{
+        detect_other_ignores = {
+          {'BufNewFile,BufRead', '.gcloudignore', 'setf gitignore'},
+        },
+      }
+    end,
+  },
+
   {'hail2u/vim-css3-syntax', ft = {'css'}},
+  {'hashivim/vim-terraform', ft = {'terraform'}},
   {'junegunn/vader.vim', ft = {'vader'}},
+
+  {
+    'kchmck/vim-coffee-script',
+    ft = {'coffee'},
+    setup = function()
+      require'agrp'.set{
+        detect_cson = {{'BufNewFile,BufRead', '*.cson', 'setf coffee'}},
+      }
+    end,
+  },
+
+  {'keith/swift.vim', ft = {'swift'}},
+  {'leafo/moonscript-vim', ft = {'moonscript'}},
 
   {
     'motemen/vim-syntax-hatena',
@@ -493,7 +522,24 @@ return {
   },
 
   {'msanders/cocoa.vim', ft = {'objc'}},
+
+  {
+    'mustache/vim-mustache-handlebars',
+    ft = {'mustache', 'handlebars', 'html.mustache', 'html.handlebars'},
+  },
+
+  {'neoclide/jsonc.vim', ft = {'jsonc'}},
   {'pboettch/vim-cmake-syntax', ft = {'cmake'}},
+
+  {
+    'pearofducks/ansible-vim',
+    ft = {'ansible', 'yaml.ansible'},
+    config = function()
+      vim.g.ansible_name_highlight = 'b'
+      vim.g.ansible_extra_keywords_highlight = 1
+    end,
+  },
+
   {'posva/vim-vue', ft = {'vue'}},
   {'tmux-plugins/vim-tmux', ft = {'tmux'}},
 
