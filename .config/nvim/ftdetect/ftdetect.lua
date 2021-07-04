@@ -35,6 +35,8 @@ require'agrp'.set{
       {'*.cpp', [[setf cpp]]},
       {'*.cxx,*.c++,*.hh,*.hxx,*.hpp,*.ipp,*.moc,*.tcc,*.inl', [[setf cpp]]},
       {'*.h', [[call dist#ft#FTheader()]]},
+      {'*.ts', [[setf typescript]]},
+      {'*.tsx', [[setf typescriptreact]]},
     },
   },
 }
