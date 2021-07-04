@@ -527,6 +527,7 @@ return {
   },
 
   {'keith/swift.vim', ft = {'swift'}},
+  {'kevinhwang91/nvim-bqf', ft = {'qf'}},
   {'leafo/moonscript-vim', ft = {'moonscript'}},
 
   {
