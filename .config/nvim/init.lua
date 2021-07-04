@@ -1,4 +1,5 @@
 vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
+require'filetypes'
 require'util'
 require'packers'
 require'set'
