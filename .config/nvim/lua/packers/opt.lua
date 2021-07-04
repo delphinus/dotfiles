@@ -170,8 +170,22 @@ return {
   {'fuenor/JpFormat.vim', cmd = {'JpFormatAll', 'JpJoinAll'}},
 
   {
+    'rbgrouleff/bclose.vim',
+    cmd = {
+      'Tig',
+      'TigOpenCurrentFile',
+      'TigOpenProjectRootDir',
+      'TigGrep',
+      'TigBlame',
+      'TigGrepResume',
+      'TigStatus',
+      'TigOpenFileWithCommit',
+    },
+  },
+
+  {
     'iberianpig/tig-explorer.vim',
-    requires = {{'rbgrouleff/bclose.vim'}},
+    after = {'bclose.vim'},
     cmd = {
       'Tig',
       'TigOpenCurrentFile',
