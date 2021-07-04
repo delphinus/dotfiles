@@ -1,17 +1,17 @@
 vim.g.did_load_filetypes = 1
 
 local function _set_filetype_sh(name)
-  -- get lines from 2 to 20
-  local lines = vim.api.nvim_buf_get_lines(0, 1, 19, false)
+  -- get lines from 1 to 20
+  local lines = vim.api.nvim_buf_get_lines(0, 0, 19, false)
   -- skip empty and comment lines
-  local l = 1
-  for i = 1, math.min(#lines, 18) do
+  local l
+  for i = 1, math.min(#lines - 1, 19) do
     if  vim.regex[[^\s*\(#\|$\)]]:match_str(lines[i]) then
       l = i + 1
     end
   end
-  if l < #lines and vim.regex[[\s*exec\s]]:match(lines[l])
-    and vim.regex[[^\s*#.*\\$]]:match(lines[l - 1]) then
+  if l and l <= #lines and vim.regex[[\s*exec\s]]:match_str(lines[l])
+    and vim.regex[[^\s*#.*\\$]]:match_str(lines[l - 1]) then
     -- found an 'exec' line after a comment with continuation
     local s, e = vim.regex[[\s*exec\s\+\([^ ]*/\)\=]]:match_str(lines[l])
     if s then
@@ -31,7 +31,8 @@ local function set_filetype_sh(...)
   if #args > 0 then
     name = args[1]
   else
-    name = vim.api.nvim_buf_get_lines(0, 0, 1, false)
+    local lines = vim.api.nvim_buf_get_lines(0, 0, 1, false)
+    name = #lines > 0 and lines[1] or ''
   end
   return function()
     if vim.regex[[\<csh\>]]:match_str(name) then
