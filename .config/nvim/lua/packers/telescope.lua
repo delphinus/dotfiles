@@ -18,13 +18,6 @@ return {
       requires = {'tami5/sql.nvim'},
       opt = true,
     },
-
-    {
-      --'nvim-telescope/telescope-fzf-writer.nvim',
-      'delphinus/telescope-fzf-writer.nvim',
-      branch = 'feature/use-cwd',
-      opt = true,
-    },
   },
   cmd = {'Telescope'},
   module = {'telescope'},
@@ -59,7 +52,7 @@ return {
             elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') == 1 then
               builtin'git_files'{}
             else
-              extensions'fzf_writer'.files{}
+              builtin'find_files'{}
             end
           end, 'git files / find files'},
           g = {function()
@@ -131,7 +124,6 @@ return {
       'sql.nvim',
       'telescope-frecency.nvim',
       'telescope-fzf-native.nvim',
-      'telescope-fzf-writer.nvim',
       'telescope-ghq.nvim',
       'telescope-github.nvim',
       'telescope-memo.nvim',
@@ -145,6 +137,7 @@ return {
 
     local actions = require'telescope.actions'
     local telescope = require'telescope'
+    local builtin = function(name) return require'telescope.builtin'[name] end
     local extensions = function(name)
       return require'telescope'.load_extension(name)
     end
@@ -152,14 +145,14 @@ return {
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
       actions.close(prompt_bufnr)
-      extensions'fzf_writer'.files{cwd = selection.value}
+      builtin'find_files'{cwd = selection.value}
     end
 
     local run_live_grep = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
       if vim.fn.isdirectory(selection.value) == 1 then
         actions.close(prompt_bufnr)
-        extensions'fzf_writer'.staged_grep{cwd = selection.value}
+        builtin'live_grep'{cwd = selection.value}
       else
         vim.api.nvim_echo({{'This is not a directory.', 'WarningMsg'}}, true, {})
       end
