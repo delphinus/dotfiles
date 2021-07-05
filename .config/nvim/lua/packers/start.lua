@@ -403,8 +403,6 @@ return {
 
   {'folke/todo-comments.nvim'},
   {'folke/which-key.nvim'},
-
-  {'f-person/git-blame.nvim'},
   -- }}}
 }
 

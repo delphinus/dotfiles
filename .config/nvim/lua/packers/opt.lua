@@ -62,9 +62,6 @@ return {
               hi link LspReferenceWrite LspDiagnosticsDefaultWarning
             ]], false)
 
-            -- for git-blame.nvim
-            vim.cmd[[hi gitblame guifg=#4c566a gui=italic]]
-
             -- nvim-treesitter
             vim.api.nvim_exec([[
               hi TSCurrentScope guibg=#313743
@@ -454,6 +451,8 @@ return {
           changedelete = {hl = 'GitSignsChange', text = '•'},
         },
         numhl = true,
+        current_line_blame = true,
+        current_line_blame_delay = 10,
       }
     end,
   },
