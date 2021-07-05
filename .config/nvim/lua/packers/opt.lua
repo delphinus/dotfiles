@@ -398,7 +398,8 @@ return {
     event = {'InsertEnter'},
     after = {'compe-tmux'},
     config = function()
-      require'compe'.setup {
+      local compe = require'compe'
+      compe.setup{
         enabled = true,
         autocomplete = true,
         debug = false,
@@ -423,9 +424,12 @@ return {
           tags = true,
           vsnip = true,
 
-          tmux = true,
+          tmux = {
+            all_panes = true,
+          },
         },
       }
+      compe.register_source('tmux', require'compe_tmux')
     end,
   },
 
