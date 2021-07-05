@@ -442,6 +442,23 @@ return {
   },
 
   {
+    'lewis6991/gitsigns.nvim',
+    event = {'FocusLost', 'CursorHold'},
+    config = function()
+      require'gitsigns'.setup{
+        signs = {
+          add = {hl = 'GitSignsAdd'},
+          change = {hl = 'GitSignsChange'},
+          delete = {hl = 'GitSignsDelete', text = '✗'},
+          topdelete = {hl = 'GitSignsDelete', text = '↑'},
+          changedelete = {hl = 'GitSignsChange', text = '•'},
+        },
+        numhl = true,
+      }
+    end,
+  },
+
+  {
     'preservim/tagbar',
     event = {'FocusLost', 'CursorHold'},
     cmd = {'TagbarToggle'},
@@ -479,7 +496,9 @@ return {
   -- }}}
 
   -- ft {{{
+  {'Glench/Vim-Jinja2-Syntax', ft = {'jinja'}},
   {'Vimjas/vim-python-pep8-indent', ft = {'python'}},
+  {'aklt/plantuml-syntax', ft = {'plantuml'}},
   {'aliou/bats.vim', ft = {'bats'}},
   -- {'dag/vim-fish' ft = {'fish'}},
   {'blankname/vim-fish', ft = {'fish'}},
@@ -490,6 +509,7 @@ return {
   {'delphinus/vim-firestore', ft = {'firestore'}},
   {'delphinus/vim-toml-dein', ft = {'toml'}},
   {'derekwyatt/vim-scala', ft = {'scala'}},
+  {'digitaltoad/vim-pug', ft = {'pug'}},
   {'dsawardekar/wordpress.vim', ft = {'php'}},
 
   {
@@ -555,6 +575,7 @@ return {
 
   {'hail2u/vim-css3-syntax', ft = {'css'}},
   {'hashivim/vim-terraform', ft = {'terraform'}},
+  {'isobit/vim-caddyfile', ft = {'caddyfile'}},
   {'junegunn/vader.vim', ft = {'vader'}},
 
   {
@@ -570,6 +591,7 @@ return {
   {'keith/swift.vim', ft = {'swift'}},
   {'kevinhwang91/nvim-bqf', ft = {'qf'}},
   {'leafo/moonscript-vim', ft = {'moonscript'}},
+  {'moznion/vim-cpanfile', ft = {'cpanfile'}},
 
   {
     'motemen/vim-syntax-hatena',
@@ -577,6 +599,7 @@ return {
     config = [[vim.g.hatena_syntax_html = true]],
   },
 
+  {'motemen/xslate-vim', ft = {'xslate'}},
   {'msanders/cocoa.vim', ft = {'objc'}},
 
   {
@@ -585,6 +608,7 @@ return {
   },
 
   {'neoclide/jsonc.vim', ft = {'jsonc'}},
+  {'nikvdp/ejs-syntax', ft = {'ejs'}},
   {'pboettch/vim-cmake-syntax', ft = {'cmake'}},
 
   {
@@ -621,6 +645,20 @@ return {
     'delphinus/vim-rails',
     branch = 'feature/recognize-ridgepole',
     ft = {'ruby'},
+  },
+
+  {
+    'vim-perl/vim-perl',
+    ft = {'perl', 'perl6'},
+    setup = function()
+      vim.g.perl_include_pod = 1
+      vim.g.perl_string_as_statement = 1
+      vim.g.perl_sync_dist = 1000
+      vim.g.perl_fold = 1
+      vim.g.perl_nofold_packages = 1
+      vim.g.perl_fold_anonymous_subs = 1
+      vim.g.perl_sub_signatures = 1
+    end,
   },
 
   {'vim-scripts/a.vim', ft = {'c', 'cpp'}},
@@ -866,6 +904,7 @@ return {
   {'vim-jp/vital.vim', fn = {'vital#vital#new'}},
   -- }}}
 
+  -- module {{{
   {
     'numToStr/FTerm.nvim',
     module = {'FTerm'},
@@ -944,6 +983,7 @@ return {
       ]], false)
     end,
   },
+  -- }}}
 
   -- temporarily
   {

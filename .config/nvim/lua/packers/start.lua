@@ -102,12 +102,13 @@ return {
           require'artify'(value, 'monospace')
       end
       local treesitter = function()
-        return require'nvim-treesitter'.statusline{
+        local ok, m = pcall(require, 'nvim-treesitter')
+        return ok and m.statusline{
           separator = ' » ',
           transform_fn = function(line)
             return line:gsub('%s*[%[%(%{].*$', '')
           end,
-        }
+        } or ''
       end
       require'lualine'.setup{
         options = {
@@ -194,23 +195,6 @@ return {
   },
 
   {
-    'lewis6991/gitsigns.nvim',
-    config = function()
-      require'gitsigns'.setup{
-        signs = {
-          add = {hl = 'GitSignsAdd'},
-          change = {hl = 'GitSignsChange'},
-          delete = {hl = 'GitSignsDelete', text = '✗'},
-          topdelete = {hl = 'GitSignsDelete', text = '↑'},
-          changedelete = {hl = 'GitSignsChange', text = '•'},
-        },
-        numhl = true,
-        use_decoration_api = true,
-      }
-    end,
-  },
-
-  {
     'tpope/vim-eunuch',
     config = function()
       vim.env.SUDO_ASKPASS = vim.loop.os_homedir()..'/git/dotfiles/bin/macos-askpass'
@@ -248,30 +232,6 @@ return {
   {'vim-jp/vimdoc-ja'},
   --{'wincent/terminus'},
   {'delphinus/terminus'},
-  -- }}}
-
-  -- Syntax {{{
-  {'Glench/Vim-Jinja2-Syntax'},
-  {'aklt/plantuml-syntax'},
-  {'isobit/vim-caddyfile'},
-
-  {'nikvdp/ejs-syntax'},
-  {'digitaltoad/vim-pug'},
-  {'motemen/xslate-vim'},
-  {'moznion/vim-cpanfile'},
-
-  {
-    'vim-perl/vim-perl',
-    config = function()
-      vim.g.perl_include_pod = 1
-      vim.g.perl_string_as_statement = 1
-      vim.g.perl_sync_dist = 1000
-      vim.g.perl_fold = 1
-      vim.g.perl_nofold_packages = 1
-      vim.g.perl_fold_anonymous_subs = 1
-      vim.g.perl_sub_signatures = 1
-    end,
-  },
   -- }}}
 
   -- vim-script {{{

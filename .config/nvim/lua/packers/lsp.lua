@@ -1,6 +1,11 @@
 return {
   { -- {{{ nvim-lspconfig
     'neovim/nvim-lspconfig',
+    event = {'FocusLost', 'CursorHold'},
+    ft = {
+      'sh', 'c', 'cpp', 'css', 'dockerfile', 'html', 'php', 'python', 'ruby',
+      'swift', 'terraform', 'typescript', 'javascript', 'vim', 'yaml', 'vue'
+    },
     config = function()
       local m = require'mappy'
 
@@ -290,14 +295,21 @@ return {
   }, -- }}}
   ]=]
 
+  {'nvim-treesitter/nvim-treesitter-refactor', event = {'BufNewFile', 'BufRead'}},
+  {'nvim-treesitter/nvim-treesitter-textobjects', event = {'BufNewFile', 'BufRead'}},
+  {'nvim-treesitter/playground', event = {'BufNewFile', 'BufRead'}},
+  {'p00f/nvim-ts-rainbow', event = {'BufNewFile', 'BufRead'}},
+  {'romgrk/nvim-treesitter-context', event = {'BufNewFile', 'BufRead'}},
+
   { -- {{{ nvim-treesitter
     'nvim-treesitter/nvim-treesitter',
-    requires = {
-      {'nvim-treesitter/nvim-treesitter-refactor'},
-      {'nvim-treesitter/nvim-treesitter-textobjects'},
-      {'nvim-treesitter/playground'},
-      {'p00f/nvim-ts-rainbow'},
-      {'romgrk/nvim-treesitter-context'},
+    event = {'BufNewFile', 'BufRead'},
+    after = {
+      'nvim-treesitter-context',
+      'nvim-treesitter-refactor',
+      'nvim-treesitter-textobjects',
+      'nvim-ts-rainbow',
+      'playground',
     },
     config = function()
       require'nvim-treesitter.install'.compilers = {'/usr/local/opt/gcc/bin/gcc-11'}
