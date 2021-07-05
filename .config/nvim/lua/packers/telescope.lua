@@ -4,6 +4,7 @@ return {
     {'delphinus/telescope-memo.nvim', opt = true},
     {'kyazdani42/nvim-web-devicons', opt = true},
     {'nvim-lua/popup.nvim', opt = true},
+    {'nvim-telescope/telescope-fzf-native.nvim', opt = true, run = 'make'},
     {'nvim-telescope/telescope-ghq.nvim', opt = true},
     {'nvim-telescope/telescope-github.nvim', opt = true},
     {'nvim-telescope/telescope-node-modules.nvim', opt = true},
@@ -129,6 +130,7 @@ return {
       'popup.nvim',
       'sql.nvim',
       'telescope-frecency.nvim',
+      'telescope-fzf-native.nvim',
       'telescope-fzf-writer.nvim',
       'telescope-ghq.nvim',
       'telescope-github.nvim',
@@ -206,7 +208,6 @@ return {
           '--hidden',
         },
         winblend = 10,
-        file_sorter = require'telescope.sorters'.get_fzy_sorter,
       },
       extensions = {
         frecency = {
@@ -217,8 +218,18 @@ return {
             vimrc = vim.loop.os_homedir()..'/git/github.com/delphinus/dotfiles/.vim',
           },
         },
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = 'smart_case',
+        },
       },
     }
+    -- This is needed to setup telescope-fzf-native. It overrides the sorters
+    -- in this.
+    extensions'fzf'
+
     -- TODO: how to use this?
     -- telescope.load_extension'packer'
 
