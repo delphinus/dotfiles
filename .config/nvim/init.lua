@@ -2,6 +2,7 @@ if vim.env.NVIM_PROFILE then
   require'plenary.profile'.start('/tmp/profile.log', {flame = true})
   vim.cmd[[au VimEnter * lua require'plenary.profile'.stop()]]
 end
+
 vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
 
 require'setup'
