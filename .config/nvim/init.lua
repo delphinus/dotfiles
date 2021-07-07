@@ -3,6 +3,8 @@ if vim.env.NVIM_PROFILE then
   vim.cmd[[au VimEnter * lua require'plenary.profile'.stop()]]
 end
 vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
+
+require'setup'
 require'filetypes'
 require'util'
 require'packers'
