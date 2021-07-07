@@ -1,9 +1,3 @@
-local install_path = vim.fn.stdpath'data'..'/site/pack/packer/opt/packer.nvim'
-local st = vim.loop.fs_stat(install_path)
-if not st or st.type ~= 'directory' then
-  os.execute('git clone https://github.com/wbthomason/packer.nvim '..install_path)
-end
-
 function _G.run_packer(method)
   vim.cmd[[packadd packer.nvim]]
   require'packers.load'[method]()
