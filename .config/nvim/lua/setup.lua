@@ -8,9 +8,9 @@ for _, p in ipairs{
   local dir = p.opt and 'opt' or 'start'
   local package = p[1]
   local name = package:match'[^/]+$'
-  os.execute(
-    ('git clone https://github.com/%s %s/site/pack/packer/%s/%s'):format(
-      package, data_dir, dir, name
-    )
-  )
+  local path = ('%s/site/pack/packer/%s/%s'):format(data_dir, dir, name)
+  local st = vim.loop.fs_stat(path)
+  if not st or st.type ~= 'directory' then
+    os.execute(('git clone https://github.com/%s %s'):format(package, path))
+  end
 end
