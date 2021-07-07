@@ -430,6 +430,40 @@ return {
         },
       }
       compe.register_source('tmux', require'compe_tmux')
+
+      local function t(key)
+        return vim.api.nvim_replace_termcodes(key, true, true, true)
+      end
+
+      local function is_space_before()
+        local c = vim.fn.col'.' - 1
+        return c == 0 or vim.fn.getline'.':sub(c, c):match'%s'
+      end
+
+      local function tab_complete(direction)
+        return function()
+          if vim.fn.pumvisible() == 1 then
+            return direction and t'<C-n>' or t'<C-p>'
+          elseif is_space_before() then
+            return direction and t'<Tab>' or t'<S-Tab>'
+          end
+          return direction and vim.fn['compe#complete']() or t'<S-Tab>'
+        end
+      end
+
+      -- TODO: cannot bind Lua functions directory?
+      --[[
+      local m = require'mappy'
+      m.bind('is', {'expr'}, '<Tab>', tab_complete(true))
+      m.bind('is', {'expr'}, '<S-Tab>', tab_complete(false))
+      ]]
+
+      _G.tab_complete = tab_complete(true)
+      _G.s_tab_complete = tab_complete(false)
+      vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+      vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+      vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
+      vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
     end,
   },
 
