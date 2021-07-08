@@ -236,11 +236,6 @@ return {
 
   -- vim-script {{{
   {'vim-scripts/HiColors'},
-
-  {
-    'vim-scripts/autodate.vim',
-    config = [[vim.g.autodate_format = '%FT%T%z']]
-  },
   -- }}}
 
   -- lua-script {{{

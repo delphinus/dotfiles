@@ -381,6 +381,17 @@ return {
     cmd = {'EditVifm', 'VsplitVifm', 'SplitVifm', 'DiffVifm', 'TabVifm'},
     ft = {'vifm'},
   },
+
+  {
+    'vim-scripts/autodate.vim',
+    cmd = {'Autodate', 'AutodateOFF', 'AutodateON'},
+    setup = function()
+      vim.g.autodate_format = '%FT%T%z'
+      require'agrp'.set{
+        Autodate = {{'BufUnload,FileWritePre,BufWritePre', '*', 'Autodate'}},
+      }
+    end
+  },
   -- }}}
 
   -- event {{{
