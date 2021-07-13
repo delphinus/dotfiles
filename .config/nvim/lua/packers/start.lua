@@ -194,6 +194,8 @@ return {
     end,
   },
 
+  {'lambdalisue/suda.vim'},
+
   {
     'tpope/vim-eunuch',
     config = function()
