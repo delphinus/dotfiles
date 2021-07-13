@@ -10,7 +10,16 @@ require'agrp'.set{
       {'*.t', [[call delphinus#perl#test_filetype()]]},
       {'*.xt', [[call delphinus#perl#test_filetype()]]},
       {'*', function()
-        if vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]:match'startuml' then
+        local top = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+        if top:match'^#!' then
+          local bin = top:match'^.+/([^/ ]+)'
+          if bin == 'env' then
+            bin = top:match'env +([^ ]+)'
+          end
+          if bin then
+            vim.cmd('setfiletype '..bin)
+          end
+        elseif top:match'startuml' then
           vim.cmd[[setfiletype plantuml]]
         end
       end},
