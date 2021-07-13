@@ -128,8 +128,8 @@ vim.cmd('colorscheme '..scheme)
 if vim.env.TMUX then
   -- TODO: vim.opt has no options below?
   vim.api.nvim_exec([[
-   let &t_ts = 'k'
-   let &t_fs = '\\'
+    let &t_ts = 'k'
+    let &t_fs = '\\'
   ]], false)
 end
 vim.opt.title = true
