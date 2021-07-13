@@ -207,7 +207,7 @@ if vim.fn.has'osx' then
 end
 
 -- Set guioptions in case menu.vim does not exist.
-if vim.fn.has'gui_running'
+if vim.fn.has'gui_running' == 1
   and vim.fn.filereadable(vim.env.VIMRUNTIME..'/menu.vim') == 0 then
   vim.opt.guioptions:append{'M'}
 end
@@ -219,7 +219,7 @@ if vim.fn.has'gui_running' == 0 and vim.fn.has'xterm_clipboard' == 1 then
 end
 
 -- Set $VIM into $PATH to search vim.exe itself.
-if vim.fn.has'win32' then
+if vim.fn.has'win32' == 1 then
   local re = vim.regex([[\(^\|;\)]]..vim.fn.escape(vim.env.VIM, [[\]])..[[\(;\|$\)]])
   if re:match_str(vim.env.PATH) then
     vim.env.PATH = vim.env.VIM..';'..vim.env.PATH
