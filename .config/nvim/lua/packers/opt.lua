@@ -346,17 +346,6 @@ return {
   },
 
   {
-      'tversteeg/registers.nvim',
-      cmd = {'Registers'},
-      setup = function()
-          local m = require'mappy'
-          m.inoremap({'silent'}, '<C-r>', [[<Cmd>Registers i<CR>]])
-          m.nnoremap({'silent'}, '"', [[<Cmd>Registers n<CR>]])
-          m.xnoremap({'silent'}, '"', [[<Cmd>Registers v<CR>]])
-      end,
-  },
-
-  {
     'tyru/capture.vim',
     requires = {
       {'thinca/vim-prettyprint', cmd = {'PP', 'PrettyPrint'}},
