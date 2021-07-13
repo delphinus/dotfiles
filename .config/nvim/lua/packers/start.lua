@@ -399,7 +399,6 @@ return {
   ]]
 
   {'folke/todo-comments.nvim'},
-  {'folke/which-key.nvim'},
   -- }}}
 }
 

@@ -26,96 +26,69 @@ return {
     local extensions = function(name)
       return require'telescope'.load_extension(name)
     end
-    require'mappy'.nnoremap('#', function()
+    local m = require'mappy'
+
+    -- Lines
+    m.nnoremap('#', function()
       builtin'current_buffer_fuzzy_find'{}
     end)
-    require'which-key'.register(
-      {
-        f = {
-          name = '+[Telescope]',
-          B = {function() builtin'buffers'{} end, 'buffers'},
-          b = {
-            function() builtin'file_browser'{cwd = '%:h'} end,
-            'File Browser',
+
+    -- Files
+    m.nnoremap('<Leader>fB', function() builtin'buffers'{} end)
+    m.nnoremap('<Leader>fb', function() builtin'file_browser'{cwd = '%:h'} end)
+    m.nnoremap('<Leader>ff', function()
+      -- TODO: stopgap measure
+      if vim.loop.cwd() == vim.loop.os_homedir() then
+        vim.api.nvim_echo({
+          {
+            'find_files on $HOME is danger. Launch file_browser instead.',
+            'WarningMsg',
           },
-          f = {function()
-            -- TODO: stopgap measure
-            if vim.loop.cwd() == vim.loop.os_homedir() then
-              vim.api.nvim_echo({
-                {
-                  'find_files on $HOME is danger. Launch file_browser instead.',
-                  'WarningMsg',
-                },
-              }, true, {})
-              builtin'file_browser'{}
-            -- TODO: use vim.loop.fs_stat ?
-            elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') == 1 then
-              builtin'git_files'{}
-            else
-              builtin'find_files'{}
-            end
-          end, 'git files / find files'},
-          g = {function()
-            builtin'grep_string'{
-              only_sort_text = true,
-              search = vim.fn.input'Grep For ❯ ',
-            }
-          end, 'Grep'},
-          G = {
-            function() builtin'grep_string'{} end,
-            'Grep the word on cursor',
-          },
-          h = {function() builtin'help_tags'{} end, 'Help'},
-          H = {function() builtin'help_tags'{lang = 'en'} end, 'Help (en)'},
-          m = {function() builtin'man_pages'{sections = {'ALL'}} end, 'Man'},
-          o = {function() extensions'frecency'.frecency{} end, 'Frecency'},
-          p = {
-            function() extensions'node_modules'.list{} end,
-            'List up in node_modules',
-          },
-          q = {function() extensions'ghq'.list{} end, 'Ghq'},
-          z = {function() extensions'z'.list{} end, 'Z'},
-          [':'] = {
-            function() builtin'command_history'{} end,
-            'Show command history',
-          },
-        },
-        m = {
-          name = '+[Telescope] memo',
-          m = {function() extensions'memo'.list{} end, 'Memo'},
-          g = {
-            function()
-              extensions'memo'.grep_string{
-                only_sort_text = true,
-                search = vim.fn.input'Memo Grep For ❯ ',
-              }
-            end,
-            'Grep memo',
-          },
-        },
-        s = {
-          name = '+[Telescope] LSP',
-          r = {function() builtin'lsp_references'{} end, 'Show references'},
-          d = {
-            function() builtin'lsp_document_symbols'{} end,
-            'Show document symbols',
-          },
-          w = {
-            function() builtin'lsp_workspace_symbols'{} end,
-            'Show workspace symbols',
-          },
-          c = {function() builtin'lsp_code_actions'{} end, 'Show code actions'},
-        },
-        g = {
-          name = '+[Telescope] Git',
-          c = {function() builtin'git_commits'{} end, 'Commits'},
-          b = {function() builtin'git_bcommits'{} end, 'Commits for buffer'},
-          r = {function() builtin'git_branches'{} end, 'Branches'},
-          s = {function() builtin'git_status'{} end, 'Status'},
-        },
-      },
-      {prefix = '<Leader>'}
-    )
+        }, true, {})
+        builtin'file_browser'{}
+      -- TODO: use vim.loop.fs_stat ?
+      elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') == 1 then
+        builtin'git_files'{}
+      else
+        builtin'find_files'{}
+      end
+    end)
+    m.nnoremap('<Leader>fg', function()
+      builtin'grep_string'{
+        only_sort_text = true,
+        search = vim.fn.input'Grep For ❯ ',
+      }
+    end)
+    m.nnoremap('<Leader>fG', function() builtin'grep_string'{} end)
+    m.nnoremap('<Leader>fh', function() builtin'help_tags'{} end)
+    m.nnoremap('<Leader>fH', function() builtin'help_tags'{lang = 'en'} end)
+    m.nnoremap('<Leader>fm', function() builtin'man_pages'{sections = {'ALL'}} end)
+    m.nnoremap('<Leader>fo', function() extensions'frecency'.frecency{} end)
+    m.nnoremap('<Leader>fp', function() extensions'node_modules'.list{} end)
+    m.nnoremap('<Leader>fq', function() extensions'ghq'.list{} end)
+    m.nnoremap('<Leader>fz', function() extensions'z'.list{} end)
+    m.nnoremap('<Leader>f:', function() builtin'command_history'{} end)
+
+    -- Memo
+    m.nnoremap('<Leader>mm', function() extensions'memo'.list{} end)
+    m.nnoremap('<Leader>mg', function()
+      extensions'memo'.grep_string{
+        only_sort_text = true,
+        search = vim.fn.input'Memo Grep For ❯ ',
+      }
+    end)
+
+    -- LSP
+    m.nnoremap('<Leader>sr', function() builtin'lsp_references'{} end)
+    m.nnoremap('<Leader>sd', function() builtin'lsp_document_symbols'{} end)
+    m.nnoremap('<Leader>sw', function() builtin'lsp_workspace_symbols'{} end)
+    m.nnoremap('<Leader>sc', function() builtin'lsp_code_actions'{} end)
+
+    -- Git
+    m.nnoremap('<Leader>gc', function() builtin'git_commits'{} end)
+    m.nnoremap('<Leader>gb', function() builtin'git_bcommits'{} end)
+    m.nnoremap('<Leader>gr', function() builtin'git_branches'{} end)
+    m.nnoremap('<Leader>gs', function() builtin'git_status'{} end)
   end,
   config = function()
     for _, name in pairs{

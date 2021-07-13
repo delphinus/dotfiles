@@ -41,56 +41,27 @@ return {
             m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
             if not diag_maps_only then
               m.nnoremap('K', vim.lsp.buf.hover)
-              local wk = require'which-key'
-              wk.register({
-                g = {
-                  name = 'LSP',
-                  D = {
-                    vim.lsp.buf.type_definition,
-                    'Type definition',
-                    buffer = bufnr,
-                  },
-                },
-              }, {prefix = '1', buffer = bufnr})
+              m.nnoremap('1gD', vim.lsp.buf.type_definition)
               if vim.opt.filetype:get() ~= 'help' then
                 m.nnoremap('<C-]>', vim.lsp.buf.definition)
-                wk.register({
-                  ['<C-]>'] = {
-                    function()
-                      vim.cmd[[split]]
-                      vim.lsp.buf.definition()
-                    end,
-                    'Definition',
-                  },
-                }, {prefix = '<C-w>', buffer = bufnr})
+                m.nnoremap('<C-w><C-]>', function()
+                  vim.cmd[[split]]
+                  vim.lsp.buf.definition()
+                end)
               end
-              wk.register({
-                ['<C-k>'] = {vim.lsp.buf.signature_help, 'Signature help'},
-              }, {prefix = '<C-x>', buffer = bufnr})
-              wk.register({
-                name = 'LSP',
-                ['0'] = {vim.lsp.buf.document_symbol, 'Document symbol'},
-                ['='] = {vim.lsp.buf.formatting, 'Formatting'},
-                A = {vim.lsp.buf.code_action, 'Code action'},
-                D = {vim.lsp.buf.implementation, 'Implementation'},
-                R = {vim.lsp.buf.rename, 'Rename'},
-                W = {vim.lsp.buf.workspace_symbol, 'Workspace symbol'},
-                d = {vim.lsp.buf.declaration, 'Declaration'},
-                l = {
-                  name = 'LSP - calls',
-                  i = {vim.lsp.buf.incoming_calls, 'Incoming calls'},
-                  o = {vim.lsp.buf.incoming_calls, 'Outgoing calls'},
-                },
-                r = {vim.lsp.buf.references, 'References'},
-              }, {prefix = 'g', buffer = bufnr})
-              wk.register({
-                name = 'LSP',
-                e = {
-                  vim.lsp.diagnostic.show_line_diagnostics,
-                  'Show line diagnostics',
-                },
-                q = {vim.lsp.diagnostic.set_loclist, 'Set loclist'},
-              }, {prefix = '<Space>', buffer = bufnr})
+              m.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
+              m.nnoremap('g0', vim.lsp.buf.document_symbol)
+              m.nnoremap('g=', vim.lsp.buf.formatting)
+              m.nnoremap('gA', vim.lsp.buf.code_action)
+              m.nnoremap('gD', vim.lsp.buf.implementation)
+              m.nnoremap('gR', vim.lsp.buf.rename)
+              m.nnoremap('gW', vim.lsp.buf.workspace_symbol)
+              m.nnoremap('gd', vim.lsp.buf.declaration)
+              m.nnoremap('gli', vim.lsp.buf.incoming_calls)
+              m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
+              m.nnoremap('gr', vim.lsp.buf.references)
+              m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
+              m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
             end
           end)
         end
@@ -421,53 +392,6 @@ return {
           disable = {'bash', 'c'},
         },
       }
-
-      local wk = require'which-key'
-      --[[
-      wk.register({
-        f = '@function.outer',
-        C = '@class.outer',
-        c = '@conditional.outer',
-        e = '@block.outer',
-        l = '@loop.outer',
-        s = '@statement.outer',
-        d = '@comment.outer',
-        m = '@call.outer',
-      }, {prefix = 'a'})
-      wk.register({
-        f = '@function.inner',
-        C = '@class.inner',
-        c = '@conditional.inner',
-        e = '@block.inner',
-        l = '@loop.inner',
-        s = '@statement.inner',
-        d = '@comment.inner',
-        m = '@call.inner',
-      }, {prefix = 'i'})
-      ]]
-      wk.register({
-        a = 'swap next',
-        A = 'swap previous',
-      }, {prefix = '<Leader>'})
-      wk.register({
-        m = 'next start of function',
-        [']'] = 'next start of class',
-        M = 'next end of function',
-        ['['] = 'next end of class',
-      }, {prefix = ']'})
-      wk.register({
-        m = 'previous start of function',
-        [']'] = 'previous start of class',
-        M = 'previous end of function',
-        ['['] = 'previous end of class',
-      }, {prefix = '['})
-      wk.register({
-        D = {
-          name = '[Treesitter] LSP',
-          f = '@function.outer',
-          F = '@class.outer',
-        }
-      }, {prefix = '<Leader>'})
     end,
     run = ':TSUpdate'
   }, -- }}}
