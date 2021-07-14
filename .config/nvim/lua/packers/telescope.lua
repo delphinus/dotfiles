@@ -50,7 +50,7 @@ return {
       elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') == 1 then
         builtin'git_files'{}
       else
-        builtin'find_files'{}
+        builtin'find_files'{hidden = true}
       end
     end)
     m.nnoremap('<Leader>fg', function()
