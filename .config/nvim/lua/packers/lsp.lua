@@ -39,6 +39,8 @@ return {
           m.add_buffer_maps(function()
             m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
             m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
+            m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
+            m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
             if not diag_maps_only then
               m.nnoremap('K', vim.lsp.buf.hover)
               m.nnoremap('1gD', vim.lsp.buf.type_definition)
@@ -60,8 +62,6 @@ return {
               m.nnoremap('gli', vim.lsp.buf.incoming_calls)
               m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
               m.nnoremap('gr', vim.lsp.buf.references)
-              m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
-              m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
             end
           end)
         end
