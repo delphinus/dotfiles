@@ -174,6 +174,9 @@ return {
           '--hidden',
         },
         winblend = 10,
+        prompt_prefix = '❯❯❯ ',
+        selection_caret = '❯ ',
+        dynamic_preview_title = true,
       },
       extensions = {
         frecency = {
