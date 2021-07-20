@@ -70,6 +70,7 @@ return {
     m.nnoremap('<Leader>fH', function() builtin'help_tags'{lang = 'en'} end)
     m.nnoremap('<Leader>fm', function() builtin'man_pages'{sections = {'ALL'}} end)
     m.nnoremap('<Leader>fo', function() extensions'frecency'.frecency{} end)
+    m.nnoremap('<Leader>fP', function() extensions'packer'.plugins{} end)
     m.nnoremap('<Leader>fp', function() extensions'node_modules'.list{} end)
     m.nnoremap('<Leader>fq', function() extensions'ghq'.list{} end)
     m.nnoremap('<Leader>fz', function() extensions'z'.list{} end)
