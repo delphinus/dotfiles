@@ -15,7 +15,13 @@ return {
 
     {
       'nvim-telescope/telescope-frecency.nvim',
-      requires = {'tami5/sql.nvim'},
+      requires = {'tami5/sql.nvim', opt = true},
+      opt = true,
+    },
+
+    {
+      'nvim-telescope/telescope-smart-history.nvim',
+      requires = {'tami5/sql.nvim', opt = true},
       opt = true,
     },
   },
@@ -102,6 +108,7 @@ return {
       'telescope-memo.nvim',
       'telescope-node-modules.nvim',
       'telescope-packer.nvim',
+      'telescope-smart-history.nvim',
       'telescope-symbols.nvim',
       'telescope-z.nvim',
     } do
@@ -114,6 +121,7 @@ return {
     local extensions = function(name)
       return require'telescope'.load_extension(name)
     end
+    local Path = require'plenary.path'
 
     local run_find_files = function(prompt_bufnr)
       local selection = actions.get_selected_entry()
@@ -147,7 +155,8 @@ return {
             ['<C-j>'] = actions.move_selection_next,
             ['<C-k>'] = actions.move_selection_previous,
             ['<C-s>'] = actions.select_horizontal,
-            ['<C-n>'] = actions.select_horizontal,
+            ['<C-n>'] = actions.cycle_history_next,
+            ['<C-p>'] = actions.cycle_history_prev,
             ['<C-d>'] = preview_scroll(3),
             ['<C-u>'] = preview_scroll(-3),
             ['<C-f>'] = preview_scroll(30),
@@ -172,6 +181,10 @@ return {
           '--column',
           '--smart-case',
           '--hidden',
+        },
+        history = {
+          path = Path:new(vim.fn.stdpath'data', 'telescope_history.sqlite3').filename,
+          limit = 100,
         },
         winblend = 10,
         prompt_prefix = '❯❯❯ ',
@@ -198,9 +211,8 @@ return {
     -- This is needed to setup telescope-fzf-native. It overrides the sorters
     -- in this.
     extensions'fzf'
-
-    -- TODO: how to use this?
-    -- telescope.load_extension'packer'
+    -- This is needed to setup telescope-smart-history.
+    extensions'smart_history'
 
     -- for telescope-frecency
     vim.api.nvim_exec([[
