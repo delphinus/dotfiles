@@ -43,25 +43,6 @@ return {
               hi VisualNoEOL guifg=#bf616a
             ]], false)
 
-            -- LSP diagnostics
-            vim.api.nvim_exec([[
-              hi LspDiagnosticsDefaultError guifg=#bf616a guibg=#52050c gui=bold
-              hi LspDiagnosticsFloatingError guifg=#bf616a guibg=NONE gui=bold
-              hi LspDiagnosticsUnderlineError guifg=#bf616a guibg=NONE gui=underline
-              hi LspDiagnosticsDefaultHint guifg=#a3be8c guibg=#456c26
-              hi LspDiagnosticsFloatingHint guifg=#a3be8c guibg=NONE
-              hi LspDiagnosticsUnderlineHint guifg=#a3be8c guibg=NONE
-              hi LspDiagnosticsDefaultInformation guifg=#5e81ac guibg=#153b68
-              hi LspDiagnosticsFloatingInformation guifg=#5e81ac guibg=NONE
-              hi LspDiagnosticsUnderlineInformation guifg=#5e81ac guibg=NONE gui=underline
-              hi LspDiagnosticsDefaultWarning guifg=#ebcb8b guibg=#432d00
-              hi LspDiagnosticsFloatingWarning guifg=#ebcb8b guibg=NONE
-              hi LspDiagnosticsUnderlineWarning guifg=#ebcb8b guibg=NONE gui=underline
-              hi link LspReferenceText LspDiagnosticsDefaultInformation
-              hi link LspReferenceRead LspDiagnosticsDefaultHint
-              hi link LspReferenceWrite LspDiagnosticsDefaultWarning
-            ]], false)
-
             -- nvim-treesitter
             vim.api.nvim_exec([[
               hi TSCurrentScope guibg=#313743
