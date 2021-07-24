@@ -39,6 +39,14 @@ return {
           m.add_buffer_maps(function()
             m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
             m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
+            m.nnoremap('<Space>E', function()
+              if vim.b.lsp_diagnostics_disabled then
+                vim.lsp.diagnostic.enable()
+              else
+                vim.lsp.diagnostic.disable()
+              end
+              vim.b.lsp_diagnostics_disabled = not vim.b.lsp_diagnostics_disabled
+            end)
             m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
             m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
             if not diag_maps_only then
