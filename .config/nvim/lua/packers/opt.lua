@@ -18,14 +18,9 @@ return {
           {'ColorScheme', 'nord', function()
             vim.api.nvim_exec([[
               hi Comment guifg=#CDD0BB gui=italic
-              hi CursorLine guibg=#313743
               hi Delimiter guifg=#81A1C1
-              hi DeniteFilter guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
-              hi FloatPreview guifg=#D8DEE9 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
-              hi FloatPreviewTransparent guifg=#183203 guibg=#183203 ctermfg=NONE ctermbg=0 gui=NONE
               hi Folded guifg=#D08770 gui=NONE
               hi Identifier guifg=#8FBCBB
-              hi NormalFloat guifg=#D8DEE9 guibg=#0B1900 ctermfg=NONE ctermbg=0 gui=NONE
               hi Special guifg=#D08770
               hi Title gui=bold cterm=bold
             ]], false)
