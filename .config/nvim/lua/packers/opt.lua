@@ -785,7 +785,6 @@ return {
       require'gitlinker'.setup{
         opts = {
           add_current_line_on_normal_mode = false,
-          mappings = 'gc',
           action_callback = function(url)
             actions.copy_to_clipboard(url)
             actions.open_in_browser(url)
@@ -794,6 +793,7 @@ return {
         callbacks= {
           [vim.g.gh_e_host] = require"gitlinker.hosts".get_github_type_url,
         },
+        mappings = 'gc',
       }
     end,
   },
