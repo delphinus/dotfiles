@@ -38,8 +38,10 @@ return {
               hi VisualNoEOL guifg=#bf616a
             ]], false)
 
-            -- nvim-treesitter
+            -- Neovim specific
             vim.api.nvim_exec([[
+              hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
+              hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
               hi TSCurrentScope guibg=#313743
               hi rainbowcol1 guifg=#bf616a
               hi rainbowcol2 guifg=#d08770

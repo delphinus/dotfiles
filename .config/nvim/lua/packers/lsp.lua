@@ -37,8 +37,16 @@ return {
 
           -- ignore errors when executed multi times
           m.add_buffer_maps(function()
-            m.bind('n', {'<A-J>', '<A-S-Ô>'}, vim.lsp.diagnostic.goto_next)
-            m.bind('n', {'<A-K>', '<A-S->'}, vim.lsp.diagnostic.goto_prev)
+            m.bind('n', {'<A-J>', '<A-S-Ô>'}, function()
+              vim.lsp.diagnostic.goto_next{
+                popup_opts = {border = 'rounded'},
+              }
+            end)
+            m.bind('n', {'<A-K>', '<A-S->'}, function()
+              vim.lsp.diagnostic.goto_prev{
+                popup_opts = {border = 'rounded'},
+              }
+            end)
             m.nnoremap('<Space>E', function()
               if vim.b.lsp_diagnostics_disabled then
                 vim.lsp.diagnostic.enable()
@@ -47,7 +55,9 @@ return {
               end
               vim.b.lsp_diagnostics_disabled = not vim.b.lsp_diagnostics_disabled
             end)
-            m.nnoremap('<Space>e', vim.lsp.diagnostic.show_line_diagnostics)
+            m.nnoremap('<Space>e', function()
+              vim.lsp.diagnostic.show_line_diagnostics{border = 'rounded'}
+            end)
             m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
             if not diag_maps_only then
               m.nnoremap('K', vim.lsp.buf.hover)
@@ -81,6 +91,12 @@ return {
           virtual_text = true,
           signs = true,
         }
+      )
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+        vim.lsp.handlers.hover, {border = 'rounded'}
+      )
+      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+        vim.lsp.handlers.signature_help, {border = 'rounded'}
       )
 
       local lsp = require'lspconfig'
