@@ -24,6 +24,23 @@ return {
         vim.cmd[[edit]]
       end
 
+      vim.api.nvim_exec([[
+        hi LspBorderTop guifg=#5d9794 guibg=#3b4252
+        hi LspBorderLeft guifg=#5d9794 guibg=#3b4252
+        hi LspBorderRight guifg=#5d9794 guibg=#3b4252
+        hi LspBorderBottom guifg=#5d9794 guibg=#3b4252
+      ]], false)
+      local border = {
+        {'⣀', 'LspBorderTop'},
+        {'⣀', 'LspBorderTop'},
+        {'⣀', 'LspBorderTop'},
+        {'⢸', 'LspBorderRight'},
+        {'⠉', 'LspBorderBottom'},
+        {'⠉', 'LspBorderBottom'},
+        {'⠉', 'LspBorderBottom'},
+        {'⡇', 'LspBorderLeft'},
+      }
+
       local lsp_on_attach = function(diag_maps_only)
         return function(client, bufnr)
           print(('LSP started: bufnr = %d'):format(bufnr))
@@ -39,12 +56,12 @@ return {
           m.add_buffer_maps(function()
             m.bind('n', {'<A-J>', '<A-S-Ô>'}, function()
               vim.lsp.diagnostic.goto_next{
-                popup_opts = {border = 'rounded'},
+                popup_opts = {border = border},
               }
             end)
             m.bind('n', {'<A-K>', '<A-S->'}, function()
               vim.lsp.diagnostic.goto_prev{
-                popup_opts = {border = 'rounded'},
+                popup_opts = {border = border},
               }
             end)
             m.nnoremap('<Space>E', function()
@@ -56,7 +73,7 @@ return {
               vim.b.lsp_diagnostics_disabled = not vim.b.lsp_diagnostics_disabled
             end)
             m.nnoremap('<Space>e', function()
-              vim.lsp.diagnostic.show_line_diagnostics{border = 'rounded'}
+              vim.lsp.diagnostic.show_line_diagnostics{border = border}
             end)
             m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
             if not diag_maps_only then
