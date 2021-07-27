@@ -117,7 +117,6 @@ return {
       )
 
       local lsp = require'lspconfig'
-      lsp.bashls.setup{on_attach = lsp_on_attach()}
       lsp.clangd.setup{on_attach = lsp_on_attach()}
       lsp.cssls.setup{on_attach = lsp_on_attach()}
       lsp.dockerls.setup{on_attach = lsp_on_attach()}
@@ -134,6 +133,11 @@ return {
       lsp.vimls.setup{on_attach = lsp_on_attach()}
       lsp.yamlls.setup{on_attach = lsp_on_attach()}
       lsp.vuels.setup{on_attach = lsp_on_attach()}
+
+      lsp.bashls.setup{
+        on_attach = lsp_on_attach(),
+        filetypes = {'sh', 'bash', 'zsh'},
+      }
 
       lsp.efm.setup{
         on_attach = lsp_on_attach(true),
