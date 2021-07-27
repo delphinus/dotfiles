@@ -25,10 +25,10 @@ return {
       end
 
       vim.api.nvim_exec([[
-        hi LspBorderTop guifg=#5d9794 guibg=#3b4252
+        hi LspBorderTop guifg=#5d9794 guibg=#2e3440
         hi LspBorderLeft guifg=#5d9794 guibg=#3b4252
         hi LspBorderRight guifg=#5d9794 guibg=#3b4252
-        hi LspBorderBottom guifg=#5d9794 guibg=#3b4252
+        hi LspBorderBottom guifg=#5d9794 guibg=#2e3440
       ]], false)
       local border = {
         {'⣀', 'LspBorderTop'},
