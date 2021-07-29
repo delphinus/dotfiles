@@ -943,7 +943,6 @@ return {
               {'─', 'WinBorderBottom'},
               {'╰', 'WinBorderLeft'},
               {'│', 'WinBorderLeft'},
-              ]]
               {'⣠', 'WinBorderTop'},
               {'⣤', 'WinBorderTop'},
               {'⣄', 'WinBorderTop'},
@@ -952,6 +951,15 @@ return {
               {'⠛', 'WinBorderBottom'},
               {'⠙', 'WinBorderLeft'},
               {'⣿', 'WinBorderLeft'},
+              ]]
+              {'⣀', 'WinBorderTop'},
+              {'⣀', 'WinBorderTop'},
+              {'⣀', 'WinBorderTop'},
+              {'⢸', 'WinBorderRight'},
+              {'⠉', 'WinBorderBottom'},
+              {'⠉', 'WinBorderBottom'},
+              {'⠉', 'WinBorderBottom'},
+              {'⡇', 'WinBorderLeft'},
             },
           }
           loaded = true
