@@ -228,6 +228,7 @@ return {
           vim.cmd('!npm i --force -g bash-language-server dockerfile-language-server-nodejs intelephense pyright'
             ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
             ..' vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
+          vim.cmd[[!source (plenv init -| psub); plenv shell system; cpanm App::efm_perl]]
         end)
 
         if ok then
