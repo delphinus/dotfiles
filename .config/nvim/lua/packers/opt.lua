@@ -544,6 +544,41 @@ return {
   {'keith/swift.vim', ft = {'swift'}},
   {'kevinhwang91/nvim-bqf', ft = {'qf'}},
   {'leafo/moonscript-vim', ft = {'moonscript'}},
+
+  {
+    'mhartington/formatter.nvim',
+    ft = {'javascript', 'typescript'},
+    config = function()
+      require'formatter'.setup{
+        filetype = {
+          javascript = {
+            function()
+              return {
+                exe = 'npx',
+                args = {'prettier', '--stdin-filepath', vim.api.nvim_buf_get_name(0)},
+                stdin = true,
+              }
+            end,
+          },
+          typescript = {
+            function()
+              return {
+                exe = 'npx',
+                args = {'prettier', '--stdin-filepath', vim.api.nvim_buf_get_name(0)},
+                stdin = true,
+              }
+            end,
+          },
+        },
+      }
+      require'agrp'.set{
+        formatter_on_save = {
+          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx', 'FormatWrite'},
+        },
+      }
+    end,
+  },
+
   {'moznion/vim-cpanfile', ft = {'cpanfile'}},
 
   {
