@@ -20,9 +20,7 @@ return {
 
   {
     'delphinus/characterize.nvim',
-    config = function()
-      require'characterize'.setup{}
-    end,
+    config = function() require'characterize'.setup{} end,
   },
 
   --[=[
