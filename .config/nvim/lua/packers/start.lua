@@ -111,6 +111,7 @@ return {
         } or ''
       end
       require'lualine'.setup{
+        extensions = {'quickfix'},
         options = {
           theme = 'nord',
           section_separators = '',
