@@ -3,7 +3,10 @@ return {
   {'nvim-lua/plenary.nvim'},
 
   -- basic {{{
-  {'airblade/vim-rooter'},
+  {
+    'airblade/vim-rooter',
+    setup = function() vim.g.rooter_patterns = {'.git'} end,
+  },
 
   -- TODO: https://github.com/antoinemadec/FixCursorHold.nvim
   {
