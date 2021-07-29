@@ -80,7 +80,7 @@ vim.opt.breakindent = true
 vim.o.formatoptions = vim.o.formatoptions..'nmMj'
 vim.opt.formatlistpat = [[^\s*\%(\d\+\|[-a-z]\)\%(\ -\|[]:.)}\t]\)\?\s\+]]
 vim.opt.fixendofline = false
-vim.opt.showbreak = [[→  ]]
+vim.opt.showbreak = [[→]]
 vim.opt.smartindent = true
 -- }}}
 
