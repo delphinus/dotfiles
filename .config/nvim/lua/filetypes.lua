@@ -131,6 +131,8 @@ local groups = {
   {'*.java,*.jav', 'setf java'},
   -- JavaScript, ECMAScript
   {'*.js,*.javascript,*.es,*.jsx', 'setf javascript'},
+  -- TypeScript
+  {'*.ts,*.tsx', 'setf typescript'},
   -- JSON
   {'*.json,*.jsonp', 'setf json'},
   -- Less
