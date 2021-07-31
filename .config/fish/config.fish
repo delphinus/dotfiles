@@ -192,6 +192,7 @@ type -q goenv;     and source (goenv init -| psub)
 type -q nodenv;    and source (nodenv init -| psub)
 type -q rbenv;     and source (rbenv init -| psub)
 type -q luaenv;    and source (luaenv init -| psub)
+type -q luarocks;  and luarocks completion fish | source
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
 
