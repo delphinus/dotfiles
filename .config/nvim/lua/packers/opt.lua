@@ -235,6 +235,18 @@ return {
   {'powerman/vim-plugin-AnsiEsc', cmd = {'AnsiEsc'}},
 
   {
+    'pwntester/octo.nvim',
+    cmd = {'Octo'},
+    key = {
+      {'n', '<A-O>'},
+    },
+    setup = function() require'mappy'.nnoremap('<A-O>', ':Octo ') end,
+    config = function()
+      require'octo'.setup{github_hostname = vim.g.gh_e_host}
+    end,
+  },
+
+  {
     'rhysd/ghpr-blame.vim',
     cmd = {'GHPRBlame'},
     config = function()
