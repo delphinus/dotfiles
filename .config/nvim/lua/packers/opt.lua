@@ -561,26 +561,24 @@ return {
     'mhartington/formatter.nvim',
     ft = {'javascript', 'typescript'},
     config = function()
+      local function prettier()
+        return {
+          exe = 'npx',
+          args = {'prettier', '--stdin-filepath', vim.api.nvim_buf_get_name(0)},
+          stdin = true,
+        }
+      end
+      local function eslint()
+        return {
+          exe = 'npx',
+          args = {'eslint', '--fix', '--stdin-filename', vim.api.nvim_buf_get_name(0)},
+          stdin = true,
+        }
+      end
       require'formatter'.setup{
         filetype = {
-          javascript = {
-            function()
-              return {
-                exe = 'npx',
-                args = {'prettier', '--stdin-filepath', vim.api.nvim_buf_get_name(0)},
-                stdin = true,
-              }
-            end,
-          },
-          typescript = {
-            function()
-              return {
-                exe = 'npx',
-                args = {'prettier', '--stdin-filepath', vim.api.nvim_buf_get_name(0)},
-                stdin = true,
-              }
-            end,
-          },
+          javascript = {prettier, eslint},
+          typescript = {prettier, eslint},
         },
       }
       require'agrp'.set{
