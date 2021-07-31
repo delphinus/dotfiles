@@ -117,6 +117,7 @@ return {
       )
 
       local lsp = require'lspconfig'
+      local configs = require'lspconfig/configs'
       lsp.clangd.setup{on_attach = lsp_on_attach()}
       lsp.cssls.setup{on_attach = lsp_on_attach()}
       lsp.dockerls.setup{on_attach = lsp_on_attach()}
@@ -196,6 +197,16 @@ return {
           }
         }
       }
+
+      configs.teal = {
+        default_config = {
+          cmd = {'teal-language-server'},
+          filetypes = {'teal'},
+          root_dir = lsp.util.root_pattern('tlconfig.lua', '.git'),
+          settings = {},
+        },
+      }
+      lsp.teal.setup{on_attach = lsp_on_attach()}
     end,
     run = function()
       local dir = vim.fn.stdpath'cache'..'/lspconfig'
@@ -224,7 +235,7 @@ return {
           vim.cmd('!brew install gopls efm-langserver terraform-ls typescript'
             ..' && brew upgrade gopls efm-langserver terraform-ls typescript')
           vim.cmd[[!brew uninstall vint; brew install vint --HEAD]]
-          vim.cmd[[!luarocks install luacheck]]
+          vim.cmd[[!luarocks install luacheck tl teal-language-server]]
           vim.cmd('!npm i --force -g bash-language-server dockerfile-language-server-nodejs intelephense pyright'
             ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
             ..' vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')

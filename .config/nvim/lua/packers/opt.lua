@@ -619,6 +619,8 @@ return {
 
   {'rust-lang/rust.vim', ft = {'rust'}},
 
+  {'teal-language/vim-teal', ft = {'teal'}},
+
   {
     'tpope/vim-endwise',
     ft = {
