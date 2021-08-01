@@ -18,9 +18,7 @@ set -l paths \
   /usr/local/opt/llvm/bin \
   /usr/local/opt/perl/bin
 
-if test "$paths" != "$fish_user_paths"
-  set -U fish_user_paths $paths
-end
+test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 
 set -l nord0 2e3440 # #2e3440
 set -l nord1 3b4252 # #3b4252
@@ -102,14 +100,11 @@ alias g git
 alias gf 'git foresta | less'
 alias gfa 'git foresta --all | less'
 alias l. 'l -d .*'
-alias pe path-extractor
 
-if test -n $NVIM_LISTEN_ADDRESS
-  alias nvr 'nvr -cc \'lua require"FTerm".toggle()\' -cc split'
-end
+alias git hub
+alias dircolors gdircolors
 
-type -q hub; and alias git hub
-type -q gdircolors; and alias dircolors gdircolors
+test -n $NVIM_LISTEN_ADDRESS; and alias nvr 'nvr -cc \'lua require"FTerm".toggle()\' -cc split'
 
 test "$fish_key_bindings" != 'fish_hybrid_key_bindings'; and fish_hybrid_key_bindings
 
@@ -134,27 +129,15 @@ bind -M insert \ct fzf_z
 bind \cx\ct 'fzf_z --insert'
 bind -M insert \cx\ct 'fzf_z --insert'
 
-# TODO: contribute?
-bind -m insert cf begin-selection forward-jump kill-selection end-selection
-bind -m insert ct begin-selection forward-jump backward-char kill-selection end-selection
-bind -m insert cF begin-selection backward-jump kill-selection end-selection
-bind -m insert cT begin-selection backward-jump forward-char kill-selection end-selection
+# for Neovim
+set -x EDITOR nvim
+set -x GIT_EDITOR nvim
+set -x VISUAL nvim
 
-if type -q floaterm
-  alias f floaterm
-  set -x EDITOR floaterm
-  set -x GIT_EDITOR nvim
-  set -x VISUAL floaterm
-else
-  set -x EDITOR nvim
-  set -x GIT_EDITOR nvim
-  set -x VISUAL nvim
-end
-if type -q bat
-  set -x PAGER bat
-  set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
-  set -x DELTA_PAGER 'bat -p'
-end
+# for bat
+set -x PAGER bat
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+set -x DELTA_PAGER 'bat -p'
 
 # from prezto
 set -x LESS_TERMCAP_mb \e'[01;31m'      # Begins blinking.
@@ -172,25 +155,19 @@ set -x GO111MODULE on
 set -x PYTHONPATH \
   ./src \
   ./rplugin/python3 \
-  $HOME/.cache/dein/repos/github.com/Shougo/defx.nvim/rplugin/python3 \
-  $HOME/.cache/dein/repos/github.com/Shougo/denite.nvim/rplugin/python3 \
-  $HOME/.cache/dein/repos/github.com/Shougo/deol.nvim/rplugin/python3 \
-  $HOME/.cache/dein/repos/github.com/Shougo/deoplete.nvim/rplugin/python3 \
   /usr/local/Cellar/fontforge/*/lib/python3.9/site-packages
 set -x MYPYPATH $PYTHONPATH
 
 set gcsdk_path /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
-if test -d $gcsdk_path
-  source "$gcsdk_path/path.fish.inc"
-end
+test -d $gcsdk_path; and source "$gcsdk_path/path.fish.inc"
 
 type -q direnv;    and direnv hook fish | source
 type -q gosshauth; and gosshauth hook fish | source
-type -q plenv;     and source (plenv init -| psub)
-type -q goenv;     and source (goenv init -| psub)
-type -q nodenv;    and source (nodenv init -| psub)
-type -q rbenv;     and source (rbenv init -| psub)
-type -q luaenv;    and source (luaenv init -| psub)
+type -q plenv;     and plenv init - --no-rehash | source
+type -q goenv;     and goenv init - --no-rehash | source
+type -q nodenv;    and nodenv init - --no-rehash | source
+type -q rbenv;     and rbenv init - --no-rehash | source
+type -q luaenv;    and luaenv init - --no-rehash | source
 
 if type -q luarocks
   set path (type -P luarocks)
