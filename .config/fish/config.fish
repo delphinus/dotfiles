@@ -173,9 +173,7 @@ if type -q luarocks
   set path (type -P luarocks)
   set filename $HOME/.local/var/cache/(string replace -a / - $path)
   set timestamp 0
-  if test -f $filename
-    set timestamp (cat $filename)
-  end
+  test -f $filename; and set timestamp (cat $filename)
   set t (stat -f %m $path)
   if test $t -gt $timestamp
     set completion $HOME/.config/fish/completions/luarocks.fish
