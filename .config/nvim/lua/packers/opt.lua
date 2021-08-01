@@ -17,9 +17,9 @@ return {
         nord_overrides = {
           {'ColorScheme', 'nord', function()
             vim.api.nvim_exec([[
-              hi Comment guifg=#CDD0BB gui=italic
+              hi Comment guifg=#72809a gui=italic
               hi Delimiter guifg=#81A1C1
-              hi Folded guifg=#D08770 gui=NONE
+              hi Folded guifg=#72809a gui=NONE
               hi Identifier guifg=#8FBCBB
               hi Special guifg=#D08770
               hi Title gui=bold cterm=bold
@@ -30,6 +30,7 @@ return {
               hi GitSignsAdd guifg=#a3be8c
               hi GitSignsChange guifg=#ebcb8b
               hi GitSignsDelete guifg=#bf616a
+              hi GitSignsCurrentLineBlame guifg=#616e88
             ]], false)
 
             -- for visual-eof.lua
