@@ -2,6 +2,7 @@ not status is-interactive; and exit 0
 
 set -l paths \
   ~/bin \
+  ~/.luarocks/bin \
   ~/.nodenv/bin \
   ~/.goenv/bin \
   ~/.rbenv/bin \
@@ -148,6 +149,19 @@ set -x LESS_TERMCAP_so \e'[00;47;30m'   # Begins standout-mode.
 set -x LESS_TERMCAP_ue \e'[0m'          # Ends underline.
 set -x LESS_TERMCAP_us \e'[01;32m'      # Begins underline.
 set -x LESS '-g -i -M -R -S -W -z-4 -x4 +3'
+
+# for Lua
+set -x LUA_PATH  \
+"/usr/local/Cellar/luarocks/3.7.0/share/lua/5.4/?.lua;"\
+"$HOME/.luarocks/share/lua/5.4/?.lua;"\
+"$HOME/.luarocks/share/lua/5.4/?/init.lua;"\
+"/usr/local/share/lua/5.4/?.lua;"\
+"/usr/local/share/lua/5.4/?/init.lua"
+set -x LUA_CPATH \
+"/usr/local/lib/lua/5.4/?.so;"\
+"/usr/local/lib/lua/5.4/loadall.so;"\
+"./?.so;"\
+"$HOME/.luarocks/lib/lua/5.4/?.so"
 
 set -x GOPATH $HOME/.go
 set -x GO111MODULE on
