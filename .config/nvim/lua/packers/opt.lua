@@ -405,6 +405,12 @@ return {
   },
 
   {
+    'lewis6991/foldsigns.nvim',
+    event = {'FocusLost', 'CursorHold'},
+    config = function() require'foldsigns'.setup{} end,
+  },
+
+  {
     'lewis6991/gitsigns.nvim',
     event = {'FocusLost', 'CursorHold'},
     config = function()
