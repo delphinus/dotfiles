@@ -235,7 +235,7 @@ return {
           vim.cmd('!brew install gopls efm-langserver terraform-ls typescript'
             ..' && brew upgrade gopls efm-langserver terraform-ls typescript')
           vim.cmd[[!brew uninstall vint; brew install vint --HEAD]]
-          vim.cmd[[!luarocks install luacheck tl teal-language-server]]
+          vim.cmd[[!luarocks install luacheck tl]]
           vim.cmd[[!luarocks install --dev teal-language-server]]
           vim.cmd('!npm i --force -g bash-language-server dockerfile-language-server-nodejs intelephense pyright'
             ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
