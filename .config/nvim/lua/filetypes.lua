@@ -138,7 +138,7 @@ local groups = {
   -- Less
   {'*.less', 'setf less'},
   -- Lua
-  {'*.lua', 'setf lua'},
+  {'*.lua,*.rockspec', 'setf lua'},
   -- Makefile
   {'*[mM]akefile,*.mk,*.mak,*.dsp', 'setf make'},
   -- Manpage
