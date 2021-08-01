@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-use 5.10.0;
+use 5.12.0;
 use warnings;
 my @paths = map { s|^$ENV{HOME}|~|; $_ } split /:/, shift // $ENV{PATH};
 @paths = sort @paths if defined $ARGV[0] && $ARGV[0] eq '-s';
