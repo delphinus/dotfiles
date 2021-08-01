@@ -578,7 +578,7 @@ return {
       local function eslint()
         return {
           exe = 'npx',
-          args = {'eslint', '--fix', '--stdin-filename', vim.api.nvim_buf_get_name(0)},
+          args = {'eslint', '----fix-dry-run', '--stdin', '--stdin-filename', vim.api.nvim_buf_get_name(0)},
           stdin = true,
         }
       end

@@ -107,7 +107,7 @@ tools:
     format-stdin: true
 
   javascript-eslint: &javascript-eslint
-    lint-command: 'eslint -f unix --stdin'
+    lint-command: 'eslint -f unix --stdin --stdin-filename ${INPUT}'
     lint-ignore-exit-code: true
     lint-stdin: true
     lint-formats:
