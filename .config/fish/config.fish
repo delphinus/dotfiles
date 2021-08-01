@@ -182,7 +182,6 @@ set -x MYPYPATH $PYTHONPATH
 set gcsdk_path /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 if test -d $gcsdk_path
   source "$gcsdk_path/path.fish.inc"
-  bass source "$gcsdk_path/completion.bash.inc"
 end
 
 type -q direnv;    and direnv hook fish | source
