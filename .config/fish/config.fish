@@ -191,7 +191,23 @@ type -q goenv;     and source (goenv init -| psub)
 type -q nodenv;    and source (nodenv init -| psub)
 type -q rbenv;     and source (rbenv init -| psub)
 type -q luaenv;    and source (luaenv init -| psub)
-type -q luarocks;  and luarocks completion fish | source
+
+if type -q luarocks
+  set path (type -P luarocks)
+  set filename $HOME/.local/var/cache/(string replace -a / - $path)
+  set timestamp 0
+  if test -f $filename
+    set timestamp (cat $filename)
+  end
+  set t (stat -f %m $path)
+  if test $t -gt $timestamp
+    set completion $HOME/.config/fish/completions/luarocks.fish
+    mkdir -p (dirname $completion)
+    luarocks completion fish > $completion
+    mkdir -p (dirname $filename)
+    echo $t > $filename
+  end
+end
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
 
