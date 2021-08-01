@@ -423,6 +423,7 @@ Temporary Items
 
 
 ### custom ignore
+/.config/fish/completions/luarocks.fish
 /.config/fish/config-local.fish
 /.config/fish/fish_variables
 /.config/git
