@@ -195,6 +195,7 @@ return {
           show_scores = true,
           show_unindexed = false,
           ignore_patterns = {'/.git/'},
+          disable_devicons = true,
           workspaces = {
             vimrc = vim.loop.os_homedir()..'/git/github.com/delphinus/dotfiles/.vim',
           },
