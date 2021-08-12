@@ -16,7 +16,11 @@ require'commands'
 
 require'agrp'.set{
   hello_world = {
-    {'VimEnter', '*', function() print'Hello, World!' end},
+    {'VimEnter', '*', function()
+      local v = vim.version()
+      local name = ('Neovim v%d.%d.%d'):format(v.major, v.minor, v.patch)
+      vim.notify('Hello, World!', nil, {title = name})
+    end},
   },
 }
 

@@ -10,16 +10,12 @@ vim.cmd[[command! PackerClean   lua run_packer'clean']]
 vim.cmd[[command! PackerCompile lua run_packer'compile']]
 vim.cmd[[command! PackerProfile lua run_packer'profile_output']]
 
-local warn = function(msg)
-  vim.api.nvim_echo({{'[packer] '..msg, 'WarningMsg'}}, true, {})
-end
-
 local m = require'mappy'
 m.nnoremap('<Leader>ps', function()
-  warn'Sync started'
+  vim.notify'Sync started'
   _G.run_packer'sync'
 end)
 m.nnoremap('<Leader>po', function()
   _G.run_packer'compile'
-  warn'Compile complete!'
+  vim.notify'Compile complete!'
 end)
