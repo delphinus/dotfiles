@@ -19,6 +19,7 @@ return {
             vim.api.nvim_exec([[
               hi Comment guifg=#72809a gui=italic
               hi Delimiter guifg=#81A1C1
+              hi Constant guifg=#d8dee9 gui=italic
               hi Folded guifg=#72809a gui=NONE
               hi Identifier guifg=#8FBCBB
               hi Special guifg=#D08770
