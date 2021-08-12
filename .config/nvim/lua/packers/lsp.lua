@@ -453,6 +453,7 @@ return {
           enable = true,
         },
       }
+      require'mappy'.nnoremap('<Space>h', '<Cmd>TSHighlightCapturesUnderCursor<CR>')
     end,
     run = ':TSUpdate'
   }, -- }}}
