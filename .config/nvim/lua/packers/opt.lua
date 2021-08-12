@@ -432,6 +432,21 @@ return {
   },
 
   {
+    'lukas-reineke/indent-blankline.nvim',
+    event = {'FocusLost', 'CursorHold'},
+    setup = function()
+      -- │┃┊┋┆┇║⡇⢸
+      vim.g.indent_blankline_char = '│'
+      vim.g.indent_blankline_space_char = '∙'
+      vim.g.indent_blankline_show_current_context = true
+      vim.g.indent_blankline_use_treesitter = true
+      vim.g.indent_blankline_show_end_of_line = true
+      vim.g.indent_blankline_show_foldtext = false
+      vim.g.indent_blankline_filetype_exclude = {'help', 'packer', 'FTerm'}
+    end,
+  },
+
+  {
     'preservim/tagbar',
     event = {'FocusLost', 'CursorHold'},
     cmd = {'TagbarToggle'},
