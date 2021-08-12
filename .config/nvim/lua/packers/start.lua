@@ -199,6 +199,11 @@ return {
   {'lambdalisue/suda.vim'},
 
   {
+    'rcarriga/nvim-notify',
+    config = function() vim.notify = require'notify' end,
+  },
+
+  {
     'tpope/vim-eunuch',
     config = function()
       vim.env.SUDO_ASKPASS = vim.loop.os_homedir()..'/git/dotfiles/bin/macos-askpass'
