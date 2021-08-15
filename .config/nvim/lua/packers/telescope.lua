@@ -65,16 +65,17 @@ return {
         search = vim.fn.input'Grep For ❯ ',
       }
     end)
+    m.nnoremap('<Leader>f:', function() builtin'command_history'{} end)
     m.nnoremap('<Leader>fG', function() builtin'grep_string'{} end)
-    m.nnoremap('<Leader>fh', function() builtin'help_tags'{} end)
     m.nnoremap('<Leader>fH', function() builtin'help_tags'{lang = 'en'} end)
-    m.nnoremap('<Leader>fm', function() builtin'man_pages'{sections = {'ALL'}} end)
-    m.nnoremap('<Leader>fo', function() extensions'frecency'.frecency{} end)
     m.nnoremap('<Leader>fP', function() extensions'packer'.plugins{} end)
-    m.nnoremap('<Leader>fp', function() extensions'node_modules'.list{} end)
+    m.nnoremap('<Leader>fh', function() builtin'help_tags'{} end)
+    m.nnoremap('<Leader>fm', function() builtin'man_pages'{sections = {'ALL'}} end)
+    m.nnoremap('<Leader>fn', function() extensions'node_modules'.list{} end)
+    m.nnoremap('<Leader>fo', function() extensions'frecency'.frecency{} end)
+    m.nnoremap('<Leader>fp', function() extensions'projects'.projects{} end)
     m.nnoremap('<Leader>fq', function() extensions'ghq'.list{} end)
     m.nnoremap('<Leader>fz', function() extensions'z'.list{} end)
-    m.nnoremap('<Leader>f:', function() builtin'command_history'{} end)
 
     -- Memo
     m.nnoremap('<Leader>mm', function() extensions'memo'.list{} end)
@@ -213,6 +214,8 @@ return {
     extensions'fzf'
     -- This is needed to setup telescope-smart-history.
     extensions'smart_history'
+    -- This is needed to setup projects.nvim
+    extensions'projects'
 
     -- for telescope-frecency
     vim.api.nvim_exec([[

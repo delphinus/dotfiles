@@ -4,8 +4,13 @@ return {
 
   -- basic {{{
   {
-    'airblade/vim-rooter',
-    setup = function() vim.g.rooter_patterns = {'.git'} end,
+    'ahmedkhalf/project.nvim',
+    config = function()
+      require'project_nvim'.setup{
+        patterns = {'.git'},
+        silent_chdir = false,
+      }
+    end,
   },
 
   -- TODO: https://github.com/antoinemadec/FixCursorHold.nvim
