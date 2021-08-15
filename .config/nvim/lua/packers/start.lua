@@ -7,6 +7,7 @@ return {
     'ahmedkhalf/project.nvim',
     config = function()
       require'project_nvim'.setup{
+        ignore_lsp = {'efm'},
         patterns = {'.git'},
         silent_chdir = false,
       }
