@@ -99,21 +99,12 @@ return {
     m.nnoremap('<Leader>gs', function() builtin'git_status'{} end)
   end,
   config = function()
-    vim.api.nvim_exec([[
-      packadd nvim-web-devicons
-      packadd popup.nvim
-      packadd sql.nvim
-      packadd telescope-frecency.nvim
-      packadd telescope-fzf-native.nvim
-      packadd telescope-ghq.nvim
-      packadd telescope-github.nvim
-      packadd telescope-memo.nvim
-      packadd telescope-node-modules.nvim
-      packadd telescope-packer.nvim
-      packadd telescope-smart-history.nvim
-      packadd telescope-symbols.nvim
-      packadd telescope-z.nvim
-    ]], false)
+    require'packer'.loader(
+      'nvim-web-devicons popup.nvim sql.nvim telescope-frecency.nvim '
+      ..'telescope-fzf-native.nvim telescope-ghq.nvim telescope-github.nvim '
+      ..'telescope-memo.nvim telescope-node-modules.nvim telescope-packer.nvim '
+      ..'telescope-smart-history.nvim telescope-symbols.nvim telescope-z.nvim'
+    )
 
     local actions = require'telescope.actions'
     local telescope = require'telescope'
