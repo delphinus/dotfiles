@@ -346,7 +346,6 @@ return {
       'playground',
     },
     config = function()
-      require'nvim-treesitter.install'.compilers = {'/usr/local/opt/gcc/bin/gcc-11'}
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,
