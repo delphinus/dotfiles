@@ -118,33 +118,33 @@ return {
 
       local lsp = require'lspconfig'
       require'packer'.loader'coq_nvim coq.artifacts'
-      local function coq_setup(name, config)
+      local function lsp_setup(name, config)
         lsp[name].setup(require'coq'().lsp_ensure_capabilities(config))
       end
 
-      coq_setup('clangd', {on_attach = lsp_on_attach()})
-      coq_setup('cssls', {on_attach = lsp_on_attach()})
-      coq_setup('dockerls', {on_attach = lsp_on_attach()})
-      coq_setup('html', {on_attach = lsp_on_attach()})
-      coq_setup('intelephense', {on_attach = lsp_on_attach()})
+      lsp_setup('clangd', {on_attach = lsp_on_attach()})
+      lsp_setup('cssls', {on_attach = lsp_on_attach()})
+      lsp_setup('dockerls', {on_attach = lsp_on_attach()})
+      lsp_setup('html', {on_attach = lsp_on_attach()})
+      lsp_setup('intelephense', {on_attach = lsp_on_attach()})
       --lsp.jsonls.setup{on_attach = lsp_on_attach()}
       -- TODO: diagnostics from Perl::LanguageServer is unreliable
       --lsp.perlls.setup{on_attach = lsp_on_attach()}
-      coq_setup('pyright', {on_attach = lsp_on_attach()})
-      coq_setup('solargraph', {on_attach = lsp_on_attach()})
-      coq_setup('sourcekit', {on_attach = lsp_on_attach()})
-      coq_setup('terraformls', {on_attach = lsp_on_attach()})
-      coq_setup('tsserver', {on_attach = lsp_on_attach()})
-      coq_setup('vimls', {on_attach = lsp_on_attach()})
-      coq_setup('yamlls', {on_attach = lsp_on_attach()})
-      coq_setup('vuels', {on_attach = lsp_on_attach()})
+      lsp_setup('pyright', {on_attach = lsp_on_attach()})
+      lsp_setup('solargraph', {on_attach = lsp_on_attach()})
+      lsp_setup('sourcekit', {on_attach = lsp_on_attach()})
+      lsp_setup('terraformls', {on_attach = lsp_on_attach()})
+      lsp_setup('tsserver', {on_attach = lsp_on_attach()})
+      lsp_setup('vimls', {on_attach = lsp_on_attach()})
+      lsp_setup('yamlls', {on_attach = lsp_on_attach()})
+      lsp_setup('vuels', {on_attach = lsp_on_attach()})
 
-      coq_setup('bashls', {
+      lsp_setup('bashls', {
         on_attach = lsp_on_attach(),
         filetypes = {'sh', 'bash', 'zsh'},
       })
 
-      coq_setup('efm', {
+      lsp_setup('efm', {
         on_attach = lsp_on_attach(true),
         init_options = {
           documentFormatting = true,
@@ -155,7 +155,7 @@ return {
         }
       })
 
-      coq_setup('gopls', {
+      lsp_setup('gopls', {
         on_attach = lsp_on_attach(),
         settings = {
           hoverKind = 'NoDocumentation',
@@ -172,7 +172,7 @@ return {
         vim.loop.os_uname().sysname == 'Darwin' and 'macOS' or 'Linux'
       )
 
-      coq_setup('sumneko_lua', {
+      lsp_setup('sumneko_lua', {
         on_attach = lsp_on_attach(),
         cmd = {sumneko_binary, '-E', sumneko_root_path..'/main.lua'},
         settings = {
@@ -211,7 +211,7 @@ return {
           settings = {},
         },
       }
-      coq_setup('teal', {on_attach = lsp_on_attach()})
+      lsp_setup('teal', {on_attach = lsp_on_attach()})
     end,
     run = function()
       local dir = vim.fn.stdpath'cache'..'/lspconfig'
