@@ -326,6 +326,7 @@ return {
     setup = function()
       vim.g.coq_settings = {
         ['keymap.jump_to_mark'] = '<C-s>',
+        ['display.pum.source_context'] = {'⦅', '⦆'},
       }
     end,
     config = 'vim.cmd[[COQnow]]',
