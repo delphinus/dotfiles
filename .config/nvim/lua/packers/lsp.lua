@@ -118,100 +118,114 @@ return {
 
       local lsp = require'lspconfig'
       require'packer'.loader'coq_nvim coq.artifacts'
-      local function lsp_setup(name, config)
-        lsp[name].setup(require'coq'().lsp_ensure_capabilities(config))
-      end
+      local c = require'coq'().lsp_ensure_capabilities
 
-      lsp_setup('clangd', {on_attach = lsp_on_attach()})
-      lsp_setup('cssls', {on_attach = lsp_on_attach()})
-      lsp_setup('dockerls', {on_attach = lsp_on_attach()})
-      lsp_setup('html', {on_attach = lsp_on_attach()})
-      lsp_setup('intelephense', {on_attach = lsp_on_attach()})
-      --lsp.jsonls.setup{on_attach = lsp_on_attach()}
-      -- TODO: diagnostics from Perl::LanguageServer is unreliable
-      --lsp.perlls.setup{on_attach = lsp_on_attach()}
-      lsp_setup('pyright', {on_attach = lsp_on_attach()})
-      lsp_setup('solargraph', {on_attach = lsp_on_attach()})
-      lsp_setup('sourcekit', {on_attach = lsp_on_attach()})
-      lsp_setup('terraformls', {on_attach = lsp_on_attach()})
-      lsp_setup('tsserver', {on_attach = lsp_on_attach()})
-      lsp_setup('vimls', {on_attach = lsp_on_attach()})
-      lsp_setup('yamlls', {on_attach = lsp_on_attach()})
-      lsp_setup('vuels', {on_attach = lsp_on_attach()})
+      for name, config in pairs{
+        clangd = {on_attach = lsp_on_attach()},
+        cssls = {on_attach = lsp_on_attach()},
+        dockerls = {on_attach = lsp_on_attach()},
+        html = {on_attach = lsp_on_attach()},
+        intelephense = {on_attach = lsp_on_attach()},
+        --jsonls = {on_attach = lsp_on_attach()},
+        --perlls = {on_attach = lsp_on_attach()},
+        pyright = {on_attach = lsp_on_attach()},
+        solargraph = {on_attach = lsp_on_attach()},
+        sourcekit = {on_attach = lsp_on_attach()},
+        terraformls = {on_attach = lsp_on_attach()},
+        tsserver = {on_attach = lsp_on_attach()},
+        vimls = {on_attach = lsp_on_attach()},
+        yamlls = {on_attach = lsp_on_attach()},
+        vuels = {on_attach = lsp_on_attach()},
 
-      lsp_setup('bashls', {
-        on_attach = lsp_on_attach(),
-        filetypes = {'sh', 'bash', 'zsh'},
-      })
-
-      lsp_setup('efm', {
-        on_attach = lsp_on_attach(true),
-        init_options = {
-          documentFormatting = true,
-          hover = true,
-          documentSymbol = true,
-          codeAction = true,
-          completion = true
-        }
-      })
-
-      lsp_setup('gopls', {
-        on_attach = lsp_on_attach(),
-        settings = {
-          hoverKind = 'NoDocumentation',
-          deepCompletion = true,
-          fuzzyMatching = true,
-          completeUnimported = true,
-          usePlaceholders = true,
+        bashls = {
+          on_attach = lsp_on_attach(),
+          filetypes = {'sh', 'bash', 'zsh'},
         },
-      })
 
-      local sumneko_root_path = vim.loop.os_homedir()..'/git/github.com/sumneko/lua-language-server'
-      local sumneko_binary = ('%s/bin/%s/lua-language-server'):format(
-        sumneko_root_path,
-        vim.loop.os_uname().sysname == 'Darwin' and 'macOS' or 'Linux'
-      )
-
-      lsp_setup('sumneko_lua', {
-        on_attach = lsp_on_attach(),
-        cmd = {sumneko_binary, '-E', sumneko_root_path..'/main.lua'},
-        settings = {
-          Lua = {
-            runtime = {
-              version = 'LuaJIT',
-              path = vim.split(package.path, ';'),
-            },
-            completion = {
-              keywordSnippet = 'Disable',
-            },
-            diagnostics = {
-              enable = true,
-              globals = {
-                'vim', 'describe', 'it', 'before_each', 'after_each',
-                'packer_plugins', 'hs',
-              },
-            },
-            workspace = {
-              library = {
-                [vim.fn.expand'$VIMRUNTIME/lua'] = true,
-                [vim.fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
-                ['/Applications/Hammerspoon.app/Contents/Resources/extensions'] = true,
-              },
-            },
+        efm = {
+          on_attach = lsp_on_attach(true),
+          init_options = {
+            documentFormatting = true,
+            hover = true,
+            documentSymbol = true,
+            codeAction = true,
+            completion = true
           }
-        }
-      })
-
-      local configs = require'lspconfig/configs'
-      configs.teal = {
-        default_config = {
-          cmd = {'teal-language-server'},
-          filetypes = {'teal'},
-          root_dir = lsp.util.root_pattern('tlconfig.lua', '.git'),
-          settings = {},
         },
-      }
-      lsp_setup('teal', {on_attach = lsp_on_attach()})
+
+        gopls = {
+          on_attach = lsp_on_attach(),
+          settings = {
+            hoverKind = 'NoDocumentation',
+            deepCompletion = true,
+            fuzzyMatching = true,
+            completeUnimported = true,
+            usePlaceholders = true,
+          },
+        },
+
+        sumneko_lua = (function()
+          local sumneko_root_path = vim.loop.os_homedir()..'/git/github.com/sumneko/lua-language-server'
+          local sumneko_binary = ('%s/bin/%s/lua-language-server'):format(
+            sumneko_root_path,
+            vim.loop.os_uname().sysname == 'Darwin' and 'macOS' or 'Linux'
+          )
+          return {
+            on_attach = lsp_on_attach(),
+            cmd = {sumneko_binary, '-E', sumneko_root_path..'/main.lua'},
+            settings = {
+              Lua = {
+                runtime = {
+                  version = 'LuaJIT',
+                  path = vim.split(package.path, ';'),
+                },
+                completion = {
+                  keywordSnippet = 'Disable',
+                },
+                diagnostics = {
+                  enable = true,
+                  globals = {
+                    'vim', 'describe', 'it', 'before_each', 'after_each',
+                    'packer_plugins', 'hs',
+                  },
+                },
+                workspace = {
+                  library = {
+                    [vim.fn.expand'$VIMRUNTIME/lua'] = true,
+                    [vim.fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
+                    ['/Applications/Hammerspoon.app/Contents/Resources/extensions'] = true,
+                  },
+                },
+              }
+            }
+          }
+        end)(),
+
+        teal = (function()
+          local configs = require'lspconfig/configs'
+          if not configs.teal then
+            configs.teal = {
+              default_config = {
+                cmd = {'teal-language-server'},
+                filetypes = {'teal'},
+                root_dir = lsp.util.root_pattern('tlconfig.lua', '.git'),
+                settings = {},
+              },
+            }
+          end
+          return {on_attach = lsp_on_attach()}
+        end)(),
+      } do
+        -- TODO: stopgap measure to avoid PackerSync errors
+        if name == 'efm' then
+          if vim.g.__efm_config_loaded then
+            config.filetypes = {}
+          else
+            vim.g.__efm_config_loaded = true
+          end
+        end
+        lsp[name].setup(c(config))
+      end
     end,
     run = function()
       local dir = vim.fn.stdpath'cache'..'/lspconfig'
