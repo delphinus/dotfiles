@@ -319,6 +319,20 @@ return {
   {'delphinus/vim-emacscommandline'},
 
   {
+    'ms-jpq/coq_nvim',
+    branch = 'coq',
+    event = {'InsertEnter'},
+    requires = {{'ms-jpq/coq.artifacts', branch = 'artifacts'}},
+    setup = function()
+      vim.g.coq_settings = {
+        ['keymap.jump_to_mark'] = '<C-s>',
+      }
+    end,
+    config = 'vim.cmd[[COQnow]]',
+  },
+
+  --[=[
+  {
     'andersevenrud/compe-tmux',
     event = {'InsertEnter'},
   },
@@ -396,6 +410,7 @@ return {
       vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
     end,
   },
+  ]=]
 
   {'itchyny/vim-cursorword', event = {'FocusLost', 'CursorHold'}},
 

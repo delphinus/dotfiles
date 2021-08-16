@@ -117,30 +117,34 @@ return {
       )
 
       local lsp = require'lspconfig'
-      local configs = require'lspconfig/configs'
-      lsp.clangd.setup{on_attach = lsp_on_attach()}
-      lsp.cssls.setup{on_attach = lsp_on_attach()}
-      lsp.dockerls.setup{on_attach = lsp_on_attach()}
-      lsp.html.setup{on_attach = lsp_on_attach()}
-      lsp.intelephense.setup{on_attach = lsp_on_attach()}
+      require'packer'.loader'coq_nvim coq.artifacts'
+      local function coq_setup(name, config)
+        lsp[name].setup(require'coq'().lsp_ensure_capabilities(config))
+      end
+
+      coq_setup('clangd', {on_attach = lsp_on_attach()})
+      coq_setup('cssls', {on_attach = lsp_on_attach()})
+      coq_setup('dockerls', {on_attach = lsp_on_attach()})
+      coq_setup('html', {on_attach = lsp_on_attach()})
+      coq_setup('intelephense', {on_attach = lsp_on_attach()})
       --lsp.jsonls.setup{on_attach = lsp_on_attach()}
       -- TODO: diagnostics from Perl::LanguageServer is unreliable
       --lsp.perlls.setup{on_attach = lsp_on_attach()}
-      lsp.pyright.setup{on_attach = lsp_on_attach()}
-      lsp.solargraph.setup{on_attach = lsp_on_attach()}
-      lsp.sourcekit.setup{on_attach = lsp_on_attach()}
-      lsp.terraformls.setup{on_attach = lsp_on_attach()}
-      lsp.tsserver.setup{on_attach = lsp_on_attach()}
-      lsp.vimls.setup{on_attach = lsp_on_attach()}
-      lsp.yamlls.setup{on_attach = lsp_on_attach()}
-      lsp.vuels.setup{on_attach = lsp_on_attach()}
+      coq_setup('pyright', {on_attach = lsp_on_attach()})
+      coq_setup('solargraph', {on_attach = lsp_on_attach()})
+      coq_setup('sourcekit', {on_attach = lsp_on_attach()})
+      coq_setup('terraformls', {on_attach = lsp_on_attach()})
+      coq_setup('tsserver', {on_attach = lsp_on_attach()})
+      coq_setup('vimls', {on_attach = lsp_on_attach()})
+      coq_setup('yamlls', {on_attach = lsp_on_attach()})
+      coq_setup('vuels', {on_attach = lsp_on_attach()})
 
-      lsp.bashls.setup{
+      coq_setup('bashls', {
         on_attach = lsp_on_attach(),
         filetypes = {'sh', 'bash', 'zsh'},
-      }
+      })
 
-      lsp.efm.setup{
+      coq_setup('efm', {
         on_attach = lsp_on_attach(true),
         init_options = {
           documentFormatting = true,
@@ -149,9 +153,9 @@ return {
           codeAction = true,
           completion = true
         }
-      }
+      })
 
-      lsp.gopls.setup{
+      coq_setup('gopls', {
         on_attach = lsp_on_attach(),
         settings = {
           hoverKind = 'NoDocumentation',
@@ -160,7 +164,7 @@ return {
           completeUnimported = true,
           usePlaceholders = true,
         },
-      }
+      })
 
       local sumneko_root_path = vim.loop.os_homedir()..'/git/github.com/sumneko/lua-language-server'
       local sumneko_binary = ('%s/bin/%s/lua-language-server'):format(
@@ -168,7 +172,7 @@ return {
         vim.loop.os_uname().sysname == 'Darwin' and 'macOS' or 'Linux'
       )
 
-      lsp.sumneko_lua.setup{
+      coq_setup('sumneko_lua', {
         on_attach = lsp_on_attach(),
         cmd = {sumneko_binary, '-E', sumneko_root_path..'/main.lua'},
         settings = {
@@ -196,8 +200,9 @@ return {
             },
           }
         }
-      }
+      })
 
+      local configs = require'lspconfig/configs'
       configs.teal = {
         default_config = {
           cmd = {'teal-language-server'},
@@ -206,7 +211,7 @@ return {
           settings = {},
         },
       }
-      lsp.teal.setup{on_attach = lsp_on_attach()}
+      coq_setup('teal', {on_attach = lsp_on_attach()})
     end,
     run = function()
       local dir = vim.fn.stdpath'cache'..'/lspconfig'
