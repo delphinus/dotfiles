@@ -325,7 +325,7 @@ return {
     requires = {{'ms-jpq/coq.artifacts', branch = 'artifacts'}},
     setup = function()
       vim.g.coq_settings = {
-        ['keymap.jump_to_mark'] = '<C-s>',
+        ['keymap.jump_to_mark'] = '<A-S>',
         ['display.pum.source_context'] = {'⦅', '⦆'},
       }
     end,
