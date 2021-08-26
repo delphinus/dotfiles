@@ -590,12 +590,13 @@ return {
 
   {
     'mhartington/formatter.nvim',
-    ft = {'javascript', 'typescript'},
+    ft = {'go', 'javascript', 'typescript'},
     config = function()
+      local function bufname() return vim.api.nvim_buf_get_name(0) end
       local function prettier()
         return {
           exe = 'npx',
-          args = {'prettier', '--stdin-filepath', vim.api.nvim_buf_get_name(0)},
+          args = {'prettier', '--stdin-filepath', bufname()},
           stdin = true,
         }
       end
@@ -610,11 +611,15 @@ return {
         filetype = {
           javascript = {prettier, eslint},
           typescript = {prettier, eslint},
+          go = {
+            function() return {exe = 'golines', args = {'-w'}, stdin = false} end,
+            function() return {exe = 'gofumpt', args = {'-w'}, stdin = false} end,
+          }
         },
       }
       require'agrp'.set{
         formatter_on_save = {
-          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx', 'FormatWrite'},
+          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx,*.go,go.mod', 'FormatWrite'},
         },
       }
     end,
