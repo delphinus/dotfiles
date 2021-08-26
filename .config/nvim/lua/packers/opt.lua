@@ -325,6 +325,43 @@ return {
   -- {'delphinus/vim-emacscommandline', event = {'CmdlineEnter'}},
   {'delphinus/vim-emacscommandline'},
 
+  {
+    'Shougo/ddc.vim',
+    event = {'InsertEnter'},
+    requires = {
+      {'Shougo/ddc-around', event = {'InsertEnter'}},
+      {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
+      {'Shougo/ddc-nvim-lsp', event = {'InsertEnter'}},
+      {'Shougo/ddc-sorter_rank', event = {'InsertEnter'}},
+      {'vim-denops/denops.vim', event = {'InsertEnter'}},
+    },
+    after = {
+      'ddc-around',
+      'ddc-matcher_head',
+      'ddc-nvim-lsp',
+      'ddc-sorter_rank',
+      'denops.vim',
+    },
+    config = function()
+      vim.fn['ddc#custom#patch_global']('sources', {
+        'around',
+        'nvimlsp',
+      })
+      vim.fn['ddc#custom#patch_global']('sourceOptions', {
+        _ = {
+          matchers = {'matcher_head'},
+          sorters = {'sorter_rank'},
+        },
+        around = {mark = 'A'},
+        nvimlsp = {mark = 'lsp', forceCompletionPattern = [[\.|:|->]]},
+      })
+      vim.fn['ddc#custom#patch_global']('sourceParams', {
+        around = {maxSize = 500},
+      })
+      vim.fn['ddc#enable']()
+    end,
+  },
+
   --[=[
   {
     'ms-jpq/coq_nvim',
