@@ -539,6 +539,7 @@ return {
       vim.g.go_def_mapping_enabled = 0
       vim.g.go_doc_keywordprg_enabled = 0
       vim.g.go_doc_popup_window = 1
+      vim.g.go_fmt_autosave = 0
       vim.g.go_fmt_command = 'goimports'
       vim.g.go_fmt_experimental = 1
       vim.g.go_fmt_fail_silently = 1
