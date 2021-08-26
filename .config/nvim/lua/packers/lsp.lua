@@ -117,8 +117,6 @@ return {
       )
 
       local lsp = require'lspconfig'
-      require'packer'.loader'coq_nvim coq.artifacts'
-      local c = require'coq'().lsp_ensure_capabilities
 
       for name, config in pairs{
         clangd = {on_attach = lsp_on_attach()},
@@ -224,7 +222,7 @@ return {
             vim.g.__efm_config_loaded = true
           end
         end
-        lsp[name].setup(c(config))
+        lsp[name].setup(config)
       end
     end,
     run = function()

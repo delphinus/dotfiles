@@ -325,6 +325,7 @@ return {
   -- {'delphinus/vim-emacscommandline', event = {'CmdlineEnter'}},
   {'delphinus/vim-emacscommandline'},
 
+  --[=[
   {
     'ms-jpq/coq_nvim',
     branch = 'coq',
@@ -338,6 +339,7 @@ return {
     end,
     config = 'vim.cmd[[COQnow]]',
   },
+  ]=]
 
   --[=[
   {
@@ -673,8 +675,6 @@ return {
       'lua', 'elixir', 'ruby', 'crystal', 'sh', 'zsh', 'vb', 'vbnet', 'aspvbs',
       'vim', 'c', 'cpp', 'xdefaults', 'objc', 'matlab',
     },
-    -- TODO: stopgap measure for coq_nvim
-    setup = function() vim.g.endwise_no_mappings = true end,
   },
 
   {'uarun/vim-protobuf', ft = {'proto'}},
