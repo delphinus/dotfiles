@@ -260,6 +260,10 @@ return {
             ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
             ..' vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
           vim.cmd[[!source (plenv init -| psub); plenv shell system; cpanm App::efm_perl]]
+
+          -- These are needed for formatter.nvim
+          vim.cmd[[!go get -u github.com/segmentio/golines]]
+          vim.cmd[[!go get -u mvdan.cc/gofumpt]]
         end)
 
         if ok then
