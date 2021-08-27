@@ -117,6 +117,14 @@ return {
       )
 
       local lsp = require'lspconfig'
+      local util = require'lspconfig.util'
+      local function is_git_root(p)
+        return util.path.is_dir(p) and util.path.exists(util.path.join(p, '.git'))
+      end
+      local function is_deno_dir(p)
+        local base = p:gsub([[.*/]], '')
+        return (base:match[[^deno]] or base:match[[^ddc]]) and true or false
+      end
 
       for name, config in pairs{
         clangd = {on_attach = lsp_on_attach()},
@@ -130,10 +138,27 @@ return {
         solargraph = {on_attach = lsp_on_attach()},
         sourcekit = {on_attach = lsp_on_attach()},
         terraformls = {on_attach = lsp_on_attach()},
-        tsserver = {on_attach = lsp_on_attach()},
         vimls = {on_attach = lsp_on_attach()},
         yamlls = {on_attach = lsp_on_attach()},
         vuels = {on_attach = lsp_on_attach()},
+
+        denols = {
+          on_attach = lsp_on_attach(),
+          root_dir = function(startpath)
+            return util.search_ancestors(startpath, function(p)
+              return is_git_root(p) and is_deno_dir(p)
+            end)
+          end
+        },
+
+        tsserver = {
+          on_attach = lsp_on_attach(),
+          root_dir = function(startpath)
+            return util.search_ancestors(startpath, function(p)
+              return is_git_root(p) and not is_deno_dir(p)
+            end)
+          end,
+        },
 
         bashls = {
           on_attach = lsp_on_attach(),
