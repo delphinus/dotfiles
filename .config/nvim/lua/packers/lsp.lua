@@ -141,6 +141,11 @@ return {
         },
 
         efm = {
+          filetypes = {
+            'bash', 'css', 'csv', 'dockerfile', 'eruby', 'html', 'javascript',
+            'json', 'lua', 'make', 'markdown', 'perl', 'php', 'python', 'rst',
+            'sh', 'typescript', 'vim', 'yaml', 'zsh',
+          },
           on_attach = lsp_on_attach(true),
           init_options = {
             documentFormatting = true,
@@ -213,17 +218,7 @@ return {
           end
           return {on_attach = lsp_on_attach()}
         end)(),
-      } do
-        -- TODO: stopgap measure to avoid PackerSync errors
-        if name == 'efm' then
-          if vim.g.__efm_config_loaded then
-            config.filetypes = {}
-          else
-            vim.g.__efm_config_loaded = true
-          end
-        end
-        lsp[name].setup(config)
-      end
+      } do lsp[name].setup(config) end
     end,
     run = function()
       local dir = vim.fn.stdpath'cache'..'/lspconfig'
