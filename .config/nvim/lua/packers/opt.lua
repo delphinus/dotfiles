@@ -330,33 +330,86 @@ return {
     event = {'InsertEnter'},
     requires = {
       {'Shougo/ddc-around', event = {'InsertEnter'}},
+      {'Shougo/ddc-converter_remove_overlap', event = {'InsertEnter'}},
       {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
       {'Shougo/ddc-nvim-lsp', event = {'InsertEnter'}},
       {'Shougo/ddc-sorter_rank', event = {'InsertEnter'}},
+      {'Shougo/neco-vim', event = {'InsertEnter'}},
+      {'matsui54/ddc-buffer', event = {'InsertEnter'}},
+      {'matsui54/ddc-matcher_fuzzy', event = {'InsertEnter'}},
+      {'octaltree/cmp-look', event = {'InsertEnter'}},
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
+
+      {
+        'matsui54/ddc-nvim-lsp-doc',
+        event = {'InsertEnter'},
+        after = {'denops.vim'},
+        config = function() vim.fn['ddc_nvim_lsp_doc#enable']() end,
+      },
+
+      {
+        'ncm2/float-preview.nvim',
+        event = {'InsertEnter'},
+        config = function()
+          vim.g['float_preview#docked'] = 1
+          require'agrp'.set{
+            use_simple_in_floatpreview = {
+              {'User', 'FloatPreviewWinOpen', function()
+                vim.opt.number = false
+                vim.opt.relativenumber = false
+                vim.opt.cursorline = false
+                vim.opt.list = false
+              end},
+            },
+          }
+        end,
+      },
     },
     after = {
+      'cmp-look',
       'ddc-around',
+      'ddc-buffer',
+      'ddc-converter_remove_overlap',
+      'ddc-matcher_fuzzy',
       'ddc-matcher_head',
       'ddc-nvim-lsp',
       'ddc-sorter_rank',
       'denops.vim',
+      'float-preview.nvim',
+      'neco-vim',
     },
     config = function()
       vim.fn['ddc#custom#patch_global']('sources', {
-        'around',
         'nvimlsp',
+        'buffer',
+        'around',
+        'look',
       })
       vim.fn['ddc#custom#patch_global']('sourceOptions', {
         _ = {
+          --matchers = {'matcher_fuzzy'},
           matchers = {'matcher_head'},
           sorters = {'sorter_rank'},
+          converters = {'converter_remove_overlap'},
         },
         around = {mark = 'A'},
-        nvimlsp = {mark = 'lsp', forceCompletionPattern = [[\.|:|->]]},
+        buffer = {mark = 'B'},
+        look = {mark = 'L'},
+        necovim = {mark = 'N'},
+        nvimlsp = {mark = 'LSP', forceCompletionPattern = [[\.|:|->]]},
       })
       vim.fn['ddc#custom#patch_global']('sourceParams', {
         around = {maxSize = 500},
+      })
+      vim.fn['ddc#custom#patch_global']('filterParams', {
+        buffer = {requireSameFiletype = false},
+      })
+      vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
+        'nvimlsp',
+        'necovim',
+        'buffer',
+        'around',
+        'look',
       })
       vim.fn['ddc#enable']()
     end,
