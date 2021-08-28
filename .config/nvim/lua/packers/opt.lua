@@ -417,6 +417,7 @@ return {
         'look',
       })
       vim.fn['ddc#enable']()
+      --vim.g['denops#debug'] = 1
     end,
   },
 
