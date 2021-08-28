@@ -381,33 +381,34 @@ return {
       'neco-vim',
     },
     config = function()
-      vim.fn['ddc#custom#patch_global']('sources', {
-        'nvimlsp',
-        'buffer',
-        'around',
-        'tmux',
-        'look',
-      })
-      vim.fn['ddc#custom#patch_global']('sourceOptions', {
-        _ = {
-          --matchers = {'matcher_fuzzy'},
-          matchers = {'matcher_head'},
-          sorters = {'sorter_rank'},
-          converters = {'converter_remove_overlap'},
+      vim.fn['ddc#custom#patch_global']{
+        sources = {
+          'nvimlsp',
+          'buffer',
+          'around',
+          'tmux',
+          'look',
         },
-        around = {mark = 'A'},
-        buffer = {mark = 'B'},
-        look = {mark = 'L'},
-        necovim = {mark = 'N'},
-        nvimlsp = {mark = 'LSP', forceCompletionPattern = [[\.|:|->]]},
-        tmux = {mark = 'T'},
-      })
-      vim.fn['ddc#custom#patch_global']('sourceParams', {
-        around = {maxSize = 500},
-      })
-      vim.fn['ddc#custom#patch_global']('filterParams', {
-        buffer = {requireSameFiletype = false},
-      })
+        sourceOptions = {
+          _ = {
+            keywordPattern = [[[_\w][-_\w\d]*]],
+            smartCase = true,
+            matchers = {'matcher_fuzzy'},
+            --matchers = {'matcher_head'},
+            sorters = {'sorter_rank'},
+            converters = {'converter_remove_overlap'},
+          },
+          around = {mark = 'A', maxSize = 500},
+          buffer = {mark = 'B'},
+          look = {mark = 'L'},
+          necovim = {mark = 'N'},
+          nvimlsp = {mark = 'LSP', forceCompletionPattern = [[\.|:|->]]},
+          tmux = {mark = 'T'},
+        },
+        filterParams = {
+          buffer = {requireSameFiletype = false},
+        },
+      }
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
         'nvimlsp',
         'necovim',
