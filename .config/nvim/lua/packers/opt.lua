@@ -345,7 +345,6 @@ return {
         'matsui54/ddc-nvim-lsp-doc',
         event = {'InsertEnter'},
         after = {'denops.vim'},
-        config = function() vim.fn['ddc_nvim_lsp_doc#enable']() end,
       },
 
       {
@@ -419,7 +418,10 @@ return {
       })
       require'agrp'.set{
         ddc_enable = {
-          {'User', 'DenopsReady', 'call ddc#enable()'},
+          {'User', 'DenopsReady', function()
+            vim.fn['ddc#enable']()
+            vim.fn['ddc_nvim_lsp_doc#enable']()
+          end},
         },
       }
       --vim.g['denops#debug'] = 1
