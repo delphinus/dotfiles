@@ -352,16 +352,6 @@ return {
         event = {'InsertEnter'},
         config = function()
           vim.g['float_preview#docked'] = 1
-          require'agrp'.set{
-            use_simple_in_floatpreview = {
-              {'User', 'FloatPreviewWinOpen', function()
-                vim.opt.number = false
-                vim.opt.relativenumber = false
-                vim.opt.cursorline = false
-                vim.opt.list = false
-              end},
-            },
-          }
         end,
       },
     },
