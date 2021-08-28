@@ -329,6 +329,7 @@ return {
     'Shougo/ddc.vim',
     event = {'InsertEnter'},
     requires = {
+      {'delphinus/ddc-tmux', event = {'InsertEnter'}},
       {'Shougo/ddc-around', event = {'InsertEnter'}},
       {'Shougo/ddc-converter_remove_overlap', event = {'InsertEnter'}},
       {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
@@ -374,6 +375,7 @@ return {
       'ddc-matcher_head',
       'ddc-nvim-lsp',
       'ddc-sorter_rank',
+      'ddc-tmux',
       'denops.vim',
       'float-preview.nvim',
       'neco-vim',
@@ -383,6 +385,7 @@ return {
         'nvimlsp',
         'buffer',
         'around',
+        'tmux',
         'look',
       })
       vim.fn['ddc#custom#patch_global']('sourceOptions', {
@@ -397,6 +400,7 @@ return {
         look = {mark = 'L'},
         necovim = {mark = 'N'},
         nvimlsp = {mark = 'LSP', forceCompletionPattern = [[\.|:|->]]},
+        tmux = {mark = 'T'},
       })
       vim.fn['ddc#custom#patch_global']('sourceParams', {
         around = {maxSize = 500},
@@ -409,6 +413,7 @@ return {
         'necovim',
         'buffer',
         'around',
+        'tmux',
         'look',
       })
       vim.fn['ddc#enable']()
