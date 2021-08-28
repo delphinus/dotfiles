@@ -123,7 +123,14 @@ return {
       end
       local function is_deno_dir(p)
         local base = p:gsub([[.*/]], '')
-        return (base:match[[^deno]] or base:match[[^ddc]]) and true or false
+        for _, r in ipairs{
+          [[^deno]],
+          [[^ddc]],
+          [[^cmp%-look$]],
+        } do
+          if base:match(r) then return true end
+        end
+        return false
       end
 
       for name, config in pairs{
