@@ -417,7 +417,11 @@ return {
         'tmux',
         'look',
       })
-      vim.fn['ddc#enable']()
+      require'agrp'.set{
+        ddc_enable = {
+          {'User', 'DenopsReady', 'call ddc#enable()'},
+        },
+      }
       --vim.g['denops#debug'] = 1
     end,
   },
