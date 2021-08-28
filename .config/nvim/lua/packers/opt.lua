@@ -397,14 +397,15 @@ return {
             sorters = {'sorter_rank'},
             converters = {'converter_remove_overlap'},
           },
-          around = {mark = 'A', maxSize = 500},
+          around = {mark = 'A'},
           buffer = {mark = 'B'},
           look = {mark = 'L'},
           necovim = {mark = 'N'},
           nvimlsp = {mark = 'LSP', forceCompletionPattern = [[\.|:|->]]},
           tmux = {mark = 'T'},
         },
-        filterParams = {
+        sourceParams = {
+          around = {maxSize = 500},
           buffer = {requireSameFiletype = false},
         },
       }
