@@ -336,8 +336,10 @@ return {
       {'Shougo/ddc-nvim-lsp', event = {'InsertEnter'}},
       {'Shougo/ddc-sorter_rank', event = {'InsertEnter'}},
       {'Shougo/neco-vim', event = {'InsertEnter'}},
-      {'matsui54/ddc-buffer', event = {'InsertEnter'}},
-      {'matsui54/ddc-matcher_fuzzy', event = {'InsertEnter'}},
+      --{'matsui54/ddc-buffer', event = {'InsertEnter'}},
+      {'delphinus/ddc-buffer', branch = 'feature/catch-the-latest-ddc-up', event = {'InsertEnter'}},
+      --{'matsui54/ddc-matcher_fuzzy', event = {'InsertEnter'}},
+      {'delphinus/ddc-matcher_fuzzy', branch = 'feature/catch-the-latest-ddc-up', event = {'InsertEnter'}},
       {'octaltree/cmp-look', event = {'InsertEnter'}},
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
 
