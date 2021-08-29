@@ -694,18 +694,24 @@ return {
     config = function()
       local function bufname() return vim.api.nvim_buf_get_name(0) end
       local function prettier()
-        return {
-          exe = 'npx',
-          args = {'prettier', '--stdin-filepath', bufname()},
-          stdin = true,
-        }
+        if vim.fn.glob'.prettierrc*' ~= '' then
+          return {
+            exe = 'npx',
+            args = {'prettier', '--stdin-filepath', bufname()},
+            stdin = true,
+          }
+        end
+        return {exe = 'cat', stdin = true}
       end
       local function eslint()
-        return {
-          exe = 'npx',
-          args = {'eslint', '--fix'},
-          stdin = false,
-        }
+        if vim.fn.glob'.eslintrc*' ~= '' then
+          return {
+            exe = 'npx',
+            args = {'eslint', '--fix'},
+            stdin = false,
+          }
+        end
+        return {exe = 'cat', stdin = true}
       end
       require'formatter'.setup{
         filetype = {
