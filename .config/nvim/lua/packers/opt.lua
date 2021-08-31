@@ -330,6 +330,7 @@ return {
     event = {'InsertEnter'},
     requires = {
       {'delphinus/ddc-tmux', event = {'InsertEnter'}},
+      {'delphinus/ddc-ctags', event = {'InsertEnter'}},
       {'Shougo/ddc-around', event = {'InsertEnter'}},
       {'Shougo/ddc-converter_remove_overlap', event = {'InsertEnter'}},
       {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
@@ -360,6 +361,7 @@ return {
       'cmp-look',
       'ddc-around',
       'ddc-buffer',
+      'ddc-ctags',
       'ddc-converter_remove_overlap',
       --'ddc-filter_editdistance',
       'ddc-matcher_fuzzy',
@@ -375,6 +377,7 @@ return {
       vim.fn['ddc#custom#patch_global']{
         sources = {
           'nvimlsp',
+          'ctags',
           'buffer',
           'around',
           'tmux',
@@ -385,15 +388,15 @@ return {
             keywordPattern = [[[_\w][-_\w\d]*]],
             ignoreCase = true,
             matchers = {'matcher_fuzzy'},
-            --matchers = {'matcher_head'},
             sorters = {'sorter_rank'},
             converters = {'converter_remove_overlap'},
           },
           around = {mark = 'A'},
           buffer = {mark = 'B'},
-          look = {mark = 'L'},
-          necovim = {mark = 'N'},
-          nvimlsp = {mark = 'LSP', forceCompletionPattern = [[\.|:|->]]},
+          ctags = {mark = 'C'},
+          look = {mark = 'K'},
+          necovim = {mark = 'V'},
+          nvimlsp = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
           tmux = {mark = 'T'},
         },
         sourceParams = {
