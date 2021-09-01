@@ -206,7 +206,12 @@ return {
 
   {
     'rcarriga/nvim-notify',
-    config = function() vim.notify = require'notify' end,
+    config = function()
+      vim.notify = function(message, level, opts)
+        vim.api.nvim_echo({{'[notify] '..(message or ''), 'MoreMsg'}}, true, {})
+        require'notify'(message, level, opts)
+      end
+    end,
   },
 
   {
