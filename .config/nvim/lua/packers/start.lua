@@ -207,8 +207,14 @@ return {
   {
     'rcarriga/nvim-notify',
     config = function()
+      local no_notifying_message = {
+        '^Set CWD to ',
+      }
       vim.notify = function(message, level, opts)
         vim.api.nvim_echo({{'[notify] '..(message or ''), 'MoreMsg'}}, true, {})
+        for _, re in ipairs(no_notifying_message) do
+          if message:find(re) then return end
+        end
         require'notify'(message, level, opts)
       end
     end,
