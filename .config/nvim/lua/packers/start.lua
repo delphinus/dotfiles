@@ -207,16 +207,38 @@ return {
   {
     'rcarriga/nvim-notify',
     config = function()
-      local no_notifying_message = {
-        '^Set CWD to ',
-      }
-      vim.notify = function(message, level, opts)
-        vim.api.nvim_echo({{'[notify] '..(message or ''), 'MoreMsg'}}, true, {})
-        for _, re in ipairs(no_notifying_message) do
-          if message:find(re) then return end
-        end
-        require'notify'(message, level, opts)
+      local stages = require'notify.stages'.fade_in_slide_out
+      local orig1 = stages[1]
+      stages[1] = function(state)
+        local opts = orig1(state)
+        opts.focusable = false
+        return opts
       end
+      local notify = require'notify'
+      notify.setup{
+        stages = stages,
+      }
+      vim.notify = notify
+
+      notify.print_history = function()
+        local color = {
+          DEBUG = 'NotifyDEBUGTitle',
+          TRACE = 'NotifyTRACETitle',
+          INFO = 'NotifyINFOTitle',
+          WARN = 'NotifyWARNTitle',
+          ERROR = 'NotifyERRORTitle',
+        }
+        for _, m in ipairs(notify.history()) do
+          vim.api.nvim_echo({
+            {vim.fn.strftime('%FT%T', m.time), 'Identifier'},
+            {' ', 'Normal'},
+            {m.level, color[m.level] or 'Title'},
+            {' ', 'Normal'},
+            {table.concat(m.message, ' '), 'Normal'},
+          }, false, {})
+        end
+      end
+      vim.cmd([[command! Message :lua require'notify'.print_history()<CR>]])
     end,
   },
 
