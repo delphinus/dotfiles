@@ -418,6 +418,7 @@ return {
         'tmux',
         'look',
       })
+      vim.fn['ddc#custom#patch_filetype']('perl', 'keywordPattern', [[[_$@%\w\d]*]])
       require'agrp'.set{
         ddc_enable = {
           {'User', 'DenopsReady', function()
