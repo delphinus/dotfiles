@@ -411,6 +411,7 @@ return {
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
         'nvimlsp',
         'treesitter',
+        'ctags',
         'necovim',
         'buffer',
         'around',
