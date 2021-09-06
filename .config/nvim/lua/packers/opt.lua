@@ -388,7 +388,7 @@ return {
         },
         sourceOptions = {
           _ = {
-            keywordPattern = [[[_\w][-_\w\d]*]],
+            keywordPattern = [[[-_\w\d]*]],
             ignoreCase = true,
             matchers = {'matcher_fuzzy'},
             sorters = {'sorter_rank'},
