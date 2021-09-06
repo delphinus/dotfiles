@@ -331,6 +331,7 @@ return {
     requires = {
       {'delphinus/ddc-tmux', event = {'InsertEnter'}},
       {'delphinus/ddc-ctags', event = {'InsertEnter'}},
+      {'delphinus/ddc-treesitter', event = {'InsertEnter'}},
       {'Shougo/ddc-around', event = {'InsertEnter'}},
       {'Shougo/ddc-converter_remove_overlap', event = {'InsertEnter'}},
       {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
@@ -368,6 +369,7 @@ return {
       'ddc-matcher_head',
       'ddc-nvim-lsp',
       'ddc-sorter_rank',
+      'ddc-treesitter',
       'ddc-tmux',
       'denops.vim',
       'float-preview.nvim',
@@ -377,6 +379,7 @@ return {
       vim.fn['ddc#custom#patch_global']{
         sources = {
           'nvimlsp',
+          'treesitter',
           'ctags',
           'buffer',
           'around',
@@ -397,6 +400,7 @@ return {
           look = {mark = 'K'},
           necovim = {mark = 'V'},
           nvimlsp = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
+          treesitter = {mark = 'S'},
           tmux = {mark = 'T'},
         },
         sourceParams = {
@@ -406,6 +410,7 @@ return {
       }
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
         'nvimlsp',
+        'treesitter',
         'necovim',
         'buffer',
         'around',
