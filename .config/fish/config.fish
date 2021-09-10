@@ -204,5 +204,7 @@ test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local
 set -x CLOUDSDK_PYTHON /usr/bin/python
 set -x CLOUDSDK_GSUTIL_PYTHON /usr/bin/python
 
+set -x NEXTWORD_DATA_PATH ~/.cache/nextword-data-large
+
 # fish-grc removes this definition
 _grc_wrap ps
