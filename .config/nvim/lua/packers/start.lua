@@ -104,8 +104,10 @@ return {
         return text
       end
       local monospace = function(value)
-        return vim.g.goneovim == 1 and value or
-          require'artify'(value, 'monospace')
+        -- TODO: Disable monospace glyphs temporarily
+        return value
+        --return vim.g.goneovim == 1 and value or
+          --require'artify'(value, 'monospace')
       end
       local treesitter = function()
         local ok, m = pcall(require, 'nvim-treesitter')
