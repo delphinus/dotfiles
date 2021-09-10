@@ -377,6 +377,7 @@ return {
     },
     config = function()
       vim.fn['ddc#custom#patch_global']{
+        keywordPattern = [[[_\w\d][-_\w\d]*]],
         sources = {
           'nvimlsp',
           'treesitter',
@@ -388,7 +389,6 @@ return {
         },
         sourceOptions = {
           _ = {
-            keywordPattern = [[[-_\w\d]*]],
             ignoreCase = true,
             matchers = {'matcher_fuzzy'},
             sorters = {'sorter_rank'},
@@ -418,7 +418,7 @@ return {
         'tmux',
         'look',
       })
-      vim.fn['ddc#custom#patch_filetype']('perl', 'keywordPattern', [[[_$@%\w\d]*]])
+      vim.fn['ddc#custom#patch_filetype']('perl', 'keywordPattern', [[[_$@%\w\d][-_$@%\w\d]*]])
       require'agrp'.set{
         ddc_enable = {
           {'User', 'DenopsReady', function()
