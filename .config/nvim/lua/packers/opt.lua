@@ -710,7 +710,11 @@ return {
             stdin = true,
           }
         end
-        return {exe = 'cat', stdin = true}
+        return {
+          exe = 'deno',
+          args = {'fmt', '-'},
+          stdin = true,
+        }
       end
       local function eslint()
         if vim.fn.glob'.eslintrc*' ~= '' then
