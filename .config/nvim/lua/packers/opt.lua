@@ -55,10 +55,6 @@ return {
               hi rainbowcol5 guifg=#a3b812
               hi rainbowcol6 guifg=#81a1c1
               hi rainbowcol7 guifg=#8fbcbb
-
-              " TODO: stopgap measure
-              " https://github.com/arcticicestudio/nord-vim/pull/270
-              hi TSError guibg=#52050c
             ]], false)
           end},
         },
