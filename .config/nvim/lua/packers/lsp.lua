@@ -155,7 +155,11 @@ return {
             return util.search_ancestors(startpath, function(p)
               return is_git_root(p) and is_deno_dir(p)
             end)
-          end
+          end,
+          init_options = {
+            lint = true,
+            unstable = true,
+          },
         },
 
         tsserver = {
