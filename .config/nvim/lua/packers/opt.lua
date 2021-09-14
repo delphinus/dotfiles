@@ -392,6 +392,7 @@ return {
             matchers = {'matcher_fuzzy'},
             sorters = {'sorter_rank'},
             converters = {'converter_remove_overlap'},
+            minAutoCompleteLength = 0,
           },
           around = {mark = 'A'},
           buffer = {mark = 'B'},
