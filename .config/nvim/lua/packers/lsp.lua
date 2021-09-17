@@ -127,6 +127,7 @@ return {
           [[^deno]],
           [[^ddc]],
           [[^cmp%-look$]],
+          [[^neco%-vim$]],
         } do
           if base:match(r) then return true end
         end
