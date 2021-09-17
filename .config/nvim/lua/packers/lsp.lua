@@ -128,6 +128,7 @@ return {
           [[^ddc]],
           [[^cmp%-look$]],
           [[^neco%-vim$]],
+          [[^git%-vines$]],
         } do
           if base:match(r) then return true end
         end
