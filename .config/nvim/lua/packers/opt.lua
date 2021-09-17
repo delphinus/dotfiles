@@ -55,6 +55,14 @@ return {
               hi rainbowcol5 guifg=#a3b812
               hi rainbowcol6 guifg=#81a1c1
               hi rainbowcol7 guifg=#8fbcbb
+              hi DiagnosticError guifg=#bf616a
+              hi DiagnosticWarn guifg=#D08770
+              hi DiagnosticInfo guifg=#8fbcbb
+              hi DiagnosticHint guifg=#616e88
+              hi DiagnosticUnderlineError guisp=#bf616a
+              hi DiagnosticUnderlineWarn guisp=#d08770
+              hi DiagnosticUnderlineInfo guisp=#8fbcbb
+              hi DiagnosticUnderlineHint guisp=#616e88
             ]], false)
           end},
         },
