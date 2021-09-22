@@ -362,6 +362,25 @@ return {
           vim.g['float_preview#docked'] = 1
         end,
       },
+
+      {
+        'vim-skk/denops-skkeleton.vim',
+        event = {'InsertEnter'},
+        requires = {
+          {'vim-denops/denops.vim', event = {'InsertEnter'}},
+        },
+        after = {
+          'denops.vim',
+        },
+        config = function()
+          vim.fn['skkeleton#config']{
+            globalJisyo = '/Users/jinnouchi.yasushi/.config/SKK-JISYO.L',
+            markerHenkan = '□',
+          }
+          --require'mappy'.lmap('<C-s>', '<Plug>(skkeleton-toggle)')
+          require'mappy'.imap('<C-s>', '<Plug>(skkeleton-toggle)')
+        end,
+      },
     },
     after = {
       'cmp-look',
@@ -378,6 +397,7 @@ return {
       'ddc-treesitter',
       'ddc-tmux',
       'denops.vim',
+      'denops-skkeleton.vim',
       'float-preview.nvim',
       'neco-vim',
     },
@@ -385,6 +405,7 @@ return {
       vim.fn['ddc#custom#patch_global']{
         keywordPattern = [[[_\w\d][-_\w\d]*]],
         sources = {
+          'skkeleton',
           'nvimlsp',
           'treesitter',
           'ctags',
@@ -409,6 +430,7 @@ return {
           necovim = {mark = 'V'},
           --nextword = {mark = 'X'},
           nvimlsp = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
+          skkeleton = {mark = 'SKK', matchers = {'skkeleton'}, sorters = {}},
           treesitter = {mark = 'S'},
           tmux = {mark = 'T'},
         },
