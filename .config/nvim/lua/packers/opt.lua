@@ -383,6 +383,11 @@ return {
           }
           --require'mappy'.lmap('<C-s>', '<Plug>(skkeleton-toggle)')
           require'mappy'.imap('<C-s>', '<Plug>(skkeleton-toggle)')
+          require'agrp'.set{
+            UpdateStatusline = {
+              {'User', 'skkeleton-mode-changed', '<Cmd>redrawstatus<CR>'},
+            },
+          }
         end,
       },
     },
