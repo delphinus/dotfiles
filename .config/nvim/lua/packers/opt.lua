@@ -373,8 +373,12 @@ return {
           'denops.vim',
         },
         config = function()
+          local function d(path)
+            return path:gsub('^~', vim.loop.os_homedir())
+          end
           vim.fn['skkeleton#config']{
-            globalJisyo = '/Users/jinnouchi.yasushi/.config/SKK-JISYO.L',
+            globalJisyo = d'~/Library/Application Support/AquaSKK/SKK-JISYO.L',
+            userJisyo = d'~/Library/Application Support/AquaSKK/skk-jisyo.utf8',
             markerHenkan = '□',
           }
           --require'mappy'.lmap('<C-s>', '<Plug>(skkeleton-toggle)')
