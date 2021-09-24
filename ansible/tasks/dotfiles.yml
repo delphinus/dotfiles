@@ -147,4 +147,12 @@
     content: '{{ secret_ptignore }}'
     dest: ~/.ptignore
 
+- name: AquaSKK user dict
+  file: >-
+    src=~/Documents/Applications/SKK/skk-jisyo.utf8
+    dest='~/Library/Application Support/AquaSKK/skk-jisyo.utf8'
+    state=link
+    force=yes
+  when: ansible_system == 'Darwin'
+
 # vim:se et:
