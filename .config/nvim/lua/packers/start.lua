@@ -77,7 +77,7 @@ return {
   {'editorconfig/editorconfig-vim'},
 
   {
-    'hoob3rt/lualine.nvim',
+    'shadmansaleh/lualine.nvim',
     requires = {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
@@ -139,7 +139,7 @@ return {
         },
         sections = {
           lualine_a = {
-            {'mode', format = monospace},
+            {'mode', fmt = monospace},
           },
           lualine_b = {},
           lualine_c = {'filename'},
@@ -153,8 +153,9 @@ return {
             {
               skkeleton,
               color = 'lualine-skkeleton',
+              update_in_insert = true,
             },
-            {'branch', format = monospace},
+            {'branch', fmt = monospace},
             {
               'diff',
               symbols = {
@@ -166,9 +167,12 @@ return {
             {
               'diagnostics',
               sources = {'nvim_lsp'},
-              color_error = '#e5989f',
-              color_warn = '#ebcb8b',
-              color_info = '#8ca9cd',
+              diagnostics_color = {
+                error = '#e5989f',
+                warn = '#ebcb8b',
+                info = '#8ca9cd',
+                hint = '#616e88',
+              },
               symbols = {
                 error = '●', -- U+25CF
                 warn = '○', -- U+25CB
@@ -177,13 +181,13 @@ return {
             },
           },
           lualine_c = {
-            {'filename', format = monospace},
+            {'filename', fmt = monospace},
             {treesitter, separator = '❘'},
           },
           lualine_x = {
             {char_info, separator = '❘'},
             'encoding',
-            {'fileformat', right_padding = 2},
+            {'fileformat', padding = {right = 2}},
           },
           lualine_y = {},
           lualine_z = {},
