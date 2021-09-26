@@ -135,15 +135,21 @@ return {
   },
 
   {
-    'iamcco/markdown-preview.nvim',
-    cmd = {'MarkdownPreview', 'MarkdownPreviewStop'},
+    'kat0h/dps-bufpreview.vim',
+    cmd = {'PreviewMarkdown', 'PreviewMarkdownStop', 'PreviewMarkdownToggle'},
     ft = {'markdown'},
-    setup = function()
-      vim.g.mkdp_auto_close = 0
-      vim.g.mkdp_echo_preview_url = 1
-      vim.g.mkdp_open_to_the_world = 1
-    end,
-    run = 'cd app && yarn',
+    requires = {
+      {
+        'vim-denops/denops.vim',
+        cmd = {
+          'PreviewMarkdown',
+          'PreviewMarkdownStop',
+          'PreviewMarkdownToggle',
+        },
+        ft = {'markdown'},
+      },
+    },
+    after = {'denops.vim'},
   },
 
   {

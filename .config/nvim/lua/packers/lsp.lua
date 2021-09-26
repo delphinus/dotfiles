@@ -124,11 +124,12 @@ return {
       local function is_deno_dir(p)
         local base = p:gsub([[.*/]], '')
         for _, r in ipairs{
-          [[^deno]],
-          [[^ddc]],
           [[^cmp%-look$]],
-          [[^neco%-vim$]],
+          [[^ddc]],
+          [[^deno]],
+          [[^dps]],
           [[^git%-vines$]],
+          [[^neco%-vim$]],
         } do
           if base:match(r) then return true end
         end
