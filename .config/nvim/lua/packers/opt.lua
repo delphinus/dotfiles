@@ -415,7 +415,7 @@ return {
         keywordPattern = [[[_\w\d][-_\w\d]*]],
         sources = {
           'skkeleton',
-          'nvimlsp',
+          'nvim-lsp',
           'treesitter',
           'ctags',
           'buffer',
@@ -438,7 +438,7 @@ return {
           look = {mark = 'K'},
           necovim = {mark = 'V'},
           --nextword = {mark = 'X'},
-          nvimlsp = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
+          ['nvim-lsp'] = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
           skkeleton = {mark = 'SKK', matchers = {'skkeleton'}, sorters = {}},
           treesitter = {mark = 'S'},
           tmux = {mark = 'T'},
@@ -449,7 +449,7 @@ return {
         },
       }
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
-        'nvimlsp',
+        'nvim-lsp',
         'treesitter',
         'ctags',
         'necovim',
