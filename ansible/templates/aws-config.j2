@@ -1,9 +1,2 @@
-{% for profile in secret_aws_profile -%}
-[profile {{ profile.name }}]
-{% for key, value in profile.items() -%}
-{% if key != 'name' -%}{{ key }} = {{ value }}
-{% endif %}
-{% endfor %}
-
-{% endfor %}
+{{- secret_aws_config -}}
 {#- se:ft=conf.jinja: #}
