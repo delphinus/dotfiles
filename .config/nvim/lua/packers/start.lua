@@ -329,71 +329,6 @@ return {
     end,
   },
 
-  --[=[
-  {
-    'Xuyuanp/scrollbar.nvim',
-    config = function()
-      vim.g.scrollbar_shape = {
-        head = '⣼',
-        body = '⣿',
-        tail = '⢻',
-      }
-      vim.g.scrollbar_highlight = {
-        head = 'Todo',
-        body = 'Todo',
-        tail = 'Todo',
-      }
-      vim.g.scrollbar_excluded_filetypes = {'denite-filter'}
-
-      local scrollbar = require'scrollbar'
-      local agrp = require'agrp'
-      local enabled = false
-
-      function _G.ToggleScrollbar()
-        if enabled then
-          scrollbar.clear()
-          agrp.set{my_scrollbar_nvim = {}}
-          enabled = false
-        else
-          scrollbar.show()
-          agrp.set{
-            my_scrollbar_nvim = {
-              {
-                'WinEnter,FocusGained,CursorMoved,VimResized',
-                '*',
-                function()
-                  if vim.fn.getcmdwintype() == '' then
-                    scrollbar.show()
-                  end
-                end,
-              },
-              {
-                'WinLeave,FocusLost,BufLeave',
-                '*',
-                function()
-                  if vim.fn.getcmdwintype() == '' then
-                    scrollbar.clear()
-                  end
-                end,
-              },
-            },
-          }
-          enabled = true
-        end
-      end
-
-      -- TODO: deal with :only in this plugin
-      require'mappy'.nnoremap('<C-w>o', function()
-        vim.cmd[[only]]
-        scrollbar.show()
-      end)
-
-      -- start scrollbar
-      _G.ToggleScrollbar()
-    end,
-  },
-  ]=]
-
   {
     'delphinus/dwm.nvim',
     config = function()
@@ -438,32 +373,6 @@ return {
       }
     end,
   },
-
-  --[[
-  {
-    'edluffy/specs.nvim',
-    config = function()
-      local specs = require'specs'
-      specs.setup{
-        show_jumps  = true,
-        min_jump = 30,
-        popup = {
-          delay_ms = 0, -- delay before popup displays
-          inc_ms = 10, -- time increments used for fade/resize effects
-          blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
-          width = 40,
-          winhl = 'PMenu',
-          fader = specs.linear_fader,
-          resizer = specs.shrink_resizer,
-        },
-        ignore_filetypes = {},
-        ignore_buftypes = {
-          nofile = true,
-        },
-      }
-    end,
-  },
-  ]]
 
   {'folke/todo-comments.nvim'},
   -- }}}
