@@ -5,7 +5,7 @@ local function init()
     packer = require'packer'
     packer.init{
       profile = {
-        enable = true,
+        enable = false,
         threshold = 1,
       },
       disable_commands = true,
