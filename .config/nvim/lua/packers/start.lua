@@ -375,6 +375,7 @@ return {
   },
 
   {'folke/todo-comments.nvim'},
+  {'nathom/filetype.nvim'},
   -- }}}
 }
 

@@ -4,9 +4,10 @@ if vim.env.NVIM_PROFILE then
 end
 
 vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
+-- Use filetype.nvim
+vim.g.did_load_filetypes = 1
 
 require'setup'
-require'filetypes'
 require'util'
 require'packers'
 require'set'
