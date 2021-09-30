@@ -381,8 +381,7 @@ return {
             userJisyo = d'~/Library/Application Support/AquaSKK/skk-jisyo.utf8',
             markerHenkan = '□',
           }
-          --require'mappy'.lmap('<C-s>', '<Plug>(skkeleton-toggle)')
-          require'mappy'.imap('<C-s>', '<Plug>(skkeleton-toggle)')
+          require'mappy'.rbind('icl', '<C-j>', '<Plug>(skkeleton-toggle)')
           require'agrp'.set{
             UpdateStatusline = {
               {'User', 'skkeleton-mode-changed', '<Cmd>redrawstatus<CR>'},
