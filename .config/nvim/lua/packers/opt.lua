@@ -382,9 +382,27 @@ return {
             markerHenkan = '□',
           }
           require'mappy'.rbind('icl', '<C-j>', '<Plug>(skkeleton-toggle)')
+          vim.cmd[[hi skkeleton-hira-mode guifg=#2e3440 guibg=#a3be8c gui=bold]]
+          vim.cmd[[hi skkeleton-kata-mode guifg=#2e3440 guibg=#ebcb8b gui=bold]]
+          vim.cmd[[hi skkeleton-eiji-mode guifg=#2e3440 guibg=#88c0d0 gui=bold]]
+          local function notify()
+            local mode = vim.fn['skkeleton#mode']()
+            local chunk = mode == 'hira' and
+              {'ひらがなモード', 'skkeleton-hira-mode'} or
+              mode == 'kata' and
+              {'カタカナモード', 'skkeleton-kata-mode'} or
+              {'直接入力モード', 'skkeleton-eiji-mode'}
+            -- TODO: not allowed?
+            -- vim.notify(mode_str, nil, {title = 'skkeleton'})
+            vim.api.nvim_echo({chunk}, false, {})
+            vim.cmd[[redrawstatus]]
+            vim.cmd[[redrawtabline]]
+          end
           require'agrp'.set{
             UpdateStatusline = {
-              {'User', 'skkeleton-mode-changed', '<Cmd>redrawstatus<CR>'},
+              {'User', 'skkeleton-mode-changed', notify},
+              {'User', 'skkeleton-disable-post', notify},
+              {'User', 'skkeleton-enable-post', notify},
             },
           }
         end,
