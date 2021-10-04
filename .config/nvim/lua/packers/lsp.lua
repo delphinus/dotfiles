@@ -129,6 +129,7 @@ return {
           [[^cmp%-look$]],
           [[^neco%-vim$]],
           [[^git%-vines$]],
+          [[^murus$]],
         } do
           if base:match(r) then return true end
         end
