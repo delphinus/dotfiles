@@ -379,6 +379,15 @@ return {
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
 
       {
+        'Shougo/echodoc.vim',
+        event = {'InsertEnter'},
+        setup = function()
+          vim.g['echodoc#enable_at_startup'] = 1
+          vim.g['echodoc#type'] = 'floating'
+        end,
+      },
+
+      {
         'Shougo/pum.vim',
         event = {'InsertEnter'},
         config = function()
@@ -475,6 +484,7 @@ return {
         'ddc-treesitter '..
         'ddc-tmux '..
         'denops.vim '..
+        'echodoc.vim '..
         'denops-skkeleton.vim '..
         'float-preview.nvim '..
         'neco-vim '..
