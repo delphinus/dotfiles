@@ -376,6 +376,7 @@ return {
       --{'matsui54/ddc-filter_editdistance', event = {'InsertEnter'}},
       {'matsui54/ddc-matcher_fuzzy', event = {'InsertEnter'}},
       {'octaltree/cmp-look', event = {'InsertEnter'}},
+      --{'tani/ddc-fuzzy', event = {'InsertEnter'}},
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
 
       {
@@ -477,6 +478,7 @@ return {
         'ddc-ctags '..
         'ddc-converter_remove_overlap '..
         'ddc-file '..
+        --'ddc-fuzzy '..
         'ddc-matcher_fuzzy '..
         'ddc-matcher_head '..
         'ddc-nvim-lsp '..
