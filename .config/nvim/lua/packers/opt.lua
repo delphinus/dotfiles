@@ -842,7 +842,7 @@ return {
       }
       require'agrp'.set{
         formatter_on_save = {
-          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx,*.go,go.mod', 'FormatWrite'},
+          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx,*.go,go.mod', 'silent FormatWrite'},
         },
       }
     end,
