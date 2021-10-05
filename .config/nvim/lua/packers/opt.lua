@@ -501,7 +501,8 @@ return {
         },
         backspaceCompletion = true,
         completionMenu = 'pum.vim',
-        keywordPattern = [[[_\w\d][-_\w\d]*]],
+        --keywordPattern = [[[_\w\d][-_\w\d]*]],
+        --keywordPattern = [=[[-_\s\w\d]*]=],
         sources = {
           'file',
           'nvim-lsp',
