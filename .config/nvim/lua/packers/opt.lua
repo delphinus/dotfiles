@@ -333,7 +333,10 @@ return {
     'Shougo/ddc.vim',
     event = {'InsertEnter'},
     --keys = {{'n', ':'}},
-    fn = {'ddc#custom#get_buffer'},
+    fn = {
+      'ddc#custom#get_buffer',
+      'ddc#custom#patch_global',
+    },
     setup = function()
       -- TODO: rewrite with using Lua
       vim.cmd[[
@@ -416,6 +419,11 @@ return {
             userJisyo = d'~/Library/Application Support/AquaSKK/skk-jisyo.utf8',
             markerHenkan = '□',
           }
+          vim.fn['ddc#custom#patch_global']{
+            sourceOptions = {
+              skkeleton = {mark = 'SKK', matchers = {'skkeleton'}, sorters = {}},
+            },
+          }
           require'mappy'.rbind('icl', '<C-j>', '<Plug>(skkeleton-toggle)')
           vim.cmd[[hi skkeleton-hira-mode guifg=#2e3440 guibg=#a3be8c gui=bold]]
           vim.cmd[[hi skkeleton-kata-mode guifg=#2e3440 guibg=#ebcb8b gui=bold]]
@@ -433,11 +441,19 @@ return {
             vim.cmd[[redrawstatus]]
             vim.cmd[[redrawtabline]]
           end
+          local prev_buffer_config
           require'agrp'.set{
             UpdateStatusline = {
               {'User', 'skkeleton-mode-changed', notify},
               {'User', 'skkeleton-disable-post', notify},
               {'User', 'skkeleton-enable-post', notify},
+              {'User', 'skkeleton-enable-pre', function()
+                prev_buffer_config = vim.fn['ddc#custom#get_buffer']()
+                vim.fn['ddc#custom#patch_buffer']('sources', {'skkeleton'})
+              end},
+              {'User', 'skkeleton-disable-pre', function()
+                vim.fn['ddc#custom#set_buffer'](prev_buffer_config)
+              end},
             },
           }
         end,
@@ -473,7 +489,6 @@ return {
         completionMenu = 'pum.vim',
         keywordPattern = [[[_\w\d][-_\w\d]*]],
         sources = {
-          'skkeleton',
           'nvim-lsp',
           'treesitter',
           'ctags',
@@ -498,7 +513,6 @@ return {
           necovim = {mark = 'V'},
           --nextword = {mark = 'X'},
           ['nvim-lsp'] = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
-          skkeleton = {mark = 'SKK', matchers = {'skkeleton'}, sorters = {}},
           treesitter = {mark = 'TS'},
           tmux = {mark = 'T'},
         },
