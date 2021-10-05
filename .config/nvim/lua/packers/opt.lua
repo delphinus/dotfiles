@@ -361,6 +361,7 @@ return {
       ]]
     end,
     requires = {
+      {'LumaKernel/ddc-file', event = {'InsertEnter'}},
       {'delphinus/ddc-tmux', event = {'InsertEnter'}},
       {'delphinus/ddc-ctags', event = {'InsertEnter'}},
       {'delphinus/ddc-treesitter', event = {'InsertEnter'}},
@@ -466,6 +467,7 @@ return {
         'ddc-buffer '..
         'ddc-ctags '..
         'ddc-converter_remove_overlap '..
+        'ddc-file '..
         'ddc-matcher_fuzzy '..
         'ddc-matcher_head '..
         'ddc-nvim-lsp '..
@@ -489,6 +491,7 @@ return {
         completionMenu = 'pum.vim',
         keywordPattern = [[[_\w\d][-_\w\d]*]],
         sources = {
+          'file',
           'nvim-lsp',
           'treesitter',
           'ctags',
@@ -509,6 +512,11 @@ return {
           around = {mark = 'A'},
           buffer = {mark = 'B'},
           ctags = {mark = 'C'},
+          file = {
+            mark = 'F',
+            isVolatile = true,
+            forceCompletionPattern = [[\S/\S*]],
+          },
           look = {mark = 'LK'},
           necovim = {mark = 'V'},
           --nextword = {mark = 'X'},
@@ -522,6 +530,7 @@ return {
         },
       }
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
+        'file',
         'nvim-lsp',
         'treesitter',
         'ctags',
