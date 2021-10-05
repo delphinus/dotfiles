@@ -332,6 +332,31 @@ return {
   {
     'Shougo/ddc.vim',
     event = {'InsertEnter'},
+    --keys = {{'n', ':'}},
+    fn = {'ddc#custom#get_buffer'},
+    setup = function()
+      -- TODO: rewrite with using Lua
+      vim.cmd[[
+        "nnoremap :       <Cmd>lua __enable_ddc_cmdline()<CR>:
+        nnoremap :       <Cmd>call CommandlinePre()<CR>:
+
+        function! CommandlinePre() abort
+          " Overwrite sources
+          let g:prev_buffer_config = ddc#custom#get_buffer()
+          echo g:prev_buffer_config
+          call ddc#custom#patch_buffer('sources', ['necovim', 'around'])
+
+          autocmd CmdlineLeave * ++once call CommandlinePost()
+
+          " Enable command line completion
+          call ddc#enable_cmdline_completion()
+        endfunction
+        function! CommandlinePost() abort
+          " Restore sources
+          call ddc#custom#set_buffer(g:prev_buffer_config)
+        endfunction
+      ]]
+    end,
     requires = {
       {'delphinus/ddc-tmux', event = {'InsertEnter'}},
       {'delphinus/ddc-ctags', event = {'InsertEnter'}},
@@ -348,6 +373,16 @@ return {
       {'matsui54/ddc-matcher_fuzzy', event = {'InsertEnter'}},
       {'octaltree/cmp-look', event = {'InsertEnter'}},
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
+
+      {
+        'Shougo/pum.vim',
+        event = {'InsertEnter'},
+        config = function()
+          vim.fn['pum#set_option']{
+            winblend = 10,
+          }
+        end,
+      },
 
       {
         'matsui54/ddc-nvim-lsp-doc',
@@ -408,27 +443,34 @@ return {
         end,
       },
     },
-    after = {
-      'cmp-look',
-      'ddc-around',
-      'ddc-buffer',
-      'ddc-ctags',
-      'ddc-converter_remove_overlap',
-      --'ddc-filter_editdistance',
-      'ddc-matcher_fuzzy',
-      'ddc-matcher_head',
-      --'ddc-nextword',
-      'ddc-nvim-lsp',
-      'ddc-sorter_rank',
-      'ddc-treesitter',
-      'ddc-tmux',
-      'denops.vim',
-      'denops-skkeleton.vim',
-      'float-preview.nvim',
-      'neco-vim',
-    },
     config = function()
+      require'packer'.loader(
+        'cmp-look '..
+        'ddc-around '..
+        'ddc-buffer '..
+        'ddc-ctags '..
+        'ddc-converter_remove_overlap '..
+        'ddc-matcher_fuzzy '..
+        'ddc-matcher_head '..
+        'ddc-nvim-lsp '..
+        'ddc-sorter_rank '..
+        'ddc-treesitter '..
+        'ddc-tmux '..
+        'denops.vim '..
+        'denops-skkeleton.vim '..
+        'float-preview.nvim '..
+        'neco-vim '..
+        'pum.vim '
+      )
       vim.fn['ddc#custom#patch_global']{
+        autoCompleteEvents = {
+          'InsertEnter',
+          'TextChangedI',
+          'TextChangedP',
+          'CmdlineChanged',
+        },
+        backspaceCompletion = true,
+        completionMenu = 'pum.vim',
         keywordPattern = [[[_\w\d][-_\w\d]*]],
         sources = {
           'skkeleton',
@@ -483,6 +525,13 @@ return {
           end},
         },
       }
+      local m = require'mappy'
+      m.bind('ci', {'expr'}, '<Tab>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>']])
+      m.bind('ci', {'expr'}, '<S-Tab>', [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
+      m.bind('ci', {'expr'}, '<C-n>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>']])
+      m.bind('ci', {'expr'}, '<C-p>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>']])
+      m.bind('ci', '<C-y>', vim.fn['pum#map#confirm'])
+      m.bind('ci', '<C-e>', vim.fn['pum#map#cancel'])
       --vim.g['denops#debug'] = 1
     end,
   },
