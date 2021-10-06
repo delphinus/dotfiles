@@ -347,7 +347,7 @@ return {
           " Overwrite sources
           let g:prev_buffer_config = ddc#custom#get_buffer()
           echo g:prev_buffer_config
-          call ddc#custom#patch_buffer('sources', ['necovim', 'around'])
+          call ddc#custom#patch_buffer('sources', ['cmdline-history', 'necovim', 'around'])
 
           autocmd CmdlineLeave * ++once call CommandlinePost()
 
@@ -362,10 +362,12 @@ return {
     end,
     requires = {
       {'LumaKernel/ddc-file', event = {'InsertEnter'}},
+      {'LumaKernel/ddc-registers-words', event = {'InsertEnter'}},
       {'delphinus/ddc-tmux', event = {'InsertEnter'}},
       {'delphinus/ddc-ctags', event = {'InsertEnter'}},
       {'delphinus/ddc-treesitter', event = {'InsertEnter'}},
       {'Shougo/ddc-around', event = {'InsertEnter'}},
+      {'Shougo/ddc-cmdline-history', event = {'InsertEnter'}},
       {'Shougo/ddc-converter_remove_overlap', event = {'InsertEnter'}},
       {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
       --{'Shougo/ddc-nextword', event = {'InsertEnter'}},
@@ -481,6 +483,7 @@ return {
         'cmp-look '..
         'ddc-around '..
         'ddc-buffer '..
+        'ddc-cmdline-history '..
         'ddc-ctags '..
         'ddc-converter_remove_overlap '..
         'ddc-file '..
@@ -488,6 +491,7 @@ return {
         'ddc-matcher_fuzzy '..
         'ddc-matcher_head '..
         'ddc-nvim-lsp '..
+        'ddc-registers-words'..
         'ddc-sorter_rank '..
         'ddc-treesitter '..
         'ddc-tmux '..
@@ -516,6 +520,7 @@ return {
           'ctags',
           'buffer',
           'around',
+          'registers-words',
           'tmux',
           --'nextword',
           'look',
@@ -530,6 +535,7 @@ return {
           },
           around = {mark = 'A'},
           buffer = {mark = 'B'},
+          ['cmdline-history'] = {mark = 'H'},
           ctags = {mark = 'C'},
           file = {
             mark = 'F',
@@ -540,6 +546,7 @@ return {
           necovim = {mark = 'V'},
           --nextword = {mark = 'X'},
           ['nvim-lsp'] = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
+          ['registers-words'] = {mark = 'R'},
           treesitter = {mark = 'TS'},
           tmux = {mark = 'T'},
         },
@@ -556,6 +563,7 @@ return {
         'necovim',
         'buffer',
         'around',
+        'registers-words',
         'tmux',
         'look',
       })
