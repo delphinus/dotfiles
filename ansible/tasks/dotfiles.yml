@@ -155,4 +155,10 @@
     force=yes
   when: ansible_system == 'Darwin'
 
+- name: AquaSKK kana rule
+  copy: >-
+    src=AquaSKK/kana-rule.conf
+    dest='~/Library/Application Support/AquaSKK/kana-rule.conf'
+  when: ansible_system == 'Darwin'
+
 # vim:se et:
