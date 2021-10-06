@@ -491,7 +491,7 @@ return {
         'ddc-matcher_fuzzy '..
         'ddc-matcher_head '..
         'ddc-nvim-lsp '..
-        'ddc-registers-words'..
+        'ddc-registers-words '..
         'ddc-sorter_rank '..
         'ddc-treesitter '..
         'ddc-tmux '..
