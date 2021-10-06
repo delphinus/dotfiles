@@ -424,12 +424,12 @@ return {
           'denops.vim',
         },
         config = function()
-          local function d(path)
-            return path:gsub('^~', vim.loop.os_homedir())
+          local function home(path)
+            return vim.loop.os_homedir()..path
           end
           vim.fn['skkeleton#config']{
-            globalJisyo = d'~/Library/Application Support/AquaSKK/SKK-JISYO.L',
-            userJisyo = d'~/Library/Application Support/AquaSKK/skk-jisyo.utf8',
+            globalJisyo = home'/Library/Application Support/AquaSKK/SKK-JISYO.L',
+            userJisyo = home'/Library/Application Support/AquaSKK/skk-jisyo.utf8',
             markerHenkan = '□',
             eggLikeNewline = true,
           }
