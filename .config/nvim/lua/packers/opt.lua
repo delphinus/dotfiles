@@ -429,7 +429,13 @@ return {
             globalJisyo = d'~/Library/Application Support/AquaSKK/SKK-JISYO.L',
             userJisyo = d'~/Library/Application Support/AquaSKK/skk-jisyo.utf8',
             markerHenkan = '□',
+            eggLikeNewline = true,
           }
+          vim.fn['skkeleton#register_kanatable']('rom', {
+            ['z('] = {'（', ''},
+            ['z)'] = {'）', ''},
+            ['z '] = {'　', ''},
+          })
           vim.fn['ddc#custom#patch_global']{
             sourceOptions = {
               skkeleton = {mark = 'SKK', matchers = {'skkeleton'}, sorters = {}},
