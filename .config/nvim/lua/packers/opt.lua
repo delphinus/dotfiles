@@ -375,6 +375,7 @@ return {
       {'Shougo/ddc-sorter_rank', event = {'InsertEnter'}},
       {'Shougo/neco-vim', event = {'InsertEnter'}},
       {'matsui54/ddc-buffer', event = {'InsertEnter'}},
+      {'matsui54/ddc-converter_truncate', event = {'InsertEnter'}},
       --{'matsui54/ddc-filter_editdistance', event = {'InsertEnter'}},
       {'matsui54/ddc-matcher_fuzzy', event = {'InsertEnter'}},
       {'octaltree/cmp-look', event = {'InsertEnter'}},
@@ -486,6 +487,7 @@ return {
         'ddc-cmdline-history '..
         'ddc-ctags '..
         'ddc-converter_remove_overlap '..
+        'ddc-converter_truncate '..
         'ddc-file '..
         --'ddc-fuzzy '..
         'ddc-matcher_fuzzy '..
@@ -530,7 +532,7 @@ return {
             ignoreCase = true,
             matchers = {'matcher_fuzzy'},
             sorters = {'sorter_rank'},
-            converters = {'converter_remove_overlap'},
+            converters = {'converter_remove_overlap', 'converter_truncate'},
             minAutoCompleteLength = 0,
           },
           around = {mark = 'A'},
@@ -553,6 +555,9 @@ return {
         sourceParams = {
           around = {maxSize = 500},
           buffer = {requireSameFiletype = false},
+        },
+        filterParams = {
+          converter_truncate = {ellipsis = '……'},
         },
       }
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
