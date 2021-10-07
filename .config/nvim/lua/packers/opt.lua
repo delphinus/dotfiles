@@ -588,13 +588,7 @@ return {
         'tmux',
         'look',
       })
-      require'agrp'.set{
-        ddc_enable = {
-          {'User', 'DenopsReady', function()
-            vim.fn['ddc#enable']()
-          end},
-        },
-      }
+      vim.fn['ddc#enable']()
       local m = require'mappy'
       m.bind('ci', {'expr'}, '<Tab>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>']])
       m.bind('ci', {'expr'}, '<S-Tab>', [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
