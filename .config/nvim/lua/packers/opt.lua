@@ -566,7 +566,13 @@ return {
           buffer = {requireSameFiletype = false},
         },
         filterParams = {
-          converter_truncate = {ellipsis = '……'},
+          converter_truncate = {
+            maxAbbrWidth = 20,
+            maxInfoWidth = 80,
+            maxKindWidth = 10,
+            maxMenuWidth = 20,
+            ellipsis = '……',
+          },
         },
       }
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
