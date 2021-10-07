@@ -402,9 +402,17 @@ return {
       },
 
       {
-        'matsui54/ddc-nvim-lsp-doc',
+        'matsui54/denops-popup-preview.vim',
         event = {'InsertEnter'},
         after = {'denops.vim'},
+        setup = function()
+          vim.g.popup_preview_config = {
+            winblend = 10,
+          }
+        end,
+        config = function()
+          vim.fn['popup_preview#enable']()
+        end,
       },
 
       {
@@ -498,6 +506,7 @@ return {
         'ddc-treesitter '..
         'ddc-tmux '..
         'denops.vim '..
+        'denops-popup-preview.vim '..
         'echodoc.vim '..
         'denops-skkeleton.vim '..
         'float-preview.nvim '..
@@ -576,7 +585,6 @@ return {
         ddc_enable = {
           {'User', 'DenopsReady', function()
             vim.fn['ddc#enable']()
-            vim.fn['ddc_nvim_lsp_doc#enable']()
           end},
         },
       }
