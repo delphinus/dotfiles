@@ -361,7 +361,6 @@ return {
       ]]
     end,
     requires = {
-      {'LumaKernel/ddc-file', event = {'InsertEnter'}},
       {'LumaKernel/ddc-registers-words', event = {'InsertEnter'}},
       {'delphinus/ddc-tmux', event = {'InsertEnter'}},
       {'delphinus/ddc-ctags', event = {'InsertEnter'}},
@@ -496,7 +495,6 @@ return {
         'ddc-ctags '..
         'ddc-converter_remove_overlap '..
         'ddc-converter_truncate '..
-        'ddc-file '..
         --'ddc-fuzzy '..
         'ddc-matcher_fuzzy '..
         'ddc-matcher_head '..
@@ -525,7 +523,6 @@ return {
         --keywordPattern = [[[_\w\d][-_\w\d]*]],
         --keywordPattern = [=[[-_\s\w\d]*]=],
         sources = {
-          'file',
           'nvim-lsp',
           'treesitter',
           'ctags',
@@ -576,7 +573,6 @@ return {
         },
       }
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
-        'file',
         'nvim-lsp',
         'treesitter',
         'ctags',
