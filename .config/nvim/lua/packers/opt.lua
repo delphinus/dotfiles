@@ -477,7 +477,11 @@ return {
               {'User', 'skkeleton-enable-post', notify},
               {'User', 'skkeleton-enable-pre', function()
                 prev_buffer_config = vim.fn['ddc#custom#get_buffer']()
-                vim.fn['ddc#custom#patch_buffer']('sources', {'skkeleton'})
+                -- TODO: ddc-skkeleton does not support pum.vim now.
+                vim.fn['ddc#custom#patch_buffer']{
+                  completionMenu = 'native',
+                  sources = {'skkeleton'},
+                }
               end},
               {'User', 'skkeleton-disable-pre', function()
                 vim.fn['ddc#custom#set_buffer'](prev_buffer_config)
