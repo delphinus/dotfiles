@@ -386,7 +386,7 @@ return {
         event = {'InsertEnter'},
         setup = function()
           vim.g['echodoc#enable_at_startup'] = 1
-          vim.g['echodoc#type'] = 'floating'
+          vim.g['echodoc#type'] = 'virtual_lines'
         end,
       },
 
