@@ -410,6 +410,7 @@ return {
           }
         end,
         config = function()
+          require'packer'.loader('denops.vim')
           vim.fn['popup_preview#enable']()
         end,
       },
