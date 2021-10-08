@@ -424,7 +424,7 @@ return {
       },
 
       {
-        'vim-skk/denops-skkeleton.vim',
+        'vim-skk/skkeleton',
         event = {'InsertEnter'},
         requires = {
           {'vim-denops/denops.vim', event = {'InsertEnter'}},
@@ -987,6 +987,7 @@ return {
   {'vim-scripts/applescript.vim', ft = {'applescript'}},
   {'vim-scripts/fontforge_script.vim', ft = {'fontforge_script'}},
   {'vim-scripts/nginx.vim', ft = {'nginx'}},
+  {'vim-skk/skkdict.vim', ft = {'skkdict'}},
   -- }}}
 
   -- keys {{{
