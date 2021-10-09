@@ -510,7 +510,7 @@ return {
         'denops.vim '..
         'denops-popup-preview.vim '..
         'echodoc.vim '..
-        'denops-skkeleton.vim '..
+        'skkeleton '..
         'float-preview.nvim '..
         'neco-vim '..
         'pum.vim '
