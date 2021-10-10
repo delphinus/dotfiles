@@ -110,27 +110,34 @@ return {
     )
 
     local actions = require'telescope.actions'
+    local actions_state = require'telescope.actions.state'
     local telescope = require'telescope'
+    local from_entry = require'telescope.from_entry'
     local builtin = function(name) return require'telescope.builtin'[name] end
     local extensions = function(name)
       return require'telescope'.load_extension(name)
     end
     local Path = require'plenary.path'
 
+    local run_in_dir = function(prompt_bufnr, fn)
+      local entry = actions_state.get_selected_entry()
+      local dir = from_entry.path(entry)
+      if vim.fn.isdirectory(dir) then
+        actions.close(prompt_bufnr)
+        fn(dir)
+      else
+        vim.api.nvim_echo(
+          {{('This is not a directory: %s'):format(dir), 'WarningMsg'}}, true, {}
+        )
+      end
+  end
+
     local run_find_files = function(prompt_bufnr)
-      local selection = actions.get_selected_entry()
-      actions.close(prompt_bufnr)
-      builtin'find_files'{cwd = selection.value}
+      run_in_dir(prompt_bufnr, function(dir) builtin'find_files'{cwd = dir} end)
     end
 
     local run_live_grep = function(prompt_bufnr)
-      local selection = actions.get_selected_entry()
-      if vim.fn.isdirectory(selection.value) == 1 then
-        actions.close(prompt_bufnr)
-        builtin'live_grep'{cwd = selection.value}
-      else
-        vim.api.nvim_echo({{'This is not a directory.', 'WarningMsg'}}, true, {})
-      end
+      run_in_dir(prompt_bufnr, function(dir) builtin'live_grep'{cwd = dir} end)
     end
 
     local preview_scroll = function(direction)
