@@ -41,7 +41,10 @@ return {
 
     -- Files
     m.nnoremap('<Leader>fB', function() builtin'buffers'{} end)
-    m.nnoremap('<Leader>fb', function() builtin'file_browser'{cwd = '%:h'} end)
+    m.nnoremap('<Leader>fb', function()
+      local cwd = vim.fn.expand'%:h'
+      builtin'file_browser'{cwd = cwd == '' and nil or cwd}
+    end)
     m.nnoremap('<Leader>ff', function()
       -- TODO: stopgap measure
       if vim.loop.cwd() == vim.loop.os_homedir() then
