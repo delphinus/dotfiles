@@ -845,6 +845,7 @@ return {
     end,
   },
 
+  {'google/vim-jsonnet', ft = {'jsonnet'}},
   {'hail2u/vim-css3-syntax', ft = {'css'}},
   {'hashivim/vim-terraform', ft = {'terraform'}},
   {'isobit/vim-caddyfile', ft = {'caddyfile'}},
