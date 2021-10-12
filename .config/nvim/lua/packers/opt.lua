@@ -379,9 +379,8 @@ return {
       {'matsui54/ddc-buffer', event = {'InsertEnter'}},
       {'matsui54/ddc-converter_truncate', event = {'InsertEnter'}},
       --{'matsui54/ddc-filter_editdistance', event = {'InsertEnter'}},
-      {'matsui54/ddc-matcher_fuzzy', event = {'InsertEnter'}},
       {'octaltree/cmp-look', event = {'InsertEnter'}},
-      --{'tani/ddc-fuzzy', event = {'InsertEnter'}},
+      {'tani/ddc-fuzzy', event = {'InsertEnter'}},
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
 
       {
@@ -502,8 +501,7 @@ return {
         'ddc-ctags '..
         'ddc-converter_remove_overlap '..
         'ddc-converter_truncate '..
-        --'ddc-fuzzy '..
-        'ddc-matcher_fuzzy '..
+        'ddc-fuzzy '..
         'ddc-matcher_head '..
         'ddc-nvim-lsp '..
         'ddc-registers-words '..
@@ -544,9 +542,8 @@ return {
           _ = {
             ignoreCase = true,
             matchers = {'matcher_fuzzy'},
-            sorters = {'sorter_rank'},
-            converters = {'converter_remove_overlap', 'converter_truncate'},
-            minAutoCompleteLength = 0,
+            sorters = {'sorter_fuzzy'},
+            converters = {'converter_remove_overlap', 'converter_truncate', 'converter_fuzzy'},
           },
           around = {mark = 'A'},
           buffer = {mark = 'B'},
@@ -570,6 +567,7 @@ return {
           buffer = {requireSameFiletype = false},
         },
         filterParams = {
+          converter_fuzzy = { hlGroup = 'Question' },
           converter_truncate = {
             maxAbbrWidth = 20,
             maxInfoWidth = 80,
