@@ -337,6 +337,8 @@ return {
       'ddc#custom#get_buffer',
       'ddc#custom#patch_global',
     },
+    -- TODO: disable cmdline completion temporarily
+    --[=[
     setup = function()
       -- TODO: rewrite with using Lua
       vim.cmd[[
@@ -360,13 +362,14 @@ return {
         endfunction
       ]]
     end,
+    ]=]
     requires = {
       {'LumaKernel/ddc-registers-words', event = {'InsertEnter'}},
       {'delphinus/ddc-tmux', event = {'InsertEnter'}},
       {'delphinus/ddc-ctags', event = {'InsertEnter'}},
       {'delphinus/ddc-treesitter', event = {'InsertEnter'}},
       {'Shougo/ddc-around', event = {'InsertEnter'}},
-      {'Shougo/ddc-cmdline-history', event = {'InsertEnter'}},
+      --{'Shougo/ddc-cmdline-history', event = {'InsertEnter'}},
       {'Shougo/ddc-converter_remove_overlap', event = {'InsertEnter'}},
       {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
       --{'Shougo/ddc-nextword', event = {'InsertEnter'}},
@@ -495,7 +498,7 @@ return {
         'cmp-look '..
         'ddc-around '..
         'ddc-buffer '..
-        'ddc-cmdline-history '..
+        --'ddc-cmdline-history '..
         'ddc-ctags '..
         'ddc-converter_remove_overlap '..
         'ddc-converter_truncate '..
@@ -547,7 +550,7 @@ return {
           },
           around = {mark = 'A'},
           buffer = {mark = 'B'},
-          ['cmdline-history'] = {mark = 'H'},
+          --['cmdline-history'] = {mark = 'H'},
           ctags = {mark = 'C'},
           file = {
             mark = 'F',
@@ -589,12 +592,20 @@ return {
       })
       vim.fn['ddc#enable']()
       local m = require'mappy'
+      --[=[
       m.bind('ci', {'expr'}, '<Tab>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>']])
       m.bind('ci', {'expr'}, '<S-Tab>', [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
       m.bind('ci', {'expr'}, '<C-n>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>']])
       m.bind('ci', {'expr'}, '<C-p>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>']])
       m.bind('ci', '<C-y>', vim.fn['pum#map#confirm'])
       m.bind('ci', '<C-e>', vim.fn['pum#map#cancel'])
+      ]=]
+      m.inoremap({'expr'}, '<Tab>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>']])
+      m.inoremap({'expr'}, '<S-Tab>', [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
+      m.inoremap({'expr'}, '<C-n>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>']])
+      m.inoremap({'expr'}, '<C-p>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>']])
+      m.inoremap('<C-y>', vim.fn['pum#map#confirm'])
+      m.inoremap('<C-e>', vim.fn['pum#map#cancel'])
       --vim.g['denops#debug'] = 1
     end,
   },
