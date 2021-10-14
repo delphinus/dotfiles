@@ -127,7 +127,7 @@
       ]
     },
     {
-      "description": "[delphinus] コマンドキーを単体で押したときに、AquaSKKのかな・英数モードにする。（ただし VMware Fusion は除く）",
+      "description": "[delphinus] コマンドキーを単体で押したときに、AquaSKKのかな・英数モードにする。（ただし iTerm2 は除く）",
       "manipulators": [
         {
           "type": "basic",
@@ -162,7 +162,7 @@
             {
               "type": "frontmost_application_unless",
               "bundle_identifiers": [
-                "^com\\.vmware\\.fusion$"
+                "^com\\.googlecode\\.iterm2$"
               ]
             }
           ]
@@ -197,7 +197,7 @@
             {
               "type": "frontmost_application_unless",
               "bundle_identifiers": [
-                "^com\\.vmware\\.fusion$"
+                "^com\\.googlecode\\.iterm2$"
               ]
             }
           ]
