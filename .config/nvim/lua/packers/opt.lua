@@ -370,7 +370,7 @@ return {
       {'delphinus/ddc-ctags', event = {'InsertEnter'}},
       {'delphinus/ddc-treesitter', event = {'InsertEnter'}},
       {'Shougo/ddc-around', event = {'InsertEnter'}},
-      --{'Shougo/ddc-cmdline-history', event = {'InsertEnter'}},
+      {'Shougo/ddc-cmdline-history', event = {'InsertEnter'}},
       {'Shougo/ddc-converter_remove_overlap', event = {'InsertEnter'}},
       {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
       --{'Shougo/ddc-nextword', event = {'InsertEnter'}},
@@ -382,6 +382,9 @@ return {
       --{'matsui54/ddc-filter_editdistance', event = {'InsertEnter'}},
       {'octaltree/cmp-look', event = {'InsertEnter'}},
       {'tani/ddc-fuzzy', event = {'InsertEnter'}},
+      {'tani/ddc-git', event = {'InsertEnter'}},
+      {'tani/ddc-oldfiles', event = {'InsertEnter'}},
+      {'tani/ddc-path', event = {'InsertEnter'}},
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
 
       {
@@ -498,24 +501,27 @@ return {
         'cmp-look '..
         'ddc-around '..
         'ddc-buffer '..
-        --'ddc-cmdline-history '..
-        'ddc-ctags '..
+        'ddc-cmdline-history '..
         'ddc-converter_remove_overlap '..
         'ddc-converter_truncate '..
+        'ddc-ctags '..
         'ddc-fuzzy '..
+        'ddc-git '..
         'ddc-matcher_head '..
         'ddc-nvim-lsp '..
+        'ddc-oldfiles '..
+        'ddc-path '..
         'ddc-registers-words '..
         'ddc-sorter_rank '..
-        'ddc-treesitter '..
         'ddc-tmux '..
-        'denops.vim '..
+        'ddc-treesitter '..
         'denops-popup-preview.vim '..
+        'denops.vim '..
         'echodoc.vim '..
-        'skkeleton '..
         'float-preview.nvim '..
         'neco-vim '..
-        'pum.vim '
+        'pum.vim '..
+        'skkeleton '
       )
       vim.fn['ddc#custom#patch_global']{
         autoCompleteEvents = {
@@ -548,17 +554,20 @@ return {
           },
           around = {mark = 'A'},
           buffer = {mark = 'B'},
-          --['cmdline-history'] = {mark = 'H'},
+          ['cmdline-history'] = {mark = 'H'},
           ctags = {mark = 'C'},
           file = {
             mark = 'F',
             isVolatile = true,
             forceCompletionPattern = [[\S/\S*]],
           },
+          git = {mark = 'G'},
           look = {mark = 'LK'},
           necovim = {mark = 'V'},
           --nextword = {mark = 'X'},
           ['nvim-lsp'] = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
+          oldfiles = {mark = 'O'},
+          path = {mark = 'P', cmd = {'fd', '--max-depth', '5'}},
           ['registers-words'] = {mark = 'R'},
           treesitter = {mark = 'TS'},
           tmux = {mark = 'T'},
