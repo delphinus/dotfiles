@@ -76,6 +76,9 @@ return {
 
   {'editorconfig/editorconfig-vim'},
 
+  -- TODO: remove this when Neovim includes this
+  {'lewis6991/impatient.nvim'},
+
   {
     'shadmansaleh/lualine.nvim',
     requires = {

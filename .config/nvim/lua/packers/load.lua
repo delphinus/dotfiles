@@ -4,6 +4,8 @@ local function init()
   if packer == nil then
     packer = require'packer'
     packer.init{
+      -- TODO: use impatient.nvim
+      compile_path = vim.fn.stdpath'config'..'/lua/packer_compiled.lua',
       profile = {
         enable = false,
         threshold = 1,

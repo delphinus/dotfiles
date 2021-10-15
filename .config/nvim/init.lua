@@ -1,9 +1,15 @@
+vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
+require'impatient' -- TODO: impatient.nvim
+if vim.env.IMPATIENT_PROFILE then
+  require'impatient'.enable_profile()
+end
+
 if vim.env.NVIM_PROFILE then
   require'plenary.profile'.start('/tmp/profile.log', {flame = true})
   vim.cmd[[au VimEnter * lua require'plenary.profile'.stop()]]
 end
 
-vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
+require'packer_compiled' -- TODO: impatient.nvim
 
 require'setup'
 require'filetypes'
