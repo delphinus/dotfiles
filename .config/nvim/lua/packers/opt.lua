@@ -565,7 +565,10 @@ return {
           look = {mark = 'LK'},
           necovim = {mark = 'V'},
           --nextword = {mark = 'X'},
-          ['nvim-lsp'] = {mark = 'L', forceCompletionPattern = [[\.|:|->]]},
+          ['nvim-lsp'] = {
+            mark = 'L',
+            forceCompletionPattern = [[\.\w*|:\w*|->\w*]],
+          },
           oldfiles = {mark = 'O'},
           path = {mark = 'P', cmd = {'fd', '--max-depth', '5'}},
           ['registers-words'] = {mark = 'R'},
@@ -575,6 +578,7 @@ return {
         sourceParams = {
           around = {maxSize = 500},
           buffer = {requireSameFiletype = false},
+          ['nvim-lsp'] = {maxSize = 500},
         },
         filterParams = {
           converter_fuzzy = { hlGroup = 'Question' },
