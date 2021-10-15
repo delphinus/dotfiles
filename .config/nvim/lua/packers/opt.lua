@@ -916,7 +916,32 @@ return {
       }
       require'agrp'.set{
         formatter_on_save = {
-          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx,*.go,go.mod', 'silent FormatWrite'},
+          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx,*.go,go.mod', function()
+            local function run_formatter()
+              local Path = require'plenary.path'
+              local filename = vim.fn.expand'%:p'
+              local parents = Path.new(filename):parents()
+              for _, d in ipairs(parents) do
+                local candidate = Path.new(d):joinpath'.no-formatter'
+                if candidate:exists() then
+                  vim.notify('formatter disabled', nil, {title = 'formatter'})
+                  return
+                end
+              end
+              vim.cmd[[silent FormatWrite]]
+            end
+
+            local orig = vim.notify
+            vim.notify = function(msg, _, opts)
+              vim.api.nvim_echo(
+                {{('[%s] %s'):format(opts.title, msg), 'Debug'}},
+                true,
+                {}
+              )
+            end
+            run_formatter()
+            vim.notify = orig
+          end},
         },
       }
     end,
