@@ -24,6 +24,7 @@ return {
               hi Identifier guifg=#8FBCBB
               hi Special guifg=#D08770
               hi Title gui=bold cterm=bold
+              hi PmenuSel blend=0
             ]], false)
 
             -- for gitsigns

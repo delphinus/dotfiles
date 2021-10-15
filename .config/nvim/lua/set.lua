@@ -50,6 +50,16 @@ vim.opt.relativenumber = true
 vim.opt.showmatch = true
 vim.opt.showtabline = 2
 vim.opt.completeopt:remove'preview'
+vim.opt.fillchars = {
+  diff = '░',
+  eob = '‣',
+  fold = '░',
+  foldopen = '▾',
+  foldsep = '│',
+  foldclose = '▸',
+}
+vim.opt.pumblend = 30
+vim.opt.shada = [[!,'1000,<50,s10,h]]  -- Store 1000 entries on oldfiles
 
 if vim.fn.exists'*setcellwidths' == 1 then
   vim.fn.setcellwidths({
