@@ -612,7 +612,10 @@ return {
       m.bind('ci', '<C-y>', vim.fn['pum#map#confirm'])
       m.bind('ci', '<C-e>', vim.fn['pum#map#cancel'])
       ]=]
-      m.inoremap({'expr'}, '<Tab>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>']])
+      m.inoremap({'expr'}, '<Tab>',   [[pum#visible() ? ]]..
+        [['<Cmd>call pum#map#insert_relative(+1)<CR>' : ]]..
+        [[(col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ? ]]..
+        [['<Tab>' : ddc#manual_complete()]])
       m.inoremap({'expr'}, '<S-Tab>', [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
       m.inoremap({'expr'}, '<C-n>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>']])
       m.inoremap({'expr'}, '<C-p>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>']])
