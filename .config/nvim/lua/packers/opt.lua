@@ -591,16 +591,23 @@ return {
           },
         },
       }
-      vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, 'sources', {
-        'nvim-lsp',
-        'treesitter',
-        'ctags',
-        'necovim',
-        'buffer',
-        'around',
-        'registers-words',
-        'tmux',
-        'look',
+      vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, {
+        sources = {
+          'nvim-lsp',
+          'treesitter',
+          'ctags',
+          'necovim',
+          'buffer',
+          'around',
+          'registers-words',
+          'tmux',
+          'look',
+        },
+        filterParams = {
+          converter_truncate = {
+            maxAbbrWidth = 80,
+          },
+        },
       })
       vim.fn['ddc#enable']()
       local m = require'mappy'
