@@ -1,5 +1,11 @@
 vim.env.PATH = vim.env.PATH or '/usr/local/bin:/usr/bin:/bin'
-require'impatient' -- TODO: impatient.nvim
+-- TODO: impatient.nvim
+if not pcall(require, 'impatient') then
+	local dir = vim.fn.stdpath'data'..'/site/pack/packer/start/impatient.nvim'
+	os.execute('git clone https://github.com/lewis6991/impatient.nvim '..dir)
+	vim.opt.runtimepath:append(dir)
+	require'impatient'
+end
 if vim.env.IMPATIENT_PROFILE then
   require'impatient'.enable_profile()
 end
@@ -9,7 +15,7 @@ if vim.env.NVIM_PROFILE then
   vim.cmd[[au VimEnter * lua require'plenary.profile'.stop()]]
 end
 
-require'packer_compiled' -- TODO: impatient.nvim
+pcall(require, 'packer_compiled') -- TODO: impatient.nvim
 
 require'setup'
 require'filetypes'
