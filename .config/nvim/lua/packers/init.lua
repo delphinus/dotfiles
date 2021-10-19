@@ -19,3 +19,17 @@ m.nnoremap('<Leader>po', function()
   _G.run_packer'compile'
   vim.notify'Compile complete!'
 end)
+
+require'agrp'.set{
+  packer_on_compile_done = {
+    {'User', 'PackerCompileDone', function()
+      vim.notify = function(msg, _, opts)
+        vim.api.nvim_echo(
+          {{('[%s] %s'):format(opts.title, msg), 'WarningMsg'}},
+          true,
+          {}
+        )
+      end
+    end},
+  },
+}
