@@ -562,7 +562,7 @@ return {
             forceCompletionPattern = [[\S/\S*]],
           },
           git = {mark = 'G'},
-          look = {mark = 'LK'},
+          look = {mark = 'LK', maxCandidates = 20},
           necovim = {mark = 'V'},
           --nextword = {mark = 'X'},
           ['nvim-lsp'] = {
