@@ -180,6 +180,7 @@ return {
                 error = '●', -- U+25CF
                 warn = '○', -- U+25CB
                 info = '■', -- U+25A0
+                hint = '□', -- U+25A1
               },
             },
           },
