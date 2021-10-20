@@ -206,5 +206,10 @@ set -x CLOUDSDK_GSUTIL_PYTHON /usr/bin/python
 
 set -x NEXTWORD_DATA_PATH ~/.cache/nextword-data-large
 
+# Use lima for docker
+set -x DOCKER_HOST tcp://127.0.0.1:2375
+# Use the latest format for Dockerfile
+set -x DOCKER_BUILDKIT 1
+
 # fish-grc removes this definition
 _grc_wrap ps
