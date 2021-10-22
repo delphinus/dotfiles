@@ -89,27 +89,6 @@
     state=link
     force=yes
 
-- name: create karabiner setting
-  copy: >-
-    src=karabiner/{{ item }}.json
-    dest='~/.config/karabiner/assets/complex_modifications/{{ item }}.json'
-  when: ansible_system == 'Darwin'
-  with_items:
-    - contexts
-    - double
-    - edgeview2
-    - emacs
-    - escape
-    - excel
-    - japanese
-    - return_or_enter
-    - slack
-    - spotlight
-    - spreadsheets
-    - tab
-    - tmux
-    - tweetdeck
-
 - git: >-
     repo=https://{{ item }}
     dest=~/.go/src/{{ item }}
