@@ -23,6 +23,12 @@
 - name: prepare goneovim config dir
   file: path=~/.config/goneovim state=directory
 
+- name: prepare karabiner directory
+  file: >-
+    path='~/.config/karabiner/assets/complex_modifications'
+    state=directory
+  when: ansible_system == 'Darwin'
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
@@ -38,6 +44,7 @@
     - .config/gocode
     - .config/goneovim/settings.toml
     - .config/ipython
+    - .config/karabiner/assets/complex_modifications
     - .config/nvim
     - .config/peco
     - .config/powerline
@@ -82,9 +89,6 @@
     state=link
     force=yes
 
-- name: create karabiner directory
-  file: path='~/.config/karabiner/assets/complex_modifications' state=directory
-  when: ansible_system == 'Darwin'
 - name: create karabiner setting
   copy: >-
     src=karabiner/{{ item }}.json
