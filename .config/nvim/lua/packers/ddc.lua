@@ -162,33 +162,33 @@ return {
     end,
     ]=]
 
+    after = {
+      'cmp-look',
+      'ddc-around',
+      'ddc-buffer',
+      'ddc-cmdline-history',
+      'ddc-converter_remove_overlap',
+      'ddc-converter_truncate',
+      'ddc-ctags',
+      'ddc-fuzzy',
+      'ddc-git',
+      'ddc-matcher_head',
+      'ddc-nvim-lsp',
+      'ddc-oldfiles',
+      'ddc-path',
+      'ddc-registers-words',
+      'ddc-sorter_rank',
+      'ddc-tmux',
+      'ddc-treesitter',
+      'denops-popup-preview.vim',
+      'denops.vim',
+      'echodoc.vim',
+      'float-preview.nvim',
+      'neco-vim',
+      'pum.vim',
+    },
+
     config = function()
-      require'packer'.loader(
-        'cmp-look '..
-        'ddc-around '..
-        'ddc-buffer '..
-        'ddc-cmdline-history '..
-        'ddc-converter_remove_overlap '..
-        'ddc-converter_truncate '..
-        'ddc-ctags '..
-        'ddc-fuzzy '..
-        'ddc-git '..
-        'ddc-matcher_head '..
-        'ddc-nvim-lsp '..
-        'ddc-oldfiles '..
-        'ddc-path '..
-        'ddc-registers-words '..
-        'ddc-sorter_rank '..
-        'ddc-tmux '..
-        'ddc-treesitter '..
-        'denops-popup-preview.vim '..
-        'denops.vim '..
-        'echodoc.vim '..
-        'float-preview.nvim '..
-        'neco-vim '..
-        'pum.vim '..
-        'skkeleton '
-      )
       vim.fn['ddc#custom#patch_global']{
         autoCompleteEvents = {
           'InsertEnter',
