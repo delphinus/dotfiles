@@ -276,7 +276,11 @@ return {
           },
         },
       })
-      vim.fn['ddc#enable']()
+      require'agrp'.set{
+        ddc_ready = {
+          {'User', 'DenopsReady', vim.fn['ddc#enable']},
+        },
+      }
       local m = require'mappy'
       --[=[
       m.bind('ci', {'expr'}, '<Tab>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>']])
