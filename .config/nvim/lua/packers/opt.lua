@@ -475,6 +475,10 @@ return {
             vim.cmd[[redrawstatus]]
             vim.cmd[[redrawtabline]]
           end
+          local m = require'mappy'
+          m.rbind('icl', '<C-j>', '<Plug>(skkeleton-enable)')
+          m.rbind('icl', '<A-0>', '<Plug>(skkeleton-enable)')
+          m.rbind('icl', '<A-1>', '<Plug>(skkeleton-disable)')
           local prev_buffer_config
           require'agrp'.set{
             UpdateStatusline = {
