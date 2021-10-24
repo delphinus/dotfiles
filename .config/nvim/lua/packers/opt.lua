@@ -447,6 +447,7 @@ return {
             userJisyo = home'/Library/Application Support/AquaSKK/skk-jisyo.utf8',
             markerHenkan = '□',
             eggLikeNewline = true,
+            useSkkServer = true,
           }
           vim.fn['skkeleton#register_kanatable']('rom', {
             ['('] = {'（', ''},
