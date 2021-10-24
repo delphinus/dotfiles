@@ -202,12 +202,12 @@ return {
         --keywordPattern = [=[[-_\s\w\d]*]=],
         sources = {
           'nvim-lsp',
+          'tmux',
           'treesitter',
           'ctags',
           'buffer',
           'around',
           'registers-words',
-          'tmux',
           --'nextword',
           'look',
         },
@@ -260,13 +260,13 @@ return {
       vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, {
         sources = {
           'nvim-lsp',
+          'tmux',
           'treesitter',
           'ctags',
           'necovim',
           'buffer',
           'around',
           'registers-words',
-          'tmux',
           'look',
         },
         filterParams = {
