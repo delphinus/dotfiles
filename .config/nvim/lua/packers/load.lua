@@ -51,6 +51,7 @@ local function init()
   for _, name in pairs{
     'start',
     'opt',
+    'ddc',
     -- 'denite',
     'lsp',
     'telescope',
