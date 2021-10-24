@@ -341,11 +341,6 @@ return {
     end,
   },
 
-  {
-    'delphinus/skkeleton-indicator.nvim',
-    config = function() require'skkeleton_indicator'.setup() end,
-  },
-
   {'folke/todo-comments.nvim'},
   -- }}}
 }
