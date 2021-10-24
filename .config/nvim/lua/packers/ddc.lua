@@ -116,6 +116,7 @@ return {
             prev_buffer_config = vim.fn['ddc#custom#get_buffer']()
             -- TODO: ddc-skkeleton does not support pum.vim now.
             vim.fn['ddc#custom#patch_buffer']{
+              completionMenu = 'native',
               sources = {'skkeleton'},
             }
           end},
