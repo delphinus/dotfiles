@@ -458,23 +458,6 @@ return {
               skkeleton = {mark = 'SKK', matchers = {'skkeleton'}, sorters = {}},
             },
           }
-          require'mappy'.rbind('icl', '<C-j>', '<Plug>(skkeleton-toggle)')
-          vim.cmd[[hi skkeleton-hira-mode guifg=#2e3440 guibg=#a3be8c gui=bold]]
-          vim.cmd[[hi skkeleton-kata-mode guifg=#2e3440 guibg=#ebcb8b gui=bold]]
-          vim.cmd[[hi skkeleton-eiji-mode guifg=#2e3440 guibg=#88c0d0 gui=bold]]
-          local function notify()
-            local mode = vim.fn['skkeleton#mode']()
-            local chunk = mode == 'hira' and
-              {'ひらがなモード', 'skkeleton-hira-mode'} or
-              mode == 'kata' and
-              {'カタカナモード', 'skkeleton-kata-mode'} or
-              {'直接入力モード', 'skkeleton-eiji-mode'}
-            -- TODO: not allowed?
-            -- vim.notify(mode_str, nil, {title = 'skkeleton'})
-            vim.api.nvim_echo({chunk}, false, {})
-            vim.cmd[[redrawstatus]]
-            vim.cmd[[redrawtabline]]
-          end
           local m = require'mappy'
           m.rbind('icl', '<C-j>', '<Plug>(skkeleton-enable)')
           m.rbind('icl', '<A-0>', '<Plug>(skkeleton-enable)')
@@ -482,9 +465,6 @@ return {
           local prev_buffer_config
           require'agrp'.set{
             UpdateStatusline = {
-              {'User', 'skkeleton-mode-changed', notify},
-              {'User', 'skkeleton-disable-post', notify},
-              {'User', 'skkeleton-enable-post', notify},
               {'User', 'skkeleton-enable-pre', function()
                 prev_buffer_config = vim.fn['ddc#custom#get_buffer']()
                 -- TODO: ddc-skkeleton does not support pum.vim now.

@@ -121,18 +121,6 @@ return {
           end,
         } or ''
       end
-      local skkeleton = function()
-        local ok, mode = pcall(vim.fn['skkeleton#mode'])
-        if not ok or mode == '' then
-          vim.cmd[[hi! lualine-skkeleton guifg=#88c0d0 guibg=#2e3440 gui=bold]]
-          return '英字'
-        elseif mode == 'hira' then
-          vim.cmd[[hi! lualine-skkeleton guifg=#2e3440 guibg=#a3be8c gui=bold]]
-          return 'ひら'
-        end
-        vim.cmd[[hi! lualine-skkeleton guifg=#2e3440 guibg=#ebcb8b gui=bold]]
-        return 'カタ'
-      end
       require'lualine'.setup{
         extensions = {'quickfix'},
         options = {
@@ -153,11 +141,6 @@ return {
         tabline = {
           lualine_a = {},
           lualine_b = {
-            {
-              skkeleton,
-              color = 'lualine-skkeleton',
-              update_in_insert = true,
-            },
             {'branch', fmt = monospace},
             {
               'diff',
