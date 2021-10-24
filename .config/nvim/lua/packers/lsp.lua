@@ -130,6 +130,7 @@ return {
           [[^neco%-vim$]],
           [[^git%-vines$]],
           [[^murus$]],
+          [[^skkeleton$]],
         } do
           if base:match(r) then return true end
         end
