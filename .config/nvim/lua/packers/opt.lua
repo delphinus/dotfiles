@@ -98,6 +98,11 @@ return {
 
   {
     'rbgrouleff/bclose.vim',
+    -- TODO: cmd does not work?
+    keys = {
+      {'n', '<Leader>tT'},
+      {'n', '<Leader>tt'},
+    },
     cmd = {
       'Tig',
       'TigOpenCurrentFile',
@@ -113,6 +118,11 @@ return {
   {
     'iberianpig/tig-explorer.vim',
     after = {'bclose.vim'},
+    -- TODO: cmd does not work?
+    keys = {
+      {'n', '<Leader>tT'},
+      {'n', '<Leader>tt'},
+    },
     cmd = {
       'Tig',
       'TigOpenCurrentFile',
@@ -123,7 +133,7 @@ return {
       'TigStatus',
       'TigOpenFileWithCommit',
     },
-    setup = function()
+    config = function()
       local m = require'mappy'
       m.nnoremap('<Leader>tT', [[<Cmd>TigOpenCurrentFile<CR>]])
       m.nnoremap('<Leader>tt', [[<Cmd>TigOpenProjectRootDir<CR>]])
