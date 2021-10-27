@@ -95,6 +95,7 @@ return {
         markerHenkan = '□',
         eggLikeNewline = true,
         useSkkServer = true,
+        immediatelyCancel = false,
       }
       vim.fn['skkeleton#register_kanatable']('rom', {
         ['('] = {'（', ''},
