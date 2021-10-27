@@ -104,7 +104,12 @@ return {
       })
       vim.fn['ddc#custom#patch_global']{
         sourceOptions = {
-          skkeleton = {mark = 'SKK', matchers = {'skkeleton'}, sorters = {}},
+          skkeleton = {
+            mark = 'SKK',
+            matchers = {'skkeleton'},
+            sorters = {},
+            minAutoCompleteLength = 2,
+          },
         },
       }
       local m = require'mappy'
