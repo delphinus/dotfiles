@@ -108,8 +108,9 @@ return {
       }
       local m = require'mappy'
       m.rbind('icl', '<C-j>', '<Plug>(skkeleton-enable)')
-      m.rbind('icl', '<A-0>', '<Plug>(skkeleton-enable)')
-      m.rbind('icl', '<A-1>', '<Plug>(skkeleton-disable)')
+      -- Use these mappings in Karabiner-Elements
+      m.rbind('icl', '<C-0>', '<Plug>(skkeleton-enable)')
+      m.rbind('icl', '<C-1>', '<Plug>(skkeleton-disable)')
       local prev_buffer_config
       require'agrp'.set{
         UpdateStatusline = {
