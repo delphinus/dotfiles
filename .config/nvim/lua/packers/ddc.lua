@@ -101,6 +101,7 @@ return {
         ['('] = {'（', ''},
         [')'] = {'）', ''},
         ['z '] = {'　', ''},
+        ['Q'] = 'henkanPoint',
       })
       vim.fn['ddc#custom#patch_global']{
         sourceOptions = {
