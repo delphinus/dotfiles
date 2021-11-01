@@ -26,16 +26,6 @@ require'mapping'
 require'term'
 require'commands'
 
-require'agrp'.set{
-  hello_world = {
-    {'VimEnter', '*', function()
-      local v = vim.version()
-      local name = ('Neovim v%d.%d.%d'):format(v.major, v.minor, v.patch)
-      vim.notify('Hello, World!', nil, {title = name})
-    end},
-  },
-}
-
 vim.g.loaded_getscriptPlugin = true
 vim.g.loaded_logiPat = true
 vim.g.loaded_rrhelper = true
