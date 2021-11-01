@@ -1,0 +1,33 @@
+#!/usr/bin/env perl
+use 5.12.0;
+use warnings;
+use Getopt::Long qw(:config posix_default no_ignore_case gnu_compat);
+use List::MoreUtils qw(apply);
+
+GetOptions(
+    'e|exec', \(my $exec),
+);
+
+my $merged = `git branch -r --merged master` || `git branch -r --merged main`;
+my @branches = apply { s{\s*origin/}{}smx; $_ }
+    grep { ! /(?:master|main|develop)/smx } split /\n/, $merged;
+
+for my $branch (@branches) {
+    if ($exec) {
+        system('git', 'push', '--delete', 'origin', $branch) == 0 or die $!;
+    } else {
+        say "git push --delete origin $branch";
+    }
+}
+
+if (@branches) {
+    if ($exec) {
+        system('git', 'remote', 'prune', 'origin') == 0 or die $!;
+    } else {
+        say 'git remote prune origin';
+        say '';
+        say '    (to run, use --exec option)';
+    }
+} else {
+    say '    (no branches to delete)';
+}

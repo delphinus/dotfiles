@@ -52,8 +52,7 @@
 	# \x23 means `#`
 	ds = !git st --porcelain | grep -v '^[AMD]' | grep -v '^\\x23' | perl -pe 's/^UU\\s+//'
 	wk = worktree
-	clean-local = !git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d
-	clean-remote = !git branch -r --merged master | grep -v -e master -e develop | sed -e 's% *origin/%%' | xargs -I% git push --delete origin % && git remote prune origin
+	clean-local = !git branch --merged | egrep -v '(^\\*|master|main)' | xargs git branch -d
 	show-name = diff-tree --no-commit-id --name-only -r
 [url "git@github.com:"]
 	pushinstedof = "git://github.com/"
