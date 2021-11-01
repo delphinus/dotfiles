@@ -400,7 +400,7 @@ return {
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,
-          disable = {'toml', 'json'},
+          disable = {'perl'},
         },
         incremental_selection = {
           enable = true,
