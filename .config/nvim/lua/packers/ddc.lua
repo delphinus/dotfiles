@@ -122,8 +122,9 @@ return {
       m.rbind('icl', '<C-1>', '<Plug>(skkeleton-disable)')
       local prev_buffer_config
       require'agrp'.set{
-        UpdateStatusline = {
+        skkeleton_callbacks = {
           {'User', 'skkeleton-enable-pre', function()
+            vim.fn['pum#close']()
             prev_buffer_config = vim.fn['ddc#custom#get_buffer']()
             -- TODO: ddc-skkeleton does not support pum.vim now.
             vim.fn['ddc#custom#patch_buffer']{
