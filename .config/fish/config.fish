@@ -136,10 +136,10 @@ set -x EDITOR nvim
 set -x GIT_EDITOR nvim
 set -x VISUAL nvim
 
-# for bat
-set -x PAGER bat
-set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
-set -x DELTA_PAGER 'bat -p'
+# for less
+set -x PAGER less
+set -x MANPAGER less
+set -x DELTA_PAGER less
 
 # from prezto
 set -x LESS_TERMCAP_mb \e'[01;31m'      # Begins blinking.
