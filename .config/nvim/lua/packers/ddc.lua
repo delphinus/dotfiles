@@ -118,8 +118,8 @@ return {
       local m = require'mappy'
       m.rbind('icl', '<C-j>', '<Plug>(skkeleton-enable)')
       -- Use these mappings in Karabiner-Elements
-      m.rbind('icl', '<F12>', '<Plug>(skkeleton-disable)')
-      m.rbind('icl', '<F13>', '<Plug>(skkeleton-enable)')
+      m.rbind('icl', [[<C-|>]], '<Plug>(skkeleton-disable)')
+      m.rbind('icl', [[<C-\>]], '<Plug>(skkeleton-enable)')
       local prev_buffer_config
       require'agrp'.set{
         skkeleton_callbacks = {
