@@ -608,7 +608,7 @@ return {
 
   {
     'mhartington/formatter.nvim',
-    ft = {'go', 'javascript', 'typescript'},
+    ft = {'go', 'javascript', 'json', 'typescript'},
     config = function()
       local function bufname() return vim.api.nvim_buf_get_name(0) end
       local function prettier()
@@ -639,6 +639,7 @@ return {
         filetype = {
           javascript = {prettier, eslint},
           typescript = {prettier, eslint},
+          json = {exe = 'jq', args = {'.'}, stdin = true},
           go = {
             function() return {exe = 'golines', args = {'-w'}, stdin = false} end,
             function() return {exe = 'gofumpt', args = {'-w'}, stdin = false} end,
@@ -647,7 +648,7 @@ return {
       }
       require'agrp'.set{
         formatter_on_save = {
-          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx,*.go,go.mod', function()
+          {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx,*.json,*.go,go.mod', function()
             local function run_formatter()
               local Path = require'plenary.path'
               local filename = vim.fn.expand'%:p'
