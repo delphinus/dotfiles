@@ -115,6 +115,11 @@
               "bundle_identifiers": [
                 "^com\\.googlecode\\.iterm2$"
               ]
+            },
+            {
+              "type": "variable_if",
+              "name": "neovim_in_insert_mode",
+              "value": 1
             }
           ]
         },
@@ -128,6 +133,11 @@
               "bundle_identifiers": [
                 "^com\\.googlecode\\.iterm2$"
               ]
+            },
+            {
+              "type": "variable_if",
+              "name": "neovim_in_insert_mode",
+              "value": 1
             }
           ]
         }

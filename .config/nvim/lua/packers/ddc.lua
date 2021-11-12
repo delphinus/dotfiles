@@ -121,6 +121,24 @@ return {
       m.rbind('icl', [[<C-^>]], '<Plug>(skkeleton-disable)')
       m.rbind('icl', [[<C-_>]], '<Plug>(skkeleton-enable)')
       local prev_buffer_config
+      local function set_karabiner(val)
+        local Job = require'plenary.job'
+        return function()
+          Job:new{
+            command = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli',
+            args = {'--set-variables', ('{"neovim_in_insert_mode":%d}'):format(val)},
+            on_exit = function()
+              local msg = val == 1 and {'enabled', 'Todo'} or {'disabled', 'Debug'}
+              vim.schedule(function()
+                vim.api.nvim_echo({
+                  {'[karabiner_cli] skkeleton mapping ', 'Delimiter'},
+                  msg,
+                }, false, {})
+              end)
+            end,
+          }:sync()
+        end
+      end
       require'agrp'.set{
         skkeleton_callbacks = {
           {'User', 'skkeleton-enable-pre', function()
@@ -134,6 +152,15 @@ return {
           end},
           {'User', 'skkeleton-disable-pre', function()
             vim.fn['ddc#custom#set_buffer'](prev_buffer_config)
+          end},
+        },
+        skkeleton_karabiner_elements = {
+          {'InsertEnter,CmdlineEnter', '*', set_karabiner(1)},
+          {'InsertLeave,CmdlineLeave,FocusLost', '*', set_karabiner(0)},
+          {'FocusLost', '*', set_karabiner(0)},
+          {'FocusGained', '*', function()
+            local val = vim.fn.mode():match'[icrR]' and 1 or 0
+            set_karabiner(val)()
           end},
         },
       }
