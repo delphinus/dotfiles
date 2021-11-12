@@ -76,7 +76,7 @@
           "type": "basic",
           "from": { "key_code": "left_command", "modifiers": { "optional": [ "any" ] } },
           "to": [ { "key_code": "left_command" } ],
-          "to_if_alone": [ { "key_code": "japanese_kana" }, { "key_code": "j", "modifiers": [ "control" ] }, { "key_code": "l" } ],
+          "to_if_alone": [ { "key_code": "japanese_kana" }, { "key_code": "f1", "modifiers": [ "fn" ] } ],
           "conditions": [
             {
               "type": "frontmost_application_unless",
@@ -89,7 +89,7 @@
         {
           "type": "basic",
           "from": { "key_code": "right_command", "modifiers": { "optional": [ "any" ] } }, "to": [ { "key_code": "right_command" } ],
-          "to_if_alone": [ { "key_code": "japanese_kana" }, { "key_code": "j", "modifiers": [ "control" ] } ],
+          "to_if_alone": [ { "key_code": "japanese_kana" }, { "key_code": "f2", "modifiers": [ "fn" ] } ],
           "conditions": [
             {
               "type": "frontmost_application_unless",
@@ -108,7 +108,7 @@
           "type": "basic",
           "from": { "key_code": "left_command", "modifiers": { "optional": [ "any" ] } },
           "to": [ { "key_code": "left_command" } ],
-          "to_if_alone": [ { "key_code": "6", "modifiers": [ "control", "shift" ] } ],
+          "to_if_alone": [ { "key_code": "f1", "modifiers": [ "fn" ] } ],
           "conditions": [
             {
               "type": "frontmost_application_if",
@@ -126,7 +126,7 @@
         {
           "type": "basic",
           "from": { "key_code": "right_command", "modifiers": { "optional": [ "any" ] } }, "to": [ { "key_code": "right_command" } ],
-          "to_if_alone": [ { "key_code": "hyphen", "modifiers": [ "control", "shift" ] } ],
+          "to_if_alone": [ { "key_code": "f2", "modifiers": [ "fn" ] } ],
           "conditions": [
             {
               "type": "frontmost_application_if",

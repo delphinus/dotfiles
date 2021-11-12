@@ -116,10 +116,9 @@ return {
         },
       }
       local m = require'mappy'
-      m.rbind('icl', '<C-j>', '<Plug>(skkeleton-enable)')
       -- Use these mappings in Karabiner-Elements
-      m.rbind('icl', [[<C-^>]], '<Plug>(skkeleton-disable)')
-      m.rbind('icl', [[<C-_>]], '<Plug>(skkeleton-enable)')
+      m.rbind('icl', [[<F1>]], '<Plug>(skkeleton-disable)')
+      m.rbind('icl', [[<F2>]], '<Plug>(skkeleton-enable)')
       local prev_buffer_config
       local function set_karabiner(val)
         local Job = require'plenary.job'
