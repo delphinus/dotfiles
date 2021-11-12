@@ -126,16 +126,7 @@ return {
           Job:new{
             command = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli',
             args = {'--set-variables', ('{"neovim_in_insert_mode":%d}'):format(val)},
-            on_exit = function()
-              local msg = val == 1 and {'enabled', 'Todo'} or {'disabled', 'Debug'}
-              vim.schedule(function()
-                vim.api.nvim_echo({
-                  {'[karabiner_cli] skkeleton mapping ', 'Delimiter'},
-                  msg,
-                }, false, {})
-              end)
-            end,
-          }:sync()
+          }:start()
         end
       end
       require'agrp'.set{
