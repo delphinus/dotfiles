@@ -80,6 +80,13 @@
     state=link
     force=yes
 
+- name: symlink kana-rule for AquaSKK
+  file: >-
+    src={{ dotfiles_dir }}/.config/AquaSKK/kana-rule.conf
+    dest='~/Library/Application Support/AquaSKK/kana-rule.conf'
+    state=link
+    force=yes
+
 - file: >-
     dest=~/.local/share/nvim/{{ item }}
     state=directory
