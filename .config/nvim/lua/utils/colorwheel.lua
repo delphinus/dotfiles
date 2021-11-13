@@ -63,7 +63,7 @@ return setmetatable({
         if r < 1.0 then
           local i_col, i_row = math.floor(col), math.floor(row)
           -- open a float window with 1x1 size
-          local winid = vim.api.nvim_open_win(vim.fn.bufnr(''), false, {
+          local winid = api.open_win(fn.bufnr(''), false, {
             style = 'minimal',
             relative = 'win',
             width = 1,
@@ -76,7 +76,7 @@ return setmetatable({
             hl_name,
             self:position_to_rgb(x, y, r)
           ))
-          vim.api.nvim_win_set_option(winid, 'winhighlight', 'Normal:'..hl_name)
+          api.win_set_option(winid, 'winhighlight', 'Normal:'..hl_name)
         end
       end
     end

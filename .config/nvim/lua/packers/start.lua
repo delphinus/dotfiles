@@ -49,7 +49,7 @@ return {
         local half = vim.o.columns / 2
         local width = vim.g.dwm_min_master_pane_width or 9999
         vim.g.dwm_master_pane_width = math.min(width, half)
-        vim.fn.DWM_ResizeMasterPaneWidth()
+        fn.DWM_ResizeMasterPaneWidth()
       end)
       m.nmap('<A-CR>', [[<Plug>DWMFocus]])
       m.rbind('n', {'<A-r>', '<A-®>'}, [[<Plug>DWMResetPaneWidth]])
@@ -194,7 +194,7 @@ return {
           if ok then
             require'hlslens'.start()
           else
-            vim.api.nvim_err_writeln(err)
+            api.err_writeln(err)
           end
         end
       end
@@ -233,7 +233,7 @@ return {
   {
     'tpope/vim-eunuch',
     config = function()
-      vim.env.SUDO_ASKPASS = vim.loop.os_homedir()..'/git/dotfiles/bin/macos-askpass'
+      vim.env.SUDO_ASKPASS = loop.os_homedir()..'/git/dotfiles/bin/macos-askpass'
     end,
   },
 
@@ -290,7 +290,7 @@ return {
           'packer',
         },
         buf_filter = function(bufnr)
-          return vim.api.nvim_buf_get_option(bufnr, 'buftype') == ''
+          return api.buf_get_option(bufnr, 'buftype') == ''
         end,
       }
     end,
@@ -319,9 +319,9 @@ return {
         -- TODO: copied logic from require'scrollbar'.clear
         local state = vim.b.scrollbar_state
         if state and state.winnr then
-          local ok = pcall(vim.api.nvim_win_close, state.winnr, true)
+          local ok = pcall(api.win_close, state.winnr, true)
           if not ok then
-            vim.api.nvim_echo({
+            api.echo({
               {'cannot found scrollbar win: '..state.winnr, 'WarningMsg'},
             }, true, {})
           end

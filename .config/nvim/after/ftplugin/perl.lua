@@ -8,7 +8,7 @@ function _G.perl_fold_text()
   local cases_part = ''
   local test_name = ''
   if start then
-    test_name = vim.fn.getline(vim.v.foldstart):sub(start + 1, finish)
+    test_name = fn.getline(vim.v.foldstart):sub(start + 1, finish)
     local cases = 0
     for i = vim.v.foldstart, vim.v.foldend - 1 do
       if re:match_line(0, i) then
@@ -22,7 +22,7 @@ function _G.perl_fold_text()
 
   local level = #vim.v.folddashes
   if level <= 12 then
-    level = vim.fn.nr2char(0x2170 + level - 1)..' '
+    level = fn.nr2char(0x2170 + level - 1)..' '
   end
   local lines = vim.v.foldend - vim.v.foldstart + 1
   return ('%s %3d 行: %s%s'):format(level, lines, test_name, cases_part)

@@ -101,8 +101,8 @@ hook_add = ''' "{{{
           },
           workspace = {
             library = {
-              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-              [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+              [fn.expand('$VIMRUNTIME/lua')] = true,
+              [fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
             },
           },
         }

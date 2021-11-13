@@ -2,7 +2,7 @@ vim.g.did_load_filetypes = 1
 
 local function _set_filetype_sh(name)
   -- get lines from 1 to 20
-  local lines = vim.api.nvim_buf_get_lines(0, 0, 19, false)
+  local lines = api.buf_get_lines(0, 0, 19, false)
   -- skip empty and comment lines
   local l
   for i = 1, math.min(#lines - 1, 19) do
@@ -31,7 +31,7 @@ local function set_filetype_sh(...)
   if #args > 0 then
     name = args[1]
   else
-    local lines = vim.api.nvim_buf_get_lines(0, 0, 1, false)
+    local lines = api.buf_get_lines(0, 0, 1, false)
     name = #lines > 0 and lines[1] or ''
   end
   return function()
@@ -220,7 +220,7 @@ local groups = {
     local pattern = vim.g.ft_ignore_pat or [[\.\(Z\|gz\|bz2\|zip\|tgz\)$]]
     -- Function used for patterns that end in a star: don't set the filetype if
     -- the file name matches ft_ignore_pat.
-    if not vim.regex(pattern):match_str(vim.fn.expand'<amatch>') then
+    if not vim.regex(pattern):match_str(fn.expand'<amatch>') then
       vim.cmd[[setf zsh]]
     end
   end},
@@ -325,7 +325,7 @@ require'agrp'.set{filetypedetect = {['BufNewFile,BufRead'] = groups}}
 
 -- Use the filetype detect plugins.  They may overrule any of the previously
 -- detected filetypes.
-vim.api.nvim_exec([[
+api.exec([[
   runtime! ftdetect/*.vim
   runtime! ftdetect/*.lua
 ]], false)

@@ -16,7 +16,7 @@ return {
       require'agrp'.set{
         nord_overrides = {
           {'ColorScheme', 'nord', function()
-            vim.api.nvim_exec([[
+            api.exec([[
               hi Comment guifg=#72809a gui=italic
               hi Delimiter guifg=#81A1C1
               hi Constant guifg=#d8dee9 gui=italic
@@ -28,7 +28,7 @@ return {
             ]], false)
 
             -- for gitsigns
-            vim.api.nvim_exec([[
+            api.exec([[
               hi GitSignsAdd guifg=#a3be8c
               hi GitSignsChange guifg=#ebcb8b
               hi GitSignsDelete guifg=#bf616a
@@ -39,13 +39,13 @@ return {
             ]], false)
 
             -- for visual-eof.lua
-            vim.api.nvim_exec([[
+            api.exec([[
               hi VisualEOL   guifg=#a3be8c
               hi VisualNoEOL guifg=#bf616a
             ]], false)
 
             -- Neovim specific
-            vim.api.nvim_exec([[
+            api.exec([[
               hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
               hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
               hi TSCurrentScope guibg=#313743
@@ -204,11 +204,11 @@ return {
         },
       }
 
-      if vim.fn.exists('g:gista_github_api_path') then
-        local apinames = vim.fn['gista#client#get_available_apinames']()
+      if fn.exists'g:gista_github_api_path' then
+        local apinames = fn['gista#client#get_available_apinames']()
         for _, n in ipairs(apinames) do
           if n == 'GHE' then
-            vim.fn['gista#client#register'](n, vim.g.gista_github_api_path)
+            im.fn['gista#client#register'](n, vim.g.gista_github_api_path)
             break
           end
         end
@@ -241,11 +241,11 @@ return {
         if vim.b.colorizer_enabled then
           vim.cmd[[ColorizerDetachFromBuffer]]
           vim.b.colorizer_enabled = false
-          vim.api.nvim_echo({{'colorizer.lua disabled', 'Debug'}}, true, {})
+          api.echo({{'colorizer.lua disabled', 'Debug'}}, true, {})
         else
           vim.cmd[[ColorizerAttachToBuffer]]
           vim.b.colorizer_enabled = true
-          vim.api.nvim_echo({{'colorizer.lua enabled', 'Debug'}}, true, {})
+          api.echo({{'colorizer.lua enabled', 'Debug'}}, true, {})
         end
       end)
     end,
@@ -274,8 +274,8 @@ return {
     'rhysd/ghpr-blame.vim',
     cmd = {'GHPRBlame'},
     config = function()
-      local settings = vim.loop.os_homedir()..'/.ghpr-blame.vim'
-      if vim.fn.filereadable(settings) == 1 then
+      local settings = loop.os_homedir()..'/.ghpr-blame.vim'
+      if im.fn.filereadable(settings) == 1 then
         vim.cmd('source '..settings)
         -- TODO: mappings for VV
         vim.g.ghpr_show_pr_mapping = '<A-g>'
@@ -401,22 +401,22 @@ return {
       compe.register_source('tmux', require'compe_tmux')
 
       local function t(key)
-        return vim.api.nvim_replace_termcodes(key, true, true, true)
+        return api.replace_termcodes(key, true, true, true)
       end
 
       local function is_space_before()
-        local c = vim.fn.col'.' - 1
-        return c == 0 or vim.fn.getline'.':sub(c, c):match'%s'
+        local c = im.fn.col'.' - 1
+        return c == 0 or im.fn.getline'.':sub(c, c):match'%s'
       end
 
       local function tab_complete(direction)
         return function()
-          if vim.fn.pumvisible() == 1 then
+          if im.fn.pumvisible() == 1 then
             return direction and t'<C-n>' or t'<C-p>'
           elseif is_space_before() then
             return direction and t'<Tab>' or t'<S-Tab>'
           end
-          return direction and vim.fn['compe#complete']() or t'<S-Tab>'
+          return direction and im.fn['compe#complete']() or t'<S-Tab>'
         end
       end
 
@@ -429,10 +429,10 @@ return {
 
       _G.tab_complete = tab_complete(true)
       _G.s_tab_complete = tab_complete(false)
-      vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
-      vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
-      vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
-      vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
+      api.set_keymap('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+      api.set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
+      api.set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
+      api.set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
     end,
   },
   ]=]
@@ -443,7 +443,7 @@ return {
     'itchyny/vim-parenmatch',
     event = {'FocusLost', 'CursorHold'},
     setup = [[vim.g.loaded_matchparen = 1]],
-    config = [[vim.fn['parenmatch#highlight']()]]
+    config = [[fn['parenmatch#highlight']()]]
   },
 
   {
@@ -610,9 +610,9 @@ return {
     'mhartington/formatter.nvim',
     ft = {'go', 'javascript', 'json', 'typescript'},
     config = function()
-      local function bufname() return vim.api.nvim_buf_get_name(0) end
+      local function bufname() return api.buf_get_name(0) end
       local function prettier()
-        if vim.fn.glob'.prettierrc*' ~= '' then
+        if fn.glob'.prettierrc*' ~= '' then
           return {
             exe = 'npx',
             args = {'prettier', '--stdin-filepath', bufname()},
@@ -626,7 +626,7 @@ return {
         }
       end
       local function eslint()
-        if vim.fn.glob'.eslintrc*' ~= '' then
+        if fn.glob'.eslintrc*' ~= '' then
           return {
             exe = 'npx',
             args = {'eslint', '--fix'},
@@ -651,7 +651,7 @@ return {
           {'BufWritePost', '*.js,*.ts,*.jsx,*.tsx,*.json,*.go,go.mod', function()
             local function run_formatter()
               local Path = require'plenary.path'
-              local filename = vim.fn.expand'%:p'
+              local filename = fn.expand'%:p'
               local parents = Path.new(filename):parents()
               for _, d in ipairs(parents) do
                 local candidate = Path.new(d):joinpath'.no-formatter'
@@ -665,7 +665,7 @@ return {
 
             local orig = vim.notify
             vim.notify = function(msg, _, opts)
-              vim.api.nvim_echo(
+              api.echo(
                 {{('[%s] %s'):format(opts.title, msg), 'Debug'}},
                 true,
                 {}
@@ -880,7 +880,7 @@ return {
         hop.hint_lines{direction = direction.BEFORE_CURSOR}
       end)
       if vim.opt.background:get() == 'dark' then
-        vim.api.nvim_exec([[
+        api.exec([[
           hi HopNextKey guifg=#bf616a
           hi HopNextKey1 guifg=#88c0d0
           hi HopNextKey2 guifg=#5e81ac
@@ -966,10 +966,10 @@ return {
         ['plugin-committia'] = {
           {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
             if vim.opt.filetype:get() == 'gitcommit'
-              and vim.fn.has'vim_starting' == 1
-              and vim.fn.exists'b:committia_opened' == 0 then
+              and fn.has'vim_starting' == 1
+              and fn.exists'b:committia_opened' == 0 then
               function _G.committia_hook_edit_open(info)
-                if info.vcs == 'git' and vim.fn.getline(1) == '' then
+                if info.vcs == 'git' and fn.getline(1) == '' then
                   vim.cmd[[startinsert]]
                 end
                 m.add_buffer_maps(function()
@@ -978,12 +978,12 @@ return {
                 end)
               end
               vim.g.committia_hooks = vim.empty_dict()
-              vim.api.nvim_exec([[
+              api.exec([[
                 function! g:committia_hooks.edit_open(info)
                   call luaeval('committia_hook_edit_open(_A)', a:info)
                 endfunction
               ]], false)
-              vim.fn['committia#open']'git'
+              fn['committia#open']'git'
             end
           end},
         },
@@ -1071,7 +1071,7 @@ return {
       end)
     end,
     config = function()
-      vim.api.nvim_exec([[
+      api.exec([[
         hi WinBorderTop guifg=#ebf5f5 blend=30
         hi WinBorderLeft guifg=#c2dddc blend=30
         hi WinBorderRight guifg=#8fbcba blend=30

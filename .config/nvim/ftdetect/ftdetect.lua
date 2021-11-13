@@ -10,7 +10,7 @@ require'agrp'.set{
       {'*.t', [[call delphinus#perl#test_filetype()]]},
       {'*.xt', [[call delphinus#perl#test_filetype()]]},
       {'*', function()
-        local top = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+        local top = api.buf_get_lines(0, 0, 1, false)[1]
         if top then
           if top:match'^#!' then
             local bin = top:match'^.+/([^/ ]+)'
@@ -30,7 +30,7 @@ require'agrp'.set{
       {'*.conf', function()
         if vim.opt.filetype:get() == 'tmux' then return end
         local sep = package.config:sub(1, 1)
-        for _, item in ipairs(vim.split(vim.fn.expand'%:p', sep)) do
+        for _, item in ipairs(vim.split(fn.expand'%:p', sep)) do
           if item == '.tmux' or item == 'tmux' then
             vim.cmd[[setfiletype tmux]]
             return

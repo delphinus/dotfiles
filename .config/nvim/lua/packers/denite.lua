@@ -33,8 +33,8 @@ return {
     local cursorline = ''
 
     function _G.denite_save_cursorline()
-      local hi = vim.fn.execute[[hi CursorLine]]
-      cursorline = vim.fn.matchstr(hi, [[\(guibg=\)\@<=#[a-zA-Z0-9]\+]])
+      local hi = fn.execute[[hi CursorLine]]
+      cursorline = fn.matchstr(hi, [[\(guibg=\)\@<=#[a-zA-Z0-9]\+]])
     end
 
     function _G.denite_change_cursorline()
@@ -81,7 +81,7 @@ return {
       if vim.bo.filetype == 'go' then
         vim.cmd[[Denite decls]]
       else
-        vim.fn['denite#util#print_error']'decls does not support filetypes except go'
+        fn['denite#util#print_error']'decls does not support filetypes except go'
       end
     end)
     vimp.nnoremap('zN', [[<Cmd>DeniteProjectDir -expand my_file my_file:new<CR>]])
@@ -135,51 +135,51 @@ return {
     vim.cmd[[packadd dwm.vim]]
 
     -- Use pt for grepping files
-    vim.fn['denite#custom#var']('grep', 'command', {'pt'})
-    vim.fn['denite#custom#var']('grep', 'default_opts', {
+    fn['denite#custom#var']('grep', 'command', {'pt'})
+    fn['denite#custom#var']('grep', 'default_opts', {
       '--nogroup', '--nocolor', '--smart-case',
       '--ignore=.git', '--ignore=dist', '--ignore=node_modules'})
-    vim.fn['denite#custom#var']('grep', 'recursive_opts', {})
-    vim.fn['denite#custom#var']('grep', 'pattern_opt', {})
-    vim.fn['denite#custom#var']('grep', 'separator', {'--'})
-    vim.fn['denite#custom#var']('grep', 'final_opts', {})
+    fn['denite#custom#var']('grep', 'recursive_opts', {})
+    fn['denite#custom#var']('grep', 'pattern_opt', {})
+    fn['denite#custom#var']('grep', 'separator', {'--'})
+    fn['denite#custom#var']('grep', 'final_opts', {})
 
     -- Use fish's z for denite-z
     local z_data = vim.env.HOME..'/.local/share/z/data'
-    if vim.fn.filereadable(z_data) then
-      vim.fn['denite#custom#var']('z', 'data', z_data)
+    if fn.filereadable(z_data) then
+      fn['denite#custom#var']('z', 'data', z_data)
     end
 
     -- Use fd for finding files
     local file_rec_cmd
-    if vim.fn.executable'fd' then
+    if fn.executable'fd' then
       file_rec_cmd = {'fd', '--follow', '--hidden', '--exclude', '.git', '.*'}
     else
       file_rec_cmd = {'pt', '--follow', '--nocolor', '--nogroup', '-g=', ''}
     end
-    vim.fn['denite#custom#var']('my_file_rec', 'command', file_rec_cmd)
-    vim.fn['denite#custom#var']('file/rec', 'command', file_rec_cmd)
+    fn['denite#custom#var']('my_file_rec', 'command', file_rec_cmd)
+    fn['denite#custom#var']('file/rec', 'command', file_rec_cmd)
 
     function _G.denite_dwm_new(context)
       local target = context.targets[0]
       if target.action__path then
-        for w = 1, vim.fn.winnr('$') do
-          local bufnr = vim.fn.winbufnr(w)
-          local path = vim.fn.fnamemodify(vim.fn.bufname(bufnr), ':p')
+        for w = 1, fn.winnr('$') do
+          local bufnr = fn.winbufnr(w)
+          local path = fn.fnamemodify(fn.bufname(bufnr), ':p')
           if path == target.action__path then
             vim.cmd('execute '..w..'wincmd w')
-            vim.fn.DWM_Focus()
+            fn.DWM_Focus()
             return
           end
         end
       end
       local action = target.action__command and 'execute' or 'open'
-      vim.fn['denite#do_action'](context, action, context.targets)
+      fn['denite#do_action'](context, action, context.targets)
     end
 
     function _G.denite_candidate_grep(context)
       local path = context.targets[0].action__path
-      local dir = vim.fn['denite#util#path2directory'](path)
+      local dir = fn['denite#util#path2directory'](path)
       local sources_queue = context.sources_queue
       sources_queue:insert{name = 'file/rec', args = {dir}}
       return {sources_queue = sources_queue}
@@ -198,7 +198,7 @@ return {
         return source.name == 'grep'
       end, sources)
       if vim.tbl_isempty(filtered) then
-        vim.fn['denite#util#print_error']'current sources does not include `grep`.'
+        fn['denite#util#print_error']'current sources does not include `grep`.'
         return
       end
       local args = filtered[0].args or {}
@@ -226,24 +226,24 @@ return {
     vim.cmd[[unlet g:DeniteCandidateGrep]]
     vim.cmd[[unlet g:DeniteNarrowGrep]]
 
-    vim.fn['denite#custom#source']('file/old', 'sorters', {'sorter/oldfiles'})
-    vim.fn['denite#custom#source']('grep', 'args', {'', '', '!'})
-    vim.fn['denite#custom#source']('grep,memo', 'converters', {'converter/abbr_word'})
-    vim.fn['denite#custom#source']('node_modules', 'sorters', {})
-    vim.fn['denite#custom#source']('z', 'default_action', 'narrow')
+    fn['denite#custom#source']('file/old', 'sorters', {'sorter/oldfiles'})
+    fn['denite#custom#source']('grep', 'args', {'', '', '!'})
+    fn['denite#custom#source']('grep,memo', 'converters', {'converter/abbr_word'})
+    fn['denite#custom#source']('node_modules', 'sorters', {})
+    fn['denite#custom#source']('z', 'default_action', 'narrow')
 
 
     -- TODO: detect vim-clap directory automatically
-    vim.fn['denite#custom#filter']('matcher/clap', 'clap_path',
-      vim.fn.stdpath('data')..'/site/pack/packer/opt/vim-clap')
-    vim.fn['denite#custom#source']('_', 'matchers', {'matcher/clap'})
+    fn['denite#custom#filter']('matcher/clap', 'clap_path',
+      fn.stdpath('data')..'/site/pack/packer/opt/vim-clap')
+    fn['denite#custom#source']('_', 'matchers', {'matcher/clap'})
 
     -- migemo matcher
-    vim.fn['denite#custom#filter']('matcher/migemo', 'dict_path', '/usr/local/share/migemo/utf-8/migemo-dict')
+    fn['denite#custom#filter']('matcher/migemo', 'dict_path', '/usr/local/share/migemo/utf-8/migemo-dict')
     -- TODO: disabled temporarily
     -- call denite#custom#source('line,memo', 'matchers', ['matcher/migemo'])
 
-    vim.fn['denite#custom#option']('_', {
+    fn['denite#custom#option']('_', {
       cached_filter = true,
       cursor_shape = true,
       cursor_wrap = true,
@@ -266,7 +266,7 @@ return {
       local winwidth = vim.o.columns > 240 and vim.o.columns / 2 or 120
       local wincol = vim.o.columns < winwidth and 0
         or (vim.o.columns - winwidth) / 2
-      vim.fn['denite#custom#option']('_', {
+      fn['denite#custom#option']('_', {
         wincol = wincol,
         winheight = winheight,
         winrow = winrow,

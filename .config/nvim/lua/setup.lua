@@ -1,4 +1,4 @@
-local data_dir = vim.fn.stdpath'data'
+local data_dir = fn.stdpath'data'
 
 for _, p in ipairs{
   {'delphinus/agrp.nvim'},
@@ -9,7 +9,7 @@ for _, p in ipairs{
   local package = p[1]
   local name = package:match'[^/]+$'
   local path = ('%s/site/pack/packer/%s/%s'):format(data_dir, dir, name)
-  local st = vim.loop.fs_stat(path)
+  local st = loop.fs_stat(path)
   if not st or st.type ~= 'directory' then
     os.execute(('git clone https://github.com/%s %s'):format(package, path))
   end

@@ -1,3 +1,3 @@
-vim.api.nvim_exec([[
+api.exec([[
   highlight def link markdownError NONE
 ]], false)

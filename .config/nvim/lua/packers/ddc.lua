@@ -36,7 +36,7 @@ return {
     'Shougo/pum.vim',
     event = {'InsertEnter'},
     config = function()
-      vim.fn['pum#set_option']{
+      fn['pum#set_option']{
         winblend = 10,
       }
     end,
@@ -53,7 +53,7 @@ return {
     end,
     config = function()
       require'packer'.loader('denops.vim')
-      vim.fn['popup_preview#enable']()
+      fn['popup_preview#enable']()
     end,
   },
 
@@ -74,7 +74,7 @@ return {
         'delphinus/skkeleton_indicator.nvim',
         event = {'InsertEnter'},
         config = function()
-          vim.api.nvim_exec([[
+          api.exec([[
             hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
             hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
             hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
@@ -89,9 +89,9 @@ return {
     },
     config = function()
       local function home(path)
-        return vim.loop.os_homedir()..path
+        return loop.os_homedir()..path
       end
-      vim.fn['skkeleton#config']{
+      fn['skkeleton#config']{
         globalJisyo = home'/Library/Application Support/AquaSKK/SKK-JISYO.L',
         userJisyo = home'/Library/Application Support/AquaSKK/skk-jisyo.utf8',
         markerHenkan = '□',
@@ -99,13 +99,13 @@ return {
         useSkkServer = true,
         immediatelyCancel = false,
       }
-      vim.fn['skkeleton#register_kanatable']('rom', {
+      fn['skkeleton#register_kanatable']('rom', {
         ['('] = {'（', ''},
         [')'] = {'）', ''},
         ['z '] = {'　', ''},
         ['Q'] = 'henkanPoint',
       })
-      vim.fn['ddc#custom#patch_global']{
+      fn['ddc#custom#patch_global']{
         sourceOptions = {
           skkeleton = {
             mark = 'SKK',
@@ -132,16 +132,16 @@ return {
       require'agrp'.set{
         skkeleton_callbacks = {
           {'User', 'skkeleton-enable-pre', function()
-            vim.fn['pum#close']()
-            prev_buffer_config = vim.fn['ddc#custom#get_buffer']()
+            fn['pum#close']()
+            prev_buffer_config = fn['ddc#custom#get_buffer']()
             -- TODO: ddc-skkeleton does not support pum.vim now.
-            vim.fn['ddc#custom#patch_buffer']{
+            fn['ddc#custom#patch_buffer']{
               completionMenu = 'native',
               sources = {'skkeleton'},
             }
           end},
           {'User', 'skkeleton-disable-pre', function()
-            vim.fn['ddc#custom#set_buffer'](prev_buffer_config)
+            fn['ddc#custom#set_buffer'](prev_buffer_config)
           end},
         },
         skkeleton_karabiner_elements = {
@@ -149,7 +149,7 @@ return {
           {'InsertLeave,CmdlineLeave,FocusLost', '*', set_karabiner(0)},
           {'FocusLost', '*', set_karabiner(0)},
           {'FocusGained', '*', function()
-            local val = vim.fn.mode():match'[icrR]' and 1 or 0
+            local val = fn.mode():match'[icrR]' and 1 or 0
             set_karabiner(val)()
           end},
         },
@@ -221,7 +221,7 @@ return {
     },
 
     config = function()
-      vim.fn['ddc#custom#patch_global']{
+      fn['ddc#custom#patch_global']{
         autoCompleteEvents = {
           'InsertEnter',
           'TextChangedI',
@@ -293,7 +293,7 @@ return {
           },
         },
       }
-      vim.fn['ddc#custom#patch_filetype']({'lua', 'vim'}, {
+      fn['ddc#custom#patch_filetype']({'lua', 'vim'}, {
         sources = {
           'nvim-lsp',
           'tmux',
@@ -316,7 +316,7 @@ return {
       })
       require'agrp'.set{
         ddc_ready = {
-          {'User', 'DenopsReady', vim.fn['ddc#enable']},
+          {'User', 'DenopsReady', fn['ddc#enable']},
         },
       }
       local m = require'mappy'
@@ -325,8 +325,8 @@ return {
       m.bind('ci', {'expr'}, '<S-Tab>', [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
       m.bind('ci', {'expr'}, '<C-n>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>']])
       m.bind('ci', {'expr'}, '<C-p>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>']])
-      m.bind('ci', '<C-y>', vim.fn['pum#map#confirm'])
-      m.bind('ci', '<C-e>', vim.fn['pum#map#cancel'])
+      m.bind('ci', '<C-y>', fn['pum#map#confirm'])
+      m.bind('ci', '<C-e>', fn['pum#map#cancel'])
       ]=]
       m.inoremap({'expr'}, '<Tab>',   [[pum#visible() ? ]]..
         [['<Cmd>call pum#map#insert_relative(+1)<CR>' : ]]..
@@ -335,8 +335,8 @@ return {
       m.inoremap({'expr'}, '<S-Tab>', [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
       m.inoremap({'expr'}, '<C-n>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>']])
       m.inoremap({'expr'}, '<C-p>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>']])
-      m.inoremap('<C-y>', vim.fn['pum#map#confirm'])
-      m.inoremap('<C-e>', vim.fn['pum#map#cancel'])
+      m.inoremap('<C-y>', fn['pum#map#confirm'])
+      m.inoremap('<C-e>', fn['pum#map#cancel'])
       --vim.g['denops#debug'] = 1
     end,
   },

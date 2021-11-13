@@ -5,7 +5,7 @@ local function init()
     packer = require'packer'
     packer.init{
       -- TODO: use impatient.nvim
-      compile_path = vim.fn.stdpath'config'..'/lua/packer_compiled.lua',
+      compile_path = fn.stdpath'config'..'/lua/packer_compiled.lua',
       profile = {
         enable = false,
         threshold = 1,
@@ -16,8 +16,8 @@ local function init()
         -- open_fn = require'packer.util'.float,
         -- https://github.com/tjdevries/config_manager/blob/0c89222a53baf997371de0ec1ca4056b834a4d62/xdg_config/nvim/lua/tj/plugins.lua#L331
         open_fn = function(name)
-          local last_win = vim.api.nvim_get_current_win()
-          local last_pos = vim.api.nvim_win_get_cursor(last_win)
+          local last_win = api.get_current_win()
+          local last_pos = api.win_get_cursor(last_win)
 
           local ok, win = pcall(function()
             vim.cmd[[packadd plenary.nvim]]
@@ -26,17 +26,17 @@ local function init()
 
           if not ok then
             vim.cmd'65vnew [packer]'
-            return true, vim.api.nvim_get_current_win(), vim.api.nvim_get_current_buf()
+            return true, api.get_current_win(), api.get_current_buf()
           end
 
-          vim.api.nvim_buf_set_name(win.bufnr, name)
-          vim.api.nvim_win_set_option(win.win_id, 'winblend', 10)
+          api.buf_set_name(win.bufnr, name)
+          api.win_set_option(win.win_id, 'winblend', 10)
 
           require'agrp'.set{
             packer_wipe_out = {
               {'BufWipeout', '<buffer>', function()
-                vim.api.nvim_set_current_win(last_win)
-                vim.api.nvim_win_set_cursor(last_win, last_pos)
+                api.set_current_win(last_win)
+                api.win_set_cursor(last_win, last_pos)
               end},
             },
           }

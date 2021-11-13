@@ -12,14 +12,14 @@ m.inoremap({'silent'}, '<CR>', '<C-g>u<CR>')
 
 local toggle_quickfix = function()
   local cmd
-  local loclist = vim.fn.getloclist(0, {size = 0, winid = 0})
+  local loclist = fn.getloclist(0, {size = 0, winid = 0})
   if loclist.size > 0 then
     cmd = loclist.winid == 0 and ':lopen' or ':lclose'
   else
     local is_opened
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      local buf = vim.api.nvim_win_get_buf(win)
-      if vim.api.nvim_buf_get_option(buf, 'filetype') == 'qf' then
+    for _, win in ipairs(api.list_wins()) do
+      local buf = api.win_get_buf(win)
+      if api.buf_get_option(buf, 'filetype') == 'qf' then
         is_opened = true
       end
     end
@@ -52,8 +52,8 @@ require'agrp'.set{
   -- (happens when dropping a file on gvim).
   jump_to_the_last_position = {
     {'BufReadPost', '*', function()
-      local last_pos = vim.fn.line[['"]]
-      if last_pos >= 1 and last_pos <= vim.fn.line'$' then
+      local last_pos = fn.line[['"]]
+      if last_pos >= 1 and last_pos <= fn.line'$' then
         vim.cmd[[execute 'normal! g`"']]
       end
     end},

@@ -1,6 +1,6 @@
 -- Encodings {{{
 vim.opt.fileencoding = 'utf-8'
-if vim.fn.has'gui_macvim' == 0 then
+if fn.has'gui_macvim' == 0 then
   vim.opt.fileencodings = {
     'ucs-bom',
     'utf-8',
@@ -61,8 +61,8 @@ vim.opt.fillchars = {
 vim.opt.pumblend = 30
 vim.opt.shada = [[!,'1000,<50,s10,h]]  -- Store 1000 entries on oldfiles
 
-if vim.fn.exists'*setcellwidths' == 1 then
-  vim.fn.setcellwidths({
+if fn.exists'*setcellwidths' == 1 then
+  fn.setcellwidths({
     --{0x2329, 0x2329, 1}, -- 〈
     --{0x232a, 0x232a, 1}, -- 〈
     {0x23be, 0x23cc, 2}, -- ⎾  .. ⏌
@@ -138,14 +138,14 @@ vim.cmd('colorscheme '..scheme)
 -- Title {{{
 if vim.env.TMUX then
   -- TODO: vim.opt has no options below?
-  vim.api.nvim_exec([[
+  api.exec([[
     let &t_ts = 'k'
     let &t_fs = '\\'
   ]], false)
 end
 vim.opt.title = true
-local home_re = vim.loop.os_homedir():gsub('%.', '%.')
-local package_root_re = (vim.fn.stdpath'data'..'/site/pack/packer/'):gsub('%.', '%.')
+local home_re = loop.os_homedir():gsub('%.', '%.')
+local package_root_re = (fn.stdpath'data'..'/site/pack/packer/'):gsub('%.', '%.')
 function _G.my_tabline_path()
   if vim.opt.filetype:get() == 'help' then
     return 'ヘルプ'
@@ -153,7 +153,7 @@ function _G.my_tabline_path()
   elseif vim.wo.previewwindow == 1 then
     return 'プレビュー'
   end
-  local filename = vim.api.nvim_buf_get_name(0)
+  local filename = api.buf_get_name(0)
   if package_root_re then
     filename = filename:gsub(package_root_re, '', 1)
   end
@@ -202,7 +202,7 @@ vim.opt.dictionary = '/usr/share/dict/words'
 -- }}}
 
 -- OS specific {{{
-if vim.fn.has'osx' then
+if fn.has'osx' then
   -- Use Japanese for menus on macOS.
   -- This is needed to be set before showing menus.
   vim.opt.langmenu = 'ja_ja.utf-8.macvim'
@@ -218,20 +218,20 @@ if vim.fn.has'osx' then
 end
 
 -- Set guioptions in case menu.vim does not exist.
-if vim.fn.has'gui_running' == 1
-  and vim.fn.filereadable(vim.env.VIMRUNTIME..'/menu.vim') == 0 then
+if fn.has'gui_running' == 1
+  and fn.filereadable(vim.env.VIMRUNTIME..'/menu.vim') == 0 then
   vim.opt.guioptions:append{'M'}
 end
 
 -- Exclude some $TERM not to communicate with X servers.
-if vim.fn.has'gui_running' == 0 and vim.fn.has'xterm_clipboard' == 1 then
+if fn.has'gui_running' == 0 and fn.has'xterm_clipboard' == 1 then
   -- TODO: This is a valud value?
   vim.o.clipboard = [[exclude:cons\|linux\|cygwin\|rxvt\|screen]]
 end
 
 -- Set $VIM into $PATH to search vim.exe itself.
-if vim.fn.has'win32' == 1 then
-  local re = vim.regex([[\(^\|;\)]]..vim.fn.escape(vim.env.VIM, [[\]])..[[\(;\|$\)]])
+if fn.has'win32' == 1 then
+  local re = vim.regex([[\(^\|;\)]]..fn.escape(vim.env.VIM, [[\]])..[[\(;\|$\)]])
   if re:match_str(vim.env.PATH) then
     vim.env.PATH = vim.env.VIM..';'..vim.env.PATH
   end
@@ -241,7 +241,7 @@ end
 -- for VV {{{
 if vim.g.vv then
   vim.opt.shell = '/usr/local/bin/fish'
-  vim.api.nvim_exec([[
+  api.exec([[
     VVset fontfamily=SF\ Mono\ Square
     VVset fontsize=16
     VVset lineheight=1.0

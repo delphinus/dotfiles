@@ -42,21 +42,21 @@ return {
     -- Files
     m.nnoremap('<Leader>fB', function() builtin'buffers'{} end)
     m.nnoremap('<Leader>fb', function()
-      local cwd = vim.fn.expand'%:h'
+      local cwd = fn.expand'%:h'
       builtin'file_browser'{cwd = cwd == '' and nil or cwd}
     end)
     m.nnoremap('<Leader>ff', function()
       -- TODO: stopgap measure
-      if vim.loop.cwd() == vim.loop.os_homedir() then
-        vim.api.nvim_echo({
+      if loop.cwd() == loop.os_homedir() then
+        api.echo({
           {
             'find_files on $HOME is danger. Launch file_browser instead.',
             'WarningMsg',
           },
         }, true, {})
         builtin'file_browser'{}
-      -- TODO: use vim.loop.fs_stat ?
-      elseif vim.fn.isdirectory(vim.loop.cwd()..'/.git') == 1 then
+      -- TODO: use loop.fs_stat ?
+      elseif fn.isdirectory(loop.cwd()..'/.git') == 1 then
         builtin'git_files'{}
       else
         builtin'find_files'{hidden = true}
@@ -65,7 +65,7 @@ return {
     m.nnoremap('<Leader>fg', function()
       builtin'grep_string'{
         only_sort_text = true,
-        search = vim.fn.input'Grep For ❯ ',
+        search = fn.input'Grep For ❯ ',
       }
     end)
     m.nnoremap('<Leader>f:', function() builtin'command_history'{} end)
@@ -85,7 +85,7 @@ return {
     m.nnoremap('<Leader>mg', function()
       extensions'memo'.grep_string{
         only_sort_text = true,
-        search = vim.fn.input'Memo Grep For ❯ ',
+        search = fn.input'Memo Grep For ❯ ',
       }
     end)
 
@@ -122,11 +122,11 @@ return {
     local run_in_dir = function(prompt_bufnr, fn)
       local entry = actions_state.get_selected_entry()
       local dir = from_entry.path(entry)
-      if vim.fn.isdirectory(dir) then
+      if fn.isdirectory(dir) then
         actions.close(prompt_bufnr)
         fn(dir)
       else
-        vim.api.nvim_echo(
+        api.echo(
           {{('This is not a directory: %s'):format(dir), 'WarningMsg'}}, true, {}
         )
       end
@@ -184,7 +184,7 @@ return {
           '--hidden',
         },
         history = {
-          path = Path:new(vim.fn.stdpath'data', 'telescope_history.sqlite3').filename,
+          path = Path:new(fn.stdpath'data', 'telescope_history.sqlite3').filename,
           limit = 100,
         },
         winblend = 10,
@@ -199,7 +199,7 @@ return {
           ignore_patterns = {'/.git/'},
           disable_devicons = true,
           workspaces = {
-            vimrc = vim.loop.os_homedir()..'/git/github.com/delphinus/dotfiles/.vim',
+            vimrc = loop.os_homedir()..'/git/github.com/delphinus/dotfiles/.vim',
           },
         },
         fzf = {
@@ -219,7 +219,7 @@ return {
     extensions'projects'
 
     -- for telescope-frecency
-    vim.api.nvim_exec([[
+    api.exec([[
       hi link TelescopeBufferLoaded String
       hi link TelescopePathSeparator None
       hi link TelescopeFrecencyScores TelescopeResultsIdentifier

@@ -9,7 +9,7 @@ return {
     config = function()
       local m = require'mappy'
 
-      vim.api.nvim_exec([[
+      api.exec([[
         sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
         sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
         sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
@@ -24,7 +24,7 @@ return {
         vim.cmd[[edit]]
       end
 
-      vim.api.nvim_exec([[
+      api.exec([[
         hi LspBorderTop guifg=#5d9794 guibg=#2e3440
         hi LspBorderLeft guifg=#5d9794 guibg=#3b4252
         hi LspBorderRight guifg=#5d9794 guibg=#3b4252
@@ -50,7 +50,7 @@ return {
             client.config.flags.allow_incremental_sync = true
           end
 
-          vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+          api.buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
           -- ignore errors when executed multi times
           m.add_buffer_maps(function()
@@ -208,10 +208,10 @@ return {
         },
 
         sumneko_lua = (function()
-          local sumneko_root_path = vim.loop.os_homedir()..'/git/github.com/sumneko/lua-language-server'
+          local sumneko_root_path = loop.os_homedir()..'/git/github.com/sumneko/lua-language-server'
           local sumneko_binary = ('%s/bin/%s/lua-language-server'):format(
             sumneko_root_path,
-            vim.loop.os_uname().sysname == 'Darwin' and 'macOS' or 'Linux'
+            loop.os_uname().sysname == 'Darwin' and 'macOS' or 'Linux'
           )
           return {
             on_attach = lsp_on_attach(),
@@ -234,8 +234,8 @@ return {
                 },
                 workspace = {
                   library = {
-                    [vim.fn.expand'$VIMRUNTIME/lua'] = true,
-                    [vim.fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
+                    [fn.expand'$VIMRUNTIME/lua'] = true,
+                    [fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
                     ['/Applications/Hammerspoon.app/Contents/Resources/extensions'] = true,
                   },
                 },
@@ -261,21 +261,21 @@ return {
       } do lsp[name].setup(config) end
     end,
     run = function()
-      local dir = vim.fn.stdpath'cache'..'/lspconfig'
+      local dir = fn.stdpath'cache'..'/lspconfig'
       do
-        local stat = vim.loop.fs_stat(dir)
+        local stat = loop.fs_stat(dir)
         if not stat then
-          assert(vim.loop.fs_mkdir(dir, 448))
+          assert(loop.fs_mkdir(dir, 448))
         end
       end
       local file = dir..'/updated'
       local last_updated = 0
       do
-        local fd = vim.loop.fs_open(file, 'r', 438)
+        local fd = loop.fs_open(file, 'r', 438)
         if fd then
-          local stat = vim.loop.fs_fstat(fd)
-          local data = vim.loop.fs_read(fd, stat.size, 0)
-          vim.loop.fs_close(fd)
+          local stat = loop.fs_fstat(fd)
+          local data = loop.fs_read(fd, stat.size, 0)
+          loop.fs_close(fd)
           last_updated = tonumber(data) or 0
         end
       end
@@ -300,10 +300,10 @@ return {
         end)
 
         if ok then
-          local fd = vim.loop.fs_open(file, 'w', 438)
+          local fd = loop.fs_open(file, 'w', 438)
           if fd then
-            vim.loop.fs_write(fd, now, -1)
-            vim.loop.fs_close(fd)
+            loop.fs_write(fd, now, -1)
+            loop.fs_close(fd)
           else
             error('cannot open the file to write: '..file)
           end

@@ -24,7 +24,7 @@ require'agrp'.set{
   packer_on_compile_done = {
     {'User', 'PackerCompileDone', function()
       vim.notify = function(msg, _, opts)
-        vim.api.nvim_echo(
+        api.echo(
           {{('[%s] %s'):format(opts.title, msg), 'WarningMsg'}},
           true,
           {}
