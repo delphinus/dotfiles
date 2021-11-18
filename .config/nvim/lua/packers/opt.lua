@@ -717,6 +717,29 @@ return {
     ft = {'ruby'},
   },
 
+  {
+    'rhysd/committia.vim',
+    ft = {'gitcommit'},
+    setup = function()
+      local m = require'mappy'
+      function _G.committia_hook_edit_open(info)
+        if info.vcs == 'git' and fn.getline(1) == '' then
+          vim.cmd[[startinsert]]
+        end
+        m.add_buffer_maps(function()
+          m.rbind('i', {'<A-d>', '<A-∂>'}, [[<Plug>(committia-scroll-diff-down-half)]])
+          m.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
+        end)
+      end
+      vim.g.committia_hooks = vim.empty_dict()
+      api.exec([[
+        function! g:committia_hooks.edit_open(info)
+          call luaeval('committia_hook_edit_open(_A)', a:info)
+        endfunction
+      ]], false)
+    end,
+  },
+
   {'rust-lang/rust.vim', ft = {'rust'}},
 
   {'teal-language/vim-teal', ft = {'teal'}},
@@ -955,29 +978,6 @@ return {
   -- }}}
 
   -- func {{{
-  {
-    'rhysd/committia.vim',
-    ft = {'gitcommit'},
-    setup = function()
-      local m = require'mappy'
-      function _G.committia_hook_edit_open(info)
-        if info.vcs == 'git' and fn.getline(1) == '' then
-          vim.cmd[[startinsert]]
-        end
-        m.add_buffer_maps(function()
-          m.rbind('i', {'<A-d>', '<A-∂>'}, [[<Plug>(committia-scroll-diff-down-half)]])
-          m.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
-        end)
-      end
-      vim.g.committia_hooks = vim.empty_dict()
-      api.exec([[
-        function! g:committia_hooks.edit_open(info)
-          call luaeval('committia_hook_edit_open(_A)', a:info)
-        endfunction
-      ]], false)
-    end,
-  },
-
   {'sainnhe/artify.vim', fn = {'artify#convert'}},
   {'vim-jp/vital.vim', fn = {'vital#vital#new'}},
   -- }}}
