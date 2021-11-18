@@ -66,7 +66,9 @@ return {
   },
 
   {
-    'vim-skk/skkeleton',
+    --'vim-skk/skkeleton',
+    'delphinus/skkeleton',
+    branch = 'feature/mapping-with-shift',
     event = {'InsertEnter'},
     requires = {
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
@@ -103,7 +105,7 @@ return {
         ['('] = {'（', ''},
         [')'] = {'）', ''},
         ['z '] = {'　', ''},
-        ['Q'] = 'henkanPoint',
+        ['<s-q>'] = 'henkanPoint',
       })
       fn['ddc#custom#patch_global']{
         sourceOptions = {
