@@ -97,6 +97,7 @@ return {
         eggLikeNewline = true,
         useSkkServer = true,
         immediatelyCancel = false,
+        registerConvertResult = true,
       }
       fn['skkeleton#register_kanatable']('rom', {
         ['('] = {'（', ''},
