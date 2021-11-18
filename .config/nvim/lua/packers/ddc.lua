@@ -90,12 +90,9 @@ return {
       'denops.vim',
     },
     config = function()
-      local function home(path)
-        return loop.os_homedir()..path
-      end
       fn['skkeleton#config']{
-        globalJisyo = home'/Library/Application Support/AquaSKK/SKK-JISYO.L',
-        userJisyo = home'/Library/Application Support/AquaSKK/skk-jisyo.utf8',
+        globalJisyo = '~/Library/Application Support/AquaSKK/SKK-JISYO.L',
+        userJisyo = '~/Library/Application Support/AquaSKK/skk-jisyo.utf8',
         markerHenkan = '□',
         eggLikeNewline = true,
         useSkkServer = true,
