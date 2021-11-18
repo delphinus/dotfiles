@@ -963,7 +963,7 @@ return {
       vim.g.loaded_committia = true
       local m = require'mappy'
       require'agrp'.set{
-        ['plugin-committia'] = {
+        committia_start = {
           {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
             if vim.opt.filetype:get() == 'gitcommit'
               and fn.has'vim_starting' == 1
