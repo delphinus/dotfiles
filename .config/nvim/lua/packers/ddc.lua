@@ -119,16 +119,22 @@ return {
       -- Use these mappings in Karabiner-Elements
       m.rbind('icl', [[<F10>]], '<Plug>(skkeleton-disable)')
       m.rbind('icl', [[<F13>]], '<Plug>(skkeleton-enable)')
-      local prev_buffer_config
+
+      local Job = require'plenary.job'
+      local karabiner_cli = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli'
       local function set_karabiner(val)
-        local Job = require'plenary.job'
         return function()
           Job:new{
-            command = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli',
-            args = {'--set-variables', ('{"neovim_in_insert_mode":%d}'):format(val)},
+            command = karabiner_cli,
+            args = {
+              '--set-variables',
+              ('{"neovim_in_insert_mode":%d}'):format(val),
+            },
           }:start()
         end
       end
+
+      local prev_buffer_config
       require'agrp'.set{
         skkeleton_callbacks = {
           {'User', 'skkeleton-enable-pre', function()
