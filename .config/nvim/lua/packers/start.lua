@@ -154,10 +154,10 @@ return {
               'diagnostics',
               sources = {'nvim_lsp'},
               diagnostics_color = {
-                error = '#e5989f',
-                warn = '#ebcb8b',
-                info = '#8ca9cd',
-                hint = '#616e88',
+                error = {fg = '#e5989f'},
+                warn = {fg = '#ebcb8b'},
+                info = {fg = '#8ca9cd'},
+                hint = {fg = '#616e88'},
               },
               symbols = {
                 error = '●', -- U+25CF
