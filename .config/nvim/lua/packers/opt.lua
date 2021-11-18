@@ -957,37 +957,24 @@ return {
   -- func {{{
   {
     'rhysd/committia.vim',
-    fn = {'committia#open'},
+    ft = {'gitcommit'},
     setup = function()
-      -- Re-implement plugin/comittia.vim in Lua
-      vim.g.loaded_committia = true
       local m = require'mappy'
-      require'agrp'.set{
-        committia_start = {
-          {'BufReadPost', 'COMMIT_EDITMSG,MERGE_MSG', function()
-            if vim.opt.filetype:get() == 'gitcommit'
-              and fn.has'vim_starting' == 1
-              and fn.exists'b:committia_opened' == 0 then
-              function _G.committia_hook_edit_open(info)
-                if info.vcs == 'git' and fn.getline(1) == '' then
-                  vim.cmd[[startinsert]]
-                end
-                m.add_buffer_maps(function()
-                  m.rbind('i', {'<A-d>', '<A-∂>'}, [[<Plug>(committia-scroll-diff-down-half)]])
-                  m.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
-                end)
-              end
-              vim.g.committia_hooks = vim.empty_dict()
-              api.exec([[
-                function! g:committia_hooks.edit_open(info)
-                  call luaeval('committia_hook_edit_open(_A)', a:info)
-                endfunction
-              ]], false)
-              fn['committia#open']'git'
-            end
-          end},
-        },
-      }
+      function _G.committia_hook_edit_open(info)
+        if info.vcs == 'git' and fn.getline(1) == '' then
+          vim.cmd[[startinsert]]
+        end
+        m.add_buffer_maps(function()
+          m.rbind('i', {'<A-d>', '<A-∂>'}, [[<Plug>(committia-scroll-diff-down-half)]])
+          m.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
+        end)
+      end
+      vim.g.committia_hooks = vim.empty_dict()
+      api.exec([[
+        function! g:committia_hooks.edit_open(info)
+          call luaeval('committia_hook_edit_open(_A)', a:info)
+        endfunction
+      ]], false)
     end,
   },
 
