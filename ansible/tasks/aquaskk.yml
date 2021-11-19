@@ -19,9 +19,17 @@
   with_items:
     - github.com/KeenS/SKK_JISYO.wiktionary
 
-- name: symlink dictionary for shikakugoma
+- homebrew: >-
+    name=skktools
+    state=latest
+
+- name: remove the old dictionary
   file: >-
-    src=~/git/github.com/KeenS/SKK_JISYO.wiktionary/SKK_JISYO.shikakugoma
-    dest='~/Library/Application Support/AquaSKK/SKK_JISYO.shikakugoma'
-    state=link
-    force=yes
+    path="~/Library/Application Support/AquaSKK/SKK_JISYO.shikakugoma"
+    state=absent
+
+- name: generate dictionary for shikakugoma
+  shell: skkdic-expr SKK_JISYO.shikakugoma | skkdic-sort > ~/Library/Application\ Support/AquaSKK/SKK_JISYO.shikakugoma
+  args:
+    executable: /bin/bash
+    chdir: ~/git/github.com/KeenS/SKK_JISYO.wiktionary
