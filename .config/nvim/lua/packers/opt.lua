@@ -340,6 +340,19 @@ return {
   -- {'delphinus/vim-emacscommandline', event = {'CmdlineEnter'}},
   {'delphinus/vim-emacscommandline'},
 
+  {
+    --'haringsrob/nvim_context_vt',
+    'delphinus/nvim_context_vt',
+    branch = 'feature/enable-to-set-highlight',
+    event = {'FocusLost', 'CursorHold'},
+    config = function()
+      vim.cmd[[hi ContextVt guifg=#365f86]]
+      require'nvim_context_vt'.setup{
+        highlight = 'ContextVt',
+      }
+    end,
+  },
+
   --[=[
   {
     'ms-jpq/coq_nvim',
