@@ -18,7 +18,8 @@ set -l paths \
   /usr/local/opt/ruby/bin \
   /usr/local/opt/llvm/bin \
   /usr/local/opt/perl/bin \
-  /Applications/Xcode.app/Contents/Developer/usr/bin
+  /Applications/Xcode.app/Contents/Developer/usr/bin \
+  ~/Library/Application\ Support/Coursier/bin
 
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 

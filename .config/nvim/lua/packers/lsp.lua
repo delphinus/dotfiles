@@ -143,6 +143,7 @@ return {
         dockerls = {on_attach = lsp_on_attach()},
         html = {on_attach = lsp_on_attach()},
         intelephense = {on_attach = lsp_on_attach()},
+        metals = {on_attach = lsp_on_attach()},
         --jsonls = {on_attach = lsp_on_attach()},
         --perlls = {on_attach = lsp_on_attach()},
         pyright = {on_attach = lsp_on_attach()},
@@ -297,6 +298,8 @@ return {
           -- These are needed for formatter.nvim
           vim.cmd[[!go get -u github.com/segmentio/golines]]
           vim.cmd[[!go get -u mvdan.cc/gofumpt]]
+
+          -- metals is installed by cs (coursier)
         end)
 
         if ok then
