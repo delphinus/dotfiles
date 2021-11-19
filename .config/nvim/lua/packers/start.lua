@@ -342,11 +342,6 @@ return {
   },
 
   {'folke/todo-comments.nvim'},
-
-  {
-    'sunjon/Shade.nvim',
-    config = function() require'shade'.setup{} end,
-  },
   -- }}}
 }
 
