@@ -7,6 +7,7 @@
 
   tasks:
     - include: tasks/dotfiles.yml
+    - include: tasks/aquaskk.yml
     - include: tasks/secrets.yml
     - include_tasks: tasks/secrets_office.yml
       when: ansible_hostname in secret_office.hostnames

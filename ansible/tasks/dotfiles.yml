@@ -73,20 +73,6 @@
     - .tmux.conf
     - .vimrc_first.vim
 
-- name: symlink keymap for AquaSKK
-  file: >-
-    src={{ dotfiles_dir }}/.config/AquaSKK/keymap.conf
-    dest='~/Library/Application Support/AquaSKK/keymap.conf'
-    state=link
-    force=yes
-
-- name: symlink kana-rule for AquaSKK
-  file: >-
-    src={{ dotfiles_dir }}/.config/AquaSKK/kana-rule.conf
-    dest='~/Library/Application Support/AquaSKK/kana-rule.conf'
-    state=link
-    force=yes
-
 - file: >-
     dest=~/.local/share/nvim/{{ item }}
     state=directory

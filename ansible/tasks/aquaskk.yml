@@ -1,0 +1,27 @@
+---
+- name: symlink keymap for AquaSKK
+  file: >-
+    src={{ dotfiles_dir }}/.config/AquaSKK/keymap.conf
+    dest='~/Library/Application Support/AquaSKK/keymap.conf'
+    state=link
+    force=yes
+
+- name: symlink kana-rule for AquaSKK
+  file: >-
+    src={{ dotfiles_dir }}/.config/AquaSKK/kana-rule.conf
+    dest='~/Library/Application Support/AquaSKK/kana-rule.conf'
+    state=link
+    force=yes
+
+- git: >-
+    repo=https://{{ item }}
+    dest=~/git/{{ item }}
+  with_items:
+    - github.com/KeenS/SKK_JISYO.wiktionary
+
+- name: symlink dictionary for shikakugoma
+  file: >-
+    src=~/git/github.com/KeenS/SKK_JISYO.wiktionary/SKK_JISYO.shikakugoma
+    dest='~/Library/Application Support/AquaSKK/SKK_JISYO.shikakugoma'
+    state=link
+    force=yes
