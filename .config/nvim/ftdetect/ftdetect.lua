@@ -48,6 +48,7 @@ require'agrp'.set{
       {'*.h', [[call dist#ft#FTheader()]]},
       {'*.ts', [[setf typescript]]},
       {'*.tsx', [[setf typescriptreact]]},
+      {'*.rs', [[setf rust]]},
     },
   },
 }
