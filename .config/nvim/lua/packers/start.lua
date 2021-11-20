@@ -104,6 +104,9 @@ return {
         if r.description ~= '<unknown>' then
           text = text..', '..r.description
         end
+        if r.shikakugoma then
+          text = text..', '..r.shikakugoma
+        end
         return text
       end
       local monospace = function(value)
