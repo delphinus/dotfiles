@@ -49,6 +49,7 @@ require'agrp'.set{
       {'*.ts', [[setf typescript]]},
       {'*.tsx', [[setf typescriptreact]]},
       {'*.rs', [[setf rust]]},
+      {'*.scala', [[setf scala]]},
     },
   },
 }
