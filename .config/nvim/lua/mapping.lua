@@ -14,7 +14,7 @@ local toggle_quickfix = function()
   local cmd
   local loclist = fn.getloclist(0, {size = 0, winid = 0})
   if loclist.size > 0 then
-    cmd = loclist.winid == 0 and ':lopen' or ':lclose'
+    cmd = loclist.winid == 0 and 'lopen' or 'lclose'
   else
     local is_opened
     for _, win in ipairs(api.list_wins()) do
@@ -23,10 +23,9 @@ local toggle_quickfix = function()
         is_opened = true
       end
     end
-    cmd = is_opened and ':cclose' or ':copen'
+    cmd = is_opened and 'cclose' or 'copen'
   end
-  print(cmd)
-  vim.cmd(cmd)
+  vim.cmd(':silent '..cmd)
 end
 
 m.nnoremap('qq', toggle_quickfix)
