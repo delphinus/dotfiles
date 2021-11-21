@@ -68,12 +68,13 @@ return {
   {
     --'vim-skk/skkeleton',
     'delphinus/skkeleton',
-    branch = 'feature/mapping-with-shift',
+    branch = 'feature/zenkaku',
     event = {'InsertEnter'},
     requires = {
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
       {
         'delphinus/skkeleton_indicator.nvim',
+        branch = 'feature/zenkaku',
         event = {'InsertEnter'},
         config = function()
           api.exec([[
@@ -81,6 +82,7 @@ return {
             hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
             hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
             hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
+            hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
           ]], false)
           require'skkeleton_indicator'.setup()
         end,
