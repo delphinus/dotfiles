@@ -72,6 +72,7 @@ return {
     m.nnoremap('<Leader>fo', function() builtin'oldfiles'{} end)
     m.nnoremap('<Leader>fp', function() extensions'projects'.projects{} end)
     m.nnoremap('<Leader>fq', function() extensions'ghq'.list{} end)
+    m.nnoremap('<Leader>fr', function() builtin'resume'{} end)
     m.nnoremap('<Leader>fz', function() extensions'z'.list{} end)
 
     -- Memo
