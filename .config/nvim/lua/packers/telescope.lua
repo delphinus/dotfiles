@@ -26,6 +26,14 @@ return {
     local extensions = function(name)
       return require'telescope'.load_extension(name)
     end
+    local path_display = function(opts, path)
+      local home = '^'..loop.os_homedir()
+      local gh_dir = home..'/git/github.com'
+      local gh_e_dir = home..'/git/'..vim.g.gh_e_host
+      local ghq_dir = home..'/git'
+      local packer_dir = home..'/.local/share/nvim/site/pack/packer'
+      return path:gsub(gh_dir, '$GH'):gsub(gh_e_dir, '$GH_E'):gsub(ghq_dir, '$GIT'):gsub(packer_dir, '$PACKER'):gsub(home, '~')
+    end
     local m = require'mappy'
 
     -- Lines
@@ -69,7 +77,7 @@ return {
     m.nnoremap('<Leader>fh', function() builtin'help_tags'{} end)
     m.nnoremap('<Leader>fm', function() builtin'man_pages'{sections = {'ALL'}} end)
     m.nnoremap('<Leader>fn', function() extensions'node_modules'.list{} end)
-    m.nnoremap('<Leader>fo', function() builtin'oldfiles'{} end)
+    m.nnoremap('<Leader>fo', function() builtin'oldfiles'{path_display = path_display} end)
     m.nnoremap('<Leader>fp', function() extensions'projects'.projects{} end)
     m.nnoremap('<Leader>fq', function() extensions'ghq'.list{} end)
     m.nnoremap('<Leader>fr', function() builtin'resume'{} end)
