@@ -14,12 +14,6 @@ return {
     {'plenary.nvim'},
 
     {
-      'nvim-telescope/telescope-frecency.nvim',
-      requires = {'tami5/sql.nvim', opt = true},
-      opt = true,
-    },
-
-    {
       'nvim-telescope/telescope-smart-history.nvim',
       requires = {'tami5/sql.nvim', opt = true},
       opt = true,
@@ -75,7 +69,7 @@ return {
     m.nnoremap('<Leader>fh', function() builtin'help_tags'{} end)
     m.nnoremap('<Leader>fm', function() builtin'man_pages'{sections = {'ALL'}} end)
     m.nnoremap('<Leader>fn', function() extensions'node_modules'.list{} end)
-    m.nnoremap('<Leader>fo', function() extensions'frecency'.frecency{} end)
+    m.nnoremap('<Leader>fo', function() builtin'oldfiles'{} end)
     m.nnoremap('<Leader>fp', function() extensions'projects'.projects{} end)
     m.nnoremap('<Leader>fq', function() extensions'ghq'.list{} end)
     m.nnoremap('<Leader>fz', function() extensions'z'.list{} end)
@@ -103,7 +97,7 @@ return {
   end,
   config = function()
     require'packer'.loader(
-      'nvim-web-devicons popup.nvim sql.nvim telescope-frecency.nvim '
+      'nvim-web-devicons popup.nvim sql.nvim '
       ..'telescope-fzf-native.nvim telescope-ghq.nvim telescope-github.nvim '
       ..'telescope-memo.nvim telescope-node-modules.nvim telescope-packer.nvim '
       ..'telescope-smart-history.nvim telescope-symbols.nvim telescope-z.nvim'
@@ -217,13 +211,5 @@ return {
     extensions'smart_history'
     -- This is needed to setup projects.nvim
     extensions'projects'
-
-    -- for telescope-frecency
-    api.exec([[
-      hi link TelescopeBufferLoaded String
-      hi link TelescopePathSeparator None
-      hi link TelescopeFrecencyScores TelescopeResultsIdentifier
-      hi link TelescopeQueryFilter Type
-    ]], false)
   end,
 }
