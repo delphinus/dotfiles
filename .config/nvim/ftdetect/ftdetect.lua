@@ -31,7 +31,7 @@ require'agrp'.set{
         if vim.opt.filetype:get() == 'tmux' then return end
         local sep = package.config:sub(1, 1)
         for _, item in ipairs(vim.split(fn.expand'%:p', sep)) do
-          if item == '.tmux' or item == 'tmux' then
+          if item:match'tmux' then
             vim.cmd[[setfiletype tmux]]
             return
           end
