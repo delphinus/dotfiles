@@ -150,8 +150,10 @@ function _G.my_tabline_path()
   if vim.opt.filetype:get() == 'help' then
     return 'ヘルプ'
   -- TODO: vim.opt has no 'previewwindow'?
-  elseif vim.wo.previewwindow == 1 then
+  elseif vim.opt.previewwindow:get() then
     return 'プレビュー'
+  elseif vim.opt.buftype:get() == 'terminal' then
+    return 'TERM'
   end
   local filename = api.buf_get_name(0)
   if package_root_re then
@@ -160,13 +162,14 @@ function _G.my_tabline_path()
   if vim.g.gh_e_host then
     filename = filename:gsub('^'..home_re..'/git/'..vim.g.gh_e_host..'/', '', 1)
   end
-  return filename:gsub(
+  local result = filename:gsub(
     '^'..home_re..'/git/github%.com/', '', 1
   ):gsub(
     '^'..home_re, '~', 1
   ):gsub('/[^/]+$', '', 1)
+  return #result <= 40 and result or '……'..result:sub(-38, -1)
 end
-vim.opt.titlestring = [[%t%( %M%)%( (%{v:lua.my_tabline_path()})%)%( %a%)]]
+vim.opt.titlestring = [[%{v:lua.my_tabline_path()}]]
 -- }}}
 
 -- grep {{{
