@@ -65,6 +65,12 @@ return {
               hi DiagnosticUnderlineInfo guisp=#8fbcbb
               hi DiagnosticUnderlineHint guisp=#616e88
             ]], false)
+
+            -- for virt-column.nvim
+            vim.cmd[[
+              hi ColorColumn guibg=NONE
+              hi VirtColumn guifg=#616e88
+            ]]
           end},
         },
       }
@@ -500,6 +506,19 @@ return {
       vim.g.indent_blankline_show_foldtext = false
       vim.g.indent_blankline_filetype_exclude = {'help', 'packer', 'FTerm'}
     end,
+  },
+
+  {
+    'lukas-reineke/virt-column.nvim',
+		event = {
+			'FileChangedShellPost,',
+			'TextChanged,',
+			'TextChangedI,',
+			'CompleteChanged,',
+			'BufWinEnter,',
+			'WinScrolled',
+		},
+    config = function() require'virt-column'.setup{char = '⡂'} end,
   },
 
   {
