@@ -246,7 +246,7 @@ return {
         end)(),
 
         teal = (function()
-          local configs = require'lspconfig/configs'
+          local configs = require'lspconfig.configs'
           if not configs.teal then
             configs.teal = {
               default_config = {
