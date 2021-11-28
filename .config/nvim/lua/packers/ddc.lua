@@ -114,6 +114,7 @@ return {
         ['z7'] = {'⑦', ''},
         ['z8'] = {'⑧', ''},
         ['z9'] = {'⑨', ''},
+        ['/'] = {'・', ''},
         ['<s-q>'] = 'henkanPoint',
       })
       fn['ddc#custom#patch_global']{
@@ -130,6 +131,7 @@ return {
       -- Use these mappings in Karabiner-Elements
       m.rbind('icl', [[<F10>]], '<Plug>(skkeleton-disable)')
       m.rbind('icl', [[<F13>]], '<Plug>(skkeleton-enable)')
+      m.rbind('icl', [[<C-j>]], '<Plug>(skkeleton-enable)')
 
       local Job = require'plenary.job'
       local karabiner_cli = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli'
