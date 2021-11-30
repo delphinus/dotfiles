@@ -229,8 +229,26 @@ return {
                 diagnostics = {
                   enable = true,
                   globals = {
-                    'vim', 'describe', 'it', 'before_each', 'after_each',
-                    'packer_plugins', 'hs',
+                    'vim',
+                    'packer_plugins',
+
+                    -- for testing
+                    'after_each',
+                    'before_each',
+                    'describe',
+                    'it',
+
+                    -- hammerspoon
+                    'hs',
+
+                    -- wrk
+                    'wrk',
+                    'setup',
+                    'id',
+                    'init',
+                    'request',
+                    'response',
+                    'done',
                   },
                 },
                 workspace = {
