@@ -1,21 +1,26 @@
-return {
-  {'delphinus/telescope-memo.nvim', opt = true},
-  {'kyazdani42/nvim-web-devicons', opt = true},
-  {'nvim-lua/popup.nvim', opt = true},
-  {'nvim-telescope/telescope-fzf-native.nvim', opt = true, run = 'make'},
-  {'nvim-telescope/telescope-ghq.nvim', opt = true},
-  {'nvim-telescope/telescope-github.nvim', opt = true},
-  {'nvim-telescope/telescope-node-modules.nvim', opt = true},
-  {'nvim-telescope/telescope-symbols.nvim', opt = true},
-  {'nvim-telescope/telescope-z.nvim', opt = true},
+local m = function(def)
+  def.cmd = {'Telescope'}
+  def.module = {'telescope'}
+  return def
+end
 
-  {
+return {
+  m{'delphinus/telescope-memo.nvim'},
+  m{'kyazdani42/nvim-web-devicons'},
+  m{'nvim-lua/popup.nvim'},
+  m{'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+  m{'nvim-telescope/telescope-ghq.nvim'},
+  m{'nvim-telescope/telescope-github.nvim'},
+  m{'nvim-telescope/telescope-node-modules.nvim'},
+  m{'nvim-telescope/telescope-symbols.nvim'},
+  m{'nvim-telescope/telescope-z.nvim'},
+
+  m{
     'nvim-telescope/telescope-smart-history.nvim',
-    requires = {'tami5/sql.nvim', opt = true},
-    opt = true,
+    requires = m{'tami5/sql.nvim'},
   },
 
-  {
+  m{
     'nvim-telescope/telescope.nvim',
     requires = {
       {'plenary.nvim'},
@@ -32,8 +37,6 @@ return {
       'telescope-symbols.nvim',
       'telescope-z.nvim',
     },
-    cmd = {'Telescope'},
-    module = {'telescope'},
 
     setup = function()
       local builtin = function(name) return require'telescope.builtin'[name] end
