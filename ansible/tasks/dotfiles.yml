@@ -54,6 +54,7 @@
     - .config/yamllint
     - .docker/config.json
     - .editrc
+    - .fdignore
     - .gitconfig
     - .gitignore-global
     - .golangci.yml
