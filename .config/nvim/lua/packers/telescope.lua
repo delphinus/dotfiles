@@ -39,8 +39,27 @@ return {
     },
 
     setup = function()
-      local builtin = function(name) return require'telescope.builtin'[name] end
+      local m = require'mappy'
+      local me = 'telescope.nvim'
+      local packer = require'packer'
+      local plugins = vim.tbl_keys(packer_plugins[me].load_after)
+
+      local loader = function()
+        local not_loaded = vim.tbl_filter(function(p)
+          return not packer_plugins[p].loaded
+        end, plugins)
+        if not packer_plugins[me].loaded then
+          table.insert(not_loaded, me)
+        end
+        packer.loader(unpack(not_loaded))
+      end
+
+      local builtin = function(name)
+        loader()
+        return require'telescope.builtin'[name]
+      end
       local extensions = function(name)
+        loader()
         return require'telescope'.load_extension(name)
       end
       local path_display = function(opts, path)
@@ -51,7 +70,6 @@ return {
         local packer_dir = home..'/.local/share/nvim/site/pack/packer'
         return path:gsub(gh_dir, '$GH'):gsub(gh_e_dir, '$GH_E'):gsub(ghq_dir, '$GIT'):gsub(packer_dir, '$PACKER'):gsub(home, '~')
       end
-      local m = require'mappy'
 
       -- Lines
       m.nnoremap('#', function()
