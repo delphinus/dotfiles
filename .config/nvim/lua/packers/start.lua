@@ -9,6 +9,7 @@ return {
       require'project_nvim'.setup{
         ignore_lsp = {'bashls', 'efm', 'tsserver'},
         patterns = {'.git'},
+        show_hidden = true,
       }
     end,
   },
