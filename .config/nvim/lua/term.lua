@@ -21,7 +21,6 @@ for map, keys in pairs{
   ['<C-q>']  = {'<A-q>', '<A-œ>'},
   ['<C-s>']  = {'<A-s>', '<A-ß>'},
   [':']      = {'<A-;>', '<A-…>'},
-  ['gt']     = {'<A-t>', '<A-†>'},
 } do
   m.rbind('t', keys, [[<C-\><C-n>]]..map)
   m.rbind('n', keys, map)

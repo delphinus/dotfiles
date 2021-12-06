@@ -526,6 +526,7 @@ return {
     'preservim/tagbar',
     event = {'FocusLost', 'CursorHold'},
     cmd = {'TagbarToggle'},
+    fn = {'tagbar#currenttag', 'tagbar#currenttagtype'},
     setup = function()
       vim.g.tagbar_autoclose = 1
       vim.g.tagbar_autofocus = 1
@@ -554,7 +555,8 @@ return {
         },
       }
 
-      require'mappy'.nmap('<C-t>', [[<Cmd>TagbarToggle<CR>]])
+      require'mappy'.nmap('<A-t>', [[<Cmd>TagbarToggle<CR>]])
+      require'mappy'.nmap('<A-†>', [[<Cmd>TagbarToggle<CR>]])
     end,
   },
   -- }}}

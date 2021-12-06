@@ -116,14 +116,21 @@ return {
         --return vim.g.goneovim == 1 and value or
           --require'artify'(value, 'monospace')
       end
-      local treesitter = function()
+      local tag = function()
         local ok, m = pcall(require, 'nvim-treesitter')
-        return ok and m.statusline{
-          separator = ' » ',
-          transform_fn = function(line)
-            return line:gsub('%s*[%[%(%{].*$', '')
-          end,
-        } or ''
+        if ok then
+          local line = m.statusline{
+            separator = ' » ',
+            transform_fn = function(line)
+              return line:gsub('%s*[%[%(%{].*$', '')
+            end,
+          }
+          if line then return line end
+        end
+        local tag = fn['tagbar#currenttag']('%s', '', 'f', 'scoped-stl')
+        local type = fn['tagbar#currenttagtype']('%s', '')
+        return tag ~= '' and type ~= ''and ('%s (%s)'):format(tag, type)
+          or '«no tag»'
       end
       require'lualine'.setup{
         extensions = {'quickfix'},
@@ -173,7 +180,7 @@ return {
           },
           lualine_c = {
             {'filename', fmt = monospace},
-            {treesitter, separator = '❘'},
+            {tag, separator = '❘'},
           },
           lualine_x = {
             {char_info, separator = '❘'},
