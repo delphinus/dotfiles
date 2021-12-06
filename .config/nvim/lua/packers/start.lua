@@ -110,28 +110,35 @@ return {
         end
         return text
       end
-      local monospace = function(value)
+
+      local function monospace(value)
         -- TODO: Disable monospace glyphs temporarily
         return value
         --return vim.g.goneovim == 1 and value or
           --require'artify'(value, 'monospace')
       end
-      local tag = function()
-        local ok, m = pcall(require, 'nvim-treesitter')
-        if ok then
-          local line = m.statusline{
-            separator = ' » ',
-            transform_fn = function(line)
-              return line:gsub('%s*[%[%(%{].*$', '')
-            end,
-          }
-          if line then return line end
-        end
-        local tag = fn['tagbar#currenttag']('%s', '', 'f', 'scoped-stl')
-        local type = fn['tagbar#currenttagtype']('%s', '')
-        return tag ~= '' and type ~= ''and ('%s (%s)'):format(tag, type)
-          or '«no tag»'
+
+      local function treesitter_tag()
+        local tag = require'nvim-treesitter'.statusline{
+          separator = ' » ',
+          transform_fn = function(t) return t:gsub('%s*[%[%(%{].*$', '') end,
+        }
+        return tag and tag ~= '' and tag or nil
       end
+
+      local function tagbar_tag()
+        local t = fn['tagbar#currenttag']('%s', '', 'f', 'scoped-stl')
+        local type = fn['tagbar#currenttagtype']('%s', '')
+        return t ~= '' and type ~= '' and ('%s (%s)'):format(t, type) or nil
+      end
+
+      local function tag()
+        local ok1, ts = pcall(treesitter_tag)
+        if ok1 and ts then return ts end
+        local ok2, tb = pcall(tagbar_tag)
+        return ok2 and tb and tb or '«no tag»'
+      end
+
       require'lualine'.setup{
         extensions = {'quickfix'},
         options = {
