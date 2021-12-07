@@ -68,7 +68,6 @@ return {
   {
     --'vim-skk/skkeleton',
     'delphinus/skkeleton',
-    branch = 'feature/zenkaku',
     event = {'InsertEnter'},
     requires = {
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
