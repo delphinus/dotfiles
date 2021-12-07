@@ -201,33 +201,6 @@ return {
     end,
   },
 
-  {
-    'kevinhwang91/nvim-hlslens',
-    config = function()
-      -- TODO: use Lua for this block
-      local do_hlslens = function(map, need_count1)
-        return function()
-          local count1 = need_count1 and (vim.v.count1 or '1') or ''
-          local ok, err = pcall(vim.cmd, 'normal! '..count1..map)
-          if ok then
-            require'hlslens'.start()
-          else
-            api.err_writeln(err)
-          end
-        end
-      end
-      local m = require'mappy'
-      m.nnoremap({'silent'}, 'n', do_hlslens('n', true))
-      m.nnoremap({'silent'}, 'N', do_hlslens('N', true))
-      m.nnoremap('g*', do_hlslens('g*', true))
-      m.nnoremap('g#', do_hlslens('g#', true))
-      -- Use with vim-visualstar
-      m.nmap('*', [[*<Cmd>lua require('hlslens').start()<CR>]])
-      -- # will be used in telescope
-      -- m.nnoremap('#', do_hlslens('#', true))
-    end,
-  },
-
   {'lambdalisue/suda.vim'},
 
   {
