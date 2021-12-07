@@ -150,12 +150,11 @@ return {
       end
       local Path = require'plenary.path'
 
-      local run_in_dir = function(prompt_bufnr, fn)
+      local run_in_dir = function(prompt_bufnr, f)
         local entry = actions_state.get_selected_entry()
         local dir = from_entry.path(entry)
         if fn.isdirectory(dir) then
-          actions.close(prompt_bufnr)
-          fn(dir)
+          f(dir)
         else
           api.echo(
             {{('This is not a directory: %s'):format(dir), 'WarningMsg'}}, true, {}
