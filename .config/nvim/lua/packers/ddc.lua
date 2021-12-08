@@ -73,7 +73,6 @@ return {
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
       {
         'delphinus/skkeleton_indicator.nvim',
-        branch = 'feature/zenkaku',
         event = {'InsertEnter'},
         config = function()
           api.exec([[
