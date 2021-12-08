@@ -258,8 +258,11 @@ return {
   },
 
   {
-    'npxbr/glow.nvim',
+    --'npxbr/glow.nvim',
+    'delphinus/glow.nvim',
+    branch = 'feature/pager',
     cmd = {'Glow', 'GlowInstall'},
+    setup = function() vim.g.glow_use_pager = true end,
   },
 
   {'powerman/vim-plugin-AnsiEsc', cmd = {'AnsiEsc'}},
