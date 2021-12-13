@@ -313,7 +313,7 @@ return {
         filterParams = {
           converter_fuzzy = { hlGroup = 'Question' },
           converter_truncate = {
-            maxAbbrWidth = 40,
+            maxAbbrWidth = 80,
             maxInfoWidth = 80,
             maxKindWidth = 10,
             maxMenuWidth = 40,
