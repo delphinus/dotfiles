@@ -170,7 +170,7 @@ return {
             },
             {
               'diagnostics',
-              sources = {'nvim'},
+              sources = {'nvim_diagnostic'},
               diagnostics_color = {
                 error = {fg = '#e5989f'},
                 warn = {fg = '#ebcb8b'},
