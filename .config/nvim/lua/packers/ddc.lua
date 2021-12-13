@@ -273,7 +273,12 @@ return {
             ignoreCase = true,
             matchers = {'matcher_fuzzy'},
             sorters = {'sorter_fuzzy'},
-            converters = {'converter_remove_overlap', 'converter_truncate', 'converter_fuzzy'},
+            converters = {
+              'converter_remove_overlap',
+              'converter_truncate',
+              'converter_fuzzy',
+              'loud',
+            },
           },
           around = {mark = 'A'},
           buffer = {mark = 'B'},
