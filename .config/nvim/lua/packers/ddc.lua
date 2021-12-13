@@ -1,40 +1,43 @@
-return {
-  {'LumaKernel/ddc-registers-words', event = {'InsertEnter'}},
-  {'delphinus/ddc-tmux', event = {'InsertEnter'}},
-  {'delphinus/ddc-ctags', event = {'InsertEnter'}},
-  {'delphinus/ddc-treesitter', event = {'InsertEnter'}},
-  {'Shougo/ddc-around', event = {'InsertEnter'}},
-  {'Shougo/ddc-cmdline-history', event = {'InsertEnter'}},
-  {'Shougo/ddc-converter_remove_overlap', event = {'InsertEnter'}},
-  {'Shougo/ddc-line', event = {'InsertEnter'}},
-  {'Shougo/ddc-matcher_head', event = {'InsertEnter'}},
-  --{'Shougo/ddc-nextword', event = {'InsertEnter'}},
-  {'Shougo/ddc-nvim-lsp', event = {'InsertEnter'}},
-  {'Shougo/ddc-rg', event = {'InsertEnter'}},
-  {'Shougo/ddc-sorter_rank', event = {'InsertEnter'}},
-  {'Shougo/neco-vim', event = {'InsertEnter'}},
-  {'matsui54/ddc-buffer', event = {'InsertEnter'}},
-  {'matsui54/ddc-converter_truncate', event = {'InsertEnter'}},
-  --{'matsui54/ddc-filter_editdistance', event = {'InsertEnter'}},
-  {'octaltree/cmp-look', event = {'InsertEnter'}},
-  {'tani/ddc-fuzzy', event = {'InsertEnter'}},
-  {'tani/ddc-git', event = {'InsertEnter'}},
-  {'tani/ddc-oldfiles', event = {'InsertEnter'}},
-  {'tani/ddc-path', event = {'InsertEnter'}},
-  {'vim-denops/denops.vim', event = {'InsertEnter'}},
+local function p(plugin)
+  plugin.event = {'InsertEnter'}
+  return plugin
+end
 
-  {
+return {
+  p{'LumaKernel/ddc-registers-words'},
+  p{'delphinus/ddc-tmux'},
+  p{'delphinus/ddc-ctags'},
+  p{'delphinus/ddc-treesitter'},
+  p{'Shougo/ddc-around'},
+  p{'Shougo/ddc-cmdline-history'},
+  p{'Shougo/ddc-converter_remove_overlap'},
+  p{'Shougo/ddc-line'},
+  p{'Shougo/ddc-matcher_head'},
+  --p{'Shougo/ddc-nextword'},
+  p{'Shougo/ddc-nvim-lsp'},
+  p{'Shougo/ddc-rg'},
+  p{'Shougo/ddc-sorter_rank'},
+  p{'Shougo/neco-vim'},
+  p{'matsui54/ddc-buffer'},
+  p{'matsui54/ddc-converter_truncate'},
+  --{'matsui54/ddc-filter_editdistance'},
+  p{'octaltree/cmp-look'},
+  p{'tani/ddc-fuzzy'},
+  p{'tani/ddc-git'},
+  p{'tani/ddc-oldfiles'},
+  p{'tani/ddc-path'},
+  p{'vim-denops/denops.vim'},
+
+  p{
     'Shougo/echodoc.vim',
-    event = {'InsertEnter'},
     setup = function()
       vim.g['echodoc#enable_at_startup'] = 1
       vim.g['echodoc#type'] = 'virtual_lines'
     end,
   },
 
-  {
+  p{
     'Shougo/pum.vim',
-    event = {'InsertEnter'},
     config = function()
       fn['pum#set_option']{
         winblend = 10,
@@ -42,9 +45,8 @@ return {
     end,
   },
 
-  {
+  p{
     'matsui54/denops-popup-preview.vim',
-    event = {'InsertEnter'},
     after = {'denops.vim'},
     setup = function()
       vim.g.popup_preview_config = {
@@ -57,18 +59,16 @@ return {
     end,
   },
 
-  {
+  p{
     'ncm2/float-preview.nvim',
-    event = {'InsertEnter'},
     config = function()
       vim.g['float_preview#docked'] = 1
     end,
   },
 
-  {
+  p{
     --'vim-skk/skkeleton',
     'delphinus/skkeleton',
-    event = {'InsertEnter'},
     requires = {
       {'vim-denops/denops.vim', event = {'InsertEnter'}},
       {
@@ -180,9 +180,8 @@ return {
     end,
   },
 
-  {
+  p{
     'Shougo/ddc.vim',
-    event = {'InsertEnter'},
     --keys = {{'n', ':'}},
     fn = {
       'ddc#custom#get_buffer',
