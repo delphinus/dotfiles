@@ -192,6 +192,8 @@ return {
               ['<C-u>'] = preview_scroll(-3),
               ['<C-f>'] = preview_scroll(30),
               ['<C-b>'] = preview_scroll(-30),
+              -- https://github.com/nvim-telescope/telescope.nvim/issues/1579
+              ['<C-w>'] = function() vim.cmd[[normal! bcw]] end,
             },
             n = {
               ['<C-a>'] = run_find_files,
