@@ -678,7 +678,7 @@ return {
           javascript = {prettier, eslint},
           typescript = {prettier, eslint},
           json = {exe = 'jq', args = {'.'}, stdin = true},
-          lua = {exe = 'luafmt', args = {'-i', '2'}, stdin = true},
+          lua = {exe = 'luafmt', args = {'-i', '2', '--stdin'}, stdin = true},
           go = {
             function() return {exe = 'golines', args = {'-w'}, stdin = false} end,
             function() return {exe = 'gofumpt', args = {'-w'}, stdin = false} end,
