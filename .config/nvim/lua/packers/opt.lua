@@ -214,7 +214,7 @@ return {
         local apinames = fn['gista#client#get_available_apinames']()
         for _, n in ipairs(apinames) do
           if n == 'GHE' then
-            im.fn['gista#client#register'](n, vim.g.gista_github_api_path)
+            fn['gista#client#register'](n, vim.g.gista_github_api_path)
             break
           end
         end
@@ -284,7 +284,7 @@ return {
     cmd = {'GHPRBlame'},
     config = function()
       local settings = loop.os_homedir()..'/.ghpr-blame.vim'
-      if im.fn.filereadable(settings) == 1 then
+      if fn.filereadable(settings) == 1 then
         vim.cmd('source '..settings)
         -- TODO: mappings for VV
         vim.g.ghpr_show_pr_mapping = '<A-g>'
