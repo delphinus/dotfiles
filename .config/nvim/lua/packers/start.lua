@@ -208,6 +208,7 @@ return {
     config = function()
       local notify = require'notify'
       notify.setup{
+        render = 'minimal',
         on_open = function(win)
           api.win_set_config(win, {focusable = false})
         end,
