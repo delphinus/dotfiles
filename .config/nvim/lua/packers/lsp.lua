@@ -55,12 +55,12 @@ return {
           -- ignore errors when executed multi times
           m.add_buffer_maps(function()
             m.bind('n', {'<A-J>', '<A-S-Ô>'}, function()
-              vim.lsp.diagnostic.goto_next{
+              vim.diagnostic.goto_next{
                 popup_opts = {border = border},
               }
             end)
             m.bind('n', {'<A-K>', '<A-S->'}, function()
-              vim.lsp.diagnostic.goto_prev{
+              vim.diagnostic.goto_prev{
                 popup_opts = {border = border},
               }
             end)
