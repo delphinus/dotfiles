@@ -206,16 +206,11 @@ return {
   {
     'rcarriga/nvim-notify',
     config = function()
-      local stages = require'notify.stages'.fade_in_slide_out
-      local orig1 = stages[1]
-      stages[1] = function(state)
-        local opts = orig1(state)
-        opts.focusable = false
-        return opts
-      end
       local notify = require'notify'
       notify.setup{
-        stages = stages,
+        on_open = function(win)
+          api.win_set_config(win, {focusable = false})
+        end,
       }
       vim.notify = notify
     end,
