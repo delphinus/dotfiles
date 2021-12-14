@@ -9,12 +9,12 @@ return {
     config = function()
       local m = require'mappy'
 
-      api.exec([[
+      vim.cmd[[
         sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
         sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
         sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
         sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
-      ]], false)
+      ]]
 
       function _G.ShowLSPSettings()
         print(vim.inspect(vim.lsp.buf_get_clients()))
@@ -24,12 +24,12 @@ return {
         vim.cmd[[edit]]
       end
 
-      api.exec([[
+      vim.cmd[[
         hi LspBorderTop guifg=#5d9794 guibg=#2e3440
         hi LspBorderLeft guifg=#5d9794 guibg=#3b4252
         hi LspBorderRight guifg=#5d9794 guibg=#3b4252
         hi LspBorderBottom guifg=#5d9794 guibg=#2e3440
-      ]], false)
+      ]]
       local border = {
         {'⣀', 'LspBorderTop'},
         {'⣀', 'LspBorderTop'},

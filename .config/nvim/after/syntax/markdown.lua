@@ -1,3 +1,3 @@
-api.exec([[
+vim.cmd[[
   highlight def link markdownError NONE
-]], false)
+]]

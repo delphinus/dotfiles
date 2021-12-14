@@ -16,7 +16,7 @@ return {
       require'agrp'.set{
         nord_overrides = {
           {'ColorScheme', 'nord', function()
-            api.exec([[
+            vim.cmd[[
               hi Comment guifg=#72809a gui=italic
               hi Delimiter guifg=#81A1C1
               hi Constant guifg=#d8dee9 gui=italic
@@ -25,10 +25,10 @@ return {
               hi Special guifg=#D08770
               hi Title gui=bold cterm=bold
               hi PmenuSel blend=0
-            ]], false)
+            ]]
 
             -- for gitsigns
-            api.exec([[
+            vim.cmd[[
               hi GitSignsAdd guifg=#a3be8c
               hi GitSignsChange guifg=#ebcb8b
               hi GitSignsDelete guifg=#bf616a
@@ -36,16 +36,16 @@ return {
               hi GitSignsAddLn guibg=#183203
               hi GitSignsChangeLn guibg=#432d00
               hi GitSignsDeleteLn guibg=#52050c
-            ]], false)
+            ]]
 
             -- for visual-eof.lua
-            api.exec([[
+            vim.cmd[[
               hi VisualEOL   guifg=#a3be8c
               hi VisualNoEOL guifg=#bf616a
-            ]], false)
+            ]]
 
             -- Neovim specific
-            api.exec([[
+            vim.cmd[[
               hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
               hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
               hi TSCurrentScope guibg=#313743
@@ -64,7 +64,7 @@ return {
               hi DiagnosticUnderlineWarn guisp=#d08770
               hi DiagnosticUnderlineInfo guisp=#8fbcbb
               hi DiagnosticUnderlineHint guisp=#616e88
-            ]], false)
+            ]]
 
             -- for virt-column.nvim
             vim.cmd[[
@@ -770,11 +770,11 @@ return {
         end)
       end
       vim.g.committia_hooks = vim.empty_dict()
-      api.exec([[
+      vim.cmd[[
         function! g:committia_hooks.edit_open(info)
           call luaeval('committia_hook_edit_open(_A)', a:info)
         endfunction
-      ]], false)
+      ]]
     end,
   },
 
@@ -941,11 +941,11 @@ return {
         hop.hint_lines{direction = direction.BEFORE_CURSOR}
       end)
       if vim.opt.background:get() == 'dark' then
-        api.exec([[
+        vim.cmd[[
           hi HopNextKey guifg=#bf616a
           hi HopNextKey1 guifg=#88c0d0
           hi HopNextKey2 guifg=#5e81ac
-        ]], false)
+        ]]
       end
     end,
   },
@@ -1096,7 +1096,7 @@ return {
       end)
     end,
     config = function()
-      api.exec([[
+      vim.cmd[[
         hi WinBorderTop guifg=#ebf5f5 blend=30
         hi WinBorderLeft guifg=#c2dddc blend=30
         hi WinBorderRight guifg=#8fbcba blend=30
@@ -1104,7 +1104,7 @@ return {
         hi WinBorderLight guifg=#c2dddc guibg=#5d9794 blend=30
         hi WinBorderDark guifg=#5d9794 guibg=#c2dddc blend=30
         hi WinBorderTransparent guibg=#111a2c
-      ]], false)
+      ]]
     end,
   },
   -- }}}

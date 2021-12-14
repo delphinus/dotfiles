@@ -325,10 +325,10 @@ require'agrp'.set{filetypedetect = {['BufNewFile,BufRead'] = groups}}
 
 -- Use the filetype detect plugins.  They may overrule any of the previously
 -- detected filetypes.
-api.exec([[
+vim.cmd[[
   runtime! ftdetect/*.vim
   runtime! ftdetect/*.lua
-]], false)
+]]
 
 -- TODO: is this needed?
 --[[

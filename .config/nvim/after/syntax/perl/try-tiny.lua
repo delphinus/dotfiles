@@ -3,8 +3,8 @@
 -- Installation: Put into after/syntax/perl/try-tiny.vim
 
 -- XXX include guard
-api.exec([[
+vim.cmd[[
   syntax match perlStatementProc "\<\%(try\|catch\|finally\)\>"
-]], false)
+]]
 
 -- XXX catch instances where you forget the semicolon after the closing brace?

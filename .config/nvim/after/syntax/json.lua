@@ -1,5 +1,5 @@
 -- TODO: temporal workaround to un-syntax Error on comments
-api.exec([[
+vim.cmd[[
   syntax match jsonCommentError "\/\*\(\*\(\/\)\@!\|\_[^*]\)*\*\/"
   highlight! def link jsonCommentError Comment
-]], false)
+]]

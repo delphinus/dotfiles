@@ -139,10 +139,10 @@ vim.cmd('colorscheme '..scheme)
 -- Title {{{
 if vim.env.TMUX then
   -- TODO: vim.opt has no options below?
-  api.exec([[
+  vim.cmd[[
     let &t_ts = 'k'
     let &t_fs = '\\'
-  ]], false)
+  ]]
 end
 vim.opt.title = true
 local home_re = loop.os_homedir():gsub('%.', '%.')
@@ -245,13 +245,13 @@ end
 -- for VV {{{
 if vim.g.vv then
   vim.opt.shell = '/usr/local/bin/fish'
-  api.exec([[
+  vim.cmd[[
     VVset fontfamily=SF\ Mono\ Square
     VVset fontsize=16
     VVset lineheight=1.0
     VVset width=1280
     VVset height=1280
-  ]], false)
+  ]]
 end
 -- }}}
 
