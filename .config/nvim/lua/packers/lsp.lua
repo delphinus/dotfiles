@@ -316,6 +316,7 @@ return {
           -- These are needed for formatter.nvim
           vim.cmd[[!go get -u github.com/segmentio/golines]]
           vim.cmd[[!go get -u mvdan.cc/gofumpt]]
+          vim.cmd[[!npm i -g lua-fmt]]
 
           -- metals is installed by cs (coursier)
         end)
