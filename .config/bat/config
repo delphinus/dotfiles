@@ -5,3 +5,5 @@
 --map-syntax='aliases:TOML'
 --map-syntax='cpanfile:Perl'
 --map-syntax='cpanfile.snapshot:YAML'
+--style='changes,snip'
+--paging=always
