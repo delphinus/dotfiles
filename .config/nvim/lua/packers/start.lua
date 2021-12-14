@@ -209,6 +209,7 @@ return {
       local notify = require'notify'
       notify.setup{
         render = 'minimal',
+        background_colour = '#3b4252',
         on_open = function(win)
           api.win_set_config(win, {focusable = false})
         end,
