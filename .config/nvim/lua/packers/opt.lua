@@ -59,11 +59,11 @@ return {
               hi DiagnosticError guifg=#bf616a
               hi DiagnosticWarn guifg=#D08770
               hi DiagnosticInfo guifg=#8fbcbb
-              hi DiagnosticHint guifg=#616e88
+              hi DiagnosticHint guifg=#4c566a
               hi DiagnosticUnderlineError guisp=#bf616a
               hi DiagnosticUnderlineWarn guisp=#d08770
               hi DiagnosticUnderlineInfo guisp=#8fbcbb
-              hi DiagnosticUnderlineHint guisp=#616e88
+              hi DiagnosticUnderlineHint guisp=#4c566a
             ]]
 
             -- for virt-column.nvim
