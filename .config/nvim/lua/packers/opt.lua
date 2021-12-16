@@ -25,6 +25,8 @@ return {
               hi Special guifg=#D08770
               hi Title gui=bold cterm=bold
               hi PmenuSel blend=0
+              hi markdownH1 gui=bold
+              hi! link Title markdownH1
             ]]
 
             -- for gitsigns
