@@ -142,6 +142,10 @@ if vim.env.TMUX then
   vim.cmd[[
     let &t_ts = 'k'
     let &t_fs = '\\'
+    " undercurl
+    let &t_Cs = "\e[4:3m"
+    let &t_Ce = "\e[4:0m"
+
   ]]
 end
 vim.opt.title = true
