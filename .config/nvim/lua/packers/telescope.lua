@@ -1,6 +1,6 @@
 local m = function(def)
   def.cmd = {'Telescope'}
-  def.module = {'telescope'}
+  def.module_pattern = {'telescope.*'}
   return def
 end
 
@@ -137,6 +137,11 @@ return {
       m.nnoremap('<Leader>gb', function() builtin'git_bcommits'{} end)
       m.nnoremap('<Leader>gr', function() builtin'git_branches'{} end)
       m.nnoremap('<Leader>gs', function() builtin'git_status'{} end)
+
+      -- Copied from telescope.nvim
+      m.cnoremap({'silent'}, '<A-r>', [[<C-\>e ]] +
+        [["lua require'telescope.builtin'.command_history{]] +
+        [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]])
     end,
 
     config = function()
