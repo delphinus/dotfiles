@@ -139,8 +139,8 @@ return {
       m.nnoremap('<Leader>gs', function() builtin'git_status'{} end)
 
       -- Copied from telescope.nvim
-      m.cnoremap({'silent'}, '<A-r>', [[<C-\>e ]] +
-        [["lua require'telescope.builtin'.command_history{]] +
+      m.cnoremap({'silent'}, '<A-r>', [[<C-\>e ]]..
+        [["lua require'telescope.builtin'.command_history{]]..
         [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]])
     end,
 
