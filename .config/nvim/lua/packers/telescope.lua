@@ -193,10 +193,8 @@ return {
               ['<C-s>'] = actions.select_horizontal,
               ['<C-n>'] = actions.cycle_history_next,
               ['<C-p>'] = actions.cycle_history_prev,
-              ['<C-d>'] = preview_scroll(3),
-              ['<C-u>'] = preview_scroll(-3),
-              ['<C-f>'] = preview_scroll(30),
-              ['<C-b>'] = preview_scroll(-30),
+              ['<C-d>'] = actions.preview_scrolling_up,
+              ['<C-u>'] = actions.preview_scrolling_down,
               -- https://github.com/nvim-telescope/telescope.nvim/issues/1579
               ['<C-w>'] = function() vim.cmd[[normal! bcw]] end,
             },
@@ -211,6 +209,9 @@ return {
               ['<C-d>'] = preview_scroll(3),
               ['<C-u>'] = preview_scroll(-3),
             },
+          },
+          layout_config = {
+            scroll_speed = 3,
           },
           vimgrep_arguments = {
             'pt',
