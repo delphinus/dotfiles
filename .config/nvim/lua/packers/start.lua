@@ -86,11 +86,11 @@ return {
       {'kyazdani42/nvim-web-devicons', opt = true},
     },
     config = function()
-      require'agrp'.set{
-         redraw_tabline = {
-            {'CursorMoved', '*', 'redrawtabline'},
-         },
-      }
+      vim.loop.new_timer():start(
+        0,  -- never timeout
+        500,  -- repeat every 500 ms
+        vim.schedule_wrap(function() vim.cmd[[redrawtabline]] end)
+      )
 
       local characterize = require'characterize'
       local function char_info()
