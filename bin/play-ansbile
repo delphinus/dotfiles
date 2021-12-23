@@ -1,0 +1,5 @@
+#!/bin/bash -eux
+cd ~/git/dotfiles/ansible
+sops -d vars/encrypted.secrets.yml > vars/secrets.yml
+ansible-playbook -c local ~/git/dotfiles/ansible/local_light.yml
+rm vars/secrets.yml
