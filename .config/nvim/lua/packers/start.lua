@@ -284,51 +284,6 @@ return {
     end,
   },
 
-  {
-    'delphinus/dwm.nvim',
-    config = function()
-      local dwm = require'dwm'
-      dwm.setup{
-        key_maps = false,
-        master_pane_count = 1,
-        master_pane_width = '60%',
-      }
-      dwm.map('<C-j>', '<C-w>w')
-      dwm.map('<C-k>', '<C-w>W')
-      dwm.map('<A-CR>', dwm.focus)
-      dwm.map('<C-@>', dwm.focus)
-      dwm.map('<C-Space>', dwm.focus)
-      dwm.map('<C-l>', dwm.grow)
-      dwm.map('<C-h>', dwm.shrink)
-      dwm.map('<C-n>', dwm.new)
-      dwm.map('<C-q>', dwm.rotateLeft)
-      dwm.map('<C-s>', dwm.rotate)
-      dwm.map('<C-c>', function()
-        -- TODO: copied logic from require'scrollbar'.clear
-        local state = vim.b.scrollbar_state
-        if state and state.winnr then
-          local ok = pcall(api.win_close, state.winnr, true)
-          if not ok then
-            api.echo({
-              {'cannot found scrollbar win: '..state.winnr, 'WarningMsg'},
-            }, true, {})
-          end
-          vim.b.scrollbar_state = {size = state.size, bufnr = state.bufnr}
-        end
-        dwm.close()
-      end)
-
-      require'agrp'.set{
-        dwm_preview = {
-          {'BufRead', '*', function()
-            -- TODO: vim.opt has no 'previewwindow'?
-            if vim.wo.previewwindow then vim.b.dwm_disabled = 1 end
-          end},
-        },
-      }
-    end,
-  },
-
   {'folke/todo-comments.nvim'},
   -- }}}
 }
