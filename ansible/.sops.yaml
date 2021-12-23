@@ -1,0 +1,4 @@
+---
+creation_rules:
+  - path_regex: secrets\.yml$
+    gcp_kms: projects/delphinus-dev/locations/asia-northeast1/keyRings/delphinus/cryptoKeys/delphinus
