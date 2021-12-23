@@ -179,11 +179,7 @@ test -d $gcsdk_path; and source "$gcsdk_path/path.fish.inc"
 
 type -q direnv;    and direnv hook fish | source
 type -q gosshauth; and gosshauth hook fish | source
-type -q plenv;     and plenv init - --no-rehash | source
-type -q goenv;     and goenv init - --no-rehash | source
-type -q nodenv;    and nodenv init - --no-rehash | source
-type -q rbenv;     and rbenv init - --no-rehash | source
-type -q luaenv;    and luaenv init - --no-rehash | source
+type -q asdf;      and source /usr/local/opt/asdf/libexec/asdf.fish
 
 if type -q luarocks
   set path (type -P luarocks)

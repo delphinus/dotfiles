@@ -36,6 +36,7 @@
     state=link
     force=yes
   with_items:
+    - .asdfrc
     - .config/bat/config
     - .config/bpytop/bpytop.conf
     - .config/direnv/direnvrc
