@@ -171,7 +171,6 @@ return {
         skkeleton_karabiner_elements = {
           {'InsertEnter,CmdlineEnter', '*', set_karabiner(1)},
           {'InsertLeave,CmdlineLeave,FocusLost', '*', set_karabiner(0)},
-          {'FocusLost', '*', set_karabiner(0)},
           {'FocusGained', '*', function()
             local val = fn.mode():match'[icrR]' and 1 or 0
             set_karabiner(val)()
