@@ -147,7 +147,6 @@ return {
       end
 
       local prev_buffer_config
-      local pum_close_timer
       require'agrp'.set{
         skkeleton_callbacks = {
           {'User', 'skkeleton-enable-pre', function()
@@ -157,14 +156,8 @@ return {
               completionMenu = 'native',
               sources = {'skkeleton'},
             }
-            -- TODO: Close popups from pum.vim repeatedly because they
-            -- overrides ones from skkeleton.
-            pum_close_timer = fn.timer_start(100, function()
-              if fn['pum#visible']() == 1 then fn['pum#close']() end
-            end, {['repeat'] = -1})
           end},
           {'User', 'skkeleton-disable-pre', function()
-            fn.timer_stop(pum_close_timer)
             fn['ddc#custom#set_buffer'](prev_buffer_config)
           end},
         },
