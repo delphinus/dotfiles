@@ -60,7 +60,9 @@ return {
       end
       local extensions = function(name)
         loader()
-        return require'telescope'.load_extension(name)
+        local telescope = require'telescope'
+        telescope.load_extension(name)
+        return telescope.extensions[name]
       end
       local path_display = function(opts, path)
         local home = '^'..loop.os_homedir()
@@ -150,9 +152,6 @@ return {
       local telescope = require'telescope'
       local from_entry = require'telescope.from_entry'
       local builtin = function(name) return require'telescope.builtin'[name] end
-      local extensions = function(name)
-        return require'telescope'.load_extension(name)
-      end
       local Path = require'plenary.path'
 
       local run_in_dir = function(prompt_bufnr, f)
@@ -241,11 +240,11 @@ return {
       }
       -- This is needed to setup telescope-fzf-native. It overrides the sorters
       -- in this.
-      extensions'fzf'
+      telescope.load_extension'fzf'
       -- This is needed to setup telescope-smart-history.
-      extensions'smart_history'
+      telescope.load_extension'smart_history'
       -- This is needed to setup projects.nvim
-      extensions'projects'
+      telescope.load_extension'projects'
     end,
   }
 }
