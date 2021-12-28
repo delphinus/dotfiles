@@ -70,7 +70,12 @@ return {
         local gh_e_dir = home..'/git/'..vim.g.gh_e_host
         local ghq_dir = home..'/git'
         local packer_dir = home..'/.local/share/nvim/site/pack/packer'
-        return path:gsub(gh_dir, '$GH'):gsub(gh_e_dir, '$GH_E'):gsub(ghq_dir, '$GIT'):gsub(packer_dir, '$PACKER'):gsub(home, '~')
+        return path
+          :gsub(gh_dir, '$GH')
+          :gsub(gh_e_dir, '$GH_E')
+          :gsub(ghq_dir, '$GIT')
+          :gsub(packer_dir, '$PACKER')
+          :gsub(home, '~')
       end
 
       -- Lines
