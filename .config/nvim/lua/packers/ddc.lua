@@ -343,7 +343,7 @@ return {
       })
       require'agrp'.set{
         ddc_ready = {
-          {'User', 'DenopsReady', fn['ddc#enable']},
+          {'User', 'DenopsReady', {'once'}, fn['ddc#enable']},
         },
       }
       local m = require'mappy'
