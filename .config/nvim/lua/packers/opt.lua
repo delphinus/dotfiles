@@ -349,24 +349,26 @@ return {
     'yuki-yano/fuzzy-motion.vim',
     setup = function()
       -- TODO: This fails when fuzzy-motion and/or denops has not been loaded>
-      local cmd = ':FuzzyMotion'
+      local cmd = 'FuzzyMotion'
       require'mappy'.nnoremap('s', function()
-        if fn.exists(cmd) then
+        if api.get_commands{builtin = false}[cmd] then
           vim.cmd(cmd)
-        else
-          require'packer'.loader'fuzzy-motion.vim'
-          local denops_ready = vim.g.loaded_denops
-            and fn['denops#server#status']() == 'running'
-          if denops_ready then
-            vim.cmd[[FuzzyMotion]]
-          else
-            require'agrp'.set{
-              start_fuzzy_motion = {
-                {'User', 'DenopsReady', {'once'}, 'FuzzyMotion'},
-              },
-            }
-          end
+          return
         end
+        require'packer'.loader('fuzzy-motion.vim', 'denops.vim')
+        require'agrp'.set{
+          fuzzy_motion_ready = {
+            {'User', 'DenopsReady', {'once'}, function()
+              local t
+              t = fn.timer_start(50, function()
+                if api.get_commands{builtin = false}[cmd] then
+                  fn.timer_stop(t)
+                  vim.cmd(cmd)
+                end
+              end, {['repeat'] = -1})
+            end}
+          }
+        }
       end)
     end,
   },
