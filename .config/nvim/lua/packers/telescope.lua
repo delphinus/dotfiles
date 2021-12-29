@@ -197,8 +197,8 @@ return {
               ['<C-s>'] = actions.select_horizontal,
               ['<C-n>'] = actions.cycle_history_next,
               ['<C-p>'] = actions.cycle_history_prev,
-              ['<C-d>'] = actions.preview_scrolling_up,
-              ['<C-u>'] = actions.preview_scrolling_down,
+              ['<C-d>'] = actions.preview_scrolling_down,
+              ['<C-u>'] = actions.preview_scrolling_up,
               -- https://github.com/nvim-telescope/telescope.nvim/issues/1579
               ['<C-w>'] = function() vim.cmd[[normal! bcw]] end,
             },
