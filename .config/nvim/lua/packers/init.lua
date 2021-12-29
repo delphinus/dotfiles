@@ -1,21 +1,53 @@
-function _G.run_packer(method, opts)
-  vim.cmd[[packadd packer.nvim]]
-  require'packers.load'[method](opts)
+local function run_packer(method, opts)
+  return function(opts) require'packers.load'[method](opts) end
 end
 
-vim.cmd[[command! PackerInstall lua run_packer'install']]
-vim.cmd[[command! PackerUpdate  lua run_packer'update']]
-vim.cmd[[command! PackerSync    lua run_packer'sync']]
-vim.cmd[[command! PackerClean   lua run_packer'clean']]
-vim.cmd[[command! -nargs=* PackerCompile lua run_packer('compile', <q-args>)]]
-vim.cmd[[command! PackerProfile lua run_packer'profile_output']]
+api.add_user_command('PackerInstall', run_packer'install', {
+  desc = '[Packer] Install plugins',
+})
+api.add_user_command('PackerUpdate', run_packer'update', {
+  desc = '[Packer] Update plugins',
+})
+api.add_user_command('PackerClean', run_packer'clean', {
+  desc = '[Packer] Clean plugins',
+})
+api.add_user_command('PackerProfile', run_packer'profile_output', {
+  desc = '[Packer] Output plugins profile',
+})
+api.add_user_command('PackerStatus', run_packer'status', {
+  desc = '[Packer] Output plugins status',
+})
+api.add_user_command(
+  'PackerSync',
+  function()
+    vim.notify'Sync started'
+    run_packer'sync'()
+  end,
+  {desc = '[Packer] Sync plugins'}
+)
+api.add_user_command(
+  'PackerCompile',
+  function()
+    vim.notify'Compile started'
+    run_packer'compile'()
+  end,
+  {desc = '[Packer] Compile plugins'}
+)
+api.add_user_command(
+  'PackerLoad',
+  function(opts)
+    local args = vim.split(opts.args, ' ')
+    table.insert(args, opts.bang)
+    require'packers.load'.loader(unpack(args))
+  end,
+  {
+    bang = true,
+    complete = function() return require'packers.load'.loader_complete() end,
+    desc = '[Packer] Load plugins',
+    nargs = '+',
+  }
+)
 
 local m = require'mappy'
-m.nnoremap('<Leader>ps', function()
-  vim.notify'Sync started'
-  _G.run_packer'sync'
-end)
-m.nnoremap('<Leader>po', function()
-  vim.notify'Compile started'
-  _G.run_packer'compile'
-end)
+m.nnoremap('<Leader>ps', '<Cmd>PackerSync<CR>')
+m.nnoremap('<Leader>po', '<Cmd>PackerCompile<CR>')
