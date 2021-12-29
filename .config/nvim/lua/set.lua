@@ -103,19 +103,21 @@ vim.opt.mouse = 'a'
 vim.opt.termguicolors = true
 vim.cmd'syntax enable'
 
-function _G.toggle_colorscheme()
-  local scheme
-  if vim.opt.background:get() == 'light' then
-    vim.opt.background = 'dark'
-    scheme = 'nord'
-  else
-    vim.opt.background = 'light'
-    scheme = 'solarized8'
-  end
-  vim.cmd('colorscheme '..scheme)
-end
-
-vim.cmd'command! ToggleColorscheme lua toggle_colorscheme()'
+api.add_user_command(
+  'ToggleColorscheme',
+  function()
+    local scheme
+    if vim.opt.background:get() == 'light' then
+      vim.opt.background = 'dark'
+      scheme = 'nord'
+    else
+      vim.opt.background = 'light'
+      scheme = 'solarized8'
+    end
+    vim.cmd('colorscheme '..scheme)
+  end,
+  {desc = 'Toggle colorscheme between nord and solarized8'}
+)
 
 -- Use Solarized Light when iTerm2 reports 11;15 for $COLORFGBG
 local is_light = vim.env.COLORFGBG == '11;15'

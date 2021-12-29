@@ -1,6 +1,5 @@
 local m = require'mappy'
 
--- echo syntax highlight information on the cursor
 -- http://cohama.hateblo.jp/entry/2013/08/11/020849
 local function get_syn(transparent)
   local synid = fn.synID(fn.line'.', fn.col'.', 1)
@@ -24,46 +23,67 @@ local function syn_string(syn)
   return table.concat(values, ' ')
 end
 
-function _G.SyntaxInfo()
-  print(syn_string(get_syn()))
-  print'linked_to'
-  print(syn_string(get_syn(true)))
-end
+api.add_user_command(
+  'SyntaxInfo',
+  function()
+    print(syn_string(get_syn()))
+    print'linked_to'
+    print(syn_string(get_syn(true)))
+  end,
+  {desc = 'Show syntax highlight information on the cursor'}
+)
 
 -- https://github.com/arcticicestudio/nord-vim/issues/242#issuecomment-761756223
-function _G.SynStack()
-  if fn.exists'*synstack' then
-    local stacks = fn.synstack(fn.line'.', fn.col'.')
-    local attrs = fn.tbl_map(function(stack)
-      return fn.synIDattr(stack, 'name')
-    end, stacks)
-    vim.inspect(attrs)
-  end
-end
+api.add_user_command(
+  'SynStack',
+  function()
+    if fn.exists'*synstack' then
+      local stacks = fn.synstack(fn.line'.', fn.col'.')
+      local attrs = vim.tbl_map(function(stack)
+        return fn.synIDattr(stack, 'name')
+      end, stacks)
+      print(vim.inspect(attrs))
+    end
+  end,
+  {desc = 'Show syntax highlight stack'}
+)
 
--- clean up result of `--startuptime`
-function _G.CleanUpStartUpTime()
-  -- TODO: use Lua
-  vim.env.PACKER = fn.stdpath'data'..'/site/pack/packer'
-  vim.cmd('silent! %s,'..fn.expand'$VIMRUNTIME'..',$VIMRUNTIME,')
-  vim.cmd('silent! %s,'..fn.resolve(fn.expand'$VIMRUNTIME')..',$VIMRUNTIME,')
-  vim.cmd('silent! %s,'..fn.expand'$VIM'..',$VIM,')
-  vim.cmd('silent! %s,'..fn.resolve(fn.expand'$VIM')..',$VIM,')
-  vim.cmd('silent! %s,'..vim.env.PACKER..',$PACKER,')
-  vim.cmd('silent! %s,'..loop.os_homedir()..[[,\~,]])
-end
+api.add_user_command(
+  'CleanUpStartUpTime',
+  function()
+    -- TODO: use Lua
+    vim.env.PACKER = fn.stdpath'data'..'/site/pack/packer'
+    local funcs = vim.tbl_map(
+      function(v) return ('silent! %%s,%s,%s'):format(v.before, v.after) end,
+      {
+        {before = fn.expand'$VIMRUNTIME', after = '$VIMRUNTIME'},
+        {before = fn.resolve(fn.expand'$VIMRUNTIME'), after = '$VIMRUNTIME'},
+        {before = fn.expand'$VIM', after = '$VIM'},
+        {before = fn.resolve(fn.expand'$VIM'), after = '$VIM'},
+        {before = vim.env.PACKER, after = '$PACKER'},
+        {before = loop.os_homedir(), after = [[\~]]},
+      }
+    )
+    vim.cmd(table.concat(funcs, '\n'))
+  end,
+  {desc = 'Clean up --startuptime result'}
+)
 
 -- echo a string for map definitions from an input key
-function _G.GetChar()
-  -- TODO: does not redraw??
-  vim.cmd[[redraw]]
-  print'Press any key:'
-  local c = fn.getchar()
-  while c == [[\<CursorHold]] do
+api.add_user_command(
+  'GetChar',
+  function()
+    -- TODO: does not redraw??
     vim.cmd[[redraw]]
     print'Press any key:'
-    c = fn.getchar()
-  end
-  vim.cmd[[redraw]]
-  print(([[Raw: '%s' | Char: '%s']]):format(c, fn.nr2char(c)))
-end
+    local c = fn.getchar()
+    while c == [[\<CursorHold]] do
+      vim.cmd[[redraw]]
+      print'Press any key:'
+      c = fn.getchar()
+    end
+    vim.cmd[[redraw]]
+    print(([[Raw: '%s' | Char: '%s']]):format(c, fn.nr2char(c)))
+  end,
+  {desc = 'Echo a string for map definitions from an input key'}
+)
