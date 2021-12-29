@@ -23,6 +23,7 @@ return {
   'delphinus/agrp.nvim',
   'delphinus/artify.nvim',
   'delphinus/mappy.nvim',
+  'delphinus/f_meta.nvim',
 
   {
     'delphinus/characterize.nvim',
