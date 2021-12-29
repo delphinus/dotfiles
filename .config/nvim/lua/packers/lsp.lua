@@ -208,60 +208,54 @@ return {
           },
         },
 
-        sumneko_lua = (function()
-          local sumneko_root_path = loop.os_homedir()..'/git/github.com/sumneko/lua-language-server'
-          local sumneko_binary = ('%s/bin/%s/lua-language-server'):format(
-            sumneko_root_path,
-            loop.os_uname().sysname == 'Darwin' and 'macOS' or 'Linux'
-          )
-          return {
-            on_attach = lsp_on_attach(),
-            cmd = {sumneko_binary, '-E', sumneko_root_path..'/main.lua'},
-            settings = {
-              Lua = {
-                runtime = {
-                  version = 'LuaJIT',
-                  path = vim.split(package.path, ';'),
-                },
-                completion = {
-                  keywordSnippet = 'Disable',
-                },
-                diagnostics = {
-                  enable = true,
-                  globals = {
-                    'vim',
-                    'packer_plugins',
+        sumneko_lua = {
+          on_attach = lsp_on_attach(),
+          settings = {
+            Lua = {
+              runtime = {
+                version = 'LuaJIT',
+                path = vim.split(package.path, ';'),
+              },
+              completion = {
+                keywordSnippet = 'Disable',
+              },
+              diagnostics = {
+                enable = true,
+                globals = {
+                  'vim',
+                  'packer_plugins',
 
-                    -- for testing
-                    'after_each',
-                    'before_each',
-                    'describe',
-                    'it',
+                  -- for testing
+                  'after_each',
+                  'before_each',
+                  'describe',
+                  'it',
 
-                    -- hammerspoon
-                    'hs',
+                  -- hammerspoon
+                  'hs',
 
-                    -- wrk
-                    'wrk',
-                    'setup',
-                    'id',
-                    'init',
-                    'request',
-                    'response',
-                    'done',
-                  },
+                  -- wrk
+                  'wrk',
+                  'setup',
+                  'id',
+                  'init',
+                  'request',
+                  'response',
+                  'done',
                 },
-                workspace = {
-                  library = {
-                    [fn.expand'$VIMRUNTIME/lua'] = true,
-                    [fn.expand'$VIMRUNTIME/lua/vim/lsp'] = true,
-                    ['/Applications/Hammerspoon.app/Contents/Resources/extensions'] = true,
-                  },
-                },
-              }
+              },
+              workspace = {
+                library = api.get_runtime_file('', true),
+              },
+              telemetry = {
+                enable = false,
+              },
             }
-          }
-        end)(),
+          },
+          on_new_config = function(config, root_dir)
+            config.settings.Lua.workspace.library = api.get_runtime_file('', true)
+          end,
+        },
 
         teal = (function()
           local configs = require'lspconfig.configs'
@@ -301,10 +295,9 @@ return {
       local now = os.time()
       if now - last_updated > 24 * 3600 * 7 then
         local ok = pcall(function()
-          -- TODO: update sumneko_lua automatically
           vim.cmd[[!gem install --user-install solargraph]]
-          vim.cmd('!brew install gopls efm-langserver terraform-ls typescript'
-            ..' && brew upgrade gopls efm-langserver terraform-ls typescript')
+          vim.cmd('!brew install gopls efm-langserver lua-language-server terraform-ls typescript'
+            ..' && brew upgrade gopls efm-langserver lua-language-server terraform-ls typescript')
           vim.cmd[[!brew uninstall vint; brew install vint --HEAD]]
           vim.cmd[[!luarocks install luacheck tl]]
           vim.cmd[[!luarocks install --dev teal-language-server]]
