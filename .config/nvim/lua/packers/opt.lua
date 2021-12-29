@@ -344,6 +344,32 @@ return {
       }
     end
   },
+
+  {
+    'yuki-yano/fuzzy-motion.vim',
+    setup = function()
+      -- TODO: This fails when fuzzy-motion and/or denops has not been loaded>
+      local cmd = ':FuzzyMotion'
+      require'mappy'.nnoremap('s', function()
+        if fn.exists(cmd) then
+          vim.cmd(cmd)
+        else
+          require'packer'.loader'fuzzy-motion.vim'
+          local denops_ready = vim.g.loaded_denops
+            and fn['denops#server#status']() == 'running'
+          if denops_ready then
+            vim.cmd[[FuzzyMotion]]
+          else
+            require'agrp'.set{
+              start_fuzzy_motion = {
+                {'User', 'DenopsReady', {'once'}, 'FuzzyMotion'},
+              },
+            }
+          end
+        end
+      end)
+    end,
+  },
   -- }}}
 
   -- event {{{
@@ -976,8 +1002,8 @@ return {
     keys = {
       {'n', [[']]},
       {'v', [[']]},
-      {'n', 's'},
-      {'v', 's'},
+      {'n', 'S'},
+      {'v', 'S'},
     },
     config = function()
       local hop = require'hop'
@@ -991,7 +1017,7 @@ return {
       m.bind('nv', [['w]], hop.hint_words)
       m.bind('nv', [['/]], hop.hint_patterns)
       m.bind('nv', [['s]], hop.hint_char1)
-      m.bind('nv', [[s]], hop.hint_char2)
+      m.bind('nv', [[S]], hop.hint_char2)
       m.bind('nv', [['j]], function()
         hop.hint_lines{direction = direction.AFTER_CURSOR}
       end)
