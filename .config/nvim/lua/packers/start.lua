@@ -93,6 +93,16 @@ return {
         vim.schedule_wrap(function() vim.cmd[[redrawtabline]] end)
       )
 
+      local function lsp()
+        local clients = vim.lsp.buf_get_clients()
+        local result = ''
+        for _, lsp in pairs(clients) do
+          if result ~= '' then result = result .. ' ' end
+          result = result .. ('%s(%d)'):format(lsp.name, lsp.id)
+        end
+        return result
+      end
+
       local characterize = require'characterize'
       local function char_info()
         local char = characterize.cursor_char()
@@ -161,6 +171,7 @@ return {
           lualine_a = {},
           lualine_b = {
             {'branch', fmt = monospace},
+            {'lsp', color = {fg = '#ebcb8b'}},
             {
               'diff',
               symbols = {
