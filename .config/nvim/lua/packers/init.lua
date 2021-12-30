@@ -42,7 +42,7 @@ api.add_user_command(
   end,
   {
     bang = true,
-    complete = function() return require'packers.load'.loader_complete() end,
+    complete = function(lead) return require'packers.load'.loader_complete(lead) end,
     desc = '[Packer] Load plugins',
     nargs = '+',
   }
