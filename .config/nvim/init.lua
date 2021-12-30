@@ -39,7 +39,6 @@ pcall(require, 'packer_compiled') -- TODO: impatient.nvim
 
 require'setup'
 require'filetypes'
-require'util'
 require'packers'
 require'set'
 require'mapping'
