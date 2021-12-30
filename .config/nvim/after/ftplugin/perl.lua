@@ -2,7 +2,8 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 
-function _G.perl_fold_text()
+local f = require'f_meta'
+local perl_fold_text = f.perl_fold_text or f{'perl_fold_text', function()
   local re = vim.regex([[\v^\s*subtest\s*(['"])\zs.{-}\ze\1]])
   local start, finish = re:match_line(0, vim.v.foldstart - 1)
   local cases_part = ''
@@ -26,7 +27,7 @@ function _G.perl_fold_text()
   end
   local lines = vim.v.foldend - vim.v.foldstart + 1
   return ('%s %3d 行: %s%s'):format(level, lines, test_name, cases_part)
-end
+end}
 
 local found
 for p in vim.gsplit(vim.o.path, ',', true) do
@@ -39,5 +40,4 @@ if not found then
   vim.o.path = 'lib,'..vim.o.path
 end
 
-vim.cmd[[let g:PerlFoldText = {-> v:lua.perl_fold_text()}]]
-vim.cmd[[setlocal foldtext=g:PerlFoldText()]]
+vim.cmd('setlocal foldtext=' .. perl_fold_text:vim() .. '()')

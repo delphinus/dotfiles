@@ -846,7 +846,7 @@ return {
     ft = {'gitcommit'},
     setup = function()
       local m = require'mappy'
-      function _G.committia_hook_edit_open(info)
+      local hook = require'f_meta'{'committia_hook_edit_open', function(info)
         if info.vcs == 'git' and fn.getline(1) == '' then
           vim.cmd[[startinsert]]
         end
@@ -854,13 +854,13 @@ return {
           m.rbind('i', {'<A-d>', '<A-∂>'}, [[<Plug>(committia-scroll-diff-down-half)]])
           m.imap('<A-u>', [[<Plug>(committia-scroll-diff-up-half)]])
         end)
-      end
+      end}
       vim.g.committia_hooks = vim.empty_dict()
-      vim.cmd[[
+      vim.cmd(([[
         function! g:committia_hooks.edit_open(info)
-          call luaeval('committia_hook_edit_open(_A)', a:info)
+          call %s(a:info)
         endfunction
-      ]]
+      ]]):format(hook:vim()))
     end,
   },
 

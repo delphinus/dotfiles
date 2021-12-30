@@ -16,13 +16,20 @@ return {
         sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
       ]]
 
-      function _G.ShowLSPSettings()
-        print(vim.inspect(vim.lsp.buf_get_clients()))
-      end
-      function _G.ReloadLSPSettings()
-        vim.lsp.stop_client(vim.lsp.get_active_clients())
-        vim.cmd[[edit]]
-      end
+      api.add_user_command(
+        'ShowLSPSettings',
+        function() print(vim.inspect(vim.lsp.buf_get_clients())) end,
+        {desc = 'Show LSP settings'}
+      )
+
+      api.add_user_command(
+        'ReloadLSPSettings',
+        function()
+          vim.lsp.stop_client(vim.lsp.get_active_clients())
+          vim.cmd[[edit]]
+        end,
+        {desc = 'Reload LSP settings'}
+      )
 
       vim.cmd[[
         hi LspBorderTop guifg=#5d9794 guibg=#2e3440

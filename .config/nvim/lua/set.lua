@@ -153,7 +153,7 @@ end
 vim.opt.title = true
 local home_re = loop.os_homedir():gsub('%.', '%.')
 local package_root_re = (fn.stdpath'data'..'/site/pack/packer/'):gsub('%.', '%.')
-function _G.my_tabline_path()
+local my_tabline_path = require'f_meta'{'my_tabline_path', function()
   if vim.opt.filetype:get() == 'help' then
     return 'ヘルプ'
   -- TODO: vim.opt has no 'previewwindow'?
@@ -175,8 +175,8 @@ function _G.my_tabline_path()
     '^'..home_re, '~', 1
   ):gsub('/[^/]+$', '', 1)
   return #result <= 40 and result or '……'..result:sub(-38, -1)
-end
-vim.opt.titlestring = [[%{v:lua.my_tabline_path()}]]
+end}
+vim.opt.titlestring = ('%%{%s()}'):format(my_tabline_path:vim())
 -- }}}
 
 -- grep {{{
