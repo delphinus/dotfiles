@@ -303,14 +303,14 @@ return {
       if now - last_updated > 24 * 3600 * 7 then
         local ok = pcall(function()
           vim.cmd[[!gem install --user-install solargraph]]
-          vim.cmd('!brew install gopls efm-langserver lua-language-server terraform-ls typescript'
-            ..' && brew upgrade gopls efm-langserver lua-language-server terraform-ls typescript')
+          vim.cmd('!brew install bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript'
+            ..' && brew upgrade bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript')
           vim.cmd[[!brew uninstall vint; brew install vint --HEAD]]
           vim.cmd[[!luarocks install luacheck tl]]
           vim.cmd[[!luarocks install --dev teal-language-server]]
-          vim.cmd('!npm i --force -g bash-language-server dockerfile-language-server-nodejs intelephense pyright'
-            ..' typescript-language-server vim-language-server vls vscode-css-languageserver-bin'
-            ..' vscode-html-languageserver-bin vscode-json-languageserver yaml-language-server')
+          vim.cmd('!npm i --force -g dockerfile-language-server-nodejs intelephense pyright'
+            ..' typescript-language-server vim-language-server vls vscode-langservers-extracted'
+            ..' yaml-language-server')
           vim.cmd[[!source (plenv init -| psub); plenv shell system; cpanm App::efm_perl]]
 
           -- These are needed for formatter.nvim
