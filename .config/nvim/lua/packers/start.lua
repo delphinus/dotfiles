@@ -171,7 +171,7 @@ return {
           lualine_a = {},
           lualine_b = {
             {'branch', fmt = monospace},
-            {'lsp', color = {fg = '#ebcb8b'}},
+            {lsp, color = {fg = '#ebcb8b'}},
             {
               'diff',
               symbols = {
