@@ -1,5 +1,6 @@
 return {
-  {'wbthomason/packer.nvim', opt = true},
+  --{'wbthomason/packer.nvim', opt = true},
+  {'delphinus/packer.nvim', branch = 'feature/denops', opt = true},
 
   -- Colorscheme {{{
   {
@@ -346,30 +347,13 @@ return {
   },
 
   {
+    -- TODO: This is a plugin using denops.vim that needs forked packer.nvim to
+    -- be loaded lazily.
     'yuki-yano/fuzzy-motion.vim',
+    cmd = {'FuzzyMotion'},
+    wants = {'denops.vim'},
     setup = function()
-      -- TODO: This fails when fuzzy-motion and/or denops has not been loaded>
-      local cmd = 'FuzzyMotion'
-      require'mappy'.nnoremap('s', function()
-        if api.get_commands{builtin = false}[cmd] then
-          vim.cmd(cmd)
-          return
-        end
-        require'packer'.loader('fuzzy-motion.vim', 'denops.vim')
-        require'agrp'.set{
-          fuzzy_motion_ready = {
-            {'User', 'DenopsReady', {'once'}, function()
-              local t
-              t = fn.timer_start(50, function()
-                if api.get_commands{builtin = false}[cmd] then
-                  fn.timer_stop(t)
-                  vim.cmd(cmd)
-                end
-              end, {['repeat'] = -1})
-            end}
-          }
-        }
-      end)
+      require'mappy'.nnoremap('s', '<Cmd>FuzzyMotion<CR>')
     end,
   },
   -- }}}
