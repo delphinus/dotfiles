@@ -92,14 +92,13 @@ api.add_user_command(
   'Dump',
   function(opts)
     local obj = assert(load('return ' .. opts.args))()
-    if obj == nil then
-      print'nil'
-    elseif type(obj) == 'table' and getmetatable(obj).__tostring then
-      print(tostring(obj))
-    else
+    local function to_str()
+      local mt = type(obj) == 'table' and getmetatable(obj) or nil
+      if mt and mt.__tostring then return tostring(obj) end
       local options = opts.bang and {newline = ' ', indent = ''} or {}
-      print(vim.inspect(obj, options))
+      return vim.inspect(obj, options)
     end
+    print(to_str())
   end,
   {
     bang = true,
