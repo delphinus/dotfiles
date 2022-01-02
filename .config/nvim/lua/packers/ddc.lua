@@ -1,43 +1,27 @@
-local function p(plugin)
-  plugin.event = {'InsertEnter'}
-  return plugin
-end
-
 return {
-  p{'LumaKernel/ddc-registers-words'},
-  p{'delphinus/ddc-tmux'},
-  p{'delphinus/ddc-ctags'},
-  p{'delphinus/ddc-shell-history'},
-  p{'delphinus/ddc-treesitter'},
-  p{'Shougo/ddc-around'},
-  p{'Shougo/ddc-cmdline-history'},
-  p{'Shougo/ddc-converter_remove_overlap'},
-  p{'Shougo/ddc-line'},
-  p{'Shougo/ddc-matcher_head'},
-  --p{'Shougo/ddc-nextword'},
-  p{'Shougo/ddc-nvim-lsp'},
-  p{'Shougo/ddc-rg'},
-  p{'Shougo/ddc-sorter_rank'},
-  p{'Shougo/neco-vim'},
-  p{'matsui54/ddc-buffer'},
-  p{'matsui54/ddc-converter_truncate'},
+  {'LumaKernel/ddc-registers-words'},
+  {'delphinus/ddc-tmux'},
+  {'delphinus/ddc-ctags'},
+  {'delphinus/ddc-shell-history'},
+  {'delphinus/ddc-treesitter'},
+  {'Shougo/ddc-around'},
+  {'Shougo/ddc-cmdline-history'},
+  {'Shougo/ddc-converter_remove_overlap'},
+  {'Shougo/ddc-line'},
+  {'Shougo/ddc-matcher_head'},
+  --{'Shougo/ddc-nextword'},
+  {'Shougo/ddc-nvim-lsp'},
+  {'Shougo/ddc-rg'},
+  {'Shougo/ddc-sorter_rank'},
+  {'matsui54/ddc-buffer'},
+  {'matsui54/ddc-converter_truncate'},
   --{'matsui54/ddc-filter_editdistance'},
-  p{'octaltree/cmp-look'},
-  p{'tani/ddc-fuzzy'},
-  p{'tani/ddc-git'},
-  p{'tani/ddc-oldfiles'},
-  p{'tani/ddc-path'},
-  p{'vim-denops/denops.vim'},
+  {'tani/ddc-fuzzy'},
+  {'tani/ddc-git'},
+  {'tani/ddc-oldfiles'},
+  {'tani/ddc-path'},
 
-  p{
-    'Shougo/echodoc.vim',
-    setup = function()
-      vim.g['echodoc#enable_at_startup'] = 1
-      vim.g['echodoc#type'] = 'virtual_lines'
-    end,
-  },
-
-  p{
+  {
     'Shougo/pum.vim',
     config = function()
       fn['pum#set_option']{
@@ -46,35 +30,49 @@ return {
     end,
   },
 
-  p{
+  {'Shougo/neco-vim', opt = true},
+  {'octaltree/cmp-look', opt = true},
+  {'vim-denops/denops.vim', opt = true},
+
+  {
+    'Shougo/echodoc.vim',
+    opt = true,
+    setup = function()
+      vim.g['echodoc#enable_at_startup'] = 1
+      vim.g['echodoc#type'] = 'virtual_lines'
+    end,
+  },
+
+  {
     'matsui54/denops-popup-preview.vim',
-    after = {'denops.vim'},
+    opt = true,
+    wants = {'denops.vim'},
     setup = function()
       vim.g.popup_preview_config = {
         winblend = 10,
       }
     end,
     config = function()
-      require'packer'.loader('denops.vim')
       fn['popup_preview#enable']()
     end,
   },
 
-  p{
+  {
     'ncm2/float-preview.nvim',
+    opt = true,
     config = function()
       vim.g['float_preview#docked'] = 1
     end,
   },
 
-  p{
+  {
     --'vim-skk/skkeleton',
     'delphinus/skkeleton',
+    opt = true,
     requires = {
-      {'vim-denops/denops.vim', event = {'InsertEnter'}},
       {
         'delphinus/skkeleton_indicator.nvim',
-        event = {'InsertEnter'},
+        opt = true,
         config = function()
           vim.cmd[[
             hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
@@ -86,9 +84,6 @@ return {
           require'skkeleton_indicator'.setup()
         end,
       },
-    },
-    after = {
-      'denops.vim',
     },
     config = function()
       fn['skkeleton#config']{
@@ -116,16 +111,6 @@ return {
         ['/'] = {'・', ''},
         ['<s-q>'] = 'henkanPoint',
       })
-      fn['ddc#custom#patch_global']{
-        sourceOptions = {
-          skkeleton = {
-            mark = 'SKK',
-            matchers = {'skkeleton'},
-            sorters = {},
-            minAutoCompleteLength = 2,
-          },
-        },
-      }
       local m = require'mappy'
       -- Use these mappings in Karabiner-Elements
       m.rbind('icl', [[<F10>]], '<Plug>(skkeleton-disable)')
@@ -173,8 +158,9 @@ return {
     end,
   },
 
-  p{
+  {
     'Shougo/ddc.vim',
+    event = {'InsertEnter'},
     --keys = {{'n', ':'}},
     fn = {
       'ddc#custom#get_buffer',
@@ -207,33 +193,15 @@ return {
     end,
     ]=]
 
-    after = {
+    wants = {
       'cmp-look',
-      'ddc-around',
-      'ddc-buffer',
-      'ddc-cmdline-history',
-      'ddc-converter_remove_overlap',
-      'ddc-converter_truncate',
-      'ddc-ctags',
-      'ddc-fuzzy',
-      'ddc-git',
-      --'ddc-line',
-      'ddc-matcher_head',
-      'ddc-nvim-lsp',
-      'ddc-oldfiles',
-      'ddc-path',
-      'ddc-registers-words',
-      'ddc-rg',
-      'ddc-shell-history',
-      'ddc-sorter_rank',
-      'ddc-tmux',
-      'ddc-treesitter',
       'denops-popup-preview.vim',
       'denops.vim',
       'echodoc.vim',
       'float-preview.nvim',
       'neco-vim',
-      'pum.vim',
+      'skkeleton',
+      'skkeleton_indicator.nvim',
     },
 
     config = function()
@@ -301,6 +269,12 @@ return {
             minKeywordLength = 4,
             maxKeywordLength = 50,
           },
+          skkeleton = {
+            mark = 'SKK',
+            matchers = {'skkeleton'},
+            sorters = {},
+            minAutoCompleteLength = 2,
+          },
           treesitter = {mark = 'TS'},
           tmux = {mark = 'T'},
         },
@@ -341,11 +315,6 @@ return {
           },
         },
       })
-      require'agrp'.set{
-        ddc_ready = {
-          {'User', 'DenopsReady', {'once'}, fn['ddc#enable']},
-        },
-      }
       local m = require'mappy'
       --[=[
       m.bind('ci', {'expr'}, '<Tab>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>']])
@@ -365,6 +334,8 @@ return {
       m.inoremap('<C-y>', fn['pum#map#confirm'])
       m.inoremap('<C-e>', fn['pum#map#cancel'])
       --vim.g['denops#debug'] = 1
+
+      fn['ddc#enable']()
     end,
   },
 }
