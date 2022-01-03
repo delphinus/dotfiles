@@ -32,7 +32,6 @@ return {
 
   {'Shougo/neco-vim', opt = true},
   {'octaltree/cmp-look', opt = true},
-  {'vim-denops/denops.vim', opt = true},
 
   {
     'Shougo/echodoc.vim',
