@@ -1080,20 +1080,6 @@ return {
     end,
   },
   -- }}}
-
-  -- temporarily
-  {
-    'easymotion/vim-easymotion',
-    keys = {
-      {'n', [[\\s]]},
-    },
-    setup = function()
-      vim.g.EasyMotion_use_migemo = 1
-    end,
-    config = function()
-      require'mappy'.nmap([[\\s]], '<Plug>(easymotion-s2)')
-    end,
-  },
 }
 
 -- vim:se fdm=marker:
