@@ -420,9 +420,7 @@ return {
   {'delphinus/vim-emacscommandline'},
 
   {
-    --'haringsrob/nvim_context_vt',
-    'delphinus/nvim_context_vt',
-    branch = 'feature/enable-to-set-highlight',
+    'haringsrob/nvim_context_vt',
     event = {'BufNewFile', 'BufRead', 'FocusLost', 'CursorHold'},
     after = {'nvim-treesitter'},
     config = function()
