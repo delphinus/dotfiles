@@ -1,6 +1,7 @@
 return {
   --{'wbthomason/packer.nvim', opt = true},
   {'delphinus/packer.nvim', branch = 'feature/denops', opt = true},
+  {'vim-denops/denops.vim', opt = true},
 
   -- Colorscheme {{{
   {
@@ -419,9 +420,7 @@ return {
   {'delphinus/vim-emacscommandline'},
 
   {
-    --'haringsrob/nvim_context_vt',
-    'delphinus/nvim_context_vt',
-    branch = 'feature/enable-to-set-highlight',
+    'haringsrob/nvim_context_vt',
     event = {'BufNewFile', 'BufRead', 'FocusLost', 'CursorHold'},
     after = {'nvim-treesitter'},
     config = function()
@@ -1081,20 +1080,6 @@ return {
     end,
   },
   -- }}}
-
-  -- temporarily
-  {
-    'easymotion/vim-easymotion',
-    keys = {
-      {'n', [[\\s]]},
-    },
-    setup = function()
-      vim.g.EasyMotion_use_migemo = 1
-    end,
-    config = function()
-      require'mappy'.nmap([[\\s]], '<Plug>(easymotion-s2)')
-    end,
-  },
 }
 
 -- vim:se fdm=marker:
