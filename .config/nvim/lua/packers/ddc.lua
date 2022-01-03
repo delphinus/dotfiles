@@ -34,15 +34,6 @@ return {
   {'octaltree/cmp-look', opt = true},
 
   {
-    'Shougo/echodoc.vim',
-    opt = true,
-    setup = function()
-      vim.g['echodoc#enable_at_startup'] = 1
-      vim.g['echodoc#type'] = 'virtual_lines'
-    end,
-  },
-
-  {
     'matsui54/denops-popup-preview.vim',
     opt = true,
     wants = {'denops.vim'},
@@ -57,10 +48,11 @@ return {
   },
 
   {
-    'ncm2/float-preview.nvim',
+    'matsui54/denops-signature_help',
     opt = true,
+    wants = {'denops.vim'},
     config = function()
-      vim.g['float_preview#docked'] = 1
+      fn['signature_help#enable']()
     end,
   },
 
@@ -195,9 +187,8 @@ return {
     wants = {
       'cmp-look',
       'denops-popup-preview.vim',
+      'denops-signature_help',
       'denops.vim',
-      'echodoc.vim',
-      'float-preview.nvim',
       'neco-vim',
       'skkeleton',
       'skkeleton_indicator.nvim',
