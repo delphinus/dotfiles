@@ -994,7 +994,9 @@ return {
 
   -- module {{{
   {
-    'numToStr/FTerm.nvim',
+    --'numToStr/FTerm.nvim',
+    'delphinus/FTerm.nvim',
+    branch = 'hotfix/nil-buf',
     module = {'FTerm'},
     setup = function()
       local loaded
