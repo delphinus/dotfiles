@@ -8,6 +8,7 @@ return {
   m{'delphinus/telescope-memo.nvim'},
   m{'kyazdani42/nvim-web-devicons'},
   m{'nvim-lua/popup.nvim'},
+  m{'nvim-telescope/telescope-file-browser.nvim'},
   m{'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
   m{'nvim-telescope/telescope-ghq.nvim'},
   m{'nvim-telescope/telescope-github.nvim'},
@@ -28,6 +29,7 @@ return {
     after = {
       'nvim-web-devicons',
       'popup.nvim',
+      'telescope-file-browser.nvim',
       'telescope-fzf-native.nvim',
       'telescope-ghq.nvim',
       'telescope-github.nvim',
@@ -87,7 +89,7 @@ return {
       m.nnoremap('<Leader>fB', function() builtin'buffers'{} end)
       m.nnoremap('<Leader>fb', function()
         local cwd = fn.expand'%:h'
-        builtin'file_browser'{cwd = cwd == '' and nil or cwd}
+        extensions'file_browser'.file_browser{cwd = cwd == '' and nil or cwd}
       end)
       m.nnoremap('<Leader>ff', function()
         -- TODO: stopgap measure
@@ -98,7 +100,7 @@ return {
               'WarningMsg',
             },
           }, true, {})
-          builtin'file_browser'{}
+          extensions'file_browser'.file_browser{}
         -- TODO: use loop.fs_stat ?
         elseif fn.isdirectory(loop.cwd()..'/.git') == 1 then
           builtin'git_files'{}
@@ -243,6 +245,7 @@ return {
           },
         },
       }
+      telescope.load_extension'file_browser'
       -- This is needed to setup telescope-fzf-native. It overrides the sorters
       -- in this.
       telescope.load_extension'fzf'
