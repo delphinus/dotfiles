@@ -59,6 +59,7 @@ return {
   {
     --'vim-skk/skkeleton',
     'delphinus/skkeleton',
+    branch = 'feature/inform-mode-change-immediately',
     opt = true,
     requires = {
       {
