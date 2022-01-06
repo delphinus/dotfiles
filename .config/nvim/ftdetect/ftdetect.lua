@@ -3,12 +3,9 @@ require'agrp'.set{
     ['BufNewFile,BufRead'] = {
       {'*.gs,.amethyst', [[set filetype=javascript]]},
       {'*.jbuilder ', [[set filetype=ruby]]},
-      {'*/nginx* ', [[set filetype=nginx]]},
-      {'*.m ', [[setf objc]]},
-      {'*.h ', [[setf objc]]},
       {'*pentadactylrc*,*.penta ', [[set filetype=pentadactyl]]},
-      {'*.t', [[call delphinus#perl#test_filetype()]]},
-      {'*.xt', [[call delphinus#perl#test_filetype()]]},
+      {'*.xt', function() fn['dist#ft#FTperl']() end},
+      --[[
       {'*', function()
         local top = api.buf_get_lines(0, 0, 1, false)[1]
         if top then
@@ -20,13 +17,10 @@ require'agrp'.set{
             if bin then
               vim.cmd('setfiletype '..bin)
             end
-          elseif top:match'startuml' then
-            vim.cmd[[setfiletype plantuml]]
           end
         end
       end},
-      {'*.psgi ', [[set filetype=perl]]},
-      {'*.pu,*.uml,*.plantuml ', [[setfiletype plantuml]]},
+      ]]
       {'*.conf', function()
         if vim.opt.filetype:get() == 'tmux' then return end
         local sep = package.config:sub(1, 1)
@@ -42,14 +36,6 @@ require'agrp'.set{
       {'.zpreztorc ', [[setf zsh]]},
       {'*.plist,*.ttx ', [[setf xml]]},
       {'*.applescript', [[setf applescript]]},
-      {'*.cc', [[setf cpp]]},
-      {'*.cpp', [[setf cpp]]},
-      {'*.cxx,*.c++,*.hh,*.hxx,*.hpp,*.ipp,*.moc,*.tcc,*.inl', [[setf cpp]]},
-      {'*.h', [[call dist#ft#FTheader()]]},
-      {'*.ts', [[setf typescript]]},
-      {'*.tsx', [[setf typescriptreact]]},
-      {'*.rs', [[setf rust]]},
-      {'*.scala', [[setf scala]]},
     },
   },
 }
