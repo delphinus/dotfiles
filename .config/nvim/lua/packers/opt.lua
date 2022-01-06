@@ -484,9 +484,7 @@ return {
   },
 
   {
-    --'lukas-reineke/virt-column.nvim',
-    'delphinus/virt-column.nvim',
-    branch = 'hotfix/deal-with-no-colorcolumn',
+    'lukas-reineke/virt-column.nvim',
 		event = {
 			'FileChangedShellPost,',
 			'TextChanged,',
