@@ -314,6 +314,7 @@ return {
           vim.cmd[[!source (plenv init -| psub); plenv shell system; cpanm App::efm_perl]]
 
           -- These are needed for formatter.nvim
+          vim.cmd[[!brew intsall stylua && brew upgrade stylua]]
           vim.cmd[[!go get -u github.com/segmentio/golines]]
           vim.cmd[[!go get -u mvdan.cc/gofumpt]]
           vim.cmd[[!npm i -g lua-fmt]]

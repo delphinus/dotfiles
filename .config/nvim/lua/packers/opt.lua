@@ -644,12 +644,22 @@ return {
         end
         return {exe = 'cat', stdin = true}
       end
+      local function stylua()
+        if fn.glob'.stylua.toml' ~= '' or fn.glob'stylua.toml' ~= '' then
+          return {
+            exe = 'stylua',
+            args = {'-s', '--stdin-filepath', bufname(), '-'},
+            stdin = true,
+          }
+        end
+        return {exe = 'cat', stdin = true}
+      end
       require'formatter'.setup{
         filetype = {
           javascript = {prettier, eslint},
           typescript = {prettier, eslint},
           json = {exe = 'jq', args = {'.'}, stdin = true},
-          lua = {exe = 'luafmt', args = {'-i', '2', '--stdin'}, stdin = true},
+          lua = {stylua},
           go = {
             function() return {exe = 'golines', args = {'-w'}, stdin = false} end,
             function() return {exe = 'gofumpt', args = {'-w'}, stdin = false} end,
