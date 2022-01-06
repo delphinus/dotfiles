@@ -1,77 +1,85 @@
 return {
   { -- {{{ nvim-lspconfig
-    'neovim/nvim-lspconfig',
-    event = {'FocusLost', 'CursorHold'},
+    "neovim/nvim-lspconfig",
+    event = { "FocusLost", "CursorHold" },
     ft = {
-      'sh', 'c', 'cpp', 'css', 'dockerfile', 'html', 'php', 'python', 'ruby',
-      'swift', 'terraform', 'typescript', 'javascript', 'vim', 'yaml', 'vue'
+      "sh",
+      "c",
+      "cpp",
+      "css",
+      "dockerfile",
+      "html",
+      "php",
+      "python",
+      "ruby",
+      "swift",
+      "terraform",
+      "typescript",
+      "javascript",
+      "vim",
+      "yaml",
+      "vue",
     },
     config = function()
-      local m = require'mappy'
+      local m = require "mappy"
 
-      vim.cmd[[
+      vim.cmd [[
         sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
         sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
         sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
         sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
       ]]
 
-      api.add_user_command(
-        'ShowLSPSettings',
-        function() print(vim.inspect(vim.lsp.buf_get_clients())) end,
-        {desc = 'Show LSP settings'}
-      )
+      api.add_user_command("ShowLSPSettings", function()
+        print(vim.inspect(vim.lsp.buf_get_clients()))
+      end, { desc = "Show LSP settings" })
 
-      api.add_user_command(
-        'ReloadLSPSettings',
-        function()
-          vim.lsp.stop_client(vim.lsp.get_active_clients())
-          vim.cmd[[edit]]
-        end,
-        {desc = 'Reload LSP settings'}
-      )
+      api.add_user_command("ReloadLSPSettings", function()
+        vim.lsp.stop_client(vim.lsp.get_active_clients())
+        vim.cmd [[edit]]
+      end, { desc = "Reload LSP settings" })
 
-      vim.cmd[[
+      vim.cmd [[
         hi LspBorderTop guifg=#5d9794 guibg=#2e3440
         hi LspBorderLeft guifg=#5d9794 guibg=#3b4252
         hi LspBorderRight guifg=#5d9794 guibg=#3b4252
         hi LspBorderBottom guifg=#5d9794 guibg=#2e3440
       ]]
       local border = {
-        {'⣀', 'LspBorderTop'},
-        {'⣀', 'LspBorderTop'},
-        {'⣀', 'LspBorderTop'},
-        {'⢸', 'LspBorderRight'},
-        {'⠉', 'LspBorderBottom'},
-        {'⠉', 'LspBorderBottom'},
-        {'⠉', 'LspBorderBottom'},
-        {'⡇', 'LspBorderLeft'},
+        { "⣀", "LspBorderTop" },
+        { "⣀", "LspBorderTop" },
+        { "⣀", "LspBorderTop" },
+        { "⢸", "LspBorderRight" },
+        { "⠉", "LspBorderBottom" },
+        { "⠉", "LspBorderBottom" },
+        { "⠉", "LspBorderBottom" },
+        { "⡇", "LspBorderLeft" },
       }
 
       local lsp_on_attach = function(diag_maps_only)
         return function(client, bufnr)
-          print(('LSP started: bufnr = %d'):format(bufnr))
+          print(("LSP started: bufnr = %d"):format(bufnr))
           --require'completion'.on_attach()
 
           if client.config.flags then
             client.config.flags.allow_incremental_sync = true
           end
 
-          api.buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+          api.buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
           -- ignore errors when executed multi times
           m.add_buffer_maps(function()
-            m.bind('n', {'<A-J>', '<A-S-Ô>'}, function()
-              vim.diagnostic.goto_next{
-                popup_opts = {border = border},
+            m.bind("n", { "<A-J>", "<A-S-Ô>" }, function()
+              vim.diagnostic.goto_next {
+                popup_opts = { border = border },
               }
             end)
-            m.bind('n', {'<A-K>', '<A-S->'}, function()
-              vim.diagnostic.goto_prev{
-                popup_opts = {border = border},
+            m.bind("n", { "<A-K>", "<A-S->" }, function()
+              vim.diagnostic.goto_prev {
+                popup_opts = { border = border },
               }
             end)
-            m.nnoremap('<Space>E', function()
+            m.nnoremap("<Space>E", function()
               if vim.b.lsp_diagnostics_disabled then
                 vim.lsp.diagnostic.enable()
               else
@@ -79,58 +87,55 @@ return {
               end
               vim.b.lsp_diagnostics_disabled = not vim.b.lsp_diagnostics_disabled
             end)
-            m.nnoremap('<Space>e', function()
-              vim.lsp.diagnostic.show_line_diagnostics{border = border}
+            m.nnoremap("<Space>e", function()
+              vim.lsp.diagnostic.show_line_diagnostics { border = border }
             end)
-            m.nnoremap('<Space>q', vim.lsp.diagnostic.set_loclist)
+            m.nnoremap("<Space>q", vim.lsp.diagnostic.set_loclist)
             if not diag_maps_only then
-              m.nnoremap('K', vim.lsp.buf.hover)
-              m.nnoremap('1gD', vim.lsp.buf.type_definition)
-              if vim.opt.filetype:get() ~= 'help' then
-                m.nnoremap('<C-]>', vim.lsp.buf.definition)
-                m.nnoremap('<C-w><C-]>', function()
-                  vim.cmd[[split]]
+              m.nnoremap("K", vim.lsp.buf.hover)
+              m.nnoremap("1gD", vim.lsp.buf.type_definition)
+              if vim.opt.filetype:get() ~= "help" then
+                m.nnoremap("<C-]>", vim.lsp.buf.definition)
+                m.nnoremap("<C-w><C-]>", function()
+                  vim.cmd [[split]]
                   vim.lsp.buf.definition()
                 end)
               end
-              m.nnoremap('<C-x><C-k>', vim.lsp.buf.signature_help)
-              m.nnoremap('g0', vim.lsp.buf.document_symbol)
-              m.nnoremap('g=', vim.lsp.buf.formatting)
-              m.nnoremap('gA', vim.lsp.buf.code_action)
-              m.nnoremap('gD', vim.lsp.buf.implementation)
-              m.nnoremap('gR', vim.lsp.buf.rename)
-              m.nnoremap('gW', vim.lsp.buf.workspace_symbol)
-              m.nnoremap('gd', vim.lsp.buf.declaration)
-              m.nnoremap('gli', vim.lsp.buf.incoming_calls)
-              m.nnoremap('glo', vim.lsp.buf.outgoing_calls)
-              m.nnoremap('gr', vim.lsp.buf.references)
+              m.nnoremap("<C-x><C-k>", vim.lsp.buf.signature_help)
+              m.nnoremap("g0", vim.lsp.buf.document_symbol)
+              m.nnoremap("g=", vim.lsp.buf.formatting)
+              m.nnoremap("gA", vim.lsp.buf.code_action)
+              m.nnoremap("gD", vim.lsp.buf.implementation)
+              m.nnoremap("gR", vim.lsp.buf.rename)
+              m.nnoremap("gW", vim.lsp.buf.workspace_symbol)
+              m.nnoremap("gd", vim.lsp.buf.declaration)
+              m.nnoremap("gli", vim.lsp.buf.incoming_calls)
+              m.nnoremap("glo", vim.lsp.buf.outgoing_calls)
+              m.nnoremap("gr", vim.lsp.buf.references)
             end
           end)
         end
       end
 
-      vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics, {
-          underline = true,
-          virtual_text = true,
-          signs = true,
-        }
-      )
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-        vim.lsp.handlers.hover, {border = border}
-      )
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers.signature_help, {border = border}
+      vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        virtual_text = true,
+        signs = true,
+      })
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+        vim.lsp.handlers.signature_help,
+        { border = border }
       )
 
-      local lsp = require'lspconfig'
-      local util = require'lspconfig.util'
+      local lsp = require "lspconfig"
+      local util = require "lspconfig.util"
       local function is_git_root(p)
-        return util.path.is_dir(p) and util.path.exists(util.path.join(p, '.git'))
+        return util.path.is_dir(p) and util.path.exists(util.path.join(p, ".git"))
       end
       local function is_deno_dir(p)
-        local base = p:gsub([[.*/]], '')
-        for _, r in ipairs{
+        local base = p:gsub([[.*/]], "")
+        for _, r in ipairs {
           [[^deno]],
           [[^ddc]],
           [[^cmp%-look$]],
@@ -139,27 +144,29 @@ return {
           [[^murus$]],
           [[^skkeleton$]],
         } do
-          if base:match(r) then return true end
+          if base:match(r) then
+            return true
+          end
         end
         return false
       end
 
-      for name, config in pairs{
-        clangd = {on_attach = lsp_on_attach()},
-        cssls = {on_attach = lsp_on_attach()},
-        dockerls = {on_attach = lsp_on_attach()},
-        html = {on_attach = lsp_on_attach()},
-        intelephense = {on_attach = lsp_on_attach()},
-        metals = {on_attach = lsp_on_attach()},
+      for name, config in pairs {
+        clangd = { on_attach = lsp_on_attach() },
+        cssls = { on_attach = lsp_on_attach() },
+        dockerls = { on_attach = lsp_on_attach() },
+        html = { on_attach = lsp_on_attach() },
+        intelephense = { on_attach = lsp_on_attach() },
+        metals = { on_attach = lsp_on_attach() },
         --jsonls = {on_attach = lsp_on_attach()},
         --perlls = {on_attach = lsp_on_attach()},
-        pyright = {on_attach = lsp_on_attach()},
-        solargraph = {on_attach = lsp_on_attach()},
-        sourcekit = {on_attach = lsp_on_attach()},
-        terraformls = {on_attach = lsp_on_attach()},
-        vimls = {on_attach = lsp_on_attach()},
-        yamlls = {on_attach = lsp_on_attach()},
-        vuels = {on_attach = lsp_on_attach()},
+        pyright = { on_attach = lsp_on_attach() },
+        solargraph = { on_attach = lsp_on_attach() },
+        sourcekit = { on_attach = lsp_on_attach() },
+        terraformls = { on_attach = lsp_on_attach() },
+        vimls = { on_attach = lsp_on_attach() },
+        yamlls = { on_attach = lsp_on_attach() },
+        vuels = { on_attach = lsp_on_attach() },
 
         denols = {
           on_attach = lsp_on_attach(),
@@ -185,14 +192,31 @@ return {
 
         bashls = {
           on_attach = lsp_on_attach(),
-          filetypes = {'sh', 'bash', 'zsh'},
+          filetypes = { "sh", "bash", "zsh" },
         },
 
         efm = {
           filetypes = {
-            'bash', 'css', 'csv', 'dockerfile', 'eruby', 'html', 'javascript',
-            'json', 'lua', 'make', 'markdown', 'perl', 'php', 'python', 'rst',
-            'sh', 'typescript', 'vim', 'yaml', 'zsh',
+            "bash",
+            "css",
+            "csv",
+            "dockerfile",
+            "eruby",
+            "html",
+            "javascript",
+            "json",
+            "lua",
+            "make",
+            "markdown",
+            "perl",
+            "php",
+            "python",
+            "rst",
+            "sh",
+            "typescript",
+            "vim",
+            "yaml",
+            "zsh",
           },
           on_attach = lsp_on_attach(true),
           init_options = {
@@ -200,14 +224,14 @@ return {
             hover = true,
             documentSymbol = true,
             codeAction = true,
-            completion = true
-          }
+            completion = true,
+          },
         },
 
         gopls = {
           on_attach = lsp_on_attach(),
           settings = {
-            hoverKind = 'NoDocumentation',
+            hoverKind = "NoDocumentation",
             deepCompletion = true,
             fuzzyMatching = true,
             completeUnimported = true,
@@ -220,78 +244,80 @@ return {
           settings = {
             Lua = {
               runtime = {
-                version = 'LuaJIT',
-                path = vim.split(package.path, ';'),
+                version = "LuaJIT",
+                path = vim.split(package.path, ";"),
               },
               completion = {
-                keywordSnippet = 'Disable',
+                keywordSnippet = "Disable",
               },
               diagnostics = {
                 enable = true,
                 globals = {
-                  'vim',
-                  'packer_plugins',
+                  "vim",
+                  "packer_plugins",
 
                   -- for testing
-                  'after_each',
-                  'before_each',
-                  'describe',
-                  'it',
+                  "after_each",
+                  "before_each",
+                  "describe",
+                  "it",
 
                   -- hammerspoon
-                  'hs',
+                  "hs",
 
                   -- wrk
-                  'wrk',
-                  'setup',
-                  'id',
-                  'init',
-                  'request',
-                  'response',
-                  'done',
+                  "wrk",
+                  "setup",
+                  "id",
+                  "init",
+                  "request",
+                  "response",
+                  "done",
                 },
               },
               workspace = {
-                library = api.get_runtime_file('', true),
+                library = api.get_runtime_file("", true),
               },
               telemetry = {
                 enable = false,
               },
-            }
+            },
           },
           on_new_config = function(config, root_dir)
-            config.settings.Lua.workspace.library = api.get_runtime_file('', true)
+            config.settings.Lua.workspace.library = api.get_runtime_file("", true)
           end,
         },
 
         teal = (function()
-          local configs = require'lspconfig.configs'
+          local configs = require "lspconfig.configs"
           if not configs.teal then
             configs.teal = {
               default_config = {
-                cmd = {'teal-language-server'},
-                filetypes = {'teal'},
-                root_dir = lsp.util.root_pattern('tlconfig.lua', '.git'),
+                cmd = { "teal-language-server" },
+                filetypes = { "teal" },
+                root_dir = lsp.util.root_pattern("tlconfig.lua", ".git"),
                 settings = {},
               },
             }
           end
-          return {on_attach = lsp_on_attach()}
+          return { on_attach = lsp_on_attach() }
         end)(),
-      } do lsp[name].setup(config) end
+      } do
+        lsp[name].setup(config)
+      end
     end,
     run = function()
-      local dir = fn.stdpath'cache'..'/lspconfig'
+      local dir = fn.stdpath "cache" .. "/lspconfig"
       do
         local stat = loop.fs_stat(dir)
         if not stat then
           assert(loop.fs_mkdir(dir, 448))
         end
       end
-      local file = dir..'/updated'
+      local file = dir .. "/updated"
       local last_updated = 0
       do
-        local fd = loop.fs_open(file, 'r', 438)
+        local fd = loop.fs_open(file, "r", 438)
         if fd then
           local stat = loop.fs_fstat(fd)
           local data = loop.fs_read(fd, stat.size, 0)
@@ -302,33 +328,37 @@ return {
       local now = os.time()
       if now - last_updated > 24 * 3600 * 7 then
         local ok = pcall(function()
-          vim.cmd[[!gem install --user-install solargraph]]
-          vim.cmd('!brew install bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript'
-            ..' && brew upgrade bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript')
-          vim.cmd[[!brew uninstall vint; brew install vint --HEAD]]
-          vim.cmd[[!luarocks install luacheck tl]]
-          vim.cmd[[!luarocks install --dev teal-language-server]]
-          vim.cmd('!npm i --force -g dockerfile-language-server-nodejs intelephense pyright'
-            ..' typescript-language-server vim-language-server vls vscode-langservers-extracted'
-            ..' yaml-language-server')
-          vim.cmd[[!source (plenv init -| psub); plenv shell system; cpanm App::efm_perl]]
+          vim.cmd [[!gem install --user-install solargraph]]
+          vim.cmd(
+            "!brew install bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript"
+              .. " && brew upgrade bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript"
+          )
+          vim.cmd [[!brew uninstall vint; brew install vint --HEAD]]
+          vim.cmd [[!luarocks install luacheck tl]]
+          vim.cmd [[!luarocks install --dev teal-language-server]]
+          vim.cmd(
+            "!npm i --force -g dockerfile-language-server-nodejs intelephense pyright"
+              .. " typescript-language-server vim-language-server vls vscode-langservers-extracted"
+              .. " yaml-language-server"
+          )
+          vim.cmd [[!source (plenv init -| psub); plenv shell system; cpanm App::efm_perl]]
 
           -- These are needed for formatter.nvim
-          vim.cmd[[!brew intsall stylua && brew upgrade stylua]]
-          vim.cmd[[!go get -u github.com/segmentio/golines]]
-          vim.cmd[[!go get -u mvdan.cc/gofumpt]]
-          vim.cmd[[!npm i -g lua-fmt]]
+          vim.cmd [[!brew intsall stylua && brew upgrade stylua]]
+          vim.cmd [[!go get -u github.com/segmentio/golines]]
+          vim.cmd [[!go get -u mvdan.cc/gofumpt]]
+          vim.cmd [[!npm i -g lua-fmt]]
 
           -- metals is installed by cs (coursier)
         end)
 
         if ok then
-          local fd = loop.fs_open(file, 'w', 438)
+          local fd = loop.fs_open(file, "w", 438)
           if fd then
             loop.fs_write(fd, now, -1)
             loop.fs_close(fd)
           else
-            error('cannot open the file to write: '..file)
+            error("cannot open the file to write: " .. file)
           end
         end
       end
@@ -403,38 +433,38 @@ return {
   }, -- }}}
   ]=]
 
-  {'nvim-treesitter/nvim-treesitter-refactor', event = {'BufNewFile', 'BufRead'}},
-  {'nvim-treesitter/nvim-treesitter-textobjects', event = {'BufNewFile', 'BufRead'}},
-  {'nvim-treesitter/playground', event = {'BufNewFile', 'BufRead'}},
-  {'p00f/nvim-ts-rainbow', event = {'BufNewFile', 'BufRead'}},
-  {'romgrk/nvim-treesitter-context', event = {'BufNewFile', 'BufRead'}},
+  { "nvim-treesitter/nvim-treesitter-refactor", event = { "BufNewFile", "BufRead" } },
+  { "nvim-treesitter/nvim-treesitter-textobjects", event = { "BufNewFile", "BufRead" } },
+  { "nvim-treesitter/playground", event = { "BufNewFile", "BufRead" } },
+  { "p00f/nvim-ts-rainbow", event = { "BufNewFile", "BufRead" } },
+  { "romgrk/nvim-treesitter-context", event = { "BufNewFile", "BufRead" } },
 
   { -- {{{ nvim-treesitter
-    'nvim-treesitter/nvim-treesitter',
-    event = {'BufNewFile', 'BufRead'},
+    "nvim-treesitter/nvim-treesitter",
+    event = { "BufNewFile", "BufRead" },
     after = {
-      'nvim-treesitter-context',
-      'nvim-treesitter-refactor',
-      'nvim-treesitter-textobjects',
-      'nvim-ts-rainbow',
-      'playground',
+      "nvim-treesitter-context",
+      "nvim-treesitter-refactor",
+      "nvim-treesitter-textobjects",
+      "nvim-ts-rainbow",
+      "playground",
     },
     config = function()
-      require'nvim-treesitter.configs'.setup {
+      require("nvim-treesitter.configs").setup {
         highlight = {
           enable = true,
-          disable = {'perl'},
+          disable = { "perl" },
         },
         incremental_selection = {
           enable = true,
           keymaps = {
-            init_selection = 'gnn',
-            node_incremental = 'grn',
-            scope_incremental = 'grc',
-            node_decremental = 'grm',
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
           },
         },
-        ensure_installed = 'all',
+        ensure_installed = "all",
         playground = {
           enable = true,
           disable = {},
@@ -444,7 +474,7 @@ return {
         query_linter = {
           enable = true,
           use_virtual_text = true,
-          lint_events = {"BufWrite", "CursorHold"},
+          lint_events = { "BufWrite", "CursorHold" },
         },
         -- TODO: disable because too slow in C
         --[[
@@ -473,57 +503,57 @@ return {
           select = {
             enable = true,
             keymaps = {
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['aC'] = '@class.outer',
-              ['iC'] = '@class.inner',
-              ['ac'] = '@conditional.outer',
-              ['ic'] = '@conditional.inner',
-              ['ae'] = '@block.outer',
-              ['ie'] = '@block.inner',
-              ['al'] = '@loop.outer',
-              ['il'] = '@loop.inner',
-              ['is'] = '@statement.inner',
-              ['as'] = '@statement.outer',
-              ['ad'] = '@comment.outer',
-              ['id'] = '@comment.inner',
-              ['am'] = '@call.outer',
-              ['im'] = '@call.inner',
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["aC"] = "@class.outer",
+              ["iC"] = "@class.inner",
+              ["ac"] = "@conditional.outer",
+              ["ic"] = "@conditional.inner",
+              ["ae"] = "@block.outer",
+              ["ie"] = "@block.inner",
+              ["al"] = "@loop.outer",
+              ["il"] = "@loop.inner",
+              ["is"] = "@statement.inner",
+              ["as"] = "@statement.outer",
+              ["ad"] = "@comment.outer",
+              ["id"] = "@comment.inner",
+              ["am"] = "@call.outer",
+              ["im"] = "@call.inner",
             },
           },
           swap = {
             enable = true,
             swap_next = {
-              ['<leader>a'] = '@parameter.inner',
+              ["<leader>a"] = "@parameter.inner",
             },
             swap_previous = {
-              ['<leader>A'] = '@parameter.inner',
+              ["<leader>A"] = "@parameter.inner",
             },
           },
           move = {
             enable = true,
             goto_next_start = {
-              [']m'] = '@function.outer',
-              [']]'] = '@class.outer',
+              ["]m"] = "@function.outer",
+              ["]]"] = "@class.outer",
             },
             goto_next_end = {
-              [']M'] = '@function.outer',
-              [']['] = '@class.outer',
+              ["]M"] = "@function.outer",
+              ["]["] = "@class.outer",
             },
             goto_previous_start = {
-              ['[m'] = '@function.outer',
-              ['[['] = '@class.outer',
+              ["[m"] = "@function.outer",
+              ["[["] = "@class.outer",
             },
             goto_previous_end = {
-              ['[M'] = '@function.outer',
-              ['[]'] = '@class.outer',
+              ["[M"] = "@function.outer",
+              ["[]"] = "@class.outer",
             },
           },
           lsp_interop = {
             enable = true,
             peek_definition_code = {
-              ['<Leader>Df'] = '@function.outer',
-              ['<Leader>DF'] = '@class.outer',
+              ["<Leader>Df"] = "@function.outer",
+              ["<Leader>DF"] = "@class.outer",
             },
           },
         },
@@ -531,9 +561,9 @@ return {
           enable = true,
         },
       }
-      require'mappy'.nnoremap('<Space>h', '<Cmd>TSHighlightCapturesUnderCursor<CR>')
+      require("mappy").nnoremap("<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
     end,
-    run = ':TSUpdate'
+    run = ":TSUpdate",
   }, -- }}}
 }
 

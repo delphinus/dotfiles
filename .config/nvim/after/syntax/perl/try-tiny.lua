@@ -3,7 +3,7 @@
 -- Installation: Put into after/syntax/perl/try-tiny.vim
 
 -- XXX include guard
-vim.cmd[[
+vim.cmd [[
   syntax match perlStatementProc "\<\%(try\|catch\|finally\)\>"
 ]]
 

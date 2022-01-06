@@ -1,1 +1,1 @@
-vim.opt.iskeyword:append{'-', '$'}
+vim.opt.iskeyword:append { "-", "$" }
