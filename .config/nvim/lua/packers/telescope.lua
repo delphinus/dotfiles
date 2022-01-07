@@ -44,12 +44,20 @@ return {
 
     setup = function()
       local builtin = function(name)
-        return require("telescope.builtin")[name]
+        return function(opt)
+          return function()
+            return require("telescope.builtin")[name](opt or {})
+          end
+        end
       end
-      local extensions = function(name)
-        local telescope = require "telescope"
-        telescope.load_extension(name)
-        return telescope.extensions[name]
+      local extensions = function(name, prop)
+        return function(opt)
+          return function()
+            local telescope = require "telescope"
+            telescope.load_extension(name)
+            return telescope.extensions[name][prop](opt or {})
+          end
+        end
       end
       local path_display = function(_, path)
         local home = "^" .. loop.os_homedir()
@@ -66,17 +74,13 @@ return {
       end
 
       -- Lines
-      vim.keymap.set("n", "#", function()
-        builtin "current_buffer_fuzzy_find" {}
-      end)
+      vim.keymap.set("n", "#", builtin "current_buffer_fuzzy_find" {})
 
       -- Files
-      vim.keymap.set("n", "<Leader>fB", function()
-        builtin "buffers" {}
-      end)
+      vim.keymap.set("n", "<Leader>fB", builtin "buffers" {})
       vim.keymap.set("n", "<Leader>fb", function()
         local cwd = fn.expand "%:h"
-        extensions("file_browser").file_browser { cwd = cwd == "" and nil or cwd }
+        extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd }()
       end)
       vim.keymap.set("n", "<Leader>ff", function()
         -- TODO: stopgap measure
@@ -87,92 +91,52 @@ return {
               "WarningMsg",
             },
           }, true, {})
-          extensions("file_browser").file_browser {}
+          extensions("file_browser", "file_browser") {}()
           -- TODO: use loop.fs_stat ?
         elseif fn.isdirectory(loop.cwd() .. "/.git") == 1 then
-          builtin "git_files" {}
+          builtin "git_files" {}()
         else
-          builtin "find_files" { hidden = true }
+          builtin "find_files" { hidden = true }()
         end
       end)
       vim.keymap.set("n", "<Leader>fg", function()
         builtin "grep_string" {
           only_sort_text = true,
           search = fn.input "Grep For ❯ ",
-        }
+        }()
       end)
-      vim.keymap.set("n", "<Leader>f:", function()
-        builtin "command_history" {}
-      end)
-      vim.keymap.set("n", "<Leader>fG", function()
-        builtin "grep_string" {}
-      end)
-      vim.keymap.set("n", "<Leader>fH", function()
-        builtin "help_tags" { lang = "en" }
-      end)
-      vim.keymap.set("n", "<Leader>fh", function()
-        builtin "help_tags" {}
-      end)
-      vim.keymap.set("n", "<Leader>fm", function()
-        builtin "man_pages" { sections = { "ALL" } }
-      end)
-      vim.keymap.set("n", "<Leader>fn", function()
-        extensions("node_modules").list {}
-      end)
-      vim.keymap.set("n", "<Leader>fo", function()
-        builtin "oldfiles" { path_display = path_display }
-      end)
-      vim.keymap.set("n", "<Leader>fp", function()
-        extensions("projects").projects {}
-      end)
-      vim.keymap.set("n", "<Leader>fq", function()
-        extensions("ghq").list {}
-      end)
-      vim.keymap.set("n", "<Leader>fr", function()
-        builtin "resume" {}
-      end)
-      vim.keymap.set("n", "<Leader>fz", function()
-        extensions("z").list {}
-      end)
+      vim.keymap.set("n", "<Leader>f:", builtin "command_history" {})
+      vim.keymap.set("n", "<Leader>fG", builtin "grep_string" {})
+      vim.keymap.set("n", "<Leader>fH", builtin "help_tags" { lang = "en" })
+      vim.keymap.set("n", "<Leader>fh", builtin "help_tags" {})
+      vim.keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
+      vim.keymap.set("n", "<Leader>fn", extensions("node_modules", "list") {})
+      vim.keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
+      vim.keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
+      vim.keymap.set("n", "<Leader>fq", extensions("ghq", "list") {})
+      vim.keymap.set("n", "<Leader>fr", builtin "resume" {})
+      vim.keymap.set("n", "<Leader>fz", extensions("z", "list") {})
 
       -- Memo
-      vim.keymap.set("n", "<Leader>mm", function()
-        extensions("memo").list {}
-      end)
+      vim.keymap.set("n", "<Leader>mm", extensions("memo", "list") {})
       vim.keymap.set("n", "<Leader>mg", function()
-        extensions("memo").grep_string {
+        extensions("memo", "grep_string") {
           only_sort_text = true,
           search = fn.input "Memo Grep For ❯ ",
-        }
+        }()
       end)
 
       -- LSP
-      vim.keymap.set("n", "<Leader>sr", function()
-        builtin "lsp_references" {}
-      end)
-      vim.keymap.set("n", "<Leader>sd", function()
-        builtin "lsp_document_symbols" {}
-      end)
-      vim.keymap.set("n", "<Leader>sw", function()
-        builtin "lsp_workspace_symbols" {}
-      end)
-      vim.keymap.set("n", "<Leader>sc", function()
-        builtin "lsp_code_actions" {}
-      end)
+      vim.keymap.set("n", "<Leader>sr", builtin "lsp_references" {})
+      vim.keymap.set("n", "<Leader>sd", builtin "lsp_document_symbols" {})
+      vim.keymap.set("n", "<Leader>sw", builtin "lsp_workspace_symbols" {})
+      vim.keymap.set("n", "<Leader>sc", builtin "lsp_code_actions" {})
 
       -- Git
-      vim.keymap.set("n", "<Leader>gc", function()
-        builtin "git_commits" {}
-      end)
-      vim.keymap.set("n", "<Leader>gb", function()
-        builtin "git_bcommits" {}
-      end)
-      vim.keymap.set("n", "<Leader>gr", function()
-        builtin "git_branches" {}
-      end)
-      vim.keymap.set("n", "<Leader>gs", function()
-        builtin "git_status" {}
-      end)
+      vim.keymap.set("n", "<Leader>gc", builtin "git_commits" {})
+      vim.keymap.set("n", "<Leader>gb", builtin "git_bcommits" {})
+      vim.keymap.set("n", "<Leader>gr", builtin "git_branches" {})
+      vim.keymap.set("n", "<Leader>gs", builtin "git_status" {})
 
       -- Copied from telescope.nvim
       vim.keymap.set(
@@ -191,30 +155,25 @@ return {
       local telescope = require "telescope"
       local from_entry = require "telescope.from_entry"
       local builtin = function(name)
-        return require("telescope.builtin")[name]
+        return function(opt)
+          return function()
+            return require("telescope.builtin")[name](opt or {})
+          end
+        end
       end
       local Path = require "plenary.path"
 
-      local run_in_dir = function(_, f)
-        local entry = actions_state.get_selected_entry()
-        local dir = from_entry.path(entry)
-        if fn.isdirectory(dir) then
-          f(dir)
-        else
-          api.echo({ { ("This is not a directory: %s"):format(dir), "WarningMsg" } }, true, {})
+      local run_in_dir = function(name)
+        return function()
+          local source = require("telescope.builtin")[name]
+          local entry = actions_state.get_selected_entry()
+          local dir = from_entry.path(entry)
+          if fn.isdirectory(dir) then
+            source { cwd = dir }
+          else
+            vim.notify(("This is not a directory: %s"):format(dir), vim.log.levels.ERROR)
+          end
         end
-      end
-
-      local run_find_files = function(prompt_bufnr)
-        run_in_dir(prompt_bufnr, function(dir)
-          builtin "find_files" { cwd = dir }
-        end)
-      end
-
-      local run_live_grep = function(prompt_bufnr)
-        run_in_dir(prompt_bufnr, function(dir)
-          builtin "live_grep" { cwd = dir }
-        end)
       end
 
       local preview_scroll = function(direction)
@@ -227,9 +186,9 @@ return {
         defaults = {
           mappings = {
             i = {
-              ["<C-a>"] = run_find_files,
+              ["<C-a>"] = run_in_dir "find_files",
               ["<C-c>"] = actions.close,
-              ["<C-g>"] = run_live_grep,
+              ["<C-g>"] = run_in_dir "live_grep",
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
               ["<C-s>"] = actions.select_horizontal,
@@ -243,9 +202,9 @@ return {
               end,
             },
             n = {
-              ["<C-a>"] = run_find_files,
+              ["<C-a>"] = run_in_dir "find_files",
               ["<C-c>"] = actions.close,
-              ["<C-g>"] = run_live_grep,
+              ["<C-g>"] = run_in_dir "live_grep",
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
               ["<C-s>"] = actions.select_horizontal,
