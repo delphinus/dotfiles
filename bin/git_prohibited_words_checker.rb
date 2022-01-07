@@ -73,7 +73,8 @@ ignore_names_re = %r{
   \Abin/macos-askpass\z |
   \Asubmodules/ |
   \bmigemo-dict\b |
-  \bnode_modules\b
+  \bnode_modules\b |
+  \Aansible/vars/secrets.yml\z
 }x
 
 scan_count = 0
