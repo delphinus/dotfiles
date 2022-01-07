@@ -189,6 +189,7 @@ return {
       "ColorizerAttachToBuffer",
       "ColorizerDetachFromBuffer",
       "ColorizerReloadAllBuffers",
+      "ColorizerToggle",
     },
     setup = function()
       vim.keymap.set("n", "<A-C>", [[<Cmd>ColorizerToggle<CR>]], { silent = true })
