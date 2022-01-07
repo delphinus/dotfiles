@@ -103,11 +103,10 @@ return {
         ["/"] = { "・", "" },
         ["<s-q>"] = "henkanPoint",
       })
-      local m = require "mappy"
       -- Use these mappings in Karabiner-Elements
-      m.rbind("icl", [[<F10>]], "<Plug>(skkeleton-disable)")
-      m.rbind("icl", [[<F13>]], "<Plug>(skkeleton-enable)")
-      m.rbind("icl", [[<C-j>]], "<Plug>(skkeleton-enable)")
+      vim.keymap.set({ "i", "c", "l" }, "<F10>", "<Plug>(skkeleton-disable)")
+      vim.keymap.set({ "i", "c", "l" }, "<F13>", "<Plug>(skkeleton-enable)")
+      vim.keymap.set({ "i", "c", "l" }, "<C-j>", "<Plug>(skkeleton-enable)")
 
       local Job = require "plenary.job"
       local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
@@ -320,28 +319,34 @@ return {
           },
         },
       })
-      local m = require "mappy"
-      --[=[
-      m.bind('ci', {'expr'}, '<Tab>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>']])
-      m.bind('ci', {'expr'}, '<S-Tab>', [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
-      m.bind('ci', {'expr'}, '<C-n>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>']])
-      m.bind('ci', {'expr'}, '<C-p>',   [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>']])
-      m.bind('ci', '<C-y>', fn['pum#map#confirm'])
-      m.bind('ci', '<C-e>', fn['pum#map#cancel'])
-      ]=]
-      m.inoremap(
-        { "expr" },
-        "<Tab>",
-        [[pum#visible() ? ]]
-          .. [['<Cmd>call pum#map#insert_relative(+1)<CR>' : ]]
-          .. [[(col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ? ]]
-          .. [['<Tab>' : ddc#manual_complete()]]
-      )
-      m.inoremap({ "expr" }, "<S-Tab>", [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>']])
-      m.inoremap({ "expr" }, "<C-n>", [[pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>']])
-      m.inoremap({ "expr" }, "<C-p>", [[pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>']])
-      m.inoremap("<C-y>", fn["pum#map#confirm"])
-      m.inoremap("<C-e>", fn["pum#map#cancel"])
+      vim.keymap.set("i", "<Tab>", function()
+        if fn["pum#visible"]() == 1 then
+          fn["pum#map#insert_relative"](1)
+          return ""
+        end
+        local col = fn.col "."
+        if col < 1 or fn.getline(".")[col - 2]:match "%s" then
+          return "<Tab>"
+        end
+        fn["ddc#manual_complete"]()
+        return ""
+      end, { expr = true })
+
+      local function pum_insert(key, line)
+        return function()
+          if fn["pum#visible"]() then
+            fn["pum#map#insert_relative"](line)
+            return ""
+          end
+          return key
+        end
+      end
+
+      vim.keymap.set("i", "<S-Tab>", pum_insert("<S-Tab>", -1), { expr = true })
+      vim.keymap.set("i", "<C-n>", pum_insert("<C-n>", 1), { expr = true })
+      vim.keymap.set("i", "<C-p>", pum_insert("<C-p>", -1), { expr = true })
+      vim.keymap.set("i", "<C-y>", fn["pum#map#confirm"])
+      vim.keymap.set("i", "<C-e>", fn["pum#map#cancel"])
       --vim.g['denops#debug'] = 1
 
       fn["ddc#enable"]()

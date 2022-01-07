@@ -2,15 +2,15 @@ vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 vim.opt.ttimeoutlen = 10
 
-local m = require "mappy"
-m.bind("nv", "<C-d>", "3<C-d>")
-m.bind("nv", "<C-u>", "3<C-u>")
-m.nnoremap("_", "<C-w>_")
-m.nnoremap("<Esc><Esc>", [[<Cmd>nohlsearch<CR>]])
--- https://twitter.com/uvrub/status/1341036672364945408
-m.inoremap({ "silent" }, "<CR>", "<C-g>u<CR>")
+vim.keymap.set({ "n", "v" }, "<C-d>", "3<C-d>")
+vim.keymap.set({ "n", "v" }, "<C-u>", "3<C-u>")
+vim.keymap.set("n", "_", "<C-w>_")
+vim.keymap.set("n", "<Esc><Esc>", [[<Cmd>nohlsearch<CR>]])
 
-local toggle_quickfix = function()
+-- https://twitter.com/uvrub/status/1341036672364945408
+vim.keymap.set("i", "<CR>", "<C-g>u<CR>", { silent = true })
+
+local function toggle_quickfix()
   local cmd
   local loclist = fn.getloclist(0, { size = 0, winid = 0 })
   if loclist.size > 0 then
@@ -28,7 +28,7 @@ local toggle_quickfix = function()
   vim.cmd(":silent " .. cmd)
 end
 
-m.nnoremap("qq", toggle_quickfix)
+vim.keymap.set("n", "qq", toggle_quickfix)
 
 require("agrp").set {
   toggle_quickfix_with_enter = {

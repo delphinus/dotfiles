@@ -41,7 +41,6 @@ return {
     },
 
     setup = function()
-      local m = require "mappy"
       local me = "telescope.nvim"
       local packer = require "packer"
       local plugins = vim.tbl_keys(packer_plugins[me].load_after)
@@ -66,7 +65,7 @@ return {
         telescope.load_extension(name)
         return telescope.extensions[name]
       end
-      local path_display = function(opts, path)
+      local path_display = function(_, path)
         local home = "^" .. loop.os_homedir()
         local gh_dir = home .. "/git/github.com"
         local gh_e_dir = home .. "/git/" .. vim.g.gh_e_host
@@ -81,19 +80,19 @@ return {
       end
 
       -- Lines
-      m.nnoremap("#", function()
+      vim.keymap.set("n", "#", function()
         builtin "current_buffer_fuzzy_find" {}
       end)
 
       -- Files
-      m.nnoremap("<Leader>fB", function()
+      vim.keymap.set("n", "<Leader>fB", function()
         builtin "buffers" {}
       end)
-      m.nnoremap("<Leader>fb", function()
+      vim.keymap.set("n", "<Leader>fb", function()
         local cwd = fn.expand "%:h"
         extensions("file_browser").file_browser { cwd = cwd == "" and nil or cwd }
       end)
-      m.nnoremap("<Leader>ff", function()
+      vim.keymap.set("n", "<Leader>ff", function()
         -- TODO: stopgap measure
         if loop.cwd() == loop.os_homedir() then
           api.echo({
@@ -110,51 +109,51 @@ return {
           builtin "find_files" { hidden = true }
         end
       end)
-      m.nnoremap("<Leader>fg", function()
+      vim.keymap.set("n", "<Leader>fg", function()
         builtin "grep_string" {
           only_sort_text = true,
           search = fn.input "Grep For ❯ ",
         }
       end)
-      m.nnoremap("<Leader>f:", function()
+      vim.keymap.set("n", "<Leader>f:", function()
         builtin "command_history" {}
       end)
-      m.nnoremap("<Leader>fG", function()
+      vim.keymap.set("n", "<Leader>fG", function()
         builtin "grep_string" {}
       end)
-      m.nnoremap("<Leader>fH", function()
+      vim.keymap.set("n", "<Leader>fH", function()
         builtin "help_tags" { lang = "en" }
       end)
-      m.nnoremap("<Leader>fh", function()
+      vim.keymap.set("n", "<Leader>fh", function()
         builtin "help_tags" {}
       end)
-      m.nnoremap("<Leader>fm", function()
+      vim.keymap.set("n", "<Leader>fm", function()
         builtin "man_pages" { sections = { "ALL" } }
       end)
-      m.nnoremap("<Leader>fn", function()
+      vim.keymap.set("n", "<Leader>fn", function()
         extensions("node_modules").list {}
       end)
-      m.nnoremap("<Leader>fo", function()
+      vim.keymap.set("n", "<Leader>fo", function()
         builtin "oldfiles" { path_display = path_display }
       end)
-      m.nnoremap("<Leader>fp", function()
+      vim.keymap.set("n", "<Leader>fp", function()
         extensions("projects").projects {}
       end)
-      m.nnoremap("<Leader>fq", function()
+      vim.keymap.set("n", "<Leader>fq", function()
         extensions("ghq").list {}
       end)
-      m.nnoremap("<Leader>fr", function()
+      vim.keymap.set("n", "<Leader>fr", function()
         builtin "resume" {}
       end)
-      m.nnoremap("<Leader>fz", function()
+      vim.keymap.set("n", "<Leader>fz", function()
         extensions("z").list {}
       end)
 
       -- Memo
-      m.nnoremap("<Leader>mm", function()
+      vim.keymap.set("n", "<Leader>mm", function()
         extensions("memo").list {}
       end)
-      m.nnoremap("<Leader>mg", function()
+      vim.keymap.set("n", "<Leader>mg", function()
         extensions("memo").grep_string {
           only_sort_text = true,
           search = fn.input "Memo Grep For ❯ ",
@@ -162,40 +161,41 @@ return {
       end)
 
       -- LSP
-      m.nnoremap("<Leader>sr", function()
+      vim.keymap.set("n", "<Leader>sr", function()
         builtin "lsp_references" {}
       end)
-      m.nnoremap("<Leader>sd", function()
+      vim.keymap.set("n", "<Leader>sd", function()
         builtin "lsp_document_symbols" {}
       end)
-      m.nnoremap("<Leader>sw", function()
+      vim.keymap.set("n", "<Leader>sw", function()
         builtin "lsp_workspace_symbols" {}
       end)
-      m.nnoremap("<Leader>sc", function()
+      vim.keymap.set("n", "<Leader>sc", function()
         builtin "lsp_code_actions" {}
       end)
 
       -- Git
-      m.nnoremap("<Leader>gc", function()
+      vim.keymap.set("n", "<Leader>gc", function()
         builtin "git_commits" {}
       end)
-      m.nnoremap("<Leader>gb", function()
+      vim.keymap.set("n", "<Leader>gb", function()
         builtin "git_bcommits" {}
       end)
-      m.nnoremap("<Leader>gr", function()
+      vim.keymap.set("n", "<Leader>gr", function()
         builtin "git_branches" {}
       end)
-      m.nnoremap("<Leader>gs", function()
+      vim.keymap.set("n", "<Leader>gs", function()
         builtin "git_status" {}
       end)
 
       -- Copied from telescope.nvim
-      m.cnoremap(
-        { "silent" },
+      vim.keymap.set(
+        "c",
         "<A-r>",
         [[<C-\>e ]]
           .. [["lua require'telescope.builtin'.command_history{]]
-          .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]]
+          .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
+        { silent = true }
       )
     end,
 
@@ -209,7 +209,7 @@ return {
       end
       local Path = require "plenary.path"
 
-      local run_in_dir = function(prompt_bufnr, f)
+      local run_in_dir = function(_, f)
         local entry = actions_state.get_selected_entry()
         local dir = from_entry.path(entry)
         if fn.isdirectory(dir) then

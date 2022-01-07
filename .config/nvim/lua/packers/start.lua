@@ -22,7 +22,6 @@ return {
 
   "delphinus/agrp.nvim",
   "delphinus/artify.nvim",
-  "delphinus/mappy.nvim",
   "delphinus/f_meta.nvim",
 
   {
@@ -31,44 +30,6 @@ return {
       require("characterize").setup {}
     end,
   },
-
-  --[=[
-  {
-    'delphinus/dwm.vim',
-    branch = 'feature/disable',
-    setup = function()
-      vim.g.dwm_map_keys = 0
-    end,
-    config = function()
-      require'agrp'.set{
-        dwm_preview = {
-          {'BufRead', '*', function()
-            if vim.wo.previewwindow == 1 then vim.b.dwm_disabled = 1 end
-          end},
-        },
-      }
-
-      local m = require'mappy'
-      m.nnoremap({'silent'}, '<Plug>DWMResetPaneWidth', function()
-        local half = vim.o.columns / 2
-        local width = vim.g.dwm_min_master_pane_width or 9999
-        vim.g.dwm_master_pane_width = math.min(width, half)
-        fn.DWM_ResizeMasterPaneWidth()
-      end)
-      m.nmap('<A-CR>', [[<Plug>DWMFocus]])
-      m.rbind('n', {'<A-r>', '<A-®>'}, [[<Plug>DWMResetPaneWidth]])
-      m.nmap('<C-@>', [[<Plug>DWMFocus]])
-      m.nmap('<C-Space>', [[<Plug>DWMFocus]])
-      m.nmap('<C-c>', [[<Cmd>lua pcall(require'scrollbar'.clear)<CR><Plug>DWMClose]])
-      m.nnoremap('<C-j>', [[<C-w>w]])
-      m.nnoremap('<C-k>', [[<C-w>W]])
-      m.nmap('<C-l>', [[<Plug>DWMGrowMaster]])
-      m.nmap('<C-n>', [[<Plug>DWMNew]])
-      m.nmap('<C-q>', [[<Plug>DWMRotateCounterclockwise]])
-      m.nmap('<C-s>', [[<Plug>DWMRotateClockwise]])
-    end,
-  },
-  ]=]
 
   { "delphinus/vim-auto-cursorline" },
   { "delphinus/vim-quickfix-height" },
@@ -255,12 +216,11 @@ return {
   {
     "tpope/vim-fugitive",
     config = function()
-      local m = require "mappy"
-      m.nnoremap("git", [[<Cmd>Git<CR>]])
-      m.nnoremap("g<Space>", [[<Cmd>Git<CR>]])
-      m.nnoremap("d<", [[<Cmd>diffget //2<CR>]])
-      m.nnoremap("d>", [[<Cmd>diffget //3<CR>]])
-      m.nnoremap("gs", [[<Cmd>Gstatus<CR>]])
+      vim.keymap.set("n", "git", [[<Cmd>Git<CR>]])
+      vim.keymap.set("n", "g<Space>", [[<Cmd>Git<CR>]])
+      vim.keymap.set("n", "d<", [[<Cmd>diffget //2<CR>]])
+      vim.keymap.set("n", "d>", [[<Cmd>diffget //3<CR>]])
+      vim.keymap.set("n", "gs", [[<Cmd>Gstatus<CR>]])
     end,
   },
 
@@ -271,11 +231,10 @@ return {
     -- 'tpope/vim-unimpaired',
     "delphinus/vim-unimpaired",
     config = function()
-      local m = require "mappy"
-      m.nnoremap("[w", [[<Cmd>colder<CR>]])
-      m.nnoremap("]w", [[<Cmd>cnewer<CR>]])
-      m.nnoremap("[O", [[<Cmd>lopen<CR>]])
-      m.nnoremap("]O", [[<Cmd>lclose<CR>]])
+      vim.keymap.set("n", "[w", [[<Cmd>colder<CR>]])
+      vim.keymap.set("n", "]w", [[<Cmd>cnewer<CR>]])
+      vim.keymap.set("n", "[O", [[<Cmd>lopen<CR>]])
+      vim.keymap.set("n", "]O", [[<Cmd>lclose<CR>]])
     end,
   },
 

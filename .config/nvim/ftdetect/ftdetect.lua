@@ -10,22 +10,24 @@ require("agrp").set {
           fn["dist#ft#FTperl"]()
         end,
       },
-      --[[
-      {'*', function()
-        local top = api.buf_get_lines(0, 0, 1, false)[1]
-        if top then
-          if top:match'^#!' then
-            local bin = top:match'^.+/([^/ ]+)'
-            if bin == 'env' then
-              bin = top:match'env +([^ ]+)'
-            end
-            if bin then
-              vim.cmd('setfiletype '..bin)
+      -- TODO: filetype.lua does not detect script with shebang.
+      {
+        "*",
+        function()
+          local top = api.buf_get_lines(0, 0, 1, false)[1]
+          if top then
+            if top:match "^#!" then
+              local bin = top:match "^.+/([^/ ]+)"
+              if bin == "env" then
+                bin = top:match "env +([^ ]+)"
+              end
+              if bin then
+                vim.cmd("setfiletype " .. bin)
+              end
             end
           end
-        end
-      end},
-      ]]
+        end,
+      },
       {
         "*.conf",
         function()
@@ -46,6 +48,7 @@ require("agrp").set {
       { ".zpreztorc ", [[setf zsh]] },
       { "*.plist,*.ttx ", [[setf xml]] },
       { "*.applescript", [[setf applescript]] },
+      { "*.pm", [[setf perl]] },
     },
   },
 }

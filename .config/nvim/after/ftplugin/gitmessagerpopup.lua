@@ -1,6 +1,7 @@
-local m = require "mappy"
-m.add_buffer_maps(function()
-  m.nmap("<C-i>", "O")
-  m.rbind({ "<A-b>", "<A-∫>", "<C-o>" }, "o")
-  m.rbind({ "<C-c>", "<CR>", "<Esc>" }, "q")
-end)
+vim.keymap.set("n", "<C-i>", "O", { buffer = true })
+vim.keymap.set("n", "<A-b>", "o", { buffer = true })
+vim.keymap.set("n", "<A-∫>", "o", { buffer = true })
+vim.keymap.set("n", "<C-o>", "o", { buffer = true })
+vim.keymap.set("n", "<C-c>", "q", { buffer = true })
+vim.keymap.set("n", "<CR>", "q", { buffer = true })
+vim.keymap.set("n", "<Esc>", "q", { buffer = true })

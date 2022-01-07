@@ -2,7 +2,6 @@ local data_dir = fn.stdpath "data"
 
 for _, p in ipairs {
   { "delphinus/agrp.nvim" },
-  { "delphinus/mappy.nvim" },
   { "wbthomason/packer.nvim", opt = true },
 } do
   local dir = p.opt and "opt" or "start"

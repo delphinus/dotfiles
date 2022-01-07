@@ -40,6 +40,5 @@ end, {
   nargs = "+",
 })
 
-local m = require "mappy"
-m.nnoremap("<Leader>ps", "<Cmd>PackerSync<CR>")
-m.nnoremap("<Leader>po", "<Cmd>PackerCompile<CR>")
+vim.keymap.set("n", "<Leader>ps", [[<Cmd>PackerSync<CR>]])
+vim.keymap.set("n", "<Leader>po", [[<Cmd>PackerCompile<CR>]])

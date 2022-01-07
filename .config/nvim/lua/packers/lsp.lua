@@ -21,8 +21,6 @@ return {
       "vue",
     },
     config = function()
-      local m = require "mappy"
-
       vim.cmd [[
         sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
         sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
@@ -68,52 +66,56 @@ return {
           api.buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
           -- ignore errors when executed multi times
-          m.add_buffer_maps(function()
-            m.bind("n", { "<A-J>", "<A-S-Ô>" }, function()
-              vim.diagnostic.goto_next {
-                popup_opts = { border = border },
-              }
-            end)
-            m.bind("n", { "<A-K>", "<A-S->" }, function()
-              vim.diagnostic.goto_prev {
-                popup_opts = { border = border },
-              }
-            end)
-            m.nnoremap("<Space>E", function()
-              if vim.b.lsp_diagnostics_disabled then
-                vim.lsp.diagnostic.enable()
-              else
-                vim.lsp.diagnostic.disable()
-              end
-              vim.b.lsp_diagnostics_disabled = not vim.b.lsp_diagnostics_disabled
-            end)
-            m.nnoremap("<Space>e", function()
-              vim.lsp.diagnostic.show_line_diagnostics { border = border }
-            end)
-            m.nnoremap("<Space>q", vim.lsp.diagnostic.set_loclist)
-            if not diag_maps_only then
-              m.nnoremap("K", vim.lsp.buf.hover)
-              m.nnoremap("1gD", vim.lsp.buf.type_definition)
-              if vim.opt.filetype:get() ~= "help" then
-                m.nnoremap("<C-]>", vim.lsp.buf.definition)
-                m.nnoremap("<C-w><C-]>", function()
-                  vim.cmd [[split]]
-                  vim.lsp.buf.definition()
-                end)
-              end
-              m.nnoremap("<C-x><C-k>", vim.lsp.buf.signature_help)
-              m.nnoremap("g0", vim.lsp.buf.document_symbol)
-              m.nnoremap("g=", vim.lsp.buf.formatting)
-              m.nnoremap("gA", vim.lsp.buf.code_action)
-              m.nnoremap("gD", vim.lsp.buf.implementation)
-              m.nnoremap("gR", vim.lsp.buf.rename)
-              m.nnoremap("gW", vim.lsp.buf.workspace_symbol)
-              m.nnoremap("gd", vim.lsp.buf.declaration)
-              m.nnoremap("gli", vim.lsp.buf.incoming_calls)
-              m.nnoremap("glo", vim.lsp.buf.outgoing_calls)
-              m.nnoremap("gr", vim.lsp.buf.references)
+          local function goto_next()
+            vim.diagnostic.goto_next {
+              popup_opts = { border = border },
+            }
+          end
+          vim.keymap.set("n", "<A-J>", goto_next, { buffer = bufnr })
+          vim.keymap.set("n", "<A-S-Ô>", goto_next, { buffer = bufnr })
+
+          local function goto_prev()
+            vim.diagnostic.goto_prev {
+              popup_opts = { border = border },
+            }
+          end
+          vim.keymap.set("n", "<A-K>", goto_prev, { buffer = bufnr })
+          vim.keymap.set("n", "<A-S->", goto_prev, { buffer = bufnr })
+
+          vim.keymap.set("n", "<Space>E", function()
+            if vim.b.lsp_diagnostics_disabled then
+              vim.lsp.diagnostic.enable()
+            else
+              vim.lsp.diagnostic.disable()
             end
-          end)
+            vim.b.lsp_diagnostics_disabled = not vim.b.lsp_diagnostics_disabled
+          end, { buffer = bufnr })
+          vim.keymap.set("n", "<Space>e", function()
+            vim.lsp.diagnostic.show_line_diagnostics { border = border }
+          end, { buffer = bufnr })
+          vim.keymap.set("n", "<Space>q", vim.lsp.diagnostic.set_loclist, { buffer = bufnr })
+          if not diag_maps_only then
+            vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
+            vim.keymap.set("n", "1gD", vim.lsp.buf.type_definition, { buffer = bufnr })
+            if vim.opt.filetype:get() ~= "help" then
+              vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, { buffer = bufnr })
+              vim.keymap.set("n", "<C-w><C-]>", function()
+                vim.cmd [[split]]
+                vim.lsp.buf.definition()
+              end, { buffer = bufnr })
+            end
+            vim.keymap.set("n", "<C-x><C-k>", vim.lsp.buf.signature_help, { buffer = bufnr })
+            vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, { buffer = bufnr })
+            vim.keymap.set("n", "g=", vim.lsp.buf.formatting, { buffer = bufnr })
+            vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = bufnr })
+            vim.keymap.set("n", "gD", vim.lsp.buf.implementation, { buffer = bufnr })
+            vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = bufnr })
+            vim.keymap.set("n", "gW", vim.lsp.buf.workspace_symbol, { buffer = bufnr })
+            vim.keymap.set("n", "gd", vim.lsp.buf.declaration, { buffer = bufnr })
+            vim.keymap.set("n", "gli", vim.lsp.buf.incoming_calls, { buffer = bufnr })
+            vim.keymap.set("n", "glo", vim.lsp.buf.outgoing_calls, { buffer = bufnr })
+            vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr })
+          end
         end
       end
 
@@ -341,7 +343,7 @@ return {
               .. " typescript-language-server vim-language-server vls vscode-langservers-extracted"
               .. " yaml-language-server"
           )
-          vim.cmd [[!source (plenv init -| psub); plenv shell system; cpanm App::efm_perl]]
+          vim.cmd [[!cpanm App::efm_perl]]
 
           -- These are needed for formatter.nvim
           vim.cmd [[!brew intsall stylua && brew upgrade stylua]]
@@ -364,74 +366,6 @@ return {
       end
     end,
   }, -- }}}
-
-  --[=[
-  { -- {{{ completion-nvim
-    'nvim-lua/completion-nvim',
-    requires = {
-      {'steelsojka/completion-buffers'},
-      {'nvim-treesitter/completion-treesitter'},
-      {'kristijanhusak/completion-tags'},
-      {'albertoCaroM/completion-tmux'},
-    },
-    config = function()
-      local m = require'mappy'
-
-      require'agrp'.set{
-        enable_completion_nvim = {
-          {'BufEnter', '*', require'completion'.on_attach},
-        },
-      }
-
-      m.inoremap({'expr'}, '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
-      m.inoremap({'expr'}, '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
-      m.rbind('i', {'<A-j>', '<A-∆>'}, [[<Plug>(completion_next_source)]])
-      m.rbind('i', {'<A-k>', '<A-˚>'}, [[<Plug>(completion_prev_source)]])
-
-      vim.o.completeopt = 'menuone,noinsert,noselect'
-      vim.g.completion_auto_change_source = 1
-      vim.g.completion_confirm_key = [[\<C-y>]]
-      vim.g.completion_matching_strategy_list = {'exact', 'fuzzy'}
-      vim.g.completion_chain_complete_list = {
-        default = {
-          {complete_items = {'lsp', 'tags'}},
-          {complete_items = {'ts', 'buffers', 'tmux'}},
-          {complete_items = {'path'}, triggered_only = {'/'}},
-          {mode = 'omni'},
-          {mode = '<C-p>'},
-          {mode = '<C-n>'},
-          {mode = 'keyn'},
-          {mode = 'keyp'},
-          {mode = 'file'},
-          {mode = 'dict'},
-        },
-        c = {
-          {complete_items = {'lsp', 'tags'}},
-          {complete_items = {'buffers', 'tmux'}},
-          {complete_items = {'path'}, triggered_only = {'/'}},
-          {mode = 'omni'},
-          {mode = '<C-p>'},
-          {mode = '<C-n>'},
-          {mode = 'keyn'},
-          {mode = 'keyp'},
-          {mode = 'file'},
-          {mode = 'dict'},
-        },
-        -- TODO: omnifunc from vim-rhubarb is too slow
-        gitcommit = {
-          {complete_items = {'buffers', 'tmux'}},
-          {complete_items = {'path'}, triggered_only = {'/'}},
-          {mode = 'dict'},
-          {mode = 'file'},
-          {mode = '<C-p>'},
-          {mode = '<C-n>'},
-          {mode = 'keyn'},
-          {mode = 'keyp'},
-        },
-      }
-    end,
-  }, -- }}}
-  ]=]
 
   { "nvim-treesitter/nvim-treesitter-refactor", event = { "BufNewFile", "BufRead" } },
   { "nvim-treesitter/nvim-treesitter-textobjects", event = { "BufNewFile", "BufRead" } },
@@ -561,7 +495,7 @@ return {
           enable = true,
         },
       }
-      require("mappy").nnoremap("<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
+      vim.keymap.set("n", "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
     end,
     run = ":TSUpdate",
   }, -- }}}

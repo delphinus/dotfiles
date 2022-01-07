@@ -104,7 +104,7 @@ return {
     cmd = { "TableModeToggle" },
     setup = function()
       vim.g.table_mode_corner = "|"
-      require("mappy").nnoremap("`tm", [[<Cmd>TableModeToggle<CR>]])
+      vim.keymap.set("n", "`tm", [[<Cmd>TableModeToggle<CR>]])
     end,
   },
 
@@ -148,14 +148,13 @@ return {
       "TigOpenFileWithCommit",
     },
     config = function()
-      local m = require "mappy"
-      m.nnoremap("<Leader>tT", [[<Cmd>TigOpenCurrentFile<CR>]])
-      m.nnoremap("<Leader>tt", [[<Cmd>TigOpenProjectRootDir<CR>]])
-      m.nnoremap("<Leader>tg", [[<Cmd>TigGrep<CR>]])
-      m.nnoremap("<Leader>tr", [[<Cmd>TigGrepResume<CR>]])
-      m.vnoremap("<Leader>tG", [[y<Cmd>TigGrep<Space><C-R>"<CR>]])
-      m.nnoremap("<Leader>tc", [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]])
-      m.nnoremap("<Leader>tb", [[<Cmd>TigBlame<CR>]])
+      vim.keymap.set("n", "<Leader>tT", [[<Cmd>TigOpenCurrentFile<CR>]])
+      vim.keymap.set("n", "<Leader>tt", [[<Cmd>TigOpenProjectRootDir<CR>]])
+      vim.keymap.set("n", "<Leader>tg", [[<Cmd>TigGrep<CR>]])
+      vim.keymap.set("n", "<Leader>tr", [[<Cmd>TigGrepResume<CR>]])
+      vim.keymap.set("v", "<Leader>tG", [[y<Cmd>TigGrep<Space><C-R>"<CR>]])
+      vim.keymap.set("n", "<Leader>tc", [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]])
+      vim.keymap.set("n", "<Leader>tb", [[<Cmd>TigBlame<CR>]])
     end,
   },
 
@@ -172,69 +171,6 @@ return {
   },
 
   {
-    "lambdalisue/vim-gista",
-    cmd = { "Gista" },
-    setup = function()
-      vim.g["gista#command#list#enable_default_mappings"] = 0
-    end,
-    config = function()
-      local m = require "mappy"
-      require("agrp").set {
-        gista_mappings = {
-          {
-            "User",
-            "GistaList",
-            function()
-              -- nmap <buffer> <F5>   <Plug>(gista-update)
-              -- nmap <buffer> <S-F5> <Plug>(gista-UPDATE)
-              m.add_buffer_maps(function()
-                m.nmap("q", [[<Plug>(gista-quit)]])
-                m.nmap("<C-n>", [[<Plug>(gista-next-mode)]])
-                m.nmap("<C-p>", [[<Plug>(gista-prev-mode)]])
-                m.nmap("?", [[<Plug>(gista-toggle-mapping-visibility)]])
-                m.nmap("<C-l>", [[<Plug>(gista-redraw)]])
-                m.nmap("uu", [[<Plug>(gista-update)]])
-                m.nmap("UU", [[<Plug>(gista-UPDATE)]])
-                m.nmap("<Return>", [[<Plug>(gista-edit)]])
-                m.nmap("ee", [[<Plug>(gista-edit)]])
-                m.nmap("EE", [[<Plug>(gista-edit-right)]])
-                m.nmap("tt", [[<Plug>(gista-edit-tab)]])
-                m.nmap("pp", [[<Plug>(gista-edit-preview)]])
-                m.nmap("ej", [[<Plug>(gista-json)]])
-                m.nmap("EJ", [[<Plug>(gista-json-right)]])
-                m.nmap("tj", [[<Plug>(gista-json-tab)]])
-                m.nmap("pj", [[<Plug>(gista-json-preview)]])
-                m.nmap("bb", [[<Plug>(gista-browse-open)]])
-                m.nmap("yy", [[<Plug>(gista-browse-yank)]])
-                m.nmap("rr", [[<Plug>(gista-rename)]])
-                m.nmap("RR", [[<Plug>(gista-RENAME)]])
-                m.nmap("df", [[<Plug>(gista-remove)]])
-                m.nmap("DF", [[<Plug>(gista-REMOVE)]])
-                m.nmap("dd", [[<Plug>(gista-delete)]])
-                m.nmap("DD", [[<Plug>(gista-DELETE)]])
-                m.nmap("++", [[<Plug>(gista-star)]])
-                m.nmap("--", [[<Plug>(gista-unstar)]])
-                m.nmap("ff", [[<Plug>(gista-fork)]])
-                m.nmap("cc", [[<Plug>(gista-commits)]])
-              end)
-            end,
-          },
-        },
-      }
-
-      if fn.exists "g:gista_github_api_path" then
-        local apinames = fn["gista#client#get_available_apinames"]()
-        for _, n in ipairs(apinames) do
-          if n == "GHE" then
-            fn["gista#client#register"](n, vim.g.gista_github_api_path)
-            break
-          end
-        end
-      end
-    end,
-  },
-
-  {
     "mbbill/undotree",
     cmd = { "UndotreeToggle" },
     setup = function()
@@ -243,7 +179,7 @@ return {
       vim.g.undotree_ShortIndicators = 1
       vim.g.undotree_TreeNodeShape = "●"
       vim.g.undotree_WindowLayout = 2
-      require("mappy").nnoremap("<A-u>", [[<Cmd>UndotreeToggle<CR>]])
+      vim.keymap.set("n", "<A-u>", [[<Cmd>UndotreeToggle<CR>]])
     end,
   },
 
@@ -255,17 +191,8 @@ return {
       "ColorizerReloadAllBuffers",
     },
     setup = function()
-      require("mappy").bind("n", { "silent" }, { "<A-C>", "<A-S-Ç>" }, function()
-        if vim.b.colorizer_enabled then
-          vim.cmd [[ColorizerDetachFromBuffer]]
-          vim.b.colorizer_enabled = false
-          api.echo({ { "colorizer.lua disabled", "Debug" } }, true, {})
-        else
-          vim.cmd [[ColorizerAttachToBuffer]]
-          vim.b.colorizer_enabled = true
-          api.echo({ { "colorizer.lua enabled", "Debug" } }, true, {})
-        end
-      end)
+      vim.keymap.set("n", "<A-C>", [[<Cmd>ColorizerToggle<CR>]], { silent = true })
+      vim.keymap.set("n", "<A-S-Ç>", [[<Cmd>ColorizerToggle<CR>]], { silent = true })
     end,
   },
 
@@ -288,7 +215,7 @@ return {
       { "n", "<A-O>" },
     },
     setup = function()
-      require("mappy").nnoremap("<A-O>", ":Octo ")
+      vim.keymap.set("n", "<A-O>", "Octo ")
     end,
     config = function()
       require("octo").setup { github_hostname = vim.g.gh_e_host }
@@ -318,7 +245,8 @@ return {
     cmd = { "GitMessenger" },
     setup = function()
       vim.g.git_messenger_no_default_mappings = true
-      require("mappy").bind("n", { "<A-b>", "<A-∫>" }, [[<Cmd>GitMessenger<CR>]])
+      vim.keymap.set("n", "<A-b>", [[<Cmd>GitMessenger<CR>]])
+      vim.keymap.set("n", "<A-∫>", [[<Cmd>GitMessenger<CR>]])
     end,
   },
 
@@ -336,7 +264,7 @@ return {
     keys = { "<Plug>(openbrowser-smart-search)" },
     fn = { "openbrowser#open" },
     config = function()
-      require("mappy").rbind("nv", "g<CR>", [[<Plug>(openbrowser-smart-search)]])
+      vim.keymap.set({ "n", "v" }, "g<CR>", [[<Plug>(openbrowser-smart-search)]])
     end,
   },
 
@@ -366,7 +294,7 @@ return {
     cmd = { "FuzzyMotion" },
     wants = { "denops.vim" },
     setup = function()
-      require("mappy").nnoremap("s", "<Cmd>FuzzyMotion<CR>")
+      vim.keymap.set("n", "s", "<Cmd>FuzzyMotion<CR>")
     end,
   },
   -- }}}
@@ -557,8 +485,8 @@ return {
         },
       }
 
-      require("mappy").nmap("<A-t>", [[<Cmd>TagbarToggle<CR>]])
-      require("mappy").nmap("<A-†>", [[<Cmd>TagbarToggle<CR>]])
+      vim.keymap.set("n", "<A-t>", [[<Cmd>TagbarToggle<CR>]])
+      vim.keymap.set("n", "<A-†>", [[<Cmd>TagbarToggle<CR>]])
     end,
   },
   -- }}}
@@ -775,17 +703,15 @@ return {
     "rhysd/committia.vim",
     ft = { "gitcommit" },
     setup = function()
-      local m = require "mappy"
       local hook = require "f_meta" {
         "committia_hook_edit_open",
         function(info)
           if info.vcs == "git" and fn.getline(1) == "" then
             vim.cmd [[startinsert]]
           end
-          m.add_buffer_maps(function()
-            m.rbind("i", { "<A-d>", "<A-∂>" }, [[<Plug>(committia-scroll-diff-down-half)]])
-            m.imap("<A-u>", [[<Plug>(committia-scroll-diff-up-half)]])
-          end)
+          vim.keymap.set("i", "<A-d>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
+          vim.keymap.set("i", "<A-∂>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
+          vim.keymap.set("i", "<A-u>", [[<Plug>(committia-scroll-diff-up-half)]], { buffer = true })
         end,
       }
       vim.g.committia_hooks = vim.empty_dict()
@@ -857,9 +783,10 @@ return {
     keys = { { "n", "<Plug>(fold-cycle-" } },
     setup = function()
       vim.g.fold_cycle_default_mapping = 0
-      local m = require "mappy"
-      m.rbind("n", { "<A-l>", "<A-¬>" }, [[<Plug>(fold-cycle-open)]])
-      m.rbind("n", { "<A-h>", "<A-˙>" }, [[<Plug>(fold-cycle-open)]])
+      vim.keymap.set("n", "<A-l>", [[<Plug>(fold-cycle-open)]])
+      vim.keymap.set("n", "<A-¬>", [[<Plug>(fold-cycle-open)]])
+      vim.keymap.set("n", "<A-h>", [[<Plug>(fold-cycle-open)]])
+      vim.keymap.set("n", "<A-˙>", [[<Plug>(fold-cycle-open)]])
     end,
   },
 
@@ -868,11 +795,12 @@ return {
     keys = { { "n", "<Plug>(miniyank-" } },
     setup = function()
       vim.g.miniyank_maxitems = 100
-      local m = require "mappy"
-      m.nmap("p", [[<Plug>(miniyank-autoput)]])
-      m.nmap("P", [[<Plug>(miniyank-autoPut)]])
-      m.rbind("n", { "<A-p>", "<A-π>" }, [[<Plug>(miniyank-cycle)]])
-      m.rbind("n", { "<A-P>", "<A-S-∏>" }, [[<Plug>(miniyank-cycleback)]])
+      vim.keymap.set("n", "p", [[<Plug>(miniyank-autoput)]])
+      vim.keymap.set("n", "P", [[<Plug>(miniyank-autoPut)]])
+      vim.keymap.set("n", "<A-p>", [[<Plug>(miniyank-cycle)]])
+      vim.keymap.set("n", "<A-π>", [[<Plug>(miniyank-cycle)]])
+      vim.keymap.set("n", "<A-P>", [[<Plug>(miniyank-cycleback)]])
+      vim.keymap.set("n", "<A-S-∏>", [[<Plug>(miniyank-cycleback)]])
     end,
   },
 
@@ -880,7 +808,7 @@ return {
     "chikatoike/concealedyank.vim",
     keys = { { "x", "<Plug>(operator-concealedyank)" } },
     setup = function()
-      require("mappy").xmap("Y", [[<Plug>(operator-concealedyank)]])
+      vim.keymap.set("x", "Y", [[<Plug>(operator-concealedyank)]])
     end,
   },
 
@@ -912,7 +840,7 @@ return {
     "junegunn/vim-easy-align",
     keys = { { "v", "<Plug>(EasyAlign)" } },
     setup = function()
-      require("mappy").vmap("<CR>", "<Plug>(EasyAlign)")
+      vim.keymap.set("v", "<CR>", "<Plug>(EasyAlign)")
 
       vim.g.easy_align_delimiters = {
         [">"] = { pattern = [[>>\|=>\|>]] },
@@ -961,15 +889,14 @@ return {
         use_migemo = true,
       }
       local direction = require("hop.hint").HintDirection
-      local m = require "mappy"
-      m.bind("nv", [['w]], hop.hint_words)
-      m.bind("nv", [['/]], hop.hint_patterns)
-      m.bind("nv", [['s]], hop.hint_char1)
-      m.bind("nv", [[S]], hop.hint_char2)
-      m.bind("nv", [['j]], function()
+      vim.keymap.set({ "n", "v" }, [['w]], hop.hint_words)
+      vim.keymap.set({ "n", "v" }, [['/]], hop.hint_patterns)
+      vim.keymap.set({ "n", "v" }, [['s]], hop.hint_char1)
+      vim.keymap.set({ "n", "v" }, [[S]], hop.hint_char2)
+      vim.keymap.set({ "n", "v" }, [['j]], function()
         hop.hint_lines { direction = direction.AFTER_CURSOR }
       end)
-      m.bind("nv", [['k]], function()
+      vim.keymap.set({ "n", "v" }, [['k]], function()
         hop.hint_lines { direction = direction.BEFORE_CURSOR }
       end)
       if vim.opt.background:get() == "dark" then
@@ -1014,10 +941,9 @@ return {
       { "x", "<Plug>(quickhl-" },
     },
     setup = function()
-      local m = require "mappy"
-      m.rbind("nx", "<Space>m", [[<Plug>(quickhl-manual-this)]])
-      m.rbind("nx", "<Space>t", [[<Plug>(quickhl-manual-toggle)]])
-      m.rbind("nx", "<Space>M", [[<Plug>(quickhl-manual-reset)]])
+      vim.keymap.set({ "n", "x" }, "<Space>m", [[<Plug>(quickhl-manual-this)]])
+      vim.keymap.set({ "n", "x" }, "<Space>t", [[<Plug>(quickhl-manual-toggle)]])
+      vim.keymap.set({ "n", "x" }, "<Space>M", [[<Plug>(quickhl-manual-reset)]])
     end,
   },
 
@@ -1026,7 +952,7 @@ return {
     keys = { { "x", "<Plug>(visualstar-" } },
     setup = function()
       vim.g.visualstar_no_default_key_mappings = 1
-      require("mappy").xmap({ "unique" }, "*", [[<Plug>(visualstar-*)]])
+      vim.keymap.set("x", "*", [[<Plug>(visualstar-*)]])
     end,
   },
 
@@ -1038,11 +964,10 @@ return {
       { "o", "<Plug>(columnskip:" },
     },
     setup = function()
-      local m = require "mappy"
-      m.rbind("nxo", "[j", [[<Plug>(columnskip:nonblank:next)]])
-      m.rbind("nxo", "[k", [[<Plug>(columnskip:nonblank:prev)]])
-      m.rbind("nxo", "]j", [[<Plug>(columnskip:first-nonblank:next)]])
-      m.rbind("nxo", "]k", [[<Plug>(columnskip:first-nonblank:prev)]])
+      vim.keymap.set({ "n", "x", "o" }, "[j", [[<Plug>(columnskip:nonblank:next)]])
+      vim.keymap.set({ "n", "x", "o" }, "[k", [[<Plug>(columnskip:nonblank:prev)]])
+      vim.keymap.set({ "n", "x", "o" }, "]j", [[<Plug>(columnskip:first-nonblank:next)]])
+      vim.keymap.set({ "n", "x", "o" }, "]k", [[<Plug>(columnskip:first-nonblank:prev)]])
     end,
   },
   -- }}}
@@ -1060,7 +985,7 @@ return {
     module = { "FTerm" },
     setup = function()
       local loaded
-      require("mappy").bind("nt", { "<A-c>", "<A-ç>" }, function()
+      local function toggle_fterm()
         if not loaded then
           require("FTerm").setup {
             cmd = vim.opt.shell:get(),
@@ -1127,7 +1052,9 @@ return {
           loaded = true
         end
         require("FTerm").toggle()
-      end)
+      end
+      vim.keymap.set({ "n", "t" }, "<A-c>", toggle_fterm)
+      vim.keymap.set({ "n", "t" }, "<A-ç>", toggle_fterm)
     end,
     config = function()
       vim.cmd [[
