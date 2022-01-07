@@ -1,32 +1,34 @@
-local m = function(def)
-  def.cmd = { "Telescope" }
-  def.module_pattern = { "telescope.*" }
-  return def
+local function o(plugin)
+  plugin.opt = true
+  return plugin
 end
 
 return {
-  m { "delphinus/telescope-memo.nvim" },
-  m { "kyazdani42/nvim-web-devicons" },
-  m { "nvim-lua/popup.nvim" },
-  m { "nvim-telescope/telescope-file-browser.nvim" },
-  m { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-  m { "nvim-telescope/telescope-ghq.nvim" },
-  m { "nvim-telescope/telescope-github.nvim" },
-  m { "nvim-telescope/telescope-node-modules.nvim" },
-  m { "nvim-telescope/telescope-symbols.nvim" },
-  m { "nvim-telescope/telescope-z.nvim" },
+  o { "delphinus/telescope-memo.nvim" },
+  o { "kyazdani42/nvim-web-devicons" },
+  o { "nvim-lua/popup.nvim" },
+  o { "nvim-telescope/telescope-file-browser.nvim" },
+  o { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+  o { "nvim-telescope/telescope-ghq.nvim" },
+  o { "nvim-telescope/telescope-github.nvim" },
+  o { "nvim-telescope/telescope-node-modules.nvim" },
+  o { "nvim-telescope/telescope-symbols.nvim" },
+  o { "nvim-telescope/telescope-z.nvim" },
 
-  m {
+  o {
     "nvim-telescope/telescope-smart-history.nvim",
-    requires = m { "tami5/sql.nvim" },
+    requires = o { "tami5/sql.nvim" },
+    wants = { "sql.nvim" },
   },
 
-  m {
+  {
     "nvim-telescope/telescope.nvim",
+    cmd = { "Telescope" },
+    module_pattern = { "telescope.*" },
     requires = {
       { "plenary.nvim" },
     },
-    after = {
+    wants = {
       "nvim-web-devicons",
       "popup.nvim",
       "telescope-file-browser.nvim",
@@ -41,26 +43,10 @@ return {
     },
 
     setup = function()
-      local me = "telescope.nvim"
-      local packer = require "packer"
-      local plugins = vim.tbl_keys(packer_plugins[me].load_after)
-
-      local loader = function()
-        local not_loaded = vim.tbl_filter(function(p)
-          return not packer_plugins[p].loaded
-        end, plugins)
-        if not packer_plugins[me].loaded then
-          table.insert(not_loaded, me)
-        end
-        packer.loader(unpack(not_loaded))
-      end
-
       local builtin = function(name)
-        loader()
         return require("telescope.builtin")[name]
       end
       local extensions = function(name)
-        loader()
         local telescope = require "telescope"
         telescope.load_extension(name)
         return telescope.extensions[name]
