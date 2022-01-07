@@ -154,13 +154,6 @@ return {
       local actions_state = require "telescope.actions.state"
       local telescope = require "telescope"
       local from_entry = require "telescope.from_entry"
-      local builtin = function(name)
-        return function(opt)
-          return function()
-            return require("telescope.builtin")[name](opt or {})
-          end
-        end
-      end
       local Path = require "plenary.path"
 
       local run_in_dir = function(name)
