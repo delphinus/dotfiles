@@ -325,7 +325,7 @@ return {
           return ""
         end
         local col = fn.col "."
-        if col < 1 or fn.getline(".")[col - 2]:match "%s" then
+        if col <= 1 or fn.getline("."):sub(col - 1):match "%s" then
           return "<Tab>"
         end
         fn["ddc#manual_complete"]()
