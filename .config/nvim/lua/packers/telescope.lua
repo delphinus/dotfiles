@@ -155,6 +155,7 @@ return {
       local telescope = require "telescope"
       local from_entry = require "telescope.from_entry"
       local Path = require "plenary.path"
+      local fb_actions = require "telescope._extensions.file_browser.actions"
 
       local run_in_dir = function(name)
         return function()
@@ -227,6 +228,45 @@ return {
           dynamic_preview_title = true,
         },
         extensions = {
+          file_browser = {
+            mappings = {
+              i = {
+                ["<A-d>"] = fb_actions.remove_file,
+                ["<A-e>"] = fb_actions.toggle_all,
+                ["<A-g>"] = fb_actions.goto_parent_dir,
+                ["<A-h>"] = fb_actions.toggle_hidden,
+                ["<A-s>"] = fb_actions.goto_home_dir,
+                ["<C-a>"] = run_in_dir "find_files",
+                ["<C-d>"] = preview_scroll(3),
+                ["<C-e>"] = fb_actions.create_file,
+                ["<C-f>"] = fb_actions.toggle_browser,
+                ["<C-g>"] = run_in_dir "live_grep",
+                ["<C-n>"] = actions.select_horizontal,
+                ["<C-o>"] = fb_actions.open_file,
+                ["<C-r>"] = fb_actions.rename_file,
+                ["<C-s>"] = actions.select_horizontal,
+                ["<C-t>"] = fb_actions.change_cwd,
+                ["<C-u>"] = preview_scroll(-3),
+                ["<C-w>"] = fb_actions.goto_cwd,
+                ["<C-y>"] = fb_actions.copy_file,
+              },
+              n = {
+                ["<C-a>"] = run_in_dir "find_files",
+                ["dd"] = fb_actions.remove_file,
+                ["e"] = fb_actions.create_file,
+                ["f"] = fb_actions.toggle_browser,
+                ["g"] = fb_actions.goto_parent_dir,
+                ["h"] = fb_actions.toggle_hidden,
+                ["m"] = fb_actions.move_file,
+                ["o"] = fb_actions.open_file,
+                ["r"] = fb_actions.rename_file,
+                ["w"] = fb_actions.goto_cwd,
+                ["s"] = fb_actions.goto_home_dir,
+                ["t"] = fb_actions.change_cwd,
+                ["y"] = fb_actions.copy_file,
+              },
+            },
+          },
           fzf = {
             fuzzy = true,
             override_generic_sorter = true,
