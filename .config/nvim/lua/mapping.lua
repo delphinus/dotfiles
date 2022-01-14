@@ -5,7 +5,6 @@ vim.opt.ttimeoutlen = 10
 vim.keymap.set({ "n", "v" }, "<C-d>", "3<C-d>")
 vim.keymap.set({ "n", "v" }, "<C-u>", "3<C-u>")
 vim.keymap.set("n", "_", "<C-w>_")
-vim.keymap.set("n", "<Esc><Esc>", [[<Cmd>nohlsearch<CR>]])
 
 -- https://twitter.com/uvrub/status/1341036672364945408
 vim.keymap.set("i", "<CR>", "<C-g>u<CR>", { silent = true })

@@ -976,6 +976,72 @@ return {
   -- func {{{
   { "sainnhe/artify.vim", fn = { "artify#convert" } },
   { "vim-jp/vital.vim", fn = { "vital#vital#new" } },
+
+  {
+    "hrsh7th/vim-searchx",
+    fn = { "searchx#*" },
+    setup = function()
+      local searchx = function(name)
+        return function(opt)
+          return function()
+            if opt then
+              fn["searchx#" .. name](opt)
+            else
+              fn["searchx#" .. name]()
+            end
+          end
+        end
+      end
+
+      -- Overwrite / and ?.
+      vim.keymap.set({ "n", "x" }, "?", searchx "start" { dir = 0 })
+      vim.keymap.set({ "n", "x" }, "/", searchx "start" { dir = 1 })
+      vim.keymap.set("c", "<A-;>", searchx "select"())
+
+      -- Move to next/prev match.
+      vim.keymap.set({ "n", "x" }, "N", searchx "prev"())
+      vim.keymap.set({ "n", "x" }, "n", searchx "next"())
+      vim.keymap.set({ "c", "n", "x" }, "<A-z>", searchx "prev"())
+      vim.keymap.set({ "c", "n", "x" }, "<A-x>", searchx "prev"())
+
+      -- Clear highlights
+      vim.keymap.set("n", "<Esc><Esc>", searchx "clear"())
+
+      vim.g.searchx = {
+        -- Auto jump if the recent input matches to any marker.
+        auto_accept = true,
+        -- The scrolloff value for moving to next/prev.
+        scrolloff = vim.opt.scrolloff:get(),
+        -- To enable scrolling animation.
+        scrolltime = 500,
+        -- Marker characters.
+        markers = vim.split("ABCDEFGHIJKLMNOPQRSTUVWXYZ", ""),
+      }
+
+      -- Convert search pattern.
+      local convert = require "f_meta" {
+        "searchx_convert",
+        function(_, input)
+          if input:match [[\k]] then
+            return [[\V]] .. input
+          end
+          return input:sub(1, 1) .. fn.substitute(input:sub(2), [[\\\@<! ]], [[.\\{-}]], "g")
+        end,
+      }
+      vim.cmd(([[
+        function g:searchx.convert(input) abort
+          return %s(a:input)
+        endfunction
+      ]]):format(convert:vim()))
+    end,
+    config = function()
+      vim.cmd [[
+        " set highlight for markers
+        hi! link SearchxMarker DiffChange
+        hi! link SearchxMarkerCurrent WarningMsg
+      ]]
+    end,
+  },
   -- }}}
 
   -- module {{{
