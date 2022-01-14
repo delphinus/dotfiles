@@ -984,11 +984,8 @@ return {
       local searchx = function(name)
         return function(opt)
           return function()
-            if opt then
-              fn["searchx#" .. name](opt)
-            else
-              fn["searchx#" .. name]()
-            end
+            local f = fn["searchx#" .. name]
+            return opt and f(opt) or f()
           end
         end
       end
@@ -1006,7 +1003,8 @@ return {
 
       -- Clear highlights
       vim.keymap.set("n", "<Esc><Esc>", searchx "clear"())
-
+    end,
+    config = function()
       vim.g.searchx = {
         -- Auto jump if the recent input matches to any marker.
         auto_accept = true,
@@ -1033,8 +1031,6 @@ return {
           return %s(a:input)
         endfunction
       ]]):format(convert:vim()))
-    end,
-    config = function()
       vim.cmd [[
         " set highlight for markers
         hi! link SearchxMarker DiffChange
