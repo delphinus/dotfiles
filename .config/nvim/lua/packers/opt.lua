@@ -1008,7 +1008,7 @@ return {
         -- To enable scrolling animation.
         scrolltime = 500,
         -- Marker characters.
-        markers = vim.split("ABCDEFGHIJKLMNOPQRSTUVWXYZ", ""),
+        markers = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
       }
 
       -- Convert search pattern.
