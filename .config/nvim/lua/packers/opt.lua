@@ -873,27 +873,22 @@ return {
   },
 
   {
-    --'phaazon/hop.nvim',
-    "delphinus/hop.nvim",
-    branch = "feature/migemo",
+    "phaazon/hop.nvim",
+    --"delphinus/hop.nvim",
+    --branch = "feature/migemo",
     keys = {
-      { "n", [[']] },
-      { "v", [[']] },
-      { "n", "S" },
-      { "v", "S" },
+      { "n", [['j]] },
+      { "v", [['j]] },
+      { "n", [['k]] },
+      { "v", [['k]] },
     },
     config = function()
       local hop = require "hop"
       hop.setup {
         keys = "hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB",
         extend_visual = true,
-        use_migemo = true,
       }
       local direction = require("hop.hint").HintDirection
-      vim.keymap.set({ "n", "v" }, [['w]], hop.hint_words)
-      vim.keymap.set({ "n", "v" }, [['/]], hop.hint_patterns)
-      vim.keymap.set({ "n", "v" }, [['s]], hop.hint_char1)
-      vim.keymap.set({ "n", "v" }, [[S]], hop.hint_char2)
       vim.keymap.set({ "n", "v" }, [['j]], function()
         hop.hint_lines { direction = direction.AFTER_CURSOR }
       end)
