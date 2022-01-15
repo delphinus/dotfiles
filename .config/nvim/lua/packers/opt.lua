@@ -1012,7 +1012,6 @@ return {
 
       -- Convert search pattern.
       local convert = require "f_meta" {
-        "searchx_convert",
         function(_, input)
           -- If the input does not contain iskeyword characters, it deals with
           -- the input as "very magic".
