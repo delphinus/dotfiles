@@ -1015,10 +1015,34 @@ return {
       local convert = require "f_meta" {
         "searchx_convert",
         function(_, input)
-          if input:match [[\k]] then
+          -- If the input does not contain iskeyword characters, it deals with
+          -- the input as "very magic".
+          if not vim.regex([[\k]]):match_str(input) then
             return [[\V]] .. input
+          elseif not input:match "^;" then
+            -- If the input contains spaces, it tries fuzzy matching.
+            return input:sub(1, 1) .. fn.substitute(input:sub(2), [[\\\@<! ]], [[.\\{-}]], "g")
           end
-          return input:sub(1, 1) .. fn.substitute(input:sub(2), [[\\\@<! ]], [[.\\{-}]], "g")
+          -- If the input has `;` at the beginning, it converts the input with
+          -- cmigemo.
+          local dict = "/usr/local/opt/cmigemo/share/migemo/utf-8/migemo-dict"
+          local re
+          require("plenary.job")
+            :new({
+              command = "cmigemo",
+              args = { "-v", "-d", dict, "-w", input:sub(2) },
+              on_exit = function(j, return_val)
+                local out = j:result()
+                if return_val == 0 and #out > 0 then
+                  re = out[1]
+                else
+                  vim.notify("cmigemo execution failed", vim.log.levels.WARN)
+                  re = input:sub(2)
+                end
+              end,
+            })
+            :sync()
+          return re
         end,
       }
       vim.cmd(([[
