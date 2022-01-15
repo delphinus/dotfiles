@@ -993,7 +993,7 @@ return {
       vim.keymap.set({ "n", "x" }, "N", searchx "prev"())
       vim.keymap.set({ "n", "x" }, "n", searchx "next"())
       vim.keymap.set({ "c", "n", "x" }, "<A-z>", searchx "prev"())
-      vim.keymap.set({ "c", "n", "x" }, "<A-x>", searchx "prev"())
+      vim.keymap.set({ "c", "n", "x" }, "<A-x>", searchx "next"())
 
       -- Clear highlights
       vim.keymap.set("n", "<Esc><Esc>", searchx "clear"())
