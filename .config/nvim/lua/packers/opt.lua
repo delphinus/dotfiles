@@ -198,8 +198,7 @@ return {
   },
 
   {
-    --'npxbr/glow.nvim',
-    "delphinus/glow.nvim",
+    "npxbr/glow.nvim",
     branch = "feature/pager",
     cmd = { "Glow", "GlowInstall" },
     setup = function()
