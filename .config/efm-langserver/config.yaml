@@ -16,18 +16,18 @@ tools:
     lint-ignore-exit-code: true
     lint-stdin: true
     lint-formats:
-      - '%f:%l:%m'
+      - '%l:%m'
 
   perlcritic: &perlcritic
     lint-command: >-
-      perlcritic --severity 1 --verbose '%s:%f:%l:%c:%m (%P)\n' |
+      perlcritic --severity 1 --verbose '%s:%l:%c:%m (%P)\n' |
       sort |
       perl -pe 's/^\d/+{5=>"w",4=>"i",3=>"n",2=>"n",1=>"n"}->{$&}/xe' |
       perl -pe 's/Perl::Critic::Policy:://'
     lint-ignore-exit-code: true
     lint-stdin: true
     lint-formats:
-      - '%t:%f:%l:%c:%m'
+      - '%t:%l:%c:%m'
 
   eruby-erb: &eruby-erb
     lint-command: 'erb -x -T - | ruby -c'
