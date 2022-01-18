@@ -72,8 +72,8 @@ tools:
     lint-stdin: true
     lint-ignore-exit-code: true
     lint-formats:
-      - '  %l:%c       %tarning  %m'
-      - '  %l:%c       %trror    %m'
+      - '  %l:%c    %tarning  %m'
+      - '  %l:%c    %trror    %m'
 
   python-flake8: &python-flake8
     lint-command: 'flake8 --stdin-display-name ${INPUT} -'
