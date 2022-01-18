@@ -18,6 +18,8 @@
     dest=~/git/{{ item }}
   with_items:
     - github.com/KeenS/SKK_JISYO.wiktionary
+    - github.com/uasi/skk-emoji-jisyo
+    - github.com/ymrl/SKK-JISYO.emoji-ja
 
 - homebrew: >-
     name=skktools
@@ -33,3 +35,17 @@
   args:
     executable: /bin/bash
     chdir: ~/git/github.com/KeenS/SKK_JISYO.wiktionary
+
+- name: copy emoji dictionary
+  file: >-
+    src=~/git/github.com/uasi/skk-emoji-jisyo/SKK-JISYO.emoji.utf8
+    dest='~/Library/Application Support/AquaSKK/SKK_JISYO.emoji.utf8'
+    state=link
+    force=yes
+
+- name: copy emoji-ja dictionary
+  file: >-
+    src=~/git/github.com/ymrl/SKK-JISYO.emoji-ja/SKK-JISYO.emoji-ja.utf8
+    dest='~/Library/Application Support/AquaSKK/SKK_JISYO.emoji-ja.utf8'
+    state=link
+    force=yes
