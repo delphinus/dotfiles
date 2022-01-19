@@ -702,9 +702,8 @@ return {
     "rhysd/committia.vim",
     ft = { "gitcommit" },
     setup = function()
-      local hook = require "f_meta" {
-        "committia_hook_edit_open",
-        function(info)
+      vim.g.committia_hooks = {
+        edit_open = function(info)
           if info.vcs == "git" and fn.getline(1) == "" then
             vim.cmd [[startinsert]]
           end
@@ -713,12 +712,6 @@ return {
           vim.keymap.set("i", "<A-u>", [[<Plug>(committia-scroll-diff-up-half)]], { buffer = true })
         end,
       }
-      vim.g.committia_hooks = vim.empty_dict()
-      vim.cmd(([[
-        function! g:committia_hooks.edit_open(info)
-          call %s(a:info)
-        endfunction
-      ]]):format(hook:vim()))
     end,
   },
 
@@ -1004,15 +997,12 @@ return {
         -- The scrolloff value for moving to next/prev.
         scrolloff = vim.opt.scrolloff:get(),
         -- To enable scrolling animation.
-        scrolltime = 500,
+        scrolltime = 0,
         -- Marker characters.
         markers = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
-      }
 
-      -- Convert search pattern.
-      local convert = require "f_meta" {
-        "searchx_convert",
-        function(_, input)
+        convert = function(input)
+          print(input)
           -- If the input does not contain iskeyword characters, it deals with
           -- the input as "very magic".
           if not vim.regex([[\k]]):match_str(input) then
@@ -1043,11 +1033,7 @@ return {
           return re
         end,
       }
-      vim.cmd(([[
-        function g:searchx.convert(input) abort
-          return %s(a:input)
-        endfunction
-      ]]):format(convert:vim()))
+
       vim.cmd [[
         " set highlight for markers
         hi! link SearchxMarker DiffChange
