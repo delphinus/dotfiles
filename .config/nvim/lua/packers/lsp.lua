@@ -257,6 +257,9 @@ return {
                 globals = {
                   "vim",
                   "packer_plugins",
+                  "api",
+                  "fn",
+                  "loop",
 
                   -- for testing
                   "after_each",
