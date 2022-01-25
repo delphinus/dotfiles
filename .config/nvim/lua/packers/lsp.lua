@@ -288,7 +288,7 @@ return {
               },
             },
           },
-          on_new_config = function(config, root_dir)
+          on_new_config = function(config, _)
             config.settings.Lua.workspace.library = api.get_runtime_file("", true)
           end,
         },
