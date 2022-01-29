@@ -211,3 +211,5 @@ set -x DOCKER_BUILDKIT 1
 
 # fish-grc removes this definition
 _grc_wrap ps
+
+test -f /opt/homebrew/bin/brew; /opt/homebrew/bin/brew shellenv | source
