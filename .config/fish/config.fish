@@ -1,5 +1,13 @@
 not status is-interactive; and exit 0
 
+set -l homebrew_path
+if test -d /opt/homebrew
+  /opt/homebrew/bin/brew shellenv | source
+  set homebrew_path /opt/homebrew
+else
+  set homebrew_path /usr/local
+end
+
 set -l paths \
   ~/bin \
   ~/.luarocks/bin \
@@ -15,9 +23,9 @@ set -l paths \
   ~/git/dotfiles/bin \
   ~/Library/Python/3.9/bin \
   ~/.gem/ruby/3.0.0/bin \
-  /usr/local/opt/ruby/bin \
-  /usr/local/opt/llvm/bin \
-  /usr/local/opt/perl/bin \
+  $homebrew_path/opt/ruby/bin \
+  $homebrew_path/opt/llvm/bin \
+  $homebrew_path/opt/perl/bin \
   /Applications/Xcode.app/Contents/Developer/usr/bin \
   ~/Library/Application\ Support/Coursier/bin
 
@@ -171,15 +179,15 @@ set -x GO111MODULE on
 set -x PYTHONPATH \
   ./src \
   ./rplugin/python3 \
-  /usr/local/Cellar/fontforge/*/lib/python3.9/site-packages
+  $homebrew_path/Cellar/fontforge/*/lib/python3.9/site-packages
 set -x MYPYPATH $PYTHONPATH
 
-set gcsdk_path /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+set gcsdk_path $homebrew_path/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 test -d $gcsdk_path; and source "$gcsdk_path/path.fish.inc"
 
 type -q direnv;    and direnv hook fish | source
 type -q gosshauth; and gosshauth hook fish | source
-type -q asdf;      and source /usr/local/opt/asdf/libexec/asdf.fish
+type -q asdf;      and source $homebrew_path/opt/asdf/libexec/asdf.fish
 
 if type -q luarocks
   set path (type -P luarocks)
@@ -211,5 +219,3 @@ set -x DOCKER_BUILDKIT 1
 
 # fish-grc removes this definition
 _grc_wrap ps
-
-test -f /opt/homebrew/bin/brew; /opt/homebrew/bin/brew shellenv | source
