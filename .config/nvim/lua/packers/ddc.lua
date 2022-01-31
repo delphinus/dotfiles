@@ -243,7 +243,6 @@ return {
               "converter_remove_overlap",
               "converter_truncate",
               "converter_fuzzy",
-              "loud",
             },
           },
           around = { mark = "A" },
@@ -257,7 +256,13 @@ return {
           },
           git = { mark = "G" },
           line = { mark = "LN" },
-          look = { mark = "LK", maxCandidates = 20 },
+          look = {
+            converters = { "loud" },
+            isVolatile = true,
+            matchers = {},
+            mark = "LK",
+            maxCandidates = 20,
+          },
           necovim = { mark = "V" },
           --nextword = {mark = 'X'},
           ["nvim-lsp"] = {
@@ -272,6 +277,7 @@ return {
             mark = "S",
             minKeywordLength = 4,
             maxKeywordLength = 50,
+            maxCandidates = 20,
           },
           skkeleton = {
             mark = "SKK",
@@ -285,6 +291,7 @@ return {
         sourceParams = {
           around = { maxSize = 500 },
           buffer = { requireSameFiletype = false },
+          look = { convertCase = true },
           ["nvim-lsp"] = { maxSize = 500 },
         },
         filterParams = {
