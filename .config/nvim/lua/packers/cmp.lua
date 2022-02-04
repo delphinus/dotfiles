@@ -13,6 +13,21 @@ return {
     "hrsh7th/nvim-cmp",
     --event = { "InsertEnter" },
     setup = function()
+      local maxwidth = 50
+      local lspkind_format = require("lspkind").cmp_format {
+        mode = "symbol_text",
+        preset = "codicons",
+        maxwidth = maxwidth,
+      }
+      local menu = {
+        buffer = "[B]",
+        emoji = "[E]",
+        look = "[LK]",
+        nvim_lsp = "[L]",
+        path = "[P]",
+        rg = "[R]",
+        tmux = "[T]",
+      }
       local cmp = require "cmp"
       cmp.setup {
         mapping = {
@@ -33,10 +48,12 @@ return {
         }),
         formatting = {
           format = function(entry, vim_item)
-            if not vim_item.label then
-              vim_item.label = "[" .. entry.source.name .. "]"
+            local name = entry.source.name
+            vim_item.menu = menu[name] or ""
+            if name == "nvim_lsp" then
+              return lspkind_format(entry, vim_item)
             end
-            print(vim_item.label)
+            vim_item.abbr = vim_item.abbr:sub(1, maxwidth)
             return vim_item
           end,
         },
