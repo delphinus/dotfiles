@@ -10,6 +10,17 @@ return {
   { "onsails/lspkind-nvim" },
 
   {
+    "dcampos/cmp-snippy",
+    requires = {
+      "dcampos/nvim-snippy",
+      "honza/vim-snippets",
+    },
+    setup = function()
+      require("snippy").setup {}
+    end,
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     --event = { "InsertEnter" },
     setup = function()
@@ -30,6 +41,11 @@ return {
       }
       local cmp = require "cmp"
       cmp.setup {
+        snippet = {
+          expand = function(args)
+            require("snippy").expand_snippet(args.body)
+          end,
+        },
         mapping = {
           ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
           ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
