@@ -1000,6 +1000,8 @@ return {
         scrolltime = 0,
         -- Marker characters.
         markers = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
+        -- To enable auto nohlsearch after cursor is moved
+        nohlsearch = { jump = true },
 
         convert = function(input)
           print(input)
