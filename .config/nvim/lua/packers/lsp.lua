@@ -153,6 +153,12 @@ return {
         return false
       end
 
+      local ok, cmp = pcall(require, "cmp")
+      local capabilities
+      if ok then
+        capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      end
+
       for name, config in pairs {
         clangd = { on_attach = lsp_on_attach() },
         cssls = { on_attach = lsp_on_attach() },
@@ -308,6 +314,9 @@ return {
           return { on_attach = lsp_on_attach() }
         end)(),
       } do
+        if capabilities then
+          config.capabilities = capabilities
+        end
         lsp[name].setup(config)
       end
     end,
