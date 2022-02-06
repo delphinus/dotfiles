@@ -58,7 +58,7 @@ return {
           { name = "snippy" },
         }, {
           { name = "snippy" },
-          { name = "tmux", option = { all_panes = true } },
+          { name = "tmux", keyword_length = 2, option = { all_panes = true } },
           { name = "buffer" },
           { name = "rg" },
           { name = "emoji" },
