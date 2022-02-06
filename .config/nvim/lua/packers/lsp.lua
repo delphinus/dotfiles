@@ -153,7 +153,7 @@ return {
         return false
       end
 
-      local ok, cmp = pcall(require, "cmp")
+      local ok = pcall(require, "cmp")
       local capabilities
       if ok then
         capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
