@@ -63,6 +63,7 @@ return {
         nvim_lsp = "[L]",
         path = "[P]",
         rg = "[R]",
+        snippy = "[S]",
         tmux = "[T]",
       }
       local cmp = require "cmp"
