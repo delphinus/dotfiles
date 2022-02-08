@@ -15,7 +15,7 @@ return {
       "dcampos/nvim-snippy",
       "honza/vim-snippets",
     },
-    setup = function()
+    config = function()
       require("snippy").setup {}
     end,
   },
@@ -23,12 +23,38 @@ return {
   {
     "hrsh7th/nvim-cmp",
     --event = { "InsertEnter" },
-    setup = function()
+    config = function()
       local maxwidth = 50
       local lspkind_format = require("lspkind").cmp_format {
-        mode = "symbol_text",
-        preset = "codicons",
+        mode = "symbol",
         maxwidth = maxwidth,
+        symbol_map = {
+          Text = "󾪓", -- 0xFEA93
+          Method = "󾪌", -- 0xFEA8C
+          Function = "󾪌", -- 0xFEA8C
+          Constructor = "󾪌", -- 0xFEA8C
+          Field = "󾭟", -- 0xFEB5F
+          Variable = "󾪈", -- 0xFEA88
+          Class = "󾭛", -- 0xFEB5B
+          Interface = "󾭡", -- 0xFEB61
+          Module = "󾪋", -- 0xFEA8B
+          Property = "󾭥", -- 0xFEB65
+          Unit = "󾪖", -- 0xFEA96
+          Value = "󾪕", -- 0xFEA95
+          Enum = "󾪕", -- 0xFEA95
+          Keyword = "󾭢", -- 0xFEB62
+          Snippet = "󾭦", -- 0xFEB66
+          Color = "󾭜", -- 0xFEB5C
+          File = "󾩻", -- 0xFEA7B
+          Reference = "󾪔", -- 0xFEA94
+          Folder = "󾪃", -- 0xFEA83
+          EnumMember = "󾪕", -- 0xFEA95
+          Constant = "󾭝", -- 0xFEB5D
+          Struct = "󾪑", -- 0xFEA91
+          Event = "󾪆", -- 0xFEA86
+          Operator = "󾭤", -- 0xFEB64
+          TypeParameter = "󾪒", -- 0xFEA92
+        },
       }
       local menu = {
         buffer = "[B]",
@@ -53,26 +79,32 @@ return {
           ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
           ["<CR>"] = cmp.mapping.confirm { select = true },
         },
-        sources = cmp.config.sources({
+        sources = {
           { name = "nvim_lsp" },
           { name = "snippy" },
-        }, {
-          { name = "snippy" },
-          { name = "tmux", keyword_length = 2, option = { all_panes = true } },
-          { name = "buffer" },
+          { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
+          {
+            name = "buffer",
+            option = {
+              --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]],
+              --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h[\-:\w]*\%([\-.][:\w]*\)*\)]],
+              --keyword_pattern = [[\k\+]],
+              -- Allow Foo::Bar & foo-bar
+              keyword_pattern = [[\k\+\%(\%(-\k\+\)\|\%(::\k\+\)\)*]],
+              get_bufnrs = function()
+                return api.list_bufs()
+              end,
+            },
+          },
           { name = "rg" },
           { name = "emoji" },
           { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
-        }),
+        },
         formatting = {
           format = function(entry, vim_item)
             local name = entry.source.name
             vim_item.menu = menu[name] or ""
-            if name == "nvim_lsp" then
-              return lspkind_format(entry, vim_item)
-            end
-            vim_item.abbr = vim_item.abbr:sub(1, maxwidth)
-            return vim_item
+            return lspkind_format(entry, vim_item)
           end,
         },
       }
