@@ -187,6 +187,7 @@ return {
                 hi CmpItemAbbrDeprecated guifg=#616e88 gui=bold
                 hi CmpItemAbbrMatch guifg=#ebcb8b
                 hi CmpItemAbbrMatchFuzzy guifg=#d08770
+                hi CmpItemMenu gui=bold guifg=#616e88
 
                 hi CmpItemKindText guifg=#81a1c1
                 hi CmpItemKindMethod guifg=#b48ead
