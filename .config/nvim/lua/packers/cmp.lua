@@ -26,7 +26,7 @@ return {
     config = function()
       local maxwidth = 50
       local lspkind_format = require("lspkind").cmp_format {
-        mode = "symbol",
+        mode = "symbol_text",
         maxwidth = maxwidth,
         symbol_map = {
           Text = "󾪓", -- 0xFEA93
@@ -121,14 +121,17 @@ return {
                 hi CmpItemAbbrDeprecated gui=bold guifg=#616e88
                 hi CmpItemAbbrMatch guifg=#ebcb8b
                 hi CmpItemAbbrMatchFuzzy guifg=#d08770
-                hi CmpItemKindVariable guifg=#88c0d0
-                hi CmpItemKindInterface guifg=#88c0d0
-                hi CmpItemKindText guifg=#88c0d0
+                hi CmpItemKindClass guifg=#ebcb8b
                 hi CmpItemKindFunction guifg=#b48ead
+                hi CmpItemKindInterface guifg=#8fbcbb
+                hi CmpItemKindKeyword guifg=#5e81ac
                 hi CmpItemKindMethod guifg=#b48ead
-                hi CmpItemKindKeyword guifg=#d8dee9
-                hi CmpItemKindProperty guifg=#d8dee9
-                hi CmpItemKindUnit guifg=#d8dee9
+                hi CmpItemKindProperty guifg=#a3be8c
+                hi CmpItemKindSnippet guifg=#d08770
+                hi CmpItemKindField guifg=#a3be8c
+                hi CmpItemKindText guifg=#81a1c1
+                hi CmpItemKindUnit guifg=#b48ead
+                hi CmpItemKindVariable guifg=#88c0d0
               ]]
             end,
           },
