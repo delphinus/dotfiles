@@ -91,7 +91,8 @@ return {
               --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h[\-:\w]*\%([\-.][:\w]*\)*\)]],
               --keyword_pattern = [[\k\+]],
               -- Allow Foo::Bar & foo-bar
-              keyword_pattern = [[\k\+\%(\%(-\k\+\)\|\%(::\k\+\)\)*]],
+              --keyword_pattern = [[\h\w*\%(\%(-\|::\)\h\w*\)*]],
+              keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
               get_bufnrs = function()
                 return api.list_bufs()
               end,
