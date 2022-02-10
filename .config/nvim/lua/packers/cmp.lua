@@ -8,6 +8,7 @@ return {
   { "lukas-reineke/cmp-rg" },
   { "octaltree/cmp-look" },
   { "onsails/lspkind-nvim" },
+  { "rinx/cmp-skkeleton" },
 
   {
     "dcampos/cmp-snippy",
@@ -17,6 +18,124 @@ return {
     },
     config = function()
       require("snippy").setup {}
+    end,
+  },
+
+  {
+    "delphinus/skkeleton_indicator.nvim",
+    event = { "InsertEnter" },
+    config = function()
+      vim.cmd [[
+            hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
+            hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
+            hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
+            hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
+            hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
+          ]]
+      require("skkeleton_indicator").setup()
+    end,
+  },
+
+  {
+    --'vim-skk/skkeleton',
+    "delphinus/skkeleton",
+    branch = "feature/inform-mode-change-immediately",
+    keys = {
+      { "i", "<Plug>(skkeleton-enable)" },
+      { "i", "<Plug>(skkeleton-disable)" },
+    },
+    wants = {
+      "denops.vim",
+    },
+    setup = function()
+      -- Use these mappings in Karabiner-Elements
+      vim.keymap.set({ "i", "c", "l" }, "<F10>", "<Plug>(skkeleton-disable)", { remap = true })
+      vim.keymap.set({ "i", "c", "l" }, "<F13>", "<Plug>(skkeleton-enable)", { remap = true })
+      vim.keymap.set({ "i", "c", "l" }, "<C-j>", "<Plug>(skkeleton-enable)", { remap = true })
+
+      local Job = require "plenary.job"
+      local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
+      local function set_karabiner(val)
+        return function()
+          Job
+            :new({
+              command = karabiner_cli,
+              args = {
+                "--set-variables",
+                ('{"neovim_in_insert_mode":%d}'):format(val),
+              },
+            })
+            :start()
+        end
+      end
+
+      local cmp = require "cmp"
+      local cmp_config = require "cmp.config"
+      local pre_config
+      require("agrp").set {
+        skkeleton_callbacks = {
+          {
+            "User",
+            "skkeleton-enable-pre",
+            function()
+              pre_config = cmp_config.get()
+              cmp.setup.buffer {
+                sources = { { name = "skkeleton" } },
+                experimental = { native_menu = true },
+              }
+            end,
+          },
+          {
+            "User",
+            "skkeleton-disable-pre",
+            function()
+              if pre_config then
+                cmp.setup.buffer(pre_config)
+                pre_config = nil
+              end
+            end,
+          },
+        },
+        skkeleton_karabiner_elements = {
+          { "InsertEnter,CmdlineEnter", "*", set_karabiner(1) },
+          { "InsertLeave,CmdlineLeave,FocusLost", "*", set_karabiner(0) },
+          {
+            "FocusGained",
+            "*",
+            function()
+              local val = fn.mode():match "[icrR]" and 1 or 0
+              set_karabiner(val)()
+            end,
+          },
+        },
+      }
+    end,
+    config = function()
+      fn["skkeleton#config"] {
+        globalJisyo = "~/Library/Application Support/AquaSKK/SKK-JISYO.L",
+        userJisyo = "~/Library/Application Support/AquaSKK/skk-jisyo.utf8",
+        markerHenkan = "□",
+        eggLikeNewline = true,
+        useSkkServer = true,
+        immediatelyCancel = false,
+        registerConvertResult = true,
+      }
+      fn["skkeleton#register_kanatable"]("rom", {
+        ["("] = { "（", "" },
+        [")"] = { "）", "" },
+        ["z "] = { "　", "" },
+        ["z1"] = { "①", "" },
+        ["z2"] = { "②", "" },
+        ["z3"] = { "③", "" },
+        ["z4"] = { "④", "" },
+        ["z5"] = { "⑤", "" },
+        ["z6"] = { "⑥", "" },
+        ["z7"] = { "⑦", "" },
+        ["z8"] = { "⑧", "" },
+        ["z9"] = { "⑨", "" },
+        ["/"] = { "・", "" },
+        ["<s-q>"] = "henkanPoint",
+      })
     end,
   },
 
