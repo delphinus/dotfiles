@@ -262,7 +262,7 @@ return {
     cmd = { "OpenBrowser", "OpenBrowserSearch" },
     keys = { "<Plug>(openbrowser-smart-search)" },
     fn = { "openbrowser#open" },
-    config = function()
+    setup = function()
       vim.keymap.set({ "n", "v" }, "g<CR>", [[<Plug>(openbrowser-smart-search)]])
     end,
   },
