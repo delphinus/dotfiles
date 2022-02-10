@@ -239,20 +239,35 @@ return {
             "nord",
             function()
               vim.cmd [[
-                hi CmpItemAbbrDeprecated gui=bold guifg=#616e88
+                hi CmpItemAbbrDeprecated guifg=#616e88 gui=bold
                 hi CmpItemAbbrMatch guifg=#ebcb8b
                 hi CmpItemAbbrMatchFuzzy guifg=#d08770
-                hi CmpItemKindClass guifg=#ebcb8b
-                hi CmpItemKindFunction guifg=#b48ead
-                hi CmpItemKindInterface guifg=#8fbcbb
-                hi CmpItemKindKeyword guifg=#5e81ac
-                hi CmpItemKindMethod guifg=#b48ead
-                hi CmpItemKindProperty guifg=#a3be8c
-                hi CmpItemKindSnippet guifg=#d08770
-                hi CmpItemKindField guifg=#a3be8c
+
                 hi CmpItemKindText guifg=#81a1c1
-                hi CmpItemKindUnit guifg=#b48ead
+                hi CmpItemKindMethod guifg=#b48ead
+                hi CmpItemKindFunction guifg=#b48ead
+                hi CmpItemKindConstructor guifg=#b48ead gui=bold
+                hi CmpItemKindField guifg=#a3be8c
                 hi CmpItemKindVariable guifg=#88c0d0
+                hi CmpItemKindClass guifg=#ebcb8b
+                hi CmpItemKindInterface guifg=#8fbcbb
+                hi CmpItemKindModule guifg=#ebcb8b
+                hi CmpItemKindProperty guifg=#a3be8c
+                hi CmpItemKindUnit guifg=#b48ead
+                hi CmpItemKindValue guifg=#8fbcbb
+                hi CmpItemKindEnum guifg=#8fbcbb
+                hi CmpItemKindKeyword guifg=#5e81ac
+                hi CmpItemKindSnippet guifg=#d08770
+                hi CmpItemKindColor guifg=#ebcb8b
+                hi CmpItemKindFile guifg=#a3be8c
+                hi CmpItemKindReference guifg=#b48ead
+                hi CmpItemKindFolder guifg=#a3be8c
+                hi CmpItemKindEnumMember guifg=#8fbcbb
+                hi CmpItemKindConstant guifg=#5e81ac
+                hi CmpItemKindStruct guifg=#8fbcbb
+                hi CmpItemKindEvent guifg=#d08770
+                hi CmpItemKindOperator guifg=#b48ead
+                hi CmpItemKindTypeParameter guifg=#8fbcbb
               ]]
             end,
           },
