@@ -1,19 +1,30 @@
-return {
-  { "andersevenrud/cmp-tmux" },
-  { "hrsh7th/cmp-buffer" },
-  { "hrsh7th/cmp-cmdline" },
-  { "hrsh7th/cmp-emoji" },
-  { "hrsh7th/cmp-nvim-lsp" },
-  { "hrsh7th/cmp-path" },
-  { "lukas-reineke/cmp-rg" },
-  { "octaltree/cmp-look" },
-  { "onsails/lspkind-nvim" },
-  { "rinx/cmp-skkeleton" },
+local function i(p)
+  p.event = { "InsertEnter" }
+  return p
+end
+local function c(p)
+  p.event = { "CmdlineEnter" }
+  return p
+end
 
-  {
+return {
+  c { "hrsh7th/cmp-cmdline" },
+  c { "hrsh7th/cmp-path" },
+
+  i { "andersevenrud/cmp-tmux" },
+  i { "hrsh7th/cmp-buffer" },
+  i { "hrsh7th/cmp-emoji" },
+  i { "hrsh7th/cmp-nvim-lsp" },
+  i { "lukas-reineke/cmp-rg" },
+  i { "octaltree/cmp-look" },
+  i { "rinx/cmp-skkeleton" },
+
+  { "onsails/lspkind-nvim", module = { "lspkind" } },
+
+  i {
     "dcampos/cmp-snippy",
     requires = {
-      "dcampos/nvim-snippy",
+      { "dcampos/nvim-snippy", module = { "snippy" } },
       "honza/vim-snippets",
     },
     config = function()
@@ -21,17 +32,28 @@ return {
     end,
   },
 
-  {
+  i {
     "delphinus/skkeleton_indicator.nvim",
-    event = { "InsertEnter" },
+    setup = function()
+      require("agrp").set {
+        skkeleton_indicator_nord = {
+          {
+            "ColorScheme",
+            "nord",
+            function()
+              vim.cmd [[
+                hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
+                hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
+                hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
+                hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
+                hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
+              ]]
+            end,
+          },
+        },
+      }
+    end,
     config = function()
-      vim.cmd [[
-            hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
-            hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
-            hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
-            hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
-            hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
-          ]]
       require("skkeleton_indicator").setup()
     end,
   },
@@ -145,7 +167,51 @@ return {
 
   {
     "hrsh7th/nvim-cmp",
-    --event = { "InsertEnter" },
+    module = { "cmp" },
+    setup = function()
+      require("agrp").set {
+        cmp_nord = {
+          {
+            "ColorScheme",
+            "nord",
+            function()
+              vim.cmd [[
+                hi CmpItemAbbrDeprecated guifg=#616e88 gui=bold
+                hi CmpItemAbbrMatch guifg=#ebcb8b
+                hi CmpItemAbbrMatchFuzzy guifg=#d08770
+
+                hi CmpItemKindText guifg=#81a1c1
+                hi CmpItemKindMethod guifg=#b48ead
+                hi CmpItemKindFunction guifg=#b48ead
+                hi CmpItemKindConstructor guifg=#b48ead gui=bold
+                hi CmpItemKindField guifg=#a3be8c
+                hi CmpItemKindVariable guifg=#88c0d0
+                hi CmpItemKindClass guifg=#ebcb8b
+                hi CmpItemKindInterface guifg=#8fbcbb
+                hi CmpItemKindModule guifg=#ebcb8b
+                hi CmpItemKindProperty guifg=#a3be8c
+                hi CmpItemKindUnit guifg=#b48ead
+                hi CmpItemKindValue guifg=#8fbcbb
+                hi CmpItemKindEnum guifg=#8fbcbb
+                hi CmpItemKindKeyword guifg=#5e81ac
+                hi CmpItemKindSnippet guifg=#d08770
+                hi CmpItemKindColor guifg=#ebcb8b
+                hi CmpItemKindFile guifg=#a3be8c
+                hi CmpItemKindReference guifg=#b48ead
+                hi CmpItemKindFolder guifg=#a3be8c
+                hi CmpItemKindEnumMember guifg=#8fbcbb
+                hi CmpItemKindConstant guifg=#5e81ac
+                hi CmpItemKindStruct guifg=#8fbcbb
+                hi CmpItemKindEvent guifg=#d08770
+                hi CmpItemKindOperator guifg=#b48ead
+                hi CmpItemKindTypeParameter guifg=#8fbcbb
+              ]]
+            end,
+          },
+        },
+      }
+    end,
+
     config = function()
       local maxwidth = 50
       local lspkind_format = require("lspkind").cmp_format {
@@ -235,48 +301,6 @@ return {
       }
       cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
       cmp.setup.cmdline(":", { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }) })
-
-      require("agrp").set {
-        cmp_nord = {
-          {
-            "ColorScheme",
-            "nord",
-            function()
-              vim.cmd [[
-                hi CmpItemAbbrDeprecated guifg=#616e88 gui=bold
-                hi CmpItemAbbrMatch guifg=#ebcb8b
-                hi CmpItemAbbrMatchFuzzy guifg=#d08770
-
-                hi CmpItemKindText guifg=#81a1c1
-                hi CmpItemKindMethod guifg=#b48ead
-                hi CmpItemKindFunction guifg=#b48ead
-                hi CmpItemKindConstructor guifg=#b48ead gui=bold
-                hi CmpItemKindField guifg=#a3be8c
-                hi CmpItemKindVariable guifg=#88c0d0
-                hi CmpItemKindClass guifg=#ebcb8b
-                hi CmpItemKindInterface guifg=#8fbcbb
-                hi CmpItemKindModule guifg=#ebcb8b
-                hi CmpItemKindProperty guifg=#a3be8c
-                hi CmpItemKindUnit guifg=#b48ead
-                hi CmpItemKindValue guifg=#8fbcbb
-                hi CmpItemKindEnum guifg=#8fbcbb
-                hi CmpItemKindKeyword guifg=#5e81ac
-                hi CmpItemKindSnippet guifg=#d08770
-                hi CmpItemKindColor guifg=#ebcb8b
-                hi CmpItemKindFile guifg=#a3be8c
-                hi CmpItemKindReference guifg=#b48ead
-                hi CmpItemKindFolder guifg=#a3be8c
-                hi CmpItemKindEnumMember guifg=#8fbcbb
-                hi CmpItemKindConstant guifg=#5e81ac
-                hi CmpItemKindStruct guifg=#8fbcbb
-                hi CmpItemKindEvent guifg=#d08770
-                hi CmpItemKindOperator guifg=#b48ead
-                hi CmpItemKindTypeParameter guifg=#8fbcbb
-              ]]
-            end,
-          },
-        },
-      }
     end,
   },
 }
