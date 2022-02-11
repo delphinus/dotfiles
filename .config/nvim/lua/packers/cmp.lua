@@ -49,9 +49,9 @@ return {
     },
     setup = function()
       -- Use these mappings in Karabiner-Elements
-      vim.keymap.set({ "i", "c", "l" }, "<F10>", "<Plug>(skkeleton-disable)", { remap = true })
-      vim.keymap.set({ "i", "c", "l" }, "<F13>", "<Plug>(skkeleton-enable)", { remap = true })
-      vim.keymap.set({ "i", "c", "l" }, "<C-j>", "<Plug>(skkeleton-enable)", { remap = true })
+      vim.keymap.set({ "i", "c", "l" }, "<F10>", "<Plug>(skkeleton-disable)")
+      vim.keymap.set({ "i", "c", "l" }, "<F13>", "<Plug>(skkeleton-enable)")
+      vim.keymap.set({ "i", "c", "l" }, "<C-j>", "<Plug>(skkeleton-enable)")
 
       local Job = require "plenary.job"
       local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
