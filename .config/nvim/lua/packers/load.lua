@@ -41,7 +41,8 @@ local init = (function()
     for _, name in pairs {
       "start",
       "opt",
-      "ddc",
+      --"ddc",
+      "cmp",
       "lsp",
       "telescope",
     } do
