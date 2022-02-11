@@ -8,55 +8,6 @@ local function c(p)
 end
 
 return {
-  c { "hrsh7th/cmp-cmdline" },
-  c { "hrsh7th/cmp-path" },
-
-  i { "andersevenrud/cmp-tmux" },
-  i { "hrsh7th/cmp-buffer" },
-  i { "hrsh7th/cmp-emoji" },
-  i { "hrsh7th/cmp-nvim-lsp" },
-  i { "lukas-reineke/cmp-rg" },
-  i { "octaltree/cmp-look" },
-  i { "rinx/cmp-skkeleton" },
-
-  i {
-    "dcampos/cmp-snippy",
-    requires = {
-      { "dcampos/nvim-snippy", module = { "snippy" } },
-      { "honza/vim-snippets", opt = true },
-    },
-    wants = { "vim-snippets" },
-    config = function()
-      require("snippy").setup {}
-    end,
-  },
-
-  i {
-    "delphinus/skkeleton_indicator.nvim",
-    setup = function()
-      require("agrp").set {
-        skkeleton_indicator_nord = {
-          {
-            "ColorScheme",
-            "nord",
-            function()
-              vim.cmd [[
-                hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
-                hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
-                hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
-                hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
-                hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
-              ]]
-            end,
-          },
-        },
-      }
-    end,
-    config = function()
-      require("skkeleton_indicator").setup()
-    end,
-  },
-
   {
     --'vim-skk/skkeleton',
     "delphinus/skkeleton",
@@ -72,6 +23,7 @@ return {
     wants = {
       "denops.vim",
     },
+
     setup = function()
       -- Use these mappings in Karabiner-Elements
       vim.keymap.set({ "i", "c", "l" }, "<F10>", "<Plug>(skkeleton-disable)")
@@ -143,6 +95,7 @@ return {
         },
       }
     end,
+
     config = function()
       fn["skkeleton#config"] {
         globalJisyo = "~/Library/Application Support/AquaSKK/SKK-JISYO.L",
@@ -170,13 +123,38 @@ return {
         ["<s-q>"] = "henkanPoint",
       })
     end,
+
+    requires = {
+      i {
+        "delphinus/skkeleton_indicator.nvim",
+        setup = function()
+          require("agrp").set {
+            skkeleton_indicator_nord = {
+              {
+                "ColorScheme",
+                "nord",
+                function()
+                  vim.cmd [[
+                hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
+                hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
+                hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
+                hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
+                hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
+              ]]
+                end,
+              },
+            },
+          }
+        end,
+        config = function()
+          require("skkeleton_indicator").setup()
+        end,
+      },
+    },
   },
 
   {
     "hrsh7th/nvim-cmp",
-    requires = {
-      { "onsails/lspkind-nvim", module = { "lspkind" } },
-    },
     module = { "cmp" },
     setup = function()
       require("agrp").set {
@@ -303,5 +281,32 @@ return {
       cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
       cmp.setup.cmdline(":", { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }) })
     end,
+
+    requires = {
+      { "onsails/lspkind-nvim", module = { "lspkind" } },
+
+      c { "hrsh7th/cmp-cmdline" },
+      c { "hrsh7th/cmp-path" },
+
+      i { "andersevenrud/cmp-tmux" },
+      i { "hrsh7th/cmp-buffer" },
+      i { "hrsh7th/cmp-emoji" },
+      i { "hrsh7th/cmp-nvim-lsp" },
+      i { "lukas-reineke/cmp-rg" },
+      i { "octaltree/cmp-look" },
+      i { "rinx/cmp-skkeleton" },
+
+      i {
+        "dcampos/cmp-snippy",
+        requires = {
+          { "dcampos/nvim-snippy", module = { "snippy" } },
+          { "honza/vim-snippets", opt = true },
+        },
+        wants = { "vim-snippets" },
+        config = function()
+          require("snippy").setup {}
+        end,
+      },
+    },
   },
 }
