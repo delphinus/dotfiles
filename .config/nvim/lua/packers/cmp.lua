@@ -43,6 +43,10 @@ return {
     keys = {
       { "i", "<Plug>(skkeleton-enable)" },
       { "i", "<Plug>(skkeleton-disable)" },
+      { "c", "<Plug>(skkeleton-enable)" },
+      { "c", "<Plug>(skkeleton-disable)" },
+      { "l", "<Plug>(skkeleton-enable)" },
+      { "l", "<Plug>(skkeleton-disable)" },
     },
     wants = {
       "denops.vim",
