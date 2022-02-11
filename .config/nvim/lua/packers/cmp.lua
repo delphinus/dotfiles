@@ -66,7 +66,7 @@ return {
               pre_config = cmp_config.get()
               cmp.setup.buffer {
                 sources = { { name = "skkeleton" } },
-                view = "native",
+                view = { entries = "native" },
               }
             end,
           },
