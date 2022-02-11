@@ -137,15 +137,17 @@ return {
       end
       local function is_deno_dir(p)
         local base = p:gsub([[.*/]], "")
-        for _, r in ipairs {
-          [[^deno]],
-          [[^ddc]],
-          [[^cmp%-look$]],
-          [[^neco%-vim$]],
-          [[^git%-vines$]],
-          [[^murus$]],
-          [[^skkeleton$]],
-        } do
+        for _, r in
+          ipairs {
+            [[^deno]],
+            [[^ddc]],
+            [[^cmp%-look$]],
+            [[^neco%-vim$]],
+            [[^git%-vines$]],
+            [[^murus$]],
+            [[^skkeleton$]],
+          }
+        do
           if base:match(r) then
             return true
           end
@@ -159,161 +161,163 @@ return {
         capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
       end
 
-      for name, config in pairs {
-        clangd = { on_attach = lsp_on_attach() },
-        cssls = { on_attach = lsp_on_attach() },
-        dockerls = { on_attach = lsp_on_attach() },
-        html = { on_attach = lsp_on_attach() },
-        intelephense = { on_attach = lsp_on_attach() },
-        metals = { on_attach = lsp_on_attach() },
-        --jsonls = {on_attach = lsp_on_attach()},
-        --perlls = {on_attach = lsp_on_attach()},
-        pyright = { on_attach = lsp_on_attach() },
-        solargraph = { on_attach = lsp_on_attach() },
-        sourcekit = { on_attach = lsp_on_attach() },
-        terraformls = { on_attach = lsp_on_attach() },
-        vimls = { on_attach = lsp_on_attach() },
-        yamlls = { on_attach = lsp_on_attach() },
-        vuels = { on_attach = lsp_on_attach() },
+      for name, config in
+        pairs {
+          clangd = { on_attach = lsp_on_attach() },
+          cssls = { on_attach = lsp_on_attach() },
+          dockerls = { on_attach = lsp_on_attach() },
+          html = { on_attach = lsp_on_attach() },
+          intelephense = { on_attach = lsp_on_attach() },
+          metals = { on_attach = lsp_on_attach() },
+          --jsonls = {on_attach = lsp_on_attach()},
+          --perlls = {on_attach = lsp_on_attach()},
+          pyright = { on_attach = lsp_on_attach() },
+          solargraph = { on_attach = lsp_on_attach() },
+          sourcekit = { on_attach = lsp_on_attach() },
+          terraformls = { on_attach = lsp_on_attach() },
+          vimls = { on_attach = lsp_on_attach() },
+          yamlls = { on_attach = lsp_on_attach() },
+          vuels = { on_attach = lsp_on_attach() },
 
-        denols = {
-          on_attach = lsp_on_attach(),
-          root_dir = function(startpath)
-            return util.search_ancestors(startpath, function(p)
-              return is_git_root(p) and is_deno_dir(p)
-            end)
-          end,
-          init_options = {
-            lint = true,
-            unstable = true,
-          },
-        },
-
-        tsserver = {
-          on_attach = lsp_on_attach(),
-          root_dir = function(startpath)
-            return util.search_ancestors(startpath, function(p)
-              return is_git_root(p) and not is_deno_dir(p)
-            end)
-          end,
-        },
-
-        bashls = {
-          on_attach = lsp_on_attach(),
-          filetypes = { "sh", "bash", "zsh" },
-        },
-
-        efm = {
-          filetypes = {
-            "bash",
-            "css",
-            "csv",
-            "dockerfile",
-            "eruby",
-            "html",
-            "javascript",
-            "json",
-            "lua",
-            "make",
-            "markdown",
-            "perl",
-            "php",
-            "python",
-            "rst",
-            "sh",
-            "typescript",
-            "vim",
-            "yaml",
-            "zsh",
-          },
-          on_attach = lsp_on_attach(true),
-          init_options = {
-            documentFormatting = true,
-            hover = true,
-            documentSymbol = true,
-            codeAction = true,
-            completion = true,
-          },
-        },
-
-        gopls = {
-          on_attach = lsp_on_attach(),
-          settings = {
-            hoverKind = "NoDocumentation",
-            deepCompletion = true,
-            fuzzyMatching = true,
-            completeUnimported = true,
-            usePlaceholders = true,
-          },
-        },
-
-        sumneko_lua = {
-          on_attach = lsp_on_attach(),
-          settings = {
-            Lua = {
-              runtime = {
-                version = "LuaJIT",
-                path = vim.split(package.path, ";"),
-              },
-              completion = {
-                keywordSnippet = "Disable",
-              },
-              diagnostics = {
-                enable = true,
-                globals = {
-                  "vim",
-                  "packer_plugins",
-                  "api",
-                  "fn",
-                  "loop",
-
-                  -- for testing
-                  "after_each",
-                  "before_each",
-                  "describe",
-                  "it",
-
-                  -- hammerspoon
-                  "hs",
-
-                  -- wrk
-                  "wrk",
-                  "setup",
-                  "id",
-                  "init",
-                  "request",
-                  "response",
-                  "done",
-                },
-              },
-              workspace = {
-                library = api.get_runtime_file("", true),
-              },
-              telemetry = {
-                enable = false,
-              },
+          denols = {
+            on_attach = lsp_on_attach(),
+            root_dir = function(startpath)
+              return util.search_ancestors(startpath, function(p)
+                return is_git_root(p) and is_deno_dir(p)
+              end)
+            end,
+            init_options = {
+              lint = true,
+              unstable = true,
             },
           },
-          on_new_config = function(config, _)
-            config.settings.Lua.workspace.library = api.get_runtime_file("", true)
-          end,
-        },
 
-        teal = (function()
-          local configs = require "lspconfig.configs"
-          if not configs.teal then
-            configs.teal = {
-              default_config = {
-                cmd = { "teal-language-server" },
-                filetypes = { "teal" },
-                root_dir = lsp.util.root_pattern("tlconfig.lua", ".git"),
-                settings = {},
+          tsserver = {
+            on_attach = lsp_on_attach(),
+            root_dir = function(startpath)
+              return util.search_ancestors(startpath, function(p)
+                return is_git_root(p) and not is_deno_dir(p)
+              end)
+            end,
+          },
+
+          bashls = {
+            on_attach = lsp_on_attach(),
+            filetypes = { "sh", "bash", "zsh" },
+          },
+
+          efm = {
+            filetypes = {
+              "bash",
+              "css",
+              "csv",
+              "dockerfile",
+              "eruby",
+              "html",
+              "javascript",
+              "json",
+              "lua",
+              "make",
+              "markdown",
+              "perl",
+              "php",
+              "python",
+              "rst",
+              "sh",
+              "typescript",
+              "vim",
+              "yaml",
+              "zsh",
+            },
+            on_attach = lsp_on_attach(true),
+            init_options = {
+              documentFormatting = true,
+              hover = true,
+              documentSymbol = true,
+              codeAction = true,
+              completion = true,
+            },
+          },
+
+          gopls = {
+            on_attach = lsp_on_attach(),
+            settings = {
+              hoverKind = "NoDocumentation",
+              deepCompletion = true,
+              fuzzyMatching = true,
+              completeUnimported = true,
+              usePlaceholders = true,
+            },
+          },
+
+          sumneko_lua = {
+            on_attach = lsp_on_attach(),
+            settings = {
+              Lua = {
+                runtime = {
+                  version = "LuaJIT",
+                  path = vim.split(package.path, ";"),
+                },
+                completion = {
+                  keywordSnippet = "Disable",
+                },
+                diagnostics = {
+                  enable = true,
+                  globals = {
+                    "vim",
+                    "packer_plugins",
+                    "api",
+                    "fn",
+                    "loop",
+
+                    -- for testing
+                    "after_each",
+                    "before_each",
+                    "describe",
+                    "it",
+
+                    -- hammerspoon
+                    "hs",
+
+                    -- wrk
+                    "wrk",
+                    "setup",
+                    "id",
+                    "init",
+                    "request",
+                    "response",
+                    "done",
+                  },
+                },
+                workspace = {
+                  library = api.get_runtime_file("", true),
+                },
+                telemetry = {
+                  enable = false,
+                },
               },
-            }
-          end
-          return { on_attach = lsp_on_attach() }
-        end)(),
-      } do
+            },
+            on_new_config = function(config, _)
+              config.settings.Lua.workspace.library = api.get_runtime_file("", true)
+            end,
+          },
+
+          teal = (function()
+            local configs = require "lspconfig.configs"
+            if not configs.teal then
+              configs.teal = {
+                default_config = {
+                  cmd = { "teal-language-server" },
+                  filetypes = { "teal" },
+                  root_dir = lsp.util.root_pattern("tlconfig.lua", ".git"),
+                  settings = {},
+                },
+              }
+            end
+            return { on_attach = lsp_on_attach() }
+          end)(),
+        }
+      do
         if capabilities then
           config.capabilities = capabilities
         end
