@@ -19,14 +19,13 @@ return {
   i { "octaltree/cmp-look" },
   i { "rinx/cmp-skkeleton" },
 
-  { "onsails/lspkind-nvim", module = { "lspkind" } },
-
   i {
     "dcampos/cmp-snippy",
     requires = {
       { "dcampos/nvim-snippy", module = { "snippy" } },
-      "honza/vim-snippets",
+      { "honza/vim-snippets", opt = true },
     },
+    wants = { "vim-snippets" },
     config = function()
       require("snippy").setup {}
     end,
@@ -175,6 +174,9 @@ return {
 
   {
     "hrsh7th/nvim-cmp",
+    requires = {
+      { "onsails/lspkind-nvim", module = { "lspkind" } },
+    },
     module = { "cmp" },
     setup = function()
       require("agrp").set {
