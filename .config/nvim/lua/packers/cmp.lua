@@ -247,9 +247,7 @@ return {
               -- Allow Foo::Bar & foo-bar
               --keyword_pattern = [[\h\w*\%(\%(-\|::\)\h\w*\)*]],
               keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
-              get_bufnrs = function()
-                return api.list_bufs()
-              end,
+              get_bufnrs = api.list_bufs,
             },
           },
           { name = "rg" },
