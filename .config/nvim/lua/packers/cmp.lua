@@ -101,6 +101,11 @@ return {
       local cmp = require "cmp"
       local cmp_config = require "cmp.config"
       local pre_config
+
+      require("agrp").set {
+        cmp_skkeleton = { { "User", "skkeleton-handled", cmp.complete } },
+      }
+
       require("agrp").set {
         skkeleton_callbacks = {
           {
