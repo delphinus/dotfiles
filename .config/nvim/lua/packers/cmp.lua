@@ -110,7 +110,7 @@ return {
               pre_config = cmp_config.get()
               cmp.setup.buffer {
                 sources = { { name = "skkeleton" } },
-                experimental = { native_menu = true },
+                view = "native",
               }
             end,
           },
