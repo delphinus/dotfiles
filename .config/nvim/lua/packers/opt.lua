@@ -5,7 +5,8 @@ return {
 
   -- Colorscheme {{{
   {
-    "arcticicestudio/nord-vim",
+    --"arcticicestudio/nord-vim",
+    "delphinus/nord-vim",
     opt = true,
     setup = function()
       vim.g.nord_italic = 1
