@@ -220,7 +220,8 @@ return {
               --keyword_pattern = [[\k\+]],
               -- Allow Foo::Bar & foo-bar
               --keyword_pattern = [[\h\w*\%(\%(-\|::\)\h\w*\)*]],
-              keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
+              --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
+              keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
               get_bufnrs = api.list_bufs,
             },
           },
