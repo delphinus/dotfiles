@@ -84,14 +84,14 @@ return {
 
           vim.keymap.set("n", "<Space>E", function()
             if vim.b.lsp_diagnostics_disabled then
-              vim.lsp.diagnostic.enable()
+              vim.diagnostic.enable()
             else
-              vim.lsp.diagnostic.disable()
+              vim.diagnostic.disable()
             end
             vim.b.lsp_diagnostics_disabled = not vim.b.lsp_diagnostics_disabled
           end, { buffer = bufnr })
           vim.keymap.set("n", "<Space>e", function()
-            vim.lsp.diagnostic.show_line_diagnostics { border = border }
+            vim.diagnostic.open_float { border = border }
           end, { buffer = bufnr })
           vim.keymap.set("n", "<Space>q", vim.lsp.diagnostic.set_loclist, { buffer = bufnr })
           if not diag_maps_only then
