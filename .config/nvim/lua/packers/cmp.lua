@@ -49,8 +49,6 @@ return {
         end
       end
 
-      local cmp = require "cmp"
-      local cmp_config = require "cmp.config"
       local pre_config
 
       require("agrp").set {
@@ -59,8 +57,8 @@ return {
             "User",
             "skkeleton-enable-pre",
             function()
-              pre_config = cmp_config.get()
-              cmp.setup.buffer {
+              pre_config = require("cmp.config").get()
+              require("cmp").setup.buffer {
                 sources = { { name = "skkeleton" } },
                 view = { entries = "native" },
               }
@@ -71,7 +69,7 @@ return {
             "skkeleton-disable-pre",
             function()
               if pre_config then
-                cmp.setup.buffer(pre_config)
+                require("cmp").setup.buffer(pre_config)
                 pre_config = nil
               end
             end,
