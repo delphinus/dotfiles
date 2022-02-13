@@ -54,10 +54,6 @@ return {
       local pre_config
 
       require("agrp").set {
-        cmp_skkeleton = { { "User", "skkeleton-handled", cmp.complete } },
-      }
-
-      require("agrp").set {
         skkeleton_callbacks = {
           {
             "User",
