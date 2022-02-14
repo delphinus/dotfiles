@@ -30,10 +30,8 @@ return {
                 hi Folded guifg=#72809a gui=NONE
                 hi Identifier guifg=#8FBCBB
                 hi Special guifg=#D08770
-                hi Title gui=bold cterm=bold
+                hi Title guifg=#88C0D0 gui=bold cterm=bold
                 hi PmenuSel blend=0
-                hi markdownH1 gui=bold
-                hi! link Title markdownH1
               ]]
 
               -- for gitsigns
