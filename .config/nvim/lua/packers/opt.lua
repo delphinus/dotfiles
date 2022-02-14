@@ -7,14 +7,15 @@ return {
   {
     --"arcticicestudio/nord-vim",
     "delphinus/nord-vim",
-    opt = true,
-    setup = function()
-      vim.g.nord_italic = 1
-      vim.g.nord_italic_comments = 1
-      vim.g.nord_underline = 1
-      vim.g.nord_uniform_diff_background = 1
-      vim.g.nord_uniform_status_lines = 1
-      vim.g.nord_cursor_line_number_background = 1
+    branch = "neovim",
+    config = function()
+      require("nord").setup {
+        italic = true,
+        uniform_status_lines = true,
+        uniform_diff_background = true,
+        cursor_line_number_background = true,
+        language_specific_highlights = false,
+      }
 
       require("agrp").set {
         nord_overrides = {
