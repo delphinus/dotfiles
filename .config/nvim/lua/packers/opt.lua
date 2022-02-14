@@ -401,7 +401,13 @@ return {
     "lewis6991/gitsigns.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
-      require("gitsigns").setup {
+      local gitsigns = require "gitsigns"
+      local function gs(method)
+        return function()
+          gitsigns[method]()
+        end
+      end
+      gitsigns.setup {
         signs = {
           add = { hl = "GitSignsAdd" },
           change = { hl = "GitSignsChange" },
@@ -415,6 +421,10 @@ return {
           delay = 10,
         },
         word_diff = true,
+        on_attach = function(bufnr)
+          vim.keymap.set("n", "]c", gs "next_hunk", { buffer = bufnr })
+          vim.keymap.set("n", "[c", gs "prev_hunk", { buffer = bufnr })
+        end,
       }
     end,
   },
