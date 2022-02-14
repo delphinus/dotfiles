@@ -42,9 +42,9 @@ return {
                 hi GitSignsChange guifg=#ebcb8b
                 hi GitSignsDelete guifg=#bf616a
                 hi GitSignsCurrentLineBlame guifg=#616e88
-                hi GitSignsAddLn guibg=#183203
-                hi GitSignsChangeLn guibg=#432d00
-                hi GitSignsDeleteLn guibg=#52050c
+                hi GitSignsAddInline guibg=#183203
+                hi GitSignsChangeInline guibg=#432d00
+                hi GitSignsDeleteInline guibg=#52050c
               ]]
 
               -- for visual-eof.lua
