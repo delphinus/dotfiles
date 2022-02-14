@@ -24,62 +24,62 @@ return {
             "nord",
             function()
               vim.cmd [[
-              hi Comment guifg=#72809a gui=italic
-              hi Delimiter guifg=#81A1C1
-              hi Constant guifg=#d8dee9 gui=italic
-              hi Folded guifg=#72809a gui=NONE
-              hi Identifier guifg=#8FBCBB
-              hi Special guifg=#D08770
-              hi Title gui=bold cterm=bold
-              hi PmenuSel blend=0
-              hi markdownH1 gui=bold
-              hi! link Title markdownH1
-            ]]
+                hi Comment guifg=#72809a gui=italic
+                hi Delimiter guifg=#81A1C1
+                hi Constant guifg=#d8dee9 gui=italic
+                hi Folded guifg=#72809a gui=NONE
+                hi Identifier guifg=#8FBCBB
+                hi Special guifg=#D08770
+                hi Title gui=bold cterm=bold
+                hi PmenuSel blend=0
+                hi markdownH1 gui=bold
+                hi! link Title markdownH1
+              ]]
 
               -- for gitsigns
               vim.cmd [[
-              hi GitSignsAdd guifg=#a3be8c
-              hi GitSignsChange guifg=#ebcb8b
-              hi GitSignsDelete guifg=#bf616a
-              hi GitSignsCurrentLineBlame guifg=#616e88
-              hi GitSignsAddLn guibg=#183203
-              hi GitSignsChangeLn guibg=#432d00
-              hi GitSignsDeleteLn guibg=#52050c
-            ]]
+                hi GitSignsAdd guifg=#a3be8c
+                hi GitSignsChange guifg=#ebcb8b
+                hi GitSignsDelete guifg=#bf616a
+                hi GitSignsCurrentLineBlame guifg=#616e88
+                hi GitSignsAddLn guibg=#183203
+                hi GitSignsChangeLn guibg=#432d00
+                hi GitSignsDeleteLn guibg=#52050c
+              ]]
 
               -- for visual-eof.lua
               vim.cmd [[
-              hi VisualEOL   guifg=#a3be8c
-              hi VisualNoEOL guifg=#bf616a
-            ]]
+                hi VisualEOL   guifg=#a3be8c
+                hi VisualNoEOL guifg=#bf616a
+              ]]
 
               -- Neovim specific
               vim.cmd [[
-              hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
-              hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
-              hi TSCurrentScope guibg=#313743
-              hi rainbowcol1 guifg=#bf616a
-              hi rainbowcol2 guifg=#d08770
-              hi rainbowcol3 guifg=#b48ead
-              hi rainbowcol4 guifg=#ebcb8b
-              hi rainbowcol5 guifg=#a3b812
-              hi rainbowcol6 guifg=#81a1c1
-              hi rainbowcol7 guifg=#8fbcbb
-              hi DiagnosticError guifg=#bf616a
-              hi DiagnosticWarn guifg=#D08770
-              hi DiagnosticInfo guifg=#8fbcbb
-              hi DiagnosticHint guifg=#4c566a
-              hi DiagnosticUnderlineError guisp=#bf616a gui=undercurl
-              hi DiagnosticUnderlineWarn guisp=#d08770 gui=undercurl
-              hi DiagnosticUnderlineInfo guisp=#8fbcbb gui=undercurl
-              hi DiagnosticUnderlineHint guisp=#4c566a gui=undercurl
-            ]]
+                hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
+                hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
+                hi TSCurrentScope guibg=#313743
+                hi rainbowcol1 guifg=#bf616a
+                hi rainbowcol2 guifg=#d08770
+                hi rainbowcol3 guifg=#b48ead
+                hi rainbowcol4 guifg=#ebcb8b
+                hi rainbowcol5 guifg=#a3b812
+                hi rainbowcol6 guifg=#81a1c1
+                hi rainbowcol7 guifg=#8fbcbb
+                hi DiagnosticError guifg=#bf616a
+                hi DiagnosticWarn guifg=#D08770
+                hi DiagnosticInfo guifg=#8fbcbb
+                hi DiagnosticHint guifg=#4c566a
+                hi DiagnosticUnderlineError guisp=#bf616a gui=undercurl
+                hi DiagnosticUnderlineWarn guisp=#d08770 gui=undercurl
+                hi DiagnosticUnderlineInfo guisp=#8fbcbb gui=undercurl
+                hi DiagnosticUnderlineHint guisp=#4c566a gui=undercurl
+              ]]
 
               -- for virt-column.nvim
               vim.cmd [[
-              hi ColorColumn guibg=NONE
-              hi VirtColumn guifg=#616e88
-            ]]
+                hi ColorColumn guibg=NONE
+                hi VirtColumn guifg=#616e88
+              ]]
             end,
           },
         },
