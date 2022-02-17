@@ -251,6 +251,20 @@ return {
   {
     "LumaKernel/nvim-visual-eof.lua",
     config = function()
+      require("agrp").set {
+        nord_visual_eof = {
+          {
+            "ColorScheme",
+            "nord",
+            function()
+              vim.cmd [[
+                hi VisualEOL   guifg=#a3be8c
+                hi VisualNoEOL guifg=#bf616a
+              ]]
+            end,
+          },
+        },
+      }
       require("visual-eof").setup {
         text_EOL = " ",
         text_NOEOL = " ",

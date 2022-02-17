@@ -26,6 +26,14 @@ return {
         sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
         sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
         sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
+        hi DiagnosticError guifg=#bf616a
+        hi DiagnosticWarn guifg=#D08770
+        hi DiagnosticInfo guifg=#8fbcbb
+        hi DiagnosticHint guifg=#4c566a
+        hi DiagnosticUnderlineError guisp=#bf616a gui=undercurl
+        hi DiagnosticUnderlineWarn guisp=#d08770 gui=undercurl
+        hi DiagnosticUnderlineInfo guisp=#8fbcbb gui=undercurl
+        hi DiagnosticUnderlineHint guisp=#4c566a gui=undercurl
       ]]
 
       api.add_user_command("ShowLSPSettings", function()
@@ -382,8 +390,23 @@ return {
   { "nvim-treesitter/nvim-treesitter-refactor", event = { "BufNewFile", "BufRead" } },
   { "nvim-treesitter/nvim-treesitter-textobjects", event = { "BufNewFile", "BufRead" } },
   { "nvim-treesitter/playground", event = { "BufNewFile", "BufRead" } },
-  { "p00f/nvim-ts-rainbow", event = { "BufNewFile", "BufRead" } },
   { "romgrk/nvim-treesitter-context", event = { "BufNewFile", "BufRead" } },
+
+  {
+    "p00f/nvim-ts-rainbow",
+    event = { "BufNewFile", "BufRead" },
+    config = function()
+      vim.cmd [[
+      hi rainbowcol1 guifg=#bf616a
+      hi rainbowcol2 guifg=#d08770
+      hi rainbowcol3 guifg=#b48ead
+      hi rainbowcol4 guifg=#ebcb8b
+      hi rainbowcol5 guifg=#a3b812
+      hi rainbowcol6 guifg=#81a1c1
+      hi rainbowcol7 guifg=#8fbcbb
+    ]]
+    end,
+  },
 
   { -- {{{ nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
