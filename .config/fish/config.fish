@@ -27,7 +27,8 @@ set -l paths \
   $homebrew_path/opt/llvm/bin \
   $homebrew_path/opt/perl/bin \
   /Applications/Xcode.app/Contents/Developer/usr/bin \
-  ~/Library/Application\ Support/Coursier/bin
+  ~/Library/Application\ Support/Coursier/bin \
+  $homebrew_path/bin
 
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 
