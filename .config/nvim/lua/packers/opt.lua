@@ -6,17 +6,19 @@ return {
   -- Colorscheme {{{
   {
     --"arcticicestudio/nord-vim",
-    "delphinus/nord-vim",
-    branch = "neovim",
+    "delphinus/nord-nvim",
+    run = {
+      function()
+        require("nord").update {
+          italic = true,
+          uniform_status_lines = true,
+          uniform_diff_background = true,
+          cursor_line_number_background = true,
+          language_specific_highlights = false,
+        }
+      end,
+    },
     config = function()
-      require("nord").setup {
-        italic = true,
-        uniform_status_lines = true,
-        uniform_diff_background = true,
-        cursor_line_number_background = true,
-        language_specific_highlights = false,
-      }
-
       require("agrp").set {
         nord_overrides = {
           {
