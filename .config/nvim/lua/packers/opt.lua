@@ -6,17 +6,19 @@ return {
   -- Colorscheme {{{
   {
     --"arcticicestudio/nord-vim",
-    "delphinus/nord-vim",
-    branch = "neovim",
+    "delphinus/nord-nvim",
+    run = {
+      function()
+        require("nord").update {
+          italic = true,
+          uniform_status_lines = true,
+          uniform_diff_background = true,
+          cursor_line_number_background = true,
+          language_specific_highlights = false,
+        }
+      end,
+    },
     config = function()
-      require("nord").setup {
-        italic = true,
-        uniform_status_lines = true,
-        uniform_diff_background = true,
-        cursor_line_number_background = true,
-        language_specific_highlights = false,
-      }
-
       require("agrp").set {
         nord_overrides = {
           {
@@ -32,51 +34,10 @@ return {
                 hi Special guifg=#D08770
                 hi Title guifg=#88C0D0 gui=bold cterm=bold
                 hi PmenuSel blend=0
-              ]]
 
-              -- for gitsigns
-              vim.cmd [[
-                hi GitSignsAdd guifg=#a3be8c
-                hi GitSignsChange guifg=#ebcb8b
-                hi GitSignsDelete guifg=#bf616a
-                hi GitSignsCurrentLineBlame guifg=#616e88
-                hi GitSignsAddInline guibg=#183203
-                hi GitSignsChangeInline guibg=#432d00
-                hi GitSignsDeleteInline guibg=#52050c
-              ]]
-
-              -- for visual-eof.lua
-              vim.cmd [[
-                hi VisualEOL   guifg=#a3be8c
-                hi VisualNoEOL guifg=#bf616a
-              ]]
-
-              -- Neovim specific
-              vim.cmd [[
+                " for Neovim
                 hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
                 hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
-                hi TSCurrentScope guibg=#313743
-                hi rainbowcol1 guifg=#bf616a
-                hi rainbowcol2 guifg=#d08770
-                hi rainbowcol3 guifg=#b48ead
-                hi rainbowcol4 guifg=#ebcb8b
-                hi rainbowcol5 guifg=#a3b812
-                hi rainbowcol6 guifg=#81a1c1
-                hi rainbowcol7 guifg=#8fbcbb
-                hi DiagnosticError guifg=#bf616a
-                hi DiagnosticWarn guifg=#D08770
-                hi DiagnosticInfo guifg=#8fbcbb
-                hi DiagnosticHint guifg=#4c566a
-                hi DiagnosticUnderlineError guisp=#bf616a gui=undercurl
-                hi DiagnosticUnderlineWarn guisp=#d08770 gui=undercurl
-                hi DiagnosticUnderlineInfo guisp=#8fbcbb gui=undercurl
-                hi DiagnosticUnderlineHint guisp=#4c566a gui=undercurl
-              ]]
-
-              -- for virt-column.nvim
-              vim.cmd [[
-                hi ColorColumn guibg=NONE
-                hi VirtColumn guifg=#616e88
               ]]
             end,
           },
@@ -399,6 +360,15 @@ return {
     "lewis6991/gitsigns.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
+      vim.cmd [[
+        hi GitSignsAdd guifg=#a3be8c
+        hi GitSignsChange guifg=#ebcb8b
+        hi GitSignsDelete guifg=#bf616a
+        hi GitSignsCurrentLineBlame guifg=#616e88
+        hi GitSignsAddInline guibg=#183203
+        hi GitSignsChangeInline guibg=#432d00
+        hi GitSignsDeleteInline guibg=#52050c
+      ]]
       local gitsigns = require "gitsigns"
       local function gs(method)
         return function()
@@ -453,6 +423,10 @@ return {
       "WinScrolled",
     },
     config = function()
+      vim.cmd [[
+        hi ColorColumn guibg=NONE
+        hi VirtColumn guifg=#616e88
+      ]]
       require("virt-column").setup { char = "⡂" }
     end,
   },
@@ -898,9 +872,10 @@ return {
       end)
       if vim.opt.background:get() == "dark" then
         vim.cmd [[
-          hi HopNextKey guifg=#bf616a
-          hi HopNextKey1 guifg=#88c0d0
-          hi HopNextKey2 guifg=#5e81ac
+          hi HopNextKey guifg=#D08770 gui=bold
+          hi HopNextKey1 guifg=#88C0D0 gui=bold
+          hi HopNextKey2 guifg=#D8DEE9
+          hi HopUnmatched guifg=#4C566A
         ]]
       end
     end,
