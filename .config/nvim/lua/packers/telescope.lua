@@ -150,6 +150,15 @@ return {
     end,
 
     config = function()
+      vim.cmd [[
+        hi TelescopePromptBorder guifg=#88C0D0
+        hi TelescopeResultsBorder guifg=#81A1C1
+        hi TelescopePreviewBorder guifg=#A3BE8C
+        hi TelescopeSelectionCaret guifg=#81A1C1
+        hi TelescopeSelection guifg=#81A1C1
+        hi TelescopeMatching guifg=#B48EAD
+      ]]
+
       local actions = require "telescope.actions"
       local actions_state = require "telescope.actions.state"
       local telescope = require "telescope"

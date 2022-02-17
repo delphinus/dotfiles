@@ -872,9 +872,10 @@ return {
       end)
       if vim.opt.background:get() == "dark" then
         vim.cmd [[
-          hi HopNextKey guifg=#bf616a
-          hi HopNextKey1 guifg=#88c0d0
-          hi HopNextKey2 guifg=#5e81ac
+          hi HopNextKey guifg=#D08770 gui=bold
+          hi HopNextKey1 guifg=#88C0D0 gui=bold
+          hi HopNextKey2 guifg=#D8DEE9
+          hi HopUnmatched guifg=#4C566A
         ]]
       end
     end,
