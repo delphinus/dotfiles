@@ -9,9 +9,7 @@ end
 
 return {
   {
-    --'vim-skk/skkeleton',
-    "delphinus/skkeleton",
-    branch = "feature/inform-mode-change-immediately",
+    "vim-skk/skkeleton",
     keys = {
       { "i", "<Plug>(skkeleton-enable)" },
       { "i", "<Plug>(skkeleton-disable)" },
