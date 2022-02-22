@@ -13,6 +13,7 @@ return {
   o { "nvim-telescope/telescope-github.nvim" },
   o { "nvim-telescope/telescope-node-modules.nvim" },
   o { "nvim-telescope/telescope-symbols.nvim" },
+  o { "nvim-telescope/telescope-ui-select.nvim" },
   o { "nvim-telescope/telescope-z.nvim" },
 
   o {
@@ -39,6 +40,7 @@ return {
       "telescope-node-modules.nvim",
       "telescope-smart-history.nvim",
       "telescope-symbols.nvim",
+      "telescope-ui-select.nvim",
       "telescope-z.nvim",
     },
 
@@ -287,6 +289,9 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case",
           },
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown{}
+          },
         },
       }
       telescope.load_extension "file_browser"
@@ -297,6 +302,8 @@ return {
       telescope.load_extension "smart_history"
       -- This is needed to setup projects.nvim
       telescope.load_extension "projects"
+      -- This is needed to setup telescope-ui-select
+      telescope.load_extension "ui-select"
     end,
   },
 }
