@@ -20,7 +20,7 @@ return {
     config = [[vim.g.cursorhold_updatetime = 100]],
   },
 
-  "delphinus/agrp.nvim",
+  { "delphinus/agrp.nvim", branch = "feature/native-api" },
   "delphinus/artify.nvim",
   "delphinus/f_meta.nvim",
 
