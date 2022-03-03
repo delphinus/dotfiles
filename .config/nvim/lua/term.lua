@@ -17,13 +17,15 @@ require("agrp").set {
   },
 }
 
-for map, keys in pairs {
-  ["<C-j>"] = { "<A-j>", "<A-∆>" },
-  ["<C-k>"] = { "<A-k>", "<A-˚>" },
-  ["<C-q>"] = { "<A-q>", "<A-œ>" },
-  ["<C-s>"] = { "<A-s>", "<A-ß>" },
-  [":"] = { "<A-;>", "<A-…>" },
-} do
+for map, keys in
+  pairs {
+    ["<C-j>"] = { "<A-j>", "<A-∆>" },
+    ["<C-k>"] = { "<A-k>", "<A-˚>" },
+    ["<C-q>"] = { "<A-q>", "<A-œ>" },
+    ["<C-s>"] = { "<A-s>", "<A-ß>" },
+    [":"] = { "<A-;>", "<A-…>" },
+  }
+do
   for _, key in ipairs(keys) do
     vim.keymap.set("t", key, [[<C-\><C-n>]] .. map, { remap = true })
     vim.keymap.set("n", key, map, { remap = true })
