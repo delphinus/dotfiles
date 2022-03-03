@@ -49,43 +49,45 @@ return {
 
       local pre_config
 
-      require("agrp").set {
-        skkeleton_callbacks = {
-          {
-            "User",
-            "skkeleton-enable-pre",
-            function()
-              pre_config = require("cmp.config").get()
-              require("cmp").setup.buffer {
-                sources = { { name = "skkeleton" } },
-                view = { entries = "native" },
-              }
-            end,
-          },
-          {
-            "User",
-            "skkeleton-disable-pre",
-            function()
-              if pre_config then
-                require("cmp").setup.buffer(pre_config)
-                pre_config = nil
-              end
-            end,
-          },
-        },
-        skkeleton_karabiner_elements = {
-          { "InsertEnter,CmdlineEnter", "*", set_karabiner(1) },
-          { "InsertLeave,CmdlineLeave,FocusLost", "*", set_karabiner(0) },
-          {
-            "FocusGained",
-            "*",
-            function()
-              local val = fn.mode():match "[icrR]" and 1 or 0
-              set_karabiner(val)()
-            end,
-          },
-        },
-      }
+      api.create_augroup("skkeleton_callbacks", {})
+      api.create_autocmd("User", {
+        group = "skkeleton_callbacks",
+        pattern = "skkeleton-enable-pre",
+        callback = function()
+          pre_config = require("cmp.config").get()
+          require("cmp").setup.buffer {
+            sources = { { name = "skkeleton" } },
+            view = { entries = "native" },
+          }
+        end,
+      })
+      api.create_autocmd("User", {
+        group = "skkeleton_callbacks",
+        pattern = "skkeleton-disable-pre",
+        callback = function()
+          if pre_config then
+            require("cmp").setup.buffer(pre_config)
+            pre_config = nil
+          end
+        end,
+      })
+
+      api.create_augroup("skkeleton_karabiner_elements", {})
+      api.create_autocmd(
+        { "InsertEnter", "CmdlineEnter" },
+        { group = "skkeleton_karabiner_elements", callback = set_karabiner(1) }
+      )
+      api.create_autocmd(
+        { "InsertLeave", "CmdlineLeave", "FocusLost" },
+        { group = "skkeleton_karabiner_elements", callback = set_karabiner(0) }
+      )
+      api.create_autocmd("FocusGained", {
+        group = "skkeleton_karabiner_elements",
+        callback = function()
+          local val = fn.mode():match "[icrR]" and 1 or 0
+          set_karabiner(val)()
+        end,
+      })
     end,
 
     config = function()
@@ -120,23 +122,20 @@ return {
       i {
         "delphinus/skkeleton_indicator.nvim",
         setup = function()
-          require("agrp").set {
-            skkeleton_indicator_nord = {
-              {
-                "ColorScheme",
-                "nord",
-                function()
-                  vim.cmd [[
-                    hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
-                    hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
-                    hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
-                    hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
-                    hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
-                  ]]
-                end,
-              },
-            },
-          }
+          api.create_augroup("skkeleton_indicator_nord", {})
+          api.create_autocmd("ColorScheme", {
+            group = "skkeleton_indicator_nord",
+            pattern = "nord",
+            callback = function()
+              vim.cmd [[
+                hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
+                hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
+                hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
+                hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
+                hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
+              ]]
+            end,
+          })
         end,
         config = function()
           require("skkeleton_indicator").setup()
@@ -149,48 +148,45 @@ return {
     "hrsh7th/nvim-cmp",
     module = { "cmp" },
     setup = function()
-      require("agrp").set {
-        cmp_nord = {
-          {
-            "ColorScheme",
-            "nord",
-            function()
-              vim.cmd [[
-                hi CmpItemAbbrDeprecated guifg=#616e88 gui=bold
-                hi CmpItemAbbrMatch guifg=#ebcb8b
-                hi CmpItemAbbrMatchFuzzy guifg=#d08770
-                hi CmpItemMenu gui=bold guifg=#616e88
+      api.create_augroup("cmp_nord", {})
+      api.create_autocmd("ColorScheme", {
+        group = "cmp_nord",
+        pattern = "nord",
+        callback = function()
+          vim.cmd [[
+            hi CmpItemAbbrDeprecated guifg=#616e88 gui=bold
+            hi CmpItemAbbrMatch guifg=#ebcb8b
+            hi CmpItemAbbrMatchFuzzy guifg=#d08770
+            hi CmpItemMenu gui=bold guifg=#616e88
 
-                hi CmpItemKindText guifg=#81a1c1
-                hi CmpItemKindMethod guifg=#b48ead
-                hi CmpItemKindFunction guifg=#b48ead
-                hi CmpItemKindConstructor guifg=#b48ead gui=bold
-                hi CmpItemKindField guifg=#a3be8c
-                hi CmpItemKindVariable guifg=#88c0d0
-                hi CmpItemKindClass guifg=#ebcb8b
-                hi CmpItemKindInterface guifg=#8fbcbb
-                hi CmpItemKindModule guifg=#ebcb8b
-                hi CmpItemKindProperty guifg=#a3be8c
-                hi CmpItemKindUnit guifg=#b48ead
-                hi CmpItemKindValue guifg=#8fbcbb
-                hi CmpItemKindEnum guifg=#8fbcbb
-                hi CmpItemKindKeyword guifg=#5e81ac
-                hi CmpItemKindSnippet guifg=#d08770
-                hi CmpItemKindColor guifg=#ebcb8b
-                hi CmpItemKindFile guifg=#a3be8c
-                hi CmpItemKindReference guifg=#b48ead
-                hi CmpItemKindFolder guifg=#a3be8c
-                hi CmpItemKindEnumMember guifg=#8fbcbb
-                hi CmpItemKindConstant guifg=#5e81ac
-                hi CmpItemKindStruct guifg=#8fbcbb
-                hi CmpItemKindEvent guifg=#d08770
-                hi CmpItemKindOperator guifg=#b48ead
-                hi CmpItemKindTypeParameter guifg=#8fbcbb
-              ]]
-            end,
-          },
-        },
-      }
+            hi CmpItemKindText guifg=#81a1c1
+            hi CmpItemKindMethod guifg=#b48ead
+            hi CmpItemKindFunction guifg=#b48ead
+            hi CmpItemKindConstructor guifg=#b48ead gui=bold
+            hi CmpItemKindField guifg=#a3be8c
+            hi CmpItemKindVariable guifg=#88c0d0
+            hi CmpItemKindClass guifg=#ebcb8b
+            hi CmpItemKindInterface guifg=#8fbcbb
+            hi CmpItemKindModule guifg=#ebcb8b
+            hi CmpItemKindProperty guifg=#a3be8c
+            hi CmpItemKindUnit guifg=#b48ead
+            hi CmpItemKindValue guifg=#8fbcbb
+            hi CmpItemKindEnum guifg=#8fbcbb
+            hi CmpItemKindKeyword guifg=#5e81ac
+            hi CmpItemKindSnippet guifg=#d08770
+            hi CmpItemKindColor guifg=#ebcb8b
+            hi CmpItemKindFile guifg=#a3be8c
+            hi CmpItemKindReference guifg=#b48ead
+            hi CmpItemKindFolder guifg=#a3be8c
+            hi CmpItemKindEnumMember guifg=#8fbcbb
+            hi CmpItemKindConstant guifg=#5e81ac
+            hi CmpItemKindStruct guifg=#8fbcbb
+            hi CmpItemKindEvent guifg=#d08770
+            hi CmpItemKindOperator guifg=#b48ead
+            hi CmpItemKindTypeParameter guifg=#8fbcbb
+          ]]
+        end,
+      })
     end,
 
     config = function()

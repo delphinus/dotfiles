@@ -1,21 +1,26 @@
-require("agrp").set {
-  terminal_command = {
-    {
-      "TermOpen",
-      "term://*",
-      function()
-        vim.opt.scrolloff = 0
-        vim.opt.number = false
-        vim.opt.relativenumber = false
-        vim.opt.cursorline = false
-        vim.cmd [[startinsert]]
-      end,
-    },
-    { "WinEnter", "term://*", "startinsert" },
-    { "WinEnter", "term://*", "doautocmd <nomodeline> FocusGained %" },
-    { "WinLeave", "term://*", "doautocmd <nomodeline> FocusLost %" },
-  },
-}
+api.create_augroup("terminal_command", {})
+local function terminal_autocmd(event)
+  return function(cb)
+    local opts = { group = "terminal_command", pattern = "term://*" }
+    if type(cb) == "string" then
+      opts.command = cb
+    else
+      opts.callback = cb
+    end
+    api.create_autocmd(event, opts)
+  end
+end
+
+terminal_autocmd "TermOpen"(function()
+  vim.opt.scrolloff = 0
+  vim.opt.number = false
+  vim.opt.relativenumber = false
+  vim.opt.cursorline = false
+  vim.cmd [[startinsert]]
+end)
+terminal_autocmd "WinEnter" [[startinsert]]
+terminal_autocmd "WinEnter" [[doautocmd <nomodeline> FocusGained %]]
+terminal_autocmd "WinLeave" [[doautocmd <nomodeline> FocusLost %]]
 
 for map, keys in
   pairs {

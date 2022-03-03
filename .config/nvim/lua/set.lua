@@ -126,11 +126,11 @@ if is_light or vim.env.SOLARIZED then
 else
   scheme = "nord"
 end
-require("agrp").set {
-  set_colorscheme = {
-    { "VimEnter", "*", "doautocmd ColorScheme " .. scheme },
-  },
-}
+api.create_augroup("set_colorscheme", {})
+api.create_autocmd("VimEnter", {
+  group = "set_colorscheme",
+  command = [[doautocmd ColorScheme ]] .. scheme,
+})
 vim.cmd("colorscheme " .. scheme)
 -- }}}
 
@@ -179,11 +179,12 @@ vim.opt.titlestring = ("%%{%s()}"):format(my_tabline_path:vim())
 
 -- grep {{{
 vim.opt.grepprg = "pt --nogroup --nocolor --"
-require("agrp").set {
-  open_quickfix_window = {
-    { "QuickFixCmdPost", "*grep*", "cwindow" },
-  },
-}
+api.create_augroup("open_quickfix_window", {})
+api.create_autocmd("QuickFixCmdPost", {
+  group = "open_quickfix_window",
+  pattern = "*grep*",
+  command = [[cwindow]],
+})
 -- }}}
 
 -- Others {{{

@@ -19,30 +19,27 @@ return {
       end,
     },
     config = function()
-      require("agrp").set {
-        nord_overrides = {
-          {
-            "ColorScheme",
-            "nord",
-            function()
-              vim.cmd [[
-                hi Comment guifg=#72809a gui=italic
-                hi Delimiter guifg=#81A1C1
-                hi Constant guifg=#d8dee9 gui=italic
-                hi Folded guifg=#72809a gui=NONE
-                hi Identifier guifg=#8FBCBB
-                hi Special guifg=#D08770
-                hi Title guifg=#88C0D0 gui=bold cterm=bold
-                hi PmenuSel blend=0
+      api.create_augroup("nord_overrides", {})
+      api.create_autocmd("ColorScheme", {
+        group = "nord_overrides",
+        pattern = "nord",
+        callback = function()
+          vim.cmd [[
+            hi Comment guifg=#72809a gui=italic
+            hi Delimiter guifg=#81A1C1
+            hi Constant guifg=#d8dee9 gui=italic
+            hi Folded guifg=#72809a gui=NONE
+            hi Identifier guifg=#8FBCBB
+            hi Special guifg=#D08770
+            hi Title guifg=#88C0D0 gui=bold cterm=bold
+            hi PmenuSel blend=0
 
-                " for Neovim
-                hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
-                hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
-              ]]
-            end,
-          },
-        },
-      }
+            " for Neovim
+            hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
+            hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
+          ]]
+        end,
+      })
     end,
   },
 
@@ -241,9 +238,8 @@ return {
     cmd = { "Autodate", "AutodateOFF", "AutodateON" },
     setup = function()
       vim.g.autodate_format = "%FT%T%z"
-      require("agrp").set {
-        Autodate = { { "BufUnload,FileWritePre,BufWritePre", "*", "Autodate" } },
-      }
+      api.create_augroup("Autodate", {})
+      api.create_autocmd({ "BufUnload", "FileWritePre", "BufWritePre" }, { group = "Autodate", command = "Autodate" })
     end,
   },
 
@@ -306,20 +302,16 @@ return {
         dwm.close()
       end)
 
-      require("agrp").set {
-        dwm_preview = {
-          {
-            "BufRead",
-            "*",
-            function()
-              -- TODO: vim.opt has no 'previewwindow'?
-              if vim.wo.previewwindow then
-                vim.b.dwm_disabled = 1
-              end
-            end,
-          },
-        },
-      }
+      api.create_augroup("dwm_preview", {})
+      api.create_autocmd("BufRead", {
+        group = "dwm_preview",
+        callback = function()
+          -- TODO: vim.opt has no 'previewwindow'?
+          if vim.wo.previewwindow then
+            vim.b.dwm_disabled = 1
+          end
+        end,
+      })
     end,
   },
 
@@ -452,21 +444,17 @@ return {
         private = "● ", -- 0x25cf
       }
 
-      require("agrp").set {
-        tagbar_window = {
-          {
-            "BufWinEnter",
-            "*",
-            function()
-              -- TODO: vim.opt has no 'previewwindow'?
-              if vim.wo.previewwindow then
-                vim.opt.number = false
-                vim.opt.relativenumber = false
-              end
-            end,
-          },
-        },
-      }
+      api.create_augroup("tagbar_window", {})
+      api.create_autocmd("BufWinEnter", {
+        group = "tagbar_window",
+        callback = function()
+          -- TODO: vim.opt has no 'previewwindow'?
+          if vim.wo.previewwindow then
+            vim.opt.number = false
+            vim.opt.relativenumber = false
+          end
+        end,
+      })
 
       vim.keymap.set("n", "<A-t>", [[<Cmd>TagbarToggle<CR>]])
       vim.keymap.set("n", "<A-†>", [[<Cmd>TagbarToggle<CR>]])
@@ -526,11 +514,11 @@ return {
     "gisphm/vim-gitignore",
     ft = { "gitignore" },
     setup = function()
-      require("agrp").set {
-        detect_other_ignores = {
-          { "BufNewFile,BufRead", ".gcloudignore", "setf gitignore" },
-        },
-      }
+      api.create_augroup("detect_other_ignores", {})
+      api.create_autocmd(
+        { "BufNewFile", "BufRead" },
+        { group = "detect_other_ignores", pattern = ".gcloudignore", command = [[setf gitignore]] }
+      )
     end,
   },
 
@@ -544,9 +532,11 @@ return {
     "kchmck/vim-coffee-script",
     ft = { "coffee" },
     setup = function()
-      require("agrp").set {
-        detect_cson = { { "BufNewFile,BufRead", "*.cson", "setf coffee" } },
-      }
+      api.create_augroup("detect_cson", {})
+      api.create_autocmd(
+        { "BufNewFile", "BufRead" },
+        { group = "detect_cson", pattern = "*.cson", command = [[setf coffee]] }
+      )
     end,
   },
 
@@ -611,36 +601,33 @@ return {
           },
         },
       }
-      require("agrp").set {
-        formatter_on_save = {
-          {
-            "BufWritePost",
-            "*.js,*.ts,*.jsx,*.tsx,*.json,*.lua,*.go,go.mod",
-            function()
-              local function run_formatter()
-                local Path = require "plenary.path"
-                local filename = fn.expand "%:p"
-                local parents = Path.new(filename):parents()
-                for _, d in ipairs(parents) do
-                  local candidate = Path.new(d):joinpath ".no-formatter"
-                  if candidate:exists() then
-                    vim.notify("formatter disabled", nil, { title = "formatter" })
-                    return
-                  end
-                end
-                vim.cmd [[silent FormatWrite]]
+      api.create_augroup("formatter_on_save", {})
+      api.create_autocmd("BufWritePost", {
+        group = "formatter_on_save",
+        pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.json", "*.lua", "*.go", "go.mod" },
+        callback = function()
+          local function run_formatter()
+            local Path = require "plenary.path"
+            local filename = fn.expand "%:p"
+            local parents = Path.new(filename):parents()
+            for _, d in ipairs(parents) do
+              local candidate = Path.new(d):joinpath ".no-formatter"
+              if candidate:exists() then
+                vim.notify("formatter disabled", nil, { title = "formatter" })
+                return
               end
+            end
+            vim.cmd [[silent FormatWrite]]
+          end
 
-              local orig = vim.notify
-              vim.notify = function(msg, _, opts)
-                api.echo({ { ("[%s] %s"):format(opts.title, msg), "Debug" } }, true, {})
-              end
-              run_formatter()
-              vim.notify = orig
-            end,
-          },
-        },
-      }
+          local orig = vim.notify
+          vim.notify = function(msg, _, opts)
+            api.echo({ { ("[%s] %s"):format(opts.title, msg), "Debug" } }, true, {})
+          end
+          run_formatter()
+          vim.notify = orig
+        end,
+      })
     end,
   },
 
