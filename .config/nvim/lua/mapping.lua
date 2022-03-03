@@ -67,6 +67,6 @@ require("agrp").set {
 
   -- The native implementation of vim-higlihghtedyank in NeoVim
   highlighted_yank = {
-    { "TextYankPost", "*", vim.highlight.on_yank },
+    { "TextYankPost", "*", function() return vim.highlight.on_yank {} end },
   },
 }
