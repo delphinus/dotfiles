@@ -242,17 +242,6 @@ return {
       api.create_autocmd({ "BufUnload", "FileWritePre", "BufWritePre" }, { group = "Autodate", command = "Autodate" })
     end,
   },
-
-  {
-    -- TODO: This is a plugin using denops.vim that needs forked packer.nvim to
-    -- be loaded lazily.
-    "yuki-yano/fuzzy-motion.vim",
-    cmd = { "FuzzyMotion" },
-    wants = { "denops.vim" },
-    setup = function()
-      vim.keymap.set("n", "s", "<Cmd>FuzzyMotion<CR>")
-    end,
-  },
   -- }}}
 
   -- event {{{
