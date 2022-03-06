@@ -1,3 +1,28 @@
+-- dist#ft#FTperl()
+local ftperl = function(ext)
+  return function(path, bufnr)
+    local sep = package.config:sub(1, 1)
+    local paths = vim.split(path)
+    if #paths == 1 then
+      return
+    end
+    local dirname = paths[#paths - 1]
+    if ext == "t" and (dirname == "t" or dirname == "xt") then
+      return "perl"
+    end
+    local top = api.buf_get_lines(bufnr, 0, 1, false)[1]
+    if top == "#" and top:match "perl" then
+      return "perl"
+    end
+    local hse_use_regex = vim.regex [[^use\s\s*\k]]
+    for line = 0, 29 do
+      if has_use_regex:match_line(bufnr, line) then
+        return "perl"
+      end
+    end
+  end
+end
+
 vim.filetype.add {
   extension = {
     applescript = "applescript",
@@ -6,34 +31,18 @@ vim.filetype.add {
     penta = "pentadactyl",
     plist = "xml",
     pm = "perl",
-    tt2 = "tt2html",
+    t = ftperl "t",
     tt = "tt2html",
+    tt2 = "tt2html",
     ttx = "xml",
+    xt = ftperl "xt",
 
-    conf = function()
+    conf = function(path, bufnr)
       local sep = package.config:sub(1, 1)
-      for _, item in ipairs(vim.split(fn.expand "%:p", sep)) do
+      for _, item in ipairs(vim.split(path, sep)) do
         if item:match "tmux" then
           return "tmux"
         end
-      end
-    end,
-
-    -- dist#ft#FTperl()
-    xt = function()
-      local dirname = fn.expand "%:p:h:t"
-      if fn.expand "%:e" == "t" and (dirname == "t" or dirname == "xt") then
-        return "perl"
-      end
-      if fn.getline(1)[1] == "#" and fn.getline(1):match "perl" then
-        return "perl"
-      end
-      local save_cursor = fn.getpos "."
-      fn.cursor(1, 1)
-      local has_use = fn.search([[^use\s\s*\k]], "c", 30) > 0
-      fn.setpos(".", save_cursor)
-      if has_use then
-        return "perl"
       end
     end,
   },
@@ -43,8 +52,8 @@ vim.filetype.add {
   },
   pattern = {
     ["*pentadactylrc*"] = "pentadactyl",
-    ["*"] = function()
-      local top = api.buf_get_lines(0, 0, 1, false)[1]
+    ["*"] = function(path, bufnr, ext)
+      local top = api.buf_get_lines(bufnr, 0, 1, false)[1]
       if top then
         if top:match "^#!" then
           local bin = top:match "^.+/([^/ ]+)"
