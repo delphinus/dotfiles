@@ -14,7 +14,7 @@ local ftperl = function(ext)
     if top == "#" and top:match "perl" then
       return "perl"
     end
-    local hse_use_regex = vim.regex [[^use\s\s*\k]]
+    local has_use_regex = vim.regex [[^use\s\s*\k]]
     for line = 0, 29 do
       if has_use_regex:match_line(bufnr, line) then
         return "perl"
