@@ -1,9 +1,10 @@
 local data_dir = fn.stdpath "data"
 
-for _, p in ipairs {
-  { "delphinus/agrp.nvim" },
-  { "wbthomason/packer.nvim", opt = true },
-} do
+for _, p in
+  ipairs {
+    { "wbthomason/packer.nvim", opt = true },
+  }
+do
   local dir = p.opt and "opt" or "start"
   local package = p[1]
   local name = package:match "[^/]+$"
