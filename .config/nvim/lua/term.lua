@@ -1,7 +1,7 @@
-api.create_augroup("terminal_command", {})
+local group = api.create_augroup("terminal_command", {})
 local function terminal_autocmd(event)
   return function(cb)
-    local opts = { group = "terminal_command", pattern = "term://*" }
+    local opts = { group = group, pattern = "term://*" }
     if type(cb) == "string" then
       opts.command = cb
     else

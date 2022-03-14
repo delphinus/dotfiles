@@ -49,9 +49,9 @@ return {
 
       local pre_config
 
-      api.create_augroup("skkeleton_callbacks", {})
+      local g1 = api.create_augroup("skkeleton_callbacks", {})
       api.create_autocmd("User", {
-        group = "skkeleton_callbacks",
+        group = g1,
         pattern = "skkeleton-enable-pre",
         callback = function()
           pre_config = require("cmp.config").get()
@@ -62,7 +62,7 @@ return {
         end,
       })
       api.create_autocmd("User", {
-        group = "skkeleton_callbacks",
+        group = g1,
         pattern = "skkeleton-disable-pre",
         callback = function()
           if pre_config then
@@ -72,17 +72,11 @@ return {
         end,
       })
 
-      api.create_augroup("skkeleton_karabiner_elements", {})
-      api.create_autocmd(
-        { "InsertEnter", "CmdlineEnter" },
-        { group = "skkeleton_karabiner_elements", callback = set_karabiner(1) }
-      )
-      api.create_autocmd(
-        { "InsertLeave", "CmdlineLeave", "FocusLost" },
-        { group = "skkeleton_karabiner_elements", callback = set_karabiner(0) }
-      )
+      local g2 = api.create_augroup("skkeleton_karabiner_elements", {})
+      api.create_autocmd({ "InsertEnter", "CmdlineEnter" }, { group = g2, callback = set_karabiner(1) })
+      api.create_autocmd({ "InsertLeave", "CmdlineLeave", "FocusLost" }, { group = g2, callback = set_karabiner(0) })
       api.create_autocmd("FocusGained", {
-        group = "skkeleton_karabiner_elements",
+        group = g2,
         callback = function()
           local val = fn.mode():match "[icrR]" and 1 or 0
           set_karabiner(val)()
@@ -122,9 +116,8 @@ return {
       i {
         "delphinus/skkeleton_indicator.nvim",
         setup = function()
-          api.create_augroup("skkeleton_indicator_nord", {})
           api.create_autocmd("ColorScheme", {
-            group = "skkeleton_indicator_nord",
+            group = api.create_augroup("skkeleton_indicator_nord", {}),
             pattern = "nord",
             callback = function()
               vim.cmd [[
@@ -148,9 +141,8 @@ return {
     "hrsh7th/nvim-cmp",
     module = { "cmp" },
     setup = function()
-      api.create_augroup("cmp_nord", {})
       api.create_autocmd("ColorScheme", {
-        group = "cmp_nord",
+        group = api.create_augroup("cmp_nord", {}),
         pattern = "nord",
         callback = function()
           vim.cmd [[

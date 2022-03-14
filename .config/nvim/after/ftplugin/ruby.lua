@@ -2,9 +2,8 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 
-api.create_augroup("ruby_syntax", {})
 api.create_autocmd("Syntax", {
-  group = "ruby_syntax",
+  group = api.create_augroup("ruby_syntax", {}),
   pattern = "ruby",
   callback = function()
     if fn.RailsDetect() == 0 then

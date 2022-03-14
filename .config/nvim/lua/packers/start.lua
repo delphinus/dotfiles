@@ -250,9 +250,8 @@ return {
   {
     "LumaKernel/nvim-visual-eof.lua",
     config = function()
-      api.create_augroup("nord_visual_eof", {})
       api.create_autocmd("ColorScheme", {
-        group = "nord_visual_eof",
+        group = api.create_augroup("nord_visual_eof", {}),
         pattern = "nord",
         callback = function()
           vim.cmd [[

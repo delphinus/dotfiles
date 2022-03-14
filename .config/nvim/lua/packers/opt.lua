@@ -19,9 +19,8 @@ return {
       end,
     },
     config = function()
-      api.create_augroup("nord_overrides", {})
       api.create_autocmd("ColorScheme", {
-        group = "nord_overrides",
+        group = api.create_augroup("nord_overrides", {}),
         pattern = "nord",
         callback = function()
           vim.cmd [[
@@ -238,8 +237,10 @@ return {
     cmd = { "Autodate", "AutodateOFF", "AutodateON" },
     setup = function()
       vim.g.autodate_format = "%FT%T%z"
-      api.create_augroup("Autodate", {})
-      api.create_autocmd({ "BufUnload", "FileWritePre", "BufWritePre" }, { group = "Autodate", command = "Autodate" })
+      api.create_autocmd(
+        { "BufUnload", "FileWritePre", "BufWritePre" },
+        { group = api.create_augroup("Autodate", {}), command = "Autodate" }
+      )
     end,
   },
   -- }}}
@@ -291,9 +292,8 @@ return {
         dwm.close()
       end)
 
-      api.create_augroup("dwm_preview", {})
       api.create_autocmd("BufRead", {
-        group = "dwm_preview",
+        group = api.create_augroup("dwm_preview", {}),
         callback = function()
           -- TODO: vim.opt has no 'previewwindow'?
           if vim.wo.previewwindow then
@@ -433,9 +433,8 @@ return {
         private = "● ", -- 0x25cf
       }
 
-      api.create_augroup("tagbar_window", {})
       api.create_autocmd("BufWinEnter", {
-        group = "tagbar_window",
+        group = api.create_augroup("tagbar_window", {}),
         callback = function()
           -- TODO: vim.opt has no 'previewwindow'?
           if vim.wo.previewwindow then
@@ -503,11 +502,11 @@ return {
     "gisphm/vim-gitignore",
     ft = { "gitignore" },
     setup = function()
-      api.create_augroup("detect_other_ignores", {})
-      api.create_autocmd(
-        { "BufNewFile", "BufRead" },
-        { group = "detect_other_ignores", pattern = ".gcloudignore", command = [[setf gitignore]] }
-      )
+      api.create_autocmd({ "BufNewFile", "BufRead" }, {
+        group = api.create_augroup("detect_other_ignores", {}),
+        pattern = ".gcloudignore",
+        command = [[setf gitignore]],
+      })
     end,
   },
 
@@ -521,11 +520,11 @@ return {
     "kchmck/vim-coffee-script",
     ft = { "coffee" },
     setup = function()
-      api.create_augroup("detect_cson", {})
-      api.create_autocmd(
-        { "BufNewFile", "BufRead" },
-        { group = "detect_cson", pattern = "*.cson", command = [[setf coffee]] }
-      )
+      api.create_autocmd({ "BufNewFile", "BufRead" }, {
+        group = api.create_augroup("detect_cson", {}),
+        pattern = "*.cson",
+        command = [[setf coffee]],
+      })
     end,
   },
 
@@ -590,9 +589,8 @@ return {
           },
         },
       }
-      api.create_augroup("formatter_on_save", {})
       api.create_autocmd("BufWritePost", {
-        group = "formatter_on_save",
+        group = api.create_augroup("formatter_on_save", {}),
         pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.json", "*.lua", "*.go", "go.mod" },
         callback = function()
           local function run_formatter()

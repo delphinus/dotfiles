@@ -29,9 +29,8 @@ end
 
 vim.keymap.set("n", "qq", toggle_quickfix)
 
-api.create_augroup("toggle_quickfix_with_enter", {})
 api.create_autocmd("FileType", {
-  group = "toggle_quickfix_with_enter",
+  group = api.create_augroup("toggle_quickfix_with_enter", {}),
   pattern = "qf",
   callback = function()
     api.create_autocmd("BufWinLeave", { once = true, callback = toggle_quickfix })
@@ -39,18 +38,16 @@ api.create_autocmd("FileType", {
 })
 
 -- quit with `q` when started by `view`
-api.create_augroup("set_mapping_for_view", {})
 api.create_autocmd("VimEnter", {
-  group = "set_mapping_for_view",
+  group = api.create_augroup("set_mapping_for_view", {}),
   command = [[if &readonly | nnoremap q <Cmd>qa<CR> | endif]],
 })
 
 -- When editing a file, always jump to the last known cursor position. Don't
 -- do it when the position is invalid or when inside an event handler
 -- (happens when dropping a file on gvim).
-api.create_augroup("jump_to_the_last_position", {})
 api.create_autocmd("BufReadPost", {
-  group = "jump_to_the_last_position",
+  group = api.create_augroup("jump_to_the_last_position", {}),
   callback = function()
     local last_pos = fn.line [['"]]
     if last_pos >= 1 and last_pos <= fn.line "$" then
@@ -60,9 +57,8 @@ api.create_autocmd("BufReadPost", {
 })
 
 -- The native implementation of vim-higlihghtedyank in NeoVim
-api.create_augroup("highlighted_yank", {})
 api.create_autocmd("TextYankPost", {
-  group = "highlighted_yank",
+  group = api.create_augroup("highlighted_yank", {}),
   callback = function()
     vim.highlight.on_yank { higroup = "StatusLine" }
   end,
