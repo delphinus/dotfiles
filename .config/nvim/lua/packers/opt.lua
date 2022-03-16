@@ -431,37 +431,6 @@ return {
   { "dsawardekar/wordpress.vim", ft = { "php" } },
 
   {
-    "fatih/vim-go",
-    ft = { "go" },
-    setup = function()
-      vim.g.go_addtags_transform = "camelcase"
-      vim.g.go_alternate_mode = "split"
-      vim.g.go_auto_sameids = 1
-      vim.g.go_auto_type_info = 1
-      vim.g.go_autodetect_gopath = 0
-      vim.g.go_code_completion_enabled = 0
-      vim.g.go_def_mapping_enabled = 0
-      vim.g.go_doc_keywordprg_enabled = 0
-      vim.g.go_doc_popup_window = 1
-      vim.g.go_fmt_autosave = 0
-      vim.g.go_fmt_command = "goimports"
-      vim.g.go_fmt_experimental = 1
-      vim.g.go_fmt_fail_silently = 1
-      vim.g.go_fmt_options = { gofmt = "-s" }
-      vim.g.go_gocode_unimported_packages = 1
-      vim.g.go_gopls_enabled = 1
-      vim.g.go_gopls_complete_unimported = 1
-      vim.g.go_gopls_deep_completion = 1
-      vim.g.go_gopls_fuzzy_matching = 1
-      vim.g.go_gopls_use_placeholders = 1
-      vim.g.go_metalinter_autosave = 0
-      vim.g.go_metalinter_deadline = "10s"
-      vim.g.go_template_use_pkg = 1
-      vim.g.go_updatetime = 1
-    end,
-  },
-
-  {
     "gisphm/vim-gitignore",
     ft = { "gitignore" },
     setup = function()
