@@ -109,19 +109,9 @@ return {
         return tag and tag ~= "" and tag or nil
       end
 
-      local function tagbar_tag()
-        local t = fn["tagbar#currenttag"]("%s", "", "f", "scoped-stl")
-        local type = fn["tagbar#currenttagtype"]("%s", "")
-        return t ~= "" and type ~= "" and ("%s (%s)"):format(t, type) or nil
-      end
-
       local function tag()
-        local ok1, ts = pcall(treesitter_tag)
-        if ok1 and ts then
-          return ts
-        end
-        local ok2, tb = pcall(tagbar_tag)
-        return ok2 and tb and tb or "«no tag»"
+        local ok, ts = pcall(treesitter_tag)
+        return ok and ts or "«no tag»"
       end
 
       require("lualine").setup {

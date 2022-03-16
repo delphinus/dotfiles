@@ -411,43 +411,6 @@ return {
       require("virt-column").setup { char = "⡂" }
     end,
   },
-
-  {
-    "preservim/tagbar",
-    event = { "FocusLost", "CursorHold" },
-    cmd = { "TagbarToggle" },
-    fn = { "tagbar#currenttag", "tagbar#currenttagtype" },
-    setup = function()
-      vim.g.tagbar_autoclose = 1
-      vim.g.tagbar_autofocus = 1
-      vim.g.tagbar_autopreview = 1
-      vim.g.tagbar_iconchars = { " ", " " } -- 0xe5ff, 0xe5fe
-      vim.g.tagbar_left = 1
-      vim.g.tagbar_show_linenumbers = 1
-      -- public:    ○
-      -- protected: □
-      -- private:   ●
-      vim.g.tagbar_visibility_symbols = {
-        public = "○ ", -- 0x25cb
-        protected = "□ ", -- 0x25a1
-        private = "● ", -- 0x25cf
-      }
-
-      api.create_autocmd("BufWinEnter", {
-        group = api.create_augroup("tagbar_window", {}),
-        callback = function()
-          -- TODO: vim.opt has no 'previewwindow'?
-          if vim.wo.previewwindow then
-            vim.opt.number = false
-            vim.opt.relativenumber = false
-          end
-        end,
-      })
-
-      vim.keymap.set("n", "<A-t>", [[<Cmd>TagbarToggle<CR>]])
-      vim.keymap.set("n", "<A-†>", [[<Cmd>TagbarToggle<CR>]])
-    end,
-  },
   -- }}}
 
   -- ft {{{
