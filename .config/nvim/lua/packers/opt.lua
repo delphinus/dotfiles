@@ -32,6 +32,7 @@ return {
             hi Special guifg=#D08770
             hi Title guifg=#88C0D0 gui=bold cterm=bold
             hi PmenuSel blend=0
+            hi VertSplit gui=NONE
 
             " for Neovim
             hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
