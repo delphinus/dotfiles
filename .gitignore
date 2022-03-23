@@ -426,6 +426,7 @@ Temporary Items
 /.config/fish/completions/luarocks.fish
 /.config/fish/config-local.fish
 /.config/fish/fish_variables
+/.config/fish/functions/tm.fish
 /.config/git
 /.config/nvim/lua/packer_compiled.lua
 /.config/powerline/config.json
