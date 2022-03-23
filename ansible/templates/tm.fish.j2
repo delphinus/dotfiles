@@ -1,0 +1,22 @@
+function tm --description 'launch tmux with my session'
+  # attach the existent session and return
+  tmux attach-session -d; and return
+
+  tmux new-session \; \
+    new-window \; \
+    new-window \; \
+    new-window \; \
+    new-window \; \
+    send-keys 'while true; prettyping 8.8.8.8; sleep 3; end' C-m \; \
+    split-window -v \; \
+    resize-pane -y 80% \; \
+    send-keys 'while true; prettyping {{ secret_vpn_host }}; sleep 3; end' C-m \; \
+    split-window -h \; \
+    send-keys 'watch -n1 dig +short {{ secret_vpn_host }}' C-m \; \
+    split-window -v \; \
+    resize-pane -y 70% \; \
+    send-keys bpytop C-m \; \
+    select-window -t 1
+end
+
+# vim:se ft=fish.jinja:
