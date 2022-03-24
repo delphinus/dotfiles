@@ -6,6 +6,7 @@ Host *
   PubkeyAuthentication yes
   ServerAliveCountMax 20
   ServerAliveInterval 15
+  IdentityAgent "{{ secret_identity_agent }}"
 
 {% for h in secret_ssh.hosts -%}
 Host {{ h.name }}
