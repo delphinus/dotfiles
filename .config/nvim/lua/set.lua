@@ -60,7 +60,7 @@ vim.opt.fillchars = {
 }
 vim.opt.pumblend = 30
 vim.opt.pumwidth = 40 -- Use the same value as converter_truncate.maxAbbrWidth
-vim.opt.shada = [[!,'1000,<50,s10,h]] -- Store 1000 entries on oldfiles
+vim.opt.shada = [['50,/100,:100,<5,@100,f0,h,s10]]
 
 if fn.exists "*setcellwidths" == 1 then
   fn.setcellwidths {
