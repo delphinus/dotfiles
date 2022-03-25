@@ -36,14 +36,16 @@ local init = (function()
     end
     packer.reset()
 
-    for _, name in pairs {
-      "start",
-      "opt",
-      --"ddc",
-      "cmp",
-      "lsp",
-      "telescope",
-    } do
+    for _, name in
+      pairs {
+        "start",
+        "opt",
+        --"ddc",
+        "cmp",
+        "lsp",
+        "telescope",
+      }
+    do
       packer.use(require("packers." .. name))
     end
 
