@@ -6,8 +6,6 @@ local init = (function()
       vim.cmd [[packadd packer.nvim]]
       packer = require "packer"
       packer.init {
-        -- TODO: use impatient.nvim
-        compile_path = fn.stdpath "config" .. "/lua/packer_compiled.lua",
         compile_on_sync = false,
         profile = {
           enable = false,
