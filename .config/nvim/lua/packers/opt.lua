@@ -896,7 +896,6 @@ return {
         nohlsearch = { jump = true },
 
         convert = function(input)
-          print(input)
           -- If the input does not contain iskeyword characters, it deals with
           -- the input as "very magic".
           if not vim.regex([[\k]]):match_str(input) then
