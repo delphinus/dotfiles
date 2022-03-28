@@ -20,6 +20,10 @@ return {
       "yaml",
       "vue",
     },
+    wants = {
+      -- needs these plugins to setup capabilities
+      "cmp-nvim-lsp",
+    },
     config = function()
       vim.cmd [[
         sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
@@ -161,11 +165,7 @@ return {
         return false
       end
 
-      local ok = pcall(require, "cmp")
-      local capabilities
-      if ok then
-        capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
-      end
+      local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       for name, config in pairs {
         clangd = { on_attach = lsp_on_attach() },
