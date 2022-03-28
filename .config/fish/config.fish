@@ -187,7 +187,6 @@ set gcsdk_path $homebrew_path/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 test -d $gcsdk_path; and source "$gcsdk_path/path.fish.inc"
 
 type -q direnv;    and direnv hook fish | source
-type -q gosshauth; and gosshauth hook fish | source
 type -q asdf;      and source $homebrew_path/opt/asdf/libexec/asdf.fish
 
 if type -q luarocks
