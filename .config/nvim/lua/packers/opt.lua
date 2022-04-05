@@ -312,7 +312,7 @@ return {
   {
     "haringsrob/nvim_context_vt",
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
-    after = { "nvim-treesitter" },
+    wants = { "nvim-treesitter" },
     config = function()
       vim.cmd [[hi ContextVt guifg=#365f86]]
       require("nvim_context_vt").setup {
