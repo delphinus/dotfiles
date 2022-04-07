@@ -207,8 +207,8 @@ end
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
 
 # TODO: Now google-cloud-sdk does not work with Python 3.9!
-set -x CLOUDSDK_PYTHON /usr/bin/python
-set -x CLOUDSDK_GSUTIL_PYTHON /usr/bin/python
+set -x CLOUDSDK_PYTHON /usr/bin/python3
+set -x CLOUDSDK_GSUTIL_PYTHON /usr/bin/python3
 
 set -x NEXTWORD_DATA_PATH ~/.cache/nextword-data-large
 
