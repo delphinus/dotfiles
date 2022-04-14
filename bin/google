@@ -1,0 +1,46 @@
+#!/bin/bash -eu
+usage_and_exit() {
+  if [[ -n ${1:-} ]]
+  then
+    echo "$1" 1>&2
+    echo 1>&2
+  fi
+  cat <<EOH 1>&2
+  Usage: google [-l LANG] <keyword>
+
+  Open Google Search page in browser with <keyword>
+
+  example:
+    # Search 'Foo::Bar' in your favorite browser.
+    google Foo::Bar
+    # Search 'perl Foo::Bar' instead.
+    google -l perl Foo::Bar
+EOH
+  exit 1
+}
+
+lang=
+while getopts hl: opt
+do
+  case $opt in
+    h)
+      usage_and_exit
+      ;;
+    l)
+      lang=$OPTARG
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+keyword=${1:-}
+if [[ -z $keyword ]];
+then
+  usage_and_exit 'set keyword' 2>&1
+fi
+param=${keyword// /+}
+if [[ -n $lang ]]
+then
+  param="${lang// /+}+$param"
+fi
+open "https://www.google.com/search?q=$param"
