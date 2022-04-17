@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+use 5.30.0;
+use warnings;
+
+my $normal_host = '8.8.8.8';
+my $vpn_host = '{{ secret_vpn_host }}';
+printf '#[bg=brightblack]%s%s %s', pinger($normal_host), pinger($vpn_host), vpn();
+
+sub pinger {
+    my ($host) = @_;
+    my ($latency) = `/sbin/ping -c1 -t1 $host` =~ /time=(\d+\.\d+)/;
+    return '#[fg=red] ---' if !defined $latency;
+    $latency += 0;
+    my $color = $latency < 10 ? 'green' :
+        $latency < 50 ? 'yellow' :
+        'magenta';
+    return sprintf '#[fg=%s] %.2f ms', $color, $latency;
+}
+
+sub vpn {
+    my $status = system 'ifconfig | grep ppp0';
+    return $status == 0 ? '#[fg=black,bg=green,bold]   VPN ON ' : '#[fg=red,bg=black]   VPN OFF ';
+}
+
+# vim:se ft=perl.jinja:
