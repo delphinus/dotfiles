@@ -40,11 +40,11 @@ return {
         hi DiagnosticUnderlineHint guisp=#4c566a gui=undercurl
       ]]
 
-      api.add_user_command("ShowLSPSettings", function()
+      api.create_user_command("ShowLSPSettings", function()
         print(vim.inspect(vim.lsp.buf_get_clients()))
       end, { desc = "Show LSP settings" })
 
-      api.add_user_command("ReloadLSPSettings", function()
+      api.create_user_command("ReloadLSPSettings", function()
         vim.lsp.stop_client(vim.lsp.get_active_clients())
         vim.cmd [[edit]]
       end, { desc = "Reload LSP settings" })

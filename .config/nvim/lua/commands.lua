@@ -20,14 +20,14 @@ local function syn_string(syn)
   return table.concat(values, " ")
 end
 
-api.add_user_command("SyntaxInfo", function()
+api.create_user_command("SyntaxInfo", function()
   print(syn_string(get_syn()))
   print "linked_to"
   print(syn_string(get_syn(true)))
 end, { desc = "Show syntax highlight information on the cursor" })
 
 -- https://github.com/arcticicestudio/nord-vim/issues/242#issuecomment-761756223
-api.add_user_command("SynStack", function()
+api.create_user_command("SynStack", function()
   if fn.exists "*synstack" then
     local stacks = fn.synstack(fn.line ".", fn.col ".")
     local attrs = vim.tbl_map(function(stack)
@@ -37,7 +37,7 @@ api.add_user_command("SynStack", function()
   end
 end, { desc = "Show syntax highlight stack" })
 
-api.add_user_command("CleanUpStartUpTime", function()
+api.create_user_command("CleanUpStartUpTime", function()
   -- TODO: use Lua
   vim.env.PACKER = fn.stdpath "data" .. "/site/pack/packer"
   local funcs = vim.tbl_map(function(v)
@@ -54,7 +54,7 @@ api.add_user_command("CleanUpStartUpTime", function()
 end, { desc = "Clean up --startuptime result" })
 
 -- echo a string for map definitions from an input key
-api.add_user_command("GetChar", function()
+api.create_user_command("GetChar", function()
   -- TODO: does not redraw??
   vim.cmd [[redraw]]
   print "Press any key:"
@@ -68,7 +68,7 @@ api.add_user_command("GetChar", function()
   print(([[Raw: '%s' | Char: '%s']]):format(c, fn.nr2char(c)))
 end, { desc = "Echo a string for map definitions from an input key" })
 
-api.add_user_command("Dump", function(opts)
+api.create_user_command("Dump", function(opts)
   local obj = assert(load("return " .. opts.args))()
   local function to_str()
     local mt = type(obj) == "table" and getmetatable(obj) or nil

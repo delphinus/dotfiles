@@ -104,7 +104,7 @@ vim.opt.mouse = "a"
 vim.opt.termguicolors = true
 vim.cmd "syntax enable"
 
-api.add_user_command("ToggleColorscheme", function()
+api.create_user_command("ToggleColorscheme", function()
   local scheme
   if vim.opt.background:get() == "light" then
     vim.opt.background = "dark"

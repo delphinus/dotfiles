@@ -93,7 +93,7 @@ sub readableBytes :prototype($) ($bytes) {
 
 sub arrange :prototype($) ($result) {
     if (defined(my $v = get $result, 'dateOfStateChange')) {
-        my $t = localtime(Time::Piece->strptime($v, '%F %T %z')->epoch);
+        my $t = localtime(Time::Piece->strptime($v, '%Y-%m-%d %T %z')->epoch);
         $result->{dateOfStateChangeFormatted} = $t->strftime('%F %T %z');
     }
     my $p = get $result, 'progress', +{};
