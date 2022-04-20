@@ -170,6 +170,10 @@ return {
         end
         return false
       end
+      local function is_deno_file()
+        local shebang = api.buf_get_lines(0, 0, 1, false)
+        return #shebang == 1 and shebang[1]:match "^#!.*deno" and true or false
+      end
 
       local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -193,6 +197,9 @@ return {
         denols = {
           on_attach = lsp_on_attach(),
           root_dir = function(startpath)
+            if is_deno_file() then
+              return util.path.dirname(startpath)
+            end
             return util.search_ancestors(startpath, function(p)
               return is_git_root(p) and is_deno_dir(p)
             end)
@@ -206,6 +213,9 @@ return {
         tsserver = {
           on_attach = lsp_on_attach(),
           root_dir = function(startpath)
+            if is_deno_file() then
+              return
+            end
             return util.search_ancestors(startpath, function(p)
               return is_git_root(p) and not is_deno_dir(p)
             end)
