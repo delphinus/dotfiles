@@ -55,8 +55,8 @@
 	clean-local = !git branch --merged | egrep -v '(^\\*|master|main)' | xargs git branch -d
 	show-name = diff-tree --no-commit-id --name-only -r
 [url "git@github.com:"]
-	pushinstedof = "git://github.com/"
-	pushinstedof = "https://github.com/"
+	pushInsteadOf = "git://github.com/"
+	pushInsteadOf = "https://github.com/"
 [user]
 	email = me@delphinus.dev
 	name = delphinus
