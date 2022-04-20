@@ -1,3 +1,9 @@
+local function ts(plugin)
+  plugin.event = { "BufNewFile", "BufRead" }
+  plugin.wants = { "nvim-treesitter" }
+  return plugin
+end
+
 return {
   { -- {{{ nvim-lspconfig
     "neovim/nvim-lspconfig",
@@ -387,14 +393,13 @@ return {
     end,
   }, -- }}}
 
-  { "nvim-treesitter/nvim-treesitter-refactor", event = { "BufNewFile", "BufRead" } },
-  { "nvim-treesitter/nvim-treesitter-textobjects", event = { "BufNewFile", "BufRead" } },
-  { "nvim-treesitter/playground", event = { "BufNewFile", "BufRead" } },
-  { "romgrk/nvim-treesitter-context", event = { "BufNewFile", "BufRead" } },
+  ts { "nvim-treesitter/nvim-treesitter-refactor" },
+  ts { "nvim-treesitter/nvim-treesitter-textobjects" },
+  ts { "nvim-treesitter/playground" },
+  ts { "romgrk/nvim-treesitter-context" },
 
-  {
+  ts {
     "p00f/nvim-ts-rainbow",
-    event = { "BufNewFile", "BufRead" },
     config = function()
       vim.cmd [[
       hi rainbowcol1 guifg=#bf616a
@@ -411,13 +416,6 @@ return {
   { -- {{{ nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
     event = { "BufNewFile", "BufRead" },
-    after = {
-      "nvim-treesitter-context",
-      "nvim-treesitter-refactor",
-      "nvim-treesitter-textobjects",
-      "nvim-ts-rainbow",
-      "playground",
-    },
     config = function()
       require("nvim-treesitter.configs").setup {
         highlight = {
