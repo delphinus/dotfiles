@@ -77,8 +77,9 @@
     unicode-range: U+0400-052F;
 }
 textarea,textarea *,pre,pre *,code,code *,tt,tt *,
-.syntaxhighlighter .gutter div,
+input[type="text"],input[type="email"],input[type="search"],
 .blob-num, .blob-code, .blob-code-inner, .Vimdoc,
+.syntaxhighlighter .gutter div,
 .syntaxhighlighter a,
 .syntaxhighlighter div,
 .syntaxhighlighter code,
