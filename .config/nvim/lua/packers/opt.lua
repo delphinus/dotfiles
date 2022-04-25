@@ -248,6 +248,24 @@ return {
 
   -- event {{{
   {
+    "b0o/incline.nvim",
+    event = {
+      "WinNew",
+      "WinClosed",
+      "WinEnter",
+      "WinLeave",
+      "WinScrolled", -- WinScrolled is used to detect window resizes
+      "TabEnter",
+      "TabNewEntered",
+      "BufWinEnter",
+      "BufWinLeave",
+    },
+    config = function()
+      require("incline").setup {}
+    end,
+  },
+
+  {
     "delphinus/dwm.nvim",
     event = { "VimEnter" },
     cond = function()
