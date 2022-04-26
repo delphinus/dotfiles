@@ -10,7 +10,7 @@ from iterm2 import (
     run_forever,
 )
 from re import compile
-from typing import Optional
+from typing import (Any, Optional)
 
 SMALL = {"normal": 11, "non-ascii": 14}
 MEDIUM = {"normal": 13, "non-ascii": 16}
@@ -20,11 +20,13 @@ NAME_SIZE_RE = compile(r"^(.* )(\d*)$")
 
 
 async def main(connection: Connection) -> None:
-    app: App = await async_get_app(connection)
+    app = await async_get_app(connection)
 
     @RPC
     async def toggle_font_size(session_id: str) -> None:
-        session: Session = app.get_session_by_id(session_id)
+        if not app:
+            return
+        session = app.get_session_by_id(session_id)
         if not session:
             return
         profile: Profile = await session.async_get_profile()
@@ -40,7 +42,9 @@ async def main(connection: Connection) -> None:
     await toggle_font_size.async_register(connection)
 
 
-def font_name(current: str, kind: str) -> Optional[str]:
+def font_name(current: Any, kind: str) -> Optional[str]:
+    if not current or not isinstance(current, str):
+        return
     if m := NAME_SIZE_RE.search(current):
         name = m.group(1)
         current_size = int(m.group(2))
