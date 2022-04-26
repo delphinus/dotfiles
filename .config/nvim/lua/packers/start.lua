@@ -120,9 +120,7 @@ return {
           globalstatus = true,
         },
         sections = {
-          lualine_a = {
-            { "mode", fmt = monospace },
-          },
+          lualine_a = { "mode" },
           lualine_b = {},
           lualine_c = { "filename" },
           lualine_x = {},
