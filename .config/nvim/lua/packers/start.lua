@@ -121,16 +121,9 @@ return {
         },
         sections = {
           lualine_a = { "mode" },
-          lualine_b = {},
-          lualine_c = { "filename" },
-          lualine_x = { "filetype" },
-          lualine_y = { "progress", "filesize" },
-          lualine_z = { "location" },
-        },
-        tabline = {
-          lualine_a = {},
-          lualine_b = {
-            { "branch", fmt = monospace },
+          lualine_b = { "filename" },
+          lualine_c = {
+            "branch",
             { lsp, color = { fg = "#ebcb8b" } },
             {
               "diff",
@@ -157,16 +150,16 @@ return {
               },
             },
           },
-          lualine_c = {
-            { "filename", fmt = monospace },
-            { tag, separator = "❘" },
-          },
-          lualine_x = {
-            { char_info, separator = "❘" },
-            "encoding",
-            { "fileformat", padding = { right = 2 } },
-          },
-          lualine_y = {},
+          lualine_x = { "filetype" },
+          lualine_y = { "progress", "filesize" },
+          lualine_z = { "location" },
+        },
+        tabline = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { { tag, separator = "❘" } },
+          lualine_x = { char_info },
+          lualine_y = { "encoding", { "fileformat", padding = { right = 2 } } },
           lualine_z = {},
         },
       }
