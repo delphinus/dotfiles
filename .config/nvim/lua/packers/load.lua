@@ -6,7 +6,7 @@ local init = (function()
       vim.cmd [[packadd packer.nvim]]
       packer = require "packer"
       packer.init {
-        compile_on_sync = false,
+        compile_on_sync = true,
         profile = {
           enable = false,
           threshold = 1,
