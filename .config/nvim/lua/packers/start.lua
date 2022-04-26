@@ -123,8 +123,8 @@ return {
           lualine_a = { "mode" },
           lualine_b = {},
           lualine_c = { "filename" },
-          lualine_x = {},
-          lualine_y = { "filetype" },
+          lualine_x = { "filetype" },
+          lualine_y = { "progress", "filesize" },
           lualine_z = { "location" },
         },
         tabline = {
