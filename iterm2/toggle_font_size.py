@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 from iterm2 import (
-    App,
     Connection,
     LocalWriteOnlyProfile,
     Profile,
     RPC,
-    Session,
     async_get_app,
     run_forever,
 )
