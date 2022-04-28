@@ -111,6 +111,37 @@ return {
         return ok and ts or "«no tag»"
       end
 
+      -- https://github.com/nvim-lualine/lualine.nvim/wiki/Component-snippets
+      local truncate = require("plenary.strings").truncate
+      local function truncator(str, settings, no_ellipsis)
+        local columns = vim.opt.columns:get()
+        if type(settings[1]) ~= "table" then
+          settings = { settings }
+        end
+        for _, t in ipairs(settings) do
+          local width = t[1]
+          local len = t[2]
+          if columns < width and #str > len then
+            if len == 0 then
+              return ""
+            end
+            return truncate(str, len, (no_ellipsis and "" or nil))
+          end
+        end
+        return str
+      end
+
+      local function tr(settings)
+        return function(str)
+          return truncator(str, settings)
+        end
+      end
+      local function no_ellipsis_tr(settings)
+        return function(str)
+          return truncator(str, settings, true)
+        end
+      end
+
       require("lualine").setup {
         extensions = { "quickfix" },
         options = {
@@ -120,11 +151,11 @@ return {
           globalstatus = true,
         },
         sections = {
-          lualine_a = { "mode" },
-          lualine_b = { "filename" },
+          lualine_a = { { "mode", fmt = no_ellipsis_tr { 80, 4 } } },
+          lualine_b = { { "filename", fmt = tr { { 40, 0 }, { 80, 10 }, { 100, 30 } } } },
           lualine_c = {
-            "branch",
-            { lsp, color = { fg = "#ebcb8b" } },
+            { "branch", fmt = tr { { 80, 0 }, { 90, 10 } } },
+            { lsp, color = { fg = "#ebcb8b" }, fmt = tr { 100, 0 } },
             {
               "diff",
               symbols = {
@@ -132,6 +163,7 @@ return {
                 modified = "→",
                 removed = "↓",
               },
+              fmt = tr { 110, 0 },
             },
             {
               "diagnostics",
@@ -148,18 +180,25 @@ return {
                 info = "■", -- U+25A0
                 hint = "□", -- U+25A1
               },
+              fmt = tr { 120, 0 },
             },
           },
-          lualine_x = { "filetype" },
-          lualine_y = { "progress", "filesize" },
-          lualine_z = { "location" },
+          lualine_x = { { "filetype", fmt = tr { 100, 0 } } },
+          lualine_y = {
+            { "progress", fmt = tr { 90, 0 } },
+            { "filesize", fmt = tr { 120, 0 } },
+          },
+          lualine_z = { { "location", fmt = tr { 50, 0 } } },
         },
         tabline = {
           lualine_a = {},
           lualine_b = {},
           lualine_c = { { tag, separator = "❘" } },
-          lualine_x = { char_info },
-          lualine_y = { "encoding", { "fileformat", padding = { right = 2 } } },
+          lualine_x = { { char_info, fmt = tr { 80, 0 } } },
+          lualine_y = {
+            { "encoding", fmt = tr { 90, 0 } },
+            { "fileformat", padding = { right = 2 }, fmt = tr { 90, 0 } },
+          },
           lualine_z = {},
         },
       }
