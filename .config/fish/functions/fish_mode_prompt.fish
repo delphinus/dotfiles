@@ -15,11 +15,11 @@ function fish_mode_prompt --description "Display the mode for the prompt"
       case insert
         set suffix (set_color red)❯(set_color yellow)❯(set_color green)❯$normal
       case replace_one
-        set suffix (set_color yellow)❮❮❮$normal
+        set suffix (set_color yellow)❮r❯$normal
       case replace
-        set suffix (set_color magenta)❮❮❮$normal
+        set suffix (set_color magenta)❮R❯$normal
       case visual
-        set suffix (set_color green)❮❮❮$normal
+        set suffix (set_color green)❮V❯$normal
     end
   else
     set suffix (set_color red)❯(set_color yellow)❯(set_color green)❯$normal
