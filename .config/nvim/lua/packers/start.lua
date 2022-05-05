@@ -30,7 +30,6 @@ return {
     end,
   },
 
-  { "delphinus/vim-auto-cursorline" },
   { "delphinus/vim-quickfix-height" },
 
   {
