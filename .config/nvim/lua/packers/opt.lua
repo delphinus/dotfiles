@@ -267,7 +267,6 @@ return {
 
   {
     "delphinus/auto-cursorline.nvim",
-    branch = "feature/first-implementation",
     event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
     config = function()
       require("auto-cursorline").setup {}
