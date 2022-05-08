@@ -155,6 +155,22 @@ tools:
       - '%f(%l,%c) : %tarning %m'
       - '%f(%l,%c) : %trror %m'
 
+  textlint-lint: &textlint-lint
+    #lint-command: >-
+    #textlint -f unix --stdin |
+    #perl -pe 's/<.*?>:(.*\[)(\w+)/$1 . +{Error => "info", Warning => "note"}->{$2}/e'
+    lint-command: >-
+      textlint -f unix ${INPUT} |
+      perl -pe 's/.*?:(.*\[)(\w+)/$1 . +{Error => "info", Warning => "note"}->{$2}/e'
+    lint-ignore-exit-code: true
+    #lint-stdin: true
+    lint-stdin: false
+    lint-formats:
+      - '%l:%c: %m [%trror/%r'
+      - '%l:%c: %m [%tarning/%r'
+      - '%l:%c: %m [%tnfo/%r'
+      - '%l:%c: %m [%tote/%r'
+
 languages:
   eruby:
     - <<: *eruby-erb
@@ -168,6 +184,7 @@ languages:
   markdown:
     - <<: *markdown-markdownlint
     - <<: *markdown-pandoc
+    - <<: *textlint-lint
 
   rst:
     - <<: *rst-lint
