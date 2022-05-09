@@ -124,7 +124,7 @@ return {
             end
             vim.keymap.set("n", "<C-x><C-k>", vim.lsp.buf.signature_help, { buffer = bufnr })
             vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, { buffer = bufnr })
-            vim.keymap.set("n", "g=", vim.lsp.buf.formatting, { buffer = bufnr })
+            vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
             vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = bufnr })
             vim.keymap.set("n", "gD", vim.lsp.buf.implementation, { buffer = bufnr })
             vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = bufnr })
