@@ -116,7 +116,11 @@ alias l. 'l -d .*'
 alias git hub
 alias dircolors gdircolors
 
-test -n $NVIM_LISTEN_ADDRESS; and alias nvr 'nvr -cc \'lua require"FTerm".toggle()\' -cc split'
+if test "$NVIM_LISTEN_ADDRESS" != ''
+  alias nvr 'nvr -cc \'lua require"FTerm".toggle()\' -cc split'
+else if test "$NVIM" != ''
+  alias nvr 'nvr --servername '$NVIM' -cc \'lua require"FTerm".toggle()\' -cc split'
+end
 
 test "$fish_key_bindings" != 'fish_hybrid_key_bindings'; and fish_hybrid_key_bindings
 
