@@ -7,7 +7,7 @@ return {
     "ahmedkhalf/project.nvim",
     config = function()
       require("project_nvim").setup {
-        ignore_lsp = { "bashls", "efm", "tsserver" },
+        ignore_lsp = { "bashls", "null-ls", "tsserver" },
         patterns = { ".git" },
         show_hidden = true,
       }
@@ -135,6 +135,7 @@ return {
           return truncator(str, settings)
         end
       end
+
       local function no_ellipsis_tr(settings)
         return function(str)
           return truncator(str, settings, true)
@@ -296,6 +297,90 @@ return {
   },
 
   { "folke/todo-comments.nvim" },
+
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      local nls = require "null-ls"
+      local utils = require "null-ls.utils"
+
+      local function use_prettier()
+        return utils.make_conditional_utils().root_has_file {
+          ".eslintrc",
+          ".eslintrc.json",
+          ".eslintrc.yaml",
+          ".eslintrc.yml",
+          ".prettierrc",
+          ".prettierrc.json",
+          ".prettierrc.yaml",
+          ".prettierrc.yml",
+        }
+      end
+
+      nls.setup {
+        sources = {
+          nls.builtins.diagnostics.luacheck,
+          nls.builtins.diagnostics.mypy,
+          nls.builtins.diagnostics.shellcheck,
+          nls.builtins.diagnostics.vint,
+          nls.builtins.diagnostics.yamllint,
+          nls.builtins.formatting.gofmt,
+          nls.builtins.formatting.gofumpt,
+          nls.builtins.formatting.goimports,
+          nls.builtins.formatting.golines,
+          nls.builtins.formatting.stylua,
+
+          nls.builtins.formatting.deno_fmt.with {
+            generator_opts = {
+              runtime_condition = function(_)
+                local r = not use_prettier()
+                vim.notify("deno_fmt: " .. (r and "true" or "false"))
+                return not use_prettier()
+              end,
+            },
+          },
+
+          nls.builtins.formatting.prettier.with {
+            generator_opts = {
+              runtime_condition = function(_)
+                local r = use_prettier()
+                vim.notify("prettier: " .. (r and "true" or "false"))
+                return use_prettier()
+              end,
+            },
+          },
+
+          nls.builtins.formatting.shfmt.with {
+            generator_opts = {
+              command = "shfmt",
+              args = { "-i", "2", "-sr", "-filename", "$FILENAME" },
+              to_stdin = true,
+            },
+          },
+
+          nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
+        },
+
+        on_attach = function(client, bufnr)
+          if client.supports_method "textDocument/formatting" then
+            api.create_autocmd("BufWritePre", {
+              group = api.create_augroup("null_ls_formatting", {}),
+              buffer = bufnr,
+              callback = function()
+                vim.lsp.buf.format {
+                  filter = function(clients)
+                    return vim.tbl_filter(function(c)
+                      return c.name ~= "tsserver"
+                    end, clients)
+                  end,
+                }
+              end,
+            })
+          end
+        end,
+      }
+    end,
+  },
   -- }}}
 }
 

@@ -491,91 +491,91 @@ return {
   { "kevinhwang91/nvim-bqf", ft = { "qf" } },
   { "leafo/moonscript-vim", ft = { "moonscript" } },
 
-  {
-    "mhartington/formatter.nvim",
-    ft = { "go", "javascript", "json", "lua", "typescript" },
-    config = function()
-      local function bufname()
-        return api.buf_get_name(0)
-      end
-      local function prettier()
-        if fn.glob ".prettierrc*" ~= "" then
-          return {
-            exe = "npx",
-            args = { "prettier", "--stdin-filepath", bufname() },
-            stdin = true,
-          }
-        end
-        return {
-          exe = "deno",
-          args = { "fmt", "-" },
-          stdin = true,
-        }
-      end
-      local function eslint()
-        if fn.glob ".eslintrc*" ~= "" then
-          return {
-            exe = "npx",
-            args = { "eslint", "--fix" },
-            stdin = false,
-          }
-        end
-        return { exe = "cat", stdin = true }
-      end
-      local function stylua()
-        if fn.glob ".stylua.toml" ~= "" or fn.glob "stylua.toml" ~= "" then
-          return {
-            exe = "stylua",
-            args = { "-s", "--stdin-filepath", bufname(), "-" },
-            stdin = true,
-          }
-        end
-        return { exe = "cat", stdin = true }
-      end
-      require("formatter").setup {
-        filetype = {
-          javascript = { prettier, eslint },
-          typescript = { prettier, eslint },
-          json = { exe = "jq", args = { "." }, stdin = true },
-          lua = { stylua },
-          go = {
-            function()
-              return { exe = "golines", args = { "-w" }, stdin = false }
-            end,
-            function()
-              return { exe = "gofumpt", args = { "-w" }, stdin = false }
-            end,
-          },
-        },
-      }
-      api.create_autocmd("BufWritePost", {
-        group = api.create_augroup("formatter_on_save", {}),
-        pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.json", "*.lua", "*.go", "go.mod" },
-        callback = function()
-          local function run_formatter()
-            local Path = require "plenary.path"
-            local filename = fn.expand "%:p"
-            local parents = Path.new(filename):parents()
-            for _, d in ipairs(parents) do
-              local candidate = Path.new(d):joinpath ".no-formatter"
-              if candidate:exists() then
-                vim.notify("formatter disabled", nil, { title = "formatter" })
-                return
-              end
-            end
-            vim.cmd [[silent FormatWrite]]
-          end
-
-          local orig = vim.notify
-          vim.notify = function(msg, _, opts)
-            api.echo({ { ("[%s] %s"):format(opts.title, msg), "Debug" } }, true, {})
-          end
-          run_formatter()
-          vim.notify = orig
-        end,
-      })
-    end,
-  },
+--  {
+--    "mhartington/formatter.nvim",
+--    ft = { "go", "javascript", "json", "lua", "typescript" },
+--    config = function()
+--      local function bufname()
+--        return api.buf_get_name(0)
+--      end
+--      local function prettier()
+--        if fn.glob ".prettierrc*" ~= "" then
+--          return {
+--            exe = "npx",
+--            args = { "prettier", "--stdin-filepath", bufname() },
+--            stdin = true,
+--          }
+--        end
+--        return {
+--          exe = "deno",
+--          args = { "fmt", "-" },
+--          stdin = true,
+--        }
+--      end
+--      local function eslint()
+--        if fn.glob ".eslintrc*" ~= "" then
+--          return {
+--            exe = "npx",
+--            args = { "eslint", "--fix" },
+--            stdin = false,
+--          }
+--        end
+--        return { exe = "cat", stdin = true }
+--      end
+--      local function stylua()
+--        if fn.glob ".stylua.toml" ~= "" or fn.glob "stylua.toml" ~= "" then
+--          return {
+--            exe = "stylua",
+--            args = { "-s", "--stdin-filepath", bufname(), "-" },
+--            stdin = true,
+--          }
+--        end
+--        return { exe = "cat", stdin = true }
+--      end
+--      require("formatter").setup {
+--        filetype = {
+--          javascript = { prettier, eslint },
+--          typescript = { prettier, eslint },
+--          json = { exe = "jq", args = { "." }, stdin = true },
+--          lua = { stylua },
+--          go = {
+--            function()
+--              return { exe = "golines", args = { "-w" }, stdin = false }
+--            end,
+--            function()
+--              return { exe = "gofumpt", args = { "-w" }, stdin = false }
+--            end,
+--          },
+--        },
+--      }
+--      api.create_autocmd("BufWritePost", {
+--        group = api.create_augroup("formatter_on_save", {}),
+--        pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.json", "*.lua", "*.go", "go.mod" },
+--        callback = function()
+--          local function run_formatter()
+--            local Path = require "plenary.path"
+--            local filename = fn.expand "%:p"
+--            local parents = Path.new(filename):parents()
+--            for _, d in ipairs(parents) do
+--              local candidate = Path.new(d):joinpath ".no-formatter"
+--              if candidate:exists() then
+--                vim.notify("formatter disabled", nil, { title = "formatter" })
+--                return
+--              end
+--            end
+--            vim.cmd [[silent FormatWrite]]
+--          end
+--
+--          local orig = vim.notify
+--          vim.notify = function(msg, _, opts)
+--            api.echo({ { ("[%s] %s"):format(opts.title, msg), "Debug" } }, true, {})
+--          end
+--          run_formatter()
+--          vim.notify = orig
+--        end,
+--      })
+--    end,
+--  },
 
   { "moznion/vim-cpanfile", ft = { "cpanfile" } },
 
