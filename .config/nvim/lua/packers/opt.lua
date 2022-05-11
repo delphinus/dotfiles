@@ -383,6 +383,7 @@ return {
           gitsigns[method]()
         end
       end
+
       gitsigns.setup {
         signs = {
           add = { hl = "GitSignsAdd" },
@@ -897,16 +898,16 @@ return {
       -- Overwrite / and ?.
       vim.keymap.set({ "n", "x" }, "?", searchx "start" { dir = 0 })
       vim.keymap.set({ "n", "x" }, "/", searchx "start" { dir = 1 })
-      vim.keymap.set("c", "<A-;>", searchx "select"())
+      vim.keymap.set("c", "<A-;>", searchx "select" ())
 
       -- Move to next/prev match.
-      vim.keymap.set({ "n", "x" }, "N", searchx "prev"())
-      vim.keymap.set({ "n", "x" }, "n", searchx "next"())
-      vim.keymap.set({ "c", "n", "x" }, "<A-z>", searchx "prev"())
-      vim.keymap.set({ "c", "n", "x" }, "<A-x>", searchx "next"())
+      vim.keymap.set({ "n", "x" }, "N", searchx "prev" ())
+      vim.keymap.set({ "n", "x" }, "n", searchx "next" ())
+      vim.keymap.set({ "c", "n", "x" }, "<A-z>", searchx "prev" ())
+      vim.keymap.set({ "c", "n", "x" }, "<A-x>", searchx "next" ())
 
       -- Clear highlights
-      vim.keymap.set("n", "<Esc><Esc>", searchx "clear"())
+      vim.keymap.set("n", "<Esc><Esc>", searchx "clear" ())
     end,
     config = function()
       vim.g.searchx = {
@@ -935,20 +936,20 @@ return {
           local dict = "/usr/local/opt/cmigemo/share/migemo/utf-8/migemo-dict"
           local re
           require("plenary.job")
-            :new({
-              command = "cmigemo",
-              args = { "-v", "-d", dict, "-w", input:sub(2) },
-              on_exit = function(j, return_val)
-                local out = j:result()
-                if return_val == 0 and #out > 0 then
-                  re = out[1]
-                else
-                  vim.notify("cmigemo execution failed", vim.log.levels.WARN)
-                  re = input:sub(2)
-                end
-              end,
-            })
-            :sync()
+              :new({
+                command = "cmigemo",
+                args = { "-v", "-d", dict, "-w", input:sub(2) },
+                on_exit = function(j, return_val)
+                  local out = j:result()
+                  if return_val == 0 and #out > 0 then
+                    re = out[1]
+                  else
+                    vim.notify("cmigemo execution failed", vim.log.levels.WARN)
+                    re = input:sub(2)
+                  end
+                end,
+              })
+              :sync()
           return re
         end,
       }
@@ -1036,6 +1037,7 @@ return {
         end
         require("FTerm").toggle()
       end
+
       vim.keymap.set({ "n", "t" }, "<A-c>", toggle_fterm)
       vim.keymap.set({ "n", "t" }, "<A-ç>", toggle_fterm)
     end,
