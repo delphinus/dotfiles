@@ -302,6 +302,8 @@ return {
     "jose-elias-alvarez/null-ls.nvim",
     config = function()
       local nls = require "null-ls"
+      local helpers = require "null-ls.helpers"
+      local methods = require "null-ls.methods"
       local utils = require "null-ls.utils"
 
       local function use_prettier()
@@ -359,6 +361,62 @@ return {
           },
 
           nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
+
+          helpers.make_builtin {
+            name = "perlcritic",
+            meta = {
+              url = "https://example.com",
+              description = "TODO",
+            },
+            method = methods.internal.DIAGNOSTICS,
+            filetypes = { "perl" },
+            generator_opts = {
+              command = "perlcritic",
+              to_stdin = true,
+              from_stderr = true,
+              args = { "--severity", "1", "--verbose", "%s:%l:%c:%m (%P)\n" },
+              format = "line",
+              check_exit_code = function(code)
+                return code >= 1
+              end,
+              on_output = function(params, done)
+                print "p1"
+                local output = params.output
+                if not output then
+                  print "p2"
+                  return done()
+                end
+
+                print "p3"
+                local from_severity_numbers = { ["5"] = "w", ["4"] = "i", ["3"] = "n", ["2"] = "n", ["1"] = "n" }
+                local lines = vim.tbl_map(function(line)
+                  return line:gsub("Perl::Critic::Policy::", "", 1):gsub("^%d", function(severity_number)
+                    return from_severity_numbers[severity_number]
+                  end, 1)
+                end, utils.split_at_newline(params.bufnr, output))
+
+                local diagnostics = {}
+                local qflist = vim.fn.getqflist { efm = "%t:%l:%c:%m", lines = lines }
+                local severities = { w = 2, i = 3, n = 4 }
+
+                for _, item in pairs(qflist.items) do
+                  if item.valid == 1 then
+                    local col = item.col > 0 and item.col - 1 or 0
+                    table.insert(diagnostics, {
+                      row = item.lnum,
+                      col = col,
+                      source = "perlcritic",
+                      message = item.text,
+                      severity = severities[item.type],
+                    })
+                  end
+                end
+
+                return done(diagnostics)
+              end,
+            },
+            factory = helpers.generator_factory,
+          },
         },
 
         on_attach = function(client, bufnr)
