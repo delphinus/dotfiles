@@ -664,6 +664,23 @@ return {
           nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
 
           helpers.make_builtin {
+            name = "textlint_formatting",
+            meta = { url = "https://example.com", description = "TODO" },
+            method = methods.internal.FORMATTING,
+            filetypes = { "markdown" },
+            generator_opts = {
+              command = "textlint",
+              to_stdin = true,
+              args = { "--fix", "-f", "json", "--stdin" },
+              format = "json_raw",
+              on_output = function(params, done)
+                done(params.output)
+              end,
+            },
+            factory = helpers.formatter_factory,
+          },
+
+          helpers.make_builtin {
             name = "perlcritic",
             meta = {
               url = "https://example.com",
