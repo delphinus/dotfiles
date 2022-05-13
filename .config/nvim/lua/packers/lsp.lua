@@ -695,10 +695,7 @@ return {
               command = "textlint",
               to_stdin = true,
               args = { "--fix", "-f", "json", "--stdin" },
-              format = "json_raw",
-              on_output = function(params, done)
-                done(params.output)
-              end,
+              format = "json",
             },
             factory = helpers.formatter_factory,
           },
@@ -714,21 +711,17 @@ return {
             generator_opts = {
               command = "perlcritic",
               to_stdin = true,
-              from_stderr = true,
               args = { "--severity", "1", "--verbose", "%s:%l:%c:%m (%P)\n" },
-              format = "line",
+              format = "raw",
               check_exit_code = function(code)
                 return code >= 1
               end,
               on_output = function(params, done)
-                print "p1"
                 local output = params.output
                 if not output then
-                  print "p2"
                   return done()
                 end
 
-                print "p3"
                 local from_severity_numbers = { ["5"] = "w", ["4"] = "i", ["3"] = "n", ["2"] = "n", ["1"] = "n" }
                 local lines = vim.tbl_map(function(line)
                   return line:gsub("Perl::Critic::Policy::", "", 1):gsub("^%d", function(severity_number)
