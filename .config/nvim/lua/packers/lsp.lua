@@ -674,13 +674,9 @@ return {
             },
           },
 
-          nls.builtins.formatting.deno_fmt.with {
-            runtime_condition = use_prettier(false),
-          },
+          nls.builtins.formatting.deno_fmt.with { runtime_condition = use_prettier(false) },
 
-          nls.builtins.formatting.prettier.with {
-            runtime_condition = use_prettier(true),
-          },
+          nls.builtins.formatting.prettier.with { runtime_condition = use_prettier(true) },
 
           nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
 
@@ -748,6 +744,21 @@ return {
 
                 return done(diagnostics)
               end,
+            },
+            factory = helpers.generator_factory,
+          },
+
+          helpers.make_builtin {
+            name = "efm-perl",
+            meta = { url = "https://example.com", description = "TODO" },
+            method = methods.internal.DIAGNOSTICS,
+            filetypes = { "perl" },
+            generator_opts = {
+              command = "efm-perl",
+              args = { "-f", "$FILENAME" },
+              to_stdin = true,
+              format = "raw",
+              on_output = helpers.diagnostics.from_errorformat("%l:%m", "efm-perl"),
             },
             factory = helpers.generator_factory,
           },
