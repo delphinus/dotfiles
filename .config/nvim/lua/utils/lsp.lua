@@ -9,8 +9,44 @@ local border = {
   { "⡇", "LspBorderLeft" },
 }
 
+local lua_globals = {
+  "vim",
+  "packer_plugins",
+  "api",
+  "fn",
+  "loop",
+
+  -- for testing
+  "after_each",
+  "before_each",
+  "describe",
+  "it",
+
+  -- hammerspoon
+  "hs",
+
+  -- wrk
+  "wrk",
+  "setup",
+  "id",
+  "init",
+  "request",
+  "response",
+  "done",
+
+  "--formatter",
+  "plain",
+  "--codes",
+  "--ranges",
+  "--filename",
+  "$FILENAME",
+  "-",
+}
+
 return {
   border = border,
+
+  lua_globals = lua_globals,
 
   on_attach = function(client, bufnr)
     if client.config.flags then

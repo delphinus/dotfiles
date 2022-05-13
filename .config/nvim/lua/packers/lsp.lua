@@ -228,31 +228,7 @@ return {
               },
               diagnostics = {
                 enable = true,
-                globals = {
-                  "vim",
-                  "packer_plugins",
-                  "api",
-                  "fn",
-                  "loop",
-
-                  -- for testing
-                  "after_each",
-                  "before_each",
-                  "describe",
-                  "it",
-
-                  -- hammerspoon
-                  "hs",
-
-                  -- wrk
-                  "wrk",
-                  "setup",
-                  "id",
-                  "init",
-                  "request",
-                  "response",
-                  "done",
-                },
+                globals = require("utils.lsp").lua_globals,
               },
               workspace = {
                 library = api.get_runtime_file("", true),
@@ -639,38 +615,7 @@ return {
           nls.builtins.diagnostics.luacheck.with {
             extra_args = {
               "--globals",
-
-              "vim",
-              "packer_plugins",
-              "api",
-              "fn",
-              "loop",
-
-              -- for testing
-              "after_each",
-              "before_each",
-              "describe",
-              "it",
-
-              -- hammerspoon
-              "hs",
-
-              -- wrk
-              "wrk",
-              "setup",
-              "id",
-              "init",
-              "request",
-              "response",
-              "done",
-
-              "--formatter",
-              "plain",
-              "--codes",
-              "--ranges",
-              "--filename",
-              "$FILENAME",
-              "-",
+              unpack(require("utils.lsp").lua_globals),
             },
           },
 
