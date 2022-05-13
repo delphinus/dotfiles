@@ -621,6 +621,7 @@ return {
       end
 
       nls.setup {
+        diagnostics_format = "#{m} (#{s})",
         sources = {
           nls.builtins.diagnostics.luacheck,
           nls.builtins.diagnostics.mypy,
