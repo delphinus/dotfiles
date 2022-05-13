@@ -623,7 +623,6 @@ return {
       nls.setup {
         diagnostics_format = "#{m} (#{s})",
         sources = {
-          nls.builtins.diagnostics.luacheck,
           nls.builtins.diagnostics.mypy,
           nls.builtins.diagnostics.shellcheck,
           nls.builtins.diagnostics.vint,
@@ -633,6 +632,44 @@ return {
           nls.builtins.formatting.goimports,
           nls.builtins.formatting.golines,
           nls.builtins.formatting.stylua,
+
+          nls.builtins.diagnostics.luacheck.with {
+            extra_args = {
+              "--globals",
+
+              "vim",
+              "packer_plugins",
+              "api",
+              "fn",
+              "loop",
+
+              -- for testing
+              "after_each",
+              "before_each",
+              "describe",
+              "it",
+
+              -- hammerspoon
+              "hs",
+
+              -- wrk
+              "wrk",
+              "setup",
+              "id",
+              "init",
+              "request",
+              "response",
+              "done",
+
+              "--formatter",
+              "plain",
+              "--codes",
+              "--ranges",
+              "--filename",
+              "$FILENAME",
+              "-",
+            },
+          },
 
           nls.builtins.formatting.deno_fmt.with {
             generator_opts = {
