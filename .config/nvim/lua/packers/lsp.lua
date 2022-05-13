@@ -607,17 +607,20 @@ return {
       local methods = require "null-ls.methods"
       local utils = require "null-ls.utils"
 
-      local function use_prettier()
-        return utils.make_conditional_utils().root_has_file {
-          ".eslintrc",
-          ".eslintrc.json",
-          ".eslintrc.yaml",
-          ".eslintrc.yml",
-          ".prettierrc",
-          ".prettierrc.json",
-          ".prettierrc.yaml",
-          ".prettierrc.yml",
-        }
+      local function use_prettier(to_use)
+        return function()
+          local has_file = utils.make_conditional_utils().root_has_file {
+            ".eslintrc",
+            ".eslintrc.json",
+            ".eslintrc.yaml",
+            ".eslintrc.yml",
+            ".prettierrc",
+            ".prettierrc.json",
+            ".prettierrc.yaml",
+            ".prettierrc.yml",
+          }
+          return to_use and has_file or not has_file
+        end
       end
 
       nls.setup {
@@ -672,32 +675,14 @@ return {
           },
 
           nls.builtins.formatting.deno_fmt.with {
-            generator_opts = {
-              runtime_condition = function(_)
-                local r = not use_prettier()
-                vim.notify("deno_fmt: " .. (r and "true" or "false"))
-                return not use_prettier()
-              end,
-            },
+            runtime_condition = use_prettier(false),
           },
 
           nls.builtins.formatting.prettier.with {
-            generator_opts = {
-              runtime_condition = function(_)
-                local r = use_prettier()
-                vim.notify("prettier: " .. (r and "true" or "false"))
-                return use_prettier()
-              end,
-            },
+            runtime_condition = use_prettier(true),
           },
 
-          nls.builtins.formatting.shfmt.with {
-            generator_opts = {
-              command = "shfmt",
-              args = { "-i", "2", "-sr", "-filename", "$FILENAME" },
-              to_stdin = true,
-            },
-          },
+          nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
 
           nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
 
