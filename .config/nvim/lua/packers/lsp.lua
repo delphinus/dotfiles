@@ -123,6 +123,7 @@ return {
         --perlls = {},
         solargraph = {},
         sourcekit = {},
+        teal_ls = {},
         terraformls = {},
         vimls = {},
         yamlls = {},
@@ -242,21 +243,6 @@ return {
             config.settings.Lua.workspace.library = api.get_runtime_file("", true)
           end,
         },
-
-        teal = (function()
-          local configs = require "lspconfig.configs"
-          if not configs.teal then
-            configs.teal = {
-              default_config = {
-                cmd = { "teal-language-server" },
-                filetypes = { "teal" },
-                root_dir = lsp.util.root_pattern("tlconfig.lua", ".git"),
-                settings = {},
-              },
-            }
-          end
-          return {}
-        end)(),
       } do
         if capabilities then
           config.capabilities = capabilities
