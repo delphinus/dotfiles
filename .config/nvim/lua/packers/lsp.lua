@@ -569,7 +569,7 @@ return {
       local methods = require "null-ls.methods"
       local utils = require "null-ls.utils"
 
-      local function use_prettier(to_use)
+      local function is_for_node(to_use)
         return function()
           local has_file = utils.make_conditional_utils().root_has_file {
             ".eslintrc",
@@ -588,15 +588,26 @@ return {
       nls.setup {
         diagnostics_format = "#{m} (#{s})",
         sources = {
+          nls.builtins.code_actions.shellcheck,
+          nls.builtins.completion.spell,
+          nls.builtins.diagnostics.ansiblelint,
+          nls.builtins.diagnostics.checkmake,
+          nls.builtins.diagnostics.fish,
+          nls.builtins.diagnostics.golangci_lint,
           nls.builtins.diagnostics.mypy,
+          nls.builtins.diagnostics.rubocop,
           nls.builtins.diagnostics.shellcheck,
+          nls.builtins.diagnostics.trail_space,
           nls.builtins.diagnostics.vint,
           nls.builtins.diagnostics.yamllint,
+          nls.builtins.formatting.fish_indent,
           nls.builtins.formatting.gofmt,
           nls.builtins.formatting.gofumpt,
           nls.builtins.formatting.goimports,
           nls.builtins.formatting.golines,
+          nls.builtins.formatting.rubocop,
           nls.builtins.formatting.stylua,
+          nls.builtins.hover.dictionary,
 
           nls.builtins.diagnostics.luacheck.with {
             extra_args = {
@@ -605,9 +616,16 @@ return {
             },
           },
 
-          nls.builtins.formatting.deno_fmt.with { runtime_condition = use_prettier(false) },
+          nls.builtins.diagnostics.eslint.with { runtime_condition = is_for_node(true) },
 
-          nls.builtins.formatting.prettier.with { runtime_condition = use_prettier(true) },
+          nls.builtins.formatting.eslint.with { runtime_condition = is_for_node(true) },
+
+          nls.builtins.formatting.deno_fmt.with { runtime_condition = is_for_node(false) },
+
+          nls.builtins.formatting.prettier.with {
+            disabled_filetypes = { "markdown" },
+            runtime_condition = is_for_node(true),
+          },
 
           nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
 
@@ -620,9 +638,8 @@ return {
             filetypes = { "markdown" },
             generator_opts = {
               command = "textlint",
-              to_stdin = true,
-              args = { "--fix", "-f", "json", "--stdin" },
-              format = "json",
+              args = { "--fix", "$FILENAME" },
+              to_temp_file = true,
             },
             factory = helpers.formatter_factory,
           },
