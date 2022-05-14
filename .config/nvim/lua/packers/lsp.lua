@@ -276,15 +276,15 @@ return {
           vim.cmd [[!gem install --user-install solargraph]]
           vim.cmd(
             "!brew install bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript"
-            .. " && brew upgrade bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript"
+              .. " && brew upgrade bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript"
           )
           vim.cmd [[!brew uninstall vint; brew install vint --HEAD]]
           vim.cmd [[!luarocks install luacheck tl]]
           vim.cmd [[!luarocks install --dev teal-language-server]]
           vim.cmd(
             "!npm i --force -g dockerfile-language-server-nodejs intelephense pyright"
-            .. " typescript-language-server vim-language-server vls vscode-langservers-extracted"
-            .. " yaml-language-server"
+              .. " typescript-language-server vim-language-server vls vscode-langservers-extracted"
+              .. " yaml-language-server"
           )
           vim.cmd [[!cpanm App::efm_perl]]
 
