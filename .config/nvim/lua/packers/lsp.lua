@@ -19,6 +19,7 @@ return {
       "python",
       "ruby",
       "swift",
+      "teal",
       "terraform",
       "typescript",
       "javascript",
