@@ -176,38 +176,6 @@ return {
           filetypes = { "sh", "bash", "zsh" },
         },
 
-        --        efm = {
-        --          filetypes = {
-        --            "bash",
-        --            "css",
-        --            "csv",
-        --            "dockerfile",
-        --            "eruby",
-        --            "html",
-        --            "javascript",
-        --            "json",
-        --            --"lua",
-        --            "make",
-        --            "markdown",
-        --            "perl",
-        --            "php",
-        --            "python",
-        --            "rst",
-        --            "sh",
-        --            "typescript",
-        --            "vim",
-        --            "yaml",
-        --            "zsh",
-        --          },
-        --          init_options = {
-        --            documentFormatting = true,
-        --            hover = true,
-        --            documentSymbol = true,
-        --            codeAction = true,
-        --            completion = true,
-        --          },
-        --        },
-
         gopls = {
           settings = {
             hoverKind = "NoDocumentation",
