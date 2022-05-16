@@ -230,63 +230,6 @@ return {
         lsp[name].setup(config)
       end
     end,
-    run = function()
-      local dir = fn.stdpath "cache" .. "/lspconfig"
-      do
-        local stat = loop.fs_stat(dir)
-        if not stat then
-          assert(loop.fs_mkdir(dir, 448))
-        end
-      end
-      local file = dir .. "/updated"
-      local last_updated = 0
-      do
-        local fd = loop.fs_open(file, "r", 438)
-        if fd then
-          local stat = loop.fs_fstat(fd)
-          local data = loop.fs_read(fd, stat.size, 0)
-          loop.fs_close(fd)
-          last_updated = tonumber(data) or 0
-        end
-      end
-      local now = os.time()
-      if now - last_updated > 24 * 3600 * 7 then
-        local ok = pcall(function()
-          vim.cmd [[!gem install --user-install solargraph]]
-          vim.cmd(
-            "!brew install bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript"
-              .. " && brew upgrade bash-language-server gopls efm-langserver lua-language-server terraform-ls typescript"
-          )
-          vim.cmd [[!brew uninstall vint; brew install vint --HEAD]]
-          vim.cmd [[!luarocks install luacheck tl]]
-          vim.cmd [[!luarocks install --dev teal-language-server]]
-          vim.cmd(
-            "!npm i --force -g dockerfile-language-server-nodejs intelephense pyright"
-              .. " typescript-language-server vim-language-server vls vscode-langservers-extracted"
-              .. " yaml-language-server"
-          )
-          vim.cmd [[!cpanm App::efm_perl]]
-
-          -- These are needed for formatter.nvim
-          vim.cmd [[!brew intsall stylua && brew upgrade stylua]]
-          vim.cmd [[!go get -u github.com/segmentio/golines]]
-          vim.cmd [[!go get -u mvdan.cc/gofumpt]]
-          vim.cmd [[!npm i -g lua-fmt]]
-
-          -- metals is installed by cs (coursier)
-        end)
-
-        if ok then
-          local fd = loop.fs_open(file, "w", 438)
-          if fd then
-            loop.fs_write(fd, now, -1)
-            loop.fs_close(fd)
-          else
-            error("cannot open the file to write: " .. file)
-          end
-        end
-      end
-    end,
   }, -- }}}
 
   ts { "nvim-treesitter/nvim-treesitter-refactor" },
@@ -695,6 +638,60 @@ return {
         --on_attach = on_attach,
         on_attach = require("utils.lsp").on_attach,
       }
+    end,
+    run = function()
+      local dir = fn.stdpath "cache" .. "/lspconfig"
+      do
+        local stat = loop.fs_stat(dir)
+        if not stat then
+          assert(loop.fs_mkdir(dir, 448))
+        end
+      end
+      local file = dir .. "/updated"
+      local last_updated = 0
+      do
+        local fd = loop.fs_open(file, "r", 438)
+        if fd then
+          local stat = loop.fs_fstat(fd)
+          local data = loop.fs_read(fd, stat.size, 0)
+          loop.fs_close(fd)
+          last_updated = tonumber(data) or 0
+        end
+      end
+      local now = os.time()
+      if now - last_updated > 24 * 3600 * 7 then
+        local ok = pcall(function()
+          local formulae = {
+            "ansible-lint",
+            "checkmake",
+            "coursier",
+            "mypy",
+            "shellcheck",
+            "shfmt",
+            "stylua",
+            "vint",
+            "yamllint",
+          }
+          vim.cmd [[!cpanm App::efm_perl]]
+          vim.cmd(("!brew install %s && brew upgrade %s"):format(formulae, formulae))
+          vim.cmd [[!gem install --user-install rubocop]]
+          vim.cmd [[!luarocks install luacheck]]
+          vim.cmd [[!luarocks install --dev teal-language-server]]
+          vim.cmd [[!go get -u github.com/segmentio/golines]]
+          vim.cmd [[!go get -u mvdan.cc/gofumpt]]
+          vim.cmd [[!npm i -g textlint textlint-rule-preset-ja-spacing]]
+        end)
+
+        if ok then
+          local fd = loop.fs_open(file, "w", 438)
+          if fd then
+            loop.fs_write(fd, now, -1)
+            loop.fs_close(fd)
+          else
+            error("cannot open the file to write: " .. file)
+          end
+        end
+      end
     end,
   },
 }
