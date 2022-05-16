@@ -557,6 +557,7 @@ return {
       nls.setup {
         diagnostics_format = "#{m} (#{s})",
         sources = {
+          nls.builtins.code_actions.gitsigns,
           nls.builtins.code_actions.shellcheck,
           nls.builtins.completion.spell,
           nls.builtins.diagnostics.ansiblelint,
