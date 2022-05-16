@@ -5,6 +5,11 @@ local function ts(plugin)
 end
 
 return {
+  {
+    "https://github.com/williamboman/nvim-lsp-installer",
+    module = { "nvim-lsp-installer" },
+  },
+
   { -- {{{ nvim-lspconfig
     "neovim/nvim-lspconfig",
     event = { "FocusLost", "CursorHold" },
@@ -28,10 +33,12 @@ return {
       "vue",
     },
     wants = {
+      "nvim-lsp-installer",
       -- needs these plugins to setup capabilities
       "cmp-nvim-lsp",
     },
     config = function()
+      require("nvim-lsp-installer").setup {}
       local border = require("utils.lsp").border
 
       vim.cmd [[
