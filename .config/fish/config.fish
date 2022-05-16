@@ -24,7 +24,9 @@ set -l paths \
     $homebrew_path/opt/perl/bin \
     /Applications/Xcode.app/Contents/Developer/usr/bin \
     ~/Library/Application\ Support/Coursier/bin \
-    $homebrew_path/bin
+    $homebrew_path/bin \
+    /usr/local/bin
+# ↑/usr/local/bin is included both in Homebrew of both arm & x86 version
 
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 
