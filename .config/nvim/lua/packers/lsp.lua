@@ -517,7 +517,6 @@ return {
           nls.builtins.diagnostics.ansiblelint,
           nls.builtins.diagnostics.checkmake,
           nls.builtins.diagnostics.fish,
-          nls.builtins.diagnostics.golangci_lint,
           nls.builtins.diagnostics.mypy,
           nls.builtins.diagnostics.rubocop,
           nls.builtins.diagnostics.shellcheck,
