@@ -485,6 +485,7 @@ return {
 
   {
     "jose-elias-alvarez/null-ls.nvim",
+    event = { "FocusLost", "CursorHold" },
     config = function()
       local nls = require "null-ls"
       local helpers = require "null-ls.helpers"
