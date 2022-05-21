@@ -661,7 +661,7 @@ return {
       local now = os.time()
       if now - last_updated > 24 * 3600 * 7 then
         local ok = pcall(function()
-          local formulae = {
+          local formulae = table.concat({
             "ansible-lint",
             "checkmake",
             "coursier",
@@ -671,7 +671,7 @@ return {
             "stylua",
             "vint",
             "yamllint",
-          }
+          }, " ")
           vim.cmd [[!cpanm App::efm_perl]]
           vim.cmd(("!brew install %s && brew upgrade %s"):format(formulae, formulae))
           vim.cmd [[!gem install --user-install rubocop]]
