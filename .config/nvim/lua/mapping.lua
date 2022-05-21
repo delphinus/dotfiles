@@ -49,9 +49,11 @@ api.create_autocmd("VimEnter", {
 api.create_autocmd("BufReadPost", {
   group = api.create_augroup("jump_to_the_last_position", {}),
   callback = function()
-    local last_pos = fn.line [['"]]
-    if last_pos >= 1 and last_pos <= fn.line "$" then
-      vim.cmd [[execute 'normal! g`"']]
+    if vim.bo.buftype ~= "terminal" then
+      local last_pos = fn.line [['"]]
+      if last_pos >= 1 and last_pos <= fn.line "$" then
+        vim.cmd [[execute 'normal! g`"']]
+      end
     end
   end,
 })
