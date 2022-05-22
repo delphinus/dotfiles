@@ -58,11 +58,11 @@ return {
       local function lsp()
         local clients = vim.lsp.buf_get_clients()
         local result = ""
-        for _, lsp in pairs(clients) do
+        for _, client in pairs(clients) do
           if result ~= "" then
             result = result .. " "
           end
-          result = result .. ("%s(%d)"):format(lsp.name, lsp.id)
+          result = result .. ("%s(%d)"):format(client.name, client.id)
         end
         return result
       end
