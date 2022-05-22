@@ -88,13 +88,6 @@ return {
         return text
       end
 
-      local function monospace(value)
-        -- TODO: Disable monospace glyphs temporarily
-        return value
-        --return vim.g.goneovim == 1 and value or
-        --require'artify'(value, 'monospace')
-      end
-
       local function treesitter_tag()
         local tag = require("nvim-treesitter").statusline {
           separator = " » ",
