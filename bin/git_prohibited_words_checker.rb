@@ -65,16 +65,17 @@ ignore_names_re = %r{
   \A\.?vim/dict/ |
   \A\.?vim/view/ |
   \A\.config/fish/config-local\.fish\z |
+  \A\.config/fish/functions/tm\.fish\z |
   \A\.config/nvim/\.netrwhist\z |
   \A\.git/ |
   \A\.screen/(?:cpu|memory)\z |
   \A\.zsh/zsh-notify/ |
+  \Aansible/vars/secrets.yml\z |
   \Abin/local_perl\.sh\z |
   \Abin/macos-askpass\z |
   \Asubmodules/ |
   \bmigemo-dict\b |
-  \bnode_modules\b |
-  \Aansible/vars/secrets.yml\z
+  \bnode_modules\b
 }x
 
 scan_count = 0
