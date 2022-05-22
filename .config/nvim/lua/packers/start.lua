@@ -7,7 +7,7 @@ return {
     "ahmedkhalf/project.nvim",
     config = function()
       require("project_nvim").setup {
-        ignore_lsp = { "bashls", "efm", "tsserver" },
+        ignore_lsp = { "bashls", "null-ls", "tsserver" },
         patterns = { ".git" },
         show_hidden = true,
       }
@@ -58,11 +58,11 @@ return {
       local function lsp()
         local clients = vim.lsp.buf_get_clients()
         local result = ""
-        for _, lsp in pairs(clients) do
+        for _, client in pairs(clients) do
           if result ~= "" then
             result = result .. " "
           end
-          result = result .. ("%s(%d)"):format(lsp.name, lsp.id)
+          result = result .. ("%s(%d)"):format(client.name, client.id)
         end
         return result
       end
@@ -86,13 +86,6 @@ return {
           text = text .. ", " .. r.shikakugoma
         end
         return text
-      end
-
-      local function monospace(value)
-        -- TODO: Disable monospace glyphs temporarily
-        return value
-        --return vim.g.goneovim == 1 and value or
-        --require'artify'(value, 'monospace')
       end
 
       local function treesitter_tag()
@@ -135,6 +128,7 @@ return {
           return truncator(str, settings)
         end
       end
+
       local function no_ellipsis_tr(settings)
         return function(str)
           return truncator(str, settings, true)

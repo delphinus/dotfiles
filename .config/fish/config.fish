@@ -2,33 +2,31 @@ not status is-interactive; and exit 0
 
 set -l homebrew_path
 if test -d /opt/homebrew
-  /opt/homebrew/bin/brew shellenv | source
-  set homebrew_path /opt/homebrew
+    /opt/homebrew/bin/brew shellenv | source
+    set homebrew_path /opt/homebrew
 else
-  set homebrew_path /usr/local
+    set homebrew_path /usr/local
 end
 
 set -l paths \
-  ~/bin \
-  ~/.luarocks/bin \
-  ~/.nodenv/bin \
-  ~/.goenv/bin \
-  ~/.rbenv/bin \
-  ~/.luaenv/bin \
-  ~/.cargo/bin \
-  ~/.local/bin \
-  ~/.ghg/bin \
-  ~/.go/bin \
-  ~/local/nvim/bin \
-  ~/git/dotfiles/bin \
-  ~/Library/Python/3.9/bin \
-  ~/.gem/ruby/3.0.0/bin \
-  $homebrew_path/opt/ruby/bin \
-  $homebrew_path/opt/llvm/bin \
-  $homebrew_path/opt/perl/bin \
-  /Applications/Xcode.app/Contents/Developer/usr/bin \
-  ~/Library/Application\ Support/Coursier/bin \
-  $homebrew_path/bin
+    ~/bin \
+    ~/.luarocks/bin \
+    ~/.cargo/bin \
+    ~/.local/bin \
+    ~/.ghg/bin \
+    ~/.go/bin \
+    ~/local/nvim/bin \
+    ~/git/dotfiles/bin \
+    ~/Library/Python/3.9/bin \
+    ~/.gem/ruby/3.0.0/bin \
+    $homebrew_path/opt/ruby/bin \
+    $homebrew_path/opt/llvm/bin \
+    $homebrew_path/opt/perl/bin \
+    /Applications/Xcode.app/Contents/Developer/usr/bin \
+    ~/Library/Application\ Support/Coursier/bin \
+    $homebrew_path/bin \
+    /usr/local/bin
+# ↑/usr/local/bin is included both in Homebrew of both arm & x86 version
 
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 
@@ -117,12 +115,12 @@ alias git hub
 alias dircolors gdircolors
 
 if test "$NVIM_LISTEN_ADDRESS" != ''
-  alias nvr 'nvr -cc \'lua require"FTerm".toggle()\' -cc split'
+    alias nvr 'nvr -cc \'lua require"FTerm".toggle()\' -cc split'
 else if test "$NVIM" != ''
-  alias nvr 'nvr --servername '$NVIM' -cc \'lua require"FTerm".toggle()\' -cc split'
+    alias nvr 'nvr --servername '$NVIM' -cc \'lua require"FTerm".toggle()\' -cc split'
 end
 
-test "$fish_key_bindings" != 'fish_hybrid_key_bindings'; and fish_hybrid_key_bindings
+test "$fish_key_bindings" != fish_hybrid_key_bindings; and fish_hybrid_key_bindings
 
 set FZF_DEFAULT_OPTS '--border --inline-info --prompt="❯❯❯ " --height=40%'
 bind \c] fzf_ghq
@@ -156,14 +154,15 @@ set -x MANPAGER less
 set -x DELTA_PAGER less
 
 # from prezto
-set -x LESS_TERMCAP_mb \e'[01;31m'      # Begins blinking.
-set -x LESS_TERMCAP_md \e'[01;31m'      # Begins bold.
-set -x LESS_TERMCAP_me \e'[0m'          # Ends mode.
-set -x LESS_TERMCAP_se \e'[0m'          # Ends standout-mode.
-set -x LESS_TERMCAP_so \e'[00;47;30m'   # Begins standout-mode.
-set -x LESS_TERMCAP_ue \e'[0m'          # Ends underline.
-set -x LESS_TERMCAP_us \e'[01;32m'      # Begins underline.
-set -x LESS '-g -i -M -R -S -W -z-4 -x4 +3'
+set -x LESS_TERMCAP_mb \e'[01;31m' # Begins blinking.
+set -x LESS_TERMCAP_md \e'[01;31m' # Begins bold.
+set -x LESS_TERMCAP_me \e'[0m' # Ends mode.
+set -x LESS_TERMCAP_se \e'[0m' # Ends standout-mode.
+set -x LESS_TERMCAP_so \e'[00;47;30m' # Begins standout-mode.
+set -x LESS_TERMCAP_ue \e'[0m' # Ends underline.
+set -x LESS_TERMCAP_us \e'[01;32m' # Begins underline.
+set -x LESS '-g -i -M -R -S -W -z-4 -x4 +
+3'
 
 # for Lua
 #set -x LUA_PATH  \
@@ -182,30 +181,30 @@ set -x GOPATH $HOME/.go
 set -x GO111MODULE on
 
 set -x PYTHONPATH \
-  ./src \
-  ./rplugin/python3 \
-  $homebrew_path/Cellar/fontforge/*/lib/python3.9/site-packages
+    ./src \
+    ./rplugin/python3 \
+    $homebrew_path/Cellar/fontforge/*/lib/python3.9/site-packages
 set -x MYPYPATH $PYTHONPATH
 
 set gcsdk_path $homebrew_path/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 test -d $gcsdk_path; and source "$gcsdk_path/path.fish.inc"
 
-type -q direnv;    and direnv hook fish | source
-type -q asdf;      and source $homebrew_path/opt/asdf/libexec/asdf.fish
+type -q direnv; and direnv hook fish | source
+type -q asdf; and source $homebrew_path/opt/asdf/libexec/asdf.fish
 
 if type -q luarocks
-  set path (type -P luarocks)
-  set filename $HOME/.local/var/cache/(string replace -a / - $path)
-  set timestamp 0
-  test -f $filename; and set timestamp (cat $filename)
-  set t (stat -f %m $path)
-  if test $t -gt $timestamp
-    set completion $HOME/.config/fish/completions/luarocks.fish
-    mkdir -p (dirname $completion)
-    luarocks completion fish > $completion
-    mkdir -p (dirname $filename)
-    echo $t > $filename
-  end
+    set path (type -P luarocks)
+    set filename $HOME/.local/var/cache/(string replace -a / - $path)
+    set timestamp 0
+    test -f $filename; and set timestamp (cat $filename)
+    set t (stat -f %m $path)
+    if test $t -gt $timestamp
+        set completion $HOME/.config/fish/completions/luarocks.fish
+        mkdir -p (dirname $completion)
+        luarocks completion fish >$completion
+        mkdir -p (dirname $filename)
+        echo $t >$filename
+    end
 end
 
 test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
