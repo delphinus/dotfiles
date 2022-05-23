@@ -677,8 +677,8 @@ return {
           vim.cmd [[!gem install --user-install rubocop]]
           vim.cmd [[!luarocks install luacheck]]
           vim.cmd [[!luarocks install --dev teal-language-server]]
-          vim.cmd [[!go get -u github.com/segmentio/golines]]
-          vim.cmd [[!go get -u mvdan.cc/gofumpt]]
+          vim.cmd [[!go install github.com/segmentio/golines@latest]]
+          vim.cmd [[!go install mvdan.cc/gofumpt@latest]]
           vim.cmd [[!npm i -g textlint textlint-rule-preset-ja-spacing]]
         end)
 
