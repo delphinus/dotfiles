@@ -2,6 +2,7 @@ local function i(p)
   p.event = { "InsertEnter" }
   return p
 end
+
 local function c(p)
   p.event = { "CmdlineEnter" }
   return p
@@ -36,14 +37,14 @@ return {
       local function set_karabiner(val)
         return function()
           Job
-            :new({
-              command = karabiner_cli,
-              args = {
-                "--set-variables",
-                ('{"neovim_in_insert_mode":%d}'):format(val),
-              },
-            })
-            :start()
+              :new({
+                command = karabiner_cli,
+                args = {
+                  "--set-variables",
+                  ('{"neovim_in_insert_mode":%d}'):format(val),
+                },
+              })
+              :start()
         end
       end
 
