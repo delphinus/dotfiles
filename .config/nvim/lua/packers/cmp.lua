@@ -183,6 +183,51 @@ return {
     end,
 
     config = function()
+      local ignore_duplicated_items = { ctags = true, buffer = true, tmux = true, rg = true, look = true }
+
+      local lspkind_format = require("lspkind").cmp_format {
+        mode = "symbol_text",
+        maxwidth = 50,
+        menu = {
+          buffer = "[B]",
+          emoji = "[E]",
+          look = "[LK]",
+          nvim_lsp = "[L]",
+          path = "[P]",
+          rg = "[R]",
+          snippy = "[S]",
+          tmux = "[T]",
+          ctags = "[C]",
+        },
+        symbol_map = {
+          Text = "󾪓", -- 0xFEA93
+          Method = "󾪌", -- 0xFEA8C
+          Function = "󾪌", -- 0xFEA8C
+          Constructor = "󾪌", -- 0xFEA8C
+          Field = "󾭟", -- 0xFEB5F
+          Variable = "󾪈", -- 0xFEA88
+          Class = "󾭛", -- 0xFEB5B
+          Interface = "󾭡", -- 0xFEB61
+          Module = "󾪋", -- 0xFEA8B
+          Property = "󾭥", -- 0xFEB65
+          Unit = "󾪖", -- 0xFEA96
+          Value = "󾪕", -- 0xFEA95
+          Enum = "󾪕", -- 0xFEA95
+          Keyword = "󾭢", -- 0xFEB62
+          Snippet = "󾭦", -- 0xFEB66
+          Color = "󾭜", -- 0xFEB5C
+          File = "󾩻", -- 0xFEA7B
+          Reference = "󾪔", -- 0xFEA94
+          Folder = "󾪃", -- 0xFEA83
+          EnumMember = "󾪕", -- 0xFEA95
+          Constant = "󾭝", -- 0xFEB5D
+          Struct = "󾪑", -- 0xFEA91
+          Event = "󾪆", -- 0xFEA86
+          Operator = "󾭤", -- 0xFEB64
+          TypeParameter = "󾪒", -- 0xFEA92
+        },
+      }
+
       local cmp = require "cmp"
       cmp.setup {
         snippet = {
@@ -220,47 +265,12 @@ return {
           { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
         },
         formatting = {
-          format = require("lspkind").cmp_format {
-            mode = "symbol_text",
-            maxwidth = 50,
-            menu = {
-              buffer = "[B]",
-              emoji = "[E]",
-              look = "[LK]",
-              nvim_lsp = "[L]",
-              path = "[P]",
-              rg = "[R]",
-              snippy = "[S]",
-              tmux = "[T]",
-            },
-            symbol_map = {
-              Text = "󾪓", -- 0xFEA93
-              Method = "󾪌", -- 0xFEA8C
-              Function = "󾪌", -- 0xFEA8C
-              Constructor = "󾪌", -- 0xFEA8C
-              Field = "󾭟", -- 0xFEB5F
-              Variable = "󾪈", -- 0xFEA88
-              Class = "󾭛", -- 0xFEB5B
-              Interface = "󾭡", -- 0xFEB61
-              Module = "󾪋", -- 0xFEA8B
-              Property = "󾭥", -- 0xFEB65
-              Unit = "󾪖", -- 0xFEA96
-              Value = "󾪕", -- 0xFEA95
-              Enum = "󾪕", -- 0xFEA95
-              Keyword = "󾭢", -- 0xFEB62
-              Snippet = "󾭦", -- 0xFEB66
-              Color = "󾭜", -- 0xFEB5C
-              File = "󾩻", -- 0xFEA7B
-              Reference = "󾪔", -- 0xFEA94
-              Folder = "󾪃", -- 0xFEA83
-              EnumMember = "󾪕", -- 0xFEA95
-              Constant = "󾭝", -- 0xFEB5D
-              Struct = "󾪑", -- 0xFEA91
-              Event = "󾪆", -- 0xFEA86
-              Operator = "󾭤", -- 0xFEB64
-              TypeParameter = "󾪒", -- 0xFEA92
-            },
-          },
+          format = function(entry, vim_item)
+            if ignore_duplicated_items[entry.source.name] then
+              vim_item.dup = true
+            end
+            return lspkind_format(entry, vim_item)
+          end,
         },
         window = {
           completion = cmp.config.window.bordered(),
