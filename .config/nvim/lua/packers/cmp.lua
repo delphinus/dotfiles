@@ -199,6 +199,7 @@ return {
         },
         sources = {
           { name = "nvim_lsp" },
+          { name = "ctags" },
           { name = "snippy" },
           { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
           {
@@ -275,6 +276,8 @@ return {
 
       c { "hrsh7th/cmp-cmdline" },
       c { "hrsh7th/cmp-path" },
+
+      i { "delphinus/cmp-ctags", branch = "feature/first-implementation" },
 
       i { "andersevenrud/cmp-tmux" },
       i { "hrsh7th/cmp-buffer" },
