@@ -279,6 +279,8 @@ return {
       }
       cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
       cmp.setup.cmdline(":", { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }) })
+
+      require("cmp.utils.debug").flag = vim.env.CMP_DEBUG ~= nil
     end,
 
     requires = {
