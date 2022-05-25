@@ -289,9 +289,8 @@ return {
       c { "hrsh7th/cmp-cmdline" },
       c { "hrsh7th/cmp-path" },
 
-      i { "delphinus/cmp-ctags", branch = "feature/first-implementation" },
-
       i { "andersevenrud/cmp-tmux" },
+      i { "delphinus/cmp-ctags" },
       i { "hrsh7th/cmp-buffer" },
       i { "hrsh7th/cmp-emoji" },
       i { "hrsh7th/cmp-nvim-lsp" },
