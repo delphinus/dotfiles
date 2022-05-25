@@ -190,14 +190,18 @@ return {
         maxwidth = 50,
         menu = {
           buffer = "[B]",
+          ctags = "[C]",
+          digraphs = "[D]",
           emoji = "[E]",
+          fish = "[F]",
           look = "[LK]",
           nvim_lsp = "[L]",
+          nvim_lua = "[LU]",
           path = "[P]",
           rg = "[R]",
           snippy = "[S]",
           tmux = "[T]",
-          ctags = "[C]",
+          treesitter = "[TS]",
         },
         symbol_map = {
           Text = "󾪓", -- 0xFEA93
@@ -244,7 +248,11 @@ return {
         },
         sources = {
           { name = "nvim_lsp" },
+          { name = "nvim_lua" },
           { name = "ctags" },
+          { name = "treesitter", trigger_characters = { "." } },
+          { name = "fish" },
+          { name = "digraphs" },
           { name = "snippy" },
           { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
           {
@@ -284,6 +292,8 @@ return {
     end,
 
     requires = {
+      { "hrsh7th/cmp-nvim-lua", ft = "lua" },
+      { "mtoohey31/cmp-fish", ft = "fish" },
       { "onsails/lspkind-nvim", module = { "lspkind" } },
 
       c { "hrsh7th/cmp-cmdline" },
@@ -291,11 +301,13 @@ return {
 
       i { "andersevenrud/cmp-tmux" },
       i { "delphinus/cmp-ctags" },
+      i { "dmitmel/cmp-digraphs" },
       i { "hrsh7th/cmp-buffer" },
       i { "hrsh7th/cmp-emoji" },
       i { "hrsh7th/cmp-nvim-lsp" },
       i { "lukas-reineke/cmp-rg" },
       i { "octaltree/cmp-look" },
+      i { "ray-x/cmp-treesitter" },
       i { "rinx/cmp-skkeleton" },
 
       i {
