@@ -250,8 +250,6 @@ return {
   },
 
   { "vim-jp/vimdoc-ja" },
-  --{'wincent/terminus'},
-  { "delphinus/terminus" },
   -- }}}
 
   -- vim-script {{{
