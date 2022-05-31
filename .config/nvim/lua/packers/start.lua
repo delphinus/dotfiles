@@ -208,6 +208,7 @@ return {
       notify.setup {
         render = "minimal",
         background_colour = "#3b4252",
+        level = "debug",
         on_open = function(win)
           api.win_set_config(win, { focusable = false })
         end,
