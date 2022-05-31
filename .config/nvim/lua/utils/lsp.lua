@@ -109,10 +109,8 @@ return {
         buffer = bufnr,
         callback = function()
           vim.lsp.buf.format {
-            filter = function(clients)
-              return vim.tbl_filter(function(c)
-                return c.name ~= "tsserver"
-              end, clients)
+            filter = function(client)
+              return client.name ~= "tsserver"
             end,
           }
         end,
