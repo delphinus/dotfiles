@@ -105,12 +105,12 @@ return {
     if client.supports_method "textDocument/formatting" then
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
       api.create_autocmd("BufWritePre", {
-        group = api.create_augroup("lsp_formatting", {}),
+        group = api.create_augroup("lsp_formatting", { clear = false }),
         buffer = bufnr,
         callback = function()
           vim.lsp.buf.format {
-            filter = function(client)
-              return client.name ~= "tsserver"
+            filter = function(c)
+              return c.name ~= "tsserver"
             end,
           }
         end,
