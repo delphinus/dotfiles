@@ -333,7 +333,15 @@ return {
 
   -- TODO: use CmdlineEnter
   -- {'delphinus/vim-emacscommandline', event = {'CmdlineEnter'}},
-  { "delphinus/vim-emacscommandline" },
+  --{ "delphinus/vim-emacscommandline" },
+  --{ 'houtsnip/vim-emacscommandline'},
+  {
+    "delphinus/emacscommandline.nvim",
+    branch = "feature/first-implementation",
+    config = function()
+      require("emacscommandline").setup {}
+    end,
+  },
 
   {
     "haringsrob/nvim_context_vt",
