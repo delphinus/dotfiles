@@ -19,6 +19,7 @@ set -l paths \
     ~/git/dotfiles/bin \
     ~/Library/Python/3.9/bin \
     ~/.gem/ruby/3.0.0/bin \
+    ~/.gem/ruby/2.6.0/bin \
     $homebrew_path/opt/ruby/bin \
     $homebrew_path/opt/llvm/bin \
     $homebrew_path/opt/perl/bin \
