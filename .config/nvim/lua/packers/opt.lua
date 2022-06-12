@@ -415,7 +415,9 @@ return {
   },
 
   {
-    "lukas-reineke/indent-blankline.nvim",
+    --"lukas-reineke/indent-blankline.nvim",
+    "delphinus/indent-blankline.nvim",
+    branch = "hotfix/cmdlinewindow",
     event = { "FocusLost", "CursorHold" },
     setup = function()
       -- │┃┊┋┆┇║⡇⢸
