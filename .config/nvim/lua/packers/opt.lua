@@ -722,10 +722,14 @@ return {
       }
       local direction = require("hop.hint").HintDirection
       vim.keymap.set({ "n", "v" }, [['j]], function()
-        hop.hint_lines { direction = direction.AFTER_CURSOR }
+        if fn.getcmdwintype() == "" then
+          hop.hint_lines { direction = direction.AFTER_CURSOR }
+        end
       end)
       vim.keymap.set({ "n", "v" }, [['k]], function()
-        hop.hint_lines { direction = direction.BEFORE_CURSOR }
+        if fn.getcmdwintype() == "" then
+          hop.hint_lines { direction = direction.BEFORE_CURSOR }
+        end
       end)
       if vim.opt.background:get() == "dark" then
         vim.cmd [[
