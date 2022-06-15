@@ -168,9 +168,9 @@ local my_tabline_path = require "f_meta" {
       filename = filename:gsub("^" .. home_re .. "/git/" .. vim.g.gh_e_host .. "/", "", 1)
     end
     local result = filename
-        :gsub("^" .. home_re .. "/git/github%.com/", "", 1)
-        :gsub("^" .. home_re, "~", 1)
-        :gsub("/[^/]+$", "", 1)
+      :gsub("^" .. home_re .. "/git/github%.com/", "", 1)
+      :gsub("^" .. home_re, "~", 1)
+      :gsub("/[^/]+$", "", 1)
     return #result <= 40 and result or "……" .. result:sub(-38, -1)
   end,
 }
