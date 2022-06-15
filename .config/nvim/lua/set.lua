@@ -31,7 +31,7 @@ vim.opt.inccommand = "split"
 -- }}}
 
 -- Display {{{
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 vim.opt.colorcolumn = { "80", "140" }
 vim.opt.list = true
 vim.opt.listchars = {
