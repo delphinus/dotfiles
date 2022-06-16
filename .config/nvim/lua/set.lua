@@ -129,7 +129,9 @@ else
 end
 api.create_autocmd("VimEnter", {
   group = api.create_augroup("set_colorscheme", {}),
-  command = [[doautocmd ColorScheme ]] .. scheme,
+  callback = function()
+    api.exec_autocmds("ColorScheme", { pattern = scheme })
+  end,
 })
 vim.cmd("colorscheme " .. scheme)
 -- }}}
