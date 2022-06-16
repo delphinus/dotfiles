@@ -24,7 +24,11 @@ vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"
 
 if vim.env.NVIM_PROFILE then
   require("plenary.profile").start("/tmp/profile.log", { flame = true })
-  vim.cmd [[au VimEnter * lua require'plenary.profile'.stop()]]
+  api.create_autocmd("VimEnter", {
+    callback = function()
+      require("plenary.profile").stop()
+    end,
+  })
 end
 
 require "setup"
