@@ -1,17 +1,9 @@
-Host *
-  SendEnv LC_* LANG
-  ForwardAgent yes
-  GSSAPIAuthentication yes
-  GSSAPIDelegateCredentials yes
-  PubkeyAuthentication yes
-  ServerAliveCountMax 20
-  ServerAliveInterval 15
-  IdentityAgent "{{ secret_identity_agent }}"
-
 {% for h in secret_ssh.hosts -%}
 Host {{ h.name }}
+  {% if 'host' in h -%}
   Hostname {{ h.host }}
   User {{ h.user }}
+  {%  endif %}
   {% if 'port' in h -%}
   Port {{ h.port }}
   {% endif -%}
@@ -25,9 +17,23 @@ Host {{ h.name }}
   StrictHostKeyChecking no
   UserKnownHostsFile /dev/null
   {% endif %}
+  {% if 'identity_agent' in h -%}
+  IdentityAgent {{ h.identity_agent }}
+  {% endif %}
 
 {% endfor -%}
 
 #Match exec "bash -c '[[ %h = {{ secret_ssh.git }} ]] && pgrep -fl ssh | grep {{ secret_ssh.hosts[0].name }} > /dev/null'"
   #ProxyCommand nc -x localhost:{{ secret_ssh.socks_port }} %h %p
+
+Host *
+  SendEnv LC_* LANG
+  ForwardAgent yes
+  GSSAPIAuthentication yes
+  GSSAPIDelegateCredentials yes
+  PubkeyAuthentication yes
+  ServerAliveCountMax 20
+  ServerAliveInterval 15
+  IdentityAgent "{{ secret_identity_agent }}"
+
 {#- vim:se ft=sshconfig.jinja: #}
