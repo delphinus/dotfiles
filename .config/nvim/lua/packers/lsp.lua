@@ -117,7 +117,12 @@ return {
         return #shebang == 1 and shebang[1]:match "^#!.*deno" and true or false
       end
 
-      local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      local capabilities
+      if ok then
+        local orig = vim.lsp.protocol.make_client_capabilities()
+        capabilities = cmp_nvim_lsp.update_capabilities(orig)
+      end
       local home_dir = function(p)
         return loop.os_homedir() .. (p or "")
       end
