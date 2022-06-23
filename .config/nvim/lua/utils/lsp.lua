@@ -103,18 +103,11 @@ return {
     vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr })
 
     if client.supports_method "textDocument/formatting" then
+      local auto_formatting = require("utils.lsp.auto_formatting").set(bufnr)
+      vim.keymap.set("n", "g!", function()
+        auto_formatting:toggle()
+      end, { buffer = bufnr })
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
-      api.create_autocmd("BufWritePre", {
-        group = api.create_augroup("lsp_formatting", { clear = false }),
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format {
-            filter = function(c)
-              return c.name ~= "tsserver"
-            end,
-          }
-        end,
-      })
     end
   end,
 }
