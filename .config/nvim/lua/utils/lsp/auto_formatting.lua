@@ -3,10 +3,18 @@ local AutoFormatting = {
 }
 
 AutoFormatting.set = function(buffer, opts)
+  buffer = buffer == 0 and api.get_current_buf() or buffer
   local i = AutoFormatting.instances
   local key = tostring(buffer)
   i[key] = i[key] or AutoFormatting.new(buffer, opts)
   return i[key]
+end
+
+AutoFormatting.is_enabled = function(buffer)
+  buffer = buffer == 0 and api.get_current_buf() or buffer
+  local key = tostring(buffer)
+  local i = AutoFormatting.instances[key]
+  return i and i.enabled or false
 end
 
 AutoFormatting.new = function(buffer, opts)
@@ -32,9 +40,9 @@ end
 
 function AutoFormatting:toggle()
   if self.enabled then
-    self:enable()
-  else
     self:disable()
+  else
+    self:enable()
   end
   self.enabled = not self.enabled
 end
