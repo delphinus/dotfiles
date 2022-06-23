@@ -197,7 +197,23 @@ return {
               fmt = tr { 120, 0 },
             },
           },
-          lualine_x = { auto_formatting(), { "filetype", fmt = tr { 100, 0 } } },
+          lualine_x = {
+            auto_formatting(),
+            {
+              "lsp_diag",
+              fmt = function()
+                return "LspDiag"
+              end,
+              color = function()
+                -- See utils.lsp
+                return #vim.lsp.get_active_clients { bufnr = 0 } > 0
+                    and not vim.b.lsp_diagnostics_disabled
+                    and { fg = "#2e3440", bg = "#a3be8c" }
+                  or { fg = "#81a1c1" }
+              end,
+            },
+            { "filetype", fmt = tr { 100, 0 } },
+          },
           lualine_y = {
             { "progress", fmt = tr { 90, 0 } },
             { "filesize", fmt = tr { 120, 0 } },
