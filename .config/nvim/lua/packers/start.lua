@@ -67,6 +67,27 @@ return {
         return result
       end
 
+      local function auto_formatting()
+        local name = "auto_formatting"
+        local ok, afmt = pcall(require, "utils.lsp.auto_formatting")
+        return ok
+            and {
+              name,
+              fmt = function()
+                return "AutoFmt"
+              end,
+              color = function()
+                return afmt.is_enabled(0) and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
+              end,
+            }
+          or {
+            name,
+            cond = function()
+              return false
+            end,
+          }
+      end
+
       local characterize = require "characterize"
       local function char_info()
         local char = characterize.cursor_char()
@@ -176,7 +197,7 @@ return {
               fmt = tr { 120, 0 },
             },
           },
-          lualine_x = { { "filetype", fmt = tr { 100, 0 } } },
+          lualine_x = { auto_formatting(), { "filetype", fmt = tr { 100, 0 } } },
           lualine_y = {
             { "progress", fmt = tr { 90, 0 } },
             { "filesize", fmt = tr { 120, 0 } },
