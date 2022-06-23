@@ -56,7 +56,7 @@ return {
       )
 
       local function lsp()
-        local clients = vim.lsp.buf_get_clients()
+        local clients = vim.lsp.get_active_clients { bufnr = 0 }
         local result = ""
         for _, client in pairs(clients) do
           if result ~= "" then
