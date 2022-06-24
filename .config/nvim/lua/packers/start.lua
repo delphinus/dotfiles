@@ -55,6 +55,57 @@ return {
         end)
       )
 
+      -- https://github.com/nvim-lualine/lualine.nvim/wiki/Component-snippets
+      -- settings should be tables below
+      -- { 80, 3 }
+      -- --> The component should be truncated to 3 chars when width < 80.
+      -- { { 80, 3 }, { 50, 0 } }
+      -- --> The component should be truncated to 3 chars when width < 80 and
+      -- disappear when width < 50.
+      -- { { 80, 'Foo' }, { 50, 'F' }, { 30, 0 } }
+      -- --> The component should be truncated to 'Foo' when width < 80 and 'F'
+      -- when width < 50 and disappear when width < 30.
+      local truncate = require("plenary.strings").truncate
+      local function truncator(str, settings, no_ellipsis)
+        local columns = vim.opt.columns:get()
+        if type(settings[1]) ~= "table" then
+          settings = { settings }
+        end
+        for _, t in ipairs(settings) do
+          local width = t[1]
+          local len_or_str = t[2]
+          local len
+          local alt_str
+          if type(len_or_str) == "string" then
+            alt_str = len_or_str
+            len = #alt_str
+          else
+            len = len_or_str
+          end
+          if columns < width and #str > len then
+            if alt_str then
+              return alt_str
+            elseif len == 0 then
+              return ""
+            end
+            return truncate(str, len, (no_ellipsis and "" or nil))
+          end
+        end
+        return str
+      end
+
+      local function tr(settings)
+        return function(str)
+          return truncator(str, settings)
+        end
+      end
+
+      local function no_ellipsis_tr(settings)
+        return function(str)
+          return truncator(str, settings, true)
+        end
+      end
+
       local function lsp()
         local clients = vim.lsp.get_active_clients { bufnr = 0 }
         local result = ""
@@ -65,27 +116,6 @@ return {
           result = result .. ("%s(%d)"):format(client.name, client.id)
         end
         return result
-      end
-
-      local function auto_formatting()
-        local name = "auto_formatting"
-        local ok, afmt = pcall(require, "utils.lsp.auto_formatting")
-        return ok
-            and {
-              name,
-              fmt = function()
-                return "AutoFmt"
-              end,
-              color = function()
-                return afmt.is_enabled(0) and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
-              end,
-            }
-          or {
-            name,
-            cond = function()
-              return false
-            end,
-          }
       end
 
       local characterize = require "characterize"
@@ -122,38 +152,6 @@ return {
       local function tag()
         local ok, ts = pcall(treesitter_tag)
         return ok and ts or "«no tag»"
-      end
-
-      -- https://github.com/nvim-lualine/lualine.nvim/wiki/Component-snippets
-      local truncate = require("plenary.strings").truncate
-      local function truncator(str, settings, no_ellipsis)
-        local columns = vim.opt.columns:get()
-        if type(settings[1]) ~= "table" then
-          settings = { settings }
-        end
-        for _, t in ipairs(settings) do
-          local width = t[1]
-          local len = t[2]
-          if columns < width and #str > len then
-            if len == 0 then
-              return ""
-            end
-            return truncate(str, len, (no_ellipsis and "" or nil))
-          end
-        end
-        return str
-      end
-
-      local function tr(settings)
-        return function(str)
-          return truncator(str, settings)
-        end
-      end
-
-      local function no_ellipsis_tr(settings)
-        return function(str)
-          return truncator(str, settings, true)
-        end
       end
 
       require("lualine").setup {
@@ -198,18 +196,27 @@ return {
             },
           },
           lualine_x = {
-            auto_formatting(),
             {
-              "lsp_diag",
-              fmt = function()
+              function()
+                return "AutoFmt"
+              end,
+              fmt = tr { { 30, 0 }, { 50, "F" }, { 80, "Fmt" } },
+              separator = "",
+              color = function()
+                local is_enabled = require("utils.lsp.auto_formatting").is_enabled(0)
+                return is_enabled and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
+              end,
+            },
+            {
+              function()
                 return "LspDiag"
               end,
+              separator = "",
+              fmt = tr { { 30, 0 }, { 50, "D" }, { 80, "Diag" } },
               color = function()
                 -- See utils.lsp
-                return #vim.lsp.get_active_clients { bufnr = 0 } > 0
-                    and not vim.b.lsp_diagnostics_disabled
-                    and { fg = "#2e3440", bg = "#a3be8c" }
-                  or { fg = "#81a1c1" }
+                local is_enabled = not vim.b.lsp_diagnostics_disabled and #vim.lsp.get_active_clients { bufnr = 0 } > 0
+                return is_enabled and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
               end,
             },
             { "filetype", fmt = tr { 100, 0 } },

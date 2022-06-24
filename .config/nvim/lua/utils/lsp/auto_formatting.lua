@@ -55,16 +55,10 @@ function AutoFormatting:enable()
       vim.lsp.buf.format { filter = self.filter }
     end,
   })
-  self:log "Enabled auto formatting"
 end
 
 function AutoFormatting:disable()
   api.clear_autocmds { group = self.group, buffer = self.buffer }
-  self:log "Disabled auto formatting"
-end
-
-function AutoFormatting:log(message)
-  vim.notify(("[AutoFormatting] %s : buffer = %d"):format(message, self.buffer))
 end
 
 return AutoFormatting
