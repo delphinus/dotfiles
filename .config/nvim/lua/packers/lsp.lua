@@ -241,6 +241,13 @@ return {
     end,
   }, -- }}}
 
+  ts {
+    "m-demare/hlargs.nvim",
+    config = function()
+      require("hlargs").setup { color = "#d08770" }
+    end,
+  },
+
   ts { "nvim-treesitter/nvim-treesitter-refactor" },
   ts { "nvim-treesitter/nvim-treesitter-textobjects" },
   ts { "nvim-treesitter/playground" },
