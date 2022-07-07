@@ -275,7 +275,7 @@ return {
       require("nvim-treesitter.configs").setup {
         highlight = {
           enable = true,
-          disable = { "perl" },
+          disable = { "markdown", "perl" },
         },
         incremental_selection = {
           enable = true,
