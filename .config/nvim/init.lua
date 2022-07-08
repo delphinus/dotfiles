@@ -15,11 +15,6 @@ _G.api = setmetatable({ _cache = {} }, {
   end,
 })
 
--- https://www.reddit.com/r/neovim/comments/rvwsl3/introducing_filetypelua_and_a_call_for_help/
--- Enable filetype.lua
-vim.g.do_filetype_lua = 1
-vim.g.did_load_filetypes = 0
-
 vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"
 
 if vim.env.NVIM_PROFILE then
