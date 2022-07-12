@@ -80,7 +80,7 @@ return {
     vim.keymap.set("n", "<Space>e", function()
       vim.diagnostic.open_float { border = border }
     end, { buffer = bufnr })
-    vim.keymap.set("n", "<Space>q", vim.lsp.diagnostic.set_loclist, { buffer = bufnr })
+    vim.keymap.set("n", "<Space>q", vim.diagnostic.setloclist, { buffer = bufnr })
 
     vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
     vim.keymap.set("n", "1gD", vim.lsp.buf.type_definition, { buffer = bufnr })
