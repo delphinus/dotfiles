@@ -136,6 +136,7 @@ return {
         intelephense = {},
         jsonls = {},
         jsonnet_ls = {},
+        marksman = {},
         metals = {},
         perlnavigator = {},
         solargraph = {},
