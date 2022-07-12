@@ -1,5 +1,6 @@
 [http]
 	sslVerify = true
+	cookiefile = ~/.gitcookies
 [color]
 	ui = true
 	status = auto
