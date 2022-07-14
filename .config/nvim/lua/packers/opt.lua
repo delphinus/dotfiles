@@ -703,6 +703,19 @@ return {
   },
 
   {
+    "kylechui/nvim-surround",
+    keys = {
+      { "n", "ys" },
+      { "n", "ds" },
+      { "n", "cs" },
+      { "v", "S" },
+    },
+    config = function()
+      require("nvim-surround").setup {}
+    end,
+  },
+
+  {
     "phaazon/hop.nvim",
     --"delphinus/hop.nvim",
     --branch = "feature/migemo",
