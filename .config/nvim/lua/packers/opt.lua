@@ -69,6 +69,14 @@ return {
   { "fuenor/JpFormat.vim", cmd = { "JpFormatAll", "JpJoinAll" } },
 
   {
+    "nvim-colortils/colortils.nvim",
+    cmd = { "Colortils" },
+    config = function()
+      require("colortils").setup {}
+    end,
+  },
+
+  {
     "rbgrouleff/bclose.vim",
     -- TODO: cmd does not work?
     keys = {
