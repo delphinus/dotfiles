@@ -331,15 +331,11 @@ return {
     end,
   },
 
-  -- TODO: use CmdlineEnter
-  -- {'delphinus/vim-emacscommandline', event = {'CmdlineEnter'}},
-  --{ "delphinus/vim-emacscommandline" },
-  --{ 'houtsnip/vim-emacscommandline'},
   {
-    "delphinus/emacscommandline.nvim",
-    branch = "feature/first-implementation",
+    "delphinus/emcl.nvim",
+    event = { "CmdlineEnter" },
     config = function()
-      require("emacscommandline").setup {}
+      require("emcl").setup {}
     end,
   },
 
