@@ -51,15 +51,15 @@ return {
         sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
         sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
         sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
-        hi DiagnosticError guifg=#bf616a
-        hi DiagnosticWarn guifg=#D08770
-        hi DiagnosticInfo guifg=#8fbcbb
-        hi DiagnosticHint guifg=#4c566a
-        hi DiagnosticUnderlineError guisp=#bf616a gui=undercurl
-        hi DiagnosticUnderlineWarn guisp=#d08770 gui=undercurl
-        hi DiagnosticUnderlineInfo guisp=#8fbcbb gui=undercurl
-        hi DiagnosticUnderlineHint guisp=#4c566a gui=undercurl
       ]]
+      api.set_hl(0, "DiagnosticError", { fg = "#bf616a" })
+      api.set_hl(0, "DiagnosticWarn", { fg = "#d08770" })
+      api.set_hl(0, "DiagnosticInfo", { fg = "#8fbcbb" })
+      api.set_hl(0, "DiagnosticHint", { fg = "#4c566a" })
+      api.set_hl(0, "DiagnosticUnderlineError", { sp = "#bf616a", undercurl = true })
+      api.set_hl(0, "DiagnosticUnderlineWarn", { sp = "#d08770", undercurl = true })
+      api.set_hl(0, "DiagnosticUnderlineInfo", { sp = "#8fbcbb", undercurl = true })
+      api.set_hl(0, "DiagnosticUnderlineHint", { sp = "#4c566a", undercurl = true })
 
       api.create_user_command("ShowLSPSettings", function()
         print(vim.inspect(vim.lsp.buf_get_clients()))
@@ -70,12 +70,10 @@ return {
         vim.cmd [[edit]]
       end, { desc = "Reload LSP settings" })
 
-      vim.cmd [[
-        hi LspBorderTop guifg=#5d9794 guibg=#2e3440
-        hi LspBorderLeft guifg=#5d9794 guibg=#3b4252
-        hi LspBorderRight guifg=#5d9794 guibg=#3b4252
-        hi LspBorderBottom guifg=#5d9794 guibg=#2e3440
-      ]]
+      api.set_hl(0, "LspBorderTop", { fg = "#5d9794", bg = "#2e3440" })
+      api.set_hl(0, "LspBorderLeft", { fg = "#5d9794", bg = "#3b4252" })
+      api.set_hl(0, "LspBorderRight", { fg = "#5d9794", bg = "#3b4252" })
+      api.set_hl(0, "LspBorderBottom", { fg = "#5d9794", bg = "#2e3440" })
 
       vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         underline = true,
@@ -255,15 +253,13 @@ return {
   ts {
     "p00f/nvim-ts-rainbow",
     config = function()
-      vim.cmd [[
-      hi rainbowcol1 guifg=#bf616a
-      hi rainbowcol2 guifg=#d08770
-      hi rainbowcol3 guifg=#b48ead
-      hi rainbowcol4 guifg=#ebcb8b
-      hi rainbowcol5 guifg=#a3b812
-      hi rainbowcol6 guifg=#81a1c1
-      hi rainbowcol7 guifg=#8fbcbb
-    ]]
+      api.set_hl(0, "rainbowcol1", { fg = "#bf616a" })
+      api.set_hl(0, "rainbowcol2", { fg = "#d08770" })
+      api.set_hl(0, "rainbowcol3", { fg = "#b48ead" })
+      api.set_hl(0, "rainbowcol4", { fg = "#ebcb8b" })
+      api.set_hl(0, "rainbowcol5", { fg = "#a3b812" })
+      api.set_hl(0, "rainbowcol6", { fg = "#81a1c1" })
+      api.set_hl(0, "rainbowcol7", { fg = "#8fbcbb" })
     end,
   },
 

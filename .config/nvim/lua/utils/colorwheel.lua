@@ -64,7 +64,7 @@ return setmetatable({
             row = i_row,
           })
           local hl_name = ("CircleBG%d%d"):format(i_col, i_row)
-          vim.cmd(("hi %s guibg=%s"):format(hl_name, self:position_to_rgb(x, y, r)))
+          api.set_hl(0, hl_name, { bg = self:position_to_rgb(x, y, r) })
           api.win_set_option(winid, "winhighlight", "Normal:" .. hl_name)
         end
       end

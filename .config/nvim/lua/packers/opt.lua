@@ -23,21 +23,20 @@ return {
         group = api.create_augroup("nord_overrides", {}),
         pattern = "nord",
         callback = function()
-          vim.cmd [[
-            hi Comment guifg=#72809a gui=italic
-            hi Delimiter guifg=#81A1C1
-            hi Constant guifg=#d8dee9 gui=italic
-            hi Folded guifg=#72809a gui=NONE
-            hi Identifier guifg=#8FBCBB
-            hi Special guifg=#D08770
-            hi Title guifg=#88C0D0 gui=bold cterm=bold
-            hi PmenuSel blend=0
-            hi VertSplit gui=NONE
-
-            " for Neovim
-            hi NormalFloat guifg=#d8dee9 guibg=#3b4252 blend=10
-            hi FloatBorder guifg=#8fbcbb guibg=#3b4252 blend=10
-          ]]
+          api.set_hl(0, "Comment", { fg = "#72809a", italic = true })
+          api.set_hl(0, "Delimiter", { fg = "#81a1c1" })
+          api.set_hl(0, "Constant", { fg = "#d8dee9", italic = true })
+          -- TODO
+          -- hi Folded guifg=#72809a gui=NONE
+          api.set_hl(0, "Folded", { fg = "#72809a" })
+          api.set_hl(0, "Identifier", { fg = "#8fbcbb" })
+          api.set_hl(0, "Special", { fg = "#d08770" })
+          api.set_hl(0, "Title", { fg = "#88c0d0", bold = true })
+          api.set_hl(0, "PmenuSel", { blend = 0 })
+          -- TODO
+          -- hi VertSplit gui=NONE
+          api.set_hl(0, "NormalFloat", { fg = "#d8dee9", bg = "#3b4252", blend = 10 })
+          api.set_hl(0, "FloatBorder", { fg = "#8fbcbb", bg = "#3b4252", blend = 10 })
         end,
       })
     end,
@@ -344,10 +343,8 @@ return {
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
     config = function()
-      vim.cmd [[hi ContextVt guifg=#365f86]]
-      require("nvim_context_vt").setup {
-        highlight = "ContextVt",
-      }
+      api.set_hl(0, "ContextVt", { fg = "#365f86" })
+      require("nvim_context_vt").setup { highlight = "ContextVt" }
     end,
   },
 
@@ -372,15 +369,13 @@ return {
     "lewis6991/gitsigns.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
-      vim.cmd [[
-        hi GitSignsAdd guifg=#a3be8c
-        hi GitSignsChange guifg=#ebcb8b
-        hi GitSignsDelete guifg=#bf616a
-        hi GitSignsCurrentLineBlame guifg=#616e88
-        hi GitSignsAddInline guibg=#183203
-        hi GitSignsChangeInline guibg=#432d00
-        hi GitSignsDeleteInline guibg=#52050c
-      ]]
+      api.set_hl(0, "GitSignsAdd", { fg = "#a3be8c" })
+      api.set_hl(0, "GitSignsChange", { fg = "#ebcb8b" })
+      api.set_hl(0, "GitSignsDelete", { fg = "#bf616a" })
+      api.set_hl(0, "GitSignsCurrentLineBlame", { fg = "#616e88" })
+      api.set_hl(0, "GitSignsAddInline", { fg = "#183203" })
+      api.set_hl(0, "GitSignsChangeInline", { fg = "#432d00" })
+      api.set_hl(0, "GitSignsDeleteInline", { fg = "#52050c" })
       local gitsigns = require "gitsigns"
       local function gs(method)
         return function()
@@ -436,10 +431,8 @@ return {
       "WinScrolled",
     },
     config = function()
-      vim.cmd [[
-        hi ColorColumn guibg=NONE
-        hi VirtColumn guifg=#616e88
-      ]]
+      api.set_hl(0, "ColorColumn", { bg = "NONE" })
+      api.set_hl(0, "VirtColumn", { fg = "#616e88" })
       require("virt-column").setup { char = "⡂" }
     end,
   },
@@ -739,12 +732,10 @@ return {
         end
       end)
       if vim.opt.background:get() == "dark" then
-        vim.cmd [[
-          hi HopNextKey guifg=#D08770 gui=bold
-          hi HopNextKey1 guifg=#88C0D0 gui=bold
-          hi HopNextKey2 guifg=#D8DEE9
-          hi HopUnmatched guifg=#4C566A
-        ]]
+        api.set_hl(0, "HopNextKey", { fg = "#d08770", bold = true })
+        api.set_hl(0, "HopNextKey1", { fg = "#88c0d0", bold = true })
+        api.set_hl(0, "HopNextKey2", { fg = "#d8dee9" })
+        api.set_hl(0, "HopUnmatched", { fg = "#4c566a" })
       end
     end,
   },
@@ -888,11 +879,8 @@ return {
         end,
       }
 
-      vim.cmd [[
-        " set highlight for markers
-        hi! link SearchxMarker DiffChange
-        hi! link SearchxMarkerCurrent WarningMsg
-      ]]
+      api.set_hl(0, "SearchxMarker", { link = "DiffChange" })
+      api.set_hl(0, "SearchxMarkerCurrent", { link = "WarningMsg" })
     end,
   },
   -- }}}
@@ -976,15 +964,13 @@ return {
       vim.keymap.set({ "n", "t" }, "<A-ç>", toggle_fterm)
     end,
     config = function()
-      vim.cmd [[
-        hi WinBorderTop guifg=#ebf5f5 blend=30
-        hi WinBorderLeft guifg=#c2dddc blend=30
-        hi WinBorderRight guifg=#8fbcba blend=30
-        hi WinBorderBottom guifg=#5d9794 blend=30
-        hi WinBorderLight guifg=#c2dddc guibg=#5d9794 blend=30
-        hi WinBorderDark guifg=#5d9794 guibg=#c2dddc blend=30
-        hi WinBorderTransparent guibg=#111a2c
-      ]]
+      api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
+      api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
+      api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })
+      api.set_hl(0, "WinBorderBottom", { fg = "#5d9794", blend = 30 })
+      api.set_hl(0, "WinBorderLight", { fg = "#c2dddc", bg = "#5d9794", blend = 30 })
+      api.set_hl(0, "WinBorderDark", { fg = "#5d9794", bg = "#c2dddc", blend = 30 })
+      api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
     end,
   },
   -- }}}

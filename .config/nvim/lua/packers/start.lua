@@ -308,10 +308,8 @@ return {
         group = api.create_augroup("nord_visual_eof", {}),
         pattern = "nord",
         callback = function()
-          vim.cmd [[
-            hi VisualEOL   guifg=#a3be8c
-            hi VisualNoEOL guifg=#bf616a
-          ]]
+          api.set_hl(0, "VisualEOL", { fg = "#a3be8c" })
+          api.set_hl(0, "VisualNoEOL", { fg = "#bf616a" })
         end,
       })
       require("visual-eof").setup {

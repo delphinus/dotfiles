@@ -119,13 +119,11 @@ return {
             group = api.create_augroup("skkeleton_indicator_nord", {}),
             pattern = "nord",
             callback = function()
-              vim.cmd [[
-                hi SkkeletonIndicatorEiji guifg=#88c0d0 guibg=#2e3440 gui=bold
-                hi SkkeletonIndicatorHira guifg=#2e3440 guibg=#a3be8c gui=bold
-                hi SkkeletonIndicatorKata guifg=#2e3440 guibg=#ebcb8b gui=bold
-                hi SkkeletonIndicatorHankata guifg=#2e3440 guibg=#b48ead gui=bold
-                hi SkkeletonIndicatorZenkaku guifg=#2e3440 guibg=#88c0d0 gui=bold
-              ]]
+              api.set_hl(0, "SkkeletonIndicatorEiji", { fg = "#88c0d0", bg = "#2e3440", bold = true })
+              api.set_hl(0, "SkkeletonIndicatorHira", { fg = "#2e3440", bg = "#a3be8c", bold = true })
+              api.set_hl(0, "SkkeletonIndicatorKata", { fg = "#2e3440", bg = "#ebcb8b", bold = true })
+              api.set_hl(0, "SkkeletonIndicatorHankata", { fg = "#2e3440", bg = "#b48ead", bold = true })
+              api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = "#2e3440", bg = "#88c0d0", bold = true })
             end,
           })
         end,
@@ -144,38 +142,36 @@ return {
         group = api.create_augroup("cmp_nord", {}),
         pattern = "nord",
         callback = function()
-          vim.cmd [[
-            hi CmpItemAbbrDeprecated guifg=#616e88 gui=bold
-            hi CmpItemAbbrMatch guifg=#ebcb8b
-            hi CmpItemAbbrMatchFuzzy guifg=#d08770
-            hi CmpItemMenu gui=bold guifg=#616e88
+          api.set_hl(0, "CmpItemAbbrDeprecated", { fg = "#616e88", bold = true })
+          api.set_hl(0, "CmpItemAbbrMatch", { fg = "#ebcb8b" })
+          api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#d08770" })
+          api.set_hl(0, "CmpItemMenu", { fg = "#616e88", bold = true })
 
-            hi CmpItemKindText guifg=#81a1c1
-            hi CmpItemKindMethod guifg=#b48ead
-            hi CmpItemKindFunction guifg=#b48ead
-            hi CmpItemKindConstructor guifg=#b48ead gui=bold
-            hi CmpItemKindField guifg=#a3be8c
-            hi CmpItemKindVariable guifg=#88c0d0
-            hi CmpItemKindClass guifg=#ebcb8b
-            hi CmpItemKindInterface guifg=#8fbcbb
-            hi CmpItemKindModule guifg=#ebcb8b
-            hi CmpItemKindProperty guifg=#a3be8c
-            hi CmpItemKindUnit guifg=#b48ead
-            hi CmpItemKindValue guifg=#8fbcbb
-            hi CmpItemKindEnum guifg=#8fbcbb
-            hi CmpItemKindKeyword guifg=#5e81ac
-            hi CmpItemKindSnippet guifg=#d08770
-            hi CmpItemKindColor guifg=#ebcb8b
-            hi CmpItemKindFile guifg=#a3be8c
-            hi CmpItemKindReference guifg=#b48ead
-            hi CmpItemKindFolder guifg=#a3be8c
-            hi CmpItemKindEnumMember guifg=#8fbcbb
-            hi CmpItemKindConstant guifg=#5e81ac
-            hi CmpItemKindStruct guifg=#8fbcbb
-            hi CmpItemKindEvent guifg=#d08770
-            hi CmpItemKindOperator guifg=#b48ead
-            hi CmpItemKindTypeParameter guifg=#8fbcbb
-          ]]
+          api.set_hl(0, "CmpItemKindText", { fg = "#81a1c1" })
+          api.set_hl(0, "CmpItemKindMethod", { fg = "#b48ead" })
+          api.set_hl(0, "CmpItemKindFunction", { fg = "#b48ead" })
+          api.set_hl(0, "CmpItemKindConstructor", { fg = "#b48ead", bold = true })
+          api.set_hl(0, "CmpItemKindField", { fg = "#a3be8c" })
+          api.set_hl(0, "CmpItemKindVariable", { fg = "#88c0d0" })
+          api.set_hl(0, "CmpItemKindClass", { fg = "#ebcb8b" })
+          api.set_hl(0, "CmpItemKindInterface", { fg = "#8fbcbb" })
+          api.set_hl(0, "CmpItemKindModule", { fg = "#ebcb8b" })
+          api.set_hl(0, "CmpItemKindProperty", { fg = "#a3be8c" })
+          api.set_hl(0, "CmpItemKindUnit", { fg = "#b48ead" })
+          api.set_hl(0, "CmpItemKindValue", { fg = "#8fbcbb" })
+          api.set_hl(0, "CmpItemKindEnum", { fg = "#8fbcbb" })
+          api.set_hl(0, "CmpItemKindKeyword", { fg = "#5e81ac" })
+          api.set_hl(0, "CmpItemKindSnippet", { fg = "#d08770" })
+          api.set_hl(0, "CmpItemKindColor", { fg = "#ebcb8b" })
+          api.set_hl(0, "CmpItemKindFile", { fg = "#a3be8c" })
+          api.set_hl(0, "CmpItemKindReference", { fg = "#b48ead" })
+          api.set_hl(0, "CmpItemKindFolder", { fg = "#a3be8c" })
+          api.set_hl(0, "CmpItemKindEnumMember", { fg = "#8fbcbb" })
+          api.set_hl(0, "CmpItemKindConstant", { fg = "#5e81ac" })
+          api.set_hl(0, "CmpItemKindStruct", { fg = "#8fbcbb" })
+          api.set_hl(0, "CmpItemKindEvent", { fg = "#d08770" })
+          api.set_hl(0, "CmpItemKindOperator", { fg = "#b48ead" })
+          api.set_hl(0, "CmpItemKindTypeParameter", { fg = "#8fbcbb" })
         end,
       })
     end,
