@@ -36,15 +36,13 @@ return {
       local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
       local function set_karabiner(val)
         return function()
-          Job
-            :new({
-              command = karabiner_cli,
-              args = {
-                "--set-variables",
-                ('{"neovim_in_insert_mode":%d}'):format(val),
-              },
-            })
-            :start()
+          Job:new({
+            command = karabiner_cli,
+            args = {
+              "--set-variables",
+              ('{"neovim_in_insert_mode":%d}'):format(val),
+            },
+          }):start()
         end
       end
 
