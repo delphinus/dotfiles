@@ -670,28 +670,7 @@ return {
       end
       local now = os.time()
       if now - last_updated > 24 * 3600 * 7 then
-        local ok = pcall(function()
-          local formulae = table.concat({
-            "ansible-lint",
-            "checkmake",
-            "coursier",
-            "mypy",
-            "shellcheck",
-            "shfmt",
-            "stylua",
-            "vint",
-            "yamllint",
-          }, " ")
-          vim.cmd [[!cpanm App::efm_perl]]
-          vim.cmd(("!brew install %s && brew upgrade %s"):format(formulae, formulae))
-          vim.cmd [[!gem install --user-install rubocop]]
-          vim.cmd [[!luarocks install luacheck]]
-          vim.cmd [[!luarocks install --dev teal-language-server]]
-          vim.cmd [[!go install github.com/segmentio/golines@latest]]
-          vim.cmd [[!go install mvdan.cc/gofumpt@latest]]
-          vim.cmd [[!npm i -g textlint textlint-rule-preset-ja-spacing]]
-        end)
-
+        local ok = pcall(require("utils.lsp").update_tools)
         if ok then
           local fd = loop.fs_open(file, "w", 438)
           if fd then

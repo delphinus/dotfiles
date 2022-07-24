@@ -110,4 +110,73 @@ return {
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
     end
   end,
+
+  update_tools = function()
+    local notify = vim.schedule_wrap(function(msg, level)
+      vim.cmd [[redraw]]
+      vim.notify(msg, level)
+    end)
+
+    local Job = require "plenary.job"
+    local function new_job(cmd, args, ...)
+      local j = Job:new {
+        command = cmd,
+        args = args,
+        on_start = function()
+          notify("start: " .. cmd, vim.log.levels.DEBUG)
+        end,
+        on_exit = function(self, code)
+          if code == 0 then
+            notify("end: " .. cmd, vim.log.levels.DEBUG)
+          else
+            notify(self:stderr_result(), vim.log.levels.WARN)
+          end
+        end,
+        enabled_recording = true,
+      }
+      local nexts = { j, ... }
+      if #nexts > 1 then
+        for i = 1, #nexts - 1 do
+          nexts[i]:and_then_on_success(nexts[i + 1])
+        end
+      end
+      return j
+    end
+
+    local formulae = {
+      "ansible-lint",
+      "checkmake",
+      "coursier",
+      "mypy",
+      "shellcheck",
+      "shfmt",
+      "stylua",
+      "vint",
+      "yamllint",
+    }
+
+    local jobs = {
+      new_job("cpanm", { "App::efm_perl" }),
+      new_job("brew", { "install", unpack(formulae) }, new_job("brew", { "upgrade", unpack(formulae) })),
+      new_job("gem", { "install", "--user-install", "rubocop" }),
+      new_job(
+        "luarocks",
+        { "install", "luacheck" },
+        new_job("luarocks", { "install", "--dev", "teal-language-server" })
+      ),
+      new_job(
+        "go",
+        { "install", "github.com/segmentio/golines@latest" },
+        new_job("go", { "install", "mvdan.cc/gofumpt@latest" })
+      ),
+      new_job("npm", { "install", "-g", "textlint", "textlint-rule-preset-ja-spacing" }),
+    }
+
+    notify("update_tools: start", vim.log.levels.INFO)
+    vim.tbl_map(function(j)
+      j:start()
+    end, jobs)
+    Job.join(unpack(jobs))
+    notify("update_tools: end", vim.log.levels.INFO)
+  end,
 }
