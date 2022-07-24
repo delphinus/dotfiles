@@ -110,9 +110,10 @@ return {
       vim.keymap.set("n", "<Leader>f:", builtin "command_history" {})
       vim.keymap.set("n", "<Leader>fG", builtin "grep_string" {})
       vim.keymap.set("n", "<Leader>fH", builtin "help_tags" { lang = "en" })
+      vim.keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {})
       vim.keymap.set("n", "<Leader>fh", builtin "help_tags" {})
       vim.keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
-      vim.keymap.set("n", "<Leader>fn", extensions("node_modules", "list") {})
+      vim.keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
       vim.keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
       vim.keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
       vim.keymap.set("n", "<Leader>fq", extensions("ghq", "list") {})
@@ -302,6 +303,8 @@ return {
       telescope.load_extension "projects"
       -- This is needed to setup telescope-ui-select
       telescope.load_extension "ui-select"
+      -- This is needed to setup vim-notify
+      telescope.load_extension "notify"
     end,
   },
 }
