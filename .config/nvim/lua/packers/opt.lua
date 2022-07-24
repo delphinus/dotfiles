@@ -189,9 +189,7 @@ return {
         vim.g.ghpr_show_pr_mapping = "<A-g>"
         vim.g.ghpr_show_pr_in_message = 1
       else
-        vim.cmd [[echohl WarningMsg]]
-        vim.cmd("file not found: " .. settings)
-        vim.cmd [[echohl None]]
+        vim.notify("file not found: " .. settings, vim.log.levels.WARN)
       end
     end,
   },
