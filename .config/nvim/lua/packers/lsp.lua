@@ -6,6 +6,11 @@ end
 
 return {
   { -- {{{ nvim-lspconfig
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    module = { "lsp_lines" },
+  },
+
+  {
     "neovim/nvim-lspconfig",
     event = { "FocusLost", "CursorHold" },
     ft = {
@@ -39,6 +44,11 @@ return {
     },
     config = function()
       require("nvim-lsp-installer").setup {}
+      require("lsp_lines").setup {}
+
+      -- Use lsp_lines instead
+      vim.diagnostic.config { virtual_text = false }
+
       local border = require("utils.lsp").border
 
       vim.cmd [[
