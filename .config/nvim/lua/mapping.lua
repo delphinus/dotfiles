@@ -24,7 +24,7 @@ local function toggle_quickfix()
     end
     cmd = is_opened and "cclose" or "copen"
   end
-  vim.cmd(":silent " .. cmd)
+  vim.cmd(cmd, { silent = true })
 end
 
 vim.keymap.set("n", "qq", toggle_quickfix)
@@ -52,7 +52,7 @@ api.create_autocmd("BufReadPost", {
     if vim.bo.buftype ~= "terminal" then
       local last_pos = fn.line [['"]]
       if last_pos >= 1 and last_pos <= fn.line "$" then
-        vim.cmd [[execute 'normal! g`"']]
+        vim.cmd.execute [['normal! g`"']]
       end
     end
   end,

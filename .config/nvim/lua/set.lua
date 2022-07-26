@@ -102,7 +102,7 @@ vim.opt.mouse = "a"
 
 -- ColorScheme {{{
 vim.opt.termguicolors = true
-vim.cmd "syntax enable"
+vim.cmd.syntax "enable"
 
 api.create_user_command("ToggleColorscheme", function()
   local scheme
@@ -113,7 +113,7 @@ api.create_user_command("ToggleColorscheme", function()
     vim.opt.background = "light"
     scheme = "solarized8"
   end
-  vim.cmd("colorscheme " .. scheme)
+  vim.cmd.colorscheme(scheme)
 end, { desc = "Toggle colorscheme between nord and solarized8" })
 
 -- Use Solarized Light when iTerm2 reports 11;15 for $COLORFGBG

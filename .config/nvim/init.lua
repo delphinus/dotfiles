@@ -44,5 +44,5 @@ end
 local local_vimrc = loop.os_homedir() .. "/.vimrc-local"
 local st = loop.fs_stat(local_vimrc)
 if st and st.type == "file" then
-  vim.cmd("source " .. local_vimrc)
+  vim.cmd.source(local_vimrc)
 end

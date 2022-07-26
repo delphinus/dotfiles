@@ -45,4 +45,4 @@ if not found then
   vim.o.path = "lib," .. vim.o.path
 end
 
-vim.cmd("setlocal foldtext=" .. perl_fold_text:vim() .. "()")
+vim.cmd.setlocal("foldtext=" .. perl_fold_text:vim() .. "()")

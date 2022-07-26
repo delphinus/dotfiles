@@ -3,7 +3,7 @@ local init = (function()
   local packer
   return function()
     if packer == nil then
-      vim.cmd [[packadd packer.nvim]]
+      vim.cmd.packadd "packer.nvim"
       packer = require "packer"
       packer.init {
         compile_on_sync = true,
@@ -18,7 +18,7 @@ local init = (function()
           -- https://github.com/tjdevries/config_manager/blob/0c89222a53baf997371de0ec1ca4056b834a4d62/xdg_config/nvim/lua/tj/plugins.lua#L331
           open_fn = function(name)
             local ok, win = pcall(function()
-              vim.cmd [[packadd plenary.nvim]]
+              vim.cmd.packadd "plenary.nvim"
               return require("plenary.window.float").percentage_range_window(0.8, 0.8)
             end)
 

@@ -56,15 +56,15 @@ end, { desc = "Clean up --startuptime result" })
 -- echo a string for map definitions from an input key
 api.create_user_command("GetChar", function()
   -- TODO: does not redraw??
-  vim.cmd [[redraw]]
+  vim.cmd.redraw()
   print "Press any key:"
   local c = fn.getchar()
   while c == [[\<CursorHold]] do
-    vim.cmd [[redraw]]
+    vim.cmd.redraw()
     print "Press any key:"
     c = fn.getchar()
   end
-  vim.cmd [[redraw]]
+  vim.cmd.redraw()
   print(([[Raw: '%s' | Char: '%s']]):format(c, fn.nr2char(c)))
 end, { desc = "Echo a string for map definitions from an input key" })
 
@@ -78,6 +78,7 @@ api.create_user_command("Dump", function(opts)
     local options = opts.bang and { newline = " ", indent = "" } or {}
     return vim.inspect(obj, options)
   end
+
   print(to_str())
 end, {
   bang = true,

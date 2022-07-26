@@ -18,4 +18,4 @@ local json_fold_text = f.json_fold_text
       return ("%s %3d 行: %s "):format(level, vim.v.foldend - vim.v.foldstart + 1, sub)
     end,
   }
-vim.cmd([[setlocal foldtext=]] .. json_fold_text:vim() .. "()")
+vim.cmd.setlocal("foldtext=" .. json_fold_text:vim() .. "()")

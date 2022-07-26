@@ -51,7 +51,7 @@ return {
         0, -- never timeout
         500, -- repeat every 500 ms
         vim.schedule_wrap(function()
-          vim.cmd [[redrawtabline]]
+          vim.cmd.redrawtabline()
         end)
       )
 

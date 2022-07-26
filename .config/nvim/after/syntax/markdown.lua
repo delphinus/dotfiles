@@ -1,3 +1,1 @@
-vim.cmd [[
-  highlight def link markdownError NONE
-]]
+vim.cmd.highlight [[def link markdownError NONE]]

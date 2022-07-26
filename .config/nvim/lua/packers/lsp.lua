@@ -67,7 +67,7 @@ return {
 
       api.create_user_command("ReloadLSPSettings", function()
         vim.lsp.stop_client(vim.lsp.get_active_clients())
-        vim.cmd [[edit]]
+        vim.cmd.edit()
       end, { desc = "Reload LSP settings" })
 
       api.set_hl(0, "LspBorderTop", { fg = "#5d9794", bg = "#2e3440" })

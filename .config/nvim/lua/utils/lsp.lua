@@ -87,7 +87,7 @@ return {
     if vim.opt.filetype:get() ~= "help" then
       vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, { buffer = bufnr })
       vim.keymap.set("n", "<C-w><C-]>", function()
-        vim.cmd [[split]]
+        vim.cmd.split()
         vim.lsp.buf.definition()
       end, { buffer = bufnr })
     end
@@ -113,7 +113,7 @@ return {
 
   update_tools = function()
     local notify = vim.schedule_wrap(function(msg, level)
-      vim.cmd [[redraw]]
+      vim.cmd.redraw()
       vim.notify(msg, level)
     end)
 

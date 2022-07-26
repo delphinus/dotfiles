@@ -184,7 +184,7 @@ return {
     config = function()
       local settings = loop.os_homedir() .. "/.ghpr-blame.vim"
       if fn.filereadable(settings) == 1 then
-        vim.cmd("source " .. settings)
+        vim.cmd.source(settings)
         -- TODO: mappings for VV
         vim.g.ghpr_show_pr_mapping = "<A-g>"
         vim.g.ghpr_show_pr_in_message = 1
@@ -531,7 +531,7 @@ return {
       vim.g.committia_hooks = {
         edit_open = function(info)
           if info.vcs == "git" and fn.getline(1) == "" then
-            vim.cmd [[startinsert]]
+            vim.cmd.startinsert()
           end
           vim.keymap.set("i", "<A-d>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
           vim.keymap.set("i", "<A-∂>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })

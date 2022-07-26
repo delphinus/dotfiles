@@ -40,4 +40,4 @@ end
 
 -- TODO: hack for filetype
 vim.g.did_load_filetypes = 1
-vim.cmd "filetype plugin indent on"
+vim.cmd.filetype [[plugin indent on]]
