@@ -58,7 +58,7 @@ return {
       ]]
       api.set_hl(0, "DiagnosticError", { fg = "#bf616a" })
       api.set_hl(0, "DiagnosticWarn", { fg = "#d08770" })
-      api.set_hl(0, "DiagnosticInfo", { fg = "#8fbcbb" })
+      api.set_hl(0, "DiagnosticInfo", { fg = "#b48ead" })
       api.set_hl(0, "DiagnosticHint", { fg = "#4c566a" })
       api.set_hl(0, "DiagnosticUnderlineError", { sp = "#bf616a", undercurl = true })
       api.set_hl(0, "DiagnosticUnderlineWarn", { sp = "#d08770", undercurl = true })
