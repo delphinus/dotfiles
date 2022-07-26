@@ -45,7 +45,6 @@ return {
     config = function()
       require("nvim-lsp-installer").setup {}
       require("lsp_lines").setup {}
-
       -- Use lsp_lines instead
       vim.diagnostic.config { virtual_text = false }
 
@@ -82,8 +81,9 @@ return {
 
       vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         underline = true,
-        virtual_text = true,
         signs = true,
+        -- Use lsp_lines instead
+        virtual_text = false,
       })
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
       vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
