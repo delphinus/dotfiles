@@ -115,6 +115,8 @@ alias l. 'l -d .*'
 alias git hub
 alias dircolors gdircolors
 
+eval (dircolors -c ~/.dir_colors)
+
 if test "$NVIM_LISTEN_ADDRESS" != ''
     alias nvr 'nvr -cc \'lua require"FTerm".toggle()\' -cc split'
 else if test "$NVIM" != ''
