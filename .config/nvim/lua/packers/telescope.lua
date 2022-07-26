@@ -68,11 +68,11 @@ return {
         local ghq_dir = home .. "/git"
         local packer_dir = home .. "/.local/share/nvim/site/pack/packer"
         return path
-          :gsub(gh_dir, "$GH")
-          :gsub(gh_e_dir, "$GH_E")
-          :gsub(ghq_dir, "$GIT")
-          :gsub(packer_dir, "$PACKER")
-          :gsub(home, "~")
+            :gsub(gh_dir, "$GH")
+            :gsub(gh_e_dir, "$GH_E")
+            :gsub(ghq_dir, "$GIT")
+            :gsub(packer_dir, "$PACKER")
+            :gsub(home, "~")
       end
 
       -- Lines
@@ -82,7 +82,7 @@ return {
       vim.keymap.set("n", "<Leader>fB", builtin "buffers" {})
       vim.keymap.set("n", "<Leader>fb", function()
         local cwd = fn.expand "%:h"
-        extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd }()
+        extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd } ()
       end)
       vim.keymap.set("n", "<Leader>ff", function()
         -- TODO: stopgap measure
@@ -93,19 +93,19 @@ return {
               "WarningMsg",
             },
           }, true, {})
-          extensions("file_browser", "file_browser") {}()
+          extensions("file_browser", "file_browser") {} ()
           -- TODO: use loop.fs_stat ?
         elseif fn.isdirectory(loop.cwd() .. "/.git") == 1 then
-          builtin "git_files" {}()
+          builtin "git_files" {} ()
         else
-          builtin "find_files" { hidden = true }()
+          builtin "find_files" { hidden = true } ()
         end
       end)
       vim.keymap.set("n", "<Leader>fg", function()
         builtin "grep_string" {
           only_sort_text = true,
           search = fn.input "Grep For ❯ ",
-        }()
+        } ()
       end)
       vim.keymap.set("n", "<Leader>f:", builtin "command_history" {})
       vim.keymap.set("n", "<Leader>fG", builtin "grep_string" {})
@@ -136,7 +136,7 @@ return {
         extensions("memo", "grep_string") {
           only_sort_text = true,
           search = fn.input "Memo Grep For ❯ ",
-        }()
+        } ()
       end)
 
       -- LSP
@@ -156,8 +156,8 @@ return {
         "c",
         "<A-r>",
         [[<C-\>e ]]
-          .. [["lua require'telescope.builtin'.command_history{]]
-          .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
+        .. [["lua require'telescope.builtin'.command_history{]]
+        .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
         { silent = true }
       )
     end,
