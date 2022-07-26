@@ -371,9 +371,9 @@ return {
       api.set_hl(0, "GitSignsChange", { fg = "#ebcb8b" })
       api.set_hl(0, "GitSignsDelete", { fg = "#bf616a" })
       api.set_hl(0, "GitSignsCurrentLineBlame", { fg = "#616e88" })
-      api.set_hl(0, "GitSignsAddInline", { fg = "#183203" })
-      api.set_hl(0, "GitSignsChangeInline", { fg = "#432d00" })
-      api.set_hl(0, "GitSignsDeleteInline", { fg = "#52050c" })
+      api.set_hl(0, "GitSignsAddInline", { bg = "#183203" })
+      api.set_hl(0, "GitSignsChangeInline", { bg = "#432d00" })
+      api.set_hl(0, "GitSignsDeleteInline", { bg = "#52050c" })
       local gitsigns = require "gitsigns"
       local function gs(method)
         return function()

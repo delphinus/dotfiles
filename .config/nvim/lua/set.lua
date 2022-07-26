@@ -133,7 +133,7 @@ api.create_autocmd("VimEnter", {
     api.exec_autocmds("ColorScheme", { pattern = scheme })
   end,
 })
-vim.cmd("colorscheme " .. scheme)
+vim.cmd.colorscheme(scheme)
 -- }}}
 
 -- Title {{{
