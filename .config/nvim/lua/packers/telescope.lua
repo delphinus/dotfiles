@@ -212,7 +212,7 @@ return {
               ["<C-u>"] = actions.preview_scrolling_up,
               -- https://github.com/nvim-telescope/telescope.nvim/issues/1579
               ["<C-w>"] = function()
-                vim.cmd.normal("bcw", { bang = true })
+                vim.cmd.normal { args = { "bcw" }, bang = true }
               end,
             },
             n = {

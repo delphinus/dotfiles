@@ -5,7 +5,7 @@
 -- XXX include guard
 
 -- XXX make the dialect configurable?
-vim.cmd.runtime("syntax/mysql.vim", { bang = true })
+vim.cmd.runtime { args = { "syntax/mysql.vim" }, bang = true }
 vim.b.current_syntax = nil
 vim.cmd.syntax [[include @SQL syntax/mysql.vim]]
 
