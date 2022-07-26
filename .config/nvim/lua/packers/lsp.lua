@@ -5,11 +5,6 @@ local function ts(plugin)
 end
 
 return {
-  {
-    "https://github.com/williamboman/nvim-lsp-installer",
-    module = { "nvim-lsp-installer" },
-  },
-
   { -- {{{ nvim-lspconfig
     "neovim/nvim-lspconfig",
     event = { "FocusLost", "CursorHold" },
@@ -236,6 +231,11 @@ return {
         lsp[name].setup(config)
       end
     end,
+  },
+
+  {
+    "williamboman/nvim-lsp-installer",
+    module = { "nvim-lsp-installer" },
   }, -- }}}
 
   ts {
