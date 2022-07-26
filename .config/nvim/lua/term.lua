@@ -11,26 +11,24 @@ local function terminal_autocmd(event)
   end
 end
 
-terminal_autocmd "TermOpen"(function()
+terminal_autocmd "TermOpen" (function()
   vim.opt.scrolloff = 0
   vim.opt.number = false
   vim.opt.relativenumber = false
   vim.opt.cursorline = false
-  vim.cmd [[startinsert]]
+  vim.cmd.startinsert()
 end)
 terminal_autocmd "WinEnter" [[startinsert]]
 terminal_autocmd "WinEnter" [[doautocmd <nomodeline> FocusGained %]]
 terminal_autocmd "WinLeave" [[doautocmd <nomodeline> FocusLost %]]
 
-for map, keys in
-  pairs {
-    ["<C-j>"] = { "<A-j>", "<A-∆>" },
-    ["<C-k>"] = { "<A-k>", "<A-˚>" },
-    ["<C-q>"] = { "<A-q>", "<A-œ>" },
-    ["<C-s>"] = { "<A-s>", "<A-ß>" },
-    [":"] = { "<A-;>", "<A-…>" },
-  }
-do
+for map, keys in pairs {
+  ["<C-j>"] = { "<A-j>", "<A-∆>" },
+  ["<C-k>"] = { "<A-k>", "<A-˚>" },
+  ["<C-q>"] = { "<A-q>", "<A-œ>" },
+  ["<C-s>"] = { "<A-s>", "<A-ß>" },
+  [":"] = { "<A-;>", "<A-…>" },
+} do
   for _, key in ipairs(keys) do
     vim.keymap.set("t", key, [[<C-\><C-n>]] .. map, { remap = true })
     vim.keymap.set("n", key, map, { remap = true })
