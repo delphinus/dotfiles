@@ -603,6 +603,7 @@ return {
             factory = helpers.formatter_factory,
           },
 
+          --[[
           helpers.make_builtin {
             name = "perlcritic",
             meta = {
@@ -637,7 +638,8 @@ return {
                 local severities = { w = 2, i = 3, n = 4 }
 
                 for _, item in pairs(qflist.items) do
-                  if item.valid == 1 then
+                  -- TODO: use perlnavigator instead
+                  if item.valid == 1 and severities[item.type] > 3 then
                     local col = item.col > 0 and item.col - 1 or 0
                     table.insert(diagnostics, {
                       row = item.lnum,
@@ -654,7 +656,10 @@ return {
             },
             factory = helpers.generator_factory,
           },
+          ]]
 
+          -- TODO: use perlnavigator instead
+          --[[
           helpers.make_builtin {
             name = "efm-perl",
             meta = { url = "https://example.com", description = "TODO" },
@@ -669,6 +674,7 @@ return {
             },
             factory = helpers.generator_factory,
           },
+          ]]
         },
 
         --on_attach = on_attach,
