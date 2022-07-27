@@ -246,17 +246,7 @@ return {
   -- event {{{
   {
     "b0o/incline.nvim",
-    event = {
-      "WinNew",
-      "WinClosed",
-      "WinEnter",
-      "WinLeave",
-      "WinScrolled", -- WinScrolled is used to detect window resizes
-      "TabEnter",
-      "TabNewEntered",
-      "BufWinEnter",
-      "BufWinLeave",
-    },
+    event = { "FocusLost", "CursorHold" },
     config = function()
       require("incline").setup {}
     end,
@@ -420,14 +410,7 @@ return {
 
   {
     "lukas-reineke/virt-column.nvim",
-    event = {
-      "FileChangedShellPost,",
-      "TextChanged,",
-      "TextChangedI,",
-      "CompleteChanged,",
-      "BufWinEnter,",
-      "WinScrolled",
-    },
+    event = { "FocusLost", "CursorHold" },
     config = function()
       api.set_hl(0, "ColorColumn", { bg = "NONE" })
       api.set_hl(0, "VirtColumn", { fg = "#616e88" })
