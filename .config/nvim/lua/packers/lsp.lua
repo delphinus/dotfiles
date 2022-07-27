@@ -158,7 +158,6 @@ return {
           assert(loop.fs_write(fd, "#!/bin/bash\nperl -Ilib $@"))
           assert(loop.fs_close(fd))
           assert(loop.fs_chmod(path, 0x0755))
-          print(path)
           return {
             settings = {
               perlnavigator = {
