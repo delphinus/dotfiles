@@ -141,7 +141,6 @@ return {
         jsonnet_ls = {},
         marksman = {},
         metals = {},
-        perlnavigator = {},
         solargraph = {},
         sourcekit = {},
         teal_ls = {},
@@ -149,6 +148,24 @@ return {
         vimls = {},
         vuels = {},
         yamlls = {},
+
+        perlnavigator = (function()
+          local fd, path = loop.fs_mkstemp(loop.os_tmpdir() .. "/perl.XXXXXX")
+          if not fd then
+            error "cannot do mkstemp"
+          end
+          assert(loop.fs_write(fd, "#!/bin/bash\nperl -Ilib $@"))
+          assert(loop.fs_close(fd))
+          assert(loop.fs_chmod(path, 0x0755))
+          print(path)
+          return {
+            settings = {
+              perlnavigator = {
+                perlPath = path,
+              },
+            },
+          }
+        end)(),
 
         pyright = {
           settings = {
