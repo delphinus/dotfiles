@@ -118,9 +118,7 @@ return {
       vim.keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
       vim.keymap.set("n", "<Leader>fq", extensions("ghq", "list") {})
       vim.keymap.set("n", "<Leader>fr", builtin "resume" {})
-      vim.keymap.set(
-        "n",
-        "<Leader>fz",
+      vim.keymap.set("n", "<Leader>fz", function()
         extensions("z", "list") {
           previewer = require("telescope.previewers.term_previewer").new_termopen_previewer {
             get_command = function(entry)
@@ -140,8 +138,8 @@ return {
               end)
             end,
           },
-        }
-      )
+        } ()
+      end)
 
       -- Memo
       vim.keymap.set("n", "<Leader>mm", extensions("memo", "list") {})
