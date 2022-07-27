@@ -24,7 +24,7 @@ local function toggle_quickfix()
     end
     cmd = is_opened and "cclose" or "copen"
   end
-  vim.cmd { args = { cmd }, silent = true }
+  vim.cmd("silent " .. cmd)
 end
 
 vim.keymap.set("n", "qq", toggle_quickfix)
