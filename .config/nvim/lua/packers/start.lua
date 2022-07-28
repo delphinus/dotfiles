@@ -90,7 +90,12 @@ return {
             elseif len == 0 then
               return ""
             end
-            return truncate(str, len, (no_ellipsis and "" or nil))
+            local truncated = truncate(str, len, (no_ellipsis and "" or nil))
+            -- TODO: deal with ellipsis
+            if not no_ellipsis and truncated:match("[^%%]%%" .. "…$") then
+              truncated = truncated:gsub("%%…$", "…")
+            end
+            return truncated
           end
         end
         return str
