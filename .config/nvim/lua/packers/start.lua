@@ -127,7 +127,8 @@ return {
           return "NUL"
         end
         local r = results[1]
-        local text = ("<%s> %s"):format(r.char, r.codepoint)
+        local escaped = r.char:gsub("%%", "%%%%")
+        local text = ("<%s> %s"):format(escaped, r.codepoint)
         if r.digraphs and #r.digraphs > 0 then
           text = text .. ", \\<C-K>" .. r.digraphs[1]
         end
