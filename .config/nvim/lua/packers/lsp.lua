@@ -237,7 +237,11 @@ return {
                 globals = require("utils.lsp").lua_globals,
               },
               workspace = {
-                library = api.get_runtime_file("", true),
+                library = {
+                  vim.fn.expand "$VIMRUNTIME/lua",
+                  vim.fn.expand "$VIMRUNTIME/lua/vim",
+                  unpack(api.list_runtime_paths()),
+                },
               },
               telemetry = {
                 enable = false,
