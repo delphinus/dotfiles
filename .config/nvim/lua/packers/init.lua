@@ -42,3 +42,15 @@ end, {
 
 vim.keymap.set("n", "<Leader>ps", [[<Cmd>PackerSync<CR>]])
 vim.keymap.set("n", "<Leader>po", [[<Cmd>PackerCompile<CR>]])
+
+api.create_autocmd("BufEnter", {
+  group = api.create_augroup("packer-auto-compile", {}),
+  pattern = "*/.config/nvim/lua/packers/*.lua",
+  callback = function()
+    api.create_autocmd("BufWritePost", {
+      group = api.create_augroup("packer-auto-compile-buffer", {}),
+      buffer = api.get_current_buf(),
+      command = "PackerCompile",
+    })
+  end,
+})
