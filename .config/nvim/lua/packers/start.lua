@@ -45,6 +45,7 @@ return {
     "nvim-lualine/lualine.nvim",
     requires = {
       { "kyazdani42/nvim-web-devicons", opt = true },
+      { "arkav/lualine-lsp-progress" },
     },
     config = function()
       vim.loop.new_timer():start(
@@ -168,6 +169,23 @@ return {
           lualine_c = {
             { "branch", fmt = tr { { 80, 0 }, { 90, 10 } } },
             { lsp, color = { fg = "#ebcb8b" }, fmt = tr { 100, 0 } },
+            {
+              "lsp_progress",
+              display_components = { "lsp_client_name", "spinner", { "title", "percentage" } },
+              colors = {
+                --[[
+                percentage = "#8ca9cd",
+                title = "#8ca9cd",
+                message = "#8ca9cd",
+                spinner = "#a3be8c",
+                lsp_client_name = "#b48ead",
+                ]]
+                use = false, -- colored components cannot be truncated
+              },
+              color = { fg = "#b48ead" },
+              spinner_symbols = { "⡿", "⣟", "⣯", "⣷", "⣾", "⣽", "⣻", "⢿" },
+              fmt = tr { { 80, 0 }, { 90, 10 }, { 999, 30 } },
+            },
             {
               "diff",
               symbols = {
