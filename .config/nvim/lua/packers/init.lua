@@ -21,11 +21,11 @@ api.create_user_command("PackerStatus", run_packer "status", {
 })
 api.create_user_command("PackerSync", function()
   vim.notify "Sync started"
-  run_packer "sync"()
+  run_packer "sync" ()
 end, { desc = "[Packer] Sync plugins" })
 api.create_user_command("PackerCompile", function()
   vim.notify "Compile started"
-  run_packer "compile"()
+  run_packer "compile" ()
 end, { desc = "[Packer] Compile plugins" })
 api.create_user_command("PackerLoad", function(opts)
   local args = vim.split(opts.args, " ")
