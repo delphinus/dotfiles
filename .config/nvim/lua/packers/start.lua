@@ -45,7 +45,8 @@ return {
     "nvim-lualine/lualine.nvim",
     requires = {
       { "kyazdani42/nvim-web-devicons", opt = true },
-      { "arkav/lualine-lsp-progress" },
+      --{ "arkav/lualine-lsp-progress" },
+      { "delphinus/lualine-lsp-progress", branch = "hotfix/escape-progress" },
     },
     config = function()
       vim.loop.new_timer():start(

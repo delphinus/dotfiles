@@ -228,7 +228,6 @@ return {
             Lua = {
               runtime = {
                 version = "LuaJIT",
-                path = vim.split(package.path, ";"),
               },
               completion = {
                 keywordSnippet = "Disable",
