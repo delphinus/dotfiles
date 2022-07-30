@@ -51,7 +51,7 @@ return {
       --{ "arkav/lualine-lsp-progress" },
       { "delphinus/lualine-lsp-progress", branch = "hotfix/escape-progress" },
     },
-    config = config.lualine,
+    config = require "modules.start.config.lualine",
   },
 
   { "lambdalisue/suda.vim" },

@@ -1,9 +1,4 @@
 return {
-  lualine = function()
-    local lualine = require("modules.start.config.lualine").new()
-    return lualine:config()
-  end,
-
   notify = function()
     local fn, uv, api = require("core.utils").globals()
     vim.opt.termguicolors = true
