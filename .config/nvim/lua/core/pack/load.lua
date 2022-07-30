@@ -1,5 +1,3 @@
-local fn, uv, api = require("core.utils").globals()
-
 -- See https://github.com/wbthomason/dotfiles/blob/063850b4957a55c065f795722163efc88ffb1b42/neovim/.config/nvim/lua/plugins.lua
 local init = (function()
   local packer
