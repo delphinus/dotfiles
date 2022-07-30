@@ -43,12 +43,65 @@ local lua_globals = {
   "-",
 }
 
+local function is_deno_dir(p)
+  local base = p:gsub([[.*/]], "")
+  for _, r in ipairs {
+    [[^deno]],
+    [[^ddc]],
+    [[^cmp%-look$]],
+    [[^neco%-vim$]],
+    [[^git%-vines$]],
+    [[^murus$]],
+    [[^skkeleton$]],
+  } do
+    if base:match(r) then
+      return true
+    end
+  end
+  return false
+end
+
+local function need_me(client, bufnr)
+  local name = client.config.name
+  if name ~= "tsserver" and name ~= "denols" then
+    return true
+  end
+  local util = require "lspconfig.util"
+  local parent_dir = util.path.dirname(api.buf_get_name(bufnr))
+  local deno_found = util.search_ancestors(parent_dir, is_deno_dir) and true or false
+  if name == "tsserver" then
+    return not deno_found
+  end
+  return deno_found
+end
+
+local function need_diagnostics(bufnr)
+  local base = api.buf_get_name(bufnr):gsub([[.*/]], "")
+  for _, r in ipairs {
+    [[%.d%.ts$]],
+  } do
+    if base:match(r) then
+      return false
+    end
+  end
+  return true
+end
+
 return {
   border = border,
 
   lua_globals = lua_globals,
 
   on_attach = function(client, bufnr)
+    if not need_me(client, bufnr) then
+      vim.lsp.buf_detach_client(bufnr, client.id)
+      return
+    end
+
+    if not need_diagnostics(bufnr) then
+      vim.diagnostic.disable(bufnr)
+    end
+
     if client.config.flags then
       client.config.flags.allow_incremental_sync = true
     end
