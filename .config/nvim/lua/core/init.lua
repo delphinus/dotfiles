@@ -12,12 +12,7 @@ if vim.env.NVIM_PROFILE then
 end
 
 require "core.pack"
---require "setup"
---require "packers"
-require "set"
-require "mapping"
-require "term"
-require "commands"
+require "core.options"
 
 vim.g.loaded_getscriptPlugin = true
 vim.g.loaded_logiPat = true
