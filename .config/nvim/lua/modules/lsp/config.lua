@@ -6,7 +6,7 @@ return {
     -- Use lsp_lines instead
     vim.diagnostic.config { virtual_text = false }
 
-    local border = require("utils.lsp").border
+    local border = require("core.utils.lsp").border
 
     vim.cmd [[
         sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
@@ -173,7 +173,7 @@ return {
             },
             diagnostics = {
               enable = true,
-              globals = require("utils.lsp").lua_globals,
+              globals = require("core.utils.lsp").lua_globals,
             },
             workspace = {
               library = {
@@ -195,7 +195,7 @@ return {
       if capabilities then
         config.capabilities = capabilities
       end
-      config.on_attach = require("utils.lsp").on_attach
+      config.on_attach = require("core.utils.lsp").on_attach
       lsp[name].setup(config)
     end
   end,
@@ -508,7 +508,7 @@ return {
           nls.builtins.diagnostics.luacheck.with {
             extra_args = {
               "--globals",
-              unpack(require("utils.lsp").lua_globals),
+              unpack(require("core.utils.lsp").lua_globals),
             },
           },
 
@@ -626,7 +626,7 @@ return {
         },
 
         --on_attach = on_attach,
-        on_attach = require("utils.lsp").on_attach,
+        on_attach = require("core.utils.lsp").on_attach,
       }
     end,
 
@@ -652,7 +652,7 @@ return {
       end
       local now = os.time()
       if now - last_updated > 24 * 3600 * 7 then
-        local ok = pcall(require("utils.lsp").update_tools)
+        local ok = pcall(require("core.utils.lsp").update_tools)
         if ok then
           local fd = uv.fs_open(file, "w", 438)
           if fd then

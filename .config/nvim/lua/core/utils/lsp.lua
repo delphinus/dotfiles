@@ -162,7 +162,7 @@ return {
     vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr })
 
     if client.supports_method "textDocument/formatting" then
-      local auto_formatting = require("utils.lsp.auto_formatting").set(bufnr)
+      local auto_formatting = require("core.utils.lsp.auto_formatting").set(bufnr)
       vim.keymap.set("n", "g!", function()
         auto_formatting:toggle()
       end, { buffer = bufnr })

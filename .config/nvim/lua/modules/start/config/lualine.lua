@@ -66,7 +66,7 @@ function Lualine:config()
           fmt = self:tr { { 30, 0 }, { 50, "F" }, { 80, "Fmt" } },
           separator = "",
           color = function()
-            local is_enabled = require("utils.lsp.auto_formatting").is_enabled(0)
+            local is_enabled = require("core.utils.lsp.auto_formatting").is_enabled(0)
             return is_enabled and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
           end,
         },
@@ -77,7 +77,7 @@ function Lualine:config()
           separator = "",
           fmt = self:tr { { 30, 0 }, { 50, "D" }, { 80, "Diag" } },
           color = function()
-            -- See utils.lsp
+            -- See core.utils.lsp
             local is_enabled = not vim.b.lsp_diagnostics_disabled and #vim.lsp.get_active_clients { bufnr = 0 } > 0
             return is_enabled and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
           end,
