@@ -50,7 +50,7 @@ api.create_user_command("CleanUpStartUpTime", function()
     { before = fn.expand "$VIM", after = "$VIM" },
     { before = fn.resolve(fn.expand "$VIM"), after = "$VIM" },
     { before = vim.env.PACKER, after = "$PACKER" },
-    { before = loop.os_homedir(), after = [[\~]] },
+    { before = uv.os_homedir(), after = [[\~]] },
   })
   vim.cmd(table.concat(funcs, "\n"))
 end, { desc = "Clean up --startuptime result" })

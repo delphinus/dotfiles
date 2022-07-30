@@ -1,7 +1,7 @@
 return {
   lualine = function()
     local lualine = require("modules.start.config.lualine").new()
-    return lualine.config
+    return lualine:config()
   end,
 
   notify = function()
