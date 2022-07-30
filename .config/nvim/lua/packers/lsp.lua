@@ -146,6 +146,7 @@ return {
         sourcekit = {},
         teal_ls = {},
         terraformls = {},
+        tsserver = {},
         vimls = {},
         vuels = {},
         yamlls = {},
@@ -184,29 +185,10 @@ return {
         },
 
         denols = {
-          root_dir = function(startpath)
-            if is_deno_file() then
-              return util.path.dirname(startpath)
-            end
-            return util.search_ancestors(startpath, function(p)
-              return is_git_root(p) and is_deno_dir(p)
-            end)
-          end,
           init_options = {
             lint = true,
             unstable = true,
           },
-        },
-
-        tsserver = {
-          root_dir = function(startpath)
-            if is_deno_file() then
-              return
-            end
-            return util.search_ancestors(startpath, function(p)
-              return is_git_root(p) and not is_deno_dir(p)
-            end)
-          end,
         },
 
         bashls = {
@@ -529,6 +511,8 @@ return {
     config = function()
       local nls = require "null-ls"
       local helpers = require "null-ls.helpers"
+      local command_resolver = require "null-ls.helpers.command_resolver"
+      --local log = require "null-ls.logger"
       local methods = require "null-ls.methods"
       local utils = require "null-ls.utils"
 
@@ -548,7 +532,25 @@ return {
         end
       end
 
+      local cwd_for_eslint = helpers.cache.by_bufnr(function(params)
+        return utils.root_pattern(
+          ".eslintrc",
+          ".eslintrc.js",
+          ".eslintrc.cjs",
+          ".eslintrc.yaml",
+          ".eslintrc.yml",
+          ".eslintrc.json"
+        )(params.bufname)
+      end)
+
+      -- Search git root first instead of the parent dir of the file
+      local function find_on_gitdir_at_first()
+        local candidate = utils.path.join(utils.get_root(), "node_modules", ".bin")
+        return utils.is_executable(candidate) and candidate or command_resolver.from_node_modules(params)
+      end
+
       nls.setup {
+        --debug = true,
         diagnostics_format = "#{m} (#{s})",
         sources = {
           nls.builtins.code_actions.gitsigns,
@@ -578,15 +580,26 @@ return {
             },
           },
 
-          nls.builtins.diagnostics.eslint.with { runtime_condition = is_for_node(true) },
-
-          nls.builtins.formatting.eslint.with { runtime_condition = is_for_node(true) },
-
-          nls.builtins.formatting.deno_fmt.with { runtime_condition = is_for_node(false) },
-
-          nls.builtins.formatting.prettier.with {
-            disabled_filetypes = { "markdown" },
+          nls.builtins.diagnostics.eslint.with {
             runtime_condition = is_for_node(true),
+            cwd = cwd_for_eslint,
+            dynamic_command = find_on_gitdir_at_first,
+          },
+
+          nls.builtins.formatting.eslint.with {
+            runtime_condition = is_for_node(true),
+            cwd = cwd_for_eslint,
+            dynamic_command = find_on_gitdir_at_first,
+          },
+
+          nls.builtins.formatting.deno_fmt.with {
+            runtime_condition = function(params)
+              local clients = vim.lsp.get_active_clients { bufnr = params.bufnr }
+              local denols = vim.tbl_filter(function(c)
+                return c.config.name == "denols"
+              end, clients)
+              return #denols > 0 and true or false
+            end,
           },
 
           nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
