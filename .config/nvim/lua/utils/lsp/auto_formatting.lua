@@ -52,7 +52,7 @@ function AutoFormatting:enable()
     group = self.group,
     buffer = self.buffer,
     callback = function()
-      vim.lsp.buf.format { filter = self.filter }
+      vim.lsp.buf.format { filter = self.filter, timeout_ms = 5000 }
     end,
   })
 end
