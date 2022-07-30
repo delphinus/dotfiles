@@ -136,7 +136,11 @@ return {
     vim.keymap.set("n", "<Space>q", vim.diagnostic.setloclist, { buffer = bufnr })
 
     vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
-    vim.keymap.set("n", "1gD", vim.lsp.buf.type_definition, { buffer = bufnr })
+    vim.keymap.set("n", "<A-]>", vim.lsp.buf.type_definition, { buffer = bufnr })
+    vim.keymap.set("n", "<C-w><A-]>", function()
+      vim.cmd.split()
+      vim.lsp.buf.type_definition()
+    end, { buffer = bufnr })
     if vim.opt.filetype:get() ~= "help" then
       vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, { buffer = bufnr })
       vim.keymap.set("n", "<C-w><C-]>", function()
