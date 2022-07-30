@@ -476,7 +476,7 @@ return {
       end)
 
       -- Search git root first instead of the parent dir of the file
-      local function find_on_gitdir_at_first()
+      local function find_on_gitdir_at_first(params)
         local candidate = utils.path.join(utils.get_root(), "node_modules", ".bin")
         return utils.is_executable(candidate) and candidate or command_resolver.from_node_modules(params)
       end
