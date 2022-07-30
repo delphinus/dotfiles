@@ -1,5 +1,3 @@
-local fn, uv, api = require("core.utils").globals()
-
 return {
   nord = {
     ---@type fun()[]
@@ -15,6 +13,7 @@ return {
       end,
     },
     config = function()
+      local fn, uv, api = require("core.utils").globals()
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("nord_overrides", {}),
         pattern = "nord",
@@ -168,11 +167,13 @@ return {
   },
 
   context_vt = function()
+    local fn, uv, api = require("core.utils").globals()
     api.set_hl(0, "ContextVt", { fg = "#365f86" })
     require("nvim_context_vt").setup { highlight = "ContextVt" }
   end,
 
   gitsign = function()
+    local fn, uv, api = require("core.utils").globals()
     api.set_hl(0, "GitSignsAdd", { fg = "#a3be8c" })
     api.set_hl(0, "GitSignsChange", { fg = "#ebcb8b" })
     api.set_hl(0, "GitSignsDelete", { fg = "#bf616a" })
@@ -222,6 +223,7 @@ return {
   },
 
   virt_column = function()
+    local fn, uv, api = require("core.utils").globals()
     api.set_hl(0, "ColorColumn", { bg = "NONE" })
     api.set_hl(0, "VirtColumn", { fg = "#616e88" })
     require("virt-column").setup { char = "⡂" }
@@ -229,6 +231,7 @@ return {
 
   gitignore = {
     setup = function()
+      local fn, uv, api = require("core.utils").globals()
       api.create_autocmd({ "BufNewFile", "BufRead" }, {
         group = api.create_augroup("detect_other_ignores", {}),
         pattern = ".gcloudignore",
@@ -239,6 +242,7 @@ return {
 
   coffee_script = {
     setup = function()
+      local fn, uv, api = require("core.utils").globals()
       api.create_autocmd({ "BufNewFile", "BufRead" }, {
         group = api.create_augroup("detect_cson", {}),
         pattern = "*.cson",
@@ -254,6 +258,7 @@ return {
 
   committia = {
     setup = function()
+      local fn, uv, api = require("core.utils").globals()
       vim.g.committia_hooks = {
         edit_open = function(info)
           if info.vcs == "git" and fn.getline(1) == "" then
@@ -335,6 +340,7 @@ return {
   },
 
   hop = function()
+    local fn, uv, api = require("core.utils").globals()
     local hop = require "hop"
     hop.setup {
       keys = "hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB",
@@ -426,6 +432,7 @@ return {
       vim.keymap.set("n", "<Esc><Esc>", searchx "clear" ())
     end,
     config = function()
+      local fn, uv, api = require("core.utils").globals()
       vim.g.searchx = {
         -- Auto jump if the recent input matches to any marker.
         auto_accept = true,
@@ -551,6 +558,7 @@ return {
       vim.keymap.set({ "n", "t" }, "<A-ç>", toggle_fterm)
     end,
     config = function()
+      local fn, uv, api = require("core.utils").globals()
       api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
       api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
       api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })

@@ -1,5 +1,3 @@
-local fn, uv, api = require("core.utils").globals()
-
 return {
   --{'wbthomason/packer.nvim', opt = true},
   { "delphinus/packer.nvim", branch = "feature/denops", opt = true },
@@ -21,6 +19,7 @@ return {
       end,
     },
     config = function()
+      local fn, uv, api = require("core.utils").globals()
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("nord_overrides", {}),
         pattern = "nord",
@@ -184,6 +183,7 @@ return {
     "rhysd/ghpr-blame.vim",
     cmd = { "GHPRBlame" },
     config = function()
+      local fn, uv, api = require("core.utils").globals()
       local settings = uv.os_homedir() .. "/.ghpr-blame.vim"
       if fn.filereadable(settings) == 1 then
         vim.cmd.source(settings)
@@ -236,6 +236,7 @@ return {
     "vim-scripts/autodate.vim",
     cmd = { "Autodate", "AutodateOFF", "AutodateON" },
     setup = function()
+      local fn, uv, api = require("core.utils").globals()
       vim.g.autodate_format = "%FT%T%z"
       api.create_autocmd(
         { "BufUnload", "FileWritePre", "BufWritePre" },
@@ -266,6 +267,7 @@ return {
     "delphinus/dwm.nvim",
     event = { "VimEnter" },
     cond = function()
+      local fn, uv, api = require("core.utils").globals()
       -- Do not load when it is loading committia.vim
       local file = fn.expand "%"
       local not_to_load = { "COMMIT_EDITMSG", "MERGE_MSG" }
@@ -277,6 +279,7 @@ return {
       return true
     end,
     config = function()
+      local fn, uv, api = require("core.utils").globals()
       local dwm = require "dwm"
       dwm.setup {
         key_maps = false,
@@ -344,7 +347,7 @@ return {
     "itchyny/vim-parenmatch",
     event = { "FocusLost", "CursorHold" },
     setup = [[vim.g.loaded_matchparen = 1]],
-    config = [[fn['parenmatch#highlight']()]],
+    config = [[vim.fn['parenmatch#highlight']()]],
   },
 
   {
@@ -442,6 +445,7 @@ return {
     "gisphm/vim-gitignore",
     ft = { "gitignore" },
     setup = function()
+      local fn, uv, api = require("core.utils").globals()
       api.create_autocmd({ "BufNewFile", "BufRead" }, {
         group = api.create_augroup("detect_other_ignores", {}),
         pattern = ".gcloudignore",
@@ -460,6 +464,7 @@ return {
     "kchmck/vim-coffee-script",
     ft = { "coffee" },
     setup = function()
+      local fn, uv, api = require("core.utils").globals()
       api.create_autocmd({ "BufNewFile", "BufRead" }, {
         group = api.create_augroup("detect_cson", {}),
         pattern = "*.cson",

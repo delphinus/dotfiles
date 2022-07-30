@@ -5,6 +5,7 @@ return {
   end,
 
   notify = function()
+    local fn, uv, api = require("core.utils").globals()
     vim.opt.termguicolors = true
     local notify = require "notify"
     notify.setup {
@@ -34,6 +35,7 @@ return {
   end,
 
   visual_eof = function()
+    local fn, uv, api = require("core.utils").globals()
     api.create_autocmd("ColorScheme", {
       group = api.create_augroup("nord_visual_eof", {}),
       pattern = "nord",
