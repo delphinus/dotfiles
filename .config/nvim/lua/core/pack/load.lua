@@ -1,5 +1,4 @@
 local fn, uv, api = require("core.utils").globals()
-local config = require "modules.start.config"
 
 -- See https://github.com/wbthomason/dotfiles/blob/063850b4957a55c065f795722163efc88ffb1b42/neovim/.config/nvim/lua/plugins.lua
 local init = (function()
@@ -41,12 +40,9 @@ local init = (function()
 
     packer.use(require "modules.start")
     packer.use(require "modules.opt")
-    --packer.use(require "modules.cmp")
-    --packer.use(require "modules.lsp")
-    --packer.use(require "modules.telescope")
-    packer.use(require "packers.cmp")
-    packer.use(require "packers.lsp")
-    packer.use(require "packers.telescope")
+    packer.use(require "modules.cmp")
+    packer.use(require "modules.lsp")
+    packer.use(require "modules.telescope")
 
     return packer
   end

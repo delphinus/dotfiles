@@ -1,5 +1,3 @@
-local fn, uv, api = require("core.utils").globals()
-
 local function ts(plugin)
   plugin.event = { "BufNewFile", "BufRead" }
   plugin.wants = { "nvim-treesitter" }
