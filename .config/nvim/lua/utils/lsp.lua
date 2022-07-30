@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 local border = {
   { "⣀", "LspBorderTop" },
   { "⣀", "LspBorderTop" },

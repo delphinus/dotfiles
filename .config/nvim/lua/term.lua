@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 local group = api.create_augroup("terminal_command", {})
 local function terminal_autocmd(event)
   return function(cb)

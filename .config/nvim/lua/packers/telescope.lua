@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 local function o(plugin)
   plugin.opt = true
   return plugin
@@ -62,7 +64,7 @@ return {
         end
       end
       local path_display = function(_, path)
-        local home = "^" .. loop.os_homedir()
+        local home = "^" .. uv.os_homedir()
         local gh_dir = home .. "/git/github.com"
         local gh_e_dir = home .. "/git/" .. vim.g.gh_e_host
         local ghq_dir = home .. "/git"
@@ -86,7 +88,7 @@ return {
       end)
       vim.keymap.set("n", "<Leader>ff", function()
         -- TODO: stopgap measure
-        if loop.cwd() == loop.os_homedir() then
+        if uv.cwd() == uv.os_homedir() then
           api.echo({
             {
               "find_files on $HOME is danger. Launch file_browser instead.",
@@ -94,8 +96,8 @@ return {
             },
           }, true, {})
           extensions("file_browser", "file_browser") {} ()
-          -- TODO: use loop.fs_stat ?
-        elseif fn.isdirectory(loop.cwd() .. "/.git") == 1 then
+          -- TODO: use uv.fs_stat ?
+        elseif fn.isdirectory(uv.cwd() .. "/.git") == 1 then
           builtin "git_files" {} ()
         else
           builtin "find_files" { hidden = true } ()

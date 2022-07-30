@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 local function ts(plugin)
   plugin.event = { "BufNewFile", "BufRead" }
   plugin.wants = { "nvim-treesitter" }
@@ -125,7 +127,7 @@ return {
         capabilities = cmp_nvim_lsp.update_capabilities(orig)
       end
       local home_dir = function(p)
-        return loop.os_homedir() .. (p or "")
+        return uv.os_homedir() .. (p or "")
       end
       local iterm2_dir = function(p)
         return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
@@ -152,13 +154,13 @@ return {
         yamlls = {},
 
         perlnavigator = (function()
-          local fd, path = loop.fs_mkstemp(loop.os_tmpdir() .. "/perl.XXXXXX")
+          local fd, path = uv.fs_mkstemp(uv.os_tmpdir() .. "/perl.XXXXXX")
           if not fd then
             error "cannot do mkstemp"
           end
-          assert(loop.fs_write(fd, "#!/bin/bash\nperl -Ilib $@"))
-          assert(loop.fs_close(fd))
-          assert(loop.fs_chmod(path, 0x0755))
+          assert(uv.fs_write(fd, "#!/bin/bash\nperl -Ilib $@"))
+          assert(uv.fs_close(fd))
+          assert(uv.fs_chmod(path, 0x0755))
           return {
             settings = {
               perlnavigator = {
@@ -700,19 +702,19 @@ return {
     run = function()
       local dir = fn.stdpath "cache" .. "/lspconfig"
       do
-        local stat = loop.fs_stat(dir)
+        local stat = uv.fs_stat(dir)
         if not stat then
-          assert(loop.fs_mkdir(dir, 448))
+          assert(uv.fs_mkdir(dir, 448))
         end
       end
       local file = dir .. "/updated"
       local last_updated = 0
       do
-        local fd = loop.fs_open(file, "r", 438)
+        local fd = uv.fs_open(file, "r", 438)
         if fd then
-          local stat = loop.fs_fstat(fd)
-          local data = loop.fs_read(fd, stat.size, 0)
-          loop.fs_close(fd)
+          local stat = uv.fs_fstat(fd)
+          local data = uv.fs_read(fd, stat.size, 0)
+          uv.fs_close(fd)
           last_updated = tonumber(data) or 0
         end
       end
@@ -720,10 +722,10 @@ return {
       if now - last_updated > 24 * 3600 * 7 then
         local ok = pcall(require("utils.lsp").update_tools)
         if ok then
-          local fd = loop.fs_open(file, "w", 438)
+          local fd = uv.fs_open(file, "w", 438)
           if fd then
-            loop.fs_write(fd, now, -1)
-            loop.fs_close(fd)
+            uv.fs_write(fd, now, -1)
+            uv.fs_close(fd)
           else
             error("cannot open the file to write: " .. file)
           end

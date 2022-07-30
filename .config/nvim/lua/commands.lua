@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 -- http://cohama.hateblo.jp/entry/2013/08/11/020849
 local function get_syn(transparent)
   local synid = fn.synID(fn.line ".", fn.col ".", 1)

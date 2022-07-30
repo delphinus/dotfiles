@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 -- Encodings {{{
 vim.opt.fileencoding = "utf-8"
 if fn.has "gui_macvim" == 0 then
@@ -149,7 +151,7 @@ if vim.env.TMUX then
   ]]
 end
 vim.opt.title = true
-local home_re = loop.os_homedir():gsub("%.", "%.")
+local home_re = uv.os_homedir():gsub("%.", "%.")
 local package_root_re = (fn.stdpath "data" .. "/site/pack/packer/"):gsub("%.", "%.")
 local my_tabline_path = require "f_meta" {
   "my_tabline_path",
@@ -170,7 +172,7 @@ local my_tabline_path = require "f_meta" {
       filename = filename:gsub("^" .. home_re .. "/git/" .. vim.g.gh_e_host .. "/", "", 1)
     end
     local result =
-      filename:gsub("^" .. home_re .. "/git/github%.com/", "", 1):gsub("^" .. home_re, "~", 1):gsub("/[^/]+$", "", 1)
+    filename:gsub("^" .. home_re .. "/git/github%.com/", "", 1):gsub("^" .. home_re, "~", 1):gsub("/[^/]+$", "", 1)
     return #result <= 40 and result or "……" .. result:sub(-38, -1)
   end,
 }

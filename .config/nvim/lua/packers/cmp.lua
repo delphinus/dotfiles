@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 local function i(p)
   p.event = { "InsertEnter" }
   return p

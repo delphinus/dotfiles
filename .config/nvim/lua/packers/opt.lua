@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 return {
   --{'wbthomason/packer.nvim', opt = true},
   { "delphinus/packer.nvim", branch = "feature/denops", opt = true },
@@ -182,7 +184,7 @@ return {
     "rhysd/ghpr-blame.vim",
     cmd = { "GHPRBlame" },
     config = function()
-      local settings = loop.os_homedir() .. "/.ghpr-blame.vim"
+      local settings = uv.os_homedir() .. "/.ghpr-blame.vim"
       if fn.filereadable(settings) == 1 then
         vim.cmd.source(settings)
         -- TODO: mappings for VV
