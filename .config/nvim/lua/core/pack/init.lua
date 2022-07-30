@@ -42,7 +42,7 @@ api.create_user_command("PackerStatus", run_packer "status", {
 
 api.create_user_command("PackerSync", function()
   vim.notify "Sync started"
-  run_packer "sync" ()
+  run_packer "sync"()
 end, { desc = "[Packer] Sync plugins" })
 
 api.create_user_command("PackerCompile", function(opts)
@@ -53,18 +53,16 @@ api.create_user_command("PackerCompile", function(opts)
       vim.notify "Compile done"
     end,
   })
-  run_packer "compile" (opts.args)
+  run_packer "compile"(opts.args)
 end, { desc = "[Packer] Compile plugins", nargs = "*" })
 
 api.create_user_command("PackerLoad", function(opts)
   local args = vim.split(opts.args, " ")
   table.insert(args, opts.bang)
-  run_packer "loader" (unpack(opts))
+  run_packer "loader"(unpack(opts))
 end, {
   bang = true,
-  complete = function(lead)
-    return run_packer "loader_complete" (lead)
-  end,
+  complete = run_packer "loader_complete",
   desc = "[Packer] Load plugins",
   nargs = "+",
 })
