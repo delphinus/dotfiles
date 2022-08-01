@@ -1,50 +1,8 @@
-local function o(plugin)
-  plugin.opt = true
-  return plugin
-end
-
 return {
-  o { "delphinus/telescope-memo.nvim" },
-  o { "kyazdani42/nvim-web-devicons" },
-  o { "nvim-lua/popup.nvim" },
-  o { "nvim-telescope/telescope-file-browser.nvim" },
-  o { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-  o { "nvim-telescope/telescope-ghq.nvim" },
-  o { "nvim-telescope/telescope-github.nvim" },
-  o { "nvim-telescope/telescope-node-modules.nvim" },
-  o { "nvim-telescope/telescope-symbols.nvim" },
-  o { "nvim-telescope/telescope-ui-select.nvim" },
-  o { "nvim-telescope/telescope-z.nvim" },
-
-  o {
-    "nvim-telescope/telescope-smart-history.nvim",
-    requires = o { "tami5/sql.nvim" },
-    wants = { "sql.nvim" },
-  },
-
-  {
-    "nvim-telescope/telescope.nvim",
-    cmd = { "Telescope" },
-    module_pattern = { "telescope.*" },
-    requires = {
-      { "plenary.nvim" },
-    },
-    wants = {
-      "nvim-web-devicons",
-      "popup.nvim",
-      "telescope-file-browser.nvim",
-      "telescope-fzf-native.nvim",
-      "telescope-ghq.nvim",
-      "telescope-github.nvim",
-      "telescope-memo.nvim",
-      "telescope-node-modules.nvim",
-      "telescope-smart-history.nvim",
-      "telescope-symbols.nvim",
-      "telescope-ui-select.nvim",
-      "telescope-z.nvim",
-    },
-
+  telescope = {
     setup = function()
+      local fn, uv, api = require("core.utils").globals()
+      local keymap = vim.keymap
       local builtin = function(name)
         return function(opt)
           return function()
@@ -62,63 +20,63 @@ return {
         end
       end
       local path_display = function(_, path)
-        local home = "^" .. loop.os_homedir()
+        local home = "^" .. uv.os_homedir()
         local gh_dir = home .. "/git/github.com"
         local gh_e_dir = home .. "/git/" .. vim.g.gh_e_host
         local ghq_dir = home .. "/git"
         local packer_dir = home .. "/.local/share/nvim/site/pack/packer"
         return path
-            :gsub(gh_dir, "$GH")
-            :gsub(gh_e_dir, "$GH_E")
-            :gsub(ghq_dir, "$GIT")
-            :gsub(packer_dir, "$PACKER")
-            :gsub(home, "~")
+          :gsub(gh_dir, "$GH")
+          :gsub(gh_e_dir, "$GH_E")
+          :gsub(ghq_dir, "$GIT")
+          :gsub(packer_dir, "$PACKER")
+          :gsub(home, "~")
       end
 
       -- Lines
-      vim.keymap.set("n", "#", builtin "current_buffer_fuzzy_find" {})
+      keymap.set("n", "#", builtin "current_buffer_fuzzy_find" {})
 
       -- Files
-      vim.keymap.set("n", "<Leader>fB", builtin "buffers" {})
-      vim.keymap.set("n", "<Leader>fb", function()
+      keymap.set("n", "<Leader>fB", builtin "buffers" {})
+      keymap.set("n", "<Leader>fb", function()
         local cwd = fn.expand "%:h"
-        extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd } ()
+        extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd }()
       end)
-      vim.keymap.set("n", "<Leader>ff", function()
+      keymap.set("n", "<Leader>ff", function()
         -- TODO: stopgap measure
-        if loop.cwd() == loop.os_homedir() then
+        if uv.cwd() == uv.os_homedir() then
           api.echo({
             {
               "find_files on $HOME is danger. Launch file_browser instead.",
               "WarningMsg",
             },
           }, true, {})
-          extensions("file_browser", "file_browser") {} ()
-          -- TODO: use loop.fs_stat ?
-        elseif fn.isdirectory(loop.cwd() .. "/.git") == 1 then
-          builtin "git_files" {} ()
+          extensions("file_browser", "file_browser") {}()
+          -- TODO: use uv.fs_stat ?
+        elseif fn.isdirectory(uv.cwd() .. "/.git") == 1 then
+          builtin "git_files" {}()
         else
-          builtin "find_files" { hidden = true } ()
+          builtin "find_files" { hidden = true }()
         end
       end)
-      vim.keymap.set("n", "<Leader>fg", function()
+      keymap.set("n", "<Leader>fg", function()
         builtin "grep_string" {
           only_sort_text = true,
           search = fn.input "Grep For ❯ ",
-        } ()
+        }()
       end)
-      vim.keymap.set("n", "<Leader>f:", builtin "command_history" {})
-      vim.keymap.set("n", "<Leader>fG", builtin "grep_string" {})
-      vim.keymap.set("n", "<Leader>fH", builtin "help_tags" { lang = "en" })
-      vim.keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {})
-      vim.keymap.set("n", "<Leader>fh", builtin "help_tags" {})
-      vim.keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
-      vim.keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
-      vim.keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
-      vim.keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
-      vim.keymap.set("n", "<Leader>fq", extensions("ghq", "list") {})
-      vim.keymap.set("n", "<Leader>fr", builtin "resume" {})
-      vim.keymap.set("n", "<Leader>fz", function()
+      keymap.set("n", "<Leader>f:", builtin "command_history" {})
+      keymap.set("n", "<Leader>fG", builtin "grep_string" {})
+      keymap.set("n", "<Leader>fH", builtin "help_tags" { lang = "en" })
+      keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {})
+      keymap.set("n", "<Leader>fh", builtin "help_tags" {})
+      keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
+      keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
+      keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
+      keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
+      keymap.set("n", "<Leader>fq", extensions("ghq", "list") {})
+      keymap.set("n", "<Leader>fr", builtin "resume" {})
+      keymap.set("n", "<Leader>fz", function()
         extensions("z", "list") {
           previewer = require("telescope.previewers.term_previewer").new_termopen_previewer {
             get_command = function(entry)
@@ -138,42 +96,43 @@ return {
               end)
             end,
           },
-        } ()
+        }()
       end)
 
       -- Memo
-      vim.keymap.set("n", "<Leader>mm", extensions("memo", "list") {})
-      vim.keymap.set("n", "<Leader>mg", function()
+      keymap.set("n", "<Leader>mm", extensions("memo", "list") {})
+      keymap.set("n", "<Leader>mg", function()
         extensions("memo", "grep_string") {
           only_sort_text = true,
           search = fn.input "Memo Grep For ❯ ",
-        } ()
+        }()
       end)
 
       -- LSP
-      vim.keymap.set("n", "<Leader>sr", builtin "lsp_references" {})
-      vim.keymap.set("n", "<Leader>sd", builtin "lsp_document_symbols" {})
-      vim.keymap.set("n", "<Leader>sw", builtin "lsp_workspace_symbols" {})
-      vim.keymap.set("n", "<Leader>sc", builtin "lsp_code_actions" {})
+      keymap.set("n", "<Leader>sr", builtin "lsp_references" {})
+      keymap.set("n", "<Leader>sd", builtin "lsp_document_symbols" {})
+      keymap.set("n", "<Leader>sw", builtin "lsp_workspace_symbols" {})
+      keymap.set("n", "<Leader>sc", builtin "lsp_code_actions" {})
 
       -- Git
-      vim.keymap.set("n", "<Leader>gc", builtin "git_commits" {})
-      vim.keymap.set("n", "<Leader>gb", builtin "git_bcommits" {})
-      vim.keymap.set("n", "<Leader>gr", builtin "git_branches" {})
-      vim.keymap.set("n", "<Leader>gs", builtin "git_status" {})
+      keymap.set("n", "<Leader>gc", builtin "git_commits" {})
+      keymap.set("n", "<Leader>gb", builtin "git_bcommits" {})
+      keymap.set("n", "<Leader>gr", builtin "git_branches" {})
+      keymap.set("n", "<Leader>gs", builtin "git_status" {})
 
       -- Copied from telescope.nvim
-      vim.keymap.set(
+      keymap.set(
         "c",
         "<A-r>",
         [[<C-\>e ]]
-        .. [["lua require'telescope.builtin'.command_history{]]
-        .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
+          .. [["lua require'telescope.builtin'.command_history{]]
+          .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
         { silent = true }
       )
     end,
 
     config = function()
+      local fn, _, api = require("core.utils").globals()
       api.set_hl(0, "TelescopePromptBorder", { fg = "#88c0d0" })
       api.set_hl(0, "TelescopeResultsBorder", { fg = "#81a1c1" })
       api.set_hl(0, "TelescopePreviewBorder", { fg = "#a3be8c" })

@@ -1,34 +1,14 @@
-local function i(p)
-  p.event = { "InsertEnter" }
-  return p
-end
-
-local function c(p)
-  p.event = { "CmdlineEnter" }
-  return p
-end
-
 return {
-  {
-    "vim-skk/skkeleton",
-    keys = {
-      { "i", "<Plug>(skkeleton-enable)" },
-      { "i", "<Plug>(skkeleton-disable)" },
-      { "c", "<Plug>(skkeleton-enable)" },
-      { "c", "<Plug>(skkeleton-disable)" },
-      { "l", "<Plug>(skkeleton-enable)" },
-      { "l", "<Plug>(skkeleton-disable)" },
-    },
-    wants = {
-      "denops.vim",
-    },
-
+  skkeleton = {
     setup = function()
+      local fn, _, api = require("core.utils").globals()
+      local keymap = vim.keymap
+
       -- Use these mappings in Karabiner-Elements
-      vim.keymap.set({ "i", "c", "l" }, "<F10>", "<Plug>(skkeleton-disable)")
-      vim.keymap.set({ "i", "c", "l" }, "<F13>", "<Plug>(skkeleton-enable)")
-      vim.keymap.set({ "i", "c", "l" }, "<C-j>", "<Plug>(skkeleton-enable)")
-      vim.keymap.set("i", "<C-x><C-o>", function()
+      keymap.set({ "i", "c", "l" }, "<F10>", "<Plug>(skkeleton-disable)")
+      keymap.set({ "i", "c", "l" }, "<F13>", "<Plug>(skkeleton-enable)")
+      keymap.set({ "i", "c", "l" }, "<C-j>", "<Plug>(skkeleton-enable)")
+      keymap.set("i", "<C-x><C-o>", function()
         require("cmp").complete()
       end)
 
@@ -84,6 +64,8 @@ return {
     end,
 
     config = function()
+      local fn = vim.fn
+
       fn["skkeleton#config"] {
         globalJisyo = "~/Library/Application Support/AquaSKK/SKK-JISYO.L",
         userJisyo = "~/Library/Application Support/AquaSKK/skk-jisyo.utf8",
@@ -110,34 +92,28 @@ return {
         ["<s-q>"] = "henkanPoint",
       })
     end,
-
-    requires = {
-      i {
-        "delphinus/skkeleton_indicator.nvim",
-        setup = function()
-          api.create_autocmd("ColorScheme", {
-            group = api.create_augroup("skkeleton_indicator_nord", {}),
-            pattern = "nord",
-            callback = function()
-              api.set_hl(0, "SkkeletonIndicatorEiji", { fg = "#88c0d0", bg = "#2e3440", bold = true })
-              api.set_hl(0, "SkkeletonIndicatorHira", { fg = "#2e3440", bg = "#a3be8c", bold = true })
-              api.set_hl(0, "SkkeletonIndicatorKata", { fg = "#2e3440", bg = "#ebcb8b", bold = true })
-              api.set_hl(0, "SkkeletonIndicatorHankata", { fg = "#2e3440", bg = "#b48ead", bold = true })
-              api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = "#2e3440", bg = "#88c0d0", bold = true })
-            end,
-          })
-        end,
-        config = function()
-          require("skkeleton_indicator").setup()
-        end,
-      },
-    },
   },
 
-  {
-    "hrsh7th/nvim-cmp",
-    module = { "cmp" },
+  skkeleton_indicator = {
     setup = function()
+      local api = require("core.utils").api
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("skkeleton_indicator_nord", {}),
+        pattern = "nord",
+        callback = function()
+          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = "#88c0d0", bg = "#2e3440", bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHira", { fg = "#2e3440", bg = "#a3be8c", bold = true })
+          api.set_hl(0, "SkkeletonIndicatorKata", { fg = "#2e3440", bg = "#ebcb8b", bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = "#2e3440", bg = "#b48ead", bold = true })
+          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = "#2e3440", bg = "#88c0d0", bold = true })
+        end,
+      })
+    end,
+  },
+
+  cmp = {
+    setup = function()
+      local api = require("core.utils").api
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("cmp_nord", {}),
         pattern = "nord",
@@ -177,6 +153,7 @@ return {
     end,
 
     config = function()
+      local api = require("core.utils").api
       local ignore_duplicated_items = { ctags = true, buffer = true, tmux = true, rg = true, look = true }
 
       local lspkind_format = require("lspkind").cmp_format {
@@ -227,6 +204,9 @@ return {
       }
 
       local cmp = require "cmp"
+      if not cmp then
+        error "cannot load cmp"
+      end
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -284,37 +264,5 @@ return {
 
       require("cmp.utils.debug").flag = vim.env.CMP_DEBUG ~= nil
     end,
-
-    requires = {
-      { "hrsh7th/cmp-nvim-lua", ft = "lua" },
-      { "mtoohey31/cmp-fish", ft = "fish" },
-      { "onsails/lspkind-nvim", module = { "lspkind" } },
-
-      c { "hrsh7th/cmp-cmdline" },
-      c { "hrsh7th/cmp-path" },
-
-      i { "andersevenrud/cmp-tmux" },
-      i { "delphinus/cmp-ctags" },
-      i { "dmitmel/cmp-digraphs" },
-      i { "hrsh7th/cmp-buffer" },
-      i { "hrsh7th/cmp-emoji" },
-      i { "hrsh7th/cmp-nvim-lsp" },
-      i { "lukas-reineke/cmp-rg" },
-      i { "octaltree/cmp-look" },
-      i { "ray-x/cmp-treesitter" },
-      i { "rinx/cmp-skkeleton" },
-
-      i {
-        "dcampos/cmp-snippy",
-        requires = {
-          { "dcampos/nvim-snippy", module = { "snippy" } },
-          { "honza/vim-snippets", opt = true },
-        },
-        wants = { "vim-snippets" },
-        config = function()
-          require("snippy").setup {}
-        end,
-      },
-    },
   },
 }

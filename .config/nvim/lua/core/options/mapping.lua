@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 vim.opt.ttimeoutlen = 10
