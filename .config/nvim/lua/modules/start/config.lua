@@ -1,6 +1,6 @@
 return {
   notify = function()
-    local fn, uv, api = require("core.utils").globals()
+    local api = require("core.utils").api
     vim.opt.termguicolors = true
     local notify = require "notify"
     notify.setup {
@@ -15,22 +15,24 @@ return {
   end,
 
   fugitive = function()
-    vim.keymap.set("n", "git", [[<Cmd>Git<CR>]])
-    vim.keymap.set("n", "g<Space>", [[<Cmd>Git<CR>]])
-    vim.keymap.set("n", "d<", [[<Cmd>diffget //2<CR>]])
-    vim.keymap.set("n", "d>", [[<Cmd>diffget //3<CR>]])
-    vim.keymap.set("n", "gs", [[<Cmd>Gstatus<CR>]])
+    local keymap = vim.keymap
+    keymap.set("n", "git", [[<Cmd>Git<CR>]])
+    keymap.set("n", "g<Space>", [[<Cmd>Git<CR>]])
+    keymap.set("n", "d<", [[<Cmd>diffget //2<CR>]])
+    keymap.set("n", "d>", [[<Cmd>diffget //3<CR>]])
+    keymap.set("n", "gs", [[<Cmd>Gstatus<CR>]])
   end,
 
   unimpaired = function()
-    vim.keymap.set("n", "[w", [[<Cmd>colder<CR>]])
-    vim.keymap.set("n", "]w", [[<Cmd>cnewer<CR>]])
-    vim.keymap.set("n", "[O", [[<Cmd>lopen<CR>]])
-    vim.keymap.set("n", "]O", [[<Cmd>lclose<CR>]])
+    local keymap = vim.keymap
+    keymap.set("n", "[w", [[<Cmd>colder<CR>]])
+    keymap.set("n", "]w", [[<Cmd>cnewer<CR>]])
+    keymap.set("n", "[O", [[<Cmd>lopen<CR>]])
+    keymap.set("n", "]O", [[<Cmd>lclose<CR>]])
   end,
 
   visual_eof = function()
-    local fn, uv, api = require("core.utils").globals()
+    local api = require("core.utils").api
     api.create_autocmd("ColorScheme", {
       group = api.create_augroup("nord_visual_eof", {}),
       pattern = "nord",

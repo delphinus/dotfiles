@@ -2,18 +2,18 @@ return {
   lspconfig = function()
     local fn, uv, api = require("core.utils").globals()
     require("nvim-lsp-installer").setup {}
-    require("lsp_lines").setup {}
+    require("lsp_lines").setup()
     -- Use lsp_lines instead
     vim.diagnostic.config { virtual_text = false }
 
     local border = require("core.utils.lsp").border
 
     vim.cmd [[
-        sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
-        sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
-        sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
-        sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
-      ]]
+      sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
+      sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
+      sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
+      sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
+    ]]
     api.set_hl(0, "DiagnosticError", { fg = "#bf616a" })
     api.set_hl(0, "DiagnosticWarn", { fg = "#d08770" })
     api.set_hl(0, "DiagnosticInfo", { fg = "#b48ead" })
@@ -177,8 +177,8 @@ return {
             },
             workspace = {
               library = {
-                vim.fn.expand "$VIMRUNTIME/lua",
-                vim.fn.expand "$VIMRUNTIME/lua/vim",
+                fn.expand "$VIMRUNTIME/lua",
+                fn.expand "$VIMRUNTIME/lua/vim",
                 unpack(api.list_runtime_paths()),
               },
             },
@@ -201,7 +201,7 @@ return {
   end,
 
   ts_rainbow = function()
-    local fn, uv, api = require("core.utils").globals()
+    local api = require("core.utils").api
     api.set_hl(0, "rainbowcol1", { fg = "#bf616a" })
     api.set_hl(0, "rainbowcol2", { fg = "#d08770" })
     api.set_hl(0, "rainbowcol3", { fg = "#b48ead" })
@@ -212,7 +212,6 @@ return {
   end,
 
   treesitter = function()
-    local fn, uv, api = require("core.utils").globals()
     require("nvim-treesitter.configs").setup {
       highlight = {
         enable = true,
@@ -440,7 +439,6 @@ return {
 
   null_ls = {
     config = function()
-      local fn, uv, api = require("core.utils").globals()
       local nls = require "null-ls"
       local helpers = require "null-ls.helpers"
       local command_resolver = require "null-ls.helpers.command_resolver"
@@ -631,7 +629,7 @@ return {
     end,
 
     run = function()
-      local fn, uv, api = require("core.utils").globals()
+      local fn, uv = require("core.utils").globals()
       local dir = fn.stdpath "cache" .. "/lspconfig"
       do
         local stat = uv.fs_stat(dir)

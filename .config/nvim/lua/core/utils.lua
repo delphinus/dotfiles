@@ -24,4 +24,5 @@ return {
     _G.uv = uv
     _G.api = api
   end,
+  api = api_tbl,
 }
