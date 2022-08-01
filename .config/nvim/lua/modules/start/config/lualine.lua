@@ -13,9 +13,7 @@ return function()
     vim.loop.new_timer():start(
       0, -- never timeout
       500, -- repeat every 500 ms
-      vim.schedule_wrap(function()
-        vim.cmd.redrawtabline()
-      end)
+      vim.schedule_wrap(vim.cmd.redrawtabline)
     )
 
     require("lualine").setup {
