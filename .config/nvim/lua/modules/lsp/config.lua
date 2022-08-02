@@ -663,4 +663,12 @@ return {
       end
     end,
   },
+
+  treehopper = {
+    setup = function()
+      local keymap = vim.keymap
+      keymap.set("o", [['t]], [[:<C-u>lua require'tsht'.nodes()<CR>]], { remap = true })
+      keymap.set("x", [['t]], [[:lua require'tsht'.nodes()<CR>]])
+    end,
+  },
 }

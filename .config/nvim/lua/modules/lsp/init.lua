@@ -59,6 +59,12 @@ return {
     end,
   },
 
+  ts {
+    "mfussenegger/nvim-treehopper",
+    modules = { "tsht" },
+    setup = config.treehopper.setup,
+  },
+
   ts { "nvim-treesitter/nvim-treesitter-refactor" },
   ts { "nvim-treesitter/nvim-treesitter-textobjects" },
   ts { "nvim-treesitter/playground" },
