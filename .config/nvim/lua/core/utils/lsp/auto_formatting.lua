@@ -1,4 +1,4 @@
-local fn, uv, api = require("core.utils").globals()
+local api = require("core.utils").api
 
 local AutoFormatting = {
   instances = {},
