@@ -2,7 +2,8 @@ not status is-interactive; and exit 0
 
 set -l homebrew_path
 if test -d /opt/homebrew
-    /opt/homebrew/bin/brew shellenv | source
+    # avoid the homebrew bin path to set above all of paths
+    /opt/homebrew/bin/brew shellenv | grep -v 'set PATH' | source
     set homebrew_path /opt/homebrew
 else
     set homebrew_path /usr/local
