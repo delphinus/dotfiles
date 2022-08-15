@@ -224,7 +224,7 @@ return {
           { name = "nvim_lsp" },
           { name = "nvim_lua" },
           { name = "ctags" },
-          { name = "treesitter", trigger_characters = { "." } },
+          { name = "treesitter", trigger_characters = { "." }, option = {} },
           { name = "fish" },
           { name = "digraphs" },
           { name = "snippy" },
