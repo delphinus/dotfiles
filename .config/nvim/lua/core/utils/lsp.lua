@@ -170,11 +170,13 @@ return {
       local auto_formatting = require("core.utils.lsp.auto_formatting").set(bufnr, {
         filter = function(c)
           local root_dir = c.config.root_dir
-          for _, re in ipairs(ignore_paths) do
-            local m = root_dir:match(re)
-            if m then
-              vim.notify("[auto_formatting] this project ignored: " .. m, vim.log.levels.DEBUG)
-              return false
+          if root_dir then
+            for _, re in ipairs(ignore_paths) do
+              local m = root_dir:match(re)
+              if m then
+                vim.notify("[auto_formatting] this project ignored: " .. m, vim.log.levels.DEBUG)
+                return false
+              end
             end
           end
           return c.name ~= "tsserver"
