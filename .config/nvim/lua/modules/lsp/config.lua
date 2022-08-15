@@ -162,6 +162,7 @@ return {
         },
       },
 
+      --[[
       sumneko_lua = {
         settings = {
           Lua = {
@@ -191,6 +192,9 @@ return {
           config.settings.Lua.workspace.library = api.get_runtime_file("", true)
         end,
       },
+      ]]
+
+      sumneko_lua = require("lua-dev").setup {},
     } do
       if capabilities then
         config.capabilities = capabilities

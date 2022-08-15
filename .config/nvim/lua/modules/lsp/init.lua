@@ -7,6 +7,8 @@ local function ts(plugin)
 end
 
 return {
+  { "folke/lua-dev.nvim", opt = true },
+
   { -- {{{ nvim-lspconfig
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     module = { "lsp_lines" },
@@ -40,6 +42,7 @@ return {
       "yaml",
     },
     wants = {
+      "lua-dev.nvim",
       "nvim-lsp-installer",
       -- needs these plugins to setup capabilities
       "cmp-nvim-lsp",
