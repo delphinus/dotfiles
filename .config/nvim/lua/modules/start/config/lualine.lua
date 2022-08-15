@@ -114,7 +114,7 @@ return function()
         lualine_x = { { self:char_info(), fmt = self:tr { 80, 0 } } },
         lualine_y = {
           { "encoding", fmt = self:tr { 90, 0 } },
-          { "fileformat", padding = { right = 2 }, fmt = self:tr { 90, 0 } },
+          { "fileformat", padding = { left = 0 }, fmt = self:tr { 90, 0 } },
         },
         lualine_z = {},
       },
