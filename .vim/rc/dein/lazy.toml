@@ -182,7 +182,7 @@ repo     = 'npxbr/glow.nvim'
 if       = 'has("nvim")'
 on_cmd   = ['Glow', 'GlowInstall']
 hook_add = 'nmap <Leader>p :Glow<CR>'
-hook_post_update = 'GlowInstall'
+#hook_post_update = 'GlowInstall'
 
 [[plugins]]
 repo   = 'powerman/vim-plugin-AnsiEsc'
@@ -454,11 +454,11 @@ hook_add = ''' "{{{
         \ '<default>': 'v'
         \ }
 "}}} '''
-hook_post_update = '''
-  !gem install --user-install rubocop solargraph
-  !npm install -g eslint tslint typescript prettier vue-language-server
-  !pip3 install -U --user black git+https://github.com/Vimjas/vint
-'''
+#hook_post_update = '''
+#  !gem install --user-install rubocop solargraph
+#  !npm install -g eslint tslint typescript prettier vue-language-server
+#  !pip3 install -U --user black git+https://github.com/Vimjas/vint
+#'''
 # }}}
 
 [[plugins]]

@@ -345,13 +345,13 @@ on_source = ['denite.nvim']
 # has no starting point to source.
 [[plugins]]
 repo = 'liuchengxu/vim-clap'
-hook_post_update = ''' "{{{
-  if executable('cargo')
-    !bash -c 'cd pythonx/clap && make build'
-  else
-    call dein#util#_error('Need the cargo executable for vim-clap')
-  endif
-"}}} '''
+#hook_post_update = ''' "{{{
+#  if executable('cargo')
+#    !bash -c 'cd pythonx/clap && make build'
+#  else
+#    call dein#util#_error('Need the cargo executable for vim-clap')
+#  endif
+#"}}} '''
 
 [[plugins]]
 #repo      = 'neoclide/denite-git'

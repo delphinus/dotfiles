@@ -59,7 +59,7 @@ hook_post_source = ''' "{{{
   inoremap <expr> <A-b> pumvisible() ? deoplete#insert_candidate(4) : "\<A-b>"
   call deoplete#initialize()
 "}}} '''
-hook_post_update = '!pip3 install -U --user neovim'
+#hook_post_update = '!pip3 install -U --user neovim'
 
 [[plugins]]
 repo      = 'Shougo/deoplete-lsp'
