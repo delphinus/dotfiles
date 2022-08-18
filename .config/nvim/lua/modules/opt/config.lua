@@ -234,7 +234,13 @@ return {
     local api = require("core.utils").api
     api.set_hl(0, "ColorColumn", { bg = "NONE" })
     api.set_hl(0, "VirtColumn", { fg = "#616e88" })
-    require("virt-column").setup { char = "⡂" }
+    local vt = require "virt-column"
+    vt.setup { char = "⡂" }
+    api.create_autocmd("TermEnter", {
+      callback = function()
+        vt.clear_buf(0)
+      end,
+    })
   end,
 
   gitignore = {
