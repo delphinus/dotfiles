@@ -261,6 +261,11 @@ return {
                 ["y"] = fb_actions.copy,
               },
             },
+            theme = "ivy",
+            hijack_netrw = true,
+            dir_icon = "",
+            dir_icon_hl = "Directory",
+            path_display = { "shorten", "smart" },
           },
           fzf = {
             fuzzy = true,
