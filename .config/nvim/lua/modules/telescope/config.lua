@@ -267,6 +267,11 @@ return {
             dir_icon_hl = "Directory",
             icon_width = 2,
             path_display = { "shorten", "smart" },
+            layout_config = {
+              height = function(_, _, max_lines)
+                return math.max(math.floor(max_lines / 2), 5)
+              end,
+            },
           },
           fzf = {
             fuzzy = true,
