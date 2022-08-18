@@ -137,9 +137,6 @@ vim.opt.showbreak = [[→]]
 vim.opt.smartindent = true
 -- }}}
 
--- Mouse
-vim.opt.mouse = "a"
-
 -- ColorScheme {{{
 vim.opt.termguicolors = true
 vim.cmd.syntax "enable"
