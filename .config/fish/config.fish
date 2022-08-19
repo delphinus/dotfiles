@@ -6,6 +6,7 @@ if test -d /opt/homebrew
     /opt/homebrew/bin/brew shellenv | grep -v 'set PATH' | source
     set homebrew_path /opt/homebrew
 else
+    set -x HOMEBREW_PREFIX /usr/local
     set homebrew_path /usr/local
 end
 
