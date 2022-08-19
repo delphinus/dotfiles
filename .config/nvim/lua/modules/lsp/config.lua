@@ -8,12 +8,10 @@ return {
 
     local border = require("core.utils.lsp").border
 
-    vim.cmd [[
-      sign define LspDiagnosticsSignError text=● texthl=LspDiagnosticsDefaultError linehl= numhl=
-      sign define LspDiagnosticsSignWarning text=○ texthl=LspDiagnosticsDefaultWarning linehl= numhl=
-      sign define LspDiagnosticsSignInformation text=■ texthl=LspDiagnosticsDefaultInformation linehl= numhl=
-      sign define LspDiagnosticsSignHint text=□ texthl=LspDiagnosticsDefaultHint linehl= numhl=
-    ]]
+    fn.sign_define("DiagnosticSignError", { texthl = "DiagnosticSignError", text = "●" })
+    fn.sign_define("DiagnosticSignWarn", { texthl = "DiagnosticSignWarn", text = "○" })
+    fn.sign_define("DiagnosticSignInfo", { texthl = "DiagnosticSignInfo", text = "■" })
+    fn.sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", text = "□" })
     api.set_hl(0, "DiagnosticError", { fg = "#bf616a" })
     api.set_hl(0, "DiagnosticWarn", { fg = "#d08770" })
     api.set_hl(0, "DiagnosticInfo", { fg = "#b48ead" })
