@@ -307,6 +307,6 @@ end
 
 -- TODO: for nvim-treesitter
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1515
-vim.env.CC = "gcc-11"
+--vim.env.CC = "gcc-11"
 
 -- vim:se fdm=marker:
