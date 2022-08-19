@@ -1,7 +1,7 @@
 return {
   lspconfig = function()
     local fn, uv, api = require("core.utils").globals()
-    require("nvim-lsp-installer").setup {}
+    require("mason").setup {}
     require("lsp_lines").setup()
     -- Use lsp_lines instead
     vim.diagnostic.config { virtual_text = false }
@@ -86,7 +86,7 @@ return {
       return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
     end
 
-    for name, config in pairs {
+    local server_configs = {
       clangd = {},
       cssls = {},
       dockerls = {},
@@ -193,13 +193,18 @@ return {
       ]]
 
       sumneko_lua = require("lua-dev").setup {},
-    } do
-      if capabilities then
-        config.capabilities = capabilities
-      end
-      config.on_attach = require("core.utils.lsp").on_attach
-      lsp[name].setup(config)
-    end
+    }
+
+    require("mason-lspconfig").setup_handlers {
+      function(name)
+        local config = server_configs[name] or {}
+        if capabilities then
+          config.capabilities = capabilities
+        end
+        config.on_attach = require("core.utils.lsp").on_attach
+        lsp[name].setup(config)
+      end,
+    }
   end,
 
   ts_rainbow = function()

@@ -43,7 +43,8 @@ return {
     },
     wants = {
       "lua-dev.nvim",
-      "nvim-lsp-installer",
+      "mason.nvim",
+      "mason-lspconfig.nvim",
       -- needs these plugins to setup capabilities
       "cmp-nvim-lsp",
     },
@@ -51,8 +52,13 @@ return {
   },
 
   {
-    "williamboman/nvim-lsp-installer",
-    module = { "nvim-lsp-installer" },
+    "williamboman/mason.nvim",
+    module = { "mason" },
+  },
+
+  {
+    "williamboman/mason-lspconfig.nvim",
+    module = { "mason-lspconfig" },
   }, -- }}}
 
   ts {
