@@ -225,29 +225,12 @@ return {
       "ansible-lint",
       "checkmake",
       "coursier",
-      "mypy",
-      "shellcheck",
-      "shfmt",
-      "stylua",
-      "vint",
-      "yamllint",
     }
 
     local jobs = {
       new_job("cpanm", { "App::efm_perl" }),
       new_job("brew", { "install", unpack(formulae) }, new_job("brew", { "upgrade", unpack(formulae) })),
-      new_job("gem", { "install", "--user-install", "rubocop" }),
-      new_job(
-        "luarocks",
-        { "install", "luacheck" },
-        new_job("luarocks", { "install", "--dev", "teal-language-server" })
-      ),
-      new_job(
-        "go",
-        { "install", "github.com/segmentio/golines@latest" },
-        new_job("go", { "install", "mvdan.cc/gofumpt@latest" })
-      ),
-      new_job("npm", { "install", "-g", "textlint", "textlint-rule-preset-ja-spacing" }),
+      new_job("npm", { "install", "-g", "textlint-rule-preset-ja-spacing" }),
     }
 
     notify("update_tools: start", vim.log.levels.INFO)
