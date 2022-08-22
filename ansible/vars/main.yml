@@ -1,84 +1,78 @@
----
-homebrew_packages_taps:
-  - caskroom/cask
-  - caskroom/versions
-  - delphinus/mosh
-  - homebrew/binary
-  - peco/peco
-  - sanemat/font
-
-homebrew_packages_packages:
-  - { name: ag }
-  - { name: brew-cask }
-  - { name: coreutils }
-  - { name: dtach }
-  - { name: git }
-  - { name: git-flow }
-  - { name: htop-osx }
-  - { name: ipcalc }
-  - { name: jq }
-  - { name: lftp }
-  - { name: lua }
-  - { name: lv }
-  - { name: mysql }
-  - { name: node }
-  - { name: peco }
-  - { name: perl-build }
-  - { name: plenv }
-  - { name: pstree }
-  - { name: pt }
-  - { name: pyenv }
-  - { name: rbenv }
-  - { name: reattach-to-user-namespace }
-  - { name: ruby-build }
-  - { name: ssh-copy-id }
-  - { name: sshuttle }
-  - { name: terminal-notifier }
-  - { name: tig }
-  - { name: tmux }
-  - { name: vimpager }
-  - { name: z }
-
-  # for powerline
-  - { name: automake }
-  - { name: libgit2 }
-  - { name: libtool }
-  - { name: libuv }
-  - { name: zpython }
-
-homebrew_cask_packages_packages:
-  - 1password
-  - appcleaner
-  - bartender
-  - bettertouchtool
-  - contexts
-  - cyberduck
-  - dropbox
-  - firefox
-  #- flash-player
-  - flux
-  - freemind
-  - github
-  - google-chrome
-  - ibettercharge
-  - iterm2
-  - istat-menus
-  - lastfm
-  - mailbox
-  - vlc
-
-ruby_version: 2.3.0
-perl_version: 5.22.0
-cache_dir:    ~/Library/Caches/Ansible
-fonts_dir:    ~/Library/Fonts
+cache_dir: ~/Library/Caches/Ansible
 dotfiles_dir: ~/git/dotfiles
+fonts_dir: ~/Library/Fonts
+homebrew_cask_packages_packages:
+- 1password
+- appcleaner
+- bartender
+- bettertouchtool
+- contexts
+- cyberduck
+- dropbox
+- firefox
+- flux
+- freemind
+- github
+- google-chrome
+- ibettercharge
+- iterm2
+- istat-menus
+- lastfm
+- mailbox
+- vlc
+homebrew_packages_packages:
+- name: ag
+- name: brew-cask
+- name: coreutils
+- name: dtach
+- name: git
+- name: git-flow
+- name: htop-osx
+- name: ipcalc
+- name: jq
+- name: lftp
+- name: lua
+- name: lv
+- name: mysql
+- name: node
+- name: peco
+- name: perl-build
+- name: plenv
+- name: pstree
+- name: pt
+- name: pyenv
+- name: rbenv
+- name: reattach-to-user-namespace
+- name: ruby-build
+- name: ssh-copy-id
+- name: sshuttle
+- name: terminal-notifier
+- name: tig
+- name: tmux
+- name: vimpager
+- name: z
+- name: automake
+- name: libgit2
+- name: libtool
+- name: libuv
+- name: zpython
+homebrew_packages_taps:
+- caskroom/cask
+- caskroom/versions
+- delphinus/mosh
+- homebrew/binary
+- peco/peco
+- sanemat/font
+perl_version: 5.22.0
 python_modules:
-  - psutil
-  - pyuv
-  - vim-vint
-  - git+https://github.com/powerline/powerline
-  - git+https://github.com/delphinus/powerlinex-segment-rbenv
-  - git+https://github.com/omega/powerlinex-segment-plenv
+- psutil
+- pyuv
+- vim-vint
+- git+https://github.com/powerline/powerline
+- git+https://github.com/delphinus/powerlinex-segment-rbenv
+- git+https://github.com/omega/powerlinex-segment-plenv
 python_modules_with_compiling:
-  - pygit2
-task_rc_dir: '{{ "/usr/local/opt/task/share/doc/task/rc" if ansible_system == "Darwin" else "/usr/local/share/doc/task/rc" }}'
+- pygit2
+ruby_version: 2.3.0
+task_rc_dir: '{{ "/usr/local/opt/task/share/doc/task/rc" if ansible_system == "Darwin"
+  else "/usr/local/share/doc/task/rc" }}'
