@@ -396,6 +396,7 @@ return {
           nls.builtins.formatting.golines,
           nls.builtins.formatting.rubocop,
           nls.builtins.formatting.stylua,
+          --nls.builtins.formatting.yamlfmt,
           nls.builtins.hover.dictionary,
 
           nls.builtins.diagnostics.luacheck.with {
