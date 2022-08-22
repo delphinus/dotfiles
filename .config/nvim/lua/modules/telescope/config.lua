@@ -187,7 +187,9 @@ return {
             },
             n = {
               ["<C-a>"] = run_in_dir "find_files",
+              ["<C-b>"] = actions.results_scrolling_up,
               ["<C-c>"] = actions.close,
+              ["<C-f>"] = actions.results_scrolling_down,
               ["<C-g>"] = run_in_dir "live_grep",
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
