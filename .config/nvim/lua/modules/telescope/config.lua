@@ -282,9 +282,6 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case",
           },
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown {},
-          },
         },
       }
       telescope.load_extension "file_browser"
@@ -295,10 +292,10 @@ return {
       telescope.load_extension "smart_history"
       -- This is needed to setup projects.nvim
       telescope.load_extension "projects"
-      -- This is needed to setup telescope-ui-select
-      telescope.load_extension "ui-select"
       -- This is needed to setup vim-notify
       telescope.load_extension "notify"
+
+      require("dressing").setup {}
     end,
   },
 }

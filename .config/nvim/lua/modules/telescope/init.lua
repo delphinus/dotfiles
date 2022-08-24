@@ -14,8 +14,8 @@ return {
   o { "nvim-telescope/telescope-github.nvim" },
   o { "nvim-telescope/telescope-node-modules.nvim" },
   o { "nvim-telescope/telescope-symbols.nvim" },
-  o { "nvim-telescope/telescope-ui-select.nvim" },
   o { "nvim-telescope/telescope-z.nvim" },
+  o { "stevearc/dressing.nvim" },
 
   o {
     "nvim-telescope/telescope-smart-history.nvim",
@@ -31,6 +31,7 @@ return {
       { "plenary.nvim" },
     },
     wants = {
+      "dressing.nvim",
       "nvim-web-devicons",
       "popup.nvim",
       "telescope-file-browser.nvim",
@@ -41,7 +42,6 @@ return {
       "telescope-node-modules.nvim",
       "telescope-smart-history.nvim",
       "telescope-symbols.nvim",
-      "telescope-ui-select.nvim",
       "telescope-z.nvim",
     },
     setup = config.telescope.setup,
