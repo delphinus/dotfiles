@@ -397,6 +397,7 @@ return {
           nls.builtins.formatting.rubocop,
           nls.builtins.formatting.stylua,
           --nls.builtins.formatting.yamlfmt,
+          nls.builtins.formatting.textlint,
           nls.builtins.hover.dictionary,
 
           nls.builtins.diagnostics.luacheck.with {
@@ -431,19 +432,6 @@ return {
           nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
 
           nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
-
-          helpers.make_builtin {
-            name = "textlint_formatting",
-            meta = { url = "https://example.com", description = "TODO" },
-            method = methods.internal.FORMATTING,
-            filetypes = { "markdown" },
-            generator_opts = {
-              command = "textlint",
-              args = { "--fix", "$FILENAME" },
-              to_temp_file = true,
-            },
-            factory = helpers.formatter_factory,
-          },
 
           --[[
           helpers.make_builtin {
