@@ -59,16 +59,24 @@ return {
           builtin "find_files" { hidden = true }()
         end
       end)
-      keymap.set("n", "<Leader>fg", function()
-        builtin "grep_string" {
-          only_sort_text = true,
-          search = fn.input "Grep For ❯ ",
-        }()
-      end)
+
+      local function input_grep_string(prompt, func)
+        return function()
+          vim.ui.input({ prompt = prompt }, function(input)
+            if input then
+              func { only_sort_text = true, search = input }()
+            else
+              vim.notify "cancelled"
+            end
+          end)
+        end
+      end
+
       keymap.set("n", "<Leader>f:", builtin "command_history" {})
       keymap.set("n", "<Leader>fG", builtin "grep_string" {})
       keymap.set("n", "<Leader>fH", builtin "help_tags" { lang = "en" })
       keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {})
+      keymap.set("n", "<Leader>fg", input_grep_string("Grep For ❯ ", builtin "grep_string"))
       keymap.set("n", "<Leader>fh", builtin "help_tags" {})
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
       keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
@@ -101,12 +109,7 @@ return {
 
       -- Memo
       keymap.set("n", "<Leader>mm", extensions("memo", "list") {})
-      keymap.set("n", "<Leader>mg", function()
-        extensions("memo", "grep_string") {
-          only_sort_text = true,
-          search = fn.input "Memo Grep For ❯ ",
-        }()
-      end)
+      keymap.set("n", "<Leader>mg", input_grep_string("Memo Grep For ❯ ", extensions("memo", "grep_string")))
 
       -- LSP
       keymap.set("n", "<Leader>sr", builtin "lsp_references" {})
