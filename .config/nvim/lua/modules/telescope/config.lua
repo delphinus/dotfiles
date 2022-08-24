@@ -186,6 +186,7 @@ return {
               end,
             },
             n = {
+              ["<Space>"] = actions.toggle_selection,
               ["<C-a>"] = run_in_dir "find_files",
               ["<C-b>"] = actions.results_scrolling_up,
               ["<C-c>"] = actions.close,
