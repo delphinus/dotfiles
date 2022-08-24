@@ -57,4 +57,8 @@ return {
       end,
     }
   end,
+
+  cellwidths = function()
+    require("cellwidths").setup { name = "empty" }
+  end,
 }

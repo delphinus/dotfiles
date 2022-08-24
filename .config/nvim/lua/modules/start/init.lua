@@ -95,7 +95,7 @@ return {
     config = config.visual_eof,
   },
 
-  { "delphinus/cellwidths.nvim", branch = "feature/first-implementation" },
+  { "delphinus/cellwidths.nvim", config = config.cellwidths },
 
   { "folke/todo-comments.nvim" },
   -- }}}
