@@ -1,7 +1,9 @@
 return {
   lspconfig = function()
     local fn, uv, api = require("core.utils").globals()
-    require("mason").setup {}
+    require("mason").setup {
+      max_concurrent_installers = 12,
+    }
     require("lsp_lines").setup()
     -- Use lsp_lines instead
     vim.diagnostic.config { virtual_text = false }
