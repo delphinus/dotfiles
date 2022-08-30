@@ -84,6 +84,18 @@ return {
       keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
       keymap.set("n", "<Leader>fq", extensions("ghq", "list") {})
       keymap.set("n", "<Leader>fr", builtin "resume" {})
+
+      keymap.set(
+        "n",
+        "<Leader>fv",
+        extensions("file_browser", "file_browser") {
+          add_dirs = false,
+          depth = false,
+          hide_parent_dir = true,
+          path = "$VIMRUNTIME",
+        }
+      )
+
       keymap.set("n", "<Leader>fz", function()
         extensions("z", "list") {
           previewer = require("telescope.previewers.term_previewer").new_termopen_previewer {
