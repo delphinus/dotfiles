@@ -24,7 +24,7 @@ return {
     api.set_hl(0, "DiagnosticUnderlineHint", { sp = "#4c566a", undercurl = true })
 
     api.create_user_command("ShowLSPSettings", function()
-      print(vim.inspect(vim.lsp.buf_get_clients()))
+      print(vim.inspect(vim.lsp.get_active_clients()))
     end, { desc = "Show LSP settings" })
 
     api.create_user_command("ReloadLSPSettings", function()
