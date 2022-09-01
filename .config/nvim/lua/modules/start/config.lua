@@ -60,6 +60,14 @@ return {
 
   cellwidths = {
     config = function()
+      --[[
+      local function measure(name, f)
+        local s = os.clock()
+        f()
+        vim.notify(("%s took %f ms"):format(name, (os.clock() - s) * 1000))
+      end
+      ]]
+
       vim.opt.listchars = {
         tab = "▓░",
         trail = "↔",
