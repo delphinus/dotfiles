@@ -95,7 +95,11 @@ return {
     config = config.visual_eof,
   },
 
-  { "delphinus/cellwidths.nvim", config = config.cellwidths },
+  {
+    "delphinus/cellwidths.nvim",
+    config = config.cellwidths.config,
+    run = config.cellwidths.run,
+  },
 
   { "folke/todo-comments.nvim" },
   -- }}}
