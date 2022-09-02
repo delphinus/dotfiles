@@ -111,6 +111,10 @@ return {
     end,
   },
 
+  luasnip = function()
+    require("luasnip.loaders.from_vscode").lazy_load()
+  end,
+
   cmp = {
     setup = function()
       local api = require("core.utils").api
@@ -170,7 +174,7 @@ return {
           nvim_lua = "[LU]",
           path = "[P]",
           rg = "[R]",
-          snippy = "[S]",
+          luasnip = "[S]",
           tmux = "[T]",
           treesitter = "[TS]",
         },
@@ -204,21 +208,54 @@ return {
       }
 
       local cmp = require "cmp"
+      local luasnip = require "luasnip"
       if not cmp then
         error "cannot load cmp"
       end
       cmp.setup {
         snippet = {
           expand = function(args)
-            require("snippy").expand_snippet(args.body)
+            require("luasnip").lsp_expand(args.body)
           end,
         },
         mapping = {
+          ["<CR>"] = cmp.mapping.confirm { select = true },
           ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
           ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
           ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
           ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
           ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
+          ["<C-f>"] = cmp.mapping(function(fallback)
+            if luasnip.jumpable(1) then
+              luasnip.jump(1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<C-b>"] = cmp.mapping(function(fallback)
+            if luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            local col = fn.col "." - 1
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif col == 0 or fn.getline("."):sub(col, col):match "%s" then
+              fallback()
+            else
+              cmp.complete()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
         },
         sources = {
           { name = "nvim_lsp" },
@@ -227,7 +264,7 @@ return {
           { name = "treesitter", trigger_characters = { "." }, option = {} },
           { name = "fish" },
           { name = "digraphs" },
-          { name = "snippy" },
+          { name = "luasnip" },
           { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
           {
             name = "buffer",

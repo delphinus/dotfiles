@@ -64,15 +64,17 @@ return {
       i { "rinx/cmp-skkeleton" },
 
       i {
-        "dcampos/cmp-snippy",
+        "saadparwaiz1/cmp_luasnip",
         requires = {
-          { "dcampos/nvim-snippy", module = { "snippy" } },
-          { "honza/vim-snippets", opt = true },
+          {
+            "L3MON4D3/LuaSnip",
+            module = { "luasnip" },
+            requires = {
+              { "rafamadriz/friendly-snippets" },
+            },
+            config = config.luasnip,
+          },
         },
-        wants = { "vim-snippets" },
-        config = function()
-          require("snippy").setup {}
-        end,
       },
     },
   },
