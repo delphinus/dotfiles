@@ -330,6 +330,9 @@ return {
       rainbow = {
         enable = true,
       },
+      endwise = {
+        enable = true,
+      },
     }
     vim.keymap.set("n", "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
   end,

@@ -61,6 +61,8 @@ return {
     module = { "mason-lspconfig" },
   }, -- }}}
 
+  ts { "RRethy/nvim-treesitter-endwise" },
+
   ts {
     "m-demare/hlargs.nvim",
     config = function()

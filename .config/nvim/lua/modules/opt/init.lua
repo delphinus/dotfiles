@@ -268,28 +268,6 @@ return {
   { "rhysd/committia.vim", ft = { "gitcommit" }, setup = config.committia.setup },
   { "rust-lang/rust.vim", ft = { "rust" } },
   { "teal-language/vim-teal", ft = { "teal" } },
-
-  {
-    "tpope/vim-endwise",
-    ft = {
-      "lua",
-      "elixir",
-      "ruby",
-      "crystal",
-      "sh",
-      "zsh",
-      "vb",
-      "vbnet",
-      "aspvbs",
-      "vim",
-      "c",
-      "cpp",
-      "xdefaults",
-      "objc",
-      "matlab",
-    },
-  },
-
   { "uarun/vim-protobuf", ft = { "proto" } },
   { "delphinus/vim-rails", branch = "feature/recognize-ridgepole", ft = { "ruby" } },
   { "vim-perl/vim-perl", ft = { "perl", "perl6" }, setup = config.perl.setup },
