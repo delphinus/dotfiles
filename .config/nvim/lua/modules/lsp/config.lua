@@ -343,7 +343,6 @@ return {
       local helpers = require "null-ls.helpers"
       local command_resolver = require "null-ls.helpers.command_resolver"
       --local log = require "null-ls.logger"
-      local methods = require "null-ls.methods"
       local utils = require "null-ls.utils"
 
       local function is_for_node(to_use)
