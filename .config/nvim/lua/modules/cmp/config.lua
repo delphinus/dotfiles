@@ -208,10 +208,6 @@ return {
       }
 
       local cmp = require "cmp"
-      local luasnip = require "luasnip"
-      if not cmp then
-        error "cannot load cmp"
-      end
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -226,6 +222,7 @@ return {
           ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
           ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
           ["<C-f>"] = cmp.mapping(function(fallback)
+            local luasnip = require "luasnip"
             if luasnip.jumpable(1) then
               luasnip.jump(1)
             else
@@ -233,6 +230,7 @@ return {
             end
           end, { "i", "s" }),
           ["<C-b>"] = cmp.mapping(function(fallback)
+            local luasnip = require "luasnip"
             if luasnip.jumpable(-1) then
               luasnip.jump(-1)
             else
