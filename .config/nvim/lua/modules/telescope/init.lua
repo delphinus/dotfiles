@@ -6,7 +6,8 @@ end
 
 return {
   o { "delphinus/telescope-memo.nvim" },
-  o { "kyazdani42/nvim-web-devicons" },
+  --o { "kyazdani42/nvim-web-devicons" },
+  o { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square" },
   o { "nvim-lua/popup.nvim" },
   o { "nvim-telescope/telescope-file-browser.nvim" },
   o { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
