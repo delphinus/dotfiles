@@ -215,7 +215,7 @@ return {
           end,
         },
         mapping = {
-          ["<CR>"] = cmp.mapping.confirm { select = true },
+          ["<CR>"] = cmp.mapping.confirm { select = false },
           ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
           ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
           ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
