@@ -393,6 +393,7 @@ return {
           nls.builtins.diagnostics.trail_space,
           nls.builtins.diagnostics.vint,
           nls.builtins.diagnostics.yamllint,
+          nls.builtins.formatting.black,
           nls.builtins.formatting.fish_indent,
           nls.builtins.formatting.gofmt,
           nls.builtins.formatting.gofumpt,
