@@ -134,18 +134,24 @@ return {
             { 0x2793, 0x2793, 2 }, -- ➓
             { 0x29bf, 0x29bf, 2 }, -- ⦿
 
-            { 0x23fb, 0x23fe, 2 }, -- ⏻ ..⏾ -- power-symbols-1
-            { 0x2b58, 0x2b58, 2 }, -- ⭘  -- power-symbols-2
             { 0xe000, 0xe008, 2 }, --  . -- pomicons
-            { 0xe0a0, 0xe0a2, 1 }, -- .. -- powerline-1
-            { 0xe0b0, 0xe0b3, 1 }, -- .. -- powerline-2
-            { 0xe0a3, 0xe0a3, 1 }, --  -- powerline-extra-1
-            { 0xe0b4, 0xe0b7, 1 }, -- .. -- powerline-extra-2
-            { 0xe0b8, 0xefff, 2 }, -- .. -- material-1
-            { 0xf500, 0xf546, 2 }, -- .. -- material-2
-            { 0xf000, 0xf4ed, 2 },
-            { 0xf0000, 0xf0000, 2 },
-            { 0xfea60, 0xfebeb, 2 },
+            { 0xe0a0, 0xe0a3, 1 }, -- .. -- Powerline Symbols
+            { 0xe0b0, 0xe0b3, 1 }, -- .. -- Powerline Symbols
+            { 0xe0b8, 0xe0d4, 2 }, -- .. -- Powerline Extra Symbols
+            { 0xf000, 0xf2e0, 2 }, -- .. -- Font Awesome
+            { 0x23fb, 0x23fe, 2 }, -- ⏻ .. ⏾- Power Symbols
+            { 0x2b58, 0x2b58, 2 }, -- ⭘  --- Power Symbols
+            { 0xf500, 0xf6d4, 2 }, -- .. -- Material
+            { 0xf6d9, 0xf8fe, 2 }, -- .. -- Material
+            { 0xe7fb, 0xec46, 2 }, -- .. -- Material
+            { 0xe300, 0xe3e3, 2 }, -- .. -- Weather Icons
+            { 0xf300, 0xf31c, 2 }, -- .. -- Font Logos
+            { 0xf400, 0xf4a9, 2 }, -- .. -- Octicons
+            { 0x2665, 0x2665, 2 }, -- ♥ -- Octicons
+            { 0x26a1, 0x26a1, 2 }, -- ⚡ -- Octicons
+            { 0xfea60, 0xfebeb, 2 }, -- 󾩠..󾯫 -- Codicons
+
+            { 0xf0000, 0xf0000, 2 }, -- 󰀀
           }
         end,
       }
