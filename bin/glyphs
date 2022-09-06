@@ -9,16 +9,16 @@ $start = hex $start;
 $end = hex $end;
 
 say '     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f';
-for (my $i = $start, my $need_prefix = 1; $i <= $end; $i++) {
+for (my $i = $start, my $need_cr = 1; $i <= $end; $i++) {
     my $hex_remain = $i % 16;
-    if ($need_prefix) {
-        printf '%x ', $i - $hex_remain;
+    if ($need_cr) {
+        printf '%x', $i - $hex_remain;
         print '   ' x $hex_remain;
     }
     # avoid warnings for non-characters
     # such as U+FDD0 .. U+FDEF
     (my $chr = chr $i) =~ s/\p{NChar}/\x{FFFD}/;
-    print "$chr  ";
-    $need_prefix = $hex_remain == 15 || $i == $end;
-    say '.' if $need_prefix;
+    print " $chr";
+    $need_cr = $hex_remain == 15 || $i == $end;
+    say '' if $need_cr;
 }
