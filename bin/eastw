@@ -48,24 +48,41 @@ sub assert_text($refresh) {
 }
 
 sub make_table($text) {
-    reduce {
+    my $table = reduce {
         if (!defined $b || $b eq '' || $b =~ /^#/) {
             return $a;
         }
         $b =~ /^
             (?<start>[0-9A-F]+)          # 2100
             (?:\.\.(?<end>[0-9A-F]+))?;  # ..2101
-            (?<sign>A|N|Na|W)            # N
+            (?<sign>A|F|H|N|Na|W)        # N
             \s+
-        /x;
+            \#\s(?<general_category>..)  # So
+            \s+
+            (?:\[(?<count>\d+)\]\s)?     # [2]
+            \s(?<comment>.*)             # ACCOUNT OF..ADDRESSED TO THE SUBJECT
+        $/x;
         $+{start} // die "unknown line\n$b\n";
         push @$a, +{
             start => hex $+{start},
             end => hex($+{end} // $+{start}),
             sign => $+{sign},
+            general_category => $+{general_category},
+            count => defined $+{count} ? $+{count} + 0 : 1,
+            comment => $+{comment},
         };
         $a;
     } [], split /\n/, $text;
+    push @$table, +{
+        start => 0x20000,
+        end => 0x2fffd,
+        sign => 'W',
+    }, +{
+        start => 0x30000,
+        end => 0x2fffd,
+        sign => 'W',
+    };
+    return $table;
 }
 
 sub detect_char($table, $char) {
