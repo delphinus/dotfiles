@@ -1,0 +1,116 @@
+#!/usr/bin/perl
+
+=head1 DESCRIPTION
+
+    Detect East Asian Width sign
+
+=head1 SYNOPSIS
+
+    eastw ℃
+    # -> A  (means Ambiguous)
+    eastw µ
+    # -> N  (Neutral)
+    eastw ¥
+    # -> Na (means Narrow)
+    eastw あ
+    # -> W  (means Wide)
+
+    eastw -r あ
+    # remove cache
+    eastw -h
+    # see this help
+
+=cut
+
+use v5.24;
+use warnings;
+use feature 'signatures';
+no warnings 'experimental::signatures';
+use Encode;
+use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
+use LWP::Simple;
+use List::Util 'reduce';
+use Path::Class 'file';
+use Pod::Usage 'pod2usage';
+
+sub assert_text($refresh) {
+    my $url = 'http://www.unicode.org/Public/UCD/latest/ucd/EastAsianWidth.txt';
+    my $cache = file("$ENV{HOME}/.cache/eastw/unicode.txt");
+    if (!$refresh && -r $cache) {
+        return $cache->slurp;
+    }
+    $cache->dir->mkpath;
+    (my $content = get $url) // die 'cannot get the text';
+    my $fh = $cache->openw;
+    $fh->binmode(':utf8');
+    $fh->print($content);
+    $content;
+}
+
+sub make_table($text) {
+    reduce {
+        if (!defined $b || $b eq '' || $b =~ /^#/) {
+            return $a;
+        }
+        $b =~ /^
+            (?<start>[0-9A-F]+)          # 2100
+            (?:\.\.(?<end>[0-9A-F]+))?;  # ..2101
+            (?<sign>A|N|Na|W)            # N
+            \s+
+        /x;
+        $+{start} // die "unknown line\n$b\n";
+        push @$a, +{
+            start => hex $+{start},
+            end => hex($+{end} // $+{start}),
+            sign => $+{sign},
+        };
+        $a;
+    } [], split /\n/, $text;
+}
+
+sub detect_char($table, $char) {
+    my $code = ord $char;
+    my $calc_center = sub ($s, $e) {
+        $s + int(($e - $s) / 2);
+    };
+    my $binary_search;
+    $binary_search = sub ($pos_start, $pos_end) {
+        my ($s, $e) = ($table->[$pos_start], $table->[$pos_end]);
+        if ($s->{start} > $code) {
+            $binary_search->(0, $pos_start);
+        } elsif ($s->{start} <= $code && $s->{end} >= $code) {
+            $s->{sign};
+        } elsif ($s->{end} < $code && $e->{start} > $code) {
+            my $center = $calc_center->($pos_start, $pos_end);
+            my $c = $table->[$center];
+            if ($c->{start} > $code) {
+                $binary_search->($pos_start, $center);
+            } elsif ($c->{start} <= $code && $c->{end} >= $code) {
+                $c->{sign};
+            } else {
+                $binary_search->($center, $pos_end);
+            }
+        } elsif ($e->{start} <= $code && $e->{end} >= $code) {
+            $e->{sign};
+        } else {
+            'Unknown';
+        }
+    };
+    $binary_search->(0, $#$table);
+}
+
+sub main() {
+    GetOptions(
+        \my %opt, qw(
+        refresh|r
+        help|h
+    )) or pod2usage(1);
+    $opt{help} and pod2usage(0);
+    my $char = shift @ARGV;
+    pod2usage(2) if !$opt{refresh} && !defined $char;
+    my $text = assert_text $opt{refresh};
+    my $table = make_table $text;
+    say detect_char $table, decode utf8 => $char if defined $char;
+}
+
+main if $0 eq __FILE__;
