@@ -222,7 +222,8 @@ return function()
       end
       local r = results[1]
       local escaped = r.char:gsub("%%", "%%%%")
-      local text = ("<%s> %s"):format(escaped, r.codepoint)
+      local sign = require 'eaw'.get(char)
+      local text = ("<%s> %s %s"):format(escaped, r.codepoint, sign)
       if r.digraphs and #r.digraphs > 0 then
         text = text .. ", \\<C-K>" .. r.digraphs[1]
       end
