@@ -136,6 +136,7 @@ return {
       keymap.set("n", "<Leader>gs", builtin "git_status" {})
 
       -- Copied from telescope.nvim
+      keymap.set("n", "q:", builtin "command_history" {})
       keymap.set(
         "c",
         "<A-r>",
