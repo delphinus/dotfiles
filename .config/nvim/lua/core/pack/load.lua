@@ -1,4 +1,5 @@
 -- See https://github.com/wbthomason/dotfiles/blob/063850b4957a55c065f795722163efc88ffb1b42/neovim/.config/nvim/lua/plugins.lua
+local api = require("core.utils").api
 local init = (function()
   local packer
   return function()
