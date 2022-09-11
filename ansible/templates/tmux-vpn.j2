@@ -3,12 +3,10 @@ use 5.30.0;
 use warnings;
 binmode STDOUT => ':encoding(UTF-8)';
 
-my $phone_on = chr 0xebf7; #   #
-my $phone_off = chr 0xebf4; #   #
-my $vpn_on = chr 0xeda8; #   #
-my $vpn_off = chr 0xeda9; #   #
-my $home = chr 0xeadb; #   #
-my $office = chr 0xf0f7; #   #
+my $vpn_on = chr 0xe9a8; # 
+my $vpn_off = chr 0xe9a9; # 
+my $home = chr 0xf7db; # 
+my $office = chr 0xf0f7; # 
 
 my $normal_host = '8.8.8.8';
 my $vpn_host = '{{ secret_vpn_host }}';
