@@ -45,21 +45,6 @@ api.create_autocmd("VimEnter", {
   command = [[if &readonly | nnoremap q <Cmd>qa<CR> | endif]],
 })
 
--- When editing a file, always jump to the last known cursor position. Don't
--- do it when the position is invalid or when inside an event handler
--- (happens when dropping a file on gvim).
-api.create_autocmd("BufReadPost", {
-  group = api.create_augroup("jump_to_the_last_position", {}),
-  callback = function()
-    if vim.bo.buftype ~= "terminal" then
-      local last_pos = fn.line [['"]]
-      if last_pos >= 1 and last_pos <= fn.line "$" then
-        vim.cmd.execute [['normal! g`"']]
-      end
-    end
-  end,
-})
-
 -- The native implementation of vim-higlihghtedyank in NeoVim
 api.create_autocmd("TextYankPost", {
   group = api.create_augroup("highlighted_yank", {}),
