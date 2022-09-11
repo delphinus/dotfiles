@@ -74,7 +74,7 @@ api.create_user_command("ToggleColorscheme", function()
     vim.opt.background = "light"
     scheme = "solarized8"
   end
-  vim.cmd.colorscheme(scheme)
+  pcall(vim.cmd.colorscheme, scheme)
 end, { desc = "Toggle colorscheme between nord and solarized8" })
 
 -- Use Solarized Light when iTerm2 reports 11;15 for $COLORFGBG
@@ -94,7 +94,7 @@ api.create_autocmd("VimEnter", {
     api.exec_autocmds("ColorScheme", { pattern = scheme })
   end,
 })
-vim.cmd.colorscheme(scheme)
+pcall(vim.cmd.colorscheme, scheme)
 -- }}}
 
 -- Title {{{
