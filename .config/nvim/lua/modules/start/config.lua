@@ -94,7 +94,7 @@ return {
       }
     end,
     run = function()
-      vim.cmd [[CellWidthsRemove]]
+      vim.cmd.CellWidthsRemove()
     end,
   },
 }
