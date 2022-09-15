@@ -193,7 +193,7 @@ return {
     local notify = vim.schedule_wrap(function(msg, level)
       vim.cmd.redraw()
       vim.notify(msg, level)
-    end)
+    end) --[[@as fun(msg: string, level: integer?): nil]]
 
     local Job = require "plenary.job"
     local function new_job(cmd, args, ...)
