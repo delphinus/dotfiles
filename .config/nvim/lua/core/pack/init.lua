@@ -1,18 +1,40 @@
-local fn, uv, api = require("core.utils").globals()
+local fn, _, api = require("core.utils").globals()
+local Path = require "plenary.path"
+local Job = require "plenary.job"
 
 -- setup packer.nvim {{{
 local data_dir = fn.stdpath "data"
 
+local notify = vim.schedule_wrap(function(msg, level)
+  vim.cmd.redraw()
+  vim.cmd('echomsg "' .. msg .. '"')
+  vim.notify(msg, level or vim.log.levels.INFO)
+end) --[[@as fun(msg: string, level: integer?): nil]]
+
 for _, p in ipairs {
-  { "wbthomason/packer.nvim", opt = true },
+  --{ "wbthomason/packer.nvim", opt = true },
+  { "delphinus/packer.nvim", opt = true, branch = "feature/denops" },
 } do
   local dir = p.opt and "opt" or "start"
   local package = p[1]
+  local branch = p.branch or "master"
   local name = package:match "[^/]+$"
-  local path = ("%s/site/pack/packer/%s/%s"):format(data_dir, dir, name)
-  local st = uv.fs_stat(path)
-  if not st or st.type ~= "directory" then
-    os.execute(("git clone https://github.com/%s %s"):format(package, path))
+  local path = Path:new(data_dir, "site/pack/packer", dir, name)
+  if not path:is_dir() then
+    Job:new({
+      command = "git",
+      args = { "clone", "https://github.com/" .. package, tostring(path), "-b", branch },
+      on_start = function()
+        notify(("start to clone. %s on %s"):format(package, branch))
+      end,
+      on_exit = function(self, code)
+        if code == 0 then
+          notify(("successfully cloned. %s on %s"):format(package, branch))
+        else
+          notify(table.concat(self:stderr_result(), "\n"), vim.log.levels.WARN)
+        end
+      end,
+    }):sync()
   end
 end
 -- }}}
