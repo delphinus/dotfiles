@@ -80,7 +80,8 @@ return {
       keymap.set("n", "<Leader>fh", builtin "help_tags" {})
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
       keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
-      keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
+      --keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
+      keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = path_display })
       keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
       keymap.set("n", "<Leader>fq", extensions("ghq", "list") {})
       keymap.set("n", "<Leader>fr", builtin "resume" {})
@@ -302,6 +303,8 @@ return {
         },
       }
       telescope.load_extension "file_browser"
+      -- This is needed to setup telescope-frecency.
+      telescope.load_extension "frecency"
       -- This is needed to setup telescope-fzf-native. It overrides the sorters
       -- in this.
       telescope.load_extension "fzf"
