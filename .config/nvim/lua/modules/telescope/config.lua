@@ -283,7 +283,6 @@ return {
             },
             theme = "ivy",
             hijack_netrw = true,
-            dir_icon = "",
             dir_icon_hl = "Directory",
             icon_width = 2,
             path_display = { "shorten", "smart" },
