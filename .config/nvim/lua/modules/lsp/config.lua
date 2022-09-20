@@ -46,34 +46,6 @@ return {
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
 
     local lsp = require "lspconfig"
-    local util = require "lspconfig.util"
-    local function is_git_root(p)
-      return util.path.is_dir(p) and util.path.exists(util.path.join(p, ".git"))
-    end
-
-    local function is_deno_dir(p)
-      local base = p:gsub([[.*/]], "")
-      for _, r in ipairs {
-        [[^deno]],
-        [[^ddc]],
-        [[^cmp%-look$]],
-        [[^neco%-vim$]],
-        [[^git%-vines$]],
-        [[^murus$]],
-        [[^skkeleton$]],
-      } do
-        if base:match(r) then
-          return true
-        end
-      end
-      return false
-    end
-
-    local function is_deno_file()
-      local shebang = api.buf_get_lines(0, 0, 1, false)
-      return #shebang == 1 and shebang[1]:match "^#!.*deno" and true or false
-    end
-
     local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
     local capabilities
     if ok then
