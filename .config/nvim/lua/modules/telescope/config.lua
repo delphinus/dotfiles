@@ -304,6 +304,10 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case",
           },
+          frecency = {
+            show_scores = true,
+            path_display = { "shorten", "smart" },
+          },
         },
       }
       telescope.load_extension "file_browser"
