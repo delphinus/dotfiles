@@ -150,12 +150,17 @@ return {
 
     config = function()
       local fn, _, api = require("core.utils").globals()
+      api.set_hl(0, "TelescopeMatching", { fg = "#b48ead" })
+      api.set_hl(0, "TelescopePreviewBorder", { fg = "#a3be8c" })
       api.set_hl(0, "TelescopePromptBorder", { fg = "#88c0d0" })
       api.set_hl(0, "TelescopeResultsBorder", { fg = "#81a1c1" })
-      api.set_hl(0, "TelescopePreviewBorder", { fg = "#a3be8c" })
-      api.set_hl(0, "TelescopeSelectionCaret", { fg = "#81a1c1" })
       api.set_hl(0, "TelescopeSelection", { fg = "#81a1c1" })
-      api.set_hl(0, "TelescopeMatching", { fg = "#b48ead" })
+      api.set_hl(0, "TelescopeSelectionCaret", { fg = "#81a1c1" })
+
+      api.set_hl(0, "TelescopeBufferLoaded", { fg = "#b48ead" })
+      api.set_hl(0, "TelescopePathSeparator", { fg = "#616e88" })
+      api.set_hl(0, "TelescopeFrecencyScores", { fg = "#ebcb8b" })
+      api.set_hl(0, "TelescopeQueryFilter", { fg = "#8fbcbb" })
 
       local actions = require "telescope.actions"
       local actions_state = require "telescope.actions.state"
