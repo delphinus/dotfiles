@@ -9,7 +9,7 @@ return {
     "ahmedkhalf/project.nvim",
     config = function()
       require("project_nvim").setup {
-        ignore_lsp = { "bashls", "null-ls", "tsserver" },
+        ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls" },
         patterns = { ".git" },
         show_hidden = true,
       }
