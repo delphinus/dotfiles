@@ -22,6 +22,10 @@ return {
     api.set_hl(0, "DiagnosticUnderlineWarn", { sp = "#d08770", undercurl = true })
     api.set_hl(0, "DiagnosticUnderlineInfo", { sp = "#8fbcbb", undercurl = true })
     api.set_hl(0, "DiagnosticUnderlineHint", { sp = "#4c566a", undercurl = true })
+    api.set_hl(0, "LspBorderTop", { fg = "#5d9794", bg = "#2e3440" })
+    api.set_hl(0, "LspBorderLeft", { fg = "#5d9794", bg = "#3b4252" })
+    api.set_hl(0, "LspBorderRight", { fg = "#5d9794", bg = "#3b4252" })
+    api.set_hl(0, "LspBorderBottom", { fg = "#5d9794", bg = "#2e3440" })
 
     api.create_user_command("ShowLSPSettings", function()
       print(vim.inspect(vim.lsp.get_active_clients()))
@@ -31,11 +35,6 @@ return {
       vim.lsp.stop_client(vim.lsp.get_active_clients())
       vim.cmd.edit()
     end, { desc = "Reload LSP settings" })
-
-    api.set_hl(0, "LspBorderTop", { fg = "#5d9794", bg = "#2e3440" })
-    api.set_hl(0, "LspBorderLeft", { fg = "#5d9794", bg = "#3b4252" })
-    api.set_hl(0, "LspBorderRight", { fg = "#5d9794", bg = "#3b4252" })
-    api.set_hl(0, "LspBorderBottom", { fg = "#5d9794", bg = "#2e3440" })
 
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
       underline = true,
