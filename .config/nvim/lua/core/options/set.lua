@@ -63,7 +63,6 @@ vim.opt.smartindent = true
 
 -- ColorScheme {{{
 vim.opt.termguicolors = true
-vim.cmd.syntax "enable"
 
 api.create_user_command("ToggleColorscheme", function()
   local scheme
