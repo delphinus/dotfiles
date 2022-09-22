@@ -84,7 +84,6 @@ return {
 
   { -- {{{ nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufNewFile", "BufRead" },
     config = config.treesitter,
     run = ":TSUpdate",
   }, -- }}}
