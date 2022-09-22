@@ -440,16 +440,16 @@ return {
       -- Overwrite / and ?.
       keymap.set({ "n", "x" }, "?", searchx "start" { dir = 0 })
       keymap.set({ "n", "x" }, "/", searchx "start" { dir = 1 })
-      keymap.set("c", "<A-;>", searchx "select"())
+      keymap.set("c", "<A-;>", searchx "select" ())
 
       -- Move to next/prev match.
-      keymap.set({ "n", "x" }, "N", searchx "prev"())
-      keymap.set({ "n", "x" }, "n", searchx "next"())
-      keymap.set({ "c", "n", "x" }, "<A-z>", searchx "prev"())
-      keymap.set({ "c", "n", "x" }, "<A-x>", searchx "next"())
+      keymap.set({ "n", "x" }, "N", searchx "prev" ())
+      keymap.set({ "n", "x" }, "n", searchx "next" ())
+      keymap.set({ "c", "n", "x" }, "<A-z>", searchx "prev" ())
+      keymap.set({ "c", "n", "x" }, "<A-x>", searchx "next" ())
 
       -- Clear highlights
-      keymap.set("n", "<Esc><Esc>", searchx "clear"())
+      keymap.set("n", "<Esc><Esc>", searchx "clear" ())
     end,
     config = function()
       local fn, _, api = require("core.utils").globals()
@@ -479,20 +479,20 @@ return {
           local dict = vim.env.HOMEBREW_PREFIX .. "/opt/cmigemo/share/migemo/utf-8/migemo-dict"
           local re
           require("plenary.job")
-            :new({
-              command = "cmigemo",
-              args = { "-v", "-d", dict, "-w", input:sub(2) },
-              on_exit = function(j, return_val)
-                local out = j:result()
-                if return_val == 0 and #out > 0 then
-                  re = out[1]
-                else
-                  vim.notify("cmigemo execution failed", vim.log.levels.WARN)
-                  re = input:sub(2)
-                end
-              end,
-            })
-            :sync()
+              :new({
+                command = "cmigemo",
+                args = { "-v", "-d", dict, "-w", input:sub(2) },
+                on_exit = function(j, return_val)
+                  local out = j:result()
+                  if return_val == 0 and #out > 0 then
+                    re = out[1]
+                  else
+                    vim.notify("cmigemo execution failed", vim.log.levels.WARN)
+                    re = input:sub(2)
+                  end
+                end,
+              })
+              :sync()
           return re
         end,
       }
