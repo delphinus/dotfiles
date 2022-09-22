@@ -225,6 +225,22 @@ return {
     event = { "FocusLost", "CursorHold" },
     config = config.virt_column,
   },
+
+  {
+    "petertriho/nvim-scrollbar",
+    event = {
+      "BufWinEnter",
+      "CmdwinLeave",
+      "TabEnter",
+      "TermEnter",
+      "TextChanged",
+      "VimResized",
+      "WinEnter",
+      "WinScrolled",
+    },
+    setup = config.scrollbar.setup,
+    config = config.scrollbar.config,
+  },
   -- }}}
 
   -- ft {{{

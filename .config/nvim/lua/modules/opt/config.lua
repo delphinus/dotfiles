@@ -589,4 +589,14 @@ return {
       api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
     end,
   },
+
+  scrollbar = {
+    setup = function()
+      --
+    end,
+
+    config = function()
+      require("scrollbar").setup {}
+    end,
+  },
 }
