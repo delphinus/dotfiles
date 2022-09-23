@@ -3,6 +3,10 @@ return {
     setup = function()
       local fn, uv, api = require("core.utils").globals()
       local keymap = vim.keymap
+      local from_entry = require "telescope.from_entry"
+      local actions_state = require "telescope.actions.state"
+      local actions_set = require "telescope.actions.set"
+
       local builtin = function(name)
         return function(opt)
           return function()
@@ -54,7 +58,7 @@ return {
           extensions("file_browser", "file_browser") {} ()
           -- TODO: use uv.fs_stat ?
         elseif fn.isdirectory(uv.cwd() .. "/.git") == 1 then
-          builtin "git_files" {} ()
+          builtin "git_files" { show_untracked = true } ()
         else
           builtin "find_files" { hidden = true } ()
         end
@@ -83,7 +87,20 @@ return {
       --keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
       keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = path_display })
       keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
-      keymap.set("n", "<Leader>fq", extensions("ghq", "list") {})
+      keymap.set(
+        "n",
+        "<Leader>fq",
+        extensions("ghq", "list") {
+          attach_mappings = function(_)
+            actions_set.select:replace(function(_, _)
+              local entry = actions_state.get_selected_entry()
+              local dir = from_entry.path(entry)
+              builtin "git_files" { cwd = dir, show_untracked = true } ()
+            end)
+            return true
+          end,
+        }
+      )
       keymap.set("n", "<Leader>fr", builtin "resume" {})
 
       keymap.set(
