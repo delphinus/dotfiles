@@ -324,6 +324,9 @@ return {
           frecency = {
             show_scores = true,
             path_display = { "shorten", "smart" },
+            workspaces = {
+              VIM = vim.env.VIMRUNTIME,
+            },
           },
         },
       }
