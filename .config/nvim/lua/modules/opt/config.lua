@@ -470,11 +470,11 @@ return {
           -- the input as "very magic".
           if not vim.regex([[\k]]):match_str(input) then
             return [[\V]] .. input
-          elseif not input:match "^;" then
+          elseif not input:match "^%." then
             -- If the input contains spaces, it tries fuzzy matching.
             return input:sub(1, 1) .. fn.substitute(input:sub(2), [[\\\@<! ]], [[.\\{-}]], "g")
           end
-          -- If the input has `;` at the beginning, it converts the input with
+          -- If the input has `.` at the beginning, it converts the input with
           -- cmigemo.
           local dict = vim.env.HOMEBREW_PREFIX .. "/opt/cmigemo/share/migemo/utf-8/migemo-dict"
           local re
