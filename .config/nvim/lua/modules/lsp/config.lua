@@ -401,7 +401,7 @@ return {
             runtime_condition = function(params)
               local clients = vim.lsp.get_active_clients { bufnr = params.bufnr }
               local denols = vim.tbl_filter(function(c)
-                return c.config.name == "denols"
+                return c.config.name == "denols" or c.config.name == "sumneko_lua"
               end, clients)
               return #denols > 0 and true or false
             end,
