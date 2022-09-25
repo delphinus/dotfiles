@@ -23,18 +23,15 @@ return {
           end
         end
       end
-      local path_display = function(_, path)
+      local path_display = function(opts, path)
+        local Path = require "plenary.path"
+        path = Path:new(path):make_relative(opts.cwd)
         local home = "^" .. uv.os_homedir()
         local gh_dir = home .. "/git/github.com"
         local gh_e_dir = home .. "/git/" .. vim.g.gh_e_host
         local ghq_dir = home .. "/git"
         local packer_dir = home .. "/.local/share/nvim/site/pack/packer"
-        return path
-          :gsub(gh_dir, "$GH")
-          :gsub(gh_e_dir, "$GH_E")
-          :gsub(ghq_dir, "$GIT")
-          :gsub(packer_dir, "$PACKER")
-          :gsub(home, "~")
+        return path:gsub(gh_dir, ""):gsub(gh_e_dir, ""):gsub(ghq_dir, ""):gsub(packer_dir, ""):gsub(home, "~")
       end
 
       -- Lines
