@@ -11,12 +11,7 @@ return {
   o { "nvim-lua/popup.nvim" },
   o { "nvim-telescope/telescope-file-browser.nvim" },
   --o { "nvim-telescope/telescope-frecency.nvim", requires = o { "kkharji/sqlite.lua" }, wants = { "sqlite.lua" } },
-  o {
-    "delphinus/telescope-frecency.nvim",
-    branch = "hotfix/notify-instead-of-print",
-    requires = o { "kkharji/sqlite.lua" },
-    wants = { "sqlite.lua" },
-  },
+  o { "delphinus/telescope-frecency.nvim", requires = o { "kkharji/sqlite.lua" }, wants = { "sqlite.lua" } },
   o { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
   o { "nvim-telescope/telescope-ghq.nvim" },
   o { "nvim-telescope/telescope-github.nvim" },

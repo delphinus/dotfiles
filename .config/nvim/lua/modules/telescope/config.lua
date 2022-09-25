@@ -320,7 +320,7 @@ return {
           },
           frecency = {
             show_scores = true,
-            path_display = { "shorten", "smart" },
+            show_filter_column = { "LSP", "CWD", "VIM" },
             workspaces = {
               VIM = vim.env.VIMRUNTIME,
             },
