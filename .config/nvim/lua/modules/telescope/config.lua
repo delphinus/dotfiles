@@ -3,9 +3,6 @@ return {
     setup = function()
       local fn, uv, api = require("core.utils").globals()
       local keymap = vim.keymap
-      local from_entry = require "telescope.from_entry"
-      local actions_state = require "telescope.actions.state"
-      local actions_set = require "telescope.actions.set"
 
       local builtin = function(name)
         return function(opt)
@@ -89,7 +86,10 @@ return {
         "<Leader>fq",
         extensions("ghq", "list") {
           attach_mappings = function(_)
+            local actions_set = require "telescope.actions.set"
             actions_set.select:replace(function(_, _)
+              local from_entry = require "telescope.from_entry"
+              local actions_state = require "telescope.actions.state"
               local entry = actions_state.get_selected_entry()
               local dir = from_entry.path(entry)
               builtin "git_files" { cwd = dir, show_untracked = true } ()
