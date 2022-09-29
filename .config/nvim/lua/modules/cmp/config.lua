@@ -7,7 +7,7 @@ return {
       -- Use these mappings in Karabiner-Elements
       keymap.set({ "i", "c", "l" }, "<F10>", "<Plug>(skkeleton-disable)")
       keymap.set({ "i", "c", "l" }, "<F13>", "<Plug>(skkeleton-enable)")
-      keymap.set({ "i", "c", "l" }, "<C-j>", "<Plug>(skkeleton-enable)")
+      keymap.set({ "i", "c", "l" }, "<C-j>", "<Plug>(skkeleton-toggle)")
       keymap.set("i", "<C-x><C-o>", function()
         require("cmp").complete()
       end)
