@@ -114,7 +114,7 @@ alias gf 'git foresta | less'
 alias gfa 'git foresta --all | less'
 alias l. 'l -d .*'
 
-alias git hub
+type -q hub; and alias git hub
 alias dircolors gdircolors
 
 eval (dircolors -c ~/.dir_colors)
