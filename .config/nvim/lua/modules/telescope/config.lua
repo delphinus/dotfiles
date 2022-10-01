@@ -160,6 +160,16 @@ return {
         .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
         { silent = true }
       )
+
+      -- for telescope-frecency
+      api.create_autocmd({ "BufWinEnter", "BufWritePost" }, {
+        group = api.create_augroup("TelescopeFrecency", {}),
+        callback = function(args)
+          local db_client = require "telescope._extensions.frecency.db_client"
+          db_client.init(nil, nil, true, true)
+          db_client.autocmd_handler(args.match)
+        end,
+      })
     end,
 
     config = function()

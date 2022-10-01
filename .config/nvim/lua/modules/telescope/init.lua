@@ -10,7 +10,12 @@ return {
   o { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square" },
   o { "nvim-lua/popup.nvim" },
   o { "nvim-telescope/telescope-file-browser.nvim" },
-  o { "nvim-telescope/telescope-frecency.nvim", requires = o { "kkharji/sqlite.lua" }, wants = { "sqlite.lua" } },
+  o {
+    "nvim-telescope/telescope-frecency.nvim",
+    module = { "telescope._extensions.frecency.db_client" },
+    requires = o { "kkharji/sqlite.lua" },
+    wants = { "sqlite.lua" },
+  },
   o { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
   o { "nvim-telescope/telescope-ghq.nvim" },
   o { "nvim-telescope/telescope-github.nvim" },
@@ -23,7 +28,15 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
-    module_pattern = { "telescope.*" },
+    -- set modules in detail because telescope-frecency is needed before
+    -- telescope itself to save its history in opening buffers.
+    module_pattern = {
+      "^telescope$",
+      "^telescope%.builtin$",
+      "^telescope%.actions%.",
+      "^telescope%.from_entry$",
+      "^telescope%.previewers%.",
+    },
     requires = {
       { "plenary.nvim" },
     },
