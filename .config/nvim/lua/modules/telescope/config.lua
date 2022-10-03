@@ -38,7 +38,7 @@ return {
       keymap.set("n", "<Leader>fB", builtin "buffers" {})
       keymap.set("n", "<Leader>fb", function()
         local cwd = fn.expand "%:h"
-        extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd } ()
+        extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd }()
       end)
       keymap.set("n", "<Leader>ff", function()
         -- TODO: stopgap measure
@@ -49,12 +49,12 @@ return {
               "WarningMsg",
             },
           }, true, {})
-          extensions("file_browser", "file_browser") {} ()
+          extensions("file_browser", "file_browser") {}()
           -- TODO: use uv.fs_stat ?
         elseif fn.isdirectory(uv.cwd() .. "/.git") == 1 then
-          builtin "git_files" { show_untracked = true } ()
+          builtin "git_files" { show_untracked = true }()
         else
-          builtin "find_files" { hidden = true } ()
+          builtin "find_files" { hidden = true }()
         end
       end)
 
@@ -62,7 +62,7 @@ return {
         return function()
           vim.ui.input({ prompt = prompt }, function(input)
             if input then
-              func { only_sort_text = true, search = input } ()
+              func { only_sort_text = true, search = input }()
             else
               vim.notify "cancelled"
             end
@@ -92,7 +92,7 @@ return {
               local actions_state = require "telescope.actions.state"
               local entry = actions_state.get_selected_entry()
               local dir = from_entry.path(entry)
-              builtin "git_files" { cwd = dir, show_untracked = true } ()
+              builtin "git_files" { cwd = dir, show_untracked = true }()
             end)
             return true
           end,
@@ -131,7 +131,7 @@ return {
               end)
             end,
           },
-        } ()
+        }()
       end)
 
       -- Memo
@@ -156,8 +156,8 @@ return {
         "c",
         "<A-r>",
         [[<C-\>e ]]
-        .. [["lua require'telescope.builtin'.command_history{]]
-        .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
+          .. [["lua require'telescope.builtin'.command_history{]]
+          .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
         { silent = true }
       )
 
