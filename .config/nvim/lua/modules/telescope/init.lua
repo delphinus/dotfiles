@@ -11,7 +11,8 @@ return {
   o { "nvim-lua/popup.nvim" },
   o { "nvim-telescope/telescope-file-browser.nvim" },
   o {
-    "nvim-telescope/telescope-frecency.nvim",
+    --"nvim-telescope/telescope-frecency.nvim",
+    "delphinus/telescope-frecency.nvim",
     module = { "telescope._extensions.frecency.db_client" },
     requires = o { "kkharji/sqlite.lua" },
     wants = { "sqlite.lua" },
