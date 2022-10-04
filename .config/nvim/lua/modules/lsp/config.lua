@@ -365,7 +365,7 @@ return {
           nls.builtins.diagnostics.shellcheck,
           nls.builtins.diagnostics.trail_space,
           nls.builtins.diagnostics.vint,
-          nls.builtins.diagnostics.yamllint,
+          --nls.builtins.diagnostics.yamllint,
           nls.builtins.formatting.black,
           nls.builtins.formatting.fish_indent,
           nls.builtins.formatting.gofmt,
@@ -374,7 +374,7 @@ return {
           nls.builtins.formatting.golines,
           nls.builtins.formatting.rubocop,
           nls.builtins.formatting.stylua,
-          --nls.builtins.formatting.yamlfmt,
+          nls.builtins.formatting.yamlfmt,
           nls.builtins.formatting.textlint,
           nls.builtins.hover.dictionary,
 
