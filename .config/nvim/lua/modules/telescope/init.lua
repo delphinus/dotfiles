@@ -25,6 +25,25 @@ return {
   o { "nvim-telescope/telescope-symbols.nvim" },
   o { "nvim-telescope/telescope-z.nvim" },
   o { "stevearc/dressing.nvim" },
+  o {
+    "gbprod/yanky.nvim",
+    keys = {
+      { "n", "<Plug>(YankyCycleBackward)" },
+      { "n", "<Plug>(YankyCycleForward)" },
+      { "n", "<Plug>(YankyGPutAfter)" },
+      { "n", "<Plug>(YankyGPutBefore)" },
+      { "n", "<Plug>(YankyPutAfter)" },
+      { "n", "<Plug>(YankyPutBefore)" },
+      { "x", "<Plug>(YankyGPutAfter)" },
+      { "x", "<Plug>(YankyGPutBefore)" },
+      { "x", "<Plug>(YankyPutAfter)" },
+      { "x", "<Plug>(YankyPutBefore)" },
+    },
+    requires = o { "kkharji/sqlite.lua", opt = true },
+    setup = config.yanky.setup,
+    config = config.yanky.config,
+    wants = { "sqlite.lua" },
+  },
 
   {
     "nvim-telescope/telescope.nvim",
@@ -55,6 +74,7 @@ return {
       "telescope-smart-history.nvim",
       "telescope-symbols.nvim",
       "telescope-z.nvim",
+      "yanky.nvim",
     },
     setup = config.telescope.setup,
     config = config.telescope.config,

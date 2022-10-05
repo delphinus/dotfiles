@@ -296,7 +296,6 @@ return {
 
   -- keys {{{
   { "arecarn/vim-fold-cycle", keys = { { "n", "<Plug>(fold-cycle-" } }, setup = config.fold_cycle.setup },
-  { "bfredl/nvim-miniyank", keys = { { "n", "<Plug>(miniyank-" } }, setup = config.miniyank.setup },
 
   {
     "chikatoike/concealedyank.vim",
