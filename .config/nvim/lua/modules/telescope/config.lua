@@ -355,28 +355,28 @@ return {
       -- This is needed to setup yanky
       telescope.load_extension "yank_history"
 
+      require("dressing").setup {}
+
+      -- Set mappings for yanky here to avoid cycle referencing
       local utils = require "yanky.utils"
       local mapping = require "yanky.telescope.mapping"
-      require("yanky.config").setup {
-        ring = { storage = "sqlite" },
-        picker = {
-          telescope = {
-            mappings = {
-              default = mapping.put "p",
-              i = {
-                ["<C-p>"] = actions.cycle_history_prev,
-                ["<C-k>"] = actions.move_selection_previous,
-                ["<A-p>"] = mapping.put "p",
-                ["<A-P>"] = mapping.put "P",
-                ["<A-d>"] = mapping.delete(),
-                ["<A-r>"] = mapping.set_register(utils.get_default_register()),
-              },
-            },
-          },
+      local options = require("yanky.config").options
+      options.picker.telescope.mappings = {
+        default = mapping.put "p",
+        i = {
+          ["<A-p>"] = mapping.put "p",
+          ["<A-P>"] = mapping.put "P",
+          ["<A-d>"] = mapping.delete(),
+          ["<A-r>"] = mapping.set_register(utils.get_default_register()),
+        },
+        n = {
+          p = mapping.put "p",
+          P = mapping.put "P",
+          d = mapping.delete(),
+          r = mapping.set_register(utils.get_default_register()),
         },
       }
-
-      require("dressing").setup {}
+      require("yanky.config").setup(options)
     end,
   },
 
