@@ -44,6 +44,18 @@ return {
   { "editorconfig/editorconfig-vim" },
 
   {
+    "folke/noice.nvim",
+    requires = {
+      { "MunifTanjim/nui.nvim" },
+      {
+        "rcarriga/nvim-notify",
+        config = config.notify,
+      },
+    },
+    config = config.noice,
+  },
+
+  {
     "nvim-lualine/lualine.nvim",
     requires = {
       --{ "kyazdani42/nvim-web-devicons", opt = true },
@@ -56,11 +68,6 @@ return {
   },
 
   { "lambdalisue/suda.vim" },
-
-  {
-    "rcarriga/nvim-notify",
-    config = config.notify,
-  },
 
   {
     "tpope/vim-eunuch",

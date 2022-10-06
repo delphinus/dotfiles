@@ -1,4 +1,8 @@
 return {
+  noice = function()
+    require("noice").setup {}
+  end,
+
   notify = function()
     local api = require("core.utils").api
     vim.opt.termguicolors = true
