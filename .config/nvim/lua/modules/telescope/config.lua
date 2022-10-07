@@ -4,14 +4,15 @@ return {
       local fn, uv, api = require("core.utils").globals()
       local keymap = vim.keymap
 
-      local builtin = function(name)
+      local function builtin(name)
         return function(opt)
           return function()
             return require("telescope.builtin")[name](opt or {})
           end
         end
       end
-      local extensions = function(name, prop)
+
+      local function extensions(name, prop)
         return function(opt)
           return function()
             local telescope = require "telescope"
@@ -20,7 +21,8 @@ return {
           end
         end
       end
-      local path_display = function(opts, path)
+
+      local function path_display(opts, path)
         local Path = require "plenary.path"
         path = Path:new(path):make_relative(opts.cwd)
         local home = "^" .. uv.os_homedir()
