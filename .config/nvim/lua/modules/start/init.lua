@@ -43,6 +43,7 @@ return {
 
   { "editorconfig/editorconfig-vim" },
 
+  --[[
   {
     "folke/noice.nvim",
     requires = {
@@ -53,6 +54,11 @@ return {
       },
     },
     config = config.noice,
+  },
+  ]]
+  {
+    "rcarriga/nvim-notify",
+    config = config.notify,
   },
 
   {
