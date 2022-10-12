@@ -26,6 +26,7 @@ return {
         end
       end
 
+      --[[
       local pre_config
 
       local g1 = api.create_augroup("skkeleton_callbacks", {})
@@ -50,6 +51,7 @@ return {
           end
         end,
       })
+      ]]
 
       local g2 = api.create_augroup("skkeleton_karabiner_elements", {})
       api.create_autocmd({ "InsertEnter", "CmdlineEnter" }, { group = g2, callback = set_karabiner(1) })
