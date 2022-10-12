@@ -3,6 +3,7 @@ return {
     setup = function()
       local fn, uv, api = require("core.utils").globals()
       local keymap = vim.keymap
+      local frecency = require "core.telescope.frecency"
 
       local function builtin(name)
         return function(opt)
@@ -20,17 +21,6 @@ return {
             return telescope.extensions[name][prop](opt or {})
           end
         end
-      end
-
-      local function path_display(opts, path)
-        local Path = require "plenary.path"
-        path = Path:new(path):make_relative(opts.cwd)
-        local home = "^" .. uv.os_homedir()
-        local gh_dir = home .. "/git/github.com"
-        local gh_e_dir = home .. "/git/" .. vim.g.gh_e_host
-        local ghq_dir = home .. "/git"
-        local packer_dir = home .. "/.local/share/nvim/site/pack/packer"
-        return path:gsub(gh_dir, ""):gsub(gh_e_dir, ""):gsub(ghq_dir, ""):gsub(packer_dir, ""):gsub(home, "~")
       end
 
       -- Lines
@@ -80,8 +70,7 @@ return {
       keymap.set("n", "<Leader>fh", builtin "help_tags" {})
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
       keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
-      --keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
-      keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = path_display })
+      keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = frecency.path_display })
       keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
       keymap.set(
         "n",
