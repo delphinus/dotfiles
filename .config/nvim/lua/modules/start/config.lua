@@ -94,6 +94,7 @@ return {
         ---@param cw cellwidths
         fallback = function(cw)
           cw.load "sfmono_square"
+          cw.add { 0xf0000, 0x10ffff, 2 }
         end,
       }
     end,
