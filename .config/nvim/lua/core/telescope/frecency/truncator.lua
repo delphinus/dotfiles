@@ -19,6 +19,7 @@ local _, uv, api = require("core.utils").globals()
 ---@field prefix integer
 
 ---@class core.telescope.frecency.truncator.Re
+---@field vimruntime string
 ---@field home string
 ---@field gh_dir string
 ---@field gh_e_dir string
@@ -39,15 +40,23 @@ Truncator.new = function(opts)
   local status = state.get_status(api.get_current_buf())
   local length = api.win_get_width(status.results_win) - status.picker.selection_caret:len()
   local home = uv.os_homedir()
+  ---@param str string
+  ---@return string
+  local function re(str)
+    local r = str:gsub("([]%[%%*+?-])", "%%%1")
+    return r
+  end
+
   return setmetatable({
     cwd = opts.cwd,
     width = length - opts.prefix,
     re = {
-      home = home,
-      gh_dir = home .. "/git/github.com",
-      gh_e_dir = home .. "/git/" .. opts.gh_e_host,
-      ghq_dir = home .. "/git",
-      packer_dir = home .. "/.local/share/nvim/site/pack/packer",
+      vimruntime = re(vim.env.VIMRUNTIME),
+      home = re(home),
+      gh_dir = re(home .. "/git/github.com"),
+      gh_e_dir = re(home .. "/git/" .. opts.gh_e_host),
+      ghq_dir = re(home .. "/git"),
+      packer_dir = re(home .. "/.local/share/nvim/site/pack/packer"),
     },
   }, { __index = Truncator })
 end
@@ -65,6 +74,7 @@ end
 function Truncator:replace_known_dirs(path)
   path:make_relative(self.cwd)
   path.filename = path.filename
+    :gsub(self.re.vimruntime, "")
     :gsub(self.re.gh_dir, "")
     :gsub(self.re.ghq_dir, "")
     :gsub(self.re.packer_dir, "")
