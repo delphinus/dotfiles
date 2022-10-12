@@ -3,6 +3,7 @@ return {
     setup = function()
       local fn, uv, api = require("core.utils").globals()
       local keymap = vim.keymap
+      local frecency = require "core.telescope.frecency"
 
       local function builtin(name)
         return function(opt)
@@ -20,58 +21,6 @@ return {
             return telescope.extensions[name][prop](opt or {})
           end
         end
-      end
-
-      local function truncate_path(opts, path)
-        if not opts.__length then
-          local state = require "telescope.state"
-          local status = state.get_status(api.get_current_buf())
-          opts.__length = api.win_get_width(status.results_win) - status.picker.selection_caret:len()
-        end
-        if not opts.__prefix then
-          -- frecency prefix
-          opts.__prefix = 8
-        end
-
-        local Path = require "plenary.path"
-        local sep_on_top
-        if vim.startswith(path, Path.path.sep) then
-          path = path:sub(2)
-          sep_on_top = true
-        end
-
-        local p = Path:new(path)
-        local part = 0
-        for _ in (p .. p.path.sep):gmatch(".-" .. p.path.sep) do
-          part = part + 1
-        end
-        local i = part
-        while true do
-          local exclude = {}
-          for j = 1, i do
-            table.insert(exclude, j)
-          end
-          if i < part then
-            table.insert(exclude, part)
-          end
-          local shortened = p:shorten(1, exclude)
-          if i == 1 or #shortened <= opts.__length - opts.__prefix - (sep_on_top and 1 or 0) then
-            return (sep_on_top and "/" or "") .. shortened
-          end
-          i = i - 1
-        end
-      end
-
-      local function path_display(opts, path)
-        local Path = require "plenary.path"
-        path = Path:new(path):make_relative(opts.cwd)
-        local home = "^" .. uv.os_homedir()
-        local gh_dir = home .. "/git/github.com"
-        local gh_e_dir = home .. "/git/" .. vim.g.gh_e_host
-        local ghq_dir = home .. "/git"
-        local packer_dir = home .. "/.local/share/nvim/site/pack/packer"
-        local p = path:gsub(gh_dir, ""):gsub(gh_e_dir, ""):gsub(ghq_dir, ""):gsub(packer_dir, ""):gsub(home, "~")
-        return truncate_path(opts, p)
       end
 
       -- Lines
@@ -121,8 +70,7 @@ return {
       keymap.set("n", "<Leader>fh", builtin "help_tags" {})
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
       keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
-      --keymap.set("n", "<Leader>fo", builtin "oldfiles" { path_display = path_display })
-      keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = path_display })
+      keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = frecency.path_display })
       keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
       keymap.set(
         "n",
