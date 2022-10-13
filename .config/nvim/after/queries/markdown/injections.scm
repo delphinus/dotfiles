@@ -3,7 +3,7 @@
 (fenced_code_block
   (info_string) @lang
   (code_fence_content) @content
-  (#vim-match? @lang "^(sh|bash)$")
+  (#vim-match? @lang "^(sh|bash|shell)$")
   (#set! language "bash")
 )
 
