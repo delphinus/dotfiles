@@ -39,7 +39,7 @@ Truncator.new = function(opts)
   local state = require "telescope.state"
   local status = state.get_status(api.get_current_buf())
   local length = api.win_get_width(status.results_win) - status.picker.selection_caret:len()
-  local home = uv.os_homedir()
+  local home = assert(uv.os_homedir()) --[[@as string]]
   ---@param str string
   ---@return string
   local function re(str)
