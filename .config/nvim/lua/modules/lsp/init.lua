@@ -7,7 +7,7 @@ local function ts(plugin)
 end
 
 return {
-  { "folke/lua-dev.nvim", opt = true },
+  { "folke/neodev.nvim", opt = true },
 
   { -- {{{ nvim-lspconfig
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
@@ -42,7 +42,7 @@ return {
       "yaml",
     },
     wants = {
-      "lua-dev.nvim",
+      "neodev.nvim",
       "mason.nvim",
       "mason-lspconfig.nvim",
       -- needs these plugins to setup capabilities

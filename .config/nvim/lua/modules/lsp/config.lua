@@ -59,6 +59,9 @@ return {
       return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
     end
 
+    -- needed for sumneko_lua
+    require("neodev").setup {}
+
     local server_configs = {
       clangd = {},
       cssls = {},
@@ -165,7 +168,15 @@ return {
       },
       ]]
 
-      sumneko_lua = require("lua-dev").setup {},
+      sumneko_lua = {
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = "Replace",
+            },
+          },
+        },
+      },
     }
 
     require("mason-lspconfig").setup_handlers {
