@@ -50,7 +50,7 @@ return {
     local capabilities
     if ok then
       local orig = vim.lsp.protocol.make_client_capabilities()
-      capabilities = cmp_nvim_lsp.update_capabilities(orig)
+      capabilities = cmp_nvim_lsp.default_capabilities(orig)
     end
     local home_dir = function(p)
       return uv.os_homedir() .. (p or "")
