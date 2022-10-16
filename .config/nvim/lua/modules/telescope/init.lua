@@ -62,6 +62,7 @@ return {
     },
     wants = {
       "dressing.nvim",
+      "nvim-notify",
       "nvim-web-devicons",
       "popup.nvim",
       "telescope-file-browser.nvim",
