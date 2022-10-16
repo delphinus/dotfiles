@@ -15,7 +15,7 @@ return {
         api.win_set_config(win, { focusable = false })
       end,
     }
-    vim.notify = notify
+    --vim.notify = notify
   end,
 
   fugitive = function()
