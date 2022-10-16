@@ -45,6 +45,7 @@ return {
 
   {
     "folke/noice.nvim",
+    event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
     requires = {
       { "MunifTanjim/nui.nvim" },
       {
@@ -54,12 +55,6 @@ return {
     },
     config = config.noice,
   },
-  --[[
-  {
-    "rcarriga/nvim-notify",
-    config = config.notify,
-  },
-  ]]
 
   {
     "nvim-lualine/lualine.nvim",
