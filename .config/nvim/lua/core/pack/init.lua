@@ -20,7 +20,7 @@ Pack.new = function()
   if self:exists(compile_path) then
     require(compiled)
   else
-    vim.notify "Run :PackerCompile"
+    vim.notify("Run :PackerCompile", vim.log.levels.WARN)
   end
   return self
 end
@@ -43,7 +43,6 @@ function Pack:setup()
   end, { desc = "[Packer] Output plugins status" })
 
   api.create_user_command("PackerCompile", function(opts)
-    local notify = vim.schedule_wrap(vim.notify)
     api.create_autocmd("User", {
       pattern = "PackerCompileDone",
       once = true,
@@ -58,13 +57,13 @@ function Pack:setup()
             self.compile_path,
           },
           on_start = function()
-            notify "Compile done. Now start to edit."
+            self:notify_later "Compile done. Now start to edit."
           end,
           on_exit = function(job, code)
             if code == 0 then
-              notify(("Successfully edited %s.lua"):format(self.compiled))
+              self:notify_later(("Successfully edited %s.lua"):format(self.compiled))
             else
-              notify(table.concat(job:stderr_result(), "\n"), vim.log.levels.WARN)
+              self:notify_later(table.concat(job:stderr_result(), "\n"), vim.log.levels.WARN)
             end
           end,
         }):start()
@@ -162,6 +161,15 @@ end
 function Pack:exists(path) -- luacheck: ignore 212
   local st = uv.fs_stat(path)
   return st and true or false
+end
+
+---@param ... any
+---@return nil
+function Pack:notify_later(...) -- luacheck: ignore 212
+  local args = { ... }
+  vim.schedule(function()
+    vim.notify(unpack(args))
+  end)
 end
 
 return Pack.new()
