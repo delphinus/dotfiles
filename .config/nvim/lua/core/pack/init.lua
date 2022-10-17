@@ -2,6 +2,7 @@ local fn, uv, api = require("core.utils").globals()
 
 ---@class core.pack.Pack
 ---@field compile_path string
+---@field old_compile_path string
 ---@field compiled string
 ---@field initialized boolean
 ---@field _packer any The instance of packer
@@ -11,18 +12,38 @@ Pack.new = function()
   local top = fn.stdpath "config"
   local compile_path = top .. "/lua/_compiled.lua"
   local compiled = compile_path:match "([^/]+).lua$"
-  local self = setmetatable(
-    { compile_path = compile_path, compiled = compiled, initialized = false, _packer = nil },
-    { __index = Pack }
-  )
+  local old_compile_path = top .. "/plugin/packer_compiled.lua"
+  local self = setmetatable({
+    compile_path = compile_path,
+    old_compile_path = old_compile_path,
+    compiled = compiled,
+    initialized = false,
+    _packer = nil,
+  }, { __index = Pack })
+  self:remove_old_compile_path()
   self:assume_plugins()
   self:setup()
-  if self:exists(compile_path) then
-    require(compiled)
-  else
-    vim.notify("Run :PackerCompile", vim.log.levels.WARN)
-  end
   return self
+end
+
+---@return nil
+function Pack:remove_old_compile_path()
+  if self:exists(self.old_compile_path) then
+    uv.fs_unlink(self.old_compile_path)
+    vim.notify("Old compiled script exists. Deleted.", vim.log.levels.WARN)
+  end
+end
+
+---@return nil
+function Pack:load_script()
+  if self:exists(self.compile_path) then
+    require(self.compiled)
+  else
+    vim.notify "Running :PackerCompile"
+    self:compile(vim.schedule_wrap(function()
+      require(self.compiled)
+    end)) {}
+  end
 end
 
 function Pack:setup()
@@ -30,6 +51,7 @@ function Pack:setup()
   api.create_user_command("PackerUpdate", self:run_packer "update", { desc = "[Packer] Update plugins" })
   api.create_user_command("PackerClean", self:run_packer "clean", { desc = "[Packer] Clean plugins" })
   api.create_user_command("PackerStatus", self:run_packer "status", { desc = "[Packer] Output plugins status" })
+  api.create_user_command("PackerCompile", self:compile(), { desc = "[Packer] Output plugins status", nargs = "*" })
 
   api.create_user_command(
     "PackerProfile",
@@ -42,7 +64,22 @@ function Pack:setup()
     self:run_packer "sync"()
   end, { desc = "[Packer] Output plugins status" })
 
-  api.create_user_command("PackerCompile", function(opts)
+  api.create_user_command("PackerLoad", function(opts)
+    local args = vim.split(opts.args, " ")
+    table.insert(args, opts.bang)
+    self:run_packer "loader"(unpack(opts))
+  end, { bang = true, complete = self:run_packer "loader_complete", desc = "[Packer] Load plugins", nargs = "+" })
+
+  vim.keymap.set("n", "<Leader>ps", [[<Cmd>PackerSync<CR>]])
+  vim.keymap.set("n", "<Leader>po", [[<Cmd>PackerCompile<CR>]])
+end
+
+---@param cb (fun(): nil)?
+---@return fun(opts: table): nil
+function Pack:compile(cb)
+  ---@param opts table
+  ---@return nil
+  return function(opts)
     api.create_autocmd("User", {
       pattern = "PackerCompileDone",
       once = true,
@@ -62,6 +99,9 @@ function Pack:setup()
           on_exit = function(job, code)
             if code == 0 then
               self:notify_later(("Successfully edited %s.lua"):format(self.compiled))
+              if cb then
+                cb()
+              end
             else
               self:notify_later(table.concat(job:stderr_result(), "\n"), vim.log.levels.WARN)
             end
@@ -69,17 +109,8 @@ function Pack:setup()
         }):start()
       end,
     })
-    self:run_packer "compile"(opts.args)
-  end, { desc = "[Packer] Output plugins status", nargs = "*" })
-
-  api.create_user_command("PackerLoad", function(opts)
-    local args = vim.split(opts.args, " ")
-    table.insert(args, opts.bang)
-    self:run_packer "loader"(unpack(opts))
-  end, { bang = true, complete = self:run_packer "loader_complete", desc = "[Packer] Load plugins", nargs = "+" })
-
-  vim.keymap.set("n", "<Leader>ps", [[<Cmd>PackerSync<CR>]])
-  vim.keymap.set("n", "<Leader>po", [[<Cmd>PackerCompile<CR>]])
+    self:run_packer "compile"(opts and opts.args or "")
+  end
 end
 
 ---@return nil
