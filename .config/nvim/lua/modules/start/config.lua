@@ -1,13 +1,23 @@
 return {
-  noice = function()
-    require("noice").setup {}
-  end,
+  noice = {
+    setup = function()
+      local orig = vim.notify
+      vim.notify = function(...)
+        vim.notify = orig
+        require "notify"
+        require "noice"
+        vim.notify(...)
+      end
+    end,
+
+    config = function()
+      require("noice").setup {}
+    end,
+  },
 
   notify = function()
-    local api = require("core.utils").api
     vim.opt.termguicolors = true
-    local notify = require "notify"
-    notify.setup {
+    require("notify").setup {
       render = "minimal",
       background_colour = "#3b4252",
       level = "trace",
@@ -15,7 +25,6 @@ return {
         api.win_set_config(win, { focusable = false })
       end,
     }
-    --vim.notify = notify
   end,
 
   fugitive = function()

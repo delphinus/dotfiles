@@ -46,14 +46,17 @@ return {
   {
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
+    module = { "noice" },
     requires = {
       { "MunifTanjim/nui.nvim" },
       {
         "rcarriga/nvim-notify",
+        module = { "notify" },
         config = config.notify,
       },
     },
-    config = config.noice,
+    setup = config.noice.setup,
+    config = config.noice.config,
   },
 
   {
