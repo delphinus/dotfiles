@@ -32,9 +32,6 @@ api.create_autocmd(
   }
 )
 
--- from $PACKER/opt/vim-gitignore/ftdetect/gitignore.vim
--- NOTE: RUNTIME has this
-
 -- from $PACKER/opt/plantuml-syntax/ftdetect/plantuml.vim
 api.create_autocmd(
   events,
@@ -51,26 +48,11 @@ api.create_autocmd(
   g { pattern = { "*.pu", "*.uml", "*.plantuml", "*.puml", "*.iuml" }, command = "set filetype=plantuml" }
 )
 
--- from $PACKER/opt/rust.vim/ftdetect/rust.vim
--- NOTE: RUNTIME has this
-
 -- from $PACKER/opt/skkdict.vim/ftdetect/skkdict.vim
 api.create_autocmd(
   { "BufReadPost", "BufNewFile" },
   g { pattern = { ".skk-jisyo", "SKK-JISYO.*" }, command = "set filetype=skkdict" }
 )
-
--- from $PACKER/opt/vim-protobuf/ftdetect/proto.vim
--- NOTE: RUNTIME has this
-
--- from $PACKER/opt/vim-pug/ftdetect/pug.vim
--- NOTE: RUNTIME has this
-
--- from $PACKER/opt/swift.vim/ftdetect/swift.vim
--- NOTE: RUNTIME has this
-
--- from $PACKER/opt/vim-scala/ftdetect/scala.vim
--- NOTE: RUNTIME has this
 
 -- from $PACKER/opt/vim-perl/ftdetect/mason-in-html.vim
 -- NOTE: RUNTIME has this
@@ -112,9 +94,6 @@ api.create_autocmd(
 )
 api.create_autocmd({ "BufNew", "BufNewFile", "BufRead" }, g { pattern = { "*.nqp" }, command = "setf perl6" })
 
--- from $PACKER/opt/vim-teal/ftdetect/teal.vim
--- NOTE: RUNTIME has this
-
 -- from $PACKER/opt/ejs-syntax/ftdetect/ejs.vim
 api.create_autocmd(events, g { pattern = { "*.ejs", "*._ejs" }, command = "set filetype=ejs" })
 api.create_autocmd(
@@ -128,12 +107,6 @@ api.create_autocmd(
   }
 )
 
--- from $PACKER/opt/vim-terraform/ftdetect/hcl.vim
--- NOTE: RUNTIME has this
-
--- from $PACKER/opt/vim-tmux/ftdetect/tmux.vim
--- NOTE: RUNTIME has this
-
 -- from $PACKER/opt/vader.vim/ftdetect/vader.vim
 api.create_autocmd(events, g { pattern = "*.vader", command = "set filetype=vader" })
 
@@ -142,12 +115,6 @@ api.create_autocmd(events, g { pattern = "vifm.rename*", command = "set filetype
 
 -- from $PACKER/opt/vifm.vim/ftdetect/vifm.vim
 api.create_autocmd(events, g { pattern = { "vifmrc", "*vifm/colors/*", "*.vifm" }, command = "set filetype=vifm" })
-
--- from $PACKER/opt/vim-toml/ftdetect/toml.vim
--- NOTE: RUNTIME has this
-
--- from $PACKER/opt/vim-vue/ftdetect/vue.vim
--- NOTE: RUNTIME has this
 
 -- from $PACKER/opt/vim-coffee-script/ftdetect/coffee.vim
 api.create_autocmd(
@@ -183,12 +150,6 @@ api.create_autocmd(
   }
 )
 
--- from $PACKER/opt/wordpress.vim/ftdetect/php.vim
--- NOTE: RUNTIME has this
-
--- from $PACKER/opt/wordpress.vim/ftdetect/txt.vim
--- NOTE: RUNTIME has this
-
 -- from $PACKER/opt/xslate-vim/ftdetect/xslate.vim
 api.create_autocmd(events, g { pattern = { "*.tx" }, command = "set filetype=xslate" })
 api.create_autocmd(
@@ -204,11 +165,7 @@ api.create_autocmd(
 )
 
 -- from $PACKER/opt/vim-firestore/ftdetect/firestore.vim
-
 api.create_autocmd(events, g { pattern = { "*.rules" }, command = "set filetype=firestore" })
-
--- from $PACKER/opt/vim-jsonnet/ftdetect/jsonnet.vim
--- NOTE: RUNTIME has this
 
 -- from $PACKER/opt/vim-mustache-handlebars/ftdetect/handlebars.vim
 api.create_autocmd(
@@ -246,14 +203,12 @@ api.create_autocmd(
 api.create_autocmd(events, g { pattern = { "*.jinja2", "*.j2", "*.jinja", "*.tera" }, command = "set filetype=jinja" })
 
 -- from $PACKER/opt/vim-caddyfile/ftdetect/caddyfile.vim
-
 api.create_autocmd(
   events,
   g { pattern = { "Caddyfile", "*.Caddyfile", "Caddyfile.*" }, command = "set filetype=caddyfile" }
 )
 
 -- from $PACKER/opt/bats.vim/ftdetect/bats.vim
-
 api.create_autocmd(events, g { pattern = { "*.bats" }, command = "set filetype=bats" })
 api.create_autocmd(
   events,
@@ -316,6 +271,3 @@ api.create_autocmd(events, {
   end,
 })
 api.create_autocmd(events, g { pattern = "hosts", command = "set filetype=ansible_hosts" })
-
--- from $PACKER/opt/jsonc.vim/ftdetect/jsonc.vim
--- NOTE: RUNTIME has this

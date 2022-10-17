@@ -243,17 +243,6 @@ return {
     })
   end,
 
-  gitignore = {
-    setup = function()
-      local api = require("core.utils").api
-      api.create_autocmd({ "BufNewFile", "BufRead" }, {
-        group = api.create_augroup("detect_other_ignores", {}),
-        pattern = ".gcloudignore",
-        command = [[setf gitignore]],
-      })
-    end,
-  },
-
   coffee_script = {
     setup = function()
       local api = require("core.utils").api
