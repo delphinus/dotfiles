@@ -30,8 +30,6 @@ return {
     end,
   },
 
-  { "editorconfig/editorconfig-vim" },
-
   {
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
