@@ -108,10 +108,17 @@ return {
     setup = function()
       local api = require("core.utils").api
       vim.g.autodate_format = "%FT%T%z"
-      api.create_autocmd(
-        { "BufUnload", "FileWritePre", "BufWritePre" },
-        { group = api.create_augroup("Autodate", {}), command = "Autodate" }
-      )
+      local group = api.create_augroup("Autodate", {})
+      api.create_autocmd({ "BufRead", "BufNewFile" }, {
+        group = group,
+        once = true,
+        callback = function()
+          api.create_autocmd(
+            { "BufUnload", "FileWritePre", "BufWritePre" },
+            { group = api.create_augroup("Autodate", {}), command = "Autodate" }
+          )
+        end,
+      })
     end,
   },
 
