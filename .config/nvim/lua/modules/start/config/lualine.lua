@@ -97,7 +97,23 @@ return function()
       },
       tabline = {
         lualine_a = {},
-        lualine_b = {},
+        lualine_b = {
+          {
+            self:noice "command" "get",
+            cond = self:noice "command" "has",
+            color = { fg = "#ff9e64" },
+          },
+          {
+            self:noice "mode" "get",
+            cond = self:noice "mode" "has",
+            color = { fg = "#ff9e64" },
+          },
+          {
+            self:noice "search" "get",
+            cond = self:noice "search" "has",
+            color = { fg = "#ff9e64" },
+          },
+        },
         lualine_c = {
           { self:tag(), separator = "❘" },
           {
@@ -280,6 +296,22 @@ return function()
   function Lualine:lsp_available() -- luacheck: ignore 212
     ---@diagnostic disable-next-line: undefined-field
     return _G.packer_plugins["nvim-lspconfig"].loaded
+  end
+
+  ---@param kind string
+  ---@return fun(method: string): (fun(): string)
+  function Lualine:noice(kind) -- luacheck: ignore 212
+    ---@param method string
+    ---@return fun(): string?
+    return function(method)
+      ---@return string?
+      return function()
+        ---@diagnostic disable-next-line: undefined-field
+        if _G.packer_plugins["noice.nvim"].loaded then
+          return require("noice").api.statusline[kind][method]()
+        end
+      end
+    end
   end
 
   local lualine = Lualine.new()
