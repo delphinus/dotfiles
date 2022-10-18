@@ -22,6 +22,9 @@ return {
         popupmenu = {
           backend = "cmp",
         },
+        lsp_progress = {
+          enabled = true,
+        },
         hacks = {
           skip_duplicate_messages = true,
         },
