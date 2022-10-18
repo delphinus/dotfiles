@@ -1,4 +1,3 @@
-local fn, uv, api = require("core.utils").globals()
 local config = require "modules.opt.config"
 
 return {
