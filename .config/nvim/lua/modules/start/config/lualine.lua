@@ -99,6 +99,12 @@ return function()
         lualine_a = {},
         lualine_b = {
           {
+            self:noice "message" "get",
+            cond = self:noice "message" "has",
+            color = { fg = "#ff9e64" },
+            fmt = self:tr { { 90, 0 }, { 120, 30 }, { 999, 80 } },
+          },
+          {
             self:noice "command" "get",
             cond = self:noice "command" "has",
             color = { fg = "#ff9e64" },
