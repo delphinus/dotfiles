@@ -117,7 +117,7 @@ end
 function Pack:assume_plugins()
   local data_dir = fn.stdpath "data"
   for _, p in ipairs {
-    { "nvim-lua/plenary.nvim" },
+    { "nvim-lua/plenary.nvim", opt = true },
     --{ "wbthomason/packer.nvim", opt = true },
     { "delphinus/packer.nvim", opt = true, branch = "feature/denops" },
   } do

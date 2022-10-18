@@ -2,7 +2,7 @@ local config = require "modules.start.config"
 
 return {
   -- TODO: needed here?
-  { "nvim-lua/plenary.nvim" },
+  { "nvim-lua/plenary.nvim", module_pattern = { "plenary.*" } },
 
   -- basic {{{
   -- TODO: https://github.com/antoinemadec/FixCursorHold.nvim

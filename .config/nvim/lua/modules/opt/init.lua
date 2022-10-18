@@ -359,7 +359,7 @@ return {
       { "n", "gc" },
       { "v", "gc" },
     },
-    requires = { "nvim-lua/plenary.nvim" },
+    wants = { "plenary.nvim" },
     config = config.gitlinker,
   },
 
