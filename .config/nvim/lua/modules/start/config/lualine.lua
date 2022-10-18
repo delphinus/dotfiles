@@ -101,7 +101,8 @@ return function()
         lualine_c = {
           { self:tag(), separator = "❘" },
           {
-            "lsp_progress",
+            --"lsp_progress",
+            "lsp_progress_lazy",
             display_components = { "lsp_client_name", "spinner", { "title", "percentage" } },
             colors = {
               percentage = "#a3be8c",
