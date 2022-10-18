@@ -51,8 +51,6 @@ return {
     requires = {
       --{ "kyazdani42/nvim-web-devicons", opt = true },
       { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square", opt = true },
-      --{ "arkav/lualine-lsp-progress" },
-      { "delphinus/lualine-lsp-progress", branch = "hotfix/escape-progress" },
       { "delphinus/eaw.nvim", module = { "eaw" } },
     },
     config = require "modules.start.config.lualine",

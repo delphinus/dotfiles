@@ -116,23 +116,6 @@ return function()
         },
         lualine_c = {
           { self:tag(), separator = "❘" },
-          {
-            --"lsp_progress",
-            "lsp_progress_lazy",
-            display_components = { "lsp_client_name", "spinner", { "title", "percentage" } },
-            colors = {
-              percentage = "#a3be8c",
-              title = "#d08770",
-              message = "#8ca9cd",
-              spinner = "#ebcb8b",
-              lsp_client_name = "#b48ead",
-              use = true,
-            },
-            color = { fg = "#b48ead" },
-            spinner_symbols = { "⡿", "⣟", "⣯", "⣷", "⣾", "⣽", "⣻", "⢿" },
-            --fmt = tr { { 80, 0 }, { 90, 10 }, { 999, 60 } },
-            -- colored components cannot be truncated
-          },
         },
         lualine_x = { { self:char_info(), fmt = self:tr { 80, 0 } } },
         lualine_y = {
