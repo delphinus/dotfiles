@@ -7,7 +7,15 @@ LspProgressLazy.init = function(self, options)
   api.create_autocmd("LspAttach", {
     once = true,
     callback = function()
+      local orig = vim.lsp.handlers["$/progress"]
       self.super.register_progress(self)
+      if orig then
+        local f = vim.lsp.handlers["$/progress"]
+        vim.lsp.handlers["$/progress"] = function(...)
+          orig(...)
+          f(...)
+        end
+      end
     end,
   })
   self.super.init(self, options)
