@@ -159,7 +159,6 @@ return function()
   ---@param no_ellipsis boolean | nil
   ---@return string
   function Lualine:truncator(str, settings, no_ellipsis) -- luacheck: ignore 212
-    local truncate = require("plenary.strings").truncate
     ---@type integer
     local columns = vim.opt.columns:get()
     if type(settings[1]) ~= "table" then
@@ -187,7 +186,7 @@ return function()
         elseif len == 0 then
           return ""
         end
-        local truncated = truncate(str, len, (no_ellipsis and "" or nil))
+        local truncated = require("plenary.strings").truncate(str, len, (no_ellipsis and "" or nil))
         -- TODO: deal with ellipsis
         if not no_ellipsis and truncated:match("[^%%]%%" .. "…$") then
           truncated = truncated:gsub("%%…$", "…")
