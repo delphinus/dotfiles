@@ -24,6 +24,8 @@ return {
 
   { "dhruvasagar/vim-table-mode", cmd = { "TableModeToggle" }, setup = config.table_mode.setup },
 
+  { "dstein64/vim-startuptime", cmd = { "StartupTime" } },
+
   { "fuenor/JpFormat.vim", cmd = { "JpFormatAll", "JpJoinAll" } },
 
   {
@@ -136,8 +138,6 @@ return {
       vim.keymap.set({ "n", "v" }, "g<CR>", [[<Plug>(openbrowser-smart-search)]])
     end,
   },
-
-  { "tweekmonster/startuptime.vim", cmd = { "StartupTime" } },
 
   {
     "vifm/vifm.vim",
