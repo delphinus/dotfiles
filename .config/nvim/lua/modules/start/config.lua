@@ -11,6 +11,15 @@ return {
     end,
 
     config = function()
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("noice-colors", {}),
+        pattern = "nord",
+        callback = function()
+          api.set_hl(0, "NoiceLspProgressSpinner", { fg = "#e5e9f0" })
+          api.set_hl(0, "NoiceLspProgressTitle", { fg = "#d08770" })
+          api.set_hl(0, "NoiceLspProgressClient", { fg = "#ebcb8b" })
+        end,
+      })
       require("noice").setup {
         cmdline = {
           icons = {
