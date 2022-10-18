@@ -65,7 +65,10 @@ return function()
             fmt = self:tr { { 30, 0 }, { 50, "F" }, { 80, "Fmt" } },
             separator = "",
             color = function()
-              local is_enabled = require("core.utils.lsp.auto_formatting").is_enabled(0)
+              local is_enabled = false
+              if self:lsp_available() then
+                is_enabled = require("core.utils.lsp.auto_formatting").is_enabled(0)
+              end
               return is_enabled and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
             end,
           },
@@ -76,8 +79,11 @@ return function()
             separator = "",
             fmt = self:tr { { 30, 0 }, { 50, "D" }, { 80, "Diag" } },
             color = function()
+              local is_enabled = false
+              if self:lsp_available() then
+                is_enabled = not vim.b.lsp_diagnostics_disabled and #vim.lsp.get_active_clients { bufnr = 0 } > 0
+              end
               -- See core.utils.lsp
-              local is_enabled = not vim.b.lsp_diagnostics_disabled and #vim.lsp.get_active_clients { bufnr = 0 } > 0
               return is_enabled and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
             end,
           },
@@ -135,7 +141,7 @@ return function()
   ---@param settings table
   ---@param no_ellipsis boolean | nil
   ---@return string
-  function Lualine:truncator(str, settings, no_ellipsis)
+  function Lualine:truncator(str, settings, no_ellipsis) -- luacheck: ignore 212
     local truncate = require("plenary.strings").truncate
     ---@type integer
     local columns = vim.opt.columns:get()
@@ -196,6 +202,9 @@ return function()
   ---@return fun() -> string
   function Lualine:lsp()
     return function()
+      if not self:lsp_available() then
+        return ""
+      end
       ---@type { id: integer, name: string }[]
       local clients = vim.lsp.get_active_clients { bufnr = 0 }
       local result = ""
@@ -222,7 +231,7 @@ return function()
       end
       local r = results[1]
       local escaped = r.char:gsub("%%", "%%%%")
-      local sign = require 'eaw'.get(char)
+      local sign = require("eaw").get(char)
       local text = ("<%s> %s %s"):format(escaped, r.codepoint, sign)
       if r.digraphs and #r.digraphs > 0 then
         text = text .. ", \\<C-K>" .. r.digraphs[1]
@@ -239,7 +248,16 @@ return function()
 
   ---@return fun() -> string
   function Lualine:tag()
+    ---@return boolean
+    local function treesitter_available()
+      ---@diagnostic disable-next-line: undefined-field
+      return _G.packer_plugins["nvim-treesitter"].loaded
+    end
+
     return function()
+      if not treesitter_available() then
+        return ""
+      end
       ---@return string | nil
       local treesitter_tag = function()
         local tag = require("nvim-treesitter").statusline {
@@ -255,6 +273,12 @@ return function()
       local ok, ts = pcall(treesitter_tag)
       return ok and ts or "«no tag»"
     end
+  end
+
+  ---@return boolean
+  function Lualine:lsp_available() -- luacheck: ignore 212
+    ---@diagnostic disable-next-line: undefined-field
+    return _G.packer_plugins["nvim-lspconfig"].loaded
   end
 
   local lualine = Lualine.new()
