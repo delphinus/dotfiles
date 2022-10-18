@@ -65,6 +65,7 @@ return {
       "nvim-notify",
       "nvim-web-devicons",
       "popup.nvim",
+      "project.nvim",
       "telescope-file-browser.nvim",
       "telescope-frecency.nvim",
       "telescope-fzf-native.nvim",

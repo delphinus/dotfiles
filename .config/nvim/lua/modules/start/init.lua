@@ -5,17 +5,6 @@ return {
   { "nvim-lua/plenary.nvim" },
 
   -- basic {{{
-  {
-    "ahmedkhalf/project.nvim",
-    config = function()
-      require("project_nvim").setup {
-        ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls" },
-        patterns = { ".git" },
-        show_hidden = true,
-      }
-    end,
-  },
-
   -- TODO: https://github.com/antoinemadec/FixCursorHold.nvim
   {
     "antoinemadec/FixCursorHold.nvim",

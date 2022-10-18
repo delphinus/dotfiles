@@ -154,6 +154,18 @@ return {
 
   -- event {{{
   {
+    "ahmedkhalf/project.nvim",
+    event = { "BufRead", "BufNewFile" },
+    config = function()
+      require("project_nvim").setup {
+        ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls" },
+        patterns = { ".git" },
+        show_hidden = true,
+      }
+    end,
+  },
+
+  {
     "b0o/incline.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
