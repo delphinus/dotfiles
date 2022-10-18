@@ -69,7 +69,7 @@ return {
       keymap.set("n", "<Leader>fg", input_grep_string("Grep For ❯ ", builtin "grep_string"))
       keymap.set("n", "<Leader>fh", builtin "help_tags" {})
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
-      keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
+      keymap.set("n", "<Leader>fn", extensions("noice", "noice") {})
       keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = frecency.path_display })
       keymap.set("n", "<Leader>fp", extensions("projects", "projects") {})
       keymap.set(
@@ -341,8 +341,8 @@ return {
       telescope.load_extension "smart_history"
       -- This is needed to setup projects.nvim
       telescope.load_extension "projects"
-      -- This is needed to setup vim-notify
-      telescope.load_extension "notify"
+      -- This is needed to setup noice.nvim
+      telescope.load_extension "noice"
       -- This is needed to setup yanky
       telescope.load_extension "yank_history"
 

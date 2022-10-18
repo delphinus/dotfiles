@@ -59,7 +59,7 @@ return {
     },
     wants = {
       "dressing.nvim",
-      "nvim-notify",
+      "noice.nvim",
       "nvim-web-devicons",
       "plenary.nvim",
       "popup.nvim",
