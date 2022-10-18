@@ -11,7 +11,21 @@ return {
     end,
 
     config = function()
-      require("noice").setup {}
+      require("noice").setup {
+        cmdline = {
+          icons = {
+            ["/"] = { icon = "", hl_group = "DiagnosticWarn" },
+            ["?"] = { icon = "", hl_group = "DiagnosticWarn" },
+            [":"] = { icon = "", hl_group = "DiagnosticInfo" },
+          },
+        },
+        popupmenu = {
+          backend = "cmp",
+        },
+        hacks = {
+          skip_duplicate_messages = true,
+        },
+      }
     end,
   },
 
