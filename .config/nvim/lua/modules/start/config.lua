@@ -1,6 +1,8 @@
 return {
   noice = {
     setup = function()
+      local api = require("core.utils").api
+
       local orig = vim.notify
       vim.notify = function(...)
         vim.notify = orig
@@ -8,18 +10,19 @@ return {
         require "noice"
         vim.notify(...)
       end
-    end,
 
-    config = function()
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("noice-colors", {}),
-        pattern = "nord",
+        once = true,
         callback = function()
           api.set_hl(0, "NoiceLspProgressSpinner", { fg = "#e5e9f0" })
           api.set_hl(0, "NoiceLspProgressTitle", { fg = "#d08770" })
           api.set_hl(0, "NoiceLspProgressClient", { fg = "#ebcb8b" })
         end,
       })
+    end,
+
+    config = function()
       require("noice").setup {
         cmdline = {
           icons = {
@@ -36,6 +39,12 @@ return {
         },
         hacks = {
           skip_duplicate_messages = true,
+        },
+        format = {
+          spinner = {
+            name = "dots12",
+            --name = "sand",
+          },
         },
       }
     end,
