@@ -100,6 +100,7 @@ return {
         assert(uv.fs_close(fd))
         assert(uv.fs_chmod(path, tonumber("0755", 8)))
         return {
+          cmd = { "perlnavigator", "--stdio" },
           settings = {
             perlnavigator = {
               perlPath = path,
