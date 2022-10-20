@@ -37,7 +37,9 @@ return {
       { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square", opt = true },
       { "delphinus/eaw.nvim", module = { "eaw" } },
     },
-    config = require "modules.start.config.lualine",
+    config = function()
+      require("modules.start.config.lualine"):config()
+    end,
   },
 
   { "lambdalisue/suda.vim" },

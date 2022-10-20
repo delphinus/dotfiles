@@ -644,6 +644,8 @@ return {
           },
         },
       }
+
+      require("modules.start.config.lualine").is_noice_available = true
     end,
   },
 

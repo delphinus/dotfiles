@@ -1,6 +1,15 @@
 return {
   lspconfig = function()
     local fn, uv, api = require("core.utils").globals()
+
+    api.create_autocmd("LspAttach", {
+      group = api.create_augroup("enable-lualine-lsp", {}),
+      once = true,
+      callback = function()
+        require("modules.start.config.lualine").is_lsp_available = true
+      end,
+    })
+
     require("mason").setup {
       max_concurrent_installers = 12,
     }
@@ -316,6 +325,8 @@ return {
       },
     }
     vim.keymap.set("n", "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
+
+    require("modules.start.config.lualine").is_ts_available = true
   end,
 
   null_ls = {
