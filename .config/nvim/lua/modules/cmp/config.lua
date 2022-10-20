@@ -26,32 +26,21 @@ return {
         end
       end
 
-      --[[
-      local pre_config
-
       local g1 = api.create_augroup("skkeleton_callbacks", {})
       api.create_autocmd("User", {
         group = g1,
         pattern = "skkeleton-enable-pre",
         callback = function()
-          pre_config = require("cmp.config").get()
-          require("cmp").setup.buffer {
-            sources = { { name = "skkeleton" } },
-            view = { entries = "native" },
-          }
+          require("cmp").setup.buffer { enabled = false }
         end,
       })
       api.create_autocmd("User", {
         group = g1,
         pattern = "skkeleton-disable-pre",
         callback = function()
-          if pre_config then
-            require("cmp").setup.buffer(pre_config)
-            pre_config = nil
-          end
+          require("cmp").setup.buffer { enabled = true }
         end,
       })
-      ]]
 
       local g2 = api.create_augroup("skkeleton_karabiner_elements", {})
       api.create_autocmd({ "InsertEnter", "CmdlineEnter" }, { group = g2, callback = set_karabiner(1) })
