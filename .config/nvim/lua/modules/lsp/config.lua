@@ -96,9 +96,9 @@ return {
         if not fd then
           error "cannot do mkstemp"
         end
-        assert(uv.fs_write(fd, "#!/bin/bash\nperl -Ilib $@"))
+        assert(uv.fs_write(fd, '#!/bin/bash\nperl -Ilib "$@"'))
         assert(uv.fs_close(fd))
-        assert(uv.fs_chmod(path, 0x0755))
+        assert(uv.fs_chmod(path, tonumber("0755", 8)))
         return {
           settings = {
             perlnavigator = {
