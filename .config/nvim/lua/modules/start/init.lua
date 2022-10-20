@@ -31,22 +31,6 @@ return {
   },
 
   {
-    "folke/noice.nvim",
-    event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
-    module = { "noice" },
-    requires = {
-      { "MunifTanjim/nui.nvim" },
-      {
-        "rcarriga/nvim-notify",
-        module = { "notify" },
-        config = config.notify,
-      },
-    },
-    setup = config.noice.setup,
-    config = config.noice.config,
-  },
-
-  {
     "nvim-lualine/lualine.nvim",
     requires = {
       --{ "kyazdani42/nvim-web-devicons", opt = true },

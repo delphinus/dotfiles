@@ -595,4 +595,67 @@ return {
       require("scrollbar").setup {}
     end,
   },
+
+  noice = {
+    setup = function()
+      local api = require("core.utils").api
+
+      local orig = vim.notify
+      vim.notify = function(...)
+        vim.notify = orig
+        require "notify"
+        require "noice"
+        vim.notify(...)
+      end
+
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("noice-colors", {}),
+        once = true,
+        callback = function()
+          api.set_hl(0, "NoiceLspProgressSpinner", { fg = "#e5e9f0" })
+          api.set_hl(0, "NoiceLspProgressTitle", { fg = "#d08770" })
+          api.set_hl(0, "NoiceLspProgressClient", { fg = "#ebcb8b" })
+        end,
+      })
+    end,
+
+    config = function()
+      require("noice").setup {
+        cmdline = {
+          icons = {
+            ["/"] = { icon = "", hl_group = "DiagnosticWarn" },
+            ["?"] = { icon = "", hl_group = "DiagnosticWarn" },
+            [":"] = { icon = "", hl_group = "DiagnosticInfo" },
+          },
+        },
+        popupmenu = {
+          backend = "cmp",
+        },
+        lsp_progress = {
+          enabled = true,
+        },
+        hacks = {
+          skip_duplicate_messages = true,
+        },
+        format = {
+          spinner = {
+            name = "dots12",
+            --name = "sand",
+          },
+        },
+      }
+    end,
+  },
+
+  notify = function()
+    vim.opt.termguicolors = true
+    require("notify").setup {
+      render = "minimal",
+      background_colour = "#3b4252",
+      level = "trace",
+      on_open = function(win)
+        api.win_set_config(win, { focusable = false })
+      end,
+    }
+  end,
 }

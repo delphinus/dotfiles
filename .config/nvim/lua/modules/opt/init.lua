@@ -197,6 +197,22 @@ return {
   },
 
   {
+    "folke/noice.nvim",
+    event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
+    module = { "noice" },
+    requires = {
+      { "MunifTanjim/nui.nvim" },
+      {
+        "rcarriga/nvim-notify",
+        module = { "notify" },
+        config = config.notify,
+      },
+    },
+    setup = config.noice.setup,
+    config = config.noice.config,
+  },
+
+  {
     "haringsrob/nvim_context_vt",
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
