@@ -61,7 +61,7 @@
 [user]
 	email = me@delphinus.dev
 	name = delphinus
-	signingkey = 32AB0B4F
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIACxEJ/p67umFPAPtnLFo4t3aDFfAV5iuOybn3c8Z1dx
 [github]
 [core]
 	excludesfile = ~/git/dotfiles/.gitignore-global
@@ -128,7 +128,11 @@
 [mergetool "nvimdiff"]
 	cmd = nvim -d -c '4wincmd w | wincmd J | nnoremap q <Cmd>qa<CR>' $LOCAL $BASE $REMOTE $MERGED
 [gpg]
-	program = gpg2
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
 [init]
 	defaultBranch = main
 [delta]
