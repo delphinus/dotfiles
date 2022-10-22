@@ -84,7 +84,11 @@ api.create_autocmd(
         end
         if vim.regex([[^\s*\%(use\s\+\)\=v6\%(\.\d\%(\.\d\)\=\)\=;]]):match_str(line) then
           vim.opt.filetype = "perl6"
-        elseif vim.regex [[^\s*\%(\%(my\|our\)\s\+\)\=\%(unit\s\+\)\=\(module\|class\|role\|enum\|grammar\)]] then
+        elseif
+          vim.regex([[^\s*\%(\%(my\|our\)\s\+\)\=\%(unit\s\+\)\=\(module\|class\|role\|enum\|grammar\)]]):match_str(
+            line
+          )
+        then
           vim.opt.filetype = "perl6"
         end
         ::continue::
