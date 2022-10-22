@@ -152,10 +152,7 @@ return {
       "W",
       "Wall",
     },
-    config = function()
-      local uv = require("core.utils").uv
-      vim.env.SUDO_ASKPASS = uv.os_homedir() .. "/git/dotfiles/bin/macos-askpass"
-    end,
+    config = config.eunuch,
   },
 
   {

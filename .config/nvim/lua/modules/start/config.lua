@@ -97,4 +97,9 @@ return {
       },
     }
   end,
+
+  eunuch = function()
+    local _, uv, _ = require("core.utils").globals()
+    vim.env.SUDO_ASKPASS = uv.os_homedir() .. "/git/dotfiles/bin/macos-askpass"
+  end,
 }
