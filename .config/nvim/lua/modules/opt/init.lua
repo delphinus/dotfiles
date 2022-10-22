@@ -295,7 +295,6 @@ return {
       "WinEnter",
       "WinScrolled",
     },
-    setup = config.scrollbar.setup,
     config = config.scrollbar.config,
   },
   -- }}}
@@ -313,7 +312,7 @@ return {
   { "hail2u/vim-css3-syntax", ft = { "css" } },
   { "isobit/vim-caddyfile", ft = { "caddyfile" } },
   { "junegunn/vader.vim", ft = { "vader" } },
-  { "kchmck/vim-coffee-script", ft = { "coffee" }, setup = config.coffee_script.setup },
+  { "kchmck/vim-coffee-script", ft = { "coffee" } },
   { "kevinhwang91/nvim-bqf", ft = { "qf" } },
   { "leafo/moonscript-vim", ft = { "moonscript" } },
   { "moznion/vim-cpanfile", ft = { "cpanfile" } },
@@ -352,10 +351,11 @@ return {
   {
     "inkarkat/vim-LineJuggler",
     requires = {
-      { "inkarkat/vim-ingo-library" },
-      { "vim-repeat" },
-      { "vim-scripts/visualrepeat" },
+      { "inkarkat/vim-ingo-library", opt = true },
+      { "vim-repeat", opt = true },
+      { "vim-scripts/visualrepeat", opt = true },
     },
+    wants = { "vim-ingo-library", "vim-repeat", "visualrepeat" },
     keys = {
       "[d",
       "]d",
@@ -387,8 +387,6 @@ return {
 
   {
     "phaazon/hop.nvim",
-    --"delphinus/hop.nvim",
-    --branch = "feature/migemo",
     keys = {
       { "n", [['j]] },
       { "v", [['j]] },
@@ -427,9 +425,6 @@ return {
   -- }}}
 
   -- func {{{
-  { "sainnhe/artify.vim", fn = { "artify#convert" } },
-  { "vim-jp/vital.vim", fn = { "vital#vital#new" } },
-
   { "hrsh7th/vim-searchx", fn = { "searchx#*" }, setup = config.searchx.setup, config = config.searchx.config },
   -- }}}
 

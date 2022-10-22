@@ -125,7 +125,7 @@ return {
   dwm = {
     cond = function()
       local fn = vim.fn
-      -- Do not load when it is loading committia.vim
+      -- HACK: Do not load when it is loading committia.vim
       local file = fn.expand "%"
       local not_to_load = { "COMMIT_EDITMSG", "MERGE_MSG" }
       for _, name in ipairs(not_to_load) do
@@ -159,9 +159,7 @@ return {
         if state and state.winnr then
           local ok = pcall(api.win_close, state.winnr, true)
           if not ok then
-            api.echo({
-              { "cannot found scrollbar win: " .. state.winnr, "WarningMsg" },
-            }, true, {})
+            vim.notify("cannot found scrollbar win: " .. state.winnr, vim.log.levels.WARN)
           end
           vim.b.scrollbar_state = { size = state.size, bufnr = state.bufnr }
         end
@@ -249,17 +247,6 @@ return {
       end,
     })
   end,
-
-  coffee_script = {
-    setup = function()
-      local api = require("core.utils").api
-      api.create_autocmd({ "BufNewFile", "BufRead" }, {
-        group = api.create_augroup("detect_cson", {}),
-        pattern = "*.cson",
-        command = [[setf coffee]],
-      })
-    end,
-  },
 
   ansible = function()
     vim.g.ansible_name_highlight = "b"
@@ -500,24 +487,34 @@ return {
 
   fterm = {
     setup = function()
-      local keymap = vim.keymap
-      local loaded
-      local function toggle_fterm()
-        if not loaded then
-          require("FTerm").setup {
-            cmd = vim.opt.shell:get(),
-            border = {
-              { "⣀", "WinBorderTop" },
-              { "⣀", "WinBorderTop" },
-              { "⣀", "WinBorderTop" },
-              { "⢸", "WinBorderRight" },
-              { "⠉", "WinBorderBottom" },
-              { "⠉", "WinBorderBottom" },
-              { "⠉", "WinBorderBottom" },
-              { "⡇", "WinBorderLeft" },
-            },
-          }
-          --[[
+      vim.keymap.set({ "n", "t" }, "<A-c>", function()
+        require("FTerm").toggle()
+      end)
+    end,
+    config = function()
+      local api = require("core.utils").api
+      api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
+      api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
+      api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })
+      api.set_hl(0, "WinBorderBottom", { fg = "#5d9794", blend = 30 })
+      api.set_hl(0, "WinBorderLight", { fg = "#c2dddc", bg = "#5d9794", blend = 30 })
+      api.set_hl(0, "WinBorderDark", { fg = "#5d9794", bg = "#c2dddc", blend = 30 })
+      api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
+
+      require("FTerm").setup {
+        cmd = vim.opt.shell:get(),
+        border = {
+          { "⣀", "WinBorderTop" },
+          { "⣀", "WinBorderTop" },
+          { "⣀", "WinBorderTop" },
+          { "⢸", "WinBorderRight" },
+          { "⠉", "WinBorderBottom" },
+          { "⠉", "WinBorderBottom" },
+          { "⠉", "WinBorderBottom" },
+          { "⡇", "WinBorderLeft" },
+        },
+      }
+      --[[
               {'╭', 'WinBorderTop'},
               {'─', 'WinBorderTop'},
               {' ', 'WinBorderTransparent'},
@@ -527,7 +524,7 @@ return {
               {' ', 'WinBorderTransparent'},
               {'│', 'WinBorderLeft'},
               ]]
-          --[[
+      --[[
               {'█', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
@@ -537,7 +534,7 @@ return {
               {'█', 'WinBorderLight'},
               {'█', 'WinBorderLight'},
               ]]
-          --[[
+      --[[
               {'▟', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
@@ -548,7 +545,7 @@ return {
               {'▜', 'WinBorderLight'},
               {'█', 'WinBorderLight'},
               ]]
-          --[[
+      --[[
               {'╭', 'WinBorderTop'},
               {'─', 'WinBorderTop'},
               {'╮', 'WinBorderTop'},
@@ -566,31 +563,10 @@ return {
               {'⠙', 'WinBorderLeft'},
               {'⣿', 'WinBorderLeft'},
               ]]
-          loaded = true
-        end
-        require("FTerm").toggle()
-      end
-
-      keymap.set({ "n", "t" }, "<A-c>", toggle_fterm)
-      keymap.set({ "n", "t" }, "<A-ç>", toggle_fterm)
-    end,
-    config = function()
-      local api = require("core.utils").api
-      api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
-      api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
-      api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })
-      api.set_hl(0, "WinBorderBottom", { fg = "#5d9794", blend = 30 })
-      api.set_hl(0, "WinBorderLight", { fg = "#c2dddc", bg = "#5d9794", blend = 30 })
-      api.set_hl(0, "WinBorderDark", { fg = "#5d9794", bg = "#c2dddc", blend = 30 })
-      api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
     end,
   },
 
   scrollbar = {
-    setup = function()
-      --
-    end,
-
     config = function()
       require("scrollbar").setup {}
     end,

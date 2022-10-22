@@ -33,8 +33,6 @@ return {
     config = config.fugitive,
   },
 
-  { "tpope/vim-repeat" },
-
   {
     -- 'tpope/vim-unimpaired',
     "delphinus/vim-unimpaired",
