@@ -60,7 +60,7 @@ return {
     run = config.cellwidths.run,
   },
 
-  { "folke/todo-comments.nvim" },
+  { "folke/todo-comments.nvim", config = config.todo_comments },
   -- }}}
 }
 
