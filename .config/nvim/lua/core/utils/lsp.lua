@@ -228,7 +228,6 @@ return {
     }
 
     local jobs = {
-      new_job("cpanm", { "App::efm_perl" }),
       new_job("brew", { "install", unpack(formulae) }, new_job("brew", { "upgrade", unpack(formulae) })),
       new_job("npm", { "install", "-g", "textlint-rule-preset-ja-spacing" }),
     }
