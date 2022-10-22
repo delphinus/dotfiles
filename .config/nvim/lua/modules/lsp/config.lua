@@ -91,23 +91,15 @@ return {
       vuels = {},
       yamlls = {},
 
-      perlnavigator = (function()
-        local fd, path = uv.fs_mkstemp(uv.os_tmpdir() .. "/perl.XXXXXX")
-        if not fd then
-          error "cannot do mkstemp"
-        end
-        assert(uv.fs_write(fd, '#!/bin/bash\nperl -Ilib "$@"'))
-        assert(uv.fs_close(fd))
-        assert(uv.fs_chmod(path, tonumber("0755", 8)))
-        return {
-          cmd = { "perlnavigator", "--stdio" },
-          settings = {
-            perlnavigator = {
-              perlPath = path,
-            },
+      perlnavigator = {
+        cmd = { "perlnavigator", "--stdio" },
+        settings = {
+          perlnavigator = {
+            perlPath = "carmel exec -- perl",
+            includePaths = { "lib", "local/lib/perl5" },
           },
-        }
-      end)(),
+        },
+      },
 
       pyright = {
         settings = {
