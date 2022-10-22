@@ -7,8 +7,6 @@ local function ts(plugin)
 end
 
 return {
-  { "folke/neodev.nvim", opt = true },
-
   { -- {{{ nvim-lspconfig
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     module = { "lsp_lines" },
@@ -41,6 +39,11 @@ return {
       "vue",
       "yaml",
     },
+    requires = {
+      { "folke/neodev.nvim", module = { "neodev" } },
+      { "williamboman/mason-lspconfig.nvim", module = { "mason-lspconfig" } },
+      { "williamboman/mason.nvim", module = { "mason" } },
+    },
     wants = {
       "neodev.nvim",
       "mason.nvim",
@@ -49,16 +52,6 @@ return {
       "cmp-nvim-lsp",
     },
     config = config.lspconfig,
-  },
-
-  {
-    "williamboman/mason.nvim",
-    module = { "mason" },
-  },
-
-  {
-    "williamboman/mason-lspconfig.nvim",
-    module = { "mason-lspconfig" },
   }, -- }}}
 
   ts { "RRethy/nvim-treesitter-endwise" },
