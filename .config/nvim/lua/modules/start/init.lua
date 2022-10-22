@@ -5,21 +5,7 @@ return {
   { "nvim-lua/plenary.nvim", module_pattern = { "plenary.*" } },
 
   -- basic {{{
-  -- TODO: https://github.com/antoinemadec/FixCursorHold.nvim
-  {
-    "antoinemadec/FixCursorHold.nvim",
-    config = [[vim.g.cursorhold_updatetime = 100]],
-  },
-
-  "delphinus/artify.nvim",
-  "delphinus/f_meta.nvim",
-
-  {
-    "delphinus/characterize.nvim",
-    config = function()
-      require("characterize").setup {}
-    end,
-  },
+  { "delphinus/f_meta.nvim" },
 
   { "delphinus/vim-quickfix-height" },
 
@@ -42,23 +28,12 @@ return {
     end,
   },
 
-  { "lambdalisue/suda.vim" },
-
-  {
-    "tpope/vim-eunuch",
-    config = function()
-      local fn, uv, api = require("core.utils").globals()
-      vim.env.SUDO_ASKPASS = uv.os_homedir() .. "/git/dotfiles/bin/macos-askpass"
-    end,
-  },
-
   {
     "tpope/vim-fugitive",
     config = config.fugitive,
   },
 
   { "tpope/vim-repeat" },
-  { "tpope/vim-rhubarb" },
 
   {
     -- 'tpope/vim-unimpaired',

@@ -28,6 +28,8 @@ return {
 
   { "fuenor/JpFormat.vim", cmd = { "JpFormatAll", "JpJoinAll" } },
 
+  { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } },
+
   {
     "rbgrouleff/bclose.vim",
     -- TODO: cmd does not work?
@@ -127,6 +129,33 @@ return {
       { "thinca/vim-prettyprint", cmd = { "PP", "PrettyPrint" } },
     },
     cmd = { "Capture" },
+  },
+
+  {
+    "tpope/vim-eunuch",
+    cmd = {
+      "Cfind",
+      "Chmod",
+      "Clocate",
+      "Copy",
+      "Delete",
+      "Duplicate",
+      "Lfind",
+      "Llocate",
+      "Mkdir",
+      "Move",
+      "Remove",
+      "Rename",
+      "SudoEdit",
+      "SudoWrite",
+      "Unlink",
+      "W",
+      "Wall",
+    },
+    config = function()
+      local uv = require("core.utils").uv
+      vim.env.SUDO_ASKPASS = uv.os_homedir() .. "/git/dotfiles/bin/macos-askpass"
+    end,
   },
 
   {
@@ -405,6 +434,14 @@ return {
   -- }}}
 
   -- module {{{
+  {
+    "delphinus/characterize.nvim",
+    module = { "characterize" },
+    config = function()
+      require("characterize").setup {}
+    end,
+  },
+
   { "numToStr/FTerm.nvim", module = { "FTerm" }, setup = config.fterm.setup, config = config.fterm.config },
   -- }}}
 }
