@@ -234,6 +234,7 @@ return {
         config = config.notify,
       },
     },
+    wants = { "nvim-treesitter" },
     setup = config.noice.setup,
     config = config.noice.config,
   },
