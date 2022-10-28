@@ -51,8 +51,6 @@ return {
       -- Use lsp_lines instead
       virtual_text = false,
     })
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
 
     local lsp = require "lspconfig"
     local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")

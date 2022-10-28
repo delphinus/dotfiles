@@ -598,20 +598,23 @@ return {
     config = function()
       require("noice").setup {
         cmdline = {
-          icons = {
-            ["/"] = { icon = "", hl_group = "DiagnosticWarn" },
-            ["?"] = { icon = "", hl_group = "DiagnosticWarn" },
-            [":"] = { icon = "", hl_group = "DiagnosticInfo" },
+          format = {
+            cmdline = { icon = "" },
+            search_down = { icon = "" },
+            search_up = { icon = "" },
+            filter = { icon = "" },
           },
         },
         popupmenu = {
-          backend = "cmp",
+          --backend = "cmp",
         },
-        lsp_progress = {
-          enabled = true,
-        },
-        hacks = {
-          skip_duplicate_messages = true,
+        lsp = {
+          hover = {
+            enabled = true,
+          },
+          signature = {
+            enabled = true,
+          },
         },
         format = {
           spinner = {
