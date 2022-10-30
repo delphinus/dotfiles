@@ -459,12 +459,17 @@ return {
           end
           -- If the input has `.` at the beginning, it converts the input with
           -- cmigemo.
-          local dict = vim.env.HOMEBREW_PREFIX .. "/opt/cmigemo/share/migemo/utf-8/migemo-dict"
+          local Path = require "plenary.path"
+          local dict = Path.new(vim.env.HOMEBREW_PREFIX, "opt/cmigemo/share/migemo/utf-8/migemo-dict")
+          if not dict:exists() then
+            vim.notify("Cannot find cmigemo to be installed. Run `brew install cmigemo`.", vim.log.levels.WARN)
+            return input
+          end
           local re
           require("plenary.job")
             :new({
               command = "cmigemo",
-              args = { "-v", "-d", dict, "-w", input:sub(2) },
+              args = { "-v", "-d", dict.filename, "-w", input:sub(2) },
               on_exit = function(j, return_val)
                 local out = j:result()
                 if return_val == 0 and #out > 0 then
