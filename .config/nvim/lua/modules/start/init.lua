@@ -1,14 +1,7 @@
 local config = require "modules.start.config"
 
 return {
-  -- TODO: needed here?
-  { "nvim-lua/plenary.nvim", module_pattern = { "plenary.*" } },
-
   -- basic {{{
-  { "delphinus/f_meta.nvim" },
-
-  { "delphinus/vim-quickfix-height" },
-
   {
     "direnv/direnv.vim",
     config = function()
@@ -26,11 +19,6 @@ return {
     config = function()
       require("modules.start.config.lualine"):config()
     end,
-  },
-
-  {
-    "tpope/vim-fugitive",
-    config = config.fugitive,
   },
 
   {
@@ -57,8 +45,6 @@ return {
     config = config.cellwidths.config,
     run = config.cellwidths.run,
   },
-
-  { "folke/todo-comments.nvim", config = config.todo_comments },
   -- }}}
 }
 

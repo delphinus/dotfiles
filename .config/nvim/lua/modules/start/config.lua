@@ -1,13 +1,4 @@
 return {
-  fugitive = function()
-    local keymap = vim.keymap
-    keymap.set("n", "git", [[<Cmd>Git<CR>]])
-    keymap.set("n", "g<Space>", [[<Cmd>Git<CR>]])
-    keymap.set("n", "d<", [[<Cmd>diffget //2<CR>]])
-    keymap.set("n", "d>", [[<Cmd>diffget //3<CR>]])
-    keymap.set("n", "gs", [[<Cmd>Gstatus<CR>]])
-  end,
-
   unimpaired = function()
     local keymap = vim.keymap
     keymap.set("n", "[w", [[<Cmd>colder<CR>]])
@@ -83,20 +74,6 @@ return {
       vim.cmd.CellWidthsRemove()
     end,
   },
-
-  todo_comments = function()
-    require("todo-comments").setup {
-      keywords = {
-        FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
-        TODO = { icon = "", color = "info" },
-        HACK = { icon = "", color = "warning" },
-        WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
-        PERF = { icon = "", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-        NOTE = { icon = "", color = "hint", alt = { "INFO" } },
-        TEST = { icon = "", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
-      },
-    }
-  end,
 
   eunuch = function()
     local _, uv, _ = require("core.utils").globals()

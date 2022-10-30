@@ -222,6 +222,8 @@ return {
     end,
   },
 
+  { "delphinus/vim-quickfix-height", events = { "BufRead", "FocusLost", "CursorHold" } },
+
   {
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
@@ -238,6 +240,8 @@ return {
     setup = config.noice.setup,
     config = config.noice.config,
   },
+
+  { "folke/todo-comments.nvim", events = { "BufRead", "FocusLost", "CursorHold" }, config = config.todo_comments },
 
   {
     "haringsrob/nvim_context_vt",
@@ -294,6 +298,12 @@ return {
       "WinScrolled",
     },
     config = config.scrollbar.config,
+  },
+
+  {
+    "tpope/vim-fugitive",
+    event = { "BufRead", "FocusLost", "CursorHold" },
+    config = config.fugitive,
   },
   -- }}}
 
@@ -435,7 +445,12 @@ return {
     end,
   },
 
+  { "delphinus/f_meta.nvim", module = { "f_meta" } },
+
   { "numToStr/FTerm.nvim", module = { "FTerm" }, setup = config.fterm.setup, config = config.fterm.config },
+
+  { "nvim-lua/plenary.nvim", module_pattern = { "plenary.*" } },
+
   -- }}}
 }
 
