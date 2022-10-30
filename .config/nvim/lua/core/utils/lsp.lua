@@ -179,7 +179,7 @@ return {
               end
             end
           end
-          return c.name ~= "tsserver"
+          return c.name ~= "tsserver" and c.name ~= "lua"
         end,
       })
       vim.keymap.set("n", "g!", function()
