@@ -360,7 +360,7 @@ return {
     "inkarkat/vim-LineJuggler",
     requires = {
       { "inkarkat/vim-ingo-library", opt = true },
-      { "vim-repeat", opt = true },
+      { "tpope/vim-repeat", opt = true },
       { "vim-scripts/visualrepeat", opt = true },
     },
     wants = { "vim-ingo-library", "vim-repeat", "visualrepeat" },
