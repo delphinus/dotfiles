@@ -171,9 +171,9 @@ return {
       sumneko_lua = {
         settings = {
           Lua = {
-            completion = {
-              callSnippet = "Replace",
-            },
+            completion = { callSnippet = "Replace" },
+            diagnosticls = { enable = true, globals = require("core.utils.lsp").lua_globals },
+            telemetry = { enable = false },
           },
         },
       },
