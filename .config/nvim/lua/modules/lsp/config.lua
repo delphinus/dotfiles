@@ -365,7 +365,7 @@ return {
 
       nls.setup {
         --debug = true,
-        diagnostics_format = "#{m} (#{s})",
+        diagnostics_format = "[null-ls] #{m} (#{s})",
         sources = {
           nls.builtins.code_actions.gitsigns,
           nls.builtins.code_actions.shellcheck,
