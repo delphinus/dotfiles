@@ -1,0 +1,71 @@
+#!/usr/bin/perl
+use 5.24.0;
+use warnings;
+use feature 'signatures';
+no warnings 'experimental::signatures';
+use Path::Class;
+
+my $start_dir = dir("$ENV{HOME}/git/dotfiles");
+-d $start_dir or die "not exist: $start_dir";
+my $prohibited_words_file = file("$ENV{HOME}/.git_prohibited_words");
+-f $prohibited_words_file or die "not exist: $prohibited_words_file";
+my $prohibited_words_re = do {
+    chomp(my $content = $prohibited_words_file->slurp);
+    (my $str = $content) =~ s/\n/|/g;
+    qr/$str/;
+};
+
+my $ignore_dir_re = qr{
+  \.mypy_cache\b |
+  \.tmux/plugins |
+  \.tmux/resurrect |
+  \.zprezto/modules |
+  \A\.?vim/dict/ |
+  \A\.?vim/view/ |
+  \A\.git/ |
+  \A\.zsh/zsh-notify/ |
+  \Asubmodules/ |
+  \bnode_modules\b
+}x;
+my $ignore_names_re = qr{
+  \.exe$ |
+  \.pyc$ |
+  \.rpm$ |
+  \.sqlite$ |
+  \A\.config/fish/config-local\.fish\z |
+  \A\.config/fish/functions/tm\.fish\z |
+  \A\.config/nvim/\.netrwhist\z |
+  \A\.screen/(?:cpu|memory)\z |
+  \Aansible/vars/secrets.yml\z |
+  \Abin/local_perl\.sh\z |
+  \Abin/macos-askpass\z |
+  \bmigemo-dict\b
+}x;
+
+my ($scan_count, $ignore_count, $skip_count) = (0, 0);
+my @errors = $start_dir->traverse_if(
+    sub ($child, $cont, @errors) {
+        my $relative_path = $child->relative($start_dir);
+        if ($relative_path =~ $ignore_names_re) {
+            $skip_count++;
+        } else {
+            $scan_count++;
+            if (
+                $relative_path =~ $prohibited_words_re ||
+                (!$relative_path->is_dir && -r $relative_path && $relative_path->slurp =~ $prohibited_words_re)
+            ) {
+                return $cont->(@errors), +{ word => $&, path => $relative_path };
+            }
+        }
+        $cont->(@errors);
+    },
+    sub ($child) {
+        my $to_search = $child->relative($start_dir) !~ $ignore_dir_re;
+        $ignore_count++ if $to_search;
+        $to_search;
+    }
+);
+
+say "scanned: $scan_count file(s), ignored: $ignore_count, skipped: $skip_count file(s), found: @{[scalar @errors]} file(s)";
+say '';
+say "$_->{word}: $_->{path}" for sort { $a->{word} cmp $b->{word} || $a->{path} cmp $b->{path} } @errors;
