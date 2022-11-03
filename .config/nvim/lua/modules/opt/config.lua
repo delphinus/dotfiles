@@ -581,12 +581,15 @@ return {
     setup = function()
       local api = require("core.utils").api
 
-      local orig = vim.notify
-      vim.notify = function(...)
-        vim.notify = orig
-        require "notify"
-        require "noice"
-        vim.notify(...)
+      -- HACK: avoid to set duplicatedly (ex. after PackerCompile)
+      if not packer_plugins["noice.nvim"] then
+        local orig = vim.notify
+        vim.notify = function(...)
+          vim.notify = orig
+          require "notify"
+          require "noice"
+          vim.notify(...)
+        end
       end
 
       api.create_autocmd("ColorScheme", {
