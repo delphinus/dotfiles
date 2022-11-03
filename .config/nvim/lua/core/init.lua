@@ -11,7 +11,9 @@ if vim.env.NVIM_PROFILE then
   })
 end
 
-require "core.pack"
+local pack = require "core.pack"
+pack:load_script()
+
 require "core.options"
 
 vim.g.loaded_getscriptPlugin = true

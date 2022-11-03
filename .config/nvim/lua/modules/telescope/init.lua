@@ -57,13 +57,13 @@ return {
       "^telescope%.from_entry$",
       "^telescope%.previewers%.",
     },
-    requires = {
-      { "plenary.nvim" },
-    },
     wants = {
       "dressing.nvim",
+      "noice.nvim",
       "nvim-web-devicons",
+      "plenary.nvim",
       "popup.nvim",
+      "project.nvim",
       "telescope-file-browser.nvim",
       "telescope-frecency.nvim",
       "telescope-fzf-native.nvim",

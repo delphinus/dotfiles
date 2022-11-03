@@ -1,4 +1,3 @@
-local fn, uv, api = require("core.utils").globals()
 local config = require "modules.opt.config"
 
 return {
@@ -10,6 +9,7 @@ return {
   {
     --"arcticicestudio/nord-vim",
     "delphinus/nord-nvim",
+    branch = "feature/more-colors",
     run = config.nord.run,
     config = config.nord.config,
   },
@@ -24,7 +24,11 @@ return {
 
   { "dhruvasagar/vim-table-mode", cmd = { "TableModeToggle" }, setup = config.table_mode.setup },
 
+  { "dstein64/vim-startuptime", cmd = { "StartupTime" } },
+
   { "fuenor/JpFormat.vim", cmd = { "JpFormatAll", "JpJoinAll" } },
+
+  { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } },
 
   {
     "rbgrouleff/bclose.vim",
@@ -128,6 +132,30 @@ return {
   },
 
   {
+    "tpope/vim-eunuch",
+    cmd = {
+      "Cfind",
+      "Chmod",
+      "Clocate",
+      "Copy",
+      "Delete",
+      "Duplicate",
+      "Lfind",
+      "Llocate",
+      "Mkdir",
+      "Move",
+      "Remove",
+      "Rename",
+      "SudoEdit",
+      "SudoWrite",
+      "Unlink",
+      "W",
+      "Wall",
+    },
+    config = config.eunuch,
+  },
+
+  {
     "tyru/open-browser.vim",
     cmd = { "OpenBrowser", "OpenBrowserSearch" },
     keys = { "<Plug>(openbrowser-smart-search)" },
@@ -136,8 +164,6 @@ return {
       vim.keymap.set({ "n", "v" }, "g<CR>", [[<Plug>(openbrowser-smart-search)]])
     end,
   },
-
-  { "tweekmonster/startuptime.vim", cmd = { "StartupTime" } },
 
   {
     "vifm/vifm.vim",
@@ -153,6 +179,18 @@ return {
   -- }}}
 
   -- event {{{
+  {
+    "ahmedkhalf/project.nvim",
+    event = { "BufRead", "BufNewFile" },
+    config = function()
+      require("project_nvim").setup {
+        ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls" },
+        patterns = { ".git" },
+        show_hidden = true,
+      }
+    end,
+  },
+
   {
     "b0o/incline.nvim",
     event = { "FocusLost", "CursorHold" },
@@ -183,6 +221,27 @@ return {
       require("emcl").setup {}
     end,
   },
+
+  { "delphinus/vim-quickfix-height", events = { "BufRead", "FocusLost", "CursorHold" } },
+
+  {
+    "folke/noice.nvim",
+    event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
+    module = { "noice" },
+    requires = {
+      { "MunifTanjim/nui.nvim" },
+      {
+        "rcarriga/nvim-notify",
+        module = { "notify" },
+        config = config.notify,
+      },
+    },
+    wants = { "nvim-treesitter" },
+    setup = config.noice.setup,
+    config = config.noice.config,
+  },
+
+  { "folke/todo-comments.nvim", events = { "BufRead", "FocusLost", "CursorHold" }, config = config.todo_comments },
 
   {
     "haringsrob/nvim_context_vt",
@@ -238,8 +297,13 @@ return {
       "WinEnter",
       "WinScrolled",
     },
-    setup = config.scrollbar.setup,
     config = config.scrollbar.config,
+  },
+
+  {
+    "tpope/vim-fugitive",
+    event = { "BufRead", "FocusLost", "CursorHold" },
+    config = config.fugitive,
   },
   -- }}}
 
@@ -251,22 +315,12 @@ return {
   -- {'dag/vim-fish' ft = {'fish'}},
   { "blankname/vim-fish", ft = { "fish" } },
   { "c9s/perlomni.vim", ft = { "perl" } },
-  { "cespare/vim-toml", ft = { "toml" } },
-  { "dNitro/vim-pug-complete", ft = { "pug" } },
   { "delphinus/vim-data-section-simple", ft = { "perl" } },
   { "delphinus/vim-firestore", ft = { "firestore" } },
-  { "delphinus/vim-toml-dein", ft = { "toml" } },
-  { "derekwyatt/vim-scala", ft = { "scala" } },
-  { "digitaltoad/vim-pug", ft = { "pug" } },
-  { "dsawardekar/wordpress.vim", ft = { "php" } },
-  { "gisphm/vim-gitignore", ft = { "gitignore" }, setup = config.gitignore.setup },
-  { "google/vim-jsonnet", ft = { "jsonnet" } },
   { "hail2u/vim-css3-syntax", ft = { "css" } },
-  { "hashivim/vim-terraform", ft = { "terraform" } },
   { "isobit/vim-caddyfile", ft = { "caddyfile" } },
   { "junegunn/vader.vim", ft = { "vader" } },
-  { "kchmck/vim-coffee-script", ft = { "coffee" }, setup = config.coffee_script.setup },
-  { "keith/swift.vim", ft = { "swift" } },
+  { "kchmck/vim-coffee-script", ft = { "coffee" } },
   { "kevinhwang91/nvim-bqf", ft = { "qf" } },
   { "leafo/moonscript-vim", ft = { "moonscript" } },
   { "moznion/vim-cpanfile", ft = { "cpanfile" } },
@@ -274,17 +328,11 @@ return {
   { "motemen/xslate-vim", ft = { "xslate" } },
   { "msanders/cocoa.vim", ft = { "objc" } },
   { "mustache/vim-mustache-handlebars", ft = { "mustache", "handlebars", "html.mustache", "html.handlebars" } },
-  { "neoclide/jsonc.vim", ft = { "jsonc" } },
   { "nikvdp/ejs-syntax", ft = { "ejs" } },
   { "pboettch/vim-cmake-syntax", ft = { "cmake" } },
   { "pearofducks/ansible-vim", ft = { "ansible", "yaml.ansible" }, config = config.ansible },
-  { "posva/vim-vue", ft = { "vue" } },
-  { "tmux-plugins/vim-tmux", ft = { "tmux" } },
   { "rhysd/vim-textobj-ruby", requires = { { "kana/vim-textobj-user" } }, ft = { "ruby" } },
   { "rhysd/committia.vim", ft = { "gitcommit" }, setup = config.committia.setup },
-  { "rust-lang/rust.vim", ft = { "rust" } },
-  { "teal-language/vim-teal", ft = { "teal" } },
-  { "uarun/vim-protobuf", ft = { "proto" } },
   { "delphinus/vim-rails", branch = "feature/recognize-ridgepole", ft = { "ruby" } },
   { "vim-perl/vim-perl", ft = { "perl", "perl6" }, setup = config.perl.setup },
   { "vim-scripts/a.vim", ft = { "c", "cpp" } },
@@ -311,10 +359,11 @@ return {
   {
     "inkarkat/vim-LineJuggler",
     requires = {
-      { "inkarkat/vim-ingo-library" },
-      { "vim-repeat" },
-      { "vim-scripts/visualrepeat" },
+      { "inkarkat/vim-ingo-library", opt = true },
+      { "tpope/vim-repeat", opt = true },
+      { "vim-scripts/visualrepeat", opt = true },
     },
+    wants = { "vim-ingo-library", "vim-repeat", "visualrepeat" },
     keys = {
       "[d",
       "]d",
@@ -346,8 +395,6 @@ return {
 
   {
     "phaazon/hop.nvim",
-    --"delphinus/hop.nvim",
-    --branch = "feature/migemo",
     keys = {
       { "n", [['j]] },
       { "v", [['j]] },
@@ -363,7 +410,7 @@ return {
       { "n", "gc" },
       { "v", "gc" },
     },
-    requires = { "nvim-lua/plenary.nvim" },
+    wants = { "plenary.nvim" },
     config = config.gitlinker,
   },
 
@@ -386,14 +433,24 @@ return {
   -- }}}
 
   -- func {{{
-  { "sainnhe/artify.vim", fn = { "artify#convert" } },
-  { "vim-jp/vital.vim", fn = { "vital#vital#new" } },
-
   { "hrsh7th/vim-searchx", fn = { "searchx#*" }, setup = config.searchx.setup, config = config.searchx.config },
   -- }}}
 
   -- module {{{
+  {
+    "delphinus/characterize.nvim",
+    module = { "characterize" },
+    config = function()
+      require("characterize").setup {}
+    end,
+  },
+
+  { "delphinus/f_meta.nvim", module = { "f_meta" } },
+
   { "numToStr/FTerm.nvim", module = { "FTerm" }, setup = config.fterm.setup, config = config.fterm.config },
+
+  { "nvim-lua/plenary.nvim", module_pattern = { "plenary.*" } },
+
   -- }}}
 }
 

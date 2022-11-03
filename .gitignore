@@ -428,7 +428,8 @@ Temporary Items
 /.config/fish/fish_variables
 /.config/fish/functions/tm.fish
 /.config/git
-/.config/nvim/plugin/packer_compiled.lua
+/.config/nvim/lua/_compiled.lua
+/.config/nvim/lua/_compiled.lua.bak
 /.config/powerline/config.json
 /.config/powerline/ext/segments/local_perl.py
 /.config/powerline/themes/tmux/custom.json

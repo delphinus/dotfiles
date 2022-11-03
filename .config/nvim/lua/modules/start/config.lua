@@ -1,32 +1,4 @@
 return {
-  noice = function()
-    require("noice").setup {}
-  end,
-
-  notify = function()
-    local api = require("core.utils").api
-    vim.opt.termguicolors = true
-    local notify = require "notify"
-    notify.setup {
-      render = "minimal",
-      background_colour = "#3b4252",
-      level = "trace",
-      on_open = function(win)
-        api.win_set_config(win, { focusable = false })
-      end,
-    }
-    --vim.notify = notify
-  end,
-
-  fugitive = function()
-    local keymap = vim.keymap
-    keymap.set("n", "git", [[<Cmd>Git<CR>]])
-    keymap.set("n", "g<Space>", [[<Cmd>Git<CR>]])
-    keymap.set("n", "d<", [[<Cmd>diffget //2<CR>]])
-    keymap.set("n", "d>", [[<Cmd>diffget //3<CR>]])
-    keymap.set("n", "gs", [[<Cmd>Gstatus<CR>]])
-  end,
-
   unimpaired = function()
     local keymap = vim.keymap
     keymap.set("n", "[w", [[<Cmd>colder<CR>]])
@@ -102,4 +74,9 @@ return {
       vim.cmd.CellWidthsRemove()
     end,
   },
+
+  eunuch = function()
+    local _, uv, _ = require("core.utils").globals()
+    vim.env.SUDO_ASKPASS = uv.os_homedir() .. "/git/dotfiles/bin/macos-askpass"
+  end,
 }

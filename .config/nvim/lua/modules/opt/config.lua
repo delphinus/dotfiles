@@ -108,17 +108,24 @@ return {
     setup = function()
       local api = require("core.utils").api
       vim.g.autodate_format = "%FT%T%z"
-      api.create_autocmd(
-        { "BufUnload", "FileWritePre", "BufWritePre" },
-        { group = api.create_augroup("Autodate", {}), command = "Autodate" }
-      )
+      local group = api.create_augroup("Autodate", {})
+      api.create_autocmd({ "BufRead", "BufNewFile" }, {
+        group = group,
+        once = true,
+        callback = function()
+          api.create_autocmd(
+            { "BufUnload", "FileWritePre", "BufWritePre" },
+            { group = api.create_augroup("Autodate", {}), command = "Autodate" }
+          )
+        end,
+      })
     end,
   },
 
   dwm = {
     cond = function()
       local fn = vim.fn
-      -- Do not load when it is loading committia.vim
+      -- HACK: Do not load when it is loading committia.vim
       local file = fn.expand "%"
       local not_to_load = { "COMMIT_EDITMSG", "MERGE_MSG" }
       for _, name in ipairs(not_to_load) do
@@ -152,9 +159,7 @@ return {
         if state and state.winnr then
           local ok = pcall(api.win_close, state.winnr, true)
           if not ok then
-            api.echo({
-              { "cannot found scrollbar win: " .. state.winnr, "WarningMsg" },
-            }, true, {})
+            vim.notify("cannot found scrollbar win: " .. state.winnr, vim.log.levels.WARN)
           end
           vim.b.scrollbar_state = { size = state.size, bufnr = state.bufnr }
         end
@@ -242,28 +247,6 @@ return {
       end,
     })
   end,
-
-  gitignore = {
-    setup = function()
-      local api = require("core.utils").api
-      api.create_autocmd({ "BufNewFile", "BufRead" }, {
-        group = api.create_augroup("detect_other_ignores", {}),
-        pattern = ".gcloudignore",
-        command = [[setf gitignore]],
-      })
-    end,
-  },
-
-  coffee_script = {
-    setup = function()
-      local api = require("core.utils").api
-      api.create_autocmd({ "BufNewFile", "BufRead" }, {
-        group = api.create_augroup("detect_cson", {}),
-        pattern = "*.cson",
-        command = [[setf coffee]],
-      })
-    end,
-  },
 
   ansible = function()
     vim.g.ansible_name_highlight = "b"
@@ -476,12 +459,17 @@ return {
           end
           -- If the input has `.` at the beginning, it converts the input with
           -- cmigemo.
-          local dict = vim.env.HOMEBREW_PREFIX .. "/opt/cmigemo/share/migemo/utf-8/migemo-dict"
+          local Path = require "plenary.path"
+          local dict = Path.new(vim.env.HOMEBREW_PREFIX, "opt/cmigemo/share/migemo/utf-8/migemo-dict")
+          if not dict:exists() then
+            vim.notify("Cannot find cmigemo to be installed. Run `brew install cmigemo`.", vim.log.levels.WARN)
+            return input
+          end
           local re
           require("plenary.job")
             :new({
               command = "cmigemo",
-              args = { "-v", "-d", dict, "-w", input:sub(2) },
+              args = { "-v", "-d", dict.filename, "-w", input:sub(2) },
               on_exit = function(j, return_val)
                 local out = j:result()
                 if return_val == 0 and #out > 0 then
@@ -504,24 +492,34 @@ return {
 
   fterm = {
     setup = function()
-      local keymap = vim.keymap
-      local loaded
-      local function toggle_fterm()
-        if not loaded then
-          require("FTerm").setup {
-            cmd = vim.opt.shell:get(),
-            border = {
-              { "⣀", "WinBorderTop" },
-              { "⣀", "WinBorderTop" },
-              { "⣀", "WinBorderTop" },
-              { "⢸", "WinBorderRight" },
-              { "⠉", "WinBorderBottom" },
-              { "⠉", "WinBorderBottom" },
-              { "⠉", "WinBorderBottom" },
-              { "⡇", "WinBorderLeft" },
-            },
-          }
-          --[[
+      vim.keymap.set({ "n", "t" }, "<A-c>", function()
+        require("FTerm").toggle()
+      end)
+    end,
+    config = function()
+      local api = require("core.utils").api
+      api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
+      api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
+      api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })
+      api.set_hl(0, "WinBorderBottom", { fg = "#5d9794", blend = 30 })
+      api.set_hl(0, "WinBorderLight", { fg = "#c2dddc", bg = "#5d9794", blend = 30 })
+      api.set_hl(0, "WinBorderDark", { fg = "#5d9794", bg = "#c2dddc", blend = 30 })
+      api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
+
+      require("FTerm").setup {
+        cmd = vim.opt.shell:get(),
+        border = {
+          { "⣀", "WinBorderTop" },
+          { "⣀", "WinBorderTop" },
+          { "⣀", "WinBorderTop" },
+          { "⢸", "WinBorderRight" },
+          { "⠉", "WinBorderBottom" },
+          { "⠉", "WinBorderBottom" },
+          { "⠉", "WinBorderBottom" },
+          { "⡇", "WinBorderLeft" },
+        },
+      }
+      --[[
               {'╭', 'WinBorderTop'},
               {'─', 'WinBorderTop'},
               {' ', 'WinBorderTransparent'},
@@ -531,7 +529,7 @@ return {
               {' ', 'WinBorderTransparent'},
               {'│', 'WinBorderLeft'},
               ]]
-          --[[
+      --[[
               {'█', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
@@ -541,7 +539,7 @@ return {
               {'█', 'WinBorderLight'},
               {'█', 'WinBorderLight'},
               ]]
-          --[[
+      --[[
               {'▟', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
@@ -552,7 +550,7 @@ return {
               {'▜', 'WinBorderLight'},
               {'█', 'WinBorderLight'},
               ]]
-          --[[
+      --[[
               {'╭', 'WinBorderTop'},
               {'─', 'WinBorderTop'},
               {'╮', 'WinBorderTop'},
@@ -570,33 +568,104 @@ return {
               {'⠙', 'WinBorderLeft'},
               {'⣿', 'WinBorderLeft'},
               ]]
-          loaded = true
-        end
-        require("FTerm").toggle()
-      end
-
-      keymap.set({ "n", "t" }, "<A-c>", toggle_fterm)
-      keymap.set({ "n", "t" }, "<A-ç>", toggle_fterm)
-    end,
-    config = function()
-      local api = require("core.utils").api
-      api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
-      api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
-      api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })
-      api.set_hl(0, "WinBorderBottom", { fg = "#5d9794", blend = 30 })
-      api.set_hl(0, "WinBorderLight", { fg = "#c2dddc", bg = "#5d9794", blend = 30 })
-      api.set_hl(0, "WinBorderDark", { fg = "#5d9794", bg = "#c2dddc", blend = 30 })
-      api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
     end,
   },
 
   scrollbar = {
-    setup = function()
-      --
-    end,
-
     config = function()
       require("scrollbar").setup {}
     end,
   },
+
+  noice = {
+    setup = function()
+      local api = require("core.utils").api
+
+      local orig = vim.notify
+      vim.notify = function(...)
+        vim.notify = orig
+        require "notify"
+        require "noice"
+        vim.notify(...)
+      end
+
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("noice-colors", {}),
+        once = true,
+        callback = function()
+          api.set_hl(0, "NoiceLspProgressSpinner", { fg = "#e5e9f0" })
+          api.set_hl(0, "NoiceLspProgressTitle", { fg = "#d08770" })
+          api.set_hl(0, "NoiceLspProgressClient", { fg = "#ebcb8b" })
+        end,
+      })
+    end,
+
+    config = function()
+      require("noice").setup {
+        cmdline = {
+          format = {
+            cmdline = { icon = "" },
+            search_down = { icon = "" },
+            search_up = { icon = "" },
+            filter = { icon = "" },
+          },
+        },
+        popupmenu = {
+          --backend = "cmp",
+          backend = "nui",
+        },
+        lsp = {
+          hover = {
+            enabled = true,
+          },
+          signature = {
+            enabled = true,
+          },
+        },
+        format = {
+          spinner = {
+            name = "dots12",
+            --name = "sand",
+          },
+        },
+      }
+
+      require("modules.start.config.lualine").is_noice_available = true
+    end,
+  },
+
+  notify = function()
+    vim.opt.termguicolors = true
+    require("notify").setup {
+      render = "minimal",
+      background_colour = "#3b4252",
+      level = "trace",
+      on_open = function(win)
+        api.win_set_config(win, { focusable = false })
+      end,
+    }
+  end,
+
+  fugitive = function()
+    local keymap = vim.keymap
+    keymap.set("n", "git", [[<Cmd>Git<CR>]])
+    keymap.set("n", "g<Space>", [[<Cmd>Git<CR>]])
+    keymap.set("n", "d<", [[<Cmd>diffget //2<CR>]])
+    keymap.set("n", "d>", [[<Cmd>diffget //3<CR>]])
+    keymap.set("n", "gs", [[<Cmd>Gstatus<CR>]])
+  end,
+
+  todo_comments = function()
+    require("todo-comments").setup {
+      keywords = {
+        FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+        TODO = { icon = "", color = "info" },
+        HACK = { icon = "", color = "warning" },
+        WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
+        PERF = { icon = "", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = "", color = "hint", alt = { "INFO" } },
+        TEST = { icon = "", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+      },
+    }
+  end,
 }

@@ -1,6 +1,15 @@
 return {
   lspconfig = function()
     local fn, uv, api = require("core.utils").globals()
+
+    api.create_autocmd("LspAttach", {
+      group = api.create_augroup("enable-lualine-lsp", {}),
+      once = true,
+      callback = function()
+        require("modules.start.config.lualine").is_lsp_available = true
+      end,
+    })
+
     require("mason").setup {
       max_concurrent_installers = 12,
     }
@@ -42,8 +51,6 @@ return {
       -- Use lsp_lines instead
       virtual_text = false,
     })
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border })
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border })
 
     local lsp = require "lspconfig"
     local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -82,22 +89,15 @@ return {
       vuels = {},
       yamlls = {},
 
-      perlnavigator = (function()
-        local fd, path = uv.fs_mkstemp(uv.os_tmpdir() .. "/perl.XXXXXX")
-        if not fd then
-          error "cannot do mkstemp"
-        end
-        assert(uv.fs_write(fd, "#!/bin/bash\nperl -Ilib $@"))
-        assert(uv.fs_close(fd))
-        assert(uv.fs_chmod(path, 0x0755))
-        return {
-          settings = {
-            perlnavigator = {
-              perlPath = path,
-            },
+      perlnavigator = {
+        cmd = { "perlnavigator", "--stdio" },
+        settings = {
+          perlnavigator = {
+            perlPath = "carmel exec -- perl",
+            includePaths = { "lib", "local/lib/perl5" },
           },
-        }
-      end)(),
+        },
+      },
 
       pyright = {
         settings = {
@@ -206,7 +206,6 @@ return {
     require("nvim-treesitter.configs").setup {
       highlight = {
         enable = true,
-        disable = { "markdown", "perl" },
       },
       incremental_selection = {
         enable = true,
@@ -317,6 +316,8 @@ return {
       },
     }
     vim.keymap.set("n", "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
+
+    require("modules.start.config.lualine").is_ts_available = true
   end,
 
   null_ls = {

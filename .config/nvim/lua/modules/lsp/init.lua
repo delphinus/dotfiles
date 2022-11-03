@@ -7,8 +7,6 @@ local function ts(plugin)
 end
 
 return {
-  { "folke/neodev.nvim", opt = true },
-
   { -- {{{ nvim-lspconfig
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     module = { "lsp_lines" },
@@ -16,30 +14,11 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    event = { "FocusLost", "CursorHold" },
-    ft = {
-      "c",
-      "cpp",
-      "css",
-      "dockerfile",
-      "go",
-      "html",
-      "javascript",
-      "json",
-      "jsonnet",
-      "lua",
-      "perl",
-      "php",
-      "python",
-      "ruby",
-      "sh",
-      "swift",
-      "teal",
-      "terraform",
-      "typescript",
-      "vim",
-      "vue",
-      "yaml",
+    event = { "BufReadPre" },
+    requires = {
+      { "folke/neodev.nvim", module = { "neodev" } },
+      { "williamboman/mason-lspconfig.nvim", module = { "mason-lspconfig" } },
+      { "williamboman/mason.nvim", module = { "mason" } },
     },
     wants = {
       "neodev.nvim",
@@ -49,16 +28,6 @@ return {
       "cmp-nvim-lsp",
     },
     config = config.lspconfig,
-  },
-
-  {
-    "williamboman/mason.nvim",
-    module = { "mason" },
-  },
-
-  {
-    "williamboman/mason-lspconfig.nvim",
-    module = { "mason-lspconfig" },
   }, -- }}}
 
   ts { "RRethy/nvim-treesitter-endwise" },
@@ -84,6 +53,7 @@ return {
 
   { -- {{{ nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
+    event = { "BufRead", "BufNewFile", "InsertEnter" },
     config = config.treesitter,
     run = ":TSUpdate",
   }, -- }}}
