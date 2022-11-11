@@ -35,7 +35,7 @@ return {
         "delphinus/skkeleton_indicator.nvim",
         setup = config.skkeleton_indicator.setup,
         config = function()
-          require("skkeleton_indicator").setup()
+          require("skkeleton_indicator").setup { alwaysShown = false, fadeOutMs = 0 }
         end,
       },
     },
