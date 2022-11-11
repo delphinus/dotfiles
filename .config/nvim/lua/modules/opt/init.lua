@@ -3,7 +3,7 @@ local config = require "modules.opt.config"
 return {
   --{'wbthomason/packer.nvim', opt = true},
   { "delphinus/packer.nvim", branch = "feature/denops", opt = true },
-  { "vim-denops/denops.vim", opt = true },
+  { "vim-denops/denops.vim", event = { "CursorHold", "FocusLost" } },
 
   -- Colorscheme {{{
   {
