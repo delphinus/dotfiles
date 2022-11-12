@@ -582,14 +582,18 @@ return {
       local api = require("core.utils").api
 
       -- HACK: avoid to set duplicatedly (ex. after PackerCompile)
-      if not packer_plugins["noice.nvim"] then
+      if not _G.__vim_notify_overwritten then
         local orig = vim.notify
         vim.notify = function(...)
+          local args = { ... }
           vim.notify = orig
           require "notify"
           require "noice"
-          vim.notify(...)
+          vim.schedule(function()
+            vim.notify(unpack(args))
+          end)
         end
+        _G.__vim_notify_overwritten = true
       end
 
       api.create_autocmd("ColorScheme", {
