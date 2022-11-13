@@ -538,6 +538,49 @@ return {
     end,
   },
 
+  mason_tool_installer = function()
+    require("mason-tool-installer").setup {
+      ensure_installed = {
+        "ansible-language-server",
+        "awk-language-server",
+        "bash-language-server",
+        "clangd",
+        "cmake-language-server",
+        "css-lsp",
+        "deno",
+        "dockerfile-language-server",
+        "dot-language-server",
+        "eslint-lsp",
+        "gofumpt",
+        "goimports",
+        "golangci-lint-langserver",
+        "golines",
+        "gopls",
+        "intelephense",
+        "jq",
+        "json-lsp",
+        "jsonnet-language-server",
+        "lua-language-server",
+        "luacheck",
+        "marksman",
+        "perlnavigator",
+        "prettierd",
+        "pyright",
+        "shellcheck",
+        "shfmt",
+        "solargraph",
+        "stylua",
+        "terraform-ls",
+        "textlint",
+        "typescript-language-server",
+        "vim-language-server",
+        "vint",
+        "vue-language-server",
+        "yaml-language-server",
+      },
+    }
+  end,
+
   treehopper = {
     setup = function()
       local keymap = vim.keymap

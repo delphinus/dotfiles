@@ -16,6 +16,7 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre" },
     requires = {
+      { "WhoIsSethDaniel/mason-tool-installer.nvim", opt = true, config = config.mason_tool_installer },
       { "folke/neodev.nvim", module = { "neodev" } },
       { "williamboman/mason-lspconfig.nvim", module = { "mason-lspconfig" } },
       { "williamboman/mason.nvim", module = { "mason" } },
@@ -24,6 +25,7 @@ return {
       "neodev.nvim",
       "mason.nvim",
       "mason-lspconfig.nvim",
+      "mason-tool-installer.nvim",
       -- needs these plugins to setup capabilities
       "cmp-nvim-lsp",
     },
