@@ -84,11 +84,10 @@ function Pack:compile(cb)
       pattern = "PackerCompileDone",
       once = true,
       callback = function()
-        vim.cmd.split()
-        vim.cmd.edit(self.compile_path)
+        vim.cmd("split ++enc=latin1 " .. self.compile_path)
         vim.cmd [[/^vim\.cmd \[\[augroup filetypedetect\]\]$]]
         vim.cmd [[.,/^vim\.cmd("augroup END")$/d]]
-        vim.cmd [[wq!]]
+        vim.cmd.wq { bang = true }
         self:notify_later(("Successfully edited %s.lua"):format(self.compiled))
       end,
     })
