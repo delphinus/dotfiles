@@ -84,29 +84,12 @@ function Pack:compile(cb)
       pattern = "PackerCompileDone",
       once = true,
       callback = function()
-        local Job = require "plenary.job"
-        Job:new({
-          command = "perl",
-          args = {
-            "-i.bak",
-            "-pe",
-            [[$_ = "" if /^vim\.cmd \[\[augroup filetypedetect\]\]$/ .. /^vim\.cmd\("augroup END"\)$/]],
-            self.compile_path,
-          },
-          on_start = function()
-            self:notify_later "Compile done. Now start to edit."
-          end,
-          on_exit = function(job, code)
-            if code == 0 then
-              self:notify_later(("Successfully edited %s.lua"):format(self.compiled))
-              if cb then
-                cb()
-              end
-            else
-              self:notify_later(table.concat(job:stderr_result(), "\n"), vim.log.levels.WARN)
-            end
-          end,
-        }):start()
+        vim.cmd.split()
+        vim.cmd.edit(self.compile_path)
+        vim.cmd [[/^vim\.cmd \[\[augroup filetypedetect\]\]$]]
+        vim.cmd [[.,/^vim\.cmd("augroup END")$/d]]
+        vim.cmd [[wq!]]
+        self:notify_later(("Successfully edited %s.lua"):format(self.compiled))
       end,
     })
     self:run_packer "compile"(opts and opts.args or "")
