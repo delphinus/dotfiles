@@ -292,7 +292,7 @@ function Lualine:noice(kind) -- luacheck: ignore 212
   return function(method)
     ---@return string?
     return function()
-      return self.is_noice_available and require("noice").api.statusline[kind][method]() or ""
+      return self.is_noice_available and require("noice").api.status[kind][method]() or ""
     end
   end
 end
