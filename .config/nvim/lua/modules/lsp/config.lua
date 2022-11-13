@@ -539,7 +539,20 @@ return {
   },
 
   mason_tool_installer = function()
-    require("mason-tool-installer").setup {
+    local api = require("core.utils").api
+
+    vim.notify "loading mason-tool-installer"
+    api.create_autocmd("User", {
+      pattern = "MasonToolsUpdateCompleted",
+      once = true,
+      callback = function()
+        vim.notify "finished to update Mason tools"
+      end,
+    })
+
+    local mason_tool_installer = require "mason-tool-installer"
+    mason_tool_installer.setup {
+      auto_update = true,
       ensure_installed = {
         "ansible-language-server",
         "awk-language-server",
@@ -579,6 +592,7 @@ return {
         "yaml-language-server",
       },
     }
+    mason_tool_installer.check_install()
   end,
 
   treehopper = {
