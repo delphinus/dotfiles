@@ -89,6 +89,9 @@ function Pack:compile(cb)
         vim.cmd [[.,/^vim\.cmd("augroup END")$/d]]
         vim.cmd.wq { bang = true }
         self:notify_later(("Successfully edited %s.lua"):format(self.compiled))
+        if cb then
+          cb()
+        end
       end,
     })
     self:run_packer "compile"(opts and opts.args or "")
