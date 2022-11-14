@@ -42,7 +42,6 @@ vim.opt.number = true
 vim.opt.numberwidth = 3
 vim.opt.relativenumber = true
 vim.opt.showmatch = true
-vim.opt.showtabline = 2
 vim.opt.completeopt:remove "preview"
 vim.opt.pumblend = 30
 vim.opt.pumwidth = 40 -- Use the same value as converter_truncate.maxAbbrWidth

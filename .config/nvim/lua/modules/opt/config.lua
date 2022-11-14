@@ -673,4 +673,16 @@ return {
       },
     }
   end,
+
+  lualine = {
+    setup = function()
+      vim.opt.laststatus = 0
+      vim.opt.showtabline = 0
+    end,
+    config = function()
+      vim.opt.laststatus = 2
+      vim.opt.showtabline = 2
+      require("modules.start.config.lualine"):config()
+    end,
+  },
 }

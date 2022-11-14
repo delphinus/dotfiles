@@ -286,6 +286,18 @@ return {
   },
 
   {
+    "nvim-lualine/lualine.nvim",
+    event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
+    requires = {
+      --{ "kyazdani42/nvim-web-devicons", opt = true },
+      { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square", opt = true },
+      { "delphinus/eaw.nvim", module = { "eaw" } },
+    },
+    setup = config.lualine.setup,
+    config = config.lualine.config,
+  },
+
+  {
     "petertriho/nvim-scrollbar",
     event = {
       "BufWinEnter",
