@@ -290,7 +290,7 @@ return {
     event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     requires = {
       --{ "kyazdani42/nvim-web-devicons", opt = true },
-      { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square", opt = true },
+      { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square", module = { "nvim-web-devicons" } },
       { "delphinus/eaw.nvim", module = { "eaw" } },
     },
     setup = config.lualine.setup,
