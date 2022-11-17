@@ -64,7 +64,7 @@ return {
       i { "lukas-reineke/cmp-rg" },
       i { "octaltree/cmp-look" },
       i { "ray-x/cmp-treesitter" },
-      i { "rinx/cmp-skkeleton" },
+      i { "uga-rosa/cmp-skkeleton" },
 
       i {
         "saadparwaiz1/cmp_luasnip",
