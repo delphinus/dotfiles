@@ -680,8 +680,6 @@ return {
       vim.opt.showtabline = 0
     end,
     config = function()
-      vim.opt.laststatus = 2
-      vim.opt.showtabline = 2
       require("modules.start.config.lualine"):config()
     end,
   },
