@@ -369,8 +369,6 @@ return {
         sources = {
           nls.builtins.code_actions.gitsigns,
           nls.builtins.code_actions.shellcheck,
-          nls.builtins.diagnostics.ansiblelint,
-          nls.builtins.diagnostics.checkmake,
           nls.builtins.diagnostics.fish,
           nls.builtins.diagnostics.mypy,
           nls.builtins.diagnostics.rubocop,

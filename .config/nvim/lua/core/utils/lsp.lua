@@ -189,6 +189,7 @@ return {
     end
   end,
 
+  -- NOTE: This func is deprecated.
   update_tools = function()
     local notify = vim.schedule_wrap(function(msg, level)
       vim.cmd.redraw()
