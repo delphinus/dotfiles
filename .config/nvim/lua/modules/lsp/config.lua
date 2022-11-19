@@ -567,9 +567,13 @@ return {
       end,
     })
 
+    local Interval = require "core.utils.interval"
+    local itvl = Interval.new("mason_tool_installer", 24 * 7 * 3600)
+    local is_over = itvl:is_over()
+
     local mason_tool_installer = require "mason-tool-installer"
     mason_tool_installer.setup {
-      auto_update = true,
+      auto_update = is_over,
       ensure_installed = {
         "ansible-language-server",
         "awk-language-server",
@@ -610,6 +614,10 @@ return {
       },
     }
     mason_tool_installer.check_install()
+
+    if is_over then
+      itvl:update()
+    end
   end,
 
   treehopper = {
