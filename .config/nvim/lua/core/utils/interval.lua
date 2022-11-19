@@ -34,7 +34,7 @@ function Interval:is_over()
   do
     local fd = uv.fs_open(self:filename(), "r", 438)
     if fd then
-      local st = uv.fs_stat(fd)
+      local st = uv.fs_stat(self:filename())
       local data = uv.fs_read(fd, st.size, 0)
       assert(uv.fs_close(fd))
       last = tonumber(data) or 0
