@@ -172,8 +172,11 @@ return {
         settings = {
           Lua = {
             completion = { callSnippet = "Replace" },
-            diagnosticls = { enable = true, globals = require("core.utils.lsp").lua_globals },
+            diagnosticls = { globals = require("core.utils.lsp").lua_globals },
+            format = { enable = false },
+            hint = { enable = true },
             telemetry = { enable = false },
+            workspace = { checkThirdParty = false },
           },
         },
       },
