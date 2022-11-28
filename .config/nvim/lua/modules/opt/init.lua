@@ -9,7 +9,6 @@ return {
   {
     --"arcticicestudio/nord-vim",
     "delphinus/nord-nvim",
-    branch = "feature/more-colors",
     run = config.nord.run,
     config = config.nord.config,
   },
