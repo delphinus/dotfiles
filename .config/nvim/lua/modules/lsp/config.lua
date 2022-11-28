@@ -15,7 +15,14 @@ return {
     }
     require("lsp_lines").setup()
     -- Use lsp_lines instead
-    vim.diagnostic.config { virtual_text = false }
+    vim.diagnostic.config {
+      virtual_text = {
+        format = function(d)
+          return ("%s (%s: %s)"):format(d.message, d.source, d.code)
+        end,
+      },
+      virtual_lines = { only_current_line = true },
+    }
 
     local border = require("core.utils.lsp").border
 
@@ -368,7 +375,7 @@ return {
 
       nls.setup {
         --debug = true,
-        diagnostics_format = "[null-ls] #{m} (#{s})",
+        diagnostics_format = "[null-ls] #{m}",
         sources = {
           nls.builtins.code_actions.gitsigns,
           nls.builtins.code_actions.shellcheck,
