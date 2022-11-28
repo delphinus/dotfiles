@@ -319,6 +319,7 @@ return {
   -- }}}
 
   -- ft {{{
+  { "dix75/jira.vim", ft = { "confluencewiki" } },
   { "Glench/Vim-Jinja2-Syntax", ft = { "jinja" } },
   { "Vimjas/vim-python-pep8-indent", ft = { "python" } },
   { "aklt/plantuml-syntax", ft = { "plantuml" } },
