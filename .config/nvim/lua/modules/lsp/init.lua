@@ -46,7 +46,7 @@ return {
 
   ts {
     "mfussenegger/nvim-treehopper",
-    modules = { "tsht" },
+    module = { "tsht" },
     setup = config.treehopper.setup,
   },
 
