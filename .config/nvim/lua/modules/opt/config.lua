@@ -1,16 +1,16 @@
+local lazy_require = require "lazy_require"
+
 return {
   nord = {
     ---@type fun()[]
     run = {
-      function()
-        require("nord").update {
-          italic = true,
-          uniform_status_lines = true,
-          uniform_diff_background = true,
-          cursor_line_number_background = true,
-          language_specific_highlights = false,
-        }
-      end,
+      lazy_require("nord").update {
+        italic = true,
+        uniform_status_lines = true,
+        uniform_diff_background = true,
+        cursor_line_number_background = true,
+        language_specific_highlights = false,
+      },
     },
     config = function()
       local api = require("core.utils").api
@@ -365,23 +365,6 @@ return {
     end
   end,
 
-  gitlinker = function()
-    local actions = require "gitlinker.actions"
-    require("gitlinker").setup {
-      opts = {
-        add_current_line_on_normal_mode = false,
-        action_callback = function(url)
-          actions.copy_to_clipboard(url)
-          actions.open_in_browser(url)
-        end,
-      },
-      callbacks = {
-        [vim.g.gh_e_host] = require("gitlinker.hosts").get_github_type_url,
-      },
-      mappings = "gc",
-    }
-  end,
-
   quickhl = {
     setup = function()
       local keymap = vim.keymap
@@ -639,18 +622,6 @@ return {
     end,
   },
 
-  notify = function()
-    vim.opt.termguicolors = true
-    require("notify").setup {
-      render = "minimal",
-      background_colour = "#3b4252",
-      level = "trace",
-      on_open = function(win)
-        api.win_set_config(win, { focusable = false })
-      end,
-    }
-  end,
-
   fugitive = function()
     local keymap = vim.keymap
     keymap.set("n", "git", [[<Cmd>Git<CR>]])
@@ -658,20 +629,6 @@ return {
     keymap.set("n", "d<", [[<Cmd>diffget //2<CR>]])
     keymap.set("n", "d>", [[<Cmd>diffget //3<CR>]])
     keymap.set("n", "gs", [[<Cmd>Gstatus<CR>]])
-  end,
-
-  todo_comments = function()
-    require("todo-comments").setup {
-      keywords = {
-        FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
-        TODO = { icon = "", color = "info" },
-        HACK = { icon = "", color = "warning" },
-        WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
-        PERF = { icon = "", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-        NOTE = { icon = "", color = "hint", alt = { "INFO" } },
-        TEST = { icon = "", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
-      },
-    }
   end,
 
   lualine = {

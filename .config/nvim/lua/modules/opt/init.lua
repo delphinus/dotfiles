@@ -1,4 +1,5 @@
 local config = require "modules.opt.config"
+local lazy_require = require "lazy_require"
 
 return {
   --{'wbthomason/packer.nvim', opt = true},
@@ -232,7 +233,14 @@ return {
       {
         "rcarriga/nvim-notify",
         module = { "notify" },
-        config = config.notify,
+        config = lazy_require("notify").setup {
+          render = "minimal",
+          background_colour = "#3b4252",
+          level = "trace",
+          on_open = function(win)
+            api.win_set_config(win, { focusable = false })
+          end,
+        },
       },
     },
     wants = { "nvim-treesitter" },
@@ -240,7 +248,21 @@ return {
     config = config.noice.config,
   },
 
-  { "folke/todo-comments.nvim", events = { "BufRead", "FocusLost", "CursorHold" }, config = config.todo_comments },
+  {
+    "folke/todo-comments.nvim",
+    events = { "BufRead", "FocusLost", "CursorHold" },
+    config = lazy_require("todo-comments").setup {
+      keywords = {
+        FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+        TODO = { icon = "", color = "info" },
+        HACK = { icon = "", color = "warning" },
+        WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
+        PERF = { icon = "", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = "", color = "hint", alt = { "INFO" } },
+        TEST = { icon = "", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+      },
+    },
+  },
 
   {
     "haringsrob/nvim_context_vt",
@@ -423,7 +445,22 @@ return {
       { "v", "gc" },
     },
     wants = { "plenary.nvim" },
-    config = config.gitlinker,
+    config = lazy_require("gitlinker").setup {
+      opts = {
+        add_current_line_on_normal_mode = false,
+        action_callback = function(url)
+          local actions = require "gitlinker.actions"
+          actions.copy_to_clipboard(url)
+          actions.open_in_browser(url)
+        end,
+      },
+      callbacks = {
+        [vim.g.gh_e_host] = function(url_data)
+          return require("gitlinker.hosts").get_github_type_url(url_data)
+        end,
+      },
+      mappings = "gc",
+    },
   },
 
   {
@@ -458,6 +495,8 @@ return {
   },
 
   { "delphinus/f_meta.nvim", module = { "f_meta" } },
+
+  { "delphinus/lazy_require.nvim", module = { "lazy_require" } },
 
   { "numToStr/FTerm.nvim", module = { "FTerm" }, setup = config.fterm.setup, config = config.fterm.config },
 
