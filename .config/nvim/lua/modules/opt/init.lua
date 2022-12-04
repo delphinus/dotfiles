@@ -216,6 +216,7 @@ return {
 
   {
     "delphinus/emcl.nvim",
+    branch = "feature/setcmdline",
     event = { "CmdlineEnter" },
     config = function()
       require("emcl").setup {}
