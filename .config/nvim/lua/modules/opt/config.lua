@@ -627,4 +627,17 @@ return {
       require("modules.start.config.lualine"):config()
     end,
   },
+
+  cursorword = {
+    setup = function()
+      local api = require("core.utils").api
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("cursorword-colors", {}),
+        pattern = "nord",
+        callback = function()
+          api.set_hl(0, "CursorWord", { undercurl = true })
+        end,
+      })
+    end,
+  },
 }

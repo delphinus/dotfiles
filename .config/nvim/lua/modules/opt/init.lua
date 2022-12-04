@@ -287,7 +287,7 @@ return {
     config = config.context_vt,
   },
 
-  { "itchyny/vim-cursorword", event = { "FocusLost", "CursorHold" } },
+  { "itchyny/vim-cursorword", event = { "FocusLost", "CursorHold" }, setup = config.cursorword.setup },
 
   {
     "itchyny/vim-parenmatch",
