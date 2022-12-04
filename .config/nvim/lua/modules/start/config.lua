@@ -9,12 +9,13 @@ return {
 
   visual_eof = function()
     local api = require("core.utils").api
+    local palette = require "core.utils.palette"
     api.create_autocmd("ColorScheme", {
       group = api.create_augroup("nord_visual_eof", {}),
       pattern = "nord",
       callback = function()
-        api.set_hl(0, "VisualEOL", { fg = "#a3be8c" })
-        api.set_hl(0, "VisualNoEOL", { fg = "#bf616a" })
+        api.set_hl(0, "VisualEOL", { fg = palette.green })
+        api.set_hl(0, "VisualNoEOL", { fg = palette.red })
       end,
     })
     require("visual-eof").setup {
