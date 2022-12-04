@@ -1,3 +1,5 @@
+pcall(require,'impatient')
+
 local fn, uv, api = require("core.utils").globals()
 
 vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"

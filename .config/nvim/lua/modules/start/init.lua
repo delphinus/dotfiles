@@ -33,6 +33,8 @@ return {
     config = config.cellwidths.config,
     run = config.cellwidths.run,
   },
+
+  { "lewis6991/impatient.nvim" },
   -- }}}
 }
 
