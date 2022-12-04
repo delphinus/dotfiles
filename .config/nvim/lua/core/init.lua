@@ -1,4 +1,4 @@
-pcall(require,'impatient')
+pcall(require, "impatient")
 
 local fn, uv, api = require("core.utils").globals()
 
