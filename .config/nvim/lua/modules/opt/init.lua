@@ -18,6 +18,29 @@ return {
   -- }}}
 
   -- cmd {{{
+  {
+    "akinsho/toggleterm.nvim",
+    cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
+    setup = config.toggleterm.setup,
+    config = lazy_require("toggleterm").setup {
+      open_mapping = false,
+      direction = "float",
+      float_opts = {
+        border = {
+          { "⣀", "WinBorderTop" },
+          { "⣀", "WinBorderTop" },
+          { "⣀", "WinBorderTop" },
+          { "⢸", "WinBorderRight" },
+          { "⠉", "WinBorderBottom" },
+          { "⠉", "WinBorderBottom" },
+          { "⠉", "WinBorderBottom" },
+          { "⡇", "WinBorderLeft" },
+        },
+      },
+      winbar = { enabled = true },
+    },
+  },
+
   { "cocopon/colorswatch.vim", cmd = { "ColorSwatchGenerate" } },
 
   { "cocopon/inspecthi.vim", cmd = { "Inspecthi", "InspecthiShowInspector", "InspecthiHideInspector" } },
@@ -182,29 +205,23 @@ return {
   {
     "ahmedkhalf/project.nvim",
     event = { "BufRead", "BufNewFile" },
-    config = function()
-      require("project_nvim").setup {
-        ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls" },
-        patterns = { ".git" },
-        show_hidden = true,
-      }
-    end,
+    config = lazy_require("project_nvim").setup {
+      ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls" },
+      patterns = { ".git" },
+      show_hidden = true,
+    },
   },
 
   {
     "b0o/incline.nvim",
     event = { "FocusLost", "CursorHold" },
-    config = function()
-      require("incline").setup {}
-    end,
+    config = lazy_require("incline").setup {},
   },
 
   {
     "delphinus/auto-cursorline.nvim",
     event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
-    config = function()
-      require("auto-cursorline").setup {}
-    end,
+    config = lazy_require("auto-cursorline").setup {},
   },
 
   {
@@ -218,9 +235,7 @@ return {
     "delphinus/emcl.nvim",
     branch = "feature/setcmdline",
     event = { "CmdlineEnter" },
-    config = function()
-      require("emcl").setup {}
-    end,
+    config = lazy_require("emcl").setup {},
   },
 
   { "delphinus/vim-quickfix-height", events = { "BufRead", "FocusLost", "CursorHold" } },
@@ -236,7 +251,7 @@ return {
         module = { "notify" },
         config = lazy_require("notify").setup {
           render = "minimal",
-          background_colour = "#3b4252",
+          background_colour = require("core.utils.palette").black,
           level = "trace",
           on_open = function(win)
             api.win_set_config(win, { focusable = false })
@@ -284,15 +299,14 @@ return {
   {
     "lewis6991/foldsigns.nvim",
     event = { "FocusLost", "CursorHold" },
-    config = function()
-      require("foldsigns").setup {}
-    end,
+    config = lazy_require("foldsigns").setup {},
   },
 
   {
     "lewis6991/gitsigns.nvim",
     event = { "FocusLost", "CursorHold" },
-    config = config.gitsign,
+    setup = config.gitsign.setup,
+    config = config.gitsign.config,
   },
 
   {
@@ -331,7 +345,16 @@ return {
       "WinEnter",
       "WinScrolled",
     },
-    config = config.scrollbar.config,
+    config = lazy_require("scrollbar").setup {
+      marks = {
+        GitAdd = {
+          text = "⢸",
+        },
+        GitChange = {
+          text = "⢸",
+        },
+      },
+    },
   },
 
   {
@@ -423,9 +446,7 @@ return {
       { "n", "cs" },
       { "v", "S" },
     },
-    config = function()
-      require("nvim-surround").setup {}
-    end,
+    config = lazy_require("nvim-surround").setup {},
   },
 
   {
@@ -490,16 +511,12 @@ return {
   {
     "delphinus/characterize.nvim",
     module = { "characterize" },
-    config = function()
-      require("characterize").setup {}
-    end,
+    config = lazy_require("characterize").setup {},
   },
 
   { "delphinus/f_meta.nvim", module = { "f_meta" } },
 
   { "delphinus/lazy_require.nvim", module = { "lazy_require" } },
-
-  { "numToStr/FTerm.nvim", module = { "FTerm" }, setup = config.fterm.setup, config = config.fterm.config },
 
   { "nvim-lua/plenary.nvim", module_pattern = { "plenary.*" } },
 

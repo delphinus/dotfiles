@@ -88,15 +88,16 @@ return {
   skkeleton_indicator = {
     setup = function()
       local api = require("core.utils").api
+      local palette = require "core.utils.palette"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("skkeleton_indicator_nord", {}),
         pattern = "nord",
         callback = function()
-          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = "#88c0d0", bg = "#2e3440", bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHira", { fg = "#2e3440", bg = "#a3be8c", bold = true })
-          api.set_hl(0, "SkkeletonIndicatorKata", { fg = "#2e3440", bg = "#ebcb8b", bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = "#2e3440", bg = "#b48ead", bold = true })
-          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = "#2e3440", bg = "#88c0d0", bold = true })
+          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = palette.cyan, bg = palette.dark_black, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHira", { fg = palette.dark_black, bg = palette.green, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorKata", { fg = palette.dark_black, bg = palette.yellow, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = palette.dark_black, bg = palette.magenta, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = palette.dark_black, bg = palette.cyan, bold = true })
         end,
       })
     end,
@@ -109,40 +110,41 @@ return {
   cmp = {
     setup = function()
       local api = require("core.utils").api
+      local palette = require "core.utils.palette"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("cmp_nord", {}),
         pattern = "nord",
         callback = function()
-          api.set_hl(0, "CmpItemAbbrDeprecated", { fg = "#616e88", bold = true })
-          api.set_hl(0, "CmpItemAbbrMatch", { fg = "#ebcb8b" })
-          api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#d08770" })
-          api.set_hl(0, "CmpItemMenu", { fg = "#616e88", bold = true })
+          api.set_hl(0, "CmpItemAbbrDeprecated", { fg = palette.brighter_black, bold = true })
+          api.set_hl(0, "CmpItemAbbrMatch", { fg = palette.yellow })
+          api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = palette.orange })
+          api.set_hl(0, "CmpItemMenu", { fg = palette.brighter_black, bold = true })
 
-          api.set_hl(0, "CmpItemKindText", { fg = "#81a1c1" })
-          api.set_hl(0, "CmpItemKindMethod", { fg = "#b48ead" })
-          api.set_hl(0, "CmpItemKindFunction", { fg = "#b48ead" })
-          api.set_hl(0, "CmpItemKindConstructor", { fg = "#b48ead", bold = true })
-          api.set_hl(0, "CmpItemKindField", { fg = "#a3be8c" })
-          api.set_hl(0, "CmpItemKindVariable", { fg = "#88c0d0" })
-          api.set_hl(0, "CmpItemKindClass", { fg = "#ebcb8b" })
-          api.set_hl(0, "CmpItemKindInterface", { fg = "#8fbcbb" })
-          api.set_hl(0, "CmpItemKindModule", { fg = "#ebcb8b" })
-          api.set_hl(0, "CmpItemKindProperty", { fg = "#a3be8c" })
-          api.set_hl(0, "CmpItemKindUnit", { fg = "#b48ead" })
-          api.set_hl(0, "CmpItemKindValue", { fg = "#8fbcbb" })
-          api.set_hl(0, "CmpItemKindEnum", { fg = "#8fbcbb" })
-          api.set_hl(0, "CmpItemKindKeyword", { fg = "#5e81ac" })
-          api.set_hl(0, "CmpItemKindSnippet", { fg = "#d08770" })
-          api.set_hl(0, "CmpItemKindColor", { fg = "#ebcb8b" })
-          api.set_hl(0, "CmpItemKindFile", { fg = "#a3be8c" })
-          api.set_hl(0, "CmpItemKindReference", { fg = "#b48ead" })
-          api.set_hl(0, "CmpItemKindFolder", { fg = "#a3be8c" })
-          api.set_hl(0, "CmpItemKindEnumMember", { fg = "#8fbcbb" })
-          api.set_hl(0, "CmpItemKindConstant", { fg = "#5e81ac" })
-          api.set_hl(0, "CmpItemKindStruct", { fg = "#8fbcbb" })
-          api.set_hl(0, "CmpItemKindEvent", { fg = "#d08770" })
-          api.set_hl(0, "CmpItemKindOperator", { fg = "#b48ead" })
-          api.set_hl(0, "CmpItemKindTypeParameter", { fg = "#8fbcbb" })
+          api.set_hl(0, "CmpItemKindText", { fg = palette.blue })
+          api.set_hl(0, "CmpItemKindMethod", { fg = palette.magenta })
+          api.set_hl(0, "CmpItemKindFunction", { fg = palette.magenta })
+          api.set_hl(0, "CmpItemKindConstructor", { fg = palette.magenta, bold = true })
+          api.set_hl(0, "CmpItemKindField", { fg = palette.green })
+          api.set_hl(0, "CmpItemKindVariable", { fg = palette.cyan })
+          api.set_hl(0, "CmpItemKindClass", { fg = palette.yellow })
+          api.set_hl(0, "CmpItemKindInterface", { fg = palette.bright_cyan })
+          api.set_hl(0, "CmpItemKindModule", { fg = palette.yellow })
+          api.set_hl(0, "CmpItemKindProperty", { fg = palette.green })
+          api.set_hl(0, "CmpItemKindUnit", { fg = palette.magenta })
+          api.set_hl(0, "CmpItemKindValue", { fg = palette.bright_cyan })
+          api.set_hl(0, "CmpItemKindEnum", { fg = palette.bright_cyan })
+          api.set_hl(0, "CmpItemKindKeyword", { fg = palette.dark_blue })
+          api.set_hl(0, "CmpItemKindSnippet", { fg = palette.orange })
+          api.set_hl(0, "CmpItemKindColor", { fg = palette.yellow })
+          api.set_hl(0, "CmpItemKindFile", { fg = palette.green })
+          api.set_hl(0, "CmpItemKindReference", { fg = palette.magenta })
+          api.set_hl(0, "CmpItemKindFolder", { fg = palette.green })
+          api.set_hl(0, "CmpItemKindEnumMember", { fg = palette.bright_cyan })
+          api.set_hl(0, "CmpItemKindConstant", { fg = palette.dark_blue })
+          api.set_hl(0, "CmpItemKindStruct", { fg = palette.bright_cyan })
+          api.set_hl(0, "CmpItemKindEvent", { fg = palette.orange })
+          api.set_hl(0, "CmpItemKindOperator", { fg = palette.magenta })
+          api.set_hl(0, "CmpItemKindTypeParameter", { fg = palette.bright_cyan })
         end,
       })
     end,

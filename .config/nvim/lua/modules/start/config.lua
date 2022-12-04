@@ -1,10 +1,10 @@
 return {
   unimpaired = function()
-    local keymap = vim.keymap
-    keymap.set("n", "[w", [[<Cmd>colder<CR>]])
-    keymap.set("n", "]w", [[<Cmd>cnewer<CR>]])
-    keymap.set("n", "[O", [[<Cmd>lopen<CR>]])
-    keymap.set("n", "]O", [[<Cmd>lclose<CR>]])
+    local km = vim.keymap
+    km.set("n", "[w", [[<Cmd>colder<CR>]])
+    km.set("n", "]w", [[<Cmd>cnewer<CR>]])
+    km.set("n", "[O", [[<Cmd>lopen<CR>]])
+    km.set("n", "]O", [[<Cmd>lclose<CR>]])
   end,
 
   visual_eof = function()
@@ -18,8 +18,8 @@ return {
       end,
     })
     require("visual-eof").setup {
-      text_EOL = " ",
-      text_NOEOL = " ",
+      text_EOL = " ",
+      text_NOEOL = " ",
       ft_ng = {
         "FTerm",
         "denite",
@@ -67,6 +67,7 @@ return {
         fallback = function(cw)
           cw.load "sfmono_square"
           cw.add { 0xf0000, 0x10ffff, 2 }
+          return cw
         end,
       }
     end,

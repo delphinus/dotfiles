@@ -1,149 +1,159 @@
 return {
-  lspconfig = function()
-    local fn, uv, api = require("core.utils").globals()
-
-    api.create_autocmd("LspAttach", {
-      group = api.create_augroup("enable-lualine-lsp", {}),
-      once = true,
-      callback = function()
-        require("modules.start.config.lualine").is_lsp_available = true
-      end,
-    })
-
-    require("mason").setup {
-      max_concurrent_installers = 12,
-    }
-    require("lsp_lines").setup()
-    -- Use lsp_lines instead
-    vim.diagnostic.config {
-      virtual_text = {
-        format = function(d)
-          return ("%s (%s: %s)"):format(d.message, d.source, d.code)
+  lspconfig = {
+    setup = function()
+      local api = require("core.utils").api
+      local palette = require "core.utils.palette"
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("lspconfig-colors", {}),
+        pattern = "nord",
+        callback = function()
+          api.set_hl(0, "DiagnosticError", { fg = palette.red })
+          api.set_hl(0, "DiagnosticWarn", { fg = palette.orange })
+          api.set_hl(0, "DiagnosticInfo", { fg = palette.bright_cyan })
+          api.set_hl(0, "DiagnosticHint", { fg = palette.bright_black })
+          api.set_hl(0, "DiagnosticUnderlineError", { sp = palette.red, undercurl = true })
+          api.set_hl(0, "DiagnosticUnderlineWarn", { sp = palette.orange, undercurl = true })
+          api.set_hl(0, "DiagnosticUnderlineInfo", { sp = palette.bright_cyan, undercurl = true })
+          api.set_hl(0, "DiagnosticUnderlineHint", { sp = palette.bright_black, undercurl = true })
+          api.set_hl(0, "LspBorderTop", { fg = palette.border, bg = palette.dark_black })
+          api.set_hl(0, "LspBorderLeft", { fg = palette.border, bg = palette.black })
+          api.set_hl(0, "LspBorderRight", { fg = palette.border, bg = palette.black })
+          api.set_hl(0, "LspBorderBottom", { fg = palette.border, bg = palette.dark_black })
         end,
-      },
-      virtual_lines = { only_current_line = true },
-    }
+      })
+    end,
 
-    local border = require("core.utils.lsp").border
+    config = function()
+      local fn, uv, api = require("core.utils").globals()
 
-    fn.sign_define("DiagnosticSignError", { texthl = "DiagnosticSignError", text = "●" })
-    fn.sign_define("DiagnosticSignWarn", { texthl = "DiagnosticSignWarn", text = "○" })
-    fn.sign_define("DiagnosticSignInfo", { texthl = "DiagnosticSignInfo", text = "■" })
-    fn.sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", text = "□" })
-    api.set_hl(0, "DiagnosticError", { fg = "#bf616a" })
-    api.set_hl(0, "DiagnosticWarn", { fg = "#d08770" })
-    api.set_hl(0, "DiagnosticInfo", { fg = "#b48ead" })
-    api.set_hl(0, "DiagnosticHint", { fg = "#4c566a" })
-    api.set_hl(0, "DiagnosticUnderlineError", { sp = "#bf616a", undercurl = true })
-    api.set_hl(0, "DiagnosticUnderlineWarn", { sp = "#d08770", undercurl = true })
-    api.set_hl(0, "DiagnosticUnderlineInfo", { sp = "#8fbcbb", undercurl = true })
-    api.set_hl(0, "DiagnosticUnderlineHint", { sp = "#4c566a", undercurl = true })
-    api.set_hl(0, "LspBorderTop", { fg = "#5d9794", bg = "#2e3440" })
-    api.set_hl(0, "LspBorderLeft", { fg = "#5d9794", bg = "#3b4252" })
-    api.set_hl(0, "LspBorderRight", { fg = "#5d9794", bg = "#3b4252" })
-    api.set_hl(0, "LspBorderBottom", { fg = "#5d9794", bg = "#2e3440" })
+      fn.sign_define("DiagnosticSignError", { texthl = "DiagnosticSignError", text = "●" })
+      fn.sign_define("DiagnosticSignWarn", { texthl = "DiagnosticSignWarn", text = "○" })
+      fn.sign_define("DiagnosticSignInfo", { texthl = "DiagnosticSignInfo", text = "■" })
+      fn.sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", text = "□" })
 
-    api.create_user_command("ShowLSPSettings", function()
-      print(vim.inspect(vim.lsp.get_active_clients()))
-    end, { desc = "Show LSP settings" })
+      api.create_autocmd("LspAttach", {
+        group = api.create_augroup("enable-lualine-lsp", {}),
+        once = true,
+        callback = function()
+          require("modules.start.config.lualine").is_lsp_available = true
+        end,
+      })
 
-    api.create_user_command("ReloadLSPSettings", function()
-      vim.lsp.stop_client(vim.lsp.get_active_clients())
-      vim.cmd.edit()
-    end, { desc = "Reload LSP settings" })
-
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = true,
-      signs = true,
+      require("mason").setup {
+        max_concurrent_installers = 12,
+      }
+      require("lsp_lines").setup()
       -- Use lsp_lines instead
-      virtual_text = false,
-    })
+      vim.diagnostic.config {
+        virtual_text = {
+          format = function(d)
+            return ("%s (%s: %s)"):format(d.message, d.source, d.code)
+          end,
+        },
+        virtual_lines = { only_current_line = true },
+      }
 
-    local lsp = require "lspconfig"
-    local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-    local capabilities
-    if ok then
-      local orig = vim.lsp.protocol.make_client_capabilities()
-      capabilities = cmp_nvim_lsp.default_capabilities(orig)
-    end
-    local home_dir = function(p)
-      return uv.os_homedir() .. (p or "")
-    end
-    local iterm2_dir = function(p)
-      return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
-    end
+      api.create_user_command("ShowLSPSettings", function()
+        print(vim.inspect(vim.lsp.get_active_clients()))
+      end, { desc = "Show LSP settings" })
 
-    -- needed for sumneko_lua
-    require("neodev").setup {}
+      api.create_user_command("ReloadLSPSettings", function()
+        vim.lsp.stop_client(vim.lsp.get_active_clients())
+        vim.cmd.edit()
+      end, { desc = "Reload LSP settings" })
 
-    local server_configs = {
-      clangd = {},
-      cssls = {},
-      dockerls = {},
-      golangci_lint_ls = {},
-      html = {},
-      intelephense = {},
-      jsonls = {},
-      jsonnet_ls = {},
-      marksman = {},
-      metals = {},
-      solargraph = {},
-      sourcekit = {},
-      teal_ls = {},
-      terraformls = {},
-      tsserver = {},
-      vimls = {},
-      vuels = {},
-      yamlls = {},
+      vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        signs = true,
+        -- Use lsp_lines instead
+        virtual_text = false,
+      })
 
-      perlnavigator = {
-        cmd = { "perlnavigator", "--stdio" },
-        settings = {
-          perlnavigator = {
-            perlPath = "carmel exec -- perl",
-            includePaths = { "lib", "local/lib/perl5" },
+      local lsp = require "lspconfig"
+      local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      local capabilities
+      if ok then
+        local orig = vim.lsp.protocol.make_client_capabilities()
+        capabilities = cmp_nvim_lsp.default_capabilities(orig)
+      end
+      local home_dir = function(p)
+        return uv.os_homedir() .. (p or "")
+      end
+      local iterm2_dir = function(p)
+        return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
+      end
+
+      -- needed for sumneko_lua
+      require("neodev").setup {}
+
+      local server_configs = {
+        clangd = {},
+        cssls = {},
+        dockerls = {},
+        golangci_lint_ls = {},
+        html = {},
+        intelephense = {},
+        jsonls = {},
+        jsonnet_ls = {},
+        marksman = {},
+        metals = {},
+        solargraph = {},
+        sourcekit = {},
+        teal_ls = {},
+        terraformls = {},
+        tsserver = {},
+        vimls = {},
+        vuels = {},
+        yamlls = {},
+
+        perlnavigator = {
+          cmd = { "perlnavigator", "--stdio" },
+          settings = {
+            perlnavigator = {
+              perlPath = "carmel exec -- perl",
+              includePaths = { "lib", "local/lib/perl5" },
+            },
           },
         },
-      },
 
-      pyright = {
-        settings = {
-          python = {
-            analysis = {
-              extraPaths = {
-                home_dir(),
-                iterm2_dir "python38.zip",
-                iterm2_dir "python3.8",
-                iterm2_dir "python3.8/lib-dynload",
-                iterm2_dir "python3.8/site-packages",
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                extraPaths = {
+                  home_dir(),
+                  iterm2_dir "python38.zip",
+                  iterm2_dir "python3.8",
+                  iterm2_dir "python3.8/lib-dynload",
+                  iterm2_dir "python3.8/site-packages",
+                },
               },
             },
           },
         },
-      },
 
-      denols = {
-        init_options = {
-          lint = true,
-          unstable = true,
+        denols = {
+          init_options = {
+            lint = true,
+            unstable = true,
+          },
         },
-      },
 
-      bashls = {
-        filetypes = { "sh", "bash", "zsh" },
-      },
-
-      gopls = {
-        settings = {
-          hoverKind = "NoDocumentation",
-          deepCompletion = true,
-          fuzzyMatching = true,
-          completeUnimported = true,
-          usePlaceholders = true,
+        bashls = {
+          filetypes = { "sh", "bash", "zsh" },
         },
-      },
 
-      --[[
+        gopls = {
+          settings = {
+            hoverKind = "NoDocumentation",
+            deepCompletion = true,
+            fuzzyMatching = true,
+            completeUnimported = true,
+            usePlaceholders = true,
+          },
+        },
+
+        --[[
       sumneko_lua = {
         settings = {
           Lua = {
@@ -175,42 +185,52 @@ return {
       },
       ]]
 
-      sumneko_lua = {
-        settings = {
-          Lua = {
-            completion = { callSnippet = "Replace" },
-            diagnosticls = { globals = require("core.utils.lsp").lua_globals },
-            format = { enable = false },
-            hint = { enable = true },
-            telemetry = { enable = false },
-            workspace = { checkThirdParty = false },
+        sumneko_lua = {
+          settings = {
+            Lua = {
+              completion = { callSnippet = "Replace" },
+              diagnosticls = { globals = require("core.utils.lsp").lua_globals },
+              format = { enable = false },
+              hint = { enable = true },
+              telemetry = { enable = false },
+              workspace = { checkThirdParty = false },
+            },
           },
         },
-      },
-    }
+      }
 
-    require("mason-lspconfig").setup_handlers {
-      function(name)
-        local config = server_configs[name] or {}
-        if capabilities then
-          config.capabilities = capabilities
-        end
-        config.on_attach = require("core.utils.lsp").on_attach
-        lsp[name].setup(config)
-      end,
-    }
-  end,
+      require("mason-lspconfig").setup_handlers {
+        function(name)
+          local config = server_configs[name] or {}
+          if capabilities then
+            config.capabilities = capabilities
+          end
+          config.on_attach = require("core.utils.lsp").on_attach
+          lsp[name].setup(config)
+        end,
+      }
+    end,
+  },
 
-  ts_rainbow = function()
-    local api = require("core.utils").api
-    api.set_hl(0, "rainbowcol1", { fg = "#bf616a" })
-    api.set_hl(0, "rainbowcol2", { fg = "#d08770" })
-    api.set_hl(0, "rainbowcol3", { fg = "#b48ead" })
-    api.set_hl(0, "rainbowcol4", { fg = "#ebcb8b" })
-    api.set_hl(0, "rainbowcol5", { fg = "#a3b812" })
-    api.set_hl(0, "rainbowcol6", { fg = "#81a1c1" })
-    api.set_hl(0, "rainbowcol7", { fg = "#8fbcbb" })
-  end,
+  ts_rainbow = {
+    setup = function()
+      local api = require("core.utils").api
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("ts_rainbow-colors", {}),
+        pattern = "nord",
+        callback = function()
+          local palette = require "core.utils.palette"
+          api.set_hl(0, "rainbowcol1", { fg = palette.red })
+          api.set_hl(0, "rainbowcol2", { fg = palette.orange })
+          api.set_hl(0, "rainbowcol3", { fg = palette.magenta })
+          api.set_hl(0, "rainbowcol4", { fg = palette.yellow })
+          api.set_hl(0, "rainbowcol5", { fg = palette.green })
+          api.set_hl(0, "rainbowcol6", { fg = palette.blue })
+          api.set_hl(0, "rainbowcol7", { fg = palette.bright_cyan })
+        end,
+      })
+    end,
+  },
 
   treesitter = function()
     require("nvim-treesitter.configs").setup {

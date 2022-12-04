@@ -4,6 +4,8 @@
 ---@field is_noice_available boolean
 local Lualine = {}
 
+---@alias color {fg: string, bg: string}
+
 ---@return modules.start.config.lualine.Lualine
 Lualine.new = function()
   return setmetatable({
@@ -20,6 +22,8 @@ function Lualine:config()
     500, -- repeat every 500 ms
     vim.schedule_wrap(vim.cmd.redrawtabline)
   )
+
+  local palette = require "core.utils.palette"
 
   require("lualine").setup {
     extensions = { "quickfix" },
@@ -38,7 +42,7 @@ function Lualine:config()
           self:lsp(function()
             return self:lsp_clients()
           end),
-          color = { fg = "#ebcb8b" },
+          color = { fg = palette.yellow },
           fmt = self:tr { 100, 0 },
         },
         {
@@ -54,10 +58,10 @@ function Lualine:config()
           "diagnostics",
           sources = { "nvim_diagnostic" },
           diagnostics_color = {
-            error = { fg = "#e5989f" },
-            warn = { fg = "#ebcb8b" },
-            info = { fg = "#8ca9cd" },
-            hint = { fg = "#616e88" },
+            error = { fg = palette.brighter_red },
+            warn = { fg = palette.yellow },
+            info = { fg = palette.brighter_blue },
+            hint = { fg = palette.brighter_black },
           },
           symbols = {
             error = "●", -- U+25CF
@@ -76,8 +80,8 @@ function Lualine:config()
           fmt = self:tr { { 30, 0 }, { 50, "F" }, { 80, "Fmt" } },
           separator = "",
           color = self:lsp(function()
-            return require("core.utils.lsp.auto_formatting").is_enabled(0) and { fg = "#2e3440", bg = "#a3be8c" }
-              or { fg = "#81a1c1" }
+            return require("core.utils.lsp.auto_formatting").is_enabled(0) and { fg = "#2e3440", bg = palette.green }
+              or { fg = palette.blue }
           end),
         },
         {
@@ -89,7 +93,7 @@ function Lualine:config()
           color = self:lsp(function()
             local is_enabled = not vim.b.lsp_diagnostics_disabled and #vim.lsp.get_active_clients { bufnr = 0 } > 0
             -- See core.utils.lsp
-            return is_enabled and { fg = "#2e3440", bg = "#a3be8c" } or { fg = "#81a1c1" }
+            return is_enabled and { fg = palette.dark_black, bg = palette.green } or { fg = palette.blue }
           end),
         },
         { "filetype", fmt = self:tr { 100, 0 } },
@@ -106,23 +110,23 @@ function Lualine:config()
         {
           self:noice "message" "get",
           cond = self:noice "message" "has",
-          color = { fg = "#ff9e64" },
+          color = { fg = palette.orange },
           fmt = self:tr { { 90, 0 }, { 120, 30 }, { 999, 80 } },
         },
         {
           self:noice "command" "get",
           cond = self:noice "command" "has",
-          color = { fg = "#ff9e64" },
+          color = { fg = palette.cyan },
         },
         {
           self:noice "mode" "get",
           cond = self:noice "mode" "has",
-          color = { fg = "#ff9e64" },
+          color = { fg = palette.blue },
         },
         {
           self:noice "search" "get",
           cond = self:noice "search" "has",
-          color = { fg = "#ff9e64" },
+          color = { fg = palette.magenta },
         },
       },
       lualine_c = {
@@ -274,9 +278,9 @@ function Lualine:tag() -- luacheck: ignore 212
   end
 end
 
----comment
----@param f fun(): string
----@return fun(): string
+---@generic T
+---@param f fun(): T
+---@return fun(): T
 function Lualine:lsp(f)
   ---@return string
   return function()

@@ -32,7 +32,8 @@ return {
       -- needs these plugins to setup capabilities
       "cmp-nvim-lsp",
     },
-    config = config.lspconfig,
+    setup = config.lspconfig.setup,
+    config = config.lspconfig.config,
   }, -- }}}
 
   ts { "RRethy/nvim-treesitter-endwise" },
@@ -54,7 +55,7 @@ return {
   ts { "nvim-treesitter/nvim-treesitter-textobjects" },
   ts { "nvim-treesitter/playground" },
   ts { "romgrk/nvim-treesitter-context" },
-  ts { "p00f/nvim-ts-rainbow", config = config.ts_rainbow },
+  ts { "p00f/nvim-ts-rainbow", setup = config.ts_rainbow.setup },
 
   { -- {{{ nvim-treesitter
     "nvim-treesitter/nvim-treesitter",

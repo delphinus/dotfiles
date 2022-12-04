@@ -14,24 +14,21 @@ return {
     },
     config = function()
       local api = require("core.utils").api
+      local palette = require "core.utils.palette"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("nord_overrides", {}),
         pattern = "nord",
         callback = function()
-          api.set_hl(0, "Comment", { fg = "#72809a", italic = true })
-          api.set_hl(0, "Delimiter", { fg = "#81a1c1" })
-          api.set_hl(0, "Constant", { fg = "#d8dee9", italic = true })
-          -- TODO
-          -- hi Folded guifg=#72809a gui=NONE
-          api.set_hl(0, "Folded", { fg = "#72809a" })
-          api.set_hl(0, "Identifier", { fg = "#8fbcbb" })
-          api.set_hl(0, "Special", { fg = "#d08770" })
-          api.set_hl(0, "Title", { fg = "#88c0d0", bold = true })
+          api.set_hl(0, "Comment", { fg = palette.comment, italic = true })
+          api.set_hl(0, "Delimiter", { fg = palette.blue })
+          api.set_hl(0, "Constant", { fg = palette.dark_white, italic = true })
+          api.set_hl(0, "Folded", { fg = palette.comment })
+          api.set_hl(0, "Identifier", { fg = palette.bright_cyan })
+          api.set_hl(0, "Special", { fg = palette.orange })
+          api.set_hl(0, "Title", { fg = palette.cyan, bold = true })
           api.set_hl(0, "PmenuSel", { blend = 0 })
-          -- TODO
-          -- hi VertSplit gui=NONE
-          api.set_hl(0, "NormalFloat", { fg = "#d8dee9", bg = "#3b4252", blend = 10 })
-          api.set_hl(0, "FloatBorder", { fg = "#8fbcbb", bg = "#3b4252", blend = 10 })
+          api.set_hl(0, "NormalFloat", { fg = palette.dark_white, bg = palette.dark_black, blend = 10 })
+          api.set_hl(0, "FloatBorder", { fg = palette.bright_cyan, bg = palette.dark_black, blend = 10 })
         end,
       })
     end,
@@ -76,9 +73,9 @@ return {
 
   colorizer = {
     setup = function()
-      local keymap = vim.keymap
-      keymap.set("n", "<A-C>", [[<Cmd>ColorizerToggle<CR>]], { silent = true })
-      keymap.set("n", "<A-S-Ç>", [[<Cmd>ColorizerToggle<CR>]], { silent = true })
+      local km = vim.keymap
+      km.set("n", "<A-C>", [[<Cmd>ColorizerToggle<CR>]], { silent = true })
+      km.set("n", "<A-S-Ç>", [[<Cmd>ColorizerToggle<CR>]], { silent = true })
     end,
   },
 
@@ -97,10 +94,8 @@ return {
 
   git_messenger = {
     setup = function()
-      local keymap = vim.keymap
       vim.g.git_messenger_no_default_mappings = true
-      keymap.set("n", "<A-b>", [[<Cmd>GitMessenger<CR>]])
-      keymap.set("n", "<A-∫>", [[<Cmd>GitMessenger<CR>]])
+      vim.keymap.set("n", "<A-b>", [[<Cmd>GitMessenger<CR>]])
     end,
   },
 
@@ -113,10 +108,7 @@ return {
         group = group,
         once = true,
         callback = function()
-          api.create_autocmd(
-            { "BufUnload", "FileWritePre", "BufWritePre" },
-            { group = api.create_augroup("Autodate", {}), command = "Autodate" }
-          )
+          api.create_autocmd({ "BufUnload", "FileWritePre", "BufWritePre" }, { group = group, command = "Autodate" })
         end,
       })
     end,
@@ -124,55 +116,41 @@ return {
 
   dwm = {
     cond = function()
-      local fn = vim.fn
       -- HACK: Do not load when it is loading committia.vim
-      local file = fn.expand "%"
+      local api = require("core.utils").api
+      local file = vim.fs.basename(api.buf_get_name(0))
       local not_to_load = { "COMMIT_EDITMSG", "MERGE_MSG" }
       for _, name in ipairs(not_to_load) do
-        if file:match(name) then
+        if file == name then
           return false
         end
       end
       return true
     end,
     config = function()
-      local api, keymap = require("core.utils").api, vim.keymap
+      local api, km = require("core.utils").api, vim.keymap
       local dwm = require "dwm"
       dwm.setup {
         key_maps = false,
         master_pane_count = 1,
         master_pane_width = "60%",
       }
-      keymap.set("n", "<C-j>", "<C-w>w")
-      keymap.set("n", "<C-k>", "<C-w>W")
-      keymap.set("n", "<A-CR>", dwm.focus)
-      keymap.set("n", "<C-@>", dwm.focus)
-      keymap.set("n", "<C-Space>", dwm.focus)
-      keymap.set("n", "<C-l>", dwm.grow)
-      keymap.set("n", "<C-h>", dwm.shrink)
-      keymap.set("n", "<C-n>", dwm.new)
-      keymap.set("n", "<C-q>", dwm.rotateLeft)
-      keymap.set("n", "<C-s>", dwm.rotate)
-      keymap.set("n", "<C-c>", function()
-        -- TODO: copied logic from require'scrollbar'.clear
-        local state = vim.b.scrollbar_state
-        if state and state.winnr then
-          local ok = pcall(api.win_close, state.winnr, true)
-          if not ok then
-            vim.notify("cannot found scrollbar win: " .. state.winnr, vim.log.levels.WARN)
-          end
-          vim.b.scrollbar_state = { size = state.size, bufnr = state.bufnr }
-        end
-        dwm:close()
-      end)
+      km.set("n", "<C-j>", "<C-w>w")
+      km.set("n", "<C-k>", "<C-w>W")
+      km.set("n", "<A-CR>", dwm.focus)
+      km.set("n", "<C-@>", dwm.focus)
+      km.set("n", "<C-Space>", dwm.focus)
+      km.set("n", "<C-l>", dwm.grow)
+      km.set("n", "<C-h>", dwm.shrink)
+      km.set("n", "<C-n>", dwm.new)
+      km.set("n", "<C-q>", dwm.rotateLeft)
+      km.set("n", "<C-s>", dwm.rotate)
+      km.set("n", "<C-c>", dwm.close)
 
       api.create_autocmd("BufRead", {
         group = api.create_augroup("dwm_preview", {}),
         callback = function()
-          -- TODO: vim.opt has no 'previewwindow'?
-          if vim.wo.previewwindow then
-            vim.b.dwm_disabled = 1
-          end
+          vim.b.dwm_disabled = vim.opt.previewwindow:get() and 1 or nil
         end,
       })
     end,
@@ -180,47 +158,61 @@ return {
 
   context_vt = function()
     local api = require("core.utils").api
-    api.set_hl(0, "ContextVt", { fg = "#365f86" })
-    require("nvim_context_vt").setup { highlight = "ContextVt" }
-  end,
-
-  gitsign = function()
-    local api = require("core.utils").api
-    api.set_hl(0, "GitSignsAdd", { fg = "#a3be8c" })
-    api.set_hl(0, "GitSignsChange", { fg = "#ebcb8b" })
-    api.set_hl(0, "GitSignsDelete", { fg = "#bf616a" })
-    api.set_hl(0, "GitSignsCurrentLineBlame", { fg = "#616e88" })
-    api.set_hl(0, "GitSignsAddInline", { bg = "#183203" })
-    api.set_hl(0, "GitSignsChangeInline", { bg = "#432d00" })
-    api.set_hl(0, "GitSignsDeleteInline", { bg = "#52050c" })
-    local gitsigns = require "gitsigns"
-    local function gs(method)
-      return function()
-        gitsigns[method]()
-      end
-    end
-
-    gitsigns.setup {
-      signs = {
-        add = { hl = "GitSignsAdd" },
-        change = { hl = "GitSignsChange" },
-        delete = { hl = "GitSignsDelete", text = "✗" },
-        topdelete = { hl = "GitSignsDelete", text = "↑" },
-        changedelete = { hl = "GitSignsChange", text = "•" },
-      },
-      numhl = true,
-      current_line_blame = true,
-      current_line_blame_opts = {
-        delay = 10,
-      },
-      word_diff = true,
-      on_attach = function(bufnr)
-        local keymap = vim.keymap
-        keymap.set("n", "]c", gs "next_hunk", { buffer = bufnr })
-        keymap.set("n", "[c", gs "prev_hunk", { buffer = bufnr })
-      end,
+    local palette = require "core.utils.palette"
+    api.set_hl(0, "ContextVt", { fg = palette.context })
+    require("nvim_context_vt").setup {
+      prefix = "󾪜",
+      highlight = "ContextVt",
     }
   end,
+
+  gitsign = {
+    setup = function()
+      local api = require("core.utils").api
+      local palette = require "core.utils.palette"
+      api.set_hl(0, "GitSignsAdd", { fg = palette.green })
+      api.set_hl(0, "GitSignsChange", { fg = palette.yellow })
+      api.set_hl(0, "GitSignsDelete", { fg = palette.red })
+      api.set_hl(0, "GitSignsCurrentLineBlame", { fg = palette.brighter_black })
+      api.set_hl(0, "GitSignsAddInline", { bg = palette.bg_green })
+      api.set_hl(0, "GitSignsChangeInline", { bg = palette.bg_yellow })
+      api.set_hl(0, "GitSignsDeleteInline", { bg = palette.bg_red })
+      api.set_hl(0, "GitSignsUntracked", { fg = palette.magenta })
+    end,
+    config = function()
+      local gitsigns = require "gitsigns"
+      local function gs(method)
+        return function()
+          gitsigns[method]()
+        end
+      end
+
+      gitsigns.setup {
+        signs = {
+          add = { hl = "GitSignsAdd" },
+          change = { hl = "GitSignsChange" },
+          delete = { hl = "GitSignsDelete", text = "✗" },
+          topdelete = { hl = "GitSignsDelete", text = "↑" },
+          changedelete = { hl = "GitSignsChange", text = "•" },
+          untracked = { hl = "GitSignsUntracked", text = "⢸" },
+        },
+        numhl = true,
+        current_line_blame = true,
+        current_line_blame_opts = {
+          delay = 10,
+        },
+        word_diff = true,
+        on_attach = function(bufnr)
+          local km = vim.keymap
+          km.set("n", "]c", gs "next_hunk", { buffer = bufnr })
+          km.set("n", "[c", gs "prev_hunk", { buffer = bufnr })
+        end,
+      }
+
+      -- setup nvim-scrollbar
+      require("scrollbar.handlers.gitsigns").setup {}
+    end,
+  },
 
   indent_blankline = {
     setup = function()
@@ -237,8 +229,9 @@ return {
 
   virt_column = function()
     local api = require("core.utils").api
+    local palette = require "core.utils.palette"
     api.set_hl(0, "ColorColumn", { bg = "NONE" })
-    api.set_hl(0, "VirtColumn", { fg = "#616e88" })
+    api.set_hl(0, "VirtColumn", { fg = palette.brighter_black })
     local vt = require "virt-column"
     vt.setup { char = "⡂" }
     api.create_autocmd("TermEnter", {
@@ -255,15 +248,15 @@ return {
 
   committia = {
     setup = function()
-      local fn, keymap = vim.fn, vim.keymap
+      local fn, km = vim.fn, vim.keymap
       vim.g.committia_hooks = {
         edit_open = function(info)
           if info.vcs == "git" and fn.getline(1) == "" then
             vim.cmd.startinsert()
           end
-          keymap.set("i", "<A-d>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
-          keymap.set("i", "<A-∂>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
-          keymap.set("i", "<A-u>", [[<Plug>(committia-scroll-diff-up-half)]], { buffer = true })
+          km.set("i", "<A-d>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
+          km.set("i", "<A-∂>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
+          km.set("i", "<A-u>", [[<Plug>(committia-scroll-diff-up-half)]], { buffer = true })
         end,
       }
     end,
@@ -283,25 +276,25 @@ return {
 
   fold_cycle = {
     setup = function()
-      local keymap = vim.keymap
+      local km = vim.keymap
       vim.g.fold_cycle_default_mapping = 0
-      keymap.set("n", "<A-l>", [[<Plug>(fold-cycle-open)]])
-      keymap.set("n", "<A-¬>", [[<Plug>(fold-cycle-open)]])
-      keymap.set("n", "<A-h>", [[<Plug>(fold-cycle-open)]])
-      keymap.set("n", "<A-˙>", [[<Plug>(fold-cycle-open)]])
+      km.set("n", "<A-l>", [[<Plug>(fold-cycle-open)]])
+      km.set("n", "<A-¬>", [[<Plug>(fold-cycle-open)]])
+      km.set("n", "<A-h>", [[<Plug>(fold-cycle-open)]])
+      km.set("n", "<A-˙>", [[<Plug>(fold-cycle-open)]])
     end,
   },
 
   miniyank = {
     setup = function()
-      local keymap = vim.keymap
+      local km = vim.keymap
       vim.g.miniyank_maxitems = 100
-      keymap.set("n", "p", [[<Plug>(miniyank-autoput)]])
-      keymap.set("n", "P", [[<Plug>(miniyank-autoPut)]])
-      keymap.set("n", "<A-p>", [[<Plug>(miniyank-cycle)]])
-      keymap.set("n", "<A-π>", [[<Plug>(miniyank-cycle)]])
-      keymap.set("n", "<A-P>", [[<Plug>(miniyank-cycleback)]])
-      keymap.set("n", "<A-S-∏>", [[<Plug>(miniyank-cycleback)]])
+      km.set("n", "p", [[<Plug>(miniyank-autoput)]])
+      km.set("n", "P", [[<Plug>(miniyank-autoPut)]])
+      km.set("n", "<A-p>", [[<Plug>(miniyank-cycle)]])
+      km.set("n", "<A-π>", [[<Plug>(miniyank-cycle)]])
+      km.set("n", "<A-P>", [[<Plug>(miniyank-cycleback)]])
+      km.set("n", "<A-S-∏>", [[<Plug>(miniyank-cycleback)]])
     end,
   },
 
@@ -340,37 +333,38 @@ return {
 
   hop = function()
     local fn, _, api = require("core.utils").globals()
-    local keymap = vim.keymap
+    local km = vim.keymap
     local hop = require "hop"
+    local palette = require "core.utils.palette"
     hop.setup {
       keys = "hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB",
       extend_visual = true,
     }
     local direction = require("hop.hint").HintDirection
-    keymap.set({ "n", "v" }, [['j]], function()
+    km.set({ "n", "v" }, [['j]], function()
       if fn.getcmdwintype() == "" then
         hop.hint_lines { direction = direction.AFTER_CURSOR }
       end
     end)
-    keymap.set({ "n", "v" }, [['k]], function()
+    km.set({ "n", "v" }, [['k]], function()
       if fn.getcmdwintype() == "" then
         hop.hint_lines { direction = direction.BEFORE_CURSOR }
       end
     end)
     if vim.opt.background:get() == "dark" then
-      api.set_hl(0, "HopNextKey", { fg = "#d08770", bold = true })
-      api.set_hl(0, "HopNextKey1", { fg = "#88c0d0", bold = true })
-      api.set_hl(0, "HopNextKey2", { fg = "#d8dee9" })
-      api.set_hl(0, "HopUnmatched", { fg = "#4c566a" })
+      api.set_hl(0, "HopNextKey", { fg = palette.orange, bold = true })
+      api.set_hl(0, "HopNextKey1", { fg = palette.cyan, bold = true })
+      api.set_hl(0, "HopNextKey2", { fg = palette.dark_white })
+      api.set_hl(0, "HopUnmatched", { fg = palette.gray })
     end
   end,
 
   quickhl = {
     setup = function()
-      local keymap = vim.keymap
-      keymap.set({ "n", "x" }, "<Space>m", [[<Plug>(quickhl-manual-this)]])
-      keymap.set({ "n", "x" }, "<Space>t", [[<Plug>(quickhl-manual-toggle)]])
-      keymap.set({ "n", "x" }, "<Space>M", [[<Plug>(quickhl-manual-reset)]])
+      local km = vim.keymap
+      km.set({ "n", "x" }, "<Space>m", [[<Plug>(quickhl-manual-this)]])
+      km.set({ "n", "x" }, "<Space>t", [[<Plug>(quickhl-manual-toggle)]])
+      km.set({ "n", "x" }, "<Space>M", [[<Plug>(quickhl-manual-reset)]])
     end,
   },
 
@@ -383,17 +377,17 @@ return {
 
   columnskip = {
     setup = function()
-      local keymap = vim.keymap
-      keymap.set({ "n", "x", "o" }, "[j", [[<Plug>(columnskip:nonblank:next)]])
-      keymap.set({ "n", "x", "o" }, "[k", [[<Plug>(columnskip:nonblank:prev)]])
-      keymap.set({ "n", "x", "o" }, "]j", [[<Plug>(columnskip:first-nonblank:next)]])
-      keymap.set({ "n", "x", "o" }, "]k", [[<Plug>(columnskip:first-nonblank:prev)]])
+      local km = vim.keymap
+      km.set({ "n", "x", "o" }, "[j", [[<Plug>(columnskip:nonblank:next)]])
+      km.set({ "n", "x", "o" }, "[k", [[<Plug>(columnskip:nonblank:prev)]])
+      km.set({ "n", "x", "o" }, "]j", [[<Plug>(columnskip:first-nonblank:next)]])
+      km.set({ "n", "x", "o" }, "]k", [[<Plug>(columnskip:first-nonblank:prev)]])
     end,
   },
 
   searchx = {
     setup = function()
-      local fn, keymap = vim.fn, vim.keymap
+      local fn, km = vim.fn, vim.keymap
       local searchx = function(name)
         return function(opt)
           return function()
@@ -404,18 +398,18 @@ return {
       end
 
       -- Overwrite / and ?.
-      keymap.set({ "n", "x" }, "?", searchx "start" { dir = 0 })
-      keymap.set({ "n", "x" }, "/", searchx "start" { dir = 1 })
-      keymap.set("c", "<A-;>", searchx "select"())
+      km.set({ "n", "x" }, "?", searchx "start" { dir = 0 })
+      km.set({ "n", "x" }, "/", searchx "start" { dir = 1 })
+      km.set("c", "<A-;>", searchx "select"())
 
       -- Move to next/prev match.
-      keymap.set({ "n", "x" }, "N", searchx "prev"())
-      keymap.set({ "n", "x" }, "n", searchx "next"())
-      keymap.set({ "c", "n", "x" }, "<A-z>", searchx "prev"())
-      keymap.set({ "c", "n", "x" }, "<A-x>", searchx "next"())
+      km.set({ "n", "x" }, "N", searchx "prev"())
+      km.set({ "n", "x" }, "n", searchx "next"())
+      km.set({ "c", "n", "x" }, "<A-z>", searchx "prev"())
+      km.set({ "c", "n", "x" }, "<A-x>", searchx "next"())
 
       -- Clear highlights
-      keymap.set("n", "<Esc><Esc>", searchx "clear"())
+      km.set("n", "<Esc><Esc>", searchx "clear"())
     end,
     config = function()
       local fn, _, api = require("core.utils").globals()
@@ -473,36 +467,7 @@ return {
     end,
   },
 
-  fterm = {
-    setup = function()
-      vim.keymap.set({ "n", "t" }, "<A-c>", function()
-        require("FTerm").toggle()
-      end)
-    end,
-    config = function()
-      local api = require("core.utils").api
-      api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
-      api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
-      api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })
-      api.set_hl(0, "WinBorderBottom", { fg = "#5d9794", blend = 30 })
-      api.set_hl(0, "WinBorderLight", { fg = "#c2dddc", bg = "#5d9794", blend = 30 })
-      api.set_hl(0, "WinBorderDark", { fg = "#5d9794", bg = "#c2dddc", blend = 30 })
-      api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
-
-      require("FTerm").setup {
-        cmd = vim.opt.shell:get(),
-        border = {
-          { "⣀", "WinBorderTop" },
-          { "⣀", "WinBorderTop" },
-          { "⣀", "WinBorderTop" },
-          { "⢸", "WinBorderRight" },
-          { "⠉", "WinBorderBottom" },
-          { "⠉", "WinBorderBottom" },
-          { "⠉", "WinBorderBottom" },
-          { "⡇", "WinBorderLeft" },
-        },
-      }
-      --[[
+  --[[
               {'╭', 'WinBorderTop'},
               {'─', 'WinBorderTop'},
               {' ', 'WinBorderTransparent'},
@@ -512,7 +477,7 @@ return {
               {' ', 'WinBorderTransparent'},
               {'│', 'WinBorderLeft'},
               ]]
-      --[[
+  --[[
               {'█', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
@@ -522,7 +487,7 @@ return {
               {'█', 'WinBorderLight'},
               {'█', 'WinBorderLight'},
               ]]
-      --[[
+  --[[
               {'▟', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
               {'▀', 'WinBorderLight'},
@@ -533,7 +498,7 @@ return {
               {'▜', 'WinBorderLight'},
               {'█', 'WinBorderLight'},
               ]]
-      --[[
+  --[[
               {'╭', 'WinBorderTop'},
               {'─', 'WinBorderTop'},
               {'╮', 'WinBorderTop'},
@@ -551,18 +516,40 @@ return {
               {'⠙', 'WinBorderLeft'},
               {'⣿', 'WinBorderLeft'},
               ]]
-    end,
-  },
 
-  scrollbar = {
-    config = function()
-      require("scrollbar").setup {}
+  toggleterm = {
+    setup = function()
+      local api = require("core.utils").api
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("toggleterm-colors", {}),
+        pattern = "nord",
+        callback = function()
+          local api = require("core.utils").api
+          local palette = require "core.utils.palette"
+          --[[
+          api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
+          api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
+          api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })
+          api.set_hl(0, "WinBorderBottom", { fg = "#5d9794", blend = 30 })
+          api.set_hl(0, "WinBorderLight", { fg = "#c2dddc", bg = "#5d9794", blend = 30 })
+          api.set_hl(0, "WinBorderDark", { fg = "#5d9794", bg = "#c2dddc", blend = 30 })
+          api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
+          ]]
+          api.set_hl(0, "WinBorderTop", { fg = palette.border })
+          api.set_hl(0, "WinBorderLeft", { fg = palette.border })
+          api.set_hl(0, "WinBorderRight", { fg = palette.border })
+          api.set_hl(0, "WinBorderBottom", { fg = palette.border })
+        end,
+      })
+
+      vim.keymap.set({ "n", "t" }, "<A-c>", "<Cmd>ToggleTerm<CR>")
     end,
   },
 
   noice = {
     setup = function()
       local api = require("core.utils").api
+      local palette = require "core.utils.palette"
 
       -- HACK: avoid to set duplicatedly (ex. after PackerCompile)
       if not _G.__vim_notify_overwritten then
@@ -579,11 +566,11 @@ return {
 
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("noice-colors", {}),
-        once = true,
+        pattern = "nord",
         callback = function()
-          api.set_hl(0, "NoiceLspProgressSpinner", { fg = "#e5e9f0" })
-          api.set_hl(0, "NoiceLspProgressTitle", { fg = "#d08770" })
-          api.set_hl(0, "NoiceLspProgressClient", { fg = "#ebcb8b" })
+          api.set_hl(0, "NoiceLspProgressSpinner", { fg = palette.white })
+          api.set_hl(0, "NoiceLspProgressTitle", { fg = palette.orange })
+          api.set_hl(0, "NoiceLspProgressClient", { fg = palette.yellow })
         end,
       })
     end,
@@ -623,12 +610,12 @@ return {
   },
 
   fugitive = function()
-    local keymap = vim.keymap
-    keymap.set("n", "git", [[<Cmd>Git<CR>]])
-    keymap.set("n", "g<Space>", [[<Cmd>Git<CR>]])
-    keymap.set("n", "d<", [[<Cmd>diffget //2<CR>]])
-    keymap.set("n", "d>", [[<Cmd>diffget //3<CR>]])
-    keymap.set("n", "gs", [[<Cmd>Gstatus<CR>]])
+    local km = vim.keymap
+    km.set("n", "git", [[<Cmd>Git<CR>]])
+    km.set("n", "g<Space>", [[<Cmd>Git<CR>]])
+    km.set("n", "d<", [[<Cmd>diffget //2<CR>]])
+    km.set("n", "d>", [[<Cmd>diffget //3<CR>]])
+    km.set("n", "gs", [[<Cmd>Gstatus<CR>]])
   end,
 
   lualine = {
