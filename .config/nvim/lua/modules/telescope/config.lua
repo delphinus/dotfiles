@@ -190,7 +190,7 @@ return {
     end,
 
     config = function()
-      local fn = require("core.utils").fn
+      local fn = vim.fn
       local actions = require "telescope.actions"
       local actions_state = require "telescope.actions.state"
       local telescope = require "telescope"
