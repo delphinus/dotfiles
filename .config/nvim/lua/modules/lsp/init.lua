@@ -1,4 +1,5 @@
 local config = require "modules.lsp.config"
+local lazy_require = require "lazy_require"
 
 local function ts(plugin)
   plugin.event = { "BufNewFile", "BufRead" }
@@ -40,9 +41,7 @@ return {
 
   ts {
     "m-demare/hlargs.nvim",
-    config = function()
-      require("hlargs").setup { color = "#d08770" }
-    end,
+    config = lazy_require("hlargs").setup { color = require "core.utils.palette"("nord").orange },
   },
 
   ts {

@@ -4,6 +4,25 @@ return {
       local fn, uv, api = require("core.utils").globals()
       local keymap = vim.keymap
       local frecency = require "core.telescope.frecency"
+      local palette = require "core.utils.palette" "nord"
+
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("telescope-colors", {}),
+        pattern = "nord",
+        callback = function()
+          api.set_hl(0, "TelescopeMatching", { fg = palette.magenta })
+          api.set_hl(0, "TelescopePreviewBorder", { fg = palette.green })
+          api.set_hl(0, "TelescopePromptBorder", { fg = palette.cyan })
+          api.set_hl(0, "TelescopeResultsBorder", { fg = palette.blue })
+          api.set_hl(0, "TelescopeSelection", { fg = palette.blue })
+          api.set_hl(0, "TelescopeSelectionCaret", { fg = palette.blue })
+
+          api.set_hl(0, "TelescopeBufferLoaded", { fg = palette.magenta })
+          api.set_hl(0, "TelescopePathSeparator", { fg = palette.brighter_black })
+          api.set_hl(0, "TelescopeFrecencyScores", { fg = palette.yellow })
+          api.set_hl(0, "TelescopeQueryFilter", { fg = palette.bright_cyan })
+        end,
+      })
 
       local function builtin(name)
         return function(opt)
@@ -171,19 +190,7 @@ return {
     end,
 
     config = function()
-      local fn, _, api = require("core.utils").globals()
-      api.set_hl(0, "TelescopeMatching", { fg = "#b48ead" })
-      api.set_hl(0, "TelescopePreviewBorder", { fg = "#a3be8c" })
-      api.set_hl(0, "TelescopePromptBorder", { fg = "#88c0d0" })
-      api.set_hl(0, "TelescopeResultsBorder", { fg = "#81a1c1" })
-      api.set_hl(0, "TelescopeSelection", { fg = "#81a1c1" })
-      api.set_hl(0, "TelescopeSelectionCaret", { fg = "#81a1c1" })
-
-      api.set_hl(0, "TelescopeBufferLoaded", { fg = "#b48ead" })
-      api.set_hl(0, "TelescopePathSeparator", { fg = "#616e88" })
-      api.set_hl(0, "TelescopeFrecencyScores", { fg = "#ebcb8b" })
-      api.set_hl(0, "TelescopeQueryFilter", { fg = "#8fbcbb" })
-
+      local fn = require("core.utils").fn
       local actions = require "telescope.actions"
       local actions_state = require "telescope.actions.state"
       local telescope = require "telescope"

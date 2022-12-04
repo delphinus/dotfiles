@@ -80,7 +80,8 @@ function Lualine:config()
           fmt = self:tr { { 30, 0 }, { 50, "F" }, { 80, "Fmt" } },
           separator = "",
           color = self:lsp(function()
-            return require("core.utils.lsp.auto_formatting").is_enabled(0) and { fg = "#2e3440", bg = palette.green }
+            return require("core.utils.lsp.auto_formatting").is_enabled(0)
+                and { fg = palette.dark_black, bg = palette.green }
               or { fg = palette.blue }
           end),
         },
