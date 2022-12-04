@@ -31,14 +31,6 @@ end
 
 vim.keymap.set("n", "qq", toggle_quickfix)
 
-api.create_autocmd("FileType", {
-  group = api.create_augroup("toggle_quickfix_with_enter", {}),
-  pattern = "qf",
-  callback = function()
-    api.create_autocmd("BufWinLeave", { once = true, callback = toggle_quickfix })
-  end,
-})
-
 -- quit with `q` when started by `view`
 api.create_autocmd("VimEnter", {
   group = api.create_augroup("set_mapping_for_view", {}),
