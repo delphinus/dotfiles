@@ -1,12 +1,7 @@
 -- dist#ft#FTperl()
 local ftperl = function(ext)
   return function(path, bufnr)
-    local sep = package.config:sub(1, 1)
-    local paths = vim.split(path)
-    if #paths == 1 then
-      return
-    end
-    local dirname = paths[#paths - 1]
+    local dirname = vim.fs.dirname(path)
     if ext == "t" and (dirname == "t" or dirname == "xt") then
       return "perl"
     end
