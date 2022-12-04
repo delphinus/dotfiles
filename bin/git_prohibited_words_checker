@@ -35,6 +35,7 @@ my $ignore_names_re = qr{
   \A\.config/fish/config-local\.fish\z |
   \A\.config/fish/functions/tm\.fish\z |
   \A\.config/nvim/\.netrwhist\z |
+  \A\.config/nvim/lua/_compiled\.lua\z |
   \A\.screen/(?:cpu|memory)\z |
   \Aansible/vars/secrets.yml\z |
   \Abin/local_perl\.sh\z |
