@@ -640,4 +640,37 @@ return {
       })
     end,
   },
+
+  visual_eof = {
+    setup = function()
+      local api = require("core.utils").api
+      local palette = require "core.utils.palette" "nord"
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("nord_visual_eof", {}),
+        pattern = "nord",
+        callback = function()
+          api.set_hl(0, "VisualEOL", { fg = palette.green })
+          api.set_hl(0, "VisualNoEOL", { fg = palette.red })
+        end,
+      })
+    end,
+    config = function()
+      require("visual-eof").setup {
+        text_EOL = " ",
+        text_NOEOL = " ",
+        ft_ng = {
+          "FTerm",
+          "denite",
+          "denite-filter",
+          "fugitive.*",
+          "git.*",
+          "packer",
+        },
+        buf_filter = function(bufnr)
+          local api = require("core.utils").api
+          return api.buf_get_option(bufnr, "buftype") == ""
+        end,
+      }
+    end,
+  },
 }

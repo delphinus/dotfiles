@@ -24,11 +24,6 @@ return {
 
   -- lua-script {{{
   {
-    "LumaKernel/nvim-visual-eof.lua",
-    config = config.visual_eof,
-  },
-
-  {
     "delphinus/cellwidths.nvim",
     config = config.cellwidths.config,
     run = config.cellwidths.run,

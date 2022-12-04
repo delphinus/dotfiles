@@ -203,6 +203,13 @@ return {
 
   -- event {{{
   {
+    "LumaKernel/nvim-visual-eof.lua",
+    event = { "BufRead", "BufNewFile" },
+    setup = config.visual_eof.setup,
+    config = config.visual_eof.config,
+  },
+
+  {
     "ahmedkhalf/project.nvim",
     event = { "BufRead", "BufNewFile" },
     config = lazy_require("project_nvim").setup {
