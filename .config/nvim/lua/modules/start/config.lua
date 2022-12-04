@@ -9,7 +9,7 @@ return {
 
   visual_eof = function()
     local api = require("core.utils").api
-    local palette = require "core.utils.palette"
+    local palette = require "core.utils.palette" "nord"
     api.create_autocmd("ColorScheme", {
       group = api.create_augroup("nord_visual_eof", {}),
       pattern = "nord",

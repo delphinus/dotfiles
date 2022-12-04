@@ -2,7 +2,7 @@ return {
   lspconfig = {
     setup = function()
       local api = require("core.utils").api
-      local palette = require "core.utils.palette"
+      local palette = require "core.utils.palette" "nord"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("lspconfig-colors", {}),
         pattern = "nord",
@@ -219,7 +219,7 @@ return {
         group = api.create_augroup("ts_rainbow-colors", {}),
         pattern = "nord",
         callback = function()
-          local palette = require "core.utils.palette"
+          local palette = require "core.utils.palette" "nord"
           api.set_hl(0, "rainbowcol1", { fg = palette.red })
           api.set_hl(0, "rainbowcol2", { fg = palette.orange })
           api.set_hl(0, "rainbowcol3", { fg = palette.magenta })

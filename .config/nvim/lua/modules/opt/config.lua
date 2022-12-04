@@ -14,7 +14,7 @@ return {
     },
     config = function()
       local api = require("core.utils").api
-      local palette = require "core.utils.palette"
+      local palette = require "core.utils.palette" "nord"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("nord_overrides", {}),
         pattern = "nord",
@@ -158,7 +158,7 @@ return {
 
   context_vt = function()
     local api = require("core.utils").api
-    local palette = require "core.utils.palette"
+    local palette = require "core.utils.palette" "nord"
     api.set_hl(0, "ContextVt", { fg = palette.context })
     require("nvim_context_vt").setup {
       prefix = "󾪜",
@@ -169,7 +169,7 @@ return {
   gitsign = {
     setup = function()
       local api = require("core.utils").api
-      local palette = require "core.utils.palette"
+      local palette = require "core.utils.palette" "nord"
       api.set_hl(0, "GitSignsAdd", { fg = palette.green })
       api.set_hl(0, "GitSignsChange", { fg = palette.yellow })
       api.set_hl(0, "GitSignsDelete", { fg = palette.red })
@@ -229,7 +229,7 @@ return {
 
   virt_column = function()
     local api = require("core.utils").api
-    local palette = require "core.utils.palette"
+    local palette = require "core.utils.palette" "nord"
     api.set_hl(0, "ColorColumn", { bg = "NONE" })
     api.set_hl(0, "VirtColumn", { fg = palette.brighter_black })
     local vt = require "virt-column"
@@ -335,7 +335,7 @@ return {
     local fn, _, api = require("core.utils").globals()
     local km = vim.keymap
     local hop = require "hop"
-    local palette = require "core.utils.palette"
+    local palette = require "core.utils.palette" "nord"
     hop.setup {
       keys = "hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB",
       extend_visual = true,
@@ -525,7 +525,7 @@ return {
         pattern = "nord",
         callback = function()
           local api = require("core.utils").api
-          local palette = require "core.utils.palette"
+          local palette = require "core.utils.palette" "nord"
           --[[
           api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
           api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
@@ -549,7 +549,7 @@ return {
   noice = {
     setup = function()
       local api = require("core.utils").api
-      local palette = require "core.utils.palette"
+      local palette = require "core.utils.palette" "nord"
 
       -- HACK: avoid to set duplicatedly (ex. after PackerCompile)
       if not _G.__vim_notify_overwritten then

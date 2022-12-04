@@ -23,7 +23,7 @@ function Lualine:config()
     vim.schedule_wrap(vim.cmd.redrawtabline)
   )
 
-  local palette = require "core.utils.palette"
+  local palette = require "core.utils.palette" "nord"
 
   require("lualine").setup {
     extensions = { "quickfix" },

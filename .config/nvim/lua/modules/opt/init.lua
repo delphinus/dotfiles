@@ -251,7 +251,7 @@ return {
         module = { "notify" },
         config = lazy_require("notify").setup {
           render = "minimal",
-          background_colour = require("core.utils.palette").black,
+          background_colour = require "core.utils.palette"("nord").black,
           level = "trace",
           on_open = function(win)
             api.win_set_config(win, { focusable = false })

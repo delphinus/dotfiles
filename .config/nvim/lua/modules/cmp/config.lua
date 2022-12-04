@@ -88,7 +88,7 @@ return {
   skkeleton_indicator = {
     setup = function()
       local api = require("core.utils").api
-      local palette = require "core.utils.palette"
+      local palette = require "core.utils.palette" "nord"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("skkeleton_indicator_nord", {}),
         pattern = "nord",
@@ -110,7 +110,7 @@ return {
   cmp = {
     setup = function()
       local api = require("core.utils").api
-      local palette = require "core.utils.palette"
+      local palette = require "core.utils.palette" "nord"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("cmp_nord", {}),
         pattern = "nord",
