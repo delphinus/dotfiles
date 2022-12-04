@@ -266,7 +266,7 @@ return {
 
   {
     "folke/todo-comments.nvim",
-    events = { "BufRead", "FocusLost", "CursorHold" },
+    event = { "BufRead", "FocusLost", "CursorHold" },
     config = lazy_require("todo-comments").setup {
       keywords = {
         FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
