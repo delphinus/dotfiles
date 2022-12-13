@@ -216,6 +216,7 @@ return {
       ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls", "yamlls" },
       patterns = { ".git" },
       show_hidden = true,
+      silent_chdir = false,
     },
   },
 
