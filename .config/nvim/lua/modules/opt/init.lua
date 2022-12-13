@@ -213,7 +213,7 @@ return {
     "ahmedkhalf/project.nvim",
     event = { "BufRead", "BufNewFile" },
     config = lazy_require("project_nvim").setup {
-      ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls" },
+      ignore_lsp = { "bashls", "null-ls", "tsserver", "dockerls", "yamlls" },
       patterns = { ".git" },
       show_hidden = true,
     },
