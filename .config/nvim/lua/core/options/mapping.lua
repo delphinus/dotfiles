@@ -11,25 +11,61 @@ vim.keymap.set("n", "_", "<C-w>_")
 -- https://twitter.com/uvrub/status/1341036672364945408
 vim.keymap.set("i", "<CR>", "<C-g>u<CR>", { silent = true })
 
-local function toggle_quickfix()
-  local cmd
-  local loclist = fn.getloclist(0, { size = 0, winid = 0 })
-  if loclist.size > 0 then
-    cmd = loclist.winid == 0 and "lopen" or "lclose"
-  else
-    local is_opened
-    for _, win in ipairs(api.list_wins()) do
-      local buf = api.win_get_buf(win)
-      if api.buf_get_option(buf, "filetype") == "qf" then
-        is_opened = true
-      end
-    end
-    cmd = is_opened and "cclose" or "copen"
-  end
+local function silent(cmd)
   vim.cmd("silent " .. cmd)
 end
 
-vim.keymap.set("n", "qq", toggle_quickfix)
+local function when_not_qf(f)
+  return function()
+    if vim.opt.buftype == "quickfix" then
+      vim.notify "already in quickfix window"
+    else
+      f()
+    end
+  end
+end
+
+-- Open/Close quickfix window
+vim.keymap.set("n", "qq", function()
+  local qflist = fn.getqflist { size = 0, winid = 0 }
+  silent "lclose"
+  if qflist.size > 0 then
+    silent(qflist.winid == 0 and "copen" or "cclose")
+  else
+    silent "cclose"
+  end
+end)
+
+-- Open/Close location-list window
+vim.keymap.set(
+  "n",
+  "QQ",
+  when_not_qf(function()
+    local loclist = fn.getloclist(0, { size = 0, winid = 0 })
+    silent "cclose"
+    if loclist.size > 0 then
+      silent(loclist.winid == 0 and "lopen" or "lclose")
+    else
+      silent "lclose"
+    end
+  end)
+)
+
+-- Clear quickfix window
+vim.keymap.set("n", "qc", function()
+  vim.notify "clear quickfix list"
+  fn.setqflist {}
+end)
+
+-- Clear location-list window
+vim.keymap.set(
+  "n",
+  "QC",
+  when_not_qf(function()
+    vim.notify "clear location list"
+    fn.setloclist(0, {})
+  end)
+)
 
 -- quit with `q` when started by `view`
 api.create_autocmd("VimEnter", {

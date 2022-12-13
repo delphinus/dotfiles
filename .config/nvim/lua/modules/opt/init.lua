@@ -311,6 +311,7 @@ return {
 
   {
     "lewis6991/gitsigns.nvim",
+    module = { "gitsigns" },
     event = { "FocusLost", "CursorHold" },
     setup = config.gitsign.setup,
     config = config.gitsign.config,
@@ -386,7 +387,7 @@ return {
   { "isobit/vim-caddyfile", ft = { "caddyfile" } },
   { "junegunn/vader.vim", ft = { "vader" } },
   { "kchmck/vim-coffee-script", ft = { "coffee" } },
-  { "kevinhwang91/nvim-bqf", ft = { "qf" } },
+  { "kevinhwang91/nvim-bqf", ft = { "qf" }, setup = config.bqf.setup },
   { "leafo/moonscript-vim", ft = { "moonscript" } },
   { "moznion/vim-cpanfile", ft = { "cpanfile" } },
   { "motemen/vim-syntax-hatena", ft = { "hatena" }, config = [[vim.g.hatena_syntax_html = true]] },

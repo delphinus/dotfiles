@@ -178,6 +178,12 @@ return {
       api.set_hl(0, "GitSignsChangeInline", { bg = palette.bg_yellow })
       api.set_hl(0, "GitSignsDeleteInline", { bg = palette.bg_red })
       api.set_hl(0, "GitSignsUntracked", { fg = palette.magenta })
+      vim.keymap.set("n", "gL", function()
+        require("gitsigns").setloclist()
+      end)
+      vim.keymap.set("n", "gQ", function()
+        require("gitsigns").setqflist "all"
+      end)
     end,
     config = function()
       local gitsigns = require "gitsigns"
@@ -671,6 +677,13 @@ return {
           return api.buf_get_option(bufnr, "buftype") == ""
         end,
       }
+    end,
+  },
+
+  bqf = {
+    setup = function()
+      local api = require("core.utils").api
+      api.set_hl(0, "BqfPreviewRange", { link = "Underlined" })
     end,
   },
 }

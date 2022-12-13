@@ -231,6 +231,8 @@ return {
               ["<C-p>"] = actions.cycle_history_prev,
               ["<C-d>"] = actions.preview_scrolling_down,
               ["<C-u>"] = actions.preview_scrolling_up,
+              ["<C-l>"] = actions.send_to_loclist + actions.open_loclist,
+              ["<M-l>"] = actions.send_selected_to_loclist + actions.open_loclist,
             },
             n = {
               ["<Space>"] = actions.toggle_selection,
@@ -245,6 +247,8 @@ return {
               ["<C-n>"] = actions.select_horizontal,
               ["<C-d>"] = preview_scroll(3),
               ["<C-u>"] = preview_scroll(-3),
+              ["<C-l>"] = actions.send_to_loclist + actions.open_loclist,
+              ["<M-l>"] = actions.send_selected_to_loclist + actions.open_loclist,
             },
           },
           layout_config = {
