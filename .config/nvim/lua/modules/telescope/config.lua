@@ -52,17 +52,12 @@ return {
         extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd }()
       end)
       keymap.set("n", "<Leader>ff", function()
+        local Path = require "plenary.path"
         -- TODO: stopgap measure
         if uv.cwd() == uv.os_homedir() then
-          api.echo({
-            {
-              "find_files on $HOME is danger. Launch file_browser instead.",
-              "WarningMsg",
-            },
-          }, true, {})
+          vim.notify("find_files on $HOME is danger. Launch file_browser instead.", vim.log.levels.WARN)
           extensions("file_browser", "file_browser") {}()
-          -- TODO: use uv.fs_stat ?
-        elseif fn.isdirectory(uv.cwd() .. "/.git") == 1 then
+        elseif Path:new(uv.cwd() .. "/.git"):is_dir() then
           builtin "git_files" { show_untracked = true }()
         else
           builtin "find_files" { hidden = true }()
