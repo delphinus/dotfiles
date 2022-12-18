@@ -611,7 +611,7 @@ return {
   fugitive = function()
     local km = vim.keymap
     km.set("n", "git", [[<Cmd>Git<CR>]])
-    km.set("n", "g<Space>", [[<Cmd>Git<CR>]])
+    km.set("n", "g<Space>", [[:Git ]])
     km.set("n", "d<", [[<Cmd>diffget //2<CR>]])
     km.set("n", "d>", [[<Cmd>diffget //3<CR>]])
     km.set("n", "gs", [[<Cmd>Gstatus<CR>]])
