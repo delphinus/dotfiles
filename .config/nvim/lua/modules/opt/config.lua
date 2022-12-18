@@ -128,7 +128,7 @@ return {
       return true
     end,
     config = function()
-      local api, km = require("core.utils").api, vim.keymap
+      local km = vim.keymap
       local dwm = require "dwm"
       dwm.setup {
         key_maps = false,
@@ -146,13 +146,6 @@ return {
       km.set("n", "<C-q>", dwm.rotateLeft)
       km.set("n", "<C-s>", dwm.rotate)
       km.set("n", "<C-c>", dwm.close)
-
-      api.create_autocmd("BufRead", {
-        group = api.create_augroup("dwm_preview", {}),
-        callback = function()
-          vim.b.dwm_disabled = vim.opt.previewwindow:get() and 1 or nil
-        end,
-      })
     end,
   },
 
