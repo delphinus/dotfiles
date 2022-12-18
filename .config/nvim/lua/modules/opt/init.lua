@@ -245,8 +245,6 @@ return {
     config = lazy_require("emcl").setup {},
   },
 
-  { "delphinus/vim-quickfix-height", events = { "BufRead", "FocusLost", "CursorHold" } },
-
   {
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
@@ -381,6 +379,7 @@ return {
   -- {'dag/vim-fish' ft = {'fish'}},
   { "blankname/vim-fish", ft = { "fish" } },
   { "c9s/perlomni.vim", ft = { "perl" } },
+  { "delphinus/qfheight.nvim", ft = { "qf" }, config = lazy_require("qfheight").setup {} },
   { "delphinus/vim-data-section-simple", ft = { "perl" } },
   { "delphinus/vim-firestore", ft = { "firestore" } },
   { "hail2u/vim-css3-syntax", ft = { "css" } },
