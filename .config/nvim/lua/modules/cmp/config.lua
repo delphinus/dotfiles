@@ -60,7 +60,6 @@ return {
       fn["skkeleton#config"] {
         globalJisyo = "~/Library/Application Support/AquaSKK/SKK-JISYO.L",
         userJisyo = "~/Library/Application Support/AquaSKK/skk-jisyo.utf8",
-        markerHenkan = "□",
         eggLikeNewline = true,
         useSkkServer = true,
         immediatelyCancel = false,
