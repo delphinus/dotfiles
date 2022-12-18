@@ -241,7 +241,6 @@ return {
 
   {
     "delphinus/emcl.nvim",
-    branch = "feature/setcmdline",
     event = { "CmdlineEnter" },
     config = lazy_require("emcl").setup {},
   },
