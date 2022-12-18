@@ -309,6 +309,7 @@ return {
 
   {
     "lewis6991/gitsigns.nvim",
+    cmd = { "Gitsigns" },
     module = { "gitsigns" },
     event = { "FocusLost", "CursorHold" },
     setup = config.gitsign.setup,
