@@ -2,17 +2,21 @@ local fn, uv, api = require("core.utils").globals()
 
 vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"
 
-if vim.env.NVIM_PROFILE then
-  require("plenary.profile").start("/tmp/profile.log", { flame = true })
-  api.create_autocmd("VimEnter", {
-    callback = function()
-      require("plenary.profile").stop()
-    end,
-  })
-end
+if vim.g.use_lazy then
+  require "core.lazy"
+else
+  if vim.env.NVIM_PROFILE then
+    require("plenary.profile").start("/tmp/profile.log", { flame = true })
+    api.create_autocmd("VimEnter", {
+      callback = function()
+        require("plenary.profile").stop()
+      end,
+    })
+  end
 
-local pack = require "core.pack"
-pack:load_script()
+  local pack = require "core.pack"
+  pack:load_script()
+end
 
 require "core.options"
 
