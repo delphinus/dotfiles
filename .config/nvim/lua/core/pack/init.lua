@@ -1,5 +1,17 @@
 local fn, uv, api = require("core.utils").globals()
 
+---@param msg string
+---@param level integer
+---@return nil
+local function notify_later(msg, level)
+  vim.schedule(function()
+    local ok = pcall(vim.notify, msg, level)
+    if not ok then
+      vim.cmd.echomsg('"' .. msg .. '"')
+    end
+  end)
+end
+
 ---@class core.pack.Pack
 ---@field compile_path string
 ---@field old_compile_path string
@@ -30,7 +42,7 @@ end
 function Pack:remove_old_compile_path()
   if self:exists(self.old_compile_path) then
     uv.fs_unlink(self.old_compile_path)
-    vim.notify("Old compiled script exists. Deleted.", vim.log.levels.WARN)
+    notify_later("Old compiled script exists. Deleted.", vim.log.levels.WARN)
   end
 end
 
@@ -39,7 +51,7 @@ function Pack:load_script()
   if self:exists(self.compile_path) then
     require(self.compiled)
   else
-    vim.notify "Running :PackerCompile"
+    notify_later "Running :PackerCompile"
     self:compile(vim.schedule_wrap(function()
       require(self.compiled)
     end)) {}
@@ -60,7 +72,7 @@ function Pack:setup()
   )
 
   api.create_user_command("PackerSync", function()
-    vim.notify "Sync started"
+    notify_later "Sync started"
     self:run_packer "sync"()
   end, { desc = "[Packer] Output plugins status" })
 
@@ -88,7 +100,7 @@ function Pack:compile(cb)
         vim.cmd [[/^vim\.cmd \[\[augroup filetypedetect\]\]$]]
         vim.cmd [[.,/^vim\.cmd("augroup END")$/d]]
         vim.cmd.wq { bang = true }
-        self:notify_later(("Successfully edited %s.lua"):format(self.compiled))
+        notify_later(("Successfully edited %s.lua"):format(self.compiled))
         if cb then
           cb()
         end
@@ -105,6 +117,8 @@ function Pack:assume_plugins()
     { "nvim-lua/plenary.nvim", opt = true },
     --{ "wbthomason/packer.nvim", opt = true },
     { "delphinus/packer.nvim", opt = true, branch = "feature/denops" },
+    { "delphinus/f_meta.nvim", opt = true, branch = "main" },
+    { "delphinus/lazy_require.nvim", opt = true, branch = "main" },
   } do
     local dir = p.opt and "opt" or "start"
     local pkg = p[1]
@@ -125,7 +139,7 @@ function Pack:run_packer(method)
   end
 end
 
----@return any
+---@return fun(): any
 function Pack:packer()
   if not self._packer then
     vim.cmd.packadd [[packer.nvim]]
@@ -140,11 +154,16 @@ function Pack:packer()
     }
     packer.reset()
 
-    packer.use(require "modules.start")
-    packer.use(require "modules.opt")
-    packer.use(require "modules.cmp")
-    packer.use(require "modules.lsp")
-    packer.use(require "modules.telescope")
+    for _, name in ipairs { "start", "opt", "cmp", "lsp", "telescope" } do
+      local ok, definitions = pcall(require, "modules." .. name)
+      if ok then
+        packer.use(definitions)
+      else
+        notify_later("failed to load modules." .. name, vim.log.levels.WARN)
+        notify_later(definitions, vim.log.levels.WARN)
+        return function() end
+      end
+    end
 
     self._packer = packer
   end
@@ -177,15 +196,6 @@ end
 function Pack:exists(path) -- luacheck: ignore 212
   local st = uv.fs_stat(path)
   return st and true or false
-end
-
----@param ... any
----@return nil
-function Pack:notify_later(...) -- luacheck: ignore 212
-  local args = { ... }
-  vim.schedule(function()
-    vim.notify(unpack(args))
-  end)
 end
 
 return Pack.new()
