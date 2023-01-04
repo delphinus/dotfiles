@@ -306,12 +306,14 @@ return {
   {
     "ahmedkhalf/project.nvim",
     event = { "BufRead", "BufNewFile" },
-    config = {
-      detection_methods = { "pattern" },
-      patterns = { ".git" },
-      show_hidden = true,
-      silent_chdir = false,
-    },
+    config = function()
+      require("project_nvim").setup {
+        detection_methods = { "pattern" },
+        patterns = { ".git" },
+        show_hidden = true,
+        silent_chdir = false,
+      }
+    end,
   },
 
   {
