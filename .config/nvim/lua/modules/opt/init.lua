@@ -485,7 +485,7 @@ return {
         end,
       },
       callbacks = {
-        [vim.g.gh_e_host] = function(url_data)
+        [vim.g.gh_e_host or ""] = function(url_data)
           return require("gitlinker.hosts").get_github_type_url(url_data)
         end,
       },
