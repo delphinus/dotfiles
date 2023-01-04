@@ -9,7 +9,7 @@ local function ts(plugin)
 end
 
 return {
-  { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
+  { url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
 
   {
     "neovim/nvim-lspconfig",
