@@ -919,6 +919,7 @@ return {
       local searchx = function(name)
         return function(opt)
           return function()
+            require("lazy").load { plugins = { "vim-searchx" } }
             local f = fn["searchx#" .. name]
             return opt and f(opt) or f()
           end
