@@ -1,13 +1,17 @@
+local function non_lazy(plugin)
+  plugin.lazy = false
+  return plugin
+end
+
 return {
-  {
+  non_lazy {
     "direnv/direnv.vim",
-    lazy = false,
     config = function()
       vim.g.direnv_silent_load = 1
     end,
   },
 
-  {
+  non_lazy {
     --"tpope/vim-unimpaired",
     "delphinus/vim-unimpaired",
     config = function()
@@ -19,11 +23,11 @@ return {
     end,
   },
 
-  { "vim-jp/vimdoc-ja" },
+  non_lazy { "vim-jp/vimdoc-ja" },
 
-  { "vim-scripts/HiColors" },
+  non_lazy { "vim-scripts/HiColors" },
 
-  {
+  non_lazy {
     "delphinus/cellwidths.nvim",
     build = ":CellWidthsRemove",
     config = function()
