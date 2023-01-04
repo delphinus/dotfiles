@@ -1,7 +1,6 @@
 local fn, uv, api = require("core.utils").globals()
 
 -- Encodings {{{
-vim.opt.fileencoding = "utf-8"
 if fn.has "gui_macvim" == 0 then
   vim.opt.fileencodings = {
     "ucs-bom",
@@ -147,7 +146,6 @@ api.create_autocmd("QuickFixCmdPost", {
 
 -- Others {{{
 vim.opt.diffopt:append { "vertical", "iwhite", "algorithm:patience" }
-vim.opt.fileformat = "unix"
 vim.opt.fileformats = { "unix", "dos" }
 vim.opt.guicursor = {
   "n-v-c:block",
