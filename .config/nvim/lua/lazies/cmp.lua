@@ -1,3 +1,4 @@
+local fn, uv, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette" "nord"
 
