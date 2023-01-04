@@ -1,4 +1,5 @@
-vim.g.use_lazy = not not vim.env.LAZY
+--vim.g.use_lazy = not not vim.env.LAZY
+vim.g.use_lazy = true
 
 if not vim.g.use_lazy then
   local ok, impatient = pcall(require, "impatient")
