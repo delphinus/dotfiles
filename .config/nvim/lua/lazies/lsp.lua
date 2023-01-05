@@ -568,7 +568,8 @@ return {
   ts { "nvim-treesitter/playground" },
   ts { "romgrk/nvim-treesitter-context" },
   ts {
-    "p00f/nvim-ts-rainbow",
+    --"p00f/nvim-ts-rainbow",
+    "mrjones2014/nvim-ts-rainbow", -- Use forked version
     init = function()
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("ts_rainbow-colors", {}),
