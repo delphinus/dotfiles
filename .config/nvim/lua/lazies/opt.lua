@@ -830,10 +830,8 @@ return {
   {
     "phaazon/hop.nvim",
     keys = {
-      { "n", [['j]] },
-      { "v", [['j]] },
-      { "n", [['k]] },
-      { "v", [['k]] },
+      { [['j]], mode = { "n", "v" } },
+      { [['k]], mode = { "n", "v" } },
     },
     config = function()
       local hop = require "hop"
