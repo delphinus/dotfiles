@@ -540,7 +540,26 @@ return {
 
   ts { "RRethy/nvim-treesitter-endwise" },
 
-  ts { "m-demare/hlargs.nvim", config = { color = palette.orange } },
+  ts {
+    "m-demare/hlargs.nvim",
+    config = {
+      color = palette.orange,
+      -- https://alpha2phi.medium.com/neovim-101-contextual-semantic-highlighting-90c605e6e72b
+      disable = function(_, bufnr)
+        if vim.b[bufnr].semantic_tokens then
+          return true
+        end
+        local clients = vim.lsp.get_active_clients { bufnr = bufnr }
+        for _, c in ipairs(clients) do
+          local caps = c.server_capabilities
+          if c.name ~= "null-ls" and caps.semanticTokensProvider and caps.semanticTokensProvider.full then
+            vim.b[bufnr].semantic_tokens = true
+            return true
+          end
+        end
+      end,
+    },
+  },
 
   ts { "mfussenegger/nvim-treehopper", keys = { { [['t]], lazy_require("tsht").nodes(), mode = { "o", "x" } } } },
 
