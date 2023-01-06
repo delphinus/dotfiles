@@ -722,6 +722,12 @@ return {
         end,
       }
     end,
+    config = function()
+      local bufname = vim.fs.basename(api.buf_get_name(0))
+      if bufname == "COMMIT_EDITMSG" or bufname == "MERGE_MSG" then
+        fn["committia#open"] "git"
+      end
+    end,
   },
 
   { "delphinus/vim-rails", branch = "feature/recognize-ridgepole", ft = { "ruby" } },
