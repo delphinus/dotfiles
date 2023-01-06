@@ -2,6 +2,7 @@ local fn, uv = require("core.utils").globals()
 
 vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"
 
+-- Load here because lazy.nvim will reset 'runtimepath'
 pcall(require, "core.local")
 
 local Plugins = require "core.plugins"
