@@ -115,8 +115,6 @@ return {
     dependencies = { "rbgrouleff/bclose.vim" },
     -- TODO: cmd does not work?
     keys = {
-      { "n", "<Leader>tT" },
-      { "n", "<Leader>tt" },
       { "<Leader>tT", [[<Cmd>TigOpenCurrentFile<CR>]] },
       { "<Leader>tt", [[<Cmd>TigOpenProjectRootDir<CR>]] },
       { "<Leader>tg", [[<Cmd>TigGrep<CR>]] },
