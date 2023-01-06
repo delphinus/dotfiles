@@ -106,7 +106,7 @@ function Lualine:config()
       lualine_z = { { "location", fmt = self:tr { 50, 0 } } },
     },
     tabline = {
-      lualine_a = {},
+      lualine_a = { },
       lualine_b = {
         {
           self:noice "message" "get",
@@ -138,7 +138,13 @@ function Lualine:config()
         { "encoding", fmt = self:tr { 90, 0 } },
         { "fileformat", padding = { left = 0 }, fmt = self:tr { 90, 0 } },
       },
-      lualine_z = {},
+      lualine_z = {
+        {
+          require("lazy.status").updates,
+          cond = require("lazy.status").has_updates,
+          color = { bg = palette.brighter_red },
+        },
+      },
     },
   }
 end
