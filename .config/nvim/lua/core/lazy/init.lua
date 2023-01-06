@@ -14,6 +14,7 @@ end
 require("lazy").setup(plugins, {
   defaults = { lazy = true },
   concurrency = 20,
+  checker = { enabled = true },
   ui = {
     icons = {
       loaded = "●",
