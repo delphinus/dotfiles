@@ -17,9 +17,9 @@ return {
     "vim-skk/skkeleton",
     keys = {
       -- Use these mappings in Karabiner-Elements
-      { "<F10>", mode = { "i", "c", "l" } },
-      { "<F13>", mode = { "i", "c", "l" } },
-      { "<C-j>", mode = { "i", "c", "l" } },
+      { "<F10>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
+      { "<F13>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
+      { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
       { "<C-x><C-o>", lazy_require("cmp").complete(), mode = { "i" } },
     },
     dependencies = {
