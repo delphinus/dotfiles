@@ -38,7 +38,7 @@ return {
           { "<A-y>", "<Cmd>YankyRingHistory" },
         },
         dependencies = { "kkharji/sqlite.lua" },
-        config = { ring = { storage = "sqlite" } },
+        opts = { ring = { storage = "sqlite" } },
       },
     },
 

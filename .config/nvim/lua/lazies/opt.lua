@@ -1,5 +1,6 @@
 local fn, uv, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
+local palette = require "core.utils.palette" "nord"
 
 local function dwm(method)
   return function()
@@ -22,7 +23,6 @@ return {
       language_specific_highlights = false,
     },
     config = function()
-      local palette = require "core.utils.palette" "nord"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("nord_overrides", {}),
         pattern = "nord",
@@ -55,7 +55,6 @@ return {
         group = api.create_augroup("toggleterm-colors", {}),
         pattern = "nord",
         callback = function()
-          local palette = require "core.utils.palette" "nord"
           --[[
           api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
           api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
@@ -72,7 +71,7 @@ return {
         end,
       })
     end,
-    config = {
+    opts = {
       open_mapping = false,
       direction = "float",
       float_opts = {
@@ -185,7 +184,9 @@ return {
     "pwntester/octo.nvim",
     cmd = { "Octo" },
     keys = { { "<A-O>", ":Octo " } },
-    config = { github_hostname = vim.g.gh_e_host },
+    opts = function()
+      return { github_hostname = vim.g.gh_e_host }
+    end,
   },
 
   {
@@ -275,7 +276,6 @@ return {
     "LumaKernel/nvim-visual-eof.lua",
     event = { "BufRead", "BufNewFile" },
     init = function()
-      local palette = require "core.utils.palette" "nord"
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("nord_visual_eof", {}),
         pattern = "nord",
@@ -285,7 +285,7 @@ return {
         end,
       })
     end,
-    config = {
+    opts = {
       text_EOL = " ",
       text_NOEOL = " ",
       ft_ng = {
@@ -305,14 +305,12 @@ return {
   {
     "ahmedkhalf/project.nvim",
     event = { "BufRead", "BufNewFile" },
-    config = function()
-      require("project_nvim").setup {
-        detection_methods = { "pattern" },
-        patterns = { ".git" },
-        show_hidden = true,
-        silent_chdir = false,
-      }
-    end,
+    config = lazy_require("project_nvim").setup {
+      detection_methods = { "pattern" },
+      patterns = { ".git" },
+      show_hidden = true,
+      silent_chdir = false,
+    },
   },
 
   {
@@ -354,7 +352,7 @@ return {
       end
       return true
     end,
-    config = {
+    opts = {
       key_maps = false,
       master_pane_count = 1,
       master_pane_width = "60%",
@@ -375,9 +373,9 @@ return {
       { "MunifTanjim/nui.nvim" },
       {
         "rcarriga/nvim-notify",
-        config = {
+        opts = {
           render = "minimal",
-          background_colour = require "core.utils.palette"("nord").black,
+          background_colour = palette.black,
           level = "trace",
           on_open = function(win)
             api.win_set_config(win, { focusable = false })
@@ -386,8 +384,6 @@ return {
       },
     },
     init = function()
-      local palette = require "core.utils.palette" "nord"
-
       -- HACK: avoid to set duplicatedly (ex. after PackerCompile)
       if not _G.__vim_notify_overwritten then
         vim.notify = function(...)
@@ -411,44 +407,40 @@ return {
         end,
       })
     end,
-    config = function()
-      require("noice").setup {
-        cmdline = {
-          format = {
-            cmdline = { icon = "" },
-            search_down = { icon = "" },
-            search_up = { icon = "" },
-            filter = { icon = "" },
-          },
-        },
-        popupmenu = {
-          --backend = "cmp",
-          backend = "nui",
-        },
-        lsp = {
-          hover = {
-            enabled = true,
-          },
-          signature = {
-            enabled = true,
-          },
-        },
+    opts = {
+      cmdline = {
         format = {
-          spinner = {
-            name = "dots12",
-            --name = "sand",
-          },
+          cmdline = { icon = "" },
+          search_down = { icon = "" },
+          search_up = { icon = "" },
+          filter = { icon = "" },
         },
-      }
-
-      require("modules.start.config.lualine").is_noice_available = true
-    end,
+      },
+      popupmenu = {
+        --backend = "cmp",
+        backend = "nui",
+      },
+      lsp = {
+        hover = {
+          enabled = true,
+        },
+        signature = {
+          enabled = true,
+        },
+      },
+      format = {
+        spinner = {
+          name = "dots12",
+          --name = "sand",
+        },
+      },
+    },
   },
 
   {
     "folke/todo-comments.nvim",
     event = { "BufRead", "FocusLost", "CursorHold" },
-    config = {
+    opts = {
       keywords = {
         FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
         TODO = { icon = "", color = "info" },
@@ -465,14 +457,13 @@ return {
     "haringsrob/nvim_context_vt",
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
-    config = function()
-      local palette = require "core.utils.palette" "nord"
+    init = function()
       api.set_hl(0, "ContextVt", { fg = palette.context })
-      require("nvim_context_vt").setup {
-        prefix = "󾪜",
-        highlight = "ContextVt",
-      }
     end,
+    opts = {
+      prefix = "󾪜",
+      highlight = "ContextVt",
+    },
   },
 
   {
@@ -513,19 +504,14 @@ return {
     keys = {
       {
         "gL",
-        function()
-          require("gitsigns").setloclist()
-        end,
+        lazy_require("gitsigns").setloclist(),
       },
       {
         "gQ",
-        function()
-          require("gitsigns").setqflist "all"
-        end,
+        lazy_require("gitsigns").setqflist "all",
       },
     },
     init = function()
-      local palette = require "core.utils.palette" "nord"
       api.set_hl(0, "GitSignsAdd", { fg = palette.green })
       api.set_hl(0, "GitSignsChange", { fg = palette.yellow })
       api.set_hl(0, "GitSignsDelete", { fg = palette.red })
@@ -566,7 +552,7 @@ return {
       }
 
       -- setup nvim-scrollbar
-      require("scrollbar.handlers.gitsigns").setup {}
+      require("scrollbar.handlers.gitsigns").setup()
     end,
   },
 
@@ -589,7 +575,6 @@ return {
     "lukas-reineke/virt-column.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
-      local palette = require "core.utils.palette" "nord"
       api.set_hl(0, "ColorColumn", { bg = "NONE" })
       api.set_hl(0, "VirtColumn", { fg = palette.brighter_black })
       local vt = require "virt-column"
@@ -631,7 +616,7 @@ return {
       "WinEnter",
       "WinScrolled",
     },
-    config = {
+    opts = {
       marks = {
         GitAdd = {
           text = "⢸",
@@ -840,7 +825,6 @@ return {
     },
     config = function()
       local hop = require "hop"
-      local palette = require "core.utils.palette" "nord"
       hop.setup {
         keys = "hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB",
         extend_visual = true,
@@ -869,22 +853,24 @@ return {
     "ruifm/gitlinker.nvim",
     keys = { { "gc", mode = { "n", "v" } } },
     dependencies = { "plenary.nvim" },
-    config = {
-      opts = {
-        add_current_line_on_normal_mode = false,
-        action_callback = function(url)
-          local actions = require "gitlinker.actions"
-          actions.copy_to_clipboard(url)
-          actions.open_in_browser(url)
-        end,
-      },
-      callbacks = {
-        [vim.g.gh_e_host or ""] = function(url_data)
-          return require("gitlinker.hosts").get_github_type_url(url_data)
-        end,
-      },
-      mappings = "gc",
-    },
+    opts = function(_)
+      return {
+        opts = {
+          add_current_line_on_normal_mode = false,
+          action_callback = function(url)
+            local actions = require "gitlinker.actions"
+            actions.copy_to_clipboard(url)
+            actions.open_in_browser(url)
+          end,
+        },
+        callbacks = {
+          [vim.g.gh_e_host or ""] = function(url_data)
+            return require("gitlinker.hosts").get_github_type_url(url_data)
+          end,
+        },
+        mappings = "gc",
+      }
+    end,
   },
 
   {

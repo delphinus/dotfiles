@@ -542,7 +542,7 @@ return {
 
   ts {
     "m-demare/hlargs.nvim",
-    config = {
+    opts = {
       color = palette.orange,
       -- https://alpha2phi.medium.com/neovim-101-contextual-semantic-highlighting-90c605e6e72b
       disable = function(_, bufnr)
@@ -591,6 +591,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufRead", "BufNewFile", "InsertEnter" },
     build = ":TSUpdate",
+    keys = { { "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>" } },
     config = function()
       require("nvim-treesitter.configs").setup {
         highlight = {
@@ -704,9 +705,6 @@ return {
           enable = true,
         },
       }
-      vim.keymap.set("n", "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>")
-
-      require("modules.start.config.lualine").is_ts_available = true
     end,
   },
 }

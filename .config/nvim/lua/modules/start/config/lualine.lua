@@ -1,7 +1,5 @@
 ---@class modules.start.config.lualine.Lualine
 ---@field is_lsp_available boolean
----@field is_ts_available boolean
----@field is_noice_available boolean
 local Lualine = {}
 
 ---@alias color {fg: string, bg: string}
@@ -10,8 +8,6 @@ local Lualine = {}
 Lualine.new = function()
   return setmetatable({
     is_lsp_available = false,
-    is_ts_available = false,
-    is_noice_available = false,
   }, { __index = Lualine })
 end
 
@@ -106,7 +102,7 @@ function Lualine:config()
       lualine_z = { { "location", fmt = self:tr { 50, 0 } } },
     },
     tabline = {
-      lualine_a = { },
+      lualine_a = {},
       lualine_b = {
         {
           self:noice "message" "get",
@@ -265,7 +261,7 @@ end
 ---@return fun() -> string
 function Lualine:tag() -- luacheck: ignore 212
   return function()
-    if not self.is_ts_available then
+    if not package.loaded["nvim-treesitter"] then
       return ""
     end
     ---@return string | nil
@@ -303,7 +299,7 @@ function Lualine:noice(kind) -- luacheck: ignore 212
   return function(method)
     ---@return string?
     return function()
-      return self.is_noice_available and require("noice").api.status[kind][method]() or ""
+      return package.loaded.noice and require("noice").api.status[kind][method]() or ""
     end
   end
 end

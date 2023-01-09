@@ -1,4 +1,4 @@
-local fn, uv, api = require("core.utils").globals()
+local fn, _, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette" "nord"
 
@@ -114,7 +114,7 @@ return {
       })
     end,
 
-    config = { alwaysShown = false, fadeOutMs = 0 },
+    opts = { alwaysShown = false, fadeOutMs = 0 },
   },
 
   { "hrsh7th/cmp-nvim-lua", ft = "lua" },
@@ -140,9 +140,7 @@ return {
       { "rafamadriz/friendly-snippets" },
       {
         "L3MON4D3/LuaSnip",
-        config = function()
-          require("luasnip.loaders.from_vscode").lazy_load()
-        end,
+        config = lazy_require("luasnip.loaders.from_vscode").lazy_load(),
       },
     },
   },
@@ -276,7 +274,7 @@ return {
             local col = fn.col "." - 1
             if cmp.visible() then
               cmp.select_next_item()
-            elseif col == 0 or fn.getline("."):sub(col, col):match "%s" then
+            elseif col == 0 or api.get_current_line():sub(col, col):match "%s" then
               fallback()
             else
               cmp.complete()
