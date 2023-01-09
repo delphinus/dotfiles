@@ -303,17 +303,6 @@ return {
   },
 
   {
-    "ahmedkhalf/project.nvim",
-    event = { "BufRead", "BufNewFile" },
-    config = lazy_require("project_nvim").setup {
-      detection_methods = { "pattern" },
-      patterns = { ".git" },
-      show_hidden = true,
-      silent_chdir = false,
-    },
-  },
-
-  {
     "b0o/incline.nvim",
     event = { "FocusLost", "CursorHold" },
     config = true,
