@@ -520,12 +520,12 @@ return {
 
       gitsigns.setup {
         signs = {
-          add = { hl = "GitSignsAdd" },
-          change = { hl = "GitSignsChange" },
-          delete = { hl = "GitSignsDelete", text = "✗" },
-          topdelete = { hl = "GitSignsDelete", text = "↑" },
-          changedelete = { hl = "GitSignsChange", text = "•" },
-          untracked = { hl = "GitSignsUntracked", text = "⢸" },
+          add = {},
+          change = {},
+          delete = { text = "✗" },
+          topdelete = { text = "↑" },
+          changedelete = { text = "•" },
+          untracked = { text = "⢸" },
         },
         numhl = true,
         current_line_blame = true,
