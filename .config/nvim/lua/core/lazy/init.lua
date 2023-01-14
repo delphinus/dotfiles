@@ -3,7 +3,14 @@ local fn, uv = require("core.utils").globals()
 local pack_path = fn.stdpath "data" .. "/lazy/"
 local lazy_path = pack_path .. "lazy.nvim"
 if not uv.fs_stat(lazy_path) then
-  fn.system { "git", "clone", "--filter=blob:none", "--single-branch", "https://github.com/folke/lazy.nvim", lazy_path }
+  fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazy_path,
+  }
 end
 vim.opt.runtimepath:prepend(lazy_path)
 
