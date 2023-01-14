@@ -21,6 +21,4 @@ if fn.has "gui_running" ~= 1 then
   vim.g.plugin_scrnmode_disable = true
 end
 
-require("core.rooter").setup {}
-
 require("core.utils").export_globals()
