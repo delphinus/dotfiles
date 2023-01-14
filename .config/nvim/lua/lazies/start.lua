@@ -68,4 +68,6 @@ return {
       }
     end,
   },
+
+  non_lazy { "delphinus/rtr.nvim", config = true },
 }
