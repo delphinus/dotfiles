@@ -1,0 +1,37 @@
+local fn, uv, api = require("core.utils").globals()
+
+if vim.tbl_contains({ "{{ secret_office.hostnames | join('", "') }}" }, uv.os_gethostname()) then
+  vim.g["gista#client#default_username"] = "{{ secret_office.github_user }}"
+  vim.g["gista#client#default_apiname"] = "GHE"
+  vim.g.gista_github_api_path = "{{ secret_office.github_api_path }}"
+else
+  vim.g["gista#client#default_username"] = "delphinus"
+end
+
+if vim.tbl_contains({ "{{ secret_office.vm_hostnames | join('", "') }}" }, uv.os_gethostname()) then
+  vim.cmd [[
+{{ secret_vim_setting }}
+  ]]
+end
+
+api.create_autocmd({ "FileType" }, {
+  group = api.create_augroup("SpecialIndent", {}),
+  pattern = "json",
+  callback = function()
+    if vim.endswith(fn.expand "%:p", "{{ secret_special_indent_json }}") then
+      vim.opt_local.tabstop = 3
+      vim.opt_local.softtabstop = 3
+      vim.opt_local.shiftwidth = 3
+    end
+  end,
+})
+
+vim.g.WebDevIconsOS = "Darwin"
+
+-- for fugitive & rhubarb
+vim.g.fugitive_github_domains = { "{{ secret_office.github_host }}" }
+vim.g.RHUBARB_TOKEN = "{{ secret_office.github_token.rhubarb }}"
+
+vim.g.gh_e_host = "{{ secret_office.github_host }}"
+
+-- vim:se ft=lua:
