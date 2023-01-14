@@ -41,6 +41,7 @@ require("lazy").setup(plugins, {
   defaults = { lazy = true },
   concurrency = 20,
   checker = { enabled = true },
+  dev = { path = "~/git/github.com/delphinus" },
   ui = {
     icons = {
       loaded = "●",
