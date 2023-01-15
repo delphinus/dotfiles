@@ -12,8 +12,8 @@ return {
   },
 
   non_lazy {
-    --"tpope/vim-unimpaired",
-    "delphinus/vim-unimpaired",
+    "tpope/vim-unimpaired",
+    --"delphinus/vim-unimpaired",
     config = function()
       local km = vim.keymap
       km.set("n", "[w", [[<Cmd>colder<CR>]])
