@@ -46,7 +46,7 @@ require("lazy.core.loader").did_ftdetect = ignore_ftdetect
 
 require("lazy").setup(plugins, {
   defaults = { lazy = true },
-  concurrency = 20,
+  concurrency = 50,
   checker = { enabled = true },
   dev = { path = "~/git/github.com/delphinus" },
   ui = {
