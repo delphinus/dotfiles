@@ -70,4 +70,6 @@ return {
   },
 
   non_lazy { "delphinus/rtr.nvim", config = true },
+
+  non_lazy { "delphinus/unimpaired.nvim", branch = "feature/first-implementation", dev = true },
 }
