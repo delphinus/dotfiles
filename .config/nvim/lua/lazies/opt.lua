@@ -872,14 +872,6 @@ return {
   },
 
   {
-    "thinca/vim-visualstar",
-    keys = { { "*", [[<Plug>(visualstar-*)]], mode = { "x" } } },
-    init = function()
-      vim.g.visualstar_no_default_key_mappings = 1
-    end,
-  },
-
-  {
     "tyru/columnskip.vim",
     keys = {
       { "[j", [[<Plug>(columnskip:nonblank:next)]], mode = { "n", "x", "o" } },
