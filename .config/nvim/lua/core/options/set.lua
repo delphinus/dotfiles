@@ -173,12 +173,6 @@ if fn.has "osx" then
 
   -- Set iskeyword to manage CP932 texts on macOS
   vim.opt.iskeyword = { "@", "48-57", "_", "128-167", "224-235" }
-
-  -- For printing
-  -- TODO: printmbfont does not have a list
-  vim.opt.printmbfont = "r:HiraMinProN-W3,b:HiraMinProN-W6"
-  vim.opt.printencoding = "utf-8"
-  vim.opt.printmbcharset = "UniJIS"
 end
 
 -- Set guioptions in case menu.vim does not exist.
