@@ -1,5 +1,0 @@
----
-- file: path={{ cache_dir }} state=directory
-- file: path={{ fonts_dir }} state=directory
-- get_url: url={{ secret_ricty_url }} dest={{ cache_dir }}/ricty.zip sha256sum={{ secret_ricty_sha256sum }}
-- unarchive: src={{ cache_dir }}/ricty.zip dest={{ fonts_dir }} copy=no creates={{ fonts_dir }}/Ricty-Regular-Powerline.ttf
