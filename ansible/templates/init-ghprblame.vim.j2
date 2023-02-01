@@ -1,5 +1,5 @@
 let g:ghpr_github_auth_token = {
-      \ 'github.com': '{{ secret_homebrew_github_api_token }}',
+      \ 'github.com': $HOMEBREW_GITHUB_API_TOKEN,
       \ '{{ secret_office.github_host }}': '{{ secret_office.github_token.ghprblame }}',
       \ }
 let g:ghpr_github_api_url = {
