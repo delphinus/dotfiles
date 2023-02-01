@@ -1,9 +1,6 @@
-let g:ghpr_github_auth_token = {
-      \ 'github.com': $HOMEBREW_GITHUB_API_TOKEN,
-      \ '{{ secret_office.github_host }}': '{{ secret_office.github_token.ghprblame }}',
-      \ }
-let g:ghpr_github_api_url = {
-      \ '{{ secret_office.github_host }}': '{{ secret_office.github_api_path }}',
-      \ }
+let g:ghpr_github_auth_token = { 'github.com': $HOMEBREW_GITHUB_API_TOKEN }
+let g:ghpr_github_auth_token[$GITHUB_ENTERPRISE_HOST] = '{{ secret_office.github_token.ghprblame }}'
+let g:ghpr_github_api_url = {}
+let g:ghpr_github_api_url[$GITHUB_ENTERPRISE_HOST] = '{{ secret_office.github_api_path }}'
 {# vim:se ft=vim.jinja: #}
 " vim:se ft=vim:

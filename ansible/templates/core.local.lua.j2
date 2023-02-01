@@ -29,9 +29,9 @@ api.create_autocmd({ "FileType" }, {
 vim.g.WebDevIconsOS = "Darwin"
 
 -- for fugitive & rhubarb
-vim.g.fugitive_github_domains = { "{{ secret_office.github_host }}" }
+vim.g.fugitive_github_domains = { vim.env.GITHUB_ENTERPRISE_HOST }
 vim.g.RHUBARB_TOKEN = "{{ secret_office.github_token.rhubarb }}"
 
-vim.g.gh_e_host = "{{ secret_office.github_host }}"
+vim.g.gh_e_host = vim.env.GITHUB_ENTERPRISE_HOST
 
 -- vim:se ft=lua:
