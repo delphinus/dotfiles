@@ -63,6 +63,17 @@ return {
           cw.load "sfmono_square"
           cw.add { 0xf0000, 0x10ffff, 2 }
           cw.add(0x25bd, 1)
+          cw.add(0x25A3, 1)
+          cw.add(0x25B3, 1)
+          cw.add(0x25B5, 1)
+          cw.add(0x25B6, 1)
+          cw.add(0x25B7, 1)
+          cw.add(0x25BD, 1)
+          cw.add(0x25BF, 1)
+          cw.add(0x25C1, 1)
+          cw.add(0x25C3, 1)
+          cw.add(0x25C9, 1)
+          cw.add(0x25CE, 1)
           return cw
         end,
       }
