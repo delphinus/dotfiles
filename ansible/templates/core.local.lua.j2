@@ -3,7 +3,7 @@ local fn, uv, api = require("core.utils").globals()
 if vim.tbl_contains({ "{{ secret_office.hostnames | join('", "') }}" }, uv.os_gethostname()) then
   vim.g["gista#client#default_username"] = "{{ secret_office.github_user }}"
   vim.g["gista#client#default_apiname"] = "GHE"
-  vim.g.gista_github_api_path = "{{ secret_office.github_api_path }}"
+  vim.g.gista_github_api_path = vim.env.GITHUB_ENTERPRISE_API_PATH
 else
   vim.g["gista#client#default_username"] = "delphinus"
 end

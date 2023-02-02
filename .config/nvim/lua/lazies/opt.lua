@@ -192,16 +192,14 @@ return {
   {
     "rhysd/ghpr-blame.vim",
     cmd = { "GHPRBlame" },
-    config = function()
-      local settings = uv.os_homedir() .. "/.ghpr-blame.vim"
-      if fn.filereadable(settings) == 1 then
-        vim.cmd.source(settings)
-        -- TODO: mappings for VV
-        vim.g.ghpr_show_pr_mapping = "<A-g>"
-        vim.g.ghpr_show_pr_in_message = 1
-      else
-        vim.notify("file not found: " .. settings, vim.log.levels.WARN)
-      end
+    init = function()
+      vim.g.ghpr_github_auth_token = {
+        ["github.com"] = vim.env.HOMEBREW_GITHUB_API_TOKEN,
+        [vim.env.GITHUB_ENTERPRISE_HOST] = vim.env.GITHUB_ENTERPRISE_API_TOKEN_GHPRBLAME,
+      }
+      vim.g.ghpr_github_api_url = {
+        [vim.env.GITHUB_ENTERPRISE_HOST] = vim.env.GITHUB_ENTERPRISE_API_PATH,
+      }
     end,
   },
 
