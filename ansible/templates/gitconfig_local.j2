@@ -1,9 +1,7 @@
 [github]
     token = {{ secret_office.github_token.ghr }}
-{% for info in secret_repo_info %}
-[url "{{ info.url }}"]
-	insteadOf = {{ info.insteadOf }}
-{% endfor %}
+[url "{{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_SSH') }}"]
+	insteadOf = {{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_HTTPS') }}
 {%- for info in secret_repo_info_for_ghq -%}
 [ghq "{{ info.url }}"]
 	vcs = {{ info.vcs }}
