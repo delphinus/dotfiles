@@ -7,11 +7,8 @@ use Path::Class;
 
 my $start_dir = dir("$ENV{HOME}/git/dotfiles");
 -d $start_dir or die "not exist: $start_dir";
-my $prohibited_words_file = file("$ENV{HOME}/.git_prohibited_words");
--f $prohibited_words_file or die "not exist: $prohibited_words_file";
 my $prohibited_words_re = do {
-    chomp(my $content = $prohibited_words_file->slurp);
-    (my $str = $content) =~ s/\n/|/g;
+    (my $str = $ENV{GIT_PROHIBITED_WORDS}) =~ s/,/|/g;
     qr/$str/;
 };
 

@@ -1,3 +1,4 @@
-{% for word in secret_git_prohibited_words %}
+{% set words = lookup('env', 'GIT_PROHIBITED_WORDS').split(',') %}
+{% for word in words %}
 {{ word }}
 {% endfor %}
