@@ -4,10 +4,8 @@
 	insteadOf = {{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_HTTPS') }}
 [ghq "{{ lookup('env', 'GITHUB_ENTERPRISE_GHQ_URL') }}"]
 	vcs = git
-{%- for info in secret_includeif -%}
-[includeIf "gitdir:{{ info.gitdir }}"]
-    path = {{ info.path }}
-{% endfor -%}
+[includeIf "gitdir:{{ lookup('env', 'GITHUB_ENTERPRISE_HOST') }}/"]
+    path = .work.inc
 
 {# vim:se ft=gitconfig.jinja: #}
 # vim:se ft=gitconfig:
