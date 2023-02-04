@@ -4,10 +4,6 @@
 	insteadOf = {{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_HTTPS') }}
 [ghq "{{ lookup('env', 'GITHUB_ENTERPRISE_GHQ_URL') }}"]
 	vcs = git
-{%- if ansible_hostname in secret_office.hostnames %}
-[hub]
-	host = {{ secret_hub_host }}
-{% endif %}
 {%- for info in secret_includeif -%}
 [includeIf "gitdir:{{ info.gitdir }}"]
     path = {{ info.path }}
