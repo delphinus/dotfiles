@@ -2,10 +2,8 @@
     token = {{ secret_office.github_token.ghr }}
 [url "{{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_SSH') }}"]
 	insteadOf = {{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_HTTPS') }}
-{%- for info in secret_repo_info_for_ghq -%}
-[ghq "{{ info.url }}"]
-	vcs = {{ info.vcs }}
-{% endfor -%}
+[ghq "{{ lookup('env', 'GITHUB_ENTERPRISE_GHQ_URL') }}"]
+	vcs = git
 {%- if ansible_hostname in secret_office.hostnames %}
 [hub]
 	host = {{ secret_hub_host }}
