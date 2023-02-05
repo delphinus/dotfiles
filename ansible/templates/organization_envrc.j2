@@ -6,6 +6,6 @@ export PERL_CPANM_OPT="
 {%- for mirror in secret_cpanm_mirrors %}--mirror-only --mirror {{ mirror }} {% endfor -%}
 --no-lwp $PERL_CPANM_OPT"
 export PERL_CARTON_MIRROR={{ secret_cpanm_mirrors[0] }}
-export CIRCLE_API_USER_TOKEN={{ secret_circleci_token }}
+export CIRCLE_API_USER_TOKEN={{ lookup('env', 'OFFICE_CIRCLE_API_USER_TOKEN') }}
 use vim
 {# vim:se ft=direnv.jinja: #}
