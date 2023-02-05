@@ -2,10 +2,8 @@
 export {{ env.name }}={{ env.value }}
 {% endfor -%}
 export PERL5LIB={{ ':'.join(secret_office_perl_perl5lib) }}:$PERL5LIB
-export PERL_CPANM_OPT="
-{%- for mirror in secret_cpanm_mirrors %}--mirror-only --mirror {{ mirror }} {% endfor -%}
---no-lwp $PERL_CPANM_OPT"
-export PERL_CARTON_MIRROR={{ secret_cpanm_mirrors[0] }}
+export PERL_CPANM_OPT="--mirror-only --mirror {{ lookup('env', 'CPANM_MIRROR') }} --no-lwp $PERL_CPANM_OPT"
+export PERL_CARTON_MIRROR={{ lookup('env', 'CPANM_MIRROR') }}
 export CIRCLE_API_USER_TOKEN={{ lookup('env', 'OFFICE_CIRCLE_API_USER_TOKEN') }}
 use vim
 {# vim:se ft=direnv.jinja: #}
