@@ -1,2 +1,2 @@
-user {{ secret_pause_user }}
-password {{ secret_pause_password }}
+user delphinus
+password {{ lookup('env', 'PAUSE_PASSWORD') }}
