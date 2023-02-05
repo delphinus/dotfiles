@@ -1,2 +1,2 @@
-{{- secret_aws_config -}}
+{{- lookup('env', 'AWS_CONFIG') | b64decode -}}
 {#- se:ft=conf.jinja: #}
