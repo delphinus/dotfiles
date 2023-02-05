@@ -967,4 +967,25 @@ return {
   { "delphinus/f_meta.nvim" },
   { "delphinus/lazy_require.nvim" },
   { "nvim-lua/plenary.nvim" },
+
+  {
+    "mrjones2014/op.nvim",
+    build = "make install",
+    cmd = {
+      "OpSignin",
+      "OpSignout",
+      "OpWhoami",
+      "OpCreate",
+      "OpView",
+      "OpEdit",
+      "OpOpen",
+      "OpInsert",
+      "OpNote",
+      "OpSidebar",
+      "OpAnalyzeBuffer",
+    },
+    opt = {
+      signin_on_start = true,
+    },
+  },
 }
