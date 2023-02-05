@@ -14,18 +14,6 @@ if vim.tbl_contains({ "{{ secret_office.vm_hostnames | join('", "') }}" }, uv.os
   ]]
 end
 
-api.create_autocmd({ "FileType" }, {
-  group = api.create_augroup("SpecialIndent", {}),
-  pattern = "json",
-  callback = function()
-    if vim.endswith(fn.expand "%:p", "{{ secret_special_indent_json }}") then
-      vim.opt_local.tabstop = 3
-      vim.opt_local.softtabstop = 3
-      vim.opt_local.shiftwidth = 3
-    end
-  end,
-})
-
 vim.g.WebDevIconsOS = "Darwin"
 
 -- for fugitive & rhubarb
