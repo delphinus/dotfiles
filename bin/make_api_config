@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+use 5.30.0;
+use warnings;
+use JSON::PP;
+use Path::Tiny;
+
+my $json = JSON::PP->new->pretty(1)->canonical;
+my $config = `op item get api_config --format json`;
+my $value = $json->decode($config)->{fields}[0]{value};
+my $settings = $json->decode($value);
+for my $setting (@$settings) {
+    my $filename = delete $setting->{filename};
+    my $output = $json->encode($setting);
+    my $file = path($filename);
+    if (-f $file) {
+        my $content = $file->slurp;
+        if ($content eq $output) {
+            say "already exists $file";
+            next;
+        }
+    }
+    mkdir $file->parent unless -d $file->parent;
+    $file->openw->print($json->encode($setting));
+    say "created $file";
+}
