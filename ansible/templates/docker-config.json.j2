@@ -1,6 +1,6 @@
 {
 	"auths": {
-    "{{ secret_docker_auth_host }}": {}
+    "{{ lookup('env', 'OFFICE_DOCKER_AUTH_HOST') }}": {}
 	},
 	"detachKeys": "ctrl-^",
 	"credsStore": "desktop",
