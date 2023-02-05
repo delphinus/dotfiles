@@ -128,8 +128,6 @@
   when: ansible_system == 'Darwin'
 
 - name: make .ptignore file
-  copy:
-    content: '{{ secret_ptignore }}'
-    dest: ~/.ptignore
+  template: src=ptignore.j2 dest=~/.ptignore
 
 # vim:se et:

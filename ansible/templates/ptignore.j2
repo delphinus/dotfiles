@@ -1,0 +1,4 @@
+{% set ignores = lookup('env', 'PT_IGNORE').split(',') %}
+{% for i in ignores %}
+{{ i }}
+{% endfor %}
