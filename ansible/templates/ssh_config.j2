@@ -34,6 +34,6 @@ Host *
   PubkeyAuthentication yes
   ServerAliveCountMax 20
   ServerAliveInterval 15
-  IdentityAgent "{{ secret_identity_agent }}"
+  IdentityAgent "{{ lookup('env', 'IDENTITY_AGENT') }}"
 
 {#- vim:se ft=sshconfig.jinja: #}
