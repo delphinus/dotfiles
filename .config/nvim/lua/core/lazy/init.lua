@@ -50,6 +50,7 @@ require("lazy").setup(plugins, {
   checker = { enabled = true },
   dev = { path = "~/git/github.com/delphinus" },
   ui = {
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
     icons = {
       loaded = "●",
       not_loaded = "○",
