@@ -9,8 +9,6 @@ local function dwm(method)
 end
 
 return {
-  { "vim-denops/denops.vim", event = { "CursorHold", "FocusLost" } },
-
   {
     --"arcticicestudio/nord-vim",
     "delphinus/nord-nvim",
