@@ -70,6 +70,9 @@ return {
     end,
 
     config = function()
+      -- TODO: is this correct?
+      fn["denops#plugin#register"] "skkeleton"
+
       fn["skkeleton#config"] {
         globalJisyo = "~/Library/Application Support/AquaSKK/SKK-JISYO.L",
         userJisyo = "~/Library/Application Support/AquaSKK/skk-jisyo.utf8",
