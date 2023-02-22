@@ -88,9 +88,8 @@ return {
     },
   },
 
-  { "cocopon/colorswatch.vim", cmd = { "ColorSwatchGenerate" } },
-
-  { "cocopon/inspecthi.vim", cmd = { "Inspecthi", "InspecthiShowInspector", "InspecthiHideInspector" } },
+  { "cocopon/colorswatch.vim",  cmd = { "ColorSwatchGenerate" } },
+  { "cocopon/inspecthi.vim",    cmd = { "Inspecthi", "InspecthiShowInspector", "InspecthiHideInspector" } },
 
   {
     "dhruvasagar/vim-table-mode",
@@ -102,10 +101,8 @@ return {
   },
 
   { "dstein64/vim-startuptime", cmd = { "StartupTime" } },
-
-  { "fuenor/JpFormat.vim", cmd = { "JpFormatAll", "JpJoinAll" } },
-
-  { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } },
+  { "fuenor/JpFormat.vim",      cmd = { "JpFormatAll", "JpJoinAll" } },
+  { "lambdalisue/suda.vim",     cmd = { "SudaRead", "SudaWrite" } },
 
   {
     "iberianpig/tig-explorer.vim",
@@ -116,7 +113,7 @@ return {
       { "<Leader>tt", [[<Cmd>TigOpenProjectRootDir<CR>]] },
       { "<Leader>tg", [[<Cmd>TigGrep<CR>]] },
       { "<Leader>tr", [[<Cmd>TigGrepResume<CR>]] },
-      { "<Leader>tG", [[y<Cmd>TigGrep<Space><C-R>"<CR>]], mode = { "v" } },
+      { "<Leader>tG", [[y<Cmd>TigGrep<Space><C-R>"<CR>]],         mode = { "v" } },
       { "<Leader>tc", [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]] },
       { "<Leader>tb", [[<Cmd>TigBlame<CR>]] },
     },
@@ -176,7 +173,7 @@ return {
     end,
   },
 
-  { "powerman/vim-plugin-AnsiEsc", cmd = { "AnsiEsc" } },
+  { "powerman/vim-plugin-AnsiEsc",       cmd = { "AnsiEsc" } },
 
   {
     "pwntester/octo.nvim",
@@ -314,17 +311,17 @@ return {
     "delphinus/dwm.nvim",
     event = { "VimEnter" },
     keys = {
-      { "<C-j>", "<C-w>w" },
-      { "<C-k>", "<C-w>W" },
-      { "<A-CR>", dwm "focus" },
-      { "<C-@>", dwm "focus" },
+      { "<C-j>",     "<C-w>w" },
+      { "<C-k>",     "<C-w>W" },
+      { "<A-CR>",    dwm "focus" },
+      { "<C-@>",     dwm "focus" },
       { "<C-Space>", dwm "focus" },
-      { "<C-l>", dwm "grow" },
-      { "<C-h>", dwm "shrink" },
-      { "<C-n>", dwm "new" },
-      { "<C-q>", dwm "rotateLeft" },
-      { "<C-s>", dwm "rotate" },
-      { "<C-c>", dwm "close" },
+      { "<C-l>",     dwm "grow" },
+      { "<C-h>",     dwm "shrink" },
+      { "<C-n>",     dwm "new" },
+      { "<C-q>",     dwm "rotateLeft" },
+      { "<C-s>",     dwm "rotate" },
+      { "<C-c>",     dwm "close" },
     },
     cond = function()
       -- HACK: Do not load when it is loading committia.vim
@@ -616,30 +613,30 @@ return {
   {
     "tpope/vim-fugitive",
     keys = {
-      { "git", [[<Cmd>Git<CR>]] },
+      { "git",      [[<Cmd>Git<CR>]] },
       { "g<Space>", [[:Git ]] },
-      { "d<", [[<Cmd>diffget //2<CR>]] },
-      { "d>", [[<Cmd>diffget //3<CR>]] },
-      { "gs", [[<Cmd>Gstatus<CR>]] },
+      { "d<",       [[<Cmd>diffget //2<CR>]] },
+      { "d>",       [[<Cmd>diffget //3<CR>]] },
+      { "gs",       [[<Cmd>Gstatus<CR>]] },
     },
     event = { "BufRead", "FocusLost", "CursorHold" },
   },
 
-  { "dix75/jira.vim", ft = { "confluencewiki" } },
-  { "Glench/Vim-Jinja2-Syntax", ft = { "jinja" } },
-  { "Vimjas/vim-python-pep8-indent", ft = { "python" } },
-  { "aklt/plantuml-syntax", ft = { "plantuml" } },
-  { "aliou/bats.vim", ft = { "bats" } },
+  { "dix75/jira.vim",                    ft = { "confluencewiki" } },
+  { "Glench/Vim-Jinja2-Syntax",          ft = { "jinja" } },
+  { "Vimjas/vim-python-pep8-indent",     ft = { "python" } },
+  { "aklt/plantuml-syntax",              ft = { "plantuml" } },
+  { "aliou/bats.vim",                    ft = { "bats" } },
   -- {'dag/vim-fish' ft = {'fish'}},
-  { "blankname/vim-fish", ft = { "fish" } },
-  { "c9s/perlomni.vim", ft = { "perl" } },
-  { "delphinus/qfheight.nvim", ft = { "qf" }, config = true },
+  { "blankname/vim-fish",                ft = { "fish" } },
+  { "c9s/perlomni.vim",                  ft = { "perl" } },
+  { "delphinus/qfheight.nvim",           ft = { "qf" },            config = true },
   { "delphinus/vim-data-section-simple", ft = { "perl" } },
-  { "delphinus/vim-firestore", ft = { "firestore" } },
-  { "hail2u/vim-css3-syntax", ft = { "css" } },
-  { "isobit/vim-caddyfile", ft = { "caddyfile" } },
-  { "junegunn/vader.vim", ft = { "vader" } },
-  { "kchmck/vim-coffee-script", ft = { "coffee" } },
+  { "delphinus/vim-firestore",           ft = { "firestore" } },
+  { "hail2u/vim-css3-syntax",            ft = { "css" } },
+  { "isobit/vim-caddyfile",              ft = { "caddyfile" } },
+  { "junegunn/vader.vim",                ft = { "vader" } },
+  { "kchmck/vim-coffee-script",          ft = { "coffee" } },
 
   {
     "kevinhwang91/nvim-bqf",
@@ -660,11 +657,11 @@ return {
     end,
   },
 
-  { "motemen/xslate-vim", ft = { "xslate" } },
-  { "msanders/cocoa.vim", ft = { "objc" } },
+  { "motemen/xslate-vim",               ft = { "xslate" } },
+  { "msanders/cocoa.vim",               ft = { "objc" } },
   { "mustache/vim-mustache-handlebars", ft = { "mustache", "handlebars", "html.mustache", "html.handlebars" } },
-  { "nikvdp/ejs-syntax", ft = { "ejs" } },
-  { "pboettch/vim-cmake-syntax", ft = { "cmake" } },
+  { "nikvdp/ejs-syntax",                ft = { "ejs" } },
+  { "pboettch/vim-cmake-syntax",        ft = { "cmake" } },
 
   {
     "pearofducks/ansible-vim",
@@ -700,7 +697,7 @@ return {
     end,
   },
 
-  { "delphinus/vim-rails", branch = "feature/recognize-ridgepole", ft = { "ruby" } },
+  { "delphinus/vim-rails",    branch = "feature/recognize-ridgepole",     ft = { "ruby" } },
 
   {
     "vim-perl/vim-perl",
@@ -716,18 +713,18 @@ return {
     end,
   },
 
-  { "vim-scripts/a.vim", ft = { "c", "cpp" } },
-  { "vim-scripts/applescript.vim", ft = { "applescript" } },
+  { "vim-scripts/a.vim",                ft = { "c", "cpp" } },
+  { "vim-scripts/applescript.vim",      ft = { "applescript" } },
   { "vim-scripts/fontforge_script.vim", ft = { "fontforge_script" } },
-  { "vim-scripts/nginx.vim", ft = { "nginx" } },
-  { "vim-skk/skkdict.vim", ft = { "skkdict" } },
+  { "vim-scripts/nginx.vim",            ft = { "nginx" } },
+  { "vim-skk/skkdict.vim",              ft = { "skkdict" } },
 
   {
     "arecarn/vim-fold-cycle",
     keys = {
-      { "<A-l>", [[<Plug>(fold-cycle-open)]] },
+      { "<A-l>",  [[<Plug>(fold-cycle-open)]] },
       { "<A-¬>", [[<Plug>(fold-cycle-open)]] },
-      { "<A-h>", [[<Plug>(fold-cycle-open)]] },
+      { "<A-h>",  [[<Plug>(fold-cycle-open)]] },
       { "<A-˙>", [[<Plug>(fold-cycle-open)]] },
     },
     init = function()
@@ -740,7 +737,7 @@ return {
     keys = { { "Y", "<Plug>(operator-concealedyank)", mode = { "x" } } },
   },
 
-  { "delphinus/vim-tmux-copy", keys = { "<A-[>", "<A-“>" } },
+  { "delphinus/vim-tmux-copy",     keys = { "<A-[>", "<A-“>" } },
 
   {
     "inkarkat/vim-LineJuggler",
@@ -861,17 +858,17 @@ return {
   {
     "t9md/vim-quickhl",
     keys = {
-      { "<Space>m", [[<Plug>(quickhl-manual-this)]], mode = { "n", "x" } },
+      { "<Space>m", [[<Plug>(quickhl-manual-this)]],   mode = { "n", "x" } },
       { "<Space>t", [[<Plug>(quickhl-manual-toggle)]], mode = { "n", "x" } },
-      { "<Space>M", [[<Plug>(quickhl-manual-reset)]], mode = { "n", "x" } },
+      { "<Space>M", [[<Plug>(quickhl-manual-reset)]],  mode = { "n", "x" } },
     },
   },
 
   {
     "tyru/columnskip.vim",
     keys = {
-      { "[j", [[<Plug>(columnskip:nonblank:next)]], mode = { "n", "x", "o" } },
-      { "[k", [[<Plug>(columnskip:nonblank:prev)]], mode = { "n", "x", "o" } },
+      { "[j", [[<Plug>(columnskip:nonblank:next)]],       mode = { "n", "x", "o" } },
+      { "[k", [[<Plug>(columnskip:nonblank:prev)]],       mode = { "n", "x", "o" } },
       { "]j", [[<Plug>(columnskip:first-nonblank:next)]], mode = { "n", "x", "o" } },
       { "]k", [[<Plug>(columnskip:first-nonblank:prev)]], mode = { "n", "x", "o" } },
     },
@@ -895,16 +892,16 @@ return {
       -- Overwrite / and ?.
       km.set({ "n", "x" }, "?", searchx "start" { dir = 0 })
       km.set({ "n", "x" }, "/", searchx "start" { dir = 1 })
-      km.set("c", "<A-;>", searchx "select"())
+      km.set("c", "<A-;>", searchx "select" ())
 
       -- Move to next/prev match.
-      km.set({ "n", "x" }, "N", searchx "prev"())
-      km.set({ "n", "x" }, "n", searchx "next"())
-      km.set({ "c", "n", "x" }, "<A-z>", searchx "prev"())
-      km.set({ "c", "n", "x" }, "<A-x>", searchx "next"())
+      km.set({ "n", "x" }, "N", searchx "prev" ())
+      km.set({ "n", "x" }, "n", searchx "next" ())
+      km.set({ "c", "n", "x" }, "<A-z>", searchx "prev" ())
+      km.set({ "c", "n", "x" }, "<A-x>", searchx "next" ())
 
       -- Clear highlights
-      km.set("n", "<Esc><Esc>", searchx "clear"())
+      km.set("n", "<Esc><Esc>", searchx "clear" ())
     end,
     config = function()
       vim.g.searchx = {
@@ -918,7 +915,6 @@ return {
         markers = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
         -- To enable auto nohlsearch after cursor is moved
         nohlsearch = { jump = true },
-
         convert = function(input)
           -- If the input does not contain iskeyword characters, it deals with
           -- the input as "very magic".
@@ -938,20 +934,20 @@ return {
           end
           local re
           require("plenary.job")
-            :new({
-              command = "cmigemo",
-              args = { "-v", "-d", dict.filename, "-w", input:sub(2) },
-              on_exit = function(j, return_val)
-                local out = j:result()
-                if return_val == 0 and #out > 0 then
-                  re = out[1]
-                else
-                  vim.notify("cmigemo execution failed", vim.log.levels.WARN)
-                  re = input:sub(2)
-                end
-              end,
-            })
-            :sync()
+              :new({
+                command = "cmigemo",
+                args = { "-v", "-d", dict.filename, "-w", input:sub(2) },
+                on_exit = function(j, return_val)
+                  local out = j:result()
+                  if return_val == 0 and #out > 0 then
+                    re = out[1]
+                  else
+                    vim.notify("cmigemo execution failed", vim.log.levels.WARN)
+                    re = input:sub(2)
+                  end
+                end,
+              })
+              :sync()
           return re
         end,
       }
