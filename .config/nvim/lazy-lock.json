@@ -10,6 +10,7 @@
   "autodate.vim": { "branch": "master", "commit": "32c272063f2602d57882c83fea2cd7496776eb83" },
   "bats.vim": { "branch": "master", "commit": "6a5d2ef22b0ede503d867770afd02ebb1f97b709" },
   "bclose.vim": { "branch": "master", "commit": "99018b4a2dd18aea1cbd3aa23565b01a0f8c5b73" },
+  "bufterm.nvim": { "branch": "main", "commit": "e2251bffcfb2117395e9bc1a82640f9671267e0d" },
   "capture.vim": { "branch": "master", "commit": "857ee11cfe1193948d3d45dcb8d511fded8533fb" },
   "cellwidths.nvim": { "branch": "main", "commit": "81cc5cd793898ec132cda123b9faba6ce46e0df0" },
   "characterize.nvim": { "branch": "main", "commit": "484480b62a8c46db8c25fb3fbfa1dcc8974bb874" },
