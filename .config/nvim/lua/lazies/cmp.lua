@@ -42,18 +42,20 @@ return {
       end
 
       local g1 = api.create_augroup("skkeleton_callbacks", {})
+      local cmp_config
       api.create_autocmd("User", {
         group = g1,
         pattern = "skkeleton-enable-pre",
         callback = function()
-          require("cmp").setup.buffer { enabled = false }
+          cmp_config = require("cmp.config").get()
+          require("cmp").setup.buffer { sources = { { name = "skkeleton" } } }
         end,
       })
       api.create_autocmd("User", {
         group = g1,
         pattern = "skkeleton-disable-pre",
         callback = function()
-          require("cmp").setup.buffer { enabled = true }
+          require("cmp").setup.buffer(cmp_config)
         end,
       })
 
@@ -77,7 +79,8 @@ return {
         globalJisyo = "~/Library/Application Support/AquaSKK/SKK-JISYO.L",
         userJisyo = "~/Library/Application Support/AquaSKK/skk-jisyo.utf8",
         eggLikeNewline = true,
-        useSkkServer = true,
+        -- TODO: cannot use this with cmp-skkeleton?
+        --useSkkServer = true,
         immediatelyCancel = false,
         registerConvertResult = true,
       }
