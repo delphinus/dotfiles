@@ -15,96 +15,7 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre" },
     dependencies = {
-      {
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-        event = { "FocusLost", "CursorHold" },
-        config = function()
-          vim.notify "loading mason-tool-installer"
-          local Interval = require "core.utils.interval"
-          local itvl = Interval.new("mason_tool_installer", 24 * 7 * 3600)
-          local is_over = itvl:is_over()
-
-          if is_over then
-            api.create_autocmd("User", {
-              pattern = "MasonToolsUpdateCompleted",
-              once = true,
-              callback = function()
-                local Job = require "plenary.job"
-                local mason_registry = require "mason-registry"
-                local textlint_path = mason_registry.get_package("textlint"):get_install_path()
-
-                Job:new({
-                  command = "npm",
-                  args = { "i", "textlint-rule-preset-ja-spacing" },
-                  cwd = textlint_path,
-                  on_start = function()
-                    vim.notify "installing additional components"
-                  end,
-                  on_exit = function(self, code, _)
-                    if code == 0 then
-                      vim.notify "finished to update Mason tools"
-                    else
-                      local err = table.concat(self:stderr_result(), "\n")
-                      vim.notify(("failed to update Mason tools: code=%d\n%s"):format(code, err))
-                    end
-                  end,
-                }):start()
-              end,
-            })
-
-            vim.notify("Tools are old. Updating……", vim.log.levels.WARN)
-          end
-
-          local mason_tool_installer = require "mason-tool-installer"
-          mason_tool_installer.setup {
-            auto_update = is_over,
-            ensure_installed = {
-              "ansible-language-server",
-              "awk-language-server",
-              "bash-language-server",
-              "clangd",
-              "cmake-language-server",
-              "css-lsp",
-              "deno",
-              "dockerfile-language-server",
-              "dot-language-server",
-              "eslint-lsp",
-              "gofumpt",
-              "goimports",
-              "golangci-lint-langserver",
-              "golines",
-              "gopls",
-              "intelephense",
-              "jq",
-              "json-lsp",
-              "jsonnet-language-server",
-              "lua-language-server",
-              "luacheck",
-              "marksman",
-              "perlnavigator",
-              "prettierd",
-              "pyright",
-              "shellcheck",
-              "shfmt",
-              "solargraph",
-              "stylua",
-              "terraform-ls",
-              "textlint",
-              "typescript-language-server",
-              "vim-language-server",
-              "vint",
-              "vue-language-server",
-              "yaml-language-server",
-            },
-          }
-          mason_tool_installer.check_install()
-
-          if is_over then
-            itvl:update()
-          end
-        end,
-      },
-
+      { "WhoIsSethDaniel/mason-tool-installer.nvim" },
       { "folke/neodev.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
       { "williamboman/mason.nvim" },
@@ -196,25 +107,6 @@ return {
       require("neodev").setup {}
 
       local server_configs = {
-        clangd = {},
-        cssls = {},
-        dockerls = {},
-        golangci_lint_ls = {},
-        html = {},
-        intelephense = {},
-        jsonls = {},
-        jsonnet_ls = {},
-        marksman = {},
-        metals = {},
-        solargraph = {},
-        sourcekit = {},
-        teal_ls = {},
-        terraformls = {},
-        tsserver = {},
-        vimls = {},
-        vuels = {},
-        yamlls = {},
-
         perlnavigator = {
           cmd = { "perlnavigator", "--stdio" },
           settings = {
@@ -224,7 +116,6 @@ return {
             },
           },
         },
-
         pyright = {
           settings = {
             python = {
@@ -240,18 +131,15 @@ return {
             },
           },
         },
-
         denols = {
           init_options = {
             lint = true,
             unstable = true,
           },
         },
-
         bashls = {
           filetypes = { "sh", "bash", "zsh" },
         },
-
         gopls = {
           settings = {
             hoverKind = "NoDocumentation",
@@ -261,39 +149,6 @@ return {
             usePlaceholders = true,
           },
         },
-
-        --[[
-      sumneko_lua = {
-        settings = {
-          Lua = {
-            runtime = {
-              version = "LuaJIT",
-            },
-            completion = {
-              keywordSnippet = "Disable",
-            },
-            diagnostics = {
-              enable = true,
-              globals = require("core.utils.lsp").lua_globals,
-            },
-            workspace = {
-              library = {
-                fn.expand "$VIMRUNTIME/lua",
-                fn.expand "$VIMRUNTIME/lua/vim",
-                unpack(api.list_runtime_paths()),
-              },
-            },
-            telemetry = {
-              enable = false,
-            },
-          },
-        },
-        on_new_config = function(config, _)
-          config.settings.Lua.workspace.library = api.get_runtime_file("", true)
-        end,
-      },
-      ]]
-
         sumneko_lua = {
           settings = {
             Lua = {
@@ -308,6 +163,7 @@ return {
         },
       }
 
+      require("mason-lspconfig").setup()
       require("mason-lspconfig").setup_handlers {
         function(name)
           local config = server_configs[name] or {}
@@ -318,6 +174,89 @@ return {
           lsp[name].setup(config)
         end,
       }
+
+      local Interval = require "core.utils.interval"
+      local itvl = Interval.new("mason_tool_installer", 24 * 7 * 3600)
+      local is_over = itvl:is_over()
+
+      if is_over then
+        api.create_autocmd("User", {
+          pattern = "MasonToolsUpdateCompleted",
+          once = true,
+          callback = function()
+            local Job = require "plenary.job"
+            local mason_registry = require "mason-registry"
+            local textlint_path = mason_registry.get_package("textlint"):get_install_path()
+
+            Job:new({
+              command = "npm",
+              args = { "i", "textlint-rule-preset-ja-spacing" },
+              cwd = textlint_path,
+              on_start = function()
+                vim.notify "installing additional components"
+              end,
+              on_exit = function(self, code, _)
+                if code == 0 then
+                  vim.notify "finished to update Mason tools"
+                else
+                  local err = table.concat(self:stderr_result(), "\n")
+                  vim.notify(("failed to update Mason tools: code=%d\n%s"):format(code, err))
+                end
+              end,
+            }):start()
+          end,
+        })
+
+        vim.notify("Tools are old. Updating……", vim.log.levels.WARN)
+      end
+
+      local mason_tool_installer = require "mason-tool-installer"
+      mason_tool_installer.setup {
+        auto_update = is_over,
+        ensure_installed = {
+          "ansible-language-server",
+          "awk-language-server",
+          "bash-language-server",
+          "clangd",
+          "cmake-language-server",
+          "css-lsp",
+          "deno",
+          "dockerfile-language-server",
+          "dot-language-server",
+          "eslint-lsp",
+          "gofumpt",
+          "goimports",
+          "golangci-lint-langserver",
+          "golines",
+          "gopls",
+          "intelephense",
+          "jq",
+          "json-lsp",
+          "jsonnet-language-server",
+          "lua-language-server",
+          "luacheck",
+          "marksman",
+          "perlnavigator",
+          "prettierd",
+          "pyright",
+          "shellcheck",
+          "shfmt",
+          "solargraph",
+          "stylua",
+          "terraform-ls",
+          "textlint",
+          "typescript-language-server",
+          "vim-language-server",
+          "vint",
+          "vue-language-server",
+          "yaml-language-server",
+        },
+      }
+      mason_tool_installer.check_install()
+
+      if is_over then
+        itvl:update()
+      end
     end,
   }, -- }}}
   {
@@ -562,7 +501,6 @@ return {
   },
 
   ts { "mfussenegger/nvim-treehopper", keys = { { [['t]], lazy_require("tsht").nodes(), mode = { "o", "x" } } } },
-
   ts { "nvim-treesitter/nvim-treesitter-refactor" },
   ts { "nvim-treesitter/nvim-treesitter-textobjects" },
   ts { "nvim-treesitter/playground" },
