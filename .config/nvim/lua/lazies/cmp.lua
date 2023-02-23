@@ -50,10 +50,21 @@ return {
           cmp_config = require("cmp.config").get()
           local compare = require "cmp.config.compare"
           require("cmp").setup.buffer {
-            sorting = {
-              comparators = { compare.order },
+            formatting = {
+              format = function(_, vim_item)
+                vim_item.kind = nil
+                return vim_item
+              end,
             },
-            sources = { { name = "skkeleton" } },
+            sorting = { comparators = { compare.order } },
+            sources = {
+              {
+                name = "skkeleton",
+                entry_filter = function(entry)
+                  return entry.completion_item.label ~= ""
+                end,
+              },
+            },
           }
         end,
       })
