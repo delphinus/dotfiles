@@ -92,8 +92,29 @@ return {
       -- TODO: is this correct?
       fn["denops#plugin#register"] "skkeleton"
 
+      local function dic(name)
+        return { "~/Library/Application Support/AquaSKK/" .. name, name:match "utf8" and "utf-8" or "euc-jp" }
+      end
+
       fn["skkeleton#config"] {
-        globalJisyo = "~/Library/Application Support/AquaSKK/SKK-JISYO.L",
+        globalDictionaries = {
+          dic "SKK-JISYO.L",
+          dic "SKK-JISYO.jinmei",
+          dic "SKK-JISYO.fullname",
+          dic "SKK-JISYO.geo",
+          dic "SKK-JISYO.station",
+          dic "SKK-JISYO.zipcode",
+          dic "SKK-JISYO.office.zipcode",
+          dic "SKK-JISYO.JIS2",
+          dic "SKK-JISYO.JIS3_4",
+          dic "SKK-JISYO.JIS2004",
+          dic "SKK-JISYO.itaiji",
+          dic "SKK-JISYO.itaiji.JIS3_4",
+          dic "SKK-JISYO.mazegaki",
+          dic "SKK_JISYO.shikakugoma",
+          dic "SKK_JISYO.emoji.utf8",
+          dic "SKK_JISYO.emoji-ja.utf8",
+        },
         userJisyo = "~/Library/Application Support/AquaSKK/skk-jisyo.utf8",
         eggLikeNewline = true,
         -- TODO: cannot use this with cmp-skkeleton?
