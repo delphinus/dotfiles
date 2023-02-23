@@ -261,7 +261,7 @@ return {
   }, -- }}}
   {
     "jose-elias-alvarez/null-ls.nvim",
-    event = { "FocusLost", "CursorHold" },
+    event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
 
     config = function()
       local nls = require "null-ls"
