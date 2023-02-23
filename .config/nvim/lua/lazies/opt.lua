@@ -45,7 +45,7 @@ return {
   {
     "akinsho/toggleterm.nvim",
     keys = {
-      --{ "<A-c>", "<Cmd>ToggleTerm<CR>", mode = { "n", "t" }, desc = "Open ToggleTerm" },
+      { "<A-c>", "<Cmd>ToggleTerm<CR>", mode = { "n", "t" }, desc = "Open ToggleTerm" },
     },
     cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
     init = function()
@@ -156,6 +156,7 @@ return {
 
   {
     "norcalli/nvim-colorizer.lua",
+    keys = { { "<A-C>", "<Cmd>ColorizerToggle<CR>" } },
     cmd = {
       "ColorizerAttachToBuffer",
       "ColorizerDetachFromBuffer",
@@ -981,27 +982,5 @@ return {
     opts = {
       signin_on_start = true,
     },
-  },
-
-  {
-    "boltlessengineer/bufterm.nvim",
-    keys = {
-      { "<A-c>", "<Cmd>BufTermEnter<CR>", mode = { "n", "t" }, desc = "Open bufterm" },
-      { "<A-->", "<Cmd>BufTermPrev<CR>", mode = { "n", "t" }, desc = "Open previous bufterm" },
-      { "<A-=>", "<Cmd>BufTermNext<CR>", mode = { "n", "t" }, desc = "Open next bufterm" },
-    },
-    cmd = { "BufTermEnter", "BufTermPrev", "BufTermNext" },
-    opts = {
-      enable_ctrl_w = false,
-    },
-    init = function()
-      api.create_autocmd("TermEnter", {
-        callback = function()
-          vim.opt.list = false
-          vim.opt.number = false
-          vim.opt.relativenumber = false
-        end,
-      })
-    end,
   },
 }
