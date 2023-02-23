@@ -48,7 +48,13 @@ return {
         pattern = "skkeleton-enable-pre",
         callback = function()
           cmp_config = require("cmp.config").get()
-          require("cmp").setup.buffer { sources = { { name = "skkeleton" } } }
+          local compare = require "cmp.config.compare"
+          require("cmp").setup.buffer {
+            sorting = {
+              comparators = { compare.order },
+            },
+            sources = { { name = "skkeleton" } },
+          }
         end,
       })
       api.create_autocmd("User", {
