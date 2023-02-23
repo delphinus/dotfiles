@@ -103,7 +103,7 @@ return {
         return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
       end
 
-      -- needed for sumneko_lua
+      -- needed for lua_ls
       require("neodev").setup {}
 
       local server_configs = {
@@ -149,7 +149,7 @@ return {
             usePlaceholders = true,
           },
         },
-        sumneko_lua = {
+        lua_ls = {
           settings = {
             Lua = {
               completion = { callSnippet = "Replace" },
@@ -353,7 +353,7 @@ return {
             runtime_condition = function(params)
               local clients = vim.lsp.get_active_clients { bufnr = params.bufnr }
               local denols = vim.tbl_filter(function(c)
-                return c.config.name == "denols" or c.config.name == "sumneko_lua"
+                return c.config.name == "denols" or c.config.name == "lua_ls"
               end, clients)
               return #denols > 0 and true or false
             end,
