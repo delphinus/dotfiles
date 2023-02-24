@@ -123,7 +123,7 @@ return {
           { "~/git/dotfiles/dict/SKK-JISYO.JIS2004.utf8", "utf-8" },
           { "~/git/dotfiles/dict/SKK-JISYO.itaiji.JIS3_4.utf8", "utf-8" },
         },
-        userJisyo = "~/Library/Application Support/AquaSKK/skk-jisyo.utf8",
+        userJisyo = "~/Documents/skk-jisyo.utf8",
         eggLikeNewline = true,
         -- TODO: cannot use this with cmp-skkeleton?
         --useSkkServer = true,
