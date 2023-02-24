@@ -1,3 +1,5 @@
+local fn, uv, api = require("core.utils").globals()
+
 ---@class modules.start.config.lualine.Lualine
 ---@field is_lsp_available boolean
 local Lualine = {}
@@ -20,6 +22,30 @@ function Lualine:config()
   )
 
   local palette = require "core.utils.palette" "nord"
+
+  -- TODO: borrow from set.lua
+  local home_re = uv.os_homedir():gsub("%.", "%.")
+  local package_root_re = (fn.stdpath "data" .. "/site/pack/packer/"):gsub("%.", "%.")
+  local function title()
+    if vim.opt.filetype:get() == "help" then
+      return "ヘルプ"
+      -- TODO: vim.opt has no 'previewwindow'?
+    elseif vim.opt.previewwindow:get() then
+      return "プレビュー"
+    elseif vim.opt.buftype:get() == "terminal" then
+      return "TERM"
+    end
+    local filename = api.buf_get_name(0)
+    if package_root_re then
+      filename = filename:gsub(package_root_re, "", 1)
+    end
+    if vim.g.gh_e_host then
+      filename = filename:gsub("^" .. home_re .. "/git/" .. vim.g.gh_e_host .. "/", "", 1)
+    end
+    local result =
+      filename:gsub("^" .. home_re .. "/git/github%.com/", "", 1):gsub("^" .. home_re, "~", 1):gsub("/[^/]+$", "", 1)
+    return #result <= 40 and result or "……" .. result:sub(-38, -1)
+  end
 
   require("lualine").setup {
     extensions = { "quickfix" },
@@ -102,7 +128,7 @@ function Lualine:config()
       lualine_z = { { "location", fmt = self:tr { 50, 0 } } },
     },
     tabline = {
-      lualine_a = {},
+      lualine_a = { { title } },
       lualine_b = {
         {
           self:noice "message" "get",

@@ -106,7 +106,11 @@ if vim.env.TMUX then
 
   ]]
 end
-vim.opt.title = true
+
+-- TODO: noice.nvim causes flashing the window title bar
+-- https://github.com/folke/noice.nvim/issues/197
+--vim.opt.title = true
+vim.opt.title = false
 local home_re = uv.os_homedir():gsub("%.", "%.")
 local package_root_re = (fn.stdpath "data" .. "/site/pack/packer/"):gsub("%.", "%.")
 local my_tabline_path = require "f_meta" {
