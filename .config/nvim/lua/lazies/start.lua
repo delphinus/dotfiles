@@ -1,3 +1,6 @@
+local fn, _, api = require("core.utils").globals()
+local palette = require "core.utils.palette" "nord"
+
 local function non_lazy(plugin)
   plugin.lazy = false
   return plugin
@@ -84,4 +87,46 @@ return {
   non_lazy { "delphinus/unimpaired.nvim", branch = "feature/first-implementation", dev = true },
 
   non_lazy { "vim-denops/denops.vim" },
+
+  non_lazy {
+    "gen740/SmoothCursor.nvim",
+    config = function()
+      require("smoothcursor").setup {
+        cursor = "▶", -- cursor shape (need nerd font)
+        texthl = "SmoothCursor", -- highlight group, default is { bg = nil, fg = "#FFD400" }
+        type = "default", -- define cursor movement calculate function, "default" or "exp" (exponential).
+        fancy = {
+          enable = true, -- enable fancy mode
+          head = { cursor = "▷", texthl = "SmoothCursor", linehl = nil },
+          body = {
+            { cursor = "●", texthl = "SmoothCursorGreen" },
+            { cursor = "•", texthl = "SmoothCursorGreen" },
+            { cursor = "·", texthl = "SmoothCursorGreen" },
+          },
+        },
+        flyin_effect = nil, -- "bottom" or "top"
+        disable_float_win = true, -- disable on float window
+        disabled_filetypes = { "TelescopePrompt" },
+      }
+
+      api.set_hl(0, "SmoothCursor", { fg = palette.white })
+      api.set_hl(0, "SmoothCursorGreen", { fg = palette.green })
+
+      local cursor = {
+        n = { char = "▶", color = palette.cyan },
+        i = { char = "▷", color = palette.white },
+        v = { char = "═", color = palette.bright_cyan },
+        V = { char = "║", color = palette.bright_cyan },
+        [""] = { char = "╬", color = palette.bright_cyan },
+        R = { char = "⟩", color = palette.yellow },
+      }
+      api.create_autocmd("ModeChanged", {
+        callback = function()
+          local m = cursor[fn.mode()] or cursor.n
+          api.set_hl(0, "SmoothCursor", { fg = m.color })
+          fn.sign_define("smoothcursor", { text = m.char })
+        end,
+      })
+    end,
+  },
 }

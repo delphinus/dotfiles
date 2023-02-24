@@ -2,6 +2,7 @@
   "HiColors": { "branch": "master", "commit": "415a5bdf23ed45e0c47159bfae5e5f1352c419cf" },
   "JpFormat.vim": { "branch": "master", "commit": "02736fc184e15efa8a233caaec037aabb90ad706" },
   "LuaSnip": { "branch": "master", "commit": "f7c845749aba6096f041a73a26ba64f3817bab99" },
+  "SmoothCursor.nvim": { "branch": "main", "commit": "679b5ee2ef6db53c328642535e0e8fdcb8e9bdec" },
   "Vim-Jinja2-Syntax": { "branch": "master", "commit": "2c17843b074b06a835f88587e1023ceff7e2c7d1" },
   "a.vim": { "branch": "master", "commit": "2cbe946206ec622d9d8cf2c99317f204c4d41885" },
   "ansible-vim": { "branch": "master", "commit": "93798e8c89c441d29d4678da0c0d5e1429eb43b0" },
