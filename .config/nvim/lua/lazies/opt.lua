@@ -960,4 +960,22 @@ return {
       signin_on_start = true,
     },
   },
+
+  {
+    "yuki-yano/fuzzy-motion.vim",
+    keys = { { "s", "<Cmd>FuzzyMotion<CR>", mode = { "n", "x" } } },
+    dependencies = { { "lambdalisue/kensaku.vim" } },
+    init = function()
+      vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
+      vim.g.fuzzy_motion_matchers = "kensaku"
+    end,
+    config = function()
+      api.set_hl(0, "FuzzyMotionShade", { fg = palette.gray })
+      api.set_hl(0, "FuzzyMotionChar", { fg = palette.red })
+      api.set_hl(0, "FuzzyMotionSubChar", { fg = palette.yellow })
+      api.set_hl(0, "FuzzyMotionMatch", { fg = palette.cyan })
+      fn["denops#plugin#register"]("kensaku", { mode = "skip" })
+      fn["denops#plugin#register"] "fuzzy-motion"
+    end,
+  },
 }

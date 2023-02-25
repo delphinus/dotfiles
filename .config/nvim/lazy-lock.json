@@ -45,6 +45,7 @@
   "foldsigns.nvim": { "branch": "main", "commit": "6abc76a3eed8a76f1eb94170d349258b6ca2139f" },
   "fontforge_script.vim": { "branch": "master", "commit": "caa318fe54bcef856f3d6ee26ea9bc7cb58f9795" },
   "friendly-snippets": { "branch": "main", "commit": "6fa50a94ba5378bb73013a6e163376d8e69bd8a5" },
+  "fuzzy-motion.vim": { "branch": "main", "commit": "8c9568f12322cc420b4bc53164c4b4cfc49b4d59" },
   "ghpr-blame.vim": { "branch": "master", "commit": "594888ca0b0bdf8b859ced0413b765113942cf2e" },
   "git-messenger.vim": { "branch": "master", "commit": "8a61bdfa351d4df9a9118ee1d3f45edbed617072" },
   "gitlinker.nvim": { "branch": "master", "commit": "cc59f732f3d043b626c8702cb725c82e54d35c25" },
