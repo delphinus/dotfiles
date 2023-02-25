@@ -877,6 +877,7 @@ return {
   {
     "hrsh7th/vim-searchx",
     fn = { "searchx#*" },
+    dependencies = { { "lambdalisue/kensaku.vim" } },
     init = function()
       local km = vim.keymap
       local searchx = function(name)
@@ -904,6 +905,7 @@ return {
       km.set("n", "<Esc><Esc>", searchx "clear"())
     end,
     config = function()
+      fn["denops#plugin#register"]("kensaku", { mode = "skip" })
       vim.g.searchx = {
         -- Auto jump if the recent input matches to any marker.
         auto_accept = true,
@@ -920,35 +922,10 @@ return {
           -- the input as "very magic".
           if not vim.regex([[\k]]):match_str(input) then
             return [[\V]] .. input
-          elseif not input:match "^%." then
-            -- If the input contains spaces, it tries fuzzy matching.
-            return input:sub(1, 1) .. fn.substitute(input:sub(2), [[\\\@<! ]], [[.\\{-}]], "g")
           end
-          -- If the input has `.` at the beginning, it converts the input with
-          -- cmigemo.
-          local Path = require "plenary.path"
-          local dict = Path.new(vim.env.HOMEBREW_PREFIX, "opt/cmigemo/share/migemo/utf-8/migemo-dict")
-          if not dict:exists() then
-            vim.notify("Cannot find cmigemo to be installed. Run `brew install cmigemo`.", vim.log.levels.WARN)
-            return input
-          end
-          local re
-          require("plenary.job")
-            :new({
-              command = "cmigemo",
-              args = { "-v", "-d", dict.filename, "-w", input:sub(2) },
-              on_exit = function(j, return_val)
-                local out = j:result()
-                if return_val == 0 and #out > 0 then
-                  re = out[1]
-                else
-                  vim.notify("cmigemo execution failed", vim.log.levels.WARN)
-                  re = input:sub(2)
-                end
-              end,
-            })
-            :sync()
-          return re
+          -- If the input contains spaces, it tries fuzzy matching.
+          local converted = vim.tbl_map(fn["kensaku#query"], fn.split(input, " "))
+          return fn.join(converted, [[.\{-}]])
         end,
       }
 
