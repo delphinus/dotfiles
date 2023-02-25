@@ -106,7 +106,7 @@ return {
         },
         flyin_effect = nil, -- "bottom" or "top"
         disable_float_win = true, -- disable on float window
-        disabled_filetypes = { "TelescopePrompt" },
+        disabled_filetypes = { "help", "TelescopePrompt" },
       }
 
       api.set_hl(0, "SmoothCursor", { fg = palette.white })
