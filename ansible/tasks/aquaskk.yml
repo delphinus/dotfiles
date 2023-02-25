@@ -20,15 +20,11 @@
     - github.com/KeenS/SKK_JISYO.wiktionary
     - github.com/uasi/skk-emoji-jisyo
     - github.com/ymrl/SKK-JISYO.emoji-ja
+    - github.com/skk-dev/dict
 
 - homebrew: >-
     name=skktools
     state=latest
-
-- name: remove the old dictionary
-  file: >-
-    path="~/Library/Application Support/AquaSKK/SKK_JISYO.shikakugoma"
-    state=absent
 
 - name: generate dictionary for shikakugoma
   shell: skkdic-expr SKK_JISYO.shikakugoma | skkdic-sort > ~/Library/Application\ Support/AquaSKK/SKK_JISYO.shikakugoma
@@ -37,15 +33,21 @@
     chdir: ~/git/github.com/KeenS/SKK_JISYO.wiktionary
 
 - name: copy emoji dictionary
-  file: >-
+  copy: >-
     src=~/git/github.com/uasi/skk-emoji-jisyo/SKK-JISYO.emoji.utf8
-    dest='~/Library/Application Support/AquaSKK/SKK_JISYO.emoji.utf8'
-    state=link
+    dest='~/Library/Application Support/AquaSKK/SKK-JISYO.emoji.utf8'
     force=yes
 
 - name: copy emoji-ja dictionary
-  file: >-
+  copy: >-
     src=~/git/github.com/ymrl/SKK-JISYO.emoji-ja/SKK-JISYO.emoji-ja.utf8
-    dest='~/Library/Application Support/AquaSKK/SKK_JISYO.emoji-ja.utf8'
-    state=link
+    dest='~/Library/Application Support/AquaSKK/SKK-JISYO.emoji-ja.utf8'
     force=yes
+
+- name: convert some dictionaries
+  shell: iconv -f EUC-JISX0213 -t UTF-8 ~/git/github.com/skk-dev/dict/{{ item }} > ~/Library/Application\ Support/AquaSKK/{{ item }}.utf8
+  with_items:
+    - SKK-JISYO.fullname
+    - SKK-JISYO.JIS3_4
+    - SKK-JISYO.JIS2004
+    - SKK-JISYO.itaiji.JIS3_4
