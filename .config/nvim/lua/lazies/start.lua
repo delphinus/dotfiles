@@ -129,4 +129,6 @@ return {
       })
     end,
   },
+
+  non_lazy { "luukvbaal/statuscol.nvim", opts = {} },
 }
