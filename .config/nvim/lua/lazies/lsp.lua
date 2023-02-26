@@ -9,8 +9,6 @@ local function ts(plugin)
 end
 
 return {
-  { url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
-
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre" },
@@ -62,8 +60,6 @@ return {
       require("mason").setup {
         max_concurrent_installers = 12,
       }
-      require("lsp_lines").setup()
-      -- Use lsp_lines instead
       vim.diagnostic.config {
         virtual_text = {
           format = function(d)
@@ -85,8 +81,6 @@ return {
       vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         underline = true,
         signs = true,
-        -- Use lsp_lines instead
-        virtual_text = false,
       })
 
       local lsp = require "lspconfig"
