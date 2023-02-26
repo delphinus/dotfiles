@@ -155,17 +155,6 @@ return {
   },
 
   {
-    "norcalli/nvim-colorizer.lua",
-    keys = { { "<A-C>", "<Cmd>ColorizerToggle<CR>" } },
-    cmd = {
-      "ColorizerAttachToBuffer",
-      "ColorizerDetachFromBuffer",
-      "ColorizerReloadAllBuffers",
-      "ColorizerToggle",
-    },
-  },
-
-  {
     "npxbr/glow.nvim",
     cmd = { "Glow", "GlowInstall" },
     init = function()
@@ -978,4 +967,6 @@ return {
       fn["denops#plugin#register"] "fuzzy-motion"
     end,
   },
+
+  { "uga-rosa/ccc.nvim", event = { "BufEnter" }, opts = { highlighter = { auto_enable = true } } },
 }
