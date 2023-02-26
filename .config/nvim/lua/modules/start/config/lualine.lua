@@ -128,8 +128,8 @@ function Lualine:config()
       lualine_z = { { "location", fmt = self:tr { 50, 0 } } },
     },
     tabline = {
-      lualine_a = { { title } },
-      lualine_b = {
+      lualine_b = { { title, color = { fg = palette.yellow } } },
+      lualine_f = {
         {
           self:noice "message" "get",
           cond = self:noice "message" "has",
@@ -151,8 +151,6 @@ function Lualine:config()
           cond = self:noice "search" "has",
           color = { fg = palette.magenta },
         },
-      },
-      lualine_c = {
         { self:tag(), separator = "❘" },
       },
       lualine_x = { { self:char_info(), fmt = self:tr { 80, 0 } } },
