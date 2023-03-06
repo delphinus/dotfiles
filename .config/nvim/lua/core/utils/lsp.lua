@@ -36,13 +36,11 @@ local lua_globals = {
   "response",
   "done",
 
-  "--formatter",
-  "plain",
-  "--codes",
-  "--ranges",
-  "--filename",
-  "$FILENAME",
-  "-",
+  -- vusted
+  "after_each",
+  "before_each",
+  "describe",
+  "it",
 }
 
 local function is_deno_dir(p)
