@@ -976,7 +976,10 @@ return {
         highlighter = { auto_enable = true },
         pickers = {
           require "ccc.picker.hex",
-          require "core.utils.ccc"(palette),
+          require "ccc.picker.custom_entries"(palette),
+        },
+        exclude_pattern = {
+          custom_entries = { "%({{pattern}}%)" },
         },
       }
     end,
