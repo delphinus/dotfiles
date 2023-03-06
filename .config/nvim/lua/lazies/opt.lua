@@ -969,7 +969,9 @@ return {
   },
 
   {
-    "uga-rosa/ccc.nvim",
+    --"uga-rosa/ccc.nvim",
+    "delphinus/ccc.nvim",
+    branch = "feature/custom-table",
     event = { "BufEnter" },
     config = function()
       require("ccc").setup {
