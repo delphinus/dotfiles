@@ -40,6 +40,7 @@ return {
         dependencies = { "kkharji/sqlite.lua" },
         opts = { ring = { storage = "sqlite" } },
       },
+      { "fcying/telescope-ctags-outline.nvim" },
     },
 
     init = function()
@@ -125,6 +126,7 @@ return {
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
       keymap.set("n", "<Leader>fn", extensions("noice", "noice") {})
       keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = frecency.path_display })
+      keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {})
       keymap.set(
         "n",
         "<Leader>fq",
@@ -185,7 +187,13 @@ return {
 
       -- LSP
       keymap.set("n", "<Leader>sr", builtin "lsp_references" {})
-      keymap.set("n", "<Leader>sd", builtin "lsp_document_symbols" {})
+      keymap.set("n", "<Leader>sd", function()
+        if vim.opt.filetype:get() == "perl" then
+          extensions("ctags_outline", "outline") {}()
+        else
+          builtin "lsp_document_symbols" {}()
+        end
+      end)
       keymap.set("n", "<Leader>sw", builtin "lsp_workspace_symbols" {})
       keymap.set("n", "<Leader>sc", builtin "lsp_code_actions" {})
 
@@ -387,6 +395,8 @@ return {
       telescope.load_extension "noice"
       -- This is needed to setup yanky
       telescope.load_extension "yank_history"
+      -- This is needed to setup ctags-outline
+      telescope.load_extension "ctags_outline"
 
       require("dressing").setup {}
 
