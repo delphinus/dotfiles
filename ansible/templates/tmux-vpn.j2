@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 use 5.30.0;
 use warnings;
+use feature 'signatures';
+no warnings "experimental::signatures";
 binmode STDOUT => ':encoding(UTF-8)';
 
 my $vpn_on = chr 0xe9a8; # 
@@ -12,8 +14,7 @@ my $normal_host = '8.8.8.8';
 my $vpn_host = $ENV{OFFICE_JIRA};
 printf '#[bg=brightblack]%s%s %s', pinger($home, $normal_host), pinger($office, $vpn_host), vpn();
 
-sub pinger {
-    my ($icon, $host) = @_;
+sub pinger ($icon, $host) {
     my ($latency) = `/sbin/ping -c1 -t1 $host` =~ /time=(\d+\.\d+)/;
     return '#[fg=red] ---' if !defined $latency;
     $latency += 0;
