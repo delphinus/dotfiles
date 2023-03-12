@@ -974,11 +974,12 @@ return {
     branch = "feature/custom-table",
     event = { "BufEnter" },
     config = function()
-      require("ccc").setup {
+      local ccc = require "ccc"
+      ccc.setup {
         highlighter = { auto_enable = true },
         pickers = {
-          require "ccc.picker.hex",
-          require "ccc.picker.custom_entries"(palette),
+          ccc.picker.hex,
+          ccc.picker.custom_entries(palette),
         },
         exclude_pattern = {
           custom_entries = { "%({{pattern}}%)" },
