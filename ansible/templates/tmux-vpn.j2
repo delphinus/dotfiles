@@ -24,7 +24,7 @@ sub pinger {
 }
 
 sub vpn {
-    my $is_on = 0 == system 'ifconfig | grep ppp0';
+    my $is_on = `/sbin/ifconfig` =~ 'ppp0';
     return $is_on ? "#[fg=black,bg=green,bold] $vpn_on  VPN ON " : "#[fg=red,bg=black] $vpn_off  VPN OFF ";
 }
 
