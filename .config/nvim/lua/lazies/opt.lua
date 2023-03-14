@@ -661,7 +661,7 @@ return {
     end,
   },
 
-  { "rhysd/vim-textobj-ruby", requires = { { "kana/vim-textobj-user" } }, ft = { "ruby" } },
+  { "rhysd/vim-textobj-ruby", dependencies = { "kana/vim-textobj-user" }, ft = { "ruby" } },
 
   {
     "rhysd/committia.vim",

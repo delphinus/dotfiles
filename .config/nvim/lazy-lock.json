@@ -155,6 +155,7 @@
   "vim-syntax-hatena": { "branch": "master", "commit": "e704b5a4a7224826d6836ea719de3716e600629e" },
   "vim-table-mode": { "branch": "master", "commit": "9555a3e6e5bcf285ec181b7fc983eea90500feb4" },
   "vim-textobj-ruby": { "branch": "master", "commit": "fb99d918273a65010b3ac4084371a19c34260c66" },
+  "vim-textobj-user": { "branch": "master", "commit": "41a675ddbeefd6a93664a4dc52f302fe3086a933" },
   "vim-tmux-copy": { "branch": "master", "commit": "31c069a5452c86a0baa8caf10bd8efb0707b3ce1" },
   "vim-unimpaired": { "branch": "master", "commit": "6d44a6dc2ec34607c41ec78acf81657248580bf1" },
   "vimdoc-ja": { "branch": "master", "commit": "46c25d6f3faa14d80758e28a1e577223e5e1df33" },
