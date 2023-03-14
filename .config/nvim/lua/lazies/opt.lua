@@ -911,6 +911,8 @@ return {
           -- the input as "very magic".
           if not vim.regex([[\k]]):match_str(input) then
             return [[\V]] .. input
+          elseif input:match "^%." then
+            return input:sub(2)
           end
           -- If the input contains spaces, it tries fuzzy matching.
           local converted = vim.tbl_map(fn["kensaku#query"], fn.split(input, " "))
