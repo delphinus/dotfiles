@@ -971,9 +971,7 @@ return {
   },
 
   {
-    --"uga-rosa/ccc.nvim",
-    "delphinus/ccc.nvim",
-    branch = "feature/custom-table",
+    "uga-rosa/ccc.nvim",
     event = { "BufEnter" },
     config = function()
       local ccc = require "ccc"
@@ -982,9 +980,6 @@ return {
         pickers = {
           ccc.picker.hex,
           ccc.picker.custom_entries(palette),
-        },
-        exclude_pattern = {
-          custom_entries = { "%({{pattern}}%)" },
         },
       }
     end,
