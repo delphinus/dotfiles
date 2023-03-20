@@ -117,12 +117,19 @@ return {
         end
       end
 
+      local function help_tags(opts)
+        return function()
+          require "core.lazy.all"()
+          builtin "help_tags"(opts)()
+        end
+      end
+
       keymap.set("n", "<Leader>f:", builtin "command_history" {})
       keymap.set("n", "<Leader>fG", builtin "grep_string" {})
-      keymap.set("n", "<Leader>fH", builtin "help_tags" { lang = "en" })
+      keymap.set("n", "<Leader>fH", help_tags { lang = "en" })
       keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {})
       keymap.set("n", "<Leader>fg", input_grep_string("Grep For ❯ ", builtin "grep_string"))
-      keymap.set("n", "<Leader>fh", builtin "help_tags" {})
+      keymap.set("n", "<Leader>fh", help_tags {})
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
       keymap.set("n", "<Leader>fn", extensions("noice", "noice") {})
       keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = frecency.path_display })
