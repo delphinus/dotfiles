@@ -1,3 +1,5 @@
+local api = require("core.utils").api
+
 ---@alias core.utils.palette.Names
 ---| "black"
 ---| "red"
@@ -23,17 +25,33 @@
 
 ---@alias core.utils.palette.Colors { [core.utils.palette.Names]: string }
 
+---@alias core.utils.palette.Callback fun(colors: core.utils.palette.Colors): boolean?
+
 ---@class core.utils.palette.Palette
 ---@operator call(string):core.utils.palette.Colors
----@field callback fun(cb: fun(colors: core.utils.palette.Colors): boolean?): boolean?
+---@field autocmd fun(opts: core.utils.palette.AutocmdOpts): nil
+---@field callback fun(cb: core.utils.palette.Callback): boolean?
 ---@field colors core.utils.palette.Colors
+
+---@class core.utils.palette.AutocmdOpts
+---@field name string
+---@field callback core.utils.palette.Callback
+---@field pattern string|string[]|nil
 
 return setmetatable({}, {
   ---@param self core.utils.palette.Palette
   ---@param prop string
-  ---@return function
   __index = function(self, prop)
-    if prop == "callback" then
+    if prop == "autocmd" then
+      ---@param opts core.utils.palette.AutocmdOpts
+      return function(opts)
+        api.create_autocmd("ColorScheme", {
+          group = api.create_augroup(opts.name .. "-palette", {}),
+          pattern = opts.pattern,
+          callback = self.callback(opts.callback),
+        })
+      end
+    elseif prop == "callback" then
       ---@param cb fun(colors: core.utils.palette.Colors): boolean?
       ---@return fun(args: { match: string }): boolean?
       return function(cb)
@@ -44,7 +62,6 @@ return setmetatable({}, {
     elseif prop == "colors" then
       return self(vim.g.colors_name)
     end
-    return function() end
   end,
   __call = function(_, ...)
     local args = { ... }

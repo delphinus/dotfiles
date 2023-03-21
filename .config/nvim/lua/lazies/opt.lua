@@ -21,9 +21,9 @@ return {
       language_specific_highlights = false,
     },
     config = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("nord_overrides", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "nord",
+        callback = function(colors)
           api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
           api.set_hl(0, "Delimiter", { fg = colors.blue })
           api.set_hl(0, "Constant", { fg = colors.dark_white, italic = true })
@@ -34,8 +34,8 @@ return {
           api.set_hl(0, "PmenuSel", { blend = 0 })
           api.set_hl(0, "NormalFloat", { fg = colors.dark_white, bg = colors.dark_black, blend = 10 })
           api.set_hl(0, "FloatBorder", { fg = colors.bright_cyan, bg = colors.dark_black, blend = 10 })
-        end),
-      })
+        end,
+      }
     end,
   },
 
@@ -48,15 +48,15 @@ return {
     },
     cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("toggleterm-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "toggleterm",
+        callback = function(colors)
           api.set_hl(0, "WinBorderTop", { fg = colors.border })
           api.set_hl(0, "WinBorderLeft", { fg = colors.border })
           api.set_hl(0, "WinBorderRight", { fg = colors.border })
           api.set_hl(0, "WinBorderBottom", { fg = colors.border })
-        end),
-      })
+        end,
+      }
     end,
     opts = {
       open_mapping = false,
@@ -247,13 +247,13 @@ return {
     "LumaKernel/nvim-visual-eof.lua",
     event = { "BufRead", "BufNewFile" },
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("nord_visual_eof", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "visual-eof",
+        callback = function(colors)
           api.set_hl(0, "VisualEOL", { fg = colors.green })
           api.set_hl(0, "VisualNoEOL", { fg = colors.red })
-        end),
-      })
+        end,
+      }
     end,
     opts = {
       text_EOL = " ",
@@ -358,14 +358,14 @@ return {
         _G.__vim_notify_overwritten = true
       end
 
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("noice-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "noice",
+        callback = function(colors)
           api.set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
           api.set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
           api.set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
-        end),
-      })
+        end,
+      }
     end,
     opts = {
       cmdline = {
@@ -418,12 +418,12 @@ return {
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("context_vt-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "context_vt",
+        callback = function(colors)
           api.set_hl(0, "ContextVt", { fg = colors.context })
-        end),
-      })
+        end,
+      }
     end,
     opts = {
       prefix = "󾪜",
@@ -476,9 +476,9 @@ return {
       },
     },
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("gitsigns-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "gitsigns",
+        callback = function(colors)
           api.set_hl(0, "GitSignsAdd", { fg = colors.green })
           api.set_hl(0, "GitSignsChange", { fg = colors.yellow })
           api.set_hl(0, "GitSignsDelete", { fg = colors.red })
@@ -487,8 +487,8 @@ return {
           api.set_hl(0, "GitSignsChangeInline", { bg = colors.bg_yellow })
           api.set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
           api.set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
-        end),
-      })
+        end,
+      }
     end,
     config = function()
       local gitsigns = require "gitsigns"
@@ -544,13 +544,13 @@ return {
     "lukas-reineke/virt-column.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("virt-column-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "virt-column",
+        callback = function(colors)
           api.set_hl(0, "ColorColumn", { bg = "NONE" })
           api.set_hl(0, "VirtColumn", { fg = colors.brighter_black })
-        end),
-      })
+        end,
+      }
       local vt = require "virt-column"
       vt.setup { char = "⡂" }
       api.create_autocmd("TermEnter", {
@@ -814,15 +814,15 @@ return {
           hop.hint_lines { direction = direction.BEFORE_CURSOR }
         end
       end)
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("hop-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "hop",
+        callback = function(colors)
           api.set_hl(0, "HopNextKey", { fg = colors.orange, bold = true })
           api.set_hl(0, "HopNextKey1", { fg = colors.cyan, bold = true })
           api.set_hl(0, "HopNextKey2", { fg = colors.dark_white })
           api.set_hl(0, "HopUnmatched", { fg = colors.gray })
-        end),
-      })
+        end,
+      }
     end,
   },
 
@@ -967,15 +967,15 @@ return {
       vim.g.fuzzy_motion_matchers = "kensaku"
     end,
     config = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("fuzzy-motion-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "fuzzy-motion",
+        callback = function(colors)
           api.set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
           api.set_hl(0, "FuzzyMotionChar", { fg = colors.red })
           api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
           api.set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
-        end),
-      })
+        end,
+      }
       fn["denops#plugin#register"]("kensaku", { mode = "skip" })
       fn["denops#plugin#register"] "fuzzy-motion"
     end,
@@ -985,9 +985,9 @@ return {
     "uga-rosa/ccc.nvim",
     event = { "BufEnter" },
     config = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("ccc-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "ccc",
+        callback = function(colors)
           local ccc = require "ccc"
           ccc.setup {
             highlighter = { auto_enable = true },
@@ -996,8 +996,8 @@ return {
               ccc.picker.custom_entries(colors),
             },
           }
-        end),
-      })
+        end,
+      }
     end,
   },
 }

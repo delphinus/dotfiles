@@ -153,16 +153,16 @@ return {
     "delphinus/skkeleton_indicator.nvim",
 
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("skkeleton_indicator_nord", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "skkeleton_indicator",
+        callback = function(colors)
           api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
           api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
           api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
           api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.dark_black, bg = colors.magenta, bold = true })
           api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
-        end),
-      })
+        end,
+      }
     end,
 
     opts = { alwaysShown = false, fadeOutMs = 0 },
@@ -203,9 +203,9 @@ return {
     },
 
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("cmp_nord", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "cmp",
+        callback = function(colors)
           api.set_hl(0, "CmpItemAbbrDeprecated", { fg = colors.brighter_black, bold = true })
           api.set_hl(0, "CmpItemAbbrMatch", { fg = colors.yellow })
           api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = colors.orange })
@@ -236,8 +236,8 @@ return {
           api.set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
           api.set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
           api.set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
-        end),
-      })
+        end,
+      }
     end,
 
     config = function()

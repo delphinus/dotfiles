@@ -99,13 +99,13 @@ return {
         disabled_filetypes = { "help", "TelescopePrompt" },
       }
 
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("smoothcursor-color", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "smoothcursor",
+        callback = function(colors)
           api.set_hl(0, "SmoothCursor", { fg = colors.white })
           api.set_hl(0, "SmoothCursorGreen", { fg = colors.green })
-        end),
-      })
+        end,
+      }
 
       api.create_autocmd("ModeChanged", {
         callback = function()

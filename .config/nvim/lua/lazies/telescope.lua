@@ -47,9 +47,9 @@ return {
       local keymap = vim.keymap
       local frecency = require "core.telescope.frecency"
 
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("telescope-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "telescope",
+        callback = function(colors)
           api.set_hl(0, "TelescopeMatching", { fg = colors.magenta })
           api.set_hl(0, "TelescopePreviewBorder", { fg = colors.green })
           api.set_hl(0, "TelescopePromptBorder", { fg = colors.cyan })
@@ -61,8 +61,8 @@ return {
           api.set_hl(0, "TelescopePathSeparator", { fg = colors.brighter_black })
           api.set_hl(0, "TelescopeFrecencyScores", { fg = colors.yellow })
           api.set_hl(0, "TelescopeQueryFilter", { fg = colors.bright_cyan })
-        end),
-      })
+        end,
+      }
 
       local function builtin(name)
         return function(opt)

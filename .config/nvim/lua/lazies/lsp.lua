@@ -23,9 +23,9 @@ return {
     },
 
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("lspconfig-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "lspconfig",
+        callback = function(colors)
           api.set_hl(0, "DiagnosticError", { fg = colors.red })
           api.set_hl(0, "DiagnosticWarn", { fg = colors.orange })
           api.set_hl(0, "DiagnosticInfo", { fg = colors.bright_cyan })
@@ -38,8 +38,8 @@ return {
           api.set_hl(0, "LspBorderLeft", { fg = colors.border, bg = colors.black })
           api.set_hl(0, "LspBorderRight", { fg = colors.border, bg = colors.black })
           api.set_hl(0, "LspBorderBottom", { fg = colors.border, bg = colors.dark_black })
-        end),
-      })
+        end,
+      }
     end,
 
     config = function()
@@ -475,9 +475,9 @@ return {
   ts {
     "m-demare/hlargs.nvim",
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("hlargs-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "hlargs",
+        callback = function(colors)
           api.set_hl(0, "Hlarg1", { fg = colors.brighter_red })
           api.set_hl(0, "Hlarg2", { fg = colors.orange })
           api.set_hl(0, "Hlarg3", { fg = colors.magenta })
@@ -485,8 +485,8 @@ return {
           api.set_hl(0, "Hlarg5", { fg = colors.green })
           api.set_hl(0, "Hlarg6", { fg = colors.brighter_blue })
           api.set_hl(0, "Hlarg7", { fg = colors.bright_cyan })
-        end),
-      })
+        end,
+      }
     end,
     opts = {
       use_colorpalette = true,
@@ -525,9 +525,9 @@ return {
     --"p00f/nvim-ts-rainbow",
     "mrjones2014/nvim-ts-rainbow", -- Use forked version
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("ts_rainbow-colors", {}),
-        callback = palette.callback(function(colors)
+      palette.autocmd {
+        name = "ts-rainbow",
+        callback = function(colors)
           api.set_hl(0, "rainbowcol1", { fg = colors.red })
           api.set_hl(0, "rainbowcol2", { fg = colors.orange })
           api.set_hl(0, "rainbowcol3", { fg = colors.magenta })
@@ -535,8 +535,8 @@ return {
           api.set_hl(0, "rainbowcol5", { fg = colors.green })
           api.set_hl(0, "rainbowcol6", { fg = colors.blue })
           api.set_hl(0, "rainbowcol7", { fg = colors.bright_cyan })
-        end),
-      })
+        end,
+      }
     end,
   },
 
