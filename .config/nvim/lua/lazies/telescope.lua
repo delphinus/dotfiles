@@ -1,5 +1,5 @@
 local fn, uv, api = require("core.utils").globals()
-local palette = require "core.utils.palette" "nord"
+local palette = require "core.utils.palette"
 
 return {
   {
@@ -49,20 +49,19 @@ return {
 
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("telescope-colors", {}),
-        pattern = "nord",
-        callback = function()
-          api.set_hl(0, "TelescopeMatching", { fg = palette.magenta })
-          api.set_hl(0, "TelescopePreviewBorder", { fg = palette.green })
-          api.set_hl(0, "TelescopePromptBorder", { fg = palette.cyan })
-          api.set_hl(0, "TelescopeResultsBorder", { fg = palette.blue })
-          api.set_hl(0, "TelescopeSelection", { fg = palette.blue })
-          api.set_hl(0, "TelescopeSelectionCaret", { fg = palette.blue })
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "TelescopeMatching", { fg = colors.magenta })
+          api.set_hl(0, "TelescopePreviewBorder", { fg = colors.green })
+          api.set_hl(0, "TelescopePromptBorder", { fg = colors.cyan })
+          api.set_hl(0, "TelescopeResultsBorder", { fg = colors.blue })
+          api.set_hl(0, "TelescopeSelection", { fg = colors.blue })
+          api.set_hl(0, "TelescopeSelectionCaret", { fg = colors.blue })
 
-          api.set_hl(0, "TelescopeBufferLoaded", { fg = palette.magenta })
-          api.set_hl(0, "TelescopePathSeparator", { fg = palette.brighter_black })
-          api.set_hl(0, "TelescopeFrecencyScores", { fg = palette.yellow })
-          api.set_hl(0, "TelescopeQueryFilter", { fg = palette.bright_cyan })
-        end,
+          api.set_hl(0, "TelescopeBufferLoaded", { fg = colors.magenta })
+          api.set_hl(0, "TelescopePathSeparator", { fg = colors.brighter_black })
+          api.set_hl(0, "TelescopeFrecencyScores", { fg = colors.yellow })
+          api.set_hl(0, "TelescopeQueryFilter", { fg = colors.bright_cyan })
+        end),
       })
 
       local function builtin(name)

@@ -1,5 +1,5 @@
 local fn, _, api = require("core.utils").globals()
-local palette = require "core.utils.palette" "nord"
+local palette = require "core.utils.palette"
 
 local function non_lazy(plugin)
   plugin.lazy = false
@@ -99,19 +99,25 @@ return {
         disabled_filetypes = { "help", "TelescopePrompt" },
       }
 
-      api.set_hl(0, "SmoothCursor", { fg = palette.white })
-      api.set_hl(0, "SmoothCursorGreen", { fg = palette.green })
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("smoothcursor-color", {}),
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "SmoothCursor", { fg = colors.white })
+          api.set_hl(0, "SmoothCursorGreen", { fg = colors.green })
+        end),
+      })
 
-      local cursor = {
-        n = { char = "▶", color = palette.cyan },
-        i = { char = "▷", color = palette.white },
-        v = { char = "═", color = palette.bright_cyan },
-        V = { char = "║", color = palette.bright_cyan },
-        [""] = { char = "╬", color = palette.bright_cyan },
-        R = { char = "⟩", color = palette.yellow },
-      }
       api.create_autocmd("ModeChanged", {
         callback = function()
+          local colors = palette.colors
+          local cursor = {
+            n = { char = "▶", color = colors.cyan },
+            i = { char = "▷", color = colors.white },
+            v = { char = "═", color = colors.bright_cyan },
+            V = { char = "║", color = colors.bright_cyan },
+            [""] = { char = "╬", color = colors.bright_cyan },
+            R = { char = "⟩", color = colors.yellow },
+          }
           local m = cursor[fn.mode()] or cursor.n
           api.set_hl(0, "SmoothCursor", { fg = m.color })
           fn.sign_define("smoothcursor", { text = m.char })

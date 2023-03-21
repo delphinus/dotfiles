@@ -1,6 +1,6 @@
 local fn, uv, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
-local palette = require "core.utils.palette" "nord"
+local palette = require "core.utils.palette"
 
 local function dwm(method)
   return function()
@@ -23,19 +23,18 @@ return {
     config = function()
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("nord_overrides", {}),
-        pattern = "nord",
-        callback = function()
-          api.set_hl(0, "Comment", { fg = palette.comment, italic = true })
-          api.set_hl(0, "Delimiter", { fg = palette.blue })
-          api.set_hl(0, "Constant", { fg = palette.dark_white, italic = true })
-          api.set_hl(0, "Folded", { fg = palette.comment })
-          api.set_hl(0, "Identifier", { fg = palette.bright_cyan })
-          api.set_hl(0, "Special", { fg = palette.orange })
-          api.set_hl(0, "Title", { fg = palette.cyan, bold = true })
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
+          api.set_hl(0, "Delimiter", { fg = colors.blue })
+          api.set_hl(0, "Constant", { fg = colors.dark_white, italic = true })
+          api.set_hl(0, "Folded", { fg = colors.comment })
+          api.set_hl(0, "Identifier", { fg = colors.bright_cyan })
+          api.set_hl(0, "Special", { fg = colors.orange })
+          api.set_hl(0, "Title", { fg = colors.cyan, bold = true })
           api.set_hl(0, "PmenuSel", { blend = 0 })
-          api.set_hl(0, "NormalFloat", { fg = palette.dark_white, bg = palette.dark_black, blend = 10 })
-          api.set_hl(0, "FloatBorder", { fg = palette.bright_cyan, bg = palette.dark_black, blend = 10 })
-        end,
+          api.set_hl(0, "NormalFloat", { fg = colors.dark_white, bg = colors.dark_black, blend = 10 })
+          api.set_hl(0, "FloatBorder", { fg = colors.bright_cyan, bg = colors.dark_black, blend = 10 })
+        end),
       })
     end,
   },
@@ -51,22 +50,12 @@ return {
     init = function()
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("toggleterm-colors", {}),
-        pattern = "nord",
-        callback = function()
-          --[[
-          api.set_hl(0, "WinBorderTop", { fg = "#ebf5f5", blend = 30 })
-          api.set_hl(0, "WinBorderLeft", { fg = "#c2dddc", blend = 30 })
-          api.set_hl(0, "WinBorderRight", { fg = "#8fbcbb", blend = 30 })
-          api.set_hl(0, "WinBorderBottom", { fg = "#5d9794", blend = 30 })
-          api.set_hl(0, "WinBorderLight", { fg = "#c2dddc", bg = "#5d9794", blend = 30 })
-          api.set_hl(0, "WinBorderDark", { fg = "#5d9794", bg = "#c2dddc", blend = 30 })
-          api.set_hl(0, "WinBorderTransparent", { bg = "#111a2c" })
-          ]]
-          api.set_hl(0, "WinBorderTop", { fg = palette.border })
-          api.set_hl(0, "WinBorderLeft", { fg = palette.border })
-          api.set_hl(0, "WinBorderRight", { fg = palette.border })
-          api.set_hl(0, "WinBorderBottom", { fg = palette.border })
-        end,
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "WinBorderTop", { fg = colors.border })
+          api.set_hl(0, "WinBorderLeft", { fg = colors.border })
+          api.set_hl(0, "WinBorderRight", { fg = colors.border })
+          api.set_hl(0, "WinBorderBottom", { fg = colors.border })
+        end),
       })
     end,
     opts = {
@@ -260,11 +249,10 @@ return {
     init = function()
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("nord_visual_eof", {}),
-        pattern = "nord",
-        callback = function()
-          api.set_hl(0, "VisualEOL", { fg = palette.green })
-          api.set_hl(0, "VisualNoEOL", { fg = palette.red })
-        end,
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "VisualEOL", { fg = colors.green })
+          api.set_hl(0, "VisualNoEOL", { fg = colors.red })
+        end),
       })
     end,
     opts = {
@@ -346,7 +334,9 @@ return {
         "rcarriga/nvim-notify",
         opts = {
           render = "minimal",
-          background_colour = palette.black,
+          background_colour = function()
+            return palette.colors.black
+          end,
           level = "trace",
           on_open = function(win)
             api.win_set_config(win, { focusable = false })
@@ -370,12 +360,11 @@ return {
 
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("noice-colors", {}),
-        pattern = "nord",
-        callback = function()
-          api.set_hl(0, "NoiceLspProgressSpinner", { fg = palette.white })
-          api.set_hl(0, "NoiceLspProgressTitle", { fg = palette.orange })
-          api.set_hl(0, "NoiceLspProgressClient", { fg = palette.yellow })
-        end,
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
+          api.set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
+          api.set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
+        end),
       })
     end,
     opts = {
@@ -429,7 +418,12 @@ return {
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
     init = function()
-      api.set_hl(0, "ContextVt", { fg = palette.context })
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("context_vt-colors", {}),
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "ContextVt", { fg = colors.context })
+        end),
+      })
     end,
     opts = {
       prefix = "󾪜",
@@ -443,7 +437,6 @@ return {
     init = function()
       api.create_autocmd("ColorScheme", {
         group = api.create_augroup("cursorword-colors", {}),
-        pattern = "nord",
         callback = function()
           api.set_hl(0, "CursorWord", { undercurl = true })
         end,
@@ -483,14 +476,19 @@ return {
       },
     },
     init = function()
-      api.set_hl(0, "GitSignsAdd", { fg = palette.green })
-      api.set_hl(0, "GitSignsChange", { fg = palette.yellow })
-      api.set_hl(0, "GitSignsDelete", { fg = palette.red })
-      api.set_hl(0, "GitSignsCurrentLineBlame", { fg = palette.brighter_black })
-      api.set_hl(0, "GitSignsAddInline", { bg = palette.bg_green })
-      api.set_hl(0, "GitSignsChangeInline", { bg = palette.bg_yellow })
-      api.set_hl(0, "GitSignsDeleteInline", { bg = palette.bg_red })
-      api.set_hl(0, "GitSignsUntracked", { fg = palette.magenta })
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("gitsigns-colors", {}),
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "GitSignsAdd", { fg = colors.green })
+          api.set_hl(0, "GitSignsChange", { fg = colors.yellow })
+          api.set_hl(0, "GitSignsDelete", { fg = colors.red })
+          api.set_hl(0, "GitSignsCurrentLineBlame", { fg = colors.brighter_black })
+          api.set_hl(0, "GitSignsAddInline", { bg = colors.bg_green })
+          api.set_hl(0, "GitSignsChangeInline", { bg = colors.bg_yellow })
+          api.set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
+          api.set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
+        end),
+      })
     end,
     config = function()
       local gitsigns = require "gitsigns"
@@ -546,8 +544,13 @@ return {
     "lukas-reineke/virt-column.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
-      api.set_hl(0, "ColorColumn", { bg = "NONE" })
-      api.set_hl(0, "VirtColumn", { fg = palette.brighter_black })
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("virt-column-colors", {}),
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "ColorColumn", { bg = "NONE" })
+          api.set_hl(0, "VirtColumn", { fg = colors.brighter_black })
+        end),
+      })
       local vt = require "virt-column"
       vt.setup { char = "⡂" }
       api.create_autocmd("TermEnter", {
@@ -811,12 +814,15 @@ return {
           hop.hint_lines { direction = direction.BEFORE_CURSOR }
         end
       end)
-      if vim.opt.background:get() == "dark" then
-        api.set_hl(0, "HopNextKey", { fg = palette.orange, bold = true })
-        api.set_hl(0, "HopNextKey1", { fg = palette.cyan, bold = true })
-        api.set_hl(0, "HopNextKey2", { fg = palette.dark_white })
-        api.set_hl(0, "HopUnmatched", { fg = palette.gray })
-      end
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("hop-colors", {}),
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "HopNextKey", { fg = colors.orange, bold = true })
+          api.set_hl(0, "HopNextKey1", { fg = colors.cyan, bold = true })
+          api.set_hl(0, "HopNextKey2", { fg = colors.dark_white })
+          api.set_hl(0, "HopUnmatched", { fg = colors.gray })
+        end),
+      })
     end,
   },
 
@@ -961,10 +967,15 @@ return {
       vim.g.fuzzy_motion_matchers = "kensaku"
     end,
     config = function()
-      api.set_hl(0, "FuzzyMotionShade", { fg = palette.gray })
-      api.set_hl(0, "FuzzyMotionChar", { fg = palette.red })
-      api.set_hl(0, "FuzzyMotionSubChar", { fg = palette.yellow })
-      api.set_hl(0, "FuzzyMotionMatch", { fg = palette.cyan })
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("fuzzy-motion-colors", {}),
+        callback = palette.callback(function(colors)
+          api.set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
+          api.set_hl(0, "FuzzyMotionChar", { fg = colors.red })
+          api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
+          api.set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
+        end),
+      })
       fn["denops#plugin#register"]("kensaku", { mode = "skip" })
       fn["denops#plugin#register"] "fuzzy-motion"
     end,
@@ -974,14 +985,19 @@ return {
     "uga-rosa/ccc.nvim",
     event = { "BufEnter" },
     config = function()
-      local ccc = require "ccc"
-      ccc.setup {
-        highlighter = { auto_enable = true },
-        pickers = {
-          ccc.picker.hex,
-          ccc.picker.custom_entries(palette),
-        },
-      }
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup("ccc-colors", {}),
+        callback = palette.callback(function(colors)
+          local ccc = require "ccc"
+          ccc.setup {
+            highlighter = { auto_enable = true },
+            pickers = {
+              ccc.picker.hex,
+              ccc.picker.custom_entries(colors),
+            },
+          }
+        end),
+      })
     end,
   },
 }
