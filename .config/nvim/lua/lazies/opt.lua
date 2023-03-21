@@ -797,6 +797,17 @@ return {
       { [['j]], mode = { "n", "v" } },
       { [['k]], mode = { "n", "v" } },
     },
+    init = function()
+      palette.autocmd {
+        name = "hop",
+        callback = function(colors)
+          api.set_hl(0, "HopNextKey", { fg = colors.orange, bold = true })
+          api.set_hl(0, "HopNextKey1", { fg = colors.cyan, bold = true })
+          api.set_hl(0, "HopNextKey2", { fg = colors.dark_white })
+          api.set_hl(0, "HopUnmatched", { fg = colors.gray })
+        end,
+      }
+    end,
     config = function()
       local hop = require "hop"
       hop.setup {
@@ -814,15 +825,6 @@ return {
           hop.hint_lines { direction = direction.BEFORE_CURSOR }
         end
       end)
-      palette.autocmd {
-        name = "hop",
-        callback = function(colors)
-          api.set_hl(0, "HopNextKey", { fg = colors.orange, bold = true })
-          api.set_hl(0, "HopNextKey1", { fg = colors.cyan, bold = true })
-          api.set_hl(0, "HopNextKey2", { fg = colors.dark_white })
-          api.set_hl(0, "HopUnmatched", { fg = colors.gray })
-        end,
-      }
     end,
   },
 
