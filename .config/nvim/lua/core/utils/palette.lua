@@ -1,64 +1,72 @@
+local api = require("core.utils").api
+
+---@alias core.utils.palette.Names
+---| "black"
+---| "red"
+---| "green"
+---| "yellow"
+---| "blue"
+---| "magenta"
+---| "cyan"
+---| "white"
+---| "bright_black"
+---| "bright_red"
+---| "bright_green"
+---| "bright_yellow"
+---| "bright_blue"
+---| "bright_magenta"
+---| "bright_cyan"
+---| "bright_white"
+---| "orange"
+---| "comment"
+---| "dark_white"
+---| "dark_black"
+---| "border"
+
+---@alias core.utils.palette.Callback fun(colors: core.utils.palette.Colors): boolean?
+---@alias core.utils.palette.Opts { [string]: core.utils.palette.Callback }
+
+---@class core.utils.palette.Colors
+---@field name string
+---@field [core.utils.palette.Names] string
+---@operator call(string):core.utils.palette.Colors
+
+---@class core.utils.palette.Palette
+---@field autocmd fun(opts: core.utils.palette.Opts): nil
+---@field callback fun(cb: core.utils.palette.Callback): boolean?
+---@field colors core.utils.palette.Colors
+---@operator call(string):core.utils.palette.Colors
+
 return setmetatable({}, {
-  __call = function(_, ...)
-    local args = { ... }
-    local name = args[1]
-    if name == "nord" then
-      local palette = {
-        -- default colors from nord
-        nord0 = "#2E3440",
-        nord1 = "#3B4252",
-        nord2 = "#434C5E",
-        nord3 = "#4C566A",
-        nord3_bright = "#616E88",
-        nord4 = "#D8DEE9",
-        nord5 = "#E5E9F0",
-        nord6 = "#ECEFF4",
-        nord7 = "#8FBCBB",
-        nord8 = "#88C0D0",
-        nord9 = "#81A1C1",
-        nord10 = "#5E81AC",
-        nord11 = "#BF616A",
-        nord12 = "#D08770",
-        nord13 = "#EBCB8B",
-        nord14 = "#A3BE8C",
-        nord15 = "#B48EAD",
-
-        black = "#3B4252",
-        red = "#BF616A",
-        green = "#A3BE8C",
-        yellow = "#EBCB8B",
-        blue = "#81A1C1",
-        magenta = "#B48EAD",
-        cyan = "#88C0D0",
-        white = "#E5E9F0",
-        bright_black = "#4C566A",
-        bright_red = "#BF616A",
-        bright_green = "#A3BE8C",
-        bright_yellow = "#EBCB8B",
-        bright_blue = "#81A1C1",
-        bright_magenta = "#B48EAD",
-        bright_cyan = "#8FBCBB",
-        bright_white = "#ECEFF4",
-      }
-
-      palette.orange = palette.nord12
-      palette.brighter_red = "#E5989F"
-      palette.brighter_blue = "#8CA9CD"
-      palette.brighter_black = palette.nord3_bright
-      palette.dark_black = palette.nord0
-      palette.dark_white = palette.nord4
-      palette.dark_blue = palette.nord10
-      palette.bg_green = "#183203"
-      palette.bg_yellow = "#432d00"
-      palette.bg_red = "#52050c"
-      palette.gray = palette.nord3
-
-      palette.comment = "#72809a"
-      palette.context = "#365F86"
-      palette.border = "#5D9794"
-
-      return palette
+  ---@param self core.utils.palette.Palette
+  ---@param prop string
+  __index = function(self, prop)
+    if prop == "callback" then
+      ---@param cb fun(colors: core.utils.palette.Colors): boolean?
+      ---@return fun(args: { match: string }): boolean?
+      return function(cb)
+        return function(args)
+          return cb(self.colors(args.match))
+        end
+      end
+    elseif prop == "colors" then
+      local function get_colors(_, name)
+        local colors = vim.F.npcall(require, "core.utils.palette." .. name) or {}
+        colors.name = name
+        return colors
+      end
+      return setmetatable(get_colors(_, vim.g.colors_name), { __call = get_colors })
     end
-    return {}
   end,
-})
+  ---@param self core.utils.palette.Palette
+  ---@param opts core.utils.palette.Opts
+  __call = function(self, opts)
+    local name = vim.tbl_keys(opts)[1]
+    if name then
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup(name .. "-palette", {}),
+        callback = self.callback(opts[name]),
+      })
+    end
+  end,
+}) --[[@as core.utils.palette.Palette]]

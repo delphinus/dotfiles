@@ -1,6 +1,6 @@
 local fn, _, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
-local palette = require "core.utils.palette" "nord"
+local palette = require "core.utils.palette"
 
 local function i(p)
   p.event = { "InsertEnter" }
@@ -153,17 +153,15 @@ return {
     "delphinus/skkeleton_indicator.nvim",
 
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("skkeleton_indicator_nord", {}),
-        pattern = "nord",
-        callback = function()
-          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = palette.cyan, bg = palette.dark_black, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHira", { fg = palette.dark_black, bg = palette.green, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorKata", { fg = palette.dark_black, bg = palette.yellow, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = palette.dark_black, bg = palette.magenta, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = palette.dark_black, bg = palette.cyan, bold = true })
+      palette {
+        skkeleton_indicator = function(colors)
+          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.dark_black, bg = colors.magenta, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
         end,
-      })
+      }
     end,
 
     opts = { alwaysShown = false, fadeOutMs = 0 },
@@ -204,42 +202,40 @@ return {
     },
 
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("cmp_nord", {}),
-        pattern = "nord",
-        callback = function()
-          api.set_hl(0, "CmpItemAbbrDeprecated", { fg = palette.brighter_black, bold = true })
-          api.set_hl(0, "CmpItemAbbrMatch", { fg = palette.yellow })
-          api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = palette.orange })
-          api.set_hl(0, "CmpItemMenu", { fg = palette.brighter_black, bold = true })
+      palette {
+        cmp = function(colors)
+          api.set_hl(0, "CmpItemAbbrDeprecated", { fg = colors.brighter_black, bold = true })
+          api.set_hl(0, "CmpItemAbbrMatch", { fg = colors.yellow })
+          api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = colors.orange })
+          api.set_hl(0, "CmpItemMenu", { fg = colors.brighter_black, bold = true })
 
-          api.set_hl(0, "CmpItemKindText", { fg = palette.blue })
-          api.set_hl(0, "CmpItemKindMethod", { fg = palette.magenta })
-          api.set_hl(0, "CmpItemKindFunction", { fg = palette.magenta })
-          api.set_hl(0, "CmpItemKindConstructor", { fg = palette.magenta, bold = true })
-          api.set_hl(0, "CmpItemKindField", { fg = palette.green })
-          api.set_hl(0, "CmpItemKindVariable", { fg = palette.cyan })
-          api.set_hl(0, "CmpItemKindClass", { fg = palette.yellow })
-          api.set_hl(0, "CmpItemKindInterface", { fg = palette.bright_cyan })
-          api.set_hl(0, "CmpItemKindModule", { fg = palette.yellow })
-          api.set_hl(0, "CmpItemKindProperty", { fg = palette.green })
-          api.set_hl(0, "CmpItemKindUnit", { fg = palette.magenta })
-          api.set_hl(0, "CmpItemKindValue", { fg = palette.bright_cyan })
-          api.set_hl(0, "CmpItemKindEnum", { fg = palette.bright_cyan })
-          api.set_hl(0, "CmpItemKindKeyword", { fg = palette.dark_blue })
-          api.set_hl(0, "CmpItemKindSnippet", { fg = palette.orange })
-          api.set_hl(0, "CmpItemKindColor", { fg = palette.yellow })
-          api.set_hl(0, "CmpItemKindFile", { fg = palette.green })
-          api.set_hl(0, "CmpItemKindReference", { fg = palette.magenta })
-          api.set_hl(0, "CmpItemKindFolder", { fg = palette.green })
-          api.set_hl(0, "CmpItemKindEnumMember", { fg = palette.bright_cyan })
-          api.set_hl(0, "CmpItemKindConstant", { fg = palette.dark_blue })
-          api.set_hl(0, "CmpItemKindStruct", { fg = palette.bright_cyan })
-          api.set_hl(0, "CmpItemKindEvent", { fg = palette.orange })
-          api.set_hl(0, "CmpItemKindOperator", { fg = palette.magenta })
-          api.set_hl(0, "CmpItemKindTypeParameter", { fg = palette.bright_cyan })
+          api.set_hl(0, "CmpItemKindText", { fg = colors.blue })
+          api.set_hl(0, "CmpItemKindMethod", { fg = colors.magenta })
+          api.set_hl(0, "CmpItemKindFunction", { fg = colors.magenta })
+          api.set_hl(0, "CmpItemKindConstructor", { fg = colors.magenta, bold = true })
+          api.set_hl(0, "CmpItemKindField", { fg = colors.green })
+          api.set_hl(0, "CmpItemKindVariable", { fg = colors.cyan })
+          api.set_hl(0, "CmpItemKindClass", { fg = colors.yellow })
+          api.set_hl(0, "CmpItemKindInterface", { fg = colors.bright_cyan })
+          api.set_hl(0, "CmpItemKindModule", { fg = colors.yellow })
+          api.set_hl(0, "CmpItemKindProperty", { fg = colors.green })
+          api.set_hl(0, "CmpItemKindUnit", { fg = colors.magenta })
+          api.set_hl(0, "CmpItemKindValue", { fg = colors.bright_cyan })
+          api.set_hl(0, "CmpItemKindEnum", { fg = colors.bright_cyan })
+          api.set_hl(0, "CmpItemKindKeyword", { fg = colors.dark_blue })
+          api.set_hl(0, "CmpItemKindSnippet", { fg = colors.orange })
+          api.set_hl(0, "CmpItemKindColor", { fg = colors.yellow })
+          api.set_hl(0, "CmpItemKindFile", { fg = colors.green })
+          api.set_hl(0, "CmpItemKindReference", { fg = colors.magenta })
+          api.set_hl(0, "CmpItemKindFolder", { fg = colors.green })
+          api.set_hl(0, "CmpItemKindEnumMember", { fg = colors.bright_cyan })
+          api.set_hl(0, "CmpItemKindConstant", { fg = colors.dark_blue })
+          api.set_hl(0, "CmpItemKindStruct", { fg = colors.bright_cyan })
+          api.set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
+          api.set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
+          api.set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
         end,
-      })
+      }
     end,
 
     config = function()

@@ -1,5 +1,5 @@
 local fn, uv, api = require("core.utils").globals()
-local palette = require "core.utils.palette" "nord"
+local palette = require "core.utils.palette"
 local lazy_require = require "lazy_require"
 
 local function ts(plugin)
@@ -23,24 +23,22 @@ return {
     },
 
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("lspconfig-colors", {}),
-        pattern = "nord",
-        callback = function()
-          api.set_hl(0, "DiagnosticError", { fg = palette.red })
-          api.set_hl(0, "DiagnosticWarn", { fg = palette.orange })
-          api.set_hl(0, "DiagnosticInfo", { fg = palette.bright_cyan })
-          api.set_hl(0, "DiagnosticHint", { fg = palette.bright_black })
-          api.set_hl(0, "DiagnosticUnderlineError", { sp = palette.red, undercurl = true })
-          api.set_hl(0, "DiagnosticUnderlineWarn", { sp = palette.orange, undercurl = true })
-          api.set_hl(0, "DiagnosticUnderlineInfo", { sp = palette.bright_cyan, undercurl = true })
-          api.set_hl(0, "DiagnosticUnderlineHint", { sp = palette.bright_black, undercurl = true })
-          api.set_hl(0, "LspBorderTop", { fg = palette.border, bg = palette.dark_black })
-          api.set_hl(0, "LspBorderLeft", { fg = palette.border, bg = palette.black })
-          api.set_hl(0, "LspBorderRight", { fg = palette.border, bg = palette.black })
-          api.set_hl(0, "LspBorderBottom", { fg = palette.border, bg = palette.dark_black })
+      palette {
+        lspconfig = function(colors)
+          api.set_hl(0, "DiagnosticError", { fg = colors.red })
+          api.set_hl(0, "DiagnosticWarn", { fg = colors.orange })
+          api.set_hl(0, "DiagnosticInfo", { fg = colors.bright_cyan })
+          api.set_hl(0, "DiagnosticHint", { fg = colors.bright_black })
+          api.set_hl(0, "DiagnosticUnderlineError", { sp = colors.red, undercurl = true })
+          api.set_hl(0, "DiagnosticUnderlineWarn", { sp = colors.orange, undercurl = true })
+          api.set_hl(0, "DiagnosticUnderlineInfo", { sp = colors.bright_cyan, undercurl = true })
+          api.set_hl(0, "DiagnosticUnderlineHint", { sp = colors.bright_black, undercurl = true })
+          api.set_hl(0, "LspBorderTop", { fg = colors.border, bg = colors.dark_black })
+          api.set_hl(0, "LspBorderLeft", { fg = colors.border, bg = colors.black })
+          api.set_hl(0, "LspBorderRight", { fg = colors.border, bg = colors.black })
+          api.set_hl(0, "LspBorderBottom", { fg = colors.border, bg = colors.dark_black })
         end,
-      })
+      }
     end,
 
     config = function()
@@ -475,8 +473,30 @@ return {
 
   ts {
     "m-demare/hlargs.nvim",
+    init = function()
+      palette {
+        hlargs = function(colors)
+          api.set_hl(0, "Hlarg1", { fg = colors.brighter_red })
+          api.set_hl(0, "Hlarg2", { fg = colors.orange })
+          api.set_hl(0, "Hlarg3", { fg = colors.magenta })
+          api.set_hl(0, "Hlarg4", { fg = colors.yellow })
+          api.set_hl(0, "Hlarg5", { fg = colors.green })
+          api.set_hl(0, "Hlarg6", { fg = colors.brighter_blue })
+          api.set_hl(0, "Hlarg7", { fg = colors.bright_cyan })
+        end,
+      }
+    end,
     opts = {
-      color = palette.orange,
+      use_colorpalette = true,
+      colorpalette = {
+        { default = true },
+        { default = true },
+        { default = true },
+        { default = true },
+        { default = true },
+        { default = true },
+        { default = true },
+      },
       -- https://alpha2phi.medium.com/neovim-101-contextual-semantic-highlighting-90c605e6e72b
       disable = function(_, bufnr)
         if vim.b[bufnr].semantic_tokens then
@@ -503,19 +523,17 @@ return {
     --"p00f/nvim-ts-rainbow",
     "mrjones2014/nvim-ts-rainbow", -- Use forked version
     init = function()
-      api.create_autocmd("ColorScheme", {
-        group = api.create_augroup("ts_rainbow-colors", {}),
-        pattern = "nord",
-        callback = function()
-          api.set_hl(0, "rainbowcol1", { fg = palette.red })
-          api.set_hl(0, "rainbowcol2", { fg = palette.orange })
-          api.set_hl(0, "rainbowcol3", { fg = palette.magenta })
-          api.set_hl(0, "rainbowcol4", { fg = palette.yellow })
-          api.set_hl(0, "rainbowcol5", { fg = palette.green })
-          api.set_hl(0, "rainbowcol6", { fg = palette.blue })
-          api.set_hl(0, "rainbowcol7", { fg = palette.bright_cyan })
+      palette {
+        ts_rainbow = function(colors)
+          api.set_hl(0, "rainbowcol1", { fg = colors.red })
+          api.set_hl(0, "rainbowcol2", { fg = colors.orange })
+          api.set_hl(0, "rainbowcol3", { fg = colors.magenta })
+          api.set_hl(0, "rainbowcol4", { fg = colors.yellow })
+          api.set_hl(0, "rainbowcol5", { fg = colors.green })
+          api.set_hl(0, "rainbowcol6", { fg = colors.blue })
+          api.set_hl(0, "rainbowcol7", { fg = colors.bright_cyan })
         end,
-      })
+      }
     end,
   },
 
