@@ -23,49 +23,50 @@ local api = require("core.utils").api
 ---| "dark_black"
 ---| "border"
 
----@alias core.utils.palette.Colors { [core.utils.palette.Names]: string }
-
 ---@alias core.utils.palette.Callback fun(colors: core.utils.palette.Colors): boolean?
+---@alias core.utils.palette.Opts { [string]: core.utils.palette.Callback }
+
+---@class core.utils.palette.Colors
+---@field name string
+---@field [core.utils.palette.Names] string
+---@operator call(string):core.utils.palette.Colors
 
 ---@class core.utils.palette.Palette
----@operator call(string):core.utils.palette.Colors
----@field autocmd fun(opts: core.utils.palette.AutocmdOpts): nil
+---@field autocmd fun(opts: core.utils.palette.Opts): nil
 ---@field callback fun(cb: core.utils.palette.Callback): boolean?
 ---@field colors core.utils.palette.Colors
-
----@class core.utils.palette.AutocmdOpts
----@field name string
----@field callback core.utils.palette.Callback
----@field pattern string|string[]|nil
+---@operator call(string):core.utils.palette.Colors
 
 return setmetatable({}, {
   ---@param self core.utils.palette.Palette
   ---@param prop string
   __index = function(self, prop)
-    if prop == "autocmd" then
-      ---@param opts core.utils.palette.AutocmdOpts
-      return function(opts)
-        api.create_autocmd("ColorScheme", {
-          group = api.create_augroup(opts.name .. "-palette", {}),
-          pattern = opts.pattern,
-          callback = self.callback(opts.callback),
-        })
-      end
-    elseif prop == "callback" then
+    if prop == "callback" then
       ---@param cb fun(colors: core.utils.palette.Colors): boolean?
       ---@return fun(args: { match: string }): boolean?
       return function(cb)
         return function(args)
-          return cb(self(args.match))
+          return cb(self.colors(args.match))
         end
       end
     elseif prop == "colors" then
-      return self(vim.g.colors_name)
+      local function get_colors(_, name)
+        local colors = vim.F.npcall(require, "core.utils.palette." .. name) or {}
+        colors.name = name
+        return colors
+      end
+      return setmetatable(get_colors(_, vim.g.colors_name), { __call = get_colors })
     end
   end,
-  __call = function(_, ...)
-    local args = { ... }
-    local name = args[1] or ""
-    return vim.F.npcall(require, "core.utils.palette." .. name) or {}
+  ---@param self core.utils.palette.Palette
+  ---@param opts core.utils.palette.Opts
+  __call = function(self, opts)
+    local name = vim.tbl_keys(opts)[1]
+    if name then
+      api.create_autocmd("ColorScheme", {
+        group = api.create_augroup(name .. "-palette", {}),
+        callback = self.callback(opts[name]),
+      })
+    end
   end,
 }) --[[@as core.utils.palette.Palette]]

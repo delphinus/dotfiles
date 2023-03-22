@@ -21,7 +21,8 @@ function Lualine:config()
     vim.schedule_wrap(vim.cmd.redrawtabline)
   )
 
-  local palette = require "core.utils.palette" "nord"
+  local palette = require "core.utils.palette"
+  local colors = palette.colors
 
   -- TODO: borrow from set.lua
   local home_re = uv.os_homedir():gsub("%.", "%.")
@@ -64,7 +65,7 @@ function Lualine:config()
           self:lsp(function()
             return self:lsp_clients()
           end),
-          color = { fg = palette.yellow },
+          color = { fg = colors.yellow },
           fmt = self:tr { 100, 0 },
         },
         {
@@ -80,10 +81,10 @@ function Lualine:config()
           "diagnostics",
           sources = { "nvim_diagnostic" },
           diagnostics_color = {
-            error = { fg = palette.brighter_red },
-            warn = { fg = palette.yellow },
-            info = { fg = palette.brighter_blue },
-            hint = { fg = palette.brighter_black },
+            error = { fg = colors.brighter_red },
+            warn = { fg = colors.yellow },
+            info = { fg = colors.brighter_blue },
+            hint = { fg = colors.brighter_black },
           },
           symbols = {
             error = "●", -- U+25CF
@@ -103,8 +104,8 @@ function Lualine:config()
           separator = "",
           color = self:lsp(function()
             return require("core.utils.lsp.auto_formatting").is_enabled(0)
-                and { fg = palette.dark_black, bg = palette.green }
-              or { fg = palette.blue }
+                and { fg = colors.dark_black, bg = colors.green }
+              or { fg = colors.blue }
           end),
         },
         {
@@ -116,7 +117,7 @@ function Lualine:config()
           color = self:lsp(function()
             local is_enabled = not vim.b.lsp_diagnostics_disabled and #vim.lsp.get_active_clients { bufnr = 0 } > 0
             -- See core.utils.lsp
-            return is_enabled and { fg = palette.dark_black, bg = palette.green } or { fg = palette.blue }
+            return is_enabled and { fg = colors.dark_black, bg = colors.green } or { fg = colors.blue }
           end),
         },
         { "filetype", fmt = self:tr { 100, 0 } },
@@ -128,28 +129,28 @@ function Lualine:config()
       lualine_z = { { "location", fmt = self:tr { 50, 0 } } },
     },
     tabline = {
-      lualine_b = { { title, color = { fg = palette.yellow } } },
+      lualine_b = { { title, color = { fg = colors.yellow } } },
       lualine_f = {
         {
           self:noice "message" "get",
           cond = self:noice "message" "has",
-          color = { fg = palette.orange },
+          color = { fg = colors.orange },
           fmt = self:tr { { 90, 0 }, { 120, 30 }, { 999, 80 } },
         },
         {
           self:noice "command" "get",
           cond = self:noice "command" "has",
-          color = { fg = palette.cyan },
+          color = { fg = colors.cyan },
         },
         {
           self:noice "mode" "get",
           cond = self:noice "mode" "has",
-          color = { fg = palette.blue },
+          color = { fg = colors.blue },
         },
         {
           self:noice "search" "get",
           cond = self:noice "search" "has",
-          color = { fg = palette.magenta },
+          color = { fg = colors.magenta },
         },
         { self:tag(), separator = "❘" },
       },
@@ -162,7 +163,7 @@ function Lualine:config()
         {
           require("lazy.status").updates,
           cond = require("lazy.status").has_updates,
-          color = { bg = palette.brighter_red },
+          color = { bg = colors.brighter_red },
         },
       },
     },

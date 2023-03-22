@@ -23,9 +23,8 @@ return {
     },
 
     init = function()
-      palette.autocmd {
-        name = "lspconfig",
-        callback = function(colors)
+      palette {
+        lspconfig = function(colors)
           api.set_hl(0, "DiagnosticError", { fg = colors.red })
           api.set_hl(0, "DiagnosticWarn", { fg = colors.orange })
           api.set_hl(0, "DiagnosticInfo", { fg = colors.bright_cyan })
@@ -475,9 +474,8 @@ return {
   ts {
     "m-demare/hlargs.nvim",
     init = function()
-      palette.autocmd {
-        name = "hlargs",
-        callback = function(colors)
+      palette {
+        hlargs = function(colors)
           api.set_hl(0, "Hlarg1", { fg = colors.brighter_red })
           api.set_hl(0, "Hlarg2", { fg = colors.orange })
           api.set_hl(0, "Hlarg3", { fg = colors.magenta })
@@ -525,9 +523,8 @@ return {
     --"p00f/nvim-ts-rainbow",
     "mrjones2014/nvim-ts-rainbow", -- Use forked version
     init = function()
-      palette.autocmd {
-        name = "ts-rainbow",
-        callback = function(colors)
+      palette {
+        ts_rainbow = function(colors)
           api.set_hl(0, "rainbowcol1", { fg = colors.red })
           api.set_hl(0, "rainbowcol2", { fg = colors.orange })
           api.set_hl(0, "rainbowcol3", { fg = colors.magenta })

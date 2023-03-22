@@ -99,9 +99,8 @@ return {
         disabled_filetypes = { "help", "TelescopePrompt" },
       }
 
-      palette.autocmd {
-        name = "smoothcursor",
-        callback = function(colors)
+      palette {
+        smoothcursor = function(colors)
           api.set_hl(0, "SmoothCursor", { fg = colors.white })
           api.set_hl(0, "SmoothCursorGreen", { fg = colors.green })
         end,

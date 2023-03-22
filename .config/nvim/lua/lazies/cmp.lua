@@ -153,9 +153,8 @@ return {
     "delphinus/skkeleton_indicator.nvim",
 
     init = function()
-      palette.autocmd {
-        name = "skkeleton_indicator",
-        callback = function(colors)
+      palette {
+        skkeleton_indicator = function(colors)
           api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
           api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
           api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
@@ -203,9 +202,8 @@ return {
     },
 
     init = function()
-      palette.autocmd {
-        name = "cmp",
-        callback = function(colors)
+      palette {
+        cmp = function(colors)
           api.set_hl(0, "CmpItemAbbrDeprecated", { fg = colors.brighter_black, bold = true })
           api.set_hl(0, "CmpItemAbbrMatch", { fg = colors.yellow })
           api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = colors.orange })

@@ -21,9 +21,8 @@ return {
       language_specific_highlights = false,
     },
     config = function()
-      palette.autocmd {
-        name = "nord",
-        callback = function(colors)
+      palette {
+        nord = function(colors)
           api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
           api.set_hl(0, "Delimiter", { fg = colors.blue })
           api.set_hl(0, "Constant", { fg = colors.dark_white, italic = true })
@@ -48,9 +47,8 @@ return {
     },
     cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
     init = function()
-      palette.autocmd {
-        name = "toggleterm",
-        callback = function(colors)
+      palette {
+        toggleterm = function(colors)
           api.set_hl(0, "WinBorderTop", { fg = colors.border })
           api.set_hl(0, "WinBorderLeft", { fg = colors.border })
           api.set_hl(0, "WinBorderRight", { fg = colors.border })
@@ -247,9 +245,8 @@ return {
     "LumaKernel/nvim-visual-eof.lua",
     event = { "BufRead", "BufNewFile" },
     init = function()
-      palette.autocmd {
-        name = "visual-eof",
-        callback = function(colors)
+      palette {
+        visual_eof = function(colors)
           api.set_hl(0, "VisualEOL", { fg = colors.green })
           api.set_hl(0, "VisualNoEOL", { fg = colors.red })
         end,
@@ -358,9 +355,8 @@ return {
         _G.__vim_notify_overwritten = true
       end
 
-      palette.autocmd {
-        name = "noice",
-        callback = function(colors)
+      palette {
+        noice = function(colors)
           api.set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
           api.set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
           api.set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
@@ -418,9 +414,8 @@ return {
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
     init = function()
-      palette.autocmd {
-        name = "context_vt",
-        callback = function(colors)
+      palette {
+        context_vt = function(colors)
           api.set_hl(0, "ContextVt", { fg = colors.context })
         end,
       }
@@ -476,9 +471,8 @@ return {
       },
     },
     init = function()
-      palette.autocmd {
-        name = "gitsigns",
-        callback = function(colors)
+      palette {
+        gitsigns = function(colors)
           api.set_hl(0, "GitSignsAdd", { fg = colors.green })
           api.set_hl(0, "GitSignsChange", { fg = colors.yellow })
           api.set_hl(0, "GitSignsDelete", { fg = colors.red })
@@ -544,9 +538,8 @@ return {
     "lukas-reineke/virt-column.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
-      palette.autocmd {
-        name = "virt-column",
-        callback = function(colors)
+      palette {
+        virt_column = function(colors)
           api.set_hl(0, "ColorColumn", { bg = "NONE" })
           api.set_hl(0, "VirtColumn", { fg = colors.brighter_black })
         end,
@@ -798,9 +791,8 @@ return {
       { [['k]], mode = { "n", "v" } },
     },
     init = function()
-      palette.autocmd {
-        name = "hop",
-        callback = function(colors)
+      palette {
+        hop = function(colors)
           api.set_hl(0, "HopNextKey", { fg = colors.orange, bold = true })
           api.set_hl(0, "HopNextKey1", { fg = colors.cyan, bold = true })
           api.set_hl(0, "HopNextKey2", { fg = colors.dark_white })
@@ -969,9 +961,8 @@ return {
       vim.g.fuzzy_motion_matchers = "kensaku"
     end,
     config = function()
-      palette.autocmd {
-        name = "fuzzy-motion",
-        callback = function(colors)
+      palette {
+        fuzzy_motion = function(colors)
           api.set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
           api.set_hl(0, "FuzzyMotionChar", { fg = colors.red })
           api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
@@ -987,9 +978,8 @@ return {
     "uga-rosa/ccc.nvim",
     event = { "BufEnter" },
     config = function()
-      palette.autocmd {
-        name = "ccc",
-        callback = function(colors)
+      palette {
+        ccc = function(colors)
           local ccc = require "ccc"
           ccc.setup {
             highlighter = { auto_enable = true },
