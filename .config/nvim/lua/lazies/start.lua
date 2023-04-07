@@ -100,7 +100,7 @@ return {
       }
 
       palette "smoothcursor" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "SmoothCursor", { fg = colors.white })
           api.set_hl(0, "SmoothCursorGreen", { fg = colors.green })
         end,
@@ -126,4 +126,13 @@ return {
   },
 
   non_lazy { "luukvbaal/statuscol.nvim", opts = {} },
+
+  non_lazy {
+    "folke/tokyonight.nvim",
+    opts = {
+      on_colors = function(colors)
+        require("core.utils.palette.tokyonight").set(colors)
+      end,
+    },
+  },
 }

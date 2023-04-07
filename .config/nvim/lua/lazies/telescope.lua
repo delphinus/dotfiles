@@ -48,7 +48,7 @@ return {
       local frecency = require "core.telescope.frecency"
 
       palette "telescope" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "TelescopeMatching", { fg = colors.magenta })
           api.set_hl(0, "TelescopePreviewBorder", { fg = colors.green })
           api.set_hl(0, "TelescopePromptBorder", { fg = colors.cyan })

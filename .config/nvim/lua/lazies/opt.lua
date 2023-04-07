@@ -22,7 +22,7 @@ return {
     },
     config = function()
       palette "nord" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
           api.set_hl(0, "Delimiter", { fg = colors.blue })
           api.set_hl(0, "Constant", { fg = colors.dark_white, italic = true })
@@ -48,7 +48,7 @@ return {
     cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
     init = function()
       palette "toggleterm" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "WinBorderTop", { fg = colors.border })
           api.set_hl(0, "WinBorderLeft", { fg = colors.border })
           api.set_hl(0, "WinBorderRight", { fg = colors.border })
@@ -246,7 +246,7 @@ return {
     event = { "BufRead", "BufNewFile" },
     init = function()
       palette "visual_eof" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "VisualEOL", { fg = colors.green })
           api.set_hl(0, "VisualNoEOL", { fg = colors.red })
         end,
@@ -331,9 +331,11 @@ return {
         "rcarriga/nvim-notify",
         opts = {
           render = "minimal",
+          --[[
           background_colour = function()
             return palette.colors.black
           end,
+          ]]
           level = "trace",
           on_open = function(win)
             api.win_set_config(win, { focusable = false })
@@ -356,7 +358,7 @@ return {
       end
 
       palette "noice" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
           api.set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
           api.set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
@@ -415,7 +417,7 @@ return {
     wants = { "nvim-treesitter" },
     init = function()
       palette "context_vt" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "ContextVt", { fg = colors.context })
         end,
       }
@@ -472,7 +474,7 @@ return {
     },
     init = function()
       palette "gitsigns" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "GitSignsAdd", { fg = colors.green })
           api.set_hl(0, "GitSignsChange", { fg = colors.yellow })
           api.set_hl(0, "GitSignsDelete", { fg = colors.red })
@@ -539,7 +541,7 @@ return {
     event = { "FocusLost", "CursorHold" },
     config = function()
       palette "virt_column" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "ColorColumn", { bg = "NONE" })
           api.set_hl(0, "VirtColumn", { fg = colors.brighter_black })
         end,
@@ -792,7 +794,7 @@ return {
     },
     init = function()
       palette "hop" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "HopNextKey", { fg = colors.orange, bold = true })
           api.set_hl(0, "HopNextKey1", { fg = colors.cyan, bold = true })
           api.set_hl(0, "HopNextKey2", { fg = colors.dark_white })
@@ -962,7 +964,7 @@ return {
     end,
     config = function()
       palette "fuzzy_motion" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
           api.set_hl(0, "FuzzyMotionChar", { fg = colors.red })
           api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
@@ -988,6 +990,7 @@ return {
               ccc.picker.custom_entries(colors),
             },
           }
+          vim.print(colors)
         end,
       }
     end,

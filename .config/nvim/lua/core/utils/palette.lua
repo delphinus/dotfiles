@@ -70,12 +70,14 @@ local function __call(self, name)
       group = api.create_augroup(name .. "-palette", {}),
       ---@param args { match: string }
       callback = function(args)
-        local name = args.match
-        if opts[name] then
-          opts[name](colors.from(name))
+        local scheme = args.match
+        local p = colors.from(scheme)
+        if opts[scheme] then
+          opts[scheme](p)
         end
         if opts[1] then
-          opts[1](colors.from(name))
+          vim.notify("[palette] running for " .. name .. ": all", vim.log.levels.DEBUG)
+          opts[1](p)
         end
       end,
     })

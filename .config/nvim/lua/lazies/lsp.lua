@@ -24,7 +24,7 @@ return {
 
     init = function()
       palette "lspconfig" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "DiagnosticError", { fg = colors.red })
           api.set_hl(0, "DiagnosticWarn", { fg = colors.orange })
           api.set_hl(0, "DiagnosticInfo", { fg = colors.bright_cyan })
@@ -475,7 +475,7 @@ return {
     "m-demare/hlargs.nvim",
     init = function()
       palette "hlargs" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "Hlarg1", { fg = colors.brighter_red })
           api.set_hl(0, "Hlarg2", { fg = colors.orange })
           api.set_hl(0, "Hlarg3", { fg = colors.magenta })
@@ -524,7 +524,7 @@ return {
     "mrjones2014/nvim-ts-rainbow", -- Use forked version
     init = function()
       palette "ts_rainbow" {
-        function(colors)
+        nord = function(colors)
           api.set_hl(0, "rainbowcol1", { fg = colors.red })
           api.set_hl(0, "rainbowcol2", { fg = colors.orange })
           api.set_hl(0, "rainbowcol3", { fg = colors.magenta })
