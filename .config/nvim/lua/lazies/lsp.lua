@@ -544,6 +544,7 @@ return {
     keys = { { "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>" } },
     config = function()
       require("nvim-treesitter.configs").setup {
+        ensure_installed = "all",
         highlight = {
           enable = true,
         },
@@ -556,6 +557,7 @@ return {
             node_decremental = "grm",
           },
         },
+        indent = { enable = true },
         playground = {
           enable = true,
           disable = {},
