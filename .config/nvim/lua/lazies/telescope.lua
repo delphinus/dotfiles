@@ -228,9 +228,16 @@ return {
           if path and path ~= "" then
             local st = uv.fs_stat(path)
             if st then
-              local db_client = require "telescope._extensions.frecency.db_client"
-              db_client.init(nil, nil, true, true)
-              db_client.autocmd_handler(args.match)
+              local ok, db_client = pcall(require, "telescope._extensions.frecency.db_client")
+              if ok then
+                db_client.init(nil, nil, true, true)
+                db_client.autocmd_handler(path)
+              else
+                local ok, db = pcall(require, "frecency.db")
+                if ok then
+                  db.update(path)
+                end
+              end
             end
           end
         end,
