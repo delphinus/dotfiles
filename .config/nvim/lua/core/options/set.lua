@@ -57,6 +57,8 @@ vim.opt.formatlistpat = [[^\s*\%(\d\+\|[-a-z]\)\%(\ -\|[]:.)}\t]\)\?\s\+]]
 vim.opt.fixendofline = false
 vim.opt.showbreak = [[→]]
 vim.opt.smartindent = true
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- }}}
 
 -- ColorScheme {{{
