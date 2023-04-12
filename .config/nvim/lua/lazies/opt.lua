@@ -81,8 +81,8 @@ return {
   {
     "dhruvasagar/vim-table-mode",
     cmd = { "TableModeToggle" },
-    keys = { { "`tm", [[<Cmd>TableModeToggle<CR>]] } },
     init = function()
+      vim.g.table_mode_map_prefix = "`t"
       vim.g.table_mode_corner = "|"
     end,
   },
