@@ -27,6 +27,11 @@ function Lualine:config()
   -- TODO: borrow from set.lua
   local home_re = uv.os_homedir():gsub("%.", "%.")
   local package_root_re = (fn.stdpath "data" .. "/site/pack/packer/"):gsub("%.", "%.")
+  local lazy_root_re
+  local ok, lazy_config = pcall(require, "lazy.core.config")
+  if ok then
+    lazy_root_re = lazy_config.options.root:gsub("%.", "%.") .. "/"
+  end
   local function title()
     if vim.opt.filetype:get() == "help" then
       return "ヘルプ"
@@ -40,12 +45,16 @@ function Lualine:config()
     if package_root_re then
       filename = filename:gsub(package_root_re, "", 1)
     end
+    if lazy_root_re then
+      filename = filename:gsub(lazy_root_re, "", 1)
+    end
     if vim.g.gh_e_host then
       filename = filename:gsub("^" .. home_re .. "/git/" .. vim.g.gh_e_host .. "/", "", 1)
     end
-    local result =
-      filename:gsub("^" .. home_re .. "/git/github%.com/", "", 1):gsub("^" .. home_re, "~", 1):gsub("/[^/]+$", "", 1)
-    return #result <= 40 and result or "……" .. result:sub(-38, -1)
+    return filename
+      :gsub("^" .. home_re .. "/git/github%.com/", "", 1)
+      :gsub("^" .. home_re, "~", 1)
+      :gsub("/[^/]+$", "", 1)
   end
 
   require("lualine").setup {
@@ -129,7 +138,7 @@ function Lualine:config()
       lualine_z = { { "location", fmt = self:tr { 50, 0 } } },
     },
     tabline = {
-      lualine_b = { { title, color = { fg = colors.yellow } } },
+      lualine_b = { { title, fmt = self:tr { { 120, 0 } }, color = { fg = colors.yellow } } },
       lualine_f = {
         {
           self:noice "message" "get",

@@ -23,8 +23,8 @@ return {
     },
 
     init = function()
-      palette {
-        lspconfig = function(colors)
+      palette "lspconfig" {
+        nord = function(colors)
           api.set_hl(0, "DiagnosticError", { fg = colors.red })
           api.set_hl(0, "DiagnosticWarn", { fg = colors.orange })
           api.set_hl(0, "DiagnosticInfo", { fg = colors.bright_cyan })
@@ -474,8 +474,8 @@ return {
   ts {
     "m-demare/hlargs.nvim",
     init = function()
-      palette {
-        hlargs = function(colors)
+      palette "hlargs" {
+        nord = function(colors)
           api.set_hl(0, "Hlarg1", { fg = colors.brighter_red })
           api.set_hl(0, "Hlarg2", { fg = colors.orange })
           api.set_hl(0, "Hlarg3", { fg = colors.magenta })
@@ -523,8 +523,8 @@ return {
     --"p00f/nvim-ts-rainbow",
     "mrjones2014/nvim-ts-rainbow", -- Use forked version
     init = function()
-      palette {
-        ts_rainbow = function(colors)
+      palette "ts_rainbow" {
+        nord = function(colors)
           api.set_hl(0, "rainbowcol1", { fg = colors.red })
           api.set_hl(0, "rainbowcol2", { fg = colors.orange })
           api.set_hl(0, "rainbowcol3", { fg = colors.magenta })
@@ -544,6 +544,7 @@ return {
     keys = { { "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>" } },
     config = function()
       require("nvim-treesitter.configs").setup {
+        ensure_installed = "all",
         highlight = {
           enable = true,
         },
@@ -556,6 +557,7 @@ return {
             node_decremental = "grm",
           },
         },
+        indent = { enable = true },
         playground = {
           enable = true,
           disable = {},

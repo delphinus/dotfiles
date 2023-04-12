@@ -14,8 +14,9 @@ return {
       { "nvim-lua/popup.nvim" },
       { "nvim-telescope/telescope-file-browser.nvim" },
       {
-        --"nvim-telescope/telescope-frecency.nvim",
-        "delphinus/telescope-frecency.nvim",
+        "nvim-telescope/telescope-frecency.nvim",
+        --"delphinus/telescope-frecency.nvim",
+        branch = "refactor-again",
         dependencies = { "kkharji/sqlite.lua" },
       },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -47,8 +48,8 @@ return {
       local keymap = vim.keymap
       local frecency = require "core.telescope.frecency"
 
-      palette {
-        telescope = function(colors)
+      palette "telescope" {
+        nord = function(colors)
           api.set_hl(0, "TelescopeMatching", { fg = colors.magenta })
           api.set_hl(0, "TelescopePreviewBorder", { fg = colors.green })
           api.set_hl(0, "TelescopePromptBorder", { fg = colors.cyan })
@@ -227,9 +228,16 @@ return {
           if path and path ~= "" then
             local st = uv.fs_stat(path)
             if st then
-              local db_client = require "telescope._extensions.frecency.db_client"
-              db_client.init(nil, nil, true, true)
-              db_client.autocmd_handler(args.match)
+              local ok, db_client = pcall(require, "telescope._extensions.frecency.db_client")
+              if ok then
+                db_client.init(nil, nil, true, true)
+                db_client.autocmd_handler(path)
+              else
+                local ok, db = pcall(require, "frecency.db")
+                if ok then
+                  db.update(path)
+                end
+              end
             end
           end
         end,

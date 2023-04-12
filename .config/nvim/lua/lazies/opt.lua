@@ -21,7 +21,7 @@ return {
       language_specific_highlights = false,
     },
     config = function()
-      palette {
+      palette "nord" {
         nord = function(colors)
           api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
           api.set_hl(0, "Delimiter", { fg = colors.blue })
@@ -47,8 +47,8 @@ return {
     },
     cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
     init = function()
-      palette {
-        toggleterm = function(colors)
+      palette "toggleterm" {
+        nord = function(colors)
           api.set_hl(0, "WinBorderTop", { fg = colors.border })
           api.set_hl(0, "WinBorderLeft", { fg = colors.border })
           api.set_hl(0, "WinBorderRight", { fg = colors.border })
@@ -81,8 +81,8 @@ return {
   {
     "dhruvasagar/vim-table-mode",
     cmd = { "TableModeToggle" },
-    keys = { { "`tm", [[<Cmd>TableModeToggle<CR>]] } },
     init = function()
+      vim.g.table_mode_map_prefix = "`t"
       vim.g.table_mode_corner = "|"
     end,
   },
@@ -245,8 +245,8 @@ return {
     "LumaKernel/nvim-visual-eof.lua",
     event = { "BufRead", "BufNewFile" },
     init = function()
-      palette {
-        visual_eof = function(colors)
+      palette "visual_eof" {
+        nord = function(colors)
           api.set_hl(0, "VisualEOL", { fg = colors.green })
           api.set_hl(0, "VisualNoEOL", { fg = colors.red })
         end,
@@ -331,9 +331,11 @@ return {
         "rcarriga/nvim-notify",
         opts = {
           render = "minimal",
+          --[[
           background_colour = function()
             return palette.colors.black
           end,
+          ]]
           level = "trace",
           on_open = function(win)
             api.win_set_config(win, { focusable = false })
@@ -355,8 +357,8 @@ return {
         _G.__vim_notify_overwritten = true
       end
 
-      palette {
-        noice = function(colors)
+      palette "noice" {
+        nord = function(colors)
           api.set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
           api.set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
           api.set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
@@ -414,8 +416,8 @@ return {
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
     init = function()
-      palette {
-        context_vt = function(colors)
+      palette "context_vt" {
+        nord = function(colors)
           api.set_hl(0, "ContextVt", { fg = colors.context })
         end,
       }
@@ -471,8 +473,8 @@ return {
       },
     },
     init = function()
-      palette {
-        gitsigns = function(colors)
+      palette "gitsigns" {
+        nord = function(colors)
           api.set_hl(0, "GitSignsAdd", { fg = colors.green })
           api.set_hl(0, "GitSignsChange", { fg = colors.yellow })
           api.set_hl(0, "GitSignsDelete", { fg = colors.red })
@@ -538,8 +540,8 @@ return {
     "lukas-reineke/virt-column.nvim",
     event = { "FocusLost", "CursorHold" },
     config = function()
-      palette {
-        virt_column = function(colors)
+      palette "virt_column" {
+        nord = function(colors)
           api.set_hl(0, "ColorColumn", { bg = "NONE" })
           api.set_hl(0, "VirtColumn", { fg = colors.brighter_black })
         end,
@@ -791,8 +793,8 @@ return {
       { [['k]], mode = { "n", "v" } },
     },
     init = function()
-      palette {
-        hop = function(colors)
+      palette "hop" {
+        nord = function(colors)
           api.set_hl(0, "HopNextKey", { fg = colors.orange, bold = true })
           api.set_hl(0, "HopNextKey1", { fg = colors.cyan, bold = true })
           api.set_hl(0, "HopNextKey2", { fg = colors.dark_white })
@@ -961,8 +963,8 @@ return {
       vim.g.fuzzy_motion_matchers = "kensaku"
     end,
     config = function()
-      palette {
-        fuzzy_motion = function(colors)
+      palette "fuzzy_motion" {
+        nord = function(colors)
           api.set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
           api.set_hl(0, "FuzzyMotionChar", { fg = colors.red })
           api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
@@ -978,8 +980,8 @@ return {
     "uga-rosa/ccc.nvim",
     event = { "BufEnter" },
     config = function()
-      palette {
-        ccc = function(colors)
+      palette "ccc" {
+        function(colors)
           local ccc = require "ccc"
           ccc.setup {
             highlighter = { auto_enable = true },
@@ -988,8 +990,17 @@ return {
               ccc.picker.custom_entries(colors),
             },
           }
+          vim.print(colors)
         end,
       }
+    end,
+  },
+
+  {
+    "hrsh7th/nvim-insx",
+    event = { "InsertEnter" },
+    config = function()
+      require("insx.preset.standard").setup()
     end,
   },
 }
