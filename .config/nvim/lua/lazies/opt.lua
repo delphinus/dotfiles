@@ -930,7 +930,11 @@ return {
   { "delphinus/characterize.nvim", config = true },
   { "delphinus/f_meta.nvim" },
   { "delphinus/lazy_require.nvim" },
-  { "nvim-lua/plenary.nvim" },
+  {
+    --"nvim-lua/plenary.nvim",
+    "delphinus/plenary.nvim",
+    branch = "feature/scan_dir_async_cancel",
+  },
 
   {
     "mrjones2014/op.nvim",
