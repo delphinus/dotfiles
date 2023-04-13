@@ -994,7 +994,6 @@ return {
               ccc.picker.custom_entries(colors),
             },
           }
-          vim.print(colors)
         end,
       }
     end,
