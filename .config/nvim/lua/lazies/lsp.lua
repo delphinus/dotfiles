@@ -261,6 +261,7 @@ return {
       local command_resolver = require "null-ls.helpers.command_resolver"
       --local log = require "null-ls.logger"
       local utils = require "null-ls.utils"
+      local methods = require "null-ls.methods"
 
       local function is_for_node(to_use)
         return function()
@@ -410,8 +411,6 @@ return {
           },
           ]]
 
-          -- TODO: use perlnavigator instead
-          --[[
           helpers.make_builtin {
             name = "efm-perl",
             meta = { url = "https://example.com", description = "TODO" },
@@ -426,7 +425,6 @@ return {
             },
             factory = helpers.generator_factory,
           },
-          ]]
         },
 
         --on_attach = on_attach,
