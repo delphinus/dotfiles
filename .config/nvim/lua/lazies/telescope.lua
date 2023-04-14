@@ -224,7 +224,7 @@ return {
       api.create_autocmd({ "BufWinEnter", "BufWritePost" }, {
         group = api.create_augroup("TelescopeFrecency", {}),
         callback = function(args)
-          local path = args.match
+          local path = vim.api.nvim_buf_get_name(args.buf)
           if path and path ~= "" then
             local st = uv.fs_stat(path)
             if st then
