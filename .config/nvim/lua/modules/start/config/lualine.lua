@@ -292,7 +292,7 @@ function Lualine:char_info() -- luacheck: ignore 212
   end
 end
 
----@return fun() -> string
+---@return fun(): string
 function Lualine:tag() -- luacheck: ignore 212
   return function()
     if not package.loaded["nvim-treesitter"] then
@@ -300,7 +300,7 @@ function Lualine:tag() -- luacheck: ignore 212
     end
     ---@return string | nil
     local treesitter_tag = function()
-      local tag = require("nvim-treesitter").statusline {
+      local tag = require("nvim-treesitter.statusline").statusline {
         separator = " » ",
         ---@param t string
         transform_fn = function(t)
