@@ -1,0 +1,4 @@
+set -x FJ_API_CONFIG {{ lookup('env', 'DEFAULT_API_CONFIG') }}
+set -x DEIN_GITHUB_TOKEN {{ lookup('env', 'DEIN_GITHUB_TOKEN') }}
+set -x GOPRIVATE '{{ lookup('env', 'GOPRIVATE') }}'
+{# vim: se ft=fish.jinja: #}
