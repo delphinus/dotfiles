@@ -170,6 +170,7 @@ vim.opt.virtualedit = "block"
 vim.opt.wildmode = "full"
 vim.opt.dictionary = "/usr/share/dict/words"
 vim.opt.exrc = true
+vim.opt.smoothscroll = true
 -- }}}
 
 -- OS specific {{{
