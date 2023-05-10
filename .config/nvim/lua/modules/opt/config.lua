@@ -154,7 +154,7 @@ return {
     local palette = require "core.utils.palette" "nord"
     api.set_hl(0, "ContextVt", { fg = palette.context })
     require("nvim_context_vt").setup {
-      prefix = "󾪜",
+      prefix = "",
       highlight = "ContextVt",
     }
   end,
