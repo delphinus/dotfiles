@@ -63,16 +63,18 @@ end
 
 local function need_me(client, bufnr)
   local name = client.config.name
-  if name ~= "tsserver" and name ~= "denols" then
-    return true
+  if name == "tsserver" or name == "denols" then
+    local util = require "lspconfig.util"
+    local parent_dir = util.path.dirname(api.buf_get_name(bufnr))
+    local deno_found = util.search_ancestors(parent_dir, is_deno_dir) and true or false
+    if name == "tsserver" then
+      return not deno_found
+    end
+    return deno_found
+  elseif name == "null-ls" then
+    return vim.opt.filetype:get() ~= "octo"
   end
-  local util = require "lspconfig.util"
-  local parent_dir = util.path.dirname(api.buf_get_name(bufnr))
-  local deno_found = util.search_ancestors(parent_dir, is_deno_dir) and true or false
-  if name == "tsserver" then
-    return not deno_found
-  end
-  return deno_found
+  return true
 end
 
 local function need_diagnostics(bufnr)
