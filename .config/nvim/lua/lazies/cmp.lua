@@ -181,6 +181,7 @@ return {
   i { "hrsh7th/cmp-nvim-lsp" },
   i { "lukas-reineke/cmp-rg" },
   i { "octaltree/cmp-look" },
+  i { "petertriho/cmp-git", opts = { github = { hosts = { vim.g.GITHUB_ENTERPRISE_HOST } } } },
   i { "ray-x/cmp-treesitter" },
   i { "uga-rosa/cmp-skkeleton" },
 
@@ -339,6 +340,7 @@ return {
         sources = {
           { name = "nvim_lsp" },
           { name = "nvim_lua" },
+          { name = "git" },
           { name = "ctags" },
           { name = "treesitter", trigger_characters = { "." }, option = {} },
           { name = "fish" },

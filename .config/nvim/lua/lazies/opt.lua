@@ -156,7 +156,7 @@ return {
     cmd = { "Octo" },
     keys = { { "<A-O>", ":Octo " } },
     opts = function()
-      return { github_hostname = vim.g.gh_e_host }
+      return { github_hostname = vim.g.GITHUB_ENTERPRISE_HOST }
     end,
   },
 
