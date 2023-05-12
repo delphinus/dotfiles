@@ -186,7 +186,7 @@ return {
     "delphinus/cmp-git",
     branch = "feature/detect-ssh-url",
     opts = function()
-      return { github = { hosts = { vim.g.GITHUB_ENTERPRISE_HOST } } }
+      return { github = { hosts = { vim.env.GITHUB_ENTERPRISE_HOST } } }
     end,
   },
   i { "ray-x/cmp-treesitter" },
