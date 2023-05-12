@@ -21,7 +21,7 @@
   "cmp-digraphs": { "branch": "master", "commit": "5efc1f0078d7c5f3ea1c8e3aad04da3fd6e081a9" },
   "cmp-emoji": { "branch": "main", "commit": "19075c36d5820253d32e2478b6aaf3734aeaafa0" },
   "cmp-fish": { "branch": "main", "commit": "8ae7bfb1b3251d433c4adf4e64396ef929fbd91f" },
-  "cmp-git": { "branch": "main", "commit": "a798a25b21e7204597f56029af2e8a17d65e2518" },
+  "cmp-git": { "branch": "feature/detect-ssh-url", "commit": "adc2b04668037e5ab3e0e55c90dc6e2f812cf701" },
   "cmp-look": { "branch": "master", "commit": "b39c50bcdf6199dddda56adc466c2bd9c951a960" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "0e6b2ed705ddcff9738ec4ea838141654f12eeef" },
   "cmp-nvim-lua": { "branch": "main", "commit": "f12408bdb54c39c23e67cab726264c10db33ada8" },
