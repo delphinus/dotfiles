@@ -1,3 +1,7 @@
+_G.pp = function(v)
+  print(vim.inspect(v, { newline = "", indent = "" }))
+end
+
 local fn, uv = require("core.utils").globals()
 
 local pack_path = fn.stdpath "data" .. "/lazy/"
