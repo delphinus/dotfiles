@@ -181,7 +181,12 @@ return {
   i { "hrsh7th/cmp-nvim-lsp" },
   i { "lukas-reineke/cmp-rg" },
   i { "octaltree/cmp-look" },
-  i { "petertriho/cmp-git", opts = { github = { hosts = { vim.g.GITHUB_ENTERPRISE_HOST } } } },
+  i {
+    "petertriho/cmp-git",
+    opts = function()
+      return { github = { hosts = { vim.g.GITHUB_ENTERPRISE_HOST } } }
+    end,
+  },
   i { "ray-x/cmp-treesitter" },
   i { "uga-rosa/cmp-skkeleton" },
 
