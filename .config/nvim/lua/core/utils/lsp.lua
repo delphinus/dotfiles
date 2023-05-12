@@ -72,7 +72,7 @@ local function need_me(client, bufnr)
     end
     return deno_found
   elseif name == "null-ls" then
-    return vim.opt.filetype:get() ~= "octo"
+    return vim.bo[bufnr].filetype ~= "octo"
   end
   return true
 end
