@@ -155,8 +155,22 @@ return {
     "pwntester/octo.nvim",
     cmd = { "Octo" },
     keys = { { "<A-O>", ":Octo " } },
-    opts = function()
-      return { github_hostname = vim.env.GITHUB_ENTERPRISE_HOST }
+    init = function()
+      api.create_user_command("ReviewList", "Octo search review-requested:@me is:open is:pr archived:false", {})
+      api.create_user_command(
+        "ReviewAgainList",
+        "Octo search reviewed-by:@me -review:approved is:open is:pr archived:false",
+        {}
+      )
+      api.create_user_command(
+        "ReviewDoneList",
+        "Octo search reviewed-by:@me review:approved is:open is:pr archived:false",
+        {}
+      )
+    end,
+    config = function()
+      vim.treesitter.language.register("markdown", "octo")
+      require("octo").setup { github_hostname = vim.env.GITHUB_ENTERPRISE_HOST }
     end,
   },
 
