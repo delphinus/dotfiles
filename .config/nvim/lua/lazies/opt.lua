@@ -167,6 +167,14 @@ return {
         "Octo search reviewed-by:@me review:approved is:open is:pr archived:false",
         {}
       )
+      api.create_autocmd("FileType", {
+        pattern = "octo",
+        callback = function()
+          vim.keymap.set("n", "<CR>", function()
+            require("octo.navigation").go_to_issue()
+          end, { buffer = true })
+        end,
+      })
     end,
     config = function()
       vim.treesitter.language.register("markdown", "octo")
