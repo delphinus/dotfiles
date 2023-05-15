@@ -152,7 +152,9 @@ return {
   { "powerman/vim-plugin-AnsiEsc", cmd = { "AnsiEsc" } },
 
   {
-    "pwntester/octo.nvim",
+    --"pwntester/octo.nvim",
+    "delphinus/octo.nvim",
+    branch = "feature/goto-issue",
     cmd = { "Octo" },
     keys = { { "<A-O>", ":Octo " } },
     init = function()
