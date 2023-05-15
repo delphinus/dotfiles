@@ -173,6 +173,9 @@ return {
           vim.keymap.set("n", "<CR>", function()
             require("octo.navigation").go_to_issue()
           end, { buffer = true })
+          vim.keymap.set("n", "K", function()
+            require("octo").on_cursor_hold()
+          end, { buffer = true })
         end,
       })
     end,
