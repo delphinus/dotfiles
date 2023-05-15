@@ -587,8 +587,7 @@ return {
     "nvim-lualine/lualine.nvim",
     event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = {
-      --{ "kyazdani42/nvim-web-devicons", opt = true },
-      { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square" },
+      { "kyazdani42/nvim-web-devicons", opt = true },
       { "delphinus/eaw.nvim" },
     },
     init = function()
