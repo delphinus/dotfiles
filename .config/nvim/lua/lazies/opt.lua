@@ -152,11 +152,38 @@ return {
   { "powerman/vim-plugin-AnsiEsc", cmd = { "AnsiEsc" } },
 
   {
-    "pwntester/octo.nvim",
+    --"pwntester/octo.nvim",
+    "delphinus/octo.nvim",
+    branch = "feature/goto-issue",
     cmd = { "Octo" },
     keys = { { "<A-O>", ":Octo " } },
-    opts = function()
-      return { github_hostname = vim.g.gh_e_host }
+    init = function()
+      api.create_user_command("ReviewList", "Octo search review-requested:@me is:open is:pr archived:false", {})
+      api.create_user_command(
+        "ReviewAgainList",
+        "Octo search reviewed-by:@me -review:approved is:open is:pr archived:false",
+        {}
+      )
+      api.create_user_command(
+        "ReviewDoneList",
+        "Octo search reviewed-by:@me review:approved is:open is:pr archived:false",
+        {}
+      )
+      api.create_autocmd("FileType", {
+        pattern = "octo",
+        callback = function()
+          vim.keymap.set("n", "<CR>", function()
+            require("octo.navigation").go_to_issue()
+          end, { buffer = true })
+          vim.keymap.set("n", "K", function()
+            require("octo").on_cursor_hold()
+          end, { buffer = true })
+        end,
+      })
+    end,
+    config = function()
+      vim.treesitter.language.register("markdown", "octo")
+      require("octo").setup { github_hostname = vim.env.GITHUB_ENTERPRISE_HOST }
     end,
   },
 
@@ -404,8 +431,8 @@ return {
         TODO = { icon = "", color = "info" },
         HACK = { icon = "", color = "warning" },
         WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
-        PERF = { icon = "", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-        NOTE = { icon = "", color = "hint", alt = { "INFO" } },
+        PERF = { icon = "󰅒", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = "󰍨", color = "hint", alt = { "INFO" } },
         TEST = { icon = "", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
       },
     },
@@ -423,7 +450,7 @@ return {
       }
     end,
     opts = {
-      prefix = "󾪜",
+      prefix = "",
       highlight = "ContextVt",
     },
   },
@@ -560,8 +587,7 @@ return {
     "nvim-lualine/lualine.nvim",
     event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = {
-      --{ "kyazdani42/nvim-web-devicons", opt = true },
-      { "delphinus/nvim-web-devicons", branch = "feature/sfmono-square" },
+      { "kyazdani42/nvim-web-devicons", opt = true },
       { "delphinus/eaw.nvim" },
     },
     init = function()

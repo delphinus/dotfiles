@@ -1,3 +1,7 @@
+_G.pp = function(v)
+  vim.notify(vim.inspect(v, { newline = "", indent = "" }))
+end
+
 local fn, uv = require("core.utils").globals()
 
 local pack_path = fn.stdpath "data" .. "/lazy/"
@@ -54,18 +58,18 @@ require("lazy").setup(plugins, {
     icons = {
       loaded = "●",
       not_loaded = "○",
-      cmd = "󾯇",
+      cmd = "",
       config = "",
-      event = "󾪆",
+      event = "",
       ft = "",
       init = "",
       keys = "",
       plugin = "",
       runtime = "",
       source = "",
-      start = "󾫓",
+      start = "",
       task = "✔",
-      lazy = "",
+      lazy = "󰒲",
       list = {
         "●",
         "→",

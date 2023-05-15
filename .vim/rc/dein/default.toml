@@ -378,7 +378,7 @@ hook_add = ''' "{{{
   "   U+E60e
   "   U+E769
   "   U+E7C4
-  "   U+f542
+  " 󰁃  U+f542
   let g:webdevicons_enable_nerdtree = 0
   let g:WebDevIconsUnicodeByteOrderMarkerDefaultSymbol = "\ue287"
   let g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = "\uf07b"

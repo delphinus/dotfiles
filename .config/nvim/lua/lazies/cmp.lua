@@ -181,6 +181,14 @@ return {
   i { "hrsh7th/cmp-nvim-lsp" },
   i { "lukas-reineke/cmp-rg" },
   i { "octaltree/cmp-look" },
+  i {
+    --"petertriho/cmp-git",
+    "delphinus/cmp-git",
+    branch = "feature/detect-ssh-url",
+    opts = function()
+      return { github = { hosts = { vim.env.GITHUB_ENTERPRISE_HOST } } }
+    end,
+  },
   i { "ray-x/cmp-treesitter" },
   i { "uga-rosa/cmp-skkeleton" },
 
@@ -250,41 +258,15 @@ return {
           digraphs = "[D]",
           emoji = "[E]",
           fish = "[F]",
+          git = "[G]",
           look = "[LK]",
+          luasnip = "[S]",
           nvim_lsp = "[L]",
           nvim_lua = "[LU]",
           path = "[P]",
           rg = "[R]",
-          luasnip = "[S]",
           tmux = "[T]",
           treesitter = "[TS]",
-        },
-        symbol_map = {
-          Text = "󾪓", -- 0xFEA93
-          Method = "󾪌", -- 0xFEA8C
-          Function = "󾪌", -- 0xFEA8C
-          Constructor = "󾪌", -- 0xFEA8C
-          Field = "󾭟", -- 0xFEB5F
-          Variable = "󾪈", -- 0xFEA88
-          Class = "󾭛", -- 0xFEB5B
-          Interface = "󾭡", -- 0xFEB61
-          Module = "󾪋", -- 0xFEA8B
-          Property = "󾭥", -- 0xFEB65
-          Unit = "󾪖", -- 0xFEA96
-          Value = "󾪕", -- 0xFEA95
-          Enum = "󾪕", -- 0xFEA95
-          Keyword = "󾭢", -- 0xFEB62
-          Snippet = "󾭦", -- 0xFEB66
-          Color = "󾭜", -- 0xFEB5C
-          File = "󾩻", -- 0xFEA7B
-          Reference = "󾪔", -- 0xFEA94
-          Folder = "󾪃", -- 0xFEA83
-          EnumMember = "󾪕", -- 0xFEA95
-          Constant = "󾭝", -- 0xFEB5D
-          Struct = "󾪑", -- 0xFEA91
-          Event = "󾪆", -- 0xFEA86
-          Operator = "󾭤", -- 0xFEB64
-          TypeParameter = "󾪒", -- 0xFEA92
         },
       }
 
@@ -339,6 +321,7 @@ return {
         sources = {
           { name = "nvim_lsp" },
           { name = "nvim_lua" },
+          { name = "git" },
           { name = "ctags" },
           { name = "treesitter", trigger_characters = { "." }, option = {} },
           { name = "fish" },

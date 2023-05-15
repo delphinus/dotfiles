@@ -16,7 +16,7 @@ hook_source = ''' "{{{
   "   U+E0A2
   "   U+E5FE
   "   U+E5FF
-  "   U+E92B
+  " 󰔬  U+E92B
   call defx#custom#column('filename', #{
         \ directory_icon: "\ue5ff ",
         \ root_icon: "\ue5fe ",
