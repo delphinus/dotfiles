@@ -176,7 +176,30 @@ return {
     end,
     config = function()
       vim.treesitter.language.register("markdown", "octo")
-      require("octo").setup { github_hostname = vim.env.GITHUB_ENTERPRISE_HOST }
+      palette "octo-setup" {
+        function(colors)
+          require("octo").setup {
+            user_icon = "",
+            outdated_icon = "󰅒",
+            resolved_icon = "",
+            colors = {
+              white = colors.white,
+              grey = colors.bright_black,
+              black = colors.black,
+              red = colors.brighter_red,
+              dark_red = colors.red,
+              green = colors.green,
+              dark_green = colors.nord7,
+              yellow = colors.yellow,
+              dark_yellow = colors.orange,
+              blue = colors.blue,
+              dark_blue = colors.dark_blue,
+              purple = colors.magenta,
+            },
+            github_hostname = vim.env.GITHUB_ENTERPRISE_HOST,
+          }
+        end,
+      }
     end,
   },
 
