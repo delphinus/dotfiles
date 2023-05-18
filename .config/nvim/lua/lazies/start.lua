@@ -32,7 +32,7 @@ return {
 
   non_lazy {
     "delphinus/cellwidths.nvim",
-    tag = "v2.2.0",
+    tag = "v3.0.1",
     build = ":CellWidthsRemove",
     config = function()
       --[[
