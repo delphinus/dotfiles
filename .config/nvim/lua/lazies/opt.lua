@@ -162,17 +162,6 @@ return {
     cmd = { "Octo" },
     keys = { { "<A-O>", ":Octo " } },
     init = function()
-      api.create_user_command("ReviewList", "Octo search review-requested:@me is:open is:pr archived:false", {})
-      api.create_user_command(
-        "ReviewAgainList",
-        "Octo search reviewed-by:@me -review:approved is:open is:pr archived:false",
-        {}
-      )
-      api.create_user_command(
-        "ReviewDoneList",
-        "Octo search reviewed-by:@me review:approved is:open is:pr archived:false",
-        {}
-      )
       api.create_autocmd("FileType", {
         pattern = "octo",
         callback = function()

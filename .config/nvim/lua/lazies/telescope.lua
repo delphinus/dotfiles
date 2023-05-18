@@ -128,6 +128,8 @@ return {
       keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {})
       keymap.set("n", "<Leader>fg", input_grep_string("Grep For ❯ ", builtin "grep_string"))
       keymap.set("n", "<Leader>fh", help_tags {})
+      keymap.set("n", "<Leader>fk", builtin "keymaps" {})
+      keymap.set("n", "<S-Space>", builtin "keymaps" {})
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
       keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
       keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = frecency.path_display })
@@ -434,6 +436,31 @@ return {
         },
       }
       require("yanky.config").setup(options)
+
+      -- Command palette
+      -- https://blog.atusy.net/2022/11/03/telescope-as-command-pallete/
+      for k, v in pairs(require "telescope.builtin") do
+        vim.keymap.set("n", "<Plug>(telescope-" .. k .. ")", v, { desc = ":Telescope " .. k })
+      end
+      for k, v in pairs(require "octo.mappings") do
+        vim.keymap.set("n", "<Plug>(Octo-" .. k .. ")", v, { desc = ":Octo " .. k })
+      end
+      vim.keymap.set(
+        "n",
+        "<Plug>(Octo-review-list)",
+        "<Cmd>Octo search review-requested:@me is:open is:pr archived:false<CR>",
+        {}
+      )
+      vim.keymap.set(
+        "n",
+        "<Plug>(Octo-review-again-list)",
+        "<Cmd>Octo search reviewed-by:@me -review:approved is:open is:pr archived:false<CR>"
+      )
+      vim.keymap.set(
+        "n",
+        "<Plug>(Octo-review-done-list)",
+        "<Cmd>Octo search reviewed-by:@me review:approved is:open is:pr archived:false<CR>"
+      )
     end,
   },
 }
