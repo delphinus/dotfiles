@@ -1,4 +1,5 @@
 local fn, uv, api = require("core.utils").globals()
+local octo = require "core.utils.octo"
 
 ---@class modules.start.config.lualine.Lualine
 ---@field is_lsp_available boolean
@@ -32,16 +33,28 @@ function Lualine:config()
   if ok then
     lazy_root_re = lazy_config.options.root:gsub("%.", "%.") .. "/"
   end
+
+  local function octo_host()
+    return "" .. (octo.current_host == octo.enterprise_host and " Ent" or ".com")
+  end
+
+  local function octo_color()
+    return octo.current_host == octo.enterprise_host and { fg = colors.green, bg = colors.bright_black }
+      or { fg = colors.black, bg = colors.orange }
+  end
+
   local function title()
-    if vim.opt.filetype:get() == "help" then
+    local filename = api.buf_get_name(0)
+    if vim.o.filetype == "octo_panel" or filename:match "^octo://" then
+      return "octo.nvim: " .. (octo:current_repo() or "UNKNOWN")
+    elseif vim.o.filetype == "help" then
       return "ヘルプ"
       -- TODO: vim.opt has no 'previewwindow'?
-    elseif vim.opt.previewwindow:get() then
+    elseif vim.o.previewwindow then
       return "プレビュー"
-    elseif vim.opt.buftype:get() == "terminal" then
+    elseif vim.o.buftype == "terminal" then
       return "TERM"
     end
-    local filename = api.buf_get_name(0)
     if package_root_re then
       filename = filename:gsub(package_root_re, "", 1)
     end
@@ -138,6 +151,7 @@ function Lualine:config()
       lualine_z = { { "location", fmt = self:tr { 50, 0 } } },
     },
     tabline = {
+      lualine_a = { { octo_host, fmt = self:tr { { 120, 0 } }, color = octo_color } },
       lualine_b = { { title, fmt = self:tr { { 120, 0 } }, color = { fg = colors.yellow } } },
       lualine_f = {
         {

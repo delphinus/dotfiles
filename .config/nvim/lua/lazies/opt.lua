@@ -173,29 +173,13 @@ return {
           end, { buffer = true })
         end,
       })
+      vim.keymap.set("n", "<Plug>(octo-toggle-enterprise)", function()
+        require("core.utils.octo"):toggle()
+      end, { desc = "Octo toggle .com ⇔ Enterprise" })
     end,
     config = function()
       vim.treesitter.language.register("markdown", "octo")
-      require("octo").setup {
-        user_icon = "",
-        outdated_icon = "󰅒",
-        resolved_icon = "",
-        colors = {
-          white = palette.colors.white,
-          grey = palette.colors.bright_black,
-          black = palette.colors.black,
-          red = palette.colors.brighter_red,
-          dark_red = palette.colors.red,
-          green = palette.colors.green,
-          dark_green = palette.colors.nord7,
-          yellow = palette.colors.yellow,
-          dark_yellow = palette.colors.orange,
-          blue = palette.colors.blue,
-          dark_blue = palette.colors.dark_blue,
-          purple = palette.colors.magenta,
-        },
-        github_hostname = vim.env.GITHUB_ENTERPRISE_HOST,
-      }
+      require("core.utils.octo"):setup()
     end,
   },
 
