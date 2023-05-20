@@ -41,8 +41,13 @@ function Octo:config()
   return vim.tbl_extend(
     "force",
     self.default_config,
-    { github_hostname = self.current_host == self.enterprise_host and self.current_host or nil }
+    { github_hostname = self:is_enterprise() and self.current_host or nil }
   )
+end
+
+---@return boolean
+function Octo:is_enterprise()
+  return self.current_host == self.enterprise_host
 end
 
 ---@return boolean
@@ -64,7 +69,7 @@ end
 
 ---@return nil
 function Octo:toggle()
-  self.current_host = self.current_host == self.enterprise_host and self.github_host or self.enterprise_host
+  self.current_host = self:is_enterprise() and self.github_host or self.enterprise_host
   self:setup()
 end
 
