@@ -253,7 +253,7 @@ return {
       local Path = require "plenary.path"
       local fb_actions = require "telescope._extensions.file_browser.actions"
 
-      local run_in_dir = function(name)
+      local run_builtin_in_dir = function(name)
         return function()
           local source = require("telescope.builtin")[name]
           local entry = actions_state.get_selected_entry()
@@ -263,6 +263,28 @@ return {
           else
             vim.notify(("This is not a directory: %s"):format(dir), vim.log.levels.ERROR)
           end
+        end
+      end
+
+      local run_octo_in_dir = function(name)
+        return function()
+          vim.notify("opening " .. name .. " in Octo")
+          local picker = require "octo.picker"
+          local utils = require "octo.utils"
+          local octo = require "core.utils.octo"
+          local entry = actions_state.get_selected_entry()
+          local dir = from_entry.path(entry)
+          if not fn.isdirectory(dir) then
+            vim.notify("This is not a directory: " .. dir, vim.log.levels.ERROR)
+            return
+          end
+          api.set_current_dir(dir)
+          local repo = utils.get_remote()
+          if octo.current_host ~= repo.host then
+            octo.current_host = repo.host
+            octo:setup()
+          end
+          picker[name] { repo = repo.name }
         end
       end
 
@@ -276,9 +298,11 @@ return {
         defaults = {
           mappings = {
             i = {
-              ["<C-a>"] = run_in_dir "find_files",
+              ["<A-i>"] = run_octo_in_dir "issues",
+              ["<A-p>"] = run_octo_in_dir "prs",
+              ["<C-a>"] = run_builtin_in_dir "find_files",
               ["<C-c>"] = actions.close,
-              ["<C-g>"] = run_in_dir "live_grep",
+              ["<C-g>"] = run_builtin_in_dir "live_grep",
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
               ["<C-s>"] = actions.select_horizontal,
@@ -291,11 +315,11 @@ return {
             },
             n = {
               ["<Space>"] = actions.toggle_selection,
-              ["<C-a>"] = run_in_dir "find_files",
+              ["<C-a>"] = run_builtin_in_dir "find_files",
               ["<C-b>"] = actions.results_scrolling_up,
               ["<C-c>"] = actions.close,
               ["<C-f>"] = actions.results_scrolling_down,
-              ["<C-g>"] = run_in_dir "live_grep",
+              ["<C-g>"] = run_builtin_in_dir "live_grep",
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
               ["<C-s>"] = actions.select_horizontal,
@@ -338,11 +362,11 @@ return {
                 ["<A-r>"] = fb_actions.rename,
                 ["<A-s>"] = fb_actions.toggle_all, -- Original: <C-s>
                 ["<A-y>"] = fb_actions.copy,
-                ["<C-a>"] = run_in_dir "find_files",
+                ["<C-a>"] = run_builtin_in_dir "find_files",
                 ["<C-d>"] = preview_scroll(3),
                 ["<C-e>"] = fb_actions.goto_home_dir,
                 ["<C-f>"] = fb_actions.toggle_browser,
-                ["<C-g>"] = run_in_dir "live_grep",
+                ["<C-g>"] = run_builtin_in_dir "live_grep",
                 ["<C-n>"] = actions.select_horizontal,
                 ["<C-o>"] = fb_actions.open,
                 ["<C-s>"] = actions.select_horizontal,
@@ -351,9 +375,9 @@ return {
                 ["<C-w>"] = fb_actions.goto_cwd,
               },
               n = {
-                ["<C-a>"] = run_in_dir "find_files",
+                ["<C-a>"] = run_builtin_in_dir "find_files",
                 ["<C-d>"] = preview_scroll(3),
-                ["<C-g>"] = run_in_dir "live_grep",
+                ["<C-g>"] = run_builtin_in_dir "live_grep",
                 ["<C-u>"] = preview_scroll(-3),
                 ["c"] = fb_actions.create,
                 ["d"] = fb_actions.remove,
