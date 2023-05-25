@@ -182,9 +182,7 @@ return {
   i { "lukas-reineke/cmp-rg" },
   i { "octaltree/cmp-look" },
   i {
-    --"petertriho/cmp-git",
-    "delphinus/cmp-git",
-    branch = "feature/detect-ssh-url",
+    "petertriho/cmp-git",
     opts = function()
       return { github = { hosts = { vim.env.GITHUB_ENTERPRISE_HOST } } }
     end,
