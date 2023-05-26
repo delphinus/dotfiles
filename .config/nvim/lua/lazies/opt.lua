@@ -158,7 +158,6 @@ return {
   {
     --"pwntester/octo.nvim",
     "delphinus/octo.nvim",
-    branch = "feature/goto-issue",
     cmd = { "Octo" },
     keys = { { "<A-O>", ":Octo " } },
     init = function()
