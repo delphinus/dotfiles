@@ -266,16 +266,25 @@ end
 
 ---@return string
 function Lualine:lsp_clients() -- luacheck: ignore 212
+  local function sep(str, s)
+    return str .. (#str > 0 and s or "")
+  end
   ---@type { id: integer, name: string }[]
   local clients = vim.lsp.get_active_clients { bufnr = 0 }
-  local result = ""
-  for _, client in pairs(clients) do
-    if result ~= "" then
-      result = result .. " "
+  return vim.iter(clients):fold("", function(result, client)
+    local additionals = ""
+    if client.name == "null-ls" then
+      local null_ls_sources = require "null-ls.sources"
+      local availables = null_ls_sources.get_available(vim.bo.filetype)
+      local sources = vim.iter(availables):fold("", function(a, b)
+        return sep(a, ",") .. b.name
+      end)
+      if #sources > 0 then
+        additionals = " [" .. sources .. "]"
+      end
     end
-    result = result .. ("%s(%d)"):format(client.name, client.id)
-  end
-  return result
+    return ("%s%s(%d)%s"):format(sep(result, " "), client.name, client.id, additionals)
+  end)
 end
 
 ---@return fun() -> string
