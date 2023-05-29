@@ -201,6 +201,8 @@ return {
     },
   },
 
+  i { "delphinus/cmp-ghq", dev = { path = "~/git/github.com/delphinus/cmp-ghq" }, opts = true },
+
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -256,6 +258,7 @@ return {
           digraphs = "[D]",
           emoji = "[E]",
           fish = "[F]",
+          ghq = "[Q]",
           git = "[G]",
           look = "[LK]",
           luasnip = "[S]",
@@ -317,6 +320,7 @@ return {
           end, { "i", "s" }),
         },
         sources = {
+          { name = "ghq" },
           { name = "nvim_lsp" },
           { name = "nvim_lua" },
           { name = "git" },
@@ -357,7 +361,10 @@ return {
         },
       }
       cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
-      cmp.setup.cmdline(":", { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }) })
+      cmp.setup.cmdline(
+        ":",
+        { sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" }, { name = "ghq" } }) }
+      )
 
       require("cmp.utils.debug").flag = vim.env.CMP_DEBUG ~= nil
     end,
