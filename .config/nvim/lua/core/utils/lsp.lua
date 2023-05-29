@@ -43,30 +43,28 @@ local lua_globals = {
   "it",
 }
 
-local function is_deno_dir(p)
-  local base = p:gsub([[.*/]], "")
-  for _, r in ipairs {
-    [[^deno]],
-    [[^ddc]],
-    [[^cmp%-look$]],
-    [[^neco%-vim$]],
-    [[^git%-vines$]],
-    [[^murus$]],
-    [[^skkeleton$]],
-  } do
-    if base:match(r) then
-      return true
-    end
-  end
-  return false
+local function is_deno_dir(name)
+  return vim
+    .iter({
+      [[^deno]],
+      [[^ddc]],
+      [[^cmp%-look$]],
+      [[^neco%-vim$]],
+      [[^git%-vines$]],
+      [[^murus$]],
+      [[^skkeleton$]],
+    })
+    :any(function(v)
+      return not not name:match(v)
+    end)
 end
 
 local function need_me(client, bufnr)
   local name = client.config.name
   if name == "tsserver" or name == "denols" then
     local util = require "lspconfig.util"
-    local parent_dir = util.path.dirname(api.buf_get_name(bufnr))
-    local deno_found = util.search_ancestors(parent_dir, is_deno_dir) and true or false
+    local parent_dir = vim.fs.dirname(api.buf_get_name(bufnr))
+    local deno_found = vim.fs.find(is_deno_dir, { path = parent_dir, upward = true })[1] and true or false
     if name == "tsserver" then
       return not deno_found
     end
