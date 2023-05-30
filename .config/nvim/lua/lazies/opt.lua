@@ -297,12 +297,6 @@ return {
   },
 
   {
-    "b0o/incline.nvim",
-    event = { "FocusLost", "CursorHold" },
-    config = true,
-  },
-
-  {
     "delphinus/auto-cursorline.nvim",
     event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
     config = true,
