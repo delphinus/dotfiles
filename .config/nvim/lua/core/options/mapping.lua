@@ -25,7 +25,6 @@ local function when_not_qf(f)
   end
 end
 
--- Open/Close quickfix window
 vim.keymap.set("n", "qq", function()
   local qflist = fn.getqflist { size = 0, winid = 0 }
   silent "lclose"
@@ -34,9 +33,8 @@ vim.keymap.set("n", "qq", function()
   else
     silent "cclose"
   end
-end)
+end, { desc = "Open/Close quickfix window" })
 
--- Open/Close location-list window
 vim.keymap.set(
   "n",
   "QQ",
@@ -48,33 +46,33 @@ vim.keymap.set(
     else
       silent "lclose"
     end
-  end)
+  end),
+  { desc = "Open/Close location-list window" }
 )
 
--- Clear quickfix window
 vim.keymap.set("n", "qc", function()
   vim.notify "clear quickfix list"
   fn.setqflist {}
-end)
+end, { desc = "Clear quickfix window" })
 
--- Clear location-list window
 vim.keymap.set(
   "n",
   "QC",
   when_not_qf(function()
     vim.notify "clear location list"
     fn.setloclist(0, {})
-  end)
+  end),
+  { desc = "Clear location-list window" }
 )
 
--- quit with `q` when started by `view`
 api.create_autocmd("VimEnter", {
+  desc = "Quit with `q` when started by `view`",
   group = api.create_augroup("set_mapping_for_view", {}),
   command = [[if &readonly | nnoremap q <Cmd>qa<CR> | endif]],
 })
 
--- The native implementation of vim-higlihghtedyank in NeoVim
 api.create_autocmd("TextYankPost", {
+  desc = "The native implementation of vim-higlihghtedyank in NeoVim",
   group = api.create_augroup("highlighted_yank", {}),
   callback = function()
     vim.highlight.on_yank { higroup = "StatusLine" }

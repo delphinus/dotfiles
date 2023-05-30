@@ -20,7 +20,7 @@ return {
       { "<F10>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
       { "<F13>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
       { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
-      { "<C-x><C-o>", lazy_require("cmp").complete(), mode = { "i" } },
+      { "<C-x><C-o>", lazy_require("cmp").complete(), mode = { "i" }, desc = "Complete by nvim-cmp" },
     },
     dependencies = {
       "denops.vim",
@@ -44,6 +44,7 @@ return {
       local g1 = api.create_augroup("skkeleton_callbacks", {})
       local cmp_config
       api.create_autocmd("User", {
+        desc = "Set up skkeleton settings with nvim-cmp",
         group = g1,
         pattern = "skkeleton-enable-pre",
         callback = function()
@@ -69,6 +70,7 @@ return {
         end,
       })
       api.create_autocmd("User", {
+        desc = "Restore the default settings for nvim-cmp",
         group = g1,
         pattern = "skkeleton-disable-pre",
         callback = function()
@@ -77,9 +79,16 @@ return {
       })
 
       local g2 = api.create_augroup("skkeleton_karabiner_elements", {})
-      api.create_autocmd({ "InsertEnter", "CmdlineEnter" }, { group = g2, callback = set_karabiner(1) })
-      api.create_autocmd({ "InsertLeave", "CmdlineLeave", "FocusLost" }, { group = g2, callback = set_karabiner(0) })
+      api.create_autocmd(
+        { "InsertEnter", "CmdlineEnter" },
+        { group = g2, callback = set_karabiner(1), desc = "Enable Karabiner-Elements settings for skkeleton" }
+      )
+      api.create_autocmd(
+        { "InsertLeave", "CmdlineLeave", "FocusLost" },
+        { group = g2, callback = set_karabiner(0), desc = "Disable Karabiner-Elements settings for skkeleton" }
+      )
       api.create_autocmd("FocusGained", {
+        desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
         group = g2,
         callback = function()
           local val = fn.mode():match "[icrR]" and 1 or 0
@@ -320,14 +329,12 @@ return {
           end, { "i", "s" }),
         },
         sources = {
-          { name = "ghq" },
           { name = "nvim_lsp" },
           { name = "nvim_lua" },
           { name = "git" },
           { name = "ctags" },
           { name = "treesitter", trigger_characters = { "." }, option = {} },
           { name = "fish" },
-          { name = "digraphs" },
           { name = "luasnip" },
           { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
           {
@@ -343,21 +350,28 @@ return {
               get_bufnrs = api.list_bufs,
             },
           },
+          { name = "ghq" },
           { name = "rg" },
+          { name = "digraphs" },
           { name = "emoji" },
           { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
         },
         formatting = {
           format = function(entry, vim_item)
             if ignore_duplicated_items[entry.source.name] then
-              vim_item.dup = true
+              vim_item.dup = 1
             end
             return lspkind_format(entry, vim_item)
           end,
         },
         window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
+          --completion = cmp.config.window.bordered(),
+          completion = vim.tbl_extend("force", cmp.config.window.bordered(), {
+            border = { { "⡠" }, { "⠤" }, { "⢄" }, { "⢸" }, { "⠊" }, { "⠒" }, { "⠑" }, { "⡇" } },
+          }),
+          documentation = vim.tbl_extend("force", cmp.config.window.bordered(), {
+            border = { { "⡠" }, { "⠤" }, { "⢄" }, { "⢸" }, { "⠊" }, { "⠒" }, { "⠑" }, { "⡇" } },
+          }),
         },
       }
       cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })

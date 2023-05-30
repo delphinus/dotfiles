@@ -42,7 +42,7 @@ end, { desc = "Show syntax highlight stack" })
 api.create_user_command("CleanUpStartUpTime", function()
   -- TODO: use Lua
   vim.env.PACKER = fn.stdpath "data" .. "/site/pack/packer"
-  local funcs = vim.tbl_map(function(v)
+  local funcs = vim.iter.map(function(v)
     return ("silent! %%s,%s,%s"):format(v.before, v.after)
   end, {
     { before = fn.expand "$VIMRUNTIME", after = "$VIMRUNTIME" },

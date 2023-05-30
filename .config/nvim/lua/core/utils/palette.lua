@@ -67,6 +67,7 @@ local function __call(self, name)
       },
     }
     api.create_autocmd("ColorScheme", {
+      desc = ("Set the palette for ColorScheme: %s"):format(name),
       group = api.create_augroup(name .. "-palette", {}),
       ---@param args { match: string }
       callback = function(args)

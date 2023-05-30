@@ -162,14 +162,15 @@ return {
     keys = { { "<A-O>", ":Octo " } },
     init = function()
       api.create_autocmd("FileType", {
+        desc = "Set up octo.nvim mappings",
         pattern = "octo",
         callback = function()
           vim.keymap.set("n", "<CR>", function()
             require("octo.navigation").go_to_issue()
-          end, { buffer = true })
+          end, { buffer = true, desc = "octo.navigation.go_to_issue" })
           vim.keymap.set("n", "K", function()
             require("octo").on_cursor_hold()
-          end, { buffer = true })
+          end, { buffer = true, desc = "octo.on_cursor_hold" })
         end,
       })
       vim.keymap.set("n", "<Plug>(octo-toggle-enterprise)", function()
@@ -254,10 +255,14 @@ return {
       vim.g.autodate_format = "%FT%T%z"
       local group = api.create_augroup("Autodate", {})
       api.create_autocmd({ "BufRead", "BufNewFile" }, {
+        desc = "Set up autodate.vim",
         group = group,
         once = true,
         callback = function()
-          api.create_autocmd({ "BufUnload", "FileWritePre", "BufWritePre" }, { group = group, command = "Autodate" })
+          api.create_autocmd(
+            { "BufUnload", "FileWritePre", "BufWritePre" },
+            { desc = "Run autodate.vim", group = group, command = "Autodate" }
+          )
         end,
       })
     end,
@@ -455,6 +460,7 @@ return {
     event = { "FocusLost", "CursorHold" },
     init = function()
       api.create_autocmd("ColorScheme", {
+        desc = "Set up highlight for vim-cursorword",
         group = api.create_augroup("cursorword-colors", {}),
         callback = function()
           api.set_hl(0, "CursorWord", { undercurl = true })
@@ -488,10 +494,12 @@ return {
       {
         "gL",
         lazy_require("gitsigns").setloclist(),
+        desc = "gitsigns.setloclist",
       },
       {
         "gQ",
         lazy_require("gitsigns").setqflist "all",
+        desc = 'gitsigns.setqflist "all"',
       },
     },
     init = function()
@@ -533,8 +541,8 @@ return {
         word_diff = true,
         on_attach = function(bufnr)
           local km = vim.keymap
-          km.set("n", "]c", gs "next_hunk", { buffer = bufnr })
-          km.set("n", "[c", gs "prev_hunk", { buffer = bufnr })
+          km.set("n", "]c", gs "next_hunk", { buffer = bufnr, desc = "gitsigns.next_hunk" })
+          km.set("n", "[c", gs "prev_hunk", { buffer = bufnr, desc = "gitsigns.prev_hunk" })
         end,
       }
 
@@ -571,6 +579,8 @@ return {
       local vt = require "virt-column"
       vt.setup { char = "⡂" }
       api.create_autocmd("TermEnter", {
+        desc = "Clear virt-column",
+        group = api.create_augroup("virt-column-clear", {}),
         callback = function()
           vt.clear_buf(0)
         end,
@@ -808,42 +818,6 @@ return {
   },
 
   {
-    "phaazon/hop.nvim",
-    keys = {
-      { [['j]], mode = { "n", "v" } },
-      { [['k]], mode = { "n", "v" } },
-    },
-    init = function()
-      palette "hop" {
-        nord = function(colors)
-          api.set_hl(0, "HopNextKey", { fg = colors.orange, bold = true })
-          api.set_hl(0, "HopNextKey1", { fg = colors.cyan, bold = true })
-          api.set_hl(0, "HopNextKey2", { fg = colors.dark_white })
-          api.set_hl(0, "HopUnmatched", { fg = colors.gray })
-        end,
-      }
-    end,
-    config = function()
-      local hop = require "hop"
-      hop.setup {
-        keys = "hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB",
-        extend_visual = true,
-      }
-      local direction = require("hop.hint").HintDirection
-      vim.keymap.set({ "n", "v" }, [['j]], function()
-        if fn.getcmdwintype() == "" then
-          hop.hint_lines { direction = direction.AFTER_CURSOR }
-        end
-      end)
-      vim.keymap.set({ "n", "v" }, [['k]], function()
-        if fn.getcmdwintype() == "" then
-          hop.hint_lines { direction = direction.BEFORE_CURSOR }
-        end
-      end)
-    end,
-  },
-
-  {
     "ruifm/gitlinker.nvim",
     keys = { { "gc", mode = { "n", "v" } } },
     dependencies = { "plenary.nvim" },
@@ -903,18 +877,18 @@ return {
       end
 
       -- Overwrite / and ?.
-      km.set({ "n", "x" }, "?", searchx "start" { dir = 0 })
-      km.set({ "n", "x" }, "/", searchx "start" { dir = 1 })
-      km.set("c", "<A-;>", searchx "select"())
+      km.set({ "n", "x" }, "?", searchx "start" { dir = 0, desc = "Start vim-searchx to the top" })
+      km.set({ "n", "x" }, "/", searchx "start" { dir = 1, desc = "Start vim-searchx to the bottom" })
+      km.set("c", "<A-;>", searchx "select"(), { desc = "searchx#select" })
 
       -- Move to next/prev match.
-      km.set({ "n", "x" }, "N", searchx "prev"())
-      km.set({ "n", "x" }, "n", searchx "next"())
-      km.set({ "c", "n", "x" }, "<A-z>", searchx "prev"())
-      km.set({ "c", "n", "x" }, "<A-x>", searchx "next"())
+      km.set({ "n", "x" }, "N", searchx "prev"(), { desc = "searchx#prev" })
+      km.set({ "n", "x" }, "n", searchx "next"(), { desc = "searchx#next" })
+      km.set({ "c", "n", "x" }, "<A-z>", searchx "prev"(), { desc = "searchx#prev" })
+      km.set({ "c", "n", "x" }, "<A-x>", searchx "next"(), { desc = "searchx#next" })
 
       -- Clear highlights
-      km.set("n", "<Esc><Esc>", searchx "clear"())
+      km.set("n", "<Esc><Esc>", searchx "clear"(), { desc = "searchx#clear" })
     end,
     config = function()
       fn["denops#plugin#register"]("kensaku", { mode = "skip" })
@@ -938,8 +912,8 @@ return {
             return input:sub(2)
           end
           -- If the input contains spaces, it tries fuzzy matching.
-          local converted = vim.tbl_map(fn["kensaku#query"], fn.split(input, " "))
-          return fn.join(converted, [[.\{-}]])
+          local converted = vim.iter.map(fn["kensaku#query"], vim.split(input, " "))
+          return table.concat(converted, [[.\{-}]])
         end,
       }
 

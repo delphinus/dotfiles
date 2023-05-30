@@ -82,14 +82,14 @@ return {
       end
 
       -- Lines
-      keymap.set("n", "#", builtin "current_buffer_fuzzy_find" {})
+      keymap.set("n", "#", builtin "current_buffer_fuzzy_find" {}, { desc = "Telescope current_buffer_fuzzy_find" })
 
       -- Files
-      keymap.set("n", "<Leader>fB", builtin "buffers" {})
+      keymap.set("n", "<Leader>fB", builtin "buffers" {}, { desc = "Telescope buffers" })
       keymap.set("n", "<Leader>fb", function()
         local cwd = fn.expand "%:h"
-        extensions("file_browser", "file_browser") { cwd = cwd == "" and nil or cwd }()
-      end)
+        extensions("file_browser", "file_browser") { cwd = cwd ~= "" and cwd or nil }()
+      end, { desc = "Telescope file_browser" })
       keymap.set("n", "<Leader>ff", function()
         local Path = require "plenary.path"
         -- TODO: stopgap measure
@@ -101,7 +101,7 @@ return {
         else
           builtin "find_files" { hidden = true }()
         end
-      end)
+      end, { desc = "Telescope git_files or find_files" })
 
       local function input_grep_string(prompt, func)
         return function()
@@ -122,18 +122,28 @@ return {
         end
       end
 
-      keymap.set("n", "<Leader>f:", builtin "command_history" {})
-      keymap.set("n", "<Leader>fG", builtin "grep_string" {})
-      keymap.set("n", "<Leader>fH", help_tags { lang = "en" })
-      keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {})
-      keymap.set("n", "<Leader>fg", input_grep_string("Grep For ❯ ", builtin "grep_string"))
-      keymap.set("n", "<Leader>fh", help_tags {})
-      keymap.set("n", "<Leader>fk", builtin "keymaps" {})
-      keymap.set("n", "<S-Space>", builtin "keymaps" {})
-      keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } })
-      keymap.set("n", "<Leader>fn", extensions("notify", "notify") {})
-      keymap.set("n", "<Leader>fo", extensions("frecency", "frecency") { path_display = frecency.path_display })
-      keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {})
+      keymap.set("n", "<Leader>f:", builtin "command_history" {}, { desc = "Telescope command_history" })
+      keymap.set("n", "<Leader>fG", builtin "grep_string" {}, { desc = "Telescope grep_string" })
+      keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
+      keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
+      keymap.set(
+        "n",
+        "<Leader>fg",
+        input_grep_string("Grep For ❯ ", builtin "grep_string"),
+        { desc = "Telescope grep_string" }
+      )
+      keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
+      keymap.set("n", "<Leader>fk", builtin "keymaps" {}, { desc = "Telescope keymaps" })
+      keymap.set("n", "<S-Space>", builtin "keymaps" {}, { desc = "Telescope keymaps" })
+      keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } }, { desc = "Telescope man_pages" })
+      keymap.set("n", "<Leader>fn", extensions("notify", "notify") {}, { desc = "Telescope notify" })
+      keymap.set(
+        "n",
+        "<Leader>fo",
+        extensions("frecency", "frecency") { path_display = frecency.path_display },
+        { desc = "Telescope frecency" }
+      )
+      keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {}, { desc = "Telescope ctags_outline" })
       keymap.set(
         "n",
         "<Leader>fq",
@@ -149,9 +159,10 @@ return {
             end)
             return true
           end,
-        }
+        },
+        { desc = "Telescope ghq" }
       )
-      keymap.set("n", "<Leader>fr", builtin "resume" {})
+      keymap.set("n", "<Leader>fr", builtin "resume" {}, { desc = "Telescope resume" })
 
       keymap.set(
         "n",
@@ -161,9 +172,10 @@ return {
           depth = false,
           hide_parent_dir = true,
           path = "$VIMRUNTIME",
-        }
+        },
+        { desc = "Telescope file_browser $VIMRUNTIME" }
       )
-      keymap.set("n", "<Leader>fy", extensions("yank_history", "yank_history") {})
+      keymap.set("n", "<Leader>fy", extensions("yank_history", "yank_history") {}, { desc = "Telescope yank_history" })
 
       keymap.set("n", "<Leader>fz", function()
         extensions("z", "list") {
@@ -186,43 +198,49 @@ return {
             end,
           },
         }()
-      end)
+      end, { desc = "Telescope z" })
 
       -- Memo
-      keymap.set("n", "<Leader>mm", extensions("memo", "list") {})
-      keymap.set("n", "<Leader>mg", input_grep_string("Memo Grep For ❯ ", extensions("memo", "grep_string")))
+      keymap.set("n", "<Leader>mm", extensions("memo", "list") {}, { desc = "Telescope memo" })
+      keymap.set(
+        "n",
+        "<Leader>mg",
+        input_grep_string("Memo Grep For ❯ ", extensions("memo", "grep_string")),
+        { desc = "Telescope memo grep_string" }
+      )
 
       -- LSP
-      keymap.set("n", "<Leader>sr", builtin "lsp_references" {})
+      keymap.set("n", "<Leader>sr", builtin "lsp_references" {}, { desc = "Telescope lsp_references" })
       keymap.set("n", "<Leader>sd", function()
         if vim.opt.filetype:get() == "perl" then
           extensions("ctags_outline", "outline") {}()
         else
           builtin "lsp_document_symbols" {}()
         end
-      end)
-      keymap.set("n", "<Leader>sw", builtin "lsp_workspace_symbols" {})
-      keymap.set("n", "<Leader>sc", builtin "lsp_code_actions" {})
+      end, { desc = "Telescope lsp_document_symbols or ctags_outline" })
+      keymap.set("n", "<Leader>sw", builtin "lsp_workspace_symbols" {}, { desc = "Telescope lsp_workspace_symbols" })
+      keymap.set("n", "<Leader>sc", builtin "lsp_code_actions" {}, { desc = "Telescope lsp_code_actions" })
 
       -- Git
-      keymap.set("n", "<Leader>gc", builtin "git_commits" {})
-      keymap.set("n", "<Leader>gb", builtin "git_bcommits" {})
-      keymap.set("n", "<Leader>gr", builtin "git_branches" {})
-      keymap.set("n", "<Leader>gs", builtin "git_status" {})
+      keymap.set("n", "<Leader>gc", builtin "git_commits" {}, { desc = "Telescope git_commits" })
+      keymap.set("n", "<Leader>gb", builtin "git_bcommits" {}, { desc = "Telescope git_bcommits" })
+      keymap.set("n", "<Leader>gr", builtin "git_branches" {}, { desc = "Telescope git_branches" })
+      keymap.set("n", "<Leader>gs", builtin "git_status" {}, { desc = "Telescope git_status" })
 
       -- Copied from telescope.nvim
-      keymap.set("n", "q:", builtin "command_history" {})
+      keymap.set("n", "q:", builtin "command_history" {}, { desc = "Telescope command_history" })
       keymap.set(
         "c",
         "<A-r>",
         [[<C-\>e ]]
           .. [["lua require'telescope.builtin'.command_history{]]
           .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
-        { silent = true }
+        { silent = true, desc = "Telescope command_history" }
       )
 
       -- for telescope-frecency
       api.create_autocmd({ "BufWinEnter", "BufWritePost" }, {
+        desc = "Set up telescope-frecency",
         group = api.create_augroup("TelescopeFrecency", {}),
         callback = function(args)
           local path = vim.api.nvim_buf_get_name(args.buf)
@@ -464,16 +482,15 @@ return {
       -- Command palette
       -- https://blog.atusy.net/2022/11/03/telescope-as-command-pallete/
       for k, v in pairs(require "telescope.builtin") do
-        vim.keymap.set("n", "<Plug>(telescope-" .. k .. ")", v, { desc = ":Telescope " .. k })
+        vim.keymap.set("n", "<Plug>(telescope-" .. k .. ")", v, { desc = "Telescope " .. k })
       end
       for k, v in pairs(require "octo.mappings") do
-        vim.keymap.set("n", "<Plug>(Octo-" .. k .. ")", v, { desc = ":Octo " .. k })
+        vim.keymap.set("n", "<Plug>(Octo-" .. k .. ")", v, { desc = "Octo " .. k })
       end
       vim.keymap.set(
         "n",
         "<Plug>(Octo-review-list)",
-        "<Cmd>Octo search review-requested:@me is:open is:pr archived:false<CR>",
-        {}
+        "<Cmd>Octo search review-requested:@me is:open is:pr archived:false<CR>"
       )
       vim.keymap.set(
         "n",

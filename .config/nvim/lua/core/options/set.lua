@@ -89,6 +89,7 @@ else
   scheme = "nord"
 end
 api.create_autocmd("VimEnter", {
+  desc = "Run ColorScheme autocmds in VimEnter",
   group = api.create_augroup("set_colorscheme", {}),
   callback = function()
     api.exec_autocmds("ColorScheme", { pattern = scheme })
@@ -119,12 +120,12 @@ local package_root_re = (fn.stdpath "data" .. "/site/pack/packer/"):gsub("%.", "
 local my_tabline_path = require "f_meta" {
   "my_tabline_path",
   function()
-    if vim.opt.filetype:get() == "help" then
+    if vim.bo.filetype == "help" then
       return "ヘルプ"
       -- TODO: vim.opt has no 'previewwindow'?
-    elseif vim.opt.previewwindow:get() then
+    elseif vim.wo.previewwindow then
       return "プレビュー"
-    elseif vim.opt.buftype:get() == "terminal" then
+    elseif vim.bo.buftype == "terminal" then
       return "TERM"
     end
     local filename = api.buf_get_name(0)
@@ -145,6 +146,7 @@ vim.opt.titlestring = ("%%{%s()}"):format(my_tabline_path:vim())
 -- grep {{{
 vim.opt.grepprg = "pt --nogroup --nocolor --"
 api.create_autocmd("QuickFixCmdPost", {
+  desc = "Open the quickfix window after running :vimgrep",
   group = api.create_augroup("open_quickfix_window", {}),
   pattern = "*grep*",
   command = [[cwindow]],
@@ -198,7 +200,7 @@ end
 -- Set $VIM into $PATH to search vim.exe itself.
 if fn.has "win32" == 1 then
   local re = vim.regex([[\(^\|;\)]] .. fn.escape(vim.env.VIM, [[\]]) .. [[\(;\|$\)]])
-  if re:match_str(vim.env.PATH) then
+  if re and re:match_str(vim.env.PATH) then
     vim.env.PATH = vim.env.VIM .. ";" .. vim.env.PATH
   end
 end

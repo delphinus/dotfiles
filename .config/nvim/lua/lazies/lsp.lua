@@ -48,10 +48,21 @@ return {
       fn.sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", text = "□" })
 
       api.create_autocmd("LspAttach", {
+        desc = "Enable LSP feature in my lualine",
         group = api.create_augroup("enable-lualine-lsp", {}),
         once = true,
         callback = function()
           require("modules.start.config.lualine").is_lsp_available = true
+        end,
+      })
+
+      api.create_autocmd("LspAttach", {
+        desc = "Call the default onAttach func",
+        group = api.create_augroup("common-lsp-on-attach", {}),
+        callback = function(args)
+          local bufnr = args.buf
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          require("core.utils.lsp").on_attach(client, bufnr)
         end,
       })
 
@@ -82,12 +93,6 @@ return {
       })
 
       local lsp = require "lspconfig"
-      local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      local capabilities
-      if ok then
-        local orig = vim.lsp.protocol.make_client_capabilities()
-        capabilities = cmp_nvim_lsp.default_capabilities(orig)
-      end
       local home_dir = function(p)
         return uv.os_homedir() .. (p or "")
       end
@@ -159,10 +164,11 @@ return {
       require("mason-lspconfig").setup_handlers {
         function(name)
           local config = server_configs[name] or {}
-          if capabilities then
-            config.capabilities = capabilities
+          local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+          if ok then
+            local orig = vim.lsp.protocol.make_client_capabilities()
+            config.capabilities = cmp_nvim_lsp.default_capabilities(orig)
           end
-          config.on_attach = require("core.utils.lsp").on_attach
           lsp[name].setup(config)
         end,
       }
@@ -426,9 +432,6 @@ return {
             factory = helpers.generator_factory,
           },
         },
-
-        --on_attach = on_attach,
-        on_attach = require("core.utils.lsp").on_attach,
       }
     end,
 
@@ -501,12 +504,13 @@ return {
           return true
         end
         local clients = vim.lsp.get_active_clients { bufnr = bufnr }
-        for _, c in ipairs(clients) do
+        local has_semantic_tokens = vim.iter(clients):any(function(c)
           local caps = c.server_capabilities
-          if c.name ~= "null-ls" and caps.semanticTokensProvider and caps.semanticTokensProvider.full then
-            vim.b[bufnr].semantic_tokens = true
-            return true
-          end
+          return c.name ~= "null-ls" and caps.semanticTokensProvider and caps.semanticTokensProvider.full
+        end)
+        if has_semantic_tokens then
+          vim.b[bufnr].semantic_tokens = true
+          return true
         end
       end,
     },

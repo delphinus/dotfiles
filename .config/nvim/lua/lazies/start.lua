@@ -107,6 +107,7 @@ return {
       }
 
       api.create_autocmd("ModeChanged", {
+        desc = "Change signs for SmoothCursor according to modes",
         callback = function()
           local colors = palette.colors
           local cursor = {
