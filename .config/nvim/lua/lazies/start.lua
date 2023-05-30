@@ -136,4 +136,6 @@ return {
       end,
     },
   },
+
+  non_lazy { "Bekaboo/dropbar.nvim" },
 }
