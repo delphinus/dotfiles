@@ -133,8 +133,16 @@ return {
         { desc = "Telescope grep_string" }
       )
       keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
-      keymap.set("n", "<Leader>fk", builtin "keymaps" {}, { desc = "Telescope keymaps" })
-      keymap.set("n", "<S-Space>", builtin "keymaps" {}, { desc = "Telescope keymaps" })
+      keymap.set(
+        "n",
+        "<S-Space>",
+        builtin "keymaps" {
+          filter = function(keymap)
+            return not keymap.desc or keymap.desc ~= "Nvim builtin"
+          end,
+        },
+        { desc = "Telescope keymaps" }
+      )
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } }, { desc = "Telescope man_pages" })
       keymap.set("n", "<Leader>fn", extensions("notify", "notify") {}, { desc = "Telescope notify" })
       keymap.set(
