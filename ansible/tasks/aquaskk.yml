@@ -21,6 +21,7 @@
     - github.com/uasi/skk-emoji-jisyo
     - github.com/ymrl/SKK-JISYO.emoji-ja
     - github.com/skk-dev/dict
+    - github.com/tokuhirom/jawiki-kana-kanji-dict
 
 - homebrew: >-
     name=skktools
@@ -42,6 +43,12 @@
   copy: >-
     src=~/git/github.com/ymrl/SKK-JISYO.emoji-ja/SKK-JISYO.emoji-ja.utf8
     dest='~/Library/Application Support/AquaSKK/SKK-JISYO.emoji-ja.utf8'
+    force=yes
+
+- name: copy jawiki dictionary
+  copy: >-
+    src=~/git/github.com/tokuhirom/jawiki-kana-kanji-dict/SKK-JISYO.jawiki
+    dest='~/Library/Application Support/AquaSKK/SKK-JISYO.jawiki.utf8'
     force=yes
 
 - name: convert some dictionaries

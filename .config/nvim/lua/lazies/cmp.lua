@@ -131,6 +131,7 @@ return {
           dic "SKK_JISYO.shikakugoma",
           dic "SKK-JISYO.emoji.utf8",
           dic "SKK-JISYO.emoji-ja.utf8",
+          dic "SKK-JISYO.jawiki.utf8",
         },
         userJisyo = "~/Documents/skk-jisyo.utf8",
         eggLikeNewline = true,
