@@ -58,8 +58,9 @@ vim.opt.formatlistpat = [[^\s*\%(\d\+\|[-a-z]\)\%(\ -\|[]:.)}\t]\)\?\s\+]]
 vim.opt.fixendofline = false
 vim.opt.showbreak = [[→]]
 vim.opt.smartindent = true
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldmethod = "marker"
+-- WARN: too slow for larger files (> 10000 lines)
+--vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 api.create_autocmd(
   { "BufWinEnter" },
