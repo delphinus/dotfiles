@@ -62,14 +62,11 @@ vim.opt.foldmethod = "marker"
 -- WARN: too slow for larger files (> 10000 lines)
 --vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
-api.create_autocmd(
-  { "BufWinEnter" },
-  {
-    group = api.create_augroup("open-folds-initially", {}),
-    command = "normal zx zR",
-    desc = "Unfold all foldings in opening files",
-  }
-)
+api.create_autocmd({ "BufWinEnter" }, {
+  group = api.create_augroup("open-folds-initially", {}),
+  command = "normal zx zR",
+  desc = "Unfold all foldings in opening files",
+})
 -- }}}
 
 -- ColorScheme {{{
