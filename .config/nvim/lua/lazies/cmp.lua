@@ -358,18 +358,7 @@ return {
               treesitter = "TS",
             },
             before = function(entry, vim_item)
-              local word = entry:get_insert_text()
-              if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
-                word = vim.lsp.util.parse_snippet(word)
-              end
-              word = word:gsub("\n", "")
-              if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
-                word = word .. "…"
-              end
-              vim_item.abbr = word
-
-              local ignore_duplicated_items = { ctags = true, buffer = true, tmux = true, rg = true, look = true }
-              if ignore_duplicated_items[entry.source.name] then
+              if vim.tbl_contains({ "ctags", "buffer", "tmux", "rg", "look" }, entry.source.name) then
                 vim_item.dup = 1
               end
               return vim_item
