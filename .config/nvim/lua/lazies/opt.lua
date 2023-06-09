@@ -173,6 +173,16 @@ return {
           end, { buffer = true, desc = "octo.on_cursor_hold" })
         end,
       })
+      api.create_autocmd({ "BufEnter", "BufReadPost" }, {
+        desc = "Chdir every time you enter in Octo buffers",
+        pattern = "octo://*",
+        callback = function()
+          local repo = require("core.utils.octo"):current_repo()
+          local result = vim.system({ "ghq", "list", "-p", repo }):wait()
+          local dir = result.stdout:gsub("%s", "")
+          uv.chdir(dir)
+        end,
+      })
       vim.keymap.set("n", "<Plug>(octo-toggle-enterprise)", function()
         require("core.utils.octo"):toggle()
       end, { desc = "Octo toggle .com ⇔ Enterprise" })

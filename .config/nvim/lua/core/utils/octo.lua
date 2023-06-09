@@ -57,9 +57,15 @@ end
 
 ---@return string?
 function Octo:current_repo()
-  local buffer = octo_buffers[api.get_current_buf()]
+  local bufnr = api.get_current_buf()
+  local buffer = octo_buffers[bufnr]
   if buffer then
     return buffer.repo
+  end
+  local bufname = api.buf_get_name(bufnr)
+  local repo = bufname:match "octo://([^/]+/[^/]+)"
+  if repo then
+    return repo
   end
   local layout = require("octo.reviews").get_current_layout()
   if layout then
