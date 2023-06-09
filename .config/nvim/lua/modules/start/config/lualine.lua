@@ -56,19 +56,13 @@ function Lualine:config()
     elseif vim.o.buftype == "terminal" then
       return "TERM"
     end
-    if package_root_re then
-      filename = filename:gsub(package_root_re, "", 1)
-    end
-    if lazy_root_re then
-      filename = filename:gsub(lazy_root_re, "", 1)
-    end
-    if vim.g.gh_e_host then
-      filename = filename:gsub("^" .. home_re .. "/git/" .. vim.g.gh_e_host .. "/", "", 1)
-    end
-    return filename
-      :gsub("^" .. home_re .. "/git/github%.com/", "", 1)
-      :gsub("^" .. home_re, "~", 1)
-      :gsub("/[^/]+$", "", 1)
+    local dir = uv.cwd():gsub("^" .. home_re, "~", 1)
+    return table.concat(
+      vim.iter.map(function(v)
+        return "󰉋 " .. v
+      end, vim.split(dir, "/")),
+      ""
+    )
   end
 
   require("lualine").setup {

@@ -137,5 +137,39 @@ return {
     },
   },
 
-  non_lazy { "Bekaboo/dropbar.nvim" },
+  non_lazy {
+    "Bekaboo/dropbar.nvim",
+    opts = {
+      general = {
+        ---@type boolean|fun(buf: integer, win: integer): boolean
+        enable = function(buf, win)
+          local buf_name = api.buf_get_name(buf)
+          return not vim.api.nvim_win_get_config(win).zindex
+            and vim.bo[buf].buftype == ""
+            and buf_name ~= ""
+            and not buf_name:match "^octo://"
+            and not vim.wo[win].diff
+        end,
+      },
+      icons = {
+        ui = {
+          bar = {
+            separator = "",
+          },
+          menu = {
+            separator = "",
+            indicator = "",
+          },
+        },
+      },
+      sources = {
+        path = {
+          ---@type string|fun(buf: integer): string
+          relative_to = function(_)
+            return uv.cwd() or ""
+          end,
+        },
+      },
+    },
+  },
 }
