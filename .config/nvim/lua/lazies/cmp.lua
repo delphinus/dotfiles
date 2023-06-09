@@ -257,31 +257,8 @@ return {
     end,
 
     config = function()
-      local ignore_duplicated_items = { ctags = true, buffer = true, tmux = true, rg = true, look = true }
-
-      local lspkind_format = require("lspkind").cmp_format {
-        mode = "symbol_text",
-        maxwidth = 50,
-        menu = {
-          buffer = "[B]",
-          ctags = "[C]",
-          digraphs = "[D]",
-          emoji = "[E]",
-          fish = "[F]",
-          ghq = "[Q]",
-          git = "[G]",
-          look = "[LK]",
-          luasnip = "[S]",
-          nvim_lsp = "[L]",
-          nvim_lua = "[LU]",
-          path = "[P]",
-          rg = "[R]",
-          tmux = "[T]",
-          treesitter = "[TS]",
-        },
-      }
-
       local cmp = require "cmp"
+      local types = require "cmp.types"
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -358,12 +335,46 @@ return {
           { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
         },
         formatting = {
-          format = function(entry, vim_item)
-            if ignore_duplicated_items[entry.source.name] then
-              vim_item.dup = 1
-            end
-            return lspkind_format(entry, vim_item)
-          end,
+          -- https://github.com/onsails/lspkind.nvim/pull/30
+          fields = { types.cmp.ItemField.Kind, types.cmp.ItemField.Menu, types.cmp.ItemField.Abbr },
+          format = require("lspkind").cmp_format {
+            mode = "symbol",
+            maxwidth = 50,
+            menu = {
+              buffer = "B",
+              ctags = "C",
+              digraphs = "D",
+              emoji = "E",
+              fish = "F",
+              ghq = "Q",
+              git = "G",
+              look = "LK",
+              luasnip = "S",
+              nvim_lsp = "L",
+              nvim_lua = "LU",
+              path = "P",
+              rg = "R",
+              tmux = "T",
+              treesitter = "TS",
+            },
+            before = function(entry, vim_item)
+              local word = entry:get_insert_text()
+              if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
+                word = vim.lsp.util.parse_snippet(word)
+              end
+              word = word:gsub("\n", "")
+              if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
+                word = word .. "…"
+              end
+              vim_item.abbr = word
+
+              local ignore_duplicated_items = { ctags = true, buffer = true, tmux = true, rg = true, look = true }
+              if ignore_duplicated_items[entry.source.name] then
+                vim_item.dup = 1
+              end
+              return vim_item
+            end,
+          },
         },
         window = {
           --completion = cmp.config.window.bordered(),
