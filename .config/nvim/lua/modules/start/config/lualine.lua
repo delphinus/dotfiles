@@ -1,5 +1,4 @@
 local fn, uv, api = require("core.utils").globals()
-local octo = require "core.utils.octo"
 
 ---@class modules.start.config.lualine.Lualine
 ---@field is_lsp_available boolean
@@ -27,25 +26,27 @@ function Lualine:config()
 
   -- TODO: borrow from set.lua
   local home_re = uv.os_homedir():gsub("%.", "%.")
-  local package_root_re = (fn.stdpath "data" .. "/site/pack/packer/"):gsub("%.", "%.")
-  local lazy_root_re
-  local ok, lazy_config = pcall(require, "lazy.core.config")
-  if ok then
-    lazy_root_re = lazy_config.options.root:gsub("%.", "%.") .. "/"
-  end
 
   local function octo_host()
-    return "" .. (octo.current_host == octo.enterprise_host and " Ent" or ".com")
+    local ok, octo = pcall(require, "core.utils.octo")
+    if ok then
+      return "" .. (octo.current_host == octo.enterprise_host and " Ent" or ".com")
+    end
+    return ""
   end
 
   local function octo_color()
-    return octo.current_host == octo.enterprise_host and { fg = colors.green, bg = colors.bright_black }
-      or { fg = colors.black, bg = colors.orange }
+    local ok, octo = pcall(require, "core.utils.octo")
+    if ok and octo.current_host == octo.enterprise_host then
+      return { fg = colors.green, bg = colors.bright_black }
+    end
+    return { fg = colors.black, bg = colors.orange }
   end
 
   local function title()
     local filename = api.buf_get_name(0)
     if vim.o.filetype == "octo_panel" or filename:match "^octo://" then
+      local octo = require "core.utils.octo"
       return "octo.nvim: " .. (octo:current_repo() or "UNKNOWN")
     elseif vim.o.filetype == "help" then
       return "ヘルプ"
