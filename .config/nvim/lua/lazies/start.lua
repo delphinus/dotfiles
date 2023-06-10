@@ -139,7 +139,24 @@ return {
 
   non_lazy {
     "Bekaboo/dropbar.nvim",
+    init = function()
+      vim.keymap.set("n", "<A-d>", function()
+        require("dropbar.api").pick()
+      end)
+    end,
     opts = {
+      -- Use the default of vim-easymotion
+      bar = { pick = { pivots = "asdghklqwertyuiopzxcvbnmfj;" } },
+      menu = {
+        keymaps = {
+          ["<Esc>"] = function()
+            local menu = require("dropbar.api").get_current_dropbar_menu()
+            if menu then
+              menu:close(true)
+            end
+          end,
+        },
+      },
       general = {
         ---@type boolean|fun(buf: integer, win: integer): boolean
         enable = function(buf, win)
