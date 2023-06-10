@@ -181,6 +181,7 @@ vim.opt.wildmode = "full"
 vim.opt.dictionary = "/usr/share/dict/words"
 vim.opt.exrc = true
 vim.opt.smoothscroll = true
+vim.opt.mousemoveevent = true
 -- }}}
 
 -- OS specific {{{
