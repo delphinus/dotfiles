@@ -10,6 +10,23 @@ return {
     dependencies = {
       { "delphinus/telescope-memo.nvim" },
       { "kyazdani42/nvim-web-devicons" },
+
+      {
+        "folke/todo-comments.nvim",
+        event = { "BufRead", "FocusLost", "CursorHold" },
+        opts = {
+          keywords = {
+            FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+            TODO = { icon = "", color = "info" },
+            HACK = { icon = "", color = "warning" },
+            WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
+            PERF = { icon = "󰅒", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+            NOTE = { icon = "󰍨", color = "hint", alt = { "INFO" } },
+            TEST = { icon = "", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+          },
+        },
+      },
+
       { "nvim-lua/popup.nvim" },
       { "nvim-telescope/telescope-file-browser.nvim" },
       {
@@ -169,6 +186,12 @@ return {
         { desc = "Telescope ghq" }
       )
       keymap.set("n", "<Leader>fr", builtin "resume" {}, { desc = "Telescope resume" })
+      keymap.set(
+        "n",
+        "<Leader>ft",
+        extensions("todo-comments", "todo-comments") {},
+        { desc = "Telescope todo-comments" }
+      )
 
       keymap.set(
         "n",
@@ -445,22 +468,18 @@ return {
           },
         },
       }
+
       telescope.load_extension "file_browser"
-      -- This is needed to setup telescope-frecency.
       telescope.load_extension "frecency"
-      -- This is needed to setup telescope-fzf-native. It overrides the sorters
-      -- in this.
+      -- NOTE: This is needed to setup telescope-fzf-native. It overrides the
+      -- sorters in this.
       telescope.load_extension "fzf"
-      -- This is needed to setup telescope-smart-history.
       telescope.load_extension "smart_history"
-      -- This is needed to setup noice.nvim
       telescope.load_extension "noice"
-      -- This is needed to setup nvim-notify
       telescope.load_extension "notify"
-      -- This is needed to setup yanky
       telescope.load_extension "yank_history"
-      -- This is needed to setup ctags-outline
       telescope.load_extension "ctags_outline"
+      telescope.load_extension "todo-comments"
 
       require("dressing").setup {}
 
