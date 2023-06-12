@@ -133,6 +133,7 @@
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [commit]
 	gpgsign = true
+	template = ~/git/dotfiles/commit-template.txt
 [init]
 	defaultBranch = main
 [delta]
