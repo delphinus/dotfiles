@@ -146,7 +146,7 @@ return {
     end,
     opts = {
       -- Use the default of vim-easymotion
-      bar = { pick = { pivots = "asdghklqwertyuiopzxcvbnmfj;" } },
+      bar = { pick = { pivots = "hjklasdfgyuiopqwertnmzxcvb" } },
       menu = {
         keymaps = {
           ["<Esc>"] = function()
