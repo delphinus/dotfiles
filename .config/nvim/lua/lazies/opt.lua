@@ -356,6 +356,11 @@ return {
       { "MunifTanjim/nui.nvim" },
       {
         "rcarriga/nvim-notify",
+        init = function()
+          vim.keymap.set("n", "<Plug>notify-dismiss", function()
+            require("notify").dismiss { pending = true }
+          end)
+        end,
         opts = {
           render = "minimal",
           --[[
