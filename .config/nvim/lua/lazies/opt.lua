@@ -686,13 +686,26 @@ return {
     ft = { "gitcommit" },
     init = function()
       vim.g.committia_hooks = {
+        ---@class CommittiaInfo
+        ---@field vcs string vcs type (e.g. 'git')
+        ---@field edit_winnr integer winnr of edit window
+        ---@field edit_bufnr integer bufnr of edit window
+        ---@field diff_winnr integer winnr of diff window
+        ---@field diff_bufnr integer bufnr of diff window
+        ---@field status_winnr integer winnr of status window
+        ---@field status_bufnr integer bufnr of status window
+
+        ---@param info CommittiaInfo
         edit_open = function(info)
-          if info.vcs == "git" and fn.getline(1) == "" then
-            vim.cmd.startinsert()
+          local first_line = api.buf_get_lines(info.edit_bufnr, 0, 1, false)[1]
+          if info.vcs == "git" and first_line == "" then
+            local winid = fn.win_getid(info.edit_winnr)
+            -- HACK: move cursor to top left because it starts on the 2nd line for some reason.
+            api.win_set_cursor(winid, { 1, 0 })
+            --vim.cmd.startinsert()
           end
-          vim.keymap.set("i", "<A-d>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
-          vim.keymap.set("i", "<A-∂>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
-          vim.keymap.set("i", "<A-u>", [[<Plug>(committia-scroll-diff-up-half)]], { buffer = true })
+          vim.keymap.set("i", "<A-D>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
+          vim.keymap.set("i", "<A-U>", [[<Plug>(committia-scroll-diff-up-half)]], { buffer = true })
         end,
       }
     end,
