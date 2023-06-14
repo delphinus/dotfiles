@@ -331,13 +331,9 @@ return {
     cond = function()
       -- HACK: Do not load when it is loading committia.vim
       local file = vim.fs.basename(api.buf_get_name(0))
-      local not_to_load = { "COMMIT_EDITMSG", "MERGE_MSG" }
-      for _, name in ipairs(not_to_load) do
-        if file == name then
-          return false
-        end
-      end
-      return true
+      return vim.iter({ "COMMIT_EDITMSG", "MERGE_MSG" }):all(function(name)
+        return file ~= name
+      end)
     end,
     opts = {
       key_maps = false,
