@@ -283,6 +283,9 @@ return {
               else
                 local ok, db = pcall(require, "frecency.db")
                 if ok then
+                  if not db.sqlite then
+                    db.set_config {}
+                  end
                   db.update(path)
                 end
               end
