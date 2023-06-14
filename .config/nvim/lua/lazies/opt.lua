@@ -357,15 +357,25 @@ return {
       {
         "rcarriga/nvim-notify",
         init = function()
-          vim.keymap.set("n", "<Plug>notify-dismiss", function()
-            require("notify").dismiss { pending = true }
-          end)
-          vim.keymap.set("n", "<Plug>notify-last-message", function()
+          local function dismiss()
+            require("notify").dismiss { pending = true, silent = true }
+          end
+          local function show_last_one()
             local notify = require "notify"
             local h = notify.history {}
             local last = h[#h]
-            notify.notify(last.message, last.level, { icon = last.icon, timeout = false })
-          end)
+            notify.notify(last.message, last.level, {
+              title = last.title[1],
+              icon = last.icon,
+              timeout = false,
+              render = last.render,
+              hide_from_history = true,
+            })
+          end
+          vim.keymap.set("n", "<Plug>notify-dismiss", dismiss, { desc = "Dismiss all showing notifications" })
+          vim.keymap.set("n", "<Plug>notify-last-message", show_last_one, { desc = "Show the last notification again" })
+          api.create_user_command("DismissNotifications", dismiss, { desc = "Dismiss all showing notifications" })
+          api.create_user_command("LastNotification", show_last_one, { desc = "Show the last notification again" })
         end,
         opts = {
           render = "minimal",
