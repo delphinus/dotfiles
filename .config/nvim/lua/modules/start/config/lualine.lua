@@ -65,6 +65,11 @@ function Lualine:config()
     )
   end
 
+  local function pending_notifications()
+    local pendings = require("notify").pending()
+    return pendings > 0 and ("󰭺 %d"):format(pendings) or ""
+  end
+
   require("lualine").setup {
     extensions = { "quickfix" },
     options = {
@@ -178,6 +183,7 @@ function Lualine:config()
         { "fileformat", padding = { left = 0 }, fmt = self:tr { 90, 0 } },
       },
       lualine_z = {
+        { pending_notifications, color = { bg = colors.green } },
         {
           require("lazy.status").updates,
           cond = require("lazy.status").has_updates,
