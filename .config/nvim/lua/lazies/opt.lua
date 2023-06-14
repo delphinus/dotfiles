@@ -360,6 +360,12 @@ return {
           vim.keymap.set("n", "<Plug>notify-dismiss", function()
             require("notify").dismiss { pending = true }
           end)
+          vim.keymap.set("n", "<Plug>notify-last-message", function()
+            local notify = require "notify"
+            local h = notify.history {}
+            local last = h[#h]
+            notify.notify(last.message, last.level, { icon = last.icon, timeout = false })
+          end)
         end,
         opts = {
           render = "minimal",
