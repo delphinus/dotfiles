@@ -50,13 +50,9 @@ return {
         callback = function()
           cmp_config = require("cmp.config").get()
           local compare = require "cmp.config.compare"
+          local types = require "cmp.types"
           require("cmp").setup.buffer {
-            formatting = {
-              format = function(_, vim_item)
-                vim_item.kind = nil
-                return vim_item
-              end,
-            },
+            formatting = { fields = { types.cmp.ItemField.Abbr } },
             sorting = { comparators = { compare.order } },
             sources = {
               {
