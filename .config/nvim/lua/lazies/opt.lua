@@ -713,13 +713,19 @@ return {
 
         ---@param info CommittiaInfo
         edit_open = function(info)
-          local first_line = api.buf_get_lines(info.edit_bufnr, 0, 1, false)[1]
-          if info.vcs == "git" and first_line == "" then
-            local winid = fn.win_getid(info.edit_winnr)
-            -- HACK: move cursor to top left because it starts on the 2nd line for some reason.
-            api.win_set_cursor(winid, { 1, 0 })
-            --vim.cmd.startinsert()
-          end
+          api.create_autocmd({ "BufWinEnter" }, {
+            once = true,
+            pattern = { "COMMIT_EDITMSG", "MERGE_MSG" },
+            callback = function()
+              local winid = fn.win_getid(info.edit_winnr)
+              -- HACK: move cursor to top left because it starts on the 2nd line for some reason.
+              api.win_set_cursor(winid, { 1, 0 })
+              local first_line = api.buf_get_lines(info.edit_bufnr, 0, 1, false)[1]
+              if first_line == "" then
+                vim.cmd.startinsert()
+              end
+            end,
+          })
           vim.keymap.set("i", "<A-D>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
           vim.keymap.set("i", "<A-U>", [[<Plug>(committia-scroll-diff-up-half)]], { buffer = true })
         end,
