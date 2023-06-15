@@ -977,7 +977,7 @@ return {
     dependencies = { { "lambdalisue/kensaku.vim" } },
     init = function()
       vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
-      vim.g.fuzzy_motion_matchers = "kensaku"
+      vim.g.fuzzy_motion_matchers = "kensaku,fzf"
     end,
     config = function()
       palette "fuzzy_motion" {
