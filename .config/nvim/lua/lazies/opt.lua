@@ -370,6 +370,9 @@ return {
               timeout = false,
               render = last.render,
               hide_from_history = true,
+              on_open = function(win)
+                vim.wo[win].wrap = true
+              end,
             })
           end
           vim.keymap.set("n", "<Plug>notify-dismiss", dismiss, { desc = "Dismiss all showing notifications" })
