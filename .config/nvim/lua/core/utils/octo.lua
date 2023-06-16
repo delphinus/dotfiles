@@ -73,6 +73,40 @@ function Octo:current_repo()
   end
 end
 
+---@return string?
+function Octo:buf_repo_dir()
+  ---@param query string
+  ---@return string?
+  local function ghq_dir(query)
+    local result = vim.system({ "ghq", "list", "-p", query }):wait()
+    if result.stdout and result.stdout ~= "" then
+      local trimmed = result.stdout:gsub("\n", "")
+      return trimmed
+    end
+    local name = vim.split(query, "/")[2]
+    local re = name:gsub("[%.%[%]]", "%%%0")
+    local all = vim.system({ "ghq", "list", "-p" }):wait()
+    local candidates = all.stdout and all.stdout ~= "" and vim.split(all.stdout, "\n") or {}
+    return vim
+      .iter(candidates)
+      :filter(function(v)
+        return v:match(re)
+      end)
+      :next()
+  end
+
+  local repo = self:current_repo()
+  if not repo then
+    return
+  end
+  if vim.b.__octo_repo_dir and vim.b.__octo_repo_cache == repo then
+    return vim.b.__octo_repo_dir
+  end
+  vim.b.__octo_repo_cache = repo
+  vim.b.__octo_repo_dir = ghq_dir(repo)
+  return vim.b.__octo_repo_dir
+end
+
 ---@return nil
 function Octo:toggle()
   self.current_host = self:is_enterprise() and self.github_host or self.enterprise_host

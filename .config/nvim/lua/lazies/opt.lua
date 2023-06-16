@@ -177,10 +177,10 @@ return {
         desc = "Chdir every time you enter in Octo buffers",
         pattern = "octo://*",
         callback = function()
-          local repo = require("core.utils.octo"):current_repo()
-          local result = vim.system({ "ghq", "list", "-p", repo }):wait()
-          local dir = result.stdout:gsub("%s", "")
-          uv.chdir(dir)
+          local dir = require("core.utils.octo"):buf_repo_dir()
+          if dir then
+            api.set_current_dir(dir)
+          end
         end,
       })
       vim.keymap.set("n", "<Plug>(octo-toggle-enterprise)", function()

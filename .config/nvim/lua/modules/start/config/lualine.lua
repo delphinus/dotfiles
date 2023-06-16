@@ -45,10 +45,7 @@ function Lualine:config()
 
   local function title()
     local filename = api.buf_get_name(0)
-    if vim.o.filetype == "octo_panel" or filename:match "^octo://" then
-      local octo = require "core.utils.octo"
-      return "octo.nvim: " .. (octo:current_repo() or "UNKNOWN")
-    elseif vim.o.filetype == "help" then
+    if vim.o.filetype == "help" then
       return "ヘルプ"
       -- TODO: vim.opt has no 'previewwindow'?
     elseif vim.o.previewwindow then
