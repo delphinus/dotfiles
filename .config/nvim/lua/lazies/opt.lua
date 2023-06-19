@@ -24,6 +24,7 @@ return {
       palette "nord" {
         nord = function(colors)
           api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
+          api.set_hl(0, "Delimiter", { fg = colors.magenta })
           api.set_hl(0, "PmenuSel", { blend = 0 })
         end,
       }
