@@ -24,15 +24,7 @@ return {
       palette "nord" {
         nord = function(colors)
           api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
-          api.set_hl(0, "Delimiter", { fg = colors.blue })
-          api.set_hl(0, "Constant", { fg = colors.dark_white, italic = true })
-          api.set_hl(0, "Folded", { fg = colors.comment })
-          api.set_hl(0, "Identifier", { fg = colors.bright_cyan })
-          api.set_hl(0, "Special", { fg = colors.orange })
-          api.set_hl(0, "Title", { fg = colors.cyan, bold = true })
           api.set_hl(0, "PmenuSel", { blend = 0 })
-          api.set_hl(0, "NormalFloat", { fg = colors.dark_white, bg = colors.dark_black, blend = 10 })
-          api.set_hl(0, "FloatBorder", { fg = colors.bright_cyan, bg = colors.dark_black, blend = 10 })
         end,
       }
     end,
