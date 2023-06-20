@@ -26,6 +26,7 @@ return {
           api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
           api.set_hl(0, "Delimiter", { fg = colors.nord9 })
           api.set_hl(0, "PmenuSel", { blend = 0 })
+          api.set_hl(0, "LspInlayHint", { fg = colors.nord3_bright, italic = true })
         end,
       }
     end,

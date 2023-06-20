@@ -185,6 +185,15 @@ return {
       end, { buffer = bufnr })
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
     end
+
+    if client.supports_method "textDocument/inlayHint" then
+      vim.lsp.buf.inlay_hint(bufnr, true)
+    else
+      vim.notify(
+        ("%s(%d) does not support textDocument/inlayHint"):format(client.name, client.id),
+        vim.log.levels.DEBUG
+      )
+    end
   end,
 
   -- NOTE: This func is deprecated.
