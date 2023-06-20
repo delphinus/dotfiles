@@ -14,6 +14,17 @@ end
 
 return {
   {
+    "willelz/skk-tutorial.vim",
+    cmd = { "SKKTutorialStart" },
+    dependencies = { "denops.vim", "skkeleton" },
+    config = function()
+      fn["denops#plugin#register"] "skk-tutorial"
+      vim.wait(1000, function()
+        return not not api.get_commands({}).SKKTutorialStart
+      end)
+    end,
+  },
+  {
     "vim-skk/skkeleton",
     keys = {
       -- Use these mappings in Karabiner-Elements
