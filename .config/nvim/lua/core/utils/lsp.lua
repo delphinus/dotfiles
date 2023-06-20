@@ -60,9 +60,8 @@ local function is_deno_dir(name)
 end
 
 local function need_me(client, bufnr)
-  local name = client.config.name
+  local name = client.name
   if name == "tsserver" or name == "denols" then
-    local util = require "lspconfig.util"
     local parent_dir = vim.fs.dirname(api.buf_get_name(bufnr))
     local deno_found = vim.fs.find(is_deno_dir, { path = parent_dir, upward = true })[1] and true or false
     if name == "tsserver" then
@@ -94,7 +93,9 @@ return {
 
   on_attach = function(client, bufnr)
     if not need_me(client, bufnr) then
-      vim.lsp.buf_detach_client(bufnr, client.id)
+      vim.schedule(function()
+        vim.lsp.buf_detach_client(bufnr, client.id)
+      end)
       return
     end
 
