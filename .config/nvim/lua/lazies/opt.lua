@@ -374,7 +374,7 @@ return {
           api.create_user_command("LastNotification", show_last_one, { desc = "Show the last notification again" })
         end,
         opts = {
-          render = "minimal",
+          render = "compact",
           --[[
           background_colour = function()
             return palette.colors.black
