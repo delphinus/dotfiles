@@ -1,9 +1,22 @@
 local api = require("core.utils").api
 
+---@class AutoFormattingOptions
+---@field enabled boolean
+---@field filter fun(client: { name: string }): boolean
+
+---@class AutoFormatting
+---@field instances table<string, AutoFormatting>
+---@field buffer integer
+---@field enabled boolean
+---@field filter fun(client: { name: string }): boolean
+---@field group integer
 local AutoFormatting = {
   instances = {},
 }
 
+---@param buffer integer
+---@param opts AutoFormattingOptions
+---@return AutoFormatting
 AutoFormatting.set = function(buffer, opts)
   buffer = buffer == 0 and api.get_current_buf() or buffer
   local i = AutoFormatting.instances
@@ -12,6 +25,8 @@ AutoFormatting.set = function(buffer, opts)
   return i[key]
 end
 
+---@param buffer integer
+---@return boolean
 AutoFormatting.is_enabled = function(buffer)
   buffer = buffer == 0 and api.get_current_buf() or buffer
   local key = tostring(buffer)
@@ -19,16 +34,21 @@ AutoFormatting.is_enabled = function(buffer)
   return i and i.enabled or false
 end
 
+---@param buffer integer
+---@param opts AutoFormattingOptions?
+---@return AutoFormatting
 AutoFormatting.new = function(buffer, opts)
   if not buffer then
     error "[AutoFormatting] needs buffer in opts"
   end
   opts = vim.tbl_extend("force", {
     enabled = true,
+    ---@param client { name: string }
+    ---@return boolean
     filter = function(client)
       return client.name ~= "tsserver"
     end,
-  }, opts or {})
+  }, opts or {}) --[[@as AutoFormattingOptions]]
   local self = setmetatable({}, { __index = AutoFormatting })
   self.buffer = buffer
   self.enabled = opts.enabled
