@@ -353,6 +353,7 @@ return {
         init = function()
           local function dismiss()
             require("notify").dismiss { pending = true, silent = true }
+            vim.notify("dismiss all notifications", vim.log.levels.DEBUG)
           end
           local function show_last_one()
             local notify = require "notify"
@@ -368,9 +369,12 @@ return {
                 vim.wo[win].wrap = true
               end,
             })
+            vim.notify("made the last message stuck", vim.log.levels.DEBUG)
           end
           vim.keymap.set("n", "<Plug>notify-dismiss", dismiss, { desc = "Dismiss all showing notifications" })
           vim.keymap.set("n", "<Plug>notify-last-message", show_last_one, { desc = "Show the last notification again" })
+          vim.keymap.set("n", "<Leader>nd", dismiss, { desc = "Dismiss all showing notifications" })
+          vim.keymap.set("n", "<Leader>nn", show_last_one, { desc = "Show the last notification again" })
           api.create_user_command("DismissNotifications", dismiss, { desc = "Dismiss all showing notifications" })
           api.create_user_command("LastNotification", show_last_one, { desc = "Show the last notification again" })
         end,
