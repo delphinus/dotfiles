@@ -133,6 +133,16 @@ return {
             lint = true,
             unstable = true,
           },
+          deno = {
+            inlayHints = {
+              parameterNames = { enabled = "all" },
+              parameterTypes = { enabled = true },
+              variableTypes = { enabled = true },
+              propertyDeclarationTypes = { enabled = true },
+              functionLikeReturnTypes = { enabled = true },
+              enumMemberValues = { enabled = true },
+            },
+          },
         },
         bashls = {
           filetypes = { "sh", "bash", "zsh" },
@@ -144,6 +154,19 @@ return {
             fuzzyMatching = true,
             completeUnimported = true,
             usePlaceholders = true,
+            gopls = {
+              semanticTokens = true,
+              analyses = { unusedparams = true },
+              hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+              },
+            },
           },
         },
         lua_ls = {
@@ -155,6 +178,30 @@ return {
               hint = { enable = true },
               telemetry = { enable = false },
               workspace = { checkThirdParty = false },
+            },
+          },
+        },
+        tsserver = {
+          javascript = {
+            inlayHints = {
+              includeInlayEnumMemberValueHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayVariableTypeHints = true,
+            },
+          },
+          typescript = {
+            inlayHints = {
+              includeInlayEnumMemberValueHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayVariableTypeHints = true,
             },
           },
         },
