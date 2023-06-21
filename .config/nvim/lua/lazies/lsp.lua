@@ -521,7 +521,7 @@ return {
 
   ts {
     "m-demare/hlargs.nvim",
-    enabled = false,
+    cond = false,
     init = function()
       palette "hlargs" {
         nord = function(colors)
