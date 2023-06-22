@@ -551,9 +551,6 @@ return {
           km.set("n", "[c", gs "prev_hunk", { buffer = bufnr, desc = "gitsigns.prev_hunk" })
         end,
       }
-
-      -- setup nvim-scrollbar
-      require("scrollbar.handlers.gitsigns").setup()
     end,
   },
 
@@ -611,7 +608,7 @@ return {
   },
 
   {
-    "petertriho/nvim-scrollbar",
+    "lewis6991/satellite.nvim",
     event = {
       "BufWinEnter",
       "CmdwinLeave",
@@ -622,16 +619,7 @@ return {
       "WinEnter",
       "WinScrolled",
     },
-    opts = {
-      marks = {
-        GitAdd = {
-          text = "⢸",
-        },
-        GitChange = {
-          text = "⢸",
-        },
-      },
-    },
+    opts = { handlers = { marks = { show_builtins = true } } },
   },
 
   {
