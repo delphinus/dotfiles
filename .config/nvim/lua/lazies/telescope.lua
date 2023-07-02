@@ -112,12 +112,10 @@ return {
         if uv.cwd() == uv.os_homedir() then
           vim.notify("find_files on $HOME is danger. Launch file_browser instead.", vim.log.levels.WARN)
           extensions("file_browser", "file_browser") {}()
-        elseif Path:new(uv.cwd() .. "/.git"):is_dir() then
-          builtin "git_files" { show_untracked = true }()
         else
-          builtin "find_files" { hidden = true }()
+          extensions("frecency", "frecency") { path_display = frecency.path_display, workspace = "CWD" }()
         end
-      end, { desc = "Telescope git_files or find_files" })
+      end, { desc = "Telescope git_files or frecency on CWD" })
 
       local function input_grep_string(prompt, func)
         return function()
