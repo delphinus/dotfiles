@@ -152,7 +152,7 @@ function Lualine:config()
     tabline = {
       lualine_a = { { octo_host, fmt = self:tr { { 120, 0 } }, color = octo_color } },
       lualine_b = { { title, fmt = self:tr { { 120, 60 } }, color = { fg = colors.yellow } } },
-      lualine_f = {
+      lualine_c = {
         {
           self:noice "message" "get",
           cond = self:noice "message" "has",
