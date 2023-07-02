@@ -591,7 +591,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufRead", "BufNewFile", "InsertEnter" },
     build = ":TSUpdate",
-    keys = { { "<Space>h", "<Cmd>TSHighlightCapturesUnderCursor<CR>" } },
+    keys = { { "<Space>h", "<Cmd>Inspect<CR>" } },
     config = function()
       require("nvim-treesitter.configs").setup {
         ensure_installed = "all",
