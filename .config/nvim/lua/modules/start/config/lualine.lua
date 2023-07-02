@@ -15,11 +15,13 @@ end
 
 ---@return nil
 function Lualine:config()
-  vim.loop.new_timer():start(
-    0, -- never timeout
-    500, -- repeat every 500 ms
-    vim.schedule_wrap(vim.cmd.redrawtabline)
-  )
+  api.create_autocmd({ "CursorMoved" }, {
+    desc = "Refresh tabline to show the latest char info",
+    group = api.create_augroup("lualine-tabline-refresh", {}),
+    callback = function()
+      require("lualine").refresh { place = { "tabline" } }
+    end,
+  })
 
   local palette = require "core.utils.palette"
   local colors = palette.colors
