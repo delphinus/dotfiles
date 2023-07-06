@@ -174,7 +174,6 @@ function Lualine:config()
           cond = self:noice "search" "has",
           color = { fg = colors.magenta },
         },
-        { self:tag(), separator = "❘" },
       },
       lualine_x = { { self:char_info(), fmt = self:tr { 80, 0 } } },
       lualine_y = {
@@ -312,6 +311,7 @@ function Lualine:char_info() -- luacheck: ignore 212
   end
 end
 
+---@deprecated This is replaced by dropbar.nvim
 ---@return fun(): string
 function Lualine:tag() -- luacheck: ignore 212
   return function()
