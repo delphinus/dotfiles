@@ -353,7 +353,6 @@ return {
         init = function()
           local function dismiss()
             require("notify").dismiss { pending = true, silent = true }
-            vim.notify("dismiss all notifications", vim.log.levels.DEBUG)
           end
           local function show_last_one()
             local notify = require "notify"
