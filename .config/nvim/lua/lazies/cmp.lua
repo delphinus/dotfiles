@@ -173,15 +173,20 @@ return {
       palette "skkeleton_indicator" {
         nord = function(colors)
           api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.dark_black, bg = colors.magenta, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.green, bg = colors.dark_black, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.yellow, bg = colors.dark_black, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.magenta, bg = colors.dark_black, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.cyan, bg = colors.dark_black, bold = true })
         end,
       }
     end,
 
-    opts = { alwaysShown = false, fadeOutMs = 0 },
+    ---@type SkkeletonIndicatorOpts
+    opts = {
+      fadeOutMs = 0,
+      border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" },
+      zindex = 9999,
+    },
   },
 
   { "hrsh7th/cmp-nvim-lua", ft = "lua" },
