@@ -185,7 +185,6 @@ return {
     opts = {
       fadeOutMs = 0,
       border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" },
-      zindex = 9999,
     },
   },
 
