@@ -571,7 +571,6 @@ return {
 
   {
     "lukas-reineke/virt-column.nvim",
-    enabled = false,
     event = { "FocusLost", "CursorHold" },
     config = function()
       palette "virt_column" {
