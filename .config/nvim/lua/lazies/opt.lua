@@ -569,7 +569,9 @@ return {
   },
 
   {
-    "lukas-reineke/virt-column.nvim",
+    --"lukas-reineke/virt-column.nvim",
+    "delphinus/virt-column.nvim",
+    branch = "feature/virt-text",
     event = { "FocusLost", "CursorHold" },
     config = function()
       palette "virt_column" {
