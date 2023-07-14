@@ -147,7 +147,7 @@ function Lualine:config()
         { "progress", fmt = self:tr { 90, 0 } },
         { "filesize", fmt = self:tr { 120, 0 } },
       },
-      lualine_z = { { "location", fmt = self:tr { 50, 0 } } },
+      lualine_z = { { "%l:%c%V", fmt = self:tr { 50, 0 } } },
     },
     tabline = {
       lualine_a = { { octo_host, fmt = self:tr { { 120, 0 } }, color = octo_color } },
