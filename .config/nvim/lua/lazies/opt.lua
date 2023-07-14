@@ -572,21 +572,43 @@ return {
     --"lukas-reineke/virt-column.nvim",
     "delphinus/virt-column.nvim",
     branch = "feature/virt-text",
-    event = { "FocusLost", "CursorHold" },
-    config = function()
+    init = function()
       palette "virt_column" {
         nord = function(colors)
-          api.set_hl(0, "ColorColumn", { bg = "NONE" })
+          api.set_hl(0, "ColorColumn", {})
           api.set_hl(0, "VirtColumn", { fg = colors.brighter_black })
         end,
       }
-      local vt = require "virt-column"
-      vt.setup { char = "⡂" }
+
+      local require_vt = (function()
+        local init = false
+        return function()
+          local vt = require "virt-column"
+          if not init then
+            vt.config.char = "⡂"
+            vt.namespace = api.create_namespace "virt-column"
+            init = true
+          end
+          return vt
+        end
+      end)()
+
+      api.create_user_command("VirtColumnRefresh", function(args)
+        require_vt()
+        require("virt-column.commands").refresh(args.bang)
+      end, { bang = true, desc = "Refresh virt-column" })
+
+      local group = api.create_augroup("VirtColumnAutogroup", {})
+      api.create_autocmd(
+        { "FileChangedShellPost", "TextChanged", "TextChangedI", "CompleteChanged", "BufWinEnter" },
+        { group = group, command = "VirtColumnRefresh" }
+      )
+      api.create_autocmd("SessionLoadPost", { group = group, command = "VirtColumnRefresh!" })
       api.create_autocmd("TermEnter", {
         desc = "Clear virt-column",
-        group = api.create_augroup("virt-column-clear", {}),
+        group = group,
         callback = function()
-          vt.clear_buf(0)
+          require_vt().clear_buf(0)
         end,
       })
     end,
