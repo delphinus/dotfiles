@@ -1,4 +1,4 @@
-{% for env in from_json(lookup('env', 'OFFICE_ENV_JSON')) -%}
+{% for env in lookup('env', 'OFFICE_ENV_JSON') | from_json -%}
 export {{ env.name }}={{ env.value }}
 {% endfor -%}
 export PERL5LIB={{ ':'.join(secret_office_perl_perl5lib) }}:$PERL5LIB
