@@ -136,7 +136,6 @@ return {
     end, { buffer = bufnr })
     vim.keymap.set("n", "<Space>q", vim.diagnostic.setloclist, { buffer = bufnr })
 
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
     vim.keymap.set("n", "<A-]>", vim.lsp.buf.type_definition, { buffer = bufnr })
     vim.keymap.set("n", "<C-w><A-]>", function()
       vim.cmd.split()
