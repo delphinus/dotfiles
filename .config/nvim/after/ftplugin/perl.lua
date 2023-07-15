@@ -1,7 +1,7 @@
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.keywordprg = "google -l perl"
+vim.opt_local.tabstop = 4
+vim.opt_local.shiftwidth = 4
+vim.opt_local.softtabstop = 4
+vim.opt_local.keywordprg = "google -l perl"
 
 local f = require "f_meta"
 local perl_fold_text = f.perl_fold_text
