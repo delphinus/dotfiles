@@ -10,15 +10,9 @@
 [submodule "submodules/xterm_colour_chart"]
 	path = submodules/xterm_colour_chart
 	url = https://github.com/delphinus/xterm_colour_chart
-[submodule ".zprezto"]
-	path = .zprezto
-	url = https://github.com/sorin-ionescu/prezto
 [submodule "submodules/nord-dircolors"]
 	path = submodules/nord-dircolors
 	url = https://github.com/arcticicestudio/nord-dircolors
-[submodule ".zsh/zsh-background-notify"]
-	path = .zsh/zsh-background-notify
-	url = https://github.com/delphinus/zsh-background-notify.git
 [submodule "dircolors-solarized"]
 	path = dircolors-solarized
 	url = https://github.com/seebi/dircolors-solarized
