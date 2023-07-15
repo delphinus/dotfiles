@@ -25,4 +25,23 @@ return {
     _G.api = api
   end,
   api = api_tbl,
+
+  -- NOTE: this is from lsp.lua
+  is_empty_or_default = function(bufnr, option)
+    if vim.bo[bufnr][option] == "" then
+      return true
+    end
+
+    local info = vim.api.nvim_get_option_info2(option, { buf = bufnr })
+    local scriptinfo = vim.tbl_filter(function(e)
+      return e.sid == info.last_set_sid
+    end, vim.fn.getscriptinfo())
+    vim.print { scriptinfo = #scriptinfo }
+
+    if #scriptinfo ~= 1 then
+      return false
+    end
+
+    return vim.startswith(scriptinfo[1].name, vim.fn.expand "$VIMRUNTIME")
+  end,
 }
