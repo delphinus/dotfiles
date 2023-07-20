@@ -182,6 +182,8 @@ vim.opt.dictionary = "/usr/share/dict/words"
 vim.opt.exrc = true
 vim.opt.smoothscroll = true
 vim.opt.mousemoveevent = true
+-- Show all messages in noice, such as from vim.print()
+vim.opt.shortmess:remove "T"
 -- }}}
 
 -- OS specific {{{
