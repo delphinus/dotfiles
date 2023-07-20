@@ -14,7 +14,7 @@
   "bclose.vim": { "branch": "master", "commit": "99018b4a2dd18aea1cbd3aa23565b01a0f8c5b73" },
   "capture.vim": { "branch": "master", "commit": "857ee11cfe1193948d3d45dcb8d511fded8533fb" },
   "ccc.nvim": { "branch": "main", "commit": "4a0ddaf787cc82796e84ab8a7f70d086f250aeb6" },
-  "cellwidths.nvim": { "branch": "main", "commit": "ccc834e6991bfd27a3404b0c63935d97af25f5f4" },
+  "cellwidths.nvim": { "branch": "main", "commit": "1d97b1de4ef5d9ab4575f0f481777043678c9750" },
   "characterize.nvim": { "branch": "main", "commit": "484480b62a8c46db8c25fb3fbfa1dcc8974bb874" },
   "cmp-buffer": { "branch": "main", "commit": "3022dbc9166796b644a841a02de8dd1cc1d311fa" },
   "cmp-cmdline": { "branch": "main", "commit": "8ee981b4a91f536f52add291594e89fb6645e451" },
