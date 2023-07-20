@@ -580,7 +580,7 @@ return {
         end,
       }
 
-      local require_vt = (function()
+      local require_virt_column = (function()
         local init = false
         return function()
           local vt = require "virt-column"
@@ -594,7 +594,7 @@ return {
       end)()
 
       api.create_user_command("VirtColumnRefresh", function(args)
-        require_vt()
+        require_virt_column()
         require("virt-column.commands").refresh(args.bang)
       end, { bang = true, desc = "Refresh virt-column" })
 
@@ -608,9 +608,17 @@ return {
         desc = "Clear virt-column",
         group = group,
         callback = function()
-          require_vt().clear_buf(0)
+          require_virt_column().clear_buf(0)
         end,
       })
+
+      local t = assert(uv.new_timer())
+      t:start(5000, 5000, function()
+        require_virt_column()
+        vim.schedule(function()
+          require("virt-column.commands").refresh()
+        end)
+      end)
     end,
   },
 
