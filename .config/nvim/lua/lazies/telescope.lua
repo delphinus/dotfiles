@@ -114,6 +114,7 @@ return {
           extensions("file_browser", "file_browser") {}()
         else
           extensions("frecency", "frecency") { path_display = frecency.path_display, workspace = "CWD" }()
+          -- extensions("frecency2", "frecency2") { path_display = frecency.path_display, workspace = "CWD" }()
         end
       end, { desc = "Telescope git_files or frecency on CWD" })
 
@@ -163,6 +164,7 @@ return {
         "n",
         "<Leader>fo",
         extensions("frecency", "frecency") { path_display = frecency.path_display },
+        -- extensions("frecency2", "frecency2") { path_display = frecency.path_display },
         { desc = "Telescope frecency" }
       )
       keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {}, { desc = "Telescope ctags_outline" })
@@ -425,11 +427,19 @@ return {
               VIM = vim.env.VIMRUNTIME,
             },
           },
+          frecency2 = {
+            show_scores = true,
+            show_filter_column = { "LSP", "CWD", "VIM" },
+            workspaces = {
+              VIM = vim.env.VIMRUNTIME,
+            },
+          },
         },
       }
 
       telescope.load_extension "file_browser"
       telescope.load_extension "frecency"
+      telescope.load_extension "frecency2"
       -- NOTE: This is needed to setup telescope-fzf-native. It overrides the
       -- sorters in this.
       telescope.load_extension "fzf"
