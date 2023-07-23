@@ -160,7 +160,6 @@ return {
         ["z7"] = { "⑦", "" },
         ["z8"] = { "⑧", "" },
         ["z9"] = { "⑨", "" },
-        ["/"] = { "・", "" },
         ["<s-q>"] = "henkanPoint",
       })
     end,
@@ -177,6 +176,7 @@ return {
           api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
           api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.dark_black, bg = colors.magenta, bold = true })
           api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.white, bg = colors.red, bold = true })
         end,
       }
     end,
