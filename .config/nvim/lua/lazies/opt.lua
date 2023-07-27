@@ -569,9 +569,7 @@ return {
   },
 
   {
-    --"lukas-reineke/virt-column.nvim",
-    "delphinus/virt-column.nvim",
-    branch = "hotfix/virtcol",
+    "lukas-reineke/virt-column.nvim",
     init = function()
       palette "virt_column" {
         nord = function(colors)
