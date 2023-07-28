@@ -1,15 +1,12 @@
----@alias PlenaryPath core.telescope.frecency.truncator.PlenaryPath
----@alias PlenaryPathPath core.telescope.frecency.truncator.PlenaryPathPath
-
 ---@class core.telescope.frecency.truncator.PlenaryPathPath
 ---@field sep string
 
 ---@class core.telescope.frecency.truncator.PlenaryPath
----@field path PlenaryPathPath
+---@field path core.telescope.frecency.truncator.PlenaryPathPath
 ---@field filename string
----@field make_relative fun(self: PlenaryPath, cwd: string): nil
----@field is_absolute fun(self: PlenaryPath): boolean
----@field shorten fun(self: PlenaryPath, len: integer, exclude: integer[]): string
+---@field make_relative fun(self: core.telescope.frecency.truncator.PlenaryPath, cwd: string): nil
+---@field is_absolute fun(self: core.telescope.frecency.truncator.PlenaryPath): boolean
+---@field shorten fun(self: core.telescope.frecency.truncator.PlenaryPath, len: integer, exclude: integer[]): string
 
 local _, uv, api = require("core.utils").globals()
 

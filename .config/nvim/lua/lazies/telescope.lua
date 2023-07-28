@@ -106,17 +106,12 @@ return {
         local cwd = fn.expand "%:h"
         extensions("file_browser", "file_browser") { cwd = cwd ~= "" and cwd or nil }()
       end, { desc = "Telescope file_browser" })
-      keymap.set("n", "<Leader>ff", function()
-        local Path = require "plenary.path"
-        -- TODO: stopgap measure
-        if uv.cwd() == uv.os_homedir() then
-          vim.notify("find_files on $HOME is danger. Launch file_browser instead.", vim.log.levels.WARN)
-          extensions("file_browser", "file_browser") {}()
-        else
-          extensions("frecency", "frecency") { path_display = frecency.path_display, workspace = "CWD" }()
-          -- extensions("frecency2", "frecency2") { path_display = frecency.path_display, workspace = "CWD" }()
-        end
-      end, { desc = "Telescope git_files or frecency on CWD" })
+      keymap.set(
+        "n",
+        "<Leader>ff",
+        extensions("frecency", "frecency") { path_display = frecency.path_display, workspace = "CWD" },
+        { desc = "Telescope git_files or frecency on CWD" }
+      )
 
       local function input_grep_string(prompt, func)
         return function()
@@ -164,7 +159,6 @@ return {
         "n",
         "<Leader>fo",
         extensions("frecency", "frecency") { path_display = frecency.path_display },
-        -- extensions("frecency2", "frecency2") { path_display = frecency.path_display },
         { desc = "Telescope frecency" }
       )
       keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {}, { desc = "Telescope ctags_outline" })
@@ -267,33 +261,6 @@ return {
           .. [[default_text = [=[" . escape(getcmdline(), '"') . "]=]}"<CR><CR>]],
         { silent = true, desc = "Telescope command_history" }
       )
-
-      -- for telescope-frecency
-      api.create_autocmd({ "BufWinEnter", "BufWritePost" }, {
-        desc = "Set up telescope-frecency",
-        group = api.create_augroup("TelescopeFrecency", {}),
-        callback = function(args)
-          local path = vim.api.nvim_buf_get_name(args.buf)
-          if path and path ~= "" then
-            local st = uv.fs_stat(path)
-            if st then
-              local ok, db_client = pcall(require, "telescope._extensions.frecency.db_client")
-              if ok then
-                db_client.init(nil, nil, true, true)
-                db_client.autocmd_handler(path)
-              else
-                local ok, db = pcall(require, "frecency.db")
-                if ok then
-                  if not db.sqlite then
-                    db.set_config {}
-                  end
-                  db.update(path)
-                end
-              end
-            end
-          end
-        end,
-      })
     end,
 
     config = function()
@@ -427,19 +394,11 @@ return {
               VIM = vim.env.VIMRUNTIME,
             },
           },
-          frecency2 = {
-            show_scores = true,
-            show_filter_column = { "LSP", "CWD", "VIM" },
-            workspaces = {
-              VIM = vim.env.VIMRUNTIME,
-            },
-          },
         },
       }
 
       telescope.load_extension "file_browser"
       telescope.load_extension "frecency"
-      telescope.load_extension "frecency2"
       -- NOTE: This is needed to setup telescope-fzf-native. It overrides the
       -- sorters in this.
       telescope.load_extension "fzf"
