@@ -61,7 +61,6 @@ return {
 
     init = function()
       local keymap = vim.keymap
-      local frecency = require "core.telescope.frecency"
 
       palette "telescope" {
         nord = function(colors)
@@ -97,6 +96,11 @@ return {
         end
       end
 
+      local function frecency(opts)
+        opts.path_display = require("core.telescope.frecency").path_display
+        return extensions("frecency", "frecency")(opts)
+      end
+
       -- Lines
       keymap.set("n", "#", builtin "current_buffer_fuzzy_find" {}, { desc = "Telescope current_buffer_fuzzy_find" })
 
@@ -106,12 +110,7 @@ return {
         local cwd = fn.expand "%:h"
         extensions("file_browser", "file_browser") { cwd = cwd ~= "" and cwd or nil }()
       end, { desc = "Telescope file_browser" })
-      keymap.set(
-        "n",
-        "<Leader>ff",
-        extensions("frecency", "frecency") { path_display = frecency.path_display, workspace = "CWD" },
-        { desc = "Telescope git_files or frecency on CWD" }
-      )
+      keymap.set("n", "<Leader>ff", frecency { workspace = "CWD" }, { desc = "Telescope git_files or frecency on CWD" })
 
       local function input_grep_string(prompt, func)
         return function()
@@ -155,12 +154,7 @@ return {
       )
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } }, { desc = "Telescope man_pages" })
       keymap.set("n", "<Leader>fn", extensions("notify", "notify") {}, { desc = "Telescope notify" })
-      keymap.set(
-        "n",
-        "<Leader>fo",
-        extensions("frecency", "frecency") { path_display = frecency.path_display },
-        { desc = "Telescope frecency" }
-      )
+      keymap.set("n", "<Leader>fo", frecency {}, { desc = "Telescope frecency" })
       keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {}, { desc = "Telescope ctags_outline" })
       keymap.set(
         "n",
@@ -271,12 +265,12 @@ return {
       local Path = require "plenary.path"
       local fb_actions = require "telescope._extensions.file_browser.actions"
 
-      local run_builtin_in_dir = function(name)
+      local function run_builtin_in_dir(name)
         return function()
           local source = require("telescope.builtin")[name]
           local entry = actions_state.get_selected_entry()
           local dir = from_entry.path(entry)
-          if fn.isdirectory(dir) then
+          if Path:new(dir):is_dir() then
             source { cwd = dir }
           else
             vim.notify(("This is not a directory: %s"):format(dir), vim.log.levels.ERROR)
@@ -284,7 +278,7 @@ return {
         end
       end
 
-      local run_octo_in_dir = function(name)
+      local function run_octo_in_dir(name)
         return function()
           vim.notify("opening " .. name .. " in Octo")
           local picker = require "octo.picker"
@@ -292,7 +286,7 @@ return {
           local octo = require "core.utils.octo"
           local entry = actions_state.get_selected_entry()
           local dir = from_entry.path(entry)
-          if not fn.isdirectory(dir) then
+          if not Path:new(dir):is_dir() then
             vim.notify("This is not a directory: " .. dir, vim.log.levels.ERROR)
             return
           end
@@ -306,9 +300,15 @@ return {
         end
       end
 
-      local preview_scroll = function(direction)
-        return function(prompt_bufnr)
-          actions.get_current_picker(prompt_bufnr).previewer:scroll_fn(direction)
+      local function run_frecency_in_dir()
+        local source = telescope.extensions.frecency.frecency
+        local entry = actions_state.get_selected_entry()
+        local dir = from_entry.path(entry) --[[@as string]]
+        if Path:new(dir):is_dir() then
+          assert(uv.chdir(dir))
+          source { workspace = "CWD" }
+        else
+          vim.notify(("This is not a directory: %s"):format(dir), vim.log.levels.ERROR)
         end
       end
 
@@ -321,7 +321,7 @@ return {
               ["<A-o>"] = actions.send_selected_to_loclist + actions.open_loclist,
               ["<A-p>"] = actions.cycle_history_prev,
               ["<A-r>"] = run_octo_in_dir "prs",
-              ["<C-a>"] = run_builtin_in_dir "find_files",
+              ["<C-a>"] = run_frecency_in_dir,
               ["<C-g>"] = run_builtin_in_dir "live_grep",
               ["<C-o>"] = actions.send_to_loclist + actions.open_loclist,
 
@@ -363,7 +363,7 @@ return {
           file_browser = {
             mappings = {
               i = {
-                ["<C-a>"] = run_builtin_in_dir "find_files",
+                ["<C-a>"] = run_frecency_in_dir,
                 ["<C-g>"] = run_builtin_in_dir "live_grep",
                 ["<C-x>"] = fb_actions.toggle_all,
                 ["<C-s>"] = actions.select_horizontal,
