@@ -110,7 +110,7 @@ return {
         local cwd = fn.expand "%:h"
         extensions("file_browser", "file_browser") { cwd = cwd ~= "" and cwd or nil }()
       end, { desc = "Telescope file_browser" })
-      keymap.set("n", "<Leader>ff", frecency { workspace = "CWD" }, { desc = "Telescope git_files or frecency on CWD" })
+      keymap.set("n", "<Leader>ff", frecency { workspace = "CWD" }, { desc = "Telescope frecency on CWD" })
 
       local function input_grep_string(prompt, func)
         return function()
@@ -166,8 +166,9 @@ return {
               local from_entry = require "telescope.from_entry"
               local actions_state = require "telescope.actions.state"
               local entry = actions_state.get_selected_entry()
-              local dir = from_entry.path(entry)
-              builtin "git_files" { cwd = dir, show_untracked = true }()
+              local dir = from_entry.path(entry) --[[@as string]]
+              assert(uv.chdir(dir))
+              frecency { workspace = "CWD" }()
             end)
             return true
           end,
