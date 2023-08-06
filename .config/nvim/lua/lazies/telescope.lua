@@ -179,17 +179,7 @@ return {
         { desc = "Telescope todo-comments" }
       )
 
-      keymap.set(
-        "n",
-        "<Leader>fv",
-        extensions("file_browser", "file_browser") {
-          add_dirs = false,
-          depth = false,
-          hide_parent_dir = true,
-          path = "$VIMRUNTIME",
-        },
-        { desc = "Telescope file_browser $VIMRUNTIME" }
-      )
+      keymap.set("n", "<Leader>fv", frecency { workspace = "VIM" }, { desc = "Telescope file_browser $VIMRUNTIME" })
       keymap.set("n", "<Leader>fy", extensions("yank_history", "yank_history") {}, { desc = "Telescope yank_history" })
 
       keymap.set("n", "<Leader>fz", function()
