@@ -388,6 +388,7 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case",
           },
+          ---@type FrecencyConfig
           frecency = {
             show_scores = true,
             show_filter_column = { "LSP", "CWD", "VIM" },
