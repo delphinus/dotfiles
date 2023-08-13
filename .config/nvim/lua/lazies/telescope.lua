@@ -131,7 +131,7 @@ return {
       keymap.set("n", "<Leader>fG", builtin "grep_string" {}, { desc = "Telescope grep_string" })
       keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
       keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
-      keymap.set("n", "<Leader>fg", builtin "live_grep", { desc = "Telescope live_grep" })
+      keymap.set("n", "<Leader>fg", builtin "live_grep", {}, { desc = "Telescope live_grep" })
       keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
       keymap.set(
         "n",
