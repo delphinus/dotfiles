@@ -131,12 +131,7 @@ return {
       keymap.set("n", "<Leader>fG", builtin "grep_string" {}, { desc = "Telescope grep_string" })
       keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
       keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
-      keymap.set(
-        "n",
-        "<Leader>fg",
-        input_grep_string("Grep For ❯ ", builtin "grep_string"),
-        { desc = "Telescope grep_string" }
-      )
+      keymap.set("n", "<Leader>fg", builtin "live_grep", { desc = "Telescope live_grep" })
       keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
       keymap.set(
         "n",
@@ -207,12 +202,7 @@ return {
 
       -- Memo
       keymap.set("n", "<Leader>mm", extensions("memo", "list") {}, { desc = "Telescope memo" })
-      keymap.set(
-        "n",
-        "<Leader>mg",
-        input_grep_string("Memo Grep For ❯ ", extensions("memo", "grep_string")),
-        { desc = "Telescope memo grep_string" }
-      )
+      keymap.set("n", "<Leader>mg", extensions("memo", "grep"), { desc = "Telescope memo grep" })
 
       -- LSP
       keymap.set("n", "<Leader>sr", builtin "lsp_references" {}, { desc = "Telescope lsp_references" })
