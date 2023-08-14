@@ -221,6 +221,11 @@ return {
       keymap.set("n", "<Leader>gb", builtin "git_bcommits" {}, { desc = "Telescope git_bcommits" })
       keymap.set("n", "<Leader>gr", builtin "git_branches" {}, { desc = "Telescope git_branches" })
       keymap.set("n", "<Leader>gs", builtin "git_status" {}, { desc = "Telescope git_status" })
+      keymap.set("v", "<Leader>gl", function()
+        local from = fn.line "v"
+        local to = vim.api.nvim_win_get_cursor(0)[1]
+        builtin "git_bcommits_range" { from = from, to = to }()
+      end, { desc = "Telescope git_branches" })
 
       -- Copied from telescope.nvim
       keymap.set("n", "q:", builtin "command_history" {}, { desc = "Telescope command_history" })
