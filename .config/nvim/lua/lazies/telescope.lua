@@ -202,7 +202,7 @@ return {
 
       -- Memo
       keymap.set("n", "<Leader>mm", extensions("memo", "list") {}, { desc = "Telescope memo" })
-      keymap.set("n", "<Leader>mg", extensions("memo", "grep"), { desc = "Telescope memo grep" })
+      keymap.set("n", "<Leader>mg", extensions("memo", "grep") {}, { desc = "Telescope memo grep" })
 
       -- LSP
       keymap.set("n", "<Leader>sr", builtin "lsp_references" {}, { desc = "Telescope lsp_references" })
