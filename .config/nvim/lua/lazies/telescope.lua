@@ -34,7 +34,7 @@ return {
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
       { "nvim-telescope/telescope-node-modules.nvim" },
-      { "nvim-telescope/telescope-smart-history.nvim", dependencies = { "tami5/sql.nvim" } },
+      { "nvim-telescope/telescope-smart-history.nvim", dependencies = { "kkharji/sqlite.lua" } },
       { "nvim-telescope/telescope-symbols.nvim" },
       { "nvim-telescope/telescope-z.nvim" },
       { "stevearc/dressing.nvim" },
