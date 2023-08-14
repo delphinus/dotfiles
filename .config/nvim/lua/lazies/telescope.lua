@@ -237,6 +237,7 @@ return {
     config = function()
       local actions = require "telescope.actions"
       local actions_state = require "telescope.actions.state"
+      local actions_layout = require "telescope.actions.layout"
       local telescope = require "telescope"
       local from_entry = require "telescope.from_entry"
       local Path = require "plenary.path"
@@ -314,8 +315,12 @@ return {
               ["<A-d>"] = actions.results_scrolling_down,
               ["<A-h>"] = actions.results_scrolling_left,
               ["<A-l>"] = actions.results_scrolling_right,
+
+              ["<A-[>"] = actions_layout.cycle_layout_prev,
+              ["<A-]>"] = actions_layout.cycle_layout_next,
             },
           },
+          cycle_layout_list = { "center", "horizontal", "vertical" },
           layout_config = {
             scroll_speed = 3,
           },
