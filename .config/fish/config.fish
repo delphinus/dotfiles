@@ -157,7 +157,6 @@ set -x VISUAL nvim
 
 # for less
 set -x PAGER less
-set -x MANPAGER less
 set -x DELTA_PAGER less
 
 # from prezto
@@ -170,6 +169,10 @@ set -x LESS_TERMCAP_ue \e'[0m' # Ends underline.
 set -x LESS_TERMCAP_us \e'[01;32m' # Begins underline.
 set -x LESS '-g -i -M -R -S -W -z-4 -x4 +
 3'
+
+# use Neovim for man
+set -x MANWIDTH 80
+set -x MANPAGER 'nvim +Man!'
 
 # for Lua
 #set -x LUA_PATH  \

@@ -240,4 +240,7 @@ end
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/1515
 --vim.env.CC = "gcc-11"
 
+-- NOTE: for man.lua (:Man)
+vim.g.man_hardwrap = 0
+
 -- vim:se fdm=marker:
