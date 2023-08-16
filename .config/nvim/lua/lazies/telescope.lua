@@ -326,9 +326,6 @@ return {
             },
           },
           cycle_layout_list = { "center", "horizontal", "vertical" },
-          layout_config = {
-            scroll_speed = 3,
-          },
           vimgrep_arguments = {
             "pt",
             "--nocolor",
@@ -345,6 +342,32 @@ return {
           prompt_prefix = "❯❯❯ ",
           selection_caret = "❯ ",
           dynamic_preview_title = true,
+
+          -- NOTE: copy from drodown theme
+          results_title = false,
+
+          sorting_strategy = "ascending",
+          layout_strategy = "center",
+          layout_config = {
+            scroll_speed = 3, -- NOTE: This is changed from dropdown
+
+            preview_cutoff = 1, -- Preview should always show (unless previewer = false)
+
+            width = function(_, max_columns, _)
+              return math.min(max_columns, 80)
+            end,
+
+            height = function(_, _, max_lines)
+              return math.min(max_lines, 15)
+            end,
+          },
+
+          border = true,
+          borderchars = {
+            prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+            results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+            preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+          },
         },
         extensions = {
           file_browser = {
