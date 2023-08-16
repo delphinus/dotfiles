@@ -15,14 +15,6 @@ end
 
 ---@return nil
 function Lualine:config()
-  api.create_autocmd({ "CursorMoved" }, {
-    desc = "Refresh tabline to show the latest char info",
-    group = api.create_augroup("lualine-tabline-refresh", {}),
-    callback = function()
-      require("lualine").refresh { place = { "tabline" } }
-    end,
-  })
-
   local palette = require "core.utils.palette"
   local colors = palette.colors
 
