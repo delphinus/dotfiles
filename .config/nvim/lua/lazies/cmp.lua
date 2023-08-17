@@ -219,7 +219,7 @@ return {
     },
   },
 
-  i { "delphinus/cmp-ghq", dev = { path = "~/git/github.com/delphinus/cmp-ghq" }, opts = true },
+  i { "delphinus/cmp-ghq", opts = true },
 
   {
     "hrsh7th/nvim-cmp",
