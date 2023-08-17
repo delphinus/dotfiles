@@ -150,7 +150,7 @@ return {
       keymap.set(
         "n",
         "<Leader>fq",
-        extensions("ghq", "list") {
+        extensions("ghq", "ghq") {
           attach_mappings = function(_)
             local actions_set = require "telescope.actions.set"
             actions_set.select:replace(function(_, _)
@@ -410,6 +410,7 @@ return {
 
       telescope.load_extension "file_browser"
       telescope.load_extension "frecency"
+      telescope.load_extension "ghq"
       -- NOTE: This is needed to setup telescope-fzf-native. It overrides the
       -- sorters in this.
       telescope.load_extension "fzf"
