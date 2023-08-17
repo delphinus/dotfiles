@@ -229,26 +229,17 @@ return {
           pattern = "MasonToolsUpdateCompleted",
           once = true,
           callback = function()
-            local Job = require "plenary.job"
             local mason_registry = require "mason-registry"
             local textlint_path = mason_registry.get_package("textlint"):get_install_path()
 
-            Job:new({
-              command = "npm",
-              args = { "i", "textlint-rule-preset-ja-spacing" },
-              cwd = textlint_path,
-              on_start = function()
-                vim.notify "installing additional components"
-              end,
-              on_exit = function(self, code, _)
-                if code == 0 then
-                  vim.notify "finished to update Mason tools"
-                else
-                  local err = table.concat(self:stderr_result(), "\n")
-                  vim.notify(("failed to update Mason tools: code=%d\n%s"):format(code, err))
-                end
-              end,
-            }):start()
+            vim.notify "installing additional components"
+            vim.system({ "npm", "i", "textlint-rule-preset-ja-spacing" }, { cwd = textlint_path }, function(completed)
+              if completed.code == 0 then
+                vim.notify "finished to update Mason tools"
+              else
+                vim.notify(("failed to update Mason tools: code=%d\n%s"):format(completed.code, completed.stderr))
+              end
+            end)
           end,
         })
 

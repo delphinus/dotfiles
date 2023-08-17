@@ -38,17 +38,10 @@ return {
     },
 
     init = function()
-      local Job = require "plenary.job"
       local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
       local function set_karabiner(val)
         return function()
-          Job:new({
-            command = karabiner_cli,
-            args = {
-              "--set-variables",
-              ('{"neovim_in_insert_mode":%d}'):format(val),
-            },
-          }):start()
+          vim.system { karabiner_cli, "--set-variables", ('{"neovim_in_insert_mode":%d}'):format(val) }
         end
       end
 
@@ -98,7 +91,7 @@ return {
         desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
         group = g2,
         callback = function()
-          local val = fn.mode():match "[icrR]" and 1 or 0
+          local val = api.get_mode().mode:match "[icrR]" and 1 or 0
           set_karabiner(val)()
         end,
       })
