@@ -33,6 +33,7 @@ return {
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
+      { "nvim-telescope/telescope-media-files.nvim" },
       { "nvim-telescope/telescope-node-modules.nvim" },
       { "nvim-telescope/telescope-smart-history.nvim", dependencies = { "kkharji/sqlite.lua" } },
       { "nvim-telescope/telescope-symbols.nvim" },
@@ -405,6 +406,7 @@ return {
               VIM = vim.env.VIMRUNTIME,
             },
           },
+          media_files = { filetypes = { "png", "jpg", "jpeg", "gif", "mp4", "webm", "pdf" } },
         },
       }
 
@@ -420,6 +422,7 @@ return {
       telescope.load_extension "yank_history"
       telescope.load_extension "ctags_outline"
       telescope.load_extension "todo-comments"
+      telescope.load_extension "media_files"
 
       require("dressing").setup {}
 
