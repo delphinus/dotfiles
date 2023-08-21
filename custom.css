@@ -68,7 +68,7 @@
 }
 @font-face {
     font-family: -apple-system-subset;
-    src: local('ヒラギノ角ゴシック');
+    src: local(ui-sans-serif);
     unicode-range: U+0000-05C7;
 }
 @font-face {
