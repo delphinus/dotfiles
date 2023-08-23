@@ -566,12 +566,12 @@ return {
       palette "ts_rainbow" {
         nord = function(colors)
           api.set_hl(0, "rainbowcol1", { fg = colors.red })
-          api.set_hl(0, "rainbowcol2", { fg = colors.orange })
-          api.set_hl(0, "rainbowcol3", { fg = colors.magenta })
-          api.set_hl(0, "rainbowcol4", { fg = colors.yellow })
-          api.set_hl(0, "rainbowcol5", { fg = colors.green })
+          api.set_hl(0, "rainbowcol2", { fg = colors.bright_cyan })
+          api.set_hl(0, "rainbowcol3", { fg = colors.yellow })
+          api.set_hl(0, "rainbowcol4", { fg = colors.green })
+          api.set_hl(0, "rainbowcol5", { fg = colors.orange })
           api.set_hl(0, "rainbowcol6", { fg = colors.blue })
-          api.set_hl(0, "rainbowcol7", { fg = colors.bright_cyan })
+          api.set_hl(0, "rainbowcol7", { fg = colors.magenta })
         end,
       }
     end,
