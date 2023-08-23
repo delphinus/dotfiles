@@ -95,7 +95,6 @@
 	root = ~/.cache/dein/repos
 	root = ~/.local/share/nvim/site/pack
 	root = ~/.local/share/nvim/lazy
-	root = ~/git/dotfiles/.tmux/plugins
 	root = ~/git
 [ghq "ssh://git@git.remora.cx"]
 	vcs = git
