@@ -189,4 +189,6 @@ return {
       },
     },
   },
+
+  non_lazy { "delphinus/fiv.nvim", opts = { mapping = true } },
 }
