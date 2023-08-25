@@ -67,11 +67,6 @@ return {
           api.set_hl(0, "TelescopeResultsBorder", { fg = colors.blue })
           api.set_hl(0, "TelescopeSelection", { fg = colors.blue })
           api.set_hl(0, "TelescopeSelectionCaret", { fg = colors.blue })
-
-          api.set_hl(0, "TelescopeBufferLoaded", { fg = colors.magenta })
-          api.set_hl(0, "TelescopePathSeparator", { fg = colors.brighter_black })
-          api.set_hl(0, "TelescopeFrecencyScores", { fg = colors.yellow })
-          api.set_hl(0, "TelescopeQueryFilter", { fg = colors.bright_cyan })
         end,
       }
 
