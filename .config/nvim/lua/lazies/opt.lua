@@ -303,6 +303,15 @@ return {
   {
     "delphinus/auto-cursorline.nvim",
     event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
+    init = function()
+      api.create_autocmd("FileType", {
+        pattern = "TelescopePrompt",
+        callback = function()
+          require("auto-cursorline").disable { buffer = true }
+          vim.wo.cursorline = false
+        end,
+      })
+    end,
     config = true,
   },
 
