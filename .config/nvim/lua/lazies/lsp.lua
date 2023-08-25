@@ -559,21 +559,13 @@ return {
   ts { "nvim-treesitter/nvim-treesitter-textobjects" },
   ts { "nvim-treesitter/playground" },
   ts { "romgrk/nvim-treesitter-context" },
+
   ts {
-    --"p00f/nvim-ts-rainbow",
-    "mrjones2014/nvim-ts-rainbow", -- Use forked version
-    init = function()
-      palette "ts_rainbow" {
-        nord = function(colors)
-          api.set_hl(0, "rainbowcol1", { fg = colors.red })
-          api.set_hl(0, "rainbowcol2", { fg = colors.bright_cyan })
-          api.set_hl(0, "rainbowcol3", { fg = colors.yellow })
-          api.set_hl(0, "rainbowcol4", { fg = colors.green })
-          api.set_hl(0, "rainbowcol5", { fg = colors.orange })
-          api.set_hl(0, "rainbowcol6", { fg = colors.blue })
-          api.set_hl(0, "rainbowcol7", { fg = colors.magenta })
-        end,
-      }
+    -- "HiPhish/rainbow-delimiters.nvim",
+    "delphinus/rainbow-delimiters.nvim",
+    branch = "feat/perl",
+    config = function()
+      require "rainbow-delimiters.setup" {}
     end,
   },
 
