@@ -8,6 +8,7 @@ end
 
 return {
   non_lazy {
+    enabled = not vim.env.LIGHT,
     "direnv/direnv.vim",
     config = function()
       vim.g.direnv_silent_load = 1
@@ -79,6 +80,7 @@ return {
   non_lazy { "vim-denops/denops.vim" },
 
   non_lazy {
+    enabled = not vim.env.LIGHT,
     "gen740/SmoothCursor.nvim",
     config = function()
       require("smoothcursor").setup {
@@ -126,9 +128,10 @@ return {
     end,
   },
 
-  non_lazy { "luukvbaal/statuscol.nvim", opts = {} },
+  non_lazy { enabled = not vim.env.LIGHT, "luukvbaal/statuscol.nvim", opts = {} },
 
   non_lazy {
+    enabled = not vim.env.LIGHT,
     "folke/tokyonight.nvim",
     opts = {
       on_colors = function(colors)
@@ -138,6 +141,7 @@ return {
   },
 
   non_lazy {
+    enabled = not vim.env.LIGHT,
     "Bekaboo/dropbar.nvim",
     init = function()
       vim.keymap.set("n", "<A-d>", function()

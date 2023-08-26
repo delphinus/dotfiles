@@ -352,53 +352,56 @@ return {
   },
 
   {
-    "folke/noice.nvim",
-    event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
-    dependencies = {
-      "nvim-treesitter",
-      { "MunifTanjim/nui.nvim" },
-      {
-        "rcarriga/nvim-notify",
-        init = function()
-          local function dismiss()
-            require("notify").dismiss { pending = true, silent = true }
-          end
-          local function show_last_one()
-            local notify = require "notify"
-            local h = notify.history {}
-            local last = h[#h]
-            notify.notify(last.message, last.level, {
-              title = last.title[1],
-              icon = last.icon,
-              timeout = false,
-              render = last.render,
-              hide_from_history = true,
-              on_open = function(win)
-                vim.wo[win].wrap = true
-              end,
-            })
-            vim.notify("made the last message stuck", vim.log.levels.DEBUG)
-          end
-          vim.keymap.set("n", "<Plug>notify-dismiss", dismiss, { desc = "Dismiss all showing notifications" })
-          vim.keymap.set("n", "<Plug>notify-last-message", show_last_one, { desc = "Show the last notification again" })
-          vim.keymap.set("n", "<Leader>nn", dismiss, { desc = "Dismiss all showing notifications" })
-          vim.keymap.set("n", "<Leader>ns", show_last_one, { desc = "Show the last notification again" })
-          api.create_user_command("DismissNotifications", dismiss, { desc = "Dismiss all showing notifications" })
-          api.create_user_command("LastNotification", show_last_one, { desc = "Show the last notification again" })
-        end,
-        opts = {
-          render = "minimal",
-          --[[
+    "rcarriga/nvim-notify",
+    init = function()
+      local function dismiss()
+        require("notify").dismiss { pending = true, silent = true }
+      end
+      local function show_last_one()
+        local notify = require "notify"
+        local h = notify.history {}
+        local last = h[#h]
+        notify.notify(last.message, last.level, {
+          title = last.title[1],
+          icon = last.icon,
+          timeout = false,
+          render = last.render,
+          hide_from_history = true,
+          on_open = function(win)
+            vim.wo[win].wrap = true
+          end,
+        })
+        vim.notify("made the last message stuck", vim.log.levels.DEBUG)
+      end
+      vim.keymap.set("n", "<Plug>notify-dismiss", dismiss, { desc = "Dismiss all showing notifications" })
+      vim.keymap.set("n", "<Plug>notify-last-message", show_last_one, { desc = "Show the last notification again" })
+      vim.keymap.set("n", "<Leader>nn", dismiss, { desc = "Dismiss all showing notifications" })
+      vim.keymap.set("n", "<Leader>ns", show_last_one, { desc = "Show the last notification again" })
+      api.create_user_command("DismissNotifications", dismiss, { desc = "Dismiss all showing notifications" })
+      api.create_user_command("LastNotification", show_last_one, { desc = "Show the last notification again" })
+    end,
+    opts = {
+      render = "minimal",
+      --[[
           background_colour = function()
             return palette.colors.black
           end,
           ]]
-          level = "trace",
-          on_open = function(win)
-            api.win_set_config(win, { focusable = false })
-          end,
-        },
-      },
+      level = "trace",
+      on_open = function(win)
+        api.win_set_config(win, { focusable = false })
+      end,
+    },
+  },
+
+  {
+    enabled = not vim.env.LIGHT,
+    "folke/noice.nvim",
+    event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
+    dependencies = {
+      "nvim-treesitter",
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
     },
     init = function()
       -- HACK: avoid to set duplicatedly (ex. after PackerCompile)
@@ -453,6 +456,7 @@ return {
   },
 
   {
+    enabled = not vim.env.LIGHT,
     "haringsrob/nvim_context_vt",
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
@@ -501,6 +505,7 @@ return {
   },
 
   {
+    enabled = not vim.env.LIGHT,
     "lewis6991/gitsigns.nvim",
     cmd = { "Gitsigns" },
     event = { "FocusLost", "CursorHold" },
@@ -578,6 +583,7 @@ return {
   },
 
   {
+    enabled = not vim.env.LIGHT,
     "lukas-reineke/virt-column.nvim",
     init = function()
       palette "virt_column" {
@@ -646,6 +652,7 @@ return {
   },
 
   {
+    enabled = not vim.env.LIGHT,
     "lewis6991/satellite.nvim",
     event = {
       "BufWinEnter",
@@ -689,6 +696,7 @@ return {
   { "kchmck/vim-coffee-script", ft = { "coffee" } },
 
   {
+    enabled = not vim.env.LIGHT,
     "kevinhwang91/nvim-bqf",
     ft = { "qf" },
     init = function()
@@ -1027,6 +1035,7 @@ return {
   },
 
   {
+    enabeld = not vim.env.LIGHT,
     "uga-rosa/ccc.nvim",
     event = { "BufEnter" },
     config = function()

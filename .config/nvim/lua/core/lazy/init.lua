@@ -50,8 +50,8 @@ require("lazy.core.loader").did_ftdetect = ignore_ftdetect
 
 require("lazy").setup(plugins, {
   defaults = { lazy = true },
-  concurrency = 50,
-  checker = { enabled = true },
+  concurrency = vim.env.LIGHT and 10 or 50,
+  checker = { enabled = not vim.env.LIGHT },
   dev = { path = "~/git/github.com/delphinus" },
   ui = {
     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },

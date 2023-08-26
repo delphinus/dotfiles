@@ -32,7 +32,7 @@ vim.opt.inccommand = "split"
 -- }}}
 
 -- Display {{{
-vim.opt.cmdheight = 0
+vim.opt.cmdheight = vim.env.LIGHT and 2 or 0
 vim.opt.colorcolumn = { "80", "140" }
 vim.opt.list = true
 vim.opt.ruler = false

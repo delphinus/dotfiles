@@ -307,34 +307,51 @@ return {
             end
           end, { "i", "s" }),
         },
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "nvim_lua" },
-          { name = "git" },
-          { name = "ctags" },
-          { name = "treesitter", trigger_characters = { "." }, option = {} },
-          { name = "fish" },
-          { name = "luasnip" },
-          { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
-          {
-            name = "buffer",
-            option = {
-              --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]],
-              --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h[\-:\w]*\%([\-.][:\w]*\)*\)]],
-              --keyword_pattern = [[\k\+]],
-              -- Allow Foo::Bar & foo-bar
-              --keyword_pattern = [[\h\w*\%(\%(-\|::\)\h\w*\)*]],
-              --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
-              keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
-              get_bufnrs = api.list_bufs,
+        sources = vim.env.LIGHT
+            and {
+              { name = "nvim_lua" },
+              { name = "ctags" },
+              { name = "treesitter", trigger_characters = { "." }, option = {} },
+              { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
+              {
+                name = "buffer",
+                option = {
+                  keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
+                  get_bufnrs = api.list_bufs,
+                },
+              },
+              { name = "digraphs" },
+              { name = "emoji" },
+              { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
+            }
+          or {
+            { name = "nvim_lsp" },
+            { name = "nvim_lua" },
+            { name = "git" },
+            { name = "ctags" },
+            { name = "treesitter", trigger_characters = { "." }, option = {} },
+            { name = "fish" },
+            { name = "luasnip" },
+            { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
+            {
+              name = "buffer",
+              option = {
+                --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]],
+                --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h[\-:\w]*\%([\-.][:\w]*\)*\)]],
+                --keyword_pattern = [[\k\+]],
+                -- Allow Foo::Bar & foo-bar
+                --keyword_pattern = [[\h\w*\%(\%(-\|::\)\h\w*\)*]],
+                --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
+                keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
+                get_bufnrs = api.list_bufs,
+              },
             },
+            { name = "ghq" },
+            { name = "rg" },
+            { name = "digraphs" },
+            { name = "emoji" },
+            { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
           },
-          { name = "ghq" },
-          { name = "rg" },
-          { name = "digraphs" },
-          { name = "emoji" },
-          { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
-        },
         formatting = {
           -- https://github.com/onsails/lspkind.nvim/pull/30
           fields = { types.cmp.ItemField.Kind, types.cmp.ItemField.Menu, types.cmp.ItemField.Abbr },

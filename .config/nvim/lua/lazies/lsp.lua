@@ -249,7 +249,13 @@ return {
       local mason_tool_installer = require "mason-tool-installer"
       mason_tool_installer.setup {
         auto_update = is_over,
-        ensure_installed = {
+        ensure_installed = vim.env.LIGHT and {
+          "rubocop",
+          "shellcheck",
+          "shfmt",
+          "stylua",
+          "vint",
+        } or {
           "ansible-language-server",
           "awk-language-server",
           "bash-language-server",
