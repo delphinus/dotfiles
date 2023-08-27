@@ -230,3 +230,8 @@ set -x DOCKER_BUILDKIT 1
 
 # fish-grc removes this definition
 _grc_wrap ps
+
+# Run the light version of Neovim
+if test -f ~/.light
+    set -x LIGHT 1
+end
