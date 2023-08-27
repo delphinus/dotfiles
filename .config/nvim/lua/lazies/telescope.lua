@@ -29,7 +29,7 @@ return {
 
       { "nvim-lua/popup.nvim" },
       { "nvim-telescope/telescope-file-browser.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim", branch = "feat/native", dependencies = { "kkharji/sqlite.lua" } },
+      { "nvim-telescope/telescope-frecency.nvim" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
@@ -400,6 +400,7 @@ return {
             workspaces = {
               VIM = vim.env.VIMRUNTIME,
             },
+            use_sqlite = false,
           },
           media_files = { filetypes = { "png", "jpg", "jpeg", "gif", "mp4", "webm", "pdf" } },
         },
