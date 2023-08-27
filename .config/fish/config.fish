@@ -106,25 +106,25 @@ set __fish_git_prompt_char_upstream_diverged ≠
 set __fish_git_prompt_char_upstream_equal =
 set __fish_git_prompt_char_upstream_prefix ''
 
-alias cp 'cp -i'
-alias ln 'ln -i'
-alias mv 'mv -i'
-alias rm 'rm -i'
+abbr cp 'cp -i'
+abbr ln 'ln -i'
+abbr mv 'mv -i'
+abbr rm 'rm -i'
 
-alias g git
-alias gf 'git foresta | less'
-alias gfa 'git foresta --all | less'
-alias l. 'l -d .*'
+abbr g git
+abbr gf 'git foresta | less'
+abbr gfa 'git foresta --all | less'
+abbr l. 'l -d .*'
 
 type -q hub; and alias git hub
-alias dircolors gdircolors
+abbr dircolors gdircolors
 
-eval (dircolors -c ~/.dir_colors)
+eval (gdircolors -c ~/.dir_colors)
 
 if test "$NVIM_LISTEN_ADDRESS" != ''
-    alias nvr 'nvr -cc \'ToggleTerm\' -cc split'
+    abbr nvr 'nvr -cc \'ToggleTerm\' -cc split'
 else if test "$NVIM" != ''
-    alias nvr 'nvr --servername '$NVIM' -cc \'ToggleTerm\' -cc split'
+    abbr nvr 'nvr --servername '$NVIM' -cc \'ToggleTerm\' -cc split'
 end
 
 test "$fish_key_bindings" != fish_hybrid_key_bindings; and fish_hybrid_key_bindings
