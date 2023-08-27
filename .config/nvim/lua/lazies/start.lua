@@ -194,5 +194,5 @@ return {
     },
   },
 
-  non_lazy { "delphinus/fiv.nvim", opts = { mapping = true } },
+  non_lazy { "git@github.com:delphinus/fiv.nvim", opts = { mapping = true } },
 }
