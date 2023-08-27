@@ -1037,7 +1037,7 @@ return {
   {
     enabeld = not vim.env.LIGHT,
     "uga-rosa/ccc.nvim",
-    event = { "BufEnter" },
+    event = { "CursorHold", "CursorHoldI", "FocusLost" },
     config = function()
       palette "ccc" {
         function(colors)
