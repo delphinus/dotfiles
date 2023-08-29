@@ -122,9 +122,9 @@ abbr dircolors gdircolors
 eval (gdircolors -c ~/.dir_colors)
 
 if test "$NVIM_LISTEN_ADDRESS" != ''
-    abbr nvr 'nvr -cc \'ToggleTerm\' -cc split'
+    alias nvr 'nvr -cc \'ToggleTerm\' -cc split'
 else if test "$NVIM" != ''
-    abbr nvr 'nvr --servername '$NVIM' -cc \'ToggleTerm\' -cc split'
+    alias nvr 'nvr --servername '$NVIM' -cc \'ToggleTerm\' -cc split'
 end
 
 test "$fish_key_bindings" != fish_hybrid_key_bindings; and fish_hybrid_key_bindings
