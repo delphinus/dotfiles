@@ -665,6 +665,16 @@ return {
       "WinScrolled",
     },
     opts = { handlers = { marks = { show_builtins = true } } },
+    init = function()
+      api.create_autocmd("User", {
+        pattern = "BigfileBufReadPost",
+        callback = function(args)
+          vim.api.nvim_buf_call(args.buf, function()
+            vim.cmd.SatelliteDisable()
+          end)
+        end,
+      })
+    end,
   },
 
   {

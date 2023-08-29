@@ -583,12 +583,7 @@ return {
     config = function()
       require("nvim-treesitter.configs").setup {
         ensure_installed = "all",
-        highlight = {
-          enable = true,
-          disable = function(_, bufnr)
-            return api.buf_line_count(bufnr) > 10000
-          end,
-        },
+        highlight = { enable = true },
         incremental_selection = {
           enable = true,
           keymaps = {

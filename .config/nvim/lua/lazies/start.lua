@@ -125,6 +125,15 @@ return {
           fn.sign_define("smoothcursor", { text = m.char })
         end,
       })
+
+      api.create_autocmd("User", {
+        pattern = "BigfileBufReadPost",
+        callback = function(args)
+          vim.api.nvim_buf_call(args.buf, function()
+            require("smoothcursor.utils").smoothcursor_stop()
+          end)
+        end,
+      })
     end,
   },
 
@@ -195,4 +204,10 @@ return {
   },
 
   non_lazy { "git@github.com:delphinus/fiv.nvim", opts = { mapping = true } },
+
+  non_lazy {
+    -- "LunarVim/bigfile.nvim"
+    "delphinus/bigfile.nvim",
+    branch = "feat/autocmd",
+  },
 }
