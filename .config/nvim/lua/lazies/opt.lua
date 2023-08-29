@@ -1045,7 +1045,7 @@ return {
   },
 
   {
-    enabeld = not vim.env.LIGHT,
+    enabled = not vim.env.LIGHT,
     "uga-rosa/ccc.nvim",
     event = { "CursorHold", "CursorHoldI", "FocusLost" },
     config = function()
@@ -1091,4 +1091,6 @@ return {
       },
     },
   },
+
+  { "tzachar/highlight-undo.nvim", keys = { "u", "<C-r>" }, opts = true },
 }
