@@ -203,10 +203,14 @@ return {
       -- LSP
       keymap.set("n", "<Leader>sr", builtin "lsp_references" {}, { desc = "Telescope lsp_references" })
       keymap.set("n", "<Leader>sd", function()
-        if vim.opt.filetype:get() == "perl" then
-          extensions("ctags_outline", "outline") {}()
-        else
+        if
+          vim.iter(vim.lsp.get_clients()):any(function(client)
+            client.supports_method "textDocument/documentSymbol"
+          end)
+        then
           builtin "lsp_document_symbols" {}()
+        else
+          extensions("ctags_outline", "outline") {}()
         end
       end, { desc = "Telescope lsp_document_symbols or ctags_outline" })
       keymap.set("n", "<Leader>sw", builtin "lsp_workspace_symbols" {}, { desc = "Telescope lsp_workspace_symbols" })
