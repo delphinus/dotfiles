@@ -8,11 +8,11 @@
 }
 @font-face {
 	font-family: sans-serif;
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: Arial;
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: monospace;
@@ -28,39 +28,39 @@
 }
 @font-face {
 	font-family: 'ヒラギノ角ゴ ProN W3';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'ヒラギノ角ゴ Pro W3';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'Hiragino Kaku Gothic Pro';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'MS Gothic';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'MS UI Gothic';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'ＭＳ Ｐゴシック';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'Meiryo';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'メイリオ';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'Osaka';
-	src: local(ui-sans-serif);
+	src: local(-apple-system);
 }
 @font-face {
 	font-family: 'Osaka-Mono';
@@ -68,7 +68,7 @@
 }
 @font-face {
     font-family: -apple-system-subset;
-    src: local(ui-sans-serif);
+    src: local(-apple-system);
     unicode-range: U+0000-05C7;
 }
 @font-face {
@@ -103,12 +103,12 @@ input[type="text"],input[type="email"],input[type="search"],
 .mw-parser-output .jis2004font,
 table td b a.extiw
 {
-  font-family: ui-sans-serif !important;
+  font-family: -apple-system !important;
 }
 
 /* Karapia */
 .widget-entry .widget-header, .widget-entry .widget-content {
-	font-family: ui-sans-serif !important;
+	font-family: -apple-system !important;
 }
 
 /* AWS */
