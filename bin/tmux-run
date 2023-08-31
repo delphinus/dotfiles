@@ -1,0 +1,10 @@
+#!/bin/bash -eu
+BIN_DIR=/opt/homebrew/bin
+if ! [[ -d $BIN_DIR ]]; then
+  BIN_DIR=/usr/local/bin
+fi
+OP=/usr/local/bin/op
+TMUX=$BIN_DIR/tmux
+export SHELL=$BIN_DIR/fish
+
+$TMUX a -d || $OP run --env-file "$HOME/.1password-env" -- $TMUX
