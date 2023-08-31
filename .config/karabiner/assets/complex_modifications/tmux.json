@@ -38,7 +38,8 @@
                 "^com\\.googlecode\\.iterm2$",
                 "^co\\.zeit\\.hyperterm$",
                 "^co\\.zeit\\.hyper$",
-                "^net\\.kovidgoyal\\.kitty$"
+                "^net\\.kovidgoyal\\.kitty$",
+                "^org\\.alacritty$"
               ]
             }
           ]
