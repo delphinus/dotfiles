@@ -1,0 +1,6 @@
+[shell]
+args = [
+  "OP_SERVICE_ACCOUNT_TOKEN=<replace here>",
+  "/Users/jinnouchi.yasushi/git/dotfiles/bin/tmux-run"
+]
+program = "/usr/bin/env"
