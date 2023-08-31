@@ -1,0 +1,40 @@
+import = [
+  "/Users/jinnouchi.yasushi/.config/alacritty/nord.toml",
+  "/Users/jinnouchi.yasushi/.alacritty-command.toml"
+]
+
+[cursor.vi_mode_style]
+shape = "Underline"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 16.0
+
+[font.bold]
+family = "SF Mono Square"
+style = "Bold"
+
+[font.bold_italic]
+family = "SF Mono Square"
+style = "Bold Italic"
+
+[font.italic]
+family = "SF Mono Square"
+style = "Italic"
+
+[font.normal]
+family = "SF Mono Square"
+style = "Regular"
+
+[terminal]
+osc52 = "CopyPaste"
+
+[window]
+opacity = 0.9
+option_as_alt = "Both"
+
+[window.padding]
+x = 4
+y = 4
