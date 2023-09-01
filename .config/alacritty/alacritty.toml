@@ -1,7 +1,10 @@
 import = [
   "/Users/jinnouchi.yasushi/.config/alacritty/nord.toml",
-  "/Users/jinnouchi.yasushi/.alacritty-command.toml"
+  "/Users/jinnouchi.yasushi/.alacritty-env.toml"
 ]
+
+[shell]
+program = "/Users/jinnouchi.yasushi/git/dotfiles/bin/tmux-run"
 
 [cursor.vi_mode_style]
 shape = "Underline"
