@@ -15,28 +15,38 @@ TERM = "xterm-256color"
 [font]
 size = 16.0
 
-[font.bold]
-family = "SF Mono Square"
-style = "Bold"
-
-[font.bold_italic]
-family = "SF Mono Square"
-style = "Bold Italic"
-
-[font.italic]
-family = "SF Mono Square"
-style = "Italic"
-
 [font.normal]
 family = "SF Mono Square"
 style = "Regular"
+
+[font.bold]
+style = "Bold"
+
+[font.bold_italic]
+style = "Bold Italic"
+
+[font.italic]
+style = "Italic"
 
 [terminal]
 osc52 = "CopyPaste"
 
 [window]
+decorations = "Buttonless"
 opacity = 0.9
 option_as_alt = "Both"
 
 [window.padding]
 x = 2
+
+[[keyboard.bindings]]
+key = "["
+mods = "Command"
+mode = "~Search"
+action = "ToggleViMode"
+
+[[keyboard.bindings]]
+key = "Q"
+mods = "None"
+mode = "Vi"
+action = "ToggleViMode"

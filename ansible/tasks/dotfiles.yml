@@ -37,6 +37,7 @@
     force=yes
   with_items:
     - .asdfrc
+    - .config/alacritty
     - .config/bat/config
     - .config/bpytop/bpytop.conf
     - .config/direnv/direnvrc

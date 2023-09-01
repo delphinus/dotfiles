@@ -106,10 +106,10 @@ set __fish_git_prompt_char_upstream_diverged ≠
 set __fish_git_prompt_char_upstream_equal =
 set __fish_git_prompt_char_upstream_prefix ''
 
-abbr cp 'cp -i'
-abbr ln 'ln -i'
-abbr mv 'mv -i'
-abbr rm 'rm -i'
+alias cp 'cp -i'
+alias ln 'ln -i'
+alias mv 'mv -i'
+alias rm 'rm -i'
 
 abbr g git
 abbr gf 'git foresta | less'
@@ -235,3 +235,5 @@ _grc_wrap ps
 if test -f ~/.light
     set -x LIGHT 1
 end
+
+abbr alacritty $HOME/Applications/Alacritty.app/Contents/MacOS/alacritty
