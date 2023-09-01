@@ -373,6 +373,7 @@ return {
           file_browser = {
             mappings = {
               i = {
+                ["<A-CR>"] = fb_actions.create_from_prompt,
                 ["<C-a>"] = run_frecency_in_dir,
                 ["<C-g>"] = run_builtin_in_dir "live_grep",
                 ["<C-x>"] = fb_actions.toggle_all,
