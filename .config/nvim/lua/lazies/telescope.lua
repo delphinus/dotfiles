@@ -404,6 +404,7 @@ return {
             workspaces = {
               VIM = vim.env.VIMRUNTIME,
             },
+            ignore_patterns = { "*.git/*", "*/tmp/*", "term://*", "*/tmux-fingers/alphabets*" },
             use_sqlite = false,
           },
           media_files = { filetypes = { "png", "jpg", "jpeg", "gif", "mp4", "webm", "pdf" } },
