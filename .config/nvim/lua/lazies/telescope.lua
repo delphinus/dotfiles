@@ -131,7 +131,7 @@ return {
       keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
       keymap.set(
         "n",
-        "<S-Space>",
+        "<A-Space>",
         builtin "keymaps" {
           filter = function(keymap)
             return not keymap.desc or keymap.desc ~= "Nvim builtin"
