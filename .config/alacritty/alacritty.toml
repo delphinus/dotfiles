@@ -52,7 +52,7 @@ mouse = { mods = "Command", enabled = true }
 binding = { key = "U", mods = "Command|Shift" }
 
 [[hints.enabled]]
-regex = "(/?([-a-zA-Z0-9\\.]+/)+[-a-zA-Z0-9\\.]+|[a-fA-F0-9]{4,16})"
+regex = "(~?([-\\w\\.]*/)+[-\\w\\.]*|[a-fA-F\\d]{4,})"
 hyperlinks = true
 post_processing = true
 persist = false
