@@ -6,38 +6,29 @@ import = [
 [shell]
 program = "/Users/jinnouchi.yasushi/git/dotfiles/bin/tmux-run"
 
-[cursor.vi_mode_style]
-shape = "Underline"
+[cursor]
+style = { shape = "Beam", blinking = "On" }
+vi_mode_style = { shape = "Underline" }
+unfocused_hollow = true
 
 [env]
 TERM = "xterm-256color"
 
 [font]
 size = 16.0
-
-[font.normal]
-family = "SF Mono Square"
-style = "Regular"
-
-[font.bold]
-style = "Bold"
-
-[font.bold_italic]
-style = "Bold Italic"
-
-[font.italic]
-style = "Italic"
+normal = { family = "SF Mono Square", style = "Regular" }
+bold = { style = "Bold" }
+bold_italic = { style = "Bold Italic" }
+italic = { style = "Italic" }
 
 [terminal]
 osc52 = "CopyPaste"
 
 [window]
 decorations = "Buttonless"
-opacity = 0.9
+opacity = 0.98
 option_as_alt = "Both"
-
-[window.padding]
-x = 2
+padding = { x = 2 }
 
 [[keyboard.bindings]]
 key = "["
@@ -50,3 +41,12 @@ key = "Q"
 mods = "None"
 mode = "Vi"
 action = "ToggleViMode"
+
+[[hints.enabled]]
+regex = "(mailto:|https://|http://|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`│]+"
+hyperlinks = true
+post_processing = true
+persist = false
+command = "open"
+mouse = { mods = "Command", enabled = true }
+binding = { key = "U", mods = "Command" }
