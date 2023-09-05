@@ -153,7 +153,7 @@ return {
     enabled = not vim.env.LIGHT,
     "Bekaboo/dropbar.nvim",
     init = function()
-      vim.keymap.set("n", "<A-d>", function()
+      vim.keymap.set({ "n", "t" }, "<C-A-d>", function()
         require("dropbar.api").pick()
       end)
     end,
@@ -175,7 +175,7 @@ return {
         enable = function(buf, win)
           local buf_name = api.buf_get_name(buf)
           return not vim.api.nvim_win_get_config(win).zindex
-            and vim.bo[buf].buftype == ""
+            and (vim.bo[buf].buftype == "" or vim.bo[buf].buftype == "terminal")
             and buf_name ~= ""
             and not buf_name:match "^octo://"
             and not vim.wo[win].diff
