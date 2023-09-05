@@ -150,7 +150,6 @@ return {
   },
 
   non_lazy {
-    enabled = not vim.env.LIGHT,
     "Bekaboo/dropbar.nvim",
     init = function()
       vim.keymap.set({ "n", "t" }, "<C-A-d>", function()
