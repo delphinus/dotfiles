@@ -175,7 +175,7 @@ return {
     end,
 
     ---@type SkkeletonIndicatorOpts
-    opts = { fadeOutMs = 0 },
+    opts = { fadeOutMs = 0, ignoreFt = { "dropbar_menu" } },
   },
 
   { "hrsh7th/cmp-nvim-lua", ft = "lua" },
