@@ -585,7 +585,9 @@ return {
 
   {
     enabled = not vim.env.LIGHT,
-    "lukas-reineke/virt-column.nvim",
+    --"lukas-reineke/virt-column.nvim",
+    "delphinus/virt-column.nvim",
+    branch = "feature/buf-filter",
     init = function()
       palette "virt_column" {
         nord = function(colors)
