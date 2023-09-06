@@ -198,6 +198,7 @@ return {
             return uv.cwd() or ""
           end,
         },
+        terminal = { icon = " " },
       },
     },
   },
