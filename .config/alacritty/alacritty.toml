@@ -28,7 +28,9 @@ osc52 = "CopyPaste"
 decorations = "Buttonless"
 opacity = 0.98
 option_as_alt = "Both"
-padding = { x = 2 }
+padding = { x = 4, y = 2 }
+dynamic_padding = true
+resize_increments = true
 
 [[keyboard.bindings]]
 key = "["
