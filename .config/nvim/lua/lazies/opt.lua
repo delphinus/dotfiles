@@ -52,7 +52,8 @@ return {
     end,
     opts = {
       open_mapping = false,
-      direction = "float",
+      direction = "tab",
+      autochdir = true,
       float_opts = {
         border = {
           --{ "⡤", "WinBorderTop" },
