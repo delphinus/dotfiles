@@ -36,9 +36,6 @@ return {
 
   {
     "akinsho/toggleterm.nvim",
-    keys = {
-      { "<A-c>", "<Cmd>ToggleTerm<CR>", mode = { "n", "t" }, desc = "Open ToggleTerm" },
-    },
     cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
     init = function()
       palette "toggleterm" {
@@ -72,6 +69,48 @@ return {
       },
       winbar = { enabled = true },
     },
+  },
+
+  {
+    -- "nyngwang/NeoTerm.lua",
+    "delphinus/NeoTerm.lua",
+    branch = "fix/opt-local",
+    keys = {
+      { "<A-c>", "<Cmd>NeoTermToggle<CR>", mode = { "n", "t" }, desc = "Toggle NeoTerm" },
+    },
+    cmd = { "NeoTermToggle", "NeoTermEnterNormal" },
+    init = function()
+      palette "neoterm" {
+        nord = function(colors)
+          api.set_hl(0, "neo-term-bg", { bg = "#1c2434" })
+        end,
+      }
+      local group = api.create_augroup("NeoTerm-config", {})
+      api.create_autocmd("FileType", {
+        group = group,
+        pattern = "neo-term",
+        callback = function()
+          vim.b.dwm_disabled = true
+        end,
+      })
+      api.create_autocmd("TermEnter", {
+        group = group,
+        callback = function()
+          vim.opt_local.number = false
+          vim.opt_local.relativenumber = false
+          vim.opt_local.cursorline = false
+        end,
+      })
+      api.create_autocmd("TermLeave", {
+        group = group,
+        callback = function()
+          vim.opt_local.number = true
+          vim.opt_local.relativenumber = true
+          vim.opt_local.cursorline = true
+        end,
+      })
+    end,
+    opts = { term_mode_hl = "neo-term-bg" },
   },
 
   { "cocopon/colorswatch.vim", cmd = { "ColorSwatchGenerate" } },
