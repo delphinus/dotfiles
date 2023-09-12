@@ -237,3 +237,9 @@ if test -f ~/.light
 end
 
 abbr alacritty $HOME/Applications/Alacritty.app/Contents/MacOS/alacritty
+if test -n "$NVIM"
+    set -x EXA_ICON_SPACING 1
+else
+    set -x EXA_ICON_SPACING 2
+end
+alias l 'eza -lF --group-directories-first --color-scale --icons --time-style long-iso --git'

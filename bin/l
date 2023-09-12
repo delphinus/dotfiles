@@ -1,7 +1,0 @@
-#!/bin/bash
-COLOR_SCALE=
-# iTerm2 reports $COLORFGBG if on solarized light
-if [[ $COLORFGBG != '11;15' ]]; then
-  COLOR_SCALE=--color-scale
-fi
-exec exa -lF $COLOR_SCALE --group-directories-first "$@"
