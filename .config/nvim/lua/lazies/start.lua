@@ -210,4 +210,23 @@ return {
     "delphinus/bigfile.nvim",
     branch = "feat/autocmd",
   },
+
+  non_lazy {
+    enabled = not vim.env.LIGHT,
+    "uga-rosa/ccc.nvim",
+    config = function()
+      palette "ccc" {
+        function(colors)
+          local ccc = require "ccc"
+          ccc.setup {
+            highlighter = { auto_enable = true },
+            pickers = {
+              ccc.picker.hex,
+              ccc.picker.custom_entries(colors),
+            },
+          }
+        end,
+      }
+    end,
+  },
 }

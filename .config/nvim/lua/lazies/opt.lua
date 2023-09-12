@@ -1087,26 +1087,6 @@ return {
   },
 
   {
-    enabled = not vim.env.LIGHT,
-    "uga-rosa/ccc.nvim",
-    event = { "CursorHold", "CursorHoldI", "FocusLost" },
-    config = function()
-      palette "ccc" {
-        function(colors)
-          local ccc = require "ccc"
-          ccc.setup {
-            highlighter = { auto_enable = true },
-            pickers = {
-              ccc.picker.hex,
-              ccc.picker.custom_entries(colors),
-            },
-          }
-        end,
-      }
-    end,
-  },
-
-  {
     "numToStr/Comment.nvim",
     keys = {
       { "<Space>c", mode = { "n", "x" } },
