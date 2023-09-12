@@ -41,5 +41,11 @@ function fish_mode_prompt --description "Display the mode for the prompt"
   # Write pipestatus
   set -l prompt_status (__fish_print_pipestatus " [" "]" "|" (set_color $fish_color_status) (set_color --bold $fish_color_status) $last_pipestatus)
 
-  echo -n -s (set_color $color_cwd) (prompt_pwd) $normal (fish_vcs_prompt) $normal $prompt_status " " $suffix " "
+  if type -q env-info
+    set env_info (env-info)
+  else
+    set env_info ''
+  end
+
+  echo -n -s (set_color $color_cwd) (prompt_pwd) $normal (fish_vcs_prompt) $normal $env_info $prompt_status " " $suffix " "
 end
