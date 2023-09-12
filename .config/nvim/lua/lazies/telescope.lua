@@ -412,22 +412,6 @@ return {
         },
       }
 
-      telescope.load_extension "file_browser"
-      telescope.load_extension "frecency"
-      telescope.load_extension "ghq"
-      telescope.load_extension "notify"
-      telescope.load_extension "yank_history"
-      telescope.load_extension "ctags_outline"
-      if not vim.env.LIGHT then
-        telescope.load_extension "todo-comments"
-        telescope.load_extension "media_files"
-        telescope.load_extension "smart_history"
-        telescope.load_extension "noice"
-        -- NOTE: This is needed to setup telescope-fzf-native. It overrides the
-        -- sorters in this.
-        telescope.load_extension "fzf"
-      end
-
       require("dressing").setup {}
 
       -- Set mappings for yanky here to avoid cycle referencing
