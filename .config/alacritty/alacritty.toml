@@ -10,6 +10,7 @@ program = "/Users/jinnouchi.yasushi/git/dotfiles/bin/tmux-run"
 style = { shape = "Beam", blinking = "On" }
 vi_mode_style = { shape = "Underline" }
 unfocused_hollow = true
+thickness = 0.5
 
 [env]
 TERM = "xterm-256color"
@@ -45,7 +46,7 @@ mode = "Vi"
 action = "ToggleViMode"
 
 [[hints.enabled]]
-regex = "(mailto:|https://|http://|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`│]+"
+regex = "([a-z]+://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`│]+"
 hyperlinks = true
 post_processing = true
 persist = false
@@ -54,8 +55,8 @@ mouse = { mods = "Command", enabled = true }
 binding = { key = "U", mods = "Command|Shift" }
 
 [[hints.enabled]]
-# filepath and hash-like string and constant-like string
-regex = "(~?([-\\w\\.]*/)+[-\\w\\.]*|[a-f\\d]{4,}|[A-Z_]{4,})"
+# URL or filepath or hash-like string or constant-like string
+regex = "(([a-z]+://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`│]+|~?([-\\w\\.]*/)+[-\\w\\.]*|[a-f\\d]{4,}|[A-Z_]{4,})"
 hyperlinks = true
 post_processing = true
 persist = false
