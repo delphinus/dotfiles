@@ -237,7 +237,11 @@ return {
     dependencies = {
       "zbirenbaum/copilot.lua",
       cmd = { "Copilot" },
-      opts = { suggestion = { enabled = false }, panel = { enabled = false } },
+      opts = {
+        suggestion = { auto_trigger = true },
+        panel = { enabled = false },
+        filetypes = { gitcommit = true, gitrebase = true },
+      },
     },
   },
 
