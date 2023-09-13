@@ -214,6 +214,16 @@ return {
 
   i { "delphinus/cmp-ghq", opts = true },
 
+  i {
+    "zbirenbaum/copilot-cmp",
+    opts = true,
+    dependencies = {
+      "zbirenbaum/copilot.lua",
+      cmd = { "Copilot" },
+      opts = { suggestion = { enabled = false }, panel = { enabled = false } },
+    },
+  },
+
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -253,6 +263,7 @@ return {
           api.set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
           api.set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
           api.set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
+          api.set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
         end,
       }
     end,
@@ -325,6 +336,7 @@ return {
               { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
             }
           or {
+            { name = "copilot" },
             { name = "nvim_lsp" },
             { name = "nvim_lua" },
             { name = "git" },
@@ -375,6 +387,7 @@ return {
               tmux = "T",
               treesitter = "TS",
             },
+            symbol_map = { Copilot = "" },
             before = function(entry, vim_item)
               if vim.tbl_contains({ "ctags", "buffer", "tmux", "rg", "look" }, entry.source.name) then
                 vim_item.dup = 1
