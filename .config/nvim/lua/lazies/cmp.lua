@@ -57,7 +57,24 @@ return {
           local types = require "cmp.types"
           require("cmp").setup.buffer {
             formatting = { fields = { types.cmp.ItemField.Abbr } },
-            sorting = { comparators = { compare.order } },
+            sorting = {
+              priority_weight = 2,
+              comparators = {
+                require("copilot_cmp.comparators").prioritize,
+
+                -- Below is the default comparitor list and order for nvim-cmp
+                cmp.config.compare.offset,
+                -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+                cmp.config.compare.exact,
+                cmp.config.compare.score,
+                cmp.config.compare.recently_used,
+                cmp.config.compare.locality,
+                cmp.config.compare.kind,
+                cmp.config.compare.sort_text,
+                cmp.config.compare.length,
+                cmp.config.compare.order,
+              },
+            },
             sources = {
               {
                 name = "skkeleton",
@@ -300,7 +317,7 @@ return {
               fallback()
             end
           end, { "i", "s" }),
-          ["<Tab>"] = cmp.mapping(function(fallback)
+          --[[ ["<Tab>"] = cmp.mapping(function(fallback)
             local col = fn.col "." - 1
             if cmp.visible() then
               cmp.select_next_item()
@@ -309,7 +326,22 @@ return {
             else
               cmp.complete()
             end
-          end, { "i", "s" }),
+          end, { "i", "s" }), ]]
+          ["<Tab>"] = vim.schedule_wrap(function(fallback)
+            local function has_words_before()
+              if vim.bo.buftype == "prompt" then
+                return false
+              end
+              local line, col = unpack(api.win_get_cursor(0))
+              local is_empty_line = api.buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match "^%s*$"
+              return col ~= 0 and not is_empty_line
+            end
+            if cmp.visible() and has_words_before() then
+              cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+            else
+              fallback()
+            end
+          end),
           ["<S-Tab"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
@@ -320,6 +352,7 @@ return {
         },
         sources = vim.env.LIGHT
             and {
+              { name = "copilot" },
               { name = "nvim_lua" },
               { name = "ctags" },
               { name = "treesitter", trigger_characters = { "." }, option = {} },
@@ -372,6 +405,7 @@ return {
             maxwidth = 50,
             menu = {
               buffer = "B",
+              copilot = "CO",
               ctags = "C",
               digraphs = "D",
               emoji = "E",
