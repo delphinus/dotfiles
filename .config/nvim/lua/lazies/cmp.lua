@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local fn, _, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
@@ -238,7 +239,8 @@ return {
       "zbirenbaum/copilot.lua",
       cmd = { "Copilot" },
       opts = {
-        suggestion = { auto_trigger = true },
+        -- suggestion = { auto_trigger = true },
+        suggestion = { enabled = false },
         panel = { enabled = false },
         filetypes = { gitcommit = true, gitrebase = true },
       },

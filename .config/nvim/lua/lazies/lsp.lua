@@ -289,6 +289,7 @@ return {
           "stylua",
           "terraform-ls",
           "textlint",
+          "typescript-language-server",
           "vim-language-server",
           "vint",
           "vue-language-server",
@@ -349,6 +350,12 @@ return {
         end or command_resolver.from_node_modules()
       end
 
+      local function is_deno_attached(params)
+        return vim.iter(vim.lsp.get_clients { bufnr = params.bufnr }):any(function(v)
+          return v.name == "denols"
+        end)
+      end
+
       nls.setup {
         --debug = true,
         diagnostics_format = "[null-ls] #{m}",
@@ -362,14 +369,16 @@ return {
           nls.builtins.diagnostics.vint,
           --nls.builtins.diagnostics.yamllint,
           nls.builtins.formatting.black,
+          nls.builtins.formatting.eslint.with {},
           nls.builtins.formatting.fish_indent,
           nls.builtins.formatting.gofmt,
           nls.builtins.formatting.gofumpt,
           nls.builtins.formatting.goimports,
           nls.builtins.formatting.golines,
+          nls.builtins.formatting.prettier.with {},
           nls.builtins.formatting.stylua,
-          nls.builtins.formatting.yamlfmt,
           nls.builtins.formatting.textlint,
+          nls.builtins.formatting.yamlfmt,
           nls.builtins.hover.dictionary,
 
           nls.builtins.diagnostics.luacheck.with {
@@ -379,27 +388,10 @@ return {
             },
           },
 
-          nls.builtins.diagnostics.eslint.with {
-            runtime_condition = is_for_node(true),
-            cwd = cwd_for_eslint,
-            dynamic_command = find_on_gitdir_at_first,
-          },
-
-          nls.builtins.formatting.eslint.with {
-            runtime_condition = is_for_node(true),
-            cwd = cwd_for_eslint,
-            dynamic_command = find_on_gitdir_at_first,
-          },
-
-          nls.builtins.formatting.deno_fmt.with {
-            runtime_condition = function(params)
-              local clients = vim.lsp.get_active_clients { bufnr = params.bufnr }
-              local denols = vim.tbl_filter(function(c)
-                return c.config.name == "denols" or c.config.name == "lua_ls"
-              end, clients)
-              return #denols > 0 and true or false
-            end,
-          },
+          -- FIX: deno_fmt detection
+          --[[ nls.builtins.formatting.deno_fmt.with {
+            runtime_condition = is_deno_attached,
+          }, ]]
 
           nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
 

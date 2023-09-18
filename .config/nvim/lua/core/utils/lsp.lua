@@ -178,7 +178,7 @@ return {
               end
             end
           end
-          return c.name ~= "lua"
+          return c.name ~= "tsserver" or c.name ~= "lua"
         end,
       })
       vim.keymap.set("n", "g!", function()
