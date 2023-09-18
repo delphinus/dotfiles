@@ -254,6 +254,7 @@ return {
           "shellcheck",
           "shfmt",
           "stylua",
+          "typescript-language-server",
           "vint",
         } or {
           "ansible-language-server",
@@ -288,7 +289,6 @@ return {
           "stylua",
           "terraform-ls",
           "textlint",
-          "typescript-language-server",
           "vim-language-server",
           "vint",
           "vue-language-server",

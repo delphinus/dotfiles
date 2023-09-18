@@ -93,6 +93,7 @@ return {
 
   on_attach = function(client, bufnr)
     if not need_me(client, bufnr) then
+      vim.notify("lsp: " .. client.name .. " is not needed", vim.log.levels.DEBUG)
       vim.schedule(function()
         vim.lsp.buf_detach_client(bufnr, client.id)
       end)
@@ -177,7 +178,7 @@ return {
               end
             end
           end
-          return c.name ~= "tsserver" and c.name ~= "lua"
+          return c.name ~= "lua"
         end,
       })
       vim.keymap.set("n", "g!", function()
