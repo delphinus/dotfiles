@@ -103,10 +103,12 @@ return {
       })
       api.create_autocmd("TermLeave", {
         group = group,
-        callback = function()
-          vim.opt_local.number = true
-          vim.opt_local.relativenumber = true
-          vim.opt_local.cursorline = true
+        callback = function(args)
+          if vim.bo[args.buf].buftype ~= "terminal" then
+            vim.opt_local.number = true
+            vim.opt_local.relativenumber = true
+            vim.opt_local.cursorline = true
+          end
         end,
       })
     end,
