@@ -168,5 +168,5 @@
   "virt-column.nvim": { "branch": "feature/buf-filter", "commit": "bb100dc65894b14f11c3e3015a7c68f89d8b31c7" },
   "visualrepeat": { "branch": "master", "commit": "8b79362a6009f6433f3c147f0735bfb1d2c2c56c" },
   "xslate-vim": { "branch": "master", "commit": "e6eff89c4f41c61171e7debacad69e13ebb95b4c" },
-  "yanky.nvim": { "branch": "main", "commit": "4c85d8d6808d9859e72f8bd6c25302199e6a5eac" }
+  "yanky.nvim": { "branch": "main", "commit": "4f5f15829fbad15ed703e7cb072cdf2a488cf5e7" }
 }
