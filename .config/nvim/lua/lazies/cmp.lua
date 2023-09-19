@@ -53,29 +53,9 @@ return {
         group = g1,
         pattern = "skkeleton-enable-pre",
         callback = function()
-          cmp_config = require("cmp.config").get()
-          local compare = require "cmp.config.compare"
           local types = require "cmp.types"
           require("cmp").setup.buffer {
             formatting = { fields = { types.cmp.ItemField.Abbr } },
-            sorting = {
-              priority_weight = 2,
-              comparators = {
-                require("copilot_cmp.comparators").prioritize,
-
-                -- Below is the default comparitor list and order for nvim-cmp
-                compare.offset,
-                -- compare.scopes, --this is commented in nvim-cmp too
-                compare.exact,
-                compare.score,
-                compare.recently_used,
-                compare.locality,
-                compare.kind,
-                compare.sort_text,
-                compare.length,
-                compare.order,
-              },
-            },
             sources = {
               {
                 name = "skkeleton",
@@ -444,6 +424,24 @@ return {
           documentation = vim.tbl_extend("force", cmp.config.window.bordered(), {
             border = { { "⡠" }, { "⠤" }, { "⢄" }, { "⢸" }, { "⠊" }, { "⠒" }, { "⠑" }, { "⡇" } },
           }),
+        },
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            require("copilot_cmp.comparators").prioritize,
+
+            -- Below is the default comparitor list and order for nvim-cmp
+            cmp.config.compare.offset,
+            -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
         },
       }
       if not vim.env.LIGHT then
