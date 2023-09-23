@@ -22,6 +22,7 @@ my $ignore_dir_re = qr{
   \A\.git/ |
   \A\.zsh/zsh-notify/ |
   \Asubmodules/ |
+  \Atampermonkey/ |
   \bnode_modules\b
 }x;
 my $ignore_names_re = qr{
