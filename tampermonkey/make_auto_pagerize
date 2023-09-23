@@ -7,7 +7,7 @@ no warnings qw(experimental::signatures);
 use Path::Tiny qw(path tempfile);
 
 my $tmpl = path('tampermonkey/auto_pagerize.js.tmpl');
-my $target = path('tampemonkey/auto_pagerize.js');
+my $target = path('tampermonkey/auto_pagerize.js');
 my $url = "http://wedata.net/databases/AutoPagerize/items_all.json";
 
 die "tmpl not found: $tmpl" unless -f $tmpl;
