@@ -96,7 +96,7 @@ return {
       api.create_autocmd("BufEnter", {
         group = group,
         callback = function()
-          local need_num = vim.opt_local.buftype ~= "terminal" and vim.opt_local.filetype ~= "man"
+          local need_num = vim.opt_local.buftype:get() == ""
           vim.opt_local.number = need_num
           vim.opt_local.relativenumber = need_num
           vim.opt_local.cursorline = need_num
