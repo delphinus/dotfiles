@@ -93,22 +93,13 @@ return {
           vim.b.dwm_disabled = true
         end,
       })
-      api.create_autocmd("TermEnter", {
+      api.create_autocmd("BufEnter", {
         group = group,
         callback = function()
-          vim.opt_local.number = false
-          vim.opt_local.relativenumber = false
-          vim.opt_local.cursorline = false
-        end,
-      })
-      api.create_autocmd("TermLeave", {
-        group = group,
-        callback = function(args)
-          if vim.bo[args.buf].buftype ~= "terminal" then
-            vim.opt_local.number = true
-            vim.opt_local.relativenumber = true
-            vim.opt_local.cursorline = true
-          end
+          local need_num = vim.opt_local.buftype ~= "terminal" and vim.opt_local.filetype ~= "man"
+          vim.opt_local.number = need_num
+          vim.opt_local.relativenumber = need_num
+          vim.opt_local.cursorline = need_num
         end,
       })
     end,
