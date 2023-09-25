@@ -4,7 +4,7 @@ use feature qw(signatures state);
 use warnings;
 no warnings qw(experimental::signatures);
 
-use JSON qw(encode_json decode_json);
+use JSON qw();
 use Path::Tiny qw(path tempfile);
 
 my $tmpl = path('tampermonkey/auto_pagerize.js.tmpl');
@@ -15,7 +15,8 @@ die "tmpl not found: $tmpl" unless -f $tmpl;
 
 my $tmp = tempfile;
 0 == system 'sh', '-c', "curl -L $url > $tmp" or die "curl failed: $!";
-my $json = decode_json $tmp->slurp;
-my @site_info = map { $_->{data} } @$json;
-(my $output = $tmpl->slurp) =~ s/"%__SITEINFO__%"/encode_json \@site_info/e;
+my $json = JSON->new->canonical(1)->pretty(1)->utf8(1);
+my $decoded = $json->decode($tmp->slurp);
+my @site_info = map { $_->{data} } @$decoded;
+(my $output = $tmpl->slurp) =~ s/"%__SITEINFO__%"/$json->encode(\@site_info)/e;
 $target->spew($output);
