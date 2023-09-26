@@ -40,6 +40,13 @@ function autoPagerize() {
     
     var SITEINFO = [
    {
+      "exampleUrl" : "https://www.lisani.jp/interview/",
+      "insertBefore" : "",
+      "nextLink" : "//a[@rel='next']",
+      "pageElement" : "//ul[@class='category__list']",
+      "url" : "^https://www\\.lisani\\.jp/"
+   },
+   {
       "exampleUrl" : "https://research.impress.co.jp/report/list https://research.impress.co.jp/topics/list https://research.impress.co.jp/search?keywords=a",
       "nextLink" : "//a[@rel='next']",
       "pageElement" : "//div[@class='view-content']",
