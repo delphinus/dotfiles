@@ -250,6 +250,7 @@ return {
       mason_tool_installer.setup {
         auto_update = is_over,
         ensure_installed = vim.env.LIGHT and {
+          "eslint-lsp",
           "rubocop",
           "shellcheck",
           "shfmt",
@@ -356,48 +357,43 @@ return {
         end)
       end
 
-      nls.setup {
-        --debug = true,
-        diagnostics_format = "[null-ls] #{m}",
-        sources = {
-          nls.builtins.code_actions.gitsigns,
-          nls.builtins.code_actions.shellcheck,
-          nls.builtins.diagnostics.fish,
-          nls.builtins.diagnostics.mypy,
-          nls.builtins.diagnostics.shellcheck,
-          nls.builtins.diagnostics.trail_space,
-          nls.builtins.diagnostics.vint,
-          --nls.builtins.diagnostics.yamllint,
-          nls.builtins.formatting.black,
-          nls.builtins.formatting.eslint.with {},
-          nls.builtins.formatting.fish_indent,
-          nls.builtins.formatting.gofmt,
-          nls.builtins.formatting.gofumpt,
-          nls.builtins.formatting.goimports,
-          nls.builtins.formatting.golines,
-          nls.builtins.formatting.prettier.with {},
-          nls.builtins.formatting.stylua,
-          nls.builtins.formatting.textlint,
-          nls.builtins.formatting.yamlfmt,
-          nls.builtins.hover.dictionary,
+      local sources = {
+        nls.builtins.code_actions.gitsigns,
+        nls.builtins.code_actions.shellcheck,
+        nls.builtins.diagnostics.fish,
+        nls.builtins.diagnostics.mypy,
+        nls.builtins.diagnostics.shellcheck,
+        nls.builtins.diagnostics.trail_space,
+        nls.builtins.diagnostics.vint,
+        --nls.builtins.diagnostics.yamllint,
+        nls.builtins.formatting.black,
+        nls.builtins.formatting.fish_indent,
+        nls.builtins.formatting.gofmt,
+        nls.builtins.formatting.gofumpt,
+        nls.builtins.formatting.goimports,
+        nls.builtins.formatting.golines,
+        nls.builtins.formatting.stylua,
+        nls.builtins.formatting.textlint,
+        nls.builtins.formatting.yamlfmt,
+        nls.builtins.hover.dictionary,
 
-          nls.builtins.diagnostics.luacheck.with {
-            extra_args = {
-              "--globals",
-              unpack(require("core.utils.lsp").lua_globals),
-            },
+        nls.builtins.diagnostics.luacheck.with {
+          extra_args = {
+            "--globals",
+            unpack(require("core.utils.lsp").lua_globals),
           },
+        },
 
-          -- FIX: deno_fmt detection
-          --[[ nls.builtins.formatting.deno_fmt.with {
+        -- FIX: deno_fmt detection
+        --[[ nls.builtins.formatting.deno_fmt.with {
             runtime_condition = is_deno_attached,
           }, ]]
 
-          nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
+        nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
 
-          nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
+        nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
 
-          --[[
+        --[[
           helpers.make_builtin {
             name = "perlcritic",
             meta = {
@@ -452,21 +448,31 @@ return {
           },
           ]]
 
-          helpers.make_builtin {
-            name = "efm-perl",
-            meta = { url = "https://example.com", description = "TODO" },
-            method = methods.internal.DIAGNOSTICS,
-            filetypes = { "perl" },
-            generator_opts = {
-              command = "efm-perl",
-              args = { "-f", "$FILENAME" },
-              to_stdin = true,
-              format = "raw",
-              on_output = helpers.diagnostics.from_errorformat("%l:%m", "efm-perl"),
-            },
-            factory = helpers.generator_factory,
+        helpers.make_builtin {
+          name = "efm-perl",
+          meta = { url = "https://example.com", description = "TODO" },
+          method = methods.internal.DIAGNOSTICS,
+          filetypes = { "perl" },
+          generator_opts = {
+            command = "efm-perl",
+            args = { "-f", "$FILENAME" },
+            to_stdin = true,
+            format = "raw",
+            on_output = helpers.diagnostics.from_errorformat("%l:%m", "efm-perl"),
           },
+          factory = helpers.generator_factory,
         },
+      }
+
+      if not vim.env.LIGHT then
+        table.insert(sources, nls.builtins.formatting.eslint)
+        table.insert(sources, nls.builtins.formatting.prettier)
+      end
+
+      nls.setup {
+        --debug = true,
+        diagnostics_format = "[null-ls] #{m}",
+        sources = sources,
       }
     end,
 
