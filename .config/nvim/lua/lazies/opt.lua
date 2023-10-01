@@ -538,7 +538,6 @@ return {
   },
 
   {
-    enabled = not vim.env.LIGHT,
     "lewis6991/gitsigns.nvim",
     cmd = { "Gitsigns" },
     event = { "FocusLost", "CursorHold" },
