@@ -117,6 +117,12 @@ table td b a.extiw
   font-family: ui-monospace;
 }
 
+/* O'Reilly Learning */
+#book-content #sbo-rt-content .pre
+{
+  padding: 0 !important;
+}
+
 html {
 	font-family: ui-rounded;
 }
