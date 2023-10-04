@@ -54,6 +54,7 @@ return {
         opts = { ring = { storage = "sqlite" } },
       },
       { "fcying/telescope-ctags-outline.nvim" },
+      { "fdschmidt93/telescope-egrepify.nvim" },
     },
 
     init = function()
@@ -127,7 +128,7 @@ return {
       keymap.set("n", "<Leader>fG", builtin "grep_string" {}, { desc = "Telescope grep_string" })
       keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
       keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
-      keymap.set("n", "<Leader>fg", builtin "live_grep" {}, { desc = "Telescope live_grep" })
+      keymap.set("n", "<Leader>fg", extensions("egrepify", "egrepify") {}, { desc = "Telescope egrepify" })
       keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
       keymap.set(
         "n",
@@ -248,13 +249,13 @@ return {
       local Path = require "plenary.path"
       local fb_actions = require "telescope._extensions.file_browser.actions"
 
-      local function run_builtin_in_dir(name)
+      local function run_extension_in_dir(name)
         return function()
-          local source = require("telescope.builtin")[name]
+          telescope.load_extension(name)
           local entry = actions_state.get_selected_entry()
           local dir = from_entry.path(entry)
           if Path:new(dir):is_dir() then
-            source { cwd = dir }
+            telescope.extensions[name][name] { cwd = dir }
           else
             vim.notify(("This is not a directory: %s"):format(dir), vim.log.levels.ERROR)
           end
@@ -305,7 +306,7 @@ return {
               ["<A-p>"] = actions.cycle_history_prev,
               ["<A-r>"] = run_octo_in_dir "prs",
               ["<C-a>"] = run_frecency_in_dir,
-              ["<C-g>"] = run_builtin_in_dir "live_grep",
+              ["<C-g>"] = run_extension_in_dir "egrepify",
               ["<C-o>"] = actions.send_to_loclist + actions.open_loclist,
 
               ["<C-j>"] = actions.move_selection_next,
@@ -326,14 +327,14 @@ return {
             },
           },
           cycle_layout_list = { "center", "horizontal", "vertical" },
-          vimgrep_arguments = {
+          --[[ vimgrep_arguments = {
             "pt",
             "--nocolor",
             "--nogroup",
             "--column",
             "--smart-case",
             "--hidden",
-          },
+          }, ]]
           history = {
             path = Path:new(fn.stdpath "data", "telescope_history.sqlite3").filename,
             limit = 100,
@@ -375,7 +376,7 @@ return {
               i = {
                 ["<A-CR>"] = fb_actions.create_from_prompt,
                 ["<C-a>"] = run_frecency_in_dir,
-                ["<C-g>"] = run_builtin_in_dir "live_grep",
+                ["<C-g>"] = run_extension_in_dir "egrepify",
                 ["<C-x>"] = fb_actions.toggle_all,
                 ["<C-s>"] = actions.select_horizontal,
               },
