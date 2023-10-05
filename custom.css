@@ -118,6 +118,10 @@ table td b a.extiw
 }
 
 /* O'Reilly Learning */
+#book-content #sbo-rt-content p
+{
+  font-family: -apple-system !important;
+}
 #book-content #sbo-rt-content .pre
 {
   padding: 0 !important;
