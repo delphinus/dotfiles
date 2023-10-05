@@ -54,7 +54,18 @@ return {
         opts = { ring = { storage = "sqlite" } },
       },
       { "fcying/telescope-ctags-outline.nvim" },
-      { "fdschmidt93/telescope-egrepify.nvim" },
+      {
+        -- "fdschmidt93/telescope-egrepify.nvim",
+        "delphinus/telescope-egrepify.nvim",
+        init = function()
+          palette "egrepify" {
+            nord = function(colors)
+              api.set_hl(0, "EgrepifyFile", { fg = colors.cyan })
+              api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
+            end,
+          }
+        end,
+      },
     },
 
     init = function()
@@ -327,14 +338,14 @@ return {
             },
           },
           cycle_layout_list = { "center", "horizontal", "vertical" },
-          --[[ vimgrep_arguments = {
+          vimgrep_arguments = {
             "pt",
             "--nocolor",
             "--nogroup",
             "--column",
             "--smart-case",
             "--hidden",
-          }, ]]
+          },
           history = {
             path = Path:new(fn.stdpath "data", "telescope_history.sqlite3").filename,
             limit = 100,
@@ -410,6 +421,18 @@ return {
             use_sqlite = false,
           },
           media_files = { filetypes = { "png", "jpg", "jpeg", "gif", "mp4", "webm", "pdf" } },
+          egrepify = {
+            vimgrep_arguments = {
+              "rg",
+              "--color=never",
+              "--no-heading",
+              "--with-filename",
+              "--line-number",
+              "--column",
+              "--smart-case",
+              "--hidden",
+            },
+          },
         },
       }
 
