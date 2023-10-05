@@ -195,11 +195,6 @@ return {
         else
           vim.notify "inlayHint has been disabled because this file has over 1000 lines"
         end
-      else
-        vim.notify(
-          ("%s(%d) does not support textDocument/inlayHint"):format(client.name, client.id),
-          vim.log.levels.DEBUG
-        )
       end
     end
   end,
