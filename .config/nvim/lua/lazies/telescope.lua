@@ -56,10 +56,11 @@ return {
       { "fcying/telescope-ctags-outline.nvim" },
       {
         "fdschmidt93/telescope-egrepify.nvim",
+        branch = "feat/ts-highlight",
         init = function()
           palette "egrepify" {
             nord = function(colors)
-              api.set_hl(0, "EgrepifyFile", { fg = colors.cyan })
+              api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
               api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
             end,
           }
@@ -431,6 +432,7 @@ return {
               "--smart-case",
               "--hidden",
             },
+            results_ts_hl = true,
           },
         },
       }
