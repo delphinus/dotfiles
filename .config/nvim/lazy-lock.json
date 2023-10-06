@@ -33,7 +33,7 @@
   "cmp-rg": { "branch": "master", "commit": "677a7874ee8f1afc648c2e7d63a97bc21a7663c5" },
   "cmp-skkeleton": { "branch": "main", "commit": "583d800b3105ff5b73371507db1b445c47602033" },
   "cmp-tmux": { "branch": "main", "commit": "97ec06b8030b8bf6d1fd83d49bdd16c98e04c845" },
-  "cmp-treesitter": { "branch": "master", "commit": "389eadd48c27aa6dc0e6b992644704f026802a2e" },
+  "cmp-treesitter": { "branch": "fix/deal-with-nil", "commit": "b510f89dd50adae924c07efd5cad4d000ae85d52" },
   "cmp_luasnip": { "branch": "master", "commit": "18095520391186d634a0045dacaa346291096566" },
   "cocoa.vim": { "branch": "master", "commit": "33faf435cf251ae23e0ee3500a0ce0eee6a1a94b" },
   "colorful-winsep.nvim": { "branch": "main", "commit": "e1b72c498f25c1fc37a7e9913332c137f753a90a" },
