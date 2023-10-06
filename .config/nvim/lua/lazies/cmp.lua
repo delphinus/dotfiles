@@ -196,8 +196,7 @@ return {
       return { github = { hosts = { vim.env.GITHUB_ENTERPRISE_HOST } } }
     end,
   },
-  -- i { "ray-x/cmp-treesitter" },
-  i { "delphinus/cmp-treesitter", branch = "fix/deal-with-nil" },
+  i { "ray-x/cmp-treesitter" },
   i { "uga-rosa/cmp-skkeleton" },
 
   i {
