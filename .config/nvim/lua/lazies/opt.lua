@@ -1102,12 +1102,4 @@ return {
   },
 
   { "tzachar/highlight-undo.nvim", keys = { "u", "<C-r>" }, opts = true },
-
-  {
-    "nvim-zh/colorful-winsep.nvim",
-    event = { "WinNew" },
-    config = function()
-      require("colorful-winsep").setup { highlight = { fg = palette.colors.magenta } }
-    end,
-  },
 }
