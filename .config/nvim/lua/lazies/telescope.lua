@@ -29,7 +29,7 @@ return {
 
       { "nvim-lua/popup.nvim" },
       { "nvim-telescope/telescope-file-browser.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim", branch = "feature/change-default" },
+      { "nvim-telescope/telescope-frecency.nvim" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
@@ -418,7 +418,6 @@ return {
               VIM = vim.env.VIMRUNTIME,
             },
             ignore_patterns = { "*.git/*", "*/tmp/*", "term://*", "*/tmux-fingers/alphabets*" },
-            use_sqlite = false,
           },
           media_files = { filetypes = { "png", "jpg", "jpeg", "gif", "mp4", "webm", "pdf" } },
           egrepify = {
