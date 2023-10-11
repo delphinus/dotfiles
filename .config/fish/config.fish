@@ -17,11 +17,9 @@ set -l paths \
     ~/.local/bin \
     ~/.ghg/bin \
     ~/.go/bin \
-    ~/local/nvim/bin \
     ~/git/dotfiles/bin \
-    ~/Library/Python/3.11/bin \
-    ~/.gem/ruby/3.0.0/bin \
-    ~/.gem/ruby/2.6.0/bin \
+    ~/Library/Python/3.9/bin \
+    ~/.gem/ruby/3.2.0/bin \
     $homebrew_path/opt/git/share/git-core/contrib/git-jump \
     $homebrew_path/opt/ruby/bin \
     $homebrew_path/opt/llvm/bin \
