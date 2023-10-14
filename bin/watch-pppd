@@ -1,0 +1,46 @@
+#!/usr/bin/perl
+use 5.30.0;
+use warnings;
+use JSON;
+use Path::Tiny;
+
+my $op = '/opt/homebrew/bin/op';
+my $pkill = '/usr/bin/pkill';
+my $scutil = '/usr/sbin/scutil';
+
+my $vpn_name = do {
+    my $cache_file = path('~/.cache/vpn_name.txt')->touch;
+    my $cache = $cache_file->slurp;
+    if (defined $cache && length($cache) > 0) {
+        $cache;
+    } else {
+        my $json = decode_json `$op --vault CLI item get secret_envs --format json`;
+        my ($entry) = grep { defined $_->{label} && $_->{label} eq 'VPN_NAME' } $json->{fields}->@*;
+        die "VPN_NAME not found\n" unless $entry;
+        $cache_file->spew($entry->{value});
+        $entry->{value};
+    }
+};
+
+sub main {
+    my $wait_seconds = 10;
+    while (--$wait_seconds >= 0) {
+        my $output = `$scutil --nc list`;
+        if ($output =~ /^\*\s\(Disconnecting\)/m) {
+            sleep 1;
+        } else {
+            sleep $wait_seconds;
+            return;
+        }
+    }
+
+    warn "VPN disconnecting takes too longer. Restart VPN: $vpn_name\n";
+    0 == system $pkill, '-9', 'pppd' or die 'pkill failed';
+    0 == system $scutil, '--nc', 'start', $vpn_name or die 'starting VPN failed';
+}
+
+my $count = 5;
+while (--$count >= 0) {
+    main();
+    sleep 1;
+}
