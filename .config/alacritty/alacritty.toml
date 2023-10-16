@@ -15,6 +15,16 @@ thickness = 0.5
 [env]
 TERM = "xterm-256color"
 
+# need $LANG settings for man
+LANG = "ja_JP.UTF-8"
+LC_COLLATE = "ja_JP.UTF-8"
+LC_CTYPE = "ja_JP.UTF-8"
+LC_MESSAGES = "ja_JP.UTF-8"
+LC_MONETARY = "ja_JP.UTF-8"
+LC_NUMERIC = "ja_JP.UTF-8"
+LC_TIME = "ja_JP.UTF-8"
+LC_ALL = ""
+
 [font]
 size = 16.0
 normal = { family = "SF Mono Square", style = "Regular" }
