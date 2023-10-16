@@ -77,7 +77,6 @@ local function __call(self, name)
           opts[scheme](p)
         end
         if opts[1] then
-          vim.notify("[palette] running for " .. name .. ": all", vim.log.levels.DEBUG)
           opts[1](p)
         end
       end,
