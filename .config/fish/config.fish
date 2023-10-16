@@ -170,7 +170,7 @@ set -x LESS '-g -i -M -R -S -W -z-4 -x4 +
 
 # use Neovim for man
 set -x MANWIDTH 80
-set -x MANPAGER 'nvim --clean +"set scroll=3 | set smartcase | set ignorecase | set laststatus=0" +Man!'
+set -x MANPAGER 'minivim --clean +"set smartcase | set ignorecase | set laststatus=0" +Man! +"set scroll=3"'
 
 # for Lua
 #set -x LUA_PATH  \
