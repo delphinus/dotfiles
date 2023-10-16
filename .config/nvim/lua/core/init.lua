@@ -6,8 +6,7 @@ vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"
 pcall(require, "core.local")
 
 local Plugins = require "core.plugins"
-local plugins = Plugins.new(vim.g.use_lazy)
-plugins:check_managers()
+local plugins = Plugins.new()
 plugins:check_cores()
 plugins:load()
 
