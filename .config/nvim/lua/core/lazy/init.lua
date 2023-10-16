@@ -18,8 +18,9 @@ if not uv.fs_stat(lazy_path) then
 end
 vim.opt.runtimepath:prepend(lazy_path)
 
+local definitions = vim.env.MINIMAL and { "minimal", "cmp" } or { "minimal", "start", "opt", "cmp", "lsp", "telescope" }
 local plugins = {}
-for _, name in ipairs { "start", "opt", "cmp", "lsp", "telescope" } do
+for _, name in ipairs(definitions) do
   table.insert(plugins, require("lazies." .. name))
 end
 

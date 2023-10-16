@@ -31,53 +31,9 @@ return {
 
   non_lazy { "vim-scripts/HiColors" },
 
-  non_lazy {
-    "delphinus/cellwidths.nvim",
-    tag = "v3.1.0",
-    build = ":CellWidthsRemove",
-    config = function()
-      --[[
-      local function measure(name, f)
-        local s = os.clock()
-        f()
-        vim.notify(("%s took %f ms"):format(name, (os.clock() - s) * 1000))
-      end
-      ]]
-
-      vim.opt.listchars = {
-        tab = "▓░",
-        trail = "↔",
-        eol = "⏎",
-        extends = "→",
-        precedes = "←",
-        nbsp = "␣",
-      }
-      vim.opt.fillchars = {
-        diff = "░",
-        eob = "‣",
-        fold = "░",
-        foldopen = "▾",
-        foldsep = "│",
-        foldclose = "▸",
-      }
-      require("cellwidths").setup {
-        name = "user/custom",
-        --log_level = "DEBUG",
-        ---@param cw cellwidths
-        fallback = function(cw)
-          cw.load "sfmono_square"
-          cw.add { 0xf0000, 0x10ffff, 2 }
-          return cw
-        end,
-      }
-    end,
-  },
-
   non_lazy { "delphinus/rtr.nvim", config = true },
 
   non_lazy { "delphinus/unimpaired.nvim", branch = "feature/first-implementation", dev = true },
-
-  non_lazy { "vim-denops/denops.vim" },
 
   non_lazy {
     enabled = not vim.env.LIGHT,

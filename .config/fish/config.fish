@@ -149,9 +149,9 @@ bind \cx\ct 'fzf_z --insert'
 bind -M insert \cx\ct 'fzf_z --insert'
 
 # for Neovim
-set -x EDITOR nvim
-set -x GIT_EDITOR nvim
-set -x VISUAL nvim
+set -x EDITOR minivim
+set -x GIT_EDITOR minivim
+set -x VISUAL minivim
 
 # for less
 set -x PAGER less

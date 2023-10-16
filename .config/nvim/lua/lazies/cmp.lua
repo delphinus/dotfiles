@@ -25,6 +25,7 @@ return {
       end)
     end,
   },
+
   {
     "vim-skk/skkeleton",
     keys = {
