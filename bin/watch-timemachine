@@ -1,0 +1,26 @@
+#!/usr/bin/perl
+use 5.30.0;
+use warnings;
+use JSON;
+use Path::Tiny;
+
+my $tmutil = '/usr/bin/tmutil';
+my $threshold_minutes = 5;
+
+my $cache_file = path('~/.cache/watch-timemachine.json');
+my $cache = decode_json($cache_file->touch->slurp || '{}');
+my $count = $cache->{count} // 0;  # FindingBackupVol が連続している分数
+my $status = `$tmutil status`;
+die 'tmutil status failed' if $? != 0;
+if ($status =~ /BackupPhase = FindingBackupVol/) {
+    if (++$count >= $threshold_minutes) {
+        0 == system $tmutil, 'stopbackup' or die 'failed to stopbackup';
+        sleep 5;
+        0 == system $tmutil, 'startbackup', '-a' or die 'failed to startbackup';
+        say "The status FindingBackupVol has succeeded more than $threshold_minutes minutes. Restarted.";
+        $count = 0;
+    }
+} else {
+    $count = 0;
+}
+$cache_file->spew(encode_json +{ count => $count });
