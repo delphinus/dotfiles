@@ -153,10 +153,10 @@ set -x EDITOR minivim
 set -x GIT_EDITOR minivim
 set -x VISUAL minivim
 
-# for less
 set -x PAGER less
 set -x DELTA_PAGER less
 
+# for less
 # from prezto
 set -x LESS_TERMCAP_mb \e'[01;31m' # Begins blinking.
 set -x LESS_TERMCAP_md \e'[01;31m' # Begins bold.

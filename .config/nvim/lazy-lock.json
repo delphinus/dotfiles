@@ -11,6 +11,7 @@
   "applescript.vim": { "branch": "master", "commit": "00840b4059c7884120913907f4778092edb006f7" },
   "auto-cursorline.nvim": { "branch": "main", "commit": "ad7e0d4f026b43057ca3605459b4f160397385b2" },
   "autodate.vim": { "branch": "master", "commit": "32c272063f2602d57882c83fea2cd7496776eb83" },
+  "baleia.nvim": { "branch": "main", "commit": "00bb4af31c8c3865b735d40ebefa6c3f07b2dd16" },
   "bats.vim": { "branch": "master", "commit": "19eb3c5a05aaa889647af8107a4518b3fb4a4711" },
   "bclose.vim": { "branch": "master", "commit": "99018b4a2dd18aea1cbd3aa23565b01a0f8c5b73" },
   "bigfile.nvim": { "branch": "feat/autocmd", "commit": "364f47ff9bd590ffefd1540d720387f3c7f7c192" },

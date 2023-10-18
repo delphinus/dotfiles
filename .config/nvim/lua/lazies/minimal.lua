@@ -119,4 +119,21 @@ return {
       end
     end,
   },
+
+  {
+    "m00qek/baleia.nvim",
+    cmd = { "BaleiaColorize", "BaleiaColorizeStartup" },
+    config = function()
+      local baleia
+      api.create_user_command("BaleiaColorize", function()
+        if not baleia then
+          baleia = require("baleia").setup {}
+        end
+        baleia.once(api.get_current_buf())
+      end, {})
+      api.create_user_command("BaleiaColorizeStartup", function()
+        api.create_autocmd("VimEnter", { command = "BaleiaColorize" })
+      end, {})
+    end,
+  },
 }
