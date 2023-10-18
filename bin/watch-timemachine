@@ -17,7 +17,6 @@ if ($status =~ /BackupPhase = FindingBackupVol/) {
         0 == system $tmutil, 'stopbackup' or die 'failed to stopbackup';
         sleep 5;
         0 == system $tmutil, 'startbackup', '-a' or die 'failed to startbackup';
-        say "The status FindingBackupVol has succeeded more than $threshold_minutes minutes. Restarted.";
         $count = 0;
     }
 } else {
