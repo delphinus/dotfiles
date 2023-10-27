@@ -573,9 +573,7 @@ return {
   ts { "romgrk/nvim-treesitter-context" },
 
   ts {
-    -- "HiPhish/rainbow-delimiters.nvim",
-    "delphinus/rainbow-delimiters.nvim",
-    branch = "feat/perl",
+    "HiPhish/rainbow-delimiters.nvim",
     config = function()
       require "rainbow-delimiters.setup" {}
     end,
