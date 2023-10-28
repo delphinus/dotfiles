@@ -1,0 +1,63 @@
+#!/bin/bash -eu
+usage_and_exit() {
+  if [[ -n ${1:-} ]]; then
+    echo "$1" 1>&2
+  fi
+  cat << EOH 1>&2
+  Usage: $0 <options> <host>
+
+  -e without this, this is dry-run.
+  -h show this help
+  -i use this if the remote is Intel Mac
+EOH
+  exit 1
+}
+
+execute=
+rsync_path=
+while getopts ehi opt; do
+  case $opt in
+  e)
+    execute=1
+    ;;
+  h)
+    usage_and_exit
+    ;;
+  i)
+    rsync_path='--rsync-path /usr/local/bin/rsync'
+    ;;
+  *)
+    usage_and_exit
+    ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+host=${1:-}
+if [[ -z $host ]]; then
+  usage_and_exit 'set host' 2>&1
+fi
+
+jisyo=$HOME/Documents/skk-jisyo.utf8
+remote_jisyo=$(mktemp)
+new_jisyo=$(mktemp)
+
+before=$(skkdic-count "$jisyo" | cut -d' ' -f2)
+# shellcheck disable=2086
+rsync -avzN -e ssh $rsync_path "$host:$jisyo" "$remote_jisyo"
+remote=$(skkdic-count "$remote_jisyo" | cut -d' ' -f2)
+skkdic-expr2 "$jisyo" + "$remote_jisyo" > "$new_jisyo"
+after=$(skkdic-count "$new_jisyo" | cut -d' ' -f2)
+
+echo "before: $before candidates"
+echo "remote: $remote candidates"
+echo "after:  $after candidates"
+
+if [[ -n $execute ]]; then
+  cp -f "$new_jisyo" "$jisyo"
+  echo
+  echo Overwrite "$jisyo"
+else
+  echo
+  echo This is dry-run.
+fi
