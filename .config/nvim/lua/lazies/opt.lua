@@ -670,7 +670,6 @@ return {
       "WinEnter",
       "WinScrolled",
     },
-    opts = { handlers = { marks = { show_builtins = true } } },
     init = function()
       api.create_autocmd("User", {
         pattern = "BigfileBufReadPost",
@@ -678,6 +677,19 @@ return {
           vim.api.nvim_buf_call(args.buf, function()
             vim.cmd.SatelliteDisable()
           end)
+        end,
+      })
+    end,
+    config = function()
+      require("satellite").setup { handlers = { marks = { show_builtins = true } } }
+      api.create_autocmd("BufEnter", {
+        group = api.create_augroup("satellite-wrapwidth", {}),
+        -- NOTE: need rickhowe/wrapwidth
+        callback = function()
+          if not vim.b.satellite_wrapwidth then
+            vim.cmd.Wrapwidth(-1)
+            vim.b.satellite_wrapwidth = true
+          end
         end,
       })
     end,
@@ -1031,5 +1043,28 @@ return {
 
   { "tzachar/highlight-undo.nvim", keys = { "u", "<C-r>" }, opts = true },
 
-  { "rickhowe/wrapwidth", cmd = { "Wrapwidth" } },
+  {
+    "rickhowe/wrapwidth",
+    cmd = { "Wrapwidth" },
+    init = function()
+      -- NOTE: set Wrapwidth if the file contains Wrapwidth xx in upper lines.
+      api.create_autocmd("BufReadPost", {
+        callback = function()
+          local lines = api.buf_get_lines(0, 0, 2, false)
+          if lines then
+            for i, line in ipairs(lines) do
+              local width = line:match [[Wrapwidth ([0-9]+)]]
+              if width then
+                vim.schedule(function()
+                  vim.notify(("setting Wrapwidth due to head lines: %d"):format(width), vim.log.levels.DEBUG)
+                  vim.cmd.Wrapwidth(width)
+                end)
+                break
+              end
+            end
+          end
+        end,
+      })
+    end,
+  },
 }

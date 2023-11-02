@@ -56,7 +56,8 @@ vim.opt.breakindent = true
 vim.o.formatoptions = vim.o.formatoptions .. "nmMj"
 vim.opt.formatlistpat = [[^\s*\%(\d\+\|[-a-z]\)\%(\ -\|[]:.)}\t]\)\?\s\+]]
 vim.opt.fixendofline = false
-vim.opt.showbreak = [[→]]
+-- NOTE: commented out for wrapwidth
+-- vim.opt.showbreak = [[→]]
 vim.opt.smartindent = true
 vim.opt.foldmethod = "marker"
 -- WARN: too slow for larger files (> 10000 lines)
