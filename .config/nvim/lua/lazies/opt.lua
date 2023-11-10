@@ -1065,6 +1065,7 @@ return {
           end
         end,
       })
+      vim.g.wrapwidth_hl = "SignColumn"
     end,
   },
 }

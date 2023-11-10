@@ -30,7 +30,7 @@ return {
         tab = "▓░",
         trail = "↔",
         eol = "⏎",
-        extends = "→",
+        extends = "‥",
         precedes = "←",
         nbsp = "␣",
       }
