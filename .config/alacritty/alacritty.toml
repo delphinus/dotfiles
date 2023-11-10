@@ -28,9 +28,9 @@ LC_ALL = ""
 [font]
 size = 16.0
 normal = { family = "SF Mono Square", style = "Regular" }
-bold = { style = "Bold" }
-bold_italic = { style = "Bold Italic" }
-italic = { style = "Italic" }
+#bold = { style = "Bold" }
+#bold_italic = { style = "Bold Italic" }
+#italic = { style = "Italic" }
 
 [terminal]
 osc52 = "CopyPaste"
