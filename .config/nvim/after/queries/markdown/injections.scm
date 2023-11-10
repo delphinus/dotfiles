@@ -27,3 +27,10 @@
   (#vim-match? @lang "^(lua)(:.*)?$")
   (#set! injection.language lua)
 )
+
+(fenced_code_block
+  (info_string) @lang
+  (code_fence_content) @injection.content
+  (#vim-match? @lang "^(bash)(:.*)?$")
+  (#set! injection.language bash)
+)

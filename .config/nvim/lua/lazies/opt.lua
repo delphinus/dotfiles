@@ -679,6 +679,7 @@ return {
           end)
         end,
       })
+      vim.g.wrapwidth_hl = "SignColumn"
     end,
     config = function()
       require("satellite").setup { handlers = { marks = { show_builtins = true } } }

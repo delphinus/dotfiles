@@ -73,6 +73,9 @@ return {
           api.set_hl(0, "Delimiter", { fg = colors.nord9 })
           api.set_hl(0, "PmenuSel", { blend = 0 })
           api.set_hl(0, "LspInlayHint", { fg = colors.nord3_bright, italic = true })
+          api.set_hl(0, "Identifier", { fg = colors.blue, italic = true })
+          api.set_hl(0, "@lsp.type.string.terraform", { link = "String" })
+          api.set_hl(0, "@lsp.type.enumMember.terraform", { link = "String" })
         end,
       }
     end,
