@@ -9,13 +9,14 @@ usage_and_exit() {
   -e without this, this is dry-run.
   -h show this help
   -i use this if the remote is Intel Mac
+  -a use this if the remote is Apple Silicon
 EOH
   exit 1
 }
 
 execute=
 rsync_path=
-while getopts ehi opt; do
+while getopts ehia opt; do
   case $opt in
   e)
     execute=1
@@ -25,6 +26,9 @@ while getopts ehi opt; do
     ;;
   i)
     rsync_path='--rsync-path /usr/local/bin/rsync'
+    ;;
+  a)
+    rsync_path='--rsync-path /opt/homebrew/bin/rsync'
     ;;
   *)
     usage_and_exit
