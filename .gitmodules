@@ -16,3 +16,6 @@
 [submodule "submodules/dircolors-solarized"]
 	path = submodules/dircolors-solarized
 	url = https://github.com/seebi/dircolors-solarized
+[submodule "submodules/nord-dircolors"]
+	path = submodules/nord-dircolors
+	url = git@github.com:delphinus/dircolors
