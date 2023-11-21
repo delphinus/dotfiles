@@ -191,7 +191,7 @@ return {
     if not vim.env.LIGHT then
       if client.supports_method "textDocument/inlayHint" then
         if vim.api.nvim_buf_line_count(bufnr) < 1000 then
-          vim.lsp.inlay_hint(bufnr, true)
+          vim.lsp.inlay_hint.enable(bufnr, true)
         else
           vim.notify "inlayHint has been disabled because this file has over 1000 lines"
         end
