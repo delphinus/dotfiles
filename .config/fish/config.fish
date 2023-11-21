@@ -243,3 +243,5 @@ else
     set -x EXA_ICON_SPACING 2
 end
 alias l 'eza -lF --group-directories-first --color-scale --icons --time-style long-iso --git'
+
+set -x EZA_COLORS 'da=38;2;143;191;187'
