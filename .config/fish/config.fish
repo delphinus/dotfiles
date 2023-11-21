@@ -24,6 +24,7 @@ set -l paths \
     $homebrew_path/opt/ruby/bin \
     $homebrew_path/opt/llvm/bin \
     $homebrew_path/opt/perl/bin \
+    $homebrew_path/opt/libiconv/bin \
     $homebrew_path/opt/rakudo-star/share/perl6/site/bin \
     /Applications/Xcode.app/Contents/Developer/usr/bin \
     ~/Library/Application\ Support/Coursier/bin \
