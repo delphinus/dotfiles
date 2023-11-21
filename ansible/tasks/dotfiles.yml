@@ -23,6 +23,11 @@
 - name: prepare goneovim config dir
   file: path=~/.config/goneovim state=directory
 
+- name: prepare 1Password directory
+  file: >-
+    path=~/.config/1Password
+    state=directory
+
 - name: prepare karabiner directory
   file: >-
     path='~/.config/karabiner/assets/complex_modifications'
@@ -37,6 +42,7 @@
     force=yes
   with_items:
     - .asdfrc
+    - .config/1Password/ssh
     - .config/alacritty
     - .config/bat/config
     - .config/bpytop/bpytop.conf
@@ -105,13 +111,13 @@
     state=link
     force=yes
 
-- name: prepare iTerm2 script directory
-  file: >-
-    src={{ dotfiles_dir }}/iterm2
-    dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch'
-    state=link
-    force=yes
-  when: ansible_system == 'Darwin'
+# - name: prepare iTerm2 script directory
+#   file: >-
+#     src={{ dotfiles_dir }}/iterm2
+#     dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch'
+#     state=link
+#     force=yes
+#   when: ansible_system == 'Darwin'
 
 - git: >-
     repo=https://{{ item }}
@@ -120,13 +126,13 @@
     - github.com/delphinus/iterm2-imap-status
   when: ansible_system == 'Darwin'
 
-- name: set up IMAP status component in iTerm2 dir
-  file: >-
-    src=~/.go/src/github.com/delphinus/iterm2-imap-status/imap_status.py
-    dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/imap_status.py'
-    state=link
-    force=yes
-  when: ansible_system == 'Darwin'
+# - name: set up IMAP status component in iTerm2 dir
+#   file: >-
+#     src=~/.go/src/github.com/delphinus/iterm2-imap-status/imap_status.py
+#     dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/imap_status.py'
+#     state=link
+#     force=yes
+#   when: ansible_system == 'Darwin'
 
 - name: make .ptignore file
   template: src=ptignore.j2 dest=~/.ptignore

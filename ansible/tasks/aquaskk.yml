@@ -1,4 +1,7 @@
 ---
+- name: prepare AquaSKK config dir
+  file: path='~/Library/Application Support/AquaSKK' state=directory
+
 - name: symlink keymap for AquaSKK
   file: >-
     src={{ dotfiles_dir }}/.config/AquaSKK/keymap.conf

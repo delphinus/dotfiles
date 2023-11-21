@@ -1,5 +1,3 @@
-[github]
-    token = {{ secret_office.github_token.ghr }}
 [url "{{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_SSH') }}"]
 	insteadOf = {{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_HTTPS') }}
 [ghq "{{ lookup('env', 'GITHUB_ENTERPRISE_GHQ_URL') }}"]
