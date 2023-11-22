@@ -304,6 +304,7 @@ return {
       end
     end,
   }, -- }}}
+
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
@@ -698,4 +699,6 @@ return {
       },
     },
   },
+
+  { "soulis-1256/hoverhints.nvim", keys = { "<MouseMove>" }, event = { "DiagnosticChanged" }, opts = true },
 }
