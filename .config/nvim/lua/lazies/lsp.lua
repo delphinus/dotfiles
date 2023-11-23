@@ -582,7 +582,7 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    branch = "main",
+    -- branch = "main",
     event = { "BufRead", "BufNewFile", "InsertEnter" },
     build = ":TSUpdate",
     keys = { { "<Space>h", "<Cmd>Inspect<CR>" } },
