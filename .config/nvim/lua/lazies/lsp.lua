@@ -72,7 +72,9 @@ return {
       vim.diagnostic.config {
         virtual_text = {
           format = function(d)
-            return ("%s (%s: %s)"):format(d.message, d.source, d.code)
+            if d.severity == vim.diagnostic.severity.ERROR then
+              return ("%s (%s: %s)"):format(d.message, d.source, d.code)
+            end
           end,
         },
         virtual_lines = { only_current_line = true },
