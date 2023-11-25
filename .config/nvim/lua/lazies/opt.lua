@@ -1069,4 +1069,33 @@ return {
       vim.g.wrapwidth_hl = "SignColumn"
     end,
   },
+
+  {
+    "jbyuki/venn.nvim",
+    cmd = { "VBox", "VBoxD", "VBoxH", "VBoxO", "VBoxDO", "VBoxHO", "VFill" },
+    keys = { { "n", "<A-v>" } },
+    init = function()
+      vim.keymap.set("n", "<A-v>", function()
+        local buf = vim.api.nvim_get_current_buf()
+        if vim.b.venn_enabled then
+          vim.notify "Venn disabled"
+          vim.opt_local.virtualedit = ""
+          vim.keymap.del("n", "<A-j>", { buffer = buf })
+          vim.keymap.del("n", "<A-k>", { buffer = buf })
+          vim.keymap.del("n", "<A-l>", { buffer = buf })
+          vim.keymap.del("n", "<A-h>", { buffer = buf })
+          vim.keymap.del("n", "<A-f>", { buffer = buf })
+        else
+          vim.notify "Venn enabled"
+          vim.opt_local.virtualedit = "all"
+          vim.keymap.set("n", "<A-j>", "<C-v>j:VBox<CR>", { buffer = buf })
+          vim.keymap.set("n", "<A-k>", "<C-v>k:VBox<CR>", { buffer = buf })
+          vim.keymap.set("n", "<A-l>", "<C-v>l:VBox<CR>", { buffer = buf })
+          vim.keymap.set("n", "<A-h>", "<C-v>h:VBox<CR>", { buffer = buf })
+          vim.keymap.set("v", "<A-f>", "<Cmd>:VBox<CR>", { buffer = buf })
+        end
+        vim.b.venn_enabled = not vim.b.venn_enabled
+      end)
+    end,
+  },
 }
