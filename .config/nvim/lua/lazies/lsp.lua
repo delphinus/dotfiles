@@ -703,9 +703,7 @@ return {
   },
 
   {
-    -- "soulis-1256/hoverhints.nvim",
-    "delphinus/hoverhints.nvim",
-    branch = "fix/unexport-internal-func",
+    "soulis-1256/hoverhints.nvim",
     keys = { "<MouseMove>" },
     event = { "DiagnosticChanged" },
     opts = true,

@@ -63,7 +63,7 @@
   "gitsigns.nvim": { "branch": "main", "commit": "5fc573f2d2a49aec74dd6dc977e8b137429d1897" },
   "glow.nvim": { "branch": "main", "commit": "5b38fb7b6e806cac62707a4aba8c10c5f14d5bb5" },
   "highlight-undo.nvim": { "branch": "main", "commit": "50a6884a8476be04ecce8f1c4ed692c5000ef0a1" },
-  "hoverhints.nvim": { "branch": "fix/unexport-internal-func", "commit": "547526584260727a63241c20e069ea5b0c5f559e" },
+  "hoverhints.nvim": { "branch": "main", "commit": "86fad985b91fe454469108924c1cdb378cbae1ce" },
   "indent-blankline.nvim": { "branch": "master", "commit": "29be0919b91fb59eca9e90690d76014233392bef" },
   "inspecthi.vim": { "branch": "main", "commit": "b282d2529597250de0b1df67c49c214636bb38c1" },
   "jira.vim": { "branch": "master", "commit": "d6e103c7be68d241417e9c720aabb65f7c80a072" },
