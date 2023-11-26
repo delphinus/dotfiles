@@ -138,6 +138,7 @@ return {
         --useSkkServer = true,
         immediatelyCancel = false,
         registerConvertResult = true,
+        useGoogleJapaneseInput = true,
       }
       fn["skkeleton#register_kanatable"]("rom", {
         ["("] = { "（", "" },
@@ -198,7 +199,11 @@ return {
     end,
   },
   i { "ray-x/cmp-treesitter" },
-  i { "uga-rosa/cmp-skkeleton" },
+  i {
+    -- "uga-rosa/cmp-skkeleton",
+    "delphinus/cmp-skkeleton2",
+    branch = "fix/method-name",
+  },
 
   i {
     "saadparwaiz1/cmp_luasnip",
