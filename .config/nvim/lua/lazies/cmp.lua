@@ -199,11 +199,7 @@ return {
     end,
   },
   i { "ray-x/cmp-treesitter" },
-  i {
-    -- "uga-rosa/cmp-skkeleton",
-    "delphinus/cmp-skkeleton2",
-    branch = "fix/method-name",
-  },
+  i { "uga-rosa/cmp-skkeleton" },
 
   i {
     "saadparwaiz1/cmp_luasnip",
