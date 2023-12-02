@@ -18,7 +18,7 @@ set -l paths \
     ~/.ghg/bin \
     ~/.go/bin \
     ~/git/dotfiles/bin \
-    ~/Library/Python/3.9/bin \
+    ~/Library/Python/3.11/bin \
     ~/.gem/ruby/3.2.0/bin \
     $homebrew_path/opt/git/share/git-core/contrib/git-jump \
     $homebrew_path/opt/ruby/bin \
