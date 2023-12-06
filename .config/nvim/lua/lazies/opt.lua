@@ -406,7 +406,7 @@ return {
   },
 
   {
-    enabled = not vim.env.LIGHT,
+    -- enabled = not vim.env.LIGHT,
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
     dependencies = {
