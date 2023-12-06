@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local fn, uv, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
@@ -58,7 +59,7 @@ return {
     cmd = { "NeoTermToggle", "NeoTermEnterNormal" },
     init = function()
       palette "neoterm" {
-        nord = function(colors)
+        nord = function(_)
           api.set_hl(0, "neo-term-bg", { bg = "#1c2434" })
         end,
       }
@@ -416,6 +417,7 @@ return {
     init = function()
       -- HACK: avoid to set duplicatedly (ex. after PackerCompile)
       if not _G.__vim_notify_overwritten then
+        ---@diagnostic disable-next-line: duplicate-set-field
         vim.notify = function(...)
           local args = { ... }
           require "notify"
@@ -1053,7 +1055,7 @@ return {
         callback = function()
           local lines = api.buf_get_lines(0, 0, 2, false)
           if lines then
-            for i, line in ipairs(lines) do
+            for _, line in ipairs(lines) do
               local width = line:match [[Wrapwidth ([0-9]+)]]
               if width then
                 vim.schedule(function()

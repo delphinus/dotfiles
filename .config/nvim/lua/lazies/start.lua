@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local fn, _, api = require("core.utils").globals()
 local palette = require "core.utils.palette"
 

@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
 
