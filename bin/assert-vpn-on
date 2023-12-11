@@ -1,0 +1,37 @@
+#!/bin/bash -eu
+CACHE=$HOME/.cache/vpn-name
+# detect the cache file is older than 24 hours
+if ! [[ -r $CACHE ]] || test "$(find "$CACHE" -mmin +1440 2> /dev/null)"; then
+  BIN_DIR=/opt/homebrew/bin
+  if ! [[ -d $BIN_DIR ]]; then
+    BIN_DIR=/usr/local/bin
+  fi
+  OP=$BIN_DIR/op
+  JQ=$BIN_DIR/jq
+  VPN_NAME=$($OP --vault CLI item get --format json secret_envs | $JQ -r '.fields[] | select(.value) | select(.label == "VPN_NAME") | .value')
+  echo "$VPN_NAME" > "$CACHE"
+else
+  VPN_NAME=$(cat "$CACHE")
+fi
+
+if [[ -z $VPN_NAME ]]; then
+  echo "VPN_NAME is not set" 2>&1
+  exit 1
+fi
+
+/usr/bin/osascript << EOF
+tell application "System Events"
+    tell current location of network preferences
+        set myConnection to the service "$VPN_NAME"
+
+        if myConnection is not null then
+            if current configuration of myConnection is not connected then
+                connect myConnection
+            end if
+        end if
+    end tell
+end tell
+
+display notification "VPN reconnecting..." with title "Reconnect VPN"
+delay 1
+EOF
