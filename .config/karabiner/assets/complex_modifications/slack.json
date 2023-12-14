@@ -1,0 +1,65 @@
+{
+  "title": "[delphinus] Custom Slack Shortcut",
+  "rules": [
+    {
+      "description": "[delphinus] Slack History Prev/Next",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "z",
+            "modifiers": {
+              "mandatory": [
+                "left_control"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "open_bracket",
+              "modifiers": [
+                "left_command"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "com.tinyspeck.slackmacgap"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "z",
+            "modifiers": {
+              "mandatory": [
+                "left_control",
+                "left_command"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "close_bracket",
+              "modifiers": [
+                "left_command"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "com.tinyspeck.slackmacgap"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
