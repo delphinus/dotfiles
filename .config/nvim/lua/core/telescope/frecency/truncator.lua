@@ -8,7 +8,8 @@
 ---@field is_absolute fun(self: core.telescope.frecency.truncator.PlenaryPath): boolean
 ---@field shorten fun(self: core.telescope.frecency.truncator.PlenaryPath, len: integer, exclude: integer[]): string
 
-local _, uv, api = require("core.utils").globals()
+local _, uv = require("core.utils").globals()
+local async = require "plenary.async"
 
 ---@class core.telescope.frecency.truncator.Opts
 ---@field cwd string
@@ -34,8 +35,8 @@ local Truncator = {}
 ---@return core.telescope.frecency.truncator.Truncator
 Truncator.new = function(opts)
   local state = require "telescope.state"
-  local status = state.get_status(api.get_current_buf())
-  local length = api.win_get_width(status.results_win) - status.picker.selection_caret:len()
+  local status = state.get_status(async.api.nvim_get_current_buf())
+  local length = async.api.nvim_win_get_width(status.results_win) - status.picker.selection_caret:len()
   local home = assert(uv.os_homedir()) --[[@as string]]
   ---@param str string
   ---@return string
