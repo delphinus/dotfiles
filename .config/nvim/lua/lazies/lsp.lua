@@ -261,7 +261,6 @@ return {
           "vint",
         } or {
           "ansible-language-server",
-          "awk-language-server",
           "bash-language-server",
           "clangd",
           "cmake-language-server",
