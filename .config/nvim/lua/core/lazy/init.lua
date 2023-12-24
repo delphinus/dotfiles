@@ -48,6 +48,25 @@ for _, i in ipairs {
   ignore_ftdetect[pack_path .. i] = true
 end
 
+vim.api.nvim_create_autocmd("User", {
+  pattern = "LazyUpdatePre",
+  group = vim.api.nvim_create_augroup("lazy-update-pre", {}),
+  callback = function()
+    local Path = require "plenary.path"
+    local config = require "lazy.core.config"
+    local vimdoc = Path:new(config.options.root, "vimdoc-ja")
+    vim
+      .system({ "git", "reset", "--hard" }, { cwd = tostring(vimdoc) }, function(info)
+        if info.code == 0 then
+          vim.notify("vimdoc-ja resetted hardly", vim.log.levels.DEBUG)
+        else
+          vim.notify("git reset --hard failed", vim.log.levels.ERROR)
+        end
+      end)
+      :wait()
+  end,
+})
+
 require("lazy.core.loader").did_ftdetect = ignore_ftdetect
 
 require("lazy").setup(plugins, {
