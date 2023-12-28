@@ -1074,6 +1074,7 @@ return {
 
   {
     "jbyuki/venn.nvim",
+    enabled = false,
     cmd = { "VBox", "VBoxD", "VBoxH", "VBoxO", "VBoxDO", "VBoxHO", "VFill" },
     keys = { { "n", "<A-v>" } },
     init = function()
