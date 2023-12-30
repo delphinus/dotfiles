@@ -245,3 +245,22 @@ end
 alias l 'eza -lF --group-directories-first --color-scale --icons --time-style long-iso --git'
 
 set -x EZA_COLORS 'da=38;2;143;191;187'
+
+set alacritty_resource $HOME/Applications/Alacritty.app/Contents/Resources
+if test -d $alacritty_resource
+    contains $alacitty_resource $MANPATH; or set -x MANPATH $MANPATH:$alacritty_resource
+    set alacritty_man1 $alacritty_resource/man1
+    set alacritty_man5 $alacritty_resource/man5
+    if ! test -d $alacritty_man1
+        mkdir $alacritty_man1
+        mkdir $alacritty_man5
+        pushd $alacritty_man1
+        ln -s ../alacritty.1.gz
+        ln -s ../alacritty-msg.1.gz
+        popd
+        pushd $alacritty_man5
+        ln -s ../alacritty.5.gz
+        ln -s ../alacritty-bindings.5.gz
+        popd
+    end
+end
