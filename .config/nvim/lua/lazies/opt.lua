@@ -578,15 +578,7 @@ return {
     end,
   },
 
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    event = { "FocusLost", "CursorHold" },
-    main = "ibl",
-    opts = {
-      indent = { char = "│" },
-      scope = { char = "║" },
-    },
-  },
+  { "shellRaining/hlchunk.nvim", event = { "UIEnter" }, opts = { chunk = { chars = { right_arrow = "→" } } } },
 
   {
     enabled = not vim.env.LIGHT,
@@ -681,21 +673,8 @@ return {
           end)
         end,
       })
-      vim.g.wrapwidth_hl = "SignColumn"
     end,
-    config = function()
-      require("satellite").setup { handlers = { marks = { show_builtins = true } } }
-      api.create_autocmd("BufEnter", {
-        group = api.create_augroup("satellite-wrapwidth", {}),
-        -- NOTE: need rickhowe/wrapwidth
-        callback = function()
-          if not vim.b.satellite_wrapwidth then
-            vim.cmd.Wrapwidth(-1)
-            vim.b.satellite_wrapwidth = true
-          end
-        end,
-      })
-    end,
+    opts = { handlers = { marks = { show_builtins = true } } },
   },
 
   {
@@ -1050,8 +1029,20 @@ return {
     "rickhowe/wrapwidth",
     cmd = { "Wrapwidth" },
     init = function()
+      local group = vim.api.nvim_create_augroup("Wrapwidth", {})
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        group = group,
+        callback = function()
+          local config = vim.api.nvim_win_get_config(0)
+          local is_floatwin = config.relative ~= ""
+          if not is_floatwin then
+            vim.cmd.Wrapwidth(-2)
+          end
+        end,
+      })
       -- NOTE: set Wrapwidth if the file contains Wrapwidth xx in upper lines.
       api.create_autocmd("BufReadPost", {
+        group = group,
         callback = function()
           local lines = api.buf_get_lines(0, 0, 2, false)
           if lines then

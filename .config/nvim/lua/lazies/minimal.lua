@@ -57,9 +57,7 @@ return {
   },
 
   {
-    --"arcticicestudio/nord-vim",
     "delphinus/nord-nvim",
-    branch = "feature/semantic-token",
     build = lazy_require("nord").update {
       italic = true,
       uniform_status_lines = true,
