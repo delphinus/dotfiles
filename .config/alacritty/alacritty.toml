@@ -39,7 +39,7 @@ osc52 = "CopyPaste"
 decorations = "Buttonless"
 opacity = 0.98
 option_as_alt = "Both"
-padding = { x = 9, y = 5 }
+padding = { x = 9, y = 6 }
 dynamic_padding = true
 resize_increments = true
 
