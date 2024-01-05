@@ -52,7 +52,7 @@ return {
         group = api.create_augroup("enable-lualine-lsp", {}),
         once = true,
         callback = function()
-          require("modules.start.config.lualine").is_lsp_available = true
+          require("core.utils.lualine").is_lsp_available = true
         end,
       })
 

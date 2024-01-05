@@ -600,7 +600,7 @@ return {
       vim.opt.showtabline = 0
     end,
     config = function()
-      require("modules.start.config.lualine"):config()
+      require("core.utils.lualine"):config()
     end,
   },
 
