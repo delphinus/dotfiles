@@ -363,72 +363,13 @@ return {
   },
 
   {
-    "rcarriga/nvim-notify",
-    init = function()
-      local function dismiss()
-        require("notify").dismiss { pending = true, silent = true }
-      end
-      local function show_last_one()
-        local notify = require "notify"
-        local h = notify.history {}
-        local last = h[#h]
-        notify.notify(last.message, last.level, {
-          title = last.title[1],
-          icon = last.icon,
-          timeout = false,
-          render = last.render,
-          hide_from_history = true,
-          on_open = function(win)
-            vim.wo[win].wrap = true
-          end,
-        })
-        vim.notify("made the last message stuck", vim.log.levels.DEBUG)
-      end
-      vim.keymap.set("n", "<Plug>notify-dismiss", dismiss, { desc = "Dismiss all showing notifications" })
-      vim.keymap.set("n", "<Plug>notify-last-message", show_last_one, { desc = "Show the last notification again" })
-      vim.keymap.set("n", "<Leader>nn", dismiss, { desc = "Dismiss all showing notifications" })
-      vim.keymap.set("n", "<Leader>ns", show_last_one, { desc = "Show the last notification again" })
-      api.create_user_command("DismissNotifications", dismiss, { desc = "Dismiss all showing notifications" })
-      api.create_user_command("LastNotification", show_last_one, { desc = "Show the last notification again" })
-    end,
-    opts = {
-      render = "minimal",
-      --[[
-          background_colour = function()
-            return palette.colors.black
-          end,
-          ]]
-      level = "trace",
-      on_open = function(win)
-        api.win_set_config(win, { focusable = false })
-      end,
-    },
-  },
-
-  {
-    -- enabled = not vim.env.LIGHT,
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
     dependencies = {
       "nvim-treesitter",
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
     },
     init = function()
-      -- HACK: avoid to set duplicatedly (ex. after PackerCompile)
-      if not _G.__vim_notify_overwritten then
-        ---@diagnostic disable-next-line: duplicate-set-field
-        vim.notify = function(...)
-          local args = { ... }
-          require "notify"
-          require "noice"
-          vim.schedule(function()
-            vim.notify(unpack(args))
-          end)
-        end
-        _G.__vim_notify_overwritten = true
-      end
-
       palette "noice" {
         nord = function(colors)
           api.set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
@@ -457,6 +398,18 @@ return {
         signature = {
           enabled = true,
         },
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      presets = {
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true, -- add a border to hover docs and signature help
       },
       format = {
         spinner = {

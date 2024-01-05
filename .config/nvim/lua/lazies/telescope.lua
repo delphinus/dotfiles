@@ -152,7 +152,7 @@ return {
         { desc = "Telescope keymaps" }
       )
       keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } }, { desc = "Telescope man_pages" })
-      keymap.set("n", "<Leader>fn", extensions("notify", "notify") {}, { desc = "Telescope notify" })
+      keymap.set("n", "<Leader>fn", extensions("noice", "noice") {}, { desc = "Telescope noice" })
       keymap.set("n", "<Leader>fo", frecency {}, { desc = "Telescope frecency" })
       keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {}, { desc = "Telescope ctags_outline" })
       keymap.set(
