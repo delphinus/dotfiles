@@ -1020,6 +1020,19 @@ return {
     "tris203/hawtkeys.nvim",
     cmd = { "Hawtkeys", "HawtkeysAll", "HawtkeysDupes" },
     dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {},
+    opts = {
+      leader = [[\]],
+    },
+    init = function()
+      -- Disable cmp in hawtkeys buffer
+      vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+        group = vim.api.nvim_create_augroup("hawtkeys-cmp", {}),
+        callback = function(args)
+          if args.buf == require("hawtkeys.ui").SearchBuf then
+            require("cmp").setup.buffer { enabled = false }
+          end
+        end,
+      })
+    end,
   },
 }
