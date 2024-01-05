@@ -1015,4 +1015,11 @@ return {
       vim.g.wrapwidth_hl = "SignColumn"
     end,
   },
+
+  {
+    "tris203/hawtkeys.nvim",
+    cmd = { "Hawtkeys", "HawtkeysAll", "HawtkeysDupes" },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+  },
 }

@@ -27,7 +27,6 @@ return {
         },
       },
 
-      { "nvim-lua/popup.nvim" },
       { "nvim-telescope/telescope-file-browser.nvim" },
       { "nvim-telescope/telescope-frecency.nvim" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
