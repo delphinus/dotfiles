@@ -68,8 +68,6 @@ return {
     },
 
     init = function()
-      local keymap = vim.keymap
-
       palette "telescope" {
         nord = function(colors)
           api.set_hl(0, "TelescopeMatching", { fg = colors.magenta })
@@ -105,15 +103,15 @@ return {
       end
 
       -- Lines
-      keymap.set("n", "#", builtin "current_buffer_fuzzy_find" {}, { desc = "Telescope current_buffer_fuzzy_find" })
+      vim.keymap.set("n", "#", builtin "current_buffer_fuzzy_find" {}, { desc = "Telescope current_buffer_fuzzy_find" })
 
       -- Files
-      keymap.set("n", "<Leader>fB", builtin "buffers" {}, { desc = "Telescope buffers" })
-      keymap.set("n", "<Leader>fb", function()
+      vim.keymap.set("n", "<Leader>fB", builtin "buffers" {}, { desc = "Telescope buffers" })
+      vim.keymap.set("n", "<Leader>fb", function()
         local cwd = fn.expand "%:h"
         extensions("file_browser", "file_browser") { cwd = cwd ~= "" and cwd or nil }()
       end, { desc = "Telescope file_browser" })
-      keymap.set("n", "<Leader>ff", frecency { workspace = "CWD" }, { desc = "Telescope frecency on CWD" })
+      vim.keymap.set("n", "<Leader>ff", frecency { workspace = "CWD" }, { desc = "Telescope frecency on CWD" })
 
       local function input_grep_string(prompt, func)
         return function()
@@ -134,13 +132,13 @@ return {
         end
       end
 
-      keymap.set("n", "<Leader>f:", builtin "command_history" {}, { desc = "Telescope command_history" })
-      keymap.set("n", "<Leader>fG", builtin "grep_string" {}, { desc = "Telescope grep_string" })
-      keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
-      keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
-      keymap.set("n", "<Leader>fg", extensions("egrepify", "egrepify") {}, { desc = "Telescope egrepify" })
-      keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
-      keymap.set(
+      vim.keymap.set("n", "<Leader>f:", builtin "command_history" {}, { desc = "Telescope command_history" })
+      vim.keymap.set("n", "<Leader>fG", builtin "grep_string" {}, { desc = "Telescope grep_string" })
+      vim.keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
+      vim.keymap.set("n", "<Leader>fN", extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
+      vim.keymap.set("n", "<Leader>fg", extensions("egrepify", "egrepify") {}, { desc = "Telescope egrepify" })
+      vim.keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
+      vim.keymap.set(
         "n",
         "<A-Space>",
         builtin "keymaps" {
@@ -150,11 +148,11 @@ return {
         },
         { desc = "Telescope keymaps" }
       )
-      keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } }, { desc = "Telescope man_pages" })
-      keymap.set("n", "<Leader>fn", extensions("noice", "noice") {}, { desc = "Telescope noice" })
-      keymap.set("n", "<Leader>fo", frecency {}, { desc = "Telescope frecency" })
-      keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {}, { desc = "Telescope ctags_outline" })
-      keymap.set(
+      vim.keymap.set("n", "<Leader>fm", builtin "man_pages" { sections = { "ALL" } }, { desc = "Telescope man_pages" })
+      vim.keymap.set("n", "<Leader>fn", extensions("noice", "noice") {}, { desc = "Telescope noice" })
+      vim.keymap.set("n", "<Leader>fo", frecency {}, { desc = "Telescope frecency" })
+      vim.keymap.set("n", "<Leader>fc", extensions("ctags_outline", "outline") {}, { desc = "Telescope ctags_outline" })
+      vim.keymap.set(
         "n",
         "<Leader>fq",
         extensions("ghq", "ghq") {
@@ -173,18 +171,23 @@ return {
         },
         { desc = "Telescope ghq" }
       )
-      keymap.set("n", "<Leader>fr", builtin "resume" {}, { desc = "Telescope resume" })
-      keymap.set(
+      vim.keymap.set("n", "<Leader>fr", builtin "resume" {}, { desc = "Telescope resume" })
+      vim.keymap.set(
         "n",
         "<Leader>ft",
         extensions("todo-comments", "todo-comments") {},
         { desc = "Telescope todo-comments" }
       )
 
-      keymap.set("n", "<Leader>fv", frecency { workspace = "VIM" }, { desc = "Telescope file_browser $VIMRUNTIME" })
-      keymap.set("n", "<Leader>fy", extensions("yank_history", "yank_history") {}, { desc = "Telescope yank_history" })
+      vim.keymap.set("n", "<Leader>fv", frecency { workspace = "VIM" }, { desc = "Telescope file_browser $VIMRUNTIME" })
+      vim.keymap.set(
+        "n",
+        "<Leader>fy",
+        extensions("yank_history", "yank_history") {},
+        { desc = "Telescope yank_history" }
+      )
 
-      keymap.set("n", "<Leader>fz", function()
+      vim.keymap.set("n", "<Leader>fz", function()
         extensions("z", "list") {
           previewer = require("telescope.previewers.term_previewer").new_termopen_previewer {
             get_command = function(entry)
@@ -208,12 +211,12 @@ return {
       end, { desc = "Telescope z" })
 
       -- Memo
-      keymap.set("n", "<Leader>mm", extensions("memo", "list") {}, { desc = "Telescope memo" })
-      keymap.set("n", "<Leader>mg", extensions("memo", "grep") {}, { desc = "Telescope memo grep" })
+      vim.keymap.set("n", "<Leader>mm", extensions("memo", "list") {}, { desc = "Telescope memo" })
+      vim.keymap.set("n", "<Leader>mg", extensions("memo", "grep") {}, { desc = "Telescope memo grep" })
 
       -- LSP
-      keymap.set("n", "<Leader>sr", builtin "lsp_references" {}, { desc = "Telescope lsp_references" })
-      keymap.set("n", "<Leader>sd", function()
+      vim.keymap.set("n", "<Leader>sr", builtin "lsp_references" {}, { desc = "Telescope lsp_references" })
+      vim.keymap.set("n", "<Leader>sd", function()
         if
           vim.iter(vim.lsp.get_clients()):any(function(client)
             client.supports_method "textDocument/documentSymbol"
@@ -224,23 +227,28 @@ return {
           extensions("ctags_outline", "outline") {}()
         end
       end, { desc = "Telescope lsp_document_symbols or ctags_outline" })
-      keymap.set("n", "<Leader>sw", builtin "lsp_workspace_symbols" {}, { desc = "Telescope lsp_workspace_symbols" })
-      keymap.set("n", "<Leader>sc", builtin "lsp_code_actions" {}, { desc = "Telescope lsp_code_actions" })
+      vim.keymap.set(
+        "n",
+        "<Leader>sw",
+        builtin "lsp_workspace_symbols" {},
+        { desc = "Telescope lsp_workspace_symbols" }
+      )
+      vim.keymap.set("n", "<Leader>sc", builtin "lsp_code_actions" {}, { desc = "Telescope lsp_code_actions" })
 
       -- Git
-      keymap.set("n", "<Leader>gc", builtin "git_commits" {}, { desc = "Telescope git_commits" })
-      keymap.set("n", "<Leader>gb", builtin "git_bcommits" {}, { desc = "Telescope git_bcommits" })
-      keymap.set("n", "<Leader>gr", builtin "git_branches" {}, { desc = "Telescope git_branches" })
-      keymap.set("n", "<Leader>gs", builtin "git_status" {}, { desc = "Telescope git_status" })
-      keymap.set("v", "<Leader>gl", function()
+      vim.keymap.set("n", "<Leader>gc", builtin "git_commits" {}, { desc = "Telescope git_commits" })
+      vim.keymap.set("n", "<Leader>gb", builtin "git_bcommits" {}, { desc = "Telescope git_bcommits" })
+      vim.keymap.set("n", "<Leader>gr", builtin "git_branches" {}, { desc = "Telescope git_branches" })
+      vim.keymap.set("n", "<Leader>gs", builtin "git_status" {}, { desc = "Telescope git_status" })
+      vim.keymap.set("v", "<Leader>gl", function()
         local from = fn.line "v"
         local to = vim.api.nvim_win_get_cursor(0)[1]
         builtin "git_bcommits_range" { from = from, to = to }()
       end, { desc = "Telescope git_branches" })
 
       -- Copied from telescope.nvim
-      keymap.set("n", "q:", builtin "command_history" {}, { desc = "Telescope command_history" })
-      keymap.set(
+      vim.keymap.set("n", "q:", builtin "command_history" {}, { desc = "Telescope command_history" })
+      vim.keymap.set(
         "c",
         "<A-r>",
         [[<C-\>e ]]
