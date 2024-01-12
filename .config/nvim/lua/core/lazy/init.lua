@@ -58,9 +58,13 @@ vim.api.nvim_create_autocmd("User", {
     vim
       .system({ "git", "reset", "--hard" }, { cwd = tostring(vimdoc) }, function(info)
         if info.code == 0 then
-          vim.notify("vimdoc-ja resetted hardly", vim.log.levels.DEBUG)
+          vim.schedule(function()
+            vim.notify("vimdoc-ja resetted hardly", vim.log.levels.DEBUG)
+          end)
         else
-          vim.notify("git reset --hard failed", vim.log.levels.ERROR)
+          vim.schedule(function()
+            vim.notify("git reset --hard failed", vim.log.levels.ERROR)
+          end)
         end
       end)
       :wait()
