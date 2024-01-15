@@ -1,10 +1,34 @@
 local wezterm = require "wezterm"
 local act = wezterm.action
+local const = require "const"
 
 return function(config)
+  local function tmux_or_fish()
+    local _, stdout = wezterm.run_child_process { const.tmux_bin, "ls", "-F", "#{session_attached}" }
+    local is_attached = wezterm.split_by_newlines(stdout)[1] == "1"
+    return is_attached and { const.fish_bin } or { const.tmux_run_bin }
+  end
+
+  local spawn_window = wezterm.action_callback(function()
+    wezterm.mux.spawn_window { args = tmux_or_fish() }
+  end)
+
+  local spawn_tab = wezterm.action_callback(function(window)
+    window:mux_window():spawn_tab { args = tmux_or_fish() }
+  end)
+
+  local open_with = act.QuickSelectArgs {
+    patterns = { const.url_regex },
+    action = wezterm.action_callback(function(window, pane)
+      local url = window:get_selection_text_for_pane(pane)
+      wezterm.open_with(url)
+    end),
+  }
+
   config.keys = {
     { key = "-", mods = "CMD", action = act.DecreaseFontSize },
     { key = "0", mods = "CMD", action = act.ResetFontSize },
+    { key = "0", mods = "SHIFT|CMD", action = act.ResetFontAndWindowSize },
     { key = "1", mods = "CMD", action = act.ActivateTab(0) },
     { key = "2", mods = "CMD", action = act.ActivateTab(1) },
     { key = "3", mods = "CMD", action = act.ActivateTab(2) },
@@ -20,22 +44,24 @@ return function(config)
     { key = "]", mods = "SHIFT|CMD", action = act.ActivateTabRelative(1) },
     { key = "`", mods = "CMD", action = act.ActivateWindowRelative(1) },
     { key = "c", mods = "CMD", action = act.CopyTo "Clipboard" },
+    { key = "c", mods = "SHIFT|CMD", action = act.CharSelect },
     { key = "f", mods = "CMD", action = act.Search { CaseSensitiveString = "" } },
-    { key = "f", mods = "CTRL|CMD", action = act.ToggleFullScreen },
+    { key = "f", mods = "SHIFT|CMD", action = act.ToggleFullScreen },
     { key = "h", mods = "CMD", action = act.HideApplication },
     { key = "j", mods = "SHIFT|CMD", action = act.ActivatePaneDirection "Next" },
     { key = "k", mods = "SHIFT|CMD", action = act.ActivatePaneDirection "Prev" },
     { key = "l", mods = "CMD", action = act.ShowDebugOverlay },
     { key = "m", mods = "CMD", action = act.Hide },
-    { key = "n", mods = "CMD", action = act.SpawnCommandInNewWindow { args = { "/opt/homebrew/bin/fish" } } },
+    { key = "n", mods = "CMD", action = spawn_window },
     { key = "p", mods = "CMD", action = act.ActivateCommandPalette },
     { key = "r", mods = "CMD", action = act.ReloadConfiguration },
     { key = "r", mods = "SHIFT|CMD", action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
-    { key = "s", mods = "SHIFT|CMD", action = act.SplitVertical { args = { "/opt/homebrew/bin/fish" } } },
-    { key = "t", mods = "CMD", action = act.SpawnCommandInNewTab { args = { "/opt/homebrew/bin/fish" } } },
+    { key = "s", mods = "SHIFT|CMD", action = act.SplitVertical { args = { const.fish_bin } } },
+    { key = "t", mods = "CMD", action = spawn_tab },
     { key = "u", mods = "CMD", action = act.QuickSelect },
+    { key = "u", mods = "SHIFT|CMD", action = open_with },
     { key = "v", mods = "CMD", action = act.PasteFrom "Clipboard" },
-    { key = "v", mods = "SHIFT|CMD", action = act.SplitHorizontal { args = { "/opt/homebrew/bin/fish" } } },
+    { key = "v", mods = "SHIFT|CMD", action = act.SplitHorizontal { args = { const.fish_bin } } },
     { key = "w", mods = "CMD", action = act.CloseCurrentTab { confirm = false } },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
   }
