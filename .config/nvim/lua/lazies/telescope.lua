@@ -37,6 +37,7 @@ return {
       { "nvim-telescope/telescope-smart-history.nvim", dependencies = { "kkharji/sqlite.lua" } },
       { "nvim-telescope/telescope-symbols.nvim" },
       { "nvim-telescope/telescope-z.nvim" },
+      { "jonarrien/telescope-cmdline.nvim" },
       { "stevearc/dressing.nvim" },
       {
         "gbprod/yanky.nvim",
