@@ -39,7 +39,8 @@
                 "^co\\.zeit\\.hyperterm$",
                 "^co\\.zeit\\.hyper$",
                 "^net\\.kovidgoyal\\.kitty$",
-                "^org\\.alacritty$"
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$"
               ]
             }
           ]
