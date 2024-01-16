@@ -9,13 +9,13 @@ return function(config)
     return is_attached and { const.fish_bin } or { const.tmux_run_bin }
   end
 
-  local spawn_window = wezterm.action_callback(function()
+  local function spawn_window()
     wezterm.mux.spawn_window { args = tmux_or_fish() }
-  end)
+  end
 
-  local spawn_tab = wezterm.action_callback(function(window)
+  local function spawn_tab(window)
     window:mux_window():spawn_tab { args = tmux_or_fish() }
-  end)
+  end
 
   local open_with = act.QuickSelectArgs {
     patterns = { const.url_regex },
@@ -24,6 +24,15 @@ return function(config)
       wezterm.open_with(url)
     end),
   }
+
+  wezterm.on("new-tab-button-click", function(window, pane, button, default_action)
+    if button == "Left" then
+      spawn_tab(window)
+    elseif default_action then
+      window:perform_action(default_action, pane)
+    end
+    return false
+  end)
 
   config.keys = {
     { key = "-", mods = "CMD", action = act.DecreaseFontSize },
@@ -52,12 +61,12 @@ return function(config)
     { key = "k", mods = "SHIFT|CMD", action = act.ActivatePaneDirection "Prev" },
     { key = "l", mods = "CMD", action = act.ShowDebugOverlay },
     { key = "m", mods = "CMD", action = act.Hide },
-    { key = "n", mods = "CMD", action = spawn_window },
+    { key = "n", mods = "CMD", action = wezterm.action_callback(spawn_window) },
     { key = "p", mods = "CMD", action = act.ActivateCommandPalette },
     { key = "r", mods = "CMD", action = act.ReloadConfiguration },
     { key = "r", mods = "SHIFT|CMD", action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
     { key = "s", mods = "SHIFT|CMD", action = act.SplitVertical { args = { const.fish_bin } } },
-    { key = "t", mods = "CMD", action = spawn_tab },
+    { key = "t", mods = "CMD", action = wezterm.action_callback(spawn_tab) },
     { key = "u", mods = "CMD", action = act.QuickSelect },
     { key = "u", mods = "SHIFT|CMD", action = open_with },
     { key = "v", mods = "CMD", action = act.PasteFrom "Clipboard" },
