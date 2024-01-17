@@ -12,7 +12,10 @@ my $cache = decode_json($cache_file->touch->slurp || '{}');
 my $count = $cache->{count} // 0;  # FindingBackupVol が連続している分数
 my $status = `$tmutil status`;
 die 'tmutil status failed' if $? != 0;
-if ($status =~ /BackupPhase = FindingBackupVol/) {
+my ($backup_phase) = $status =~ /BackupPhase = (\S+)/;
+if ($backup_phase eq 'ThinningPostBackup') {
+    exit 0;
+} elsif ($backup_phase eq 'FindingBackupVol') {
     if (++$count >= $threshold_minutes) {
         0 == system $tmutil, 'stopbackup' or die 'failed to stopbackup';
         sleep 5;
