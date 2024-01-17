@@ -5,6 +5,11 @@ if ! [[ -d $BIN_DIR ]]; then
 fi
 OP=$BIN_DIR/op
 TMUX=$BIN_DIR/tmux
+FISH=$BIN_DIR/fish
 export SHELL=$BIN_DIR/fish
 
-$TMUX a -d || $OP run --env-file "$HOME/.1password-env" -- $TMUX
+if [[ -x $TMUX ]]; then
+  $TMUX a -d || $OP run --env-file "$HOME/.1password-env" -- $TMUX
+else
+  exec $FISH -l
+fi
