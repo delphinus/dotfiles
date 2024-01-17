@@ -23,7 +23,7 @@ config.set_environment_variables = { SHELL = const.fish_bin }
 -- config.use_fancy_tab_bar = false
 config.warn_about_missing_glyphs = false
 config.webgpu_power_preference = "HighPerformance"
-config.window_background_opacity = 0.90
+config.window_background_opacity = 0.96
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE"
 
