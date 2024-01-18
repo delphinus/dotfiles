@@ -44,4 +44,11 @@ return {
 
     return vim.startswith(scriptinfo[1].name, vim.fn.expand "$VIMRUNTIME")
   end,
+
+  ---@param plugin_name string
+  load_denops_plugin = function(plugin_name)
+    local dir = require("lazy.core.config").plugins[plugin_name].dir
+    local name = plugin_name:gsub([[%.vim$]], ""):gsub([[^vim-]], "")
+    vim.fn["denops#plugin#load"](name, dir .. "/denops/" .. name .. "/main.ts")
+  end,
 }

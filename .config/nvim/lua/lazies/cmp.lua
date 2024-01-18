@@ -1,4 +1,5 @@
 ---@diagnostic disable: missing-fields
+local utils = require "core.utils"
 local fn, _, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
@@ -19,7 +20,7 @@ return {
     cmd = { "SKKTutorialStart" },
     dependencies = { "denops.vim", "skkeleton" },
     config = function()
-      fn["denops#plugin#register"] "skk-tutorial"
+      utils.load_denops_plugin "skk-tutorial.vim"
       vim.wait(1000, function()
         return not not api.get_commands({}).SKKTutorialStart
       end)
@@ -97,8 +98,7 @@ return {
     end,
 
     config = function()
-      -- TODO: is this correct?
-      fn["denops#plugin#register"] "skkeleton"
+      utils.load_denops_plugin "skkeleton"
 
       local function dic(name)
         return { "~/Library/Application Support/AquaSKK/" .. name, name:match "utf8" and "utf-8" or "euc-jp" }

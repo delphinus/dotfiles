@@ -1,5 +1,6 @@
 ---@diagnostic disable: missing-fields
 local fn, uv, api = require("core.utils").globals()
+local utils = require "core.utils"
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
 
@@ -871,7 +872,7 @@ return {
       km.set("n", "<Esc><Esc>", searchx "clear"(), { desc = "searchx#clear" })
     end,
     config = function()
-      fn["denops#plugin#register"]("kensaku", { mode = "skip" })
+      utils.load_denops_plugin "kensaku.vim"
       vim.g.searchx = {
         -- Auto jump if the recent input matches to any marker.
         auto_accept = true,
@@ -943,8 +944,8 @@ return {
           api.set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
         end,
       }
-      fn["denops#plugin#register"]("kensaku", { mode = "skip" })
-      fn["denops#plugin#register"] "fuzzy-motion"
+      utils.load_denops_plugin "kensaku.vijm"
+      utils.load_denops_plugin "fuzzy-motion"
     end,
   },
 
