@@ -945,7 +945,7 @@ return {
         end,
       }
       utils.load_denops_plugin "kensaku.vijm"
-      utils.load_denops_plugin "fuzzy-motion"
+      utils.load_denops_plugin "fuzzy-motion.vim"
     end,
   },
 
