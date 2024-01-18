@@ -944,7 +944,7 @@ return {
           api.set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
         end,
       }
-      utils.load_denops_plugin "kensaku.vijm"
+      utils.load_denops_plugin "kensaku.vim"
       utils.load_denops_plugin "fuzzy-motion.vim"
     end,
   },
