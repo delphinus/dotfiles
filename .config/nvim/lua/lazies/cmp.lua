@@ -132,13 +132,12 @@ return {
           dic "SKK-JISYO.emoji-ja.utf8",
           dic "SKK-JISYO.jawiki.utf8",
         },
-        userJisyo = "~/Documents/skk-jisyo.utf8",
+        userDictionary = "~/Documents/skk-jisyo.utf8",
         eggLikeNewline = true,
-        -- TODO: cannot use this with cmp-skkeleton?
-        --useSkkServer = true,
         immediatelyCancel = false,
         registerConvertResult = true,
-        useGoogleJapaneseInput = true,
+        sources = { "deno_kv", "google_japanese_input" },
+        databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
       }
       fn["skkeleton#register_kanatable"]("rom", {
         ["("] = { "（", "" },
