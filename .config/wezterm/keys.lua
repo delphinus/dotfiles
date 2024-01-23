@@ -63,6 +63,7 @@ return function(config)
     { key = "m", mods = "CMD", action = act.Hide },
     { key = "n", mods = "CMD", action = wezterm.action_callback(spawn_window) },
     { key = "p", mods = "CMD", action = act.ActivateCommandPalette },
+    { key = "q", mods = "CMD", action = act.QuitApplication },
     { key = "r", mods = "CMD", action = act.ReloadConfiguration },
     { key = "r", mods = "SHIFT|CMD", action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
     { key = "s", mods = "SHIFT|CMD", action = act.SplitVertical { args = { const.fish_bin } } },
