@@ -12,8 +12,8 @@ my $cache = decode_json($cache_file->touch->slurp || '{}');
 my $count = $cache->{count} // 0;  # FindingBackupVol が連続している分数
 my $status = `$tmutil status`;
 die 'tmutil status failed' if $? != 0;
-my ($backup_phase) = $status =~ /BackupPhase = (\S+)/;
-if ($backup_phase eq 'ThinningPostBackup') {
+my ($backup_phase) = $status =~ /BackupPhase = (\S+);/;
+if (!defined $backup_phase || $backup_phase eq 'ThinningPostBackup') {
     exit 0;
 } elsif ($backup_phase eq 'FindingBackupVol') {
     if (++$count >= $threshold_minutes) {
