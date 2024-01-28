@@ -12,7 +12,12 @@ return {
   { "delphinus/lazy_require.nvim" },
   { "nvim-lua/plenary.nvim" },
 
-  non_lazy { "vim-denops/denops.vim" },
+  non_lazy {
+    "vim-denops/denops.vim",
+    init = function()
+      vim.g["denops#server#deno_args"] = { "-q", "--no-lock", "--unstable-kv", "-A" }
+    end,
+  },
 
   non_lazy {
     "delphinus/cellwidths.nvim",
