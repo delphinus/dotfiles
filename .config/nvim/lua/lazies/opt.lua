@@ -532,7 +532,11 @@ return {
     end,
   },
 
-  { "shellRaining/hlchunk.nvim", event = { "UIEnter" }, opts = { chunk = { chars = { right_arrow = "→" } } } },
+  {
+    "shellRaining/hlchunk.nvim",
+    event = { "UIEnter" },
+    opts = { chunk = { chars = { right_arrow = "→" } }, blank = { chars = { "∙" } } },
+  },
 
   {
     enabled = not vim.env.LIGHT,
