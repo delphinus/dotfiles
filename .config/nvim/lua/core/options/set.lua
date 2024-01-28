@@ -59,9 +59,10 @@ vim.opt.fixendofline = false
 -- NOTE: commented out for wrapwidth
 -- vim.opt.showbreak = [[→]]
 vim.opt.smartindent = true
-vim.opt.foldmethod = "marker"
+vim.opt.foldmethod = "expr"
 -- WARN: too slow for larger files (> 10000 lines)
---vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 
 api.create_autocmd({ "BufWinEnter" }, {
   group = api.create_augroup("open-folds-initially", {}),
