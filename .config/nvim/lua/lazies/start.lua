@@ -70,10 +70,17 @@ return {
       -- avoid chattering the cursor
       vim.opt.signcolumn = "yes"
       api.create_autocmd("TermOpen", {
-        desc = "Disable signcolumn when the buffer is terminal",
+        desc = "Disable signcolumn when a terminal starts",
         group = group,
         callback = function()
           vim.opt.signcolumn = "no"
+        end,
+      })
+      api.create_autocmd("TermLeave", {
+        desc = "Enable signcolumn when it leaves a terminal",
+        group = group,
+        callback = function()
+          vim.opt.signcolumn = "yes"
         end,
       })
 
