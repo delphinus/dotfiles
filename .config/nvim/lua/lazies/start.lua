@@ -65,11 +65,21 @@ return {
         end,
       }
 
+      local group = api.create_augroup("smooth-cursor-autocmds", {})
+
       -- avoid chattering the cursor
       vim.opt.signcolumn = "yes"
+      api.create_autocmd("TermOpen", {
+        desc = "Disable signcolumn when the buffer is terminal",
+        group = group,
+        callback = function()
+          vim.opt.signcolumn = "no"
+        end,
+      })
 
       api.create_autocmd("ModeChanged", {
         desc = "Change signs for SmoothCursor according to modes",
+        group = group,
         callback = function()
           local colors = palette.colors
           local cursor = {
@@ -87,7 +97,9 @@ return {
       })
 
       api.create_autocmd("User", {
+        desc = "Disable SmoothCursor.nvim in large files",
         pattern = "BigfileBufReadPost",
+        group = group,
         callback = function(args)
           vim.api.nvim_buf_call(args.buf, function()
             require("smoothcursor.utils").smoothcursor_stop()
