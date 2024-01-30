@@ -65,6 +65,9 @@ return {
         end,
       }
 
+      -- avoid chattering the cursor
+      vim.opt.signcolumn = "yes"
+
       api.create_autocmd("ModeChanged", {
         desc = "Change signs for SmoothCursor according to modes",
         callback = function()
