@@ -61,7 +61,7 @@ vim.opt.fixendofline = false
 vim.opt.smartindent = true
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldtext = ""
+vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 
 api.create_autocmd({ "BufWinEnter" }, {
   group = api.create_augroup("open-folds-initially", {}),
