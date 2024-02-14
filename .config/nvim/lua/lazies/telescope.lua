@@ -28,7 +28,7 @@ return {
       },
 
       { "nvim-telescope/telescope-file-browser.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim" },
+      { "nvim-telescope/telescope-frecency.nvim", branch = "feat/true-async" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
