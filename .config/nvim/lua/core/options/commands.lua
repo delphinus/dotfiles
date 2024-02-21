@@ -87,3 +87,7 @@ end, {
   desc = "Dump Lua expression",
   nargs = "+",
 })
+
+api.create_user_command("NoiceRedirect", function(cmd)
+  require("noice").redirect(cmd.args)
+end, { desc = "Redirect any command with Noice", nargs = "+" })
