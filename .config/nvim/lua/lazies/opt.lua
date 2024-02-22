@@ -389,8 +389,7 @@ return {
         },
       },
       popupmenu = {
-        --backend = "cmp",
-        backend = "nui",
+        backend = "cmp",
       },
       lsp = {
         hover = {
