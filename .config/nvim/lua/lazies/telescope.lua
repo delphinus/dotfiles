@@ -420,6 +420,8 @@ return {
           },
           ---@type FrecencyConfig
           frecency = {
+            db_safe_mode = false,
+            hide_current_buffer = true,
             show_scores = true,
             show_filter_column = { "LSP", "CWD", "VIM" },
             workspaces = {
