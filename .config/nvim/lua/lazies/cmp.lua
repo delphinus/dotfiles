@@ -418,7 +418,7 @@ return {
             end,
           },
         },
-        window = {
+        --[[ window = {
           --completion = cmp.config.window.bordered(),
           completion = vim.tbl_extend("force", cmp.config.window.bordered(), {
             border = { { "⡠" }, { "⠤" }, { "⢄" }, { "⢸" }, { "⠊" }, { "⠒" }, { "⠑" }, { "⡇" } },
@@ -426,7 +426,7 @@ return {
           documentation = vim.tbl_extend("force", cmp.config.window.bordered(), {
             border = { { "⡠" }, { "⠤" }, { "⢄" }, { "⢸" }, { "⠊" }, { "⠒" }, { "⠑" }, { "⡇" } },
           }),
-        },
+        }, ]]
         sorting = {
           priority_weight = 2,
           comparators = {
