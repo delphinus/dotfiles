@@ -380,7 +380,7 @@ return {
               },
             },
             { name = "ghq" },
-            { name = "rg" },
+            { name = "rg", option = { debounce = 0 } },
             { name = "digraphs" },
             { name = "emoji" },
             { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
