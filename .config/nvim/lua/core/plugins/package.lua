@@ -23,7 +23,16 @@ end
 
 ---@return nil
 function Package:clone()
-  vim.cmd(("!git clone %s %s -b %s"):format(self.url, self.dir, self.opts.branch))
+  local notify = vim.schedule_wrap(vim.notify)
+  vim
+    .system({ "git", "clone", self.url, self.dir, "-b", self.opts.branch }, {}, function(obj)
+      if obj.code == 0 then
+        notify("Cloned " .. self.name, vim.log.levels.INFO)
+      else
+        notify("Failed to clone " .. self.name, vim.log.levels.ERROR)
+      end
+    end)
+    :wait()
 end
 
 return Package
