@@ -32,7 +32,14 @@ return {
 
   non_lazy { "vim-scripts/HiColors" },
 
-  non_lazy { "delphinus/rtr.nvim", config = true },
+  non_lazy {
+    "delphinus/rtr.nvim",
+    opts = {
+      root_names = function(name, dir)
+        return name == ".git" or dir == vim.env.VIMRUNTIME
+      end,
+    },
+  },
 
   non_lazy { "delphinus/unimpaired.nvim", branch = "feature/first-implementation", dev = true },
 
