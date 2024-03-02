@@ -344,7 +344,11 @@ return {
               { name = "nvim_lua" },
               { name = "ctags" },
               { name = "treesitter", trigger_characters = { "." }, option = {} },
-              { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
+              {
+                name = "tmux",
+                keyword_length = 2,
+                option = { trigger_characters = {}, all_panes = true, capture_history = true },
+              },
               {
                 name = "buffer",
                 option = {
