@@ -199,6 +199,7 @@ return {
 
   non_lazy {
     enabled = not vim.env.LIGHT,
+    tag = "v1.7.2",
     "uga-rosa/ccc.nvim",
     config = function()
       palette "ccc" {
