@@ -376,7 +376,6 @@ return {
         nls.builtins.formatting.stylua,
         nls.builtins.formatting.textlint,
         nls.builtins.formatting.yamlfmt,
-        nls.builtins.hover.dictionary,
 
         nls.builtins.diagnostics.luacheck.with {
           extra_args = {
