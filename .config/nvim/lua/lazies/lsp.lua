@@ -179,7 +179,6 @@ return {
               format = { enable = false },
               hint = { enable = true },
               telemetry = { enable = false },
-              workspace = { checkThirdParty = "Disable" },
             },
           },
         },
