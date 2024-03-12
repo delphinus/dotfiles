@@ -2,7 +2,9 @@
 ---@return fun(opts: table?): function
 local function builtin(name)
   return function(opts)
-    return require("telescope.builtin")[name](opts or {})
+    return function()
+      require("telescope.builtin")[name](opts or {})
+    end
   end
 end
 
@@ -12,20 +14,24 @@ end
 local function extensions(name, prop)
   local loaded = {}
   return function(opts)
-    local telescope = require "telescope"
-    if not loaded[name] then
-      telescope.load_extension(name)
-      loaded[name] = true
+    return function()
+      local telescope = require "telescope"
+      if not loaded[name] then
+        telescope.load_extension(name)
+        loaded[name] = true
+      end
+      telescope.extensions[name][prop or name](opts or {})
     end
-    return telescope.extensions[name][prop or name](opts or {})
   end
 end
 
 ---@praam opts table?
 ---@return function
 local function frecency(opts)
-  opts.path_display = require("core.telescope.frecency").path_display
-  return extensions "frecency"(opts)
+  return function()
+    opts.path_display = require("core.telescope.frecency").path_display
+    extensions "frecency"(opts)()
+  end
 end
 
 return {
