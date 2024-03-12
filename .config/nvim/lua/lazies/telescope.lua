@@ -1,29 +1,26 @@
 local fn, uv, api = require("core.utils").globals()
 local palette = require "core.utils.palette"
-local lazy_require = require "lazy_require"
 
 return {
   {
     "d00h/telescope-any",
     dependencies = { { "telescope.nvim" } },
-    --[[ init = function()
-      vim.keymap.set(
-        "n",
-        "<Leader><Leader>",
-        lazy_require("telescope-any").create_telescope_any {
+    init = function()
+      vim.keymap.set("n", "<Leader><Leader>", function()
+        local core = require "core.telescope"
+        require("telescope-any").create_telescope_any {
           pickers = {
-            ["# "] = builtin "current_buffer_fuzzy_find" {},
-            ["bu "] = builtin "buffers" {},
+            ["# "] = core.builtin "current_buffer_fuzzy_find" {},
+            ["bu "] = core.builtin "buffers" {},
             ["b "] = function()
               local cwd = fn.expand "%:h"
-              extensions("file_browser", "file_browser") { cwd = cwd ~= "" and cwd or nil } ()
+              core.extensions "file_browser" { cwd = cwd ~= "" and cwd or nil }()
             end,
-            [""] = builtin "find_files" {},
+            [""] = core.frecency {},
           },
-        },
-        { desc = "Open telescope-any" }
-      )
-    end, ]]
+        }()
+      end, { desc = "Open telescope-any" })
+    end,
   },
 
   {
@@ -52,7 +49,7 @@ return {
       },
 
       { "nvim-telescope/telescope-file-browser.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim" },
+      { "nvim-telescope/telescope-frecency.nvim", branch = "fix/avoid-calling-constructor" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
