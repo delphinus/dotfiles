@@ -81,5 +81,5 @@ api.create_autocmd("TextYankPost", {
 
 -- https://blog.pulkitgangwar.com/neovim-configuration-from-scratch-to-lsp
 -- Move the selected region up or down
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+-- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+-- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
