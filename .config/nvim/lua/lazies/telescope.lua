@@ -6,19 +6,23 @@ return {
     "d00h/telescope-any",
     dependencies = { { "telescope.nvim" } },
     init = function()
+      local core = require "core.telescope"
+      local instance
       vim.keymap.set("n", "<Leader><Leader>", function()
-        local core = require "core.telescope"
-        require("telescope-any").create_telescope_any {
-          pickers = {
-            ["# "] = core.builtin "current_buffer_fuzzy_find" {},
-            ["bu "] = core.builtin "buffers" {},
-            ["b "] = function()
-              local cwd = fn.expand "%:h"
-              core.extensions "file_browser" { cwd = cwd ~= "" and cwd or nil }()
-            end,
-            [""] = core.frecency {},
-          },
-        }()
+        if not instance then
+          instance = require("telescope-any").create_telescope_any {
+            pickers = {
+              ["# "] = core.builtin "current_buffer_fuzzy_find" {},
+              ["bu "] = core.builtin "buffers" {},
+              ["b "] = function(opts)
+                local cwd = fn.expand "%:h"
+                core.extensions "file_browser" { cwd = cwd ~= "" and cwd or nil }(opts)
+              end,
+              [""] = core.frecency {},
+            },
+          }
+        end
+        instance()
       end, { desc = "Open telescope-any" })
     end,
   },

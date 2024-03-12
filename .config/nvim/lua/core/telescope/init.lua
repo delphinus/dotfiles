@@ -2,8 +2,9 @@
 ---@return fun(opts: table?): function
 local function builtin(name)
   return function(opts)
-    return function()
-      require("telescope.builtin")[name](opts or {})
+    return function(more_opts)
+      local o = vim.tbl_extend("force", opts or {}, more_opts or {})
+      require("telescope.builtin")[name](o)
     end
   end
 end
@@ -14,13 +15,14 @@ end
 local function extensions(name, prop)
   local loaded = {}
   return function(opts)
-    return function()
+    return function(more_opts)
       local telescope = require "telescope"
       if not loaded[name] then
         telescope.load_extension(name)
         loaded[name] = true
       end
-      telescope.extensions[name][prop or name](opts or {})
+      local o = vim.tbl_extend("force", opts or {}, more_opts or {})
+      telescope.extensions[name][prop or name](o)
     end
   end
 end
@@ -28,9 +30,9 @@ end
 ---@praam opts table?
 ---@return function
 local function frecency(opts)
-  return function()
-    opts.path_display = require("core.telescope.frecency").path_display
-    extensions "frecency"(opts)()
+  return function(more_opts)
+    local o = vim.tbl_extend("force", opts or {}, more_opts or {})
+    extensions "frecency"(o) { path_display = require("core.telescope.frecency").path_display }
   end
 end
 
