@@ -1,7 +1,31 @@
 local fn, uv, api = require("core.utils").globals()
 local palette = require "core.utils.palette"
+local lazy_require = require "lazy_require"
 
 return {
+  {
+    "d00h/telescope-any",
+    dependencies = { { "telescope.nvim" } },
+    --[[ init = function()
+      vim.keymap.set(
+        "n",
+        "<Leader><Leader>",
+        lazy_require("telescope-any").create_telescope_any {
+          pickers = {
+            ["# "] = builtin "current_buffer_fuzzy_find" {},
+            ["bu "] = builtin "buffers" {},
+            ["b "] = function()
+              local cwd = fn.expand "%:h"
+              extensions("file_browser", "file_browser") { cwd = cwd ~= "" and cwd or nil } ()
+            end,
+            [""] = builtin "find_files" {},
+          },
+        },
+        { desc = "Open telescope-any" }
+      )
+    end, ]]
+  },
+
   {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
