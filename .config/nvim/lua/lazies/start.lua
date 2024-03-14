@@ -125,7 +125,7 @@ return {
 
   non_lazy { enabled = not vim.env.LIGHT, "luukvbaal/statuscol.nvim", opts = {} },
 
-  non_lazy {
+  --[[ non_lazy {
     enabled = not vim.env.LIGHT,
     "folke/tokyonight.nvim",
     opts = {
@@ -133,7 +133,7 @@ return {
         require("core.utils.palette.tokyonight").set(colors)
       end,
     },
-  },
+  }, ]]
 
   non_lazy {
     "Bekaboo/dropbar.nvim",
@@ -195,25 +195,5 @@ return {
     -- "LunarVim/bigfile.nvim"
     "delphinus/bigfile.nvim",
     branch = "feat/autocmd",
-  },
-
-  non_lazy {
-    enabled = not vim.env.LIGHT,
-    tag = "v1.7.2",
-    "uga-rosa/ccc.nvim",
-    config = function()
-      palette "ccc" {
-        function(colors)
-          local ccc = require "ccc"
-          ccc.setup {
-            highlighter = { auto_enable = true },
-            pickers = {
-              ccc.picker.hex,
-              ccc.picker.custom_entries(colors),
-            },
-          }
-        end,
-      }
-    end,
   },
 }
