@@ -26,7 +26,7 @@ local function extensions(name, prop)
 end
 
 ---@praam opts table?
----@return function
+---@return fun(more_opts: table?): nil
 local function frecency(opts)
   return function(more_opts)
     local o = vim.tbl_extend("force", opts or {}, more_opts or {})
@@ -34,8 +34,18 @@ local function frecency(opts)
   end
 end
 
+---@param opts table?
+---@return fun(more_opts: table?): nil
+local function help_tags(opts)
+  return function(more_opts)
+    require "core.lazy.all"()
+    builtin "help_tags"(opts)(more_opts)
+  end
+end
+
 return {
   builtin = builtin,
   extensions = extensions,
   frecency = frecency,
+  help_tags = help_tags,
 }

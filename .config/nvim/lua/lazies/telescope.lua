@@ -12,12 +12,61 @@ return {
         if not instance then
           instance = require("telescope-any").create_telescope_any {
             pickers = {
-              ["# "] = core.builtin "current_buffer_fuzzy_find" {},
-              ["bu "] = core.builtin "buffers" {},
-              ["b "] = function(opts)
-                local cwd = fn.expand "%:h"
-                core.extensions "file_browser" { cwd = cwd ~= "" and cwd or nil }(opts)
+              [":"] = core.builtin "command_history" {},
+              ["/"] = core.extensions "egrepify" {},
+              ["?"] = core.builtin "grep_string" {},
+
+              ["m "] = core.builtin "marks" {},
+              ["q "] = core.builtin "quickfix" {},
+              ["l "] = core.builtin "loclist" {},
+              ["j "] = core.builtin "jumplist" {},
+
+              ["man "] = core.builtin "man_pages" {},
+              ["options "] = core.builtin "vim_options" {},
+              ["keymaps "] = core.builtin "keymaps" {},
+
+              ["colorscheme "] = core.builtin "colorscheme" {},
+              ["colo "] = core.builtin "colorscheme" {},
+
+              ["com "] = core.builtin "commands" {},
+              ["command "] = core.builtin "commands" {},
+
+              ["au "] = core.builtin "autocommands" {},
+              ["autocommand "] = core.builtin "autocommands" {},
+
+              ["highlight "] = core.builtin "highlights" {},
+              ["hi "] = core.builtin "highlights" {},
+
+              ["ctags "] = core.extensions "ctags_outline" {},
+
+              ["o "] = core.frecency {},
+              ["b "] = core.builtin "buffers" {},
+
+              ["gs "] = core.builtin "git_status" {},
+              ["gb "] = core.builtin "git_branches" {},
+              ["gc "] = core.builtin "git_commits" {},
+
+              ["d "] = core.builtin "diagnostics" {},
+              ["@"] = core.builtin "lsp_document_symbols" {},
+
+              ["B "] = function(opts)
+                local parent = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
+                core.extensions "file_browser" { cwd = parent ~= "" and parent or nil }(opts)
               end,
+
+              ["# "] = core.builtin "current_buffer_fuzzy_find" {},
+              ["h "] = core.help_tags {},
+              ["H "] = core.help_tags { lang = "en" },
+              ["node "] = core.extensions("node_modules", "list") {},
+              ["N "] = core.extensions("node_modules", "list") {},
+              ["todo "] = core.extensions "todo-comments" {},
+              ["t "] = core.extensions "todo-comments" {},
+              ["yank"] = core.extensions "yank_history" {},
+              ["y "] = core.extensions "yank_history" {},
+
+              ["f "] = core.frecency { workspace = "CWD" },
+              ["v "] = core.frecency { workspace = "VIM" },
+
               [""] = core.frecency {},
             },
           }
