@@ -102,7 +102,7 @@ return {
       },
 
       { "nvim-telescope/telescope-file-browser.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim", branch = "fix/avoid-calling-constructor" },
+      { "nvim-telescope/telescope-frecency.nvim", branch = "feat/more-async" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
