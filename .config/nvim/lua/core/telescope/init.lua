@@ -15,12 +15,8 @@ end
 local function extensions(name, prop)
   return function(opts)
     return function(more_opts)
-      local telescope = require "telescope"
-      if not package.loaded["telescope._extensions." .. name] then
-        telescope.load_extension(name)
-      end
       local o = vim.tbl_extend("force", opts or {}, more_opts or {})
-      telescope.extensions[name][prop or name](o)
+      require("telescope").extensions[name][prop or name](o)
     end
   end
 end
