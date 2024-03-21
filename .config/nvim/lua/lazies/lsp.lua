@@ -14,7 +14,8 @@ return {
     event = { "BufReadPre" },
     dependencies = {
       { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-      { "folke/neodev.nvim" },
+      --{ "folke/neodev.nvim" },
+      { "delphinus/neodev.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
       { "williamboman/mason.nvim" },
 
@@ -103,7 +104,13 @@ return {
       end
 
       -- needed for lua_ls
-      require("neodev").setup {}
+      require("neodev").setup {
+        library = {
+          enabled = function()
+            return true
+          end,
+        },
+      }
 
       local server_configs = {
         perlnavigator = {
