@@ -14,8 +14,7 @@ return {
     event = { "BufReadPre" },
     dependencies = {
       { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-      --{ "folke/neodev.nvim" },
-      { "delphinus/neodev.nvim" },
+      { "folke/neodev.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
       { "williamboman/mason.nvim" },
 
@@ -105,11 +104,9 @@ return {
 
       -- needed for lua_ls
       require("neodev").setup {
-        library = {
-          enabled = function()
-            return true
-          end,
-        },
+        override = function(_, library)
+          library.plugins = true
+        end,
       }
 
       local server_configs = {
@@ -186,6 +183,7 @@ return {
               format = { enable = false },
               hint = { enable = true },
               telemetry = { enable = false },
+              workspace = { library = { require("neodev.config").types() } },
             },
           },
         },
