@@ -10,6 +10,7 @@ local function dwm(method)
   end
 end
 
+---@type LazySpec[]
 return {
   { "lifepillar/vim-solarized8" },
 
