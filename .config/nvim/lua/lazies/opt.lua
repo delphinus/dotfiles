@@ -1063,4 +1063,25 @@ return {
       }
     end,
   },
+
+  {
+    "MeanderingProgrammer/markdown.nvim",
+    name = "render-markdown",
+    ft = { "markdown" },
+    init = function()
+      api.create_autocmd("ColorScheme", {
+        desc = "Set up highlight for render-markdown",
+        group = api.create_augroup("render-markdown", {}),
+        callback = function()
+          api.set_hl(0, "MarkdownCodeBlock", { bg = "#3b4252" })
+        end,
+      })
+    end,
+    config = function()
+      ---@type UserConfig
+      require("render-markdown").setup {
+        highlights = { code = "MarkdownCodeBlock" },
+      }
+    end,
+  },
 }
