@@ -366,6 +366,7 @@ return {
       local sources = {
         nls.builtins.code_actions.gitsigns,
         nls.builtins.code_actions.shellcheck,
+        nls.builtins.diagnostics.luacheck,
         nls.builtins.diagnostics.fish,
         nls.builtins.diagnostics.mypy,
         nls.builtins.diagnostics.shellcheck,
