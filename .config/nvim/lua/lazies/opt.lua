@@ -1084,4 +1084,22 @@ return {
       }
     end,
   },
+
+  {
+    "4513ECHO/nvim-keycastr",
+    init = function()
+      local enabled = false
+      local config_set = false
+      vim.keymap.set("n", "<Leader>kk", function()
+        vim.notify(("%s keycastr"):format(enabled and "Disabling" or "Enabling"))
+        local keycastr = require "keycastr"
+        if not config_set then
+          keycastr.config.set { win_config = { border = "rounded" }, position = "NE" }
+          config_set = true
+        end
+        keycastr[enabled and "disable" or "enable"]()
+        enabled = not enabled
+      end)
+    end,
+  },
 }
