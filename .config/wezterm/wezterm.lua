@@ -9,6 +9,7 @@ local config = wezterm.config_builder()
 config.adjust_window_size_when_changing_font_size = false
 config.default_prog = { const.tmux_run_bin }
 config.disable_default_key_bindings = true
+config.enable_csi_u_key_encoding = true
 config.enable_kitty_keyboard = true
 config.font = wezterm.font "SF Mono Square"
 config.font_size = 16.0
