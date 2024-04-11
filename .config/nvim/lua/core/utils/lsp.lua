@@ -162,28 +162,7 @@ return {
     vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr })
 
     if client.supports_method "textDocument/formatting" then
-      local ignore_paths = {
-        "%/neovim$",
-        "%/vim$",
-        "%/vim%/src$",
-      }
-      local auto_fmt = require "auto_fmt"
-      auto_fmt.on(bufnr, {
-        filter = function(c)
-          local root_dir = c.config.root_dir
-          if root_dir then
-            for _, re in ipairs(ignore_paths) do
-              local m = root_dir:match(re)
-              if m then
-                vim.notify("[auto_formatting] this project ignored: " .. m, vim.log.levels.DEBUG)
-                return false
-              end
-            end
-          end
-          return c.name ~= "tsserver" or c.name ~= "lua"
-        end,
-      })
-      vim.keymap.set("n", "g!", auto_fmt.toggle, { buffer = bufnr })
+      vim.keymap.set("n", "g!", require("auto_fmt").toggle, { buffer = bufnr })
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
     end
 

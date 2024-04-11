@@ -197,5 +197,28 @@ return {
     branch = "feat/autocmd",
   },
 
-  non_lazy { "delphinus/auto_fmt.nvim" },
+  non_lazy {
+    "delphinus/auto_fmt.nvim",
+    ---@type AutoFmtOptions
+    opts = {
+      filter = function(c)
+        local ignore_paths = {
+          "%/neovim$",
+          "%/vim$",
+          "%/vim%/src$",
+        }
+        local root_dir = c.config.root_dir
+        if root_dir then
+          for _, re in ipairs(ignore_paths) do
+            local m = root_dir:match(re)
+            if m then
+              vim.notify("[auto_formatting] this project ignored: " .. m, vim.log.levels.DEBUG)
+              return false
+            end
+          end
+        end
+        return c.name ~= "tsserver" or c.name ~= "lua"
+      end,
+    },
+  },
 }

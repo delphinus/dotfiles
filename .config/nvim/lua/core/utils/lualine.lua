@@ -111,8 +111,7 @@ function Lualine:config()
           fmt = self:tr { { 30, 0 }, { 50, "F" }, { 80, "Fmt" } },
           separator = "",
           color = self:lsp(function()
-            return require("core.utils.lsp.auto_formatting").is_enabled(0)
-                and { fg = colors.dark_black, bg = colors.green }
+            return require("auto_fmt").is_enabled() and { fg = colors.dark_black, bg = colors.green }
               or { fg = colors.blue }
           end),
         },
