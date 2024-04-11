@@ -946,34 +946,6 @@ return {
     end,
   },
 
-  {
-    "numToStr/Comment.nvim",
-    keys = {
-      { "<Space>c", mode = { "n", "x" } },
-      { "<Space>b", mode = { "n", "x" } },
-      "<Space>cc",
-      "<Space>bc",
-      "<Space>cO",
-      "<Space>co",
-      "<Space>cA",
-    },
-    opts = {
-      toggler = {
-        line = "<Space>cc",
-        block = "<Space>bc",
-      },
-      opleader = {
-        line = "<Space>c",
-        block = "<Space>b",
-      },
-      extra = {
-        above = "<Space>cO",
-        below = "<Space>co",
-        eol = "<Space>cA",
-      },
-    },
-  },
-
   { "tzachar/highlight-undo.nvim", keys = { "u", "<C-r>" }, opts = true },
 
   {
