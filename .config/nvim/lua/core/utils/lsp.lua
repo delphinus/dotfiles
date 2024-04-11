@@ -167,7 +167,8 @@ return {
         "%/vim$",
         "%/vim%/src$",
       }
-      local auto_formatting = require("core.utils.lsp.auto_formatting").set(bufnr, {
+      local auto_fmt = require "auto_fmt"
+      auto_fmt.on(bufnr, {
         filter = function(c)
           local root_dir = c.config.root_dir
           if root_dir then
@@ -182,9 +183,7 @@ return {
           return c.name ~= "tsserver" or c.name ~= "lua"
         end,
       })
-      vim.keymap.set("n", "g!", function()
-        auto_formatting:toggle()
-      end, { buffer = bufnr })
+      vim.keymap.set("n", "g!", auto_fmt.toggle, { buffer = bufnr })
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
     end
 

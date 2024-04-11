@@ -196,4 +196,6 @@ return {
     "delphinus/bigfile.nvim",
     branch = "feat/autocmd",
   },
+
+  non_lazy { "delphinus/auto_fmt.nvim" },
 }
