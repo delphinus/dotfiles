@@ -123,7 +123,7 @@ function Lualine:config()
           separator = "",
           fmt = self:tr { { 30, 0 }, { 50, "D" }, { 80, "Diag" } },
           color = self:lsp(function()
-            local is_enabled = not vim.b.lsp_diagnostics_disabled and #vim.lsp.get_active_clients { bufnr = 0 } > 0
+            local is_enabled = #vim.lsp.get_clients { bufnr = 0 } > 0 and not vim.diagnostic.is_disabled(0)
             -- See core.utils.lsp
             return is_enabled and { fg = colors.dark_black, bg = colors.green } or { fg = colors.blue }
           end),
