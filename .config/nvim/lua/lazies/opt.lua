@@ -253,13 +253,6 @@ return {
   },
 
   {
-    "tyru/open-browser.vim",
-    cmd = { "OpenBrowser", "OpenBrowserSearch" },
-    keys = { { "g<CR>", [[<Plug>(openbrowser-smart-search)]], mode = { "n", "v" } } },
-    fn = { "openbrowser#open" },
-  },
-
-  {
     "vifm/vifm.vim",
     cmd = { "EditVifm", "VsplitVifm", "SplitVifm", "DiffVifm", "TabVifm" },
     ft = { "vifm" },
