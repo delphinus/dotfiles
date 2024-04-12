@@ -1046,6 +1046,7 @@ return {
       ---@type UserConfig
       require("render-markdown").setup {
         highlights = { code = "MarkdownCodeBlock" },
+        headings = { "󰲡", "󰲣", "󰲥", "󰲧", "󰲩", "󰲫" },
       }
     end,
   },
