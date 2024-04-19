@@ -1047,6 +1047,9 @@ return {
       require("render-markdown").setup {
         highlights = { code = "MarkdownCodeBlock" },
         headings = { "󰲡", "󰲣", "󰲥", "󰲧", "󰲩", "󰲫" },
+        checkbox = { unchecked = "󰄱", checked = "" },
+        conceal = { rendered = 2 },
+        bullets = { "●", "○", "▶", "▷" },
       }
     end,
   },
