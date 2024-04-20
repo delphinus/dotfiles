@@ -19,6 +19,7 @@ config.hyperlink_rules =
 config.initial_cols = 200
 config.initial_rows = 80
 config.macos_window_background_blur = 20
+config.native_macos_fullscreen_mode = true
 config.quick_select_patterns = { const.url_regex, const.hash_regex, const.path_regex }
 config.set_environment_variables = { SHELL = const.fish_bin }
 -- config.use_fancy_tab_bar = false
