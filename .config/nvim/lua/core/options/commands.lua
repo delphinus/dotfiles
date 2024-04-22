@@ -42,16 +42,19 @@ end, { desc = "Show syntax highlight stack" })
 api.create_user_command("CleanUpStartUpTime", function()
   -- TODO: use Lua
   vim.env.PACKER = fn.stdpath "data" .. "/site/pack/packer"
-  local funcs = vim.iter.map(function(v)
-    return ("silent! %%s,%s,%s"):format(v.before, v.after)
-  end, {
-    { before = fn.expand "$VIMRUNTIME", after = "$VIMRUNTIME" },
-    { before = fn.resolve(fn.expand "$VIMRUNTIME"), after = "$VIMRUNTIME" },
-    { before = fn.expand "$VIM", after = "$VIM" },
-    { before = fn.resolve(fn.expand "$VIM"), after = "$VIM" },
-    { before = vim.env.PACKER, after = "$PACKER" },
-    { before = uv.os_homedir(), after = [[\~]] },
-  })
+  local funcs = vim
+    .iter({
+      { before = fn.expand "$VIMRUNTIME", after = "$VIMRUNTIME" },
+      { before = fn.resolve(fn.expand "$VIMRUNTIME"), after = "$VIMRUNTIME" },
+      { before = fn.expand "$VIM", after = "$VIM" },
+      { before = fn.resolve(fn.expand "$VIM"), after = "$VIM" },
+      { before = vim.env.PACKER, after = "$PACKER" },
+      { before = uv.os_homedir(), after = [[\~]] },
+    })
+    :map(function(v)
+      return ("silent! %%s,%s,%s"):format(v.before, v.after)
+    end)
+    :totable()
   vim.cmd(table.concat(funcs, "\n"))
 end, { desc = "Clean up --startuptime result" })
 

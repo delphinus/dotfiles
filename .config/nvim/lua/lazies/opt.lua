@@ -890,7 +890,7 @@ return {
             return input:sub(2)
           end
           -- If the input contains spaces, it tries fuzzy matching.
-          local converted = vim.iter.map(fn["kensaku#query"], vim.split(input, " "))
+          local converted = vim.iter(vim.split(input, " ")):map(fn["kensaku#query"]):totable()
           return table.concat(converted, [[.\{-}]])
         end,
       }

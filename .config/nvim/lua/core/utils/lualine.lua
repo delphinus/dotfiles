@@ -49,9 +49,12 @@ function Lualine:config()
     end
     local dir = uv.cwd():gsub("^" .. home_re, "~", 1)
     return table.concat(
-      vim.iter.map(function(v)
-        return "󰉋 " .. v
-      end, vim.split(dir, "/")),
+      vim
+        .iter(vim.split(dir, "/"))
+        :map(function(v)
+          return "󰉋 " .. v
+        end)
+        :totable(),
       ""
     )
   end
@@ -252,19 +255,25 @@ end
 function Lualine:lsp_clients() -- luacheck: ignore 212
   ---@type { id: integer, name: string }[]
   local clients = vim.lsp.get_active_clients { bufnr = 0 }
-  local segments = vim.iter.map(function(client)
-    local additionals = ""
-    if client.name == "null-ls" then
-      local availables = require("null-ls.sources").get_available(vim.bo.filetype)
-      local sources = vim.iter.map(function(source)
-        return source.name
-      end, availables)
-      if #sources > 0 then
-        additionals = " [" .. table.concat(sources, ",") .. "]"
+  local segments = vim
+    .iter(clients)
+    :map(function(client)
+      local additionals = ""
+      if client.name == "null-ls" then
+        local availables = require("null-ls.sources").get_available(vim.bo.filetype)
+        local sources = vim
+          .iter(availables)
+          :map(function(source)
+            return source.name
+          end)
+          :totable()
+        if #sources > 0 then
+          additionals = " [" .. table.concat(sources, ",") .. "]"
+        end
       end
-    end
-    return ("%s(%d)%s"):format(client.name, client.id, additionals)
-  end, clients)
+      return ("%s(%d)%s"):format(client.name, client.id, additionals)
+    end)
+    :totable()
   return table.concat(segments, " ")
 end
 
