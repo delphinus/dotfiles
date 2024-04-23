@@ -141,72 +141,6 @@ return {
           }
         end,
       },
-      {
-        "epwalsh/obsidian.nvim",
-        cmd = {
-          "ObsidianBacklinks",
-          "ObsidianDailies",
-          "ObsidianExtractNote",
-          "ObsidianFollowLink",
-          "ObsidianLink",
-          "ObsidianLinkNew",
-          "ObsidianNew",
-          "ObsidianOpen",
-          "ObsidianPasteImg",
-          "ObsidianQuickSwitch",
-          "ObsidianRename",
-          "ObsidianSearch",
-          "ObsidianTags",
-          "ObsidianTemplate",
-          "ObsidianToday",
-          "ObsidianToggleCheckbox",
-          "ObsidianTomorrow",
-          "ObsidianWorkspace",
-          "ObsidianYesterday",
-        },
-        ft = "markdown",
-        opts = {
-          workspaces = { { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" } },
-          daily_notes = { folder = "日記" },
-          ---@param title string|?
-          ---@return string
-          note_id_func = function(title)
-            local purified
-            if title then
-              purified = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-              if purified:match "^-*$" then
-                purified = nil
-              end
-            end
-            if not purified then
-              purified = ""
-              for _ = 1, 4 do
-                purified = purified .. string.char(math.random(65, 90))
-              end
-            end
-            return os.date "%Y%m%d-%H%M%S-" .. purified
-          end,
-          ---@param spec { id: string, dir: obsidian.Path, title: string|? }
-          ---@return string|obsidian.Path The full path to the new note.
-          note_path_func = function(spec)
-            local path
-            local filename = spec.title
-            if filename then
-              filename = vim.fn.substitute(filename, [=[[ \%u3000]]=], "-", "g")
-              filename = vim.fn.substitute(filename, [=[['"\\/:]]=], "", "g")
-              filename = filename:lower()
-              path = spec.dir / (os.date "%Y%m%d-%H%M%S-" .. filename)
-            else
-              path = spec.dir / spec.id
-            end
-            return path:with_suffix ".md"
-          end,
-          ---@return string
-          image_name_func = function()
-            return tostring(os.date "%Y%m%d-%H%M%S-")
-          end,
-        },
-      },
     },
 
     init = function()
@@ -633,5 +567,81 @@ return {
       { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
     },
     opts = {},
+  },
+
+  {
+    "epwalsh/obsidian.nvim",
+    dependencies = { "plenary.nvim", "telescope.nvim" },
+    cmd = {
+      "ObsidianBacklinks",
+      "ObsidianDailies",
+      "ObsidianExtractNote",
+      "ObsidianFollowLink",
+      "ObsidianLink",
+      "ObsidianLinkNew",
+      "ObsidianNew",
+      "ObsidianOpen",
+      "ObsidianPasteImg",
+      "ObsidianQuickSwitch",
+      "ObsidianRename",
+      "ObsidianSearch",
+      "ObsidianTags",
+      "ObsidianTemplate",
+      "ObsidianToday",
+      "ObsidianToggleCheckbox",
+      "ObsidianTomorrow",
+      "ObsidianWorkspace",
+      "ObsidianYesterday",
+    },
+    ft = "markdown",
+    init = function()
+      vim.keymap.set("n", "<Leader>os", "<Cmd>ObsidianSearch<CR>", { desc = "Search Obsidian notes" })
+      vim.keymap.set("n", "<Leader>ot", "<Cmd>ObsidianToday<CR>", { desc = "Open today's note" })
+      vim.keymap.set("n", "<Leader>om", "<Cmd>ObsidianTomorrow<CR>", { desc = "Open tomorrow's note" })
+      vim.keymap.set("n", "<Leader>oy", "<Cmd>ObsidianYesterday<CR>", { desc = "Open yesterday's note" })
+      vim.keymap.set("n", "<Leader>on", "<Cmd>ObsidianNew<CR>", { desc = "Create a new note" })
+      vim.keymap.set("n", "<Leader>od", "<Cmd>ObsidianDailies<CR>", { desc = "Open daily notes" })
+    end,
+    opts = {
+      workspaces = { { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" } },
+      daily_notes = { folder = "日記" },
+      ---@param title string|?
+      ---@return string
+      note_id_func = function(title)
+        local purified
+        if title then
+          purified = title:lower():gsub("[^-a-z0-9]+", "-"):gsub("^-+", ""):gsub("-+$", ""):gsub("-+", "-")
+          if purified:match "^-*$" then
+            purified = nil
+          end
+        end
+        if not purified then
+          purified = ""
+          for _ = 1, 4 do
+            purified = purified .. string.char(math.random(65, 90))
+          end
+        end
+        return os.date "%Y%m%d-%H%M%S-" .. purified
+      end,
+      ---@param spec { id: string, dir: obsidian.Path, title: string|? }
+      ---@return string|obsidian.Path The full path to the new note.
+      note_path_func = function(spec)
+        local path
+        local filename = spec.title
+        if filename then
+          filename = vim.fn.substitute(filename, [=[[ \%u3000]]=], "-", "g")
+          filename = vim.fn.substitute(filename, [=[['"\\/:]]=], "", "g")
+          filename = filename:lower()
+          path = spec.dir / (os.date "%Y%m%d-%H%M%S-" .. filename)
+        else
+          path = spec.dir / spec.id
+        end
+        return path:with_suffix ".md"
+      end,
+      ---@return string
+      image_name_func = function()
+        return tostring(os.date "%Y%m%d-%H%M%S-")
+      end,
+    },
   },
 }
