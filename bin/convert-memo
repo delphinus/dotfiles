@@ -1,0 +1,261 @@
+#!/usr/bin/perl
+use utf8;
+use 5.30.0;
+use warnings;
+use feature 'signatures';
+no warnings 'experimental::signatures';
+binmode STDOUT => ':encoding(UTF-8)';
+binmode STDERR => ':encoding(UTF-8)';
+
+use constant RANDOM_ID_LENGTH => 4;
+use constant DAILY_NOTES_TAG => 'daily-notes';
+
+use Encode;
+use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
+use Hash::Merge qw(merge);
+use List::Util qw(reduce);
+use Path::Tiny;
+use Pod::Usage;
+use Term::ANSIColor qw(:constants);
+use Time::Piece;
+use Unicode::Normalize;
+use YAML;
+
+GetOptions(
+    \my %opt, qw(
+        execute|e
+        silent|s
+    ),
+) or pod2usage(1);
+
+Hash::Merge::add_behavior_spec(
+    merge(
+        {
+            ARRAY => {
+                ARRAY => sub($left, $right) {
+                    reduce {
+                        my %map = map { $_ => 1 } $a->@*;
+                        # avoid to add the value such as 'April 5, 2024'
+                        # because 'Sun April 5, 2024' already has been added.
+                        eval { Time::Piece->strptime($b, '%B %e, %Y') };
+                        if ($@ && !defined $map{$b}) {
+                            push $a->@*, $b;
+                        }
+                        $a;
+                    } [], $left->@*, $right->@*;
+                },
+            },
+        },
+        Hash::Merge::get_behavior_spec('LEFT_PRECEDENT'),
+    ),
+);
+
+sub logger :prototype($) ($msg) {
+    return if $opt{silent};
+    say $msg;
+}
+
+my $doc_top = path("$ENV{HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes");
+my $iter = $doc_top->iterator({ recurse => 1 });
+my $count = 0;
+while (my $path = $iter->()) {
+    if ($path !~ /\.md$/) {
+        next;
+    }
+    my $parent = decode(utf8 => $path->parent);
+    my $basename = decode(utf8 => $path->basename);
+    my $content = $path->slurp_utf8;
+    my ($yaml, $main) = $content =~ /\A^---$ \s*(.*?)\s* ^---$ \s*(.*)/msx;
+    $main //= $content;
+    my $meta = eval { Load $yaml };
+    if ($@) { logger $yaml; die }
+    my $timestamp = detect_timestamp($basename);
+    my ($title, $id, $filename, $tags, $aliases);
+    if (is_daily_notes($basename)) {
+        $meta = merge(daily_notes_meta($basename), $meta);
+        $tags = $meta->{tags};
+        $aliases = $meta->{aliases};
+        $title = $meta->{aliases}[0];
+        $id = $meta->{id};
+        $filename = "$meta->{id}.md";
+    } else {
+        $title = title_from_content($meta, $main);
+        $aliases = [$title];
+        my $purified = purify_for_id($title);
+        if (defined $meta && is_random_id($meta->{id})) {
+            $id = $meta->{id};
+        } else {
+            $id = add_timestamp($purified, $timestamp);
+        }
+        $filename = is_random_filename($basename)
+            ? $basename
+            : NFD(add_timestamp(purify_for_filename($title, $purified), $timestamp) . '.md');
+    }
+
+    my $original = defined $yaml ? <<EOC : '';
+---
+$yaml
+---
+EOC
+
+    my $frontmatter = <<EOC;
+---
+@{[dump_pair(id => $id)]}
+@{[dump_pair(aliases => $aliases)]}
+@{[dump_pair(tags => $tags // [])]}
+---
+EOC
+    unless (!defined $yaml && $original eq $frontmatter) {
+        logger YELLOW . "$basename\n$frontmatter" . RESET;
+        if ($opt{execute}) {
+            $path->spew_utf8("$frontmatter\n$main");
+        }
+    }
+
+    unless ($basename eq $filename) {
+        logger RED . "old: $basename" . RESET;
+        logger GREEN . "new: $filename" . RESET;
+
+        if ($opt{execute}) {
+            my $new_path = $path->parent->child($filename);
+            $path->move($new_path);
+        }
+    }
+}
+
+sub is_valid_meta($meta, $aliases, $id) {
+    return if !defined $meta;
+    return $meta->{id} !~ /^\d{8}-\d{6}-[A-Z]{4}$/ && $meta->{id} ne $id;
+    return $meta->{aliases}->$#* == 0;
+    my %tmp = map { $_ => 1 } $aliases->@*;
+    all { $tmp{$_} } $meta->{aliases}->@*;
+}
+
+sub daily_notes_meta($basename) {
+    my ($ymd) = $basename =~ /^(\d{4}-\d\d-\d\d)/;
+    my $tp = Time::Piece->strptime($ymd, '%Y-%m-%d');
+    my $weekday = $tp->strftime('%a');
+    +{
+        id => $tp->strftime('%Y-%m-%d'),
+        aliases => [
+            decode(utf8 => $tp->strftime('%Y年%-m月%-e日 ')) . japanese_weekday($weekday),
+            decode(utf8 => $tp->strftime('%a %B %-e, %Y')),
+        ],
+        tags => [DAILY_NOTES_TAG],
+    };
+}
+
+sub japanese_weekday($weekday) {
+    +{
+        Sun => '日曜日',
+        Mon => '月曜日',
+        Tue => '火曜日',
+        Wed => '水曜日',
+        Thu => '木曜日',
+        Fri => '金曜日',
+        Sat => '土曜日',
+    }->{$weekday};
+}
+
+sub is_daily_notes($basename) {
+    $basename =~ /^\d{4}-\d\d-\d\d(?:-000000)?\.md$/
+}
+
+sub title_from_content($meta, $main) {
+    my ($title) = $main =~ /^(?:#|=(?:\s*\*)?)\s+(.*)/m;
+    if (!defined $title) {
+        $title = $main
+    }
+    $title =~ s/\s+/-/g;
+    $title =~ s/^-+//;
+    $title =~ s/-+$//;
+    $title =~ s/-+/-/g;
+    $title = substr $title, 0, 50;
+    $title =~ s/-$//;
+    $title;
+}
+
+sub detect_timestamp($basename) {
+    my $tmpl;
+    if ($basename =~ /^(\d{4}-\d\d-\d\d-\d{6})/) {
+        $tmpl = '%Y-%m-%d-%H%M%S';
+    } elsif ($basename =~ /^(\d{8}-\d{6})/) {
+        $tmpl = '%Y%m%d-%H%M%S';
+    } elsif ($basename =~ /^(\d{14})/) {
+        $tmpl = '%Y%m%d%H%M%S';
+    } elsif ($basename =~ /^(\d{4}-\d\d-\d\d)/) {
+        $tmpl = '%Y-%m-%d';
+    } elsif ($basename =~ /^(\d+)/) {
+        $tmpl = '%s';
+    } else {
+        return;
+    }
+    my $tp = eval { Time::Piece->strptime("$1+0900", "$tmpl%z") };
+    if ($@) {
+        say BRIGHT_RED . "invalid timestamp: $basename" . RESET;
+        return;
+    }
+    if ($tp->year < 2011) {
+        say BRIGHT_RED . "too old timestamp: $basename" . RESET;
+        return;
+    }
+    $tp->epoch;
+}
+
+sub is_random_id($id) {
+    $id =~ /^\d{8}-\d{6}-[-a-zA-Z0-9]{4}$/;
+}
+
+sub is_random_filename($filename) {
+    $filename =~ /^\d{8}-\d{6}-[-a-zA-Z0-9]{4}\.md$/;
+}
+
+sub purify_for_id($title) {
+    (my $purified = lc $title) =~ s/[^-a-z0-9]+/-/g;
+    $purified =~ s/^-+//;
+    $purified =~ s/-+$//;
+    $purified =~ s/-+/-/g;
+    if ($purified eq '' || length $purified < RANDOM_ID_LENGTH) {
+        for (1 .. RANDOM_ID_LENGTH - length $purified) {
+            $purified .= chr(65 + int rand 26);
+        }
+    }
+    $purified;
+}
+
+sub purify_for_filename($title, $fallback) {
+    (my $purified = lc $title) =~ s/[^\p{Word}\p{N}]+/-/g;
+    $purified =~ s/^-+//;
+    $purified =~ s/-+$//;
+    $purified =~ s/-+/-/;
+    length $purified >= RANDOM_ID_LENGTH ? $purified : $fallback;
+}
+
+sub add_timestamp($str, $epoch = time) {
+    localtime($epoch)->strftime('%Y%m%d-%H%M%S-') . $str;
+}
+
+sub dump_pair($key, $value) {
+    local $YAML::UseHeader = 0;
+    (my $yaml = Dump +{ $key => $value }) =~ s/^---\n//;
+    $yaml =~ s/\s+$//;
+    $yaml;
+}
+
+=head1 DESCRIPTION
+
+Convert memo into Obsidian friendly.
+
+=head1 SYNOPSIS
+
+    # dry run
+    convert-memo
+
+    # execute
+    convert-memo -e
+
+=head1 REFERENCE
+
+See 20240421-142805-obsidian-用にメモを変換したスクリプトの仕様について.md
+
+=cut
