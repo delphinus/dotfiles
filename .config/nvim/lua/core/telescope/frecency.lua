@@ -10,7 +10,7 @@ local Truncator = require "core.telescope.frecency.truncator"
 local function path_display(opts, path)
   if not opts.__truncator then
     --TODO: use constant for prefix?
-    opts.__truncator = Truncator.new { cwd = opts.cwd, gh_e_host = vim.g.gh_e_host or "", prefix = 8 }
+    opts.__truncator = Truncator.new { cwd = opts.cwd, gh_e_host = vim.g.gh_e_host or "", prefix = 16 }
   end
   return opts.__truncator:path_display(path)
 end
