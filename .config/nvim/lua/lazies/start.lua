@@ -36,7 +36,9 @@ return {
     "delphinus/rtr.nvim",
     opts = {
       root_names = function(name, dir)
-        return name == ".git" or dir == vim.env.VIMRUNTIME
+        return name == ".git"
+          or dir == vim.env.VIMRUNTIME
+          or dir == vim.env.HOME .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents"
       end,
     },
   },
