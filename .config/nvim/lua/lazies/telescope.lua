@@ -415,14 +415,6 @@ return {
             },
           },
           cycle_layout_list = { "center", "horizontal", "vertical" },
-          vimgrep_arguments = {
-            "pt",
-            "--nocolor",
-            "--nogroup",
-            "--column",
-            "--smart-case",
-            "--hidden",
-          },
           history = {
             path = Path:new(fn.stdpath "data", "telescope_history.sqlite3").filename,
             limit = 100,
