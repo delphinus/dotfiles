@@ -16,6 +16,9 @@ local function globals()
   return vim.fn, vim.loop, api_tbl
 end
 
+---@type table<string, boolean>
+local loaded = {}
+
 return {
   globals = globals,
   export_globals = function()
@@ -47,8 +50,11 @@ return {
 
   ---@param plugin_name string
   load_denops_plugin = function(plugin_name)
-    local dir = require("lazy.core.config").plugins[plugin_name].dir
-    local name = plugin_name:gsub([[%.vim$]], ""):gsub([[^vim-]], "")
-    vim.fn["denops#plugin#load"](name, dir .. "/denops/" .. name .. "/main.ts")
+    if not loaded[plugin_name] then
+      local dir = require("lazy.core.config").plugins[plugin_name].dir
+      local name = plugin_name:gsub([[%.vim$]], ""):gsub([[^vim-]], "")
+      vim.fn["denops#plugin#load"](name, dir .. "/denops/" .. name .. "/main.ts")
+      loaded[plugin_name] = true
+    end
   end,
 }
