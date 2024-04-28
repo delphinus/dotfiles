@@ -573,7 +573,7 @@ return {
 
   {
     "epwalsh/obsidian.nvim",
-    dependencies = { "plenary.nvim", "telescope.nvim" },
+    dependencies = { "plenary.nvim", "telescope.nvim", "delphinus/obsidian-kensaku.nvim" },
     cmd = {
       "ObsidianBacklinks",
       "ObsidianDailies",
@@ -594,16 +594,20 @@ return {
       "ObsidianTomorrow",
       "ObsidianWorkspace",
       "ObsidianYesterday",
+
+      "ObsidianKensaku",
     },
     ft = "markdown",
     init = function()
-      vim.keymap.set("n", "<Leader>os", "<Cmd>ObsidianSearch<CR>", { desc = "Search Obsidian notes" })
+      vim.keymap.set("n", "<Leader>os", "<Cmd>ObsidianKensaku<CR>", { desc = "Search Obsidian notes" })
       vim.keymap.set("n", "<Leader>ot", "<Cmd>ObsidianToday<CR>", { desc = "Open today's note" })
       vim.keymap.set("n", "<Leader>om", "<Cmd>ObsidianTomorrow<CR>", { desc = "Open tomorrow's note" })
       vim.keymap.set("n", "<Leader>oy", "<Cmd>ObsidianYesterday<CR>", { desc = "Open yesterday's note" })
       vim.keymap.set("n", "<Leader>on", "<Cmd>ObsidianNew<CR>", { desc = "Create a new note" })
       vim.keymap.set("n", "<Leader>od", "<Cmd>ObsidianDailies<CR>", { desc = "Open daily notes" })
     end,
+
+    ---@type obsidian.config.ClientOpts
     opts = {
       workspaces = { { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" } },
       daily_notes = { folder = "日記" },
@@ -644,6 +648,12 @@ return {
       image_name_func = function()
         return tostring(os.date "%Y%m%d-%H%M%S-")
       end,
+      callbacks = {
+        post_setup = function(client)
+          utils.load_denops_plugin "kensaku.vim"
+          require "obsidian-kensaku"(client)
+        end,
+      },
     },
   },
 }
