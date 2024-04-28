@@ -1,4 +1,5 @@
 local fn, uv, api = require("core.utils").globals()
+local utils = require "core.utils"
 local palette = require "core.utils.palette"
 
 return {
@@ -82,6 +83,7 @@ return {
     -- set modules in detail because telescope-frecency is needed before
     -- telescope itself to save its history in opening buffers.
     dependencies = {
+      { "lambdalisue/kensaku.vim" },
       { "delphinus/telescope-memo.nvim" },
       { "kyazdani42/nvim-web-devicons" },
 
@@ -197,6 +199,14 @@ return {
       vim.keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
       vim.keymap.set("n", "<Leader>fN", core.extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
       vim.keymap.set("n", "<Leader>fg", core.extensions "egrepify" {}, { desc = "Telescope egrepify" })
+      vim.keymap.set("n", "<Leader>fM", function()
+        utils.load_denops_plugin "kensaku.vim"
+        core.extensions "egrepify" {
+          on_input_filter_cb = function(prompt)
+            return { prompt = vim.fn["kensaku#query"](prompt, { rxop = vim.g["kensaku#rxop#javascript"] }) }
+          end,
+        } {}
+      end)
       vim.keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
       vim.keymap.set(
         "n",
