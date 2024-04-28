@@ -573,7 +573,11 @@ return {
 
   {
     "epwalsh/obsidian.nvim",
-    dependencies = { "plenary.nvim", "telescope.nvim", "delphinus/obsidian-kensaku.nvim" },
+    dependencies = {
+      "plenary.nvim",
+      "telescope.nvim",
+      { "delphinus/obsidian-kensaku.nvim", opts = { picker = "egrepify" } },
+    },
     cmd = {
       "ObsidianBacklinks",
       "ObsidianDailies",
