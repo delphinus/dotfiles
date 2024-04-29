@@ -104,7 +104,7 @@ return {
       },
 
       { "nvim-telescope/telescope-file-browser.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim", branch = "feat/fuzzy-match" },
+      { "nvim-telescope/telescope-frecency.nvim" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
