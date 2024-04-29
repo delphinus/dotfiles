@@ -231,23 +231,24 @@ return {
       local is_over = itvl:is_over()
 
       if is_over then
-        api.create_autocmd("User", {
-          pattern = "MasonToolsUpdateCompleted",
-          once = true,
-          callback = function()
-            local mason_registry = require "mason-registry"
-            local textlint_path = mason_registry.get_package("textlint"):get_install_path()
-
-            vim.notify "installing additional components"
-            vim.system({ "npm", "i", "textlint-rule-preset-ja-spacing" }, { cwd = textlint_path }, function(completed)
-              if completed.code == 0 then
-                vim.notify "finished to update Mason tools"
-              else
-                vim.notify(("failed to update Mason tools: code=%d\n%s"):format(completed.code, completed.stderr))
-              end
-            end)
-          end,
-        })
+        -- NOTE: textlint should not be installed by Mason
+        -- api.create_autocmd("User", {
+        --   pattern = "MasonToolsUpdateCompleted",
+        --   once = true,
+        --   callback = function()
+        --     local mason_registry = require "mason-registry"
+        --     local textlint_path = mason_registry.get_package("textlint"):get_install_path()
+        --
+        --     vim.notify "installing additional components"
+        --     vim.system({ "npm", "i", "textlint-rule-preset-ja-spacing" }, { cwd = textlint_path }, function(completed)
+        --       if completed.code == 0 then
+        --         vim.notify "finished to update Mason tools"
+        --       else
+        --         vim.notify(("failed to update Mason tools: code=%d\n%s"):format(completed.code, completed.stderr))
+        --       end
+        --     end)
+        --   end,
+        -- })
 
         vim.notify("Tools are old. Updating……", vim.log.levels.WARN)
       end
@@ -294,7 +295,6 @@ return {
           "solargraph",
           "stylua",
           "terraform-ls",
-          "textlint",
           "typescript-language-server",
           "vim-language-server",
           "vint",
