@@ -16,5 +16,5 @@ local function path_display(opts, path)
 end
 
 return {
-  path_display = path_display,
+  path_display = { "filename_first" },
 }

@@ -26,7 +26,10 @@ end
 local function frecency(opts)
   return function(more_opts)
     local o = vim.tbl_extend("force", opts or {}, more_opts or {})
-    extensions "frecency"(o) { path_display = require("core.telescope.frecency").path_display }
+    -- NOTE: use the former one
+    -- extensions "frecency"(o) { path_display = require("core.telescope.frecency").path_display }
+    -- NOTE: use filename_first
+    extensions "frecency"(o) {}
   end
 end
 
