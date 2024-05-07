@@ -1048,8 +1048,8 @@ return {
       ---@type UserConfig
       require("render-markdown").setup {
         highlights = { code = "MarkdownCodeBlock" },
-        headings = { "󰲡", "󰲣", "󰲥", "󰲧", "󰲩", "󰲫" },
-        checkbox = { unchecked = "󰄱", checked = "" },
+        headings = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
+        checkbox = { unchecked = "✓ ", checked = "✗ " },
         conceal = { rendered = 2 },
         bullets = { "●", "○", "▶", "▷" },
       }
