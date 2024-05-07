@@ -1,4 +1,4 @@
-local fn, uv, api = require("core.utils").globals()
+local _, _, api = require("core.utils").globals()
 
 local border = {
   { "⣀", "LspBorderTop" },
@@ -102,7 +102,7 @@ return {
     end
 
     if not need_diagnostics(bufnr) then
-      vim.diagnostic.disable(bufnr)
+      vim.diagnostic.enable(false, { bufnr = bufnr })
     end
 
     if client.config.flags then
@@ -126,12 +126,7 @@ return {
     vim.keymap.set("n", "<A-S->", goto_prev, { buffer = bufnr })
 
     vim.keymap.set("n", "<Space>E", function()
-      if vim.b.lsp_diagnostics_disabled then
-        vim.diagnostic.enable()
-      else
-        vim.diagnostic.disable()
-      end
-      vim.b.lsp_diagnostics_disabled = not vim.b.lsp_diagnostics_disabled
+      vim.diagnostic.enable(not vim.diagnostic.is_enabled { bufnr = 0 }, { bufnr = 0 })
     end, { buffer = bufnr })
     vim.keymap.set("n", "<Space>e", function()
       vim.diagnostic.open_float { border = border }
@@ -143,7 +138,7 @@ return {
       vim.cmd.split()
       vim.lsp.buf.type_definition()
     end, { buffer = bufnr })
-    if vim.opt.filetype:get() ~= "help" then
+    if vim.o.filetype ~= "help" then
       vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, { buffer = bufnr })
       vim.keymap.set("n", "<C-w><C-]>", function()
         vim.cmd.split()
@@ -196,7 +191,7 @@ return {
           if code == 0 then
             notify("end: " .. cmd, vim.log.levels.DEBUG)
           else
-            notify(self:stderr_result(), vim.log.levels.WARN)
+            notify(table.concat(self:stderr_result() or {}, " "), vim.log.levels.WARN)
           end
         end,
         enabled_recording = true,
