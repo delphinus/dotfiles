@@ -79,32 +79,6 @@ function Lualine:config()
           color = { fg = colors.yellow },
           fmt = self:tr { 100, 0 },
         },
-        {
-          "diff",
-          symbols = {
-            added = "↑",
-            modified = "→",
-            removed = "↓",
-          },
-          fmt = self:tr { 110, 0 },
-        },
-        {
-          "diagnostics",
-          sources = { "nvim_diagnostic" },
-          diagnostics_color = {
-            error = { fg = colors.brighter_red },
-            warn = { fg = colors.yellow },
-            info = { fg = colors.brighter_blue },
-            hint = { fg = colors.brighter_black },
-          },
-          symbols = {
-            error = "●", -- U+25CF
-            warn = "○", -- U+25CB
-            info = "■", -- U+25A0
-            hint = "□", -- U+25A1
-          },
-          fmt = self:tr { 120, 0 },
-        },
       },
       lualine_x = {
         {

@@ -137,57 +137,127 @@ return {
     },
   }, ]]
 
+  -- non_lazy {
+  --   "Bekaboo/dropbar.nvim",
+  --   init = function()
+  --     vim.keymap.set({ "n", "t" }, "<C-A-d>", function()
+  --       require("dropbar.api").pick()
+  --     end)
+  --   end,
+  --   opts = {
+  --     -- Use the default of vim-easymotion
+  --     bar = { pick = { pivots = "hjklasdfgyuiopqwertnmzxcvb" } },
+  --     menu = {
+  --       keymaps = {
+  --         ["<Esc>"] = function()
+  --           local menu = require("dropbar.api").get_current_dropbar_menu()
+  --           if menu then
+  --             menu:close(true)
+  --           end
+  --         end,
+  --       },
+  --     },
+  --     general = {
+  --       ---@type boolean|fun(buf: integer, win: integer): boolean
+  --       enable = function(buf, win)
+  --         local buf_name = api.buf_get_name(buf)
+  --         return not vim.api.nvim_win_get_config(win).zindex
+  --           and (vim.bo[buf].buftype == "" or vim.bo[buf].buftype == "terminal")
+  --           and buf_name ~= ""
+  --           and not buf_name:match "^octo://"
+  --           and not vim.wo[win].diff
+  --       end,
+  --     },
+  --     icons = {
+  --       ui = {
+  --         bar = {
+  --           separator = "",
+  --         },
+  --         menu = {
+  --           separator = "",
+  --           indicator = "",
+  --         },
+  --       },
+  --     },
+  --     sources = {
+  --       path = {
+  --         ---@type string|fun(buf: integer): string
+  --         relative_to = function(_)
+  --           return uv.cwd() or ""
+  --         end,
+  --       },
+  --       terminal = { icon = " " },
+  --     },
+  --   },
+  -- },
+
   non_lazy {
-    "Bekaboo/dropbar.nvim",
-    init = function()
-      vim.keymap.set({ "n", "t" }, "<C-A-d>", function()
-        require("dropbar.api").pick()
-      end)
-    end,
+    "b0o/incline.nvim",
     opts = {
-      -- Use the default of vim-easymotion
-      bar = { pick = { pivots = "hjklasdfgyuiopqwertnmzxcvb" } },
-      menu = {
-        keymaps = {
-          ["<Esc>"] = function()
-            local menu = require("dropbar.api").get_current_dropbar_menu()
-            if menu then
-              menu:close(true)
+      ---@param props { buf: integer, win: integer, focused: boolean }
+      ---@return table
+      render = function(props)
+        local function get_git_diff()
+          local signs = vim.b[props.buf].gitsigns_status_dict
+          return signs
+            and vim.iter({ removed = "↑", changed = "→", added = "↓" }):fold(
+              {},
+              ---@param result { [1]: string, group: string }[]
+              ---@param name string
+              ---@param icon string
+              function(result, name, icon)
+                if tonumber(signs[name]) and signs[name] > 0 then
+                  if #result == 0 then
+                    table.insert(result, { "┊ " })
+                  end
+                  table.insert(result, #result, { icon .. signs[name] .. " ", group = "Diff" .. name })
+                end
+                return result
+              end
+            )
+        end
+
+        local function get_diagnostic_label()
+          return vim.iter({ error = "●", warn = "○", info = "■", hint = "□" }):fold(
+            {},
+            ---@param result { [1]: string, group: string }[]
+            ---@param severity string
+            ---@param icon string
+            function(result, severity, icon)
+              local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[severity:upper()] })
+              if n > 0 then
+                if #result == 0 then
+                  table.insert(result, { "┊ " })
+                end
+                table.insert(result, #result, { icon .. n .. " ", group = "DiagnosticSign" .. severity })
+              end
+              return result
             end
-          end,
-        },
-      },
-      general = {
-        ---@type boolean|fun(buf: integer, win: integer): boolean
-        enable = function(buf, win)
-          local buf_name = api.buf_get_name(buf)
-          return not vim.api.nvim_win_get_config(win).zindex
-            and (vim.bo[buf].buftype == "" or vim.bo[buf].buftype == "terminal")
-            and buf_name ~= ""
-            and not buf_name:match "^octo://"
-            and not vim.wo[win].diff
-        end,
-      },
-      icons = {
-        ui = {
-          bar = {
-            separator = "",
-          },
-          menu = {
-            separator = "",
-            indicator = "",
-          },
-        },
-      },
-      sources = {
-        path = {
-          ---@type string|fun(buf: integer): string
-          relative_to = function(_)
-            return uv.cwd() or ""
-          end,
-        },
-        terminal = { icon = " " },
-      },
+          )
+        end
+
+        local Path = require "plenary.path"
+        local filename = vim.api.nvim_buf_get_name(props.buf)
+        local devicons = require "nvim-web-devicons"
+        local ft_icon, ft_color = devicons.get_icon_color(filename)
+        if filename == "" then
+          filename = "[No Name]"
+        elseif props.focused then
+          local p = Path:new(filename)
+          p:make_relative(assert(vim.uv.cwd()))
+          filename = p:shorten()
+        else
+          filename = vim.fs.basename(filename)
+        end
+
+        return {
+          { get_diagnostic_label() },
+          { get_git_diff() },
+          { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" },
+          { filename .. " ", gui = vim.bo[props.buf].modified and "bold,italic" or "bold" },
+          { "┊  " .. vim.api.nvim_win_get_number(props.win), group = "DevIconWindows" },
+        }
+      end,
     },
   },
 
