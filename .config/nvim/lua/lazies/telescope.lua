@@ -576,7 +576,7 @@ return {
     dependencies = {
       "plenary.nvim",
       "telescope.nvim",
-      { "delphinus/obsidian-kensaku.nvim", opts = { picker = "egrepify" } },
+      { "delphinus/obsidian-kensaku.nvim", branch = "feat/quick-kensaku", opts = { picker = "egrepify" } },
     },
     cmd = {
       "ObsidianBacklinks",
@@ -600,6 +600,7 @@ return {
       "ObsidianYesterday",
 
       "ObsidianKensaku",
+      "ObsidianQuickKensaku",
     },
     ft = "markdown",
     init = function()
@@ -609,6 +610,7 @@ return {
       vim.keymap.set("n", "<Leader>oy", "<Cmd>ObsidianYesterday<CR>", { desc = "Open yesterday's note" })
       vim.keymap.set("n", "<Leader>on", "<Cmd>ObsidianNew<CR>", { desc = "Create a new note" })
       vim.keymap.set("n", "<Leader>od", "<Cmd>ObsidianDailies<CR>", { desc = "Open daily notes" })
+      vim.keymap.set("n", "<Leader>oq", "<Cmd>ObsidianQuickKensaku<CR>", { desc = "Switch notes quickly" })
     end,
 
     ---@type obsidian.config.ClientOpts
