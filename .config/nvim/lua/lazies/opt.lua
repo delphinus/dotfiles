@@ -743,8 +743,6 @@ return {
       { "vim-scripts/visualrepeat" },
     },
     keys = {
-      { "[d", mode = { "n", "v" } },
-      { "]d", mode = { "n", "v" } },
       { "[E", mode = { "n", "v" } },
       { "]E", mode = { "n", "v" } },
       { "[e", mode = { "n", "v" } },
@@ -753,6 +751,10 @@ return {
       { "]f", mode = { "n", "v" } },
       { "[<Space>", mode = { "n", "v" } },
       { "]<Space>", mode = { "n", "v" } },
+      { "[D", "<Plug>(LineJugglerDupOverUp)", mode = { "n", "x" } },
+      { "]D", "<Plug>(LineJugglerDupOverDown)", mode = { "n", "x" } },
+      { "[<C-d>", "<Plug>(LineJugglerDupRangeUp)", mode = { "n", "x" } },
+      { "]<C-d>", "<Plug>(LineJugglerDupRangeDown)", mode = { "n", "x" } },
     },
   },
 
