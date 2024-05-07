@@ -824,9 +824,9 @@ return {
   {
     "t9md/vim-quickhl",
     keys = {
-      { "<Space>m", [[<Plug>(quickhl-manual-this)]], mode = { "n", "x" } },
-      { "<Space>t", [[<Plug>(quickhl-manual-toggle)]], mode = { "n", "x" } },
-      { "<Space>M", [[<Plug>(quickhl-manual-reset)]], mode = { "n", "x" } },
+      { "<Space>qm", [[<Plug>(quickhl-manual-this)]], mode = { "n", "x" }, remap = true },
+      { "<Space>qt", [[<Plug>(quickhl-manual-toggle)]], mode = { "n", "x" }, remap = true },
+      { "<Space>qM", [[<Plug>(quickhl-manual-reset)]], mode = { "n", "x" }, remap = true },
     },
   },
 
@@ -1072,5 +1072,12 @@ return {
         enabled = not enabled
       end)
     end,
+  },
+
+  {
+    "Wansmer/treesj",
+    keys = { "<Space>m", "<Space>j", "<Space>s" },
+    cmd = { "TSJToggle", "TSJJoin", "TSJSplit" },
+    opts = {},
   },
 }
