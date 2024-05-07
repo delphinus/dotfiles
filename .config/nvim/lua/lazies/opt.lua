@@ -799,7 +799,7 @@ return {
 
   {
     "ruifm/gitlinker.nvim",
-    keys = { { "<Leader>gc", mode = { "n", "v" } } },
+    keys = { { "<Space>gc", mode = { "n", "v" } } },
     dependencies = { "plenary.nvim" },
     opts = function(_)
       return {
@@ -816,7 +816,7 @@ return {
             return require("gitlinker.hosts").get_github_type_url(url_data)
           end,
         },
-        mappings = "<Leader>gc",
+        mappings = "<Space>gc",
       }
     end,
   },
