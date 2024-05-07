@@ -312,6 +312,7 @@ return {
 
   {
     "jose-elias-alvarez/null-ls.nvim",
+    dependencies = { "davidmh/cspell.nvim" },
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
 
     config = function()
@@ -363,9 +364,15 @@ return {
         end)
       end
 
+      local cspell = require "cspell"
+
       local sources = {
+        cspell.code_actions.with { filetypes = { "markdown", "help" } },
+        cspell.diagnostics.with { filetypes = { "markdown", "help" } },
+
         nls.builtins.code_actions.gitsigns,
         nls.builtins.code_actions.shellcheck,
+
         nls.builtins.diagnostics.luacheck,
         nls.builtins.diagnostics.fish,
         nls.builtins.diagnostics.mypy,
