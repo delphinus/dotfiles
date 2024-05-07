@@ -449,6 +449,7 @@ return {
             results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
             preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
           },
+          path_display = { filename_first = { reverse_directories = true } },
         },
         extensions = {
           file_browser = {
@@ -465,7 +466,6 @@ return {
             hijack_netrw = true,
             dir_icon_hl = "Directory",
             icon_width = 2,
-            path_display = { "shorten", "smart" },
             respect_gitignore = false,
             layout_config = {
               height = function(_, _, max_lines)
