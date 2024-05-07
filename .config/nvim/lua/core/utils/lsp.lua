@@ -111,27 +111,10 @@ return {
 
     api.buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-    local function goto_next()
-      vim.diagnostic.goto_next { popup_opts = { border = border } }
-    end
-
-    vim.keymap.set("n", "<A-J>", goto_next, { buffer = bufnr })
-    vim.keymap.set("n", "<A-S-Ô>", goto_next, { buffer = bufnr })
-
-    local function goto_prev()
-      vim.diagnostic.goto_prev { popup_opts = { border = border } }
-    end
-
-    vim.keymap.set("n", "<A-K>", goto_prev, { buffer = bufnr })
-    vim.keymap.set("n", "<A-S->", goto_prev, { buffer = bufnr })
-
     vim.keymap.set("n", "<Space>E", function()
       vim.diagnostic.enable(not vim.diagnostic.is_enabled { bufnr = 0 }, { bufnr = 0 })
     end, { buffer = bufnr })
-    vim.keymap.set("n", "<Space>e", function()
-      vim.diagnostic.open_float { border = border }
-    end, { buffer = bufnr })
-    vim.keymap.set("n", "<Space>q", vim.diagnostic.setloclist, { buffer = bufnr })
+    vim.keymap.set("n", "<Space>Q", vim.diagnostic.setloclist, { buffer = bufnr })
 
     vim.keymap.set("n", "<A-]>", vim.lsp.buf.type_definition, { buffer = bufnr })
     vim.keymap.set("n", "<C-w><A-]>", function()
@@ -145,11 +128,8 @@ return {
         vim.lsp.buf.definition()
       end, { buffer = bufnr })
     end
-    vim.keymap.set("n", "<C-x><C-k>", vim.lsp.buf.signature_help, { buffer = bufnr })
     vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, { buffer = bufnr })
-    vim.keymap.set("n", "gA", vim.lsp.buf.code_action, { buffer = bufnr })
     vim.keymap.set("n", "gD", vim.lsp.buf.implementation, { buffer = bufnr })
-    vim.keymap.set("n", "gR", vim.lsp.buf.rename, { buffer = bufnr })
     vim.keymap.set("n", "gW", vim.lsp.buf.workspace_symbol, { buffer = bufnr })
     vim.keymap.set("n", "gd", vim.lsp.buf.declaration, { buffer = bufnr })
     vim.keymap.set("n", "gli", vim.lsp.buf.incoming_calls, { buffer = bufnr })
