@@ -372,6 +372,9 @@ return {
           api.set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
         end,
       }
+      vim.api.nvim_create_user_command("NoiceRedirect", function(cmd)
+        require("noice").redirect(cmd.args)
+      end, { desc = "Redirect any command with Noice", nargs = "+", complete = "command" })
     end,
     opts = {
       cmdline = {

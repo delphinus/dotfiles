@@ -91,9 +91,5 @@ end, {
   nargs = "+",
 })
 
-api.create_user_command("NoiceRedirect", function(cmd)
-  require("noice").redirect(cmd.args)
-end, { desc = "Redirect any command with Noice", nargs = "+" })
-
 vim.cmd.nnoremenu [[PopUp.Toggle\ Diagnostic <Cmd>lua vim.diagnostic[vim.diagnostic.is_disabled(0) and "enable" or "disable"]()<CR>]]
 vim.cmd.nnoremenu [[PopUp.Toggle\ Auto\ Formatting <Cmd>lua require("auto_fmt").toggle()<CR>]]
