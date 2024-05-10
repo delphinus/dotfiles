@@ -293,4 +293,6 @@ return {
       end,
     },
   },
+
+  non_lazy { "tani/dmacro.nvim", opts = { dmacro_key = "<A-t>" } },
 }
