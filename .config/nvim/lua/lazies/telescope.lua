@@ -577,6 +577,7 @@ return {
       "plenary.nvim",
       "telescope.nvim",
       { "delphinus/obsidian-kensaku.nvim", branch = "feat/quick-kensaku", opts = { picker = "egrepify" } },
+      { "oflisback/obsidian-bridge.nvim", opts = { scroll_sync = true } },
     },
     cmd = {
       "ObsidianBacklinks",
