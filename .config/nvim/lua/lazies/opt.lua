@@ -1050,9 +1050,29 @@ return {
     config = function()
       ---@type UserConfig
       require("render-markdown").setup {
-        highlights = { code = "MarkdownCodeBlock" },
+        highlights = {
+          code = "MarkdownCodeBlock",
+          heading = {
+            backgrounds = {
+              "@markup.heading.1.markdown",
+              "@markup.heading.2.markdown",
+              "@markup.heading.3.markdown",
+              "@markup.heading.4.markdown",
+              "@markup.heading.5.markdown",
+              "@markup.heading.6.markdown",
+            },
+            foregrounds = {
+              "@markup.heading.1.markdown",
+              "@markup.heading.2.markdown",
+              "@markup.heading.3.markdown",
+              "@markup.heading.4.markdown",
+              "@markup.heading.5.markdown",
+              "@markup.heading.6.markdown",
+            },
+          },
+        },
         headings = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
-        checkbox = { unchecked = "✓ ", checked = "✗ " },
+        checkbox = { unchecked = "󰄱", checked = "" },
         conceal = { rendered = 2 },
         bullets = { "●", "○", "▶", "▷" },
       }

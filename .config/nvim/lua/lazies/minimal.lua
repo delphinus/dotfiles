@@ -83,6 +83,12 @@ return {
           api.set_hl(0, "typescriptIdentifierName", { fg = "#ebcb8b", italic = true })
           api.set_hl(0, "@lsp.type.string.terraform", { link = "String" })
           api.set_hl(0, "@lsp.type.enumMember.terraform", { link = "String" })
+          api.set_hl(0, "@markup.heading.1.markdown", { fg = "#88C0D0", bold = true })
+          api.set_hl(0, "@markup.heading.2.markdown", { fg = "#A3BE8C", bold = true })
+          api.set_hl(0, "@markup.heading.3.markdown", { fg = "#EBCB8B", bold = true })
+          api.set_hl(0, "@markup.heading.4.markdown", { fg = "#D08770", bold = true })
+          api.set_hl(0, "@markup.heading.5.markdown", { fg = "#B48EAD", bold = true })
+          api.set_hl(0, "@markup.heading.6.markdown", { fg = "#ECEFF4", bold = true })
         end,
       }
     end,
