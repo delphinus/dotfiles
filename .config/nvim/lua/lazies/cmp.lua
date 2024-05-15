@@ -132,7 +132,7 @@ return {
           dic "SKK-JISYO.emoji-ja.utf8",
           dic "SKK-JISYO.jawiki.utf8",
         },
-        userDictionary = "~/Documents/skk-jisyo.utf8",
+        userDictionary = vim.fs.normalize "~/Documents/skk-jisyo.utf8",
         eggLikeNewline = true,
         immediatelyCancel = false,
         registerConvertResult = true,
