@@ -1103,4 +1103,26 @@ return {
     cmd = { "TSJToggle", "TSJJoin", "TSJSplit" },
     opts = {},
   },
+
+  {
+    "obaland/vfiler.vim",
+    dependencies = { "obaland/vfiler-column-devicons" },
+    keys = { { "<Space>ff", "<Cmd>VFiler<CR>" } },
+    cmd = { "VFiler" },
+    config = function()
+      local action = require "vfiler/action"
+      require("vfiler/config").setup {
+        options = {
+          columns = "indent,devicons,name,mode,size,time",
+          auto_cd = true,
+        },
+        mappings = {
+          ["<A-Space>"] = function(...)
+            action.toggle_select(...)
+            action.move_cursor_up(...)
+          end,
+        },
+      }
+    end,
+  },
 }
