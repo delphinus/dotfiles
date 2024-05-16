@@ -291,6 +291,7 @@ return {
         end
         return c.name ~= "tsserver" or c.name ~= "lua"
       end,
+      verbose = false,
     },
   },
 
