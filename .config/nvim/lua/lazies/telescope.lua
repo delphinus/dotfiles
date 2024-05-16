@@ -616,7 +616,10 @@ return {
 
     ---@type obsidian.config.ClientOpts
     opts = {
-      workspaces = { { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" } },
+      workspaces = {
+        { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" },
+        { name = "public", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Public" },
+      },
       daily_notes = { folder = "日記" },
       ---@param title string|?
       ---@return string
