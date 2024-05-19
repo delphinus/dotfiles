@@ -86,6 +86,7 @@
   "nord-nvim": { "branch": "main", "commit": "e7f02e159d60cc11f547a8e8a3066187c3a2bdbe" },
   "nui.nvim": { "branch": "main", "commit": "a3597dc88b53489d3fddbddbbd13787355253bb0" },
   "null-ls.nvim": { "branch": "main", "commit": "0010ea927ab7c09ef0ce9bf28c2b573fc302f5a7" },
+  "nvim-automa": { "branch": "main", "commit": "2fccbc3d1d51cf79d2cc5d126e7bfc58dda1c644" },
   "nvim-bqf": { "branch": "main", "commit": "7751b6ef9fbc3907478eaf23e866c4316a2ed1b4" },
   "nvim-cmp": { "branch": "main", "commit": "24122371810089d390847d8ba66325c1f1aa64c0" },
   "nvim-keycastr": { "branch": "main", "commit": "1e308f031c0275c76083bf6039c30a69da0760a9" },
