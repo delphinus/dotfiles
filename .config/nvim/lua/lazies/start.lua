@@ -321,4 +321,36 @@ return {
       }
     end,
   },
+
+  non_lazy {
+    "delphinus/nvim-highlight-colors",
+    branch = "fix/remove-redundant-space",
+    opts = {
+      render = "virtual",
+      -- virtual_symbol = "", -- 0xEBB4
+      -- virtual_symbol = "", -- 0xF0C8
+      -- virtual_symbol = "󰃚", -- 0xF00DA
+      -- virtual_symbol = "󰄮", -- 0xF012E
+      -- virtual_symbol = "󰄯", -- 0xF012F
+      -- virtual_symbol = "󰋘", -- 0xF02D8
+      -- virtual_symbol = "󰏃", -- 0xF03C3
+      -- virtual_symbol = "󰑊", -- 0xF044A
+      -- virtual_symbol = "󰓛", -- 0xF04DB
+      -- virtual_symbol = "󰚍", -- 0xF068D
+      -- virtual_symbol = "󰜋", -- 0xF070B
+      -- virtual_symbol = "󰝤", -- 0xF0764
+      virtual_symbol = "󰝬", -- 0xF076C
+      -- virtual_symbol = "󰤨", -- 0xF0928
+      -- virtual_symbol = "󰧞", -- 0xF09DE
+      -- virtual_symbol = "󰨓", -- 0xF0A13
+      -- virtual_symbol = "󰪯", -- 0xF0AAF
+      -- virtual_symbol = "󰫈", -- 0xF0AC8
+      -- virtual_symbol = "󰫍", -- 0xF0ACD
+      -- virtual_symbol = "󰮊", -- 0xF0B8A
+      -- virtual_symbol = "󰮥", -- 0xF0BA5
+      -- virtual_symbol = "󰺠", -- 0xF0EA0
+      -- virtual_symbol = "󰽢", -- 0xF0F62
+      -- virtual_symbol = "󰺠", -- 0xF0EA0
+    },
+  },
 }
