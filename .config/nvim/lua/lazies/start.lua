@@ -338,8 +338,8 @@ return {
       -- virtual_symbol = "󰓛", -- 0xF04DB
       -- virtual_symbol = "󰚍", -- 0xF068D
       -- virtual_symbol = "󰜋", -- 0xF070B
-      -- virtual_symbol = "󰝤", -- 0xF0764
-      virtual_symbol = "󰝬", -- 0xF076C
+      virtual_symbol = "󰝤", -- 0xF0764
+      -- virtual_symbol = "󰝬", -- 0xF076C
       -- virtual_symbol = "󰤨", -- 0xF0928
       -- virtual_symbol = "󰧞", -- 0xF09DE
       -- virtual_symbol = "󰨓", -- 0xF0A13
