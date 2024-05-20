@@ -58,6 +58,7 @@
   "fontforge_script.vim": { "branch": "master", "commit": "caa318fe54bcef856f3d6ee26ea9bc7cb58f9795" },
   "friendly-snippets": { "branch": "main", "commit": "dd2fd1281d4b22e7b4a5bfafa3e142d958e251f2" },
   "fuzzy-motion.vim": { "branch": "main", "commit": "f926a6080489d03b08af66cdd1e89b8c2f5c4f39" },
+  "fzy-lua-native": { "branch": "master", "commit": "820f745b7c442176bcc243e8f38ef4b985febfaf" },
   "ghpr-blame.vim": { "branch": "master", "commit": "594888ca0b0bdf8b859ced0413b765113942cf2e" },
   "git-messenger.vim": { "branch": "master", "commit": "8a61bdfa351d4df9a9118ee1d3f45edbed617072" },
   "gitlinker.nvim": { "branch": "master", "commit": "cc59f732f3d043b626c8702cb725c82e54d35c25" },
@@ -71,7 +72,13 @@
   "inspecthi.vim": { "branch": "main", "commit": "b282d2529597250de0b1df67c49c214636bb38c1" },
   "jira.vim": { "branch": "master", "commit": "d6e103c7be68d241417e9c720aabb65f7c80a072" },
   "kensaku.vim": { "branch": "main", "commit": "7ddad2f355a3678597ebbac666e2ee6dda6b9cf3" },
+<<<<<<< HEAD
   "lazy.nvim": { "branch": "main", "commit": "05240b41548c4245a04d34ee54f789e824129991" },
+=======
+  "kirby.nvim": { "branch": "master", "commit": "31d43bc746fbc01f3bae03b3ff4adb9fa2cb9cdc" },
+  "kui.nvim": { "branch": "master", "commit": "b3b2f53d6678dce86acc91043b32eab6059ce0cf" },
+  "lazy.nvim": { "branch": "main", "commit": "e44636a43376e8a1e851958f7e9cbe996751d59f" },
+>>>>>>> 16b43450 (Add kirby.nvim)
   "lazy_require.nvim": { "branch": "main", "commit": "2efc5a26ae6d7d905fae128f29a72e84f320f519" },
   "lspkind-nvim": { "branch": "master", "commit": "1735dd5a5054c1fb7feaf8e8658dbab925f4f0cf" },
   "lualine.nvim": { "branch": "master", "commit": "0a5a66803c7407767b799067986b4dc3036e1983" },

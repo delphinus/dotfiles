@@ -1125,4 +1125,15 @@ return {
       }
     end,
   },
+
+  {
+    "romgrk/kirby.nvim",
+    dependencies = {
+      { "romgrk/fzy-lua-native", build = "make" },
+      { "romgrk/kui.nvim" },
+      { "nvim-tree/nvim-web-devicons" },
+      { "plenary.nvim" },
+    },
+    cmd = { "Kirby" },
+  },
 }
