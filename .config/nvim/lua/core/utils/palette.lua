@@ -39,6 +39,8 @@ local colors = require "core.utils.palette.colors"
 local function __index(self, prop)
   if prop == "colors" then
     return colors.from(vim.g.colors_name)
+  elseif prop == "list" then
+    return colors.list(vim.g.colors_name)
   end
 end
 

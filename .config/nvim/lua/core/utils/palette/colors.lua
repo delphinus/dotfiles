@@ -12,4 +12,22 @@ function Colors.from(name)
   return setmetatable(colors, { __index = Colors })
 end
 
+---@param name string
+---@return string[]
+function Colors.list(name)
+  local colors = vim.F.npcall(require, "core.utils.palette." .. name) or {}
+  return {
+    colors.black,
+    colors.red,
+    colors.green,
+    colors.yellow,
+    colors.blue,
+    colors.magenta,
+    colors.cyan,
+    colors.white,
+    colors.white,
+    colors.nord12, -- orange
+  }
+end
+
 return Colors
