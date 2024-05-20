@@ -138,6 +138,7 @@
   "telescope-z.nvim": { "branch": "main", "commit": "3a31d9741fe4353e5c8b59cfc4eda5420dc7f938" },
   "telescope.nvim": { "branch": "master", "commit": "0c12735d5aff6a48ffd8111bf144dc2ff44e5975" },
   "tig-explorer.vim": { "branch": "master", "commit": "81cf3654fbd640f8accf3fe7c9b2bfb3c2e5c942" },
+  "tiny-devicons-auto-colors.nvim": { "branch": "main", "commit": "0e640c4cf593cd2173e83543b90e563f02827eac" },
   "todo-comments.nvim": { "branch": "main", "commit": "a7e39ae9e74f2c8c6dc4eea6d40c3971ae84752d" },
   "toggleterm.nvim": { "branch": "main", "commit": "fee58a0473fd92b28c34f8f724e4918b15ba30a3" },
   "treesj": { "branch": "main", "commit": "e1e82ab4237619d342c7102c9f13d4b9833bfd39" },

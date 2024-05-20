@@ -1136,4 +1136,14 @@ return {
     },
     cmd = { "Kirby" },
   },
+
+  {
+    "rachartier/tiny-devicons-auto-colors.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    event = "VeryLazy",
+    config = function()
+      vim.print(palette.list)
+      require("tiny-devicons-auto-colors").setup { colors = palette.list }
+    end,
+  },
 }
