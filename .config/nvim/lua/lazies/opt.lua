@@ -1145,4 +1145,6 @@ return {
       require("tiny-devicons-auto-colors").setup { colors = palette.list }
     end,
   },
+
+  { "folke/ts-comments.nvim", event = "VeryLazy", opts = {} },
 }

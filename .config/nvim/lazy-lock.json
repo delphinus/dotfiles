@@ -143,6 +143,7 @@
   "toggleterm.nvim": { "branch": "main", "commit": "fee58a0473fd92b28c34f8f724e4918b15ba30a3" },
   "treesj": { "branch": "main", "commit": "e1e82ab4237619d342c7102c9f13d4b9833bfd39" },
   "trouble.nvim": { "branch": "dev", "commit": "e2185bf6e63ef9bd75f1819f43846e2b0f10953b" },
+  "ts-comments.nvim": { "branch": "main", "commit": "b03751c365ffd52ec63846df23a7035cc394cf58" },
   "undotree": { "branch": "master", "commit": "56c684a805fe948936cda0d1b19505b84ad7e065" },
   "vader.vim": { "branch": "master", "commit": "429b669e6158be3a9fc110799607c232e6ed8e29" },
   "vfiler-column-devicons": { "branch": "main", "commit": "de12696ad432b31ce4a05648a584a057ff6191bb" },
