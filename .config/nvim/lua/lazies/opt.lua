@@ -140,19 +140,6 @@ return {
   },
 
   {
-    "mbbill/undotree",
-    cmd = { "UndotreeToggle" },
-    keys = { { "<A-u>", [[<Cmd>UndotreeToggle<CR>]] } },
-    init = function()
-      vim.g.undotree_HelpLine = 0
-      vim.g.undotree_SetFocusWhenToggle = 1
-      vim.g.undotree_ShortIndicators = 1
-      vim.g.undotree_TreeNodeShape = "●"
-      vim.g.undotree_WindowLayout = 2
-    end,
-  },
-
-  {
     "npxbr/glow.nvim",
     cmd = { "Glow", "GlowInstall" },
     init = function()
