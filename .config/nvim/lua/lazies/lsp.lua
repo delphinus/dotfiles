@@ -350,7 +350,12 @@ return {
 
       local sources = {
         cspell.code_actions.with { filetypes = { "markdown", "help" } },
-        cspell.diagnostics.with { filetypes = { "markdown", "help" } },
+        cspell.diagnostics.with {
+          diagnostics_postprocess = function(diagnostic)
+            diagnostic.severity = vim.diagnostic.severity.HINT
+          end,
+          filetypes = { "markdown", "help" },
+        },
 
         nls.builtins.code_actions.gitsigns,
         nls.builtins.code_actions.shellcheck,
@@ -484,7 +489,7 @@ return {
       do
         local fd = uv.fs_open(file, "r", 438)
         if fd then
-          local stat = uv.fs_fstat(fd)
+          local stat = assert(uv.fs_fstat(fd))
           local data = uv.fs_read(fd, stat.size, 0)
           uv.fs_close(fd)
           last_updated = tonumber(data) or 0
@@ -496,7 +501,7 @@ return {
         if ok then
           local fd = uv.fs_open(file, "w", 438)
           if fd then
-            uv.fs_write(fd, now, -1)
+            uv.fs_write(fd, string(now), -1)
             uv.fs_close(fd)
           else
             error("cannot open the file to write: " .. file)
@@ -541,7 +546,7 @@ return {
         if vim.b[bufnr].semantic_tokens then
           return true
         end
-        local clients = vim.lsp.get_active_clients { bufnr = bufnr }
+        local clients = vim.lsp.get_clients { bufnr = bufnr }
         local has_semantic_tokens = vim.iter(clients):any(function(c)
           local caps = c.server_capabilities
           return c.name ~= "null-ls" and caps.semanticTokensProvider and caps.semanticTokensProvider.full
