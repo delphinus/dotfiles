@@ -72,20 +72,19 @@ return {
       vim.diagnostic.config {
         virtual_text = {
           format = function(d)
-            if d.severity == vim.diagnostic.severity.ERROR then
-              return ("%s (%s: %s)"):format(d.message, d.source, d.code)
-            end
+            return d.severity == vim.diagnostic.severity.ERROR and ("%s (%s: %s)"):format(d.message, d.source, d.code)
+              or ""
           end,
         },
         virtual_lines = { only_current_line = true },
       }
 
       api.create_user_command("ShowLSPSettings", function()
-        vim.notify(vim.inspect(vim.lsp.get_active_clients()))
+        vim.notify(vim.inspect(vim.lsp.get_clients()))
       end, { desc = "Show LSP settings" })
 
       api.create_user_command("ReloadLSPSettings", function()
-        vim.lsp.stop_client(vim.lsp.get_active_clients(), true)
+        vim.lsp.stop_client(vim.lsp.get_clients(), true)
         vim.cmd.edit()
       end, { desc = "Reload LSP settings" })
 
@@ -231,25 +230,6 @@ return {
       local is_over = itvl:is_over()
 
       if is_over then
-        -- NOTE: textlint should not be installed by Mason
-        -- api.create_autocmd("User", {
-        --   pattern = "MasonToolsUpdateCompleted",
-        --   once = true,
-        --   callback = function()
-        --     local mason_registry = require "mason-registry"
-        --     local textlint_path = mason_registry.get_package("textlint"):get_install_path()
-        --
-        --     vim.notify "installing additional components"
-        --     vim.system({ "npm", "i", "textlint-rule-preset-ja-spacing" }, { cwd = textlint_path }, function(completed)
-        --       if completed.code == 0 then
-        --         vim.notify "finished to update Mason tools"
-        --       else
-        --         vim.notify(("failed to update Mason tools: code=%d\n%s"):format(completed.code, completed.stderr))
-        --       end
-        --     end)
-        --   end,
-        -- })
-
         vim.notify("Tools are old. Updating……", vim.log.levels.WARN)
       end
 
