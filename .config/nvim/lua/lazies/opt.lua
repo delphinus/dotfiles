@@ -1114,17 +1114,6 @@ return {
   },
 
   {
-    "romgrk/kirby.nvim",
-    dependencies = {
-      { "romgrk/fzy-lua-native", build = "make" },
-      { "romgrk/kui.nvim" },
-      { "nvim-tree/nvim-web-devicons" },
-      { "plenary.nvim" },
-    },
-    cmd = { "Kirby" },
-  },
-
-  {
     "rachartier/tiny-devicons-auto-colors.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
