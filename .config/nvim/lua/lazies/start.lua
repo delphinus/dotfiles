@@ -323,8 +323,7 @@ return {
   },
 
   non_lazy {
-    "delphinus/nvim-highlight-colors",
-    branch = "fix/remove-redundant-space",
+    "brenoprata10/nvim-highlight-colors",
     opts = {
       render = "virtual",
       -- virtual_symbol = "", -- 0xEBB4
@@ -351,6 +350,7 @@ return {
       -- virtual_symbol = "󰺠", -- 0xF0EA0
       -- virtual_symbol = "󰽢", -- 0xF0F62
       -- virtual_symbol = "󰺠", -- 0xF0EA0
+      virtual_symbol_suffix = "",
     },
   },
 }
