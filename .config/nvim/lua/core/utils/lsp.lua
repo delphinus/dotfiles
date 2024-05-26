@@ -135,12 +135,6 @@ return {
     vim.keymap.set("n", "gli", vim.lsp.buf.incoming_calls, { buffer = bufnr })
     vim.keymap.set("n", "glo", vim.lsp.buf.outgoing_calls, { buffer = bufnr })
 
-    -- NOTE: These mappings are argued in https://github.com/neovim/neovim/pull/28650
-    vim.keymap.set("n", "gln", vim.lsp.buf.rename, { buffer = bufnr })
-    vim.keymap.set({ "n", "v" }, "gll", vim.lsp.buf.code_action, { buffer = bufnr })
-    vim.keymap.set("n", "glr", vim.lsp.buf.references, { buffer = bufnr })
-    vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, { buffer = bufnr })
-
     if client.supports_method "textDocument/formatting" then
       vim.keymap.set("n", "g!", require("auto_fmt").toggle, { buffer = bufnr })
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
