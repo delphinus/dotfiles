@@ -353,4 +353,25 @@ return {
       virtual_symbol_suffix = "",
     },
   },
+
+  non_lazy {
+    "delphinus/skkeleton_indicator.nvim",
+    branch = "v2",
+
+    init = function()
+      palette "skkeleton_indicator" {
+        nord = function(colors)
+          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.dark_black, bg = colors.magenta, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.white, bg = colors.red, bold = true })
+        end,
+      }
+    end,
+
+    ---@type SkkeletonIndicatorOpts
+    opts = { fadeOutMs = 0 },
+  },
 }
