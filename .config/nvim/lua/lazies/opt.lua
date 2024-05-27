@@ -1098,7 +1098,8 @@ return {
     cmd = { "VFiler" },
     config = function()
       local action = require "vfiler/action"
-      require("vfiler/config").setup {
+      local config = require "vfiler/config"
+      config.setup {
         options = {
           columns = "indent,devicons,name,mode,size,time",
           auto_cd = true,
@@ -1108,8 +1109,13 @@ return {
             action.toggle_select(...)
             action.move_cursor_up(...)
           end,
+          R = action.jump_to_root,
+          L = action.open_tree_recursive,
         },
       }
+      config.unmap [[\]] -- unmap jump_to_root
+      -- NOTE: see default mappings below
+      -- ~/.local/share/nvim/lazy/vfiler.vim/lua/vfiler/config.lua
     end,
   },
 
