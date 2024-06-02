@@ -138,6 +138,14 @@ return {
         registerConvertResult = true,
         sources = { "deno_kv", "google_japanese_input" },
         databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
+        -- markerHenkan = "󰇆",
+        -- markerHenkanSelect = "󱨉",
+        -- markerHenkan = "󰽤",
+        -- markerHenkanSelect = "󰽢",
+        -- markerHenkan = "󰜌",
+        -- markerHenkanSelect = "󰜋",
+        -- markerHenkan = "󰝣",
+        -- markerHenkanSelect = "󰄮",
       }
       fn["skkeleton#register_kanatable"]("rom", {
         ["("] = { "（", "" },
