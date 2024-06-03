@@ -323,6 +323,7 @@ return {
   },
 
   non_lazy {
+    enabled = false,
     "brenoprata10/nvim-highlight-colors",
     opts = {
       render = "virtual",
@@ -384,6 +385,54 @@ return {
         { label = "NvimLightYellow", color = "#fce094" },
       },
     },
+  },
+
+  non_lazy {
+    branch = "feat/virtual-text",
+    "uga-rosa/ccc.nvim",
+    config = function()
+      local ccc = require "ccc"
+      ccc.setup {
+        highlight_mode = "virtual",
+        highlighter = { auto_enable = true },
+        -- virtual_symbol = "󰝤", -- 0xF0764
+        virtual_symbol = "󰺠", -- 0xF0EA0
+        pickers = {
+          ccc.picker.hex,
+          ccc.picker.custom_entries(require "core.utils.palette.nord"),
+          ccc.picker.custom_entries {
+            NvimDarkBlue = "#004c73",
+            NvimDarkCyan = "#007373",
+            NvimDarkGray1 = "#07080d",
+            NvimDarkGray2 = "#14161b",
+            NvimDarkGray3 = "#2c2e33",
+            NvimDarkGray4 = "#4f5258",
+            NvimDarkGreen = "#005523",
+            NvimDarkGrey1 = "#07080d",
+            NvimDarkGrey2 = "#14161b",
+            NvimDarkGrey3 = "#2c2e33",
+            NvimDarkGrey4 = "#4f5258",
+            NvimDarkMagenta = "#470045",
+            NvimDarkRed = "#590008",
+            NvimDarkYellow = "#6b5300",
+            NvimLightBlue = "#a6dbff",
+            NvimLightCyan = "#8cf8f7",
+            NvimLightGray1 = "#eef1f8",
+            NvimLightGray2 = "#e0e2ea",
+            NvimLightGray3 = "#c4c6cd",
+            NvimLightGray4 = "#9b9ea4",
+            NvimLightGreen = "#b3f6c0",
+            NvimLightGrey1 = "#eef1f8",
+            NvimLightGrey2 = "#e0e2ea",
+            NvimLightGrey3 = "#c4c6cd",
+            NvimLightGrey4 = "#9b9ea4",
+            NvimLightMagenta = "#ffcaff",
+            NvimLightRed = "#ffc0b9",
+            NvimLightYellow = "#fce094",
+          },
+        },
+      }
+    end,
   },
 
   non_lazy {

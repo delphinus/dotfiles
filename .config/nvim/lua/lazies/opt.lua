@@ -1001,27 +1001,6 @@ return {
   { "rbong/vim-flog", dependencies = { "tpope/vim-fugitive" }, cmd = { "Flog", "Flogsplit", "Floggit" } },
 
   {
-    enabled = not vim.env.LIGHT,
-    tag = "v1.7.2",
-    "uga-rosa/ccc.nvim",
-    cmd = { "CccHighlighterEnable", "CccHighlighterToggle" },
-    config = function()
-      palette "ccc" {
-        function(colors)
-          local ccc = require "ccc"
-          ccc.setup {
-            highlighter = { auto_enable = true },
-            pickers = {
-              ccc.picker.hex,
-              ccc.picker.custom_entries(colors),
-            },
-          }
-        end,
-      }
-    end,
-  },
-
-  {
     "MeanderingProgrammer/markdown.nvim",
     name = "render-markdown",
     ft = { "markdown" },
