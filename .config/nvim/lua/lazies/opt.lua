@@ -1041,6 +1041,13 @@ return {
         checkbox = { unchecked = "󰄱", checked = "" },
         conceal = { rendered = 2 },
         bullets = { "●", "○", "▶", "▷" },
+        callout = {
+          note = " Note",
+          tip = " Tip",
+          important = "󰅾 Important",
+          warning = " Warning",
+          caution = "󰳦 Caution",
+        },
       }
     end,
   },
