@@ -14,7 +14,6 @@ return {
     event = { "BufReadPre" },
     dependencies = {
       { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-      { "folke/neodev.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
       { "williamboman/mason.nvim" },
 
@@ -114,13 +113,6 @@ return {
         return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
       end
 
-      -- needed for lua_ls
-      require("neodev").setup {
-        override = function(_, library)
-          library.plugins = true
-        end,
-      }
-
       local server_configs = {
         perlnavigator = {
           cmd = { "perlnavigator", "--stdio" },
@@ -197,7 +189,6 @@ return {
               codeLens = { enable = true },
               runtime = { version = "LuaJIT" },
               telemetry = { enable = false },
-              workspace = { library = { require("neodev.config").types() } },
             },
           },
         },
