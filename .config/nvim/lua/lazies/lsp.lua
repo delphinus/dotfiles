@@ -20,6 +20,19 @@ return {
 
       -- needs these plugins to setup capabilities
       { "cmp-nvim-lsp" },
+
+      {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        dependencies = { "Bilal2453/luvit-meta" },
+        ---@type lazydev.Config
+        opts = {
+          library = {
+            "luvit-meta/library",
+            "lazydev.nvim",
+          },
+        },
+      },
     },
 
     init = function()

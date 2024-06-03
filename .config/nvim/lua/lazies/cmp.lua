@@ -349,8 +349,9 @@ return {
               { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
             }
           or {
-            { name = "copilot" },
+            { name = "lazydev" },
             { name = "nvim_lsp" },
+            { name = "copilot" },
             { name = "nvim_lua" },
             { name = "git" },
             { name = "ctags" },
