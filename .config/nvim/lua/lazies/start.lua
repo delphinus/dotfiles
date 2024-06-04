@@ -298,31 +298,6 @@ return {
   non_lazy { "tani/dmacro.nvim", opts = { dmacro_key = "<A-t>" } },
 
   non_lazy {
-    "hrsh7th/nvim-automa",
-    config = function()
-      local automa = require "automa"
-      automa.setup {
-        mapping = {
-          ["."] = {
-            queries = {
-              -- wide-range dot-repeat definition.
-              automa.query_v1 { "!n(h,j,k,l)+" },
-              -- for `diwi***<Esc>`
-              automa.query_v1 { "n", "no+", "n", "i*" },
-              -- for `x`
-              automa.query_v1 { "n#" },
-              -- for `i***<Esc>`
-              automa.query_v1 { "n", "i*" },
-              -- for `vjjj>`
-              automa.query_v1 { "n", "v*" },
-            },
-          },
-        },
-      }
-    end,
-  },
-
-  non_lazy {
     enabled = false,
     "brenoprata10/nvim-highlight-colors",
     opts = {
