@@ -245,7 +245,7 @@ return {
         elseif props.focused then
           local p = Path:new(filename)
           p:make_relative(assert(vim.uv.cwd()))
-          filename = p:shorten()
+          filename = p:shorten(3, { 1, 2, -1 })
         else
           filename = vim.fs.basename(filename)
         end
