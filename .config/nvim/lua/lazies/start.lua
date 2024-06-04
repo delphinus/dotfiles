@@ -388,7 +388,6 @@ return {
   },
 
   non_lazy {
-    branch = "feat/virtual-text",
     "uga-rosa/ccc.nvim",
     config = function()
       local ccc = require "ccc"
