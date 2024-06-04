@@ -411,7 +411,6 @@ return {
 
   non_lazy {
     "delphinus/skkeleton_indicator.nvim",
-    branch = "v2",
 
     init = function()
       palette "skkeleton_indicator" {
