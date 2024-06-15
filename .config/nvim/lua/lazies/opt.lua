@@ -1115,4 +1115,21 @@ return {
   },
 
   { "folke/ts-comments.nvim", event = "VeryLazy", opts = {} },
+
+  {
+    "NStefan002/screenkey.nvim",
+    branch = "dev",
+    cmd = { "Screenkey" },
+    opts = {
+      win_opts = { row = 8, border = "rounded" },
+      keys = {
+        ["<ESC>"] = "⎋",
+        ["<BS>"] = "󰌥",
+        ["<DEL>"] = "⌦",
+        ["CTRL"] = "⌃",
+        ["ALT"] = "⌥",
+        ["SUPER"] = "⌘",
+      },
+    },
+  },
 }
