@@ -882,7 +882,25 @@ return {
             return input:sub(2)
           end
           -- If the input contains spaces, it tries fuzzy matching.
-          local converted = vim.iter(vim.split(input, " ")):map(fn["kensaku#query"]):totable()
+          -- local converted = vim.iter(vim.split(input, " ")):map(fn["kensaku#query"]):totable()
+          -- HACK: kensaku#query stopped to work here. Use cmigemo to generate
+          -- regexp
+          local converted = {}
+          local jobs = vim
+            .iter(vim.split(input, " "))
+            :map(function(word)
+              return vim.system(
+                { "cmigemo", "-v", "-d", "/opt/homebrew/opt/cmigemo/share/migemo/utf-8/migemo-dict", "-w", word },
+                { text = true },
+                function(j)
+                  table.insert(converted, j.stdout:gsub("\n", ""))
+                end
+              )
+            end)
+            :totable()
+          vim.wait(2000, function()
+            return #jobs == #converted
+          end, 20)
           return table.concat(converted, [[.\{-}]])
         end,
       }
