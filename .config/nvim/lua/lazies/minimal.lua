@@ -63,6 +63,7 @@ return {
   },
 
   {
+    enable = false,
     "delphinus/nord-nvim",
     build = lazy_require("nord").update {
       italic = true,
@@ -93,6 +94,8 @@ return {
       }
     end,
   },
+
+  { "NTBBloodbath/sweetie.nvim" },
 
   {
     "rhysd/committia.vim",

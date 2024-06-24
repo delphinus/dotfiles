@@ -73,29 +73,11 @@ api.create_autocmd({ "BufWinEnter" }, {
 -- ColorScheme {{{
 vim.opt.termguicolors = true
 
-api.create_user_command("ToggleColorscheme", function()
-  local scheme
-  if vim.opt.background:get() == "light" then
-    vim.opt.background = "dark"
-    scheme = "nord"
-  else
-    vim.opt.background = "light"
-    scheme = "solarized8"
-  end
-  pcall(vim.cmd.colorscheme, scheme)
-end, { desc = "Toggle colorscheme between nord and solarized8" })
-
--- Use Solarized Light when iTerm2 reports 11;15 for $COLORFGBG
 local is_light = vim.env.COLORFGBG == "11;15"
 if is_light then
   vim.g.background = "light"
 end
-local scheme
-if is_light or vim.env.SOLARIZED then
-  scheme = "solarized8"
-else
-  scheme = "nord"
-end
+local scheme = "sweetie"
 api.create_autocmd("VimEnter", {
   desc = "Run ColorScheme autocmds in VimEnter",
   group = api.create_augroup("set_colorscheme", {}),
