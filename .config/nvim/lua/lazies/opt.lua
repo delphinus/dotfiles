@@ -17,6 +17,9 @@ return {
   {
     "akinsho/toggleterm.nvim",
     cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
+    keys = {
+      { "<A-c>", "<Cmd>ToggleTerm<CR>", mode = { "n", "t" }, desc = "ToggleTerm" },
+    },
     init = function()
       palette "toggleterm" {
         nord = function(colors)
@@ -25,11 +28,17 @@ return {
           api.set_hl(0, "WinBorderRight", { fg = colors.border })
           api.set_hl(0, "WinBorderBottom", { fg = colors.border })
         end,
+        sweetie = function(colors)
+          api.set_hl(0, "WinBorderTop", { fg = colors.blue })
+          api.set_hl(0, "WinBorderLeft", { fg = colors.blue })
+          api.set_hl(0, "WinBorderRight", { fg = colors.blue })
+          api.set_hl(0, "WinBorderBottom", { fg = colors.blue })
+        end,
       }
     end,
     opts = {
       open_mapping = false,
-      direction = "tab",
+      direction = "float",
       autochdir = true,
       float_opts = {
         border = {
@@ -55,9 +64,6 @@ return {
     -- "nyngwang/NeoTerm.lua",
     "delphinus/NeoTerm.lua",
     branch = "fix/opt-local",
-    keys = {
-      { "<A-c>", "<Cmd>NeoTermToggle<CR>", mode = { "n", "t" }, desc = "Toggle NeoTerm" },
-    },
     cmd = { "NeoTermToggle", "NeoTermEnterNormal" },
     init = function()
       palette "neoterm" {
