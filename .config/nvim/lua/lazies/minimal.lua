@@ -170,6 +170,15 @@ return {
           api.set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.white, bg = colors.red, bold = true })
           require("skkeleton_indicator").setup { fadeOutMs = 0 }
         end,
+        sweetie = function(colors)
+          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.bg, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.bg, bg = colors.green, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.bg, bg = colors.yellow, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.bg, bg = colors.magenta, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.bg, bg = colors.cyan, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.black, bg = colors.red, bold = true })
+          require("skkeleton_indicator").setup { fadeOutMs = 0 }
+        end,
       }
     end,
   },

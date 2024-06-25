@@ -2,6 +2,7 @@
 ---@field name string
 ---@field from fun(name: string): core.utils.palette.Colors
 ---@field [core.utils.palette.Names] string
+---@field [string] string
 local Colors = {}
 
 ---@param name string
