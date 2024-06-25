@@ -72,6 +72,10 @@ return {
           api.set_hl(0, "SmoothCursor", { fg = colors.white })
           api.set_hl(0, "SmoothCursorGreen", { fg = colors.green })
         end,
+        sweetie = function(colors)
+          api.set_hl(0, "SmoothCursor", { fg = colors.white })
+          api.set_hl(0, "SmoothCursorGreen", { fg = colors.green })
+        end,
       }
 
       local group = api.create_augroup("smooth-cursor-autocmds", {})
