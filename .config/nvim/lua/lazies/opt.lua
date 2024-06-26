@@ -35,6 +35,10 @@ return {
           api.set_hl(0, "WinBorderBottom", { fg = colors.blue })
         end,
       }
+      vim.api.nvim_create_user_command("Serpl", function(info)
+        local path = #info.fargs > 0 and table.concat(info.fargs) or vim.uv.cwd()
+        vim.cmd.TermExec { args = { "direction=float", "dir=" .. vim.fn.escape(path, [[ \]]), 'cmd="serpl"' } }
+      end, { nargs = "*", desc = "Run serpl" })
     end,
     opts = {
       open_mapping = false,
