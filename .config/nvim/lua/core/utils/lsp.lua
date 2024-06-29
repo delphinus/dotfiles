@@ -95,9 +95,7 @@ return {
   on_attach = function(client, bufnr)
     if not need_me(client, bufnr) then
       vim.notify("lsp: " .. client.name .. " is not needed", vim.log.levels.DEBUG)
-      vim.schedule(function()
-        vim.lsp.buf_detach_client(bufnr, client.id)
-      end)
+      client.stop()
       return
     end
 
