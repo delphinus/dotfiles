@@ -64,7 +64,7 @@ return {
         },
         flyin_effect = nil, -- "bottom" or "top"
         disable_float_win = true, -- disable on float window
-        disabled_filetypes = { "help", "TelescopePrompt", "man" },
+        disabled_filetypes = { "help", "TelescopePrompt", "man", "qf" },
       }
 
       palette "smoothcursor" {

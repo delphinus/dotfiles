@@ -104,7 +104,7 @@ return {
       },
 
       { "nvim-telescope/telescope-file-browser.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim" },
+      { "nvim-telescope/telescope-frecency.nvim", branch = "feat/frecency-query" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
@@ -137,6 +137,10 @@ return {
         init = function()
           palette "egrepify" {
             nord = function(colors)
+              api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
+              api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
+            end,
+            sweetie = function(colors)
               api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
               api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
             end,
@@ -481,7 +485,6 @@ return {
           },
           ---@type FrecencyOpts
           frecency = {
-            matcher = "fuzzy",
             db_safe_mode = false,
             hide_current_buffer = true,
             scoring_function = function(recency, fzy_score)

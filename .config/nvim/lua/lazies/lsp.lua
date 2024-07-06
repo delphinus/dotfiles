@@ -517,51 +517,6 @@ return {
   -- TODO: update for main
   -- ts { "RRethy/nvim-treesitter-endwise" },
 
-  ts {
-    "m-demare/hlargs.nvim",
-    cond = false,
-    init = function()
-      palette "hlargs" {
-        nord = function(colors)
-          api.set_hl(0, "Hlarg1", { fg = colors.brighter_red })
-          api.set_hl(0, "Hlarg2", { fg = colors.orange })
-          api.set_hl(0, "Hlarg3", { fg = colors.magenta })
-          api.set_hl(0, "Hlarg4", { fg = colors.yellow })
-          api.set_hl(0, "Hlarg5", { fg = colors.green })
-          api.set_hl(0, "Hlarg6", { fg = colors.brighter_blue })
-          api.set_hl(0, "Hlarg7", { fg = colors.bright_cyan })
-        end,
-      }
-    end,
-    opts = {
-      use_colorpalette = true,
-      colorpalette = {
-        { default = true },
-        { default = true },
-        { default = true },
-        { default = true },
-        { default = true },
-        { default = true },
-        { default = true },
-      },
-      -- https://alpha2phi.medium.com/neovim-101-contextual-semantic-highlighting-90c605e6e72b
-      disable = function(_, bufnr)
-        if vim.b[bufnr].semantic_tokens then
-          return true
-        end
-        local clients = vim.lsp.get_clients { bufnr = bufnr }
-        local has_semantic_tokens = vim.iter(clients):any(function(c)
-          local caps = c.server_capabilities
-          return c.name ~= "null-ls" and caps.semanticTokensProvider and caps.semanticTokensProvider.full
-        end)
-        if has_semantic_tokens then
-          vim.b[bufnr].semantic_tokens = true
-          return true
-        end
-      end,
-    },
-  },
-
   ts { "mfussenegger/nvim-treehopper", keys = { { [['t]], lazy_require("tsht").nodes(), mode = { "o", "x" } } } },
 
   -- TODO: update for main
@@ -584,15 +539,7 @@ return {
     opts = {
       ensure_installed = "all",
       highlight = { enable = true },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "gnn",
-          node_incremental = "grn",
-          scope_incremental = "grc",
-          node_decremental = "grm",
-        },
-      },
+      incremental_selection = { enable = true },
       indent = { enable = true },
       playground = {
         enable = true,
@@ -605,29 +552,6 @@ return {
         use_virtual_text = true,
         lint_events = { "BufWrite", "CursorHold" },
       },
-      -- TODO: disable because too slow in C
-      --[[
-        refactor = {
-          highlight_definitions = { enable = true },
-          highlight_current_scope = { enable = true },
-          smart_rename = {
-            enable = true,
-            keymaps = {
-              smart_rename = 'grr',
-            },
-          },
-          navigation = {
-            enable = true,
-            keymaps = {
-              goto_definition = 'gnd',
-              list_definition = 'gnD',
-              list_definition_toc = 'gO',
-              goto_next_usage = '<A-*>',
-              goto_previous_usage = '<A-#>',
-            },
-          },
-        },
-        ]]
       textobjects = {
         select = {
           enable = true,

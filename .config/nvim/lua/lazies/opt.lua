@@ -283,6 +283,10 @@ return {
           api.set_hl(0, "VisualEOL", { fg = colors.green })
           api.set_hl(0, "VisualNoEOL", { fg = colors.red })
         end,
+        sweetie = function(colors)
+          api.set_hl(0, "VisualEOL", { fg = colors.green })
+          api.set_hl(0, "VisualNoEOL", { fg = colors.red })
+        end,
       }
     end,
     opts = {
@@ -423,6 +427,9 @@ return {
         nord = function(colors)
           api.set_hl(0, "ContextVt", { fg = colors.context })
         end,
+        sweetie = function(colors)
+          api.set_hl(0, "ContextVt", { fg = colors.dark_grey })
+        end,
       }
     end,
     opts = {
@@ -541,6 +548,10 @@ return {
           api.set_hl(0, "ColorColumn", {})
           api.set_hl(0, "VirtColumn", { fg = colors.brighter_black })
         end,
+        sweetie = function(colors)
+          api.set_hl(0, "ColorColumn", {})
+          api.set_hl(0, "VirtColumn", { fg = colors.dark_grey })
+        end,
       }
 
       local require_virt_column = (function()
@@ -655,14 +666,7 @@ return {
   { "junegunn/vader.vim", ft = { "vader" } },
   { "kchmck/vim-coffee-script", ft = { "coffee" } },
 
-  {
-    enabled = not vim.env.LIGHT,
-    "kevinhwang91/nvim-bqf",
-    ft = { "qf" },
-    init = function()
-      api.set_hl(0, "BqfPreviewRange", { link = "Underlined" })
-    end,
-  },
+  { enabled = not vim.env.LIGHT, "kevinhwang91/nvim-bqf", ft = { "qf" } },
 
   { "leafo/moonscript-vim", ft = { "moonscript" } },
   { "moznion/vim-cpanfile", ft = { "cpanfile" } },
@@ -868,6 +872,13 @@ return {
 
       -- Clear highlights
       km.set("n", "<Esc><Esc>", searchx "clear"(), { desc = "searchx#clear" })
+
+      palette "searchx" {
+        nord = function(_)
+          api.set_hl(0, "SearchxMarker", { link = "DiffChange" })
+          api.set_hl(0, "SearchxMarkerCurrent", { link = "WarningMsg" })
+        end,
+      }
     end,
     config = function()
       utils.load_denops_plugin "kensaku.vim"
@@ -896,9 +907,6 @@ return {
           return table.concat(vim.split(input, " "), [[.\{-}]])
         end,
       }
-
-      api.set_hl(0, "SearchxMarker", { link = "DiffChange" })
-      api.set_hl(0, "SearchxMarkerCurrent", { link = "WarningMsg" })
     end,
   },
 
@@ -933,8 +941,7 @@ return {
     init = function()
       vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
       vim.g.fuzzy_motion_matchers = "kensaku,fzf"
-    end,
-    config = function()
+
       palette "fuzzy_motion" {
         nord = function(colors)
           api.set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
@@ -942,13 +949,21 @@ return {
           api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
           api.set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
         end,
+        sweetie = function(colors)
+          api.set_hl(0, "FuzzyMotionShade", { fg = colors.dark_grey })
+          api.set_hl(0, "FuzzyMotionChar", { fg = colors.red })
+          api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
+          api.set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
+        end,
       }
+    end,
+    config = function()
       utils.load_denops_plugin "kensaku.vim"
       utils.load_denops_plugin "fuzzy-motion.vim"
     end,
   },
 
-  { "tzachar/highlight-undo.nvim", keys = { "u", "<C-r>" }, opts = true },
+  { "tzachar/highlight-undo.nvim", keys = { "u", "<C-r>" }, opts = {} },
 
   {
     "rickhowe/wrapwidth",
