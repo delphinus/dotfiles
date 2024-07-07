@@ -32,7 +32,7 @@ function Lualine:config()
   local function octo_color()
     local ok, octo = pcall(require, "core.utils.octo")
     if ok and octo.current_host == octo.enterprise_host then
-      return { fg = colors.green, bg = colors.bright_black }
+      return { fg = colors.green, bg = colors.black }
     end
     return { fg = colors.black, bg = colors.orange }
   end
@@ -88,8 +88,7 @@ function Lualine:config()
           fmt = self:tr { { 30, 0 }, { 50, "F" }, { 80, "Fmt" } },
           separator = "",
           color = self:lsp(function()
-            return require("auto_fmt").is_enabled() and { fg = colors.dark_black, bg = colors.green }
-              or { fg = colors.blue }
+            return require("auto_fmt").is_enabled() and { fg = colors.black, bg = colors.green } or { fg = colors.blue }
           end),
         },
         {
@@ -99,9 +98,9 @@ function Lualine:config()
           separator = "",
           fmt = self:tr { { 30, 0 }, { 50, "D" }, { 80, "Diag" } },
           color = self:lsp(function()
-            local is_enabled = #vim.lsp.get_clients { bufnr = 0 } > 0 and not vim.diagnostic.is_disabled(0)
+            local is_enabled = #vim.lsp.get_clients { bufnr = 0 } > 0 and vim.diagnostic.is_enabled { bufnr = 0 }
             -- See core.utils.lsp
-            return is_enabled and { fg = colors.dark_black, bg = colors.green } or { fg = colors.blue }
+            return is_enabled and { fg = colors.black, bg = colors.green } or { fg = colors.blue }
           end),
         },
         { "filetype", fmt = self:tr { 100, 0 } },
@@ -331,39 +330,32 @@ end
 function Lualine:theme(colors)
   if vim.g.colors_name == "nord" then
     return "nord"
+  elseif vim.g.colors_name == "sweetie" then
+    return {
+      normal = {
+        a = { bg = colors.teal, fg = colors.black, gui = "bold" },
+        b = { bg = colors.bg_alt, fg = colors.white },
+        c = { bg = colors.bg_hl, fg = colors.white },
+      },
+      insert = {
+        a = { bg = colors.white, fg = colors.black, gui = "bold" },
+      },
+      visual = {
+        a = { bg = colors.blue, fg = colors.black, gui = "bold" },
+      },
+      replace = {
+        a = { bg = colors.yellow, fg = colors.black, gui = "bold" },
+      },
+      command = {
+        a = { bg = colors.green, fg = colors.black, gui = "bold" },
+      },
+      inactive = {
+        a = { bg = colors.cyan, fg = colors.black, gui = "bold" },
+        b = { bg = colors.bg_hl, fg = colors.white },
+        c = { bg = colors.bg_hl, fg = colors.white },
+      },
+    }
   end
-  return {
-    normal = {
-      a = { bg = colors.cyan, fg = colors.black, gui = "bold" },
-      b = { bg = colors.dark_grey, fg = colors.white },
-      c = { bg = colors.grey, fg = colors.white },
-    },
-    insert = {
-      a = { bg = colors.white, fg = colors.black, gui = "bold" },
-      b = { bg = colors.grey, fg = colors.white },
-      c = { bg = colors.grey, fg = colors.white },
-    },
-    visual = {
-      a = { bg = colors.blue, fg = colors.black, gui = "bold" },
-      b = { bg = colors.dark_grey, fg = colors.white },
-      c = { bg = colors.grey, fg = colors.black },
-    },
-    replace = {
-      a = { bg = colors.yellow, fg = colors.black, gui = "bold" },
-      b = { bg = colors.dark_grey, fg = colors.white },
-      c = { bg = colors.grey, fg = colors.white },
-    },
-    command = {
-      a = { bg = colors.green, fg = colors.black, gui = "bold" },
-      b = { bg = colors.dark_grey, fg = colors.white },
-      c = { bg = colors.grey, fg = colors.black },
-    },
-    inactive = {
-      a = { bg = colors.blue, fg = colors.black, gui = "bold" },
-      b = { bg = colors.black, fg = colors.white },
-      c = { bg = colors.black, fg = colors.white },
-    },
-  }
 end
 
 return Lualine.new()
