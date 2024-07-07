@@ -62,7 +62,7 @@ function Lualine:config()
   require("lualine").setup {
     extensions = { "quickfix" },
     options = {
-      theme = "nord",
+      theme = self:theme(colors),
       section_separators = "",
       component_separators = "❘",
       globalstatus = true,
@@ -324,6 +324,46 @@ function Lualine:noice(kind) -- luacheck: ignore 212
       return package.loaded.noice and require("noice").api.status[kind][method]() or ""
     end
   end
+end
+
+---@param colors core.utils.palette.Colors
+---@return string|table
+function Lualine:theme(colors)
+  if vim.g.colors_name == "nord" then
+    return "nord"
+  end
+  return {
+    normal = {
+      a = { bg = colors.cyan, fg = colors.black, gui = "bold" },
+      b = { bg = colors.dark_grey, fg = colors.white },
+      c = { bg = colors.grey, fg = colors.white },
+    },
+    insert = {
+      a = { bg = colors.white, fg = colors.black, gui = "bold" },
+      b = { bg = colors.grey, fg = colors.white },
+      c = { bg = colors.grey, fg = colors.white },
+    },
+    visual = {
+      a = { bg = colors.blue, fg = colors.black, gui = "bold" },
+      b = { bg = colors.dark_grey, fg = colors.white },
+      c = { bg = colors.grey, fg = colors.black },
+    },
+    replace = {
+      a = { bg = colors.yellow, fg = colors.black, gui = "bold" },
+      b = { bg = colors.dark_grey, fg = colors.white },
+      c = { bg = colors.grey, fg = colors.white },
+    },
+    command = {
+      a = { bg = colors.green, fg = colors.black, gui = "bold" },
+      b = { bg = colors.dark_grey, fg = colors.white },
+      c = { bg = colors.grey, fg = colors.black },
+    },
+    inactive = {
+      a = { bg = colors.blue, fg = colors.black, gui = "bold" },
+      b = { bg = colors.black, fg = colors.white },
+      c = { bg = colors.black, fg = colors.white },
+    },
+  }
 end
 
 return Lualine.new()
