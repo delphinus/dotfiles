@@ -1034,6 +1034,24 @@ return {
       })
     end,
     config = function()
+      palette "sweetie" {
+        nord = function(colors)
+          api.set_hl(0, "@markup.heading.1.markdown", { fg = "#88C0D0", bold = true })
+          api.set_hl(0, "@markup.heading.2.markdown", { fg = "#A3BE8C", bold = true })
+          api.set_hl(0, "@markup.heading.3.markdown", { fg = "#EBCB8B", bold = true })
+          api.set_hl(0, "@markup.heading.4.markdown", { fg = "#D08770", bold = true })
+          api.set_hl(0, "@markup.heading.5.markdown", { fg = "#B48EAD", bold = true })
+          api.set_hl(0, "@markup.heading.6.markdown", { fg = "#ECEFF4", bold = true })
+        end,
+        sweetie = function(colors)
+          api.set_hl(0, "@markup.heading.1.markdown", { fg = colors.blue, bold = true })
+          api.set_hl(0, "@markup.heading.2.markdown", { fg = colors.green, bold = true })
+          api.set_hl(0, "@markup.heading.3.markdown", { fg = colors.yellow, bold = true })
+          api.set_hl(0, "@markup.heading.4.markdown", { fg = colors.orange, bold = true })
+          api.set_hl(0, "@markup.heading.5.markdown", { fg = colors.magenta, bold = true })
+          api.set_hl(0, "@markup.heading.6.markdown", { fg = colors.violet, bold = true })
+        end,
+      }
       ---@type UserConfig
       require("render-markdown").setup {
         highlights = {

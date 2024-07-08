@@ -316,7 +316,12 @@ return {
         pickers = {
           ccc.picker.defaults,
           ccc.picker.hex,
-          ccc.picker.custom_entries(require "core.utils.palette.nord"),
+          ccc.picker.custom_entries(vim.iter(require "core.utils.palette.sweetie"):fold({}, function(a, k, v)
+            if type(v) == "string" then
+              a[k] = v
+            end
+            return a
+          end)),
         },
       }
     end,
