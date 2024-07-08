@@ -204,7 +204,6 @@ return {
       vim.keymap.set("n", "<Leader>fN", core.extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
       vim.keymap.set("n", "<Leader>fg", core.extensions "egrepify" {}, { desc = "Telescope egrepify" })
       vim.keymap.set("n", "<Leader>fM", function()
-        utils.load_denops_plugin "kensaku.vim"
         core.extensions "egrepify" {
           on_input_filter_cb = function(prompt)
             return { prompt = vim.fn["kensaku#query"](prompt, { rxop = vim.g["kensaku#rxop#javascript"] }) }
@@ -671,7 +670,6 @@ return {
       end,
       callbacks = {
         post_setup = function(client)
-          utils.load_denops_plugin "kensaku.vim"
           require "obsidian-kensaku"(client)
         end,
       },

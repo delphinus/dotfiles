@@ -846,7 +846,6 @@ return {
   {
     "hrsh7th/vim-searchx",
     fn = { "searchx#*" },
-    dependencies = { { "lambdalisue/kensaku.vim" } },
     init = function()
       local km = vim.keymap
       local searchx = function(name)
@@ -881,7 +880,6 @@ return {
       }
     end,
     config = function()
-      utils.load_denops_plugin "kensaku.vim"
       vim.g.searchx = {
         -- Auto jump if the recent input matches to any marker.
         auto_accept = true,
@@ -902,9 +900,8 @@ return {
             return input:sub(2)
           end
           -- If the input contains spaces, it tries fuzzy matching.
-          -- local converted = vim.iter(vim.split(input, " ")):map(fn["kensaku#query"]):totable()
-          -- HACK: kensaku#query stopped to work here.
-          return table.concat(vim.split(input, " "), [[.\{-}]])
+          local converted = vim.iter(vim.split(input, " ")):map(fn["kensaku#query"]):totable()
+          return table.concat(converted, [[.\{-}]])
         end,
       }
     end,
@@ -937,7 +934,6 @@ return {
   {
     "yuki-yano/fuzzy-motion.vim",
     keys = { { "s", "<Cmd>FuzzyMotion<CR>", mode = { "n", "x" } } },
-    dependencies = { { "lambdalisue/kensaku.vim" } },
     init = function()
       vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
       vim.g.fuzzy_motion_matchers = "kensaku,fzf"
@@ -958,8 +954,7 @@ return {
       }
     end,
     config = function()
-      utils.load_denops_plugin "kensaku.vim"
-      utils.load_denops_plugin "fuzzy-motion.vim"
+      require("denops-lazy").load "fuzzy-motion.vim"
     end,
   },
 

@@ -12,6 +12,7 @@ return {
   { "delphinus/lazy_require.nvim" },
   --{ "nvim-lua/plenary.nvim" },
   { "delphinus/plenary.nvim", branch = "feat/types" },
+  { "yuki-yano/denops-lazy.nvim" },
 
   non_lazy {
     "vim-denops/denops.vim",
@@ -19,6 +20,8 @@ return {
       vim.g["denops#server#deno_args"] = { "-q", "--no-lock", "--unstable-kv", "-A" }
     end,
   },
+
+  non_lazy { "lambdalisue/kensaku.vim" },
 
   non_lazy {
     "delphinus/cellwidths.nvim",
