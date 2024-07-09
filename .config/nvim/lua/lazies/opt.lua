@@ -1025,15 +1025,6 @@ return {
     name = "render-markdown",
     ft = { "markdown" },
     init = function()
-      api.create_autocmd("ColorScheme", {
-        desc = "Set up highlight for render-markdown",
-        group = api.create_augroup("render-markdown", {}),
-        callback = function()
-          api.set_hl(0, "MarkdownCodeBlock", { bg = "#3b4252" })
-        end,
-      })
-    end,
-    config = function()
       palette "sweetie" {
         nord = function(colors)
           api.set_hl(0, "@markup.heading.1.markdown", { fg = "#88C0D0", bold = true })
@@ -1052,6 +1043,8 @@ return {
           api.set_hl(0, "@markup.heading.6.markdown", { fg = colors.violet, bold = true })
         end,
       }
+    end,
+    config = function()
       ---@type UserConfig
       require("render-markdown").setup {
         heading = {
@@ -1073,9 +1066,9 @@ return {
             "@markup.heading.6.markdown",
           },
         },
-        code = { "MarkdownCodeBlock" },
-        bullet = { icons = { "●", "○", "▶", "▷" } },
-        checkbox = { unchecked = { icon = "󰄱" }, checked = { icon = "" } },
+        code = { highlight = "CursorLine" },
+        bullet = { icons = { "", "", "", "" } },
+        checkbox = { unchecked = { icon = "" }, checked = { icon = "" } },
         conceal = { rendered = 2 },
       }
     end,

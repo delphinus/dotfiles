@@ -673,6 +673,7 @@ return {
           require "obsidian-kensaku"(client)
         end,
       },
+      ui = { enable = false },
     },
   },
 }
