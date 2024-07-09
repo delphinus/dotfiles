@@ -1054,38 +1054,29 @@ return {
       }
       ---@type UserConfig
       require("render-markdown").setup {
-        highlights = {
-          code = "MarkdownCodeBlock",
-          heading = {
-            backgrounds = {
-              "@markup.heading.1.markdown",
-              "@markup.heading.2.markdown",
-              "@markup.heading.3.markdown",
-              "@markup.heading.4.markdown",
-              "@markup.heading.5.markdown",
-              "@markup.heading.6.markdown",
-            },
-            foregrounds = {
-              "@markup.heading.1.markdown",
-              "@markup.heading.2.markdown",
-              "@markup.heading.3.markdown",
-              "@markup.heading.4.markdown",
-              "@markup.heading.5.markdown",
-              "@markup.heading.6.markdown",
-            },
+        heading = {
+          icons = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
+          backgrounds = {
+            "@markup.heading.1.markdown",
+            "@markup.heading.2.markdown",
+            "@markup.heading.3.markdown",
+            "@markup.heading.4.markdown",
+            "@markup.heading.5.markdown",
+            "@markup.heading.6.markdown",
+          },
+          foregrounds = {
+            "@markup.heading.1.markdown",
+            "@markup.heading.2.markdown",
+            "@markup.heading.3.markdown",
+            "@markup.heading.4.markdown",
+            "@markup.heading.5.markdown",
+            "@markup.heading.6.markdown",
           },
         },
-        headings = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
-        checkbox = { unchecked = "󰄱", checked = "" },
+        code = { "MarkdownCodeBlock" },
+        bullet = { icons = { "●", "○", "▶", "▷" } },
+        checkbox = { unchecked = { icon = "󰄱" }, checked = { icon = "" } },
         conceal = { rendered = 2 },
-        bullets = { "●", "○", "▶", "▷" },
-        callout = {
-          note = " Note",
-          tip = " Tip",
-          important = "󰅾 Important",
-          warning = " Warning",
-          caution = "󰳦 Caution",
-        },
       }
     end,
   },
