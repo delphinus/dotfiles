@@ -1035,12 +1035,21 @@ return {
           api.set_hl(0, "@markup.heading.6.markdown", { fg = "#ECEFF4", bold = true })
         end,
         sweetie = function(colors)
-          api.set_hl(0, "@markup.heading.1.markdown", { fg = colors.blue, bold = true })
-          api.set_hl(0, "@markup.heading.2.markdown", { fg = colors.green, bold = true })
-          api.set_hl(0, "@markup.heading.3.markdown", { fg = colors.yellow, bold = true })
-          api.set_hl(0, "@markup.heading.4.markdown", { fg = colors.orange, bold = true })
-          api.set_hl(0, "@markup.heading.5.markdown", { fg = colors.magenta, bold = true })
-          api.set_hl(0, "@markup.heading.6.markdown", { fg = colors.violet, bold = true })
+          if colors.is_dark then
+            api.set_hl(0, "@markup.heading.1.markdown", { fg = colors.blue, bg = "#303948", bold = true })
+            api.set_hl(0, "@markup.heading.2.markdown", { fg = colors.green, bg = "#2b3324", bold = true })
+            api.set_hl(0, "@markup.heading.3.markdown", { fg = colors.yellow, bg = "#3e3924", bold = true })
+            api.set_hl(0, "@markup.heading.4.markdown", { fg = colors.orange, bg = "#3e332a", bold = true })
+            api.set_hl(0, "@markup.heading.5.markdown", { fg = colors.magenta, bg = "#37223e", bold = true })
+            api.set_hl(0, "@markup.heading.6.markdown", { fg = colors.violet, bg = "#261C39", bold = true })
+          else
+            api.set_hl(0, "@markup.heading.1.markdown", { fg = "#194064", bg = "#bee0ff", bold = true })
+            api.set_hl(0, "@markup.heading.2.markdown", { fg = "#255517", bg = "#d1ffc3", bold = true })
+            api.set_hl(0, "@markup.heading.3.markdown", { fg = "#695c18", bg = "#fff3b9", bold = true })
+            api.set_hl(0, "@markup.heading.4.markdown", { fg = "#834e20", bg = "#e2d5c9", bold = true })
+            api.set_hl(0, "@markup.heading.5.markdown", { fg = "#751c5e", bg = "#e2cbdc", bold = true })
+            api.set_hl(0, "@markup.heading.6.markdown", { fg = "#54307c", bg = "#c4a9e2", bold = true })
+          end
         end,
       }
     end,
@@ -1049,6 +1058,7 @@ return {
       require("render-markdown").setup {
         heading = {
           icons = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
+          signs = { "󰫎" },
           backgrounds = {
             "@markup.heading.1.markdown",
             "@markup.heading.2.markdown",

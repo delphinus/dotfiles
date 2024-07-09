@@ -75,6 +75,7 @@ local function __call(self, name)
       callback = function(args)
         local scheme = args.match
         local p = colors.from(scheme)
+        p.is_dark = vim.o.background == "dark"
         if opts[scheme] then
           opts[scheme](p)
         end

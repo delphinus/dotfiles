@@ -1,5 +1,6 @@
 ---@class core.utils.palette.Colors
 ---@field name string
+---@field is_dark boolean
 ---@field from fun(name: string): core.utils.palette.Colors
 ---@field [core.utils.palette.Names] string
 ---@field [string] string
