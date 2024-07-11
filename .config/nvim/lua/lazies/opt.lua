@@ -305,21 +305,21 @@ return {
       end,
     },
   },
-
-  {
-    "delphinus/auto-cursorline.nvim",
-    event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
-    init = function()
-      api.create_autocmd("FileType", {
-        pattern = "TelescopePrompt",
-        callback = function()
-          require("auto-cursorline").disable { buffer = true }
-          vim.wo.cursorline = false
-        end,
-      })
-    end,
-    config = true,
-  },
+  --
+  -- {
+  --   "delphinus/auto-cursorline.nvim",
+  --   event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
+  --   init = function()
+  --     api.create_autocmd("FileType", {
+  --       pattern = "TelescopePrompt",
+  --       callback = function()
+  --         require("auto-cursorline").disable { buffer = true }
+  --         vim.wo.cursorline = false
+  --       end,
+  --     })
+  --   end,
+  --   config = true,
+  -- },
 
   {
     "delphinus/dwm.nvim",
@@ -1177,5 +1177,25 @@ return {
         ["SUPER"] = "⌘",
       },
     },
+  },
+
+  {
+    "svampkorg/moody.nvim",
+    event = { "ModeChanged" },
+    init = function()
+      palette "moody" {
+        sweetie = function(colors)
+          vim.api.nvim_set_hl(0, "NormalMoody", { fg = colors.blue })
+          vim.api.nvim_set_hl(0, "InsertMoody", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "VisualMoody", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CommandMoody", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "ReplaceMoody", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "SelectMoody", { fg = colors.violet })
+          vim.api.nvim_set_hl(0, "TerminalMoody", { fg = colors.cyan })
+          vim.api.nvim_set_hl(0, "TerminalNormalMoody", { fg = colors.cyan })
+        end,
+      }
+    end,
+    opts = {},
   },
 }
