@@ -1057,7 +1057,10 @@ return {
       ---@type UserConfig
       require("render-markdown").setup {
         heading = {
-          icons = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
+          -- icons = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
+          icons = { "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳" },
+          -- icons = { "󰎦", "󰎩", "󰎬", "󰎮", "󰎰", "󰎵" },
+          -- icons = { "󰎥", "󰎨", "󰎫", "󰎲", "󰎯", "󰎴" },
           signs = { "󰫎" },
           backgrounds = {
             "@markup.heading.1.markdown",
