@@ -631,7 +631,7 @@ return {
         { name = "public", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Public" },
       },
       daily_notes = { folder = "日記" },
-      ---@param title string|?
+      ---@param title? string
       ---@return string
       note_id_func = function(title)
         local purified
@@ -655,7 +655,7 @@ return {
         local path
         local filename = spec.title
         if filename then
-          filename = vim.fn.substitute(filename, [=[[ \%u3000]]=], "-", "g")
+          filename = vim.fn.substitute(filename, [=[[ 　]]=], "-", "g")
           filename = vim.fn.substitute(filename, [=[['"\\/:]]=], "", "g")
           filename = filename:lower()
           path = spec.dir / (os.date "%Y%m%d-%H%M%S-" .. filename)
