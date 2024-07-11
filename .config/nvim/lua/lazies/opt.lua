@@ -1115,15 +1115,18 @@ return {
   {
     "obaland/vfiler.vim",
     dependencies = { "obaland/vfiler-column-devicons" },
-    keys = { {
-      "<Space>ff",
-      function()
-        require("vfiler").start(vim.fn.expand "%:h")
-      end,
-    }, {
-      "<Space>fF",
-      "<Cmd>VFiler<CR>",
-    } },
+    keys = {
+      {
+        "<Space>ff",
+        function()
+          require("vfiler").start(vim.fn.expand "%:h")
+        end,
+      },
+      {
+        "<Space>fF",
+        "<Cmd>VFiler<CR>",
+      },
+    },
     cmd = { "VFiler" },
     config = function()
       local action = require "vfiler/action"
