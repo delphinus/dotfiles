@@ -438,6 +438,7 @@ return {
           },
         },
       }
+      telescope.load_extension "fzf"
 
       require("dressing").setup {}
 
