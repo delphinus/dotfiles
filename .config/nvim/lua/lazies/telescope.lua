@@ -58,7 +58,6 @@ return {
       { "fcying/telescope-ctags-outline.nvim" },
       {
         "fdschmidt93/telescope-egrepify.nvim",
-        branch = "feat/ts-highlight",
         init = function()
           palette "egrepify" {
             nord = function(colors)
