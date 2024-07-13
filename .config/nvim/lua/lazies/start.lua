@@ -347,6 +347,20 @@ return {
       vim.g.neominimap = {
         auto_enable = true,
       }
+
+      vim.keymap.set("n", "<C-w>o", function()
+        local window = require "neominimap.window"
+        local winid = vim.api.nvim_get_current_win()
+        vim
+          .iter(vim.api.nvim_list_wins())
+          :filter(function(w)
+            return w ~= winid and w ~= window.get_minimap_winid(winid)
+          end)
+          :each(function(w)
+            vim.api.nvim_win_close(w, false)
+          end)
+      end, { desc = "Overwrite default mapping for neominimap.nvim" })
+
       palette "neominimap" {
         sweetie = function(colors)
           vim.api.nvim_set_hl(0, "NeominimapCursorLine", { bg = colors.violet })
