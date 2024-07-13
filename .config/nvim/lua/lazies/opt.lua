@@ -64,38 +64,6 @@ return {
     },
   },
 
-  {
-    -- "nyngwang/NeoTerm.lua",
-    "delphinus/NeoTerm.lua",
-    branch = "fix/opt-local",
-    cmd = { "NeoTermToggle", "NeoTermEnterNormal" },
-    init = function()
-      palette "neoterm" {
-        nord = function(_)
-          api.set_hl(0, "neo-term-bg", { bg = "#1c2434" })
-        end,
-      }
-      local group = api.create_augroup("NeoTerm-config", {})
-      api.create_autocmd("FileType", {
-        group = group,
-        pattern = "neo-term",
-        callback = function()
-          vim.b.dwm_disabled = true
-        end,
-      })
-      api.create_autocmd("BufEnter", {
-        group = group,
-        callback = function()
-          local need_num = vim.opt_local.buftype:get() == ""
-          vim.opt_local.number = need_num
-          vim.opt_local.relativenumber = need_num
-          vim.opt_local.cursorline = need_num
-        end,
-      })
-    end,
-    opts = { term_mode_hl = "neo-term-bg" },
-  },
-
   { "cocopon/colorswatch.vim", cmd = { "ColorSwatchGenerate" } },
   { "cocopon/inspecthi.vim", cmd = { "Inspecthi", "InspecthiShowInspector", "InspecthiHideInspector" } },
 
