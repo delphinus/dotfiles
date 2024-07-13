@@ -158,7 +158,6 @@ vim.opt.helplang = "ja"
 vim.opt.matchpairs:append { "（:）", "「:」", "【:】", "［:］", "｛:｝", "＜:＞" }
 vim.opt.scroll = 3
 vim.opt.scrolloff = 3
-vim.opt.sidescrolloff = 5
 vim.opt.virtualedit = "block"
 vim.opt.wildmode = "full"
 vim.opt.dictionary = "/usr/share/dict/words"

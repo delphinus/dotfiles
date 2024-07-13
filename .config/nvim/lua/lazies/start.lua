@@ -340,14 +340,17 @@ return {
   },
 
   non_lazy {
-    -- "Isrothy/neominimap.nvim",
-    "delphinus/neominimap.nvim",
-    branch = "fix/enable-cursorline-even-if-not",
+    "Isrothy/neominimap.nvim",
     init = function()
       vim.opt.wrap = false -- Recommended
       vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
       vim.g.neominimap = {
         auto_enable = true,
+      }
+      palette "neominimap" {
+        sweetie = function(colors)
+          vim.api.nvim_set_hl(0, "NeominimapCursorLine", { bg = colors.violet })
+        end,
       }
     end,
   },

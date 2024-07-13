@@ -581,32 +581,6 @@ return {
   },
 
   {
-    enabled = not vim.env.LIGHT,
-    "lewis6991/satellite.nvim",
-    event = {
-      "BufWinEnter",
-      "CmdwinLeave",
-      "TabEnter",
-      "TermEnter",
-      "TextChanged",
-      "VimResized",
-      "WinEnter",
-      "WinScrolled",
-    },
-    init = function()
-      api.create_autocmd("User", {
-        pattern = "BigfileBufReadPost",
-        callback = function(args)
-          vim.api.nvim_buf_call(args.buf, function()
-            vim.cmd.SatelliteDisable()
-          end)
-        end,
-      })
-    end,
-    opts = { handlers = { marks = { show_builtins = true } } },
-  },
-
-  {
     "tpope/vim-fugitive",
     keys = {
       { "git", [[<Cmd>Git<CR>]] },
