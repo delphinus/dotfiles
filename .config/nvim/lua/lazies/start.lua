@@ -338,4 +338,17 @@ return {
       },
     },
   },
+
+  non_lazy {
+    -- "Isrothy/neominimap.nvim",
+    "delphinus/neominimap.nvim",
+    branch = "fix/enable-cursorline-even-if-not",
+    init = function()
+      vim.opt.wrap = false -- Recommended
+      vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
+      vim.g.neominimap = {
+        auto_enable = true,
+      }
+    end,
+  },
 }
