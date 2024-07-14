@@ -346,6 +346,7 @@ return {
       vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
       vim.g.neominimap = {
         auto_enable = true,
+        exclude_filetypes = { "help", "vfiler" },
       }
 
       vim.keymap.set("n", "<C-w>o", function()
