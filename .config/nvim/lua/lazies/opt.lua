@@ -1138,6 +1138,6 @@ return {
         end,
       }
     end,
-    opts = {},
+    opts = { disabled_filetypes = { "TelescopePrompt" } },
   },
 }
