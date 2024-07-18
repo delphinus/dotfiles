@@ -1179,4 +1179,6 @@ return {
       commands = { save = "SSave", load = "SLoad", delete = "SDelete", list = "SList" },
     },
   },
+
+  { "Kicamon/markdown-table-mode.nvim", ft = { "markdown" }, opts = {} },
 }
