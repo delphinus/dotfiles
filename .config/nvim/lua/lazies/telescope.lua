@@ -408,6 +408,7 @@ return {
           },
           ---@type FrecencyOpts
           frecency = {
+            debug = not not vim.env.DEBUG_FRECENCY,
             db_safe_mode = false,
             hide_current_buffer = true,
             scoring_function = function(recency, fzy_score)
