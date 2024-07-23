@@ -235,8 +235,6 @@ return {
     },
   },
 
-  non_lazy { "tani/dmacro.nvim", opts = { dmacro_key = "<A-t>" } },
-
   non_lazy {
     enabled = false,
     "brenoprata10/nvim-highlight-colors",
