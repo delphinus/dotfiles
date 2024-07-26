@@ -20,6 +20,7 @@ terminal_autocmd "TermOpen" {
     vim.opt.number = false
     vim.opt.relativenumber = false
     vim.opt.cursorline = false
+    vim.opt.signcolumn = "no"
     vim.cmd.startinsert()
   end,
   desc = "Set default options for terminals",

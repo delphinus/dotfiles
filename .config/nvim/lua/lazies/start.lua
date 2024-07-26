@@ -80,23 +80,6 @@ return {
 
       local group = api.create_augroup("smooth-cursor-autocmds", {})
 
-      -- avoid chattering the cursor
-      vim.opt.signcolumn = "yes"
-      api.create_autocmd("TermOpen", {
-        desc = "Disable signcolumn when a terminal starts",
-        group = group,
-        callback = function()
-          vim.opt.signcolumn = "no"
-        end,
-      })
-      api.create_autocmd("TermLeave", {
-        desc = "Enable signcolumn when it leaves a terminal",
-        group = group,
-        callback = function()
-          vim.opt.signcolumn = "yes"
-        end,
-      })
-
       api.create_autocmd("ModeChanged", {
         desc = "Change signs for SmoothCursor according to modes",
         group = group,
