@@ -1150,9 +1150,7 @@ return {
       -- If quit with `:Q`, Neovim launches with the last session at the next time.
       vim.api.nvim_create_user_command("Quit", function()
         require("possession.session").save("restart", { no_confirm = true })
-        vim.wait(1000)
-        vim.cmd [[silent! bufdo bwipeout]]
-        vim.cmd [[qa!]]
+        vim.cmd.qa { bang = true, mods = { emsg_silent = true } }
       end, {})
       vim.api.nvim_create_autocmd("VimEnter", {
         nested = true,
@@ -1178,6 +1176,8 @@ return {
     end,
     opts = {
       commands = { save = "SSave", load = "SLoad", delete = "SDelete", list = "SList" },
+      -- NOTE: This is needed for terminal buffers
+      plugins = { delete_hidden_buffers = { force = true } },
     },
   },
 
