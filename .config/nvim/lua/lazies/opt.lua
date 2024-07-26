@@ -1150,6 +1150,7 @@ return {
       -- If quit with `:Q`, Neovim launches with the last session at the next time.
       vim.api.nvim_create_user_command("Quit", function()
         require("possession.session").save("restart", { no_confirm = true })
+        vim.wait(1000)
         vim.cmd [[silent! bufdo bwipeout]]
         vim.cmd [[qa!]]
       end, {})
