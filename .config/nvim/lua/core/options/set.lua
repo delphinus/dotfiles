@@ -51,6 +51,7 @@ vim.opt.cursorlineopt = { "number", "screenline" }
 
 -- Indents and arranging formats {{{
 vim.opt.breakindent = true
+vim.opt.breakindentopt = "list:2"
 -- TODO: cannot set formatoptions?
 --vim.opt.formatoptions:append{'n', 'm', 'M', 'j'}
 vim.o.formatoptions = vim.o.formatoptions .. "nmMj"
