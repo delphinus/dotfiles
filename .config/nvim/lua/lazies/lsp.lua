@@ -528,8 +528,6 @@ return {
   -- TODO: update for main
   -- ts { "nvim-treesitter/playground" },
 
-  ts { "romgrk/nvim-treesitter-context" },
-
   {
     "nvim-treesitter/nvim-treesitter",
     -- branch = "main",
