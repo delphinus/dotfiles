@@ -350,4 +350,25 @@ return {
       }
     end,
   },
+
+  non_lazy {
+    "nvim-telescope/telescope-frecency.nvim",
+    main = "frecency",
+    ---@type FrecencyOpts
+    opts = {
+      debug = not not vim.env.DEBUG_FRECENCY,
+      db_safe_mode = false,
+      hide_current_buffer = true,
+      scoring_function = function(recency, fzy_score)
+        local score = (100 / (recency == 0 and 1 or recency)) - 1 / fzy_score
+        return score == -1 and -1.00001 or score
+      end,
+      show_scores = true,
+      show_filter_column = { "LSP", "CWD", "VIM" },
+      workspaces = {
+        VIM = vim.env.VIMRUNTIME,
+      },
+      ignore_patterns = { "*.git/*", "*/tmp/*", "term://*", "*/tmux-fingers/alphabets*" },
+    },
+  },
 }

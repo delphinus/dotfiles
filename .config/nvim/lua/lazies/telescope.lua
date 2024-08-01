@@ -29,7 +29,8 @@ return {
       },
 
       { "nvim-telescope/telescope-file-browser.nvim" },
-      { "nvim-telescope/telescope-frecency.nvim" },
+      -- HACK: setup autocmd to register files before loading telescope.
+      -- { "nvim-telescope/telescope-frecency.nvim" },
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       { "nvim-telescope/telescope-ghq.nvim" },
       { "nvim-telescope/telescope-github.nvim" },
@@ -405,22 +406,6 @@ return {
             override_generic_sorter = true,
             override_file_sorter = true,
             case_mode = "smart_case",
-          },
-          ---@type FrecencyOpts
-          frecency = {
-            debug = not not vim.env.DEBUG_FRECENCY,
-            db_safe_mode = false,
-            hide_current_buffer = true,
-            scoring_function = function(recency, fzy_score)
-              local score = (100 / (recency == 0 and 1 or recency)) - 1 / fzy_score
-              return score == -1 and -1.00001 or score
-            end,
-            show_scores = true,
-            show_filter_column = { "LSP", "CWD", "VIM" },
-            workspaces = {
-              VIM = vim.env.VIMRUNTIME,
-            },
-            ignore_patterns = { "*.git/*", "*/tmp/*", "term://*", "*/tmux-fingers/alphabets*" },
           },
           media_files = { filetypes = { "png", "jpg", "jpeg", "gif", "mp4", "webm", "pdf" } },
           egrepify = {
