@@ -10,8 +10,22 @@ function M:init(options)
     dirname = self:create_hl({ fg = colors.teal or colors.blue }, "dir"),
     basename = self:create_hl({ fg = colors.yellow, gui = "bold" }, "dir"),
   }
-  self.home_re = "^" .. vim.uv.os_homedir():gsub("%.", "%.")
+  self.home_re = "^" .. vim.uv.os_homedir():gsub("%.", "%%.") .. "/"
   self.ghe_re = "^~/git/" .. vim.env.GITHUB_ENTERPRISE_HOST:gsub("%.", "%%.") .. "/"
+  self.nvim_re = "^" .. vim.env.VIMRUNTIME:gsub("%.", "%%.") .. "/"
+  self.stdpaths = vim
+    .iter({ "cache", "config", "data", "log", "run", "state" })
+    :map(function(name)
+      return {
+        name = "" .. name .. ":",
+        re = "^"
+          .. (
+            (vim.fn.stdpath(name) --[[@as string]]):gsub(self.home_re, "~/"):gsub("%.", "%%.")
+          )
+          .. "/",
+      }
+    end)
+    :totable()
 end
 
 function M:update_status()
@@ -29,11 +43,19 @@ function M:update_status()
 end
 
 function M:cwd(cwd)
-  return (cwd
-    :gsub(self.home_re, "~")
-    :gsub("^~/git/dotfiles/", " ")
-    :gsub("^~/git/github%.com/", " ")
-    :gsub(self.ghe_re, "󰦑 ")):gsub("^~/%.local/share/nvim", "share"):gsub("^/%.local/state/nvim", "state")
+  return vim.iter(self.stdpaths):fold(
+    (
+      cwd
+        :gsub(self.home_re, "~/")
+        :gsub("^~/git/dotfiles/", " ")
+        :gsub("^~/git/github%.com/", " ")
+        :gsub(self.ghe_re, "󰦑 ")
+        :gsub(self.nvim_re, " ")
+    ),
+    function(a, b)
+      return (a:gsub(b.re, b.name))
+    end
+  )
 end
 
 function M:dirname(cwd, filename)
