@@ -18,9 +18,6 @@ function Lualine:config()
   local palette = require "core.utils.palette"
   local colors = palette.colors
 
-  -- TODO: borrow from set.lua
-  local home_re = uv.os_homedir():gsub("%.", "%.")
-
   local function octo_host()
     local ok, octo = pcall(require, "core.utils.octo")
     if ok then
@@ -35,28 +32,6 @@ function Lualine:config()
       return { fg = colors.green, bg = colors.black }
     end
     return { fg = colors.black, bg = colors.orange }
-  end
-
-  local function title()
-    local filename = api.buf_get_name(0)
-    if vim.o.filetype == "help" then
-      return "ヘルプ"
-      -- TODO: vim.opt has no 'previewwindow'?
-    elseif vim.o.previewwindow then
-      return "プレビュー"
-    elseif vim.o.buftype == "terminal" then
-      return "TERM"
-    end
-    local dir = uv.cwd():gsub("^" .. home_re, "~", 1)
-    return table.concat(
-      vim
-        .iter(vim.split(dir, "/"))
-        :map(function(v)
-          return "󰉋 " .. v
-        end)
-        :totable(),
-      ""
-    )
   end
 
   require("lualine").setup {
@@ -113,7 +88,7 @@ function Lualine:config()
     },
     tabline = {
       lualine_a = { { octo_host, fmt = self:tr { { 120, 0 } }, color = octo_color } },
-      lualine_b = { { title, fmt = self:tr { { 120, 60 } }, color = { fg = colors.yellow } } },
+      lualine_b = { { require "core.utils.lualine.dir" } },
       lualine_c = {
         {
           self:noice "message" "get",

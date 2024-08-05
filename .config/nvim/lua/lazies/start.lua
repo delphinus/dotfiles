@@ -159,16 +159,11 @@ return {
           )
         end
 
-        local Path = require "plenary.path"
         local filename = vim.api.nvim_buf_get_name(props.buf)
         local devicons = require "nvim-web-devicons"
         local ft_icon, ft_color = devicons.get_icon_color(filename)
         if filename == "" then
           filename = "[No Name]"
-        elseif props.focused then
-          local p = Path:new(filename)
-          p:make_relative(assert(vim.uv.cwd()))
-          filename = p:shorten(3, { 1, 2, -1 })
         else
           filename = vim.fs.basename(filename)
         end
