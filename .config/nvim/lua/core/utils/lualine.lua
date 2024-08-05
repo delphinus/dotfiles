@@ -44,16 +44,9 @@ function Lualine:config()
     },
     sections = {
       lualine_a = { { "mode", fmt = self:no_ellipsis_tr { 80, 4 } } },
-      lualine_b = { { "filename", fmt = self:tr { { 40, 0 }, { 80, 10 }, { 100, 30 } } } },
+      lualine_b = { { require "core.utils.lualine.filename" } },
       lualine_c = {
         { "branch", fmt = self:tr { { 80, 0 }, { 90, 10 } } },
-        {
-          self:lsp(function()
-            return self:lsp_clients()
-          end),
-          color = { fg = colors.yellow },
-          fmt = self:tr { 100, 0 },
-        },
       },
       lualine_x = {
         {
@@ -88,7 +81,15 @@ function Lualine:config()
     },
     tabline = {
       lualine_a = { { octo_host, fmt = self:tr { { 120, 0 } }, color = octo_color } },
-      lualine_b = { { require "core.utils.lualine.filename" } },
+      lualine_b = {
+        {
+          self:lsp(function()
+            return self:lsp_clients()
+          end),
+          color = { fg = colors.yellow },
+          fmt = self:tr { 100, 0 },
+        },
+      },
       lualine_c = {
         {
           self:noice "message" "get",
