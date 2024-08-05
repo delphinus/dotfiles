@@ -7,7 +7,7 @@ function M:init(options)
   M.super.init(self, options)
   self.highlights = {
     cwd = self:create_hl({ fg = colors.cyan }, "cwd"),
-    dirname = self:create_hl({ fg = colors.teal }, "dir"),
+    dirname = self:create_hl({ fg = colors.teal or colors.blue }, "dir"),
     basename = self:create_hl({ fg = colors.yellow, gui = "bold" }, "dir"),
   }
   self.home_re = "^" .. vim.uv.os_homedir():gsub("%.", "%.")
