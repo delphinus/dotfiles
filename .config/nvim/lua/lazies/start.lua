@@ -304,18 +304,6 @@ return {
   },
 
   non_lazy {
-    "yorickpeterse/nvim-pqf",
-    opts = {
-      signs = {
-        error = { text = "", hl = "DiagnosticSignError" },
-        warning = { text = "", hl = "DiagnosticSignWarn" },
-        info = { text = "", hl = "DiagnosticSignInfo" },
-        hint = { text = "󰌵", hl = "DiagnosticSignHint" },
-      },
-    },
-  },
-
-  non_lazy {
     "Isrothy/neominimap.nvim",
     init = function()
       vim.opt.wrap = false -- Recommended
