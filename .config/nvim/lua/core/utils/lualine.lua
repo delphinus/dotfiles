@@ -83,9 +83,7 @@ function Lualine:config()
       lualine_a = { { octo_host, fmt = self:tr { { 120, 0 } }, color = octo_color } },
       lualine_b = {
         {
-          self:lsp(function()
-            return self:lsp_clients()
-          end),
+          require "core.utils.lualine.lsp_clients",
           color = { fg = colors.yellow },
           fmt = self:tr { 100, 0 },
         },
@@ -198,32 +196,6 @@ function Lualine:no_ellipsis_tr(settings)
   return function(str)
     return self:truncator(str, settings, true)
   end
-end
-
----@return string
-function Lualine:lsp_clients() -- luacheck: ignore 212
-  ---@type { id: integer, name: string }[]
-  local clients = vim.lsp.get_active_clients { bufnr = 0 }
-  local segments = vim
-    .iter(clients)
-    :map(function(client)
-      local additionals = ""
-      if client.name == "null-ls" then
-        local availables = require("null-ls.sources").get_available(vim.bo.filetype)
-        local sources = vim
-          .iter(availables)
-          :map(function(source)
-            return source.name
-          end)
-          :totable()
-        if #sources > 0 then
-          additionals = " [" .. table.concat(sources, ",") .. "]"
-        end
-      end
-      return ("%s(%d)%s"):format(client.name, client.id, additionals)
-    end)
-    :totable()
-  return table.concat(segments, " ")
 end
 
 ---@return fun() -> string
