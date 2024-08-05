@@ -33,6 +33,9 @@ function M:update_status()
     a[k] = self:format_hl(v)
     return a
   end)
+  if vim.o.buftype == "terminal" then
+    return colors.cwd .. "TERMINAL"
+  end
   local cwd = assert(vim.uv.cwd()) .. "/"
   local filename = vim.api.nvim_buf_get_name(0)
   return table.concat({
@@ -42,10 +45,10 @@ function M:update_status()
   }, "")
 end
 
-function M:cwd(cwd)
+function M:prettier(dir)
   return vim.iter(self.stdpaths):fold(
     (
-      cwd
+      dir
         :gsub(self.home_re, "~/")
         :gsub("^~/git/dotfiles/", " ")
         :gsub("^~/git/github%.com/", " ")
@@ -58,15 +61,19 @@ function M:cwd(cwd)
   )
 end
 
+function M:cwd(cwd)
+  return self:prettier(cwd)
+end
+
 function M:dirname(cwd, filename)
-  if vim.o.buftype == "terminal" then
-    return "TERM"
-  end
   if filename == "" then
     return ""
   end
   local dirname = vim.fs.dirname(filename) .. "/"
-  return #dirname == #cwd and "" or dirname:sub(#cwd + 1)
+  if dirname:find(cwd, 1, true) then
+    return #dirname == #cwd and "" or dirname:sub(#cwd + 1)
+  end
+  return " " .. self:prettier(dirname)
 end
 
 function M:basename(filename)
