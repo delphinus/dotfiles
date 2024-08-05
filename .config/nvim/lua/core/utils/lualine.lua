@@ -88,7 +88,7 @@ function Lualine:config()
     },
     tabline = {
       lualine_a = { { octo_host, fmt = self:tr { { 120, 0 } }, color = octo_color } },
-      lualine_b = { { require "core.utils.lualine.dir" } },
+      lualine_b = { { require "core.utils.lualine.filename" } },
       lualine_c = {
         {
           self:noice "message" "get",
