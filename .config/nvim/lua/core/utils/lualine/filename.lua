@@ -10,17 +10,17 @@ function M:init(options)
     dirname = self:create_hl({ fg = colors.teal or colors.blue }, "dir"),
     basename = self:create_hl({ fg = colors.yellow, gui = "bold" }, "dir"),
   }
-  self.home_re = "^" .. vim.uv.os_homedir():gsub("%.", "%%.") .. "/"
-  self.ghe_re = "^~/git/" .. vim.env.GITHUB_ENTERPRISE_HOST:gsub("%.", "%%.") .. "/"
-  self.nvim_re = "^" .. vim.env.VIMRUNTIME:gsub("%.", "%%.") .. "/"
+  self.home_re = "^" .. vim.pesc(vim.uv.os_homedir()) .. "/"
+  self.ghe_re = "^~/git/" .. vim.pesc(vim.env.GITHUB_ENTERPRISE_HOST) .. "/"
+  self.nvim_re = "^" .. vim.pesc(vim.env.VIMRUNTIME) .. "/"
   self.stdpaths = vim
-    .iter({ "cache", "config", "data", "log", "run", "state" })
+    .iter({ "cache", "config", "data", "state", "log", "run" })
     :map(function(name)
       return {
         name = "" .. name .. ":",
         re = "^"
           .. (
-            (vim.fn.stdpath(name) --[[@as string]]):gsub(self.home_re, "~/"):gsub("%.", "%%.")
+            vim.pesc((vim.fn.stdpath(name) --[[@as string]]):gsub(self.home_re, "~/"))
           )
           .. "/",
       }
