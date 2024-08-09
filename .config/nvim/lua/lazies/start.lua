@@ -304,7 +304,9 @@ return {
   },
 
   non_lazy {
-    "Isrothy/neominimap.nvim",
+    -- "Isrothy/neominimap.nvim",
+    "delphinus/neo-minimap.nvim",
+    branch = "debugging",
     init = function()
       vim.opt.wrap = false -- Recommended
       vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
