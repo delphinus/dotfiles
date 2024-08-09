@@ -1173,6 +1173,8 @@ return {
           end
         end,
       })
+      -- NOTE: https://github.com/jedrzejboczar/possession.nvim/issues/19
+      vim.opt.sessionoptions:remove "folds"
     end,
     opts = {
       commands = { save = "SSave", load = "SLoad", delete = "SDelete", list = "SList" },
