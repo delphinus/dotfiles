@@ -183,5 +183,6 @@
   "visualrepeat": { "branch": "master", "commit": "8b79362a6009f6433f3c147f0735bfb1d2c2c56c" },
   "wrapwidth": { "branch": "main", "commit": "c592b47c6665e004f508b8ca01ec1fcf07493cbe" },
   "xslate-vim": { "branch": "master", "commit": "e6eff89c4f41c61171e7debacad69e13ebb95b4c" },
-  "yanky.nvim": { "branch": "main", "commit": "73215b77d22ebb179cef98e7e1235825431d10e4" }
+  "yanky.nvim": { "branch": "main", "commit": "73215b77d22ebb179cef98e7e1235825431d10e4" },
+  "zen-mode.nvim": { "branch": "main", "commit": "29b292bdc58b76a6c8f294c961a8bf92c5a6ebd6" }
 }
