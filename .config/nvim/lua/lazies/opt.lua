@@ -808,8 +808,8 @@ return {
       -- Move to next/prev match.
       km.set({ "n", "x" }, "N", searchx "prev"(), { desc = "searchx#prev" })
       km.set({ "n", "x" }, "n", searchx "next"(), { desc = "searchx#next" })
-      km.set({ "c", "n", "x" }, "<A-z>", searchx "prev"(), { desc = "searchx#prev" })
-      km.set({ "c", "n", "x" }, "<A-x>", searchx "next"(), { desc = "searchx#next" })
+      km.set({ "c", "n", "x" }, "<A-Z>", searchx "prev"(), { desc = "searchx#prev" })
+      km.set({ "c", "n", "x" }, "<A-X>", searchx "next"(), { desc = "searchx#next" })
 
       -- Clear highlights
       km.set("n", "<Esc><Esc>", searchx "clear"(), { desc = "searchx#clear" })
@@ -1182,4 +1182,26 @@ return {
   },
 
   { "Kicamon/markdown-table-mode.nvim", ft = { "markdown" }, opts = {} },
+
+  {
+    "folke/zen-mode.nvim",
+    keys = { { "<A-z>", "<Cmd>ZenMode<CR>" } },
+    cmd = { "ZenMode" },
+    ---@type ZenOptions
+    opts = {
+      window = { width = 81 },
+      plugins = {
+        tmux = { enabled = true },
+        wezterm = { enabled = true },
+      },
+      on_open = function()
+        require("incline").disable()
+        vim.opt_local.wrap = true
+      end,
+      on_close = function()
+        require("incline").enable()
+        vim.opt_local.wrap = false
+      end,
+    },
+  },
 }
