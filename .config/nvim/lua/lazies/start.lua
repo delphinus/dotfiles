@@ -159,6 +159,12 @@ return {
           )
         end
 
+        local wininfo = " " .. vim.api.nvim_win_get_number(props.win)
+
+        if props.focused and vim.api.nvim_win_get_cursor(props.win)[1] == 1 then
+          return { { wininfo, group = "DevIconWindows" } }
+        end
+
         local filename = vim.api.nvim_buf_get_name(props.buf)
         local devicons = require "nvim-web-devicons"
         local ft_icon, ft_color = devicons.get_icon_color(filename)
@@ -173,7 +179,7 @@ return {
           { get_git_diff() },
           { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" },
           { filename .. " ", gui = vim.bo[props.buf].modified and "bold,italic" or "bold" },
-          { "┊  " .. vim.api.nvim_win_get_number(props.win), group = "DevIconWindows" },
+          { "┊ " .. wininfo, group = "DevIconWindows" },
         }
       end,
     },
@@ -313,6 +319,8 @@ return {
       vim.g.neominimap = {
         auto_enable = true,
         exclude_filetypes = { "help", "vfiler" },
+        margin = { top = 1 },
+        window_border = "rounded",
       }
 
       vim.keymap.set("n", "<C-w>o", function()
