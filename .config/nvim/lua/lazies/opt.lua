@@ -1199,10 +1199,14 @@ return {
       on_open = function()
         require("incline").disable()
         vim.opt_local.wrap = true
+        vim.o.cmdheight = 1
+        vim.o.laststatus = 0
       end,
       on_close = function()
         require("incline").enable()
         vim.opt_local.wrap = false
+        vim.o.cmdheight = 0
+        vim.o.laststatus = 3
       end,
     },
   },
