@@ -40,6 +40,7 @@ return {
       { "nvim-telescope/telescope-symbols.nvim" },
       { "nvim-telescope/telescope-z.nvim" },
 
+      { "2kabhishek/nerdy.nvim" },
       { "jonarrien/telescope-cmdline.nvim" },
       { "stevearc/dressing.nvim" },
       {
