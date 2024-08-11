@@ -42,6 +42,7 @@
   "copilot-cmp": { "branch": "master", "commit": "b6e5286b3d74b04256d0a7e3bd2908eabec34b44" },
   "copilot.lua": { "branch": "master", "commit": "86537b286f18783f8b67bccd78a4ef4345679625" },
   "cspell.nvim": { "branch": "main", "commit": "508b64a23bd8f9473c59d083a92712486f6f138d" },
+  "demicolon.nvim": { "branch": "main", "commit": "23e54a1eca214ef64b7a78570e5a3fadfbba0c3b" },
   "denops-lazy.nvim": { "branch": "main", "commit": "505ffaa5686eee6595811c66ab9b909531f189a4" },
   "denops.vim": { "branch": "main", "commit": "eb9ef6a6a43475f9a2b3cdfa682aa6887169a50c" },
   "direnv.vim": { "branch": "master", "commit": "ab2a7e08dd630060cd81d7946739ac7442a4f269" },

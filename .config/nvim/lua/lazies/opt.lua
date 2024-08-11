@@ -1251,4 +1251,25 @@ return {
       },
     },
   },
+
+  {
+    "mawkler/demicolon.nvim",
+    keys = { "[d", "]d", "f", "F", "t", "T", ";", "," },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    config = function()
+      require("demicolon").setup {
+        keymaps = {
+          horizontal_motions = true,
+          diagnostic_motions = false,
+          repeat_motions = true,
+        },
+      }
+      local jump = require "demicolon.jump"
+      vim.keymap.set({ "n", "x", "o" }, "]d", jump.diagnostic_jump_repeatably { count = 1 })
+      vim.keymap.set({ "n", "x", "o" }, "[d", jump.diagnostic_jump_repeatably { count = -1 })
+    end,
+  },
 }
