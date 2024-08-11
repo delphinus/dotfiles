@@ -318,7 +318,7 @@ return {
         auto_enable = true,
         exclude_filetypes = { "help", "vfiler" },
         margin = { top = 1 },
-        window_border = "rounded",
+        window_border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" },
       }
 
       vim.keymap.set("n", "<C-w>o", function()
