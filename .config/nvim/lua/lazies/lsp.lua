@@ -514,23 +514,12 @@ return {
     end,
   },
 
-  -- TODO: update for main
-  -- ts { "RRethy/nvim-treesitter-endwise" },
-
-  ts { "mfussenegger/nvim-treehopper", keys = { { [['t]], lazy_require("tsht").nodes(), mode = { "o", "x" } } } },
-
-  -- TODO: update for main
-  -- ts { "nvim-treesitter/nvim-treesitter-refactor" },
-
-  -- TODO: update for main
-  -- ts { "nvim-treesitter/nvim-treesitter-textobjects" },
-
-  -- TODO: update for main
-  -- ts { "nvim-treesitter/playground" },
+  ts { "RRethy/nvim-treesitter-endwise" },
+  ts { "nvim-treesitter/nvim-treesitter-refactor" },
+  ts { "nvim-treesitter/nvim-treesitter-textobjects" },
 
   {
     "nvim-treesitter/nvim-treesitter",
-    -- branch = "main",
     event = { "BufRead", "BufNewFile", "InsertEnter" },
     build = ":TSUpdate",
     keys = { { "<Space>h", "<Cmd>Inspect<CR>" } },
