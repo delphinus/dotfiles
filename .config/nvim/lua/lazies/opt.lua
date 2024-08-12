@@ -1281,6 +1281,29 @@ return {
     "nvimdev/dashboard-nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
-    opts = {},
+    opts = {
+      theme = "hyper",
+      config = {
+        week_header = { enable = true },
+        shortcut = {
+          {
+            desc = " Load the last session ",
+            group = "DiffAdd",
+            key = "l",
+            action = function()
+              require("persistence").load { last = true }
+            end,
+          },
+        },
+        project = {
+          label = "Recent Projects:",
+          action = function(path)
+            vim.uv.chdir(path)
+            require("telescope").extensions.frecency.frecency { workspace = "CWD" }
+          end,
+        },
+        mru = { label = "Most Recent Files:", limit = 5 },
+      },
+    },
   },
 }
