@@ -501,6 +501,16 @@ return {
       { "delphinus/obsidian-kensaku.nvim", branch = "feat/quick-kensaku", opts = { picker = "egrepify" } },
       { "oflisback/obsidian-bridge.nvim", opts = { scroll_sync = true } },
     },
+    keys = {
+      { "<Leader>os", "<Cmd>ObsidianKensaku<CR>", desc = "Search Obsidian notes" },
+      { "<Leader>ot", "<Cmd>ObsidianToday<CR>", desc = "Open today's note" },
+      { "<Leader>om", "<Cmd>ObsidianTomorrow<CR>", desc = "Open tomorrow's note" },
+      { "<Leader>oy", "<Cmd>ObsidianYesterday<CR>", desc = "Open yesterday's note" },
+      { "<Leader>on", "<Cmd>ObsidianNew<CR>", desc = "Create a new note" },
+      { "<Leader>od", "<Cmd>ObsidianDailies<CR>", desc = "Open daily notes" },
+      { "<Leader>oq", "<Cmd>ObsidianQuickKensaku<CR>", desc = "Switch notes quickly" },
+      { "<Leader>oo", "<Cmd>ObsidianQuickNote<CR>", desc = "Open Quick Note" },
+    },
     cmd = {
       "ObsidianBacklinks",
       "ObsidianDailies",
@@ -524,19 +534,10 @@ return {
 
       "ObsidianKensaku",
       "ObsidianQuickKensaku",
+
+      "ObsidianQuickNote",
     },
     ft = "markdown",
-    init = function()
-      vim.keymap.set("n", "<Leader>os", "<Cmd>ObsidianKensaku<CR>", { desc = "Search Obsidian notes" })
-      vim.keymap.set("n", "<Leader>ot", "<Cmd>ObsidianToday<CR>", { desc = "Open today's note" })
-      vim.keymap.set("n", "<Leader>om", "<Cmd>ObsidianTomorrow<CR>", { desc = "Open tomorrow's note" })
-      vim.keymap.set("n", "<Leader>oy", "<Cmd>ObsidianYesterday<CR>", { desc = "Open yesterday's note" })
-      vim.keymap.set("n", "<Leader>on", "<Cmd>ObsidianNew<CR>", { desc = "Create a new note" })
-      vim.keymap.set("n", "<Leader>od", "<Cmd>ObsidianDailies<CR>", { desc = "Open daily notes" })
-      vim.keymap.set("n", "<Leader>oq", "<Cmd>ObsidianQuickKensaku<CR>", { desc = "Switch notes quickly" })
-    end,
-
-    ---@type obsidian.config.ClientOpts
     opts = {
       workspaces = {
         { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" },
@@ -566,13 +567,13 @@ return {
       note_path_func = function(spec)
         local path
         local filename = spec.title
-        if filename then
+        if not filename or filename == "Quick Note" then
+          path = spec.dir / spec.id
+        else
           filename = vim.fn.substitute(filename, [=[[ 　]]=], "-", "g")
           filename = vim.fn.substitute(filename, [=[['"\\/:]]=], "", "g")
           filename = filename:lower()
           path = spec.dir / (os.date "%Y%m%d-%H%M%S-" .. filename)
-        else
-          path = spec.dir / spec.id
         end
         return path:with_suffix ".md"
       end,
@@ -583,6 +584,21 @@ return {
       callbacks = {
         post_setup = function(client)
           require "obsidian-kensaku"(client)
+          vim.api.nvim_create_user_command("ObsidianQuickNote", function()
+            local path = client:create_note { id = "00000000-000000-quick-note", title = "Quick Note" }
+            client:open_note(path, {
+              callback = function(bufnr)
+                vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, {
+                  "",
+                  "----",
+                  "",
+                  "## " .. os.date "%Y%m%d-%H%M%S",
+                  "",
+                })
+                vim.cmd.normal "G"
+              end,
+            })
+          end, { nargs = 0, desc = "Open Obsidian quick note" })
         end,
       },
       ui = { enable = false },

@@ -1294,6 +1294,12 @@ return {
               require("persistence").load { last = true }
             end,
           },
+          {
+            desc = " Open Obsidian Quick Note ",
+            group = "DiffChange",
+            key = "o",
+            action = "ObsidianQuickNote",
+          },
         },
         project = {
           label = "Recent Projects:",
