@@ -1261,6 +1261,7 @@ return {
     },
     config = function()
       require("demicolon").setup {
+        diagnostic = { float = { border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" } } },
         keymaps = {
           horizontal_motions = true,
           diagnostic_motions = false,
