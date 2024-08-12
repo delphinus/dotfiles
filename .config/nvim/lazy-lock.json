@@ -113,7 +113,7 @@
   "plenary.nvim": { "branch": "feat/types", "commit": "1b001f185a6127330b1a4756a9a0d6f8403940ed" },
   "possession.nvim": { "branch": "master", "commit": "246050074fa9878ca414badc613e0645867308b5" },
   "qfheight.nvim": { "branch": "main", "commit": "9a13ec84e69f82b97b65fe4d50ca56320062167a" },
-  "quicker.nvim": { "branch": "master", "commit": "514817dfb0a2828fe2c6183f996a31847c8aa789" },
+  "quicker.nvim": { "branch": "master", "commit": "59a610a2163a51a019bde769bf2e2eec1654e4d4" },
   "render-markdown": { "branch": "main", "commit": "166a254aaf5b4333fe015a29a66ad99c276538ea" },
   "rtr.nvim": { "branch": "main", "commit": "fbde6389c68990950d2287acfaa00416001e4996" },
   "screenkey.nvim": { "branch": "dev", "commit": "430bc60cc703f7bfbd10853cac14cc8b6ee82679" },

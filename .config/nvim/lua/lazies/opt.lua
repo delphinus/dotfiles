@@ -568,11 +568,12 @@ return {
     "nvim-lualine/lualine.nvim",
     event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = {
-      { "nvim-tree/nvim-web-devicons", opt = true },
+      { "nvim-tree/nvim-web-devicons" },
       { "delphinus/eaw.nvim" },
     },
     init = function()
-      vim.opt.laststatus = 0
+      -- HACK: dashboard-nvim will change laststatus
+      -- vim.opt.laststatus = 3
       vim.opt.showtabline = 0
     end,
     config = function()
@@ -1278,7 +1279,7 @@ return {
 
   {
     "nvimdev/dashboard-nvim",
-    dependencies = { 'nvim-tree/nvim-web-devicons'},
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
     opts = {},
   },
