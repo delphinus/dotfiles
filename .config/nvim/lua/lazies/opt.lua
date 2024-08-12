@@ -568,7 +568,7 @@ return {
     "nvim-lualine/lualine.nvim",
     event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = {
-      { "kyazdani42/nvim-web-devicons", opt = true },
+      { "nvim-tree/nvim-web-devicons", opt = true },
       { "delphinus/eaw.nvim" },
     },
     init = function()
@@ -1272,5 +1272,14 @@ return {
       vim.keymap.set({ "n", "x", "o" }, "]d", jump.diagnostic_jump_repeatably { count = 1 })
       vim.keymap.set({ "n", "x", "o" }, "[d", jump.diagnostic_jump_repeatably { count = -1 })
     end,
+  },
+
+  { "folke/persistence.nvim", event = { "BufReadPre" }, opts = {} },
+
+  {
+    "nvimdev/dashboard-nvim",
+    dependencies = { 'nvim-tree/nvim-web-devicons'},
+    event = { "VimEnter" },
+    opts = {},
   },
 }

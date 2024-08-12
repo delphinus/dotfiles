@@ -10,7 +10,7 @@ return {
     -- telescope itself to save its history in opening buffers.
     dependencies = {
       { "delphinus/telescope-memo.nvim" },
-      { "kyazdani42/nvim-web-devicons" },
+      { "nvim-tree/nvim-web-devicons" },
 
       {
         "folke/todo-comments.nvim",
