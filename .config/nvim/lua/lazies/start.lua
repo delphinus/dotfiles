@@ -344,6 +344,7 @@ return {
 
   non_lazy {
     "nvim-telescope/telescope-frecency.nvim",
+    branch = "fix/register-realpath",
     main = "frecency",
     ---@type FrecencyOpts
     opts = {
