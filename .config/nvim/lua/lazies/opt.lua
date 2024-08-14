@@ -1300,6 +1300,12 @@ return {
             key = "o",
             action = "ObsidianQuickNote",
           },
+          {
+            desc = "󰒲 Open Lazy UI",
+            group = "FunctionBuiltin",
+            key = "z",
+            action = "Lazy",
+          },
         },
         project = {
           label = "Recent Projects:",
