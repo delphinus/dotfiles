@@ -318,7 +318,10 @@ return {
         auto_enable = true,
         exclude_filetypes = { "help", "vfiler", "dashboard" },
         margin = { top = 1 },
-        window_border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" },
+        window_border = "none",
+        click = { enabled = true },
+        search = { enabled = true },
+        winopt = { winblend = 30 },
       }
 
       vim.keymap.set("n", "<C-w>o", function()
