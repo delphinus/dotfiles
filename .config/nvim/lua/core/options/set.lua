@@ -32,7 +32,8 @@ vim.opt.inccommand = "split"
 -- }}}
 
 -- Display {{{
-vim.opt.cmdheight = vim.env.LIGHT and 2 or 0
+-- NOTE: #vim.api.nvim_list_uis() is 0 when invoked with --headless
+vim.opt.cmdheight = (vim.env.LIGHT or #vim.api.nvim_list_uis() == 0) and 2 or 0
 vim.opt.colorcolumn = { "80", "120" }
 vim.opt.list = true
 vim.opt.ruler = false
