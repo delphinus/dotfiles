@@ -1142,48 +1142,6 @@ return {
     opts = { disabled_filetypes = { "TelescopePrompt" } },
   },
 
-  {
-    "jedrzejboczar/possession.nvim",
-    dependencies = { "plenary.nvim" },
-    init = function()
-      -- Neovimを再起動するコマンドを作ったら結構よかった
-      -- https://zenn.dev/nazo6/articles/neovim-restart-command
-      -- If quit with `:Q`, Neovim launches with the last session at the next time.
-      vim.api.nvim_create_user_command("Quit", function()
-        require("possession.session").save("restart", { no_confirm = true })
-        vim.cmd.qa { bang = true, mods = { emsg_silent = true } }
-      end, {})
-      vim.api.nvim_create_autocmd("VimEnter", {
-        nested = true,
-        callback = function()
-          local config = require "possession.config"
-          local session = require "possession.session"
-          if session.exists "restart" then
-            local saved = vim.iter(config):fold({}, function(a, k, v)
-              if k ~= "setup" then
-                a[k] = v
-              end
-              return a
-            end)
-            local new_config = vim.deepcopy(saved)
-            new_config.silent = true
-            config.setup(new_config)
-            session.load "restart"
-            session.delete("restart", { no_confirm = true })
-            config.setup(saved)
-          end
-        end,
-      })
-      -- NOTE: https://github.com/jedrzejboczar/possession.nvim/issues/19
-      vim.opt.sessionoptions:remove "folds"
-    end,
-    opts = {
-      commands = { save = "SSave", load = "SLoad", delete = "SDelete", list = "SList" },
-      -- NOTE: This is needed for terminal buffers
-      plugins = { delete_hidden_buffers = { force = true } },
-    },
-  },
-
   { "Kicamon/markdown-table-mode.nvim", ft = { "markdown" }, opts = {} },
 
   {
