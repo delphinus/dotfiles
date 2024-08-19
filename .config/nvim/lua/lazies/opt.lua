@@ -293,8 +293,8 @@ return {
     "delphinus/dwm.nvim",
     event = { "VimEnter" },
     keys = {
-      { "<C-j>", "<C-w>w" },
-      { "<C-k>", "<C-w>W" },
+      { "<C-j>", "<C-w>w", remap = true },
+      { "<C-k>", "<C-w>W", remap = true },
       { "<A-CR>", dwm "focus" },
       { "<C-@>", dwm "focus" },
       { "<C-Space>", dwm "focus" },

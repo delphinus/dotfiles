@@ -327,15 +327,30 @@ return {
       vim.keymap.set("n", "<C-w>o", function()
         local window = require "neominimap.window"
         local winid = vim.api.nvim_get_current_win()
-        vim
-          .iter(vim.api.nvim_list_wins())
-          :filter(function(w)
-            return w ~= winid and w ~= window.get_minimap_winid(winid)
-          end)
-          :each(function(w)
+        vim.iter(window.list_windows()):each(function(w)
+          if w ~= winid then
             vim.api.nvim_win_close(w, false)
-          end)
+          end
+        end)
       end, { desc = "Overwrite default mapping for neominimap.nvim" })
+
+      ---@param direction 1|-1
+      local function rotate_window(direction)
+        return function()
+          local window = require "neominimap.window"
+          local winnr_to_id = vim.iter(window.list_windows()):fold({}, function(a, b)
+            local winnr = vim.api.nvim_win_get_number(b)
+            a[winnr] = b
+            return a
+          end)
+          local current = vim.api.nvim_win_get_number(0)
+          local winnr = (current + direction - 1) % #winnr_to_id + 1
+          vim.api.nvim_set_current_win(winnr_to_id[winnr])
+        end
+      end
+
+      vim.keymap.set("n", "<C-w>w", rotate_window(1), { desc = "Overwrite default mapping for neominimap.nvim" })
+      vim.keymap.set("n", "<C-w>W", rotate_window(-1), { desc = "Overwrite default mapping for neominimap.nvim" })
 
       palette "neominimap" {
         sweetie = function(colors)
