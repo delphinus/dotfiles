@@ -1237,6 +1237,7 @@ return {
 
   {
     "nvimdev/dashboard-nvim",
+    cond = not vim.env.DEBUG_PLENARY,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
     opts = {
