@@ -1236,7 +1236,9 @@ return {
   { "folke/persistence.nvim", event = { "BufReadPre" }, opts = {} },
 
   {
-    "nvimdev/dashboard-nvim",
+    -- "nvimdev/dashboard-nvim",
+    "delphinus/dashboard-nvim",
+    branch = "feat/mru-list-fn",
     cond = not vim.env.DEBUG_PLENARY,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
@@ -1273,7 +1275,13 @@ return {
             require("telescope").extensions.frecency.frecency { workspace = "CWD" }
           end,
         },
-        mru = { label = "Most Recent Files:", limit = 5 },
+        mru = {
+          label = "Most Recent Files:",
+          limit = 20,
+          list_fn = function()
+            return require("frecency").query { limit = 20 }
+          end,
+        },
       },
     },
   },
