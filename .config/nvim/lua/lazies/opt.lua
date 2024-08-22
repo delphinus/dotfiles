@@ -1226,8 +1226,8 @@ return {
         },
       }
       local jump = require "demicolon.jump"
-      vim.keymap.set({ "n", "x", "o" }, "]d", jump.diagnostic_jump_repeatably { count = 1 })
-      vim.keymap.set({ "n", "x", "o" }, "[d", jump.diagnostic_jump_repeatably { count = -1 })
+      vim.keymap.set({ "n", "x", "o" }, "]d", jump.diagnostic_jump { forward = true })
+      vim.keymap.set({ "n", "x", "o" }, "[d", jump.diagnostic_jump { forward = false })
     end,
   },
 
