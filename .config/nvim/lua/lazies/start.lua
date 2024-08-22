@@ -314,43 +314,54 @@ return {
     init = function()
       vim.opt.wrap = false -- Recommended
       vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
+      ---@type Neominimap.UserConfig
       vim.g.neominimap = {
         auto_enable = true,
         exclude_filetypes = { "help", "vfiler", "dashboard" },
-        margin = { top = 1 },
-        window_border = "none",
+        float = {
+          margin = { top = 1 },
+          window_border = "none",
+        },
         click = { enabled = true },
         search = { enabled = true },
-        winopt = { winblend = 30 },
+        winopt = function(opt, _)
+          opt.winblend = 30
+        end,
       }
 
+      local function normal_wins()
+        return vim.iter(vim.api.nvim_tabpage_list_wins(0)):filter(function(w)
+          -- NOTE: This means the window is not float win.
+          return vim.api.nvim_win_get_config(w).relative == ""
+        end)
+      end
+
       vim.keymap.set("n", "<C-w>o", function()
-        local window = require "neominimap.window"
         local winid = vim.api.nvim_get_current_win()
-        vim.iter(window.list_windows()):each(function(w)
+        normal_wins():each(function(w)
           if w ~= winid then
             vim.api.nvim_win_close(w, false)
           end
         end)
       end, { desc = "Overwrite default mapping for neominimap.nvim" })
 
-      ---@param direction 1|-1
-      local function rotate_window(direction)
+      ---@param clockwise boolean
+      local function rotate_window(clockwise)
         return function()
-          local window = require "neominimap.window"
-          local winnr_to_id = vim.iter(window.list_windows()):fold({}, function(a, b)
+          local winnr_to_id = normal_wins():fold({}, function(a, b)
             local winnr = vim.api.nvim_win_get_number(b)
             a[winnr] = b
             return a
           end)
           local current = vim.api.nvim_win_get_number(0)
-          local winnr = (current + direction - 1) % #winnr_to_id + 1
+          local winnr = (current + (clockwise and 1 or -1) - 1) % #winnr_to_id + 1
           vim.api.nvim_set_current_win(winnr_to_id[winnr])
         end
       end
 
-      vim.keymap.set("n", "<C-w>w", rotate_window(1), { desc = "Overwrite default mapping for neominimap.nvim" })
-      vim.keymap.set("n", "<C-w>W", rotate_window(-1), { desc = "Overwrite default mapping for neominimap.nvim" })
+      vim.keymap.set("n", "<C-w>w", rotate_window(true), { desc = "Overwrite default mapping for neominimap.nvim" })
+      vim.keymap.set("n", "<C-w>W", rotate_window(false), { desc = "Overwrite default mapping for neominimap.nvim" })
+      vim.keymap.set("n", "<C-w><C-w>", rotate_window(true), { desc = "Overwrite default mapping for neominimap.nvim" })
 
       palette "neominimap" {
         sweetie = function(colors)
