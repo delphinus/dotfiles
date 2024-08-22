@@ -1,3 +1,13 @@
+(function()
+  local start = vim.uv.hrtime()
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "DashboardLoaded",
+    callback = function()
+      print(("it takes %.3f seconds to load dashboard"):format((vim.uv.hrtime() - start) / 1000000000))
+    end,
+  })
+end)()
+
 local fn, uv = require("core.utils").globals()
 
 vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"
