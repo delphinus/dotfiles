@@ -566,7 +566,7 @@ return {
 
   {
     "nvim-lualine/lualine.nvim",
-    event = { "VimEnter" },
+    event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = {
       { "nvim-tree/nvim-web-devicons" },
       { "delphinus/eaw.nvim" },

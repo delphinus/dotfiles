@@ -41,6 +41,7 @@ function Lualine:config()
       section_separators = "",
       component_separators = "❘",
       globalstatus = true,
+      disabled_filetypes = { statusline = { "dashboard" } },
     },
     sections = {
       lualine_a = { { "mode", fmt = self:no_ellipsis_tr { 80, 4 } } },
