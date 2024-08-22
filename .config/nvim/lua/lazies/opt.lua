@@ -566,14 +566,12 @@ return {
 
   {
     "nvim-lualine/lualine.nvim",
-    event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
+    event = { "VimEnter" },
     dependencies = {
       { "nvim-tree/nvim-web-devicons" },
       { "delphinus/eaw.nvim" },
     },
     init = function()
-      -- HACK: dashboard-nvim will change laststatus
-      -- vim.opt.laststatus = 3
       vim.opt.showtabline = 0
     end,
     config = function()
