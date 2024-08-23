@@ -4,6 +4,7 @@
     pattern = "DashboardLoaded",
     callback = function()
       print(("it takes %.3f seconds to load dashboard"):format((vim.uv.hrtime() - start) / 1000000000))
+      vim.api.nvim__redraw { flush = true }
     end,
   })
 end)()
