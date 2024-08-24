@@ -24,6 +24,7 @@ require("lazy").setup {
     lazy = false,
     opts = {},
   },
+  { "nvim-telescope/telescope.nvim", cmd = { "Telescope" }, dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
   {
     "delphinus/dashboard-nvim",
     branch = "feat/mru-list-fn",
