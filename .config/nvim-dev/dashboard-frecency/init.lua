@@ -18,7 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup {
   {
     "nvim-telescope/telescope-frecency.nvim",
-    branch = "feat/faster-query",
+    branch = "master",
     dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons" },
     main = "frecency",
     lazy = false,
