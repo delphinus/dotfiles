@@ -373,7 +373,6 @@ return {
 
   non_lazy {
     "nvim-telescope/telescope-frecency.nvim",
-    branch = "feat/faster-query",
     main = "frecency",
     ---@type FrecencyOpts
     opts = {
