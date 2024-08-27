@@ -3,11 +3,7 @@
   vim.api.nvim_create_autocmd("User", {
     pattern = "DashboardLoaded",
     callback = function()
-      local ok, stats = pcall(require, "lazy.stats")
-      if ok then
-        stats.track "DashboardLoaded"
-        print(("it takes %.3f seconds until DashboardLoaded"):format(stats.stats().times.DashboardLoaded))
-      end
+      require("lazy.stats").track "DashboardLoaded"
       vim.api.nvim__redraw { flush = true }
     end,
   })
