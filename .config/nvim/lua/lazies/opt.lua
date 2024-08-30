@@ -1024,6 +1024,7 @@ return {
         bullet = { icons = { "", "", "", "" } },
         checkbox = { unchecked = { icon = "" }, checked = { icon = "" } },
         conceal = { rendered = 2 },
+        sign = { enabled = false },
       }
     end,
   },
