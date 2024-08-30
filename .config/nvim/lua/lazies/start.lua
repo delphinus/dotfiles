@@ -287,7 +287,6 @@ return {
     main = "frecency",
     ---@type FrecencyOpts
     opts = {
-      bootstrap = true,
       debug = not not vim.env.DEBUG_FRECENCY,
       db_safe_mode = false,
       hide_current_buffer = true,
