@@ -4,35 +4,32 @@ local lazy_require = require "lazy_require"
 
 local function ts(plugin)
   plugin.event = { "BufNewFile", "BufRead" }
-  plugin.dependencies = { "nvim-treesitter" }
   return plugin
 end
 
 return {
+  { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+  { "williamboman/mason-lspconfig.nvim" },
+  { "williamboman/mason.nvim" },
+
+  -- needs these plugins to setup capabilities
+  { "cmp-nvim-lsp" },
+
+  { "Bilal2453/luvit-meta" },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    ---@type lazydev.Config
+    opts = {
+      library = {
+        "luvit-meta/library",
+        "lazydev.nvim",
+      },
+    },
+  },
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre" },
-    dependencies = {
-      { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-      { "williamboman/mason-lspconfig.nvim" },
-      { "williamboman/mason.nvim" },
-
-      -- needs these plugins to setup capabilities
-      { "cmp-nvim-lsp" },
-
-      {
-        "folke/lazydev.nvim",
-        ft = "lua",
-        dependencies = { "Bilal2453/luvit-meta" },
-        ---@type lazydev.Config
-        opts = {
-          library = {
-            "luvit-meta/library",
-            "lazydev.nvim",
-          },
-        },
-      },
-    },
 
     init = function()
       palette "lspconfig" {
@@ -296,9 +293,9 @@ return {
     end,
   }, -- }}}
 
+  { "davidmh/cspell.nvim" },
   {
     "jose-elias-alvarez/null-ls.nvim",
-    dependencies = { "davidmh/cspell.nvim" },
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
 
     config = function()

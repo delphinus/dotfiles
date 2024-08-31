@@ -16,9 +16,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
+  { "nvim-tree/nvim-web-devicons", lazy = true },
   {
     "nvimdev/dashboard-nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
     opts = { theme = "hyper", config = { mru = {} } },
   },

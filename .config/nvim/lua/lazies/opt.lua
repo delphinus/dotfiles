@@ -325,13 +325,10 @@ return {
     config = true,
   },
 
+  { "MunifTanjim/nui.nvim" },
   {
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
-    dependencies = {
-      "nvim-treesitter",
-      "MunifTanjim/nui.nvim",
-    },
     init = function()
       palette "noice" {
         nord = function(colors)
@@ -564,13 +561,10 @@ return {
     end,
   },
 
+  { "delphinus/eaw.nvim" },
   {
     "nvim-lualine/lualine.nvim",
     event = { "Colorscheme" },
-    dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      { "delphinus/eaw.nvim" },
-    },
     init = function()
       vim.opt.showtabline = 0
     end,
@@ -744,7 +738,6 @@ return {
   {
     "ruifm/gitlinker.nvim",
     keys = { { "<Space>gc", mode = { "n", "v" } } },
-    dependencies = { "plenary.nvim" },
     opts = function(_)
       return {
         opts = {
@@ -866,7 +859,6 @@ return {
       "OpView",
       "OpWhoami",
     },
-    dependencies = { { "stevearc/dressing.nvim" } },
     opts = {
       signin_on_start = true,
     },
@@ -942,7 +934,6 @@ return {
   {
     "tris203/hawtkeys.nvim",
     cmd = { "Hawtkeys", "HawtkeysAll", "HawtkeysDupes" },
-    dependencies = { "plenary.nvim" },
     opts = {
       leader = [[\]],
     },
@@ -959,7 +950,7 @@ return {
     end,
   },
 
-  { "rbong/vim-flog", dependencies = { "tpope/vim-fugitive" }, cmd = { "Flog", "Flogsplit", "Floggit" } },
+  { "rbong/vim-flog", cmd = { "Flog", "Flogsplit", "Floggit" } },
 
   {
     "MeanderingProgrammer/markdown.nvim",
@@ -1095,7 +1086,6 @@ return {
 
   {
     "rachartier/tiny-devicons-auto-colors.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
     config = function()
       require("tiny-devicons-auto-colors").setup { colors = palette.list }
@@ -1213,10 +1203,6 @@ return {
   {
     "mawkler/demicolon.nvim",
     keys = { "[d", "]d", "f", "F", "t", "T", ";", "," },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
     config = function()
       require("demicolon").setup {
         diagnostic = { float = { border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" } } },
@@ -1239,7 +1225,6 @@ return {
     "delphinus/dashboard-nvim",
     branch = "feat/mru-list-fn",
     cond = not vim.env.DEBUG_PLENARY,
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
     opts = {
       theme = "hyper",

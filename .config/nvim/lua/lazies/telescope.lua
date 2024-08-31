@@ -3,77 +3,74 @@ local utils = require "core.utils"
 local palette = require "core.utils.palette"
 
 return {
+  { "delphinus/telescope-memo.nvim" },
+  { "nvim-tree/nvim-web-devicons" },
+  { "kkharji/sqlite.lua" },
+
+  {
+    "folke/todo-comments.nvim",
+    event = { "BufRead", "FocusLost", "CursorHold" },
+    opts = {
+      keywords = {
+        FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
+        TODO = { icon = "", color = "info" },
+        HACK = { icon = "", color = "warning" },
+        WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
+        PERF = { icon = "󰅒", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = "󰍨", color = "hint", alt = { "INFO" } },
+        TEST = { icon = "", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+      },
+    },
+  },
+
+  { "nvim-telescope/telescope-file-browser.nvim" },
+  -- HACK: setup autocmd to register files before loading telescope.
+  -- { "nvim-telescope/telescope-frecency.nvim" },
+  { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  { "nvim-telescope/telescope-ghq.nvim" },
+  { "nvim-telescope/telescope-github.nvim" },
+  { "nvim-telescope/telescope-media-files.nvim" },
+  { "nvim-telescope/telescope-node-modules.nvim" },
+  { "nvim-telescope/telescope-smart-history.nvim" },
+  { "nvim-telescope/telescope-symbols.nvim" },
+  { "nvim-telescope/telescope-z.nvim" },
+
+  { "2kabhishek/nerdy.nvim" },
+  { "jonarrien/telescope-cmdline.nvim" },
+  { "stevearc/dressing.nvim" },
+  {
+    "gbprod/yanky.nvim",
+    keys = {
+      { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
+      { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
+      { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
+      { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
+      { "<A-n>", "<Plug>(YankyCycleForward)" },
+      { "<A-p>", "<Plug>(YankyCycleBackward)" },
+      { "<A-y>", "<Cmd>YankyRingHistory" },
+    },
+    opts = { ring = { storage = "sqlite" } },
+  },
+  { "fcying/telescope-ctags-outline.nvim" },
+  {
+    "fdschmidt93/telescope-egrepify.nvim",
+    init = function()
+      palette "egrepify" {
+        nord = function(colors)
+          api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
+          api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
+        end,
+        sweetie = function(colors)
+          api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
+          api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
+        end,
+      }
+    end,
+  },
+
   {
     "nvim-telescope/telescope.nvim",
     cmd = { "Telescope" },
-    -- set modules in detail because telescope-frecency is needed before
-    -- telescope itself to save its history in opening buffers.
-    dependencies = {
-      { "delphinus/telescope-memo.nvim" },
-      { "nvim-tree/nvim-web-devicons" },
-
-      {
-        "folke/todo-comments.nvim",
-        event = { "BufRead", "FocusLost", "CursorHold" },
-        opts = {
-          keywords = {
-            FIX = { icon = "", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
-            TODO = { icon = "", color = "info" },
-            HACK = { icon = "", color = "warning" },
-            WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
-            PERF = { icon = "󰅒", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-            NOTE = { icon = "󰍨", color = "hint", alt = { "INFO" } },
-            TEST = { icon = "", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
-          },
-        },
-      },
-
-      { "nvim-telescope/telescope-file-browser.nvim" },
-      -- HACK: setup autocmd to register files before loading telescope.
-      -- { "nvim-telescope/telescope-frecency.nvim" },
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      { "nvim-telescope/telescope-ghq.nvim" },
-      { "nvim-telescope/telescope-github.nvim" },
-      { "nvim-telescope/telescope-media-files.nvim" },
-      { "nvim-telescope/telescope-node-modules.nvim" },
-      { "nvim-telescope/telescope-smart-history.nvim", dependencies = { "kkharji/sqlite.lua" } },
-      { "nvim-telescope/telescope-symbols.nvim" },
-      { "nvim-telescope/telescope-z.nvim" },
-
-      { "2kabhishek/nerdy.nvim" },
-      { "jonarrien/telescope-cmdline.nvim" },
-      { "stevearc/dressing.nvim" },
-      {
-        "gbprod/yanky.nvim",
-        keys = {
-          { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" } },
-          { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" } },
-          { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" } },
-          { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" } },
-          { "<A-n>", "<Plug>(YankyCycleForward)" },
-          { "<A-p>", "<Plug>(YankyCycleBackward)" },
-          { "<A-y>", "<Cmd>YankyRingHistory" },
-        },
-        dependencies = { "kkharji/sqlite.lua" },
-        opts = { ring = { storage = "sqlite" } },
-      },
-      { "fcying/telescope-ctags-outline.nvim" },
-      {
-        "fdschmidt93/telescope-egrepify.nvim",
-        init = function()
-          palette "egrepify" {
-            nord = function(colors)
-              api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
-              api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
-            end,
-            sweetie = function(colors)
-              api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
-              api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
-            end,
-          }
-        end,
-      },
-    },
 
     init = function()
       palette "telescope" {
@@ -494,13 +491,15 @@ return {
   },
 
   {
+    "delphinus/obsidian-kensaku.nvim",
+    branch = "feat/quick-kensaku",
+    cmd = { "ObsidianKensaku", "ObsidianQuickKensaku" },
+    opts = { picker = "egrepify" },
+  },
+  { "oflisback/obsidian-bridge.nvim", opts = { scroll_sync = true } },
+
+  {
     "epwalsh/obsidian.nvim",
-    dependencies = {
-      "plenary.nvim",
-      "telescope.nvim",
-      { "delphinus/obsidian-kensaku.nvim", branch = "feat/quick-kensaku", opts = { picker = "egrepify" } },
-      { "oflisback/obsidian-bridge.nvim", opts = { scroll_sync = true } },
-    },
     keys = {
       { "<Leader>os", "<Cmd>ObsidianKensaku<CR>", desc = "Search Obsidian notes" },
       { "<Leader>ot", "<Cmd>ObsidianToday<CR>", desc = "Open today's note" },
@@ -531,9 +530,6 @@ return {
       "ObsidianTomorrow",
       "ObsidianWorkspace",
       "ObsidianYesterday",
-
-      "ObsidianKensaku",
-      "ObsidianQuickKensaku",
 
       "ObsidianQuickNote",
     },

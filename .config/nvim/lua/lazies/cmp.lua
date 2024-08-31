@@ -189,39 +189,30 @@ return {
   i { "ray-x/cmp-treesitter" },
   i { "uga-rosa/cmp-skkeleton" },
 
-  i {
-    "saadparwaiz1/cmp_luasnip",
-    dependencies = {
-      { "rafamadriz/friendly-snippets" },
-      {
-        "L3MON4D3/LuaSnip",
-        config = lazy_require("luasnip.loaders.from_vscode").lazy_load(),
-      },
-    },
+  { "rafamadriz/friendly-snippets" },
+  {
+    "L3MON4D3/LuaSnip",
+    config = lazy_require("luasnip.loaders.from_vscode").lazy_load(),
   },
+  i { "saadparwaiz1/cmp_luasnip" },
 
-  i { "delphinus/cmp-ghq", opts = true },
-
-  i {
-    "zbirenbaum/copilot-cmp",
-    opts = true,
-    dependencies = {
-      "zbirenbaum/copilot.lua",
-      cmd = { "Copilot" },
-      opts = {
-        -- suggestion = { auto_trigger = true },
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-        filetypes = { gitcommit = true, gitrebase = true },
-      },
-    },
-  },
+  i { "delphinus/cmp-ghq", opts = {} },
 
   {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      { "onsails/lspkind-nvim" },
+    "zbirenbaum/copilot.lua",
+    cmd = { "Copilot" },
+    opts = {
+      -- suggestion = { auto_trigger = true },
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = { gitcommit = true, gitrebase = true },
     },
+  },
+  i { "zbirenbaum/copilot-cmp", opts = {} },
+
+  { "onsails/lspkind-nvim" },
+  {
+    "hrsh7th/nvim-cmp",
 
     init = function()
       palette "cmp" {
