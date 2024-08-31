@@ -283,8 +283,6 @@ return {
 
   non_lazy {
     "nvim-telescope/telescope-frecency.nvim",
-    branch = "feat/separate-bootstrap",
-    main = "frecency",
     ---@type FrecencyOpts
     opts = {
       debug = not not vim.env.DEBUG_FRECENCY,
