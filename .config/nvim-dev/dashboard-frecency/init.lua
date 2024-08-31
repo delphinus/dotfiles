@@ -18,13 +18,13 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup {
   {
     "nvim-telescope/telescope-frecency.nvim",
-    branch = "master",
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons" },
+    commit = "344e01f",
     main = "frecency",
-    lazy = false,
-    opts = {},
+    opts = { debug = true },
   },
-  { "nvim-telescope/telescope.nvim", cmd = { "Telescope" }, dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
+  { "nvim-lua/plenary.nvim", lazy = true },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
+  { "nvim-telescope/telescope.nvim", cmd = { "Telescope" } },
   {
     "delphinus/dashboard-nvim",
     branch = "feat/mru-list-fn",
@@ -42,3 +42,10 @@ require("lazy").setup {
     },
   },
 }
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "DashboardLoaded",
+  callback = function()
+    require("lazy.stats").track "DashboardLoaded"
+  end,
+})
