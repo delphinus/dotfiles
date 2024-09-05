@@ -283,6 +283,7 @@ return {
 
   non_lazy {
     "nvim-telescope/telescope-frecency.nvim",
+    branch = "feat/do-not-cleanup-db",
     ---@type FrecencyOpts
     opts = {
       debug = not not vim.env.DEBUG_FRECENCY,
