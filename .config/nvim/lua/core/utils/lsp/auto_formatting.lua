@@ -46,7 +46,7 @@ AutoFormatting.new = function(buffer, opts)
     ---@param client { name: string }
     ---@return boolean
     filter = function(client)
-      return client.name ~= "tsserver"
+      return client.name ~= "ts_ls"
     end,
   }, opts or {}) --[[@as AutoFormattingOptions]]
   local self = setmetatable({}, { __index = AutoFormatting })

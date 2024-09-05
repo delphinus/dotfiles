@@ -213,7 +213,7 @@ return {
             end
           end
         end
-        return c.name ~= "tsserver" or c.name ~= "lua"
+        return c.name ~= "ts_ls" or c.name ~= "lua"
       end,
       verbose = false,
     },

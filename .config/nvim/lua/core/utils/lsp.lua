@@ -62,10 +62,10 @@ end
 local function need_me(client, bufnr)
   local Path = require "plenary.path"
   local name = client.name
-  if name == "tsserver" or name == "denols" then
+  if name == "ts_ls" or name == "denols" then
     local parent_dir = assert(vim.fs.dirname(api.buf_get_name(bufnr)))
     local deno_found = vim.iter(vim.split(parent_dir, Path.path.sep)):any(is_deno_dir)
-    if name == "tsserver" then
+    if name == "ts_ls" then
       return not deno_found
     end
     return deno_found
