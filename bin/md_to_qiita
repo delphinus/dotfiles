@@ -1,0 +1,33 @@
+#!/usr/bin/perl
+use 5.30.0;
+use warnings;
+
+my $file = do { local $/; <> };
+# remove Obsidian header
+$file =~ s/^---$ .*? ^---$//msx;
+# remove the title
+$file =~ s/^#.*$//m;
+# convert quotes from Qiita style to GFM one
+$file =~ s[
+    ^\s*>\s\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]$
+    \n
+    ((?:^\s*>\s.*$ \n)+)
+][
+    my ($head, $content) = ($1, $2);
+    my $result = ":::note " . +{
+        NOTE => 'info',
+        TIP => 'info',
+        IMPORTANT => 'warn',
+        WARNING => 'warn',
+        CAUTION => 'alert',
+    }->{$head} . "\n";
+    while ($content =~ /\s*>\s*(.*)/g) {
+        $result .= "\n$1";
+    }
+    "\n$result\n\n:::\n";
+]egmx;
+# remove blank lines
+$file =~ s/\A(?:^$ \n)+//mx;
+$file =~ s/(?:^$ \n)+\z//mx;
+
+print $file;
