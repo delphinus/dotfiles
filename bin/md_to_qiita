@@ -11,7 +11,7 @@ $file =~ s/^#.*$//m;
 $file =~ s[
     ^\s*>\s\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]$
     \n
-    ((?:^\s*>\s.*$ \n)+)
+    ((?:^[\ \t]*>[\ \t]*.*$ \n)+)
 ][
     my ($head, $content) = ($1, $2);
     my $result = ":::note " . +{
@@ -21,7 +21,7 @@ $file =~ s[
         WARNING => 'warn',
         CAUTION => 'alert',
     }->{$head} . "\n";
-    while ($content =~ /\s*>\s*(.*)/g) {
+    while ($content =~ /[ \t]*>[ \t]*(.*)/g) {
         $result .= "\n$1";
     }
     "\n$result\n\n:::\n";
