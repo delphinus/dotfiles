@@ -79,6 +79,10 @@ return {
         max_concurrent_installers = 12,
       }
       vim.diagnostic.config {
+        signs = function(_, b)
+          ---@diagnostic disable-next-line: return-type-mismatch
+          return not vim.bo[b].filetype == "markdown"
+        end,
         virtual_text = {
           format = function(d)
             return d.severity == vim.diagnostic.severity.ERROR and ("%s (%s: %s)"):format(d.message, d.source, d.code)
