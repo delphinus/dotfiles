@@ -988,6 +988,8 @@ return {
     config = function()
       ---@type UserConfig
       require("render-markdown").setup {
+        preset = "obsidian",
+        anti_conceal = { enabled = false },
         heading = {
           -- icons = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
           icons = { "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳" },
@@ -1011,11 +1013,19 @@ return {
             "@markup.heading.6.markdown",
           },
         },
-        code = { highlight = "CursorLine" },
+        code = { highlight = "CursorLine", left_pad = 4 },
         bullet = { icons = { "", "", "", "" } },
         checkbox = { unchecked = { icon = "" }, checked = { icon = "" } },
         conceal = { rendered = 2 },
+        quote = { repeat_linebreak = true },
+        pipe_table = { preset = "round" },
         sign = { enabled = false },
+        win_options = {
+          concealcursor = { rendered = "nc" },
+          showbreak = { rendered = "  " },
+          breakindent = { rendered = true },
+          breakindentopt = { rendered = "" },
+        },
       }
     end,
   },
@@ -1333,5 +1343,14 @@ return {
         { label = "NvimLightYellow", color = "#fce094" },
       },
     },
+  },
+
+  {
+    "ray-x/yamlmatter.nvim",
+    cmd = { "YamlMatter", "ResetYamlMatter" },
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", { pattern = "markdown", command = "YamlMatter" })
+    end,
+    opts = {},
   },
 }
