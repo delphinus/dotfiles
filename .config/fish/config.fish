@@ -73,6 +73,7 @@ abbr g git
 abbr gf 'git foresta | less'
 abbr gfa 'git foresta --all | less'
 abbr l. 'l -d .*'
+abbr ta 'tig --all'
 
 type -q hub; and alias git hub
 abbr dircolors gdircolors
