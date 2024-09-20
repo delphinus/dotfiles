@@ -7,7 +7,8 @@ local key_tables = require "key_tables"
 local config = wezterm.config_builder()
 
 config.adjust_window_size_when_changing_font_size = false
-config.default_prog = { const.tmux_run_bin }
+-- config.default_prog = { const.tmux_run_bin }
+config.default_prog = { "/opt/homebrew/bin/fish" }
 config.disable_default_key_bindings = true
 config.enable_csi_u_key_encoding = true
 config.enable_kitty_keyboard = true
@@ -27,6 +28,24 @@ config.warn_about_missing_glyphs = false
 config.window_background_opacity = 0.96
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE"
+
+config.unix_domains = { { name = "unix" } }
+config.default_gui_startup_args = { "connect", "unix" }
+
+local op_secrets = io.open "/tmp/.1password-env"
+if not op_secrets then
+  os.execute [[/opt/homebrew/bin/op --vault CLI item get --format json secret_envs | /opt/homebrew/bin/jq -r '.fields[] | select(.value) | "\(.label)=\(.value)"' > /tmp/.1password-env]]
+  op_secrets = io.open "/tmp/.1password-env"
+end
+assert(op_secrets, "op_secrets exists")
+local envs = {}
+for line in op_secrets:lines() do
+  for key, value in line:gmatch "([^=]+)=([^=]+)" do
+    envs[key] = value
+  end
+end
+
+config.set_environment_variables = envs
 
 colors(config)
 keys(config)

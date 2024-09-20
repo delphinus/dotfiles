@@ -4,8 +4,9 @@ local const = require "const"
 
 return function(config)
   local function tmux_or_fish()
-    local _, stdout = wezterm.run_child_process { const.tmux_bin, "ls", "-F", "#{session_attached}" }
-    local is_attached = wezterm.split_by_newlines(stdout)[1] == "1"
+    -- local _, stdout = wezterm.run_child_process { const.tmux_bin, "ls", "-F", "#{session_attached}" }
+    -- local is_attached = wezterm.split_by_newlines(stdout)[1] == "1"
+    local is_attached = true
     return is_attached and { const.fish_bin } or { const.tmux_run_bin }
   end
 
