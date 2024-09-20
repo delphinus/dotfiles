@@ -7,7 +7,6 @@ local key_tables = require "key_tables"
 local config = wezterm.config_builder()
 
 config.adjust_window_size_when_changing_font_size = false
--- config.default_prog = { const.tmux_run_bin }
 config.default_prog = { "/opt/homebrew/bin/fish" }
 config.disable_default_key_bindings = true
 config.enable_csi_u_key_encoding = true
@@ -22,7 +21,6 @@ config.initial_rows = 80
 config.macos_window_background_blur = 20
 config.native_macos_fullscreen_mode = true
 config.quick_select_patterns = { const.url_regex, const.hash_regex, const.path_regex }
-config.set_environment_variables = { SHELL = const.fish_bin }
 -- config.use_fancy_tab_bar = false
 config.warn_about_missing_glyphs = false
 config.window_background_opacity = 0.96
@@ -32,13 +30,21 @@ config.window_decorations = "RESIZE"
 config.unix_domains = { { name = "unix" } }
 config.default_gui_startup_args = { "connect", "unix" }
 
-local op_secrets = io.open "/tmp/.1password-env"
+local secrets_file = "/tmp/.1password-env"
+local op_secrets = io.open(secrets_file)
 if not op_secrets then
-  os.execute [[/opt/homebrew/bin/op --vault CLI item get --format json secret_envs | /opt/homebrew/bin/jq -r '.fields[] | select(.value) | "\(.label)=\(.value)"' > /tmp/.1password-env]]
-  op_secrets = io.open "/tmp/.1password-env"
+  os.execute(
+    ([[%s --vault CLI item get --format json secret_envs | %s -r '.fields[] | select(.value) | "\(.label)=\(.value)"' > %s]]):format(
+      const.op,
+      const.jq,
+      secrets_file
+    )
+  )
+  op_secrets = io.open(secrets_file)
 end
 assert(op_secrets, "op_secrets exists")
-local envs = {}
+
+local envs = { SHELL = const.fish }
 for line in op_secrets:lines() do
   for key, value in line:gmatch "([^=]+)=([^=]+)" do
     envs[key] = value
