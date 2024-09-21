@@ -27,6 +27,7 @@ return function(config)
     { key = "=", mods = "CMD", action = act.IncreaseFontSize },
     { key = "[", mods = "CMD", action = act.ActivateCopyMode },
     { key = "[", mods = "SHIFT|CMD", action = act.ActivateTabRelative(-1) },
+    { key = "]", mods = "CMD", action = act.PasteFrom "Clipboard" },
     { key = "]", mods = "SHIFT|CMD", action = act.ActivateTabRelative(1) },
     { key = "`", mods = "CMD", action = act.ActivateWindowRelative(1) },
     { key = "c", mods = "CMD", action = act.CopyTo "Clipboard" },

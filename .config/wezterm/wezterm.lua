@@ -59,4 +59,22 @@ wezterm.on("user-var-changed", function(window, pane, name, value)
   window:set_config_overrides(overrides)
 end)
 
+wezterm.on("update-right-status", function(window, pane)
+  local name = window:active_key_table()
+  local bg = {
+    copy_mode = "#ebcb8b",
+    resize_pane = "#b48ead",
+  }
+  if name then
+    window:set_right_status(wezterm.format {
+      { Foreground = { Color = "#2e3440" } },
+      { Background = { Color = bg[name] } },
+      { Text = " TABLE: " .. name .. " " },
+      "ResetAttributes",
+    })
+  else
+    window:set_right_status ""
+  end
+end)
+
 return config
