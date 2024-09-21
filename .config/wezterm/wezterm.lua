@@ -3,6 +3,7 @@ local colors = require "colors"
 local const = require "const"
 local keys = require "keys"
 local key_tables = require "key_tables"
+local op_envs = require "op_envs"
 
 local config = wezterm.config_builder()
 
@@ -29,29 +30,7 @@ config.window_decorations = "RESIZE"
 
 config.unix_domains = { { name = "unix" } }
 config.default_gui_startup_args = { "connect", "unix" }
-
-local secrets_file = "/tmp/.1password-env"
-local op_secrets = io.open(secrets_file)
-if not op_secrets then
-  os.execute(
-    ([[%s --vault CLI item get --format json secret_envs | %s -r '.fields[] | select(.value) | "\(.label)=\(.value)"' > %s]]):format(
-      const.op,
-      const.jq,
-      secrets_file
-    )
-  )
-  op_secrets = io.open(secrets_file)
-end
-assert(op_secrets, "op_secrets exists")
-
-local envs = { SHELL = const.fish }
-for line in op_secrets:lines() do
-  for key, value in line:gmatch "([^=]+)=([^=]+)" do
-    envs[key] = value
-  end
-end
-
-config.set_environment_variables = envs
+config.set_environment_variables = op_envs { SHELL = const.fish }
 
 colors(config)
 keys(config)
