@@ -5,7 +5,7 @@ return {
   url_regex = [[https?://[^<>"\s{-}\^⟨⟩`│⏎]+]],
   hash_regex = [=[[a-f\d]{4,}|[A-Z_]{4,}]=],
   path_regex = [[~?(?:[-.\w]*/)+[-.\w]*]],
-  tmux_run_bin = "/Users/jinnouchi.yasushi/git/dotfiles/bin/tmux-run",
-  fish_bin = homebrew_path .. "/bin/fish",
-  tmux_bin = homebrew_path .. "/bin/tmux",
+  fish = homebrew_path .. "/bin/fish",
+  op = homebrew_path .. "/bin/op",
+  jq = homebrew_path .. "/bin/jq",
 }
