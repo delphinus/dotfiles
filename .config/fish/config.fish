@@ -126,7 +126,7 @@ set -x LESS_TERMCAP_se \e'[0m' # Ends standout-mode.
 set -x LESS_TERMCAP_so \e'[00;47;30m' # Begins standout-mode.
 set -x LESS_TERMCAP_ue \e'[0m' # Ends underline.
 set -x LESS_TERMCAP_us \e'[01;32m' # Begins underline.
-set -x LESS '-g -i -M -R -S -W -z-4 -x4 +
+set -x LESS '-g -i -M -R -S -W -z-4 -x4 --mouse --wheel-lines 3 +
 3'
 
 # use Neovim for man
