@@ -54,7 +54,7 @@ return function(config)
       { key = "l", mods = "NONE", action = act.AdjustPaneSize { "Right", 1 } },
       { key = "l", mods = "SHIFT", action = act.AdjustPaneSize { "Right", 5 } },
       { key = "q", mods = "NONE", action = act.PopKeyTable },
-      { key = "r", mods = "SHIFT|CMD", action = act.PopKeyTable },
+      { key = "r", mods = "CMD", action = act.PopKeyTable },
     },
   }
 end
