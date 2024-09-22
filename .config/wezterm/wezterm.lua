@@ -62,12 +62,12 @@ end)
 wezterm.on("update-right-status", function(window, pane)
   local name = window:active_key_table()
   local bg = {
-    copy_mode = "#ebcb8b",
-    resize_pane = "#b48ead",
+    copy_mode = config.colors.ansi[4],
+    resize_pane = config.colors.ansi[6],
   }
   if name then
     window:set_right_status(wezterm.format {
-      { Foreground = { Color = "#2e3440" } },
+      { Foreground = { Color = config.colors.ansi[1] } },
       { Background = { Color = bg[name] } },
       { Text = " TABLE: " .. name .. " " },
       "ResetAttributes",
