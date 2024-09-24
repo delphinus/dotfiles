@@ -217,6 +217,7 @@ return {
             },
           },
         },
+        rust_analyzer = {},
       }
 
       require("mason-lspconfig").setup()
