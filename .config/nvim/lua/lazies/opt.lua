@@ -1242,7 +1242,15 @@ return {
         week_header = { enable = true },
         shortcut = {
           {
-            desc = " Load the last session ",
+            desc = "New File",
+            group = "Directory",
+            key = "n",
+            action = function()
+              vim.cmd.enew()
+            end,
+          },
+          {
+            desc = "Load the last session ",
             group = "DiffAdd",
             key = "l",
             action = function()
@@ -1250,13 +1258,13 @@ return {
             end,
           },
           {
-            desc = " Open Obsidian Quick Note ",
+            desc = "Open Obsidian Quick Note ",
             group = "DiffChange",
             key = "o",
             action = "ObsidianQuickNote",
           },
           {
-            desc = "󰒲 Open Lazy UI",
+            desc = "Open Lazy UI",
             group = "FunctionBuiltin",
             key = "z",
             action = "Lazy",

@@ -428,7 +428,7 @@ return {
               wezterm = "W",
             },
             preset = "codicons",
-            symbol_map = { Copilot = "" },
+            symbol_map = { Copilot = "" },
             show_labelDetails = true,
             before = function(entry, vim_item)
               if vim_item.menu then
