@@ -171,7 +171,6 @@ return {
   c { "hrsh7th/cmp-cmdline" },
   c { "hrsh7th/cmp-path" },
 
-  i { "andersevenrud/cmp-tmux" },
   i { "delphinus/cmp-ctags" },
   i { "delphinus/cmp-wezterm" },
   i { "dmitmel/cmp-digraphs" },
@@ -357,11 +356,11 @@ return {
               { name = "nvim_lua" },
               { name = "ctags" },
               { name = "treesitter", trigger_characters = { "." }, option = {} },
-              {
-                name = "tmux",
-                keyword_length = 2,
-                option = { trigger_characters = {}, all_panes = true, capture_history = true },
-              },
+              -- {
+              --   name = "tmux",
+              --   keyword_length = 2,
+              --   option = { trigger_characters = {}, all_panes = true, capture_history = true },
+              -- },
               {
                 name = "buffer",
                 option = {
@@ -385,7 +384,6 @@ return {
             { name = "fish" },
             { name = "luasnip" },
             { name = "wezterm", keyword_length = 2, option = {} },
-            { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
             {
               name = "buffer",
               option = {
@@ -407,33 +405,34 @@ return {
           },
         formatting = {
           -- https://github.com/onsails/lspkind.nvim/pull/30
-          fields = { types.cmp.ItemField.Kind, types.cmp.ItemField.Menu, types.cmp.ItemField.Abbr },
+          fields = { types.cmp.ItemField.Abbr, types.cmp.ItemField.Kind, types.cmp.ItemField.Menu },
           format = require("lspkind").cmp_format {
             mode = "symbol",
             maxwidth = 50,
             menu = {
               buffer = "B",
-              copilot = "CO",
+              copilot = "O",
               ctags = "C",
               digraphs = "D",
               emoji = "E",
               fish = "F",
               ghq = "Q",
               git = "G",
-              look = "LK",
+              look = "K",
               luasnip = "S",
               nvim_lsp = "L",
-              nvim_lua = "LU",
+              nvim_lua = "U",
               path = "P",
               rg = "R",
-              tmux = "T",
-              treesitter = "TS",
+              treesitter = "T",
               wezterm = "W",
             },
+            preset = "codicons",
             symbol_map = { Copilot = "" },
+            show_labelDetails = true,
             before = function(entry, vim_item)
-              if vim.tbl_contains({ "ctags", "buffer", "tmux", "rg", "look" }, entry.source.name) then
-                vim_item.dup = 1
+              if vim_item.menu then
+                vim_item.menu = " " .. vim_item.menu
               end
               return vim_item
             end,
