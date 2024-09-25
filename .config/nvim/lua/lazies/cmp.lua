@@ -352,6 +352,7 @@ return {
         },
         sources = vim.env.LIGHT
             and {
+              { name = "digraphs", keyword_length = 1 },
               { name = "copilot" },
               { name = "nvim_lua" },
               { name = "ctags" },
@@ -361,6 +362,7 @@ return {
               --   keyword_length = 2,
               --   option = { trigger_characters = {}, all_panes = true, capture_history = true },
               -- },
+              { name = "wezterm", keyword_length = 2, option = {} },
               {
                 name = "buffer",
                 option = {
@@ -368,11 +370,11 @@ return {
                   get_bufnrs = api.list_bufs,
                 },
               },
-              { name = "digraphs" },
               { name = "emoji" },
               { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
             }
           or {
+            { name = "digraphs", keyword_length = 1 },
             { name = "path" },
             { name = "lazydev" },
             { name = "nvim_lsp" },
@@ -399,7 +401,6 @@ return {
             },
             { name = "ghq" },
             { name = "rg", option = { debounce = 0 } },
-            { name = "digraphs" },
             { name = "emoji" },
             { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
           },
