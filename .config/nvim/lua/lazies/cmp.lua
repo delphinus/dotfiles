@@ -173,6 +173,7 @@ return {
 
   i { "andersevenrud/cmp-tmux" },
   i { "delphinus/cmp-ctags" },
+  i { "delphinus/cmp-wezterm" },
   i { "dmitmel/cmp-digraphs" },
   i { "hrsh7th/cmp-buffer" },
   i { "hrsh7th/cmp-emoji" },
@@ -383,6 +384,7 @@ return {
             { name = "treesitter", trigger_characters = { "." }, option = {} },
             { name = "fish" },
             { name = "luasnip" },
+            { name = "wezterm", keyword_length = 2, option = {} },
             { name = "tmux", keyword_length = 2, option = { trigger_characters = {}, all_panes = true } },
             {
               name = "buffer",
@@ -426,6 +428,7 @@ return {
               rg = "R",
               tmux = "T",
               treesitter = "TS",
+              wezterm = "W",
             },
             symbol_map = { Copilot = "" },
             before = function(entry, vim_item)
