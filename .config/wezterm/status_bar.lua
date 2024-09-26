@@ -1,7 +1,7 @@
 local wezterm = require "wezterm"
 
 return function(config)
-  wezterm.on("update-right-status", function(window, pane)
+  wezterm.on("update-status", function(window, pane)
     local name = window:active_key_table()
     local bg = {
       copy_mode = config.colors.ansi[4],
