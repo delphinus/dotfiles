@@ -11,7 +11,7 @@ return function(config)
       { Foreground = { Color = config.colors.ansi[4] } },
       {
         Text = ("%s %d:%d:%d "):format(
-          wezterm.nerdfonts.cod_window,
+          wezterm.nerdfonts.md_window_maximize,
           window:window_id(),
           window:active_tab():tab_id(),
           pane:pane_id()
@@ -24,7 +24,7 @@ return function(config)
     if name then
       table.insert(elements, { Foreground = { Color = config.colors.ansi[1] } })
       table.insert(elements, { Background = { Color = bg[name] } })
-      table.insert(elements, { Text = " TABLE: " .. name .. " " })
+      table.insert(elements, { Text = (" %s %s "):format(wezterm.nerdfonts.md_table, name) })
       table.insert(elements, "ResetAttributes")
     end
     window:set_right_status(wezterm.format(elements))
