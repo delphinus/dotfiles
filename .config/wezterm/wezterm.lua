@@ -4,6 +4,7 @@ local const = require "const"
 local keys = require "keys"
 local key_tables = require "key_tables"
 local op_envs = require "op_envs"
+local status_bar = require "status_bar"
 
 local config = wezterm.config_builder()
 
@@ -36,6 +37,7 @@ config.set_environment_variables = op_envs { SHELL = const.fish }
 colors(config)
 keys(config)
 key_tables(config)
+status_bar(config)
 
 wezterm.on("user-var-changed", function(window, pane, name, value)
   local overrides = window:get_config_overrides() or {}
@@ -58,24 +60,6 @@ wezterm.on("user-var-changed", function(window, pane, name, value)
     end
   end
   window:set_config_overrides(overrides)
-end)
-
-wezterm.on("update-right-status", function(window, pane)
-  local name = window:active_key_table()
-  local bg = {
-    copy_mode = config.colors.ansi[4],
-    resize_pane = config.colors.ansi[6],
-  }
-  if name then
-    window:set_right_status(wezterm.format {
-      { Foreground = { Color = config.colors.ansi[1] } },
-      { Background = { Color = bg[name] } },
-      { Text = " TABLE: " .. name .. " " },
-      "ResetAttributes",
-    })
-  else
-    window:set_right_status ""
-  end
 end)
 
 return config
