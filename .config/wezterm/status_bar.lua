@@ -9,6 +9,7 @@ return function(config)
     }
     local elements = {
       { Foreground = { Color = config.colors.ansi[4] } },
+      { Background = { Color = config.colors.tab_bar.background } },
       {
         Text = ("%s %d:%d:%d "):format(
           wezterm.nerdfonts.md_window_maximize,
