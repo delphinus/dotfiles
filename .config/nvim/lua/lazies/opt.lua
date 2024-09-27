@@ -1019,6 +1019,7 @@ return {
         conceal = { rendered = 2 },
         quote = { repeat_linebreak = true },
         pipe_table = { preset = "round" },
+        link = { email = "", custom = { web = { icon = "" } } },
         sign = { enabled = false },
         win_options = {
           concealcursor = { rendered = "nc" },
