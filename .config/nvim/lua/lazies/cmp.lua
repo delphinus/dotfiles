@@ -196,7 +196,7 @@ return {
   },
   i { "saadparwaiz1/cmp_luasnip" },
 
-  i { "delphinus/cmp-ghq", opts = {} },
+  i { "delphinus/cmp-ghq", branch = "refactor" },
 
   {
     "zbirenbaum/copilot.lua",
