@@ -464,36 +464,22 @@ return {
         end,
       }
     end,
-    config = function()
-      local gitsigns = require "gitsigns"
-      local function gs(method)
-        return function()
-          gitsigns[method]()
-        end
-      end
-
-      gitsigns.setup {
-        signs = {
-          add = {},
-          change = {},
-          delete = { text = "✗" },
-          topdelete = { text = "↑" },
-          changedelete = { text = "•" },
-          untracked = { text = "⢸" },
-        },
-        numhl = true,
-        current_line_blame = true,
-        current_line_blame_opts = {
-          delay = 10,
-        },
-        word_diff = true,
-        on_attach = function(bufnr)
-          local km = vim.keymap
-          km.set("n", "]c", gs "next_hunk", { buffer = bufnr, desc = "gitsigns.next_hunk" })
-          km.set("n", "[c", gs "prev_hunk", { buffer = bufnr, desc = "gitsigns.prev_hunk" })
-        end,
-      }
-    end,
+    opts = {
+      signs = {
+        add = {},
+        change = {},
+        delete = { text = "✗" },
+        topdelete = { text = "↑" },
+        changedelete = { text = "•" },
+        untracked = { text = "⢸" },
+      },
+      numhl = true,
+      current_line_blame = true,
+      current_line_blame_opts = {
+        delay = 10,
+      },
+      word_diff = true,
+    },
   },
 
   {
@@ -1213,19 +1199,24 @@ return {
 
   {
     "mawkler/demicolon.nvim",
-    keys = { "[d", "]d", "f", "F", "t", "T", ";", "," },
+    keys = { "[c", "]c", "[d", "]d", "f", "F", "t", "T", ";", "," },
     config = function()
       require("demicolon").setup {
         diagnostic = { float = { border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" } } },
         keymaps = {
           horizontal_motions = true,
           diagnostic_motions = false,
-          repeat_motions = true,
+          repeat_motions = false,
         },
+        integrations = { gitsigns = { enabled = true, keymaps = { next = "]c", prev = "[c" } } },
       }
+      local nxo = { "n", "x", "o" }
       local jump = require "demicolon.jump"
-      vim.keymap.set({ "n", "x", "o" }, "]d", jump.diagnostic_jump { forward = true })
-      vim.keymap.set({ "n", "x", "o" }, "[d", jump.diagnostic_jump { forward = false })
+      local ts_repeatable_move = require "nvim-treesitter.textobjects.repeatable_move"
+      vim.keymap.set(nxo, "]d", jump.diagnostic_jump { forward = true })
+      vim.keymap.set(nxo, "[d", jump.diagnostic_jump { forward = false })
+      vim.keymap.set(nxo, ";", ts_repeatable_move.repeat_last_move)
+      vim.keymap.set(nxo, ",", ts_repeatable_move.repeat_last_move_opposite)
     end,
   },
 
