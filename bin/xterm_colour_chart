@@ -1,4 +1,4 @@
 #!/bin/sh
 DIR=$(cd $(dirname $0);pwd)
 cd $DIR/..
-/usr/bin/python submodules/xterm_colour_chart/xterm_colour_chart.py $@
+/usr/bin/python3 submodules/xterm_colour_chart/xterm_colour_chart.py $@
