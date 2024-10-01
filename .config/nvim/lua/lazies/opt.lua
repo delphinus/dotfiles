@@ -411,7 +411,7 @@ return {
         desc = "Set up highlight for vim-cursorword",
         group = api.create_augroup("cursorword-colors", {}),
         callback = function()
-          api.set_hl(0, "CursorWord", { undercurl = true })
+          api.set_hl(0, "CursorWord", { underdotted = true })
         end,
       })
     end,
