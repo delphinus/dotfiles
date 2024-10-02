@@ -379,7 +379,6 @@ return {
         nls.builtins.formatting.goimports,
         nls.builtins.formatting.golines,
         nls.builtins.formatting.stylua,
-        nls.builtins.formatting.textlint,
         nls.builtins.formatting.yamlfmt,
 
         nls.builtins.diagnostics.luacheck.with {
