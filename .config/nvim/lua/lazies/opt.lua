@@ -657,8 +657,6 @@ return {
     keys = { { "Y", "<Plug>(operator-concealedyank)", mode = { "x" } } },
   },
 
-  { "delphinus/vim-tmux-copy", keys = { "<A-[>", "<A-“>" } },
-
   {
     "inkarkat/vim-LineJuggler",
     dependencies = {
@@ -1137,10 +1135,7 @@ return {
     ---@type ZenOptions
     opts = {
       window = { width = 81 },
-      plugins = {
-        tmux = { enabled = true },
-        wezterm = { enabled = true },
-      },
+      plugins = { wezterm = { enabled = true } },
       on_open = function()
         require("incline").disable()
         vim.opt_local.wrap = true

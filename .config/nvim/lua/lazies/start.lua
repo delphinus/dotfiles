@@ -296,7 +296,7 @@ return {
       workspaces = {
         VIM = vim.env.VIMRUNTIME,
       },
-      ignore_patterns = { "*.git/*", "*/tmp/*", "term://*", "*/tmux-fingers/alphabets*" },
+      ignore_patterns = { "*.git/*", "*/tmp/*", "term://*" },
     },
   },
 }
