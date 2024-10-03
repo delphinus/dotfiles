@@ -50,7 +50,7 @@ return function(config)
     { key = "u", mods = "SHIFT|CMD", action = open_with },
     { key = "v", mods = "CMD", action = act.PasteFrom "Clipboard" },
     { key = "v", mods = "SHIFT|CMD", action = act.SplitHorizontal { args = { const.fish } } },
-    { key = "w", mods = "CMD", action = act.CloseCurrentTab { confirm = false } },
+    { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
   }
 end
