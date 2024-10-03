@@ -227,7 +227,7 @@ return {
       ---@type Neominimap.UserConfig
       vim.g.neominimap = {
         auto_enable = true,
-        exclude_filetypes = { "help", "vfiler", "dashboard" },
+        exclude_filetypes = { "help", "vfiler", "dashboard", "markdown" },
         float = {
           margin = { top = 1 },
           window_border = "none",
