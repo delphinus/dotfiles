@@ -395,7 +395,7 @@ return {
 
         nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
 
-        nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
+        -- nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
 
         --[[
           helpers.make_builtin {
