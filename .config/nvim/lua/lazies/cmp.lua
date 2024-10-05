@@ -172,6 +172,7 @@ return {
   c { "hrsh7th/cmp-path" },
 
   i { "delphinus/cmp-ctags" },
+  i { "delphinus/cmp-repo" },
   i { "delphinus/cmp-wezterm" },
   i { "dmitmel/cmp-digraphs" },
   i { "hrsh7th/cmp-buffer" },
