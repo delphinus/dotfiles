@@ -541,7 +541,11 @@ return {
       t:start(5000, 5000, function()
         require_virt_column()
         vim.schedule(function()
-          require("virt-column.commands").refresh()
+          local ns = require("virt-column").namespace
+          local is_enabled = #vim.api.nvim_buf_get_extmarks(0, ns, 0, -1, { limit = 1 }) == 1
+          if is_enabled then
+            require("virt-column.commands").refresh()
+          end
         end)
       end)
     end,
@@ -1136,17 +1140,30 @@ return {
     opts = {
       window = { width = 81 },
       plugins = { wezterm = { enabled = true } },
-      on_open = function()
+      on_open = function(win)
         require("incline").disable()
+        require("virt-column").clear_buf(vim.api.nvim_win_get_buf(win))
+        vim.b.original_wrap = vim.opt_local.wrap:get()
+        vim.b.original_number = vim.opt_local.number:get()
+        vim.b.original_relativenumber = vim.opt_local.relativenumber:get()
         vim.opt_local.wrap = true
+        vim.opt_local.number = false
+        vim.opt_local.relativenumber = false
         vim.o.cmdheight = 1
         vim.o.laststatus = 0
+        vim.keymap.del("n", "<C-j>")
+        vim.keymap.del("n", "<C-k>")
       end,
       on_close = function()
         require("incline").enable()
-        vim.opt_local.wrap = false
+        require("virt-column").refresh()
+        vim.opt_local.wrap = vim.b.original_wrap
+        vim.opt_local.number = vim.b.original_number
+        vim.opt_local.relativenumber = vim.b.original_relativenumber
         vim.o.cmdheight = 0
         vim.o.laststatus = 3
+        vim.keymap.set("n", "<C-j>", "<C-w>w", { remap = true })
+        vim.keymap.set("n", "<C-k>", "<C-w>W", { remap = true })
       end,
     },
   },
