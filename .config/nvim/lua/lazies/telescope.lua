@@ -417,7 +417,6 @@ return {
               "--smart-case",
               "--hidden",
             },
-            results_ts_hl = true,
           },
         },
       }
