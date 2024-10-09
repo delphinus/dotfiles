@@ -298,6 +298,10 @@ return {
             require("luasnip").lsp_expand(args.body)
           end,
         },
+        performace = {
+          debounce = 0,
+          throttle = 0,
+        },
         mapping = {
           ["<CR>"] = cmp.mapping.confirm { select = false },
           ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
