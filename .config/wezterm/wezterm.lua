@@ -9,7 +9,7 @@ local status_bar = require "status_bar"
 local config = wezterm.config_builder()
 
 config.adjust_window_size_when_changing_font_size = false
-config.custom_block_glyphs = false
+config.custom_block_glyphs = true
 config.default_prog = { "/opt/homebrew/bin/fish" }
 config.disable_default_key_bindings = true
 config.enable_csi_u_key_encoding = true
