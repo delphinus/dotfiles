@@ -64,8 +64,8 @@ return {
     },
   },
 
-  { "cocopon/colorswatch.vim",  cmd = { "ColorSwatchGenerate" } },
-  { "cocopon/inspecthi.vim",    cmd = { "Inspecthi", "InspecthiShowInspector", "InspecthiHideInspector" } },
+  { "cocopon/colorswatch.vim", cmd = { "ColorSwatchGenerate" } },
+  { "cocopon/inspecthi.vim", cmd = { "Inspecthi", "InspecthiShowInspector", "InspecthiHideInspector" } },
 
   {
     "dhruvasagar/vim-table-mode",
@@ -77,8 +77,8 @@ return {
   },
 
   { "dstein64/vim-startuptime", cmd = { "StartupTime" } },
-  { "fuenor/JpFormat.vim",      cmd = { "JpFormatAll", "JpJoinAll" } },
-  { "lambdalisue/suda.vim",     cmd = { "SudaRead", "SudaWrite" } },
+  { "fuenor/JpFormat.vim", cmd = { "JpFormatAll", "JpJoinAll" } },
+  { "lambdalisue/suda.vim", cmd = { "SudaRead", "SudaWrite" } },
 
   {
     "iberianpig/tig-explorer.vim",
@@ -89,7 +89,7 @@ return {
       { "<Leader>tt", [[<Cmd>TigOpenProjectRootDir<CR>]] },
       { "<Leader>tg", [[<Cmd>TigGrep<CR>]] },
       { "<Leader>tr", [[<Cmd>TigGrepResume<CR>]] },
-      { "<Leader>tG", [[y<Cmd>TigGrep<Space><C-R>"<CR>]],         mode = { "v" } },
+      { "<Leader>tG", [[y<Cmd>TigGrep<Space><C-R>"<CR>]], mode = { "v" } },
       { "<Leader>tc", [[<Cmd><C-u>:TigGrep<Space><C-R><C-W><CR>]] },
       { "<Leader>tb", [[<Cmd>TigBlame<CR>]] },
     },
@@ -293,17 +293,17 @@ return {
     "delphinus/dwm.nvim",
     event = { "VimEnter" },
     keys = {
-      { "<C-j>",     "<C-w>w",        remap = true },
-      { "<C-k>",     "<C-w>W",        remap = true },
-      { "<A-CR>",    dwm "focus" },
-      { "<C-@>",     dwm "focus" },
+      { "<C-j>", "<C-w>w", remap = true },
+      { "<C-k>", "<C-w>W", remap = true },
+      { "<A-CR>", dwm "focus" },
+      { "<C-@>", dwm "focus" },
       { "<C-Space>", dwm "focus" },
-      { "<C-l>",     dwm "grow" },
-      { "<C-h>",     dwm "shrink" },
-      { "<C-n>",     dwm "new" },
-      { "<C-q>",     dwm "rotateLeft" },
-      { "<C-s>",     dwm "rotate" },
-      { "<C-c>",     dwm "close" },
+      { "<C-l>", dwm "grow" },
+      { "<C-h>", dwm "shrink" },
+      { "<C-n>", dwm "new" },
+      { "<C-q>", dwm "rotateLeft" },
+      { "<C-s>", dwm "rotate" },
+      { "<C-c>", dwm "close" },
     },
     cond = function()
       -- HACK: Do not load when it is loading committia.vim
@@ -367,11 +367,11 @@ return {
         },
       },
       presets = {
-        bottom_search = true,         -- use a classic bottom cmdline for search
-        command_palette = true,       -- position the cmdline and popupmenu together
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = true,        -- add a border to hover docs and signature help
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true, -- add a border to hover docs and signature help
       },
       format = {
         spinner = {
@@ -490,65 +490,9 @@ return {
 
   {
     enabled = not vim.env.LIGHT,
-    --"lukas-reineke/virt-column.nvim",
-    "delphinus/virt-column.nvim",
-    branch = "feature/buf-filter",
-    init = function()
-      palette "virt_column" {
-        nord = function(colors)
-          api.set_hl(0, "ColorColumn", {})
-          api.set_hl(0, "VirtColumn", { fg = colors.brighter_black })
-        end,
-        sweetie = function(colors)
-          api.set_hl(0, "ColorColumn", {})
-          api.set_hl(0, "VirtColumn", { fg = colors.dark_grey })
-        end,
-      }
-
-      local require_virt_column = (function()
-        local init = false
-        return function()
-          local vt = require "virt-column"
-          if not init then
-            vt.config.char = "⡂"
-            vt.namespace = api.create_namespace "virt-column"
-            init = true
-          end
-          return vt
-        end
-      end)()
-
-      api.create_user_command("VirtColumnRefresh", function(args)
-        require_virt_column()
-        require("virt-column.commands").refresh(args.bang)
-      end, { bang = true, desc = "Refresh virt-column" })
-
-      local group = api.create_augroup("VirtColumnAutogroup", {})
-      api.create_autocmd(
-        { "FileChangedShellPost", "TextChanged", "TextChangedI", "CompleteChanged", "BufWinEnter" },
-        { group = group, command = "VirtColumnRefresh" }
-      )
-      api.create_autocmd("SessionLoadPost", { group = group, command = "VirtColumnRefresh!" })
-      api.create_autocmd("TermEnter", {
-        desc = "Clear virt-column",
-        group = group,
-        callback = function()
-          require_virt_column().clear_buf(0)
-        end,
-      })
-
-      local t = assert(uv.new_timer())
-      t:start(5000, 5000, function()
-        require_virt_column()
-        vim.schedule(function()
-          local ns = require("virt-column").namespace
-          local is_enabled = #vim.api.nvim_buf_get_extmarks(0, ns, 0, -1, { limit = 1 }) == 1
-          if is_enabled then
-            require("virt-column.commands").refresh()
-          end
-        end)
-      end)
-    end,
+    "lukas-reineke/virt-column.nvim",
+    event = { "Colorscheme" },
+    opts = { char = "⡂", exclude = { filetypes = { "lazy", "markdown" } } },
   },
 
   { "delphinus/eaw.nvim" },
@@ -566,35 +510,35 @@ return {
   {
     "tpope/vim-fugitive",
     keys = {
-      { "git",      [[<Cmd>Git<CR>]] },
+      { "git", [[<Cmd>Git<CR>]] },
       { "g<Space>", [[:Git ]] },
-      { "d<",       [[<Cmd>diffget //2<CR>]] },
-      { "d>",       [[<Cmd>diffget //3<CR>]] },
-      { "gs",       [[<Cmd>Gstatus<CR>]] },
+      { "d<", [[<Cmd>diffget //2<CR>]] },
+      { "d>", [[<Cmd>diffget //3<CR>]] },
+      { "gs", [[<Cmd>Gstatus<CR>]] },
     },
     event = { "BufRead", "FocusLost", "CursorHold" },
   },
 
-  { "dix75/jira.vim",                    ft = { "confluencewiki" } },
-  { "Glench/Vim-Jinja2-Syntax",          ft = { "jinja" } },
-  { "Vimjas/vim-python-pep8-indent",     ft = { "python" } },
-  { "aklt/plantuml-syntax",              ft = { "plantuml" } },
-  { "aliou/bats.vim",                    ft = { "bats" } },
+  { "dix75/jira.vim", ft = { "confluencewiki" } },
+  { "Glench/Vim-Jinja2-Syntax", ft = { "jinja" } },
+  { "Vimjas/vim-python-pep8-indent", ft = { "python" } },
+  { "aklt/plantuml-syntax", ft = { "plantuml" } },
+  { "aliou/bats.vim", ft = { "bats" } },
   -- {'dag/vim-fish' ft = {'fish'}},
-  { "blankname/vim-fish",                ft = { "fish" } },
-  { "c9s/perlomni.vim",                  ft = { "perl" } },
-  { "delphinus/qfheight.nvim",           ft = { "qf" },            config = true },
+  { "blankname/vim-fish", ft = { "fish" } },
+  { "c9s/perlomni.vim", ft = { "perl" } },
+  { "delphinus/qfheight.nvim", ft = { "qf" }, config = true },
   { "delphinus/vim-data-section-simple", ft = { "perl" } },
-  { "delphinus/vim-firestore",           ft = { "firestore" } },
-  { "hail2u/vim-css3-syntax",            ft = { "css" } },
-  { "isobit/vim-caddyfile",              ft = { "caddyfile" } },
-  { "junegunn/vader.vim",                ft = { "vader" } },
-  { "kchmck/vim-coffee-script",          ft = { "coffee" } },
+  { "delphinus/vim-firestore", ft = { "firestore" } },
+  { "hail2u/vim-css3-syntax", ft = { "css" } },
+  { "isobit/vim-caddyfile", ft = { "caddyfile" } },
+  { "junegunn/vader.vim", ft = { "vader" } },
+  { "kchmck/vim-coffee-script", ft = { "coffee" } },
 
-  { enabled = not vim.env.LIGHT,         "kevinhwang91/nvim-bqf",  ft = { "qf" } },
+  { enabled = not vim.env.LIGHT, "kevinhwang91/nvim-bqf", ft = { "qf" } },
 
-  { "leafo/moonscript-vim",              ft = { "moonscript" } },
-  { "moznion/vim-cpanfile",              ft = { "cpanfile" } },
+  { "leafo/moonscript-vim", ft = { "moonscript" } },
+  { "moznion/vim-cpanfile", ft = { "cpanfile" } },
 
   {
     "motemen/vim-syntax-hatena",
@@ -604,11 +548,11 @@ return {
     end,
   },
 
-  { "motemen/xslate-vim",               ft = { "xslate" } },
-  { "msanders/cocoa.vim",               ft = { "objc" } },
+  { "motemen/xslate-vim", ft = { "xslate" } },
+  { "msanders/cocoa.vim", ft = { "objc" } },
   { "mustache/vim-mustache-handlebars", ft = { "mustache", "handlebars", "html.mustache", "html.handlebars" } },
-  { "nikvdp/ejs-syntax",                ft = { "ejs" } },
-  { "pboettch/vim-cmake-syntax",        ft = { "cmake" } },
+  { "nikvdp/ejs-syntax", ft = { "ejs" } },
+  { "pboettch/vim-cmake-syntax", ft = { "cmake" } },
 
   {
     "pearofducks/ansible-vim",
@@ -621,7 +565,7 @@ return {
 
   { "rhysd/vim-textobj-ruby", dependencies = { "kana/vim-textobj-user" }, ft = { "ruby" } },
 
-  { "delphinus/vim-rails",    branch = "feature/recognize-ridgepole",     ft = { "ruby" } },
+  { "delphinus/vim-rails", branch = "feature/recognize-ridgepole", ft = { "ruby" } },
 
   {
     "vim-perl/vim-perl",
@@ -637,11 +581,11 @@ return {
     end,
   },
 
-  { "vim-scripts/a.vim",                ft = { "c", "cpp" } },
-  { "vim-scripts/applescript.vim",      ft = { "applescript" } },
+  { "vim-scripts/a.vim", ft = { "c", "cpp" } },
+  { "vim-scripts/applescript.vim", ft = { "applescript" } },
   { "vim-scripts/fontforge_script.vim", ft = { "fontforge_script" } },
-  { "vim-scripts/nginx.vim",            ft = { "nginx" } },
-  { "vim-skk/skkdict.vim",              ft = { "skkdict" } },
+  { "vim-scripts/nginx.vim", ft = { "nginx" } },
+  { "vim-skk/skkdict.vim", ft = { "skkdict" } },
 
   {
     "arecarn/vim-fold-cycle",
@@ -669,18 +613,18 @@ return {
       { "vim-scripts/visualrepeat" },
     },
     keys = {
-      { "[E",       mode = { "n", "v" } },
-      { "]E",       mode = { "n", "v" } },
-      { "[e",       mode = { "n", "v" } },
-      { "]e",       mode = { "n", "v" } },
-      { "[f",       mode = { "n", "v" } },
-      { "]f",       mode = { "n", "v" } },
+      { "[E", mode = { "n", "v" } },
+      { "]E", mode = { "n", "v" } },
+      { "[e", mode = { "n", "v" } },
+      { "]e", mode = { "n", "v" } },
+      { "[f", mode = { "n", "v" } },
+      { "]f", mode = { "n", "v" } },
       { "[<Space>", mode = { "n", "v" } },
       { "]<Space>", mode = { "n", "v" } },
-      { "[D",       "<Plug>(LineJugglerDupOverUp)",    mode = { "n", "x" } },
-      { "]D",       "<Plug>(LineJugglerDupOverDown)",  mode = { "n", "x" } },
-      { "[<C-d>",   "<Plug>(LineJugglerDupRangeUp)",   mode = { "n", "x" } },
-      { "]<C-d>",   "<Plug>(LineJugglerDupRangeDown)", mode = { "n", "x" } },
+      { "[D", "<Plug>(LineJugglerDupOverUp)", mode = { "n", "x" } },
+      { "]D", "<Plug>(LineJugglerDupOverDown)", mode = { "n", "x" } },
+      { "[<C-d>", "<Plug>(LineJugglerDupRangeUp)", mode = { "n", "x" } },
+      { "]<C-d>", "<Plug>(LineJugglerDupRangeDown)", mode = { "n", "x" } },
     },
   },
 
@@ -749,17 +693,17 @@ return {
   {
     "t9md/vim-quickhl",
     keys = {
-      { "<Space>qm", [[<Plug>(quickhl-manual-this)]],   mode = { "n", "x" }, remap = true },
+      { "<Space>qm", [[<Plug>(quickhl-manual-this)]], mode = { "n", "x" }, remap = true },
       { "<Space>qt", [[<Plug>(quickhl-manual-toggle)]], mode = { "n", "x" }, remap = true },
-      { "<Space>qM", [[<Plug>(quickhl-manual-reset)]],  mode = { "n", "x" }, remap = true },
+      { "<Space>qM", [[<Plug>(quickhl-manual-reset)]], mode = { "n", "x" }, remap = true },
     },
   },
 
   {
     "tyru/columnskip.vim",
     keys = {
-      { "[j", [[<Plug>(columnskip:nonblank:next)]],       mode = { "n", "x", "o" } },
-      { "[k", [[<Plug>(columnskip:nonblank:prev)]],       mode = { "n", "x", "o" } },
+      { "[j", [[<Plug>(columnskip:nonblank:next)]], mode = { "n", "x", "o" } },
+      { "[k", [[<Plug>(columnskip:nonblank:prev)]], mode = { "n", "x", "o" } },
       { "]j", [[<Plug>(columnskip:first-nonblank:next)]], mode = { "n", "x", "o" } },
       { "]k", [[<Plug>(columnskip:first-nonblank:prev)]], mode = { "n", "x", "o" } },
     },
@@ -783,16 +727,16 @@ return {
       -- Overwrite / and ?.
       km.set({ "n", "x" }, "?", searchx "start" { dir = 0, desc = "Start vim-searchx to the top" })
       km.set({ "n", "x" }, "/", searchx "start" { dir = 1, desc = "Start vim-searchx to the bottom" })
-      km.set("c", "<A-;>", searchx "select" (), { desc = "searchx#select" })
+      km.set("c", "<A-;>", searchx "select"(), { desc = "searchx#select" })
 
       -- Move to next/prev match.
-      km.set({ "n", "x" }, "N", searchx "prev" (), { desc = "searchx#prev" })
-      km.set({ "n", "x" }, "n", searchx "next" (), { desc = "searchx#next" })
-      km.set({ "c", "n", "x" }, "<A-Z>", searchx "prev" (), { desc = "searchx#prev" })
-      km.set({ "c", "n", "x" }, "<A-X>", searchx "next" (), { desc = "searchx#next" })
+      km.set({ "n", "x" }, "N", searchx "prev"(), { desc = "searchx#prev" })
+      km.set({ "n", "x" }, "n", searchx "next"(), { desc = "searchx#next" })
+      km.set({ "c", "n", "x" }, "<A-Z>", searchx "prev"(), { desc = "searchx#prev" })
+      km.set({ "c", "n", "x" }, "<A-X>", searchx "next"(), { desc = "searchx#next" })
 
       -- Clear highlights
-      km.set("n", "<Esc><Esc>", searchx "clear" (), { desc = "searchx#clear" })
+      km.set("n", "<Esc><Esc>", searchx "clear"(), { desc = "searchx#clear" })
 
       palette "searchx" {
         nord = function(_)
@@ -938,7 +882,7 @@ return {
     end,
   },
 
-  { "rbong/vim-flog",         cmd = { "Flog", "Flogsplit", "Floggit" } },
+  { "rbong/vim-flog", cmd = { "Flog", "Flogsplit", "Floggit" } },
 
   {
     "MeanderingProgrammer/markdown.nvim",
@@ -1093,7 +1037,7 @@ return {
     end,
   },
 
-  { "folke/ts-comments.nvim", event = "VeryLazy",                      opts = {} },
+  { "folke/ts-comments.nvim", event = "VeryLazy", opts = {} },
 
   {
     "NStefan002/screenkey.nvim",
@@ -1132,7 +1076,7 @@ return {
     opts = { disabled_filetypes = { "TelescopePrompt" } },
   },
 
-  { "Kicamon/markdown-table-mode.nvim", ft = { "markdown" },      opts = {} },
+  { "Kicamon/markdown-table-mode.nvim", ft = { "markdown" }, opts = {} },
 
   {
     "folke/zen-mode.nvim",
@@ -1144,7 +1088,6 @@ return {
       plugins = { wezterm = { enabled = true } },
       on_open = function(win)
         require("incline").disable()
-        require("virt-column").clear_buf(vim.api.nvim_win_get_buf(win))
         vim.b.original_wrap = vim.opt_local.wrap:get()
         vim.b.original_number = vim.opt_local.number:get()
         vim.b.original_relativenumber = vim.opt_local.relativenumber:get()
@@ -1158,7 +1101,6 @@ return {
       end,
       on_close = function()
         require("incline").enable()
-        require("virt-column").refresh()
         vim.opt_local.wrap = vim.b.original_wrap
         vim.opt_local.number = vim.b.original_number
         vim.opt_local.relativenumber = vim.b.original_relativenumber
@@ -1213,28 +1155,26 @@ return {
 
   {
     "mawkler/demicolon.nvim",
-    keys = { "[c", "]c", "[d", "]d", "f", "F", "t", "T", ";", "," },
+    keys = { "[c", "]c", "[d", "]d", "[q", "]q", "[l", "]l", "f", "F", "t", "T", ";", "," },
     config = function()
       require("demicolon").setup {
         diagnostic = { float = { border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" } } },
         keymaps = {
           horizontal_motions = true,
           diagnostic_motions = false,
-          repeat_motions = false,
+          repeat_motions = true,
+          list_motions = true,
         },
         integrations = { gitsigns = { enabled = true, keymaps = { next = "]c", prev = "[c" } } },
       }
       local nxo = { "n", "x", "o" }
       local jump = require "demicolon.jump"
-      local ts_repeatable_move = require "nvim-treesitter.textobjects.repeatable_move"
       vim.keymap.set(nxo, "]d", jump.diagnostic_jump { forward = true })
       vim.keymap.set(nxo, "[d", jump.diagnostic_jump { forward = false })
-      vim.keymap.set(nxo, ";", ts_repeatable_move.repeat_last_move)
-      vim.keymap.set(nxo, ",", ts_repeatable_move.repeat_last_move_opposite)
     end,
   },
 
-  { "folke/persistence.nvim",           event = { "BufReadPre" }, opts = {} },
+  { "folke/persistence.nvim", event = { "BufReadPre" }, opts = {} },
 
   {
     -- "nvimdev/dashboard-nvim",
@@ -1327,34 +1267,34 @@ return {
       -- from here
       -- https://github.com/neovim/neovim/blob/50f6d364c661b88a1edc5ffc8e284d1c0ff70810/src/nvim/highlight_group.c#L2909-L2939
       custom_colors = {
-        { label = "NvimDarkBlue",     color = "#004c73" },
-        { label = "NvimDarkCyan",     color = "#007373" },
-        { label = "NvimDarkGray1",    color = "#07080d" },
-        { label = "NvimDarkGray2",    color = "#14161b" },
-        { label = "NvimDarkGray3",    color = "#2c2e33" },
-        { label = "NvimDarkGray4",    color = "#4f5258" },
-        { label = "NvimDarkGreen",    color = "#005523" },
-        { label = "NvimDarkGrey1",    color = "#07080d" },
-        { label = "NvimDarkGrey2",    color = "#14161b" },
-        { label = "NvimDarkGrey3",    color = "#2c2e33" },
-        { label = "NvimDarkGrey4",    color = "#4f5258" },
-        { label = "NvimDarkMagenta",  color = "#470045" },
-        { label = "NvimDarkRed",      color = "#590008" },
-        { label = "NvimDarkYellow",   color = "#6b5300" },
-        { label = "NvimLightBlue",    color = "#a6dbff" },
-        { label = "NvimLightCyan",    color = "#8cf8f7" },
-        { label = "NvimLightGray1",   color = "#eef1f8" },
-        { label = "NvimLightGray2",   color = "#e0e2ea" },
-        { label = "NvimLightGray3",   color = "#c4c6cd" },
-        { label = "NvimLightGray4",   color = "#9b9ea4" },
-        { label = "NvimLightGreen",   color = "#b3f6c0" },
-        { label = "NvimLightGrey1",   color = "#eef1f8" },
-        { label = "NvimLightGrey2",   color = "#e0e2ea" },
-        { label = "NvimLightGrey3",   color = "#c4c6cd" },
-        { label = "NvimLightGrey4",   color = "#9b9ea4" },
+        { label = "NvimDarkBlue", color = "#004c73" },
+        { label = "NvimDarkCyan", color = "#007373" },
+        { label = "NvimDarkGray1", color = "#07080d" },
+        { label = "NvimDarkGray2", color = "#14161b" },
+        { label = "NvimDarkGray3", color = "#2c2e33" },
+        { label = "NvimDarkGray4", color = "#4f5258" },
+        { label = "NvimDarkGreen", color = "#005523" },
+        { label = "NvimDarkGrey1", color = "#07080d" },
+        { label = "NvimDarkGrey2", color = "#14161b" },
+        { label = "NvimDarkGrey3", color = "#2c2e33" },
+        { label = "NvimDarkGrey4", color = "#4f5258" },
+        { label = "NvimDarkMagenta", color = "#470045" },
+        { label = "NvimDarkRed", color = "#590008" },
+        { label = "NvimDarkYellow", color = "#6b5300" },
+        { label = "NvimLightBlue", color = "#a6dbff" },
+        { label = "NvimLightCyan", color = "#8cf8f7" },
+        { label = "NvimLightGray1", color = "#eef1f8" },
+        { label = "NvimLightGray2", color = "#e0e2ea" },
+        { label = "NvimLightGray3", color = "#c4c6cd" },
+        { label = "NvimLightGray4", color = "#9b9ea4" },
+        { label = "NvimLightGreen", color = "#b3f6c0" },
+        { label = "NvimLightGrey1", color = "#eef1f8" },
+        { label = "NvimLightGrey2", color = "#e0e2ea" },
+        { label = "NvimLightGrey3", color = "#c4c6cd" },
+        { label = "NvimLightGrey4", color = "#9b9ea4" },
         { label = "NvimLightMagenta", color = "#ffcaff" },
-        { label = "NvimLightRed",     color = "#ffc0b9" },
-        { label = "NvimLightYellow",  color = "#fce094" },
+        { label = "NvimLightRed", color = "#ffc0b9" },
+        { label = "NvimLightYellow", color = "#fce094" },
       },
     },
   },
