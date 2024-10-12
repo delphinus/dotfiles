@@ -669,7 +669,7 @@ return {
 
   {
     "ruifm/gitlinker.nvim",
-    keys = { { "<Space>gc", mode = { "n", "v" } } },
+    keys = { { "gy", mode = { "n", "v" } } },
     opts = function(_)
       return {
         opts = {
@@ -685,7 +685,7 @@ return {
             return require("gitlinker.hosts").get_github_type_url(url_data)
           end,
         },
-        mappings = "<Space>gc",
+        mappings = "gy",
       }
     end,
   },
