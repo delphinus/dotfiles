@@ -1,7 +1,5 @@
 local wezterm = require "wezterm"
 
-local has_battery = not not wezterm.battery_info()[1]
-
 local battery_glyphs = {
   normal = {
     wezterm.nerdfonts.md_battery_outline,
@@ -31,9 +29,16 @@ local battery_glyphs = {
   },
 }
 
+local function isNaN(value)
+  return value ~= value
+end
+
 local function battery(config)
-  local f = math.floor
   local info = wezterm.battery_info()[1]
+  if isNaN(info.state_of_charge) then
+    return {}
+  end
+  local f = math.floor
   local amount = f(info.state_of_charge * 10)
   local icon = battery_glyphs[info.status == "Charging" and "charging" or "normal"][amount + 1]
   local elapsed = info.time_to_empty or info.time_to_full
@@ -45,13 +50,26 @@ local function battery(config)
   }
 end
 
+local function key_table(config, window)
+  local name = window:active_key_table()
+  if not name then
+    return {}
+  end
+  local bg = {
+    copy_mode = config.colors.ansi[4],
+    resize_pane = config.colors.ansi[6],
+    search_mode = config.colors.ansi[7],
+  }
+  return {
+    { Foreground = { Color = config.colors.ansi[1] } },
+    { Background = { Color = bg[name] } },
+    { Text = (" %s %s "):format(wezterm.nerdfonts.md_table, name) },
+    "ResetAttributes",
+  }
+end
+
 return function(config)
   wezterm.on("update-status", function(window, pane)
-    local name = window:active_key_table()
-    local bg = {
-      copy_mode = config.colors.ansi[4],
-      resize_pane = config.colors.ansi[6],
-    }
     local elements = {
       { Foreground = { Color = config.colors.ansi[4] } },
       { Background = { Color = config.colors.tab_bar.background } },
@@ -67,16 +85,11 @@ return function(config)
       { Text = wezterm.nerdfonts.md_clock_outline .. wezterm.strftime " %b %e %T " },
       "ResetAttributes",
     }
-    if has_battery then
-      for i, value in ipairs(battery(config)) do
-        table.insert(elements, i, value)
-      end
+    for i, value in ipairs(battery(config)) do
+      table.insert(elements, i, value)
     end
-    if name then
-      table.insert(elements, { Foreground = { Color = config.colors.ansi[1] } })
-      table.insert(elements, { Background = { Color = bg[name] } })
-      table.insert(elements, { Text = (" %s %s "):format(wezterm.nerdfonts.md_table, name) })
-      table.insert(elements, "ResetAttributes")
+    for _, value in ipairs(key_table(config, window)) do
+      table.insert(elements, value)
     end
     window:set_right_status(wezterm.format(elements))
   end)

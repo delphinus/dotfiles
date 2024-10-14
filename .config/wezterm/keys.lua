@@ -35,6 +35,7 @@ return function(config)
     { key = "f", mods = "CMD", action = act.Search { CaseSensitiveString = "" } },
     { key = "f", mods = "SHIFT|CMD", action = act.ToggleFullScreen },
     { key = "h", mods = "CMD", action = act.HideApplication },
+    { key = "h", mods = "SHIFT|CMD", action = act.Search { Regex = "[a-f0-9]{6,}" } },
     { key = "j", mods = "CMD", action = act.ActivatePaneDirection "Next" },
     { key = "k", mods = "CMD", action = act.ActivatePaneDirection "Prev" },
     { key = "l", mods = "CMD", action = act.ShowDebugOverlay },

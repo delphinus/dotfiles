@@ -6,6 +6,7 @@ return function(config)
     copy_mode = {
       { key = "$", action = act.CopyMode "MoveToEndOfLineContent" },
       { key = ",", mods = "NONE", action = act.CopyMode "JumpReverse" },
+      { key = "/", mods = "NONE", action = act.Search { CaseSensitiveString = "" } },
       { key = "0", mods = "NONE", action = act.CopyMode "MoveToStartOfLine" },
       { key = ";", mods = "NONE", action = act.CopyMode "JumpAgain" },
       { key = "Enter", mods = "NONE", action = act.Multiple { { CopyTo = "Clipboard" }, { CopyMode = "Close" } } },
@@ -30,6 +31,8 @@ return function(config)
       { key = "l", mods = "NONE", action = act.CopyMode "MoveRight" },
       { key = "l", mods = "SHIFT", action = act.CopyMode "MoveToViewportBottom" },
       { key = "m", mods = "SHIFT", action = act.CopyMode "MoveToViewportMiddle" },
+      { key = "n", mods = "NONE", action = act.CopyMode "NextMatch" },
+      { key = "n", mods = "SHIFT", action = act.CopyMode "PriorMatch" },
       { key = "o", mods = "NONE", action = act.CopyMode "MoveToSelectionOtherEndHoriz" },
       { key = "q", mods = "NONE", action = act.CopyMode "Close" },
       { key = "t", mods = "NONE", action = act.CopyMode { JumpForward = { prev_char = true } } },
@@ -40,6 +43,19 @@ return function(config)
       { key = "v", mods = "SHIFT", action = act.CopyMode { SetSelectionMode = "Line" } },
       { key = "w", mods = "NONE", action = act.CopyMode "MoveForwardWord" },
       { key = "y", mods = "NONE", action = act.Multiple { { CopyTo = "Clipboard" }, { CopyMode = "Close" } } },
+    },
+
+    search_mode = {
+      { key = "Enter", mods = "NONE", action = act.ActivateCopyMode },
+      { key = "Escape", mods = "NONE", action = act.CopyMode "Close" },
+      { key = "c", mods = "CMD", action = act.Multiple { { CopyTo = "Clipboard" }, { CopyMode = "Close" } } },
+      { key = "c", mods = "CTRL", action = act.CopyMode "Close" },
+      { key = "e", mods = "NONE", action = act.CopyMode "EditPattern" },
+      { key = "n", mods = "CTRL", action = act.CopyMode "NextMatch" },
+      { key = "p", mods = "CTRL", action = act.CopyMode "PriorMatch" },
+      { key = "r", mods = "CTRL", action = act.CopyMode "CycleMatchType" },
+      { key = "u", mods = "CTRL", action = act.CopyMode "ClearPattern" },
+      { key = "v", mods = "CMD", action = act.PasteFrom "Clipboard" },
     },
 
     resize_pane = {
