@@ -487,20 +487,20 @@ return {
           },
           ]]
 
-        helpers.make_builtin {
-          name = "efm-perl",
-          meta = { url = "https://example.com", description = "TODO" },
-          method = methods.internal.DIAGNOSTICS,
-          filetypes = { "perl" },
-          generator_opts = {
-            command = "efm-perl",
-            args = { "-f", "$FILENAME" },
-            to_stdin = true,
-            format = "raw",
-            on_output = helpers.diagnostics.from_errorformat("%l:%m", "efm-perl"),
-          },
-          factory = helpers.generator_factory,
-        },
+        -- helpers.make_builtin {
+        --   name = "efm-perl",
+        --   meta = { url = "https://example.com", description = "TODO" },
+        --   method = methods.internal.DIAGNOSTICS,
+        --   filetypes = { "perl" },
+        --   generator_opts = {
+        --     command = "efm-perl",
+        --     args = { "-f", "$FILENAME" },
+        --     to_stdin = true,
+        --     format = "raw",
+        --     on_output = helpers.diagnostics.from_errorformat("%l:%m", "efm-perl"),
+        --   },
+        --   factory = helpers.generator_factory,
+        -- },
       }
 
       if not vim.env.LIGHT then
