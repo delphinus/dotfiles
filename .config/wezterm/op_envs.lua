@@ -4,13 +4,8 @@ local wezterm = require "wezterm"
 return function(envs)
   local filename = "/tmp/.1password-env"
   if #wezterm.glob(filename) == 0 then
-    os.execute(
-      ([[%s --vault CLI item get --format json secret_envs | %s -r '.fields[] | select(.value) | "\(.label)=\(.value)"' > %s]]):format(
-        const.op,
-        const.jq,
-        filename
-      )
-    )
+    wezterm.log_warn "envs from op are not found"
+    return envs
   end
   local file = io.open(filename)
   assert(file, "op_secrets exists")
