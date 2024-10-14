@@ -46,7 +46,7 @@ local function battery(config)
   return {
     { Foreground = { Color = config.colors.ansi[3] } },
     { Background = { Color = config.colors.tab_bar.background } },
-    { Text = ("%s %.1f%%%s "):format(icon, info.state_of_charge * 100, time) },
+    { Text = ("%s %.0f%%%s "):format(icon, info.state_of_charge * 100, time) },
   }
 end
 
