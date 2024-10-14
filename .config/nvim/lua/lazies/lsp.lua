@@ -114,13 +114,48 @@ return {
         return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
       end
 
+      local perl_env = (function()
+        local filename = "/tmp/.1password-perl-env"
+        local st, err, err, err = vim.uv.fs_stat(filename)
+        assert(st, "did fs_stat successfully")
+        assert(not err, err)
+        local fd
+        fd, err = vim.uv.fs_open(filename, "r", tonumber("644", 8))
+        assert(not err, err)
+        local content
+        content, err = vim.uv.fs_read(fd, st.size)
+        assert(content, "content exists")
+        assert(not err, err)
+        return vim.iter(vim.gsplit(content, "\n")):fold({}, function(a, b)
+          local key, value = b:match "^([^=]+)=(.*)$"
+          if key and value then
+            a[key] = value
+          end
+          return a
+        end)
+      end)()
+
+      local carmel_exec = (function()
+        local filename = "/tmp/carmel-exec"
+        local _, err = vim.uv.fs_stat(filename)
+        if not err then
+          return filename
+        end
+        local fd
+        fd, err = vim.uv.fs_open(filename, "w", tonumber("755", 8))
+        assert(not err, err)
+        _, err = vim.uv.fs_write(fd, { "#!/bin/bash -eu\n", 'exec carmel exec perl "$@"\n' })
+        assert(not err, err)
+        return filename
+      end)()
+
       local server_configs = {
         perlnavigator = {
-          cmd = { "perlnavigator", "--stdio" },
           settings = {
             perlnavigator = {
-              perlPath = "carmel exec -- perl",
-              includePaths = { "lib", "local/lib/perl5" },
+              perlEnv = perl_env,
+              perlPath = carmel_exec,
+              includePaths = { "lib", "local/lib/perl5", "t/lib" },
             },
           },
         },
