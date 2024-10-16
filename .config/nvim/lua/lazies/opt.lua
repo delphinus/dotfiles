@@ -569,6 +569,7 @@ return {
 
   {
     "vim-perl/vim-perl",
+    enabled = false,
     ft = { "perl", "perl6" },
     init = function()
       vim.g.perl_include_pod = 1
