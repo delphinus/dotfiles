@@ -40,7 +40,7 @@ local function battery(config)
   end
   local f = math.floor
   local amount = f(info.state_of_charge * 10)
-  local icon = battery_glyphs[info.status == "Charging" and "charging" or "normal"][amount + 1]
+  local icon = battery_glyphs[info.state == "Charging" and "charging" or "normal"][amount + 1]
   local elapsed = info.time_to_empty or info.time_to_full
   local time = elapsed and (" 残り %d:%02d"):format(f(elapsed / 3600), f(elapsed % 3600 / 60)) or ""
   return {
