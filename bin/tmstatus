@@ -98,7 +98,7 @@ sub arrange :prototype($) ($result) {
     }
     my $p = get $result, 'progress', +{};
     if (defined(my $v = get $p, 'bytes')) {
-        $p->{bytesFormatted} = substr(commify $v / 1e9, 0, 5) . 'GB';
+        $p->{bytesFormatted} = substr(commify $v / 1e9, 0, 4) . ' GB';
     }
     if (defined(my $v = get $p, 'timeRemaining')) {
         my $formatted;

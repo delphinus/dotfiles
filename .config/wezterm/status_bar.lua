@@ -118,13 +118,16 @@ local function tmstatus(config)
     end
   end
   table.insert(result, {
-    Text = ("%s %s%s%s %.1f%% %s "):format(
-      wezterm.nerfonts.oct_stopwatch,
+    Text = ("%s %s %s%s%s %.1f%% %s 残り %d:%02d "):format(
+      wezterm.nerdfonts.oct_stopwatch,
+      info.backupPhase,
       bar_glyphs.left,
       glyphs,
       bar_glyphs.right,
-      info.progress.percent,
-      info.backupPhase
+      info.progress.percent * 100,
+      info.progress.bytesFormatted,
+      f(info.progress.timeRemaining / 3600),
+      f(info.progress.timeRemaining % 3600 / 60)
     ),
   })
   return result
