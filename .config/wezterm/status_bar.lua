@@ -81,7 +81,7 @@ local bar_glyphs = {
   right = "▌",
 }
 local bar_division = 8
-local bar_size = 6
+local bar_size = 12
 
 local cache_latest_backup
 local function latest_backup()
