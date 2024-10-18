@@ -1172,6 +1172,9 @@ return {
       local jump = require "demicolon.jump"
       vim.keymap.set(nxo, "]d", jump.diagnostic_jump { forward = true })
       vim.keymap.set(nxo, "[d", jump.diagnostic_jump { forward = false })
+      local ts_repeatable_move = require "nvim-treesitter.textobjects.repeatable_move"
+      vim.keymap.set(nxo, ";", ts_repeatable_move.repeat_last_move)
+      vim.keymap.set(nxo, ",", ts_repeatable_move.repeat_last_move_opposite)
     end,
   },
 
