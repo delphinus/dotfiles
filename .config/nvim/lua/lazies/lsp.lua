@@ -135,27 +135,14 @@ return {
         end)
       end)()
 
-      local carmel_exec = (function()
-        local filename = "/tmp/carmel-exec"
-        local _, err = vim.uv.fs_stat(filename)
-        if not err then
-          return filename
-        end
-        local fd
-        fd, err = vim.uv.fs_open(filename, "w", tonumber("755", 8))
-        assert(not err, err)
-        _, err = vim.uv.fs_write(fd, { "#!/bin/bash -eu\n", 'exec carmel exec perl "$@"\n' })
-        assert(not err, err)
-        return filename
-      end)()
-
       local server_configs = {
         perlnavigator = {
           settings = {
             perlnavigator = {
               perlEnv = perl_env,
-              perlPath = carmel_exec,
-              includePaths = { "lib", "local/lib/perl5", "t/lib" },
+              perlPath = "carmel",
+              perlParams = { "exec", "perl" },
+              includePaths = { "./lib", "./local/lib/perl5", "./t/lib" },
             },
           },
         },
