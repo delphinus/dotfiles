@@ -97,6 +97,9 @@ local function tmstatus(config)
   if info.running == 0 then
     table.insert(result, { Text = wezterm.nerdfonts.oct_stop .. " " })
     return result
+  elseif not info.progress then
+    table.insert(result, { Text = ("%s %s "):format(wezterm.nerdfonts.oct_stopwatch, info.backupPhase) })
+    return result
   end
   local f = math.floor
   local count = f(bar_size * bar_division * info.progress.percent)
