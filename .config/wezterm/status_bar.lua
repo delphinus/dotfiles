@@ -68,6 +68,65 @@ local function key_table(config, window)
   }
 end
 
+local bar_glyphs = {
+  "▏",
+  "▎",
+  "▍",
+  "▌",
+  "▋",
+  "▊",
+  "▉",
+  full = "█",
+  left = "▐",
+  right = "▌",
+}
+local bar_division = 8
+local bar_size = 6
+
+local function tmstatus(config)
+  local result = {
+    { Foreground = { Color = config.colors.ansi[2] } },
+    { Background = { Color = config.colors.tab_bar.background } },
+  }
+  local success, stdout, stderr = wezterm.run_child_process { wezterm.home_dir .. "/git/dotfiles/bin/tmstatus" }
+  if not success then
+    table.insert(result, { Text = stderr })
+    return result
+  end
+  local info = wezterm.json_parse(stdout)
+  if info.running == 0 then
+    table.insert(result, { Text = wezterm.nerdfonts.oct_stop .. " " })
+    return result
+  end
+  local f = math.floor
+  local count = f(bar_size * bar_division * info.progress.percent)
+  local full_count = f(count / bar_division)
+  local rest = count % bar_division
+  local glyphs = ""
+  for _ = 1, full_count do
+    glyphs = glyphs .. bar_glyphs.full
+  end
+  if rest > 0 then
+    glyphs = glyphs .. bar_glyphs[rest]
+  end
+  if full_count < bar_size - 1 then
+    for _ = 1, bar_size - full_count - 1 do
+      glyphs = glyphs .. " "
+    end
+  end
+  table.insert(result, {
+    Text = ("%s %s%s%s %.1f%% %s "):format(
+      wezterm.nerfonts.oct_stopwatch,
+      bar_glyphs.left,
+      glyphs,
+      bar_glyphs.right,
+      info.progress.percent,
+      info.backupPhase
+    ),
+  })
+  return result
+end
+
 return function(config)
   wezterm.on("update-status", function(window, pane)
     local elements = {
@@ -85,6 +144,9 @@ return function(config)
       { Text = wezterm.nerdfonts.md_clock_outline .. wezterm.strftime " %b %e %T " },
       "ResetAttributes",
     }
+    for i, value in ipairs(tmstatus(config)) do
+      table.insert(elements, i, value)
+    end
     for i, value in ipairs(battery(config)) do
       table.insert(elements, i, value)
     end
