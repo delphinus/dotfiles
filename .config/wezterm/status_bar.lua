@@ -83,6 +83,22 @@ local bar_glyphs = {
 local bar_division = 8
 local bar_size = 6
 
+local cache_latest_backup
+local function latest_backup()
+  if not cache_latest_backup then
+    local success, stdout, stderr = wezterm.run_child_process { "/usr/bin/tmutil", "latestbackup" }
+    if not success then
+      return
+    end
+    local hour, minute = stdout:match "(%d%d)(%d%d)%d%d%.backup"
+    if not hour or not minute then
+      return
+    end
+    cache_latest_backup = (" 最新 %s:%s"):format(hour, minute)
+  end
+  return cache_latest_backup
+end
+
 local function tmstatus(config)
   local result = {
     { Foreground = { Color = config.colors.ansi[2] } },
@@ -95,14 +111,17 @@ local function tmstatus(config)
   end
   local info = wezterm.json_parse(stdout)
   if info.running == 0 then
-    table.insert(result, { Text = wezterm.nerdfonts.oct_stop .. " " })
+    table.insert(result, { Text = ("%s%s "):format(wezterm.nerdfonts.oct_stop, latest_backup() or "") })
     return result
-  elseif not info.progress then
+  end
+  cache_latest_backup = nil
+  local progress = info.progress
+  if not progress then
     table.insert(result, { Text = ("%s %s "):format(wezterm.nerdfonts.oct_stopwatch, info.backupPhase) })
     return result
   end
   local f = math.floor
-  local count = f(bar_size * bar_division * info.progress.percent)
+  local count = f(bar_size * bar_division * progress.percent)
   local full_count = f(count / bar_division)
   local rest = count % bar_division
   local glyphs = ""
@@ -117,17 +136,18 @@ local function tmstatus(config)
       glyphs = glyphs .. " "
     end
   end
+  local remaining = progress.timeRemaining
+  local elapsed = remaining and (" 残り %d:%02d"):format(f(remaining / 3600), f(remaining % 3600 / 60)) or ""
   table.insert(result, {
-    Text = ("%s %s %s%s%s %.1f%% %s 残り %d:%02d "):format(
+    Text = ("%s %s %s%s%s %.1f%% %s%s "):format(
       wezterm.nerdfonts.oct_stopwatch,
       info.backupPhase,
       bar_glyphs.left,
       glyphs,
       bar_glyphs.right,
-      info.progress.percent * 100,
-      info.progress.bytesFormatted,
-      f(info.progress.timeRemaining / 3600),
-      f(info.progress.timeRemaining % 3600 / 60)
+      progress.percent * 100,
+      progress.bytesFormatted,
+      elapsed
     ),
   })
   return result
