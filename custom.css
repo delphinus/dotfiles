@@ -1,84 +1,125 @@
 @font-face {
-	font-family: serif;
-	src: local('凸版文久明朝');
+  font-family: serif;
+  src: local('凸版文久明朝');
 }
+
 @font-face {
-	font-family: '游明朝';
-	src: local('游明朝体');
+  font-family: '游明朝';
+  src: local('游明朝体');
 }
+
 @font-face {
-	font-family: sans-serif;
-	src: local(-apple-system);
+  font-family: sans-serif;
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: Arial;
-	src: local(-apple-system);
+  font-family: Arial;
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: monospace;
-	src: local(ui-monospace);
+  font-family: monospace;
+  src: local(ui-monospace);
 }
+
 @font-face {
   font-family: Menlo;
   src: local(ui-monospace);
 }
+
 @font-face {
   font-family: Monaco;
   src: local(ui-monospace);
 }
+
 @font-face {
-	font-family: 'ヒラギノ角ゴ ProN W3';
-	src: local(-apple-system);
+  font-family: 'ヒラギノ角ゴ ProN W3';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'ヒラギノ角ゴ Pro W3';
-	src: local(-apple-system);
+  font-family: 'ヒラギノ角ゴ Pro W3';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'Hiragino Kaku Gothic Pro';
-	src: local(-apple-system);
+  font-family: 'Hiragino Kaku Gothic Pro';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'MS Gothic';
-	src: local(-apple-system);
+  font-family: 'MS Gothic';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'MS UI Gothic';
-	src: local(-apple-system);
+  font-family: 'MS UI Gothic';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'ＭＳ Ｐゴシック';
-	src: local(-apple-system);
+  font-family: 'ＭＳ Ｐゴシック';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'Meiryo';
-	src: local(-apple-system);
+  font-family: 'Meiryo';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'メイリオ';
-	src: local(-apple-system);
+  font-family: 'メイリオ';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'Osaka';
-	src: local(-apple-system);
+  font-family: 'Osaka';
+  src: local(-apple-system);
 }
+
 @font-face {
-	font-family: 'Osaka-Mono';
-	src: local(ui-monospace);
+  font-family: 'Source Sans Pro';
+  src: local(-apple-system);
 }
+
 @font-face {
-    font-family: -apple-system-subset;
-    src: local(-apple-system);
-    unicode-range: U+0000-05C7;
+  font-family: 'Source Sans Pro Regular';
+  src: local(-apple-system);
 }
+
 @font-face {
-    font-family: -serif-cyrillic;
-    src: local(Times);
-    unicode-range: U+0400-052F;
+  font-family: 'Osaka-Mono';
+  src: local(ui-monospace);
 }
-textarea,textarea *,pre,pre *,code,code *,tt,tt *,
-input[type="text"],input[type="email"],input[type="search"],
-.blob-num, .blob-code, .blob-code-inner, .Vimdoc,
+
+@font-face {
+  font-family: -apple-system-subset;
+  src: local(-apple-system);
+  unicode-range: U+0000-05C7;
+}
+
+@font-face {
+  font-family: -serif-cyrillic;
+  src: local(Times);
+  unicode-range: U+0400-052F;
+}
+
+textarea,
+textarea *,
+pre,
+pre *,
+code,
+code *,
+tt,
+tt *,
+input[type="text"],
+input[type="email"],
+input[type="search"],
+.blob-num,
+.blob-code,
+.blob-code-inner,
+.Vimdoc,
 .syntaxhighlighter .gutter div,
 .syntaxhighlighter a,
 .syntaxhighlighter div,
@@ -94,21 +135,20 @@ input[type="text"],input[type="email"],input[type="search"],
 .ace_editor,
 /* Cloud Logging */
 .log-line-container,
-.logs-highlightable-text
-{
-	font-family: ui-monospace !important;
+.logs-highlightable-text {
+  font-family: ui-monospace !important;
 }
 
 /* Wikipedia */
 .mw-parser-output .jis2004font,
-table td b a.extiw
-{
+table td b a.extiw {
   font-family: -apple-system !important;
 }
 
 /* Karapia */
-.widget-entry .widget-header, .widget-entry .widget-content {
-	font-family: -apple-system !important;
+.widget-entry .widget-header,
+.widget-entry .widget-content {
+  font-family: -apple-system !important;
 }
 
 /* AWS */
@@ -118,15 +158,14 @@ table td b a.extiw
 }
 
 /* O'Reilly Learning */
-#book-content #sbo-rt-content p
-{
+#book-content #sbo-rt-content p {
   font-family: -apple-system !important;
 }
-#book-content #sbo-rt-content .pre
-{
+
+#book-content #sbo-rt-content .pre {
   padding: 0 !important;
 }
 
 html {
-	font-family: ui-rounded;
+  font-family: ui-rounded;
 }
