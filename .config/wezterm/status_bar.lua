@@ -131,8 +131,9 @@ local function tmstatus(config)
   if rest > 0 then
     glyphs = glyphs .. bar_glyphs[rest]
   end
-  if full_count < bar_size - 1 then
-    for _ = 1, bar_size - full_count - 1 do
+  local spaces = bar_size - full_count - (rest == 0 and 0 or 1)
+  if spaces > 0 then
+    for _ = 1, spaces do
       glyphs = glyphs .. " "
     end
   end
