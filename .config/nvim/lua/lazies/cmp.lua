@@ -213,10 +213,7 @@ return {
 
   { "onsails/lspkind-nvim" },
   {
-    -- "hrsh7th/nvim-cmp",
-    -- HACK: https://github.com/hrsh7th/nvim-cmp/pull/1980
-    "yioneko/nvim-cmp",
-    branch = "perf-up",
+    "hrsh7th/nvim-cmp",
 
     init = function()
       palette "cmp" {
