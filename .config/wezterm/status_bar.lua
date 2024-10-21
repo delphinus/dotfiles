@@ -93,7 +93,7 @@ return function(config)
       for i, value in ipairs {
         { Foreground = { Color = config.colors.ansi[2] } },
         { Background = { Color = config.colors.tab_bar.background } },
-        { Text = tm },
+        { Text = tm .. " " },
       } do
         table.insert(elements, i, value)
       end
@@ -104,6 +104,8 @@ return function(config)
     for _, value in ipairs(key_table(config, window)) do
       table.insert(elements, value)
     end
+    table.insert(elements, { Background = { Color = config.colors.tab_bar.background } })
+    table.insert(elements, 1, { Text = " " })
     window:set_right_status(wezterm.format(elements))
   end)
 end
