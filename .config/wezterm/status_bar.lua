@@ -1,4 +1,5 @@
 local wezterm = require "wezterm"
+local Timemachine = require "timemachine"
 
 local battery_glyphs = {
   normal = {
@@ -68,93 +69,9 @@ local function key_table(config, window)
   }
 end
 
-local bar_glyphs = {
-  "▏",
-  "▎",
-  "▍",
-  "▌",
-  "▋",
-  "▊",
-  "▉",
-  full = "█",
-  left = "▐",
-  right = "▌",
-}
-local bar_division = 8
-local bar_size = 12
-
-local cache_latest_backup
-local function latest_backup()
-  if not cache_latest_backup then
-    local success, stdout, stderr = wezterm.run_child_process { "/usr/bin/tmutil", "latestbackup" }
-    if not success then
-      return
-    end
-    local hour, minute = stdout:match "(%d%d)(%d%d)%d%d%.backup"
-    if not hour or not minute then
-      return
-    end
-    cache_latest_backup = (" 最新 %s:%s"):format(hour, minute)
-  end
-  return cache_latest_backup
-end
-
-local function tmstatus(config)
-  local result = {
-    { Foreground = { Color = config.colors.ansi[2] } },
-    { Background = { Color = config.colors.tab_bar.background } },
-  }
-  local success, stdout, stderr = wezterm.run_child_process { wezterm.home_dir .. "/git/dotfiles/bin/tmstatus" }
-  if not success then
-    table.insert(result, { Text = stderr })
-    return result
-  end
-  local info = wezterm.json_parse(stdout)
-  if info.running == 0 then
-    table.insert(result, { Text = ("%s%s "):format(wezterm.nerdfonts.oct_stop, latest_backup() or "") })
-    return result
-  end
-  cache_latest_backup = nil
-  local progress = info.progress
-  if not progress then
-    table.insert(result, { Text = ("%s %s "):format(wezterm.nerdfonts.oct_stopwatch, info.backupPhase) })
-    return result
-  end
-  local f = math.floor
-  local count = f(bar_size * bar_division * progress.percent)
-  local full_count = f(count / bar_division)
-  local rest = count % bar_division
-  local glyphs = ""
-  for _ = 1, full_count do
-    glyphs = glyphs .. bar_glyphs.full
-  end
-  if rest > 0 then
-    glyphs = glyphs .. bar_glyphs[rest]
-  end
-  local spaces = bar_size - full_count - (rest == 0 and 0 or 1)
-  if spaces > 0 then
-    for _ = 1, spaces do
-      glyphs = glyphs .. " "
-    end
-  end
-  local remaining = progress.timeRemaining
-  local elapsed = remaining and (" 残り %d:%02d"):format(f(remaining / 3600), f(remaining % 3600 / 60)) or ""
-  table.insert(result, {
-    Text = ("%s %s %s%s%s %.1f%% %s%s "):format(
-      wezterm.nerdfonts.oct_stopwatch,
-      info.backupPhase,
-      bar_glyphs.left,
-      glyphs,
-      bar_glyphs.right,
-      progress.percent * 100,
-      progress.bytesFormatted,
-      elapsed
-    ),
-  })
-  return result
-end
-
 return function(config)
+  local timemachine = Timemachine.new()
+
   wezterm.on("update-status", function(window, pane)
     local elements = {
       { Foreground = { Color = config.colors.ansi[4] } },
@@ -171,8 +88,15 @@ return function(config)
       { Text = wezterm.nerdfonts.md_clock_outline .. wezterm.strftime " %b %e %T " },
       "ResetAttributes",
     }
-    for i, value in ipairs(tmstatus(config)) do
-      table.insert(elements, i, value)
+    local tm = timemachine:text()
+    if tm then
+      for i, value in ipairs {
+        { Foreground = { Color = config.colors.ansi[2] } },
+        { Background = { Color = config.colors.tab_bar.background } },
+        { Text = tm },
+      } do
+        table.insert(elements, i, value)
+      end
     end
     for i, value in ipairs(battery(config)) do
       table.insert(elements, i, value)
