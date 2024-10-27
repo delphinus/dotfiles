@@ -40,6 +40,7 @@ end
 
 ---@class wezterm.TimemachineInfo
 ---@field backupPhase string
+---@field dateOfStateChangeFormatted string
 ---@field progress? wezterm.TimemachineInfoProgress
 ---@field running 0|1
 
@@ -93,20 +94,26 @@ end
 ---@param info wezterm.TimemachineInfo
 ---@return string
 function Timemachine:create_text(info)
+  local refreshed = ""
+  if info.dateOfStateChangeFormatted then
+    local hm = info.dateOfStateChangeFormatted:match "(%d%d:%d%d):%d%d"
+    refreshed = " 最終更新 " .. hm
+  end
   local progress = info.progress
   if not progress then
-    return ("%s %s"):format(wezterm.nerdfonts.oct_stopwatch, info.backupPhase)
+    return ("%s %s%s"):format(wezterm.nerdfonts.oct_stopwatch, info.backupPhase, refreshed)
   end
   local remaining = progress.timeRemaining
   local f = math.floor
   local elapsed = remaining and (" 残り %d:%02d"):format(f(remaining / 3600), f(remaining % 3600 / 60)) or ""
-  return ("%s %s ▐%s▌ %.1f%% %s%s"):format(
+  return ("%s %s ▐%s▌ %.1f%% %s%s%s"):format(
     wezterm.nerdfonts.oct_stopwatch,
     info.backupPhase,
     self:create_bar(progress.percent),
     progress.percent * 100,
     progress.bytesFormatted,
-    elapsed
+    elapsed,
+    refreshed
   )
 end
 
