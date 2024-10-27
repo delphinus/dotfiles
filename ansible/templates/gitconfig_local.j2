@@ -1,9 +1,19 @@
+{% if lookup('env', 'GITHUB_ENTERPRISE_PREFIX_SSH') != '' -%}
 [url "{{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_SSH') }}"]
 	insteadOf = {{ lookup('env', 'GITHUB_ENTERPRISE_PREFIX_HTTPS') }}
 [ghq "{{ lookup('env', 'GITHUB_ENTERPRISE_GHQ_URL') }}"]
 	vcs = git
 [includeIf "gitdir:{{ lookup('env', 'GITHUB_ENTERPRISE_HOST') }}/"]
     path = .work.inc
+{%- endif %}
+{%- if ansible_system == 'Darwin' %}
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+  gpgsign = true
+{%- endif %}
 
 {# vim:se ft=gitconfig.jinja: #}
 # vim:se ft=gitconfig:

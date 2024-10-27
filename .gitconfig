@@ -127,12 +127,7 @@
 	cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
 [mergetool "nvimdiff"]
 	cmd = nvim -d -c '4wincmd w | wincmd J | nnoremap q <Cmd>qa<CR>' $LOCAL $BASE $REMOTE $MERGED
-[gpg]
-	format = ssh
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [commit]
-	gpgsign = true
 	template = ~/git/dotfiles/commit-template.txt
 [init]
 	defaultBranch = main
