@@ -39,7 +39,7 @@ test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 set -l theme ~/.local/share/nvim/lazy/sweetie.nvim/extras/fish/Sweetie\ Dark.theme
 # set -l theme ~/.local/share/nvim/lazy/sweetie.nvim/extras/fish/Sweetie\ Light.theme
 if test -f $theme
-    cat $theme | perl -nle 'print "set $_" if /^fish_/' | source
+    string replace -rf '^fish' 'set $0' <$theme | source
 end
 
 set __fish_git_prompt_showuntrackedfiles true
