@@ -165,17 +165,19 @@ type -q direnv; and direnv hook fish | source
 type -q asdf; and source $homebrew_path/opt/asdf/libexec/asdf.fish
 
 if type -q luarocks
-    set path (type -P luarocks)
-    set filename $HOME/.local/var/cache/(string replace -a / - $path)
+    set luarocks_path (type -P luarocks)
+    set filename $HOME/.local/var/cache/(string replace -a / - $luarocks_path)
     set timestamp 0
-    test -f $filename; and set timestamp (cat $filename)
-    set t (stat -f %m $path)
-    if test $t -gt $timestamp
-        set completion $HOME/.config/fish/completions/luarocks.fish
-        mkdir -p (dirname $completion)
-        luarocks completion fish >$completion
-        mkdir -p (dirname $filename)
-        echo $t >$filename
+    if test -f $filename
+        set timestamp (cat $filename)
+        set t (stat -f %m $luarocks_path)
+        if test $t -gt $timestamp
+            set completion $HOME/.config/fish/completions/luarocks.fish
+            mkdir -p (dirname $completion)
+            luarocks completion fish >$completion
+            mkdir -p (dirname $filename)
+            echo $t >$filename
+        end
     end
 end
 
