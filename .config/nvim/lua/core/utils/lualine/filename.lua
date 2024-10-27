@@ -11,7 +11,7 @@ function M:init(options)
     basename = self:create_hl({ fg = colors.yellow, gui = "bold" }, "dir"),
   }
   self.home_re = "^" .. assert(vim.uv.os_homedir()) .. "/"
-  self.ghe_re = "^~/git/" .. vim.pesc(vim.env.GITHUB_ENTERPRISE_HOST) .. "/"
+  self.ghe_re = vim.env.GITHUB_ENTERPRISE_HOST and "^~/git/" .. vim.pesc(vim.env.GITHUB_ENTERPRISE_HOST) .. "/" or nil
   self.nvim_re = "^" .. vim.pesc(vim.env.VIMRUNTIME) .. "/"
   self.obsidian_re = vim.pesc "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/"
   self.stdpaths = vim
@@ -47,20 +47,18 @@ function M:update_status()
 end
 
 function M:prettier(dir)
-  return vim.iter(self.stdpaths):fold(
-    (
-      dir
-        :gsub(self.home_re, "~/")
-        :gsub("^~/git/dotfiles/", " ")
-        :gsub("^~/git/github%.com/", " ")
-        :gsub(self.ghe_re, "󰦑 ")
-        :gsub(self.nvim_re, " ")
-        :gsub(self.obsidian_re, " ")
-    ),
-    function(a, b)
-      return (a:gsub(b.re, b.name))
-    end
-  )
+  local replaced = dir
+    :gsub(self.home_re, "~/")
+    :gsub("^~/git/dotfiles/", " ")
+    :gsub("^~/git/github%.com/", " ")
+    :gsub(self.nvim_re, " ")
+    :gsub(self.obsidian_re, " ")
+  if self.ghe_re then
+    dir = dir:gsub(self.ghe_re, "󰦑 ")
+  end
+  return vim.iter(self.stdpaths):fold(replaced, function(a, b)
+    return (a:gsub(b.re, b.name))
+  end)
 end
 
 function M:cwd(cwd)

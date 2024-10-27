@@ -170,11 +170,13 @@ return {
     init = function()
       vim.g.ghpr_github_auth_token = {
         ["github.com"] = vim.env.HOMEBREW_GITHUB_API_TOKEN,
-        [vim.env.GITHUB_ENTERPRISE_HOST] = vim.env.GITHUB_ENTERPRISE_API_TOKEN_GHPRBLAME,
       }
-      vim.g.ghpr_github_api_url = {
-        [vim.env.GITHUB_ENTERPRISE_HOST] = vim.env.GITHUB_ENTERPRISE_API_PATH,
-      }
+      if vim.env.GITHUB_ENTERPRISE_HOST then
+        vim.g.ghpr_github_auth_token[vim.env.GITHUB_ENTERPRISE_HOST] = vim.env.GITHUB_ENTERPRISE_API_TOKEN_GHPRBLAME
+        vim.g.ghpr_github_api_url = {
+          [vim.env.GITHUB_ENTERPRISE_HOST] = vim.env.GITHUB_ENTERPRISE_API_PATH,
+        }
+      end
     end,
   },
 

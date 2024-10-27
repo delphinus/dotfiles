@@ -116,9 +116,11 @@ return {
 
       local perl_env = (function()
         local filename = "/tmp/.1password-perl-env"
-        local st, err, err, err = vim.uv.fs_stat(filename)
-        assert(st, "did fs_stat successfully")
-        assert(not err, err)
+        local st, err = vim.uv.fs_stat(filename)
+        if not st or err then
+          vim.notify("/tmp/.1password-perl-env not found", vim.log.levels.WARN)
+          return {}
+        end
         local fd
         fd, err = vim.uv.fs_open(filename, "r", tonumber("644", 8))
         assert(not err, err)
