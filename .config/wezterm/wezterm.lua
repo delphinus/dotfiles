@@ -38,8 +38,9 @@ local ok, tls_conf = pcall(io.open, wezterm.home_dir .. "/.wezterm_tls.json")
 if ok and tls_conf then
   local json = wezterm.json_parse(tls_conf:read "a")
   config.ssh_domains = json.ssh_domains
-  config.tls_clients = json.tls_clients
-  config.tls_servers = json.tls_servers
+  -- TODO: fix this to work with unix
+  -- config.tls_clients = json.tls_clients
+  -- config.tls_servers = json.tls_servers
 end
 
 colors(config)
