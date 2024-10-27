@@ -8,14 +8,9 @@ local status_bar = require "status_bar"
 
 local config = wezterm.config_builder()
 
-local function detect_file(filename)
-  local f = io.open(filename, "r")
-  return f and f:close() and filename or false
-end
-
 config.adjust_window_size_when_changing_font_size = false
 config.custom_block_glyphs = true
-config.default_prog = { detect_file "/opt/homebrew/bin/fish" or "/usr/bin/fish" }
+config.default_prog = { const.fish }
 config.disable_default_key_bindings = true
 config.enable_csi_u_key_encoding = true
 config.enable_kitty_keyboard = true
