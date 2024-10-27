@@ -76,9 +76,12 @@ abbr l. 'l -d .*'
 abbr ta 'tig --all'
 
 type -q hub; and alias git hub
-abbr dircolors gdircolors
-
-eval (gdircolors -c ~/.dir_colors)
+if type -q gdircolors
+    abbr dircolors gdircolors
+    eval (gdircolors -c ~/.dir_colors)
+else
+    eval (dircolors -c ~/.dir_colors)
+end
 
 if test "$NVIM_LISTEN_ADDRESS" != ''
     alias nvr 'nvr -cc \'ToggleTerm\' -cc split'
