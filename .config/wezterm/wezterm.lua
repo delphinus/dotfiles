@@ -34,6 +34,13 @@ config.unix_domains = { { name = "unix" } }
 config.default_gui_startup_args = { "connect", "unix" }
 config.set_environment_variables = op_envs { SHELL = const.fish }
 
+local ok, tls_conf = pcall(io.open, wezterm.home_dir .. "/.wezterm_tls.json")
+if ok and tls_conf then
+  local json = wezterm.json_parse(tls_conf:read "a")
+  config.tls_clients = json.tls_clients
+  config.tls_servers = json.tls_servers
+end
+
 colors(config)
 keys(config)
 key_tables(config)
