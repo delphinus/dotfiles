@@ -40,6 +40,16 @@ return function(config)
       { Text = wezterm.nerdfonts.md_clock_outline .. wezterm.strftime " %b %e %T " },
       "ResetAttributes",
     }
+    local meta = pane:get_metadata() or {}
+    if meta.is_tardy then
+      local sec = meta.since_last_response_ms / 1000
+      for i, value in ipairs {
+        { Foreground = { Color = config.colors.ansi[7] } },
+        { Text = ("%s %.2f"):format(wezterm.nerdfonts "md_airplane_clock", sec) },
+      } do
+        table.insert(elements, 3 + i, value)
+      end
+    end
     local tm = timemachine:text()
     if tm then
       for i, value in ipairs {
