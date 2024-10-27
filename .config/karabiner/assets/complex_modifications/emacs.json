@@ -2,7 +2,7 @@
   "title": "[delphinus] Emacs key bindings (rev 13)",
   "rules": [
     {
-      "description": "Emacs key bindings [control+keys] (rev 11)",
+      "description": "[delphinus] Emacs key bindings [control+keys] (rev 11)",
       "manipulators": [
         {
           "type": "basic",
@@ -72,6 +72,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -144,6 +147,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -216,6 +222,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -344,6 +353,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -417,6 +429,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -490,6 +505,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -563,6 +581,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -635,6 +656,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -800,7 +824,7 @@
       ]
     },
     {
-      "description": "Emacs key bindings [option+keys] (rev 5)",
+      "description": "[delphinus] Emacs key bindings [option+keys] (rev 5)",
       "manipulators": [
         {
           "type": "basic",
@@ -870,6 +894,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -945,6 +972,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -1020,6 +1050,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -1094,6 +1127,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -1101,7 +1137,7 @@
       ]
     },
     {
-      "description": "Emacs key bindings [C-x key strokes] (rev 2)",
+      "description": "[delphinus] Emacs key bindings [C-x key strokes] (rev 2)",
       "manipulators": [
         {
           "type": "basic",
@@ -1296,6 +1332,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -1303,7 +1342,7 @@
       ]
     },
     {
-      "description": "Bash style Emacs key bindings (rev 2)",
+      "description": "[delphinus] Bash style Emacs key bindings (rev 2)",
       "manipulators": [
         {
           "type": "basic",
@@ -1375,6 +1414,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -1454,6 +1496,9 @@
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
                 "^com\\.github\\.wez\\.wezterm$"
+              ],
+              "file_paths": [
+                "/opt/homebrew/bin/wezterm-gui"
               ]
             }
           ]
@@ -1461,7 +1506,7 @@
       ]
     },
     {
-      "description": "For Visual Studio Code: Emacs key bindings [control+keys] (rev 11)",
+      "description": "[delphinus] For Visual Studio Code: Emacs key bindings [control+keys] (rev 11)",
       "manipulators": [
         {
           "type": "basic",
@@ -2040,7 +2085,7 @@
       ]
     },
     {
-      "description": "For Visual Studio Code: Emacs key bindings [option+keys] (rev 5)",
+      "description": "[delphinus] For Visual Studio Code: Emacs key bindings [option+keys] (rev 5)",
       "manipulators": [
         {
           "type": "basic",
@@ -2165,7 +2210,7 @@
       ]
     },
     {
-      "description": "For Visual Studio Code: Bash style Emacs key bindings (rev 2)",
+      "description": "[delphinus] For Visual Studio Code: Bash style Emacs key bindings (rev 2)",
       "manipulators": [
         {
           "type": "basic",
