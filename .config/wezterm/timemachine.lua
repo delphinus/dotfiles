@@ -90,7 +90,8 @@ local function commify(n_str, need_unit)
   end
   local int, dec = tostring(num):match "([^%.]+)%.?(%d*)"
   local commified = tostring(int):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
-  local result = #commified > 3 and commified or ("%s.%s"):format(commified, dec or 0):sub(1, 5)
+  local result = (#commified > 3 or not dec) and commified
+    or ("%s.%s"):format(commified, ".", dec:sub(1, math.max(4 - #commified, 1)))
   return need_unit and ("%s %s"):format(result, unit) or result
 end
 
@@ -130,7 +131,7 @@ function Timemachine:create_text(info)
   local refreshed = ""
   if info.DateOfStateChange then
     local success, stdout, stderr =
-      wezterm.run_child_process { self.date, "-jf", "%F %T %z", "+ 最終更新 %H:%m", info.DateOfStateChange }
+      wezterm.run_child_process { self.date, "-jf", "%F %T %z", "+ 最終更新 %H:%m ", info.DateOfStateChange }
     refreshed = success and stdout or stderr
   end
   local progress = info.Progress
@@ -141,7 +142,7 @@ function Timemachine:create_text(info)
   local f = math.floor
   local elapsed = remaining and (" 残り %d:%02d"):format(f(remaining / 3600), f(remaining % 3600 / 60)) or ""
   local percent = tonumber(progress.Percent) or 0
-  return ("%s %s ▐%s▌ %.1f%% %s %s%s%s"):format(
+  return ("%s %s ▐%s▌ %.1f%% %s %s ファイル%s%s"):format(
     wezterm.nerdfonts.oct_stopwatch,
     info.BackupPhase,
     self:create_bar(percent),
