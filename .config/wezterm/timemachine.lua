@@ -30,7 +30,7 @@ end
 ---@private
 ---@return wezterm.TimemachineLatest?
 function Cache:fetch()
-  local success, stdout, stderr = wezterm.run_child_process { self.tmutil, "latestbackup" }
+  local success, stdout, _ = wezterm.run_child_process { self.tmutil, "latestbackup" }
   if not success then
     return
   end
@@ -39,29 +39,34 @@ function Cache:fetch()
 end
 
 ---@class wezterm.TimemachineInfo
----@field backupPhase string
----@field dateOfStateChangeFormatted string
----@field progress? wezterm.TimemachineInfoProgress
----@field running 0|1
+---@field BackupPhase string
+---@field DateOfStateChange string
+---@field Progress? wezterm.TimemachineInfoProgress
+---@field Running 0|1
 
 ---@class wezterm.TimemachineInfoProgress
----@field bytesFormatted string
----@field percent number
----@field timeRemaining? number
+---@field Bytes string
+---@field Percent number
+---@field TimeRemaining? number
 
 ---@class wezterm.Timemachine
+---@field bash string
 ---@field cache wezterm.TimemachineCache
----@field tmstatus string
+---@field plutil string
+---@field tail string
 ---@field tmutil string
 ---@field enabled boolean
 local Timemachine = {}
 
 ---@return wezterm.Timemachine
 Timemachine.new = function()
-  local self = setmetatable(
-    { cache = Cache.new(), tmstatus = wezterm.home_dir .. "/git/dotfiles/bin/tmstatus", tmutil = "/usr/bin/tmutil" },
-    { __index = Timemachine }
-  )
+  local self = setmetatable({
+    bash = "/bin/bash",
+    cache = Cache.new(),
+    plutil = "/usr/bin/plutil",
+    tail = "/usr/bin/tail",
+    tmutil = "/usr/bin/tmutil",
+  }, { __index = Timemachine })
   self.enabled = self:is_enabled()
   return self
 end
@@ -71,12 +76,16 @@ function Timemachine:text()
   if not self.enabled then
     return
   end
-  local success, stdout, stderr = wezterm.run_child_process { self.tmstatus }
+  local success, stdout, stderr = wezterm.run_child_process {
+    self.bash,
+    "-c",
+    ("%s status | %s -n +2 | %s -convert json -o - -- -"):format(self.tmutil, self.tail, self.plutil),
+  }
   if not success then
     return stderr
   end
   local info = wezterm.json_parse(stdout)
-  local is_running = (info.running or (info.lastReport and info.lastReport.running)) == 1
+  local is_running = (info.Running or (info.LastReport and info.LastReport.Running)) == 1
   if not is_running then
     return self:latest_backup()
   end
@@ -96,23 +105,23 @@ end
 ---@return string
 function Timemachine:create_text(info)
   local refreshed = ""
-  if info.dateOfStateChangeFormatted then
-    local hm = info.dateOfStateChangeFormatted:match "(%d%d:%d%d):%d%d"
-    refreshed = " 最終更新 " .. hm
+  if info.DateOfStateChange then
+    -- local hm = info.dateOfStateChangeFormatted:match "(%d%d:%d%d):%d%d"
+    refreshed = " 最終更新 " .. info.DateOfStateChange
   end
-  local progress = info.progress
+  local progress = info.Progress
   if not progress then
-    return ("%s %s%s"):format(wezterm.nerdfonts.oct_stopwatch, info.backupPhase, refreshed)
+    return ("%s %s%s"):format(wezterm.nerdfonts.oct_stopwatch, info.BackupPhase, refreshed)
   end
-  local remaining = progress.timeRemaining
+  local remaining = progress.TimeRemaining
   local f = math.floor
   local elapsed = remaining and (" 残り %d:%02d"):format(f(remaining / 3600), f(remaining % 3600 / 60)) or ""
   return ("%s %s ▐%s▌ %.1f%% %s%s%s"):format(
     wezterm.nerdfonts.oct_stopwatch,
-    info.backupPhase,
-    self:create_bar(progress.percent),
-    progress.percent * 100,
-    progress.bytesFormatted,
+    info.BackupPhase,
+    self:create_bar(progress.Percent),
+    progress.Percent * 100,
+    progress.Bytes,
     elapsed,
     refreshed
   )
