@@ -53,6 +53,7 @@ end
 ---@class wezterm.Timemachine
 ---@field bash string
 ---@field cache wezterm.TimemachineCache
+---@field date string
 ---@field plutil string
 ---@field tail string
 ---@field tmutil string
@@ -64,12 +65,33 @@ Timemachine.new = function()
   local self = setmetatable({
     bash = "/bin/bash",
     cache = Cache.new(),
+    date = "/bin/date",
     plutil = "/usr/bin/plutil",
     tail = "/usr/bin/tail",
     tmutil = "/usr/bin/tmutil",
   }, { __index = Timemachine })
   self.enabled = self:is_enabled()
   return self
+end
+
+---@param n_str string
+local function commify(n_str, need_unit)
+  local n = tonumber(n_str) or 0
+  local num, unit
+  if n > 1e9 then
+    num = n / 1e9
+    unit = "GB"
+  elseif n > 1e6 then
+    num = n / 1e6
+    unit = "MB"
+  else
+    num = n
+    unit = "KB"
+  end
+  local int, dec = tostring(num):match "([^%.]+)%.?(%d*)"
+  local commified = tostring(int):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
+  local result = #commified > 3 and commified or ("%s.%s"):format(commified, dec or 0):sub(1, 5)
+  return need_unit and ("%s %s"):format(result, unit) or result
 end
 
 ---@return string?
@@ -107,8 +129,9 @@ end
 function Timemachine:create_text(info)
   local refreshed = ""
   if info.DateOfStateChange then
-    -- local hm = info.dateOfStateChangeFormatted:match "(%d%d:%d%d):%d%d"
-    refreshed = " 最終更新 " .. info.DateOfStateChange
+    local success, stdout, stderr =
+      wezterm.run_child_process { self.date, "-jf", "%F %T %z", "+ 最終更新 %H:%m", info.DateOfStateChange }
+    refreshed = success and stdout or stderr
   end
   local progress = info.Progress
   if not progress then
@@ -118,13 +141,13 @@ function Timemachine:create_text(info)
   local f = math.floor
   local elapsed = remaining and (" 残り %d:%02d"):format(f(remaining / 3600), f(remaining % 3600 / 60)) or ""
   local percent = tonumber(progress.Percent) or 0
-  return ("%s %s ▐%s▌ %.1f%% %s %s %s%s"):format(
+  return ("%s %s ▐%s▌ %.1f%% %s %s%s%s"):format(
     wezterm.nerdfonts.oct_stopwatch,
     info.BackupPhase,
     self:create_bar(percent),
     percent * 100,
-    progress.bytes,
-    progress.files,
+    commify(progress.bytes, true),
+    commify(progress.files),
     elapsed,
     refreshed
   )
