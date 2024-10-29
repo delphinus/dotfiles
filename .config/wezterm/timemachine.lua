@@ -42,12 +42,13 @@ end
 ---@field BackupPhase string
 ---@field DateOfStateChange string
 ---@field Progress? wezterm.TimemachineInfoProgress
----@field Running 0|1
+---@field Running "0"|"1"
 
 ---@class wezterm.TimemachineInfoProgress
----@field Bytes string
----@field Percent number
----@field TimeRemaining? number
+---@field Percent string
+---@field TimeRemaining? string
+---@field bytes string
+---@field files string
 
 ---@class wezterm.Timemachine
 ---@field bash string
@@ -85,7 +86,7 @@ function Timemachine:text()
     return stderr
   end
   local info = wezterm.json_parse(stdout)
-  local is_running = (info.Running or (info.LastReport and info.LastReport.Running)) == 1
+  local is_running = (info.Running or (info.LastReport and info.LastReport.Running)) == "1"
   if not is_running then
     return self:latest_backup()
   end
@@ -113,15 +114,17 @@ function Timemachine:create_text(info)
   if not progress then
     return ("%s %s%s"):format(wezterm.nerdfonts.oct_stopwatch, info.BackupPhase, refreshed)
   end
-  local remaining = progress.TimeRemaining
+  local remaining = tonumber(progress.TimeRemaining)
   local f = math.floor
   local elapsed = remaining and (" 残り %d:%02d"):format(f(remaining / 3600), f(remaining % 3600 / 60)) or ""
-  return ("%s %s ▐%s▌ %.1f%% %s%s%s"):format(
+  local percent = tonumber(progress.Percent) or 0
+  return ("%s %s ▐%s▌ %.1f%% %s %s %s%s"):format(
     wezterm.nerdfonts.oct_stopwatch,
     info.BackupPhase,
-    self:create_bar(progress.Percent),
-    progress.Percent * 100,
-    progress.Bytes,
+    self:create_bar(percent),
+    percent * 100,
+    progress.bytes,
+    progress.files,
     elapsed,
     refreshed
   )
