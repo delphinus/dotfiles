@@ -76,7 +76,8 @@ function Timemachine:text()
     return stderr
   end
   local info = wezterm.json_parse(stdout)
-  if info.running == 0 then
+  local is_running = (info.running or (info.lastReport and info.lastReport.running)) == 1
+  if not is_running then
     return self:latest_backup()
   end
   self.cache:clear()
