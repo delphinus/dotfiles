@@ -20,6 +20,17 @@ local function key_table(config, window)
   }
 end
 
+local function domain(config)
+  local type, path = wezterm.mux.get_domain():label():match "(.*) mux (.*)"
+  return type == "SSH"
+      and {
+        { Foreground = { Color = config.colors.ansi[1] } },
+        { Background = { Color = config.colors.ansi[3] } },
+        { Text = (" %s %s "):format(wezterm.nerdfonts.md_console_network, path) },
+      }
+    or {}
+end
+
 return function(config)
   local battery = Battery.new()
   local timemachine = Timemachine.new()
@@ -71,6 +82,9 @@ return function(config)
       end
     end
     for _, value in ipairs(key_table(config, window)) do
+      table.insert(elements, value)
+    end
+    for _, value in ipairs(domain(config)) do
       table.insert(elements, value)
     end
     table.insert(elements, { Background = { Color = config.colors.tab_bar.background } })
