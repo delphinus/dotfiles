@@ -4,7 +4,7 @@ local const = require "const"
 
 return function(config)
   local open_with = act.QuickSelectArgs {
-    patterns = { const.url_regex },
+    patterns = { const.regex.url },
     action = wezterm.action_callback(function(window, pane)
       local url = window:get_selection_text_for_pane(pane)
       wezterm.open_with(url)

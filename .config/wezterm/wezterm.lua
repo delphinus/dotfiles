@@ -18,12 +18,12 @@ config.font = wezterm.font "SF Mono Square"
 config.font_size = 16.0
 config.front_end = "WebGpu"
 config.hyperlink_rules =
-  { { regex = const.url_regex, format = "$0" }, { regex = [=[[-.\w]+@[-.\w]+]=], format = "mailto:$0" } }
+  { { regex = const.regex.url, format = "$0" }, { regex = const.regex.mail, format = "mailto:$0" } }
 config.initial_cols = 200
 config.initial_rows = 80
 config.macos_window_background_blur = 20
 config.native_macos_fullscreen_mode = true
-config.quick_select_patterns = { const.url_regex, const.hash_regex, const.path_regex }
+config.quick_select_patterns = { const.regex.url, const.regex.hash, const.regex.path }
 -- config.use_fancy_tab_bar = false
 config.warn_about_missing_glyphs = false
 config.window_background_opacity = 0.96

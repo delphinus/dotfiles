@@ -7,9 +7,12 @@ local function detect_file(filename)
 end
 
 return {
-  url_regex = [[https?://[^<>"\s{-}\^⟨⟩`│⏎]+]],
-  hash_regex = [=[[a-f\d]{4,}|[A-Z_]{4,}]=],
-  path_regex = [[~?(?:[-.\w]*/)+[-.\w]*]],
+  regex = {
+    hash = [=[[a-f\d]{4,}|[A-Z_]{4,}]=],
+    mail = [=[[-.\w]+@[-.\w]+]=],
+    path = [[~?(?:[-.\w]*/)+[-.\w]*]],
+    url = [[https?://[^<>"\s{-}\^⟨⟩`│⏎]+]],
+  },
   fish = detect_file(homebrew_path .. "/bin/fish") or "/usr/bin/fish",
   op = homebrew_path .. "/bin/op",
   jq = homebrew_path .. "/bin/jq",
