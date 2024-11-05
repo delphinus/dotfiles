@@ -53,6 +53,7 @@
   "ejs-syntax": { "branch": "master", "commit": "0e704c523dacfda547215b5936067869e79103c4" },
   "emcl.nvim": { "branch": "main", "commit": "895b6d87c0645f2b6b9b5fc4de574fe98f73c0e6" },
   "f_meta.nvim": { "branch": "main", "commit": "74bafa8bb564df37234f3ab289ce3e462ed722f5" },
+  "fastaction.nvim": { "branch": "main", "commit": "77ae921e6fa6a8e2705768fa89b89b0e45840b94" },
   "fiv.nvim": { "branch": "main", "commit": "bac5ae7de9cedcf94b38ae3ac7601178dec6cdac" },
   "foldsigns.nvim": { "branch": "main", "commit": "c36c2cc8122caf2a5bb05096097ea8e684233a34" },
   "fontforge_script.vim": { "branch": "master", "commit": "caa318fe54bcef856f3d6ee26ea9bc7cb58f9795" },

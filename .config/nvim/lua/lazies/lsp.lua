@@ -637,4 +637,13 @@ return {
     event = { "DiagnosticChanged" },
     opts = true,
   },
+
+  {
+    "Chaitanyabsprip/fastaction.nvim",
+    keys = {
+      { "gra", '<Cmd>lua require("fastaction").code_action()<CR>', mode = { "n" } },
+      { "gra", '<Cmd>lua require("fastaction").range_code_action()<CR>', mode = { "v" } },
+    },
+    opts = true,
+  },
 }
