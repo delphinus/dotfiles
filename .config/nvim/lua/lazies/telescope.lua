@@ -500,14 +500,15 @@ return {
   {
     "epwalsh/obsidian.nvim",
     keys = {
+      { "<Leader>oc", "<Cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle check box" },
+      { "<Leader>od", "<Cmd>ObsidianDailies<CR>", desc = "Open daily notes" },
+      { "<Leader>om", "<Cmd>ObsidianTomorrow<CR>", desc = "Open tomorrow's note" },
+      { "<Leader>on", "<Cmd>ObsidianNew<CR>", desc = "Create a new note" },
+      { "<Leader>oo", "<Cmd>ObsidianQuickNote<CR>", desc = "Open Quick Note" },
+      { "<Leader>oq", "<Cmd>ObsidianQuickKensaku<CR>", desc = "Switch notes quickly" },
       { "<Leader>os", "<Cmd>ObsidianKensaku<CR>", desc = "Search Obsidian notes" },
       { "<Leader>ot", "<Cmd>ObsidianToday<CR>", desc = "Open today's note" },
-      { "<Leader>om", "<Cmd>ObsidianTomorrow<CR>", desc = "Open tomorrow's note" },
       { "<Leader>oy", "<Cmd>ObsidianYesterday<CR>", desc = "Open yesterday's note" },
-      { "<Leader>on", "<Cmd>ObsidianNew<CR>", desc = "Create a new note" },
-      { "<Leader>od", "<Cmd>ObsidianDailies<CR>", desc = "Open daily notes" },
-      { "<Leader>oq", "<Cmd>ObsidianQuickKensaku<CR>", desc = "Switch notes quickly" },
-      { "<Leader>oo", "<Cmd>ObsidianQuickNote<CR>", desc = "Open Quick Note" },
     },
     cmd = {
       "ObsidianBacklinks",
