@@ -639,7 +639,9 @@ return {
   },
 
   {
-    "Chaitanyabsprip/fastaction.nvim",
+    -- "Chaitanyabsprip/fastaction.nvim",
+    "delphinus/fastaction.nvim",
+    branch = "fix/exec-cmd",
     keys = {
       { "gra", '<Cmd>lua require("fastaction").code_action()<CR>', mode = { "n" } },
       { "gra", '<Cmd>lua require("fastaction").range_code_action()<CR>', mode = { "v" } },
