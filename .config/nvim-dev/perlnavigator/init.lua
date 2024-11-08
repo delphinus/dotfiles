@@ -28,12 +28,6 @@ require("lazy").setup {
           },
         },
       }
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("init-lsp", {}),
-        callback = function()
-          vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, { buffer = bufnr })
-        end,
-      })
     end,
   },
   { "williamboman/mason-lspconfig.nvim", opts = {} },
