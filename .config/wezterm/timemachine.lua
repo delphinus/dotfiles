@@ -90,7 +90,7 @@ local function commify(n_str, need_unit)
   end
   local int, dec = tostring(num):match "([^%.]+)%.?(%d*)"
   local commified = tostring(int):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
-  local result = (#commified > 3 or not dec) and commified
+  local result = (#commified >= 3 or not dec) and commified
     or ("%s.%s"):format(commified, dec:sub(1, math.max(4 - #commified, 1)))
   return need_unit and ("%s %s"):format(result, unit) or result
 end
