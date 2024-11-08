@@ -890,6 +890,7 @@ return {
   {
     "MeanderingProgrammer/markdown.nvim",
     name = "render-markdown",
+    keys = { { "<Leader>rm", "<Cmd>RenderMarkdown toggle<CR>", desc = "toggle render-markdown" } },
     ft = { "markdown" },
     init = function()
       palette "sweetie" {

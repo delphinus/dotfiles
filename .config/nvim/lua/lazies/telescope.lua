@@ -477,9 +477,9 @@ return {
     keys = {
       { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
       { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
-      { "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)" },
+      { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)" },
       {
-        "<leader>cl",
+        "<leader>xl",
         "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
         desc = "LSP Definitions / references / ... (Trouble)",
       },
@@ -500,6 +500,7 @@ return {
   {
     "epwalsh/obsidian.nvim",
     keys = {
+      { "<Leader>c", "<Cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle check box" },
       { "<Leader>oc", "<Cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle check box" },
       { "<Leader>od", "<Cmd>ObsidianDailies<CR>", desc = "Open daily notes" },
       { "<Leader>om", "<Cmd>ObsidianTomorrow<CR>", desc = "Open tomorrow's note" },
