@@ -211,14 +211,17 @@ alias l 'eza -lF --group-directories-first --color-scale --icons --time-style lo
 set -gx NOTIFY_ON_COMMAND_DURATION 5000
 function fish_right_prompt
     if test $CMD_DURATION
-        # Show notification if dration is more than 30 seconds
         if test $CMD_DURATION -gt $NOTIFY_ON_COMMAND_DURATION
-            # Show duration of the last command in seconds
-            set duration (echo "$CMD_DURATION 1000" | awk '{printf "%.3fs", $1 / $2}')
-            echo $duration
-            set -f MSG (echo (history | head -1) returned $status after $duration)
-            type -q notify-send && notify-send $MSG && return
-            type -q terminal-notifier && terminal-notifier -message $MSG && return
+            if test -n $WEZTERM_PANE
+                set -l active_pid (osascript -e 'tell application "System Events" to get the unix id of first process whose frontmost is true')
+                set -l active_pane (wezterm cli list-clients --format json | jq -r ".[] | select(.pid == $active_pid) | .focused_pane_id")
+                if test $WEZTERM_PANE -eq $active_pane
+                    return
+                end
+            end
+            set -l duration (bc -S2 -e $CMD_DURATION/1000)
+            set -l msg (echo (history | head -1) returned $status after $duration s)
+            osascript -e 'display notification "'$msg'" with title "command completed"'
         end
     end
 end
