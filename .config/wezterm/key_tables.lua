@@ -19,6 +19,7 @@ return function(config)
       { key = "c", mods = "CTRL", action = act.CopyMode "Close" },
       { key = "d", mods = "CTRL", action = act.CopyMode { MoveByPage = 0.1 } },
       { key = "e", mods = "NONE", action = act.CopyMode "MoveForwardWordEnd" },
+      { key = "e", mods = "CTRL", action = act.ScrollByLine(-1) },
       { key = "f", mods = "CTRL", action = act.CopyMode "PageDown" },
       { key = "f", mods = "NONE", action = act.CopyMode { JumpForward = { prev_char = false } } },
       { key = "f", mods = "SHIFT", action = act.CopyMode { JumpBackward = { prev_char = false } } },
@@ -43,6 +44,7 @@ return function(config)
       { key = "v", mods = "SHIFT", action = act.CopyMode { SetSelectionMode = "Line" } },
       { key = "w", mods = "NONE", action = act.CopyMode "MoveForwardWord" },
       { key = "y", mods = "NONE", action = act.Multiple { { CopyTo = "Clipboard" }, { CopyMode = "Close" } } },
+      { key = "y", mods = "CTRL", action = act.ScrollByLine(1) },
     },
 
     search_mode = {
