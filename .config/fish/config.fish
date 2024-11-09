@@ -207,7 +207,7 @@ else
 end
 alias l 'eza -lF --group-directories-first --color-scale --icons --time-style long-iso --git'
 
-# https://zenn.dev/ryoppippi/articles/de6c931cc1028f
+# https://qiita.com/delphinus/items/97045dfb73ccb99dc826
 set -gx NOTIFY_ON_COMMAND_DURATION 5000
 function fish_right_prompt
     if test -n "$CMD_DURATION"; and test $CMD_DURATION -gt $NOTIFY_ON_COMMAND_DURATION
