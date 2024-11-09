@@ -210,18 +210,16 @@ alias l 'eza -lF --group-directories-first --color-scale --icons --time-style lo
 # https://zenn.dev/ryoppippi/articles/de6c931cc1028f
 set -gx NOTIFY_ON_COMMAND_DURATION 5000
 function fish_right_prompt
-    if test $CMD_DURATION
-        if test $CMD_DURATION -gt $NOTIFY_ON_COMMAND_DURATION
-            if test -n $WEZTERM_PANE
-                set -l active_pid (osascript -e 'tell application "System Events" to get the unix id of first process whose frontmost is true')
-                set -l active_pane (wezterm cli list-clients --format json | jq -r ".[] | select(.pid == $active_pid) | .focused_pane_id")
-                if test $WEZTERM_PANE -eq $active_pane
-                    return
-                end
+    if test -n "$CMD_DURATION"; and test $CMD_DURATION -gt $NOTIFY_ON_COMMAND_DURATION
+        if type -q wezterm; and type -q jq; and test -n "$WEZTERM_PANE"
+            set -l active_pid (osascript -e 'tell application "System Events" to get the unix id of first process whose frontmost is true')
+            set -l active_pane (wezterm cli list-clients --format json | jq -r ".[] | select(.pid == $active_pid) | .focused_pane_id")
+            if test -n "$active_pane"; and test $WEZTERM_PANE -eq $active_pane
+                return
             end
-            set -l duration (bc -S2 -e $CMD_DURATION/1000)
-            set -l msg (echo (history | head -1) returned $status after $duration s)
-            osascript -e 'display notification "'$msg'" with title "command completed"'
         end
+        set -l duration (bc -S2 -e $CMD_DURATION/1000)
+        set -l msg (echo (history | head -1) returned $status after $duration s)
+        osascript -e 'display notification "'$msg'" with title "command completed"'
     end
 end
