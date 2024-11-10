@@ -1,0 +1,22 @@
+#!/usr/bin/perl
+use 5.30.0;
+use warnings;
+use feature 'signatures';
+no warnings 'experimental::signatures';
+use Path::Tiny;
+use Time::Piece;
+
+sub readable($epoch) {
+    localtime($epoch)->strftime('%D %T');
+}
+
+my $execute = (shift // '') eq '-e';
+for my $file (path('./')->children) {
+    local $, = ': ';
+    say $file->basename, 'mtime', readable($file->stat->mtime);
+    my @cmd = ('SetFile', '-d', readable($file->stat->mtime), $file);
+    if ($execute) {
+        local $" = ' ';
+        0 == system @cmd or die "failed: @cmd: $!";
+    }
+}
