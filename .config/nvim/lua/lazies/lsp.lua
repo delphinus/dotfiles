@@ -76,7 +76,12 @@ return {
       })
 
       require("mason").setup {
+        ui = { height = 0.8, border = "rounded" },
         max_concurrent_installers = 12,
+        registries = {
+          "file:~/.config/nvim/mason",
+          "github:mason-org/mason-registry",
+        },
       }
       vim.diagnostic.config {
         signs = function(_, b)

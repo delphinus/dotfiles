@@ -1,0 +1,23 @@
+---
+name: perlnavigator
+description: Perl Language Server that includes perl critic and code navigation.
+homepage: https://github.com/bscan/PerlNavigator
+licenses:
+  - MIT
+languages:
+  - Perl
+categories:
+  - LSP
+
+source:
+  id: pkg:github/delphinus/PerlNavigator@fix/detect-relative-modules
+  build:
+    run: |
+      npm install
+      npm run compile
+
+schemas:
+  lsp: vscode:https://raw.githubusercontent.com/delphinus/PerlNavigator/refs/heads/fix/detect-relative-modules/package.json
+
+bin:
+  perlnavigator: node:server/out/server.js
