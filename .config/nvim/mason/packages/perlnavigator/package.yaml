@@ -10,14 +10,14 @@ categories:
   - LSP
 
 source:
-  id: pkg:github/delphinus/PerlNavigator@fix/detect-relative-modules
+  id: pkg:github/delphinus/PerlNavigator@main
   build:
     run: |
       npm install
       npm run compile
 
 schemas:
-  lsp: vscode:https://raw.githubusercontent.com/delphinus/PerlNavigator/refs/heads/fix/detect-relative-modules/package.json
+  lsp: vscode:https://raw.githubusercontent.com/delphinus/PerlNavigator/refs/heads/main/package.json
 
 bin:
   perlnavigator: node:server/out/server.js
