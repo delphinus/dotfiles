@@ -23,3 +23,13 @@ require("lazy").setup {
     opts = { theme = "hyper", config = { mru = {} } },
   },
 }
+
+vim.iter({ "BufEnter", "BufWinEnter", "UIEnter", "VimEnter" }):each(function(e)
+  local count = 0
+  vim.api.nvim_create_autocmd(e, {
+    callback = function()
+      count = count + 1
+      require("lazy.stats").track(("%s-%d"):format(e, count))
+    end,
+  })
+end)
