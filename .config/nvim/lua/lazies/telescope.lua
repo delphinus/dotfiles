@@ -1,5 +1,5 @@
 local fn, uv, api = require("core.utils").globals()
-local utils = require "core.utils"
+local lazy_utils = require "core.utils.lazy"
 local palette = require "core.utils.palette"
 
 return {
@@ -450,8 +450,10 @@ return {
       for k, v in pairs(require "telescope.builtin") do
         vim.keymap.set("n", "<Plug>(telescope-" .. k .. ")", v, { desc = "Telescope " .. k })
       end
-      for k, v in pairs(require "octo.mappings") do
-        vim.keymap.set("n", "<Plug>(Octo-" .. k .. ")", v, { desc = "Octo " .. k })
+      if lazy_utils.has_plugin "octo.nvim" then
+        for k, v in pairs(require "octo.mappings") do
+          vim.keymap.set("n", "<Plug>(Octo-" .. k .. ")", v, { desc = "Octo " .. k })
+        end
       end
       vim.keymap.set(
         "n",

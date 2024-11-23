@@ -1,6 +1,7 @@
 ---@diagnostic disable: missing-fields
 local fn, _, api = require("core.utils").globals()
 local palette = require "core.utils.palette"
+local lazy_utils = require "core.utils.lazy"
 
 local function non_lazy(plugin)
   plugin.lazy = false
@@ -8,6 +9,8 @@ local function non_lazy(plugin)
 end
 
 return {
+  { "nvim-tree/nvim-web-devicons" },
+
   non_lazy {
     enabled = not vim.env.LIGHT,
     "direnv/direnv.vim",
@@ -232,6 +235,8 @@ return {
           margin = { top = 1 },
           window_border = "none",
         },
+        treesitter = { enabled = lazy_utils.has_plugin "nvim-treesitter" },
+        git = { enabled = lazy_utils.has_plugin "gitsigns" },
         click = { enabled = true },
         search = { enabled = true },
         winopt = function(opt, _)

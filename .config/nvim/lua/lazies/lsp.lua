@@ -12,9 +12,6 @@ return {
   { "williamboman/mason-lspconfig.nvim" },
   { "williamboman/mason.nvim" },
 
-  -- needs these plugins to setup capabilities
-  { "cmp-nvim-lsp" },
-
   { "Bilal2453/luvit-meta" },
   {
     "folke/lazydev.nvim",
