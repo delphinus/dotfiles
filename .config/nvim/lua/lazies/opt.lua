@@ -384,26 +384,26 @@ return {
     },
   },
 
-  {
-    enabled = not vim.env.LIGHT,
-    "haringsrob/nvim_context_vt",
-    event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
-    wants = { "nvim-treesitter" },
-    init = function()
-      palette "context_vt" {
-        nord = function(colors)
-          api.set_hl(0, "ContextVt", { fg = colors.context })
-        end,
-        sweetie = function(colors)
-          api.set_hl(0, "ContextVt", { fg = colors.dark_grey })
-        end,
-      }
-    end,
-    opts = {
-      prefix = "",
-      highlight = "ContextVt",
-    },
-  },
+  -- {
+  --   enabled = not vim.env.LIGHT,
+  --   "haringsrob/nvim_context_vt",
+  --   event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
+  --   wants = { "nvim-treesitter" },
+  --   init = function()
+  --     palette "context_vt" {
+  --       nord = function(colors)
+  --         api.set_hl(0, "ContextVt", { fg = colors.context })
+  --       end,
+  --       sweetie = function(colors)
+  --         api.set_hl(0, "ContextVt", { fg = colors.dark_grey })
+  --       end,
+  --     }
+  --   end,
+  --   opts = {
+  --     prefix = "",
+  --     highlight = "ContextVt",
+  --   },
+  -- },
 
   {
     "itchyny/vim-cursorword",
