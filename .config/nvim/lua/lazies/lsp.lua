@@ -81,6 +81,7 @@ return {
         },
       }
       vim.diagnostic.config {
+        float = { source = true },
         signs = function(_, b)
           ---@diagnostic disable-next-line: return-type-mismatch
           return not vim.bo[b].filetype == "markdown"
