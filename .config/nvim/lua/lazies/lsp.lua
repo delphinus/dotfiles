@@ -325,8 +325,23 @@ return {
     end,
   }, -- }}}
 
+  {
+    "dense-analysis/ale",
+    event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
+    config = function()
+      vim.g.ale_linters_ignore = {
+        lua = { "cspell" },
+      }
+      vim.g.ale_fix_on_save = 1
+      vim.g.ale_fixers = {
+        lua = { "stylua" },
+      }
+    end,
+  },
+
   { "davidmh/cspell.nvim" },
   {
+    enabled = false,
     "jose-elias-alvarez/null-ls.nvim",
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
 
