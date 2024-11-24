@@ -341,61 +341,14 @@ return {
 
   { "davidmh/cspell.nvim" },
   {
-    enabled = false,
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
+    dependencies = { "gbprod/none-ls-shellcheck.nvim" },
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
 
     config = function()
       local nls = require "null-ls"
-      local helpers = require "null-ls.helpers"
-      local command_resolver = require "null-ls.helpers.command_resolver"
-      --local log = require "null-ls.logger"
-      local utils = require "null-ls.utils"
-      local methods = require "null-ls.methods"
-
-      local function is_for_node(to_use)
-        return function()
-          local has_file = utils.make_conditional_utils().root_has_file {
-            ".eslintrc",
-            ".eslintrc.json",
-            ".eslintrc.yaml",
-            ".eslintrc.yml",
-            ".prettierrc",
-            ".prettierrc.json",
-            ".prettierrc.yaml",
-            ".prettierrc.yml",
-          }
-          return to_use and has_file or not has_file
-        end
-      end
-
-      local cwd_for_eslint = helpers.cache.by_bufnr(function(params)
-        return utils.root_pattern(
-          ".eslintrc",
-          ".eslintrc.js",
-          ".eslintrc.cjs",
-          ".eslintrc.yaml",
-          ".eslintrc.yml",
-          ".eslintrc.json"
-        )(params.bufname)
-      end)
-
-      -- Search git root first instead of the parent dir of the file
-      local function find_on_gitdir_at_first()
-        local candidate = utils.path.join(utils.get_root(), "node_modules", ".bin")
-        return utils.is_executable(candidate) and function()
-          return candidate
-        end or command_resolver.from_node_modules()
-      end
-
-      local function is_deno_attached(params)
-        return vim.iter(vim.lsp.get_clients { bufnr = params.bufnr }):any(function(v)
-          return v.name == "denols"
-        end)
-      end
 
       local cspell = require "cspell"
-
       local sources = {
         cspell.code_actions.with { filetypes = { "markdown", "help" } },
         cspell.diagnostics.with {
@@ -406,118 +359,10 @@ return {
         },
 
         nls.builtins.code_actions.gitsigns,
-        nls.builtins.code_actions.shellcheck,
-
-        nls.builtins.diagnostics.fish,
-        nls.builtins.diagnostics.mypy,
-        nls.builtins.diagnostics.shellcheck,
-        nls.builtins.diagnostics.trail_space,
-        nls.builtins.diagnostics.vint,
-        --nls.builtins.diagnostics.yamllint,
-        nls.builtins.formatting.black,
-        nls.builtins.formatting.fish_indent,
-        nls.builtins.formatting.gofmt,
-        nls.builtins.formatting.gofumpt,
-        nls.builtins.formatting.goimports,
-        nls.builtins.formatting.golines,
-        nls.builtins.formatting.stylua,
-        nls.builtins.formatting.yamlfmt,
-
-        nls.builtins.diagnostics.luacheck.with {
-          extra_args = {
-            "--globals",
-            unpack(require("core.utils.lsp").lua_globals),
-          },
-        },
-
-        -- FIX: deno_fmt detection
-        --[[ nls.builtins.formatting.deno_fmt.with {
-            runtime_condition = is_deno_attached,
-          }, ]]
-
-        nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-sr" } },
-
-        -- nls.builtins.diagnostics.textlint.with { filetypes = { "markdown" } },
-
-        --[[
-          helpers.make_builtin {
-            name = "perlcritic",
-            meta = {
-              url = "https://example.com",
-              description = "TODO",
-            },
-            method = methods.internal.DIAGNOSTICS,
-            filetypes = { "perl" },
-            generator_opts = {
-              command = "perlcritic",
-              to_stdin = true,
-              args = { "--severity", "1", "--verbose", "%s:%l:%c:%m (%P)\n" },
-              format = "raw",
-              check_exit_code = function(code)
-                return code >= 1
-              end,
-              on_output = function(params, done)
-                local output = params.output
-                if not output then
-                  return done()
-                end
-
-                local from_severity_numbers = { ["5"] = "w", ["4"] = "i", ["3"] = "n", ["2"] = "n", ["1"] = "n" }
-                local lines = vim.tbl_map(function(line)
-                  return line:gsub("Perl::Critic::Policy::", "", 1):gsub("^%d", function(severity_number)
-                    return from_severity_numbers[severity_number]
-                  end, 1)
-                end, utils.split_at_newline(params.bufnr, output))
-
-                local diagnostics = {}
-                local qflist = vim.fn.getqflist { efm = "%t:%l:%c:%m", lines = lines }
-                local severities = { w = 2, i = 3, n = 4 }
-
-                for _, item in pairs(qflist.items) do
-                  -- TODO: use perlnavigator instead
-                  if item.valid == 1 and severities[item.type] > 3 then
-                    local col = item.col > 0 and item.col - 1 or 0
-                    table.insert(diagnostics, {
-                      row = item.lnum,
-                      col = col,
-                      source = "perlcritic",
-                      message = item.text,
-                      severity = severities[item.type],
-                    })
-                  end
-                end
-
-                return done(diagnostics)
-              end,
-            },
-            factory = helpers.generator_factory,
-          },
-          ]]
-
-        -- helpers.make_builtin {
-        --   name = "efm-perl",
-        --   meta = { url = "https://example.com", description = "TODO" },
-        --   method = methods.internal.DIAGNOSTICS,
-        --   filetypes = { "perl" },
-        --   generator_opts = {
-        --     command = "efm-perl",
-        --     args = { "-f", "$FILENAME" },
-        --     to_stdin = true,
-        --     format = "raw",
-        --     on_output = helpers.diagnostics.from_errorformat("%l:%m", "efm-perl"),
-        --   },
-        --   factory = helpers.generator_factory,
-        -- },
+        require("none-ls-shellcheck").code_actions,
       }
-
-      if not vim.env.LIGHT then
-        table.insert(sources, nls.builtins.formatting.eslint)
-        table.insert(sources, nls.builtins.formatting.prettier)
-      end
-
       nls.setup {
-        --debug = true,
-        diagnostics_format = "[null-ls] #{m}",
+        diagnostics_format = "[none-ls] #{m}",
         sources = sources,
       }
     end,
