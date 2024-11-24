@@ -405,84 +405,84 @@ return {
   --   },
   -- },
 
-   {
-     "itchyny/vim-cursorword",
-     event = { "FocusLost", "CursorHold" },
-     init = function()
-       api.create_autocmd("ColorScheme", {
-         desc = "Set up highlight for vim-cursorword",
-         group = api.create_augroup("cursorword-colors", {}),
-         callback = function()
-           api.set_hl(0, "CursorWord", { underdotted = true })
-         end,
-       })
-     end,
-   },
+  {
+    "itchyny/vim-cursorword",
+    event = { "FocusLost", "CursorHold" },
+    init = function()
+      api.create_autocmd("ColorScheme", {
+        desc = "Set up highlight for vim-cursorword",
+        group = api.create_augroup("cursorword-colors", {}),
+        callback = function()
+          api.set_hl(0, "CursorWord", { underdotted = true })
+        end,
+      })
+    end,
+  },
 
-   {
-     "itchyny/vim-parenmatch",
-     event = { "FocusLost", "CursorHold" },
-     init = function()
-       vim.g.loaded_matchparen = 1
-     end,
-     config = function()
-       fn["parenmatch#highlight"]()
-     end,
-   },
+  {
+    "itchyny/vim-parenmatch",
+    event = { "FocusLost", "CursorHold" },
+    init = function()
+      vim.g.loaded_matchparen = 1
+    end,
+    config = function()
+      fn["parenmatch#highlight"]()
+    end,
+  },
 
-   {
-     "lewis6991/foldsigns.nvim",
-     event = { "FocusLost", "CursorHold" },
-     config = true,
-   },
+  {
+    "lewis6991/foldsigns.nvim",
+    event = { "FocusLost", "CursorHold" },
+    config = true,
+  },
 
-   {
-     "lewis6991/gitsigns.nvim",
-     cmd = { "Gitsigns" },
-     event = { "FocusLost", "CursorHold" },
-     keys = {
-       {
-         "gL",
-         lazy_require("gitsigns").setloclist(),
-         desc = "gitsigns.setloclist",
-       },
-       {
-         "gQ",
-         lazy_require("gitsigns").setqflist "all",
-         desc = 'gitsigns.setqflist "all"',
-       },
-     },
-     init = function()
-       palette "gitsigns" {
-         nord = function(colors)
-           api.set_hl(0, "GitSignsAdd", { fg = colors.green })
-           api.set_hl(0, "GitSignsChange", { fg = colors.yellow })
-           api.set_hl(0, "GitSignsDelete", { fg = colors.red })
-           api.set_hl(0, "GitSignsCurrentLineBlame", { fg = colors.brighter_black })
-           api.set_hl(0, "GitSignsAddInline", { bg = colors.bg_green })
-           api.set_hl(0, "GitSignsChangeInline", { bg = colors.bg_yellow })
-           api.set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
-           api.set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
-         end,
-       }
-     end,
-     opts = {
-       signs = {
-         add = {},
-         change = {},
-         delete = { text = "✗" },
-         topdelete = { text = "↑" },
-         changedelete = { text = "•" },
-         untracked = { text = "⢸" },
-       },
-       numhl = true,
-       current_line_blame = true,
-       current_line_blame_opts = {
-         delay = 10,
-       },
-       word_diff = true,
-     },
-   },
+  {
+    "lewis6991/gitsigns.nvim",
+    cmd = { "Gitsigns" },
+    event = { "FocusLost", "CursorHold" },
+    keys = {
+      {
+        "gL",
+        lazy_require("gitsigns").setloclist(),
+        desc = "gitsigns.setloclist",
+      },
+      {
+        "gQ",
+        lazy_require("gitsigns").setqflist "all",
+        desc = 'gitsigns.setqflist "all"',
+      },
+    },
+    init = function()
+      palette "gitsigns" {
+        nord = function(colors)
+          api.set_hl(0, "GitSignsAdd", { fg = colors.green })
+          api.set_hl(0, "GitSignsChange", { fg = colors.yellow })
+          api.set_hl(0, "GitSignsDelete", { fg = colors.red })
+          api.set_hl(0, "GitSignsCurrentLineBlame", { fg = colors.brighter_black })
+          api.set_hl(0, "GitSignsAddInline", { bg = colors.bg_green })
+          api.set_hl(0, "GitSignsChangeInline", { bg = colors.bg_yellow })
+          api.set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
+          api.set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
+        end,
+      }
+    end,
+    opts = {
+      signs = {
+        add = {},
+        change = {},
+        delete = { text = "✗" },
+        topdelete = { text = "↑" },
+        changedelete = { text = "•" },
+        untracked = { text = "⢸" },
+      },
+      numhl = true,
+      current_line_blame = true,
+      current_line_blame_opts = {
+        delay = 10,
+      },
+      word_diff = true,
+    },
+  },
 
   {
     "shellRaining/hlchunk.nvim",
