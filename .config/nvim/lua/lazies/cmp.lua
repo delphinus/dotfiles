@@ -3,6 +3,7 @@ local utils = require "core.utils"
 local fn, _, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
+local lazy_utils = require "core.utils.lazy"
 
 local function i(p)
   p.event = { "InsertEnter" }
@@ -292,6 +293,58 @@ return {
     config = function()
       local cmp = require "cmp"
       local types = require "cmp.types"
+      local comparators
+      if lazy_utils.has_plugin "copilot-cmp" then
+        comparators = {
+          require("copilot_cmp.comparators").prioritize,
+
+          -- Below is the default comparitor list and order for nvim-cmp
+          cmp.config.compare.recently_used,
+          cmp.config.compare.scopes,
+          cmp.config.compare.locality,
+          cmp.config.compare.offset,
+          cmp.config.compare.exact,
+          cmp.config.compare.score,
+          cmp.config.compare.kind,
+          cmp.config.compare.sort_text,
+          cmp.config.compare.length,
+          cmp.config.compare.order,
+        }
+      end
+      local format
+      if lazy_utils.has_plugin "lspkind" then
+        format = require("lspkind").cmp_format {
+          mode = "symbol",
+          maxwidth = 50,
+          menu = {
+            buffer = "B",
+            copilot = "O",
+            ctags = "C",
+            digraphs = "D",
+            emoji = "E",
+            fish = "F",
+            ghq = "Q",
+            git = "G",
+            look = "K",
+            luasnip = "S",
+            nvim_lsp = "L",
+            nvim_lua = "U",
+            path = "P",
+            rg = "R",
+            treesitter = "T",
+            wezterm = "W",
+          },
+          preset = "codicons",
+          symbol_map = { Copilot = "" },
+          show_labelDetails = true,
+          before = function(entry, vim_item)
+            if vim_item.menu then
+              vim_item.menu = " " .. vim_item.menu
+            end
+            return vim_item
+          end,
+        }
+      end
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -415,37 +468,7 @@ return {
         formatting = {
           -- https://github.com/onsails/lspkind.nvim/pull/30
           fields = { types.cmp.ItemField.Abbr, types.cmp.ItemField.Kind, types.cmp.ItemField.Menu },
-          format = require("lspkind").cmp_format {
-            mode = "symbol",
-            maxwidth = 50,
-            menu = {
-              buffer = "B",
-              copilot = "O",
-              ctags = "C",
-              digraphs = "D",
-              emoji = "E",
-              fish = "F",
-              ghq = "Q",
-              git = "G",
-              look = "K",
-              luasnip = "S",
-              nvim_lsp = "L",
-              nvim_lua = "U",
-              path = "P",
-              rg = "R",
-              treesitter = "T",
-              wezterm = "W",
-            },
-            preset = "codicons",
-            symbol_map = { Copilot = "" },
-            show_labelDetails = true,
-            before = function(entry, vim_item)
-              if vim_item.menu then
-                vim_item.menu = " " .. vim_item.menu
-              end
-              return vim_item
-            end,
-          },
+          format = format,
         },
         window = {
           --completion = cmp.config.window.bordered(),
@@ -458,21 +481,7 @@ return {
         },
         sorting = {
           priority_weight = 2,
-          comparators = {
-            require("copilot_cmp.comparators").prioritize,
-
-            -- Below is the default comparitor list and order for nvim-cmp
-            cmp.config.compare.recently_used,
-            cmp.config.compare.scopes,
-            cmp.config.compare.locality,
-            cmp.config.compare.offset,
-            cmp.config.compare.exact,
-            cmp.config.compare.score,
-            cmp.config.compare.kind,
-            cmp.config.compare.sort_text,
-            cmp.config.compare.length,
-            cmp.config.compare.order,
-          },
+          comparators = comparators,
         },
       }
       if not vim.env.LIGHT then
