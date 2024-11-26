@@ -385,7 +385,7 @@ return {
   },
 
   {
-    enabled = not vim.env.LIGHT,
+    enabled = false,
     "haringsrob/nvim_context_vt",
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
