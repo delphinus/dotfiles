@@ -293,6 +293,7 @@ return {
       debug = not not vim.env.DEBUG_FRECENCY,
       db_safe_mode = false,
       enable_prompt_mappings = true,
+      preceding = "same_repo",
       scoring_function = function(recency, fzy_score)
         local score = (100 / (recency == 0 and 1 or recency)) - 1 / fzy_score
         return score == -1 and -1.00001 or score
