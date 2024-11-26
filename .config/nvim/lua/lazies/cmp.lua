@@ -312,7 +312,7 @@ return {
         }
       end
       local format
-      if lazy_utils.has_plugin "lspkind" then
+      if lazy_utils.has_plugin "lspkind-nvim" then
         format = require("lspkind").cmp_format {
           mode = "symbol",
           maxwidth = 50,
