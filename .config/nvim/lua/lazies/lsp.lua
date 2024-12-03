@@ -48,11 +48,6 @@ return {
     end,
 
     config = function()
-      fn.sign_define("DiagnosticSignError", { texthl = "DiagnosticSignError", text = "●" })
-      fn.sign_define("DiagnosticSignWarn", { texthl = "DiagnosticSignWarn", text = "○" })
-      fn.sign_define("DiagnosticSignInfo", { texthl = "DiagnosticSignInfo", text = "■" })
-      fn.sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", text = "□" })
-
       api.create_autocmd("LspAttach", {
         desc = "Enable LSP feature in my lualine",
         group = api.create_augroup("enable-lualine-lsp", {}),
@@ -84,7 +79,15 @@ return {
         float = { source = true },
         signs = function(_, b)
           ---@diagnostic disable-next-line: return-type-mismatch
-          return not vim.bo[b].filetype == "markdown"
+          return vim.bo[b].filetype == "markdown" and {}
+            or {
+              text = {
+                [vim.diagnostic.severity.ERROR] = "●",
+                [vim.diagnostic.severity.WARN] = "○",
+                [vim.diagnostic.severity.INFO] = "■",
+                [vim.diagnostic.severity.HINT] = "□",
+              },
+            }
         end,
         virtual_text = {
           format = function(d)
