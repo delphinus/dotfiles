@@ -1296,4 +1296,13 @@ return {
     end,
     opts = {},
   },
+
+  {
+    "delphinus/inspect-extmarks.nvim",
+    cmd = { "InspectExtmarks" },
+    init = function()
+      vim.cmd.cabbrev("IE", "InspectExtmarks")
+    end,
+    opts = {},
+  },
 }
