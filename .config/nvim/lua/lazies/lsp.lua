@@ -79,15 +79,16 @@ return {
         float = { source = true },
         signs = function(_, b)
           ---@diagnostic disable-next-line: return-type-mismatch
-          return vim.bo[b].filetype == "markdown" and {}
-            or {
-              text = {
-                [vim.diagnostic.severity.ERROR] = "●",
-                [vim.diagnostic.severity.WARN] = "○",
-                [vim.diagnostic.severity.INFO] = "■",
-                [vim.diagnostic.severity.HINT] = "□",
-              },
-            }
+          return vim.bo[b].filetype ~= "markdown"
+              and {
+                text = {
+                  [vim.diagnostic.severity.ERROR] = "●",
+                  [vim.diagnostic.severity.WARN] = "○",
+                  [vim.diagnostic.severity.INFO] = "■",
+                  [vim.diagnostic.severity.HINT] = "□",
+                },
+              }
+            or false
         end,
         virtual_text = {
           format = function(d)
