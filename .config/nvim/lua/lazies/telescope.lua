@@ -409,6 +409,7 @@ return {
           egrepify = {
             vimgrep_arguments = {
               "rg",
+              "-P", -- enable PCRE2
               "--color=never",
               "--no-heading",
               "--with-filename",
