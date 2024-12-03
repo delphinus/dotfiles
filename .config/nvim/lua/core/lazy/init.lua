@@ -1,3 +1,11 @@
+if vim.env.PROF then
+  local snacks = vim.fn.stdpath "data" .. "/lazy/snacks.nvim"
+  vim.opt.runtimepath:append(snacks)
+  require("snacks.profiler").startup {
+    startup = { "VeryLazy" },
+  }
+end
+
 _G.pp = function(v)
   vim.notify(vim.inspect(v, { newline = "", indent = "" }))
 end
