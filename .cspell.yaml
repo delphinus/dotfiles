@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+version: "0.2"
+ignoreRegExpList:
+  - |
+    /
+      ^\s*([`'"]{3,})
+      [\s\S]*?
+      ^\s*\1$
+    /gmx
