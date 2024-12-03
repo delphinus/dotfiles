@@ -93,3 +93,10 @@ end, {
 
 vim.cmd.nnoremenu [[PopUp.Toggle\ Diagnostic <Cmd>lua vim.diagnostic[vim.diagnostic.is_disabled(0) and "enable" or "disable"]()<CR>]]
 vim.cmd.nnoremenu [[PopUp.Toggle\ Auto\ Formatting <Cmd>lua require("auto_fmt").toggle()<CR>]]
+
+vim.api.nvim_create_user_command("InspectExtmark", function(args)
+  require("core.utils.extmarks").inspect { type = args.fargs[1] }
+end, { nargs = "?" })
+
+vim.cmd.cabbrev("IE", "InspectExtmark")
+vim.cmd.cabbrev("IN", "Inspect")
