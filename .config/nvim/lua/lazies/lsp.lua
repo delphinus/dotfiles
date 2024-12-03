@@ -329,7 +329,9 @@ return {
   }, -- }}}
 
   {
-    "dense-analysis/ale",
+    -- "dense-analysis/ale",
+    "delphinus/ale",
+    branch = "fix/consider-original-sign-config",
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
     config = function()
       vim.g.ale_linters_ignore = {
