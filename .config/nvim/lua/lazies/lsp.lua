@@ -336,6 +336,7 @@ return {
       vim.g.ale_fixers = {
         lua = { "stylua" },
       }
+      vim.g.ale_echo_cursor = 0
     end,
   },
 
