@@ -150,7 +150,7 @@ return {
         core.builtin "man_pages" { sections = { "ALL" } },
         { desc = "Telescope man_pages" }
       )
-      vim.keymap.set("n", "<Leader>fn", core.extensions "noice" {}, { desc = "Telescope noice" })
+      vim.keymap.set("n", "<Leader>fn", core.extensions "notify" {}, { desc = "Telescope notify" })
       vim.keymap.set("n", "<Leader>fo", core.frecency {}, { desc = "Telescope frecency" })
       vim.keymap.set("n", "<Leader>fc", core.extensions "ctags_outline" {}, { desc = "Telescope ctags_outline" })
       vim.keymap.set(

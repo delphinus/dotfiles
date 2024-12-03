@@ -331,6 +331,7 @@ return {
   {
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
+    dependencies = { "rcarriga/nvim-notify", opts = {} },
     init = function()
       palette "noice" {
         nord = function(colors)
