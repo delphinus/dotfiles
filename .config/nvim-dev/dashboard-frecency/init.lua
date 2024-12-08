@@ -18,12 +18,9 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup {
   {
     "nvim-telescope/telescope-frecency.nvim",
-    commit = "344e01f",
-    main = "frecency",
     opts = { debug = true },
+    dependencies = { "nvim-lua/plenary.nvim" },
   },
-  { "nvim-lua/plenary.nvim", lazy = true },
-  { "nvim-tree/nvim-web-devicons", lazy = true },
   { "nvim-telescope/telescope.nvim", cmd = { "Telescope" } },
   {
     "delphinus/dashboard-nvim",
@@ -43,9 +40,17 @@ require("lazy").setup {
   },
 }
 
-vim.api.nvim_create_autocmd("User", {
-  pattern = "DashboardLoaded",
-  callback = function()
-    require("lazy.stats").track "DashboardLoaded"
-  end,
-})
+local function make_callback(event)
+  return function()
+    require("lazy.stats").track(event)
+  end
+end
+
+vim.iter({ "BufEnter", "BufWinEnter", "UIEnter", "VimEnter" }):each(function(event)
+  vim.api.nvim_create_autocmd(event, { callback = make_callback(event) })
+end)
+
+do
+  local event = "DashboardLoaded"
+  vim.api.nvim_create_autocmd("User", { pattern = event, callback = make_callback(event) })
+end

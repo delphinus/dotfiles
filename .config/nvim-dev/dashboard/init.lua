@@ -24,12 +24,17 @@ require("lazy").setup {
   },
 }
 
-vim.iter({ "BufEnter", "BufWinEnter", "UIEnter", "VimEnter" }):each(function(e)
-  local count = 0
-  vim.api.nvim_create_autocmd(e, {
-    callback = function()
-      count = count + 1
-      require("lazy.stats").track(("%s-%d"):format(e, count))
-    end,
-  })
+local function make_callback(event)
+  return function()
+    require("lazy.stats").track(event)
+  end
+end
+
+vim.iter({ "BufEnter", "BufWinEnter", "UIEnter", "VimEnter" }):each(function(event)
+  vim.api.nvim_create_autocmd(event, { callback = make_callback(event) })
 end)
+
+do
+  local event = "DashboardLoaded"
+  vim.api.nvim_create_autocmd("User", { pattern = event, callback = make_callback(event) })
+end
