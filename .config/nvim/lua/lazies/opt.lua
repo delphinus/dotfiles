@@ -331,7 +331,16 @@ return {
   {
     "folke/noice.nvim",
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
-    dependencies = { "rcarriga/nvim-notify", opts = {} },
+    dependencies = {
+      "rcarriga/nvim-notify",
+      opts = {},
+      init = function()
+        vim.api.nvim_create_user_command("DismissNotifications", function()
+          require("notify").dismiss { include_hidden = true }
+        end, { nargs = 0 })
+        vim.cmd.cabbrev("DN", "DismissNotifications")
+      end,
+    },
     init = function()
       palette "noice" {
         nord = function(colors)
