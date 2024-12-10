@@ -2,7 +2,7 @@ local const = require "const"
 local wezterm = require "wezterm"
 
 return function(envs)
-  local filename = "/tmp/.1password-env"
+  local filename = wezterm.home_dir .. "/.1password-env"
   if #wezterm.glob(filename) == 0 then
     wezterm.log_warn "envs from op are not found"
     return envs

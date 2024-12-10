@@ -122,10 +122,10 @@ return {
       end
 
       local perl_env = (function()
-        local filename = "/tmp/.1password-perl-env"
+        local filename = vim.uv.os_homedir() .. "/.1password-perl-env"
         local st, err = vim.uv.fs_stat(filename)
         if not st or err then
-          vim.notify("/tmp/.1password-perl-env not found", vim.log.levels.WARN)
+          vim.notify(filename .. " not found", vim.log.levels.WARN)
           return {}
         end
         local fd
