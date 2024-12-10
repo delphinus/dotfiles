@@ -231,12 +231,9 @@ return {
       vim.g.neominimap = {
         auto_enable = true,
         exclude_filetypes = { "help", "vfiler", "dashboard", "markdown" },
-        float = {
-          margin = { top = 1 },
-          window_border = "none",
-        },
+        float = { margin = { top = 1 }, window_border = "none" },
         treesitter = { enabled = lazy_utils.has_plugin "nvim-treesitter" },
-        git = { enabled = lazy_utils.has_plugin "gitsigns" },
+        git = { enabled = lazy_utils.has_plugin "gitsigns.nvim", mode = "line" },
         click = { enabled = true },
         search = { enabled = true },
         winopt = function(opt, _)
