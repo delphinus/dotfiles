@@ -1314,4 +1314,9 @@ return {
     end,
     opts = {},
   },
+
+  {
+    "delphinus/open-official-doc.nvim",
+    cmd = { "OpenOfficialDoc" },
+  },
 }
