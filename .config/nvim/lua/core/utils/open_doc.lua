@@ -5,10 +5,21 @@ return function()
     if vim.bo.buftype ~= "help" then
       return
     end
+    local vimdoc_ja = require("lazy.core.config").plugins["vimdoc-ja"]
+    local docpath = { vim.fs.joinpath(vim.env.VIMRUNTIME, "doc/"), vim.fs.joinpath(vimdoc_ja.dir, "doc/") }
     local bufname = vim.api.nvim_buf_get_name(0)
-    local docpath_re = vim.fs.joinpath(vim.env.VIMRUNTIME, "doc/")
-    local _, finish = bufname:find(docpath_re, 1, true)
-    return finish and (bufname:match("(.*)%.[^.]+$", finish + 1))
+    local finish = vim.iter(docpath):fold(nil, function(found, path)
+      if not found then
+        local _
+        _, found = bufname:find(path, 1, true)
+      end
+      return found
+    end)
+    local name = finish and (bufname:match("(.*)%.[^.]+$", finish + 1))
+    if name == "index" then
+      name = "vimindex"
+    end
+    return name
   end
 
   ---@param row integer
@@ -25,7 +36,12 @@ return function()
   ---@param help_name string
   ---@param tag? string
   local function generate_neovim_doc_url(help_name, tag)
-    return ("https://neovim.io/doc/user/%s.html%s"):format(help_name, tag and "#" .. tag or "")
+    local escaped = tag
+        and "#" .. vim.uri_encode(tag, "rfc2396"):gsub("%%[%da-f][%da-f]", function(s)
+          return s:upper()
+        end)
+      or ""
+    return ("https://neovim.io/doc/user/%s.html%s"):format(help_name, escaped)
   end
 
   local help_name = get_buf_help_name()
