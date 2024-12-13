@@ -358,12 +358,6 @@ return {
       local cspell = require "cspell"
       local sources = {
         cspell.code_actions.with { filetypes = { "markdown", "help" } },
-        cspell.diagnostics.with {
-          diagnostics_postprocess = function(diagnostic)
-            diagnostic.severity = vim.diagnostic.severity.HINT
-          end,
-          filetypes = { "markdown", "help" },
-        },
 
         nls.builtins.code_actions.gitsigns,
         require("none-ls-shellcheck").code_actions,
