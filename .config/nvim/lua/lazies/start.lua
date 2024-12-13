@@ -241,6 +241,41 @@ return {
         end,
       }
 
+      vim.api.nvim_create_autocmd("CursorMoved", {
+        group = vim.api.nvim_create_augroup("auto-toggle-neominimap", {}),
+        callback = function(ev)
+          local win = vim.api.nvim_get_current_win()
+          local row = vim.api.nvim_win_get_cursor(win)[1] - 1
+          local line = vim.api.nvim_buf_get_lines(ev.buf, row, row + 1, true)[1]
+          local extmarks = vim.api.nvim_buf_get_extmarks(
+            ev.buf,
+            -1,
+            { row, 0 },
+            { row + 1, 0 },
+            { details = true, type = "virt_text" }
+          )
+          local line_length = vim
+            .iter(extmarks)
+            :filter(function(extmark)
+              return extmark[4].virt_text_pos == "inline"
+            end)
+            :fold(vim.api.nvim_strwidth(line), function(sum, extmark)
+              return sum
+                + vim.iter(extmark[4].virt_text):fold(0, function(len, text)
+                  return len + vim.api.nvim_strwidth(text[1])
+                end)
+            end)
+          local win_width = vim.api.nvim_win_get_width(win)
+          local minimap_width = require("neominimap.config").float.minimap_width
+          local num_sign_width = 6 -- TODO: calculate this
+          if win_width - minimap_width - num_sign_width < line_length then
+            require("neominimap").winOff { win }
+          else
+            require("neominimap").winOn { win }
+          end
+        end,
+      })
+
       local function normal_wins()
         return vim.iter(vim.api.nvim_tabpage_list_wins(0)):filter(function(w)
           -- NOTE: This means the window is not float win.
