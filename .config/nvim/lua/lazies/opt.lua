@@ -1318,5 +1318,9 @@ return {
   {
     "delphinus/open-official-doc.nvim",
     cmd = { "OpenOfficialDoc" },
+    opts = {},
+    init = function()
+      vim.cmd.cabbrev("OD", "OpenOfficialDoc")
+    end,
   },
 }

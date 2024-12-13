@@ -95,6 +95,3 @@ vim.cmd.nnoremenu [[PopUp.Toggle\ Diagnostic <Cmd>lua vim.diagnostic[vim.diagnos
 vim.cmd.nnoremenu [[PopUp.Toggle\ Auto\ Formatting <Cmd>lua require("auto_fmt").toggle()<CR>]]
 
 vim.cmd.cabbrev("IN", "Inspect")
-
-api.create_user_command("OpenNeovimDoc", require "core.utils.open_doc", { nargs = 0 })
-vim.cmd.cabbrev("OD", "OpenNeovimDoc")
