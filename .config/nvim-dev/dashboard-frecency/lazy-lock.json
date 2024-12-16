@@ -1,6 +1,6 @@
 {
   "dashboard-nvim": { "branch": "feat/mru-list-fn", "commit": "b81485946fbf396c1f569f7d628465a0f14527b5" },
-  "lazy.nvim": { "branch": "main", "commit": "7967abe55752aa90532e6bb4bd4663fe27a264cb" },
+  "lazy.nvim": { "branch": "main", "commit": "7e6c863bc7563efbdd757a310d17ebc95166cef3" },
   "nvim-web-devicons": { "branch": "master", "commit": "e87554285f581047b1bf236794b0eb812b444b87" },
   "plenary.nvim": { "branch": "master", "commit": "2d9b06177a975543726ce5c73fca176cedbffe9d" },
   "telescope-frecency.nvim": { "branch": "master", "commit": "8622ef42f73cf0eb76bbe049220a812ffe32354d" },
