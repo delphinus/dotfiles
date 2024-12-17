@@ -19,7 +19,7 @@
 use strict;
 use warnings;
 use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
-use Path::Tiny qw(tempfile path);
+use Path::Tiny 'tempfile';
 use Pod::Usage 'pod2usage';
 
 GetOptions(
