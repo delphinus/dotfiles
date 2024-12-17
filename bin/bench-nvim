@@ -1,0 +1,62 @@
+#!/usr/bin/env perl
+
+=head1 DESCRIPTION
+
+    Alternative vim-startuptime
+
+=head1 SYNOPSIS
+
+    bench-nvim
+    # Run nvim 10 times after 1 warmup
+
+    bench-nvim -c 100 -w 5
+    # Run nvim 100 times after 5 warmups
+
+    bench-nvim -h
+    # See this help
+=cut
+
+use strict;
+use warnings;
+use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
+use Path::Tiny qw(tempfile path);
+use Pod::Usage 'pod2usage';
+
+GetOptions(
+    \my %opt, qw(
+    count|c=i
+    warmup|w=i
+    help|h
+)) or pod2usage(1);
+$opt{help} and pod2usage(0);
+
+%opt = (
+    count => 10,
+    warmup => 1,
+    %opt,
+);
+
+my $cmd = 'nvim';
+my $tmp = tempfile;
+
+for (1 .. $opt{warmup}) {
+    0 == system 'env', 'WARMUP=true', $cmd or die "$cmd failed: $!\n";
+}
+for (1 .. $opt{count}) {
+    0 == system 'env', "LOGFILE=$tmp", $cmd or die "$cmd failed: $!\n";
+}
+
+my ($sum, $max, $min) = (0, 0, undef);
+for my $score ($tmp->lines) {
+    $score += 0;
+    $sum += $score;
+    $min //= $score;
+    $min = $score if $min > $score;
+    $max = $score if $max < $score;
+}
+
+printf "Measured %d times\n", $opt{count};
+print "\n";
+printf "Total Average: %.6f msec\n", $sum / $opt{count};
+printf "Total Max:     %.6f msec\n", $max;
+printf "Total Min:     %.6f msec\n", $min;

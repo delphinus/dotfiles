@@ -1,3 +1,18 @@
+if vim.env.LOGFILE or vim.env.WARMUP then
+  local start = vim.uv.hrtime()
+  vim.api.nvim_create_autocmd("User", {
+    once = true,
+    pattern = "DashboardLoaded",
+    callback = function()
+      if vim.env.LOGFILE then
+        local finish = vim.uv.hrtime()
+        vim.fn.writefile({ tostring((finish - start) / 1e6) }, vim.env.LOGFILE, "a")
+      end
+      vim.schedule_wrap(vim.cmd.qall) { bang = true }
+    end,
+  })
+end
+
 if vim.env.PROF then
   local snacks = vim.fn.stdpath "data" .. "/lazy/snacks.nvim"
   vim.opt.runtimepath:append(snacks)
@@ -11,33 +26,6 @@ if vim.uv.fs_stat(lazypath) then
   vim.opt.rtp:prepend(lazypath)
 else
   load(vim.fn.system "curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua")()
-end
-
-do
-  local stats = require "lazy.stats"
-  stats.cputime() -- HACK: this is needed to use clock_gettime()
-  stats.monotonic = function()
-    local ffi = require "ffi"
-    local pnano = assert(ffi.new("nanotime[?]", 1))
-    local CLOCK_MONOTONIC = jit.os == "OSX" and 6 or 1
-    ffi.C.clock_gettime(CLOCK_MONOTONIC, pnano)
-    return tonumber(pnano[0].tv_sec) * 1e3 + tonumber(pnano[0].tv_nsec) / 1e6
-  end
-
-  if vim.env.LOGFILE then
-    local start = stats.monotonic()
-    vim.api.nvim_create_autocmd("User", {
-      once = true,
-      pattern = "DashboardLoaded",
-      callback = function()
-        local finish = stats.monotonic()
-        vim.fn.writefile({ tostring(finish - start) }, vim.env.LOGFILE, "a")
-        vim.schedule(function()
-          vim.cmd.qall { bang = true }
-        end)
-      end,
-    })
-  end
 end
 
 local use_minimal = not not vim.env.MINIMAL or vim.env.USER == "root"
