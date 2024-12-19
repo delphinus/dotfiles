@@ -12,6 +12,9 @@
     bench-nvim -c 100 -w 5
     # Run nvim 100 times after 5 warmups
 
+    bench-nvim -l /tmp/foo.log
+    # Store results into /tmp/foo.log
+
     bench-nvim -h
     # See this help
 =cut
@@ -19,13 +22,14 @@
 use strict;
 use warnings;
 use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
-use Path::Tiny 'tempfile';
+use Path::Tiny qw(path tempfile);
 use Pod::Usage 'pod2usage';
 
 GetOptions(
     \my %opt, qw(
     count|c=i
     warmup|w=i
+    logfile|l=s
     help|h
 )) or pod2usage(1);
 $opt{help} and pod2usage(0);
@@ -37,7 +41,7 @@ $opt{help} and pod2usage(0);
 );
 
 my $cmd = 'nvim';
-my $tmp = tempfile;
+my $tmp = defined $opt{logfile} ? path($opt{logfile}) : tempfile;
 
 for (1 .. $opt{warmup}) {
     0 == system 'env', 'WARMUP=true', $cmd or die "$cmd failed: $!\n";

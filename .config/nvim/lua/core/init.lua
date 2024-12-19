@@ -1,13 +1,19 @@
-(function()
+if vim.env.LOGFILE or vim.env.WARMUP then
   local start = vim.uv.hrtime()
   vim.api.nvim_create_autocmd("User", {
+    once = true,
+    -- snacks.nvim の場合はここを
+    -- "SnacksDashboardOpened" とします。
     pattern = "DashboardLoaded",
     callback = function()
-      require("lazy.stats").track "DashboardLoaded"
-      vim.api.nvim__redraw { flush = true }
+      if vim.env.LOGFILE then
+        local finish = vim.uv.hrtime()
+        vim.fn.writefile({ tostring((finish - start) / 1e6) }, vim.env.LOGFILE, "a")
+      end
+      vim.schedule_wrap(vim.cmd.qall) { bang = true }
     end,
   })
-end)()
+end
 
 local fn, uv = require("core.utils").globals()
 

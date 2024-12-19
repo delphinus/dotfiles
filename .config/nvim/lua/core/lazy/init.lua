@@ -1,18 +1,3 @@
-if vim.env.LOGFILE or vim.env.WARMUP then
-  local start = vim.uv.hrtime()
-  vim.api.nvim_create_autocmd("User", {
-    once = true,
-    pattern = "DashboardLoaded",
-    callback = function()
-      if vim.env.LOGFILE then
-        local finish = vim.uv.hrtime()
-        vim.fn.writefile({ tostring((finish - start) / 1e6) }, vim.env.LOGFILE, "a")
-      end
-      vim.schedule_wrap(vim.cmd.qall) { bang = true }
-    end,
-  })
-end
-
 if vim.env.PROF then
   local snacks = vim.fn.stdpath "data" .. "/lazy/snacks.nvim"
   vim.opt.runtimepath:append(snacks)
