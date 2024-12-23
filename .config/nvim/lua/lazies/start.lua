@@ -320,7 +320,7 @@ return {
 
   non_lazy {
     "nvim-telescope/telescope-frecency.nvim",
-    version = "1.0.0-pre-01",
+    version = "*",
     ---@type FrecencyOpts
     opts = {
       debug = not not vim.env.DEBUG_FRECENCY,
