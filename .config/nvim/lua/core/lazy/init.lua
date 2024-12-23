@@ -49,20 +49,37 @@ vim.api.nvim_create_autocmd("User", {
   callback = function()
     local Path = require "plenary.path"
     local config = require "lazy.core.config"
-    local vimdoc = Path:new(config.options.root, "vimdoc-ja")
-    vim
-      .system({ "git", "reset", "--hard" }, { cwd = tostring(vimdoc) }, function(info)
-        if info.code == 0 then
-          vim.schedule(function()
-            vim.notify("vimdoc-ja resetted hardly", vim.log.levels.DEBUG)
-          end)
-        else
-          vim.schedule(function()
-            vim.notify("git reset --hard failed", vim.log.levels.ERROR)
-          end)
-        end
-      end)
-      :wait()
+    local to_reset = { "vimdoc-ja", "moody.nvim" }
+    local done = {}
+    for _, plugin in ipairs(to_reset) do
+      local path = Path:new(config.options.root, plugin).filename
+      for _, case in ipairs {
+        { type = "reset", cmd = { "git", "reset", "--hard" } },
+        { type = "clean", cmd = { "git", "clean", "-df" } },
+      } do
+        vim.system(case.cmd, { cwd = path }, function(info)
+          table.insert(done, { plugin = plugin, type = case.type, code = info.code })
+        end)
+      end
+    end
+    vim.wait(5000, function()
+      return #done == #to_reset * 2
+    end)
+    -- HACK: load nvim-notify definitely instead of calling vim-notify
+    local notify = require "notify"
+    -- HACK: open notification windows above the one of lazynvim
+    local opts = {
+      on_open = function(win)
+        vim.api.nvim_win_set_config(win, { zindex = 10000 })
+      end,
+    }
+    for _, result in ipairs(done) do
+      if result.code == 0 then
+        notify(("done successfully to %s: %s"):format(result.type, result.plugin), vim.log.levels.INFO, opts)
+      else
+        notify(("failed to %s: %s"):format(result.type, result.plugin), vim.log.levels.ERROR, opts)
+      end
+    end
   end,
 })
 
