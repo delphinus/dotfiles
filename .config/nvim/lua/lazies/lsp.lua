@@ -335,13 +335,9 @@ return {
     branch = "fix/consider-original-sign-config",
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
     config = function()
-      vim.g.ale_linters_ignore = {
-        lua = { "cspell" },
-      }
+      vim.g.ale_linters_ignore = { "cspell", "shellcheck" }
       vim.g.ale_fix_on_save = 1
-      vim.g.ale_fixers = {
-        lua = { "stylua" },
-      }
+      vim.g.ale_fixers = { lua = { "stylua" } }
       vim.g.ale_echo_cursor = 0
     end,
   },
@@ -356,11 +352,13 @@ return {
       local nls = require "null-ls"
 
       local cspell = require "cspell"
+      local shellcheck = require "none-ls-shellcheck"
       local sources = {
-        cspell.code_actions.with { filetypes = { "markdown", "help" } },
-
         nls.builtins.code_actions.gitsigns,
-        require("none-ls-shellcheck").code_actions,
+        cspell.code_actions.with { filetypes = { "markdown", "help" } },
+        cspell.diagnostics.with { filetypes = { "markdown", "help" } },
+        shellcheck.code_actions,
+        shellcheck.diagnostic,
       }
       nls.setup {
         diagnostics_format = "[none-ls] #{m}",
