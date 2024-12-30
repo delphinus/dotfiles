@@ -217,23 +217,19 @@ return {
 
       local function resume_and_select(change)
         return function()
-          local builtin = require "telescope.builtin"
-
           vim.api.nvim_create_autocmd("FileType", {
             group = vim.api.nvim_create_augroup("resume_and_select", {}),
             pattern = "TelescopePrompt",
             once = true,
             callback = function(args)
-              local async = require "plenary.async"
-
               local picker = get_picker(args.buf)
               if picker then
-                async.void(select_and_open)(picker, change)
+                require("plenary.async").void(select_and_open)(picker, change)
               end
             end,
           })
 
-          builtin.resume {}
+          require("telescope.builtin").resume {}
         end
       end
 
