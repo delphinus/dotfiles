@@ -186,8 +186,9 @@ return {
         elseif picker.manager:num_results() <= 1 then
           vim.notify("picker has no entry to open", vim.log.levels.WARN)
           actions.close(prompt_bufnr)
-          -- HACK: Without this, it turns into the insert mode here.
-          vim.api.nvim_feedkeys([[<C-\><C-n>]], "i", true)
+          if picker.initial_mode == "insert" then
+            vim.api.nvim_feedkeys([[<C-\><C-n>]], "i", true)
+          end
           return
         end
         return picker
