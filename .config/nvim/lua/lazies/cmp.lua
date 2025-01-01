@@ -293,23 +293,20 @@ return {
     config = function()
       local cmp = require "cmp"
       local types = require "cmp.types"
-      local comparators
+      local comparators = {
+        cmp.config.compare.offset,
+        cmp.config.compare.exact,
+        -- cmp.config.compare.scopes,
+        cmp.config.compare.score,
+        cmp.config.compare.recently_used,
+        cmp.config.compare.locality,
+        cmp.config.compare.kind,
+        -- cmp.config.compare.sort_text,
+        cmp.config.compare.length,
+        cmp.config.compare.order,
+      }
       if lazy_utils.has_plugin "copilot-cmp" then
-        comparators = {
-          require("copilot_cmp.comparators").prioritize,
-
-          -- Below is the default comparitor list and order for nvim-cmp
-          cmp.config.compare.recently_used,
-          cmp.config.compare.scopes,
-          cmp.config.compare.locality,
-          cmp.config.compare.offset,
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
-          cmp.config.compare.kind,
-          cmp.config.compare.sort_text,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
-        }
+        table.insert(comparators, 1, require("copilot_cmp.comparators").prioritize)
       end
       local format
       if lazy_utils.has_plugin "lspkind-nvim" then
@@ -345,6 +342,39 @@ return {
           end,
         }
       end
+
+      local sources = {
+        { name = "digraphs", keyword_length = 1 },
+        { name = "path" },
+        { name = "lazydev" },
+        { name = "nvim_lsp" },
+        { name = "copilot" },
+        { name = "nvim_lua" },
+        { name = "git" },
+        { name = "ctags" },
+        { name = "treesitter", trigger_characters = { "." }, option = {} },
+        { name = "fish" },
+        { name = "luasnip" },
+        { name = "wezterm", keyword_length = 2, option = {} },
+        {
+          name = "buffer",
+          option = {
+            --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]],
+            --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h[\-:\w]*\%([\-.][:\w]*\)*\)]],
+            --keyword_pattern = [[\k\+]],
+            -- Allow Foo::Bar & foo-bar
+            --keyword_pattern = [[\h\w*\%(\%(-\|::\)\h\w*\)*]],
+            --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
+            keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
+            get_bufnrs = api.list_bufs,
+          },
+        },
+        { name = "ghq" },
+        { name = "rg", option = { debounce = 0 } },
+        { name = "emoji" },
+        { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
+      }
+
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -411,60 +441,7 @@ return {
             end
           end, { "i", "s" }),
         },
-        sources = vim.env.LIGHT
-            and {
-              { name = "digraphs", keyword_length = 1 },
-              { name = "copilot" },
-              { name = "nvim_lua" },
-              { name = "ctags" },
-              { name = "treesitter", trigger_characters = { "." }, option = {} },
-              -- {
-              --   name = "tmux",
-              --   keyword_length = 2,
-              --   option = { trigger_characters = {}, all_panes = true, capture_history = true },
-              -- },
-              { name = "wezterm", keyword_length = 2, option = {} },
-              {
-                name = "buffer",
-                option = {
-                  keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
-                  get_bufnrs = api.list_bufs,
-                },
-              },
-              { name = "emoji" },
-              { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
-            }
-          or {
-            { name = "digraphs", keyword_length = 1 },
-            { name = "path" },
-            { name = "lazydev" },
-            { name = "nvim_lsp" },
-            { name = "copilot" },
-            { name = "nvim_lua" },
-            { name = "git" },
-            { name = "ctags" },
-            { name = "treesitter", trigger_characters = { "." }, option = {} },
-            { name = "fish" },
-            { name = "luasnip" },
-            { name = "wezterm", keyword_length = 2, option = {} },
-            {
-              name = "buffer",
-              option = {
-                --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]],
-                --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h[\-:\w]*\%([\-.][:\w]*\)*\)]],
-                --keyword_pattern = [[\k\+]],
-                -- Allow Foo::Bar & foo-bar
-                --keyword_pattern = [[\h\w*\%(\%(-\|::\)\h\w*\)*]],
-                --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
-                keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
-                get_bufnrs = api.list_bufs,
-              },
-            },
-            { name = "ghq" },
-            { name = "rg", option = { debounce = 0 } },
-            { name = "emoji" },
-            { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
-          },
+        sources = sources,
         formatting = {
           -- https://github.com/onsails/lspkind.nvim/pull/30
           fields = { types.cmp.ItemField.Abbr, types.cmp.ItemField.Kind, types.cmp.ItemField.Menu },
@@ -493,6 +470,15 @@ return {
           ),
         })
       end
+
+      cmp.setup.filetype({ "markdown" }, {
+        sources = vim
+          .iter(sources)
+          :filter(function(v)
+            return v.name ~= "ctags" and v.name ~= "treesitter"
+          end)
+          :totable(),
+      })
 
       require("cmp.utils.debug").flag = vim.env.CMP_DEBUG ~= nil
     end,
