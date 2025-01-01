@@ -194,37 +194,19 @@ return {
         return picker
       end
 
-      ---@async
-      local function select_and_open(picker, change)
-        local actions = require "telescope.actions"
-        local async = require "plenary.async"
-
-        local start = vim.uv.hrtime()
-        while true do
-          local displayed = picker.stats.displayed
-          if displayed and displayed > 0 then
-            picker:move_selection(change)
-            actions.select_default(picker.prompt_bufnr)
-            return
-          elseif vim.uv.hrtime() - start > 2 * 1e9 then
-            vim.notify("cannot get results from picker", vim.log.levels.WARN)
-            actions.close(picker.prompt_bufnr)
-            return
-          end
-          async.util.sleep(10)
-        end
-      end
-
       local function resume_and_select(change)
         return function()
-          vim.api.nvim_create_autocmd("FileType", {
+          vim.api.nvim_create_autocmd("User", {
             group = vim.api.nvim_create_augroup("resume_and_select", {}),
-            pattern = "TelescopePrompt",
+            pattern = "TelescopeResumePost",
             once = true,
             callback = function(args)
               local picker = get_picker(args.buf)
               if picker then
-                require("plenary.async").void(select_and_open)(picker, change)
+                vim.schedule(function()
+                  picker:move_selection(change)
+                  require("telescope.actions").select_default(args.buf)
+                end)
               end
             end,
           })
