@@ -1154,13 +1154,7 @@ return {
     config = function()
       require("demicolon").setup {
         diagnostic = { float = { border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" } } },
-        keymaps = {
-          horizontal_motions = true,
-          diagnostic_motions = false,
-          repeat_motions = true,
-          list_motions = true,
-        },
-        integrations = { gitsigns = { enabled = true, keymaps = { next = "]c", prev = "[c" } } },
+        keymaps = { diagnostic_motions = false },
       }
       local nxo = { "n", "x", "o" }
       local jump = require "demicolon.jump"
