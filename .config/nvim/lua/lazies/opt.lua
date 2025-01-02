@@ -333,12 +333,16 @@ return {
     event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
     dependencies = {
       "rcarriga/nvim-notify",
-      opts = {},
       init = function()
         vim.api.nvim_create_user_command("DismissNotifications", function()
           require("notify").dismiss { include_hidden = true }
         end, { nargs = 0 })
         vim.cmd.cabbrev("DN", "DismissNotifications")
+        palette "nvim-notify" {
+          sweetie = function(colors)
+            require("notify").setup { background_colour = colors.bg }
+          end,
+        }
       end,
     },
     init = function()
