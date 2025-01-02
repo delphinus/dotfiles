@@ -352,11 +352,27 @@ return {
       local nls = require "null-ls"
 
       local cspell = require "cspell"
+      local cspell_config = {
+        on_add_to_json = function(payload)
+          vim.system({ "jq", "-S", ".words |= sort", payload.cspell_config_path }, { text = true }, function(job)
+            if job.code ~= 0 then
+              vim.notify(("failed to arrange %s by jq"):format(payload.cspell_config_path), vim.log.levels.WARN)
+              return
+            end
+            local ok, err = pcall(function()
+              io.open(payload.cspell_config_path, "w"):write(job.stdout)
+            end)
+            if not ok then
+              vim.notify(("failed to save arranged JSON: %s"):format(err), vim.log.levels.WARN)
+            end
+          end)
+        end,
+      }
       local shellcheck = require "none-ls-shellcheck"
       local sources = {
         nls.builtins.code_actions.gitsigns,
-        cspell.code_actions.with { filetypes = { "markdown", "help" } },
-        cspell.diagnostics.with { filetypes = { "markdown", "help" } },
+        cspell.code_actions.with { filetypes = { "markdown", "help" }, config = cspell_config },
+        cspell.diagnostics.with { filetypes = { "markdown", "help" }, config = cspell_config },
         shellcheck.code_actions,
         shellcheck.diagnostic,
       }
