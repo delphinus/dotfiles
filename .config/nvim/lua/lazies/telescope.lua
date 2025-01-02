@@ -196,6 +196,9 @@ return {
 
       local function resume_and_select(change)
         return function()
+          local actions = require "telescope.actions"
+          local builtin = require "telescope.builtin"
+
           vim.api.nvim_create_autocmd("User", {
             group = vim.api.nvim_create_augroup("resume_and_select", {}),
             pattern = "TelescopeResumePost",
@@ -203,15 +206,13 @@ return {
             callback = function(args)
               local picker = get_picker(args.buf)
               if picker then
-                vim.schedule(function()
-                  picker:move_selection(change)
-                  require("telescope.actions").select_default(args.buf)
-                end)
+                picker:move_selection(change)
+                vim.schedule_wrap(actions.select_default)(args.buf)
               end
             end,
           })
 
-          require("telescope.builtin").resume {}
+          builtin.resume {}
         end
       end
 
