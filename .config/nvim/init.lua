@@ -1,2 +1,2 @@
-require("core.utils.timer").start()
+require "core.utils.timer"()
 require "core"
