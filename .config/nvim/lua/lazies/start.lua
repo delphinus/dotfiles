@@ -324,6 +324,7 @@ return {
     ---@type FrecencyOpts
     opts = {
       debug = not not vim.env.DEBUG_FRECENCY,
+      debug_timer_func = require("core.utils.timer").track,
       db_safe_mode = false,
       enable_prompt_mappings = true,
       preceding = "opened",
