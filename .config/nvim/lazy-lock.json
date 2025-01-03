@@ -41,6 +41,8 @@
   "columnskip.vim": { "branch": "master", "commit": "1c7ec7a8ca9eea0cfe41ac3150904b5df9a4743d" },
   "committia.vim": { "branch": "master", "commit": "c8c0f255e8090ed90dd9d5dd2e8672994f8e3671" },
   "concealedyank.vim": { "branch": "master", "commit": "e7e65a395e0e6a266f3a808bc07441aa7d03ebbd" },
+  "copilot-cmp": { "branch": "master", "commit": "15fc12af3d0109fa76b60b5cffa1373697e261d1" },
+  "copilot.lua": { "branch": "master", "commit": "886ee73b6d464b2b3e3e6a7ff55ce87feac423a9" },
   "cspell.nvim": { "branch": "main", "commit": "be04e47348c04f89614d99cf73a7ce1165a2e3ec" },
   "dashboard-nvim": { "branch": "feat/mru-list-fn", "commit": "b81485946fbf396c1f569f7d628465a0f14527b5" },
   "demicolon.nvim": { "branch": "main", "commit": "ef47d03e863d4a02c97bb16ce60b9624edb76d26" },

@@ -203,17 +203,17 @@ return {
 
   i { "delphinus/cmp-ghq" },
 
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   cmd = { "Copilot" },
-  --   opts = {
-  --     -- suggestion = { auto_trigger = true },
-  --     suggestion = { enabled = false },
-  --     panel = { enabled = false },
-  --     filetypes = { gitcommit = true, gitrebase = true },
-  --   },
-  -- },
-  -- i { "zbirenbaum/copilot-cmp", opts = {} },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = { "Copilot" },
+    opts = {
+      -- suggestion = { auto_trigger = true },
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = { gitcommit = true, gitrebase = true },
+    },
+  },
+  i { "zbirenbaum/copilot-cmp", opts = {} },
 
   { "onsails/lspkind-nvim" },
   { "xzbdmw/colorful-menu.nvim" },
