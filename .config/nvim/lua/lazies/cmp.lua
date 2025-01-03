@@ -216,6 +216,7 @@ return {
   -- i { "zbirenbaum/copilot-cmp", opts = {} },
 
   { "onsails/lspkind-nvim" },
+  { "xzbdmw/colorful-menu.nvim" },
   {
     "hrsh7th/nvim-cmp",
 
@@ -308,9 +309,19 @@ return {
       if lazy_utils.has_plugin "copilot-cmp" then
         table.insert(comparators, 1, require("copilot_cmp.comparators").prioritize)
       end
-      local format
-      if lazy_utils.has_plugin "lspkind-nvim" then
-        format = require("lspkind").cmp_format {
+
+      local format = function(entry, vim_item)
+        local completion_item = entry:get_completion_item()
+        local highlights_info = require("colorful-menu").highlights(completion_item, vim.bo.filetype)
+
+        if not highlights_info then
+          vim_item.abbr = completion_item.label
+        else
+          vim_item.abbr_hl_group = highlights_info.highlights
+          vim_item.abbr = highlights_info.text
+        end
+
+        local kind = require("lspkind").cmp_format {
           mode = "symbol",
           maxwidth = 50,
           menu = {
@@ -334,13 +345,10 @@ return {
           preset = "codicons",
           symbol_map = { Copilot = "" },
           show_labelDetails = true,
-          before = function(entry, vim_item)
-            if vim_item.menu then
-              vim_item.menu = " " .. vim_item.menu
-            end
-            return vim_item
-          end,
-        }
+        }(entry, vim_item)
+        vim_item.kind = kind.kind
+
+        return vim_item
       end
 
       local sources = {
@@ -443,8 +451,7 @@ return {
         },
         sources = sources,
         formatting = {
-          -- https://github.com/onsails/lspkind.nvim/pull/30
-          fields = { types.cmp.ItemField.Abbr, types.cmp.ItemField.Kind, types.cmp.ItemField.Menu },
+          fields = { types.cmp.ItemField.Kind, types.cmp.ItemField.Abbr, types.cmp.ItemField.Menu },
           format = format,
         },
         window = {
