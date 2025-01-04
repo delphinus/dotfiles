@@ -70,6 +70,7 @@ return {
 
   {
     "nvim-telescope/telescope.nvim",
+    branch = "feat/resume-and-select",
     cmd = { "Telescope" },
 
     init = function()
@@ -175,57 +176,16 @@ return {
       vim.keymap.set("n", "<Leader>fr", core.builtin "resume" {}, { desc = "Telescope resume" })
       vim.keymap.set("n", "<Leader>ft", core.extensions "todo-comments" {}, { desc = "Telescope todo-comments" })
 
-      local function get_picker(prompt_bufnr)
-        local action_state = require "telescope.actions.state"
-        local actions = require "telescope.actions"
-
-        local picker = action_state.get_current_picker(prompt_bufnr)
-        if not picker then
-          vim.notify("found no picker", vim.log.levels.WARN)
-          return
-        elseif picker.manager:num_results() <= 1 then
-          vim.notify("picker has no entry to open", vim.log.levels.WARN)
-          actions.close(prompt_bufnr)
-          if picker.initial_mode == "insert" then
-            vim.api.nvim_feedkeys([[<C-\><C-n>]], "i", true)
-          end
-          return
-        end
-        return picker
-      end
-
-      local function resume_and_select(change)
-        return function()
-          local actions = require "telescope.actions"
-          local builtin = require "telescope.builtin"
-
-          vim.api.nvim_create_autocmd("User", {
-            group = vim.api.nvim_create_augroup("resume_and_select", {}),
-            pattern = "TelescopeResumePost",
-            once = true,
-            callback = function(args)
-              local picker = get_picker(args.buf)
-              if picker then
-                picker:move_selection(change)
-                vim.schedule_wrap(actions.select_default)(args.buf)
-              end
-            end,
-          })
-
-          builtin.resume {}
-        end
-      end
-
       vim.keymap.set(
         "n",
         "<Leader>fj",
-        resume_and_select(1),
+        core.builtin "resume" { select_pos = 1 },
         { desc = "Resume Telescope picker and open the next candidate" }
       )
       vim.keymap.set(
         "n",
         "<Leader>fk",
-        resume_and_select(-1),
+        core.builtin "resume" { select_pos = -1 },
         { desc = "Resume Telescope picker and open the previous candidate" }
       )
 
