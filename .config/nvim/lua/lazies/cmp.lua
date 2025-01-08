@@ -311,12 +311,8 @@ return {
       end
 
       local format = function(entry, vim_item)
-        local completion_item = entry:get_completion_item()
-        local highlights_info = require("colorful-menu").highlights(completion_item, vim.bo.filetype)
-
-        if not highlights_info then
-          vim_item.abbr = completion_item.label
-        else
+        local highlights_info = require("colorful-menu").cmp_highlights(entry)
+        if highlights_info then
           vim_item.abbr_hl_group = highlights_info.highlights
           vim_item.abbr = highlights_info.text
         end
@@ -345,6 +341,12 @@ return {
           preset = "codicons",
           symbol_map = { Copilot = "" },
           show_labelDetails = true,
+          before = function(_, lk_vim_item)
+            if lk_vim_item.menu then
+              lk_vim_item.menu = " " .. lk_vim_item.menu
+            end
+            return lk_vim_item
+          end,
         }(entry, vim_item)
         vim_item.kind = kind.kind
 
