@@ -69,8 +69,8 @@ return {
   },
 
   {
-    "nvim-telescope/telescope.nvim",
-    branch = "feat/resume-and-select",
+    -- "nvim-telescope/telescope.nvim",
+    "delphinus/telescope.nvim",
     cmd = { "Telescope" },
 
     init = function()
@@ -390,6 +390,7 @@ return {
             preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
           },
           path_display = { filename_first = { reverse_directories = true } },
+          cache_picker = { num_pickers = 5 },
         },
         extensions = {
           file_browser = {
