@@ -47,7 +47,7 @@ return {
       if karabiner_exists then
         local function set_karabiner(val)
           return function()
-            vim.system { karabiner_cli, "--set-variables", ('{"neovim_in_insert_mode":%d}'):format(val) }
+            vim.system { karabiner_cli, "--set-variables", vim.json.encode { neovim_in_insert_mode = val } }
           end
         end
 
@@ -94,7 +94,7 @@ return {
           desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
           group = g2,
           callback = function()
-            local val = api.get_mode().mode:match "[icrR]" and 1 or 0
+            local val = not not vim.api.nvim_get_mode().mode:match "[icrR]" and 1 or 0
             set_karabiner(val)()
           end,
         })
