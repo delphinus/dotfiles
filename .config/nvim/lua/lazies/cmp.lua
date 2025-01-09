@@ -349,6 +349,7 @@ return {
           end,
         }(entry, vim_item)
         vim_item.kind = kind.kind
+        vim_item.dup = true
 
         return vim_item
       end
