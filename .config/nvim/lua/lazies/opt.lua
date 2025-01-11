@@ -1153,11 +1153,14 @@ return {
   },
 
   {
-    "mawkler/demicolon.nvim",
+    -- "mawkler/demicolon.nvim",
+    "delphinus/demicolon.nvim",
+    branch = "feat/no-float-diag",
     keys = { "[c", "]c", "[d", "]d", "[q", "]q", "[l", "]l", "f", "F", "t", "T", ";", "," },
     config = function()
       require("demicolon").setup {
-        diagnostic = { float = { border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" } } },
+        -- diagnostic = { float = { border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" } } },
+        diagnostic = { float = false },
         keymaps = { diagnostic_motions = false },
       }
       local nxo = { "n", "x", "o" }

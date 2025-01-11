@@ -76,7 +76,7 @@ return {
         },
       }
       vim.diagnostic.config {
-        float = { source = true },
+        float = false,
         signs = function(_, b)
           ---@diagnostic disable-next-line: return-type-mismatch
           return vim.bo[b].filetype ~= "markdown"
@@ -523,5 +523,12 @@ return {
       { "gra", '<Cmd>lua require("fastaction").range_code_action()<CR>', mode = { "v" } },
     },
     opts = true,
+  },
+
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    priority = 10000,
+    event = { "LspAttach" },
+    opts = {},
   },
 }
