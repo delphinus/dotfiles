@@ -1324,4 +1324,16 @@ return {
       vim.cmd.cabbrev("OD", "OpenOfficialDoc")
     end,
   },
+
+  {
+    "neo451/feed.nvim",
+    cmd = "Feed",
+    version = "*",
+    opts = {
+      feeds = {
+        "neo451/feed.nvim/releases",
+        "https://neovim.io/news.xml",
+      },
+    },
+  },
 }
