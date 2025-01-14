@@ -1,10 +1,27 @@
 #!/usr/bin/perl
 use 5.30.0;
 use warnings;
+use utf8;
 use feature 'signatures';
 no warnings 'experimental::signatures';
-use constant COMPILATION_FORMATS => ['CD, Comp, Mixed', 'CD, Comp, Mixed, RE'];
+use constant COMPILATION_FORMATS => [
+    'CD, Comp, Mixed',
+    'CD, Comp, Mixed, RE',
+    'CD, Comp, Copy Prot., Mixed',
+];
 use constant LABEL_ID => 284328;
+use constant MAPPING => {
+    'Dancemania SPEED G' => 'Dancemania Speed Super Best: Speed G',
+    'Dancemania SPEED G2' => 'Dancemania Speed Evolution: Speed G2',
+    'Dancemania SPEED G3' => 'Dancemania Speed Evolution Speed G3',
+    'Dancemania SPEED G4' => 'Dancemania Speed Evolution Speed G4',
+    'Dancemania SPEED G5' => 'Dancemania Speed Evolution Speed G5',
+    'Dancemania SPEED SFX' => 'Speed SFX = スピード SFX ',
+    'HAPPY SPEED The BEST of Dancemania SPEED G' => 'Happy Speed (The Best Of Dancemania Speed G)',
+    'BEST OF HARDCORE' => 'Dancemania Speed Presents Best Of Hardcore',
+    'HAPPY RAVERS' => ' Dancemania Speed Presents Happy Ravers',
+    'TRANCE RAVERS' => ' Dancemania Speed Presents Trance Ravers',
+};
 use Capture::Tiny qw(capture);
 use Encode qw(decode);
 use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
@@ -40,7 +57,7 @@ sub run_script($script) {
     if ($err) {
         die "failed to run script: $err";
     }
-    decode utf8 => $out;
+    $out;
 }
 
 sub fetch($url) {
@@ -98,6 +115,7 @@ sub fetch_discogs_label {
             $result->{$cd->{title}} = $cd->{id};
         }
         if (defined (my $next = $json->{pagination}{urls}{next})) {
+            logger('fetch next url: %s', $next);
             __SUB__->($next, $result);
         } else {
             $result;
@@ -113,6 +131,9 @@ sub fetch_discogs_tracks($id) {
     [
         map {
             (my $artist = $_->{artists}[0]{name}) =~ s/\s+\(\d+\)$//;
+            if ($_->{title} =~ /\p{Katakana}/) {
+                $_->{title} =~ s/ = .*$//;
+            }
             {
                 artist => $artist,
                 title => $_->{title},
@@ -141,8 +162,11 @@ sub get_id($releases, $album) {
     if (defined $releases->{$album}) {
         $releases->{$album};
     } else {
-        (my $cut = $album) =~ s/^Dancemania //;
-        $releases->{$cut} // die "failed to find: $album";
+        my $transformed = MAPPING->{$album} // '';
+        (my $transformed2 = $album) =~ s/SPEED/Speed/;
+        logger('1: %s', $transformed);
+        logger('2: %s', $transformed2);
+        $releases->{$transformed} // $releases->{$transformed2} // die "failed to find: $album";
     }
 }
 
