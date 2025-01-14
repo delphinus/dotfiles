@@ -18,6 +18,7 @@ $opt{help} and pod2usage(0);
 (my $album = shift) // die 'set album name';
 
 my $label_id = 284328;
+my $COMPILATION_FORMAT = 'CD, Comp, Mixed';
 
 sub run_script($script) {
     my ($out, $err) = capture {
@@ -63,14 +64,19 @@ SCRIPT
 }
 
 sub fetch_discogs_label {
-    my $content = fetch("https://api.discogs.com/labels/$label_id/releases");
-    my $json = decode_json $content;
-    reduce {
-        if ($b->{format} eq 'CD, Comp, Mixed') {
-            $a->{$b->{title}} = $b->{id};
+    my sub _fetch($url, $result = {}) {
+        my $json = decode_json fetch($url);
+        for my $cd (grep { $_->{format} eq $COMPILATION_FORMAT } $json->{releases}->@*) {
+            $result->{$cd->{title}} = $cd->{id};
         }
-        $a;
-    } {}, $json->{releases}->@*;
+        if (defined (my $next = $json->{pagination}{urls}{next})) {
+            __SUB__->($next, $result);
+        } else {
+            $result;
+        }
+    }
+
+    _fetch("https://api.discogs.com/labels/$label_id/releases?per_page=25");
 }
 
 sub fetch_discogs_tracks($id) {
