@@ -3,24 +3,34 @@ use 5.30.0;
 use warnings;
 use feature 'signatures';
 no warnings 'experimental::signatures';
+use constant COMPILATION_FORMAT => 'CD, Comp, Mixed';
+use constant LABEL_ID => 284328;
 use Capture::Tiny qw(capture);
-use Data::Dumper qw(Dumper);
 use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
 use List::Util qw(reduce);
 use JSON qw(decode_json);
+use Path::Tiny qw(path);
 use Pod::Usage qw(pod2usage);
+use URI::Escape qw(uri_escape);
 
 GetOptions(
     \my %opt, qw(
+    update_cache|u
+    verbose|v
     help|h
 )) or pod2usage(1);
 $opt{help} and pod2usage(0);
 (my $album = shift) // die 'set album name';
+my $script_name = path($0)->basename(qr/\..+$/);
 
-my $label_id = 284328;
-my $COMPILATION_FORMAT = 'CD, Comp, Mixed';
+sub logger($fmt, @params) {
+    if ($opt{verbose}) {
+        printf "[%s] $fmt%s", $script_name, @params, "\n";
+    }
+}
 
 sub run_script($script) {
+    logger('running script');
     my ($out, $err) = capture {
         system 'osascript', '-e', $script;
     };
@@ -31,9 +41,20 @@ sub run_script($script) {
 }
 
 sub fetch($url) {
+    my $cache_dir = path($ENV{HOME}, '.cache')->child($script_name);
+    $cache_dir->mkpath;
+    my $cache = $cache_dir->child(uri_escape($url));
+    if (!$opt{update_cache}) {
+        if ($cache->exists) {
+            logger('use cache for %s', $url);
+            return $cache->slurp;
+        }
+    }
     my ($out) = capture {
         system 'curl', '-L', $url;
     };
+    $cache->spew($out);
+    logger('cache saved to %s', $cache);
     $out;
 }
 
@@ -66,7 +87,7 @@ SCRIPT
 sub fetch_discogs_label {
     my sub _fetch($url, $result = {}) {
         my $json = decode_json fetch($url);
-        for my $cd (grep { $_->{format} eq $COMPILATION_FORMAT } $json->{releases}->@*) {
+        for my $cd (grep { $_->{format} eq COMPILATION_FORMAT } $json->{releases}->@*) {
             $result->{$cd->{title}} = $cd->{id};
         }
         if (defined (my $next = $json->{pagination}{urls}{next})) {
@@ -76,7 +97,7 @@ sub fetch_discogs_label {
         }
     }
 
-    _fetch("https://api.discogs.com/labels/$label_id/releases?per_page=25");
+    _fetch("https://api.discogs.com/labels/@{[LABEL_ID]}/releases?per_page=25");
 }
 
 sub fetch_discogs_tracks($id) {
