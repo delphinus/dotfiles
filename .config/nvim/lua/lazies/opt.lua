@@ -1153,9 +1153,7 @@ return {
   },
 
   {
-    -- "mawkler/demicolon.nvim",
-    "delphinus/demicolon.nvim",
-    branch = "feat/no-float-diag",
+    "mawkler/demicolon.nvim",
     keys = { "[c", "]c", "[d", "]d", "[q", "]q", "[l", "]l", "f", "F", "t", "T", ";", "," },
     config = function()
       require("demicolon").setup {
