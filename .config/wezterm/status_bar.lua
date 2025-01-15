@@ -15,7 +15,7 @@ local function key_table(config, window)
   return {
     { Foreground = { Color = config.colors.ansi[1] } },
     { Background = { Color = bg[name] } },
-    { Text = (" %s %s "):format(wezterm.nerdfonts.md_table, name) },
+    { Text = (" %s  %s "):format(wezterm.nerdfonts.md_table, name) },
     "ResetAttributes",
   }
 end
@@ -26,7 +26,7 @@ local function domain(config)
       and {
         { Foreground = { Color = config.colors.ansi[1] } },
         { Background = { Color = config.colors.ansi[3] } },
-        { Text = (" %s %s "):format(wezterm.nerdfonts.md_console_network, path) },
+        { Text = (" %s  %s "):format(wezterm.nerdfonts.md_console_network, path) },
       }
     or {}
 end
@@ -40,7 +40,7 @@ return function(config)
       { Foreground = { Color = config.colors.ansi[4] } },
       { Background = { Color = config.colors.tab_bar.background } },
       {
-        Text = ("%s %d:%d:%d "):format(
+        Text = ("%s  %d:%d:%d "):format(
           wezterm.nerdfonts.md_window_maximize,
           window:window_id(),
           window:active_tab():tab_id(),
@@ -48,7 +48,7 @@ return function(config)
         ),
       },
       { Foreground = { Color = config.colors.ansi[5] } },
-      { Text = wezterm.nerdfonts.md_clock_outline .. wezterm.strftime " %b %e %T " },
+      { Text = ("%s  %s"):format(wezterm.nerdfonts.md_clock_outline, wezterm.strftime "%b %e %T ") },
       "ResetAttributes",
     }
     local meta = pane:get_metadata() or {}

@@ -50,7 +50,7 @@ function Battery:text()
   local icon = glyphs[info.state == "Charging" and "charging" or "normal"][amount + 1]
   local elapsed = info.time_to_empty or info.time_to_full
   local time = elapsed and (" 残り %d:%02d"):format(f(elapsed / 3600), f(elapsed % 3600 / 60)) or ""
-  return ("%s %.0f%%%s"):format(icon, info.state_of_charge * 100, time)
+  return ("%s  %.0f%%%s"):format(icon, info.state_of_charge * 100, time)
 end
 
 return Battery
