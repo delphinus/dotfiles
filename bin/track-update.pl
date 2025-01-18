@@ -9,6 +9,9 @@ use constant COMPILATION_FORMATS => [
     'CD, Comp, Mixed, RE',
     'CD, Comp, Copy Prot., Mixed',
 ];
+use constant ERROR_ALBUM => {
+    'HAPPY SPEED The BEST of Dancemania SPEED G' => { track => 7 },
+};
 use constant LABEL_ID => 284328;
 use constant MAPPING => {
     'Dancemania SPEED G' => 'Dancemania Speed Super Best: Speed G',
@@ -93,10 +96,10 @@ sub get_tracks($album_name) {
         end tell
 SCRIPT
     [
-        sort { $a->{no} <=> $b->{no} } map {
-            my ($no, $title, $artist) = split /\t/;
+        sort { $a->{track} <=> $b->{track} } map {
+            my ($track, $title, $artist) = split /\t/;
             {
-                no => $no,
+                track => $track + 0,
                 title => $title,
                 artist => $artist,
             };
@@ -175,14 +178,17 @@ my $id = get_id($releases, $album);
 my $track_data = fetch_discogs_tracks($id);
 my $original = get_tracks($album);
 
-for my $i (0 .. $original->$#*) {
-    my $t = $original->[$i];
-    my $d = $track_data->[$i];
-    if ($t->{title} ne $d->{title} || $t->{artist} ne $d->{artist}) {
-        printf '%2d: %s - %s%s', $i + 1, $t->{artist}, $t->{title}, "\n";
+for my $info ($original->@*) {
+    my $d = $track_data->[$info->{track} - 1];
+    if (my $err = ERROR_ALBUM->{$album}) {
+        logger('Skip track %d because the album has an error: %s', $err->{track}, $album);
+        next if $err->{track} == $info->{track};
+    }
+    if ($info->{title} ne $d->{title} || $info->{artist} ne $d->{artist}) {
+        printf '%2d: %s - %s%s', $info->{track}, $info->{artist}, $info->{title}, "\n";
         printf '    %s - %s%s',  $d->{artist}, $d->{title}, "\n";
         if ($opt{execute}) {
-            update_atrist_title($album, $i + 1, $d->{artist}, $d->{title});
+            update_atrist_title($album, $info->{track}, $d->{artist}, $d->{title});
         }
     }
 }
