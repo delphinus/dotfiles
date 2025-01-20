@@ -350,7 +350,7 @@ return {
     branch = "fix/consider-original-sign-config",
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
     config = function()
-      vim.g.ale_linters_ignore = { "cspell", "shellcheck" }
+      vim.g.ale_linters_ignore = { "cspell", "shellcheck", "javac" }
       vim.g.ale_fix_on_save = 1
       vim.g.ale_fixers = { lua = { "stylua" } }
       vim.g.ale_echo_cursor = 0
