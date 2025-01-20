@@ -441,87 +441,82 @@ return {
     event = { "BufRead", "BufNewFile", "InsertEnter" },
     build = ":TSUpdate",
     keys = { { "<Space>h", "<Cmd>Inspect<CR>" } },
-    opts = {
-      ensure_installed = "all",
-      highlight = { enable = true },
-      incremental_selection = { enable = true },
-      indent = { enable = true },
-      playground = {
-        enable = true,
-        disable = {},
-        updatetime = 25,
-        persist_queries = false,
-      },
-      query_linter = {
-        enable = true,
-        use_virtual_text = true,
-        lint_events = { "BufWrite", "CursorHold" },
-      },
-      textobjects = {
-        select = {
-          enable = true,
-          keymaps = {
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["aC"] = "@class.outer",
-            ["iC"] = "@class.inner",
-            ["ac"] = "@conditional.outer",
-            ["ic"] = "@conditional.inner",
-            ["ae"] = "@block.outer",
-            ["ie"] = "@block.inner",
-            ["al"] = "@loop.outer",
-            ["il"] = "@loop.inner",
-            ["is"] = "@statement.inner",
-            ["as"] = "@statement.outer",
-            ["ad"] = "@comment.outer",
-            ["id"] = "@comment.inner",
-            ["am"] = "@call.outer",
-            ["im"] = "@call.inner",
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        sync_install = false,
+        auto_install = true,
+        ignore_install = {},
+        ensure_installed = "all",
+        highlight = { enable = true },
+        incremental_selection = { enable = true },
+        indent = { enable = true },
+        modules = {},
+        textobjects = {
+          select = {
+            enable = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["aC"] = "@class.outer",
+              ["iC"] = "@class.inner",
+              ["ac"] = "@conditional.outer",
+              ["ic"] = "@conditional.inner",
+              ["ae"] = "@block.outer",
+              ["ie"] = "@block.inner",
+              ["al"] = "@loop.outer",
+              ["il"] = "@loop.inner",
+              ["is"] = "@statement.inner",
+              ["as"] = "@statement.outer",
+              ["ad"] = "@comment.outer",
+              ["id"] = "@comment.inner",
+              ["am"] = "@call.outer",
+              ["im"] = "@call.inner",
+            },
+          },
+          swap = {
+            enable = true,
+            swap_next = {
+              ["<leader>a"] = "@parameter.inner",
+            },
+            swap_previous = {
+              ["<leader>A"] = "@parameter.inner",
+            },
+          },
+          move = {
+            enable = true,
+            goto_next_start = {
+              ["]m"] = "@function.outer",
+              ["]]"] = "@class.outer",
+            },
+            goto_next_end = {
+              ["]M"] = "@function.outer",
+              ["]["] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[m"] = "@function.outer",
+              ["[["] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[M"] = "@function.outer",
+              ["[]"] = "@class.outer",
+            },
+          },
+          lsp_interop = {
+            enable = true,
+            peek_definition_code = {
+              ["<Leader>Df"] = "@function.outer",
+              ["<Leader>DF"] = "@class.outer",
+            },
           },
         },
-        swap = {
+        rainbow = {
           enable = true,
-          swap_next = {
-            ["<leader>a"] = "@parameter.inner",
-          },
-          swap_previous = {
-            ["<leader>A"] = "@parameter.inner",
-          },
         },
-        move = {
+        endwise = {
           enable = true,
-          goto_next_start = {
-            ["]m"] = "@function.outer",
-            ["]]"] = "@class.outer",
-          },
-          goto_next_end = {
-            ["]M"] = "@function.outer",
-            ["]["] = "@class.outer",
-          },
-          goto_previous_start = {
-            ["[m"] = "@function.outer",
-            ["[["] = "@class.outer",
-          },
-          goto_previous_end = {
-            ["[M"] = "@function.outer",
-            ["[]"] = "@class.outer",
-          },
         },
-        lsp_interop = {
-          enable = true,
-          peek_definition_code = {
-            ["<Leader>Df"] = "@function.outer",
-            ["<Leader>DF"] = "@class.outer",
-          },
-        },
-      },
-      rainbow = {
-        enable = true,
-      },
-      endwise = {
-        enable = true,
-      },
-    },
+      }
+    end,
   },
 
   {
