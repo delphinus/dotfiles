@@ -326,6 +326,21 @@ return {
       if is_over then
         itvl:update()
       end
+
+      local configs = require "lspconfig.configs"
+      if not configs.ideals then
+        configs.ideals = {
+          default_config = {
+            cmd = {
+              vim.fs.normalize "~/Applications/IntelliJ IDEA Ultimate 2023.1.7.app/Contents/MacOS/idea",
+              "lsp-server",
+            },
+            filetypes = { "java" },
+            root_dir = lsp.util.root_pattern(".git", ".git/", "package.json"),
+          },
+        }
+      end
+      lsp.ideals.setup {}
     end,
   }, -- }}}
 
