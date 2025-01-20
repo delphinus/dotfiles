@@ -544,6 +544,12 @@ return {
     "rachartier/tiny-inline-diagnostic.nvim",
     priority = 10000,
     event = { "LspAttach" },
-    opts = {},
+    opts = {
+      options = {
+        format = function(diagnostic)
+          return ("%s [%s]"):format(diagnostic.message, diagnostic.source)
+        end,
+      },
+    },
   },
 }
