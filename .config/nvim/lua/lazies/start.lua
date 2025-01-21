@@ -173,8 +173,12 @@ return {
         local ft_icon, ft_color = devicons.get_icon_color(filename)
         if filename == "" then
           filename = "[No Name]"
-        else
+        elseif props.focused then
           filename = vim.fs.basename(filename)
+        else
+          local Path = require "plenary.path"
+          local cwd = vim.fs.root(filename, ".git") --[[@as string]]
+          filename = Path:new(filename):make_relative(cwd)
         end
 
         return {
