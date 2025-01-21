@@ -52,16 +52,6 @@ function Lualine:config()
       lualine_x = {
         {
           function()
-            return "AutoFmt"
-          end,
-          fmt = self:tr { { 30, 0 }, { 50, "F" }, { 80, "Fmt" } },
-          separator = "",
-          color = self:lsp(function()
-            return require("auto_fmt").is_enabled() and { fg = colors.black, bg = colors.green } or { fg = colors.blue }
-          end),
-        },
-        {
-          function()
             return "LspDiag"
           end,
           separator = "",
