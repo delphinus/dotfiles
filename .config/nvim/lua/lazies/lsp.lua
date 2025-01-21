@@ -335,7 +335,7 @@ return {
               vim.fs.normalize "~/Applications/IntelliJ IDEA Ultimate 2023.1.7.app/Contents/MacOS/idea",
               "lsp-server",
             },
-            filetypes = { "java", "xml" },
+            filetypes = { "java", "jproperties", "xml" },
             root_dir = lsp.util.root_pattern(".git", ".git/", "package.json"),
           },
         }
