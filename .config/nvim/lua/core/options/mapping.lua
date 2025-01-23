@@ -77,7 +77,7 @@ api.create_autocmd("TextYankPost", {
   desc = "The native implementation of vim-higlihghtedyank in NeoVim",
   group = api.create_augroup("highlighted_yank", {}),
   callback = function()
-    vim.highlight.on_yank { higroup = "StatusLine" }
+    vim.hl.on_yank { higroup = "StatusLine" }
   end,
 })
 
