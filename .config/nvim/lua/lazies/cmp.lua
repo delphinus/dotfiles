@@ -329,6 +329,7 @@ return {
             fish = "F",
             ghq = "Q",
             git = "G",
+            lazydev = "V",
             look = "K",
             luasnip = "S",
             nvim_lsp = "L",
@@ -357,7 +358,7 @@ return {
       local sources = {
         { name = "digraphs", keyword_length = 1 },
         { name = "path" },
-        { name = "lazydev" },
+        { name = "lazydev", group_index = 0 },
         { name = "nvim_lsp" },
         { name = "copilot" },
         { name = "nvim_lua" },

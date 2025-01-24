@@ -197,6 +197,7 @@
   "vimdoc-ja": { "branch": "master", "commit": "dd70824b1dd1e253407c4a733048190a6510f33a" },
   "virt-column.nvim": { "branch": "master", "commit": "b87e3e0864211a32724a2ebf3be37e24e9e2fa99" },
   "visualrepeat": { "branch": "master", "commit": "8b79362a6009f6433f3c147f0735bfb1d2c2c56c" },
+  "wezterm-types": { "branch": "main", "commit": "1518752906ba3fac0060d9efab6e4d3ec15d4b5a" },
   "wrapwidth": { "branch": "main", "commit": "c592b47c6665e004f508b8ca01ec1fcf07493cbe" },
   "xslate-vim": { "branch": "master", "commit": "e6eff89c4f41c61171e7debacad69e13ebb95b4c" },
   "yamlmatter.nvim": { "branch": "master", "commit": "222893021ab846fd100c7a98c017a57f92b7c677" },

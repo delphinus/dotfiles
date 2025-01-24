@@ -16,11 +16,13 @@ return {
   {
     "folke/lazydev.nvim",
     ft = "lua",
+    dependencies = { "justinsgithub/wezterm-types" },
     ---@type lazydev.Config
     opts = {
       library = {
-        "luvit-meta/library",
         "lazydev.nvim",
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "wezterm-types", mods = { "wezterm" } },
       },
     },
   },
