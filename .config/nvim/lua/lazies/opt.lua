@@ -36,7 +36,7 @@ return {
         end,
       }
       vim.api.nvim_create_user_command("Serpl", function(info)
-        local path = #info.fargs > 0 and table.concat(info.fargs) or vim.uv.cwd()
+        local path = #info.fargs > 0 and table.concat(info.fargs) or assert(vim.uv.cwd())
         vim.cmd.TermExec { args = { "direction=float", "dir=" .. vim.fn.escape(path, [[ \]]), 'cmd="serpl"' } }
       end, { nargs = "*", desc = "Run serpl" })
     end,
@@ -767,8 +767,8 @@ return {
         -- Auto jump if the recent input matches to any marker.
         auto_accept = true,
         -- The scrolloff value for moving to next/prev.
-        scrolloff = vim.opt.scrolloff:get(),
-        -- To enable scrolling animation.
+        scrolloff = vim.o.scrolloff,
+        -- To enable scrolling animation.,
         scrolltime = 0,
         -- Marker characters.
         markers = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
@@ -889,7 +889,7 @@ return {
     ft = { "markdown" },
     init = function()
       palette "sweetie" {
-        nord = function(colors)
+        nord = function(_)
           api.set_hl(0, "@markup.heading.1.markdown", { fg = "#88C0D0", bold = true })
           api.set_hl(0, "@markup.heading.2.markdown", { fg = "#A3BE8C", bold = true })
           api.set_hl(0, "@markup.heading.3.markdown", { fg = "#EBCB8B", bold = true })
