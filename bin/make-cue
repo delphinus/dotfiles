@@ -6,27 +6,31 @@ use feature 'signatures';
 no warnings 'experimental::signatures';
 
 use Capture::Tiny qw(capture);
+use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
+use List::Util qw(reduce);
+use Pod::Usage qw(pod2usage);
 use Path::Tiny qw(path);
 
 my %opt = (
     clipboard => 1,
 );
 GetOptions(
-    \my %opt, qw(
+    \%opt, qw(
     clipboard|c
     execute|e
+    print|p
     overwrite|o
     verbose|v
     help|h
 )) or pod2usage(1);
 $opt{help} and pod2usage(0);
-my $mp3 = do
+my $mp3 = do {
     my $filename = shift // die 'set source file';
     path($filename);
 };
 my ($length) = do {
     my ($out) = capture {
-        0 == system 'ffprobe', '-show_entries', 'format=duration', '-v', 'quiet', '-of', 'csv=p=0'
+        0 == system 'ffprobe', '-show_entries', 'format=duration', '-v', 'quiet', '-of', 'csv=p=0', $mp3
             or die 'cannnot determine duration';
     };
     $out + 0;
@@ -35,20 +39,21 @@ my $cue = $mp3->parent->child(do {
     (my $tmp = $mp3->basename) =~ s/\.[^.]+$/.cue/;
     $tmp;
 });
-if (!$opt{overwrite} && -r $cue) {
+if (!$opt{print} && !$opt{overwrite} && -r $cue) {
     die 'cue file already exists. use -o to overwrite';
 }
 
 # \(\%(\\d\+:\)\?\d\d:\d\d\)\s*\(.\{-}\)\s\+[-–<200e>]\+\s\+\(.\{-}\)\%(\s*\[.*\)\?$,  TRACK 01 AUDIO^M    TITLE "\3"^M    PERFORMER "\2"^M    INDEX 01 \1:00
 sub parse_input($input = '') {
     my $count = 0;
-    my @tracks = map({
-        (my $line = $_) =~ /
-            ^
+    my $tracks = reduce {
+        (my $line = $b) =~ /
             (?:
-                (?<hour> \d+) :
+                (?:
+                    (?<hour> \d+) :
+                )?
+                (?<minute> \d\d) : (?<second> \d\d)
             )?
-            (?<minute> \d\d) : (?<second> \d\d)
             \s+
             (?<artist> .*?)
             \s+ [-\x{2013}\x{200e}] \s+
@@ -59,24 +64,29 @@ sub parse_input($input = '') {
             )?
             $
         /x;
-        if ($+{artist}) {
-            {
+        if (defined $+{artist}) {
+            push $a->@*, {
                 count => ++$count,
-                time => !defined $opt{minute} ? undef : sprintf('%d:02d:00', ($opt{hour} // 0) * 60 + $opt{minute}, $opt{second}),
-                artist => $opt{artist},
-                title => $opt{title},
+                time => !defined $+{minute} ? undef : sprintf('%d:02d:00', ($+{hour} // 0) * 60 + $+{minute}, $+{second}),
+                artist => $+{artist},
+                title => $+{title},
             };
-        } elseif ($opt{verbose}) {
+        } elsif ($opt{verbose}) {
             warn "cannot parse line: $line\n";
         }
+        $a;
     } [], split /\n/, $input;
-    for my $track (@tracks) {
-        if (!defined $track{time}) {
-            my $t = $length / @tracks;
-            $track{time} = sprintf '%d:%02d:00', $t / 60, $t % 60;
+    for my $track ($tracks->@*) {
+        if (!defined $track->{time}) {
+            if ($track->{count} == 1) {
+                $track->{time} = '00:00:00';
+            } else {
+                my $t = ($length / $tracks->@*) * ($track->{count} - 1);
+                $track->{time} = sprintf '%d:%02d:00', $t / 60, $t % 60;
+            }
         }
     }
-    @tracks;
+    $tracks->@*;
 }
 
 my @tracks;
@@ -92,7 +102,7 @@ my $output = sprintf <<EOS, $mp3;
 TITLE "(Title)"
 FILE "%s" WAVE
 EOS
-$output .= sprintf <<EOS, $_{count}, $_{title}, $_{artist}, $_{time} for @tracks;
+$output .= sprintf <<EOS, $_->{count}, $_->{title}, $_->{artist}, $_->{time} for @tracks;
   TRACK %02d AUDIO
     TITLE "%s"
     PERFORMER "%s"
