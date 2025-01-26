@@ -213,7 +213,7 @@ function fish_right_prompt
     if test -n "$CMD_DURATION"; and test $CMD_DURATION -gt $NOTIFY_ON_COMMAND_DURATION
         if type -q wezterm; and test -n "$WEZTERM_PANE"
             set -l active_pid (osascript -e 'tell application "System Events" to get the unix id of first process whose frontmost is true')
-            set -l active_pane (wezterm cli list-clients --format json | jq -r ".[] | select(.pid = $active_pid) | .focused_pane_id")
+            set -l active_pane (wezterm cli list-clients | perl -anle 'print $F[$#F] if $F[2] == '$active_pid)
             if test -n "$active_pane"; and test $WEZTERM_PANE -eq $active_pane
                 return
             end
