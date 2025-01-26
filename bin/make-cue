@@ -1,0 +1,107 @@
+#!/usr/bin/perl
+use 5.30.0;
+use warnings;
+use utf8;
+use feature 'signatures';
+no warnings 'experimental::signatures';
+
+use Capture::Tiny qw(capture);
+use Path::Tiny qw(path);
+
+my %opt = (
+    clipboard => 1,
+);
+GetOptions(
+    \my %opt, qw(
+    clipboard|c
+    execute|e
+    overwrite|o
+    verbose|v
+    help|h
+)) or pod2usage(1);
+$opt{help} and pod2usage(0);
+my $mp3 = do
+    my $filename = shift // die 'set source file';
+    path($filename);
+};
+my ($length) = do {
+    my ($out) = capture {
+        0 == system 'ffprobe', '-show_entries', 'format=duration', '-v', 'quiet', '-of', 'csv=p=0'
+            or die 'cannnot determine duration';
+    };
+    $out + 0;
+};
+my $cue = $mp3->parent->child(do {
+    (my $tmp = $mp3->basename) =~ s/\.[^.]+$/.cue/;
+    $tmp;
+});
+if (!$opt{overwrite} && -r $cue) {
+    die 'cue file already exists. use -o to overwrite';
+}
+
+# \(\%(\\d\+:\)\?\d\d:\d\d\)\s*\(.\{-}\)\s\+[-–<200e>]\+\s\+\(.\{-}\)\%(\s*\[.*\)\?$,  TRACK 01 AUDIO^M    TITLE "\3"^M    PERFORMER "\2"^M    INDEX 01 \1:00
+sub parse_input($input = '') {
+    my $count = 0;
+    my @tracks = map({
+        (my $line = $_) =~ /
+            ^
+            (?:
+                (?<hour> \d+) :
+            )?
+            (?<minute> \d\d) : (?<second> \d\d)
+            \s+
+            (?<artist> .*?)
+            \s+ [-\x{2013}\x{200e}] \s+
+            (?<title> .*?)
+            (?:
+                \s*
+                \[.*
+            )?
+            $
+        /x;
+        if ($+{artist}) {
+            {
+                count => ++$count,
+                time => !defined $opt{minute} ? undef : sprintf('%d:02d:00', ($opt{hour} // 0) * 60 + $opt{minute}, $opt{second}),
+                artist => $opt{artist},
+                title => $opt{title},
+            };
+        } elseif ($opt{verbose}) {
+            warn "cannot parse line: $line\n";
+        }
+    } [], split /\n/, $input;
+    for my $track (@tracks) {
+        if (!defined $track{time}) {
+            my $t = $length / @tracks;
+            $track{time} = sprintf '%d:%02d:00', $t / 60, $t % 60;
+        }
+    }
+    @tracks;
+}
+
+my @tracks;
+if ($opt{clipboard}) {
+    my ($input) = capture {
+        0 == system 'pbpaste' or die 'cannot execute `pbpaste`';
+    };
+    @tracks = parse_input($input);
+    say "parsed @{[scalar @tracks]} tracks";
+}
+
+my $output = sprintf <<EOS, $mp3;
+TITLE "(Title)"
+FILE "%s" WAVE
+EOS
+$output .= sprintf <<EOS, $_{count}, $_{title}, $_{artist}, $_{time} for @tracks;
+  TRACK %02d AUDIO
+    TITLE "%s"
+    PERFORMER "%s"
+    INDEX 01 "%s"
+EOS
+
+if ($opt{execute}) {
+    $cue->spew_utf8($output);
+} else {
+    say '';
+    say $output;
+}
