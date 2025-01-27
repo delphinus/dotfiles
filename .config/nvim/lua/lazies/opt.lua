@@ -1,6 +1,4 @@
 ---@diagnostic disable: missing-fields
-local fn, uv, api = require("core.utils").globals()
-local utils = require "core.utils"
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
 
@@ -23,16 +21,16 @@ return {
     init = function()
       palette "toggleterm" {
         nord = function(colors)
-          api.set_hl(0, "WinBorderTop", { fg = colors.border })
-          api.set_hl(0, "WinBorderLeft", { fg = colors.border })
-          api.set_hl(0, "WinBorderRight", { fg = colors.border })
-          api.set_hl(0, "WinBorderBottom", { fg = colors.border })
+          vim.api.nvim_set_hl(0, "WinBorderTop", { fg = colors.border })
+          vim.api.nvim_set_hl(0, "WinBorderLeft", { fg = colors.border })
+          vim.api.nvim_set_hl(0, "WinBorderRight", { fg = colors.border })
+          vim.api.nvim_set_hl(0, "WinBorderBottom", { fg = colors.border })
         end,
         sweetie = function(colors)
-          api.set_hl(0, "WinBorderTop", { fg = colors.blue })
-          api.set_hl(0, "WinBorderLeft", { fg = colors.blue })
-          api.set_hl(0, "WinBorderRight", { fg = colors.blue })
-          api.set_hl(0, "WinBorderBottom", { fg = colors.blue })
+          vim.api.nvim_set_hl(0, "WinBorderTop", { fg = colors.blue })
+          vim.api.nvim_set_hl(0, "WinBorderLeft", { fg = colors.blue })
+          vim.api.nvim_set_hl(0, "WinBorderRight", { fg = colors.blue })
+          vim.api.nvim_set_hl(0, "WinBorderBottom", { fg = colors.blue })
         end,
       }
       vim.api.nvim_create_user_command("Serpl", function(info)
@@ -132,7 +130,7 @@ return {
     cmd = { "Octo" },
     keys = { { "<A-O>", ":Octo " } },
     init = function()
-      api.create_autocmd("FileType", {
+      vim.api.nvim_create_autocmd("FileType", {
         desc = "Set up octo.nvim mappings",
         pattern = "octo",
         callback = function()
@@ -144,13 +142,13 @@ return {
           end, { buffer = true, desc = "octo.on_cursor_hold" })
         end,
       })
-      api.create_autocmd({ "BufEnter", "BufReadPost" }, {
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufReadPost" }, {
         desc = "Chdir every time you enter in Octo buffers",
         pattern = "octo://*",
         callback = function()
           local dir = require("core.utils.octo"):buf_repo_dir()
           if dir then
-            api.set_current_dir(dir)
+            vim.api.nvim_set_current_dir(dir)
           end
         end,
       })
@@ -229,13 +227,13 @@ return {
     cmd = { "Autodate", "AutodateOFF", "AutodateON" },
     init = function()
       vim.g.autodate_format = "%FT%T%z"
-      local group = api.create_augroup("Autodate", {})
-      api.create_autocmd({ "BufRead", "BufNewFile" }, {
+      local group = vim.api.nvim_create_augroup("Autodate", {})
+      vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         desc = "Set up autodate.vim",
         group = group,
         once = true,
         callback = function()
-          api.create_autocmd(
+          vim.api.nvim_create_autocmd(
             { "BufUnload", "FileWritePre", "BufWritePre" },
             { desc = "Run autodate.vim", group = group, command = "Autodate" }
           )
@@ -250,12 +248,12 @@ return {
     init = function()
       palette "visual_eof" {
         nord = function(colors)
-          api.set_hl(0, "VisualEOL", { fg = colors.green })
-          api.set_hl(0, "VisualNoEOL", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "VisualEOL", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "VisualNoEOL", { fg = colors.red })
         end,
         sweetie = function(colors)
-          api.set_hl(0, "VisualEOL", { fg = colors.green })
-          api.set_hl(0, "VisualNoEOL", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "VisualEOL", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "VisualNoEOL", { fg = colors.red })
         end,
       }
     end,
@@ -271,7 +269,7 @@ return {
         "packer",
       },
       buf_filter = function(bufnr)
-        return api.buf_get_option(bufnr, "buftype") == ""
+        return vim.bo[bufnr].buftype == ""
       end,
     },
   },
@@ -280,7 +278,7 @@ return {
   --   "delphinus/auto-cursorline.nvim",
   --   event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
   --   init = function()
-  --     api.create_autocmd("FileType", {
+  --     vim.api.nvim_create_autocmd("FileType", {
   --       pattern = "TelescopePrompt",
   --       callback = function()
   --         require("auto-cursorline").disable { buffer = true }
@@ -309,7 +307,7 @@ return {
     },
     cond = function()
       -- HACK: Do not load when it is loading committia.vim
-      local file = vim.fs.basename(api.buf_get_name(0))
+      local file = vim.fs.basename(vim.api.nvim_buf_get_name(0))
       return vim.iter({ "COMMIT_EDITMSG", "MERGE_MSG" }):all(function(name)
         return file ~= name
       end)
@@ -348,9 +346,9 @@ return {
     init = function()
       palette "noice" {
         nord = function(colors)
-          api.set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
-          api.set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
-          api.set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
+          vim.api.nvim_set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
         end,
       }
       vim.api.nvim_create_user_command("NoiceRedirect", function(cmd)
@@ -406,10 +404,10 @@ return {
     init = function()
       palette "context_vt" {
         nord = function(colors)
-          api.set_hl(0, "ContextVt", { fg = colors.context })
+          vim.api.nvim_set_hl(0, "ContextVt", { fg = colors.context })
         end,
         sweetie = function(colors)
-          api.set_hl(0, "ContextVt", { fg = colors.dark_grey })
+          vim.api.nvim_set_hl(0, "ContextVt", { fg = colors.dark_grey })
         end,
       }
     end,
@@ -423,11 +421,11 @@ return {
     "itchyny/vim-cursorword",
     event = { "FocusLost", "CursorHold" },
     init = function()
-      api.create_autocmd("ColorScheme", {
+      vim.api.nvim_create_autocmd("ColorScheme", {
         desc = "Set up highlight for vim-cursorword",
-        group = api.create_augroup("cursorword-colors", {}),
+        group = vim.api.nvim_create_augroup("cursorword-colors", {}),
         callback = function()
-          api.set_hl(0, "CursorWord", { underdotted = true })
+          vim.api.nvim_set_hl(0, "CursorWord", { underdotted = true })
         end,
       })
     end,
@@ -440,7 +438,7 @@ return {
       vim.g.loaded_matchparen = 1
     end,
     config = function()
-      fn["parenmatch#highlight"]()
+      vim.fn["parenmatch#highlight"]()
     end,
   },
 
@@ -469,14 +467,14 @@ return {
     init = function()
       palette "gitsigns" {
         nord = function(colors)
-          api.set_hl(0, "GitSignsAdd", { fg = colors.green })
-          api.set_hl(0, "GitSignsChange", { fg = colors.yellow })
-          api.set_hl(0, "GitSignsDelete", { fg = colors.red })
-          api.set_hl(0, "GitSignsCurrentLineBlame", { fg = colors.brighter_black })
-          api.set_hl(0, "GitSignsAddInline", { bg = colors.bg_green })
-          api.set_hl(0, "GitSignsChangeInline", { bg = colors.bg_yellow })
-          api.set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
-          api.set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "GitSignsChange", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = colors.brighter_black })
+          vim.api.nvim_set_hl(0, "GitSignsAddInline", { bg = colors.bg_green })
+          vim.api.nvim_set_hl(0, "GitSignsChangeInline", { bg = colors.bg_yellow })
+          vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
+          vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
         end,
       }
     end,
@@ -735,7 +733,7 @@ return {
         return function(opt)
           return function()
             require("lazy").load { plugins = { "vim-searchx" } }
-            local f = fn["searchx#" .. name]
+            local f = vim.fn["searchx#" .. name]
             return opt and f(opt) or f()
           end
         end
@@ -757,8 +755,8 @@ return {
 
       palette "searchx" {
         nord = function(_)
-          api.set_hl(0, "SearchxMarker", { link = "DiffChange" })
-          api.set_hl(0, "SearchxMarkerCurrent", { link = "WarningMsg" })
+          vim.api.nvim_set_hl(0, "SearchxMarker", { link = "DiffChange" })
+          vim.api.nvim_set_hl(0, "SearchxMarkerCurrent", { link = "WarningMsg" })
         end,
       }
     end,
@@ -783,7 +781,7 @@ return {
             return input:sub(2)
           end
           -- If the input contains spaces, it tries fuzzy matching.
-          local converted = vim.iter(vim.split(input, " ")):map(fn["kensaku#query"]):totable()
+          local converted = vim.iter(vim.split(input, " ")):map(vim.fn["kensaku#query"]):totable()
           return table.concat(converted, [[.\{-}]])
         end,
       }
@@ -822,16 +820,16 @@ return {
 
       palette "fuzzy_motion" {
         nord = function(colors)
-          api.set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
-          api.set_hl(0, "FuzzyMotionChar", { fg = colors.red })
-          api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
-          api.set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
+          vim.api.nvim_set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
+          vim.api.nvim_set_hl(0, "FuzzyMotionChar", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
         end,
         sweetie = function(colors)
-          api.set_hl(0, "FuzzyMotionShade", { fg = colors.dark_grey })
-          api.set_hl(0, "FuzzyMotionChar", { fg = colors.red })
-          api.set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
-          api.set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
+          vim.api.nvim_set_hl(0, "FuzzyMotionShade", { fg = colors.dark_grey })
+          vim.api.nvim_set_hl(0, "FuzzyMotionChar", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
         end,
       }
     end,
@@ -858,10 +856,10 @@ return {
         end,
       })
       -- NOTE: set Wrapwidth if the file contains Wrapwidth xx in upper lines.
-      api.create_autocmd("BufReadPost", {
+      vim.api.nvim_create_autocmd("BufReadPost", {
         group = group,
         callback = function()
-          local lines = api.buf_get_lines(0, 0, 2, false)
+          local lines = vim.api.nvim_buf_get_lines(0, 0, 2, false)
           if lines then
             for _, line in ipairs(lines) do
               local width = line:match [[Wrapwidth ([0-9]+)]]
@@ -890,29 +888,29 @@ return {
     init = function()
       palette "sweetie" {
         nord = function(_)
-          api.set_hl(0, "@markup.heading.1.markdown", { fg = "#88C0D0", bold = true })
-          api.set_hl(0, "@markup.heading.2.markdown", { fg = "#A3BE8C", bold = true })
-          api.set_hl(0, "@markup.heading.3.markdown", { fg = "#EBCB8B", bold = true })
-          api.set_hl(0, "@markup.heading.4.markdown", { fg = "#D08770", bold = true })
-          api.set_hl(0, "@markup.heading.5.markdown", { fg = "#B48EAD", bold = true })
-          api.set_hl(0, "@markup.heading.6.markdown", { fg = "#ECEFF4", bold = true })
+          vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = "#88C0D0", bold = true })
+          vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = "#A3BE8C", bold = true })
+          vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = "#EBCB8B", bold = true })
+          vim.api.nvim_set_hl(0, "@markup.heading.4.markdown", { fg = "#D08770", bold = true })
+          vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { fg = "#B48EAD", bold = true })
+          vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = "#ECEFF4", bold = true })
         end,
         sweetie = function(colors)
-          api.set_hl(0, "RenderMarkdownCode", { link = "CursorLine" })
+          vim.api.nvim_set_hl(0, "RenderMarkdownCode", { link = "CursorLine" })
           if colors.is_dark then
-            api.set_hl(0, "@markup.heading.1.markdown", { fg = colors.blue, bg = "#303948", bold = true })
-            api.set_hl(0, "@markup.heading.2.markdown", { fg = colors.green, bg = "#2b3324", bold = true })
-            api.set_hl(0, "@markup.heading.3.markdown", { fg = colors.yellow, bg = "#3e3924", bold = true })
-            api.set_hl(0, "@markup.heading.4.markdown", { fg = colors.orange, bg = "#3e332a", bold = true })
-            api.set_hl(0, "@markup.heading.5.markdown", { fg = colors.magenta, bg = "#37223e", bold = true })
-            api.set_hl(0, "@markup.heading.6.markdown", { fg = colors.violet, bg = "#261C39", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = colors.blue, bg = "#303948", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = colors.green, bg = "#2b3324", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = colors.yellow, bg = "#3e3924", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.4.markdown", { fg = colors.orange, bg = "#3e332a", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { fg = colors.magenta, bg = "#37223e", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = colors.violet, bg = "#261C39", bold = true })
           else
-            api.set_hl(0, "@markup.heading.1.markdown", { fg = "#194064", bg = "#bee0ff", bold = true })
-            api.set_hl(0, "@markup.heading.2.markdown", { fg = "#255517", bg = "#d1ffc3", bold = true })
-            api.set_hl(0, "@markup.heading.3.markdown", { fg = "#695c18", bg = "#fff3b9", bold = true })
-            api.set_hl(0, "@markup.heading.4.markdown", { fg = "#834e20", bg = "#e2d5c9", bold = true })
-            api.set_hl(0, "@markup.heading.5.markdown", { fg = "#751c5e", bg = "#e2cbdc", bold = true })
-            api.set_hl(0, "@markup.heading.6.markdown", { fg = "#54307c", bg = "#c4a9e2", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = "#194064", bg = "#bee0ff", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = "#255517", bg = "#d1ffc3", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = "#695c18", bg = "#fff3b9", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.4.markdown", { fg = "#834e20", bg = "#e2d5c9", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { fg = "#751c5e", bg = "#e2cbdc", bold = true })
+            vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = "#54307c", bg = "#c4a9e2", bold = true })
           end
         end,
       }
@@ -1085,11 +1083,11 @@ return {
     opts = {
       window = { width = 81 },
       plugins = { wezterm = { enabled = true } },
-      on_open = function(win)
+      on_open = function(_)
         require("incline").disable()
-        vim.b.original_wrap = vim.opt_local.wrap:get()
-        vim.b.original_number = vim.opt_local.number:get()
-        vim.b.original_relativenumber = vim.opt_local.relativenumber:get()
+        vim.b.original_wrap = vim.o.wrap
+        vim.b.original_number = vim.o.number
+        vim.b.original_relativenumber = vim.o.relativenumber
         vim.opt_local.wrap = true
         vim.opt_local.number = false
         vim.opt_local.relativenumber = false
@@ -1262,7 +1260,9 @@ return {
       -- virtual_symbol = "󰺠", -- 0xF0EA0
       virtual_symbol_suffix = "",
       -- from here
+      -- luacheck: push no max comment line length
       -- https://github.com/neovim/neovim/blob/50f6d364c661b88a1edc5ffc8e284d1c0ff70810/src/nvim/highlight_group.c#L2909-L2939
+      -- luacheck: pop
       custom_colors = {
         { label = "NvimDarkBlue", color = "#004c73" },
         { label = "NvimDarkCyan", color = "#007373" },
