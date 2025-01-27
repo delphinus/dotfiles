@@ -1,6 +1,5 @@
 local fn, uv, api = require("core.utils").globals()
 local palette = require "core.utils.palette"
-local lazy_require = require "lazy_require"
 
 local function ts(plugin)
   plugin.event = { "BufNewFile", "BufRead" }
@@ -92,13 +91,12 @@ return {
               }
             or false
         end,
-        virtual_text = {
-          format = function(d)
-            return d.severity == vim.diagnostic.severity.ERROR and ("%s (%s: %s)"):format(d.message, d.source, d.code)
-              or ""
+        virtual_text = false,
+        virtual_lines = {
+          format = function(diagnostic)
+            return ("%s [%s]"):format(diagnostic.message, diagnostic.source)
           end,
         },
-        virtual_lines = { only_current_line = true },
       }
 
       api.create_user_command("ShowLSPSettings", function()
@@ -109,11 +107,6 @@ return {
         vim.lsp.stop_client(vim.lsp.get_clients(), true)
         vim.cmd.edit()
       end, { desc = "Reload LSP settings" })
-
-      vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        signs = true,
-      })
 
       local lsp = require "lspconfig"
       local home_dir = function(p)
@@ -133,10 +126,11 @@ return {
         local fd
         fd, err = vim.uv.fs_open(filename, "r", tonumber("644", 8))
         assert(not err, err)
+        assert(fd, fd)
         local content
         content, err = vim.uv.fs_read(fd, st.size)
-        assert(content, "content exists")
         assert(not err, err)
+        assert(content, "content exists")
         return vim.iter(vim.gsplit(content, "\n")):fold({}, function(a, b)
           local key, value = b:match "^([^=]+)=(.*)$"
           if key and value then
@@ -356,6 +350,7 @@ return {
       vim.g.ale_fix_on_save = 1
       vim.g.ale_fixers = { lua = { "stylua" } }
       vim.g.ale_echo_cursor = 0
+      vim.g.ale_virtualtext_cursor = 0
     end,
   },
 
@@ -535,18 +530,5 @@ return {
       { "gra", '<Cmd>lua require("fastaction").range_code_action()<CR>', mode = { "v" } },
     },
     opts = true,
-  },
-
-  {
-    "rachartier/tiny-inline-diagnostic.nvim",
-    priority = 10000,
-    event = { "LspAttach" },
-    opts = {
-      options = {
-        format = function(diagnostic)
-          return ("%s [%s]"):format(diagnostic.message, diagnostic.source)
-        end,
-      },
-    },
   },
 }
