@@ -429,7 +429,8 @@ return {
     end,
   },
 
-  ts { "RRethy/nvim-treesitter-endwise" },
+  -- ts { "RRethy/nvim-treesitter-endwise" },
+  ts { "metiulekm/nvim-treesitter-endwise" },
   ts { "nvim-treesitter/nvim-treesitter-refactor" },
   ts { "nvim-treesitter/nvim-treesitter-textobjects" },
 
