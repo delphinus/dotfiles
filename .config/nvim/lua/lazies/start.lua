@@ -324,10 +324,11 @@ return {
 
   non_lazy {
     "nvim-telescope/telescope-frecency.nvim",
-    version = "*",
+    -- version = "*",
+    branch = "feat/database-v2",
     ---@type FrecencyOpts
     opts = {
-      db_version = vim.env.FRECENCY_V2 and "v2",
+      db_version = "v2",
       debug = not not vim.env.DEBUG_FRECENCY,
       debug_timer = require("core.utils.timer").track,
       db_safe_mode = false,
