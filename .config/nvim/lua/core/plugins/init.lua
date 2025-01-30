@@ -22,7 +22,7 @@ Plugins.new = function()
     root = root,
     core_dir = root .. "/core/start",
     packages = {
-      { "nvim-lua/plenary.nvim", branch = "master" },
+      { "delphinus/plenary.nvim", branch = "feat/types" },
       { "delphinus/f_meta.nvim" },
       { "delphinus/lazy_require.nvim" },
     },
