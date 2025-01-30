@@ -708,9 +708,27 @@ return {
   {
     "t9md/vim-quickhl",
     keys = {
-      { "<Space>qm", [[<Plug>(quickhl-manual-this)]], mode = { "n", "x" }, remap = true },
-      { "<Space>qt", [[<Plug>(quickhl-manual-toggle)]], mode = { "n", "x" }, remap = true },
-      { "<Space>qM", [[<Plug>(quickhl-manual-reset)]], mode = { "n", "x" }, remap = true },
+      {
+        "<Space>qm",
+        [[<Plug>(quickhl-manual-this)]],
+        mode = { "n", "x" },
+        remap = true,
+        desc = "[vim-quickhl] mark this",
+      },
+      {
+        "<Space>qt",
+        [[<Plug>(quickhl-manual-toggle)]],
+        mode = { "n", "x" },
+        remap = true,
+        desc = "[vim-quickhl] toggle this",
+      },
+      {
+        "<Space>qM",
+        [[<Plug>(quickhl-manual-reset)]],
+        mode = { "n", "x" },
+        remap = true,
+        desc = "[vim-quickhl] reset this",
+      },
     },
   },
 
