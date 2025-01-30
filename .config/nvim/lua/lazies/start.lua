@@ -327,6 +327,7 @@ return {
     version = "*",
     ---@type FrecencyOpts
     opts = {
+      db_version = vim.env.FRECENCY_V2 and "v2",
       debug = not not vim.env.DEBUG_FRECENCY,
       debug_timer = require("core.utils.timer").track,
       db_safe_mode = false,
