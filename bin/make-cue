@@ -18,6 +18,7 @@ GetOptions(
     \%opt, qw(
     clipboard|c
     execute|e
+    intro|i
     print|p
     overwrite|o
     verbose|v
@@ -45,8 +46,17 @@ if (!$opt{print} && !$opt{overwrite} && -r $cue) {
 
 # \(\%(\\d\+:\)\?\d\d:\d\d\)\s*\(.\{-}\)\s\+[-–<200e>]\+\s\+\(.\{-}\)\%(\s*\[.*\)\?$,  TRACK 01 AUDIO^M    TITLE "\3"^M    PERFORMER "\2"^M    INDEX 01 \1:00
 sub parse_input($input = '') {
-    my $count = 0;
+    my $count = $opt{intro} ? 1 : 0;
     my $tracks = reduce {
+        if ($opt{intro} && $count == 1) {
+            push $a->@*, {
+                count => 1,
+                time => '00:00:00',
+                artist => '',
+                title => 'Intro',
+            };
+        }
+
         (my $line = $b) =~ /
             (?:
                 (?:
@@ -67,7 +77,7 @@ sub parse_input($input = '') {
         if (defined $+{artist}) {
             push $a->@*, {
                 count => ++$count,
-                time => !defined $+{minute} ? undef : sprintf('%d:02d:00', ($+{hour} // 0) * 60 + $+{minute}, $+{second}),
+                time => !defined $+{minute} ? undef : sprintf('%02d:02d:00', ($+{hour} // 0) * 60 + $+{minute}, $+{second}),
                 artist => $+{artist},
                 title => $+{title},
             };
@@ -76,13 +86,24 @@ sub parse_input($input = '') {
         }
         $a;
     } [], split /\n/, $input;
+
+    if ($opt{intro}) {
+        my $t = $length - 60;
+        push $tracks->@*, {
+            count => $tracks->@* + 1,
+            time => sprintf('%02d:%02d:00', $t / 60, $t % 60),
+            artist => '',
+            title => 'Outro',
+        };
+    }
+
     for my $track ($tracks->@*) {
         if (!defined $track->{time}) {
             if ($track->{count} == 1) {
                 $track->{time} = '00:00:00';
             } else {
                 my $t = ($length / $tracks->@*) * ($track->{count} - 1);
-                $track->{time} = sprintf '%d:%02d:00', $t / 60, $t % 60;
+                $track->{time} = sprintf '%02d:%02d:00', $t / 60, $t % 60;
             }
         }
     }
@@ -106,7 +127,7 @@ $output .= sprintf <<EOS, $_->{count}, $_->{title}, $_->{artist}, $_->{time} for
   TRACK %02d AUDIO
     TITLE "%s"
     PERFORMER "%s"
-    INDEX 01 "%s"
+    INDEX 01 %s
 EOS
 
 if ($opt{execute}) {
