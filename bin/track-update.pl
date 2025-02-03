@@ -1,4 +1,28 @@
 #!/usr/bin/perl
+
+=head1 DESCRIPTION
+
+    Music track updater
+
+=head1 SYNOPSIS
+
+    track-update.pl (Album Name)
+    # dry-run for the album
+
+    track-update.pl -e (Album Name)
+    # execute
+
+    track-update.pl -u (Album Name)
+    # update cache
+
+    track-update.pl -v (Album Name)
+    # print verbosely
+
+    track-update.pl -h
+    # show this messages
+
+=cut
+
 use 5.30.0;
 use warnings;
 use utf8;
@@ -43,7 +67,7 @@ GetOptions(
     help|h
 )) or pod2usage(1);
 $opt{help} and pod2usage(0);
-(my $album = shift) // die 'set album name';
+(my $album = shift) // pod2usage({ -message => 'set album name' });
 my $script_name = path($0)->basename(qr/\..+$/);
 
 sub logger($fmt, @params) {
