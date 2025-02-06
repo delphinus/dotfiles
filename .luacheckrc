@@ -4,4 +4,5 @@ codes = true
 self = false
 globals = {
   "vim",
+  "Snacks",
 }
