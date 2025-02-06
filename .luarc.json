@@ -1,0 +1,10 @@
+{
+  "diagnostics.globals": [
+    "vim",
+    "after_each",
+    "before_each",
+    "describe",
+    "it",
+    "Snacks"
+  ]
+}
