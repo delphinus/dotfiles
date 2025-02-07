@@ -326,6 +326,7 @@ return {
     "nvim-telescope/telescope-frecency.nvim",
     -- version = "*",
     branch = "feat/database-v2",
+    ---@module 'frecency'
     ---@type FrecencyOpts
     opts = {
       db_version = "v2",
