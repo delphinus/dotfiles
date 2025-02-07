@@ -346,22 +346,4 @@ return {
       ignore_patterns = { "*.git/*", "*/tmp/*", "term://*" },
     },
   },
-
-  {
-    "folke/snacks.nvim",
-    lazy = false,
-    opts = function()
-      Snacks.toggle.profiler():map "<Leader>pp"
-      Snacks.toggle.profiler_highlights():map "<Leader>ph"
-    end,
-    keys = {
-      {
-        "<Leader>ps",
-        function()
-          Snacks.profiler.scratch()
-        end,
-        desc = "Profiler Scratch Buffer",
-      },
-    },
-  },
 }

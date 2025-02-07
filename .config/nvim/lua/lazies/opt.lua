@@ -328,21 +328,8 @@ return {
   { "MunifTanjim/nui.nvim" },
   {
     "folke/noice.nvim",
-    event = { "BufRead", "BufNewFile", "InsertEnter", "CmdlineEnter" },
-    dependencies = {
-      "rcarriga/nvim-notify",
-      init = function()
-        vim.api.nvim_create_user_command("DismissNotifications", function()
-          require("notify").dismiss { include_hidden = true }
-        end, { nargs = 0 })
-        vim.cmd.cabbrev("DN", "DismissNotifications")
-        palette "nvim-notify" {
-          sweetie = function(colors)
-            require("notify").setup { background_colour = colors.bg }
-          end,
-        }
-      end,
-    },
+    event = { "VeryLazy" },
+    dependencies = { "folke/snacks.nvim" },
     init = function()
       palette "noice" {
         nord = function(colors)
@@ -1408,4 +1395,27 @@ return {
       },
     },
   },
+
+  (function()
+    local function snacks(module)
+      return function(method)
+        return function()
+          local m = require("snacks")[module]
+          return method and m[method]() or m()
+        end
+      end
+    end
+    return {
+      "folke/snacks.nvim",
+      ---@module 'snacks'
+      ---@type snacks.Config
+      opts = {
+        notifier = { enabled = true },
+      },
+      keys = {
+        { "<Leader>.", snacks "scratch"(), desc = "Toggle Scratch Buffer" },
+        { "<Leader>S", snacks "scratch" "select", desc = "Select Scratch Buffer" },
+      },
+    }
+  end)(),
 }
