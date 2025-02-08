@@ -1324,6 +1324,7 @@ return {
         },
       },
       keys = {
+        { "<Leader>e", snacks.explorer(), desc = "File Explorer" },
         { "<Leader>.", snacks.scratch(), desc = "Toggle Scratch Buffer" },
         { "<Leader>S", snacks.scratch.select, desc = "Select Scratch Buffer" },
         -- cmd: DismissNotification, DN
@@ -1334,6 +1335,24 @@ return {
         { "<A-z>", snacks.zen(), desc = "Toggle Zen Mode" },
         -- default: <Leader>Z
         { "<A-Z>", snacks.zen.zoom, desc = "Toggle Zoom" },
+        {
+          "<Leader>N",
+          desc = "Neovim News",
+          function()
+            Snacks.win {
+              file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
+              width = 0.6,
+              height = 0.6,
+              wo = {
+                spell = false,
+                wrap = false,
+                signcolumn = "yes",
+                statuscolumn = " ",
+                conceallevel = 3,
+              },
+            }
+          end,
+        },
       },
     }
   end)(),
