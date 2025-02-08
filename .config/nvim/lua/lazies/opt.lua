@@ -1407,6 +1407,15 @@ return {
     end
     return {
       "folke/snacks.nvim",
+      init = function()
+        if not Snacks then
+          Snacks = setmetatable({}, {
+            __index = function(_, method)
+              return require("snacks")[method]
+            end,
+          })
+        end
+      end,
       ---@module 'snacks'
       ---@type snacks.Config
       opts = {
