@@ -1030,40 +1030,6 @@ return {
   { "Kicamon/markdown-table-mode.nvim", ft = { "markdown" }, opts = {} },
 
   {
-    "folke/zen-mode.nvim",
-    keys = { { "<A-z>", "<Cmd>ZenMode<CR>" } },
-    cmd = { "ZenMode" },
-    ---@type ZenOptions
-    opts = {
-      window = { width = 81 },
-      plugins = { wezterm = { enabled = true } },
-      on_open = function(_)
-        require("incline").disable()
-        vim.b.original_wrap = vim.o.wrap
-        vim.b.original_number = vim.o.number
-        vim.b.original_relativenumber = vim.o.relativenumber
-        vim.opt_local.wrap = true
-        vim.opt_local.number = false
-        vim.opt_local.relativenumber = false
-        vim.o.cmdheight = 1
-        vim.o.laststatus = 0
-        vim.keymap.del("n", "<C-j>")
-        vim.keymap.del("n", "<C-k>")
-      end,
-      on_close = function()
-        require("incline").enable()
-        vim.opt_local.wrap = vim.b.original_wrap
-        vim.opt_local.number = vim.b.original_number
-        vim.opt_local.relativenumber = vim.b.original_relativenumber
-        vim.o.cmdheight = 0
-        vim.o.laststatus = 3
-        vim.keymap.set("n", "<C-j>", "<C-w>w", { remap = true })
-        vim.keymap.set("n", "<C-k>", "<C-w>W", { remap = true })
-      end,
-    },
-  },
-
-  {
     "stevearc/quicker.nvim",
     ft = { "qf" },
     keys = {
@@ -1346,14 +1312,25 @@ return {
   },
 
   (function()
-    local function snacks(module)
-      return function(method)
-        return function()
-          local m = require("snacks")[module]
-          return method and m[method]() or m()
-        end
-      end
-    end
+    ---@module 'snacks'
+    ---@type Snacks
+    local snacks = setmetatable({}, {
+      __index = function(_, module)
+        return setmetatable({}, {
+          __index = function(_, method)
+            return function(...)
+              require("snacks")[module][method](...)
+            end
+          end,
+          __call = function(_)
+            return function(...)
+              return require("snacks")[module](...)
+            end
+          end,
+        })
+      end,
+    })
+
     return {
       "folke/snacks.nvim",
       init = function()
@@ -1364,16 +1341,55 @@ return {
             end,
           })
         end
+        vim.api.nvim_create_user_command(
+          "DismissNotification",
+          snacks.notifier.hide,
+          { desc = "Dismiss All Notifications" }
+        )
+        vim.cmd.cabbrev("DN", "DismissNotification")
       end,
       ---@module 'snacks'
       ---@type snacks.Config
       opts = {
         notifier = { enabled = true },
+        zen = {
+          toggles = { diagnostics = false, inlay_hints = false },
+          on_open = function()
+            require("incline").disable()
+            vim.keymap.del("n", "<C-j>")
+            vim.keymap.del("n", "<C-k>")
+          end,
+          on_close = function()
+            require("incline").enable()
+            vim.keymap.set("n", "<C-j>", "<C-w>w", { remap = true })
+            vim.keymap.set("n", "<C-k>", "<C-w>W", { remap = true })
+          end,
+        },
+        styles = {
+          zoom_indicator = {
+            text = "zoom 󰊓",
+            minimal = true,
+            enter = false,
+            focusable = false,
+            height = 1,
+            row = 1,
+            col = -1,
+            backdrop = false,
+            border = "rounded",
+          },
+        },
       },
       keys = {
-        { "<Leader>.", snacks "scratch"(), desc = "Toggle Scratch Buffer" },
-        { "<Leader>S", snacks "scratch" "select", desc = "Select Scratch Buffer" },
-        { "<A-c>", snacks "terminal" "toggle", mode = { "n", "t" }, desc = "Toggle Terminal" },
+        { "<Leader>.", snacks.scratch(), desc = "Toggle Scratch Buffer" },
+        { "<Leader>S", snacks.scratch.select, desc = "Select Scratch Buffer" },
+        -- cmd: DismissNotification, DN
+        { "<Leader>un", snacks.notifier.hide, desc = "Dismiss All Notification" },
+        -- default: <C-/>
+        { "<A-/>", snacks.terminal.toggle, mode = { "n", "t" }, desc = "Toggle Terminal" },
+        -- default: <Leader>z
+        { "<A-z>", snacks.zen(), desc = "Toggle Zen Mode" },
+        -- default: <Leader>Z
+        { "<A-Z>", snacks.zen.zoom, desc = "Toggle Zoom" },
       },
     }
   end)(),
