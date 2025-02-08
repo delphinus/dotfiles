@@ -11,57 +11,6 @@ end
 ---@type LazySpec[]
 return {
   { "lifepillar/vim-solarized8" },
-
-  {
-    "akinsho/toggleterm.nvim",
-    cmd = { "ToggleTerm", "ToggleTermAll", "TermExec" },
-    keys = {
-      { "<A-c>", "<Cmd>ToggleTerm<CR>", mode = { "n", "t" }, desc = "ToggleTerm" },
-    },
-    init = function()
-      palette "toggleterm" {
-        nord = function(colors)
-          vim.api.nvim_set_hl(0, "WinBorderTop", { fg = colors.border })
-          vim.api.nvim_set_hl(0, "WinBorderLeft", { fg = colors.border })
-          vim.api.nvim_set_hl(0, "WinBorderRight", { fg = colors.border })
-          vim.api.nvim_set_hl(0, "WinBorderBottom", { fg = colors.border })
-        end,
-        sweetie = function(colors)
-          vim.api.nvim_set_hl(0, "WinBorderTop", { fg = colors.blue })
-          vim.api.nvim_set_hl(0, "WinBorderLeft", { fg = colors.blue })
-          vim.api.nvim_set_hl(0, "WinBorderRight", { fg = colors.blue })
-          vim.api.nvim_set_hl(0, "WinBorderBottom", { fg = colors.blue })
-        end,
-      }
-      vim.api.nvim_create_user_command("Serpl", function(info)
-        local path = #info.fargs > 0 and table.concat(info.fargs) or assert(vim.uv.cwd())
-        vim.cmd.TermExec { args = { "direction=float", "dir=" .. vim.fn.escape(path, [[ \]]), 'cmd="serpl"' } }
-      end, { nargs = "*", desc = "Run serpl" })
-    end,
-    opts = {
-      open_mapping = false,
-      direction = "float",
-      autochdir = true,
-      float_opts = {
-        border = {
-          --{ "⡤", "WinBorderTop" },
-          { "⡠", "WinBorderTop" },
-          { "⠤", "WinBorderTop" },
-          --{ "⢤", "WinBorderTop" },
-          { "⢄", "WinBorderTop" },
-          { "⢸", "WinBorderRight" },
-          --{ "⠚", "WinBorderBottom" },
-          { "⠊", "WinBorderBottom" },
-          { "⠒", "WinBorderBottom" },
-          --{ "⠓", "WinBorderBottom" },
-          { "⠑", "WinBorderBottom" },
-          { "⡇", "WinBorderLeft" },
-        },
-      },
-      winbar = { enabled = true },
-    },
-  },
-
   { "cocopon/colorswatch.vim", cmd = { "ColorSwatchGenerate" } },
   { "cocopon/inspecthi.vim", cmd = { "Inspecthi", "InspecthiShowInspector", "InspecthiHideInspector" } },
 
@@ -1424,6 +1373,7 @@ return {
       keys = {
         { "<Leader>.", snacks "scratch"(), desc = "Toggle Scratch Buffer" },
         { "<Leader>S", snacks "scratch" "select", desc = "Select Scratch Buffer" },
+        { "<A-c>", snacks "terminal" "toggle", mode = { "n", "t" }, desc = "Toggle Terminal" },
       },
     }
   end)(),
