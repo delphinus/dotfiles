@@ -382,9 +382,9 @@ return {
           },
         },
         { name = "ghq" },
-        { name = "rg", option = { debounce = 0 } },
+        { name = "rg", keyword_length = 4, option = { debounce = 0 } },
         { name = "emoji" },
-        { name = "look", keyword_length = 2, option = { convert_case = true, loud = true } },
+        { name = "look", keyword_length = 4, option = { convert_case = true, loud = true } },
       }
 
       cmp.setup {
