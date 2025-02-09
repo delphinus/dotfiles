@@ -31,28 +31,22 @@ terminal_autocmd "WinLeave" [[doautocmd <nomodeline> FocusLost %]]
 
 vim
   .iter({
-    ["<C-j>"] = { "<A-j>", "<A-∆>" },
-    ["<C-k>"] = { "<A-k>", "<A-˚>" },
-    ["<C-q>"] = { "<A-q>", "<A-œ>" },
-    ["<C-s>"] = { "<A-s>", "<A-ß>" },
-    [":"] = { "<A-;>", "<A-…>" },
+    { map = "<C-j>", key = "<A-j>" },
+    { map = "<C-k>", key = "<A-k>" },
+    { map = "<C-q>", key = "<A-q>" },
+    { map = "<C-s>", key = "<A-s>" },
+    { map = ":", key = "<A-;>" },
   })
-  :each(function(map, keys)
-    vim.iter(keys):each(function(key)
-      vim.keymap.set("t", key, [[<C-\><C-n>]] .. map, { remap = true })
-      vim.keymap.set("n", key, map, { remap = true })
-    end)
+  :each(function(v)
+    vim.keymap.set("t", v.key, [[<C-\><C-n>]] .. v.map, { remap = true })
+    vim.keymap.set("n", v.key, v.map, { remap = true })
   end)
 
 vim.keymap.set("t", "<A-o>", [[<C-\><C-n><C-w>oi]], { remap = true })
-vim.keymap.set("t", "<A-ø>", [[<C-\><C-n><C-w>oi]], { remap = true })
 vim.keymap.set("n", "<A-o>", [[<C-w>o]], { remap = true })
-vim.keymap.set("n", "<A-ø>", [[<C-w>o]], { remap = true })
 vim.keymap.set("t", "<A-CR>", [[<C-\><C-n><A-CR>]], { remap = true })
+vim.keymap.set("t", "<A-->", [[<C-\><C-n><C-w>_i]], { remap = true })
 
-local function get_register()
+vim.keymap.set("t", "<A-r>", function()
   return [[<C-\><C-n>]] .. fn.nr2char(fn.getchar()) .. "pi"
-end
-
-vim.keymap.set("t", "<A-r>", get_register, { expr = true, desc = "Get registers" })
-vim.keymap.set("t", "<A-®>", get_register, { expr = true, desc = "Get registers" })
+end, { expr = true, desc = "Get a register" })
