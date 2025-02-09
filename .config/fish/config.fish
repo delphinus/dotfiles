@@ -209,7 +209,15 @@ function fish_right_prompt
             set -l active_pid (osascript -e 'tell application "System Events" to get the unix id of first process whose frontmost is true')
             set -l active_pane (wezterm cli list-clients | perl -anle 'print $F[$#F] if $F[2] == '$active_pid)
             if test -n "$active_pane"; and test $WEZTERM_PANE -eq $active_pane
-                return
+                if test -z $NVIM; or ! type -q nvr
+                    return
+                end
+                set -l pid (nvr --remote-expr \
+                    'range(1, winnr("$"))->filter({_, v -> v->getwinvar("&buftype") == "terminal" && v->winbufnr() == bufnr()})->map({_, v -> jobpid(v->winbufnr()->getbufvar("&channel"))})->get(0)'
+                )
+                if test %self -eq $pid
+                    return
+                end
             end
         end
         set -l duration (bc -S2 -e $CMD_DURATION/1000)
