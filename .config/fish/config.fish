@@ -83,12 +83,6 @@ else
     eval (dircolors -c ~/.dir_colors)
 end
 
-if test "$NVIM_LISTEN_ADDRESS" != ''
-    alias nvr 'nvr -cc \'ToggleTerm\' -cc split'
-else if test "$NVIM" != ''
-    alias nvr 'nvr --servername '$NVIM' -cc \'ToggleTerm\' -cc split'
-end
-
 test "$fish_key_bindings" != fish_hybrid_key_bindings; and fish_hybrid_key_bindings
 
 set FZF_DEFAULT_OPTS '--border --inline-info --prompt="❯❯❯ " --height=40%'
