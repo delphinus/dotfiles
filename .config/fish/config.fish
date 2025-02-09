@@ -213,7 +213,7 @@ function fish_right_prompt
                     return
                 end
                 set -l pid (nvr --remote-expr \
-                    'range(1, winnr("$"))->filter({_, v -> v->getwinvar("&buftype") == "terminal" && v->winbufnr() == bufnr()})->map({_, v -> jobpid(v->winbufnr()->getbufvar("&channel"))})->get(0)'
+                    'range(1, winnr("$"))->filter({_, v -> v->getwinvar("&buftype") == "terminal" && v->winbufnr() == bufnr()})->map({_, v -> jobpid(v->getwinvar("&channel"))})->get(0)'
                 )
                 if test %self -eq $pid
                     return
