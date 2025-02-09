@@ -1,4 +1,28 @@
 #!/usr/bin/perl
+
+=head1 DESCRIPTION
+
+    A tiny tool for making cue sheets
+
+=head1 SYNOPSIS
+
+    make-cue [filename]
+    # file should be mp3/aac/mp4
+
+    make-cue -p [filename]
+    # echo the generated cue sheet
+
+    make-cue -i [filename]
+    # adds intro & outro tracks
+
+    make-cue -e [filename]
+    # no dry-run
+
+    make-cue -eo [filename]
+    # overwrite the existing cue sheet
+
+=cut
+
 use 5.30.0;
 use warnings;
 use utf8;
@@ -57,27 +81,38 @@ sub parse_input($input = '') {
             };
         }
 
-        (my $line = $b) =~ /
+        (my $line = $b) =~ m{
+            ^
+            (?:
+                \d+\.
+                \s+
+            )?
+
             (?:
                 (?:
                     (?<hour> \d+) :
                 )?
-                (?<minute> \d\d) : (?<second> \d\d)
+                (?<minute> \d?\d) : (?<second> \d\d)
             )?
             \s+
-            (?<artist> .*?)
-            \s+ [-\x{2013}\x{200e}] \s+
+            (?:
+                (?<artist> .*?)
+                \s+ [-\x{2013}\x{200e}] \s+
+            )?
             (?<title> .*?)
             (?:
                 \s*
-                \[.*
+                (?:
+                    [[/] |
+                    https?://
+                ).*
             )?
             $
-        /x;
-        if (defined $+{artist}) {
+        }x;
+        if (defined $+{title}) {
             push $a->@*, {
                 count => ++$count,
-                time => !defined $+{minute} ? undef : sprintf('%02d:02d:00', ($+{hour} // 0) * 60 + $+{minute}, $+{second}),
+                time => !defined $+{minute} ? undef : sprintf('%02d:%02d:00', ($+{hour} // 0) * 60 + $+{minute}, $+{second}),
                 artist => $+{artist},
                 title => $+{title},
             };
@@ -85,7 +120,7 @@ sub parse_input($input = '') {
             warn "cannot parse line: $line\n";
         }
         $a;
-    } [], split /\n/, $input;
+    } [], split /[\r\n]+/, $input;
 
     if ($opt{intro}) {
         my $t = $length - 60;
@@ -123,12 +158,22 @@ my $output = sprintf <<EOS, $mp3;
 TITLE "(Title)"
 FILE "%s" WAVE
 EOS
-$output .= sprintf <<EOS, $_->{count}, $_->{title}, $_->{artist}, $_->{time} for @tracks;
+for (@tracks) {
+    if (defined $_->{artist}) {
+        $output .= sprintf <<EOS, $_->{count}, $_->{title}, $_->{artist}, $_->{time};
   TRACK %02d AUDIO
     TITLE "%s"
     PERFORMER "%s"
     INDEX 01 %s
 EOS
+    } else {
+        $output .= sprintf <<EOS, $_->{count}, $_->{title}, $_->{time};
+  TRACK %02d AUDIO
+    TITLE "%s"
+    INDEX 01 %s
+EOS
+    }
+}
 
 if ($opt{execute}) {
     $cue->spew_utf8($output);
