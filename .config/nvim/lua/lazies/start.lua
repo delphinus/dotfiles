@@ -324,8 +324,7 @@ return {
 
   non_lazy {
     "nvim-telescope/telescope-frecency.nvim",
-    -- version = "*",
-    branch = "feat/database-v2",
+    version = "*",
     ---@module 'frecency'
     ---@type FrecencyOpts
     opts = {
