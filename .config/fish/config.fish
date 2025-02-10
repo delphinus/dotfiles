@@ -204,20 +204,23 @@ alias l 'eza -lF --group-directories-first --color-scale --icons --time-style lo
 # https://qiita.com/delphinus/items/97045dfb73ccb99dc826
 set -gx NOTIFY_ON_COMMAND_DURATION 5000
 function fish_right_prompt
+    set -f check_neovim
     if test -n "$CMD_DURATION"; and test $CMD_DURATION -gt $NOTIFY_ON_COMMAND_DURATION
         if type -q wezterm; and test -n "$WEZTERM_PANE"
             set -l active_pid (osascript -e 'tell application "System Events" to get the unix id of first process whose frontmost is true')
             set -l active_pane (wezterm cli list-clients | perl -anle 'print $F[$#F] if $F[2] == '$active_pid)
             if test -n "$active_pane"; and test $WEZTERM_PANE -eq $active_pane
-                if test -z $NVIM; or ! type -q nvr
-                    return
-                end
-                set -l pid (nvr --remote-expr \
-                    'range(1, winnr("$"))->filter({_, v -> v->getwinvar("&buftype") == "terminal" && v->winbufnr() == bufnr()})->map({_, v -> jobpid(v->getwinvar("&channel"))})->get(0)'
-                )
-                if test %self -eq $pid
-                    return
-                end
+                set -f check_neovim 1
+            end
+        else
+            set -f check_neovim 1
+        end
+        if test -n "$check_neovim"; and test -n "$NVIM"; and type -q nvr
+            set -l pid (nvr --remote-expr \
+                'range(1, winnr("$"))->filter({_, v -> v->getwinvar("&buftype") == "terminal" && v->winbufnr() == bufnr()})->map({_, v -> jobpid(v->getwinvar("&channel"))})->get(0)'
+            )
+            if test %self -eq $pid
+                return
             end
         end
         set -l duration (bc -S2 -e $CMD_DURATION/1000)
