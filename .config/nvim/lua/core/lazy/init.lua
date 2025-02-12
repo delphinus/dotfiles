@@ -65,8 +65,8 @@ vim.api.nvim_create_autocmd("User", {
     vim.wait(5000, function()
       return #done == #to_reset * 2
     end)
-    -- HACK: load nvim-notify definitely instead of calling vim-notify
-    local notify = require "notify"
+    -- HACK: load snacks definitely instead of calling vim-notify
+    local notify = require "snacks.notifier"
     -- HACK: open notification windows above the one of lazynvim
     local opts = {
       on_open = function(win)
