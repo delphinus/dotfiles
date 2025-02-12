@@ -119,7 +119,7 @@
   "perlomni.vim": { "branch": "master", "commit": "9a87ff71564a0eb23ce0c496b930366c71de7b51" },
   "persistence.nvim": { "branch": "main", "commit": "f6aad7dde7fcf54148ccfc5f622c6d5badd0cc3d" },
   "plantuml-syntax": { "branch": "master", "commit": "9d4900aa16674bf5bb8296a72b975317d573b547" },
-  "plenary.nvim": { "branch": "feat/types", "commit": "0956f8e47bcba8b5ca952338705d531b96b37a47" },
+  "plenary.nvim": { "branch": "feat/types", "commit": "f4d8c62502c8ef8a2289e7e5895a43c7d82279e1" },
   "qfheight.nvim": { "branch": "main", "commit": "9a13ec84e69f82b97b65fe4d50ca56320062167a" },
   "quicker.nvim": { "branch": "master", "commit": "5e272a7b88892c4313f25b09a11e2ae5ebc68ba5" },
   "render-markdown": { "branch": "main", "commit": "17a77463f945c4b9e4f371c752efd90e3e1bf604" },
