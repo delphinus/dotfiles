@@ -1270,7 +1270,10 @@ return {
         vim.cmd.cabbrev("DN", "DismissNotification")
         _G.dd = snacks.debug.inspect
         _G.bt = snacks.debug.backtrace
-        vim.print = _G.dd
+        -- NOTE: #vim.api.nvim_list_uis() == 0 when invoked with --headless
+        if #vim.api.nvim_list_uis() > 0 then
+          vim.print = _G.dd
+        end
       end,
       ---@module 'snacks'
       ---@type snacks.Config
