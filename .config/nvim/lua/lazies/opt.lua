@@ -1319,6 +1319,7 @@ return {
         { "<Leader>e", snacks.explorer(), desc = "File Explorer" },
         { "<Leader>.", snacks.scratch(), desc = "Toggle Scratch Buffer" },
         { "<Leader>S", snacks.scratch.select, desc = "Select Scratch Buffer" },
+        { "<Leader>n", snacks.notifier.show_history(), desc = "Notification History" },
         { "<Leader>gB", snacks.gitbrowse(), desc = "Git Browse", mode = { "n", "v" } },
         -- cmd: DismissNotification, DN
         { "<Leader>un", snacks.notifier.hide, desc = "Dismiss All Notification" },
