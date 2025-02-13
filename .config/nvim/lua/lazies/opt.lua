@@ -619,29 +619,6 @@ return {
   },
 
   {
-    "ruifm/gitlinker.nvim",
-    keys = { { "gy", mode = { "n", "v" } } },
-    opts = function(_)
-      return {
-        opts = {
-          add_current_line_on_normal_mode = false,
-          action_callback = function(url)
-            local actions = require "gitlinker.actions"
-            actions.copy_to_clipboard(url)
-            actions.open_in_browser(url)
-          end,
-        },
-        callbacks = {
-          [vim.g.gh_e_host or ""] = function(url_data)
-            return require("gitlinker.hosts").get_github_type_url(url_data)
-          end,
-        },
-        mappings = "gy",
-      }
-    end,
-  },
-
-  {
     "t9md/vim-quickhl",
     keys = {
       {
@@ -1312,6 +1289,16 @@ return {
             vim.keymap.set("n", "<C-k>", "<C-w>W", { remap = true })
           end,
         },
+        gitbrowse = {
+          url_patterns = {
+            [vim.pesc(vim.env.GITHUB_ENTERPRISE_HOST)] = {
+              branch = "/tree/{branch}",
+              file = "/blob/{branch}/{file}#L{line_start}-L{line_end}",
+              permalink = "/blob/{commit}/{file}#L{line_start}-L{line_end}",
+              commit = "/commit/{commit}",
+            },
+          },
+        },
         styles = {
           zoom_indicator = {
             text = "zoom 󰊓",
@@ -1330,6 +1317,7 @@ return {
         { "<Leader>e", snacks.explorer(), desc = "File Explorer" },
         { "<Leader>.", snacks.scratch(), desc = "Toggle Scratch Buffer" },
         { "<Leader>S", snacks.scratch.select, desc = "Select Scratch Buffer" },
+        { "<Leader>gB", snacks.gitbrowse(), desc = "Git Browse", mode = { "n", "v" } },
         -- cmd: DismissNotification, DN
         { "<Leader>un", snacks.notifier.hide, desc = "Dismiss All Notification" },
         -- default: <C-/>
