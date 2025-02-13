@@ -1276,6 +1276,8 @@ return {
       ---@type snacks.Config
       opts = {
         notifier = { enabled = true },
+        input = { enabled = true },
+        picker = { enabled = true },
         zen = {
           toggles = { diagnostics = false, inlay_hints = false },
           on_open = function()

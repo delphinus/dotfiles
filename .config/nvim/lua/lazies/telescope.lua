@@ -37,7 +37,6 @@ return {
 
   { "2kabhishek/nerdy.nvim" },
   { "jonarrien/telescope-cmdline.nvim" },
-  { "stevearc/dressing.nvim" },
   {
     "gbprod/yanky.nvim",
     keys = {
@@ -437,8 +436,6 @@ return {
         },
       }
       telescope.load_extension "fzf"
-
-      require("dressing").setup {}
 
       -- Set mappings for yanky here to avoid cycle referencing
       local utils = require "yanky.utils"
