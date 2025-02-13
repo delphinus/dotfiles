@@ -67,17 +67,11 @@ vim.api.nvim_create_autocmd("User", {
     end)
     -- HACK: load snacks definitely instead of calling vim-notify
     local notify = require "snacks.notifier"
-    -- HACK: open notification windows above the one of lazynvim
-    local opts = {
-      on_open = function(win)
-        vim.api.nvim_win_set_config(win, { zindex = 10000 })
-      end,
-    }
     for _, result in ipairs(done) do
       if result.code == 0 then
-        notify(("done successfully to %s: %s"):format(result.type, result.plugin), vim.log.levels.INFO, opts)
+        notify(("done successfully to %s: %s"):format(result.type, result.plugin), vim.log.levels.INFO)
       else
-        notify(("failed to %s: %s"):format(result.type, result.plugin), vim.log.levels.ERROR, opts)
+        notify(("failed to %s: %s"):format(result.type, result.plugin), vim.log.levels.ERROR)
       end
     end
   end,
