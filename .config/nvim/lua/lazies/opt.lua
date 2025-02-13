@@ -1291,6 +1291,9 @@ return {
           { desc = "Dismiss All Notifications" }
         )
         vim.cmd.cabbrev("DN", "DismissNotification")
+        _G.dd = snacks.debug.inspect
+        _G.bt = snacks.debug.backtrace
+        vim.print = _G.dd
       end,
       ---@module 'snacks'
       ---@type snacks.Config
