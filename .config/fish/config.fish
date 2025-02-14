@@ -215,7 +215,10 @@ function fish_right_prompt
         else
             set -f check_neovim 1
         end
-        if test -n "$check_neovim"; and test -n "$NVIM"; and type -q nvr
+        if test -n "$check_neovim"
+            if test -z "$NVIM"; or ! type -q nvr
+                return
+            end
             set -l pid (nvr --remote-expr \
                 'range(1, winnr("$"))->filter({_, v -> v->getwinvar("&buftype") == "terminal" && v->winbufnr() == bufnr()})->map({_, v -> jobpid(v->getwinvar("&channel"))})->get(0)'
             )
