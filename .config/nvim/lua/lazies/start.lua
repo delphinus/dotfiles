@@ -340,6 +340,7 @@ return {
       end,
       show_scores = true,
       show_filter_column = { "LSP", "CWD", "VIM" },
+      unregister_hidden = true,
       workspaces = {
         VIM = vim.env.VIMRUNTIME,
       },
