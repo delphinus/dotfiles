@@ -2,12 +2,6 @@
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
 
-local function dwm(method)
-  return function()
-    require("dwm")[method]()
-  end
-end
-
 ---@type LazySpec[]
 return {
   { "lifepillar/vim-solarized8" },
@@ -238,35 +232,58 @@ return {
   --   config = true,
   -- },
 
-  {
-    "delphinus/dwm.nvim",
-    event = { "VimEnter" },
-    keys = {
-      { "<C-j>", "<C-w>w", remap = true },
-      { "<C-k>", "<C-w>W", remap = true },
-      { "<A-CR>", dwm "focus" },
-      { "<C-@>", dwm "focus" },
-      { "<C-Space>", dwm "focus" },
-      { "<C-l>", dwm "grow" },
-      { "<C-h>", dwm "shrink" },
-      { "<C-n>", dwm "new" },
-      { "<C-q>", dwm "rotateLeft" },
-      { "<C-s>", dwm "rotate" },
-      { "<C-c>", dwm "close" },
-    },
-    cond = function()
-      -- HACK: Do not load when it is loading committia.vim
-      local file = vim.fs.basename(vim.api.nvim_buf_get_name(0))
-      return vim.iter({ "COMMIT_EDITMSG", "MERGE_MSG" }):all(function(name)
-        return file ~= name
-      end)
-    end,
-    opts = {
-      key_maps = false,
-      master_pane_count = 1,
-      master_pane_width = "60%",
-    },
-  },
+  (function()
+    ---@module 'dwm'
+    ---@class Dwm
+    local dwm = setmetatable({}, {
+      __index = function(_, method)
+        return function()
+          require("dwm")[method]()
+        end
+      end,
+    })
+
+    return {
+      "delphinus/dwm.nvim",
+      event = { "UIEnter" },
+      keys = {
+        { "<C-j>", "<C-w>w", remap = true },
+        { "<C-k>", "<C-w>W", remap = true },
+        { "<A-CR>", dwm.focus },
+        { "<C-@>", dwm.focus },
+        { "<C-Space>", dwm.focus },
+        { "<C-l>", dwm.grow },
+        { "<C-h>", dwm.shrink },
+        { "<C-n>", dwm.new },
+        { "<C-q>", dwm.rotateLeft },
+        { "<C-s>", dwm.rotate },
+        { "<C-c>", dwm.close },
+      },
+      cond = function()
+        -- HACK: Do not load when it is loading committia.vim
+        local file = vim.fs.basename(vim.api.nvim_buf_get_name(0))
+        return vim.iter({ "COMMIT_EDITMSG", "MERGE_MSG" }):all(function(name)
+          return file ~= name
+        end)
+      end,
+      init = function()
+        vim.api.nvim_create_autocmd("BufWinEnter", {
+          pattern = { "*.jax", "*.txt" },
+          callback = function()
+            if vim.bo.filetype == "help" then
+              dwm.rotateLeft()
+              dwm.rotate()
+            end
+          end,
+        })
+      end,
+      opts = {
+        key_maps = false,
+        master_pane_count = 1,
+        master_pane_width = "60%",
+      },
+    }
+  end)(),
 
   {
     "delphinus/emcl.nvim",
