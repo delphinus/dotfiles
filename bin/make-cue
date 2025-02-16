@@ -7,7 +7,7 @@
 =head1 SYNOPSIS
 
     make-cue [filename]
-    # file should be mp3/aac/mp4
+    # file should be mp3/aac/m4a
 
     make-cue -p [filename]
     # echo the generated cue sheet
@@ -30,6 +30,7 @@ use feature 'signatures';
 no warnings 'experimental::signatures';
 
 use Capture::Tiny qw(capture);
+use Encode qw(decode);
 use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
 use List::Util qw(reduce);
 use Pod::Usage qw(pod2usage);
@@ -51,6 +52,14 @@ GetOptions(
 $opt{help} and pod2usage(0);
 my $mp3 = do {
     my $filename = shift // die 'set source file';
+    if ($filename =~ /\.m4a$/) {
+        my $original = $filename;
+        $filename =~ s/\.m4a$/\.aac/;
+        if (! -f $filename) {
+            0 == system 'ffmpeg', '-i', $original, '-acodec', 'copy', $filename
+                or die 'canno convert from m4a to aac';
+        }
+    }
     path($filename);
 };
 my ($length) = do {
@@ -97,7 +106,7 @@ sub parse_input($input = '') {
             )?
             (?:
                 (?<artist> .*?)
-                \s+ [-\x{2013}\x{200e}] \s+
+                \s+ [-\x{2013}\x{200e}]+ \s+
             )?
             (?<title> .*?)
             (?:
@@ -150,7 +159,7 @@ if ($opt{clipboard}) {
     my ($input) = capture {
         0 == system 'pbpaste' or die 'cannot execute `pbpaste`';
     };
-    @tracks = parse_input($input);
+    @tracks = parse_input(decode utf8 => $input);
     say "parsed @{[scalar @tracks]} tracks";
 }
 
