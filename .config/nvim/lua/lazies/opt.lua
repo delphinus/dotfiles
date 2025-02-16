@@ -1312,14 +1312,17 @@ return {
           end,
         },
         gitbrowse = {
-          url_patterns = {
-            [vim.pesc(vim.env.GITHUB_ENTERPRISE_HOST)] = {
-              branch = "/tree/{branch}",
-              file = "/blob/{branch}/{file}#L{line_start}-L{line_end}",
-              permalink = "/blob/{commit}/{file}#L{line_start}-L{line_end}",
-              commit = "/commit/{commit}",
-            },
-          },
+          url_patterns = (function()
+            return vim.env.GITHUB_ENTERPRISE_HOST
+              and {
+                [vim.pesc(vim.env.GITHUB_ENTERPRISE_HOST)] = {
+                  branch = "/tree/{branch}",
+                  file = "/blob/{branch}/{file}#L{line_start}-L{line_end}",
+                  permalink = "/blob/{commit}/{file}#L{line_start}-L{line_end}",
+                  commit = "/commit/{commit}",
+                },
+              }
+          end)(),
         },
         styles = {
           zoom_indicator = {
