@@ -219,15 +219,17 @@ function fish_right_prompt
             if test -z "$NVIM"; or ! type -q nvr
                 return
             end
-            set -l pid (nvr --remote-expr \
-                'range(1, winnr("$"))->filter({_, v -> v->getwinvar("&buftype") == "terminal" && v->winbufnr() == bufnr()})->map({_, v -> jobpid(v->getwinvar("&channel"))})->get(0)'
-            )
-            if test %self -eq $pid
+            set -l pid (nvr --remote-expr 'luaeval("vim.F.npcall(vim.fn.jobpid, vim.bo.channel)")')
+            if test %self = $pid
                 return
             end
         end
         set -l duration (bc -S2 -e $CMD_DURATION/1000)
         set -l msg (echo (history | head -1) returned $status after $duration s)
-        osascript -e 'display notification "'$msg'" with title "command completed"'
+        if test -n "$NVIM"; and type -q nvr
+            nvr --remote-expr 'luaeval("vim.notify([['$msg']], vim.log.levels.DEBUG, { title = [[command completed]] })")'
+        else
+            osascript -e 'display notification "'$msg'" with title "command completed"'
+        end
     end
 end
