@@ -227,7 +227,7 @@ function fish_right_prompt
         set -l duration (bc -S2 -e $CMD_DURATION/1000)
         set -l msg (echo (history | head -1) returned $status after $duration s)
         if test -n "$NVIM"; and type -q nvr
-            nvr --remote-expr 'luaeval("vim.notify([['$msg']], vim.log.levels.DEBUG, { title = [[command completed]] })")'
+            nvr --remote-expr 'luaeval("vim.notify([['$msg']], vim.log.levels.WARN, { title = [[command completed]] })")' > /dev/null
         else
             osascript -e 'display notification "'$msg'" with title "command completed"'
         end
