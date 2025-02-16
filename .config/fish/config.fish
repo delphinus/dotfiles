@@ -220,7 +220,7 @@ function fish_right_prompt
                 return
             end
             set -l pid (nvr --remote-expr 'luaeval("vim.F.npcall(vim.fn.jobpid, vim.bo.channel)")')
-            if test %self = $pid
+            if test $fish_pid = $pid
                 return
             end
         end
