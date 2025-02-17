@@ -574,6 +574,7 @@ return {
         end
         return os.date "%Y%m%d-%H%M%S-" .. purified
       end,
+      ---@module 'obsidian'
       ---@param spec { id: string, dir: obsidian.Path, title: string|? }
       ---@return string|obsidian.Path The full path to the new note.
       note_path_func = function(spec)
