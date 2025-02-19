@@ -46,6 +46,7 @@ GetOptions(
     intro|i
     print|p
     overwrite|o
+    title_artist|t
     verbose|v
     help|h
 )) or pod2usage(1);
@@ -104,6 +105,12 @@ sub parse_input($input = '') {
                 (?<minute> \d?\d) : (?<second> \d\d)
                 \s+
             )?
+
+            (?:
+                \d+\.
+                \s+
+            )?+
+
             (?:
                 (?<artist> .*?)
                 \s+ [-\x{2013}\x{200e}]+ \s+
@@ -116,14 +123,19 @@ sub parse_input($input = '') {
                     https?://
                 ).*
             )?
+            \s*
             $
         }x;
-        if (defined $+{title}) {
+        my ($artist, $title) = ($+{artist}, $+{title});
+        if ($opt{title_artist}) {
+            ($title, $artist) = ($artist, $title);
+        }
+        if (defined $title) {
             push $a->@*, {
                 count => ++$count,
                 time => !defined $+{minute} ? undef : sprintf('%02d:%02d:00', ($+{hour} // 0) * 60 + $+{minute}, $+{second}),
-                artist => $+{artist},
-                title => $+{title},
+                artist => $artist,
+                title => $title,
             };
         } elsif ($opt{verbose}) {
             warn "cannot parse line: $line\n";
