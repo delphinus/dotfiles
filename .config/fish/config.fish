@@ -74,6 +74,7 @@ abbr gf 'git foresta | less'
 abbr gfa 'git foresta --all | less'
 abbr l. 'l -d .*'
 abbr ta 'tig --all'
+abbr nv 'nvr -cc split'
 
 type -q hub; and alias git hub
 if type -q gdircolors
