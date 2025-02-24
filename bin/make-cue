@@ -15,6 +15,9 @@
     make-cue -i [filename]
     # adds intro & outro tracks
 
+    make-cue -t [filename]
+    # exchange between artists and titles
+
     make-cue -e [filename]
     # no dry-run
 
@@ -99,10 +102,12 @@ sub parse_input($input = '') {
             )?
 
             (?:
+                \[?
                 (?:
                     (?<hour> \d+) :
                 )?
                 (?<minute> \d?\d) : (?<second> \d\d)
+                \]?
                 \s+
             )?
 
@@ -119,7 +124,7 @@ sub parse_input($input = '') {
             (?:
                 \s*
                 (?:
-                    [[/] |
+                    [[/(] |
                     https?://
                 ).*
             )?
