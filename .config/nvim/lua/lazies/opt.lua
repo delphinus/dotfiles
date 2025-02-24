@@ -2,6 +2,7 @@
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
 
+---@module 'lazy'
 ---@type LazySpec[]
 return {
   { "lifepillar/vim-solarized8" },
@@ -864,7 +865,8 @@ return {
       }
     end,
     config = function()
-      ---@type UserConfig
+      ---@module 'render-markdown'
+      ---@type render.md.component.Config
       require("render-markdown").setup {
         preset = "obsidian",
         anti_conceal = { enabled = false },
@@ -1295,9 +1297,103 @@ return {
       ---@module 'snacks'
       ---@type snacks.Config
       opts = {
-        notifier = { enabled = true },
+        notifier = {
+          icons = {
+            error = "",
+            warn = "",
+            info = "",
+            debug = "",
+            trace = "",
+          },
+        },
+        profiler = {
+          icons = {
+            time = "",
+            pct = "",
+            count = "",
+            require = "󰋺",
+            modname = "󰆼",
+            plugin = "",
+            autocmd = "⚡",
+            file = "",
+            fn = "󰊕",
+            status = "󰈸",
+          },
+        },
         input = { enabled = true },
-        picker = { enabled = true },
+        picker = {
+          icons = {
+            files = {
+              enabled = true, -- show file icons
+              keymaps = { nowait = "󰓅" },
+              tree = { vertical = "│", middle = "├╴", last = "└╴" },
+              undo = { saved = "" },
+              ui = {
+                live = "󰐰",
+                hidden = "h",
+                ignored = "i",
+                follow = "f",
+                selected = "●",
+                unselected = "○",
+                -- selected = "",
+              },
+              git = {
+                enabled = true, -- show git icons
+                commit = "󰜘", -- used by git log
+                staged = "●", -- staged changes. always overrides the type icons
+                added = "",
+                deleted = "",
+                ignored = "",
+                modified = "○",
+                renamed = "",
+                unmerged = "",
+                untracked = "?",
+              },
+              diagnostics = { Error = "", Warn = "", Hint = "", Info = "" },
+              lsp = { unavailable = "", enabled = "", disabled = "", attached = "󰖩" },
+              kinds = {
+                Array = "",
+                Boolean = "󰨙",
+                Class = "",
+                Color = "",
+                Control = "",
+                Collapsed = "",
+                Constant = "󰏿",
+                Constructor = "",
+                Copilot = "",
+                Enum = "",
+                EnumMember = "",
+                Event = "",
+                Field = "",
+                File = "",
+                Folder = "",
+                Function = "󰊕",
+                Interface = "",
+                Key = "",
+                Keyword = "",
+                Method = "󰊕",
+                Module = "",
+                Namespace = "󰦮",
+                Null = "",
+                Number = "󰎠",
+                Object = "",
+                Operator = "",
+                Package = "",
+                Property = "",
+                Reference = "",
+                Snippet = "󱄽",
+                String = "",
+                Struct = "󰆼",
+                Text = "",
+                TypeParameter = "",
+                Unit = "",
+                Unknown = "",
+                Value = "",
+                Variable = "󰀫",
+              },
+            },
+          },
+        },
         zen = {
           toggles = { diagnostics = false, inlay_hints = false },
           on_open = function()
