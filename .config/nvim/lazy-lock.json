@@ -69,6 +69,7 @@
   "highlight-undo.nvim": { "branch": "main", "commit": "a5e2e2d43f6d131bf526619baeeeec32397b0789" },
   "hlchunk.nvim": { "branch": "main", "commit": "5465dd33ade8676d63f6e8493252283060cd72ca" },
   "hoverhints.nvim": { "branch": "main", "commit": "4105db74a1a0809b968661ec8d8531724fc66241" },
+  "img-clip.nvim": { "branch": "main", "commit": "11f068e3deea5643330146bdda2e852779dcd19c" },
   "incline.nvim": { "branch": "main", "commit": "0eb5b7f6fc6636a4e7b2eb2800b7650fd6d164a2" },
   "inspect-extmarks.nvim": { "branch": "main", "commit": "2fc20a9e91932b8e4aba37c86313d034b25a04e8" },
   "inspecthi.vim": { "branch": "main", "commit": "b282d2529597250de0b1df67c49c214636bb38c1" },
