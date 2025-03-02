@@ -1471,6 +1471,7 @@ return {
   end)(),
 
   {
+    enabled = false,
     "HakonHarnes/img-clip.nvim",
     cmd = { "ImgClipDebug", "ImgClipConfig", "PasteImage" },
     init = function()
@@ -1497,6 +1498,19 @@ return {
     end,
     keys = {
       { "<Leader>p", "<Cmd>PasteImage<CR>", desc = "Paste image from system clipboard" },
+    },
+  },
+
+  {
+    "3rd/image.nvim",
+    ft = { "markdown" },
+    opts = {
+      integrations = {
+        markdown = {
+          clear_in_insert_mode = true,
+          only_render_image_at_cursor = true,
+        },
+      },
     },
   },
 }
