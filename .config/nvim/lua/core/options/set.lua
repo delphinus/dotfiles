@@ -250,4 +250,26 @@ vim.api.nvim_create_autocmd("BufRead", {
   end,
 })
 
+vim.ui.open = (function(original)
+  ---@param path string
+  ---@return string
+  local function make_absolute(path)
+    local p = path:gsub("^file://", "")
+    if p:match "^%w+://" or p:sub(1, 1) == "/" then
+      return p
+    end
+    local file = vim.api.nvim_buf_get_name(0)
+    if not vim.uv.fs_stat(file) then
+      return p
+    end
+    local joined = vim.fs.joinpath(vim.fs.dirname(file), p)
+    local abs, err = vim.uv.fs_realpath(joined)
+    assert(not err, err)
+    return assert(abs)
+  end
+  return function(path, opt)
+    return original(make_absolute(path), opt)
+  end
+end)(vim.ui.open)
+
 -- vim:se fdm=marker:
