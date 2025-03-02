@@ -1481,7 +1481,20 @@ return {
         vim.paste(...)
       end
     end,
-    opts = {},
+    config = function()
+      require("img-clip").setup {
+        filetypes = {
+          markdown = { copy_images = true },
+        },
+      }
+      -- HACK: deal with src filename including spaces
+      ---@diagnostic disable-next-line: duplicate-set-field
+      require("img-clip.fs").copy_file = function(src, dest)
+        local replaced = src:gsub([[\ ]], " ")
+        local job = vim.system({ "cp", replaced, dest }, { text = true }):wait()
+        return job.stdout, job.code
+      end
+    end,
     keys = {
       { "<Leader>p", "<Cmd>PasteImage<CR>", desc = "Paste image from system clipboard" },
     },
