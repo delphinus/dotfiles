@@ -1476,11 +1476,19 @@ return {
     cmd = { "ImgClipDebug", "ImgClipConfig", "PasteImage" },
     init = function()
       ---@diagnostic disable-next-line: duplicate-set-field
-      vim.paste = function(...)
-        -- HACK: load img-clip.nvim to overwrite this func.
-        require "img-clip"
-        vim.paste(...)
-      end
+      vim.paste = (function(original)
+        local loaded
+        return function(...)
+          -- HACK: load img-clip.nvim to overwrite this func.
+          if loaded then
+            original(...)
+          else
+            require "img-clip"
+            loaded = true
+            vim.paste(...)
+          end
+        end
+      end)(vim.paste)
     end,
     config = function()
       require("img-clip").setup {
