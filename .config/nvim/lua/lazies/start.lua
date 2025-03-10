@@ -38,12 +38,14 @@ return {
   non_lazy {
     "delphinus/rtr.nvim",
     version = "*",
+    ---@module 'rtr'
+    ---@type rtr.Opts
     opts = {
-      root_names = function(name, dir)
+      root_names = function(name, path)
         return name == ".git"
-          or dir == vim.env.VIMRUNTIME
-          or dir == vim.env.HOME .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes"
-          or dir == vim.env.HOME .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents"
+          or path == vim.env.VIMRUNTIME
+          or path == vim.env.HOME .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes"
+          or path == vim.env.HOME .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents"
       end,
       log_level = vim.log.levels.DEBUG,
     },
