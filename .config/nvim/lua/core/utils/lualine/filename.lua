@@ -54,7 +54,7 @@ function M:prettier(dir)
     :gsub(self.nvim_re, " ")
     :gsub(self.obsidian_re, " ")
   if self.ghe_re then
-    dir = dir:gsub(self.ghe_re, "󰦑 ")
+    replaced = replaced:gsub(self.ghe_re, "󰦑 ")
   end
   return vim.iter(self.stdpaths):fold(replaced, function(a, b)
     return (a:gsub(b.re, b.name))
