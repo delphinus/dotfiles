@@ -80,6 +80,8 @@
 	tab-size = 4
 	line-graphics = utf-8
 	main-view = line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
+	main-view-date = custom
+	main-view-date-format = %F
 	diff-highlight = true
 	mouse = true
 [tig "bind"]
