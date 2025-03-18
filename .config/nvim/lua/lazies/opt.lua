@@ -869,7 +869,7 @@ return {
       ---@type render.md.component.Config
       require("render-markdown").setup {
         preset = "obsidian",
-        anti_conceal = { enabled = false },
+        anti_conceal = { above = 1, below = 1 },
         heading = {
           -- icons = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
           icons = { "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳" },
