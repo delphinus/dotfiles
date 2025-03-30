@@ -56,9 +56,9 @@ GetOptions(
 $opt{help} and pod2usage(0);
 my $mp3 = do {
     my $filename = shift // die 'set source file';
-    if ($filename =~ /\.m4a$/) {
+    if ($filename =~ /\.(?:m4a|mp4)$/) {
         my $original = $filename;
-        $filename =~ s/\.m4a$/\.aac/;
+        $filename =~ s/\.(?:m4a|mp4)$/\.aac/;
         if (! -f $filename) {
             0 == system 'ffmpeg', '-i', $original, '-acodec', 'copy', $filename
                 or die 'canno convert from m4a to aac';
@@ -97,7 +97,7 @@ sub parse_input($input = '') {
         (my $line = $b) =~ m{
             ^
             (?:
-                \d+\.
+                \d+\.?
                 \s+
             )?
 
