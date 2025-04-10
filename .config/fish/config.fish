@@ -2,8 +2,11 @@ not status is-interactive; and exit 0
 
 set -l homebrew_path
 if test -d /opt/homebrew
-    # avoid the homebrew bin path to set above all of paths
-    /opt/homebrew/bin/brew shellenv | grep -v 'set PATH' | source
+    set -l tmp (echo $PATH | grep /opt/homebrew)
+    if test -z $tmp
+        # avoid the homebrew bin path to set above all of paths
+        /opt/homebrew/bin/brew shellenv | grep -v fish_add_path | source
+    end
     set homebrew_path /opt/homebrew
 else
     set -x HOMEBREW_PREFIX /usr/local
@@ -11,6 +14,8 @@ else
 end
 
 set -l paths \
+    ~/.asdf/shims \
+    $homebrew_path/opt/asdf/libexec/bin \
     ~/bin \
     ~/.luarocks/bin \
     ~/.cargo/bin \
