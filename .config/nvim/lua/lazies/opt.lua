@@ -1408,6 +1408,7 @@ return {
           end,
         },
         gitbrowse = {
+          what = "permalink",
           url_patterns = (function()
             return vim.env.GITHUB_ENTERPRISE_HOST
               and {
