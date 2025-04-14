@@ -311,7 +311,7 @@ return {
           "eslint-lsp",
           "gofumpt",
           "goimports",
-          "golangci-lint-langserver",
+          "golangci-lint",
           "golines",
           "gopls",
           "intelephense",
