@@ -344,7 +344,9 @@ return {
       end
 
       local configs = require "lspconfig.configs"
-      if not configs.ideals then
+      -- HACK: disable ideals temporarily
+      -- if not configs.ideals then
+      if false then
         configs.ideals = {
           default_config = {
             cmd = {
