@@ -107,22 +107,6 @@ return {
   },
 
   {
-    "rhysd/ghpr-blame.vim",
-    cmd = { "GHPRBlame" },
-    init = function()
-      vim.g.ghpr_github_auth_token = {
-        ["github.com"] = vim.env.HOMEBREW_GITHUB_API_TOKEN,
-      }
-      if vim.env.GITHUB_ENTERPRISE_HOST then
-        vim.g.ghpr_github_auth_token[vim.env.GITHUB_ENTERPRISE_HOST] = vim.env.GITHUB_ENTERPRISE_API_TOKEN_GHPRBLAME
-        vim.g.ghpr_github_api_url = {
-          [vim.env.GITHUB_ENTERPRISE_HOST] = vim.env.GITHUB_ENTERPRISE_API_PATH,
-        }
-      end
-    end,
-  },
-
-  {
     "rhysd/git-messenger.vim",
     cmd = { "GitMessenger" },
     keys = { { "<A-b>", [[<Cmd>GitMessenger<CR>]] } },
@@ -1521,5 +1505,13 @@ return {
         },
       },
     },
+  },
+
+  {
+    -- "h3pei/trace-pr.nvim",
+    "delphinus/trace-pr.nvim",
+    branch = "feat/use-with-other-than-github-com",
+    cmd = { "TracePR" },
+    opts = {},
   },
 }
