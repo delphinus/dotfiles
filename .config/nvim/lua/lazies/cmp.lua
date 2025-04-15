@@ -188,7 +188,8 @@ return {
   i {
     "petertriho/cmp-git",
     opts = function()
-      return { github = { hosts = { vim.env.GITHUB_ENTERPRISE_HOST } } }
+      return vim.env.GITHUB_ENTERPRISE_HOST and { github = { hosts = vim.split(vim.env.GITHUB_ENTERPRISE_HOST, ",") } }
+        or {}
     end,
   },
   i { "ray-x/cmp-treesitter" },

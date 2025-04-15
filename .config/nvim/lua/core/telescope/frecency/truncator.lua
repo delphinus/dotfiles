@@ -13,20 +13,17 @@ local async = require "plenary.async"
 
 ---@class core.telescope.frecency.truncator.Opts
 ---@field cwd string
----@field gh_e_host string
 ---@field prefix integer
 
 ---@class core.telescope.frecency.truncator.Re
 ---@field vimruntime string
 ---@field home string
 ---@field gh_dir string
----@field gh_e_dir string
 ---@field ghq_dir string
 ---@field packer_dir string
 
 ---@class core.telescope.frecency.truncator.Truncator
 ---@field cwd string
----@field gh_e_host string
 ---@field width integer
 ---@field re core.telescope.frecency.truncator.Re
 local Truncator = {}
@@ -52,7 +49,6 @@ Truncator.new = function(opts)
       vimruntime = re(vim.env.VIMRUNTIME),
       home = re(home),
       gh_dir = re(home .. "/git/github.com"),
-      gh_e_dir = re(home .. "/git/" .. opts.gh_e_host),
       ghq_dir = re(home .. "/git"),
       packer_dir = re(home .. "/.local/share/nvim/site/pack/packer"),
     },

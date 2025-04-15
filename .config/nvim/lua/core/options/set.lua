@@ -124,8 +124,10 @@ local my_tabline_path = require "f_meta" {
     if package_root_re then
       filename = filename:gsub(package_root_re, "", 1)
     end
-    if vim.g.gh_e_host then
-      filename = filename:gsub("^" .. home_re .. "/git/" .. vim.g.gh_e_host .. "/", "", 1)
+    if vim.env.GITHUB_ENTERPRISE_HOST then
+      filename = vim.iter(vim.split(vim.env.GITHUB_ENTERPRISE_HOST, ",")):fold(filename, function(a, b)
+        return a:gsub("^" .. home_re .. "/git/" .. vim.pesc(b) .. "/", "", 1)
+      end)
     end
     local result =
       filename:gsub("^" .. home_re .. "/git/github%.com/", "", 1):gsub("^" .. home_re, "~", 1):gsub("/[^/]+$", "", 1)

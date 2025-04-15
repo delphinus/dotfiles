@@ -11,7 +11,13 @@ function M:init(options)
     basename = self:create_hl({ fg = colors.yellow, gui = "bold" }, "dir"),
   }
   self.home_re = "^" .. assert(vim.uv.os_homedir()) .. "/"
-  self.ghe_re = vim.env.GITHUB_ENTERPRISE_HOST and "^~/git/" .. vim.pesc(vim.env.GITHUB_ENTERPRISE_HOST) .. "/" or nil
+  self.ghe_res = vim.env.GITHUB_ENTERPRISE_HOST
+    and vim
+      .iter(vim.split(vim.env.GITHUB_ENTERPRISE_HOST, ","))
+      :map(function(v)
+        return "^~/git/" .. vim.pesc(v) .. "/"
+      end)
+      :totable()
   self.nvim_re = "^" .. vim.pesc(vim.env.VIMRUNTIME) .. "/"
   self.obsidian_re = vim.pesc "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/"
   self.stdpaths = vim
@@ -53,8 +59,10 @@ function M:prettier(dir)
     :gsub("^~/git/github%.com/", " ")
     :gsub(self.nvim_re, " ")
     :gsub(self.obsidian_re, " ")
-  if self.ghe_re then
-    replaced = replaced:gsub(self.ghe_re, "󰦑 ")
+  if self.ghe_res then
+    replaced = vim.iter(self.ghe_res):fold(replaced, function(a, b)
+      return a:gsub(b, "󰦑 ")
+    end)
   end
   return vim.iter(self.stdpaths):fold(replaced, function(a, b)
     return (a:gsub(b.re, b.name))

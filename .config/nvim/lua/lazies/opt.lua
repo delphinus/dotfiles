@@ -1395,14 +1395,15 @@ return {
           what = "permalink",
           url_patterns = (function()
             return vim.env.GITHUB_ENTERPRISE_HOST
-              and {
-                [vim.pesc(vim.env.GITHUB_ENTERPRISE_HOST)] = {
+              and vim.iter(vim.split(vim.env.GITHUB_ENTERPRISE_HOST, ",")):fold({}, function(a, b)
+                a[vim.pesc(b)] = {
                   branch = "/tree/{branch}",
                   file = "/blob/{branch}/{file}#L{line_start}-L{line_end}",
                   permalink = "/blob/{commit}/{file}#L{line_start}-L{line_end}",
                   commit = "/commit/{commit}",
-                },
-              }
+                }
+                return a
+              end)
           end)(),
         },
         styles = {

@@ -8,9 +8,9 @@
   tasks:
     - include_tasks: tasks/dotfiles.yml
     - include_tasks: tasks/aquaskk.yml
-      when: ansible_system == 'Darwin'
+      when: ansible_facts['os_family'] == 'Darwin'
     - include_tasks: tasks/secrets.yml
     - include_tasks: tasks/secrets_office.yml
-      when: ansible_hostname in secret_office.hostnames
+      when: ansible_facts['hostname'] in secret_office.hostnames
 
 # vim:se ft=yaml.ansible:
