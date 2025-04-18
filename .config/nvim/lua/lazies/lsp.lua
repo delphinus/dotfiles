@@ -301,7 +301,6 @@ return {
           "vint",
         } or {
           "ansible-language-server",
-          "bash-language-server",
           "clangd",
           "cmake-language-server",
           "css-lsp",
@@ -368,7 +367,7 @@ return {
     branch = "fix/consider-original-sign-config",
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
     config = function()
-      vim.g.ale_linters_ignore = { "cspell", "shellcheck", "javac" }
+      vim.g.ale_linters_ignore = { "cspell", "javac" }
       vim.g.ale_fix_on_save = 1
       vim.g.ale_fixers = { lua = { "stylua" } }
       vim.g.ale_echo_cursor = 0
@@ -379,7 +378,6 @@ return {
   { "davidmh/cspell.nvim" },
   {
     "nvimtools/none-ls.nvim",
-    dependencies = { "gbprod/none-ls-shellcheck.nvim" },
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
 
     config = function()
@@ -402,13 +400,10 @@ return {
           end)
         end,
       }
-      local shellcheck = require "none-ls-shellcheck"
       local sources = {
         nls.builtins.code_actions.gitsigns,
         cspell.code_actions.with { filetypes = { "markdown", "help" }, config = cspell_config },
         cspell.diagnostics.with { filetypes = { "markdown", "help" }, config = cspell_config },
-        shellcheck.code_actions,
-        shellcheck.diagnostic,
       }
       nls.setup {
         diagnostics_format = "[none-ls] #{m}",
