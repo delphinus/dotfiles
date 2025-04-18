@@ -357,7 +357,7 @@ return {
           },
         }
       end
-      lsp.ideals.setup {}
+      -- lsp.ideals.setup {}
     end,
   }, -- }}}
 
