@@ -1509,9 +1509,7 @@ return {
   },
 
   {
-    -- "h3pei/trace-pr.nvim",
-    "delphinus/trace-pr.nvim",
-    branch = "feat/use-with-other-than-github-com",
+    "h3pei/trace-pr.nvim",
     cmd = { "TracePR" },
     opts = {},
   },
