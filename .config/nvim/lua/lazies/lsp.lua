@@ -268,17 +268,11 @@ return {
       }
 
       require("mason-lspconfig").setup()
-      require("mason-lspconfig").setup_handlers {
-        function(name)
-          local config = server_configs[name] or {}
-          local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-          if ok then
-            local orig = vim.lsp.protocol.make_client_capabilities()
-            config.capabilities = cmp_nvim_lsp.default_capabilities(orig)
-          end
-          lsp[name].setup(config)
-        end,
-      }
+
+      vim.iter(server_configs):each(function(name, config)
+        vim.lsp.config(name, config)
+      end)
+      vim.lsp.enable(vim.tbl_keys(server_configs))
 
       local Interval = require "core.utils.interval"
       local itvl = Interval.new("mason_tool_installer", 24 * 7 * 3600)
