@@ -16,6 +16,7 @@ return {
     "folke/lazydev.nvim",
     ft = "lua",
     dependencies = { "justinsgithub/wezterm-types" },
+    ---@module 'lazydev'
     ---@type lazydev.Config
     opts = {
       library = {

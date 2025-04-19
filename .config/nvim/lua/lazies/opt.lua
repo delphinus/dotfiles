@@ -850,7 +850,7 @@ return {
     end,
     config = function()
       ---@module 'render-markdown'
-      ---@type render.md.component.Config
+      ---@type render.md.UserConfig
       require("render-markdown").setup {
         preset = "obsidian",
         anti_conceal = { above = 1, below = 1 },

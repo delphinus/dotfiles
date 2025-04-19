@@ -242,6 +242,7 @@ return {
     init = function()
       vim.opt.wrap = false -- Recommended
       vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
+      ---@module 'neominimap'
       ---@type Neominimap.UserConfig
       vim.g.neominimap = {
         auto_enable = true,
