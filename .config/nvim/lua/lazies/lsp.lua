@@ -357,12 +357,10 @@ return {
   }, -- }}}
 
   {
-    -- "dense-analysis/ale",
-    "delphinus/ale",
-    branch = "fix/consider-original-sign-config",
+    "dense-analysis/ale",
     event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
     config = function()
-      vim.g.ale_linters_ignore = { "cspell", "javac" }
+      vim.g.ale_linters_ignore = { "cspell", "javac", "lua_language_server" }
       vim.g.ale_fix_on_save = 1
       vim.g.ale_fixers = { lua = { "stylua" } }
       vim.g.ale_echo_cursor = 0
