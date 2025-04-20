@@ -109,171 +109,20 @@ return {
         vim.cmd.edit()
       end, { desc = "Reload LSP settings" })
 
-      local lsp = require "lspconfig"
-      local home_dir = function(p)
-        return uv.os_homedir() .. (p or "")
-      end
-      local iterm2_dir = function(p)
-        return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
-      end
-
-      local perl_env = (function()
-        local filename = vim.uv.os_homedir() .. "/.1password-perl-env"
-        local st, err = vim.uv.fs_stat(filename)
-        if not st or err then
-          vim.notify(filename .. " not found", vim.log.levels.WARN)
-          return {}
-        end
-        local fd
-        fd, err = vim.uv.fs_open(filename, "r", tonumber("644", 8))
-        assert(not err, err)
-        assert(fd, fd)
-        local content
-        content, err = vim.uv.fs_read(fd, st.size)
-        assert(not err, err)
-        assert(content, "content exists")
-        return vim.iter(vim.gsplit(content, "\n")):fold({}, function(a, b)
-          local key, value = b:match "^([^=]+)=(.*)$"
-          if key and value then
-            a[key] = value
-          end
-          return a
-        end)
-      end)()
-
-      local server_configs = {
-        perlnavigator = {
-          settings = {
-            perlnavigator = {
-              perlEnv = perl_env,
-              perlPath = "carmel",
-              perlParams = { "exec", "perl" },
-              includePaths = { "./lib", "./local/lib/perl5", "./t/lib" },
-            },
-          },
-        },
-        pyright = {
-          settings = {
-            python = {
-              analysis = {
-                extraPaths = {
-                  home_dir(),
-                  iterm2_dir "python38.zip",
-                  iterm2_dir "python3.8",
-                  iterm2_dir "python3.8/lib-dynload",
-                  iterm2_dir "python3.8/site-packages",
-                },
-              },
-            },
-          },
-        },
-        denols = {
-          init_options = {
-            lint = true,
-            unstable = true,
-          },
-          deno = {
-            inlayHints = {
-              parameterNames = { enabled = "all" },
-              parameterTypes = { enabled = true },
-              variableTypes = { enabled = true },
-              propertyDeclarationTypes = { enabled = true },
-              functionLikeReturnTypes = { enabled = true },
-              enumMemberValues = { enabled = true },
-            },
-          },
-        },
-        bashls = {
-          filetypes = { "sh", "bash", "zsh" },
-        },
-        gopls = {
-          settings = {
-            hoverKind = "NoDocumentation",
-            deepCompletion = true,
-            fuzzyMatching = true,
-            completeUnimported = true,
-            usePlaceholders = true,
-            gopls = {
-              semanticTokens = true,
-              analyses = { unusedparams = true },
-              hints = {
-                assignVariableTypes = true,
-                compositeLiteralFields = true,
-                compositeLiteralTypes = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
-              },
-            },
-          },
-        },
-        lua_ls = {
-          settings = {
-            Lua = {
-              completion = { callSnippet = "Replace" },
-              diagnostics = { globals = require("core.utils.lsp").lua_globals },
-              format = { enable = false },
-              hint = { enable = true, setType = true },
-              codeLens = { enable = true },
-              runtime = { version = "LuaJIT" },
-              telemetry = { enable = false },
-            },
-          },
-        },
-
-        ts_ls = (function()
-          local mason_registry = require "mason-registry"
-          local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
-            .. "/node_modules/@vue/language-server"
-          return {
-            init_options = {
-              plugins = {
-                {
-                  name = "@vue/typescript-plugin",
-                  location = vue_language_server_path,
-                  languages = { "vue" },
-                },
-              },
-            },
-            filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-            javascript = {
-              inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true,
-              },
-            },
-            typescript = {
-              inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = true,
-              },
-            },
-          }
-        end)(),
-
-        volar = {},
-        rust_analyzer = {},
-        vls = {},
-        buf_ls = {},
-      }
-
       require("mason-lspconfig").setup()
 
-      vim.iter(server_configs):each(function(name, config)
-        vim.lsp.config(name, config)
-      end)
-      vim.lsp.enable(vim.tbl_keys(server_configs))
+      vim.lsp.enable {
+        "pyright",
+        "denols",
+        "bashls",
+        "gopls",
+        "lua_ls",
+        "volar",
+        "rust_analyzer",
+        "buf_ls",
+        "perlnavigator",
+        "ts_ls",
+      }
 
       local Interval = require "core.utils.interval"
       local itvl = Interval.new("mason_tool_installer", 24 * 7 * 3600)
@@ -337,10 +186,12 @@ return {
         itvl:update()
       end
 
-      local configs = require "lspconfig.configs"
       -- HACK: disable ideals temporarily
       -- if not configs.ideals then
       if false then
+        local configs = require "lspconfig.configs"
+        local lsp = require "lspconfig"
+
         configs.ideals = {
           default_config = {
             cmd = {
