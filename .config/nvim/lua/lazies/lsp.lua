@@ -263,9 +263,9 @@ return {
         end)(),
 
         volar = {},
-
         rust_analyzer = {},
         vls = {},
+        buf_ls = {},
       }
 
       require("mason-lspconfig").setup()
