@@ -114,7 +114,6 @@ return {
       vim.lsp.enable {
         "pyright",
         "denols",
-        "bashls",
         "gopls",
         "lua_ls",
         "volar",
