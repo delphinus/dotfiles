@@ -11,38 +11,6 @@ local border = {
   { "⡇", "LspBorderLeft" },
 }
 
-local lua_globals = {
-  "vim",
-  "packer_plugins",
-  "api",
-  "fn",
-  "loop",
-
-  -- for testing
-  "after_each",
-  "before_each",
-  "describe",
-  "it",
-
-  -- hammerspoon
-  "hs",
-
-  -- wrk
-  "wrk",
-  "setup",
-  "id",
-  "init",
-  "request",
-  "response",
-  "done",
-
-  -- vusted
-  "after_each",
-  "before_each",
-  "describe",
-  "it",
-}
-
 local function is_deno_dir(name)
   return vim
     .iter({
@@ -89,8 +57,6 @@ end
 
 return {
   border = border,
-
-  lua_globals = lua_globals,
 
   on_attach = function(client, bufnr)
     if not need_me(client, bufnr) then
