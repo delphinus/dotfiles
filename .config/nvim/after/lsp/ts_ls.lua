@@ -35,4 +35,17 @@ return {
       includeInlayVariableTypeHints = true,
     },
   },
+  root_dir = function(bufnr, cb)
+    local bufname = vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr))
+    local found = vim.fs.find(
+      { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+      { upward = true, path = vim.fs.dirname(bufname) }
+    )
+    if #found > 0 then
+      local dir = vim.fs.dirname(found[1])
+      if not require("core.utils.lsp").is_deno_project(dir) then
+        return cb(dir)
+      end
+    end
+  end,
 }

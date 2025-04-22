@@ -11,33 +11,8 @@ local border = {
   { "⡇", "LspBorderLeft" },
 }
 
-local function is_deno_dir(name)
-  return vim
-    .iter({
-      [[^deno]],
-      [[^ddc]],
-      [[^cmp%-look$]],
-      [[^neco%-vim$]],
-      [[^git%-vines$]],
-      [[^murus$]],
-      [[^skkeleton$]],
-    })
-    :any(function(v)
-      return not not name:match(v)
-    end)
-end
-
 local function need_me(client, bufnr)
-  local Path = require "plenary.path"
-  local name = client.name
-  if name == "ts_ls" or name == "denols" then
-    local parent_dir = assert(vim.fs.dirname(api.buf_get_name(bufnr)))
-    local deno_found = vim.iter(vim.split(parent_dir, Path.path.sep)):any(is_deno_dir)
-    if name == "ts_ls" then
-      return not deno_found
-    end
-    return deno_found
-  elseif name == "null-ls" then
+  if client.name == "null-ls" then
     return vim.bo[bufnr].filetype ~= "octo"
   end
   return true
@@ -57,6 +32,24 @@ end
 
 return {
   border = border,
+
+  ---@param dir string
+  ---@return boolean
+  is_deno_project = function(dir)
+    return vim
+      .iter({
+        [[/deno]],
+        [[/ddc]],
+        [[/cmp%-look/]],
+        [[/neco%-vim/]],
+        [[/git%-vines/]],
+        [[/murus/]],
+        [[/skkeleton/]],
+      })
+      :any(function(v)
+        return not not dir:match(v)
+      end)
+  end,
 
   on_attach = function(client, bufnr)
     if not need_me(client, bufnr) then
