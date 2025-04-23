@@ -48,7 +48,7 @@ end
 function Interval:update()
   local fd = uv.fs_open(self:filename(), "w", 438)
   if fd then
-    uv.fs_write(fd, os.time(), -1)
+    uv.fs_write(fd, tostring(os.time()), -1)
     assert(uv.fs_close(fd))
   else
     vim.notify("cannot open the file to write: " .. self:filename(), vim.log.levels.ERROR)

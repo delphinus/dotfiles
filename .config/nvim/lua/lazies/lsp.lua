@@ -12,7 +12,7 @@ return {
     ft = "lua",
     dependencies = {
       { "Bilal2453/luvit-meta" },
-      "justinsgithub/wezterm-types",
+      { "justinsgithub/wezterm-types" },
     },
     ---@module 'lazydev'
     ---@type lazydev.Config
@@ -30,9 +30,81 @@ return {
     event = { "BufReadPost" },
 
     dependencies = {
-      { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-      { "williamboman/mason-lspconfig.nvim" },
-      { "williamboman/mason.nvim" },
+      {
+        "williamboman/mason.nvim",
+        opts = {
+          ui = { height = 0.8, border = "rounded" },
+          max_concurrent_installers = 12,
+          registries = {
+            "file:~/.config/nvim/mason",
+            "github:mason-org/mason-registry",
+          },
+        },
+      },
+
+      { "williamboman/mason-lspconfig.nvim", opts = {} },
+
+      {
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+        config = function()
+          local Interval = require "core.utils.interval"
+          local itvl = Interval.new("mason_tool_installer", 24 * 7 * 3600)
+          local is_over = itvl:is_over()
+
+          if is_over then
+            vim.notify("Tools are old. Updating……", vim.log.levels.WARN)
+            vim.api.nvim_create_autocmd("User", {
+              pattern = "MasonToolsUpdateCompleted",
+              group = vim.api.nvim_create_augroup("mason-tool-installer", {}),
+              callback = function()
+                vim.notify("Tools are updated.", vim.log.levels.INFO)
+                itvl:update()
+              end,
+            })
+          end
+
+          local mason_tool_installer = require "mason-tool-installer"
+          mason_tool_installer.setup {
+            auto_update = is_over,
+            ensure_installed = {
+              "ansible-language-server",
+              "clangd",
+              "cmake-language-server",
+              "css-lsp",
+              "deno",
+              "dockerfile-language-server",
+              "dot-language-server",
+              "gofumpt",
+              "goimports",
+              "golangci-lint",
+              "golines",
+              "gopls",
+              "intelephense",
+              "jq",
+              "json-lsp",
+              "jsonnet-language-server",
+              "lua-language-server",
+              "luacheck",
+              "marksman",
+              "perlnavigator",
+              "prettierd",
+              "pyright",
+              "rubocop",
+              "shellcheck",
+              "shfmt",
+              "solargraph",
+              "stylua",
+              "terraform-ls",
+              "typescript-language-server",
+              "vim-language-server",
+              "vint",
+              "vue-language-server",
+              "yaml-language-server",
+            },
+          }
+          mason_tool_installer.check_install()
+        end,
+      },
     },
 
     init = function()
@@ -96,19 +168,7 @@ return {
         },
       }
 
-      require("mason").setup {
-        ui = { height = 0.8, border = "rounded" },
-        max_concurrent_installers = 12,
-        registries = {
-          "file:~/.config/nvim/mason",
-          "github:mason-org/mason-registry",
-        },
-      }
-
-      local mason_lspconfig = require "mason-lspconfig"
-      mason_lspconfig.setup()
-
-      vim.lsp.enable(mason_lspconfig.get_installed_servers())
+      vim.lsp.enable(require("mason-lspconfig").get_installed_servers())
 
       -- HACK: disable ideals temporarily
       -- if not configs.ideals then
@@ -124,59 +184,6 @@ return {
           },
         })
         vim.lsp.enable "ideals"
-      end
-
-      local Interval = require "core.utils.interval"
-      local itvl = Interval.new("mason_tool_installer", 24 * 7 * 3600)
-      local is_over = itvl:is_over()
-
-      if is_over then
-        vim.notify("Tools are old. Updating……", vim.log.levels.WARN)
-      end
-
-      local mason_tool_installer = require "mason-tool-installer"
-      mason_tool_installer.setup {
-        auto_update = is_over,
-        ensure_installed = {
-          "ansible-language-server",
-          "clangd",
-          "cmake-language-server",
-          "css-lsp",
-          "deno",
-          "dockerfile-language-server",
-          "dot-language-server",
-          "gofumpt",
-          "goimports",
-          "golangci-lint",
-          "golines",
-          "gopls",
-          "intelephense",
-          "jq",
-          "json-lsp",
-          "jsonnet-language-server",
-          "lua-language-server",
-          "luacheck",
-          "marksman",
-          "perlnavigator",
-          "prettierd",
-          "pyright",
-          "rubocop",
-          "shellcheck",
-          "shfmt",
-          "solargraph",
-          "stylua",
-          "terraform-ls",
-          "typescript-language-server",
-          "vim-language-server",
-          "vint",
-          "vue-language-server",
-          "yaml-language-server",
-        },
-      }
-      mason_tool_installer.check_install()
-
-      if is_over then
-        itvl:update()
       end
     end,
   }, -- }}}
