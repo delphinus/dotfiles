@@ -68,6 +68,7 @@ return {
             auto_update = is_over,
             ensure_installed = {
               "ansible-language-server",
+              "buf",
               "clangd",
               "cmake-language-server",
               "css-lsp",
