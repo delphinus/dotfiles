@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Capture::Tiny qw(capture);
+use File::Basename qw(basename);
+
+my $ppid = shift // die 'ERR: supply pid to show';
+my ($tree) = capture { system 'pstree', '-wg', '3', '-p', $ppid };
+for (split /\n/, $tree) {
+    my ($space, $branch, $pid, $all_args) = /
+        (\s*)                   # space
+        ([└├─][ │└├─┬=]+)\s     # branch
+        (\d+)\s                 # pid
+        \S+\s                   # username
+        (.*)                    # args
+    /x;
+    $pid += 0;
+    my @args = split / /, $all_args;
+    my $cmd = basename $args[0];
+    if ($cmd eq 'node') {
+        $cmd = basename $args[1]
+    }
+    my ($rss) = capture { system 'ps', '-o', 'rss', '-p', $pid };
+    $rss =~ s/\D//g;
+    if ($rss eq '') {
+        $rss = 0;
+    } else {
+        $rss += 0;
+    }
+    my $mem = sprintf '%dKB', $rss;
+    if ($rss > 1024 * 1024) {
+        $mem = sprintf '%.1fGB', $rss / 1024 / 1024;
+    } elsif ($rss > 1024) {
+        $mem = sprintf '%.1fMB', $rss / 1024;
+    }
+    printf '%s%s %d %s %s%s', $space, $branch, $pid, $cmd, $mem, "\n";
+}
