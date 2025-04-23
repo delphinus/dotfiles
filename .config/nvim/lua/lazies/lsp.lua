@@ -154,7 +154,7 @@ return {
               "lsp-server",
             },
             filetypes = { "java", "jproperties", "xml" },
-            root_pattern = { ".git", ".git/", "package.json" },
+            root_markers = { ".git", ".git/", "package.json" },
           },
         })
         vim.lsp.enable "ideals"
@@ -165,14 +165,14 @@ return {
   {
     "dense-analysis/ale",
     event = { "BufReadPost" },
-    config = function()
-      vim.g.ale_disable_lsp = 1
-      vim.g.ale_echo_cursor = 0
-      vim.g.ale_fix_on_save = 1
-      vim.g.ale_fixers = { lua = { "stylua" } }
-      vim.g.ale_linters_ignore = { "cspell", "protoc", "protoc-gen-lint", "javac" }
-      vim.g.ale_virtualtext_cursor = 0
-    end,
+    opts = {
+      disable_lsp = 1,
+      echo_cursor = 0,
+      fix_on_save = 1,
+      fixers = { lua = { "stylua" } },
+      linters_ignore = { "cspell", "protoc", "protoc-gen-lint", "javac" },
+      virtualtext_cursor = 0,
+    },
   },
 
   {
