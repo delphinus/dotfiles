@@ -102,6 +102,8 @@ return {
           mason_tool_installer.check_install()
         end,
       },
+
+      { "hrsh7th/cmp-nvim-lsp", opts = {} },
     },
 
     init = function()
@@ -142,6 +144,7 @@ return {
         end,
       })
 
+      vim.lsp.config("*", { capabilities = require("cmp_nvim_lsp").default_capabilities() })
       vim.lsp.enable(require("mason-lspconfig").get_installed_servers())
 
       -- HACK: disable ideals temporarily

@@ -181,7 +181,6 @@ return {
   i { "dmitmel/cmp-digraphs" },
   i { "hrsh7th/cmp-buffer" },
   i { "hrsh7th/cmp-emoji" },
-  i { "hrsh7th/cmp-nvim-lsp" },
   i { "lukas-reineke/cmp-rg" },
   -- i { "delphinus/cmp-rg", branch = "feat/uv" },
   i { "octaltree/cmp-look" },
