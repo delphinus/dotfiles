@@ -7,15 +7,13 @@ local function ts(plugin)
 end
 
 return {
-  { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-  { "williamboman/mason-lspconfig.nvim" },
-  { "williamboman/mason.nvim" },
-
-  { "Bilal2453/luvit-meta" },
   {
     "folke/lazydev.nvim",
     ft = "lua",
-    dependencies = { "justinsgithub/wezterm-types" },
+    dependencies = {
+      { "Bilal2453/luvit-meta" },
+      "justinsgithub/wezterm-types",
+    },
     ---@module 'lazydev'
     ---@type lazydev.Config
     opts = {
@@ -26,9 +24,16 @@ return {
       },
     },
   },
+
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre" },
+    event = { "BufReadPost" },
+
+    dependencies = {
+      { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+      { "williamboman/mason-lspconfig.nvim" },
+      { "williamboman/mason.nvim" },
+    },
 
     init = function()
       palette "lspconfig" {
@@ -50,33 +55,24 @@ return {
     end,
 
     config = function()
-      api.create_autocmd("LspAttach", {
+      vim.api.nvim_create_autocmd("LspAttach", {
         desc = "Enable LSP feature in my lualine",
-        group = api.create_augroup("enable-lualine-lsp", {}),
+        group = vim.api.nvim_create_augroup("enable-lualine-lsp", {}),
         once = true,
         callback = function()
           require("core.utils.lualine").is_lsp_available = true
         end,
       })
 
-      api.create_autocmd("LspAttach", {
+      vim.api.nvim_create_autocmd("LspAttach", {
         desc = "Call the default onAttach func",
-        group = api.create_augroup("common-lsp-on-attach", {}),
+        group = vim.api.nvim_create_augroup("common-lsp-on-attach", {}),
         callback = function(args)
-          local bufnr = args.buf
           local client = vim.lsp.get_client_by_id(args.data.client_id)
-          require("core.utils.lsp").on_attach(client, bufnr)
+          require("core.utils.lsp").on_attach(client, args.buf)
         end,
       })
 
-      require("mason").setup {
-        ui = { height = 0.8, border = "rounded" },
-        max_concurrent_installers = 12,
-        registries = {
-          "file:~/.config/nvim/mason",
-          "github:mason-org/mason-registry",
-        },
-      }
       vim.diagnostic.config {
         float = false,
         signs = function(_, b)
@@ -100,28 +96,35 @@ return {
         },
       }
 
-      api.create_user_command("ShowLSPSettings", function()
-        vim.notify(vim.inspect(vim.lsp.get_clients()))
-      end, { desc = "Show LSP settings" })
-
-      api.create_user_command("ReloadLSPSettings", function()
-        vim.lsp.stop_client(vim.lsp.get_clients(), true)
-        vim.cmd.edit()
-      end, { desc = "Reload LSP settings" })
-
-      require("mason-lspconfig").setup()
-
-      vim.lsp.enable {
-        "pyright",
-        "denols",
-        "gopls",
-        "lua_ls",
-        "volar",
-        "rust_analyzer",
-        "buf_ls",
-        "perlnavigator",
-        "ts_ls",
+      require("mason").setup {
+        ui = { height = 0.8, border = "rounded" },
+        max_concurrent_installers = 12,
+        registries = {
+          "file:~/.config/nvim/mason",
+          "github:mason-org/mason-registry",
+        },
       }
+
+      local mason_lspconfig = require "mason-lspconfig"
+      mason_lspconfig.setup()
+
+      vim.lsp.enable(mason_lspconfig.get_installed_servers())
+
+      -- HACK: disable ideals temporarily
+      -- if not configs.ideals then
+      if false then
+        vim.lsp.config("ideals", {
+          default_config = {
+            cmd = {
+              vim.fs.normalize "~/Applications/IntelliJ IDEA Ultimate 2023.1.7.app/Contents/MacOS/idea",
+              "lsp-server",
+            },
+            filetypes = { "java", "jproperties", "xml" },
+            root_pattern = { ".git", ".git/", "package.json" },
+          },
+        })
+        vim.lsp.enable "ideals"
+      end
 
       local Interval = require "core.utils.interval"
       local itvl = Interval.new("mason_tool_installer", 24 * 7 * 3600)
@@ -134,15 +137,7 @@ return {
       local mason_tool_installer = require "mason-tool-installer"
       mason_tool_installer.setup {
         auto_update = is_over,
-        ensure_installed = vim.env.LIGHT and {
-          "eslint-lsp",
-          "rubocop",
-          "shellcheck",
-          "shfmt",
-          "stylua",
-          "typescript-language-server",
-          "vint",
-        } or {
+        ensure_installed = {
           "ansible-language-server",
           "clangd",
           "cmake-language-server",
@@ -150,7 +145,6 @@ return {
           "deno",
           "dockerfile-language-server",
           "dot-language-server",
-          "eslint-lsp",
           "gofumpt",
           "goimports",
           "golangci-lint",
@@ -184,25 +178,6 @@ return {
       if is_over then
         itvl:update()
       end
-
-      -- HACK: disable ideals temporarily
-      -- if not configs.ideals then
-      if false then
-        local configs = require "lspconfig.configs"
-        local lsp = require "lspconfig"
-
-        configs.ideals = {
-          default_config = {
-            cmd = {
-              vim.fs.normalize "~/Applications/IntelliJ IDEA Ultimate 2023.1.7.app/Contents/MacOS/idea",
-              "lsp-server",
-            },
-            filetypes = { "java", "jproperties", "xml" },
-            root_dir = lsp.util.root_pattern(".git", ".git/", "package.json"),
-          },
-        }
-      end
-      -- lsp.ideals.setup {}
     end,
   }, -- }}}
 

@@ -105,3 +105,12 @@ vim.api.nvim_create_user_command("LazySemver", function(opts)
   local matched = sv.range(opts.fargs[1]):matches(opts.fargs[2])
   vim.notify(matched and "OK" or "NG", vim.log.levels[matched and "info" or "WARN"])
 end, { nargs = "*" })
+
+vim.api.nvim_create_user_command("ShowLSPSettings", function()
+  vim.notify(vim.inspect(vim.lsp.get_clients()))
+end, { desc = "Show LSP settings" })
+
+vim.api.nvim_create_user_command("ReloadLSPSettings", function()
+  vim.lsp.stop_client(vim.lsp.get_clients(), true)
+  vim.cmd.edit()
+end, { desc = "Reload LSP settings" })
