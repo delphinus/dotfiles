@@ -1,10 +1,5 @@
-local fn, uv, api = require("core.utils").globals()
+local _, uv = require("core.utils").globals()
 local palette = require "core.utils.palette"
-
-local function ts(plugin)
-  plugin.event = { "BufNewFile", "BufRead" }
-  return plugin
-end
 
 return {
   {
@@ -32,6 +27,8 @@ return {
     dependencies = {
       {
         "williamboman/mason.nvim",
+        ---@module 'mason'
+        ---@type MasonSettings
         opts = {
           ui = { height = 0.8, border = "rounded" },
           max_concurrent_installers = 12,
@@ -111,18 +108,18 @@ return {
     init = function()
       palette "lspconfig" {
         nord = function(colors)
-          api.set_hl(0, "DiagnosticError", { fg = colors.red })
-          api.set_hl(0, "DiagnosticWarn", { fg = colors.orange })
-          api.set_hl(0, "DiagnosticInfo", { fg = colors.bright_cyan })
-          api.set_hl(0, "DiagnosticHint", { fg = colors.nord3_bright })
-          api.set_hl(0, "DiagnosticUnderlineError", { sp = colors.red, undercurl = true })
-          api.set_hl(0, "DiagnosticUnderlineWarn", { sp = colors.orange, undercurl = true })
-          api.set_hl(0, "DiagnosticUnderlineInfo", { sp = colors.bright_cyan, undercurl = true })
-          api.set_hl(0, "DiagnosticUnderlineHint", { sp = colors.nord3_bright, undercurl = true })
-          api.set_hl(0, "LspBorderTop", { fg = colors.border, bg = colors.dark_black })
-          api.set_hl(0, "LspBorderLeft", { fg = colors.border, bg = colors.black })
-          api.set_hl(0, "LspBorderRight", { fg = colors.border, bg = colors.black })
-          api.set_hl(0, "LspBorderBottom", { fg = colors.border, bg = colors.dark_black })
+          vim.api.nvim_set_hl(0, "DiagnosticError", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "DiagnosticWarn", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "DiagnosticInfo", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "DiagnosticHint", { fg = colors.nord3_bright })
+          vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { sp = colors.red, undercurl = true })
+          vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { sp = colors.orange, undercurl = true })
+          vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { sp = colors.bright_cyan, undercurl = true })
+          vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { sp = colors.nord3_bright, undercurl = true })
+          vim.api.nvim_set_hl(0, "LspBorderTop", { fg = colors.border, bg = colors.dark_black })
+          vim.api.nvim_set_hl(0, "LspBorderLeft", { fg = colors.border, bg = colors.black })
+          vim.api.nvim_set_hl(0, "LspBorderRight", { fg = colors.border, bg = colors.black })
+          vim.api.nvim_set_hl(0, "LspBorderBottom", { fg = colors.border, bg = colors.dark_black })
         end,
       }
     end,
@@ -146,29 +143,6 @@ return {
         end,
       })
 
-      vim.diagnostic.config {
-        float = false,
-        signs = function(_, b)
-          ---@diagnostic disable-next-line: return-type-mismatch
-          return vim.bo[b].filetype ~= "markdown"
-              and {
-                text = {
-                  [vim.diagnostic.severity.ERROR] = "●",
-                  [vim.diagnostic.severity.WARN] = "○",
-                  [vim.diagnostic.severity.INFO] = "■",
-                  [vim.diagnostic.severity.HINT] = "□",
-                },
-              }
-            or false
-        end,
-        virtual_text = false,
-        virtual_lines = {
-          format = function(diagnostic)
-            return ("%s [%s]"):format(diagnostic.message, diagnostic.source)
-          end,
-        },
-      }
-
       vim.lsp.enable(require("mason-lspconfig").get_installed_servers())
 
       -- HACK: disable ideals temporarily
@@ -191,7 +165,7 @@ return {
 
   {
     "dense-analysis/ale",
-    event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
+    event = { "BufReadPost" },
     config = function()
       vim.g.ale_disable_lsp = 1
       vim.g.ale_echo_cursor = 0
@@ -202,10 +176,13 @@ return {
     end,
   },
 
-  { "davidmh/cspell.nvim" },
   {
     "nvimtools/none-ls.nvim",
-    event = { "FocusLost", "CursorHold", "BufReadPre", "BufWritePre" },
+    event = { "BufReadPost" },
+
+    dependencies = {
+      { "davidmh/cspell.nvim" },
+    },
 
     config = function()
       local nls = require "null-ls"
@@ -239,7 +216,7 @@ return {
     end,
 
     run = function()
-      local dir = fn.stdpath "cache" .. "/lspconfig"
+      local dir = vim.fn.stdpath "cache" .. "/lspconfig"
       do
         local stat = uv.fs_stat(dir)
         if not stat then
@@ -273,14 +250,17 @@ return {
     end,
   },
 
-  -- ts { "RRethy/nvim-treesitter-endwise" },
-  ts { "metiulekm/nvim-treesitter-endwise" },
-  ts { "nvim-treesitter/nvim-treesitter-refactor" },
-  ts { "nvim-treesitter/nvim-treesitter-textobjects" },
-
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufRead", "BufNewFile", "InsertEnter" },
+
+    dependencies = {
+      -- { "RRethy/nvim-treesitter-endwise" },
+      { "metiulekm/nvim-treesitter-endwise" },
+      { "nvim-treesitter/nvim-treesitter-refactor" },
+      { "nvim-treesitter/nvim-treesitter-textobjects" },
+    },
+
+    event = { "BufReadPost", "BufNewFile", "InsertEnter" },
     build = ":TSUpdate",
     keys = { { "<Space>h", "<Cmd>Inspect<CR>" } },
     config = function()
@@ -365,7 +345,7 @@ return {
     "soulis-1256/hoverhints.nvim",
     keys = { "<MouseMove>" },
     event = { "DiagnosticChanged" },
-    opts = true,
+    opts = {},
   },
 
   {
@@ -374,6 +354,6 @@ return {
       { "gra", '<Cmd>lua require("fastaction").code_action()<CR>', mode = { "n" } },
       { "gra", '<Cmd>lua require("fastaction").range_code_action()<CR>', mode = { "v" } },
     },
-    opts = true,
+    opts = {},
   },
 }

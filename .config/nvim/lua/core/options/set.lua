@@ -274,4 +274,27 @@ vim.ui.open = (function(original)
   end
 end)(vim.ui.open)
 
+vim.diagnostic.config {
+  float = false,
+  signs = function(_, b)
+    ---@diagnostic disable-next-line: return-type-mismatch
+    return vim.bo[b].filetype ~= "markdown"
+        and {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "●",
+            [vim.diagnostic.severity.WARN] = "○",
+            [vim.diagnostic.severity.INFO] = "■",
+            [vim.diagnostic.severity.HINT] = "□",
+          },
+        }
+      or false
+  end,
+  virtual_text = false,
+  virtual_lines = {
+    format = function(diagnostic)
+      return ("%s [%s]"):format(diagnostic.message, diagnostic.source)
+    end,
+  },
+}
+
 -- vim:se fdm=marker:
