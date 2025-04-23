@@ -102,12 +102,12 @@ sub parse_input($input = '') {
             )?
 
             (?:
-                \[?
+                [[(]?
                 (?:
                     (?<hour> \d+) :
                 )?
                 (?<minute> \d?\d) : (?<second> \d\d)
-                \]?
+                [])]?
                 \s+
             )?
 
