@@ -1,4 +1,3 @@
-local _, uv = require("core.utils").globals()
 local palette = require "core.utils.palette"
 
 return {
@@ -64,40 +63,40 @@ return {
           mason_tool_installer.setup {
             auto_update = is_over,
             ensure_installed = {
-              "ansible-language-server",
-              "buf",
+              "ansiblels",
+              "buf_ls",
               "clangd",
-              "cmake-language-server",
-              "css-lsp",
-              "deno",
-              "dockerfile-language-server",
-              "dot-language-server",
+              "cmake",
+              "cssls",
+              "denols",
+              "docker_compose_language_service",
+              "dockerls",
+              "dotls",
               "gofumpt",
               "goimports",
               "golangci-lint",
               "golines",
               "gopls",
               "intelephense",
-              "jq",
-              "json-lsp",
-              "jsonnet-language-server",
-              "lua-language-server",
+              "jqls",
+              "jsonls",
+              "jsonnet_ls",
+              "lua_ls",
               "luacheck",
               "marksman",
               "perlnavigator",
-              "prettierd",
               "pyright",
               "rubocop",
               "shellcheck",
               "shfmt",
               "solargraph",
               "stylua",
-              "terraform-ls",
-              "typescript-language-server",
-              "vim-language-server",
+              "terraformls",
+              "ts_ls",
+              "vimls",
               "vint",
-              "vue-language-server",
-              "yaml-language-server",
+              "volar",
+              "yamlls",
             },
           }
           mason_tool_installer.check_install()
@@ -213,40 +212,6 @@ return {
         diagnostics_format = "[none-ls] #{m}",
         sources = sources,
       }
-    end,
-
-    run = function()
-      local dir = vim.fn.stdpath "cache" .. "/lspconfig"
-      do
-        local stat = uv.fs_stat(dir)
-        if not stat then
-          assert(uv.fs_mkdir(dir, 448))
-        end
-      end
-      local file = dir .. "/updated"
-      local last_updated = 0
-      do
-        local fd = uv.fs_open(file, "r", 438)
-        if fd then
-          local stat = assert(uv.fs_fstat(fd))
-          local data = uv.fs_read(fd, stat.size, 0)
-          uv.fs_close(fd)
-          last_updated = tonumber(data) or 0
-        end
-      end
-      local now = os.time()
-      if now - last_updated > 24 * 3600 * 7 then
-        local ok = pcall(require("core.utils.lsp").update_tools)
-        if ok then
-          local fd = uv.fs_open(file, "w", 438)
-          if fd then
-            uv.fs_write(fd, string(now), -1)
-            uv.fs_close(fd)
-          else
-            error("cannot open the file to write: " .. file)
-          end
-        end
-      end
     end,
   },
 
