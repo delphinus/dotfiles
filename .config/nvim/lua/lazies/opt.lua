@@ -1498,6 +1498,8 @@ return {
   {
     "3rd/image.nvim",
     ft = { "markdown" },
+    ---@module 'image'
+    ---@type Options
     opts = {
       integrations = {
         markdown = {
