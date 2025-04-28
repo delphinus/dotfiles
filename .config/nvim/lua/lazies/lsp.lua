@@ -168,6 +168,27 @@ return {
   {
     "dense-analysis/ale",
     event = { "BufReadPost" },
+    -- init = function()
+    --   vim.api.nvim_create_autocmd("FileType", {
+    --     group = vim.api.nvim_create_augroup("ale-filetype", {}),
+    --     callback = function(args)
+    --       if args.match ~= "markdown" then
+    --         local config = vim.api.nvim_win_get_config(0)
+    --         local is_floatwin = config.relative ~= ""
+    --         if is_floatwin then
+    --           return
+    --         end
+    --         local ignores = vim.b.ale_linters_ignore or {}
+    --         if vim.list_contains(ignores, "cspell") then
+    --           return
+    --         end
+    --         table.insert(ignores, "cspell")
+    --         vim.b.ale_linters_ignore = ignores
+    --         vim.print { ale = vim.b.ale_linters_ignore }
+    --       end
+    --     end,
+    --   })
+    -- end,
     opts = {
       disable_lsp = 1,
       echo_cursor = 0,
