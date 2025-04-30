@@ -285,9 +285,9 @@ return {
           local minimap_width = require("neominimap.config").float.minimap_width
           local num_sign_width = 6 -- TODO: calculate this
           if win_width - minimap_width - num_sign_width < line_length then
-            require("neominimap").winOff { win }
+            require("neominimap.api").win.disable { win }
           else
-            require("neominimap").winOn { win }
+            require("neominimap.api").win.enable { win }
           end
         end,
       })
