@@ -401,7 +401,7 @@ return {
   { "delphinus/eaw.nvim" },
   {
     "nvim-lualine/lualine.nvim",
-    event = { "Colorscheme" },
+    event = { "BufReadPost", "BufWritePost" },
     init = function()
       vim.opt.showtabline = 0
     end,
