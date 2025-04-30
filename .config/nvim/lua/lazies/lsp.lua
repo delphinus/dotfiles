@@ -201,6 +201,7 @@ return {
 
   {
     "nvimtools/none-ls.nvim",
+    url = "https://github.com/ulisses-cruz/none-ls.nvim",
     event = { "BufReadPost" },
 
     dependencies = {
