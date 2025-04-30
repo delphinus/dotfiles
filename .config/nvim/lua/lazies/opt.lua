@@ -1,5 +1,4 @@
 ---@diagnostic disable: missing-fields
-local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
 
 ---@module 'lazy'
@@ -384,54 +383,6 @@ return {
     "lewis6991/foldsigns.nvim",
     event = { "FocusLost", "CursorHold" },
     config = true,
-  },
-
-  {
-    "lewis6991/gitsigns.nvim",
-    cmd = { "Gitsigns" },
-    event = { "FocusLost", "CursorHold" },
-    keys = {
-      {
-        "gL",
-        lazy_require("gitsigns").setloclist(),
-        desc = "gitsigns.setloclist",
-      },
-      {
-        "gQ",
-        lazy_require("gitsigns").setqflist "all",
-        desc = 'gitsigns.setqflist "all"',
-      },
-    },
-    init = function()
-      palette "gitsigns" {
-        nord = function(colors)
-          vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = colors.green })
-          vim.api.nvim_set_hl(0, "GitSignsChange", { fg = colors.yellow })
-          vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = colors.red })
-          vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = colors.brighter_black })
-          vim.api.nvim_set_hl(0, "GitSignsAddInline", { bg = colors.bg_green })
-          vim.api.nvim_set_hl(0, "GitSignsChangeInline", { bg = colors.bg_yellow })
-          vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
-          vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
-        end,
-      }
-    end,
-    opts = {
-      signs = {
-        add = {},
-        change = {},
-        delete = { text = "✗" },
-        topdelete = { text = "↑" },
-        changedelete = { text = "•" },
-        untracked = { text = "⢸" },
-      },
-      numhl = true,
-      current_line_blame = true,
-      current_line_blame_opts = {
-        delay = 10,
-      },
-      word_diff = true,
-    },
   },
 
   {
