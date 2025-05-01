@@ -29,5 +29,5 @@ return {
       end
     end
   end,
-  workspace_folders = true,
+  workspace_required = true,
 }
