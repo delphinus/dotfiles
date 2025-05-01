@@ -1,5 +1,3 @@
-local fn, uv, api = require("core.utils").globals()
-
 ---@class core.utils.lualine.Lualine
 ---@field is_lsp_available boolean
 local Lualine = {}
@@ -295,6 +293,7 @@ function Lualine:theme(colors)
       },
     }
   end
+  return ""
 end
 
 return Lualine.new()

@@ -402,9 +402,6 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = { "BufReadPost", "BufWritePost" },
-    init = function()
-      vim.opt.showtabline = 0
-    end,
     config = function()
       require("core.utils.lualine"):config()
     end,
@@ -1011,6 +1008,10 @@ return {
     branch = "feat/mru-list-fn",
     cond = not vim.env.DEBUG_PLENARY,
     event = { "VimEnter" },
+    init = function()
+      -- HACK: set this to restore showtabline after dashboard disappear.
+      vim.o.showtabline = 2
+    end,
     opts = {
       theme = "hyper",
       config = {
