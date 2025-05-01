@@ -1,3 +1,4 @@
+---@type vim.lsp.Config
 return {
   init_options = {
     lint = true,
@@ -28,4 +29,5 @@ return {
       end
     end
   end,
+  workspace_folders = true,
 }
