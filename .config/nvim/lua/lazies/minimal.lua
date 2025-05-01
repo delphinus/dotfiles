@@ -77,15 +77,15 @@ return {
     config = function()
       palette "nord" {
         nord = function(colors)
-          api.set_hl(0, "Comment", { fg = colors.comment, italic = true })
-          api.set_hl(0, "Delimiter", { fg = colors.nord9 })
-          api.set_hl(0, "PmenuSel", { blend = 0 })
-          api.set_hl(0, "LspInlayHint", { fg = colors.nord3_bright, italic = true })
-          api.set_hl(0, "Identifier", { fg = colors.blue, italic = true })
-          api.set_hl(0, "Special", { fg = "#8fbcbb", bold = true })
-          api.set_hl(0, "typescriptIdentifierName", { fg = "#ebcb8b", italic = true })
-          api.set_hl(0, "@lsp.type.string.terraform", { link = "String" })
-          api.set_hl(0, "@lsp.type.enumMember.terraform", { link = "String" })
+          vim.api.nvim_set_hl(0, "Comment", { fg = colors.comment, italic = true })
+          vim.api.nvim_set_hl(0, "Delimiter", { fg = colors.nord9 })
+          vim.api.nvim_set_hl(0, "PmenuSel", { blend = 0 })
+          vim.api.nvim_set_hl(0, "LspInlayHint", { fg = colors.nord3_bright, italic = true })
+          vim.api.nvim_set_hl(0, "Identifier", { fg = colors.blue, italic = true })
+          vim.api.nvim_set_hl(0, "Special", { fg = "#8fbcbb", bold = true })
+          vim.api.nvim_set_hl(0, "typescriptIdentifierName", { fg = "#ebcb8b", italic = true })
+          vim.api.nvim_set_hl(0, "@lsp.type.string.terraform", { link = "String" })
+          vim.api.nvim_set_hl(0, "@lsp.type.enumMember.terraform", { link = "String" })
         end,
       }
     end,
@@ -109,14 +109,14 @@ return {
 
         ---@param info CommittiaInfo
         edit_open = function(info)
-          api.create_autocmd({ "BufWinEnter" }, {
+          vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
             once = true,
             pattern = { "COMMIT_EDITMSG", "MERGE_MSG" },
             callback = function()
-              local winid = fn.win_getid(info.edit_winnr)
+              local winid = vim.fn.win_getid(info.edit_winnr)
               -- HACK: move cursor to top left because it starts on the 2nd line for some reason.
-              api.win_set_cursor(winid, { 1, 0 })
-              local first_line = api.buf_get_lines(info.edit_bufnr, 0, 1, false)[1]
+              vim.api.nvim_win_set_cursor(winid, { 1, 0 })
+              local first_line = vim.api.nvim_buf_get_lines(info.edit_bufnr, 0, 1, false)[1]
               if first_line == "" then
                 vim.cmd.startinsert()
               end
@@ -128,9 +128,9 @@ return {
       }
     end,
     config = function()
-      local bufname = vim.fs.basename(api.buf_get_name(0))
+      local bufname = vim.fs.basename(vim.api.nvim_buf_get_name(0))
       if bufname == "COMMIT_EDITMSG" or bufname == "MERGE_MSG" then
-        fn["committia#open"] "git"
+        vim.fn["committia#open"] "git"
       end
     end,
   },
@@ -140,14 +140,14 @@ return {
     cmd = { "BaleiaColorize", "BaleiaColorizeStartup" },
     config = function()
       local baleia
-      api.create_user_command("BaleiaColorize", function()
+      vim.api.nvim_create_user_command("BaleiaColorize", function()
         if not baleia then
           baleia = require("baleia").setup {}
         end
-        baleia.once(api.get_current_buf())
+        baleia.once(vim.api.nvim_get_current_buf())
       end, {})
-      api.create_user_command("BaleiaColorizeStartup", function()
-        api.create_autocmd("VimEnter", { command = "BaleiaColorize" })
+      vim.api.nvim_create_user_command("BaleiaColorizeStartup", function()
+        vim.api.nvim_create_autocmd("VimEnter", { command = "BaleiaColorize" })
       end, {})
     end,
   },
@@ -158,21 +158,25 @@ return {
     init = function()
       palette "skkeleton_indicator" {
         nord = function(colors)
-          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.dark_black, bg = colors.magenta, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.white, bg = colors.red, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
+          vim.api.nvim_set_hl(
+            0,
+            "SkkeletonIndicatorHankata",
+            { fg = colors.dark_black, bg = colors.magenta, bold = true }
+          )
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.white, bg = colors.red, bold = true })
           require("skkeleton_indicator").setup { fadeOutMs = 0 }
         end,
         sweetie = function(colors)
-          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.bg, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.bg, bg = colors.green, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.bg, bg = colors.yellow, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.bg, bg = colors.magenta, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.bg, bg = colors.cyan, bold = true })
-          api.set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.black, bg = colors.red, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.bg, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorHira", { fg = colors.bg, bg = colors.green, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorKata", { fg = colors.bg, bg = colors.yellow, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.bg, bg = colors.magenta, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.bg, bg = colors.cyan, bold = true })
+          vim.api.nvim_set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.black, bg = colors.red, bold = true })
           require("skkeleton_indicator").setup { fadeOutMs = 0 }
         end,
       }
