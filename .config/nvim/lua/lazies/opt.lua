@@ -1001,24 +1001,7 @@ return {
     },
   },
 
-  {
-    "mawkler/demicolon.nvim",
-    keys = { "[c", "]c", "[d", "]d", "[q", "]q", "[l", "]l", "f", "F", "t", "T", ";", "," },
-    config = function()
-      require("demicolon").setup {
-        -- diagnostic = { float = { border = { "⡠", "⠤", "⢄", "⢸", "⠊", "⠒", "⠑", "⡇" } } },
-        diagnostic = { float = false },
-        keymaps = { diagnostic_motions = false },
-      }
-      local nxo = { "n", "x", "o" }
-      local jump = require "demicolon.jump"
-      vim.keymap.set(nxo, "]d", jump.diagnostic_jump { forward = true })
-      vim.keymap.set(nxo, "[d", jump.diagnostic_jump { forward = false })
-      local ts_repeatable_move = require "nvim-treesitter.textobjects.repeatable_move"
-      vim.keymap.set(nxo, ";", ts_repeatable_move.repeat_last_move)
-      vim.keymap.set(nxo, ",", ts_repeatable_move.repeat_last_move_opposite)
-    end,
-  },
+  { "mawkler/demicolon.nvim", keys = { "f", "F", "t", "T", ";", "," }, opts = {} },
 
   { "folke/persistence.nvim", event = { "BufReadPre" }, opts = {} },
 
