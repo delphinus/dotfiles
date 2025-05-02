@@ -89,6 +89,8 @@
 	main = R !git rebase -i %(commit)
 	main = D !git difftool %(commit)~ %(commit)
 	main = Y @sh -c 'printf %s %(commit) | pbcopy'
+[tig "color"]
+	cursor = default color22 default
 [pager]
 	branch = false
 [interactive]
