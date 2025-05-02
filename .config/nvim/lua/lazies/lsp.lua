@@ -257,7 +257,7 @@ return {
         callback = function()
           vim.defer_fn(function()
             if vim.bo.filetype == "" then
-              vim.cmd.edit()
+              pcall(vim.cmd.edit)
             end
           end, 500)
         end,
