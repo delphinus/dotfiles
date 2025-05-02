@@ -250,6 +250,20 @@ return {
       { "nvim-treesitter/nvim-treesitter-textobjects" },
     },
 
+    init = function()
+      -- HACK: deal with async treesitter detection
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        group = vim.api.nvim_create_augroup("async-detection", {}),
+        callback = function()
+          vim.defer_fn(function()
+            if vim.bo.filetype == "" then
+              vim.cmd.edit()
+            end
+          end, 500)
+        end,
+      })
+    end,
+
     event = { "BufReadPost", "BufNewFile", "InsertEnter" },
     build = ":TSUpdate",
     keys = { { "<Space>h", "<Cmd>Inspect<CR>" } },
