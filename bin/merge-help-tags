@@ -1,0 +1,99 @@
+#!/usr/bin/perl
+
+=head1 DESCRIPTION
+
+    Generator for help tags with all installed plugins
+
+=head1 SYNOPSIS
+
+    $ merge-help-tags -d ~/.config/nvim < plugins.txt
+
+    # Show this help and exit
+    $ merge-help-tags -h
+
+=head1 DESCRIPTION
+
+    This script accepts directories from STDIN and searches doc/tags files and
+    merge them into C<~/.config/nvim/after/doc/*> (default behavior).
+
+    The default of the destination dir is C<~/.config/nvim>. You can set other
+    directories by C<-d> option.
+
+=head1 OPTIONS
+
+=over
+
+=item * B<-d>, B<--dir> C<directory>
+
+    Specify the directory to use. All help tags are stored into C<after/doc>
+    directory under this.
+
+=item * B<-v>, B<--verbose>
+
+    Enable verbose mode. This will print out the directories being processed.
+
+=item * B<-h>, B<--help>
+
+    Show this help and exit.
+
+=back
+
+=cut
+
+use 5.30.0;
+use warnings;
+use feature 'signatures';
+no warnings 'experimental::signatures';
+use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
+use Path::Tiny qw(path);
+use Pod::Usage qw(pod2usage);
+
+GetOptions(
+    \my %opt, qw(
+    dir|d=s
+    verbose|v
+    help|h
+)) or pod2usage(1);
+$opt{help} and pod2usage(0);
+
+sub log_info($msg) {
+    $opt{verbose} and say $msg;
+}
+
+sub log_warn($msg) {
+    $opt{verbose} and warn "$msg\n";
+}
+
+my $dir = $opt{dir} // path($ENV{HOME}, '.config', 'nvim');
+-d $dir or die "$dir is not a directory";
+
+my $after_doc = $dir->child('after', 'doc');
+$after_doc->mkpath;
+
+local $SIG{ALRM} = sub { pod2usage(1) };
+
+my $result = {};
+alarm 3;
+while (my $d = <>) {
+    alarm 0;
+    chomp $d;
+    my $doc = path($d)->child('doc');
+    if (!-d $doc) {
+        log_warn "$doc is not a directory";
+        next;
+    }
+    for my $tags ($doc->children(qr/^tags(?:-\w+)?$/)) {
+        my $file = $tags->basename;
+        log_info "found $doc/$file";
+        $result->{$file} //= [];
+        for my $line ($tags->lines_utf8) {
+            my ($tag, $path, $line) = split /\t/, $line;
+            push $result->{$file}->@*, join "\t", $tag, $doc->child($path), $line;
+        }
+    }
+}
+
+while (my ($file, $lines) = each %$result) {
+    log_info "Merging into $after_doc/$file";
+    $after_doc->child($file)->spew_utf8(sort { $a cmp $b } $lines->@*);
+}

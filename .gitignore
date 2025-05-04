@@ -428,6 +428,7 @@ Temporary Items
 /.config/fish/fish_variables
 /.config/fish/functions/tm.fish
 /.config/git
+/.config/nvim/after/doc
 /.config/nvim/lua/_compiled.lua
 /.config/nvim/lua/_compiled.lua.bak
 /.config/powerline/config.json

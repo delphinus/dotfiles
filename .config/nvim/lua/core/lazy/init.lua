@@ -77,6 +77,33 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
+vim.api.nvim_create_autocmd("User", {
+  pattern = { "LazyInstall", "LazyUpdate" },
+  callback = function()
+    vim.notify "Generating doc tags……"
+    vim.system(
+      { vim.fs.normalize "~/git/dotfiles/bin/merge-help-tags" },
+      {
+        stdin = vim
+          .iter(require("lazy").plugins())
+          :map(function(v)
+            return v.dir
+          end)
+          :totable(),
+      },
+      function(obj)
+        if obj.code ~= 0 then
+          vim.notify(obj.stderr, vim.log.levels.ERROR)
+          vim.notify("Failed to generate doc tags", vim.log.levels.ERROR)
+        else
+          vim.notify(obj.stdout, vim.log.levels.DEBUG)
+          vim.notify "Done generating doc tags"
+        end
+      end
+    )
+  end,
+})
+
 require("lazy.core.loader").did_ftdetect = ignore_ftdetect
 
 require("lazy").setup(plugins, {

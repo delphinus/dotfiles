@@ -114,16 +114,14 @@ return {
         end
       end
 
-      local function help_tags(opts)
-        return function()
-          require "core.lazy.all"()
-          core.builtin "help_tags"(opts)()
-        end
-      end
-
       vim.keymap.set("n", "<Leader>f:", core.builtin "command_history" {}, { desc = "Telescope command_history" })
       vim.keymap.set("n", "<Leader>fG", core.builtin "grep_string" {}, { desc = "Telescope grep_string" })
-      vim.keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
+      vim.keymap.set(
+        "n",
+        "<Leader>fH",
+        core.builtin "help_tags" { lang = "en" },
+        { desc = "Telescope help_tags lang=en" }
+      )
       vim.keymap.set("n", "<Leader>fN", core.extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
       vim.keymap.set("n", "<Leader>fg", core.extensions "egrepify" {}, { desc = "Telescope egrepify" })
       vim.keymap.set("n", "<Leader>fM", function()
@@ -133,7 +131,7 @@ return {
           end,
         } {}
       end)
-      vim.keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
+      vim.keymap.set("n", "<Leader>fh", core.builtin "help_tags" {}, { desc = "Telescope help_tags" })
       vim.keymap.set(
         "n",
         "<A-Space>",
