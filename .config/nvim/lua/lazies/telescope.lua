@@ -114,14 +114,33 @@ return {
         end
       end
 
+      local filename_cache
+      local function help_tags(opts)
+        return function()
+          -- require "core.lazy.all"()
+          opts.entry_index = {
+            filename = function(t, _)
+              if not filename_cache then
+                local after_doc = vim.fs.joinpath(vim.fn.stdpath "config", "after", "doc")
+                filename_cache = vim.iter(vim.fs.dir(after_doc)):fold({}, function(a, name, _)
+                  local Path = require "plenary.path"
+                  for _, line in ipairs(Path:new(after_doc, name):readlines()) do
+                    local fields = vim.split(line, string.char(9))
+                    a[fields[1]] = fields[2]
+                  end
+                  return a
+                end)
+              end
+              return filename_cache[rawget(t, "display")], true
+            end,
+          }
+          core.builtin "help_tags"(opts)()
+        end
+      end
+
       vim.keymap.set("n", "<Leader>f:", core.builtin "command_history" {}, { desc = "Telescope command_history" })
       vim.keymap.set("n", "<Leader>fG", core.builtin "grep_string" {}, { desc = "Telescope grep_string" })
-      vim.keymap.set(
-        "n",
-        "<Leader>fH",
-        core.builtin "help_tags" { lang = "en" },
-        { desc = "Telescope help_tags lang=en" }
-      )
+      vim.keymap.set("n", "<Leader>fH", help_tags { lang = "en" }, { desc = "Telescope help_tags lang=en" })
       vim.keymap.set("n", "<Leader>fN", core.extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
       vim.keymap.set("n", "<Leader>fg", core.extensions "egrepify" {}, { desc = "Telescope egrepify" })
       vim.keymap.set("n", "<Leader>fM", function()
@@ -131,7 +150,7 @@ return {
           end,
         } {}
       end)
-      vim.keymap.set("n", "<Leader>fh", core.builtin "help_tags" {}, { desc = "Telescope help_tags" })
+      vim.keymap.set("n", "<Leader>fh", help_tags {}, { desc = "Telescope help_tags" })
       vim.keymap.set(
         "n",
         "<A-Space>",
