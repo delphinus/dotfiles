@@ -102,36 +102,23 @@ return {
       end, { desc = "Telescope file_browser" })
       vim.keymap.set("n", "<Leader>ff", core.frecency { workspace = "CWD" }, { desc = "Telescope frecency on CWD" })
 
-      local function input_grep_string(prompt, func)
-        return function()
-          vim.ui.input({ prompt = prompt }, function(input)
-            if input then
-              func { only_sort_text = true, search = input }()
-            else
-              vim.notify "cancelled"
-            end
-          end)
-        end
-      end
+      -- local function input_grep_string(prompt, func)
+      --   return function()
+      --     vim.ui.input({ prompt = prompt }, function(input)
+      --       if input then
+      --         func { only_sort_text = true, search = input }()
+      --       else
+      --         vim.notify "cancelled"
+      --       end
+      --     end)
+      --   end
+      -- end
 
-      local filename_cache
       local function help_tags(opts)
         return function()
-          -- require "core.lazy.all"()
           opts.entry_index = {
             filename = function(t, _)
-              if not filename_cache then
-                local after_doc = vim.fs.joinpath(vim.fn.stdpath "config", "after", "doc")
-                filename_cache = vim.iter(vim.fs.dir(after_doc)):fold({}, function(a, name, _)
-                  local Path = require "plenary.path"
-                  for _, line in ipairs(Path:new(after_doc, name):readlines()) do
-                    local fields = vim.split(line, string.char(9))
-                    a[fields[1]] = fields[2]
-                  end
-                  return a
-                end)
-              end
-              return filename_cache[rawget(t, "display")], true
+              return require("core.lazy.help_tags").filename_from_tag(rawget(t, "display"), opts.lang), true
             end,
           }
           core.builtin "help_tags"(opts)()
