@@ -77,11 +77,6 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
-vim.api.nvim_create_autocmd(
-  "User",
-  { pattern = { "LazyInstall", "LazyUpdate" }, callback = require("core.lazy.help_tags").generate_tags }
-)
-
 require("lazy.core.loader").did_ftdetect = ignore_ftdetect
 
 require("lazy").setup(plugins, {
