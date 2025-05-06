@@ -408,4 +408,6 @@ return {
       word_diff = true,
     },
   },
+
+  { "delphinus/manage-help-tags.nvim", opts = {} },
 }
