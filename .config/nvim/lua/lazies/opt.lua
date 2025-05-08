@@ -1011,6 +1011,7 @@ return {
     init = function()
       -- HACK: set this to restore showtabline after dashboard disappear.
       vim.o.showtabline = 2
+      vim.o.laststatus = 3
     end,
     opts = {
       theme = "hyper",
