@@ -1,0 +1,52 @@
+{
+  "title": "[delphinus] Custom Prefix for HHK",
+  "rules": [
+    {
+      "description": "[delphinus] ⌘Escape → ⌘Backquote",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "escape",
+            "modifiers": {
+              "mandatory": [
+                "command"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "grave_accent_and_tilde",
+              "modifiers": [
+                "command"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "product_id": 256,
+                  "vendor_id": 2131
+                }
+              ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.apple\\.Terminal$",
+                "^com\\.googlecode\\.iterm2$",
+                "^co\\.zeit\\.hyperterm$",
+                "^co\\.zeit\\.hyper$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
