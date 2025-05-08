@@ -291,6 +291,7 @@ vim.diagnostic.config {
   end,
   virtual_text = false,
   virtual_lines = {
+    severity = "INFO",
     format = function(diagnostic)
       return ("%s [%s]"):format(diagnostic.message, diagnostic.source)
     end,
