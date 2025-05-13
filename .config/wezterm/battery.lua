@@ -45,9 +45,13 @@ function Battery:text()
       wezterm.nerdfonts.md_battery_charging_90,
       wezterm.nerdfonts.md_battery_check,
     },
+    suspended = {
+      wezterm.nerdfonts.md_battery_clock,
+    },
   }
   local amount = f(info.state_of_charge * 10)
-  local icon = glyphs[info.state == "Charging" and "charging" or "normal"][amount + 1]
+  local icon = info.state == "Unknown" and glyphs.suspended[1]
+    or glyphs[info.state == "Charging" and "charging" or "normal"][amount + 1]
   local elapsed = info.time_to_empty or info.time_to_full
   local time = elapsed and (" 残り %d:%02d"):format(f(elapsed / 3600), f(elapsed % 3600 / 60)) or ""
   return ("%s  %.0f%%%s"):format(icon, info.state_of_charge * 100, time)
