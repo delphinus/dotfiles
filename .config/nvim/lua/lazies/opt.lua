@@ -1484,5 +1484,12 @@ return {
     opts = {},
   },
 
-  { "delphinus/nvim-browse.nvim" },
+  {
+    "delphinus/nvim-browse.nvim",
+    init = function()
+      vim.keymap.set({ "n", "x", "o" }, "<Leader>nb", function()
+        require("nvim-browse").open()
+      end)
+    end,
+  },
 }
