@@ -1483,4 +1483,6 @@ return {
     build = "make tiktoken",
     opts = {},
   },
+
+  { "delphinus/nvim-browse.nvim" },
 }
