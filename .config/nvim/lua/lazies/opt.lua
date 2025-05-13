@@ -1452,4 +1452,35 @@ return {
     cmd = { "TracePR" },
     opts = {},
   },
+
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    cmd = {
+      "CopilotChat",
+      "CopilotChatOpen",
+      "CopilotChatClose",
+      "CopilotChatToggle",
+      "CopilotChatStop",
+      "CopilotChatReset",
+      "CopilotChatSave",
+      "CopilotChatLoad",
+      "CopilotChatPrompts",
+      "CopilotChatModels",
+      "CopilotChatAgents",
+    },
+    dependencies = {
+      {
+        "zbirenbaum/copilot.lua",
+        cmd = { "Copilot" },
+        opts = {
+          -- suggestion = { auto_trigger = true },
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+          filetypes = { gitcommit = true, gitrebase = true },
+        },
+      },
+    },
+    build = "make tiktoken",
+    opts = {},
+  },
 }
