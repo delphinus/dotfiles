@@ -1440,7 +1440,7 @@ return {
       integrations = {
         markdown = {
           clear_in_insert_mode = true,
-          only_render_image_at_cursor_mode = "inline",
+          only_render_image_at_cursor = true,
           floating_windows = true,
         },
       },
