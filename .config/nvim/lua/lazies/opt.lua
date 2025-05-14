@@ -1,5 +1,6 @@
 ---@diagnostic disable: missing-fields
 local palette = require "core.utils.palette"
+local lazy_require = require "lazy_require"
 
 ---@module 'lazy'
 ---@type LazySpec[]
@@ -1361,7 +1362,8 @@ return {
         { "<Leader>.", snacks.scratch(), desc = "Toggle Scratch Buffer" },
         { "<Leader>S", snacks.scratch.select, desc = "Select Scratch Buffer" },
         { "<Leader>n", snacks.notifier.show_history, desc = "Notification History" },
-        { "<Leader>gB", snacks.gitbrowse(), desc = "Git Browse", mode = { "n", "v" } },
+        -- HACK: use this mapping with nvim-browse.nvim
+        -- { "<Leader>gB", snacks.gitbrowse(), desc = "Git Browse", mode = { "n", "v" } },
         -- cmd: DismissNotification, DN
         { "<Leader>un", snacks.notifier.hide, desc = "Dismiss All Notification" },
         -- default: <C-/>
@@ -1486,10 +1488,8 @@ return {
 
   {
     "delphinus/nvim-browse.nvim",
-    init = function()
-      vim.keymap.set({ "n", "x", "o" }, "<Leader>nb", function()
-        require("nvim-browse").open()
-      end)
-    end,
+    keys = {
+      { "<Leader>gB", lazy_require("nvim-browse").browse(), mode = { "n", "x", "o" } },
+    },
   },
 }
