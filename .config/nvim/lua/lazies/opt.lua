@@ -1487,9 +1487,9 @@ return {
   },
 
   {
-    "delphinus/nvim-browse.nvim",
+    "delphinus/rtbrowse.nvim",
     keys = {
-      { "<Leader>gB", lazy_require("nvim-browse").browse(), mode = { "n", "x", "o" } },
+      { "<Leader>gB", lazy_require("rtbrowse").browse(), mode = { "n", "x", "o" } },
     },
   },
 }
