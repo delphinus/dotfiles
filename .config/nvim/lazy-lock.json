@@ -121,7 +121,7 @@
   "qfheight.nvim": { "branch": "main", "commit": "9a13ec84e69f82b97b65fe4d50ca56320062167a" },
   "quicker.nvim": { "branch": "master", "commit": "7349ca233d3238ab8e19a3d197f9c9438af52e96" },
   "render-markdown": { "branch": "main", "commit": "a1b0988f5ab26698afb56b9c2f0525a4de1195c1" },
-  "rtbrowse.nvim": { "branch": "main", "commit": "89144a015188671d590cd7482738ade4d0e7e49e" },
+  "rtbrowse.nvim": { "branch": "main", "commit": "9e2c7b0ee4c8a16cf2441aeb82cf09b2d1f8174c" },
   "rtr.nvim": { "branch": "main", "commit": "6170612fbd0db37bc6a939dd77187ddd07dd4172" },
   "screenkey.nvim": { "branch": "dev", "commit": "357ed2dcd0c71b41faf56d8e446c7858b3f96c74" },
   "skk-tutorial.vim": { "branch": "main", "commit": "5d1171ac66cf9cd04c7538f16c846f2f2e83bb51" },
