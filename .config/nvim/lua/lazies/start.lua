@@ -367,6 +367,26 @@ return {
     "lewis6991/gitsigns.nvim",
     keys = {
       {
+        "]c",
+        function()
+          if vim.wo.diff then
+            vim.cmd.normal { "]c", bang = true }
+          else
+            require("gitsigns").nav_hunk "next"
+          end
+        end,
+      },
+      {
+        "[c",
+        function()
+          if vim.wo.diff then
+            vim.cmd.normal { "[c", bang = true }
+          else
+            require("gitsigns").nav_hunk "prev"
+          end
+        end,
+      },
+      {
         "gL",
         lazy_require("gitsigns").setloclist(),
         desc = "gitsigns.setloclist",
