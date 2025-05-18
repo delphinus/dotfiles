@@ -999,7 +999,17 @@ return {
     },
   },
 
-  { "mawkler/demicolon.nvim", keys = { "f", "F", "t", "T", ";", "," }, opts = {} },
+  {
+    "mawkler/demicolon.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    keys = { "f", "F", "t", "T", ";", "," },
+    ---@module 'demicolon'
+    ---@type demicolon.options
+    opts = { keymaps = { repeat_motions = "stateful" } },
+  },
 
   { "folke/persistence.nvim", event = { "BufReadPre" }, opts = {} },
 
