@@ -95,7 +95,7 @@ return {
               "ts_ls",
               "vimls",
               "vint",
-              "volar",
+              "vue_ls",
               "yamlls",
             },
           }
