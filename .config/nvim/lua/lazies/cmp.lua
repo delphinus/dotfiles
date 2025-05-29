@@ -1,6 +1,5 @@
 ---@diagnostic disable: missing-fields
 local utils = require "core.utils"
-local fn, _, api = require("core.utils").globals()
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
 local lazy_utils = require "core.utils.lazy"
@@ -23,7 +22,7 @@ return {
     config = function()
       utils.load_denops_plugin "skk-tutorial.vim"
       vim.wait(1000, function()
-        return not not api.get_commands({}).SKKTutorialStart
+        return not not vim.api.nvim_get_commands({}).SKKTutorialStart
       end)
     end,
   },
@@ -51,9 +50,9 @@ return {
           end
         end
 
-        local g1 = api.create_augroup("skkeleton_callbacks", {})
+        local g1 = vim.api.nvim_create_augroup("skkeleton_callbacks", {})
         local cmp_config
-        api.create_autocmd("User", {
+        vim.api.nvim_create_autocmd("User", {
           desc = "Set up skkeleton settings with nvim-cmp",
           group = g1,
           pattern = "skkeleton-enable-pre",
@@ -72,7 +71,7 @@ return {
             }
           end,
         })
-        api.create_autocmd("User", {
+        vim.api.nvim_create_autocmd("User", {
           desc = "Restore the default settings for nvim-cmp",
           group = g1,
           pattern = "skkeleton-disable-pre",
@@ -81,20 +80,20 @@ return {
           end,
         })
 
-        local g2 = api.create_augroup("skkeleton_karabiner_elements", {})
-        api.create_autocmd(
+        local g2 = vim.api.nvim_create_augroup("skkeleton_karabiner_elements", {})
+        vim.api.nvim_create_autocmd(
           { "InsertEnter", "CmdlineEnter" },
           { group = g2, callback = set_karabiner(1), desc = "Enable Karabiner-Elements settings for skkeleton" }
         )
-        api.create_autocmd(
+        vim.api.nvim_create_autocmd(
           { "InsertLeave", "CmdlineLeave", "FocusLost" },
           { group = g2, callback = set_karabiner(0), desc = "Disable Karabiner-Elements settings for skkeleton" }
         )
-        api.create_autocmd("FocusGained", {
+        vim.api.nvim_create_autocmd("FocusGained", {
           desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
           group = g2,
           callback = function()
-            local val = not not vim.api.nvim_get_mode().mode:match "[icrR]" and 1 or 0
+            local val = not not vim.vim.api.nvim_nvim_get_mode().mode:match "[icrR]" and 1 or 0
             set_karabiner(val)()
           end,
         })
@@ -108,7 +107,7 @@ return {
         return { "~/Library/Application Support/AquaSKK/" .. name, name:match "utf8" and "utf-8" or "euc-jp" }
       end
 
-      fn["skkeleton#config"] {
+      vim.fn["skkeleton#config"] {
         globalDictionaries = {
           dic "SKK-JISYO.L",
           dic "SKK-JISYO.jinmei",
@@ -151,7 +150,7 @@ return {
         -- markerHenkan = "󰝣",
         -- markerHenkanSelect = "󰄮",
       }
-      fn["skkeleton#register_kanatable"]("rom", {
+      vim.fn["skkeleton#register_kanatable"]("rom", {
         ["("] = { "（", "" },
         [")"] = { "）", "" },
         ["z "] = { "　", "" },
@@ -213,70 +212,70 @@ return {
     init = function()
       palette "cmp" {
         nord = function(colors)
-          api.set_hl(0, "CmpItemAbbrDeprecated", { fg = colors.brighter_black, bold = true })
-          api.set_hl(0, "CmpItemAbbrMatch", { fg = colors.yellow })
-          api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = colors.orange })
-          api.set_hl(0, "CmpItemMenu", { fg = colors.brighter_black, bold = true })
+          vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = colors.brighter_black, bold = true })
+          vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = colors.brighter_black, bold = true })
 
-          api.set_hl(0, "CmpItemKindText", { fg = colors.blue })
-          api.set_hl(0, "CmpItemKindMethod", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindFunction", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindConstructor", { fg = colors.magenta, bold = true })
-          api.set_hl(0, "CmpItemKindField", { fg = colors.green })
-          api.set_hl(0, "CmpItemKindVariable", { fg = colors.cyan })
-          api.set_hl(0, "CmpItemKindClass", { fg = colors.yellow })
-          api.set_hl(0, "CmpItemKindInterface", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindModule", { fg = colors.yellow })
-          api.set_hl(0, "CmpItemKindProperty", { fg = colors.green })
-          api.set_hl(0, "CmpItemKindUnit", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindValue", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindEnum", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindKeyword", { fg = colors.dark_blue })
-          api.set_hl(0, "CmpItemKindSnippet", { fg = colors.orange })
-          api.set_hl(0, "CmpItemKindColor", { fg = colors.yellow })
-          api.set_hl(0, "CmpItemKindFile", { fg = colors.green })
-          api.set_hl(0, "CmpItemKindReference", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindFolder", { fg = colors.green })
-          api.set_hl(0, "CmpItemKindEnumMember", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindConstant", { fg = colors.dark_blue })
-          api.set_hl(0, "CmpItemKindStruct", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
-          api.set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindText", { fg = colors.blue })
+          vim.api.nvim_set_hl(0, "CmpItemKindMethod", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindFunction", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindConstructor", { fg = colors.magenta, bold = true })
+          vim.api.nvim_set_hl(0, "CmpItemKindField", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindVariable", { fg = colors.cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindClass", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "CmpItemKindInterface", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindModule", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "CmpItemKindProperty", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindValue", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindEnum", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { fg = colors.dark_blue })
+          vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "CmpItemKindColor", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "CmpItemKindFile", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindReference", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindFolder", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindEnumMember", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindConstant", { fg = colors.dark_blue })
+          vim.api.nvim_set_hl(0, "CmpItemKindStruct", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
         end,
         sweetie = function(colors)
-          api.set_hl(0, "CmpItemAbbrDeprecated", { fg = colors.dark_grey, bold = true })
-          api.set_hl(0, "CmpItemAbbrMatch", { fg = colors.yellow })
-          api.set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = colors.orange })
-          api.set_hl(0, "CmpItemMenu", { fg = colors.dark_grey, bold = true })
+          vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = colors.dark_grey, bold = true })
+          vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = colors.dark_grey, bold = true })
 
-          api.set_hl(0, "CmpItemKindText", { fg = colors.blue })
-          api.set_hl(0, "CmpItemKindMethod", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindFunction", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindConstructor", { fg = colors.magenta, bold = true })
-          api.set_hl(0, "CmpItemKindField", { fg = colors.green })
-          api.set_hl(0, "CmpItemKindVariable", { fg = colors.cyan })
-          api.set_hl(0, "CmpItemKindClass", { fg = colors.yellow })
-          api.set_hl(0, "CmpItemKindInterface", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindModule", { fg = colors.yellow })
-          api.set_hl(0, "CmpItemKindProperty", { fg = colors.green })
-          api.set_hl(0, "CmpItemKindUnit", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindValue", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindEnum", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindKeyword", { fg = colors.dark_blue })
-          api.set_hl(0, "CmpItemKindSnippet", { fg = colors.orange })
-          api.set_hl(0, "CmpItemKindColor", { fg = colors.yellow })
-          api.set_hl(0, "CmpItemKindFile", { fg = colors.green })
-          api.set_hl(0, "CmpItemKindReference", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindFolder", { fg = colors.green })
-          api.set_hl(0, "CmpItemKindEnumMember", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindConstant", { fg = colors.dark_blue })
-          api.set_hl(0, "CmpItemKindStruct", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
-          api.set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
-          api.set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
-          api.set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindText", { fg = colors.blue })
+          vim.api.nvim_set_hl(0, "CmpItemKindMethod", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindFunction", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindConstructor", { fg = colors.magenta, bold = true })
+          vim.api.nvim_set_hl(0, "CmpItemKindField", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindVariable", { fg = colors.cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindClass", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "CmpItemKindInterface", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindModule", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "CmpItemKindProperty", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindValue", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindEnum", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { fg = colors.dark_blue })
+          vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "CmpItemKindColor", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "CmpItemKindFile", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindReference", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindFolder", { fg = colors.green })
+          vim.api.nvim_set_hl(0, "CmpItemKindEnumMember", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindConstant", { fg = colors.dark_blue })
+          vim.api.nvim_set_hl(0, "CmpItemKindStruct", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
+          vim.api.nvim_set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
+          vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
+          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
         end,
       }
     end,
@@ -368,7 +367,7 @@ return {
             --keyword_pattern = [[\h\w*\%(\%(-\|::\)\h\w*\)*]],
             --keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
             keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
-            get_bufnrs = api.list_bufs,
+            get_bufnrs = vim.api.nvim_list_bufs,
           },
         },
         { name = "ghq" },
@@ -411,10 +410,10 @@ return {
             end
           end, { "i", "s" }),
           --[[ ["<Tab>"] = cmp.mapping(function(fallback)
-            local col = fn.col "." - 1
+            local col = vim.fn.col "." - 1
             if cmp.visible() then
               cmp.select_next_item()
-            elseif col == 0 or api.get_current_line():sub(col, col):match "%s" then
+            elseif col == 0 or vim.api.nvim_get_current_line():sub(col, col):match "%s" then
               fallback()
             else
               cmp.complete()
@@ -425,8 +424,8 @@ return {
               if vim.bo.buftype == "prompt" then
                 return false
               end
-              local line, col = unpack(api.win_get_cursor(0))
-              local is_empty_line = api.buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match "^%s*$"
+              local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+              local is_empty_line = vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match "^%s*$"
               return col ~= 0 and not is_empty_line
             end
             if cmp.visible() and has_words_before() then
