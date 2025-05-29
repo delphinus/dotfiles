@@ -51,7 +51,6 @@ return {
         end
 
         local group = vim.api.nvim_create_augroup("skkeleton_callbacks", {})
-        local cmp_config
         vim.api.nvim_create_autocmd("User", {
           desc = "Set up skkeleton settings with nvim-cmp",
           group = group,
@@ -76,7 +75,7 @@ return {
           group = group,
           pattern = "skkeleton-disable-pre",
           callback = function()
-            require("cmp").setup.buffer(cmp_config)
+            require("cmp").setup.buffer {}
           end,
         })
 
