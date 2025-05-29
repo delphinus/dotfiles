@@ -50,11 +50,11 @@ return {
           end
         end
 
-        local g1 = vim.api.nvim_create_augroup("skkeleton_callbacks", {})
+        local group = vim.api.nvim_create_augroup("skkeleton_callbacks", {})
         local cmp_config
         vim.api.nvim_create_autocmd("User", {
           desc = "Set up skkeleton settings with nvim-cmp",
-          group = g1,
+          group = group,
           pattern = "skkeleton-enable-pre",
           callback = function()
             local types = require "cmp.types"
@@ -73,27 +73,26 @@ return {
         })
         vim.api.nvim_create_autocmd("User", {
           desc = "Restore the default settings for nvim-cmp",
-          group = g1,
+          group = group,
           pattern = "skkeleton-disable-pre",
           callback = function()
             require("cmp").setup.buffer(cmp_config)
           end,
         })
 
-        local g2 = vim.api.nvim_create_augroup("skkeleton_karabiner_elements", {})
         vim.api.nvim_create_autocmd(
           { "InsertEnter", "CmdlineEnter" },
-          { group = g2, callback = set_karabiner(1), desc = "Enable Karabiner-Elements settings for skkeleton" }
+          { group = group, callback = set_karabiner(1), desc = "Enable Karabiner-Elements settings for skkeleton" }
         )
         vim.api.nvim_create_autocmd(
           { "InsertLeave", "CmdlineLeave", "FocusLost" },
-          { group = g2, callback = set_karabiner(0), desc = "Disable Karabiner-Elements settings for skkeleton" }
+          { group = group, callback = set_karabiner(0), desc = "Disable Karabiner-Elements settings for skkeleton" }
         )
         vim.api.nvim_create_autocmd("FocusGained", {
           desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
-          group = g2,
+          group = group,
           callback = function()
-            local val = not not vim.vim.api.nvim_nvim_get_mode().mode:match "[icrR]" and 1 or 0
+            local val = not not vim.api.nvim_get_mode().mode:match "[icrR]" and 1 or 0
             set_karabiner(val)()
           end,
         })
