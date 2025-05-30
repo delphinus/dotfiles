@@ -44,12 +44,6 @@ return {
       local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
       local karabiner_exists = not not vim.uv.fs_stat(karabiner_cli)
       if karabiner_exists then
-        local function set_karabiner(val)
-          return function()
-            vim.system { karabiner_cli, "--set-variables", vim.json.encode { neovim_in_insert_mode = val } }
-          end
-        end
-
         local group = vim.api.nvim_create_augroup("skkeleton_callbacks", {})
         vim.api.nvim_create_autocmd("User", {
           desc = "Set up skkeleton settings with nvim-cmp",
@@ -79,6 +73,17 @@ return {
           end,
         })
 
+        local function set_karabiner(val)
+          return function()
+            vim.system { karabiner_cli, "--set-variables", vim.json.encode { neovim_in_insert_mode = val } }
+          end
+        end
+
+        local function mode_karabiner()
+          local is_in_insert = not not vim.api.nvim_get_mode().mode:match "[icrR]"
+          set_karabiner(is_in_insert and 1 or 0)()
+        end
+
         vim.api.nvim_create_autocmd(
           { "InsertEnter", "CmdlineEnter" },
           { group = group, callback = set_karabiner(1), desc = "Enable Karabiner-Elements settings for skkeleton" }
@@ -88,13 +93,48 @@ return {
           { group = group, callback = set_karabiner(0), desc = "Disable Karabiner-Elements settings for skkeleton" }
         )
         vim.api.nvim_create_autocmd("FocusGained", {
-          desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
           group = group,
-          callback = function()
-            local val = not not vim.api.nvim_get_mode().mode:match "[icrR]" and 1 or 0
-            set_karabiner(val)()
-          end,
+          callback = mode_karabiner,
+          desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
         })
+
+        ---@async
+        ---@return number?
+        local function wezterm_frontmost_pane()
+          local async = require "plenary.async"
+          local async_system = async.wrap(vim.system, 3)
+          local frontmost_pid = tonumber(
+            async_system({
+              "osascript",
+              "-e",
+              'tell application "System Events" to get the unix id of first process whose frontmost is true',
+            }).stdout,
+            10
+          )
+          local wezterms =
+            vim.json.decode(async_system({ "wezterm", "cli", "list-clients", "--format", "json" }).stdout)
+          for _, wezterm in ipairs(wezterms) do
+            if wezterm.pid == frontmost_pid then
+              return wezterm.focused_pane_id
+            end
+          end
+        end
+
+        assert(vim.uv.new_timer()):start(
+          500,
+          500,
+          vim.schedule_wrap(function()
+            local wezterm_pane = tonumber(vim.env.WEZTERM_PANE, 10)
+            require("plenary.async").void(function()
+              local pane = wezterm_frontmost_pane()
+              if not pane then
+                set_karabiner(0)()
+              elseif pane == wezterm_pane then
+                vim.schedule_wrap(mode_karabiner)()
+              end
+            end)()
+          end)
+        )
       end
     end,
 
