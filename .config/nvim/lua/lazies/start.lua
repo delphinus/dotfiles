@@ -429,5 +429,16 @@ return {
     },
   },
 
-  { "delphinus/manage-help-tags.nvim", opts = {} },
+  non_lazy { "delphinus/manage-help-tags.nvim", opts = {} },
+
+  non_lazy {
+    "willothy/flatten.nvim",
+    priority = 1001,
+    ---@module 'flatten'
+    ---@type Flatten.PartialConfig
+    -- NOTE: This causes an error
+    -- ....local/share/nvim/lazy/flatten.nvim/lua/flatten/init.lua:260: attempt to concatenate local 'pid' (a nil value)
+    -- opts = { integrations = { wezterm = true } },
+    opts = {},
+  },
 }
