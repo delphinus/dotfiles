@@ -1498,6 +1498,7 @@ return {
 
   {
     "delphinus/rtbrowse.nvim",
+    branch = "feat/get-commit",
     keys = {
       { "<Leader>gB", lazy_require("rtbrowse").browse(), mode = { "n", "x", "o" } },
     },
