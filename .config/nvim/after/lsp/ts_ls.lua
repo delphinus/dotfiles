@@ -23,6 +23,6 @@ return {
       includeInlayVariableTypeHints = true,
     },
   },
-  root_markers = { "tsconfig.json", "jsconfig.json", "package.json" },
+  root_markers = { "index.html", "tsconfig.json", "jsconfig.json", "package.json" },
   workspace_required = true,
 }
