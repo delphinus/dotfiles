@@ -98,13 +98,19 @@ return {
           desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
         })
 
+        ---@return async fun(cmd: string[], opts?: vim.SystemOpts): vim.SystemCompleted
+        local function async_system()
+          return function(cmd, opts)
+            local async = require "plenary.async"
+            return async.wrap(vim.system, 3)(cmd, opts)
+          end
+        end
+
         ---@async
         ---@return number?
         local function wezterm_frontmost_pane()
-          local async = require "plenary.async"
-          local async_system = async.wrap(vim.system, 3)
           local frontmost_pid = tonumber(
-            async_system({
+            async_system()({
               "osascript",
               "-e",
               'tell application "System Events" to get the unix id of first process whose frontmost is true',
@@ -112,7 +118,7 @@ return {
             10
           )
           local wezterms =
-            vim.json.decode(async_system({ "wezterm", "cli", "list-clients", "--format", "json" }).stdout)
+            vim.json.decode(async_system()({ "wezterm", "cli", "list-clients", "--format", "json" }).stdout)
           for _, wezterm in ipairs(wezterms) do
             if wezterm.pid == frontmost_pid then
               return wezterm.focused_pane_id
@@ -124,8 +130,10 @@ return {
           500,
           500,
           vim.schedule_wrap(function()
-            local wezterm_pane = tonumber(vim.env.WEZTERM_PANE, 10)
-            require("plenary.async").void(function()
+            local async = require "plenary.async"
+            async.void(function()
+              async.util.scheduler()
+              local wezterm_pane = tonumber(vim.env.WEZTERM_PANE, 10)
               local pane = wezterm_frontmost_pane()
               if not pane then
                 set_karabiner(0)()
