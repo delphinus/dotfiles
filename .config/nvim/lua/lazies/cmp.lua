@@ -90,10 +90,10 @@ return {
             end, cmds))
           ) --[[@as vim.SystemCompleted[] ]]
           local stdouts = {}
-          for i, job in ipairs(results) do
+          for j, job in ipairs(results) do
             if job.code ~= 0 then
               vim.notify(
-                ("command execution failed => cmd: %s, err => %s"):format(cmds[i][1], job.stderr),
+                ("command execution failed => cmd: %s, err => %s"):format(cmds[j][1], job.stderr),
                 vim.log.levels.ERROR
               )
             end
