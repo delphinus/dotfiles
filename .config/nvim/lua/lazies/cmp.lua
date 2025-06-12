@@ -74,17 +74,38 @@ return {
         })
 
         ---@async
-        ---@param cmd string[]
-        ---@param opts? vim.SystemOpts
-        ---@return vim.SystemCompleted
-        local function async_system(cmd, opts)
-          return require("plenary.async").wrap(vim.system, 3)(cmd, opts)
+        ---@param cmds string[][]
+        ---@return string[]
+        local function async_systems(cmds)
+          local async = require "plenary.async"
+          local async_system = async.wrap(vim.system, 3)
+          local results = vim.tbl_map(
+            function(v)
+              return v[1]
+            end,
+            async.util.join(vim.tbl_map(function(cmd)
+              return function()
+                return async_system(cmd)
+              end
+            end, cmds))
+          ) --[[@as vim.SystemCompleted[] ]]
+          local stdouts = {}
+          for i, job in ipairs(results) do
+            if job.code ~= 0 then
+              vim.notify(
+                ("command execution failed => cmd: %s, err => %s"):format(cmds[i][1], job.stderr),
+                vim.log.levels.ERROR
+              )
+            end
+            table.insert(stdouts, job.stdout or "")
+          end
+          return stdouts
         end
 
         ---@async
         ---@param val number
         local function async_karabiner(val)
-          async_system { karabiner_cli, "--set-variables", vim.json.encode { neovim_in_insert_mode = val } }
+          async_systems { { karabiner_cli, "--set-variables", vim.json.encode { neovim_in_insert_mode = val } } }
         end
 
         ---@param f async function
@@ -126,21 +147,16 @@ return {
         ---@async
         ---@return number?
         local function wezterm_frontmost_pane()
-          local async = require "plenary.async"
-          local results = async.util.join {
-            function()
-              return async_system({
-                "osascript",
-                "-e",
-                'tell application "System Events" to get the unix id of first process whose frontmost is true',
-              }).stdout
-            end,
-            function()
-              return async_system({ "wezterm", "cli", "list-clients", "--format", "json" }).stdout
-            end,
+          local results = async_systems {
+            {
+              "osascript",
+              "-e",
+              'tell application "System Events" to get the unix id of first process whose frontmost is true',
+            },
+            { "wezterm", "cli", "list-clients", "--format", "json" },
           }
-          local frontmost_pid = tonumber(results[1][1], 10)
-          local wezterms = vim.json.decode(results[2][1])
+          local frontmost_pid = tonumber(results[1], 10)
+          local wezterms = vim.json.decode(results[2])
           for _, wezterm in ipairs(wezterms) do
             if wezterm.pid == frontmost_pid then
               return wezterm.focused_pane_id
