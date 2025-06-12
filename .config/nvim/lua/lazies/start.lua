@@ -241,6 +241,10 @@ return {
       ---@type Neominimap.UserConfig
       vim.g.neominimap = {
         auto_enable = true,
+        buf_filter = function(bufnr)
+          local filename = vim.api.nvim_buf_get_name(bufnr)
+          return not filename:match "%.log$"
+        end,
         exclude_filetypes = { "help", "vfiler", "dashboard", "markdown" },
         float = { minimap_width = 10, margin = { top = 1 }, window_border = "none" },
         treesitter = { enabled = lazy_utils.has_plugin "nvim-treesitter" },
