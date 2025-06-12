@@ -74,8 +74,8 @@ return {
         })
 
         ---@async
-        ---@param cmd: string[]
-        ---@param opts?: vim.SystemOpts
+        ---@param cmd string[]
+        ---@param opts? vim.SystemOpts
         ---@return vim.SystemCompleted
         local function async_system(cmd, opts)
           return require("plenary.async").wrap(vim.system, 3)(cmd, opts)
@@ -104,7 +104,7 @@ return {
         end
 
         ---@async
-        local function mode_karabiner()
+        local function async_mode_karabiner()
           local is_in_insert = not not require("plenary.async").api.nvim_get_mode().mode:match "[icrR]"
           async_karabiner(is_in_insert and 1 or 0)
         end
@@ -119,7 +119,7 @@ return {
         )
         vim.api.nvim_create_autocmd("FocusGained", {
           group = group,
-          callback = void(mode_karabiner),
+          callback = void(async_mode_karabiner),
           desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
         })
 
@@ -152,7 +152,7 @@ return {
             if not pane then
               async_karabiner(0)
             elseif pane == wezterm_pane then
-              mode_karabiner()
+              async_mode_karabiner()
             end
           end)
         )
