@@ -126,16 +126,21 @@ return {
         ---@async
         ---@return number?
         local function wezterm_frontmost_pane()
-          local frontmost_pid = tonumber(
-            async_system({
-              "osascript",
-              "-e",
-              'tell application "System Events" to get the unix id of first process whose frontmost is true',
-            }).stdout,
-            10
-          )
-          local wezterms =
-            vim.json.decode(async_system({ "wezterm", "cli", "list-clients", "--format", "json" }).stdout)
+          local async = require "plenary.async"
+          local results = async.util.join {
+            function()
+              return async_system({
+                "osascript",
+                "-e",
+                'tell application "System Events" to get the unix id of first process whose frontmost is true',
+              }).stdout
+            end,
+            function()
+              return async_system({ "wezterm", "cli", "list-clients", "--format", "json" }).stdout
+            end,
+          }
+          local frontmost_pid = tonumber(results[1][1], 10)
+          local wezterms = vim.json.decode(results[2][1])
           for _, wezterm in ipairs(wezterms) do
             if wezterm.pid == frontmost_pid then
               return wezterm.focused_pane_id
