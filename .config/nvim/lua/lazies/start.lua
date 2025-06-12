@@ -48,13 +48,7 @@ return {
           or path == vim.env.HOME .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes"
           or path == vim.env.HOME .. "/Library/Mobile Documents/iCloud~md~obsidian/Documents"
       end,
-      -- disable logging when running in headless mode
-      log_level = (function()
-        if #vim.api.nvim_list_uis() == 0 then
-          return false
-        end
-        return vim.log.levels.DEBUG
-      end)(),
+      log_level = false,
     },
   },
 
