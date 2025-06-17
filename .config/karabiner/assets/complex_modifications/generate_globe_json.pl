@@ -63,6 +63,11 @@ my $json = {
             description => '[delphinus] Overwrite 🌐 key rules',
             manipulators => [
                 {
+                    from => { key_code => 'tab', modifiers => { mandatory => ['left_shift'] } },
+                    to => { key_code => 'tab', modifiers => ['shift'] },
+                    type => 'basic',
+                },
+                {
                     from => { key_code => 'tab', modifiers => { mandatory => ['left_command'] } },
                     to => { key_code => 'tab', modifiers => ['command'] },
                     type => 'basic',
