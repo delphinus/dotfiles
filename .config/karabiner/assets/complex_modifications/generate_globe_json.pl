@@ -24,7 +24,7 @@ my @manipulators = map {
     } undef, 'left_shift', 'left_control', ['left_shift', 'left_control'],
         ['left_shift', 'left_command'], ['left_control', 'left_command'],
         ['left_shift', 'left_control', 'left_command'];
-} 'a' .. 'z';
+} 'a' .. 'z', 'left_arrow', 'right_arrow', 'up_arrow', 'down_arrow';
 
 my $json = {
     title => '[delphinus] 🌐 key',
