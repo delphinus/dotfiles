@@ -764,6 +764,7 @@ return {
 
   {
     "MeanderingProgrammer/markdown.nvim",
+    enabled = false,
     name = "render-markdown",
     keys = { { "<Leader>rm", "<Cmd>RenderMarkdown toggle<CR>", desc = "toggle render-markdown" } },
     ft = { "markdown" },
@@ -1502,5 +1503,13 @@ return {
     keys = {
       { "<Leader>gB", lazy_require("rtbrowse").browse(), mode = { "n", "x", "o" } },
     },
+  },
+
+  {
+    "3rd/diagram.nvim",
+    enabled = false,
+    ft = { "markdown" },
+    dependencies = { "3rd/image.nvim" },
+    opts = {},
   },
 }

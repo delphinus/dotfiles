@@ -50,6 +50,7 @@
   "demicolon.nvim": { "branch": "main", "commit": "8d79e527dbbef9de06405a30258b8d752c0638c4" },
   "denops-lazy.nvim": { "branch": "main", "commit": "6e45635cb65d083f5c0787abf45eeda864f6747c" },
   "denops.vim": { "branch": "main", "commit": "387fe5771a51b613e21212719414570b96ea8c8e" },
+  "diagram.nvim": { "branch": "master", "commit": "84fe677aa940605ef248f36c0ea23561690c95eb" },
   "direnv.vim": { "branch": "master", "commit": "ab2a7e08dd630060cd81d7946739ac7442a4f269" },
   "dwm.nvim": { "branch": "main", "commit": "0e25c3c6155b0ac0f46c82e6fa67d7d66a8ed0da" },
   "eaw.nvim": { "branch": "main", "commit": "215e1acef4bf4cb8659566bcd72dbad8a3af8fa6" },
