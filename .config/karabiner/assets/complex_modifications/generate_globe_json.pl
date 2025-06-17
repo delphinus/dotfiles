@@ -1,0 +1,66 @@
+#!/usr/bin/env perl
+use utf8;
+use 5.34.0;
+use warnings;
+use JSON::PP;
+
+my @manipulators = map {
+    my $key = $_;
+    map {
+        my @modifiers = !defined ? () :
+            ref ? $_->@* :
+            $_;
+        {
+            type => 'basic',
+            from => {
+                key_code => $key,
+                (@modifiers ? (
+                    modifiers => { mandatory => \@modifiers },
+                ) : ()),
+            },
+            to => [{ key_code => $key, modifiers => ['fn', @modifiers]}],
+            conditions => [{ type => 'variable_if', name => 'globe_key_mode', value => 1 }],
+        }
+    } undef, 'left_shift', 'left_control', ['left_shift', 'left_control'],
+        ['left_shift', 'left_command'], ['left_control', 'left_command'],
+        ['left_shift', 'left_control', 'left_command'];
+} 'a' .. 'z';
+
+my $json = {
+    title => '[delphinus] 🌐 key',
+    rules => [
+        {
+            description => '[delphinus] Change tab to 🌐 key. (Post tab if pressed alone)',
+            manipulators => [
+                {
+                    from => { key_code => 'tab', modifiers => { mandatory => ['any'] } },
+                    to => [{ set_variable => { name => 'globe_key_mode', value => 1 } }],
+                    to_if_alone => [{ key_code => 'tab' }],
+                    to_after_key_up => [{ set_variable => { name => 'globe_key_mode', value => 0 } }],
+                    type => 'basic',
+                },
+            ],
+        },
+        {
+            description => '[delphinus] 🌐 key mode',
+            manipulators => \@manipulators,
+        },
+        {
+            description => '[delphinus] Overwrite 🌐 key rules',
+            manipulators => [
+                {
+                    from => { key_code => 'tab', modifiers => { mandatory => ['left_command'] } },
+                    to => { key_code => 'tab', modifiers => ['command'] },
+                    type => 'basic',
+                },
+                {
+                    from => { key_code => 'tab', modifiers => { mandatory => ['left_shift', 'left_command'] } },
+                    to => { key_code => 'tab', modifiers => ['shift', 'command'] },
+                    type => 'basic',
+                },
+            ],
+        },
+    ],
+};
+
+print JSON::PP->new->utf8(1)->indent(1)->space_after(1)->indent_length(2)->canonical(1)->encode($json);
