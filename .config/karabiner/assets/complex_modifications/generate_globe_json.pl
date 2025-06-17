@@ -26,6 +26,20 @@ my @manipulators = map {
         ['left_shift', 'left_control', 'left_command'];
 } 'a' .. 'z', 'left_arrow', 'right_arrow', 'up_arrow', 'down_arrow';
 
+my @custom_manipulators = map {
+    {
+        type => 'basic',
+        from => {
+            key_code => $_,
+            modifiers => {
+                mandatory => ['left_control', 'left_option'],
+            },
+        },
+        to => [{ key_code => $_, modifiers => ['left_shift', 'left_control', 'left_command', 'left_option'] }],
+        conditions => [{ type => 'variable_if', name => 'globe_key_mode', value => 1 }],
+    }
+} 'up_arrow', 'right_arrow', 'down_arrow', 'left_arrow';
+
 my $json = {
     title => '[delphinus] 🌐 key',
     rules => [
@@ -43,7 +57,7 @@ my $json = {
         },
         {
             description => '[delphinus] 🌐 key mode',
-            manipulators => \@manipulators,
+            manipulators => [@manipulators, @custom_manipulators],
         },
         {
             description => '[delphinus] Overwrite 🌐 key rules',
