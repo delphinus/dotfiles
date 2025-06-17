@@ -1,0 +1,31 @@
+{
+  "title": "[delphinus] 🌐 key",
+  "rules": [
+    {
+      "description": "[delphinus] Change tab to 🌐 key. (Post tab if pressed alone)",
+      "manipulators": [
+        {
+          "from": {
+            "key_code": "tab",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "apple_vendor_top_case_key_code": "keyboard_fn"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "tab"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
