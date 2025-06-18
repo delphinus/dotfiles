@@ -1485,6 +1485,7 @@ return {
       {
         "zbirenbaum/copilot.lua",
         cmd = { "Copilot" },
+        event = { "InsertEnter", "CmdlineEnter" },
         opts = {
           -- suggestion = { auto_trigger = true },
           suggestion = { enabled = false },
