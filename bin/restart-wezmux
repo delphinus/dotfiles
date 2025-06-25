@@ -1,0 +1,31 @@
+#!/bin/bash -u
+
+try() {
+  [[ $- = *e* ]]
+  SAVED_OPT_E=$?
+  set +e
+}
+
+catch() {
+  export ex_code=$?
+  ((SAVED_OPT_E)) && set -e
+  return $ex_code
+}
+
+try
+(
+  pkill wezterm-mux-server
+)
+catch || {
+  osascript -e "display dialog \"pkill failed with exit code: $ex_code\""
+  exit $ex_code
+}
+
+try
+(
+  wezterm
+)
+catch || {
+  osascript -e "display dialog \"wezterm failed with exit code: $ex_code\""
+  exit $ex_code
+}
