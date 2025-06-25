@@ -14,7 +14,9 @@ catch() {
 
 try
 (
-  pkill wezterm-mux-server
+  if pgrep -aq wezterm-mux-server; then
+    pkill wezterm-mux-server
+  fi
 )
 catch || {
   osascript -e "display dialog \"pkill failed with exit code: $ex_code\""
@@ -23,9 +25,11 @@ catch || {
 
 try
 (
-  wezterm
+  /opt/homebrew/bin/wezterm > /dev/null 2>&1 &
 )
 catch || {
   osascript -e "display dialog \"wezterm failed with exit code: $ex_code\""
   exit $ex_code
 }
+
+osascript -e 'successfully started WezTerm'
