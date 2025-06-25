@@ -19,7 +19,7 @@ try
   fi
 )
 catch || {
-  osascript -e "display dialog \"pkill failed with exit code: $ex_code\""
+  osascript -e "display notification \"pkill failed with exit code: $ex_code\""
   exit $ex_code
 }
 
@@ -28,8 +28,8 @@ try
   /opt/homebrew/bin/wezterm > /dev/null 2>&1 &
 )
 catch || {
-  osascript -e "display dialog \"wezterm failed with exit code: $ex_code\""
+  osascript -e "display notification \"wezterm failed with exit code: $ex_code\""
   exit $ex_code
 }
 
-osascript -e 'successfully started WezTerm'
+osascript -e 'display notification "successfully started WezTerm"'
