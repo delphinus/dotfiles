@@ -228,10 +228,11 @@ function fish_right_prompt
         end
         set -l duration (bc -S2 -e $CMD_DURATION/1000)
         set -l msg (echo (history | head -1) returned $status after $duration s)
+        set -l escaped (string replace -a '"' '\"' -- $msg)
         if test -n "$NVIM"; and type -q nvr
-            nvr --remote-send '<Cmd>lua vim.notify("'$msg'", vim.log.levels.WARN, { title = "command completed" })<CR>'
+            nvr --remote-send "<Cmd>lua vim.notify(\"$escaped\", vim.log.levels.WARN, { title = \"command completed\" })<CR>"
         else
-            osascript -e 'display notification "'$msg'" with title "command completed"'
+            osascript -e "display notification \"$escaped\" with title \"command completed\""
         end
     end
 end
