@@ -90,7 +90,7 @@
 	main = D !git difftool %(commit)~ %(commit)
 	main = Y @sh -c 'printf %s %(commit) | pbcopy'
 [tig "color"]
-	cursor = default color22 default
+	cursor = white color22 bold
 [pager]
 	branch = false
 [interactive]
