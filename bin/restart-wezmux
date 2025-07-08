@@ -25,7 +25,7 @@ catch || {
 
 try
 (
-  /opt/homebrew/bin/wezterm > /dev/null 2>&1 &
+  open /Applications/WezTerm.app > /dev/null 2>&1 &
 )
 catch || {
   osascript -e "display notification \"wezterm failed with exit code: $ex_code\""
