@@ -1,0 +1,144 @@
+#!/usr/bin/perl
+
+=head1 NAME
+
+git-list-pr - A tool to list GitHub pull requests and choose one to checkout optionally
+
+=head1 SYNOPSIS
+
+    # print all active PRs
+    git list-pr
+
+    # launch fzf and choose one to checkout
+    git list-pr -c
+
+=head1 DESCRIPTION
+
+This script uses the GitHub CLI (C<gh>) to retrieve a list of pull requests for
+the current repository. If formats and displays the list with color-coded
+output. Optionally it allows to the user to select one interactively using
+C<fzf> and check it out.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-c>, B<--checkout>
+
+Use C<fzf> to select a pull request to checkout interactively. Requires C<fzf>
+to be installed.
+
+=back
+
+=cut
+
+use 5.34.0;
+use warnings;
+use feature 'signatures';
+no warnings 'experimental::signatures';
+use utf8;
+use File::Which qw(which);
+use Getopt::Long qw(:config posix_default no_ignore_case bundling auto_help);
+use JSON;
+use Path::Tiny qw(path);
+use Pod::Usage qw(pod2usage);
+use Term::ANSIColor qw(:constants);
+use List::Util qw(max);
+binmode STDERR, ":utf8";
+binmode STDOUT, ":utf8";
+
+GetOptions(
+    \my %opt, qw(
+    checkout|c
+    help|h
+)) or pod2usage(1);
+$opt{help} and pod2usage(0);
+which 'gh' or pod2usage({ -message => 'gh not found', -exitval => 2});
+which 'fzf' or pod2usage({ -message => 'fzf not found', -exitval => 2}) if $opt{checkout};
+
+my $decoded = eval { decode_json `gh pr list --json number,title,headRefName,author,createdAt,isDraft` };
+if ($@) {
+    warn "Failed to decode JSON: $@";
+    exit 1;
+} elsif (!$decoded || $decoded->@* == 0) {
+    warn 'no PRs found';
+    exit 1;
+}
+
+my $emoji = eval {
+    my $cache_file = '/tmp/github_emoji.json';
+    if (-e $cache_file) {
+        decode_json path($cache_file)->slurp;
+    } else {
+        my $json = decode_json `gh api -H 'Accept: application/vnd.github.v3+json' /emojis`;
+        for (keys $json->%*) {
+            $json->{$_} =~ s|.*/([-\da-f]+)\.png.*|
+                join '', map { chr hex } split /-/, $1;
+            |e;
+        }
+        path($cache_file)->spew(encode_json $json);
+        $json;
+    }
+};
+die "Failed to load emojis: $@" if $@;
+
+sub fmt($name) {
+    my @char_counts = map {
+        my %count;
+        for (split //, $_->{$name}) {
+            if (/\p{EA=W}/) {
+                $count{len} += 2;
+                $count{W}++;
+            } else {
+                $count{len} ++;
+            }
+        }
+        \%count;
+    } $decoded->@*;
+
+    my $max_length = max map { $_->{len} } @char_counts;
+
+    for my $i (0 .. @char_counts - 1) {
+        my $formatted = sprintf "%-${max_length}s", $decoded->[$i]{$name};
+        $decoded->[$i]{formatted}{$name} = $char_counts[$i]{W} ? substr $formatted, 0, - $char_counts[$i]{W} : $formatted;
+    }
+}
+
+for ($decoded->@*) {
+    $_->{title} =~ s|:(\w+):|$emoji->{$1} // $&|eg;
+    $_->{authorName} = $_->{author}{login} // 'unknown';
+}
+
+fmt('title');
+fmt('headRefName');
+fmt('authorName');
+
+my $result = '';
+for (@$decoded) {
+    $result .= $_->{isDraft} ? BRIGHT_BLACK : GREEN;
+    $result .= sprintf '#%-4d  ', $_->{number};
+    $result .= RESET;
+    $result .= MAGENTA "$_->{formatted}{authorName}  ";
+    $result .= RESET;
+    $result .= "$_->{formatted}{title}  ";
+    $result .= CYAN "$_->{formatted}{headRefName}  ";
+    $result .= RESET;
+    $result .= BRIGHT_BLACK "$_->{createdAt}";
+    $result .= RESET;
+    $result .= "\n";
+}
+
+if (!$opt{checkout}) {
+    print $result;
+    exit;
+}
+
+my $temp = Path::Tiny->tempfile;
+$temp->spew_utf8($result);
+my $selected = `bash -c "cat $temp | fzf --ansi"`;
+if ($? != 0) {
+    die "cancelled\n";
+    exit $?;
+}
+my ($num) = $selected =~ /^#(\d+)/;
+exec 'gh', 'co', '--recurse-submodules', $num;
