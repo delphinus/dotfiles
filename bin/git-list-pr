@@ -135,7 +135,7 @@ if (!$opt{checkout}) {
 
 my $temp = Path::Tiny->tempfile;
 $temp->spew_utf8($result);
-my $selected = `bash -c "cat $temp | fzf --ansi"`;
+my $selected = `bash -c "cat $temp | fzf --ansi --border --inline-info --height=40% --prompt='❯❯❯ '"`;
 if ($? != 0) {
     die "cancelled\n";
     exit $?;
