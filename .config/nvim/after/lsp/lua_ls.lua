@@ -1,6 +1,8 @@
 return {
   settings = {
     Lua = {
+      -- https://blog.atusy.net/2025/07/15/prefer-luadoc-to-luals-semantictokens/
+      semantic = { enable = false },
       completion = { callSnippet = "Replace" },
       diagnostics = {
         globals = {
