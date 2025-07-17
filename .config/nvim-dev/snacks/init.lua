@@ -1,6 +1,6 @@
-vim.pack.add {
+vim.pack.add({
   "https://github.com/folke/snacks.nvim",
-}
+}, { load = false })
 
 vim.keymap.set("n", "<leader><space>", function()
   require("snacks").picker.smart()
