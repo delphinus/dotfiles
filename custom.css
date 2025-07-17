@@ -105,6 +105,11 @@
   unicode-range: U+0400-052F;
 }
 
+@font-face {
+  font-family: 'Amazon Ember';
+  src: local(-apple-system);
+}
+
 textarea,
 textarea *,
 pre,
