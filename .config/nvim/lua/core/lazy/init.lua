@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("User", {
   callback = function()
     local Path = require "plenary.path"
     local config = require "lazy.core.config"
-    local to_reset = { "vimdoc-ja", "moody.nvim" }
+    local to_reset = { "vimdoc-ja", "moody.nvim", "nerdy.nvim" }
     local done = {}
     for _, plugin in ipairs(to_reset) do
       local path = Path:new(config.options.root, plugin).filename

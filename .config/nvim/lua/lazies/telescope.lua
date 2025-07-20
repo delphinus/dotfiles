@@ -35,7 +35,13 @@ return {
   { "nvim-telescope/telescope-symbols.nvim" },
   { "nvim-telescope/telescope-z.nvim" },
 
-  { "2kabhishek/nerdy.nvim" },
+  {
+    "2kabhishek/nerdy.nvim",
+    keys = { "<Leader>in", "<Leader>iN" },
+    cmd = { "Nerdy" },
+    opts = { use_new_command = true },
+  },
+
   { "jonarrien/telescope-cmdline.nvim" },
   {
     "gbprod/yanky.nvim",
