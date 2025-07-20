@@ -230,7 +230,7 @@ return {
       vim.keymap.set("n", "<Leader>sd", function()
         if
           vim.iter(vim.lsp.get_clients()):any(function(client)
-            client.supports_method "textDocument/documentSymbol"
+            return client.supports_method "textDocument/documentSymbol"
           end)
         then
           core.builtin "lsp_document_symbols" {}()
