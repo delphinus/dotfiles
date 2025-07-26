@@ -36,6 +36,11 @@ Supply additional options to C<fzf>. The default is empty.
 
 When checking out a pull request, also checkout its submodules recursively.
 
+=item B<-s>, B<--search-options>=I<options>
+
+This will be used to filter the pull requests. It is passed directly to
+C<gh pr list>.
+
 =item B<-h>, B<--help>
 
 Show this help message.
@@ -61,19 +66,21 @@ binmode STDOUT, ":utf8";
 
 my %opt = (
     'fzf-options' => '',
+    'search-options' => '',
 );
 GetOptions(
     \%opt, qw(
     checkout|c
     fzf-options|f=s
     recurse-submodules|r
+    search-options|s=s
     help|h
 )) or pod2usage(1);
 $opt{help} and pod2usage(0);
 which 'gh' or pod2usage({ -message => 'gh not found', -exitval => 2});
 which 'fzf' or pod2usage({ -message => 'fzf not found', -exitval => 2}) if $opt{checkout};
 
-my $decoded = eval { decode_json `gh pr list --json number,title,headRefName,author,createdAt,isDraft` };
+my $decoded = eval { decode_json `gh pr list $opt{'search-options'} --json number,title,headRefName,author,createdAt,isDraft` };
 if ($@) {
     warn "Failed to decode JSON: $@";
     exit 1;
