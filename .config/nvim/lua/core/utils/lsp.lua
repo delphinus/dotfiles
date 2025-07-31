@@ -99,7 +99,12 @@ return {
 
     if not vim.env.LIGHT then
       if client.supports_method "textDocument/inlayHint" then
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        local filter = { bufnr = bufnr }
+        local ih = vim.lsp.inlay_hint
+        ih.enable(true, filter)
+        vim.keymap.set("n", "gy", function()
+          ih.enable(not ih.is_enabled(filter), filter)
+        end)
       end
     end
   end,
