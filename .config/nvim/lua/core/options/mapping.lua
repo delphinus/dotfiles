@@ -13,7 +13,7 @@ vim.keymap.set("n", "ZA", "<Cmd>qa<CR>")
 -- https://twitter.com/uvrub/status/1341036672364945408
 vim.keymap.set("i", "<CR>", "<C-g>u<CR>", { silent = true })
 
-vim.keymap.set("n", "ZR", ":restart!<CR>")
+vim.keymap.set("n", "ZR", ":restart<CR>")
 
 local function silent(cmd)
   vim.cmd("silent " .. cmd)
