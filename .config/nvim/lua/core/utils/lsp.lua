@@ -93,7 +93,6 @@ return {
     vim.keymap.set("n", "glo", vim.lsp.buf.outgoing_calls, { buffer = bufnr })
 
     if client.supports_method "textDocument/formatting" then
-      vim.keymap.set("n", "g!", require("auto_fmt").toggle, { buffer = bufnr })
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
     end
 

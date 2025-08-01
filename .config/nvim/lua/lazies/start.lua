@@ -207,6 +207,7 @@ return {
   },
 
   non_lazy {
+    enabled = false,
     "delphinus/auto_fmt.nvim",
     ---@type AutoFmtOptions
     opts = {
