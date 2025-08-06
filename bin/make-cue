@@ -18,6 +18,9 @@
     make-cue -t [filename]
     # exchange between artists and titles
 
+    make-cue -l [number] [filename]
+    # add dummy placeholder tracks
+
     make-cue -e [filename]
     # no dry-run
 
@@ -47,6 +50,7 @@ GetOptions(
     clipboard|c
     execute|e
     intro|i
+    placeholder|l=i
     print|p
     overwrite|o
     title_artist|t
@@ -54,6 +58,10 @@ GetOptions(
     help|h
 )) or pod2usage(1);
 $opt{help} and pod2usage(0);
+if (defined $opt{placeholder} && $opt{placeholder} < 1) {
+    pod2usage(-msg => 'placeholder count must be greater than 0', -exitval => 2);
+}
+
 my $mp3 = do {
     my $filename = shift // die 'set source file';
     if ($filename =~ /\.(?:m4a|mp4)$/) {
@@ -188,7 +196,17 @@ sub parse_input($input = '') {
 }
 
 my @tracks;
-if ($opt{clipboard}) {
+if ($opt{placeholder}) {
+    @tracks = map {
+        my $t = $length / $opt{placeholder} * ($_ - 1);
+        {
+            count => $_,
+            time => sprintf('%02d:%02d:00', $t / 60, $t % 60),
+            artist => '',
+            title => "Placeholder Track $_",
+        }
+    } 1 .. $opt{placeholder};
+} elsif ($opt{clipboard}) {
     my ($input) = capture {
         0 == system 'pbpaste' or die 'cannot execute `pbpaste`';
     };
