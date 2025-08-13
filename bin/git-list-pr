@@ -60,7 +60,8 @@ use JSON;
 use Path::Tiny qw(path);
 use Pod::Usage qw(pod2usage);
 use Term::ANSIColor qw(:constants);
-use List::Util qw(max);
+use Time::Piece;
+use List::Util qw(max reduce);
 binmode STDERR, ":utf8";
 binmode STDOUT, ":utf8";
 
@@ -77,15 +78,13 @@ GetOptions(
     help|h
 )) or pod2usage(1);
 $opt{help} and pod2usage(0);
+which 'git' or pod2usage({ -message => 'git not found', -exitval => 2});
 which 'gh' or pod2usage({ -message => 'gh not found', -exitval => 2});
 which 'fzf' or pod2usage({ -message => 'fzf not found', -exitval => 2}) if $opt{checkout};
 
 my $decoded = eval { decode_json `gh pr list $opt{'search-options'} --json number,title,headRefName,author,createdAt,isDraft` };
 if ($@) {
     warn "Failed to decode JSON: $@";
-    exit 1;
-} elsif (!$decoded || $decoded->@* == 0) {
-    warn 'no PRs found';
     exit 1;
 }
 
@@ -106,6 +105,24 @@ my $emoji = eval {
 };
 die "Failed to load emojis: $@" if $@;
 
+sub default_branches {
+    map {
+        my $epoch = (split /\n/, `git log origin/$_ --reverse --pretty=format:'%ct'`)[0];
+        {
+            author => { login => 'system' },
+            createdAt => gmtime($epoch)->strftime('%FT%TZ'),
+            headRefName => $_,
+            isDraft => 0,
+            number => 0,
+            title => $_,
+        }
+    } sort map { s,.*origin/,,; $_ } grep {
+        m,^  origin/(?:main|master|develop|staging)$,
+    } split /\n/, `git branch -r`;
+}
+
+my @prs = ($decoded->@*, default_branches);
+
 sub fmt($name) {
     my @char_counts = map {
         my %count;
@@ -118,17 +135,17 @@ sub fmt($name) {
             }
         }
         \%count;
-    } $decoded->@*;
+    } @prs;
 
     my $max_length = max map { $_->{len} } @char_counts;
 
     for my $i (0 .. @char_counts - 1) {
-        my $formatted = sprintf "%-${max_length}s", $decoded->[$i]{$name};
-        $decoded->[$i]{formatted}{$name} = $char_counts[$i]{W} ? substr $formatted, 0, - $char_counts[$i]{W} : $formatted;
+        my $formatted = sprintf "%-${max_length}s", $prs[$i]{$name};
+        $prs[$i]{formatted}{$name} = $char_counts[$i]{W} ? substr $formatted, 0, - $char_counts[$i]{W} : $formatted;
     }
 }
 
-for ($decoded->@*) {
+for (@prs) {
     $_->{title} =~ s|:(\w+):|$emoji->{$1} // $&|eg;
     $_->{authorName} = $_->{author}{login} // 'unknown';
 }
@@ -137,20 +154,20 @@ fmt('title');
 fmt('headRefName');
 fmt('authorName');
 
-my $result = '';
-for (@$decoded) {
-    $result .= $_->{isDraft} ? BRIGHT_BLACK : GREEN;
-    $result .= sprintf '#%-4d  ', $_->{number};
-    $result .= RESET;
-    $result .= MAGENTA "$_->{formatted}{authorName}  ";
-    $result .= RESET;
-    $result .= "$_->{formatted}{title}  ";
-    $result .= CYAN "$_->{formatted}{headRefName}  ";
-    $result .= RESET;
-    $result .= BRIGHT_BLACK "$_->{createdAt}";
-    $result .= RESET;
-    $result .= "\n";
-}
+my $result = reduce {
+    $a .
+    ($b->{isDraft} ? BRIGHT_BLACK : GREEN) .
+    sprintf('#%-4d  ', $b->{number}) .
+    RESET .
+    MAGENTA "$b->{formatted}{authorName}  " .
+    RESET .
+    "$b->{formatted}{title}  " .
+    CYAN "$b->{formatted}{headRefName}  " .
+    RESET .
+    BRIGHT_BLACK "$b->{createdAt}" .
+    RESET .
+    "\n"
+} '', @prs;
 
 if (!$opt{checkout}) {
     print $result;
@@ -165,5 +182,9 @@ if ($? != 0) {
     die "cancelled\n";
     exit $?;
 }
-my ($num) = $selected =~ /^#(\d+)/;
-exec 'gh', 'co', ($opt{'recurse-submodules'} ? '--recurse-submodules' : ()), $num;
+my ($num, $ref) = $selected =~ /^#(\d+).*\s+(\S+)\s+\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/;
+if ($num == 0) {
+    exec 'sh', '-c', "git checkout $ref && git pull origin $ref && git submodule update --init --recursive";
+} else {
+    exec 'gh', 'co', ($opt{'recurse-submodules'} ? '--recurse-submodules' : ()), $num;
+}
