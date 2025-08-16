@@ -229,7 +229,7 @@ return {
       vim.keymap.set("n", "<Leader>sr", core.builtin "lsp_references" {}, { desc = "Telescope lsp_references" })
       vim.keymap.set("n", "<Leader>sd", function()
         if
-          vim.iter(vim.lsp.get_clients()):any(function(client)
+          vim.iter(vim.lsp.get_clients { bufnr = 0 }):any(function(client)
             return client.supports_method "textDocument/documentSymbol"
           end)
         then
