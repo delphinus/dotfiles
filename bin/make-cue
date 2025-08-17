@@ -105,7 +105,7 @@ sub parse_input($input = '') {
         (my $line = $b) =~ m{
             ^
             (?:
-                \d+\.?
+                \d+[.)]?
                 \s+
             )?
 
