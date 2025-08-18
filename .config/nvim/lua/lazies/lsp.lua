@@ -239,20 +239,31 @@ return {
     end,
   },
 
+  -- { "RRethy/nvim-treesitter-endwise" },
+  { "AbaoFromCUG/nvim-treesitter-endwise", branch = "main" },
+
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
 
     dependencies = {
-      -- { "RRethy/nvim-treesitter-endwise" },
-      { "metiulekm/nvim-treesitter-endwise" },
-      { "nvim-treesitter/nvim-treesitter-refactor" },
-      { "nvim-treesitter/nvim-treesitter-textobjects" },
+      {
+        "andymass/vim-matchup",
+        init = function()
+          vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
+          vim.g.matchup_treesitter_enable_quotes = true
+          vim.g.matchup_treesitter_disable_virtual_text = true
+          vim.g.matchup_treesitter_include_match_words = true
+        end,
+      },
     },
 
     init = function()
+      local group = vim.api.nvim_create_augroup("treesitter-detection", {})
+
       -- HACK: deal with async treesitter detection
       vim.api.nvim_create_autocmd("BufWinEnter", {
-        group = vim.api.nvim_create_augroup("async-detection", {}),
+        group = group,
         callback = function()
           vim.defer_fn(function()
             if vim.bo.filetype == "" then
@@ -261,87 +272,25 @@ return {
           end, 500)
         end,
       })
+
+      local loaded_endwise = false
+      vim.api.nvim_create_autocmd("FileType", {
+        group = group,
+        callback = function()
+          if not loaded_endwise then
+            pcall(require, "nvim-treesitter")
+            local ok = pcall(require, "nvim-treesitter-endwise")
+            if ok then
+              loaded_endwise = true
+            end
+          end
+          pcall(vim.treesitter.start)
+        end,
+      })
     end,
 
-    event = { "BufReadPost", "BufNewFile", "InsertEnter" },
     build = ":TSUpdate",
-    keys = { { "<Space>h", "<Cmd>Inspect<CR>" } },
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        sync_install = false,
-        auto_install = true,
-        ignore_install = {},
-        ensure_installed = "all",
-        highlight = { enable = true },
-        incremental_selection = { enable = true },
-        indent = { enable = true },
-        modules = {},
-        textobjects = {
-          select = {
-            enable = true,
-            keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["aC"] = "@class.outer",
-              ["iC"] = "@class.inner",
-              ["ac"] = "@conditional.outer",
-              ["ic"] = "@conditional.inner",
-              ["ae"] = "@block.outer",
-              ["ie"] = "@block.inner",
-              ["al"] = "@loop.outer",
-              ["il"] = "@loop.inner",
-              ["is"] = "@statement.inner",
-              ["as"] = "@statement.outer",
-              ["ad"] = "@comment.outer",
-              ["id"] = "@comment.inner",
-              ["am"] = "@call.outer",
-              ["im"] = "@call.inner",
-            },
-          },
-          swap = {
-            enable = true,
-            swap_next = {
-              ["<leader>a"] = "@parameter.inner",
-            },
-            swap_previous = {
-              ["<leader>A"] = "@parameter.inner",
-            },
-          },
-          move = {
-            enable = true,
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = "@class.outer",
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-            },
-          },
-          lsp_interop = {
-            enable = true,
-            peek_definition_code = {
-              ["<Leader>Df"] = "@function.outer",
-              ["<Leader>DF"] = "@class.outer",
-            },
-          },
-        },
-        rainbow = {
-          enable = true,
-        },
-        endwise = {
-          enable = true,
-        },
-      }
-    end,
+    opts = {},
   },
 
   {

@@ -1004,7 +1004,7 @@ return {
     "mawkler/demicolon.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "nvim-treesitter/nvim-treesitter-textobjects",
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
     },
     keys = { "f", "F", "t", "T", ";", "," },
     ---@module 'demicolon'
@@ -1172,6 +1172,8 @@ return {
   },
 
   {
+    -- TODO: This plugin does not support nvim-treesitter: main.
+    enabled = false,
     "neo451/feed.nvim",
     cmd = "Feed",
     version = "*",
