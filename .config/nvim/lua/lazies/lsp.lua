@@ -279,8 +279,10 @@ return {
         callback = function()
           if not loaded_endwise then
             pcall(require, "nvim-treesitter")
-            require "nvim-treesitter-endwise"
-            loaded_endwise = true
+            local ok = pcall(require, "nvim-treesitter-endwise")
+            if ok then
+              loaded_endwise = true
+            end
           end
           pcall(vim.treesitter.start)
         end,

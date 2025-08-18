@@ -1172,6 +1172,8 @@ return {
   },
 
   {
+    -- TODO: This plugin does not support nvim-treesitter: main.
+    enabled = false,
     "neo451/feed.nvim",
     cmd = "Feed",
     version = "*",
