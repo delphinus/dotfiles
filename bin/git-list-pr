@@ -28,8 +28,6 @@ C<fzf> and check it out.
 Use C<fzf> to select a pull request to checkout interactively. Requires C<fzf>
 to be installed.
 
-=item B<-f>, B<--fzf-options>=I<options>
-
 Supply additional options to C<fzf>. The default is empty.
 
 =item B<-r>, B<--recurse-submodules>
@@ -40,6 +38,10 @@ When checking out a pull request, also checkout its submodules recursively.
 
 This will be used to filter the pull requests. It is passed directly to
 C<gh pr list>.
+
+=item B<-w>, B<--web>
+
+Open the selected pull request in the web browser instead of checking it out.
 
 =item B<-h>, B<--help>
 
@@ -75,6 +77,7 @@ GetOptions(
     fzf-options|f=s
     recurse-submodules|r
     search-options|s=s
+    web|w
     help|h
 )) or pod2usage(1);
 $opt{help} and pod2usage(0);
@@ -185,6 +188,8 @@ if ($? != 0) {
 my ($num, $ref) = $selected =~ /^#(\d+).*\s+(\S+)\s+\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/;
 if ($num == 0) {
     exec 'sh', '-c', "git checkout $ref && git pull origin $ref && git submodule update --init --recursive";
+} elsif ($opt{web}) {
+    exec 'gh', 'pr', 'view', '-w', $num;
 } else {
     exec 'gh', 'co', ($opt{'recurse-submodules'} ? '--recurse-submodules' : ()), $num;
 }
