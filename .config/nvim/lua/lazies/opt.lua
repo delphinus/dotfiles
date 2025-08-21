@@ -1515,4 +1515,22 @@ return {
     dependencies = { "3rd/image.nvim" },
     opts = {},
   },
+
+  {
+    "mikavilpas/yazi.nvim",
+    version = "*",
+    cmd = { "Yazi" },
+    keys = {
+      { "<Space>-", mode = { "n", "v" }, "<Cmd>Yazi<CR>", desc = "Open yazi at the current file" },
+      { "<Space>c", "<Cmd>Yazi cwd<CR>", desc = "Open the file manager in nvim's working directory" },
+      { "<Space>=", "<Cmd>Yazi toggle<CR>", desc = "Resume the last yazi session" },
+    },
+    ---@module yazi
+    ---@type YaziConfig | {}
+    opts = {
+      keymaps = {
+        show_help = "<f1>",
+      },
+    },
+  },
 }

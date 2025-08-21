@@ -72,7 +72,7 @@ return {
       local dc = vim.lsp.document_color
       local opts = { style = "󰑊" }
       dc.enable(true, bufnr, opts)
-      vim.keymap.set("n", "<Space>c", function()
+      vim.keymap.set("n", "<Space>C", function()
         dc.enable(not dc.is_enabled(bufnr), bufnr, opts)
       end, { buffer = bufnr })
     end
