@@ -109,7 +109,7 @@ return {
       if client.supports_method "textDocument/inlayHint" then
         local ih = vim.lsp.inlay_hint
         ih.enable(true, { bufnr = bufnr })
-        vim.keymap.set("n", "gy", function()
+        vim.keymap.set("n", "<Space>i", function()
           ih.enable(not ih.is_enabled { bufnr = 0 }, { bufnr = 0 })
         end)
       end
