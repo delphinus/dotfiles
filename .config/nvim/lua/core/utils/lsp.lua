@@ -68,6 +68,15 @@ return {
 
     api.buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
+    do
+      local dc = vim.lsp.document_color
+      local opts = { style = "󰑊" }
+      dc.enable(true, bufnr, opts)
+      vim.keymap.set("n", "<Space>c", function()
+        dc.enable(not dc.is_enabled(bufnr), bufnr, opts)
+      end, { buffer = bufnr })
+    end
+
     vim.keymap.set("n", "<Space>E", function()
       vim.diagnostic.enable(not vim.diagnostic.is_enabled { bufnr = 0 }, { bufnr = 0 })
     end, { buffer = bufnr })
