@@ -763,9 +763,7 @@ return {
   { "rbong/vim-flog", cmd = { "Flog", "Flogsplit", "Floggit" } },
 
   {
-    "MeanderingProgrammer/markdown.nvim",
-    enabled = false,
-    name = "render-markdown",
+    "MeanderingProgrammer/render-markdown.nvim",
     keys = { { "<Leader>rm", "<Cmd>RenderMarkdown toggle<CR>", desc = "toggle render-markdown" } },
     ft = { "markdown" },
     init = function()
@@ -802,6 +800,7 @@ return {
       ---@module 'render-markdown'
       ---@type render.md.UserConfig
       require("render-markdown").setup {
+        completion = { lsp = { enabled = true } },
         preset = "obsidian",
         anti_conceal = { above = 1, below = 1 },
         heading = {
@@ -811,22 +810,6 @@ return {
           -- icons = { "󰎥", "󰎨", "󰎫", "󰎲", "󰎯", "󰎴" },
           signs = { "󰫎" },
           border = true,
-          backgrounds = {
-            "@markup.heading.1.markdown",
-            "@markup.heading.2.markdown",
-            "@markup.heading.3.markdown",
-            "@markup.heading.4.markdown",
-            "@markup.heading.5.markdown",
-            "@markup.heading.6.markdown",
-          },
-          foregrounds = {
-            "@markup.heading.1.markdown",
-            "@markup.heading.2.markdown",
-            "@markup.heading.3.markdown",
-            "@markup.heading.4.markdown",
-            "@markup.heading.5.markdown",
-            "@markup.heading.6.markdown",
-          },
         },
         code = { left_pad = 4 },
         bullet = { icons = { "", "", "", "" } },

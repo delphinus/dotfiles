@@ -404,6 +404,7 @@ return {
             nvim_lsp = "L",
             nvim_lua = "U",
             path = "P",
+            ["render-markdown"] = "M",
             rg = "R",
             treesitter = "T",
             wezterm = "W",
@@ -425,6 +426,7 @@ return {
       end
 
       local sources = {
+        { name = "render-markdown" },
         { name = "digraphs", keyword_length = 1 },
         { name = "path" },
         { name = "lazydev", group_index = 0 },
