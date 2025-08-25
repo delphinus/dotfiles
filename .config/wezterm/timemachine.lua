@@ -132,7 +132,7 @@ function Timemachine:create_text(info)
   if info.DateOfStateChange then
     local success, stdout, stderr =
       wezterm.run_child_process { self.date, "-jf", "%F %T %z", "+ 最終更新 %H:%m ", info.DateOfStateChange }
-    refreshed = success and stdout or stderr
+    refreshed = (success and stdout or stderr):gsub("\n", "")
   end
   local progress = info.Progress
   if not progress then
