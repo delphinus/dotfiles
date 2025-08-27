@@ -273,10 +273,17 @@ return {
         end,
       })
 
+      local disabled_filetypes = {
+        perl = true,
+      }
+
       local loaded_endwise = false
       vim.api.nvim_create_autocmd("FileType", {
         group = group,
-        callback = function()
+        callback = function(args)
+          if disabled_filetypes[args.match] then
+            return
+          end
           if not loaded_endwise then
             pcall(require, "nvim-treesitter")
             local ok = pcall(require, "nvim-treesitter-endwise")
