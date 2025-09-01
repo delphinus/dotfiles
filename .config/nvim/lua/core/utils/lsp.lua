@@ -114,6 +114,8 @@ return {
         end)
       end
     end
+
+    vim.lsp.on_type_formatting.enable()
   end,
 
   -- NOTE: This func is deprecated.
