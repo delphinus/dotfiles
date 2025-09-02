@@ -203,6 +203,8 @@ else
 end
 alias l 'eza -lF --group-directories-first --color-scale --icons --time-style long-iso --git'
 
+set -x EZA_COLORS da=32
+
 # https://qiita.com/delphinus/items/97045dfb73ccb99dc826
 set -gx NOTIFY_ON_COMMAND_DURATION 5000
 function fish_right_prompt
