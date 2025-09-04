@@ -1503,7 +1503,7 @@ return {
       { "<Space>c", "<Cmd>Yazi cwd<CR>", desc = "Open the file manager in nvim's working directory" },
       { "<Space>=", "<Cmd>Yazi toggle<CR>", desc = "Resume the last yazi session" },
     },
-    ---@module yazi
+    ---@module 'yazi'
     ---@type YaziConfig | {}
     opts = {
       keymaps = {
