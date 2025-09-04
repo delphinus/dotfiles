@@ -67,6 +67,7 @@ return {
               "buf_ls",
               "clangd",
               "cmake",
+              "copilot",
               "cssls",
               "denols",
               "docker_compose_language_service",

@@ -282,8 +282,6 @@ return {
 
   i { "delphinus/cmp-ghq" },
 
-  i { "zbirenbaum/copilot-cmp", opts = {} },
-
   { "onsails/lspkind-nvim" },
   { "xzbdmw/colorful-menu.nvim" },
   {
@@ -322,7 +320,6 @@ return {
           vim.api.nvim_set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
           vim.api.nvim_set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
           vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
-          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
         end,
         sweetie = function(colors)
           vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = colors.dark_grey, bold = true })
@@ -355,7 +352,6 @@ return {
           vim.api.nvim_set_hl(0, "CmpItemKindEvent", { fg = colors.orange })
           vim.api.nvim_set_hl(0, "CmpItemKindOperator", { fg = colors.magenta })
           vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter", { fg = colors.bright_cyan })
-          vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = colors.green })
         end,
       }
     end,
@@ -375,9 +371,6 @@ return {
         cmp.config.compare.length,
         cmp.config.compare.order,
       }
-      if lazy_utils.has_plugin "copilot-cmp" then
-        table.insert(comparators, 1, require("copilot_cmp.comparators").prioritize)
-      end
 
       local format = function(entry, vim_item)
         local highlights_info = require("colorful-menu").cmp_highlights(entry)
@@ -391,7 +384,6 @@ return {
           maxwidth = 50,
           menu = {
             buffer = "B",
-            copilot = "O",
             ctags = "C",
             digraphs = "D",
             emoji = "E",
@@ -410,7 +402,6 @@ return {
             wezterm = "W",
           },
           preset = "codicons",
-          symbol_map = { Copilot = "" },
           show_labelDetails = true,
           before = function(_, lk_vim_item)
             if lk_vim_item.menu then
@@ -431,7 +422,6 @@ return {
         { name = "path" },
         { name = "lazydev", group_index = 0 },
         { name = "nvim_lsp" },
-        { name = "copilot" },
         { name = "nvim_lua" },
         { name = "git" },
         { name = "ctags" },
@@ -561,14 +551,6 @@ return {
           end)
           :totable(),
       })
-
-      -- settings for copilot.lua
-      cmp.event:on("menu_opened", function()
-        vim.b.copilot_suggestion_hidden = true
-      end)
-      cmp.event:on("menu_closed", function()
-        vim.b.copilot_suggestion_hidden = false
-      end)
 
       require("cmp.utils.debug").flag = vim.env.CMP_DEBUG ~= nil
     end,

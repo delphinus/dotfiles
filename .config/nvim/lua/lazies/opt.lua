@@ -1468,7 +1468,6 @@ return {
         cmd = { "Copilot" },
         event = { "InsertEnter", "CmdlineEnter" },
         opts = {
-          -- suggestion = { auto_trigger = true },
           suggestion = { enabled = false },
           panel = { enabled = false },
           filetypes = { gitcommit = true, gitrebase = true },
