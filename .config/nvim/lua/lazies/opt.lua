@@ -1513,4 +1513,11 @@ return {
       },
     },
   },
+
+  {
+    -- "Maduki-tech/nvim-plantuml",
+    "delphinus/nvim-plantuml",
+    ft = { "plantuml" },
+    opts = { auto_refresh = true },
+  },
 }
