@@ -1506,8 +1506,10 @@ return {
     ---@module 'yazi'
     ---@type YaziConfig | {}
     opts = {
-      keymaps = {
-        show_help = "<f1>",
+      keymaps = { show_help = "<f1>" },
+      hooks = {
+        yazi_opened = lazy_require("cellwidths").off(),
+        yazi_closed_successfully = lazy_require("cellwidths").on(),
       },
     },
   },
