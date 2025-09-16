@@ -49,25 +49,19 @@ end
 ---@return core.utils.palette.Autocmd)
 local function __call(self, name)
   return function(opts)
-    vim.validate {
-      opts = {
-        opts,
-        function(v)
-          if type(v) ~= "table" then
-            return false
-          elseif #v > 1 then
-            return false
-          end
-          for _, f in pairs(opts) do
-            if type(f) ~= "function" then
-              return false
-            end
-          end
-          return true
-        end,
-        "callback table",
-      },
-    }
+    vim.validate("opts", opts, function(v)
+      if type(v) ~= "table" then
+        return false
+      elseif #v > 1 then
+        return false
+      end
+      for _, f in pairs(opts) do
+        if type(f) ~= "function" then
+          return false
+        end
+      end
+      return true
+    end, false, "callback table")
     api.create_autocmd("ColorScheme", {
       desc = ("Set the palette for ColorScheme: %s"):format(name),
       group = api.create_augroup(name .. "-palette", {}),

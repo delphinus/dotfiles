@@ -101,12 +101,12 @@ return {
     vim.keymap.set("n", "gli", vim.lsp.buf.incoming_calls, { buffer = bufnr })
     vim.keymap.set("n", "glo", vim.lsp.buf.outgoing_calls, { buffer = bufnr })
 
-    if client.supports_method "textDocument/formatting" then
+    if client:supports_method "textDocument/formatting" then
       vim.keymap.set("n", "g=", vim.lsp.buf.format, { buffer = bufnr })
     end
 
     if not vim.env.LIGHT then
-      if client.supports_method "textDocument/inlayHint" then
+      if client:supports_method "textDocument/inlayHint" then
         local ih = vim.lsp.inlay_hint
         ih.enable(true, { bufnr = bufnr })
         vim.keymap.set("n", "<Space>i", function()
