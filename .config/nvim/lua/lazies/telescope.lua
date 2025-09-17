@@ -325,6 +325,21 @@ return {
         end
       end
 
+      local function run_yazi_in_dir()
+        local ok, yazi = pcall(require, "yazi")
+        if not ok then
+          vim.notify("yazi.nvim is not installed", vim.log.levels.ERROR)
+          return
+        end
+        local entry = actions_state.get_selected_entry()
+        local dir = from_entry.path(entry)
+        if type(dir) == "string" and Path:new(dir):is_dir() then
+          yazi.yazi({}, dir)
+        else
+          vim.notify(("This is not a directory: %s"):format(dir), vim.log.levels.ERROR)
+        end
+      end
+
       telescope.setup {
         defaults = {
           mappings = {
@@ -342,6 +357,8 @@ return {
               ["<C-k>"] = actions.move_selection_previous,
 
               ["<C-s>"] = actions.select_horizontal,
+
+              ["<C-y>"] = run_yazi_in_dir,
 
               ["<C-A-h>"] = actions.preview_scrolling_left,
               ["<C-A-l>"] = actions.preview_scrolling_right,
