@@ -809,7 +809,6 @@ return {
           -- icons = { "󰎦", "󰎩", "󰎬", "󰎮", "󰎰", "󰎵" },
           -- icons = { "󰎥", "󰎨", "󰎫", "󰎲", "󰎯", "󰎴" },
           signs = { "󰫎" },
-          border = true,
         },
         code = { left_pad = 4 },
         bullet = { icons = { "", "", "", "" } },
