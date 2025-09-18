@@ -8,6 +8,7 @@ return {
     vim.api.nvim_set_hl(0, "ComplHintMore", vim.tbl_extend("force", hlm, { underline = true }))
 
     vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("copilot settings", {}),
       callback = function(args)
         local bufnr = args.buf
 
