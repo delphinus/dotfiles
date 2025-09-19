@@ -120,8 +120,23 @@ return {
       --   end
       -- end
 
+      local function word_on_cursor()
+        if vim.fn.mode() ~= "v" then
+          return vim.fn.expand "<cword>"
+        end
+        local saved = vim.fn.getreg "v"
+        vim.cmd.normal { args = { '"vy' }, bang = true, mods = { noautocmd = true, silent = true } }
+        local selected = vim.fn.getreg "v"
+        vim.fn.setreg("v", saved)
+        return selected
+      end
+
       vim.keymap.set("n", "<Leader>f:", core.builtin "command_history" {}, { desc = "Telescope command_history" })
-      vim.keymap.set("n", "<Leader>fG", core.builtin "grep_string" {}, { desc = "Telescope grep_string" })
+      vim.keymap.set({ "n", "v", "o" }, "<Leader>fG", function()
+        core.extensions "egrepify" {} {
+          default_text = word_on_cursor(),
+        }
+      end, { desc = "Telescope grep_string" })
       vim.keymap.set("n", "<Leader>fN", core.extensions("node_modules", "list") {}, { desc = "Telescope node_modules" })
       vim.keymap.set("n", "<Leader>fg", core.extensions "egrepify" {}, { desc = "Telescope egrepify" })
       vim.keymap.set("n", "<Leader>fM", function()
