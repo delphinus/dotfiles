@@ -995,7 +995,6 @@ return {
   {
     -- "nvimdev/dashboard-nvim",
     "delphinus/dashboard-nvim",
-    branch = "feat/mru-list-fn",
     cond = not vim.env.DEBUG_PLENARY,
     event = { "VimEnter" },
     init = function()
@@ -1039,6 +1038,7 @@ return {
         },
         project = {
           label = "Recent Projects:",
+          ignore_patterns = vim.split(vim.env.IGNORE_DIRS or "", ",", { trimempty = true }),
           action = function(path)
             vim.uv.chdir(path)
             require("telescope").extensions.frecency.frecency { workspace = "CWD" }

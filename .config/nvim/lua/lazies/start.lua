@@ -356,6 +356,7 @@ return {
         VIM = vim.env.VIMRUNTIME,
       },
       ignore_patterns = { "*.git/*", "/tmp/*", "/private/tmp/*", "term://*" },
+      file_ignore_patterns = vim.split(vim.env.IGNORE_DIRS or "", ",", { trimempty = true }),
     },
   },
 
