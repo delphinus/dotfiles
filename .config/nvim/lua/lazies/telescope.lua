@@ -466,6 +466,14 @@ return {
               "--smart-case",
               "--hidden",
             },
+            prefixes = {
+              ["!"] = {
+                flag = "glob",
+                cb = function(input)
+                  return ("!*{%s}*"):format(input)
+                end,
+              },
+            },
           },
         },
       }
