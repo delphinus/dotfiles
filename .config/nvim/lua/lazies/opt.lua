@@ -1002,57 +1002,69 @@ return {
       vim.o.showtabline = 2
       vim.o.laststatus = 3
     end,
-    opts = {
-      theme = "hyper",
-      config = {
-        week_header = { enable = true },
-        shortcut = {
-          {
-            desc = "New File",
-            group = "Directory",
-            key = "n",
-            action = function()
-              vim.cmd.enew()
+    opts = (function()
+      local ignore_dirs = vim.split(vim.env.IGNORE_DIRS or "", ",", { trimempty = true })
+      return {
+        theme = "hyper",
+        config = {
+          week_header = { enable = true },
+          shortcut = {
+            {
+              desc = "New File",
+              group = "Directory",
+              key = "n",
+              action = function()
+                vim.cmd.enew()
+              end,
+            },
+            {
+              desc = "Load the last session ",
+              group = "DiffAdd",
+              key = "l",
+              action = function()
+                require("persistence").load { last = true }
+              end,
+            },
+            {
+              desc = "Open Obsidian Quick Note ",
+              group = "DiffChange",
+              key = "o",
+              action = "ObsidianQuickNote",
+            },
+            {
+              desc = "Open Lazy UI",
+              group = "FunctionBuiltin",
+              key = "z",
+              action = "Lazy",
+            },
+          },
+          project = {
+            label = "Recent Projects:",
+            ignore_patterns = ignore_dirs,
+            action = function(path)
+              vim.uv.chdir(path)
+              require("telescope").extensions.frecency.frecency { workspace = "CWD" }
             end,
           },
-          {
-            desc = "Load the last session ",
-            group = "DiffAdd",
-            key = "l",
-            action = function()
-              require("persistence").load { last = true }
+          mru = {
+            label = "Most Recent Files:",
+            limit = 20,
+            list_fn = function()
+              ---@module 'frecency'
+              ---@type FrecencyQueryOpts
+              return require("frecency").query {
+                filter = function(entry)
+                  return not vim.iter(ipairs(ignore_dirs)):any(function(_, p)
+                    return not not entry.path:match(p)
+                  end)
+                end,
+                limit = 20,
+              }
             end,
           },
-          {
-            desc = "Open Obsidian Quick Note ",
-            group = "DiffChange",
-            key = "o",
-            action = "ObsidianQuickNote",
-          },
-          {
-            desc = "Open Lazy UI",
-            group = "FunctionBuiltin",
-            key = "z",
-            action = "Lazy",
-          },
         },
-        project = {
-          label = "Recent Projects:",
-          ignore_patterns = vim.split(vim.env.IGNORE_DIRS or "", ",", { trimempty = true }),
-          action = function(path)
-            vim.uv.chdir(path)
-            require("telescope").extensions.frecency.frecency { workspace = "CWD" }
-          end,
-        },
-        mru = {
-          label = "Most Recent Files:",
-          limit = 20,
-          list_fn = function()
-            return require("frecency").query { limit = 20 }
-          end,
-        },
-      },
-    },
+      }
+    end)(),
   },
 
   -- {
