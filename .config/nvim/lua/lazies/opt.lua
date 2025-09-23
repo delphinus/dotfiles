@@ -1519,4 +1519,6 @@ return {
     ft = { "plantuml" },
     opts = { auto_refresh = true },
   },
+
+  { "lambdalisue/nvim-aibo", cmd = { "Aibo" } },
 }
