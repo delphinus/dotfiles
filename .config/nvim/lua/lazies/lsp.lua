@@ -162,6 +162,9 @@ return {
         })
         vim.lsp.enable "ideals"
       end
+
+      -- NOTE: call here because this function sets LspAttach autocmd
+      vim.lsp.on_type_formatting.enable()
     end,
   }, -- }}}
 
