@@ -15,8 +15,6 @@ if vim.env.LOGFILE or vim.env.WARMUP then
   })
 end
 
-local fn, uv = require("core.utils").globals()
-
 vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"
 
 -- Load here because lazy.nvim will reset 'runtimepath'
@@ -33,7 +31,7 @@ vim.g.loaded_getscriptPlugin = true
 vim.g.loaded_logiPat = true
 vim.g.loaded_rrhelper = true
 vim.g.loaded_vimballPlugin = true
-if fn.has "gui_running" ~= 1 then
+if vim.fn.has "gui_running" ~= 1 then
   vim.g.plugin_scrnmode_disable = true
 end
 
