@@ -100,9 +100,9 @@ local function backup_phase(text)
   local texts = {
     Preparing = nil,
     ThinningPreBackupnil = nil,
-    Copying = nil,
+    Copying = "コピー",
     ThinningPostBackup = "クリーンアップ中…",
-    Finishing = nil,
+    Finishing = "バックアップを終了中…",
     Idle = nil,
     Stopping = nil,
   }
