@@ -96,6 +96,19 @@ local function commify(n_str, need_unit)
   return need_unit and ("%s %s"):format(result, unit) or result
 end
 
+local function backup_phase(text)
+  local texts = {
+    Preparing = nil,
+    ThinningPreBackupnil = nil,
+    Copying = nil,
+    ThinningPostBackup = "クリーンアップ中…",
+    Finishing = nil,
+    Idle = nil,
+    Stopping = nil,
+  }
+  return texts[text] or text
+end
+
 ---@return string?
 function Timemachine:text()
   if not self.enabled then
@@ -138,14 +151,14 @@ function Timemachine:create_text(info)
   if info.BackupPhase == "FindingChanges" then
     return ("%s %s %s changes%s"):format(
       wezterm.nerdfonts.oct_search,
-      info.BackupPhase,
+      backup_phase(info.BackupPhase),
       commify(info.ChangedItemCount),
       refreshed
     )
   end
   local progress = info.Progress
   if not progress then
-    return ("%s %s%s"):format(wezterm.nerdfonts.oct_stopwatch, info.BackupPhase, refreshed)
+    return ("%s %s%s"):format(wezterm.nerdfonts.oct_stopwatch, backup_phase(info.BackupPhase), refreshed)
   end
   local remaining = tonumber(progress.TimeRemaining)
   local f = math.floor
@@ -153,7 +166,7 @@ function Timemachine:create_text(info)
   local percent = tonumber(progress.Percent) or 0
   return ("%s %s ▐%s▌ %s %s files%s%s"):format(
     wezterm.nerdfonts.oct_stopwatch,
-    info.BackupPhase,
+    backup_phase(info.BackupPhase),
     self:create_bar(percent),
     commify(progress.bytes, true),
     commify(progress.files),
