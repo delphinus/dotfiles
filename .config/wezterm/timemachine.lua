@@ -43,6 +43,7 @@ end
 ---@field DateOfStateChange string
 ---@field Progress? wezterm.TimemachineInfoProgress
 ---@field Running "0"|"1"
+---@field ChangedItemCount string
 
 ---@class wezterm.TimemachineInfoProgress
 ---@field Percent string
@@ -133,6 +134,14 @@ function Timemachine:create_text(info)
     local success, stdout, stderr =
       wezterm.run_child_process { self.date, "-jf", "%F %T %z", "+ 最終更新 %H:%m ", info.DateOfStateChange }
     refreshed = (success and stdout or stderr):gsub("\n", "")
+  end
+  if info.BackupPhase == "FindingChanges" then
+    return ("%s %s %s changes%s"):format(
+      wezterm.nerdfonts.oct_search,
+      info.BackupPhase,
+      commify(info.ChangedItemCount),
+      refreshed
+    )
   end
   local progress = info.Progress
   if not progress then
