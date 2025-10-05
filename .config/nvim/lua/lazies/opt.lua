@@ -983,8 +983,14 @@ return {
   },
 
   {
-    "mawkler/demicolon.nvim",
+    -- "mawkler/demicolon.nvim",
+    "cathyprime/demicolon.nvim",
+    branch = "treesitter_main",
     keys = { "f", "F", "t", "T", ";", "," },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
+    },
     ---@module 'demicolon'
     ---@type demicolon.options
     opts = { keymaps = { repeat_motions = "stateful" } },
