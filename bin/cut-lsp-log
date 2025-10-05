@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+use 5.34.0;
+use warnings;
+use feature 'signatures';
+no warnings 'experimental::signatures';
+use Path::Tiny qw(path);
+use Time::Piece;
+
+use constant LINES => 1000;
+
+my $lsp_log = shift;
+die "specify lsp.log\n" if ! defined $lsp_log || ! -f $lsp_log;
+
+my @log = path($lsp_log)->lines_utf8;
+if (@log <= LINES) {
+    printf "It has %d lines. No need to cut.\n", scalar @log;
+    exit 0;
+}
+
+my $today = localtime->date;
+my @lines = grep {
+    /^\[\w+\]\[(?<timestamp>\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d)/;
+    my $t = eval { Time::Piece->strptime($+{timestamp}, '%F %T') };
+    defined $t && $t->date eq $today;
+} @log;
+
+@lines = splice @lines, @lines - LINES, LINES if @lines > LINES;
+
+printf "This will cut %s with %d => %d lines\n", $lsp_log, scalar @log, scalar @lines;
+path($lsp_log)->spew_utf8(@lines);
+say 'done';
