@@ -6,7 +6,7 @@ return {
     ft = "lua",
     dependencies = {
       { "Bilal2453/luvit-meta" },
-      { "justinsgithub/wezterm-types" },
+      { "DrKJeff16/wezterm-types" },
     },
     ---@module 'lazydev'
     ---@type lazydev.Config
