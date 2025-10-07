@@ -1,3 +1,4 @@
+---@type Wezterm
 local wezterm = require "wezterm"
 local homebrew_path = wezterm.target_triple:match "^x86_64" and "/usr/local" or "/opt/homebrew"
 

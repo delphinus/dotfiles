@@ -1,3 +1,4 @@
+---@type Wezterm
 local wezterm = require "wezterm"
 local colors = require "colors"
 local const = require "const"

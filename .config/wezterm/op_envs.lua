@@ -1,4 +1,4 @@
-local const = require "const"
+---@type Wezterm
 local wezterm = require "wezterm"
 
 return function(envs)

@@ -1,3 +1,4 @@
+---@type Wezterm
 local wezterm = require "wezterm"
 
 ---@class wezterm.TimemachineLatest

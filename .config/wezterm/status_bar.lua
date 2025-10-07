@@ -1,3 +1,4 @@
+---@type Wezterm
 local wezterm = require "wezterm"
 local Battery = require "battery"
 local Timemachine = require "timemachine"

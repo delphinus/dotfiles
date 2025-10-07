@@ -1,3 +1,4 @@
+---@type Wezterm
 local wezterm = require "wezterm"
 local act = wezterm.action
 local const = require "const"

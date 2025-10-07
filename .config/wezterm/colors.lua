@@ -1,3 +1,4 @@
+---@type Wezterm
 local wezterm = require "wezterm"
 
 return function(config)
