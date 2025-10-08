@@ -983,12 +983,10 @@ return {
   },
 
   {
-    -- "mawkler/demicolon.nvim",
-    "cathyprime/demicolon.nvim",
-    branch = "treesitter_main",
+    "mawkler/demicolon.nvim",
     keys = { "f", "F", "t", "T", ";", "," },
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
+      { "nvim-treesitter/nvim-treesitter", branch = "main" },
       { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
     },
     ---@module 'demicolon'
