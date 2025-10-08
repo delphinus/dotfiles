@@ -118,7 +118,7 @@
   "plenary.nvim": { "branch": "feat/types", "commit": "f4d8c62502c8ef8a2289e7e5895a43c7d82279e1" },
   "qfheight.nvim": { "branch": "main", "commit": "9a13ec84e69f82b97b65fe4d50ca56320062167a" },
   "quicker.nvim": { "branch": "master", "commit": "12a2291869a326424b1cbee937f4f80334433012" },
-  "render-markdown.nvim": { "branch": "main", "commit": "ceff15170c173c9a62ba491ac6449858cbadadf3" },
+  "render-markdown.nvim": { "branch": "main", "commit": "f3321d0b74d61a8305cf19d891f3c7046bc4dac2" },
   "rtbrowse.nvim": { "branch": "feat/get-commit", "commit": "d210ed7faa3241dcaf2b9136ef4a22295b68bfb0" },
   "rtr.nvim": { "branch": "main", "commit": "6170612fbd0db37bc6a939dd77187ddd07dd4172" },
   "screenkey.nvim": { "branch": "dev", "commit": "357ed2dcd0c71b41faf56d8e446c7858b3f96c74" },
