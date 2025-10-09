@@ -1,5 +1,6 @@
 ---@type Wezterm
 local wezterm = require "wezterm"
+local ProgressBar = require "progress_bar"
 
 ---@class wezterm.TimemachineLatest
 ---@field hour integer
@@ -57,6 +58,7 @@ end
 ---@field cache wezterm.TimemachineCache
 ---@field date string
 ---@field plutil string
+---@field progress_bar wezterm.ProgressBar
 ---@field tail string
 ---@field tmutil string
 ---@field enabled boolean
@@ -69,6 +71,7 @@ Timemachine.new = function()
     cache = Cache.new(),
     date = "/bin/date",
     plutil = "/usr/bin/plutil",
+    progress_bar = ProgressBar.new(12),
     tail = "/usr/bin/tail",
     tmutil = "/usr/bin/tmutil",
   }, { __index = Timemachine })
@@ -169,39 +172,12 @@ function Timemachine:create_text(info)
   return ("%s %s ▐%s▌ %s %s files%s%s"):format(
     wezterm.nerdfonts.oct_stopwatch,
     backup_phase(info.BackupPhase),
-    self:create_bar(percent),
+    self.progress_bar:render(percent),
     commify(progress.bytes, true),
     commify(progress.files),
     elapsed,
     refreshed
   )
-end
-
----@private
----@param percent number
----@return string
-function Timemachine:create_bar(percent)
-  local glyphs = { "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█" }
-  local size = 12
-  local f = math.floor
-  local count = f(size * #glyphs * percent)
-  local full = f(count / #glyphs)
-  local result = {}
-  for _ = 1, full do
-    table.insert(result, glyphs[#glyphs])
-  end
-  local rest = count % #glyphs
-  local spaces = size - full
-  if rest > 0 then
-    table.insert(result, glyphs[rest])
-    spaces = spaces - 1
-  end
-  if spaces > 0 then
-    for _ = 1, spaces do
-      table.insert(result, " ")
-    end
-  end
-  return table.concat(result)
 end
 
 ---@private

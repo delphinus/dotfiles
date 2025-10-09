@@ -6,6 +6,7 @@ local keys = require "keys"
 local key_tables = require "key_tables"
 local op_envs = require "op_envs"
 local status_bar = require "status_bar"
+local tab_title = require "tab_title"
 
 local config = wezterm.config_builder()
 
@@ -25,7 +26,7 @@ config.initial_rows = 80
 config.macos_window_background_blur = 20
 config.native_macos_fullscreen_mode = true
 config.quick_select_patterns = { const.regex.url, const.regex.tag, const.regex.path, const.regex.file }
-config.use_fancy_tab_bar = false
+config.use_fancy_tab_bar = true
 config.warn_about_missing_glyphs = false
 config.window_background_opacity = 0.96
 config.window_close_confirmation = "NeverPrompt"
@@ -48,6 +49,7 @@ colors(config)
 keys(config)
 key_tables(config)
 status_bar(config)
+tab_title(config)
 
 wezterm.on("user-var-changed", function(window, pane, name, value)
   local overrides = window:get_config_overrides() or {}
