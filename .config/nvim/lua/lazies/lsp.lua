@@ -149,19 +149,19 @@ return {
 
       -- HACK: disable ideals temporarily
       -- if not configs.ideals then
-      if false then
-        vim.lsp.config("ideals", {
-          default_config = {
-            cmd = {
-              vim.fs.normalize "~/Applications/IntelliJ IDEA Ultimate 2023.1.7.app/Contents/MacOS/idea",
-              "lsp-server",
-            },
-            filetypes = { "java", "jproperties", "xml" },
-            root_markers = { ".git", ".git/", "package.json" },
-          },
-        })
-        vim.lsp.enable "ideals"
-      end
+      -- if false then
+      --   vim.lsp.config("ideals", {
+      --     default_config = {
+      --       cmd = {
+      --         vim.fs.normalize "~/Applications/IntelliJ IDEA Ultimate 2023.1.7.app/Contents/MacOS/idea",
+      --         "lsp-server",
+      --       },
+      --       filetypes = { "java", "jproperties", "xml" },
+      --       root_markers = { ".git", ".git/", "package.json" },
+      --     },
+      --   })
+      --   vim.lsp.enable "ideals"
+      -- end
 
       -- NOTE: call here because this function sets LspAttach autocmd
       vim.lsp.on_type_formatting.enable()
