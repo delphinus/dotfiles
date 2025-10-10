@@ -168,13 +168,14 @@ return {
 
       vim.api.nvim_create_autocmd("LspProgress", {
         callback = function(ev)
+          local terminal = require "core.utils.terminal"
           local value = ev.data.params.value
           if value.kind == "begin" then
-            vim.api.nvim_ui_send "\027]9;4;1;0\027\\"
+            terminal.progress_start()
           elseif value.kind == "end" then
-            vim.api.nvim_ui_send "\027]9;4;0\027\\"
+            terminal.progress_end()
           elseif value.kind == "report" then
-            vim.api.nvim_ui_send(string.format("\027]9;4;1;%d\027\\", value.percentage or 0))
+            terminal.progress_set(value.percentage)
           end
         end,
       })
