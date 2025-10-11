@@ -208,6 +208,7 @@ return {
 
   non_lazy {
     "delphinus/auto_fmt.nvim",
+    ---@module 'auto_fmt'
     ---@type AutoFmtOptions
     opts = {
       filter = function(c)
@@ -226,7 +227,7 @@ return {
             end
           end
         end
-        return c.name ~= "ts_ls" or c.name ~= "lua"
+        return c.name ~= "ts_ls" or c.name ~= "lua_ls"
       end,
       verbose = false,
     },
