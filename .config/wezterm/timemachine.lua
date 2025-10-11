@@ -103,13 +103,15 @@ end
 local function backup_phase(text)
   local texts = {
     Preparing = nil,
-    ThinningPreBackupnil = nil,
+    ThinningPreBackup = nil,
     FindingChanges = "変更を検出中…",
     Copying = "コピー",
     ThinningPostBackup = "クリーンアップ中…",
     Finishing = "バックアップを終了中…",
     Idle = nil,
     Stopping = nil,
+    MountingDiskImage = "バックアップ作成を準備中…",
+    PreparingSourceVolumes = "バックアップ作成を準備中…",
   }
   return texts[text] or text
 end
