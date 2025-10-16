@@ -208,6 +208,18 @@ return {
 
   non_lazy {
     "delphinus/auto_fmt.nvim",
+    init = function()
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        group = vim.api.nvim_create_augroup("auto_fmt_on_bufwinenter", {}),
+        callback = function(ev)
+          -- NOTE: stylua and lua_ls conflict on formatting Lua files. So we
+          -- use ALE for stylua.
+          if vim.bo[ev.buf].filetype == "lua" then
+            require("auto_fmt").off(ev.buf)
+          end
+        end,
+      })
+    end,
     ---@module 'auto_fmt'
     ---@type AutoFmtOptions
     opts = {
@@ -227,7 +239,7 @@ return {
             end
           end
         end
-        return c.name ~= "ts_ls" or c.name ~= "lua_ls"
+        return c.name ~= "ts_ls"
       end,
       verbose = false,
     },
