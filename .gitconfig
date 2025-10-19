@@ -119,11 +119,14 @@
 	renames = true
 	indentHeuristic = true
 	colorMoved = dimmed_zebra
-	tool = nvimdiff
+	#tool = nvimdiff
+	tool = nvim_difftool
 [difftool "nvr"]
 	cmd = nvr -s -d $LOCAL $REMOTE
 [difftool "nvimdiff"]
 	cmd = nvim -R -d -c 'wincmd l | nnoremap q <Cmd>qa<CR>' -d $LOCAL $REMOTE
+[difftool "nvim_difftool"]
+	cmd = env DIFFTOOL=1 nvim $LOCAL $REMOTE
 [merge]
 	ff = false
 	tool = nvimdiff

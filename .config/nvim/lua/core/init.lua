@@ -17,6 +17,11 @@ end
 
 vim.env.PATH = vim.env.PATH or "/usr/local/bin:/usr/bin:/bin"
 
+if not not vim.env.DIFFTOOL then
+  require("core.difftool").setup()
+  return
+end
+
 -- Load here because lazy.nvim will reset 'runtimepath'
 pcall(require, "core.local")
 
