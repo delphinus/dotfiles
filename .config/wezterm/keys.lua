@@ -12,6 +12,23 @@ return function(config)
     end),
   }
 
+  local editprompt = wezterm.action_callback(function(window, pane)
+    window:perform_action(
+      act.SplitPane {
+        direction = "Down",
+        command = {
+          args = {
+            "/opt/homebrew/bin/fish",
+            "-c",
+            ("editprompt -e ~/git/dotfiles/bin/minivim -m wezterm -t %d --always-copy"):format(pane:pane_id()),
+          },
+        },
+        size = { Cells = 10 },
+      },
+      pane
+    )
+  end)
+
   config.keys = {
     { key = "-", mods = "CMD", action = act.DecreaseFontSize },
     { key = "0", mods = "CMD", action = act.ResetFontSize },
@@ -33,6 +50,7 @@ return function(config)
     { key = "`", mods = "CMD", action = act.ActivateWindowRelative(1) },
     { key = "c", mods = "CMD", action = act.CopyTo "Clipboard" },
     { key = "c", mods = "SHIFT|CMD", action = act.CharSelect },
+    { key = "e", mods = "CMD", action = editprompt },
     { key = "f", mods = "CMD", action = act.Search { CaseSensitiveString = "" } },
     { key = "f", mods = "SHIFT|CMD", action = act.ToggleFullScreen },
     { key = "h", mods = "CMD", action = act.HideApplication },
