@@ -2,5 +2,5 @@
 if [[ -n $TMUX ]]; then
   exec tmux popup -w 80% -h 80% -b rounded -T minivim -e MINIMAL=1 -E -- nvim '+se nonu nornu laststatus=2' +startinsert "$@"
 else
-  exec env MINIMAL=1 nvim '+se nonu nornu laststatus=2' +startinsert "$@"
+  exec env MINIMAL=1 nvim '+se nonu nornu laststatus=2' '+nmap <Esc><Esc> <Cmd>noh<CR>' +startinsert "$@"
 fi
