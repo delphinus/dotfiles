@@ -104,6 +104,7 @@ local function backup_phase(text)
   local texts = {
     Preparing = nil,
     ThinningPreBackup = nil,
+    FindingBackupVol = "バックアップディスクに接続中…",
     FindingChanges = "変更を検出中…",
     Copying = "コピー",
     ThinningPostBackup = "クリーンアップ中…",
