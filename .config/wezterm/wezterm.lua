@@ -32,8 +32,8 @@ config.window_background_opacity = 0.96
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE"
 
--- config.unix_domains = { { name = "unix" } }
--- config.default_gui_startup_args = { "connect", "unix" }
+config.unix_domains = { { name = "unix" } }
+config.default_gui_startup_args = { "connect", "unix" }
 config.set_environment_variables = op_envs { SHELL = const.fish }
 
 local ok, tls_conf = pcall(io.open, wezterm.home_dir .. "/.wezterm_tls.json")

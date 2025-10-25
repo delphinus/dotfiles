@@ -13,6 +13,16 @@ return function(config)
   }
 
   local editprompt = wezterm.action_callback(function(window, pane)
+    local gui_pane_id = pane:pane_id()
+    local cli_pane_id = gui_pane_id
+
+    -- multiplexing環境の判定
+    local domain = pane:get_domain_name()
+    if domain and domain ~= "local" then
+      -- unix domainなどのmultiplexing環境では-1
+      cli_pane_id = gui_pane_id - 1
+    end
+
     window:perform_action(
       act.SplitPane {
         direction = "Down",
@@ -20,7 +30,24 @@ return function(config)
           args = {
             "/opt/homebrew/bin/fish",
             "-c",
-            ("editprompt -e ~/git/dotfiles/bin/minivim -m wezterm -t %d --always-copy"):format(pane:pane_id()),
+            ("editprompt -e ~/git/dotfiles/bin/minivim -m wezterm -t %d --always-copy"):format(cli_pane_id),
+          },
+        },
+        size = { Cells = 10 },
+      },
+      pane
+    )
+  end)
+
+  local test = wezterm.action_callback(function(window, pane)
+    window:perform_action(
+      act.SplitPane {
+        direction = "Down",
+        command = {
+          args = {
+            "/opt/homebrew/bin/fish",
+            "-c",
+            "echo 'WEZTERM_PANE env var: '$WEZTERM_PANE ; sleep 5",
           },
         },
         size = { Cells = 10 },
@@ -51,6 +78,7 @@ return function(config)
     { key = "c", mods = "CMD", action = act.CopyTo "Clipboard" },
     { key = "c", mods = "SHIFT|CMD", action = act.CharSelect },
     { key = "e", mods = "CMD", action = editprompt },
+    { key = "e", mods = "SHIFT|CMD", action = test },
     { key = "f", mods = "CMD", action = act.Search { CaseSensitiveString = "" } },
     { key = "f", mods = "SHIFT|CMD", action = act.ToggleFullScreen },
     { key = "h", mods = "CMD", action = act.HideApplication },
