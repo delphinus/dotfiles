@@ -87,3 +87,19 @@ api.create_autocmd("TextYankPost", {
 -- Move the selected region up or down
 -- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 -- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+vim.keymap.set("n", "<M-P>", function()
+  vim.system {
+    "wezterm",
+    "cli",
+    "split-pane",
+    "--right",
+    "--",
+    "mcat",
+    "-t",
+    "kanagawa",
+    "--paging",
+    "always",
+    vim.fn.expand "%:p",
+  }
+end)
