@@ -30,7 +30,9 @@ return function(config)
           args = {
             "/opt/homebrew/bin/fish",
             "-c",
-            ("editprompt -e ~/git/dotfiles/bin/minivim -m wezterm -t %d --always-copy"):format(cli_pane_id),
+            ([[editprompt -e 'nvim +"se laststatus=0" +startinsert' -E NVIM_APPNAME=nvim-dev/skkeleton -m wezterm -t %d --always-copy]]):format(
+              cli_pane_id
+            ),
           },
         },
         size = { Cells = 10 },
