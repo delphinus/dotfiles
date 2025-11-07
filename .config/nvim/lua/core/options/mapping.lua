@@ -96,10 +96,8 @@ vim.keymap.set("n", "<M-P>", function()
     "--right",
     "--",
     "mcat",
-    "-t",
+    "-pt",
     "kanagawa",
-    "--paging",
-    "always",
     vim.fn.expand "%:p",
   }
 end)
