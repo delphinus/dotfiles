@@ -1442,6 +1442,7 @@ return {
 
   {
     "3rd/image.nvim",
+    enabled = false,
     ft = { "markdown" },
     ---@module 'image'
     ---@type Options
