@@ -764,6 +764,7 @@ return {
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
+    enabled = false,
     keys = { { "<Leader>rm", "<Cmd>RenderMarkdown toggle<CR>", desc = "toggle render-markdown" } },
     ft = { "markdown" },
     init = function()
