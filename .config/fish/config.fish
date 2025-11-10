@@ -205,6 +205,8 @@ alias l 'eza -lF --group-directories-first --color-scale --icons --time-style lo
 
 set -x EZA_COLORS da=32
 
+set -x MCAT_THEME kanagawa
+
 # https://qiita.com/delphinus/items/97045dfb73ccb99dc826
 set -gx NOTIFY_ON_COMMAND_DURATION 5000
 function fish_right_prompt
