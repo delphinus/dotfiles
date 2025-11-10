@@ -264,7 +264,7 @@ return {
           vim.notify("Tree-sitter and LSP cannot be used. Fallback to Universal Ctags", vim.log.levels.INFO)
           core.extensions "ctags_outline" {}()
         end
-      end, { desc = "Telescope lsp_document_symbols or ctags_outline" })
+      end, { desc = "Telescope to jump in code with TS or LSP or Universal Ctags" })
       vim.keymap.set(
         "n",
         "<Leader>sw",
