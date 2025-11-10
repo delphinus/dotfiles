@@ -243,13 +243,25 @@ return {
       -- LSP
       vim.keymap.set("n", "<Leader>sr", core.builtin "lsp_references" {}, { desc = "Telescope lsp_references" })
       vim.keymap.set("n", "<Leader>sd", function()
-        if
+        -- NOTE: This code below is derived from telescope/builtin/__files.lua
+        local function can_use_ts()
+          local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
+          if not lang or not vim.treesitter.language.add(lang) then
+            return false
+          end
+          return not not vim.treesitter.query.get(lang, "locals")
+        end
+        if can_use_ts() then
+          core.builtin "treesitter" {}()
+        elseif
           vim.iter(vim.lsp.get_clients { bufnr = 0 }):any(function(client)
             return client.supports_method "textDocument/documentSymbol"
           end)
         then
+          vim.notify("Tree-sitter local queries not found. Fallback to LSP", vim.log.levels.INFO)
           core.builtin "lsp_document_symbols" {}()
         else
+          vim.notify("Tree-sitter and LSP cannot be used. Fallback to Universal Ctags", vim.log.levels.INFO)
           core.extensions "ctags_outline" {}()
         end
       end, { desc = "Telescope lsp_document_symbols or ctags_outline" })
