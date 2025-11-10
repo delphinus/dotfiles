@@ -29,6 +29,7 @@ return {
 
   {
     "vim-skk/skkeleton",
+    lazy = false,
     keys = {
       -- Use these mappings in Karabiner-Elements
       { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
@@ -181,8 +182,6 @@ return {
     end,
 
     config = function()
-      utils.load_denops_plugin "skkeleton"
-
       local function dic(name)
         return { "~/Library/Application Support/AquaSKK/" .. name, name:match "utf8" and "utf-8" or "euc-jp" }
       end
