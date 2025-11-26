@@ -251,7 +251,7 @@ return {
   { "mtoohey31/cmp-fish", ft = "fish" },
 
   c { "hrsh7th/cmp-cmdline" },
-  c { "hrsh7th/cmp-path" },
+  { "delphinus/cmp-async-path", option = { show_hidden_files_by_default = true } },
 
   i { "delphinus/cmp-ctags" },
   i { "delphinus/cmp-repo" },
@@ -394,7 +394,7 @@ return {
             luasnip = "S",
             nvim_lsp = "L",
             nvim_lua = "U",
-            path = "P",
+            async_path = "P",
             ["render-markdown"] = "M",
             rg = "R",
             treesitter = "T",
@@ -418,7 +418,7 @@ return {
       local sources = {
         { name = "render-markdown" },
         { name = "digraphs", keyword_length = 1 },
-        { name = "path" },
+        { name = "async_path" },
         { name = "lazydev", group_index = 0 },
         { name = "nvim_lsp" },
         { name = "nvim_lua" },
