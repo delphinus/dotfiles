@@ -8,14 +8,16 @@ end
 require("lazy").setup({
   { "nvim-lua/plenary.nvim" },
   {
+    "vim-denops/denops.vim",
+    init = function()
+      vim.g["denops#server#deno_args"] = { "-q", "--no-lock", "--unstable-kv", "-A" }
+    end,
+  },
+
+  {
     "vim-skk/skkeleton",
     dependencies = {
-      {
-        "vim-denops/denops.vim",
-        init = function()
-          vim.g["denops#server#deno_args"] = { "-q", "--no-lock", "--unstable-kv", "-A" }
-        end,
-      },
+      "vim-denops/denops.vim",
       { "delphinus/skkeleton_indicator.nvim", opts = { fadeOutMs = 0 } },
     },
     lazy = false,
@@ -88,6 +90,66 @@ require("lazy").setup({
         ["z9"] = { "⑨", "" },
         ["<s-q>"] = "henkanPoint",
       })
+    end,
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "delphinus/cmp-wezterm",
+      "hrsh7th/cmp-emoji",
+      "lukas-reineke/cmp-rg",
+      "octaltree/cmp-look",
+      "uga-rosa/cmp-skkeleton",
+      { "delphinus/cmp-async-path", option = { show_hidden_files_by_default = true } },
+    },
+    config = function()
+      local cmp = require "cmp"
+      cmp.setup {
+        sources = {
+          { name = "skkeleton" },
+          { name = "wezterm", keyword_length = 2, option = {} },
+          { name = "async_path" },
+          { name = "rg", keyword_length = 4, option = { debounce = 0 } },
+          { name = "emoji" },
+          { name = "look", keyword_length = 4, option = { convert_case = true, loud = true } },
+        },
+        mapping = {
+          ["<CR>"] = cmp.mapping.confirm { select = false },
+          ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+          ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+          ["<A-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+          ["<A-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+          ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
+        },
+        formatting = {
+          format = function(entry, vim_item)
+            vim_item.menu = ({
+              skkeleton = "[S]",
+              wezterm = "[W]",
+              async_path = "[P]",
+              rg = "[R]",
+              emoji = "[E]",
+              look = "[L]",
+            })[entry.source.name]
+            return vim_item
+          end,
+        },
+      }
+    end,
+  },
+
+  {
+    "yuki-yano/fuzzy-motion.vim",
+    dependencies = {
+      "vim-denops/denops.vim",
+      "lambdalisue/kensaku.vim",
+    },
+    keys = { { "s", "<Cmd>FuzzyMotion<CR>", mode = { "n", "x" } } },
+    lazy = false,
+    init = function()
+      vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
+      vim.g.fuzzy_motion_matchers = "kensaku,fzf"
     end,
   },
 }, { lazy = false })
