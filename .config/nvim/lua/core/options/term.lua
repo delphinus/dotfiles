@@ -1,5 +1,7 @@
 local fn, uv, api = require("core.utils").globals()
 
+vim.o.shell = vim.fn.executable "fish" == 1 and "fish" or vim.o.shell
+
 local group = api.create_augroup("terminal_command", {})
 local function terminal_autocmd(event)
   return function(cb)
