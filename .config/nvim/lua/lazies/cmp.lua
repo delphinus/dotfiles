@@ -2,7 +2,6 @@
 local utils = require "core.utils"
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
-local lazy_utils = require "core.utils.lazy"
 
 local function i(p)
   p.event = { "InsertEnter" }
@@ -182,43 +181,12 @@ return {
     end,
 
     config = function()
-      local function dic(name)
-        return { "~/Library/Application Support/AquaSKK/" .. name, name:match "utf8" and "utf-8" or "euc-jp" }
-      end
-
       vim.fn["skkeleton#config"] {
-        globalDictionaries = {
-          dic "SKK-JISYO.L",
-          dic "SKK-JISYO.jinmei",
-          --dic "SKK-JISYO.fullname",
-          dic "SKK-JISYO.fullname.utf8",
-          dic "SKK-JISYO.geo",
-          dic "SKK-JISYO.propernoun",
-          dic "SKK-JISYO.station",
-          dic "SKK-JISYO.law",
-          dic "SKK-JISYO.china_taiwan",
-          dic "SKK-JISYO.assoc",
-          dic "SKK-JISYO.zipcode",
-          dic "SKK-JISYO.office.zipcode",
-          dic "SKK-JISYO.JIS2",
-          --dic "SKK-JISYO.JIS3_4",
-          dic "SKK-JISYO.JIS3_4.utf8",
-          --dic "SKK-JISYO.JIS2004",
-          dic "SKK-JISYO.JIS2004.utf8",
-          dic "SKK-JISYO.itaiji",
-          --dic "SKK-JISYO.itaiji.JIS3_4",
-          dic "SKK-JISYO.itaiji.JIS3_4.utf8",
-          dic "SKK-JISYO.mazegaki",
-          dic "SKK_JISYO.shikakugoma",
-          dic "SKK-JISYO.emoji.utf8",
-          dic "SKK-JISYO.emoji-ja.utf8",
-          dic "SKK-JISYO.jawiki.utf8",
-        },
         userDictionary = vim.fs.normalize "~/Documents/skk-jisyo.utf8",
         eggLikeNewline = true,
         immediatelyCancel = false,
         registerConvertResult = true,
-        sources = { "deno_kv", "google_japanese_input" },
+        sources = { "skk_server" }, -- use yaskkserv2
         databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
         -- markerHenkan = "󰇆",
         -- markerHenkanSelect = "󱨉",
