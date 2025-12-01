@@ -151,6 +151,7 @@ return {
   },
 
   {
+    enabled = false,
     "vim-scripts/autodate.vim",
     cmd = { "Autodate", "AutodateOFF", "AutodateON" },
     init = function()
@@ -171,6 +172,7 @@ return {
   },
 
   {
+    enabled = false,
     "LumaKernel/nvim-visual-eof.lua",
     event = { "BufRead", "BufNewFile" },
     init = function()
@@ -201,82 +203,84 @@ return {
       end,
     },
   },
+
+  {
+    enabled = false,
+    "delphinus/auto-cursorline.nvim",
+    event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "TelescopePrompt",
+        callback = function()
+          require("auto-cursorline").disable { buffer = true }
+          vim.wo.cursorline = false
+        end,
+      })
+    end,
+    config = true,
+  },
+
+  -- (function()
+  --   ---@module 'dwm'
+  --   ---@class Dwm
+  --   local dwm = setmetatable({}, {
+  --     __index = function(_, method)
+  --       return function()
+  --         require("dwm")[method]()
+  --       end
+  --     end,
+  --   })
   --
-  -- {
-  --   "delphinus/auto-cursorline.nvim",
-  --   event = { "BufRead", "CursorMoved", "CursorMovedI", "WinEnter", "WinLeave" },
-  --   init = function()
-  --     vim.api.nvim_create_autocmd("FileType", {
-  --       pattern = "TelescopePrompt",
-  --       callback = function()
-  --         require("auto-cursorline").disable { buffer = true }
-  --         vim.wo.cursorline = false
-  --       end,
-  --     })
-  --   end,
-  --   config = true,
-  -- },
-
-  (function()
-    ---@module 'dwm'
-    ---@class Dwm
-    local dwm = setmetatable({}, {
-      __index = function(_, method)
-        return function()
-          require("dwm")[method]()
-        end
-      end,
-    })
-
-    return {
-      "delphinus/dwm.nvim",
-      event = { "UIEnter" },
-      keys = {
-        { "<C-j>", "<C-w>w", remap = true },
-        { "<C-k>", "<C-w>W", remap = true },
-        { "<A-CR>", dwm.focus },
-        { "<C-@>", dwm.focus },
-        { "<C-Space>", dwm.focus },
-        { "<C-l>", dwm.grow },
-        { "<C-h>", dwm.shrink },
-        { "<C-n>", dwm.new },
-        { "<C-q>", dwm.rotateLeft },
-        { "<C-s>", dwm.rotate },
-        { "<C-c>", dwm.close },
-      },
-      cond = function()
-        -- HACK: Do not load when it is loading committia.vim
-        local file = vim.fs.basename(vim.api.nvim_buf_get_name(0))
-        return vim.iter({ "COMMIT_EDITMSG", "MERGE_MSG" }):all(function(name)
-          return file ~= name
-        end)
-      end,
-      init = function()
-        vim.api.nvim_create_autocmd("BufWinEnter", {
-          pattern = { "*.jax", "*.txt" },
-          callback = function()
-            if vim.bo.filetype == "help" then
-              dwm.rotateLeft()
-              dwm.rotate()
-            end
-          end,
-        })
-      end,
-      opts = {
-        key_maps = false,
-        master_pane_count = 1,
-        master_pane_width = "60%",
-      },
-    }
-  end)(),
+  --   return {
+  --     "delphinus/dwm.nvim",
+  --     event = { "UIEnter" },
+  --     keys = {
+  --       { "<C-j>", "<C-w>w", remap = true },
+  --       { "<C-k>", "<C-w>W", remap = true },
+  --       { "<A-CR>", dwm.focus },
+  --       { "<C-@>", dwm.focus },
+  --       { "<C-Space>", dwm.focus },
+  --       { "<C-l>", dwm.grow },
+  --       { "<C-h>", dwm.shrink },
+  --       { "<C-n>", dwm.new },
+  --       { "<C-q>", dwm.rotateLeft },
+  --       { "<C-s>", dwm.rotate },
+  --       { "<C-c>", dwm.close },
+  --     },
+  --     cond = function()
+  --       -- HACK: Do not load when it is loading committia.vim
+  --       local file = vim.fs.basename(vim.api.nvim_buf_get_name(0))
+  --       return vim.iter({ "COMMIT_EDITMSG", "MERGE_MSG" }):all(function(name)
+  --         return file ~= name
+  --       end)
+  --     end,
+  --     init = function()
+  --       vim.api.nvim_create_autocmd("BufWinEnter", {
+  --         pattern = { "*.jax", "*.txt" },
+  --         callback = function()
+  --           if vim.bo.filetype == "help" then
+  --             dwm.rotateLeft()
+  --             dwm.rotate()
+  --           end
+  --         end,
+  --       })
+  --     end,
+  --     opts = {
+  --       key_maps = false,
+  --       master_pane_count = 1,
+  --       master_pane_width = "60%",
+  --     },
+  --   }
+  -- end)(),
 
   {
     "delphinus/emcl.nvim",
     event = { "CmdlineEnter" },
-    config = true,
+    opts = {},
   },
 
   { "MunifTanjim/nui.nvim" },
+
   {
     "folke/noice.nvim",
     event = { "VeryLazy" },
@@ -335,7 +339,6 @@ return {
   },
 
   {
-    enabled = false,
     "haringsrob/nvim_context_vt",
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
@@ -400,6 +403,7 @@ return {
   },
 
   { "delphinus/eaw.nvim" },
+
   {
     "nvim-lualine/lualine.nvim",
     event = { "BufReadPost", "BufWritePost" },
@@ -566,7 +570,7 @@ return {
   {
     "kylechui/nvim-surround",
     keys = { "ys", "ds", "cs", "S" },
-    config = true,
+    opts = {},
   },
 
   {
@@ -670,7 +674,7 @@ return {
     end,
   },
 
-  { "delphinus/characterize.nvim", config = true },
+  { "delphinus/characterize.nvim", opts = {} },
 
   {
     "mrjones2014/op.nvim",
@@ -693,36 +697,10 @@ return {
     },
   },
 
-  {
-    "yuki-yano/fuzzy-motion.vim",
-    keys = { { "s", "<Cmd>FuzzyMotion<CR>", mode = { "n", "x" } } },
-    init = function()
-      vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
-      vim.g.fuzzy_motion_matchers = "kensaku,fzf"
-
-      palette "fuzzy_motion" {
-        nord = function(colors)
-          vim.api.nvim_set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
-          vim.api.nvim_set_hl(0, "FuzzyMotionChar", { fg = colors.red })
-          vim.api.nvim_set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
-          vim.api.nvim_set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
-        end,
-        sweetie = function(colors)
-          vim.api.nvim_set_hl(0, "FuzzyMotionShade", { fg = colors.dark_grey })
-          vim.api.nvim_set_hl(0, "FuzzyMotionChar", { fg = colors.red })
-          vim.api.nvim_set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
-          vim.api.nvim_set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
-        end,
-      }
-    end,
-    config = function()
-      require("denops-lazy").load "fuzzy-motion.vim"
-    end,
-  },
-
   { "tzachar/highlight-undo.nvim", keys = { "u", "<C-r>" }, opts = {} },
 
   {
+    enabled = false,
     "rickhowe/wrapwidth",
     cmd = { "Wrapwidth" },
     init = function()
@@ -1538,5 +1516,9 @@ return {
     opts = { auto_refresh = true },
   },
 
-  { "lambdalisue/nvim-aibo", cmd = { "Aibo" } },
+  {
+    "esmuellert/vscode-diff.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cmd = { "CodeDiff" },
+  },
 }

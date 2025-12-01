@@ -52,10 +52,10 @@ return {
     },
   },
 
-  non_lazy { "delphinus/unimpaired.nvim", branch = "feature/first-implementation", dev = true },
+  -- non_lazy { "delphinus/unimpaired.nvim", branch = "feature/first-implementation", dev = true },
 
   non_lazy {
-    enabled = not vim.env.LIGHT,
+    enabled = false,
     "gen740/SmoothCursor.nvim",
     config = function()
       require("smoothcursor").setup {
@@ -121,7 +121,7 @@ return {
     end,
   },
 
-  non_lazy { enabled = not vim.env.LIGHT, "luukvbaal/statuscol.nvim", opts = {} },
+  non_lazy { enabled = false, "luukvbaal/statuscol.nvim", opts = {} },
 
   non_lazy {
     "b0o/incline.nvim",
@@ -201,6 +201,7 @@ return {
   non_lazy { "git@github.com:delphinus/fiv.nvim", opts = { mapping = true } },
 
   non_lazy {
+    enabled = false,
     -- "LunarVim/bigfile.nvim"
     "delphinus/bigfile.nvim",
     branch = "feat/autocmd",
@@ -246,6 +247,7 @@ return {
   },
 
   non_lazy {
+    enabled = false,
     "Isrothy/neominimap.nvim",
     init = function()
       vim.opt.wrap = false -- Recommended
@@ -444,6 +446,7 @@ return {
   non_lazy { "delphinus/manage-help-tags.nvim", opts = {} },
 
   non_lazy {
+    enabled = false,
     "willothy/flatten.nvim",
     priority = 1001,
     ---@module 'flatten'
@@ -452,5 +455,29 @@ return {
     -- ....local/share/nvim/lazy/flatten.nvim/lua/flatten/init.lua:260: attempt to concatenate local 'pid' (a nil value)
     -- opts = { integrations = { wezterm = true } },
     opts = {},
+  },
+
+  non_lazy {
+    "yuki-yano/fuzzy-motion.vim",
+    keys = { { "s", "<Cmd>FuzzyMotion<CR>", mode = { "n", "x" } } },
+    init = function()
+      vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
+      vim.g.fuzzy_motion_matchers = "kensaku,fzf"
+
+      palette "fuzzy_motion" {
+        nord = function(colors)
+          vim.api.nvim_set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
+          vim.api.nvim_set_hl(0, "FuzzyMotionChar", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
+        end,
+        sweetie = function(colors)
+          vim.api.nvim_set_hl(0, "FuzzyMotionShade", { fg = colors.dark_grey })
+          vim.api.nvim_set_hl(0, "FuzzyMotionChar", { fg = colors.red })
+          vim.api.nvim_set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
+          vim.api.nvim_set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
+        end,
+      }
+    end,
   },
 }

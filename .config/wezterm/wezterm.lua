@@ -4,7 +4,6 @@ local colors = require "colors"
 local const = require "const"
 local keys = require "keys"
 local key_tables = require "key_tables"
-local op_envs = require "op_envs"
 local status_bar = require "status_bar"
 local tab_title = require "tab_title"
 
@@ -34,7 +33,6 @@ config.window_decorations = "RESIZE"
 
 config.unix_domains = { { name = "unix" } }
 config.default_gui_startup_args = { "connect", "unix" }
-config.set_environment_variables = op_envs { SHELL = const.fish }
 
 local ok, tls_conf = pcall(io.open, wezterm.home_dir .. "/.wezterm_tls.json")
 if ok and tls_conf then
