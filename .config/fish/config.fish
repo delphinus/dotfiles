@@ -39,6 +39,18 @@ set -l paths \
     /usr/local/bin
 # ↑/usr/local/bin is included both in Homebrew of both arm & x86 version
 
+# load variables from 1Password env
+if test -e ~/.env
+    for line in (cat ~/.env)
+        if string match -qr '^[^#]' -- $line
+          set kv (string match -gr '^([^=]+)=(.*)$' -- $line)
+          if test (count $kv) -eq 2
+              set -gx (string trim -- $kv[1]) (string trim -- $kv[2])
+          end
+        end
+    end
+end
+
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 
 set -l theme ~/.local/share/nvim/lazy/sweetie.nvim/extras/fish/Sweetie\ Dark.theme
