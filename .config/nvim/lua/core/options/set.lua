@@ -64,12 +64,7 @@ vim.opt.smartindent = true
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldtext = ""
-
-api.create_autocmd({ "BufWinEnter" }, {
-  group = api.create_augroup("open-folds-initially", {}),
-  command = "normal zx zR",
-  desc = "Unfold all foldings in opening files",
-})
+vim.opt.foldlevelstart = 99
 -- }}}
 
 -- ColorScheme {{{
