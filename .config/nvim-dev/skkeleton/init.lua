@@ -74,9 +74,10 @@ require("lazy").setup({
     },
     config = function()
       local cmp = require "cmp"
+      local compare = require "cmp.config.compare"
       cmp.setup {
         sources = {
-          { name = "skkeleton" },
+          { name = "skkeleton", keyword_pattern = [=[\V\[ーぁ-ゔァ-ヴｦ-ﾟ]]=] },
           { name = "wezterm", keyword_length = 2, option = {} },
           { name = "async_path" },
           { name = "rg", keyword_length = 4, option = { debounce = 0 } },
@@ -103,6 +104,27 @@ require("lazy").setup({
             })[entry.source.name]
             return vim_item
           end,
+        },
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            compare.offset,
+            compare.exact,
+            -- compare.scopes,
+            compare.score,
+            compare.recently_used,
+            compare.locality,
+            compare.kind,
+            compare.sort_text,
+            -- compare.length,
+            function(entry1, entry2)
+              local b = compare.length(entry1, entry2)
+              if type(b) == "boolean" then
+                return not b
+              end
+            end,
+            compare.order,
+          },
         },
       }
     end,

@@ -50,15 +50,30 @@ return {
           group = group,
           pattern = "skkeleton-enable-pre",
           callback = function()
+            local compare = require "cmp.config.compare"
             local types = require "cmp.types"
             require("cmp").setup.buffer {
               formatting = { fields = { types.cmp.ItemField.Abbr } },
-              sources = {
-                {
-                  name = "skkeleton",
-                  entry_filter = function(entry)
-                    return entry.completion_item.label ~= ""
+              sources = { { name = "skkeleton", keyword_pattern = [=[\V\[ーぁ-ゔァ-ヴｦ-ﾟ]]=] } },
+              sorting = {
+                priority_weight = 2,
+                comparators = {
+                  compare.offset,
+                  compare.exact,
+                  -- compare.scopes,
+                  compare.score,
+                  compare.recently_used,
+                  compare.locality,
+                  compare.kind,
+                  compare.sort_text,
+                  -- compare.length,
+                  function(entry1, entry2)
+                    local b = compare.length(entry1, entry2)
+                    if type(b) == "boolean" then
+                      return not b
+                    end
                   end,
+                  compare.order,
                 },
               },
             }
