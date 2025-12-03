@@ -6,6 +6,7 @@ vim.opt.ttimeoutlen = 10
 
 vim.keymap.set("n", "<C-j>", "<C-w>w")
 vim.keymap.set("n", "<C-k>", "<C-w>W")
+vim.keymap.set("n", "<C-c>", "<Cmd>q<CR>")
 
 vim.keymap.set({ "n", "v" }, "<C-d>", "3<C-d>")
 vim.keymap.set({ "n", "v" }, "<C-u>", "3<C-u>")
