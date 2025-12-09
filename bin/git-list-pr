@@ -2,37 +2,34 @@
 
 =head1 NAME
 
-git-list-pr - A tool to list GitHub pull requests and choose one to checkout optionally
+git-list-pr - A tool to list GitHub pull requests and choose one to checkout
 
 =head1 SYNOPSIS
 
-    # print all active PRs
+    # launch fzf and choose one to checkout
     git list-pr
 
-    # launch fzf and choose one to checkout
-    git list-pr -c
+    # print all active PRs
+    git list-pr -p
 
 =head1 DESCRIPTION
 
 This script uses the GitHub CLI (C<gh>) to retrieve a list of pull requests for
-the current repository. If formats and displays the list with color-coded
-output. Optionally it allows to the user to select one interactively using
-C<fzf> and check it out.
+the current repository. It formats and displays the list with color-coded
+output and users can select the one interactively using C<fzf> and check it
+out.
+
+If C<fzf> does not exist in your env or B<-p> option is supplied, it only
+prints out the list.
 
 =head1 OPTIONS
 
 =over 4
 
-=item B<-c>, B<--checkout>
+=item B<-p>, B<--print>
 
-Use C<fzf> to select a pull request to checkout interactively. Requires C<fzf>
-to be installed.
-
-Supply additional options to C<fzf>. The default is empty.
-
-=item B<-r>, B<--recurse-submodules>
-
-When checking out a pull request, also checkout its submodules recursively.
+Print out the list and not launch selector by C<fzf>. This is the default when
+C<fzf> does not exist.
 
 =item B<-s>, B<--search-options>=I<options>
 
@@ -42,6 +39,17 @@ C<gh pr list>.
 =item B<-w>, B<--web>
 
 Open the selected pull request in the web browser instead of checking it out.
+
+=item B<-f>, B<--fzf-options>
+
+Add options to use with C<fzf>.
+
+Examples:
+
+    git list-pr -f '--height=50%'
+
+    # use default options for fzf
+    git list-pr -f $FZF_DEFAULT_OPTS
 
 =item B<-h>, B<--help>
 
@@ -73,9 +81,8 @@ my %opt = (
 );
 GetOptions(
     \%opt, qw(
-    checkout|c
     fzf-options|f=s
-    recurse-submodules|r
+    print|p
     search-options|s=s
     web|w
     help|h
@@ -83,7 +90,11 @@ GetOptions(
 $opt{help} and pod2usage(0);
 which 'git' or pod2usage({ -message => 'git not found', -exitval => 2});
 which 'gh' or pod2usage({ -message => 'gh not found', -exitval => 2});
-which 'fzf' or pod2usage({ -message => 'fzf not found', -exitval => 2}) if $opt{checkout};
+
+if (!$opt{print} && !which 'fzf') {
+    warn "fzf not found\n";
+    $opt{print}++;
+}
 
 my $decoded = eval { decode_json `gh pr list $opt{'search-options'} --json number,title,headRefName,author,createdAt,isDraft` };
 if ($@) {
@@ -124,7 +135,8 @@ sub default_branches {
     } split /\n/, `git branch -r`;
 }
 
-my @prs = ($decoded->@*, default_branches);
+my @prs = $decoded->@*;
+push @prs, default_branches if !$opt{'search-options'};
 
 sub fmt($name) {
     my @char_counts = map {
@@ -172,7 +184,7 @@ my $result = reduce {
     "\n"
 } '', @prs;
 
-if (!$opt{checkout}) {
+if ($opt{print}) {
     print $result;
     exit;
 }
@@ -191,5 +203,5 @@ if ($num == 0) {
 } elsif ($opt{web}) {
     exec 'gh', 'pr', 'view', '-w', $num;
 } else {
-    exec 'gh', 'co', ($opt{'recurse-submodules'} ? '--recurse-submodules' : ()), $num;
+    exec 'gh', 'co', '--recurse-submodules', $num;
 }
