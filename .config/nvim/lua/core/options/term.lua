@@ -30,6 +30,8 @@ terminal_autocmd "TermOpen" {
 terminal_autocmd "WinEnter" [[startinsert]]
 terminal_autocmd "WinEnter" [[doautocmd <nomodeline> FocusGained %]]
 terminal_autocmd "WinLeave" [[doautocmd <nomodeline> FocusLost %]]
+terminal_autocmd "WinEnter" [[CellWidthsOff]]
+terminal_autocmd "WinEnter" [[CellWidthsOn]]
 
 vim
   .iter({
