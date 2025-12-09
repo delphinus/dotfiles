@@ -1,5 +1,5 @@
 -- HACK: Command to launch `perl` should be changed in accordance with its root dir
-local lines = vim.fn.readfile(vim.uv.os_homedir() .. "/.1password-perl-env")
+local lines = vim.fn.readfile(vim.uv.os_homedir() .. "/.perl-env")
 local env = vim.iter(lines):fold({}, function(a, b)
   local key, value = b:match "^([^=]+)=(.*)$"
   if key and value then

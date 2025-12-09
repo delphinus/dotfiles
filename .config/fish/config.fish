@@ -42,7 +42,7 @@ set -l paths \
 
 # load variables from 1Password env
 if test -e ~/.env
-    for line in (cat ~/.env)
+    for line in (cat ~/.env ~/.perl-env)
         if string match -qr '^[^#]' -- $line
           set kv (string match -gr '^([^=]+)=(.*)$' -- $line)
           if test (count $kv) -eq 2
