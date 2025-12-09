@@ -58,6 +58,10 @@ return function(config)
     )
   end)
 
+  local move_to_new_tab = wezterm.action_callback(function(_, pane)
+    pane:move_to_new_tab():activate()
+  end)
+
   config.keys = {
     { key = "-", mods = "CMD", action = act.DecreaseFontSize },
     { key = "0", mods = "CMD", action = act.ResetFontSize },
@@ -71,6 +75,7 @@ return function(config)
     { key = "7", mods = "CMD", action = act.ActivateTab(6) },
     { key = "8", mods = "CMD", action = act.ActivateTab(7) },
     { key = "9", mods = "CMD", action = act.ActivateTab(8) },
+    { key = "!", mods = "SHIFT|CMD", action = move_to_new_tab },
     { key = "=", mods = "CMD", action = act.IncreaseFontSize },
     { key = "[", mods = "CMD", action = act.ActivateCopyMode },
     { key = "[", mods = "SHIFT|CMD", action = act.ActivateTabRelative(-1) },
