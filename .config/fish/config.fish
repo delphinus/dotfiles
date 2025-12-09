@@ -26,6 +26,7 @@ set -l paths \
     ~/Library/Python/3.11/bin \
     ~/Library/Python/3.9/bin \
     ~/.gem/ruby/3.2.0/bin \
+    ~/.lmstudio/bin \
     $homebrew_path/opt/git/share/git-core/contrib/git-jump \
     $homebrew_path/opt/ruby/bin \
     $homebrew_path/opt/llvm/bin \
