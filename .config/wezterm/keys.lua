@@ -30,7 +30,7 @@ return function(config)
           args = {
             "/opt/homebrew/bin/fish",
             "-c",
-            ([[editprompt -e 'nvim +"se laststatus=0" +startinsert' -E NVIM_APPNAME=nvim-dev/skkeleton -m wezterm -t %d --always-copy]]):format(
+            ([[editprompt open -e 'nvim +"se laststatus=0" +startinsert' -E NVIM_APPNAME=nvim-dev/skkeleton -m wezterm -t %d --always-copy]]):format(
               cli_pane_id
             ),
           },
