@@ -54,6 +54,7 @@
     - .config/ipython
     - .config/karabiner/assets/complex_modifications
     - .config/nvim
+    - .config/nvim-dev
     - .config/peco
     - .config/powerline
     - .config/ranger

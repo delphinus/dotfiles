@@ -1,7 +1,7 @@
 {% set ghe_hosts = lookup('env', 'GITHUB_ENTERPRISE_HOST') -%}
 {% if ghe_hosts != '' -%}
 {%   for item in ghe_hosts.split(',') -%}
-[url "git@{{ item }}"]
+[url "git@{{ item }}:"]
 	insteadOf = https://{{ item }}/
 [ghq "ssh://git@{{ item }}"]
 	vcs = git
