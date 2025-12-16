@@ -66,7 +66,8 @@ return {
               "ansiblels",
               "buf_ls",
               "clangd",
-              "cmake",
+              -- NOTE: cmake-language-server does not support Python 3.14
+              -- "cmake",
               "copilot",
               "cssls",
               "denols",
