@@ -564,7 +564,11 @@ return {
     cmd = { "ObsidianKensaku", "ObsidianQuickKensaku" },
     opts = { picker = "egrepify" },
   },
-  { "oflisback/obsidian-bridge.nvim", opts = { scroll_sync = true } },
+  {
+    "oflisback/obsidian-bridge.nvim",
+    event = { "BufReadPre *.md", "BufNewFile *.md" },
+    opts = { scroll_sync = true },
+  },
 
   {
     "epwalsh/obsidian.nvim",
