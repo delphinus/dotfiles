@@ -191,7 +191,6 @@ return {
     local settings = vim.deepcopy(client.config.settings) --[[@as { perlnavigator: core.PerlNavigatorSettings }]]
     settings.perlnavigator.perlPath = shebang or (use_carmel and "carmel" or "perl")
     settings.perlnavigator.perlParams = use_carmel and { "exec", "perl" } or {}
-    vim.print(settings)
     client:notify("workspace/didChangeConfiguration", { settings = settings })
   end,
 }
