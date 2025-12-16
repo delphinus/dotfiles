@@ -40,18 +40,6 @@ set -l paths \
     /usr/local/bin
 # ↑/usr/local/bin is included both in Homebrew of both arm & x86 version
 
-# load variables from 1Password env
-if test -e ~/.env
-    for line in (cat ~/.env ~/.perl-env)
-        if string match -qr '^[^#]' -- $line
-          set kv (string match -gr '^([^=]+)=(.*)$' -- $line)
-          if test (count $kv) -eq 2
-              set -gx (string trim -- $kv[1]) (string trim -- $kv[2])
-          end
-        end
-    end
-end
-
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 
 set -l theme ~/.local/share/nvim/lazy/sweetie.nvim/extras/fish/Sweetie\ Dark.theme
@@ -194,7 +182,21 @@ if type -q luarocks
     end
 end
 
-test -f ~/.config/fish/config-local.fish; and source ~/.config/fish/config-local.fish
+
+# load variables from 1Password env
+for envrc in ~/.envrc
+  set -l env (string replace -r '(?<=\.env)rc$' '' $envrc)
+  if ! test -e $envrc
+      for line in (cat $env)
+          if string match -qr '^[^#]' -- $line
+            set kv (string match -gr '^([^=]+)=(.*)$' -- $line)
+            if test (count $kv) -eq 2
+              echo "export $kv[1]='$kv[2]'" >> $envrc
+            end
+          end
+      end
+  end
+end
 
 set -x NEXTWORD_DATA_PATH ~/.cache/nextword-data-large
 
