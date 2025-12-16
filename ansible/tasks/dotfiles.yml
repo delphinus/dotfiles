@@ -46,7 +46,6 @@
     - .config/alacritty
     - .config/bat/config
     - .config/bpytop/bpytop.conf
-    - .config/direnv/direnvrc
     - .config/efm-langserver
     - .config/fish
     - .config/gocode
