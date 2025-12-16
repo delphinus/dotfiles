@@ -742,7 +742,6 @@ return {
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    enabled = false,
     keys = { { "<Leader>rm", "<Cmd>RenderMarkdown toggle<CR>", desc = "toggle render-markdown" } },
     ft = { "markdown" },
     init = function()
@@ -781,7 +780,7 @@ return {
       require("render-markdown").setup {
         completion = { lsp = { enabled = true } },
         preset = "obsidian",
-        anti_conceal = { above = 1, below = 1 },
+        anti_conceal = { above = 3, below = 3 },
         heading = {
           -- icons = { "⓵", "⓶", "⓷", "⓸", "⓹", "⓺" },
           icons = { "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳" },
