@@ -5,10 +5,12 @@
 	insteadOf = https://{{ item }}/
 [ghq "ssh://git@{{ item }}"]
 	vcs = git
-[includeIf "gitdir:{{ item }}/"]
-    path = .work.inc
 {%   endfor -%}
 {% endif %}
+{% for config in secret_git_configs %}
+[includeIf "hasconfig:remote.*.url:**{{ config.host }}**"]
+    path = {{ config.filename }}
+{% endfor %}
 {% if ansible_facts['os_family'] == 'Darwin' -%}
 [gpg]
   format = ssh
