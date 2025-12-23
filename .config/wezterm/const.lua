@@ -14,7 +14,7 @@ return {
     hash = [=[[a-f\d]{4,}|[A-Z_]{4,}]=],
     mail = [=[[-.\w]+@[-.\w]+]=],
     path = [[~?(?:[-.\w]+/)+(?:[-.\w]/?)*]],
-    url = [[https?://[^<>"\s{-}\^⟨⟩`│⏎]+]],
+    url = [[https?://[^()<>"\s{-}\^⟨⟩`│⏎]+]],
   },
   fish = detect_file(homebrew_path .. "/bin/fish") or "/usr/bin/fish",
   op = homebrew_path .. "/bin/op",
