@@ -79,6 +79,7 @@ return {
               "golangci-lint",
               "golines",
               "gopls",
+              "harper_ls",
               "intelephense",
               "jqls",
               "jsonls",
@@ -141,29 +142,13 @@ return {
         desc = "Call the default onAttach func",
         group = vim.api.nvim_create_augroup("common-lsp-on-attach", {}),
         callback = function(args)
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
           require("core.utils.lsp").on_attach(client, args.buf)
           require("core.utils.lsp").perlnavigator(client, args.buf)
         end,
       })
 
       vim.lsp.config("*", { capabilities = require("cmp_nvim_lsp").default_capabilities() })
-
-      -- HACK: disable ideals temporarily
-      -- if not configs.ideals then
-      -- if false then
-      --   vim.lsp.config("ideals", {
-      --     default_config = {
-      --       cmd = {
-      --         vim.fs.normalize "~/Applications/IntelliJ IDEA Ultimate 2023.1.7.app/Contents/MacOS/idea",
-      --         "lsp-server",
-      --       },
-      --       filetypes = { "java", "jproperties", "xml" },
-      --       root_markers = { ".git", ".git/", "package.json" },
-      --     },
-      --   })
-      --   vim.lsp.enable "ideals"
-      -- end
 
       -- NOTE: call here because this function sets LspAttach autocmd
       vim.lsp.on_type_formatting.enable()
@@ -187,79 +172,16 @@ return {
   {
     "dense-analysis/ale",
     event = { "BufReadPost" },
-    -- init = function()
-    --   vim.api.nvim_create_autocmd("FileType", {
-    --     group = vim.api.nvim_create_augroup("ale-filetype", {}),
-    --     callback = function(args)
-    --       if args.match ~= "markdown" then
-    --         local config = vim.api.nvim_win_get_config(0)
-    --         local is_floatwin = config.relative ~= ""
-    --         if is_floatwin then
-    --           return
-    --         end
-    --         local ignores = vim.b.ale_linters_ignore or {}
-    --         if vim.list_contains(ignores, "cspell") then
-    --           return
-    --         end
-    --         table.insert(ignores, "cspell")
-    --         vim.b.ale_linters_ignore = ignores
-    --         vim.print { ale = vim.b.ale_linters_ignore }
-    --       end
-    --     end,
-    --   })
-    -- end,
     opts = {
       disable_lsp = 1,
       echo_cursor = 0,
       fix_on_save = 1,
       fixers = { lua = { "stylua" } },
-      linters_ignore = { "cspell", "protoc", "protoc-gen-lint", "javac" },
+      linters_ignore = { "protoc", "protoc-gen-lint", "javac" },
       virtualtext_cursor = 0,
     },
   },
 
-  {
-    "nvimtools/none-ls.nvim",
-    url = "https://github.com/ulisses-cruz/none-ls.nvim",
-    event = { "BufReadPost" },
-
-    dependencies = {
-      { "davidmh/cspell.nvim" },
-    },
-
-    config = function()
-      local nls = require "null-ls"
-
-      local cspell = require "cspell"
-      local cspell_config = {
-        on_add_to_json = function(payload)
-          vim.system({ "jq", "-S", ".words |= sort", payload.cspell_config_path }, { text = true }, function(job)
-            if job.code ~= 0 then
-              vim.notify(("failed to arrange %s by jq"):format(payload.cspell_config_path), vim.log.levels.WARN)
-              return
-            end
-            local ok, err = pcall(function()
-              io.open(payload.cspell_config_path, "w"):write(job.stdout)
-            end)
-            if not ok then
-              vim.notify(("failed to save arranged JSON: %s"):format(err), vim.log.levels.WARN)
-            end
-          end)
-        end,
-      }
-      local sources = {
-        nls.builtins.code_actions.gitsigns,
-        cspell.code_actions.with { filetypes = { "markdown", "help" }, config = cspell_config },
-        cspell.diagnostics.with { filetypes = { "markdown", "help" }, config = cspell_config },
-      }
-      nls.setup {
-        diagnostics_format = "[none-ls] #{m}",
-        sources = sources,
-      }
-    end,
-  },
-
-  -- { "RRethy/nvim-treesitter-endwise" },
   { "AbaoFromCUG/nvim-treesitter-endwise", branch = "main" },
 
   {
@@ -281,7 +203,7 @@ return {
     init = function()
       local group = vim.api.nvim_create_augroup("treesitter-detection", {})
 
-      -- HACK: deal with async treesitter detection
+      -- HACK: deal with async Tree-sitter detection
       vim.api.nvim_create_autocmd("BufWinEnter", {
         group = group,
         callback = function()

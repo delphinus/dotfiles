@@ -1,7 +1,6 @@
 ---@diagnostic disable: missing-fields
 local fn, _, api = require("core.utils").globals()
 local palette = require "core.utils.palette"
-local lazy_utils = require "core.utils.lazy"
 local lazy_require = require "lazy_require"
 
 local function non_lazy(plugin)
@@ -51,8 +50,6 @@ return {
       log_level = false,
     },
   },
-
-  -- non_lazy { "delphinus/unimpaired.nvim", branch = "feature/first-implementation", dev = true },
 
   non_lazy {
     enabled = false,
@@ -202,7 +199,6 @@ return {
 
   non_lazy {
     enabled = false,
-    -- "LunarVim/bigfile.nvim"
     "delphinus/bigfile.nvim",
     branch = "feat/autocmd",
   },
@@ -244,108 +240,6 @@ return {
       end,
       verbose = false,
     },
-  },
-
-  non_lazy {
-    enabled = false,
-    "Isrothy/neominimap.nvim",
-    init = function()
-      vim.opt.wrap = false -- Recommended
-      vim.opt.sidescrolloff = 36 -- It's recommended to set a large value
-      ---@module 'neominimap'
-      ---@type Neominimap.UserConfig
-      vim.g.neominimap = {
-        auto_enable = true,
-        buf_filter = function(bufnr)
-          local filename = vim.api.nvim_buf_get_name(bufnr)
-          return not filename:match "%.log$"
-        end,
-        exclude_filetypes = { "help", "vfiler", "dashboard", "markdown" },
-        float = { minimap_width = 10, margin = { top = 1 }, window_border = "none" },
-        treesitter = { enabled = lazy_utils.has_plugin "nvim-treesitter" },
-        git = { enabled = lazy_utils.has_plugin "gitsigns.nvim", mode = "line" },
-        click = { enabled = true },
-        search = { enabled = true },
-        winopt = function(opt, _)
-          opt.winblend = 30
-        end,
-      }
-
-      vim.api.nvim_create_autocmd("CursorMoved", {
-        group = vim.api.nvim_create_augroup("auto-toggle-neominimap", {}),
-        callback = function(ev)
-          local win = vim.api.nvim_get_current_win()
-          local row = vim.api.nvim_win_get_cursor(win)[1] - 1
-          local line = vim.api.nvim_buf_get_lines(ev.buf, row, row + 1, true)[1]
-          local extmarks = vim.api.nvim_buf_get_extmarks(
-            ev.buf,
-            -1,
-            { row, 0 },
-            { row + 1, 0 },
-            { details = true, type = "virt_text" }
-          )
-          local line_length = vim
-            .iter(extmarks)
-            :filter(function(extmark)
-              return extmark[4].virt_text_pos == "inline"
-            end)
-            :fold(vim.api.nvim_strwidth(line), function(sum, extmark)
-              return sum
-                + vim.iter(extmark[4].virt_text):fold(0, function(len, text)
-                  return len + vim.api.nvim_strwidth(text[1])
-                end)
-            end)
-          local win_width = vim.api.nvim_win_get_width(win)
-          local minimap_width = require("neominimap.config").float.minimap_width
-          local num_sign_width = 6 -- TODO: calculate this
-          if win_width - minimap_width - num_sign_width < line_length then
-            require("neominimap.api").win.disable { win }
-          else
-            require("neominimap.api").win.enable { win }
-          end
-        end,
-      })
-
-      local function normal_wins()
-        return vim.iter(vim.api.nvim_tabpage_list_wins(0)):filter(function(w)
-          -- NOTE: This means the window is not float win.
-          return vim.api.nvim_win_get_config(w).relative == ""
-        end)
-      end
-
-      vim.keymap.set("n", "<C-w>o", function()
-        local winid = vim.api.nvim_get_current_win()
-        normal_wins():each(function(w)
-          if w ~= winid then
-            vim.api.nvim_win_close(w, false)
-          end
-        end)
-      end, { desc = "Overwrite default mapping for neominimap.nvim" })
-
-      ---@param clockwise boolean
-      local function rotate_window(clockwise)
-        return function()
-          local winnr_to_id = normal_wins():fold({}, function(a, b)
-            local winnr = vim.api.nvim_win_get_number(b)
-            a[winnr] = b
-            return a
-          end)
-          local current = vim.api.nvim_win_get_number(0)
-          local winnr = (current + (clockwise and 1 or -1) - 1) % #winnr_to_id + 1
-          vim.api.nvim_set_current_win(winnr_to_id[winnr])
-        end
-      end
-
-      vim.keymap.set("n", "<C-w>w", rotate_window(true), { desc = "Overwrite default mapping for neominimap.nvim" })
-      vim.keymap.set("n", "<C-w>W", rotate_window(false), { desc = "Overwrite default mapping for neominimap.nvim" })
-      vim.keymap.set("n", "<C-w><C-w>", rotate_window(true), { desc = "Overwrite default mapping for neominimap.nvim" })
-
-      palette "neominimap" {
-        sweetie = function(colors)
-          vim.api.nvim_set_hl(0, "NeominimapCursorLine", { bg = colors.violet })
-        end,
-      }
-    end,
   },
 
   non_lazy {
@@ -444,18 +338,6 @@ return {
   },
 
   non_lazy { "delphinus/manage-help-tags.nvim", opts = {} },
-
-  non_lazy {
-    enabled = false,
-    "willothy/flatten.nvim",
-    priority = 1001,
-    ---@module 'flatten'
-    ---@type Flatten.PartialConfig
-    -- NOTE: This causes an error
-    -- ....local/share/nvim/lazy/flatten.nvim/lua/flatten/init.lua:260: attempt to concatenate local 'pid' (a nil value)
-    -- opts = { integrations = { wezterm = true } },
-    opts = {},
-  },
 
   non_lazy {
     "yuki-yano/fuzzy-motion.vim",
