@@ -169,28 +169,4 @@ return {
     Job.join(unpack(jobs))
     notify("update_tools: end", vim.log.levels.INFO)
   end,
-
-  ---@param client vim.lsp.Client
-  ---@param bufnr integer
-  perlnavigator = function(client, bufnr)
-    if client.name ~= "perlnavigator" then
-      return
-    end
-
-    local path = vim.api.nvim_buf_get_name(bufnr)
-    local use_carmel = 0 < #vim.fs.find(".carmel/MySetup.pm", { upward = true, type = "file", path = path })
-    local top = vim.api.nvim_buf_get_lines(0, 0, 1, false)
-    local shebang = top[1] and top[1]:match "^#!%s*(.-)%s*$"
-
-    ---@class core.PerlNavigatorSettings
-    ---@field perlEnv table<string, string>?
-    ---@field perlPath string?
-    ---@field perlParams string[]?
-    ---@field includePaths string[]?
-
-    local settings = vim.deepcopy(client.config.settings) --[[@as { perlnavigator: core.PerlNavigatorSettings }]]
-    settings.perlnavigator.perlPath = shebang or (use_carmel and "carmel" or "perl")
-    settings.perlnavigator.perlParams = use_carmel and { "exec", "perl" } or {}
-    client:notify("workspace/didChangeConfiguration", { settings = settings })
-  end,
 }

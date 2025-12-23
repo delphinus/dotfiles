@@ -144,7 +144,6 @@ return {
         callback = function(args)
           local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
           require("core.utils.lsp").on_attach(client, args.buf)
-          require("core.utils.lsp").perlnavigator(client, args.buf)
         end,
       })
 
