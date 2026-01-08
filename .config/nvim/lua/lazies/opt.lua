@@ -373,17 +373,6 @@ return {
   },
 
   {
-    "itchyny/vim-parenmatch",
-    event = { "FocusLost", "CursorHold" },
-    init = function()
-      vim.g.loaded_matchparen = 1
-    end,
-    config = function()
-      vim.fn["parenmatch#highlight"]()
-    end,
-  },
-
-  {
     "lewis6991/foldsigns.nvim",
     event = { "FocusLost", "CursorHold" },
     config = true,

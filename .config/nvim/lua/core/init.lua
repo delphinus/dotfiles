@@ -40,4 +40,7 @@ if vim.fn.has "gui_running" ~= 1 then
   vim.g.plugin_scrnmode_disable = true
 end
 
+vim.cmd.packadd "nohlsearch"
+vim.cmd.packadd "nvim.undotree"
+
 require("core.utils").export_globals()
