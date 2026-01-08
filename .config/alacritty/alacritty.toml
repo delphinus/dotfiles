@@ -1,9 +1,5 @@
-import = [
-  "/Users/jinnouchi.yasushi/.config/alacritty/nord.toml",
-  "/Users/jinnouchi.yasushi/.alacritty-env.toml"
-]
 
-[shell]
+[terminal.shell]
 program = "/Users/jinnouchi.yasushi/git/dotfiles/bin/tmux-run"
 
 [cursor]
@@ -77,3 +73,9 @@ post_processing = true
 persist = false
 action = "Copy"
 binding = { key = "U", mods = "Command" }
+
+[general]
+import = [
+  "/Users/jinnouchi.yasushi/.config/alacritty/nord.toml",
+  "/Users/jinnouchi.yasushi/.alacritty-env.toml"
+]
