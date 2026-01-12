@@ -79,14 +79,6 @@ api.create_autocmd("VimEnter", {
   command = [[if &readonly | nnoremap q <Cmd>qa<CR> | endif]],
 })
 
-api.create_autocmd("TextYankPost", {
-  desc = "The native implementation of vim-higlihghtedyank in NeoVim",
-  group = api.create_augroup("highlighted_yank", {}),
-  callback = function()
-    vim.hl.on_yank { higroup = "StatusLine" }
-  end,
-})
-
 -- https://blog.pulkitgangwar.com/neovim-configuration-from-scratch-to-lsp
 -- Move the selected region up or down
 -- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")

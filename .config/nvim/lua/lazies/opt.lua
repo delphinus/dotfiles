@@ -1509,4 +1509,116 @@ return {
     dependencies = { "MunifTanjim/nui.nvim" },
     cmd = { "CodeDiff" },
   },
+
+  (function()
+    ---@type table<string, fun(...): fun()>
+    local undo_glow = setmetatable({}, {
+      __index = function(_, method)
+        return function(...)
+          local args = { ... }
+          return function()
+            require("undo-glow")[method](unpack(args))
+          end
+        end
+      end,
+    })
+
+    return {
+      "y3owk1n/undo-glow.nvim",
+      ---@type UndoGlow.Config
+      opts = {
+        performance = {
+          color_cache_size = 2000,
+          debounce_delay = 25,
+        },
+        animation = {
+          enabled = true,
+          duration = 300,
+          animation_type = "zoom",
+          window_scoped = true,
+        },
+        highlights = {
+          undo = { hl_color = { bg = "#693232" } },
+          redo = { hl_color = { bg = "#2F4640" } },
+          yank = { hl_color = { bg = "#7A683A" } },
+          paste = { hl_color = { bg = "#325B5B" } },
+          search = { hl_color = { bg = "#5C475C" } },
+          comment = { hl_color = { bg = "#7A5A3D" } },
+          cursor = { hl_color = { bg = "#793D54" } },
+        },
+        priority = 2048 * 3,
+      },
+      keys = {
+        { "u", undo_glow.undo(), mode = "n", desc = "Undo with highlight", noremap = true },
+        { "U", undo_glow.redo(), mode = "n", desc = "Redo with highlight", noremap = true },
+        { "p", undo_glow.paste_below(), mode = "n", desc = "Paste below with highlight", noremap = true },
+        { "P", undo_glow.paste_above(), mode = "n", esc = "Paste above with highlight", noremap = true },
+        {
+          "gc",
+          function()
+            -- This is an implementation to preserve the cursor position
+            local pos = vim.fn.getpos "."
+            vim.schedule_wrap(vim.fn.setpos)(".", pos)
+            return require("undo-glow").comment()
+          end,
+          mode = { "n", "x" },
+          desc = "Toggle comment with highlight",
+          expr = true,
+          noremap = true,
+        },
+        {
+          "gc",
+          undo_glow.comment_textobject(),
+          mode = "o",
+          desc = "Comment textobject with highlight",
+          noremap = true,
+        },
+        {
+          "gcc",
+          undo_glow.comment_line(),
+          mode = "n",
+          desc = "Toggle comment line with highlight",
+          expr = true,
+          noremap = true,
+        },
+      },
+      init = function()
+        vim.api.nvim_create_autocmd(
+          "TextYankPost",
+          { desc = "Highlight when yanking (copying) text", callback = undo_glow.yank() }
+        )
+
+        -- This only handles neovim instance and do not highlight when switching panes in tmux
+        vim.api.nvim_create_autocmd("CursorMoved", {
+          desc = "Highlight when cursor moved significantly",
+          callback = undo_glow.cursor_moved { animation = { animation_type = "slide" } },
+        })
+
+        -- This will handle highlights when focus gained, including switching panes in tmux
+        vim.api.nvim_create_autocmd("FocusGained", {
+          desc = "Highlight when focus gained",
+          callback = function()
+            ---@type UndoGlow.CommandOpts
+            local opts = { animation = { animation_type = "slide" } }
+
+            opts = require("undo-glow.utils").merge_command_opts("UgCursor", opts)
+            local pos = require("undo-glow.utils").get_current_cursor_row()
+
+            require("undo-glow").highlight_region(vim.tbl_extend("force", opts, {
+              s_row = pos.s_row,
+              s_col = pos.s_col,
+              e_row = pos.e_row,
+              e_col = pos.e_col,
+              force_edge = opts.force_edge == nil and true or opts.force_edge,
+            }))
+          end,
+        })
+
+        vim.api.nvim_create_autocmd("CmdlineLeave", {
+          desc = "Highlight when search cmdline leave",
+          callback = undo_glow.search_cmd { animation = { animation_type = "fade" } },
+        })
+      end,
+    }
+  end)(),
 }
