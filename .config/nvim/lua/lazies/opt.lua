@@ -283,6 +283,7 @@ return {
 
   {
     "folke/noice.nvim",
+    enabled = false,
     event = { "VeryLazy" },
     dependencies = { "folke/snacks.nvim" },
     init = function()
@@ -622,8 +623,8 @@ return {
       -- Move to next/prev match.
       km.set({ "n", "x" }, "N", searchx "prev"(), { desc = "searchx#prev" })
       km.set({ "n", "x" }, "n", searchx "next"(), { desc = "searchx#next" })
-      km.set({ "c", "n", "x" }, "<A-Z>", searchx "prev"(), { desc = "searchx#prev" })
-      km.set({ "c", "n", "x" }, "<A-X>", searchx "next"(), { desc = "searchx#next" })
+      km.set({ "c" }, "<A-N>", searchx "prev"(), { desc = "searchx#prev" })
+      km.set({ "c" }, "<A-n>", searchx "next"(), { desc = "searchx#next" })
 
       -- Clear highlights
       km.set("n", "<Esc><Esc>", searchx "clear"(), { desc = "searchx#clear" })
@@ -1289,19 +1290,6 @@ return {
             },
           },
         },
-        zen = {
-          toggles = { diagnostics = false, inlay_hints = false },
-          on_open = function()
-            require("incline").disable()
-            vim.keymap.del("n", "<C-j>")
-            vim.keymap.del("n", "<C-k>")
-          end,
-          on_close = function()
-            require("incline").enable()
-            vim.keymap.set("n", "<C-j>", "<C-w>w", { remap = true })
-            vim.keymap.set("n", "<C-k>", "<C-w>W", { remap = true })
-          end,
-        },
         gitbrowse = {
           what = "permalink",
           url_patterns = (function()
@@ -1342,10 +1330,6 @@ return {
         { "<Leader>un", snacks.notifier.hide, desc = "Dismiss All Notification" },
         -- default: <C-/>
         { "<A-/>", snacks.terminal.toggle, mode = { "n", "t" }, desc = "Toggle Terminal" },
-        -- default: <Leader>z
-        { "<A-z>", snacks.zen(), desc = "Toggle Zen Mode" },
-        -- default: <Leader>Z
-        { "<A-Z>", snacks.zen.zoom, desc = "Toggle Zoom" },
         {
           "<Leader>N",
           desc = "Neovim News",

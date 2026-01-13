@@ -169,6 +169,7 @@ return {
       )
       vim.keymap.set("n", "<Leader>fn", core.extensions "notify" {}, { desc = "Telescope notify" })
       vim.keymap.set("n", "<Leader>fo", core.frecency {}, { desc = "Telescope frecency" })
+      vim.keymap.set("n", "<A-z>", core.frecency {}, { desc = "Telescope frecency" })
       vim.keymap.set("n", "<Leader>fc", core.extensions "ctags_outline" {}, { desc = "Telescope ctags_outline" })
       vim.keymap.set(
         "n",
