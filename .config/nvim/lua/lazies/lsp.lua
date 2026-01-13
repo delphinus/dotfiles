@@ -191,14 +191,19 @@ return {
       local group = vim.api.nvim_create_augroup("treesitter-detection", {})
 
       -- HACK: deal with async Tree-sitter detection
+      ---@type table<integer, boolean>
+      local checked = {}
       vim.api.nvim_create_autocmd("BufWinEnter", {
         group = group,
-        callback = function()
-          vim.defer_fn(function()
-            if vim.bo.filetype == "" then
-              pcall(vim.cmd.edit)
-            end
-          end, 500)
+        callback = function(args)
+          if not checked[args.buf] then
+            checked[args.buf] = true
+            vim.defer_fn(function()
+              if vim.bo.filetype == "" then
+                pcall(vim.cmd.edit)
+              end
+            end, 500)
+          end
         end,
       })
 
