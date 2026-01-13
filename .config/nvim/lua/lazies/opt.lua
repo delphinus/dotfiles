@@ -1605,4 +1605,6 @@ return {
       end,
     }
   end)(),
+
+  { "serhez/bento.nvim", keys = { { "'" } }, opts = { main_keymap = "'" } },
 }

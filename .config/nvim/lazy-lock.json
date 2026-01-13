@@ -14,6 +14,7 @@
   "baleia.nvim": { "branch": "main", "commit": "1b25eac3ac03659c3d3af75c7455e179e5f197f7" },
   "bats.vim": { "branch": "master", "commit": "19eb3c5a05aaa889647af8107a4518b3fb4a4711" },
   "bclose.vim": { "branch": "master", "commit": "99018b4a2dd18aea1cbd3aa23565b01a0f8c5b73" },
+  "bento.nvim": { "branch": "main", "commit": "d5a2edea7ea2a5353778d0996a881be699eb4402" },
   "bigfile.nvim": { "branch": "feat/autocmd", "commit": "364f47ff9bd590ffefd1540d720387f3c7f7c192" },
   "capture.vim": { "branch": "master", "commit": "857ee11cfe1193948d3d45dcb8d511fded8533fb" },
   "cellwidths.nvim": { "branch": "main", "commit": "d090981cfa82eae8f078aa42b9c88d33ed8f9993" },
