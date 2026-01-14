@@ -285,6 +285,26 @@ return {
         core.builtin "git_bcommits_range" { from = from, to = to }()
       end, { desc = "Telescope git_branches" })
 
+      vim.keymap.set("n", "<Leader>gd", function()
+        local async = require "plenary.async"
+        local finders = require "telescope.finders"
+        local pickers = require "telescope.pickers"
+
+        local async_system = async.wrap(vim.system, 3)
+        async.void(function()
+          local main =
+            async_system({ "git", "symbolic-ref", "refs/remotes/origin/HEAD", "--short" }).stdout:match "^origin/(.*)\n"
+          async.util.scheduler()
+          local finder = finders.new_oneshot_job({ "git", "diff", "--name-only", main .. "..." }, {})
+          pickers
+            .new({}, {
+              prompt_title = "Diff names",
+              finder = finder,
+            })
+            :find()
+        end)()
+      end, { desc = "Telescope git diff --name-only" })
+
       -- Copied from telescope.nvim
       vim.keymap.set("n", "q:", core.builtin "command_history" {}, { desc = "Telescope command_history" })
       vim.keymap.set(
