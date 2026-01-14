@@ -34,6 +34,7 @@ require("lazy").setup({
         immediatelyCancel = false,
         registerConvertResult = true,
         sources = { "skk_server" },
+        skkServerResEnc = "utf-8",
         databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
         -- markerHenkan = "󰇆",
         -- markerHenkanSelect = "󱨉",
@@ -74,10 +75,9 @@ require("lazy").setup({
     },
     config = function()
       local cmp = require "cmp"
-      local compare = require "cmp.config.compare"
+      local types = require "cmp.types"
       cmp.setup {
         sources = {
-          { name = "skkeleton", keyword_pattern = [=[\V\[ーぁ-ゔァ-ヴｦ-ﾟ]]=] },
           { name = "wezterm", keyword_length = 2, option = {} },
           { name = "async_path" },
           { name = "rg", keyword_length = 4, option = { debounce = 0 } },
@@ -95,7 +95,6 @@ require("lazy").setup({
         formatting = {
           format = function(entry, vim_item)
             vim_item.menu = ({
-              skkeleton = "[S]",
               wezterm = "[W]",
               async_path = "[P]",
               rg = "[R]",
@@ -108,25 +107,43 @@ require("lazy").setup({
         sorting = {
           priority_weight = 2,
           comparators = {
-            compare.offset,
-            compare.exact,
-            -- compare.scopes,
-            compare.score,
-            compare.recently_used,
-            compare.locality,
-            compare.kind,
-            compare.sort_text,
-            -- compare.length,
-            function(entry1, entry2)
-              local b = compare.length(entry1, entry2)
-              if type(b) == "boolean" then
-                return not b
-              end
-            end,
-            compare.order,
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            -- cmp.config.compare.scopes,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.kind,
+            -- cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
           },
         },
       }
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "skkeleton-enable-pre",
+        callback = function()
+          cmp.setup.buffer {
+            formatting = { fields = { types.cmp.ItemField.Abbr } },
+            sources = { { name = "skkeleton", keyword_pattern = [=[\V\[ーぁ-ゔァ-ヴｦ-ﾟ]]=] } },
+            sorting = {
+              priority_weight = 2,
+              comparators = {
+                cmp.config.compare.recently_used,
+                cmp.config.compare.order,
+              },
+            },
+          }
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "skkeleton-disable-pre",
+        callback = function()
+          cmp.setup.buffer {}
+        end,
+      })
     end,
   },
 
