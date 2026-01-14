@@ -152,8 +152,9 @@ return {
     end,
   },
 
-  non_lazy {
+  {
     "delphinus/skkeleton_indicator.nvim",
+    event = { "CmdlineEnter", "InsertEnter" },
 
     init = function()
       palette "skkeleton_indicator" {

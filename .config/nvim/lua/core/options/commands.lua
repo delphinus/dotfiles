@@ -56,6 +56,7 @@ api.create_user_command("CleanUpStartUpTime", function()
     end)
     :totable()
   vim.cmd(table.concat(funcs, "\n"))
+  vim.cmd "g/sourcing nvim_exec2() called/d"
 end, { desc = "Clean up --startuptime result" })
 
 -- echo a string for map definitions from an input key

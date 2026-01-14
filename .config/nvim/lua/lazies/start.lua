@@ -195,8 +195,6 @@ return {
     },
   },
 
-  non_lazy { "git@github.com:delphinus/fiv.nvim", opts = { mapping = true } },
-
   non_lazy {
     enabled = false,
     "delphinus/bigfile.nvim",
