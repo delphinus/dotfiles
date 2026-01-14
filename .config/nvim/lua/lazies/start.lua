@@ -52,75 +52,6 @@ return {
   },
 
   non_lazy {
-    enabled = false,
-    "gen740/SmoothCursor.nvim",
-    config = function()
-      require("smoothcursor").setup {
-        cursor = "▶", -- cursor shape (need nerd font)
-        texthl = "SmoothCursor", -- highlight group, default is { bg = nil, fg = "#FFD400" }
-        type = "default", -- define cursor movement calculate function, "default" or "exp" (exponential).
-        fancy = {
-          enable = true, -- enable fancy mode
-          head = { cursor = "▷", texthl = "SmoothCursor", linehl = nil },
-          body = {
-            { cursor = "●", texthl = "SmoothCursorGreen" },
-            { cursor = "•", texthl = "SmoothCursorGreen" },
-            { cursor = "·", texthl = "SmoothCursorGreen" },
-          },
-        },
-        flyin_effect = nil, -- "bottom" or "top"
-        disable_float_win = true, -- disable on float window
-        disabled_filetypes = { "help", "TelescopePrompt", "man", "qf" },
-      }
-
-      palette "smoothcursor" {
-        nord = function(colors)
-          api.set_hl(0, "SmoothCursor", { fg = colors.white })
-          api.set_hl(0, "SmoothCursorGreen", { fg = colors.green })
-        end,
-        sweetie = function(colors)
-          api.set_hl(0, "SmoothCursor", { fg = colors.white })
-          api.set_hl(0, "SmoothCursorGreen", { fg = colors.green })
-        end,
-      }
-
-      local group = api.create_augroup("smooth-cursor-autocmds", {})
-
-      api.create_autocmd("ModeChanged", {
-        desc = "Change signs for SmoothCursor according to modes",
-        group = group,
-        callback = function()
-          local colors = palette.colors
-          local cursor = {
-            n = { char = "▶", color = colors.cyan },
-            i = { char = "▷", color = colors.white },
-            v = { char = "═", color = colors.bright_cyan },
-            V = { char = "║", color = colors.bright_cyan },
-            [""] = { char = "╬", color = colors.bright_cyan },
-            R = { char = "⟩", color = colors.yellow },
-          }
-          local m = cursor[fn.mode()] or cursor.n
-          api.set_hl(0, "SmoothCursor", { fg = m.color })
-          fn.sign_define("smoothcursor", { text = m.char })
-        end,
-      })
-
-      api.create_autocmd("User", {
-        desc = "Disable SmoothCursor.nvim in large files",
-        pattern = "BigfileBufReadPost",
-        group = group,
-        callback = function(args)
-          vim.api.nvim_buf_call(args.buf, function()
-            require("smoothcursor.utils").smoothcursor_stop()
-          end)
-        end,
-      })
-    end,
-  },
-
-  non_lazy { enabled = false, "luukvbaal/statuscol.nvim", opts = {} },
-
-  non_lazy {
     "b0o/incline.nvim",
     opts = {
       ---@param props { buf: integer, win: integer, focused: boolean }
@@ -193,12 +124,6 @@ return {
         }
       end,
     },
-  },
-
-  non_lazy {
-    enabled = false,
-    "delphinus/bigfile.nvim",
-    branch = "feat/autocmd",
   },
 
   non_lazy {

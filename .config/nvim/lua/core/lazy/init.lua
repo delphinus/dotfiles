@@ -14,7 +14,8 @@ else
 end
 
 local use_minimal = not not vim.env.MINIMAL or vim.env.USER == "root"
-local definitions = use_minimal and { "minimal", "cmp" } or { "minimal", "start", "opt", "cmp", "lsp", "telescope" }
+local definitions = use_minimal and { "minimal", "cmp" }
+  or { "minimal", "start", "opt", "cmp", "lsp", "telescope", "skkeleton" }
 local plugins = {}
 for _, name in ipairs(definitions) do
   table.insert(plugins, require("lazies." .. name))

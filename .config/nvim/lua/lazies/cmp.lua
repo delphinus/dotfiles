@@ -1,5 +1,4 @@
 ---@diagnostic disable: missing-fields
-local utils = require "core.utils"
 local lazy_require = require "lazy_require"
 local palette = require "core.utils.palette"
 
@@ -13,228 +12,17 @@ local function c(p)
   return p
 end
 
+local function ic(p)
+  p.event = { "InsertEnter", "CmdlineEnter" }
+  return p
+end
+
 return {
-  {
-    "willelz/skk-tutorial.vim",
-    cmd = { "SKKTutorialStart" },
-    dependencies = { "denops.vim", "skkeleton" },
-    config = function()
-      utils.load_denops_plugin "skk-tutorial.vim"
-      vim.wait(1000, function()
-        return not not vim.api.nvim_get_commands({}).SKKTutorialStart
-      end)
-    end,
-  },
-
-  {
-    "vim-skk/skkeleton",
-    lazy = false,
-    keys = {
-      -- Use these mappings in Karabiner-Elements
-      { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
-      { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
-      { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
-      { "<C-x><C-o>", lazy_require("cmp").complete(), mode = { "i" }, desc = "Complete by nvim-cmp" },
-    },
-    dependencies = {
-      "denops.vim",
-    },
-
-    init = function()
-      local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
-      local karabiner_exists = not not vim.uv.fs_stat(karabiner_cli)
-      if karabiner_exists then
-        local group = vim.api.nvim_create_augroup("skkeleton_callbacks", {})
-        vim.api.nvim_create_autocmd("User", {
-          desc = "Set up skkeleton settings with nvim-cmp",
-          group = group,
-          pattern = "skkeleton-enable-pre",
-          callback = function()
-            local compare = require "cmp.config.compare"
-            local types = require "cmp.types"
-            require("cmp").setup.buffer {
-              formatting = { fields = { types.cmp.ItemField.Abbr } },
-              sources = { { name = "skkeleton", keyword_pattern = [=[\V\[ーぁ-ゔァ-ヴｦ-ﾟ]]=] } },
-              sorting = {
-                priority_weight = 2,
-                comparators = {
-                  compare.offset,
-                  compare.exact,
-                  -- compare.scopes,
-                  compare.score,
-                  compare.recently_used,
-                  compare.locality,
-                  compare.kind,
-                  compare.sort_text,
-                  -- compare.length,
-                  function(entry1, entry2)
-                    local b = compare.length(entry1, entry2)
-                    if type(b) == "boolean" then
-                      return not b
-                    end
-                  end,
-                  compare.order,
-                },
-              },
-            }
-          end,
-        })
-        vim.api.nvim_create_autocmd("User", {
-          desc = "Restore the default settings for nvim-cmp",
-          group = group,
-          pattern = "skkeleton-disable-pre",
-          callback = function()
-            require("cmp").setup.buffer {}
-          end,
-        })
-
-        ---@async
-        ---@param cmds string[][]
-        ---@return string[]
-        local function async_systems(cmds)
-          local async = require "plenary.async"
-          local async_system = async.wrap(vim.system, 3)
-          local results = vim.tbl_map(
-            function(v)
-              return v[1]
-            end,
-            async.util.join(vim.tbl_map(function(cmd)
-              return function()
-                return async_system(cmd)
-              end
-            end, cmds))
-          ) --[[@as vim.SystemCompleted[] ]]
-          local stdouts = {}
-          for j, job in ipairs(results) do
-            if job.code ~= 0 then
-              vim.notify(
-                ("command execution failed => cmd: %s, err => %s"):format(cmds[j][1], job.stderr),
-                vim.log.levels.ERROR
-              )
-            end
-            table.insert(stdouts, job.stdout or "")
-          end
-          return stdouts
-        end
-
-        ---@async
-        ---@param val number
-        local function async_karabiner(val)
-          async_systems { { karabiner_cli, "--set-variables", vim.json.encode { neovim_in_insert_mode = val } } }
-        end
-
-        ---@param f async function
-        ---@return function
-        local function void(f)
-          return function(...)
-            require("plenary.async").void(f)(...)
-          end
-        end
-
-        ---@param val number
-        ---@return async fun()
-        local function set_karabiner(val)
-          return function()
-            void(async_karabiner)(val)
-          end
-        end
-
-        ---@async
-        local function async_mode_karabiner()
-          local is_in_insert = not not require("plenary.async").api.nvim_get_mode().mode:match "[icrR]"
-          async_karabiner(is_in_insert and 1 or 0)
-        end
-
-        vim.api.nvim_create_autocmd(
-          { "InsertEnter", "CmdlineEnter" },
-          { group = group, callback = set_karabiner(1), desc = "Enable Karabiner-Elements settings for skkeleton" }
-        )
-        vim.api.nvim_create_autocmd(
-          { "InsertLeave", "CmdlineLeave", "FocusLost" },
-          { group = group, callback = set_karabiner(0), desc = "Disable Karabiner-Elements settings for skkeleton" }
-        )
-        vim.api.nvim_create_autocmd("FocusGained", {
-          group = group,
-          callback = void(async_mode_karabiner),
-          desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
-        })
-
-        ---@async
-        ---@return number?
-        local function wezterm_frontmost_pane()
-          local results = async_systems {
-            {
-              "osascript",
-              "-e",
-              'tell application "System Events" to get the unix id of first process whose frontmost is true',
-            },
-            { "wezterm", "cli", "list-clients", "--format", "json" },
-          }
-          local frontmost_pid = tonumber(results[1], 10)
-          local wezterms = vim.json.decode(results[2])
-          for _, wezterm in ipairs(wezterms) do
-            if wezterm.pid == frontmost_pid then
-              return wezterm.focused_pane_id
-            end
-          end
-        end
-
-        assert(vim.uv.new_timer()):start(
-          500,
-          500,
-          void(function()
-            local wezterm_pane = tonumber(vim.uv.os_getenv "WEZTERM_PANE", 10)
-            local pane = wezterm_frontmost_pane()
-            if not pane then
-              async_karabiner(0)
-            elseif pane == wezterm_pane then
-              async_mode_karabiner()
-            end
-          end)
-        )
-      end
-    end,
-
-    config = function()
-      vim.fn["skkeleton#config"] {
-        userDictionary = vim.fs.normalize "~/Documents/skk-jisyo.utf8",
-        eggLikeNewline = true,
-        immediatelyCancel = false,
-        registerConvertResult = true,
-        sources = { "skk_server" }, -- use yaskkserv2
-        databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
-        -- markerHenkan = "󰇆",
-        -- markerHenkanSelect = "󱨉",
-        -- markerHenkan = "󰽤",
-        -- markerHenkanSelect = "󰽢",
-        -- markerHenkan = "󰜌",
-        -- markerHenkanSelect = "󰜋",
-        -- markerHenkan = "󰝣",
-        -- markerHenkanSelect = "󰄮",
-      }
-      vim.fn["skkeleton#register_kanatable"]("rom", {
-        ["("] = { "（", "" },
-        [")"] = { "）", "" },
-        ["z "] = { "　", "" },
-        ["z1"] = { "①", "" },
-        ["z2"] = { "②", "" },
-        ["z3"] = { "③", "" },
-        ["z4"] = { "④", "" },
-        ["z5"] = { "⑤", "" },
-        ["z6"] = { "⑥", "" },
-        ["z7"] = { "⑦", "" },
-        ["z8"] = { "⑧", "" },
-        ["z9"] = { "⑨", "" },
-        ["<s-q>"] = "henkanPoint",
-      })
-    end,
-  },
-
   { "hrsh7th/cmp-nvim-lua", ft = "lua" },
   { "mtoohey31/cmp-fish", ft = "fish" },
 
   c { "hrsh7th/cmp-cmdline" },
-  { "delphinus/cmp-async-path", option = { show_hidden_files_by_default = true } },
+  ic { "delphinus/cmp-async-path" },
 
   i { "delphinus/cmp-ctags" },
   i { "delphinus/cmp-repo" },
@@ -253,7 +41,6 @@ return {
     end,
   },
   i { "ray-x/cmp-treesitter" },
-  i { "uga-rosa/cmp-skkeleton" },
 
   { "rafamadriz/friendly-snippets" },
   {
@@ -341,18 +128,6 @@ return {
     config = function()
       local cmp = require "cmp"
       local types = require "cmp.types"
-      local comparators = {
-        cmp.config.compare.offset,
-        cmp.config.compare.exact,
-        -- cmp.config.compare.scopes,
-        cmp.config.compare.score,
-        cmp.config.compare.recently_used,
-        cmp.config.compare.locality,
-        cmp.config.compare.kind,
-        -- cmp.config.compare.sort_text,
-        cmp.config.compare.length,
-        cmp.config.compare.order,
-      }
 
       local format = function(entry, vim_item)
         local highlights_info = require("colorful-menu").cmp_highlights(entry)
@@ -399,18 +174,7 @@ return {
       end
 
       local sources = {
-        { name = "render-markdown" },
-        { name = "digraphs", keyword_length = 1 },
-        { name = "async_path" },
-        { name = "lazydev", group_index = 0 },
-        { name = "nvim_lsp" },
-        { name = "nvim_lua" },
-        { name = "git" },
-        { name = "ctags" },
-        { name = "treesitter", trigger_characters = { "." }, option = {} },
-        { name = "fish" },
-        { name = "luasnip" },
-        { name = "wezterm", keyword_length = 2, option = {} },
+        { name = "async_path", option = { show_hidden_files_by_default = true }, priority = 1000 },
         {
           name = "buffer",
           option = {
@@ -423,9 +187,21 @@ return {
             keyword_pattern = [[\%(#[\da-fA-F]\{6}\>\|-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(\%(-\|::\)\h\w*\)*\)]],
             get_bufnrs = vim.api.nvim_list_bufs,
           },
+          priority = 900,
         },
+        { name = "wezterm", keyword_length = 2, option = {}, priority = 900 },
+        { name = "rg", keyword_length = 4, option = { debounce = 0 }, priority = 800 },
+        { name = "render-markdown" },
+        { name = "digraphs", keyword_length = 1 },
+        { name = "lazydev", group_index = 0 },
+        { name = "nvim_lsp" },
+        { name = "nvim_lua" },
+        { name = "git" },
+        { name = "ctags" },
+        { name = "treesitter", trigger_characters = { "." }, option = {} },
+        { name = "fish" },
+        { name = "luasnip" },
         { name = "ghq" },
-        { name = "rg", keyword_length = 4, option = { debounce = 0 } },
         { name = "emoji" },
         { name = "look", keyword_length = 4, option = { convert_case = true, loud = true } },
       }
@@ -512,7 +288,18 @@ return {
         },
         sorting = {
           priority_weight = 2,
-          comparators = comparators,
+          comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            -- cmp.config.compare.scopes,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.kind,
+            -- cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
         },
       }
       if not vim.env.LIGHT then
