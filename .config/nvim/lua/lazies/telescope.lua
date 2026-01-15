@@ -286,23 +286,27 @@ return {
       end, { desc = "Telescope git_branches" })
 
       vim.keymap.set("n", "<Leader>gd", function()
-        local async = require "plenary.async"
         local finders = require "telescope.finders"
         local pickers = require "telescope.pickers"
 
-        local async_system = async.wrap(vim.system, 3)
-        async.void(function()
-          local main =
-            async_system({ "git", "symbolic-ref", "refs/remotes/origin/HEAD", "--short" }).stdout:match "^origin/(.*)\n"
-          async.util.scheduler()
-          local finder = finders.new_oneshot_job({ "git", "diff", "--name-only", main .. "..." }, {})
-          pickers
-            .new({}, {
-              prompt_title = "Diff names",
-              finder = finder,
-            })
-            :find()
-        end)()
+        local ok, job = pcall(vim.system, { "git", "symbolic-ref", "refs/remotes/origin/HEAD", "--short" })
+        if not ok then
+          vim.notify("cannot call git: " .. job, vim.log.levels.ERROR)
+          return
+        end
+        local obj = job:wait()
+        if obj.code ~= 0 then
+          vim.notify("git errror: " .. obj.stderr, vim.log.levels.ERROR)
+          return
+        end
+        local main = obj.stdout:match "^origin/(.*)\n"
+        local finder = finders.new_oneshot_job({ "git", "diff", "--name-only", main .. "..." }, {})
+        pickers
+          .new({}, {
+            prompt_title = "Diff names",
+            finder = finder,
+          })
+          :find()
       end, { desc = "Telescope git diff --name-only" })
 
       -- Copied from telescope.nvim
