@@ -30,7 +30,7 @@ return {
       "denops.vim",
     },
 
-    init = function()
+    config = function()
       local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
       local karabiner_exists = not not vim.uv.fs_stat(karabiner_cli)
       if karabiner_exists then
@@ -170,9 +170,7 @@ return {
           end)
         )
       end
-    end,
 
-    config = function()
       vim.fn["skkeleton#config"] {
         userDictionary = vim.fs.normalize "~/Documents/skk-jisyo.utf8",
         eggLikeNewline = true,
