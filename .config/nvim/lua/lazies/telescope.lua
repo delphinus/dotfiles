@@ -285,25 +285,52 @@ return {
         core.builtin "git_bcommits_range" { from = from, to = to }()
       end, { desc = "Telescope git_branches" })
 
+      ---@param cmd string[]
+      ---@return boolean
+      ---@return string
+      local function call_system(cmd)
+        local command = table.concat(cmd, " ")
+        local ok, job = pcall(vim.system, cmd)
+        if not ok then
+          return false, ("cannot call: %s\n%s"):format(command, job)
+        end
+        local obj = job:wait(2000)
+        if obj.code ~= 0 then
+          return false, ("command error: %s\n%s"):format(command, obj.stderr)
+        end
+        return true, obj.stdout or ""
+      end
+
       vim.keymap.set("n", "<Leader>gd", function()
         local finders = require "telescope.finders"
         local pickers = require "telescope.pickers"
 
-        local ok, job = pcall(vim.system, { "git", "symbolic-ref", "refs/remotes/origin/HEAD", "--short" })
+        local ok, out = call_system { "gh", "pr", "view", "--json", "baseRefName", "-q", ".baseRefName" }
         if not ok then
-          vim.notify("cannot call git: " .. job, vim.log.levels.ERROR)
+          local gh_err = out
+          ok, out = call_system { "git", "symbolic-ref", "refs/remotes/origin/HEAD", "--short" }
+          if not ok then
+            vim.notify(("cannot find the base branch: %s\n%s"):format(gh_err, out), vim.log.levels.ERROR)
+            return
+          end
+        end
+        local base = out:gsub("origin/", ""):gsub("\n", "")
+
+        ok, out = call_system { "git", "branch" }
+        if not ok then
+          vim.notify(("cannot find the current branch: %s"):format(out), vim.log.levels.ERROR)
           return
         end
-        local obj = job:wait()
-        if obj.code ~= 0 then
-          vim.notify("git errror: " .. obj.stderr, vim.log.levels.ERROR)
+        local current = out:match [[\* ([%w/]+)]]
+        if current == base then
+          vim.notify(("The current branch is already the base: %s"):format(base), vim.log.levels.WARN)
           return
         end
-        local main = obj.stdout:match "^origin/(.*)\n"
-        local finder = finders.new_oneshot_job({ "git", "diff", "--name-only", main .. "..." }, {})
+
+        local finder = finders.new_oneshot_job({ "git", "diff", "--name-only", base .. "..." }, {})
         pickers
           .new({}, {
-            prompt_title = "Diff names",
+            prompt_title = ("Diff names: %s...%s"):format(base, current),
             finder = finder,
           })
           :find()
