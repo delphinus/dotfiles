@@ -270,7 +270,15 @@ vim.ui.open = (function(original)
 end)(vim.ui.open)
 
 vim.diagnostic.config {
-  float = false,
+  float = {
+    format = function(diagnostic)
+      local source = diagnostic.source or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
+      if source then
+        return string.format("[%s] %s", source, diagnostic.message)
+      end
+      return diagnostic.message
+    end,
+  },
   signs = function(_, b)
     ---@diagnostic disable-next-line: return-type-mismatch
     return vim.bo[b].filetype ~= "markdown"
@@ -284,11 +292,23 @@ vim.diagnostic.config {
         }
       or false
   end,
-  virtual_text = false,
+  virtual_text = {
+    format = function(diagnostic)
+      local source = diagnostic.source or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
+      if source then
+        return string.format("[%s] %s", source, diagnostic.message)
+      end
+      return diagnostic.message
+    end,
+  },
   virtual_lines = {
     severity = "INFO",
     format = function(diagnostic)
-      return ("%s [%s]"):format(diagnostic.message, diagnostic.source)
+      local source = diagnostic.source or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
+      if source then
+        return string.format("[%s] %s", source, diagnostic.message)
+      end
+      return diagnostic.message
     end,
   },
 }
