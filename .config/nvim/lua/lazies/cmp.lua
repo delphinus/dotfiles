@@ -137,8 +137,8 @@ return {
         end
 
         local kind = require("lspkind").cmp_format {
-          mode = "symbol",
-          maxwidth = 50,
+          ellipsis_char = "……",
+          maxwidth = { menu = 50, abbr = 50 },
           menu = {
             buffer = "B",
             ctags = "C",
@@ -274,7 +274,7 @@ return {
         },
         sources = sources,
         formatting = {
-          fields = { types.cmp.ItemField.Kind, types.cmp.ItemField.Abbr, types.cmp.ItemField.Menu },
+          fields = { types.cmp.ItemField.Icon, types.cmp.ItemField.Abbr, types.cmp.ItemField.Menu },
           format = format,
         },
         window = {
