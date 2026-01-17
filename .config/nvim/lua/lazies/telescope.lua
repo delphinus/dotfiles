@@ -460,32 +460,7 @@ return {
           prompt_prefix = "❯❯❯ ",
           selection_caret = "❯ ",
           dynamic_preview_title = true,
-
-          -- NOTE: copy from drodown theme
-          results_title = false,
-
-          sorting_strategy = "ascending",
-          layout_strategy = "center",
-          layout_config = {
-            scroll_speed = 3, -- NOTE: This is changed from dropdown
-
-            preview_cutoff = 1, -- Preview should always show (unless previewer = false)
-
-            width = function(_, max_columns, _)
-              return math.min(max_columns, 80)
-            end,
-
-            height = function(_, _, max_lines)
-              return math.min(max_lines, 15)
-            end,
-          },
-
-          border = true,
-          borderchars = {
-            prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-            results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-            preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-          },
+          layout_config = { scroll_speed = 3 },
           path_display = { filename_first = { reverse_directories = true } },
           cache_picker = { num_pickers = 5 },
         },

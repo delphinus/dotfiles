@@ -1,10 +1,17 @@
+---@param opts table?
+---@param more_opts table?
+---@return table
+local function dropdown(opts, more_opts)
+  local theme = require("telescope.themes").get_dropdown()
+  return vim.tbl_deep_extend("force", theme, opts or {}, more_opts or {})
+end
+
 ---@param name string
 ---@return fun(opts: table?): function
 local function builtin(name)
   return function(opts)
     return function(more_opts)
-      local o = vim.tbl_extend("force", opts or {}, more_opts or {})
-      require("telescope.builtin")[name](o)
+      require("telescope.builtin")[name](dropdown(opts, more_opts))
     end
   end
 end
@@ -15,8 +22,7 @@ end
 local function extensions(name, prop)
   return function(opts)
     return function(more_opts)
-      local o = vim.tbl_extend("force", opts or {}, more_opts or {})
-      require("telescope").extensions[name][prop or name](o)
+      require("telescope").extensions[name][prop or name](dropdown(opts, more_opts))
     end
   end
 end
