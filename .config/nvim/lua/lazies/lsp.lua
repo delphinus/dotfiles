@@ -176,7 +176,7 @@ return {
       echo_cursor = 0,
       fix_on_save = 1,
       fixers = { lua = { "stylua" } },
-      linters_ignore = { "protoc", "protoc-gen-lint", "javac" },
+      linters_ignore = { "protoc", "protoc-gen-lint", "javac", "cspell" },
       virtualtext_cursor = 0,
     },
   },
