@@ -284,57 +284,24 @@ return {
         local to = vim.api.nvim_win_get_cursor(0)[1]
         core.builtin "git_bcommits_range" { from = from, to = to }()
       end, { desc = "Telescope git_branches" })
-
-      ---@param cmd string[]
-      ---@return boolean
-      ---@return string
-      local function call_system(cmd)
-        local command = table.concat(cmd, " ")
-        local ok, job = pcall(vim.system, cmd)
-        if not ok then
-          return false, ("cannot call: %s\n%s"):format(command, job)
-        end
-        local obj = job:wait(2000)
-        if obj.code ~= 0 then
-          return false, ("command error: %s\n%s"):format(command, obj.stderr)
-        end
-        return true, obj.stdout or ""
-      end
-
-      vim.keymap.set("n", "<Leader>gd", function()
-        local finders = require "telescope.finders"
-        local pickers = require "telescope.pickers"
-
-        local ok, out = call_system { "gh", "pr", "view", "--json", "baseRefName", "-q", ".baseRefName" }
-        if not ok then
-          local gh_err = out
-          ok, out = call_system { "git", "symbolic-ref", "refs/remotes/origin/HEAD", "--short" }
-          if not ok then
-            vim.notify(("cannot find the base branch: %s\n%s"):format(gh_err, out), vim.log.levels.ERROR)
-            return
-          end
-        end
-        local base = out:gsub("origin/", ""):gsub("\n", "")
-
-        ok, out = call_system { "git", "branch" }
-        if not ok then
-          vim.notify(("cannot find the current branch: %s"):format(out), vim.log.levels.ERROR)
-          return
-        end
-        local current = out:match [[\* ([%w/]+)]]
-        if current == base then
-          vim.notify(("The current branch is already the base: %s"):format(base), vim.log.levels.WARN)
-          return
-        end
-
-        local finder = finders.new_oneshot_job({ "git", "diff", "--name-only", base .. "..." }, {})
-        pickers
-          .new({}, {
-            prompt_title = ("Diff names: %s...%s"):format(base, current),
-            finder = finder,
-          })
-          :find()
-      end, { desc = "Telescope git diff --name-only" })
+      vim.keymap.set(
+        "n",
+        "<Leader>gf",
+        core.extensions("gh", "pull_request_files") {},
+        { desc = "Telescope GitHub pull_request_files" }
+      )
+      vim.keymap.set(
+        "n",
+        "<Leader>gp",
+        core.extensions("gh", "pull_request") {},
+        { desc = "Telescope GitHub pull_request_files" }
+      )
+      vim.keymap.set(
+        "n",
+        "<Leader>gi",
+        core.extensions("gh", "issues") {},
+        { desc = "Telescope GitHub pull_request_files" }
+      )
 
       -- Copied from telescope.nvim
       vim.keymap.set("n", "q:", core.builtin "command_history" {}, { desc = "Telescope command_history" })
@@ -419,6 +386,19 @@ return {
         end
       end
 
+      local function run_gh_in_dir(name)
+        return function()
+          vim.notify("opening " .. name .. " in GH CLI")
+          local entry = actions_state.get_selected_entry()
+          local dir = from_entry.path(entry)
+          if not Path:new(dir):is_dir() then
+            vim.notify("This is not a directory: " .. dir, vim.log.levels.ERROR)
+            return
+          end
+          require("core.telescope").extensions("gh", name) { cwd = dir } {}
+        end
+      end
+
       telescope.setup {
         defaults = {
           mappings = {
@@ -429,8 +409,13 @@ return {
               ["<A-p>"] = actions.cycle_history_prev,
               ["<A-r>"] = run_octo_in_dir "prs",
               ["<C-a>"] = run_frecency_in_dir,
-              ["<C-g>"] = run_extension_in_dir "egrepify",
               ["<C-o>"] = actions.send_to_loclist + actions.open_loclist,
+
+              ["<C-g><C-g>"] = run_extension_in_dir "egrepify",
+
+              ["<C-g><C-f>"] = run_gh_in_dir "pull_request_files",
+              ["<C-g><C-i>"] = run_gh_in_dir "issues",
+              ["<C-g><C-p>"] = run_gh_in_dir "pull_request",
 
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
