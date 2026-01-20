@@ -98,3 +98,38 @@ vim.keymap.set("n", "<M-P>", function()
     vim.fn.expand "%:p",
   }
 end)
+
+-- Open macOS Dictionary for the word under cursor or selected text
+local function lookup_dictionary()
+  local word
+  local mode = api.get_mode().mode
+
+  if mode == "v" or mode == "V" or mode == "\22" then
+    -- Visual mode: get selected text
+    vim.cmd('normal! "vy')
+    word = vim.fn.getreg "v"
+  else
+    -- Normal mode: get word under cursor
+    word = vim.fn.expand "<cword>"
+  end
+
+  if word ~= "" then
+    vim.system { "open", "dict://" .. word }
+  end
+end
+
+-- Set K mapping only if not already mapped
+api.create_autocmd({ "FileType", "BufWinEnter" }, {
+  desc = "Set K to look up word in macOS Dictionary if not already mapped",
+  group = api.create_augroup("macos_dictionary_mapping", {}),
+  callback = function()
+    local buf = api.get_current_buf()
+    -- Check if K is already mapped in normal or visual mode
+    if fn.mapcheck("K", "n") == "" then
+      vim.keymap.set("n", "K", lookup_dictionary, { buffer = buf, desc = "Look up word in macOS Dictionary" })
+    end
+    if fn.mapcheck("K", "v") == "" then
+      vim.keymap.set("v", "K", lookup_dictionary, { buffer = buf, desc = "Look up word in macOS Dictionary" })
+    end
+  end,
+})
