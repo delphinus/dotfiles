@@ -101,12 +101,23 @@ end)
 
 -- Open macOS Dictionary for the word under cursor or selected text
 local function lookup_dictionary()
+  local buf = vim.api.nvim_get_current_buf()
+
+  ---@pram c vim.lsp.Client
+  local can_hover = vim.iter(vim.lsp.get_clients { bufnr = buf }):any(function(c)
+    return c:supports_method "textDocument/hover"
+  end)
+  if can_hover then
+    vim.lsp.buf.hover()
+    return
+  end
+
   local word
   local mode = api.get_mode().mode
 
   if mode == "v" or mode == "V" or mode == "\22" then
     -- Visual mode: get selected text
-    vim.cmd('normal! "vy')
+    vim.cmd 'normal! "vy'
     word = vim.fn.getreg "v"
   else
     -- Normal mode: get word under cursor
