@@ -306,7 +306,7 @@ return {
         cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
         cmp.setup.cmdline(":", {
           sources = cmp.config.sources(
-            { { name = "path" } },
+            { { name = "async_path" } },
             { { name = "cmdline" }, { name = "ghq" }, { name = "git" } }
           ),
         })
