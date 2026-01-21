@@ -62,6 +62,107 @@ return function(config)
     pane:move_to_new_tab():activate()
   end)
 
+  local copy_last_command_output = wezterm.action_callback(function(window, pane)
+    -- Get recent lines from scrollback to find prompt patterns
+    -- Use get_logical_lines_as_text to avoid wrapping issues
+    local max_lines = 500
+    local text = pane:get_logical_lines_as_text(max_lines)
+
+    -- Split into lines
+    local lines = {}
+    for line in text:gmatch("([^\n]*)\n?") do
+      if line ~= "" or #lines > 0 then
+        table.insert(lines, line)
+      end
+    end
+
+    if #lines == 0 then
+      wezterm.log_info("コピーする内容がありません")
+      return
+    end
+
+    -- Find prompt lines (lines containing ❯❯❯ or ❮❮❮)
+    -- Search from bottom to top
+    local prompt_indices = {}
+    for i = #lines, 1, -1 do
+      if lines[i]:match("❯❯❯") or lines[i]:match("❮❮❮") then
+        table.insert(prompt_indices, i)
+        if #prompt_indices >= 2 then
+          break
+        end
+      end
+    end
+
+    if #prompt_indices < 2 then
+      -- If we can't find 2 prompts, copy last 50 lines as fallback
+      local fallback_start = math.max(1, #lines - 50)
+      local fallback_lines = {}
+      for i = fallback_start, #lines do
+        table.insert(fallback_lines, lines[i])
+      end
+      local fallback_text = table.concat(fallback_lines, "\n")
+      window:copy_to_clipboard(fallback_text)
+      wezterm.log_info("直前の出力をコピーしました (最大50行)")
+      return
+    end
+
+    -- Extract output between the last two prompts
+    -- prompt_indices[1] is the most recent (bottom)
+    -- prompt_indices[2] is the previous one
+    local recent_prompt_idx = prompt_indices[1]
+    local prev_prompt_idx = prompt_indices[2]
+
+    -- Extract command from the prompt line
+    local prompt_line = lines[prev_prompt_idx]
+    local command = prompt_line:match("❯❯❯%s*(.*)$") or prompt_line:match("❮❮❮%s*(.*)$")
+
+    -- Output lines are from the line after prev_prompt to the line before recent_prompt
+    local output_start = prev_prompt_idx + 1
+    local output_end = recent_prompt_idx - 1
+
+    -- Build the result: command + output
+    local result_lines = {}
+
+    -- Add command if it exists
+    if command and command ~= "" then
+      table.insert(result_lines, command)
+    end
+
+    -- Add output lines
+    if output_end >= output_start then
+      for i = output_start, output_end do
+        table.insert(result_lines, lines[i])
+      end
+    end
+
+    if #result_lines == 0 then
+      wezterm.log_info("コピーする内容がありません")
+      return
+    end
+
+    local result_text = table.concat(result_lines, "\n")
+    window:copy_to_clipboard(result_text)
+
+    local line_count = #result_lines
+    local line_info = line_count == 1 and "1行" or line_count .. "行"
+    local message = "✓ コマンドと出力をコピーしました (" .. line_info .. ")"
+
+    wezterm.log_info(message)
+
+    -- Try multiple notification methods
+    -- 1. Try WezTerm's built-in toast notification
+    pcall(function()
+      window:toast_notification("WezTerm", message, nil, 2000)
+    end)
+
+    -- 2. Fallback: Use macOS notification center
+    wezterm.background_child_process({
+      "osascript",
+      "-e",
+      string.format('display notification "%s" with title "WezTerm"', message),
+    })
+  end)
+
   config.keys = {
     { key = "-", mods = "CMD", action = act.DecreaseFontSize },
     { key = "0", mods = "CMD", action = act.ResetFontSize },
@@ -108,6 +209,7 @@ return function(config)
     { key = "v", mods = "CMD", action = act.PasteFrom "Clipboard" },
     { key = "v", mods = "SHIFT|CMD", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
     { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
+    { key = "y", mods = "CMD", action = copy_last_command_output },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
   }
 end
