@@ -13,25 +13,21 @@ set --global fish_color_cancel e78888
 set --global fish_color_command 6ad7ff
 set --global fish_color_comment 929292
 set --global fish_color_cwd f4b47c
-set --global fish_color_cwd_root bf616a
+set --global fish_color_cwd_root red
 set --global fish_color_end f4b47c
 set --global fish_color_error e78888
 set --global fish_color_escape d5b0ff
-set --global fish_color_history_current e5e9f0 --bold
+set --global fish_color_history_current --bold
 set --global fish_color_host 6ad7ff
 set --global fish_color_host_remote 85ff72
-set --global fish_color_keyword 6ad7ff
-set --global fish_color_match 88c0d0
 set --global fish_color_normal fdfffd
 set --global fish_color_operator d5b0ff
-set --global fish_color_option 85ff72
 set --global fish_color_param d5b0ff
 set --global fish_color_quote 85ff72
 set --global fish_color_redirection eeffee
 set --global fish_color_search_match --background=232331
 set --global fish_color_selection --background=37374c
 set --global fish_color_status ffe24f
-set --global fish_color_theme Nord
 set --global fish_color_user 70ffec
 set --global fish_color_valid_path --underline
 set --global fish_pager_color_background
@@ -43,7 +39,7 @@ set --global fish_pager_color_secondary_background
 set --global fish_pager_color_secondary_completion
 set --global fish_pager_color_secondary_description
 set --global fish_pager_color_secondary_prefix
-set --global fish_pager_color_selected_background --background=434c5e
+set --global fish_pager_color_selected_background -r
 set --global fish_pager_color_selected_completion
 set --global fish_pager_color_selected_description
 set --global fish_pager_color_selected_prefix
