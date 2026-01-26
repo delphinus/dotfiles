@@ -74,6 +74,7 @@ return {
               "docker_compose_language_service",
               "dockerls",
               "dotls",
+              "fish_lsp",
               "gofumpt",
               "goimports",
               "golangci-lint",
