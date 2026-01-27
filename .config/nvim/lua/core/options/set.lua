@@ -272,7 +272,8 @@ end)(vim.ui.open)
 vim.diagnostic.config {
   float = {
     format = function(diagnostic)
-      local source = diagnostic.source or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
+      local source = diagnostic.source
+        or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
       if source then
         return string.format("[%s] %s", source, diagnostic.message)
       end
@@ -294,7 +295,8 @@ vim.diagnostic.config {
   end,
   virtual_text = {
     format = function(diagnostic)
-      local source = diagnostic.source or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
+      local source = diagnostic.source
+        or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
       if source then
         return string.format("[%s] %s", source, diagnostic.message)
       end
@@ -304,7 +306,8 @@ vim.diagnostic.config {
   virtual_lines = {
     severity = "INFO",
     format = function(diagnostic)
-      local source = diagnostic.source or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
+      local source = diagnostic.source
+        or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
       if source then
         return string.format("[%s] %s", source, diagnostic.message)
       end
