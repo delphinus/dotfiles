@@ -86,7 +86,7 @@ return {
               "jqls",
               "jsonls",
               "jsonnet_ls",
-              "lua_ls",
+              { "lua_ls", version = "3.16.4" },
               "luacheck",
               "marksman",
               "perlnavigator",
