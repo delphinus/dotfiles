@@ -3,6 +3,7 @@ local palette = require "core.utils.palette"
 return {
   {
     "folke/lazydev.nvim",
+    ft = { "lua" },
     dependencies = {
       { "Bilal2453/luvit-meta" },
       { "DrKJeff16/wezterm-types" },
