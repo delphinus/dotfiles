@@ -316,23 +316,41 @@ vim.diagnostic.config {
   },
 }
 
--- ref https://github.com/cpea2506/relative-toggle.nvim
-local group = vim.api.nvim_create_augroup("relative-toggle", {})
-
-vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdlineLeave" }, {
-  callback = function()
-    vim.opt.number = true
-    vim.opt.relativenumber = true
-  end,
-})
-vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdlineEnter" }, {
-  callback = function(args)
-    vim.opt.number = true
-    vim.opt.relativenumber = false
-    if args.event == "CmdlineEnter" then
-      vim.cmd.redraw()
-    end
-  end,
-})
+-- -- ref https://github.com/cpea2506/relative-toggle.nvim
+-- local group = vim.api.nvim_create_augroup("relative-toggle", {})
+-- ---@type table<integer, boolean>
+-- local win_number = {}
+--
+-- vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdlineLeave" }, {
+--   group = group,
+--   callback = function(args)
+--     local win = vim.api.nvim_get_current_win()
+--     if win_number[win] == nil then
+--       win_number[win] = vim.wo[win].number
+--     end
+--     vim.print { args.event, win, win_number }
+--     -- if win_number[args.buf] then
+--     --   vim.opt.number = true
+--     --   vim.opt.relativenumber = true
+--     -- end
+--   end,
+-- })
+-- vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdlineEnter" }, {
+--   group = group,
+--   callback = function(args)
+--     local win = vim.api.nvim_get_current_win()
+--     if win_number[win] == nil then
+--       win_number[win] = vim.wo[win].number
+--     end
+--     vim.print { args.event, win, win_number }
+--     -- if win_number[args.buf] then
+--     --   vim.opt.number = true
+--     --   vim.opt.relativenumber = false
+--     --   if args.event == "CmdlineEnter" then
+--     --     vim.cmd.redraw()
+--     --   end
+--     -- end
+--   end,
+-- })
 
 -- vim:se fdm=marker:
