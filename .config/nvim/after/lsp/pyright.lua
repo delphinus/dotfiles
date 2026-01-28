@@ -1,5 +1,5 @@
 local home_dir = function(p)
-  return uv.os_homedir() .. (p or "")
+  return vim.uv.os_homedir() .. (p or "")
 end
 local iterm2_dir = function(p)
   return home_dir "/.config/iterm2/AppSupport/iterm2env-72/versions/3.8.6/lib/" .. (p or "")
