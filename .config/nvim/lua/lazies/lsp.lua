@@ -2,28 +2,28 @@ local palette = require "core.utils.palette"
 
 return {
   {
-    "folke/lazydev.nvim",
-    ft = "lua",
-    dependencies = {
-      { "Bilal2453/luvit-meta" },
-      { "DrKJeff16/wezterm-types" },
-    },
-    ---@module 'lazydev'
-    ---@type lazydev.Config
-    opts = {
-      library = {
-        "lazydev.nvim",
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-        { path = "wezterm-types", mods = { "wezterm" } },
-      },
-    },
-  },
-
-  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost" },
 
     dependencies = {
+      {
+        "folke/lazydev.nvim",
+        dependencies = {
+          { "Bilal2453/luvit-meta" },
+          { "DrKJeff16/wezterm-types" },
+        },
+        ---@module 'lazydev'
+        ---@type lazydev.Config
+        opts = {
+          library = {
+            "lazydev.nvim",
+            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            { path = "wezterm-types", mods = { "wezterm" } },
+          },
+          debug = true,
+        },
+      },
+
       {
         "williamboman/mason.nvim",
         ---@module 'mason'
