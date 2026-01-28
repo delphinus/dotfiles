@@ -51,8 +51,8 @@ return {
           if is_over then
             vim.notify("Tools are old. Updating……", vim.log.levels.WARN)
             vim.api.nvim_create_autocmd("User", {
+              once = true,
               pattern = "MasonToolsUpdateCompleted",
-              group = vim.api.nvim_create_augroup("mason-tool-installer", {}),
               callback = function()
                 vim.notify("Tools are updated.", vim.log.levels.INFO)
                 itvl:update()
