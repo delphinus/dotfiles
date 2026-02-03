@@ -241,6 +241,77 @@ return {
           vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
         end,
       }
+
+      local group = vim.api.nvim_create_augroup("GitSignsRepoBase", {})
+      vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = { "GitSignsUpdate" },
+        callback = function(args)
+          local actions = require "gitsigns.actions"
+          local async = require "gitsigns.async"
+          local cache = require("gitsigns.cache").cache
+
+          local data = args.data
+          if not data then
+            return
+          end
+          local bufnr = args.data.buffer
+          local status = vim.b[bufnr].gitsigns_status_dict
+          local bcache = cache[bufnr]
+          if not bcache or not status then
+            return
+          end
+          local root = status.root
+          local head = status.head
+          if head == "HEAD" then
+            return
+          end
+
+          local function change_base(base)
+            if bcache.git_obj.revision == base then
+              return
+            end
+            vim.schedule(function()
+              vim.api.nvim_buf_call(bufnr, function()
+                actions.change_base(base, nil, function(err)
+                  if err then
+                    vim.notify("cannot change_base: " .. err, vim.log.levels.WARN)
+                  end
+                end)
+              end)
+            end)
+          end
+
+          local pr = vim.tbl_get(vim.g, "gh_pr_cache", root, head)
+          if pr then
+            change_base(pr.baseRefName)
+            return
+          end
+
+          local function set_pcache(pr_obj)
+            vim.g.gh_pr_cache = vim.tbl_deep_extend("force", vim.g.gh_pr_cache or {}, { [root] = { [head] = pr_obj } })
+          end
+
+          async
+            .run(function()
+              local asystem = async.wrap(3, vim.system)
+              ---@type vim.SystemCompleted
+              ---@diagnostic disable-next-line: assign-type-mismatch
+              local obj = asystem { "gh", "pr", "view", "--json", "baseRefName,number" }
+              if obj.code ~= 0 then
+                set_pcache {}
+                ---@diagnostic disable-next-line: missing-return-value
+                return
+              end
+              ---@type { baseRefName: string, number: integer }
+              local pr_obj = vim.json.decode(obj.stdout)
+              set_pcache(pr_obj)
+              ---@diagnostic disable-next-line: missing-return-value, missing-return
+              change_base(pr_obj.baseRefName)
+            end)
+            :raise_on_error()
+        end,
+      })
     end,
     ---@type Gitsigns.Config
     opts = {
