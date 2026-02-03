@@ -242,7 +242,9 @@ return {
         end,
       }
     end,
+    ---@type Gitsigns.Config
     opts = {
+      debug_mode = true,
       signs = {
         add = {},
         change = {},
@@ -257,6 +259,10 @@ return {
         delay = 10,
       },
       word_diff = true,
+      on_attach = function(bufnr)
+        local basename = vim.fs.basename(vim.api.nvim_buf_get_name(bufnr))
+        vim.notify("attaching Gitsigns: " .. basename)
+      end,
     },
   },
 
