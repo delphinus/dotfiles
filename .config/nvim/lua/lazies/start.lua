@@ -267,13 +267,15 @@ return {
             return
           end
 
-          local function change_base(base)
-            if bcache.git_obj.revision == base then
+          ---@param pr { baseRefName: string, number: integer }
+          local function change_pr(pr)
+            if bcache.git_obj.revision == pr.baseRefName then
               return
             end
             vim.schedule(function()
               vim.api.nvim_buf_call(bufnr, function()
-                actions.change_base(base, nil, function(err)
+                vim.b.gh_pr = pr
+                actions.change_base(pr.baseRefName, nil, function(err)
                   if err then
                     vim.notify("cannot change_base: " .. err, vim.log.levels.WARN)
                   end
@@ -284,7 +286,7 @@ return {
 
           local pr = vim.tbl_get(vim.g, "gh_pr_cache", root, head)
           if pr then
-            change_base(pr.baseRefName)
+            change_pr(pr)
             return
           end
 
@@ -307,7 +309,7 @@ return {
               local pr_obj = vim.json.decode(obj.stdout)
               set_pcache(pr_obj)
               ---@diagnostic disable-next-line: missing-return-value, missing-return
-              change_base(pr_obj.baseRefName)
+              change_pr(pr_obj)
             end)
             :raise_on_error()
         end,

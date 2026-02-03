@@ -50,7 +50,11 @@ function Lualine:config()
             if vim.b.gitsigns_head then
               local cache = require("gitsigns.cache").cache[vim.api.nvim_get_current_buf()]
               local base = cache and cache.git_obj.revision
-              return " " .. vim.b.gitsigns_head .. (base and " ← " .. base or "")
+              local num = vim.b.gh_pr and vim.b.gh_pr.number
+              return " "
+                .. vim.b.gitsigns_head
+                .. (base and " ← " .. base or "")
+                .. (num and (" #%d"):format(num) or "")
             else
               return ""
             end
