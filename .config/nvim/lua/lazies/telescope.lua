@@ -76,7 +76,7 @@ return {
   {
     -- "nvim-telescope/telescope.nvim",
     "delphinus/telescope.nvim",
-    branch = "feat/cmdline-completion",
+    branch = "feat/cache-man-pages",
     cmd = { "Telescope" },
 
     init = function()

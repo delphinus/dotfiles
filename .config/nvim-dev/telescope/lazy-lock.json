@@ -2,5 +2,5 @@
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "plenary.nvim": { "branch": "master", "commit": "b9fd5226c2f76c951fc8ed5923d85e4de065e509" },
   "telescope-frecency.nvim": { "branch": "master", "commit": "fc6418bf663a182b72427487246b870f2ddbbbe2" },
-  "telescope.nvim": { "branch": "feat/cache-man-pages", "commit": "5421a2e0fed77efdf85fdb41723141f77800f2d6" }
+  "telescope.nvim": { "branch": "feat/cache-man-pages", "commit": "16ea7dda7f458e484e912840e94eff69b2f808da" }
 }
