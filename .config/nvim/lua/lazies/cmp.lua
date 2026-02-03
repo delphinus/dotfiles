@@ -212,9 +212,9 @@ return {
             require("luasnip").lsp_expand(args.body)
           end,
         },
-        performace = {
-          debounce = 0,
-          throttle = 0,
+        performance = {
+          debounce = 30,
+          throttle = 10,
         },
         mapping = {
           ["<CR>"] = cmp.mapping.confirm { select = false },
