@@ -364,4 +364,6 @@ return {
       }
     end,
   },
+
+  non_lazy { "delphinus/ghsigns.nvim" },
 }
