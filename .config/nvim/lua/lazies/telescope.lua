@@ -176,6 +176,7 @@ return {
         "n",
         "<Leader>fq",
         core.extensions "ghq" {
+          bin = "faster-ghq-list",
           attach_mappings = function(_)
             local actions_set = require "telescope.actions.set"
             actions_set.select:replace(function(_, _)
