@@ -96,8 +96,8 @@
 [interactive]
 	diffFilter = delta --color-only
 [ghq]
-	root = ~/.local/share/nvim/site/pack
 	root = ~/.local/share/nvim/lazy
+	root = ~/.local/share/nvim/site/pack
 	root = ~/git
 [ghq "ssh://git@git.remora.cx"]
 	vcs = git

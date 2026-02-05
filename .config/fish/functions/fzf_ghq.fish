@@ -1,4 +1,7 @@
 function fzf_ghq --description 'Move with FZF + ghq'
+    set -l options i/insert
+    argparse $options -- $argv
+
     ~/git/dotfiles/bin/faster-ghq-list \
         | eval "fzf $FZF_DEFAULT_OPTS" \
         | read -l select

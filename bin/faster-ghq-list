@@ -1,14 +1,10 @@
 #!/bin/bash
-roots=()
-i=0
-while IFS= read -r line; do
-  roots[i]="$line"
-  i=$((i + 1))
-done < <(ghq root --all)
+tmpfile=$(mktemp)
+  ghq root --all > "$tmpfile"
 
-{
-  fd -t d -d 4 -HI '\.git$' "${roots[0]}"
-  for ((j=1; j<${#roots[@]}; j++)); do
-    fd -t d -d 2 -HI '\.git$' "${roots[$j]}"
-  done
-} | xargs -n1 dirname
+  {
+    head -n2 "$tmpfile" | xargs -I{} find {} -mindepth 3 -maxdepth 3 -type d
+    tail -n1 "$tmpfile" | xargs -I{} find {} -mindepth 1 -maxdepth 1 -type d
+  }
+
+  rm "$tmpfile"
