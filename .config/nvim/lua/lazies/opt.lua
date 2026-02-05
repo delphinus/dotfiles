@@ -1430,16 +1430,7 @@ return {
       "CopilotChatAgents",
     },
     dependencies = {
-      {
-        "zbirenbaum/copilot.lua",
-        cmd = { "Copilot" },
-        event = { "InsertEnter", "CmdlineEnter" },
-        opts = {
-          suggestion = { enabled = false },
-          panel = { enabled = false },
-          filetypes = { gitcommit = true, gitrebase = true },
-        },
-      },
+      { "nvim-lua/plenary.nvim" },
     },
     build = "make tiktoken",
     opts = {},
