@@ -1,10 +1,10 @@
 #!/bin/bash
 tmpfile=$(mktemp)
-  ghq root --all > "$tmpfile"
+ghq root --all > "$tmpfile"
 
-  {
-    head -n2 "$tmpfile" | xargs -I{} find {} -mindepth 3 -maxdepth 3 -type d
-    tail -n1 "$tmpfile" | xargs -I{} find {} -mindepth 1 -maxdepth 1 -type d
-  }
+{
+  head -n2 "$tmpfile" | xargs -I{} find {} -mindepth 3 -maxdepth 3 -type d
+  tail -n1 "$tmpfile" | xargs -I{} find {} -mindepth 1 -maxdepth 1 -type d
+}
 
-  rm "$tmpfile"
+rm "$tmpfile"
