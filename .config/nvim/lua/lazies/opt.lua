@@ -1480,9 +1480,20 @@ return {
   },
 
   {
-    "esmuellert/vscode-diff.nvim",
+    "esmuellert/codediff.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
     cmd = { "CodeDiff" },
+    init = function()
+      vim.api.nvim_create_user_command("GhCodeDiff", function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local bcache = require("gitsigns.cache").cache[bufnr]
+        if bcache then
+          vim.cmd.CodeDiff(bcache.git_obj.revision .. "...")
+        else
+          vim.notify("No git revision found for current buffer", vim.log.levels.WARN)
+        end
+      end, { nargs = 0, desc = "Open GitHub code diff" })
+    end,
   },
 
   (function()
