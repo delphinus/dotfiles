@@ -1,0 +1,16 @@
+#!/bin/bash
+TITLE="${1:-Claude Code}"
+MESSAGE="${2:-User interaction required}"
+
+if [[ -n $WEZTERM_PANE ]]; then
+  active_pid=$(osascript -e 'tell application "System Events" to get the unix id of first process whose frontmost is true' 2>/dev/null)
+  if [[ -n $active_pid ]]; then
+    active_pane=$(wezterm cli list-clients --format json 2>/dev/null | /usr/bin/ruby -r json -e 'puts JSON.parse($<.read).find{|x|x["pid"]=='"$active_pid"'}&.[]"focused_pane_id"' 2>/dev/null)
+    if [[ -n $active_pane ]] && [[ $WEZTERM_PANE = "$active_pane" ]]; then
+      exit 0
+    fi
+  fi
+fi
+
+# 通知を表示
+osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\" sound name \"default\""
