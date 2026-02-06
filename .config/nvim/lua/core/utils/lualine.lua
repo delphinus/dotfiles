@@ -53,7 +53,7 @@ function Lualine:config()
               local num = vim.b.gh_pr and vim.b.gh_pr.number
               return " "
                 .. vim.b.gitsigns_head
-                .. (base and " ← " .. base or "")
+                .. (base and " ← " .. base:gsub("^origin/", "") or "")
                 .. (num and (" #%d"):format(num) or "")
             else
               return ""

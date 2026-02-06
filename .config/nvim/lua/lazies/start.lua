@@ -275,7 +275,7 @@ return {
             vim.schedule(function()
               vim.api.nvim_buf_call(bufnr, function()
                 vim.b.gh_pr = pr
-                actions.change_base(pr.baseRefName, nil, function(err)
+                actions.change_base("origin/" .. pr.baseRefName, nil, function(err)
                   if err then
                     vim.notify("cannot change_base: " .. err, vim.log.levels.WARN)
                   end
