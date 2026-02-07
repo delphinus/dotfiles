@@ -44,24 +44,7 @@ function Lualine:config()
     sections = {
       lualine_a = { { "mode", fmt = self:no_ellipsis_tr { 80, 4 } } },
       lualine_b = { { require "core.utils.lualine.filename" } },
-      lualine_c = {
-        {
-          function()
-            if vim.b.gitsigns_head then
-              local cache = require("gitsigns.cache").cache[vim.api.nvim_get_current_buf()]
-              local base = cache and cache.git_obj.revision
-              local num = vim.b.gh_pr and vim.b.gh_pr.number
-              return " "
-                .. vim.b.gitsigns_head
-                .. (base and " ← " .. base:gsub("^origin/", "") or "")
-                .. (num and (" #%d"):format(num) or "")
-            else
-              return ""
-            end
-          end,
-          fmt = self:tr { { 80, 0 }, { 90, 10 } },
-        },
-      },
+      lualine_c = { { require("ghsigns.lualine").component(), fmt = self:tr { { 80, 0 }, { 90, 10 } } } },
       lualine_x = {
         {
           function()
