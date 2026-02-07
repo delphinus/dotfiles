@@ -10,7 +10,6 @@ end
 return {
   { "delphinus/f_meta.nvim" },
   { "delphinus/lazy_require.nvim" },
-  --{ "nvim-lua/plenary.nvim" },
   { "delphinus/plenary.nvim", branch = "feat/types" },
   -- { "yuki-yano/denops-lazy.nvim" },
 
