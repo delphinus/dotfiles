@@ -33,6 +33,7 @@ return {
   i { "lukas-reineke/cmp-rg" },
   -- i { "delphinus/cmp-rg", branch = "feat/uv" },
   i { "octaltree/cmp-look" },
+  i { "chrisgrieser/cmp-nerdfont" },
   i {
     "petertriho/cmp-git",
     opts = function()
@@ -150,6 +151,7 @@ return {
             lazydev = "V",
             look = "K",
             luasnip = "S",
+            nerdfont = "N",
             nvim_lsp = "L",
             nvim_lua = "U",
             async_path = "P",
@@ -203,6 +205,7 @@ return {
         { name = "luasnip" },
         { name = "ghq" },
         { name = "emoji" },
+        { name = "nerdfont" },
         { name = "look", keyword_length = 4, option = { convert_case = true, loud = true } },
       }
 
