@@ -37,9 +37,14 @@ return {
 
   {
     "2kabhishek/nerdy.nvim",
-    keys = { "<Leader>in", "<Leader>iN" },
+    keys = {
+      { "<Leader>in", ":Nerdy list<CR>", desc = "Browse nerd icons" },
+      { "<Leader>iN", ":Nerdy recents<CR>", desc = "Browse recent nerd icons" },
+    },
     cmd = { "Nerdy" },
-    opts = { use_new_command = true },
+    ---@module 'nerdy'
+    ---@type nerdy.config
+    opts = { max_recents = 30, copy_to_clipboard = true, copy_register = "*" },
   },
 
   { "jonarrien/telescope-cmdline.nvim" },
