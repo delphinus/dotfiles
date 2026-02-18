@@ -258,7 +258,7 @@ return {
       current_line_blame_opts = {
         delay = 10,
       },
-      word_diff = true,
+      -- word_diff = true,
       on_attach = function(bufnr)
         local basename = vim.fs.basename(vim.api.nvim_buf_get_name(bufnr))
         vim.notify("attaching Gitsigns: " .. basename)
