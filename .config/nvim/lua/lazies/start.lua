@@ -292,5 +292,5 @@ return {
     end,
   },
 
-  non_lazy { "delphinus/ghsigns.nvim", opts = {} },
+  non_lazy { "delphinus/ghsigns.nvim", version = "*", opts = {} },
 }
