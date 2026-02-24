@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# claude-setup-hooks - dotfiles の hooks.json を ~/.claude/settings.json にマージする
+#
+# 使い方:
+#   claude-setup-hooks          # hooks を適用
+#   claude-setup-hooks --diff   # 差分を確認（適用しない）
+
+HOOKS_FILE="$HOME/git/dotfiles/.config/claude/hooks.json"
+SETTINGS_FILE="$HOME/.claude/settings.json"
+
+if [[ ! -f "$HOOKS_FILE" ]]; then
+  echo "error: $HOOKS_FILE が見つかりません" >&2
+  exit 1
+fi
+
+mkdir -p "$HOME/.claude"
+
+if [[ ! -f "$SETTINGS_FILE" ]]; then
+  # settings.json が無い場合は hooks だけで作成
+  jq -n --slurpfile hooks "$HOOKS_FILE" '{hooks: $hooks[0]}' > "$SETTINGS_FILE"
+  echo "created: $SETTINGS_FILE"
+  exit 0
+fi
+
+MERGED=$(jq --slurpfile hooks "$HOOKS_FILE" '.hooks = $hooks[0]' "$SETTINGS_FILE")
+
+if [[ "$1" == "--diff" ]]; then
+  diff <(jq -S . "$SETTINGS_FILE") <(echo "$MERGED" | jq -S .) || true
+  exit 0
+fi
+
+printf '%s\n' "$MERGED" | jq . > "$SETTINGS_FILE"
+echo "updated: $SETTINGS_FILE"

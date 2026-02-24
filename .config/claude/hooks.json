@@ -1,0 +1,105 @@
+{
+  "UserPromptSubmit": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-obsidian-save"
+        }
+      ]
+    }
+  ],
+  "Stop": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-notify 'Claude Code' '作業が完了しました'"
+        },
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-obsidian-save"
+        }
+      ]
+    }
+  ],
+  "SessionEnd": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-obsidian-save",
+          "timeout": 120
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "Bash",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-obsidian-save"
+        }
+      ]
+    },
+    {
+      "matcher": "ExitPlanMode",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-obsidian-save"
+        }
+      ]
+    },
+    {
+      "matcher": "Edit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-obsidian-save"
+        }
+      ]
+    },
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-obsidian-save"
+        }
+      ]
+    }
+  ],
+  "PermissionRequest": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-notify 'Claude Code' 'パーミッションが必要です'"
+        }
+      ]
+    }
+  ],
+  "Notification": [
+    {
+      "matcher": "permission_prompt",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-notify 'Claude Code' 'ユーザー確認が必要です'"
+        }
+      ]
+    },
+    {
+      "matcher": "idle_prompt",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-notify 'Claude Code' '待機中です'"
+        }
+      ]
+    }
+  ]
+}
