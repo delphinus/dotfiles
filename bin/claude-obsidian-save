@@ -92,7 +92,9 @@ get_or_create_note() {
   id_slug=$(make_id_slug "$file_title")
 
   local note_id="${ts}-${SID_SHORT}-${id_slug}"
-  local note="$VAULT_DIR/${ts}-${SID_SHORT}-${file_title}.md"
+  local project_dir="$VAULT_DIR/$project"
+  mkdir -p "$project_dir"
+  local note="$project_dir/${ts}-${SID_SHORT}-${file_title}.md"
 
   printf '%s' "$note" > "$SESSION_CACHE"
 
@@ -234,10 +236,12 @@ case "$HOOK_EVENT" in
     NOTE=$(cat "$SESSION_CACHE")
     [[ -f "$NOTE" ]] || { rm -f "$SESSION_CACHE"; exit 0; }
 
+    NOTE_CONTENT=$(head -c 100000 "$NOTE")
+
     # 要約を生成（haiku で高速に処理）
-    SUMMARY=$(head -c 100000 "$NOTE" | CLAUDE_OBSIDIAN_SAVING=1 claude -p --model haiku \
+    SUMMARY=$(CLAUDE_OBSIDIAN_SAVING=1 claude -p --model haiku \
       "以下の Claude Code の会話ログを日本語で3〜5行で要約してください。要約のみを出力し、前置きは不要です。" \
-      2>/dev/null) || true
+      <<< "$NOTE_CONTENT" 2>/dev/null) || true
 
     if [[ -n "$SUMMARY" ]]; then
       TEMP=$(mktemp)
@@ -255,6 +259,36 @@ case "$HOOK_EVENT" in
         mv "$TEMP" "$NOTE"
       else
         rm -f "$TEMP"
+      fi
+    fi
+
+    # タイトルがプロジェクト名のみ（フォールバック値）の場合、会話内容からタイトルを再生成
+    BASENAME=$(basename "$NOTE" .md)
+    # ファイル名のプレフィックス（YYYYMMDD-HHMMSS-SSID）を除いたタイトル部分
+    PREFIX=$(printf '%s' "$BASENAME" | cut -d'-' -f1-3)
+    CURRENT_TITLE=$(printf '%s' "$BASENAME" | cut -d'-' -f4-)
+    PROJECT=$(basename "$(dirname "$NOTE")")
+
+    if [[ "$CURRENT_TITLE" == "$PROJECT" ]]; then
+      NEW_TITLE=$(CLAUDE_OBSIDIAN_SAVING=1 claude -p --model haiku \
+        "以下の Claude Code の会話ログの内容を表す短いタイトル（50文字以内）を日本語で生成してください。タイトルのみを出力し、前置きや引用符は不要です。" \
+        <<< "$NOTE_CONTENT" 2>/dev/null) || true
+
+      if [[ -n "$NEW_TITLE" ]]; then
+        FILE_TITLE=$(make_filename_title "$NEW_TITLE")
+        DISPLAY_TITLE=$(make_display_title "$NEW_TITLE")
+        ID_SLUG=$(make_id_slug "$FILE_TITLE")
+
+        if [[ -n "$FILE_TITLE" ]]; then
+          NEW_NOTE="$(dirname "$NOTE")/${PREFIX}-${FILE_TITLE}.md"
+          NEW_ID="${PREFIX}-${ID_SLUG}"
+
+          # フロントマターの id と aliases を更新
+          sed -i '' "s/^id: .*/id: ${NEW_ID}/" "$NOTE"
+          sed -i '' "/^aliases:/,/^[^ ]/{s/^  - .*/  - ${DISPLAY_TITLE}/;}" "$NOTE"
+
+          mv "$NOTE" "$NEW_NOTE"
+        fi
       fi
     fi
 
