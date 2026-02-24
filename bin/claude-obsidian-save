@@ -8,8 +8,11 @@
 # 対応フックイベント:
 #   UserPromptSubmit  - ユーザーの入力を記録
 #   Stop              - アシスタントの応答を記録
-#   PostToolUse       - ツール使用を記録（Bash/ExitPlanMode/Edit/Write）
+#   PostToolUse       - ツール使用を記録（Bash/EnterPlanMode/ExitPlanMode/Edit/Write）
 #   SessionEnd        - 要約を生成してフロントマターの後に挿入
+#
+# 再開セッション（claude -r）の場合、同じ session_id の既存ノートへの
+# リンクを frontmatter の related フィールドと本文に追加する。
 #
 # 設定: ~/.claude/settings.json の hooks セクション
 
@@ -67,6 +70,42 @@ make_id_slug() {
   fi
 }
 
+# 既存ノートに previous session リンクを追加する（related が無い場合のみ）
+add_previous_links() {
+  local note="$1"
+  local prev_notes=()
+  while IFS= read -r f; do
+    [[ "$f" == "$note" ]] && continue
+    prev_notes+=("$(basename "$f" .md)")
+  done < <(grep -rl "^session_id: ${SESSION_ID}$" "$VAULT_DIR" 2>/dev/null)
+
+  [[ ${#prev_notes[@]} -eq 0 ]] && return 0
+
+  local temp end_fm
+  temp=$(mktemp)
+  end_fm=$(grep -n '^---$' "$note" | sed -n '2p' | cut -d: -f1)
+  [[ -z "$end_fm" ]] && { rm -f "$temp"; return 1; }
+
+  # frontmatter に related フィールドを挿入
+  head -n "$((end_fm - 1))" "$note" > "$temp"
+  printf 'related:\n' >> "$temp"
+  for pn in "${prev_notes[@]}"; do
+    printf '  - "[[%s]]"\n' "$pn" >> "$temp"
+  done
+  printf -- '---\n\n' >> "$temp"
+
+  # リンクセクションを挿入
+  printf '> [!link] Previous Sessions\n' >> "$temp"
+  for pn in "${prev_notes[@]}"; do
+    printf '> - [[%s]]\n' "$pn" >> "$temp"
+  done
+  printf '\n' >> "$temp"
+
+  # 残りの本文を追加
+  tail -n +"$((end_fm + 1))" "$note" >> "$temp"
+  mv "$temp" "$note"
+}
+
 get_or_create_note() {
   local prompt="$1"
 
@@ -98,6 +137,12 @@ get_or_create_note() {
 
   printf '%s' "$note" > "$SESSION_CACHE"
 
+  # 同じ session_id の既存ノートを探す（再開セッションの検出）
+  local prev_notes=()
+  while IFS= read -r f; do
+    prev_notes+=("$(basename "$f" .md)")
+  done < <(grep -rl "^session_id: ${SESSION_ID}$" "$VAULT_DIR" 2>/dev/null)
+
   {
     printf -- '---\n'
     printf 'id: %s\n' "$note_id"
@@ -109,7 +154,20 @@ get_or_create_note() {
     printf 'session_id: %s\n' "$SESSION_ID"
     printf 'hostname: %s\n' "$(hostname)"
     printf 'cwd: %s\n' "$CWD"
+    if [[ ${#prev_notes[@]} -gt 0 ]]; then
+      printf 'related:\n'
+      for pn in "${prev_notes[@]}"; do
+        printf '  - "[[%s]]"\n' "$pn"
+      done
+    fi
     printf -- '---\n\n'
+    if [[ ${#prev_notes[@]} -gt 0 ]]; then
+      printf '> [!link] Previous Sessions\n'
+      for pn in "${prev_notes[@]}"; do
+        printf '> - [[%s]]\n' "$pn"
+      done
+      printf '\n'
+    fi
   } > "$note"
 
   printf '%s' "$note"
@@ -165,6 +223,20 @@ case "$HOOK_EVENT" in
           done <<< "$COMMAND"
           printf '> ```\n\n'
         } >> "$NOTE"
+        ;;
+
+      EnterPlanMode)
+        NOTE=$(get_or_create_note "")
+        [[ -f "$NOTE" ]] || exit 0
+
+        TS=$(date +"%H:%M:%S")
+
+        # related リンクがまだ無ければ追加を試みる
+        if ! grep -q '^related:' "$NOTE"; then
+          add_previous_links "$NOTE"
+        fi
+
+        printf '> [!plan] Entering Plan Mode (%s)\n\n' "$TS" >> "$NOTE"
         ;;
 
       ExitPlanMode)
@@ -288,6 +360,13 @@ case "$HOOK_EVENT" in
           sed -i '' "/^aliases:/,/^[^ ]/{s/^  - .*/  - ${DISPLAY_TITLE}/;}" "$NOTE"
 
           mv "$NOTE" "$NEW_NOTE"
+
+          # 他のノートからの参照（related / wiki-link）を新しいファイル名に更新
+          NEW_BASENAME="${PREFIX}-${FILE_TITLE}"
+          while IFS= read -r ref_file; do
+            [[ "$ref_file" == "$NEW_NOTE" ]] && continue
+            sed -i '' "s|\\[\\[${BASENAME}\\]\\]|[[${NEW_BASENAME}]]|g" "$ref_file"
+          done < <(grep -rl "\\[\\[${BASENAME}\\]\\]" "$VAULT_DIR" 2>/dev/null)
         fi
       fi
     fi
