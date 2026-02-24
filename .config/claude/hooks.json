@@ -45,6 +45,15 @@
       ]
     },
     {
+      "matcher": "EnterPlanMode",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "$HOME/git/dotfiles/bin/claude-obsidian-save"
+        }
+      ]
+    },
+    {
       "matcher": "ExitPlanMode",
       "hooks": [
         {
