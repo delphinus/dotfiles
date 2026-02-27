@@ -1,0 +1,18 @@
+#!/bin/bash
+BINARY=/tmp/display_count
+
+if [[ ! -x "$BINARY" || "$0" -nt "$BINARY" ]]; then
+    src=$(mktemp /tmp/display_count.XXXXXX)
+    mv "$src" "$src.swift"
+    src="$src.swift"
+    trap 'rm -f "$src"' EXIT
+    cat > "$src" <<'SWIFT'
+import CoreGraphics
+var displayCount: UInt32 = 0
+CGGetActiveDisplayList(0, nil, &displayCount)
+print(displayCount > 1 ? "1" : "0")
+SWIFT
+    swiftc -O -o "$BINARY" "$src"
+fi
+
+exec "$BINARY"
