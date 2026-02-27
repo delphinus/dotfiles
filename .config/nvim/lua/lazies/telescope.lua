@@ -584,7 +584,9 @@ return {
     opts = { picker = "egrepify" },
   },
   {
-    "oflisback/obsidian-bridge.nvim",
+    -- "oflisback/obsidian-bridge.nvim",
+    "delphinus/obsidian-bridge.nvim",
+    branch = "fix/nfc-normalization-macos",
     event = { "BufReadPre *.md", "BufNewFile *.md" },
     opts = { scroll_sync = true },
   },
