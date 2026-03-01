@@ -54,3 +54,17 @@ vim.keymap.set("t", "<A-->", [[<C-\><C-n><C-w>_i]], { remap = true })
 vim.keymap.set("t", "<A-r>", function()
   return [[<C-\><C-n>]] .. fn.nr2char(fn.getchar()) .. "pi"
 end, { expr = true, desc = "Get a register" })
+
+-- Pass through Ctrl+Alt keys to terminal for fzf.fish
+vim
+  .iter({
+    { key = "<C-A-f>", seq = "\x1b\x06" }, -- Search Directory
+    { key = "<C-A-l>", seq = "\x1b\x0c" }, -- Search Git Log
+    { key = "<C-A-s>", seq = "\x1b\x13" }, -- Search Git Status
+    { key = "<C-A-p>", seq = "\x1b\x10" }, -- Search Processes
+  })
+  :each(function(v)
+    vim.keymap.set("t", v.key, function()
+      vim.fn.chansend(vim.bo.channel, v.seq)
+    end)
+  end)

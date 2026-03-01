@@ -223,6 +223,7 @@ return {
 
       vim.keymap.set("n", "<Leader>fz", function()
         core.extensions "z" {
+          cmd = { vim.o.shell, "-c", "zoxide query -ls" },
           previewer = require("telescope.previewers.term_previewer").new_termopen_previewer {
             get_command = function(entry)
               return { "tree", "-hL", "3", require("telescope.from_entry").path(entry) }
