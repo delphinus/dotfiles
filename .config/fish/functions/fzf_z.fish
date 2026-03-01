@@ -1,21 +1,14 @@
-function fzf_z --description 'Move with FZF + z'
-  set -l options 'i/insert'
-  argparse $options -- $argv
+function fzf_z --description 'Move with FZF + zoxide'
+    set -l options 'i/insert'
+    argparse $options -- $argv
 
-  z --list | \
-    perl -pe 's,$ENV{HOME},~,' | \
-    eval "fzf +s $FZF_DEFAULT_OPTS" | \
-    cut -c12- | \
-    perl -pe 's/^~(\w*)/(getpwnam($1 || $ENV{USER}))[7]/e' | \
-    read -l select
+    set -l result (command zoxide query --interactive -- $argv 2>/dev/null)
+    or return
 
-  if test -n "$select"
     if set -q _flag_insert
-      commandline -i "$select"
+        commandline -i $result
     else
-      cd "$select"
-      emit fish_prompt
+        cd $result
     end
-  end
-  commandline -f repaint
+    commandline -f repaint
 end

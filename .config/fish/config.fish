@@ -103,11 +103,6 @@ bind -M insert \cxf fzf_git_status
 bind \cx\cf 'fzf_git_status --editor'
 bind -M insert \cx\cf 'fzf_git_status --editor'
 
-bind \cxo __fzf_find_file
-bind -M insert \cxo __fzf_find_file
-bind \cx\co '__fzf_open --editor'
-bind -M insert \cx\co '__fzf_open --editor'
-
 bind \ct fzf_z
 bind -M insert \ct fzf_z
 bind \cx\ct 'fzf_z --insert'
@@ -255,3 +250,8 @@ function fish_right_prompt
         end
     end
 end
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /Users/jinnouchi.yasushi/.lmstudio/bin
+# End of LM Studio CLI section
+
