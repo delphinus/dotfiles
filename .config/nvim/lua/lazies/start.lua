@@ -292,5 +292,19 @@ return {
     end,
   },
 
-  non_lazy { "delphinus/ghsigns.nvim", version = "*", opts = {} },
+  non_lazy {
+    "delphinus/ghsigns.nvim",
+    dependencies = {
+      {
+        "delphinus/md-render.nvim",
+        version = "*",
+        keys = {
+          { "<M-P>", "<Plug>(md-render-preview)", desc = "Markdown preview (toggle)" },
+          { "<M-D>", "<Plug>(md-render-demo)", desc = "Markdown render demo" },
+        },
+      },
+    },
+    version = "*",
+    opts = {},
+  },
 }

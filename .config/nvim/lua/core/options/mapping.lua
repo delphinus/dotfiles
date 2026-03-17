@@ -85,7 +85,7 @@ api.create_autocmd("VimEnter", {
 -- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 -- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-vim.keymap.set("n", "<M-P>", function()
+vim.keymap.set("n", "<M-c>", function()
   local filepath = vim.fn.expand "%:p"
   if filepath == "" then
     vim.notify("No file to preview", vim.log.levels.WARN)
