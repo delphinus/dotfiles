@@ -177,20 +177,19 @@ if type -q luarocks
     end
 end
 
-
 # load variables from 1Password env
 for envrc in ~/.envrc
-  set -l env (string replace -r '(?<=\.env)rc$' '' $envrc)
-  if ! test -e $envrc
-      for line in (cat $env)
-          if string match -qr '^[^#]' -- $line
-            set kv (string match -gr '^([^=]+)=(.*)$' -- $line)
-            if test (count $kv) -eq 2
-              echo "export $kv[1]='$kv[2]'" >> $envrc
+    set -l env (string replace -r '(?<=\.env)rc$' '' $envrc)
+    if ! test -e $envrc
+        for line in (cat $env)
+            if string match -qr '^[^#]' -- $line
+                set kv (string match -gr '^([^=]+)=(.*)$' -- $line)
+                if test (count $kv) -eq 2
+                    echo "export $kv[1]='$kv[2]'" >>$envrc
+                end
             end
-          end
-      end
-  end
+        end
+    end
 end
 
 set -x NEXTWORD_DATA_PATH ~/.cache/nextword-data-large
