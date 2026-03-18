@@ -255,3 +255,7 @@ end
 set -gx PATH $PATH /Users/jinnouchi.yasushi/.lmstudio/bin
 # End of LM Studio CLI section
 
+# hishtory settings
+set -x HISHTORY_SERVER https://hishtory.delphinus.dev
+source ~/.hishtory/config.fish
+bind -M insert \cr __hishtory_on_control_r
