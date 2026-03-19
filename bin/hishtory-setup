@@ -1,0 +1,19 @@
+#!/bin/sh
+# Apply custom hishtory settings (color scheme + key bindings)
+
+# Color scheme
+hishtory config-set color-scheme selected-text '#ffffff'
+hishtory config-set color-scheme selected-background '#005f87'
+
+# Key bindings
+hishtory config-set key-bindings up up alt+OA ctrl+p ctrl+k
+hishtory config-set key-bindings down down alt+OB ctrl+n ctrl+j
+hishtory config-set key-bindings page-up pgup ctrl+u
+hishtory config-set key-bindings page-down pgdown ctrl+d
+hishtory config-set key-bindings left left ctrl+b
+hishtory config-set key-bindings right right ctrl+f
+hishtory config-set key-bindings delete-entry alt+d
+hishtory config-set key-bindings help alt+h
+hishtory config-set key-bindings quit esc ctrl+c
+hishtory config-set key-bindings word-left ctrl+left alt+b
+hishtory config-set key-bindings word-right ctrl+right alt+f
