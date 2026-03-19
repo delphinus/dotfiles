@@ -1,5 +1,8 @@
 #!/bin/sh
-# Apply custom hishtory settings (color scheme + key bindings)
+# Apply custom hishtory settings
+
+# Displayed columns
+hishtory config-set displayed-columns Command Timestamp Runtime "Exit Code" Hostname CWD
 
 # Color scheme
 hishtory config-set color-scheme selected-text '#ffffff'
