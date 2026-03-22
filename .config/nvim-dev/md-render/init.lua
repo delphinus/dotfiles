@@ -13,6 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  { "folke/tokyonight.nvim", opts = {} },
   {
     dir = vim.fn.expand("~/.local/share/nvim/lazy/md-render.nvim"),
     cmd = "MdRenderDemo",
@@ -21,3 +22,5 @@ require("lazy").setup({
   install = { missing = false },
   change_detection = { enabled = false },
 })
+
+vim.cmd.colorscheme("tokyonight")
