@@ -219,13 +219,18 @@ return {
       },
       {
         "gL",
-        lazy_require("gitsigns").setloclist(),
+        "<Cmd>Gitsigns setloclist<CR>",
         desc = "gitsigns.setloclist",
       },
       {
         "gQ",
-        lazy_require("gitsigns").setqflist "all",
+        "<Cmd>Gitsigns setqflist all<CR>",
         desc = 'gitsigns.setqflist "all"',
+      },
+      {
+        "g?",
+        "<Cmd>Gitsigns preview_hunk<CR>",
+        desc = "gitsigns.preview_hunk",
       },
     },
     init = function()
