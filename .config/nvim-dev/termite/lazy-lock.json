@@ -1,0 +1,4 @@
+{
+  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "termite.nvim": { "branch": "main", "commit": "60184a1eaec3bf3f8f404eed4ee69b30f38cfe54" }
+}
