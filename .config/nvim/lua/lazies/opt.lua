@@ -1601,7 +1601,9 @@ return {
   { "serhez/bento.nvim", keys = { { "'" } }, opts = { main_keymap = "'" } },
 
   {
-    "ruicsh/termite.nvim",
+    -- "ruicsh/termite.nvim",
+    "delphinus/termite.nvim",
+    branch = "fix/bottom-position-gap",
     cmd = { "Termite" },
     keys = {
       { "<A-/>", "<Cmd>Termite toggle<CR>", mode = { "n", "t" }, desc = "Termite toggle" },
@@ -1624,7 +1626,6 @@ return {
         maximize = false,
         close = false,
       },
-      wo = { winblend = 20 },
     },
   },
 }
