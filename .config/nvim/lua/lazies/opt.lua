@@ -1182,6 +1182,10 @@ return {
         if #vim.api.nvim_list_uis() > 0 then
           vim.print = _G.dd
         end
+        vim.notify = function(msg, level, o)
+          vim.notify = snacks.notifier.notify
+          return snacks.notifier.notify(msg, level, o)
+        end
       end,
       ---@module 'snacks'
       ---@type snacks.Config
