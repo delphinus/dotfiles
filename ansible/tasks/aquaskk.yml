@@ -24,7 +24,6 @@
     - github.com/uasi/skk-emoji-jisyo
     - github.com/ymrl/SKK-JISYO.emoji-ja
     - github.com/skk-dev/dict
-    - github.com/tokuhirom/jawiki-kana-kanji-dict
 
 - homebrew: >-
     name=skktools
@@ -48,11 +47,10 @@
     dest='~/Library/Application Support/AquaSKK/SKK-JISYO.emoji-ja.utf8'
     force=yes
 
-- name: copy jawiki dictionary
-  copy: >-
-    src=~/git/github.com/tokuhirom/jawiki-kana-kanji-dict/SKK-JISYO.jawiki
-    dest='~/Library/Application Support/AquaSKK/SKK-JISYO.jawiki.utf8'
-    force=yes
+- name: download jawiki dictionary from latest release
+  shell: gh release download --repo tokuhirom/jawiki-kana-kanji-dict --pattern 'SKK-JISYO.jawiki' --clobber --dir '~/Library/Application Support/AquaSKK'
+  args:
+    executable: /bin/bash
 
 - name: convert some dictionaries
   shell: iconv -f EUC-JISX0213 -t UTF-8 ~/git/github.com/skk-dev/dict/{{ item }} > ~/Library/Application\ Support/AquaSKK/{{ item }}.utf8

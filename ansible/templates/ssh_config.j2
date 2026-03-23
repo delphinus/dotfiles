@@ -1,3 +1,12 @@
+{% for h in secret_ssh.github -%}
+Host {{ h.host }}
+  {% if 'hostname' in h -%}
+  HostName {{ h.hostname }}
+  {% endif -%}
+  IdentityFile {{ h.identity_file }}
+
+{% endfor -%}
+
 {% for h in secret_ssh.hosts -%}
 Host {{ h.name }}
   {% if 'host' in h -%}
@@ -23,9 +32,6 @@ Host {{ h.name }}
 
 {% endfor -%}
 
-#Match exec "bash -c '[[ %h = {{ secret_ssh.git }} ]] && pgrep -fl ssh | grep {{ secret_ssh.hosts[0].name }} > /dev/null'"
-  #ProxyCommand nc -x localhost:{{ secret_ssh.socks_port }} %h %p
-
 Host *
   SendEnv LC_* LANG
   ForwardAgent yes
@@ -34,6 +40,6 @@ Host *
   PubkeyAuthentication yes
   ServerAliveCountMax 20
   ServerAliveInterval 15
-  IdentityAgent "{{ lookup('env', 'IDENTITY_AGENT') }}"
+  IdentityAgent "{{ secret_identity_agent }}"
 
 {#- vim:se ft=sshconfig.jinja: #}

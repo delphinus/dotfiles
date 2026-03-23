@@ -31,3 +31,7 @@
 [[ssh-keys]]
 item = "id_ed25519"
 vault = "Personal"
+
+[[ssh-keys]]
+item = "id_ed25519_emu"
+vault = "Personal"

@@ -8,7 +8,11 @@
 {%   endfor -%}
 {% endif %}
 {% for config in secret_git_configs %}
-[includeIf "hasconfig:remote.*.url:**{{ config.host }}**"]
+{% if config.ssh_host is defined %}
+[url "git@{{ config.ssh_host }}:{{ config.org }}/"]
+	insteadOf = https://github.com/{{ config.org }}/
+{% endif %}
+[includeIf "gitdir:{{ config.gitdir }}"]
     path = {{ config.filename }}
 {% endfor %}
 {% if ansible_facts['os_family'] == 'Darwin' -%}
