@@ -259,3 +259,5 @@ set -gx PATH $PATH /Users/jinnouchi.yasushi/.lmstudio/bin
 set -x HISHTORY_SERVER https://hishtory.delphinus.dev
 source ~/.hishtory/config.fish
 bind -M insert \cr __hishtory_on_control_r
+bind \cx\cr __hishtory_tquery_all_columns
+bind -M insert \cx\cr __hishtory_tquery_all_columns

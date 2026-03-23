@@ -2,7 +2,7 @@
 # Apply custom hishtory settings
 
 # Displayed columns
-hishtory config-set displayed-columns Command Timestamp Runtime "Exit Code" Hostname CWD
+hishtory config-set displayed-columns Command Timestamp Hostname
 
 # Color scheme
 hishtory config-set color-scheme selected-text '#ffffff'
