@@ -60,7 +60,6 @@
     - .config/vifm/colors/nord.vifm
     - .config/vifm/vifmrc
     - .config/yamllint
-    - .docker/config.json
     - .editrc
     - .fdignore
     - .gitconfig
