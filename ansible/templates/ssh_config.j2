@@ -1,34 +1,29 @@
 {% for h in secret_ssh.github -%}
 Host {{ h.host }}
-  {% if 'hostname' in h -%}
-  HostName {{ h.hostname }}
-  {% endif -%}
-  IdentityFile {{ h.identity_file }}
+{% if 'hostname' in h %}  HostName {{ h.hostname }}
+{% endif %}  IdentityFile {{ h.identity_file }}
 
 {% endfor -%}
 
 {% for h in secret_ssh.hosts -%}
 Host {{ h.name }}
-  {% if 'host' in h -%}
-  Hostname {{ h.host }}
-  User {{ h.user }}
-  {%  endif %}
-  {% if 'port' in h -%}
-  Port {{ h.port }}
-  {% endif -%}
-  {% if 'socks_port' in h -%}
-  DynamicForward {{ h.socks_port }}
-  {% endif -%}
-  {% if 'vnc_port' in h -%}
-  LocalForward {{ h.vnc_port }} localhost:5900
-  {% endif -%}
-  {% if 'ignore_check' in h -%}
-  StrictHostKeyChecking no
+{% if 'host' in h %}  Hostname {{ h.host }}
+{% endif -%}
+{% if 'user' in h %}  User {{ h.user }}
+{% endif -%}
+{% if 'port' in h %}  Port {{ h.port }}
+{% endif -%}
+{% if 'socks_port' in h %}  DynamicForward {{ h.socks_port }}
+{% endif -%}
+{% if 'vnc_port' in h %}  LocalForward {{ h.vnc_port }} localhost:5900
+{% endif -%}
+{% if 'ignore_check' in h %}  StrictHostKeyChecking no
   UserKnownHostsFile /dev/null
-  {% endif %}
-  {% if 'identity_agent' in h -%}
-  IdentityAgent {{ h.identity_agent }}
-  {% endif %}
+{% endif -%}
+{% if 'identity_agent' in h %}  IdentityAgent {{ h.identity_agent }}
+{% endif -%}
+{% if 'proxy_command' in h %}  ProxyCommand {{ h.proxy_command }}
+{% endif %}
 
 {% endfor -%}
 

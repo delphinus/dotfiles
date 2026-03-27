@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.cloudflare.cloudflared.access.tcp</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/opt/homebrew/bin/cloudflared</string>
+		<string>access</string>
+		<string>tcp</string>
+		<string>--hostname</string>
+		<string>ssh.delphinus.dev</string>
+		<string>--url</string>
+		<string>localhost:2222</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>{{ ansible_env.HOME }}/Library/Logs/cloudflared-access-tcp.log</string>
+	<key>StandardErrorPath</key>
+	<string>{{ ansible_env.HOME }}/Library/Logs/cloudflared-access-tcp-error.log</string>
+</dict>
+</plist>
