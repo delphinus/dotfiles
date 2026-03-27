@@ -1,4 +1,4 @@
-memodir = "{{ ansible_env.HOME }}/.nb/home"
+memodir = "{{ ansible_facts["env"]["HOME"] }}/.nb/home"
 editor = "nvim"
 column = 20
 selectcmd = "fzf"

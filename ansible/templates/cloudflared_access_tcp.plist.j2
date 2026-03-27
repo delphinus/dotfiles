@@ -19,8 +19,8 @@
 	<key>KeepAlive</key>
 	<true/>
 	<key>StandardOutPath</key>
-	<string>{{ ansible_env.HOME }}/Library/Logs/cloudflared-access-tcp.log</string>
+	<string>{{ ansible_facts["env"]["HOME"] }}/Library/Logs/cloudflared-access-tcp.log</string>
 	<key>StandardErrorPath</key>
-	<string>{{ ansible_env.HOME }}/Library/Logs/cloudflared-access-tcp-error.log</string>
+	<string>{{ ansible_facts["env"]["HOME"] }}/Library/Logs/cloudflared-access-tcp-error.log</string>
 </dict>
 </plist>

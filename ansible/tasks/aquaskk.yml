@@ -30,10 +30,18 @@
     state=latest
 
 - name: generate dictionary for shikakugoma
-  shell: skkdic-expr SKK_JISYO.shikakugoma | skkdic-sort > ~/Library/Application\ Support/AquaSKK/SKK_JISYO.shikakugoma
+  vars:
+    dest_file: ~/Library/Application Support/AquaSKK/SKK_JISYO.shikakugoma
+  shell: |
+    before=$(shasum "{{ dest_file }}" 2>/dev/null || echo "")
+    skkdic-expr SKK_JISYO.shikakugoma | skkdic-sort > "{{ dest_file }}"
+    after=$(shasum "{{ dest_file }}")
+    [ "$before" != "$after" ] && echo "CHANGED" || echo "OK"
   args:
     executable: /bin/bash
     chdir: ~/git/github.com/KeenS/SKK_JISYO.wiktionary
+  register: shikakugoma_result
+  changed_when: "'CHANGED' in shikakugoma_result.stdout"
 
 - name: copy emoji dictionary
   copy: >-
@@ -48,12 +56,29 @@
     force=yes
 
 - name: download jawiki dictionary from latest release
-  shell: gh release download --repo tokuhirom/jawiki-kana-kanji-dict --pattern 'SKK-JISYO.jawiki' --clobber --dir '~/Library/Application Support/AquaSKK'
+  vars:
+    dest_file: ~/Library/Application Support/AquaSKK/SKK-JISYO.jawiki
+  shell: |
+    before=$(shasum "{{ dest_file }}" 2>/dev/null || echo "")
+    gh release download --repo tokuhirom/jawiki-kana-kanji-dict --pattern 'SKK-JISYO.jawiki' --clobber --dir '~/Library/Application Support/AquaSKK'
+    after=$(shasum "{{ dest_file }}")
+    [ "$before" != "$after" ] && echo "CHANGED" || echo "OK"
   args:
     executable: /bin/bash
+  register: jawiki_result
+  changed_when: "'CHANGED' in jawiki_result.stdout"
 
 - name: convert some dictionaries
-  shell: iconv -f EUC-JISX0213 -t UTF-8 ~/git/github.com/skk-dev/dict/{{ item }} > ~/Library/Application\ Support/AquaSKK/{{ item }}.utf8
+  shell: |
+    dest=~/Library/Application\ Support/AquaSKK/{{ item }}.utf8
+    before=$(shasum "$dest" 2>/dev/null || echo "")
+    iconv -f EUC-JISX0213 -t UTF-8 ~/git/github.com/skk-dev/dict/{{ item }} > "$dest"
+    after=$(shasum "$dest")
+    [ "$before" != "$after" ] && echo "CHANGED" || echo "OK"
+  args:
+    executable: /bin/bash
+  register: convert_result
+  changed_when: "'CHANGED' in convert_result.stdout"
   with_items:
     - SKK-JISYO.fullname
     - SKK-JISYO.JIS3_4

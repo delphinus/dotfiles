@@ -32,7 +32,7 @@
   file: >-
     path='~/.config/karabiner/assets/complex_modifications'
     state=directory
-  when: ansible_system == 'Darwin'
+  when: ansible_facts["system"] == 'Darwin'
 
 - name: make dotfiles symlink
   file: >-
@@ -116,14 +116,14 @@
 #     dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch'
 #     state=link
 #     force=yes
-#   when: ansible_system == 'Darwin'
+#   when: ansible_facts["system"] == 'Darwin'
 
 - git: >-
     repo=https://{{ item }}
     dest=~/.go/src/{{ item }}
   with_items:
     - github.com/delphinus/iterm2-imap-status
-  when: ansible_system == 'Darwin'
+  when: ansible_facts["system"] == 'Darwin'
 
 # - name: set up IMAP status component in iTerm2 dir
 #   file: >-
@@ -131,7 +131,7 @@
 #     dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/imap_status.py'
 #     state=link
 #     force=yes
-#   when: ansible_system == 'Darwin'
+#   when: ansible_facts["system"] == 'Darwin'
 
 - name: make .ptignore file
   template: src=ptignore.j2 dest=~/.ptignore
