@@ -158,7 +158,7 @@ return {
         assert(vim.uv.new_timer()):start(
           500,
           500,
-          void(function()
+          vim.schedule_wrap(void(function()
             local pane_var = assert(vim.uv.os_getenv "WEZTERM_PANE")
             local wezterm_pane = tonumber(pane_var, 10)
             local pane = wezterm_frontmost_pane()
@@ -167,7 +167,7 @@ return {
             elseif pane == wezterm_pane then
               async_mode_karabiner()
             end
-          end)
+          end))
         )
       end
 
