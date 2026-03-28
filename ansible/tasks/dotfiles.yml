@@ -20,6 +20,12 @@
 - name: prepare hammerspoon config dir
   file: path=~/.hammerspoon state=directory
 
+- name: prepare ghostty config dir
+  file: path=~/.config/ghostty state=directory
+
+- name: prepare kitty config dir
+  file: path=~/.config/kitty state=directory
+
 - name: prepare goneovim config dir
   file: path=~/.config/goneovim state=directory
 
@@ -47,11 +53,13 @@
     - .config/bat/config
     - .config/bpytop/bpytop.conf
     - .config/efm-langserver
+    - .config/ghostty/config
     - .config/fish
     - .config/gocode
     - .config/goneovim/settings.toml
     - .config/ipython
     - .config/karabiner/assets/complex_modifications
+    - .config/kitty/kitty.conf
     - .config/nvim
     - .config/nvim-dev
     - .config/peco
