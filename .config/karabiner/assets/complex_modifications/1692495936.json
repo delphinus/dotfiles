@@ -74,7 +74,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -146,7 +147,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -218,7 +220,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -367,7 +370,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -440,7 +444,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -513,7 +518,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -586,7 +592,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -658,7 +665,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -893,7 +901,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -968,7 +977,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -1043,7 +1053,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -1117,7 +1128,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -1319,7 +1331,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -1398,7 +1411,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
@@ -1477,7 +1491,8 @@
                 "^org\\.macports\\.X11$",
                 "^com\\.sublimetext\\.",
                 "^com\\.microsoft\\.VSCode$",
-                "^com\\.github\\.wez\\.wezterm$"
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$"
               ]
             }
           ]
