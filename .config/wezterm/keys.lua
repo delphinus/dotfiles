@@ -13,26 +13,25 @@ return function(config)
   }
 
   local editprompt = wezterm.action_callback(function(window, pane)
-    local gui_pane_id = pane:pane_id()
-    local cli_pane_id = gui_pane_id
-
-    -- multiplexing環境の判定
-    local domain = pane:get_domain_name()
-    if domain and domain ~= "local" then
-      -- unix domainなどのmultiplexing環境では-1
-      cli_pane_id = gui_pane_id - 1
-    end
-
     window:perform_action(
       act.SplitPane {
         direction = "Down",
         command = {
           args = {
-            "/opt/homebrew/bin/fish",
-            "-c",
-            ([[editprompt open -e 'nvim +"se laststatus=0" +startinsert' -E NVIM_APPNAME=nvim-dev/skkeleton -m wezterm -t %d --always-copy]]):format(
-              cli_pane_id
-            ),
+            const.fish, "-c", [=[
+              set my_pane $WEZTERM_PANE
+              set target_pane (wezterm cli list --format json | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+me = [p for p in d if p['pane_id'] == int(sys.argv[1])][0]
+sibs = [p for p in d if p['tab_id'] == me['tab_id'] and p['pane_id'] != me['pane_id']]
+print(sibs[0]['pane_id'] if sibs else '')
+" $my_pane)
+              if test -z "$target_pane"
+                echo "Could not find sibling pane"; read; exit 1
+              end
+              exec editprompt open -e 'nvim +"se laststatus=0" +startinsert' -E NVIM_APPNAME=nvim-dev/skkeleton -m wezterm -t $target_pane --always-copy
+            ]=],
           },
         },
         size = { Cells = 10 },
