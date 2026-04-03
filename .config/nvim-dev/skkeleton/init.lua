@@ -196,7 +196,20 @@ if vim.env.EDITPROMPT then
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local content = table.concat(lines, "\n")
     if content == "" then
-      vim.notify("No content to send", vim.log.levels.WARN)
+      local target = find_sibling_pane()
+      if not target then
+        vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
+        return
+      end
+      vim.system(
+        { "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, "\r" },
+        { text = true },
+        function()
+          vim.schedule(function()
+            vim.cmd "startinsert"
+          end)
+        end
+      )
       return
     end
     -- @ で終わる場合はスペースを付ける（editprompt の processContent と同じ）
