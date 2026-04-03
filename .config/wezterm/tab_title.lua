@@ -6,13 +6,23 @@ local progress_bar = ProgressBar.new(8)
 
 local function tab_title(tab_info)
   local title = tab_info.tab_title
-  -- if the tab title is explicitly set, take that
   if title and #title > 0 then
     return title
   end
-  -- Otherwise, use the title from the active pane
-  -- in that tab
-  return tab_info.active_pane.title
+  local panes = tab_info.panes
+  if not panes or #panes <= 1 then
+    return tab_info.active_pane.title
+  end
+  local titles = {}
+  local seen = {}
+  for _, pane in ipairs(panes) do
+    local t = pane.title
+    if t and #t > 0 and not seen[t] then
+      seen[t] = true
+      table.insert(titles, t)
+    end
+  end
+  return table.concat(titles, " | ")
 end
 
 local PCT_GLYPHS = {
