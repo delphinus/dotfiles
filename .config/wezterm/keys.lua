@@ -19,36 +19,12 @@ return function(config)
         command = {
           args = {
             const.fish, "-c", [=[
-              set my_pane $WEZTERM_PANE
-              set target_pane (wezterm cli list --format json | python3 -c "
-import sys, json
-d = json.load(sys.stdin)
-me = [p for p in d if p['pane_id'] == int(sys.argv[1])][0]
-sibs = [p for p in d if p['tab_id'] == me['tab_id'] and p['pane_id'] != me['pane_id']]
-print(sibs[0]['pane_id'] if sibs else '')
-" $my_pane)
-              if test -z "$target_pane"
+              set target_pane (wezterm cli list --format json | jq -r --argjson me $WEZTERM_PANE '[.[] | select(.pane_id == $me)][0].tab_id as $tab | [.[] | select(.tab_id == $tab and .pane_id != $me)][0].pane_id')
+              if test -z "$target_pane" -o "$target_pane" = null
                 echo "Could not find sibling pane"; read; exit 1
               end
               exec editprompt open -e 'nvim +"se laststatus=0" +startinsert' -E NVIM_APPNAME=nvim-dev/skkeleton -m wezterm -t $target_pane --always-copy
             ]=],
-          },
-        },
-        size = { Cells = 10 },
-      },
-      pane
-    )
-  end)
-
-  local test = wezterm.action_callback(function(window, pane)
-    window:perform_action(
-      act.SplitPane {
-        direction = "Down",
-        command = {
-          args = {
-            "/opt/homebrew/bin/fish",
-            "-c",
-            "echo 'WEZTERM_PANE env var: '$WEZTERM_PANE ; sleep 5",
           },
         },
         size = { Cells = 10 },
@@ -218,7 +194,6 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "c", mods = "CMD", action = act.CopyTo "Clipboard" },
     { key = "c", mods = "SHIFT|CMD", action = act.CharSelect },
     { key = "e", mods = "CMD", action = editprompt },
-    { key = "e", mods = "SHIFT|CMD", action = test },
     { key = "f", mods = "CMD", action = act.Search { CaseSensitiveString = "" } },
     { key = "f", mods = "SHIFT|CMD", action = act.ToggleFullScreen },
     { key = "h", mods = "CMD", action = act.HideApplication },
@@ -244,5 +219,6 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
     { key = "y", mods = "CMD", action = copy_last_command_output },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
+    { key = "Enter", mods = "CTRL", action = act.SendString "\x1b[13;5u" },
   }
 end

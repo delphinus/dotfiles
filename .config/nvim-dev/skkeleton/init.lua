@@ -161,3 +161,26 @@ require("lazy").setup({
     end,
   },
 }, { lazy = false })
+
+if vim.env.EDITPROMPT then
+  local function editprompt_send()
+    vim.cmd "stopinsert"
+    vim.cmd "update"
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+    local content = table.concat(lines, "\n")
+    vim.system({ "editprompt", "input", "--auto-send", "--", content }, { text = true }, function(obj)
+      vim.schedule(function()
+        if obj.code == 0 then
+          vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+          vim.cmd "silent write"
+          vim.cmd "startinsert"
+        else
+          vim.notify("editprompt failed: " .. (obj.stderr or "unknown error"), vim.log.levels.ERROR)
+        end
+      end)
+    end)
+  end
+
+  vim.keymap.set("n", "<Space>x", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
+  vim.keymap.set("i", "<C-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
+end
