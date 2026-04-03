@@ -163,22 +163,80 @@ require("lazy").setup({
 }, { lazy = false })
 
 if vim.env.EDITPROMPT then
+  local function find_sibling_pane()
+    local my_pane = vim.env.WEZTERM_PANE
+    if not my_pane then return nil end
+    local obj = vim.system(
+      { "wezterm", "cli", "list", "--format", "json" },
+      { text = true }
+    ):wait()
+    if obj.code ~= 0 then return nil end
+    local ok, panes = pcall(vim.json.decode, obj.stdout)
+    if not ok then return nil end
+    local my_id = tonumber(my_pane)
+    local my_tab
+    for _, p in ipairs(panes) do
+      if p.pane_id == my_id then
+        my_tab = p.tab_id
+        break
+      end
+    end
+    if not my_tab then return nil end
+    for _, p in ipairs(panes) do
+      if p.tab_id == my_tab and p.pane_id ~= my_id then
+        return tostring(p.pane_id)
+      end
+    end
+    return nil
+  end
+
   local function editprompt_send()
     vim.cmd "stopinsert"
     vim.cmd "update"
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local content = table.concat(lines, "\n")
-    vim.system({ "editprompt", "input", "--auto-send", "--", content }, { text = true }, function(obj)
-      vim.schedule(function()
-        if obj.code == 0 then
-          vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-          vim.cmd "silent write"
-          vim.cmd "startinsert"
-        else
-          vim.notify("editprompt failed: " .. (obj.stderr or "unknown error"), vim.log.levels.ERROR)
+    if content == "" then
+      vim.notify("No content to send", vim.log.levels.WARN)
+      return
+    end
+    -- @ で終わる場合はスペースを付ける（editprompt の processContent と同じ）
+    if content:match("@[^\n]*$") then
+      content = content .. " "
+    end
+    local target = find_sibling_pane()
+    if not target then
+      vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
+      return
+    end
+    -- send-text でテキストを送信し、続けて Enter を送る
+    vim.system(
+      { "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, "--", content },
+      { text = true },
+      function(obj)
+        if obj.code ~= 0 then
+          vim.schedule(function()
+            vim.notify("editprompt failed: " .. (obj.stderr or "unknown error"), vim.log.levels.ERROR)
+          end)
+          return
         end
-      end)
-    end)
+        -- Enter キーを送る
+        vim.system(
+          { "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, "\r" },
+          { text = true },
+          function(obj2)
+            vim.schedule(function()
+              if obj2.code == 0 then
+                vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+                vim.cmd "silent write"
+                vim.cmd "startinsert"
+              else
+                vim.notify("editprompt failed to send Enter: " .. (obj2.stderr or "unknown error"), vim.log.levels.ERROR)
+              end
+            end)
+          end
+        )
+      end
+    )
   end
 
   vim.keymap.set("n", "<Space>x", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
