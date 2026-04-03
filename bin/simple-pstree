@@ -1,26 +1,213 @@
-#!/usr/bin/perl
-use 5.14.0;
-use warnings;
-use File::Basename;
-use File::Which;
+#!/usr/bin/env python3
+"""Show a filtered process tree for the given PID, refreshing every second.
 
-my $target = shift;
-die 'set a PID for print' if !$target || $target =~ /\D/;
+Discovers child processes via parent-child relationships, and also finds
+nvim --embed server processes connected via Unix sockets (lsof).
 
-my $pstree = which 'pstree' or die '`pstree` not found';
+Usage: simple-pstree <PID>
+"""
 
-open my $out, "$pstree -g3 -p $target |" or die 'cannot open pstree';
-while ($_ = <$out>) {
-    my ($tree, $pid, $user, $commands) = /^(\D+)(\d+) (\S+) (.*)/;
-    next unless defined $commands;
-    my ($cmd1, $cmd2) = $commands =~ /^(\S+)(?: (\S+))?/;
-    next if !defined $cmd1 ||
-        $cmd1 eq '(bash)' ||
-        $cmd1 eq '(fish)' ||
-        $cmd1 eq '(tmux)' ||
-        $cmd1 eq '(git)';
-    $cmd1 = basename $cmd1;
-    $cmd2 = $cmd2 ? basename $cmd2 : '';
-    say join " ", $tree, $pid, $cmd1, $cmd2;
-}
-close $out;
+import os
+import subprocess
+import sys
+import time
+from datetime import datetime
+
+SKIP = {"bash", "fish", "tmux", "git", "wezterm"}
+
+# ANSI color codes
+DIM = "\033[2m"
+RESET = "\033[0m"
+CYAN = "\033[36m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+MAGENTA = "\033[35m"
+
+
+def basename(path):
+    return os.path.basename(path)
+
+
+def get_processes():
+    """Get all processes as {pid: (ppid, args)}."""
+    out = subprocess.run(
+        ["/bin/ps", "-axo", "pid=,ppid=,args="],
+        capture_output=True, text=True,
+    )
+    procs = {}
+    children = {}
+    for line in out.stdout.splitlines():
+        parts = line.split(None, 2)
+        if len(parts) < 3:
+            continue
+        pid, ppid, args = int(parts[0]), int(parts[1]), parts[2].strip()
+        procs[pid] = (ppid, args)
+        children.setdefault(ppid, []).append(pid)
+    return procs, children
+
+
+def find_socket_peers(pid):
+    """Find PIDs connected to the given PID via Unix sockets."""
+    peers = set()
+    try:
+        r = subprocess.run(
+            ["/usr/sbin/lsof", "-p", str(pid), "-a", "-U"],
+            capture_output=True, text=True, timeout=10,
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return peers
+
+    # Extract target socket addresses (->0x...)
+    target_addrs = set()
+    for line in r.stdout.splitlines():
+        idx = line.find("->0x")
+        if idx >= 0:
+            addr = line[idx + 2:].split()[0]  # "0x..."
+            target_addrs.add(addr)
+
+    if not target_addrs:
+        return peers
+
+    # Find processes owning those socket addresses
+    try:
+        r2 = subprocess.run(
+            ["/usr/sbin/lsof", "-U", "-c", "nvim"],
+            capture_output=True, text=True, timeout=10,
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return peers
+
+    for line in r2.stdout.splitlines():
+        # COMMAND PID USER FD TYPE DEVICE ...
+        cols = line.split()
+        if len(cols) < 6:
+            continue
+        try:
+            proc_pid = int(cols[1])
+        except ValueError:
+            continue
+        device = cols[5]
+        if device in target_addrs and proc_pid != pid:
+            peers.add(proc_pid)
+
+    return peers
+
+
+def resolve_nvim_links(target_pid, procs, children):
+    """Find nvim --embed servers connected to nvim TUI clients in the tree."""
+    extra = {}
+
+    def walk(pid):
+        info = procs.get(pid)
+        if info:
+            _, args = info
+            if "nvim" in args and "nvim --embed" not in args:
+                peers = find_socket_peers(pid)
+                if peers:
+                    extra[pid] = list(peers)
+        for cpid in children.get(pid, []):
+            walk(cpid)
+
+    walk(target_pid)
+    return extra
+
+
+def get_display(args):
+    """Format a process's args for display, returning None if it should be skipped."""
+    parts = args.split()
+    if not parts:
+        return None
+    cmd1 = basename(parts[0])
+    # pstree format: (name)
+    name = cmd1.strip("()")
+    if name in SKIP:
+        return None
+    cmd2 = basename(parts[1]) if len(parts) > 1 else ""
+    return f"{cmd1} {cmd2}"
+
+
+def build_tree(target_pid, procs, children):
+    """Build a formatted process tree string."""
+    lines = []
+    visited = set()
+
+    def walk_children(pid, prefix):
+        kids = sorted(children.get(pid, []))
+        for i, cpid in enumerate(kids):
+            if cpid not in procs or cpid in visited:
+                continue
+            visited.add(cpid)
+            is_last = i == len(kids) - 1
+            ppid, args = procs[cpid]
+            display = get_display(args)
+
+            if display:
+                connector = "└─ " if is_last else "├─ "
+                lines.append(f"{prefix}{DIM}{connector}{RESET}{YELLOW}{cpid}{RESET} {GREEN}{display}{RESET}")
+                child_prefix = prefix + ("     " if is_last else f"{DIM}│{RESET}   ")
+                walk_children(cpid, child_prefix)
+            else:
+                # Skip this process but show its children
+                walk_children(cpid, prefix)
+
+    if target_pid not in procs:
+        return f"PID {target_pid} not found"
+
+    _, args = procs[target_pid]
+    display = get_display(args)
+    if display:
+        lines.append(f"{CYAN}{target_pid}{RESET} {GREEN}{display}{RESET}")
+    walk_children(target_pid, "")
+
+    return "\n".join(lines)
+
+
+def main():
+    if len(sys.argv) >= 2:
+        target_pid = int(sys.argv[1])
+    else:
+        target_pid = os.getppid()
+
+    # Resolve nvim socket links once at startup
+    procs, children = get_processes()
+    extra = resolve_nvim_links(target_pid, procs, children)
+
+    while True:
+        try:
+            procs, children = get_processes()
+
+            # Graft socket-connected processes (avoid cycles)
+            for parent_pid, peer_pids in extra.items():
+                for peer_pid in peer_pids:
+                    if peer_pid not in procs or peer_pid == parent_pid:
+                        continue
+                    # Ensure peer is not an ancestor of parent
+                    ancestor, is_cycle = parent_pid, False
+                    while ancestor in procs:
+                        if ancestor == peer_pid:
+                            is_cycle = True
+                            break
+                        ancestor = procs[ancestor][0]
+                    if not is_cycle:
+                        children.setdefault(parent_pid, []).append(peer_pid)
+
+            os.system("clear")
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"{DIM}simple-pstree {target_pid}  {now}{RESET}")
+            print()
+            print(build_tree(target_pid, procs, children))
+            sys.stdout.flush()
+            time.sleep(1)
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            print(f"\033[31mError: {e}\033[0m", file=sys.stderr)
+            import traceback
+            traceback.print_exc()
+            input("Press Enter to continue...")
+            continue
+
+
+if __name__ == "__main__":
+    main()

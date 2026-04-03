@@ -62,6 +62,39 @@ return function(config)
     pane:move_to_new_tab():activate()
   end)
 
+  local pstree_script = wezterm.home_dir .. "/git/github.com/delphinus/dotfiles/bin/simple-pstree"
+  local show_pstree = wezterm.action_callback(function(window, pane)
+    window:perform_action(
+      act.SplitPane {
+        direction = "Right",
+        command = {
+          args = {
+            const.fish, "-c", ([[
+              set my_pane $WEZTERM_PANE
+              set tty (wezterm cli list --format json | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+me = [p for p in d if p['pane_id'] == int(sys.argv[1])][0]
+sibs = [p for p in d if p['tab_id'] == me['tab_id'] and p['pane_id'] != me['pane_id'] and p.get('tty_name')]
+print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
+" $my_pane)
+              if test -z "$tty"
+                echo "Could not find sibling pane tty"; read; exit 1
+              end
+              set pid (ps -o pid= -t $tty | sort -n | head -1 | string trim)
+              if test -z "$pid"
+                echo "Could not find PID for tty $tty"; read; exit 1
+              end
+              exec %s $pid
+            ]]):format(pstree_script),
+          },
+        },
+        size = { Cells = 60 },
+      },
+      pane
+    )
+  end)
+
   local copy_last_command_output = wezterm.action_callback(function(window, pane)
     -- Get recent lines from scrollback to find prompt patterns
     -- Use get_logical_lines_as_text to avoid wrapping issues
@@ -191,6 +224,7 @@ return function(config)
     { key = "f", mods = "SHIFT|CMD", action = act.ToggleFullScreen },
     { key = "h", mods = "CMD", action = act.HideApplication },
     { key = "h", mods = "SHIFT|CMD", action = act.Search { Regex = "[a-f0-9]{6,}" } },
+    { key = "i", mods = "CMD", action = show_pstree },
     { key = "j", mods = "CMD", action = act.ActivatePaneDirection "Next" },
     { key = "j", mods = "SHIFT|CMD", action = act.ScrollToPrompt(1) },
     { key = "k", mods = "CMD", action = act.ActivatePaneDirection "Prev" },
