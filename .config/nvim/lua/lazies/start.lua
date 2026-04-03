@@ -302,6 +302,7 @@ return {
     dependencies = {
       {
         "delphinus/md-render.nvim",
+        dependencies = { "delphinus/budoux.lua" },
         version = "*",
         keys = {
           { "<M-P>", "<Plug>(md-render-preview)", desc = "Markdown preview (toggle)" },
