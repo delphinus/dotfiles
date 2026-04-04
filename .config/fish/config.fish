@@ -81,6 +81,7 @@ abbr gfa 'git foresta --all | less'
 abbr l. 'l -d .*'
 abbr ta 'tig --all'
 abbr nv 'nvr -cc split'
+abbr mdless 'env NVIM_APPNAME=nvim-dev/md-render nvim +MdRenderPager'
 
 type -q hub; and alias git hub
 if type -q gdircolors
