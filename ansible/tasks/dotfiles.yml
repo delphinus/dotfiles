@@ -40,6 +40,19 @@
     state=directory
   when: ansible_facts["system"] == 'Darwin'
 
+- name: prepare hishtory config dir
+  file: path=~/.hishtory state=directory
+
+- name: make hishtory config symlinks
+  file: >-
+    src={{ '/'.join([dotfiles_dir, item]) }}
+    dest=~/{{ item }}
+    state=link
+    force=yes
+  with_items:
+    - .hishtory/config.bash
+    - .hishtory/config.zsh
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
@@ -47,6 +60,9 @@
     state=link
     force=yes
   with_items:
+    - .bashrc
+    - .zshrc
+    - .zprofile
     - .asdfrc
     - .config/1Password/ssh
     - .config/alacritty
