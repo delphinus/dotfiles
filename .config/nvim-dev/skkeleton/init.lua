@@ -5,6 +5,48 @@ else
   load(vim.fn.system "curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua")()
 end
 
+local find_sibling_pane, send_key_to_pane
+if vim.env.EDITPROMPT then
+  function find_sibling_pane()
+    local my_pane = vim.env.WEZTERM_PANE
+    if not my_pane then return nil end
+    local obj = vim.system(
+      { "wezterm", "cli", "list", "--format", "json" },
+      { text = true }
+    ):wait()
+    if obj.code ~= 0 then return nil end
+    local ok, panes = pcall(vim.json.decode, obj.stdout)
+    if not ok then return nil end
+    local my_id = tonumber(my_pane)
+    local my_tab
+    for _, p in ipairs(panes) do
+      if p.pane_id == my_id then
+        my_tab = p.tab_id
+        break
+      end
+    end
+    if not my_tab then return nil end
+    for _, p in ipairs(panes) do
+      if p.tab_id == my_tab and p.pane_id ~= my_id then
+        return tostring(p.pane_id)
+      end
+    end
+    return nil
+  end
+
+  function send_key_to_pane(key)
+    local target = find_sibling_pane()
+    if not target then
+      vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
+      return
+    end
+    vim.system(
+      { "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, key },
+      { text = true }
+    )
+  end
+end
+
 require("lazy").setup({
   { "nvim-lua/plenary.nvim" },
   {
@@ -86,8 +128,24 @@ require("lazy").setup({
         },
         mapping = {
           ["<CR>"] = cmp.mapping.confirm { select = false },
-          ["<C-n>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
-          ["<C-p>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
+          ["<C-n>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif send_key_to_pane then
+              send_key_to_pane("\x1b[B")
+            else
+              fallback()
+            end
+          end, { "i", "c" }),
+          ["<C-p>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif send_key_to_pane then
+              send_key_to_pane("\x1b[A")
+            else
+              fallback()
+            end
+          end, { "i", "c" }),
           ["<A-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
           ["<A-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
           ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
@@ -163,33 +221,6 @@ require("lazy").setup({
 }, { lazy = false })
 
 if vim.env.EDITPROMPT then
-  local function find_sibling_pane()
-    local my_pane = vim.env.WEZTERM_PANE
-    if not my_pane then return nil end
-    local obj = vim.system(
-      { "wezterm", "cli", "list", "--format", "json" },
-      { text = true }
-    ):wait()
-    if obj.code ~= 0 then return nil end
-    local ok, panes = pcall(vim.json.decode, obj.stdout)
-    if not ok then return nil end
-    local my_id = tonumber(my_pane)
-    local my_tab
-    for _, p in ipairs(panes) do
-      if p.pane_id == my_id then
-        my_tab = p.tab_id
-        break
-      end
-    end
-    if not my_tab then return nil end
-    for _, p in ipairs(panes) do
-      if p.tab_id == my_tab and p.pane_id ~= my_id then
-        return tostring(p.pane_id)
-      end
-    end
-    return nil
-  end
-
   local function editprompt_send()
     vim.cmd "stopinsert"
     vim.cmd "update"
