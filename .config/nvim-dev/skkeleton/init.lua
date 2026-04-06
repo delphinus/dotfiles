@@ -7,6 +7,8 @@ end
 
 local find_sibling_pane, send_key_to_pane
 if vim.env.EDITPROMPT then
+  -- WezTerm にこのペインが editprompt であることを伝える
+  io.write "\x1b]1337;SetUserVar=editprompt=MQ==\x07"
   function find_sibling_pane()
     local my_pane = vim.env.WEZTERM_PANE
     if not my_pane then return nil end

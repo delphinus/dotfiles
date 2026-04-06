@@ -171,6 +171,22 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     })
   end)
 
+  local paste_or_forward_image = wezterm.action_callback(function(window, pane)
+    if pane:get_user_vars().editprompt then
+      local success, stdout = wezterm.run_child_process { "osascript", "-e", "clipboard info" }
+      if success and (stdout:match "PNGf" or stdout:match "TIFF") then
+        local tab = pane:tab()
+        for _, p in ipairs(tab:panes()) do
+          if p:pane_id() ~= pane:pane_id() then
+            window:perform_action(act.PasteFrom "Clipboard", p)
+            return
+          end
+        end
+      end
+    end
+    window:perform_action(act.PasteFrom "Clipboard", pane)
+  end)
+
   config.keys = {
     { key = "-", mods = "CMD", action = act.DecreaseFontSize },
     { key = "0", mods = "CMD", action = act.ResetFontSize },
@@ -214,7 +230,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "t", mods = "CMD", action = act.SpawnTab "CurrentPaneDomain" },
     { key = "u", mods = "CMD", action = act.QuickSelect },
     { key = "u", mods = "SHIFT|CMD", action = open_with },
-    { key = "v", mods = "CMD", action = act.PasteFrom "Clipboard" },
+    { key = "v", mods = "CMD", action = paste_or_forward_image },
     { key = "v", mods = "SHIFT|CMD", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
     { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
     { key = "y", mods = "CMD", action = copy_last_command_output },
