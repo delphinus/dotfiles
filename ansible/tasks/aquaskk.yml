@@ -30,12 +30,11 @@
     state=latest
 
 - name: generate dictionary for shikakugoma
-  vars:
-    dest_file: ~/Library/Application Support/AquaSKK/SKK_JISYO.shikakugoma
   shell: |
-    before=$(shasum "{{ dest_file }}" 2>/dev/null || echo "")
-    skkdic-expr SKK_JISYO.shikakugoma | skkdic-sort > "{{ dest_file }}"
-    after=$(shasum "{{ dest_file }}")
+    dest=~/Library/Application\ Support/AquaSKK/SKK_JISYO.shikakugoma
+    before=$(shasum "$dest" 2>/dev/null || echo "")
+    skkdic-expr SKK_JISYO.shikakugoma | skkdic-sort > "$dest"
+    after=$(shasum "$dest")
     [ "$before" != "$after" ] && echo "CHANGED" || echo "OK"
   args:
     executable: /bin/bash
@@ -56,17 +55,10 @@
     force=yes
 
 - name: download jawiki dictionary from latest release
-  vars:
-    dest_file: ~/Library/Application Support/AquaSKK/SKK-JISYO.jawiki
-  shell: |
-    before=$(shasum "{{ dest_file }}" 2>/dev/null || echo "")
-    gh release download --repo tokuhirom/jawiki-kana-kanji-dict --pattern 'SKK-JISYO.jawiki' --clobber --dir '~/Library/Application Support/AquaSKK'
-    after=$(shasum "{{ dest_file }}")
-    [ "$before" != "$after" ] && echo "CHANGED" || echo "OK"
-  args:
-    executable: /bin/bash
-  register: jawiki_result
-  changed_when: "'CHANGED' in jawiki_result.stdout"
+  get_url:
+    url: https://github.com/tokuhirom/jawiki-kana-kanji-dict/releases/latest/download/SKK-JISYO.jawiki
+    dest: ~/Library/Application Support/AquaSKK/SKK-JISYO.jawiki
+    force: yes
 
 - name: convert some dictionaries
   shell: |
