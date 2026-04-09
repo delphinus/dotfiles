@@ -580,9 +580,13 @@ return {
 
   {
     "delphinus/obsidian-kensaku.nvim",
-    branch = "feat/quick-kensaku",
     cmd = { "ObsidianKensaku", "ObsidianQuickKensaku" },
-    opts = { picker = "egrepify" },
+    opts = {
+      picker = "egrepify",
+      previewer = function()
+        return require("md-render.telescope").previewer()
+      end,
+    },
   },
   {
     -- "oflisback/obsidian-bridge.nvim",
@@ -677,6 +681,7 @@ return {
       callbacks = {
         post_setup = function(client)
           require "obsidian-kensaku"(client)
+
           vim.api.nvim_create_user_command("ObsidianQuickNote", function()
             local path = client:create_note { id = "00000000-000000-quick-note", title = "Quick Note" }
             client:open_note(path, {
