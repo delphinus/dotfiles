@@ -297,6 +297,41 @@ return {
     end,
   },
 
+  {
+    "folke/flash.nvim",
+    dependencies = { { "delphinus/luamigemo", version = "*" } },
+    keys = {
+      { "<Leader>s", function() require("flash").jump() end, mode = { "n", "x" }, desc = "Flash (migemo)" },
+    },
+    init = function()
+      palette "flash" {
+        nord = function(colors)
+          vim.api.nvim_set_hl(0, "FlashBackdrop", { fg = colors.gray })
+          vim.api.nvim_set_hl(0, "FlashLabel", { fg = colors.red, bold = true })
+          vim.api.nvim_set_hl(0, "FlashMatch", { fg = colors.cyan })
+        end,
+        sweetie = function(colors)
+          vim.api.nvim_set_hl(0, "FlashBackdrop", { fg = colors.dark_grey })
+          vim.api.nvim_set_hl(0, "FlashLabel", { fg = colors.red, bold = true })
+          vim.api.nvim_set_hl(0, "FlashMatch", { fg = colors.cyan })
+        end,
+      }
+    end,
+    opts = {
+      labels = "hjklasdfgyuiopqwertnmzxcvb",
+      search = {
+        trigger = ";",
+        mode = function(str)
+          if str == "" then
+            return str
+          end
+          local migemo = require "luamigemo"
+          return migemo.query(str, migemo.RXOP_VIM)
+        end,
+      },
+    },
+  },
+
   non_lazy {
     "delphinus/ghsigns.nvim",
     dependencies = {
