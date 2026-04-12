@@ -288,12 +288,17 @@ if vim.env.EDITPROMPT then
   vim.keymap.set("n", "<Space>x", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   vim.keymap.set("i", "<C-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   vim.keymap.set("i", "<D-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
-  vim.keymap.set("i", "<C-u>", function()
-    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    if table.concat(lines, "\n") == "" then
-      send_key_to_pane("\x15")
-    else
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-u>", true, false, true), "n", false)
-    end
-  end, { silent = true, desc = "Send C-u to sibling pane when buffer is empty" })
+  local function forward_when_empty(lhs, raw_key)
+    vim.keymap.set("i", lhs, function()
+      local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+      if table.concat(lines, "\n") == "" then
+        send_key_to_pane(raw_key)
+      else
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(lhs, true, false, true), "n", false)
+      end
+    end, { silent = true, desc = "Send " .. lhs .. " to sibling pane when buffer is empty" })
+  end
+  forward_when_empty("<C-u>", "\x15")
+  forward_when_empty("<Up>", "\x1b[A")
+  forward_when_empty("<Down>", "\x1b[B")
 end
