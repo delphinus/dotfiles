@@ -581,6 +581,7 @@ return {
   {
     "delphinus/obsidian-kensaku.nvim",
     cmd = { "ObsidianKensaku", "ObsidianQuickKensaku" },
+    dependencies = { "delphinus/luamigemo", version = "*" },
     opts = {
       picker = "egrepify",
       previewer = function()
