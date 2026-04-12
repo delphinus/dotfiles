@@ -236,5 +236,6 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "y", mods = "CMD", action = copy_last_command_output },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
     { key = "Enter", mods = "CTRL", action = act.SendString "\x1b[13;5u" },
+    { key = "Enter", mods = "CMD", action = act.SendString "\x1b[13;9u" },
   }
 end

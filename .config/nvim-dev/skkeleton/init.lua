@@ -287,6 +287,7 @@ if vim.env.EDITPROMPT then
 
   vim.keymap.set("n", "<Space>x", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   vim.keymap.set("i", "<C-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
+  vim.keymap.set("i", "<D-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   vim.keymap.set("i", "<C-u>", function()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     if table.concat(lines, "\n") == "" then
