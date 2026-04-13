@@ -1,0 +1,9 @@
+{
+  "denops.vim": { "branch": "main", "commit": "1df7a022d6e9cb3f6a3db43235e0f174ccd79e03" },
+  "flash.nvim": { "branch": "main", "commit": "fcea7ff883235d9024dc41e638f164a450c14ca2" },
+  "fuzzy-motion.vim": { "branch": "main", "commit": "d6ab71ebb77d7640c42db0ed152502f1b6100384" },
+  "kensaku.vim": { "branch": "main", "commit": "67727c8cc81f45b3c3abc600ecfef6fba620eb88" },
+  "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" },
+  "luamigemo": { "branch": "main", "commit": "0e78f0951f7610f6582183565244e0db3dd0daa0" },
+  "vimdoc-ja": { "branch": "master", "commit": "4dbf3f44ddc71c41f4f075970ce07e7c873b551b" }
+}
