@@ -171,6 +171,58 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     })
   end)
 
+  local screen_copy = wezterm.action_callback(function(window, pane)
+    local dims = pane:get_dimensions()
+    local total_rows = dims.scrollback_rows + dims.viewport_rows
+    local text = pane:get_logical_lines_as_text(total_rows)
+
+    -- Write to temp file
+    local tmpfile = "/tmp/wezterm-copy-" .. tostring(os.time()) .. "-" .. tostring(pane:pane_id())
+    local f = io.open(tmpfile, "w")
+    if not f then
+      wezterm.log_error "Failed to create temp file for screen copy"
+      return
+    end
+    f:write(text)
+    f:close()
+
+    -- Count lines in the captured text
+    local total_lines = 1
+    for _ in text:gmatch "\n" do
+      total_lines = total_lines + 1
+    end
+
+    -- Calculate approximate viewport top line
+    local scroll_offset = 0
+    if dims.scrollback_rows and dims.physical_top and dims.scrollback_top then
+      scroll_offset = dims.scrollback_rows - (dims.physical_top - dims.scrollback_top)
+    end
+    local viewport_line = math.max(1, total_lines - dims.viewport_rows - scroll_offset)
+
+    local caller_tab_idx = 0
+    for _, info in ipairs(window:mux_window():tabs_with_info()) do
+      if info.is_active then
+        caller_tab_idx = info.index
+        break
+      end
+    end
+
+    window:perform_action(
+      act.SpawnCommandInNewTab {
+        domain = "CurrentPaneDomain",
+        args = {
+          const.fish, "-c", ([=[
+            set -x NVIM_APPNAME nvim-dev/wezterm-copy
+            set -x WEZTERM_COPY_LINE %d
+            nvim -R %s
+            wezterm cli activate-tab --tab-index %d
+          ]=]):format(viewport_line, tmpfile, caller_tab_idx),
+        },
+      },
+      pane
+    )
+  end)
+
   local paste_or_forward_image = wezterm.action_callback(function(window, pane)
     if pane:get_user_vars().editprompt then
       local success, stdout = wezterm.run_child_process { "osascript", "-e", "clipboard info" }
@@ -234,6 +286,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "v", mods = "SHIFT|CMD", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
     { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
     { key = "y", mods = "CMD", action = copy_last_command_output },
+    { key = "y", mods = "SHIFT|CMD", action = screen_copy },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
     { key = "Enter", mods = "CTRL", action = act.SendString "\x1b[13;5u" },
     { key = "Enter", mods = "CMD", action = act.SendString "\x1b[13;9u" },
