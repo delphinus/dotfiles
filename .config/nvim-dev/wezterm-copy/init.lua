@@ -1,5 +1,6 @@
 -- WezTerm screen copy mode
 -- Open terminal screen text in Neovim for navigation and copying
+-- Supports multi-pane layouts with scrollback via floating windows
 -- Uses flash.nvim + luamigemo for fuzzy-motion
 
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
@@ -43,36 +44,74 @@ require("lazy").setup({
   },
 })
 
--- Minimal UI
+-- Global options
 vim.opt.laststatus = 0
-vim.opt.number = false
-vim.opt.relativenumber = false
-vim.opt.signcolumn = "no"
-vim.opt.ruler = false
-vim.opt.showcmd = false
-vim.opt.showmode = false
+vim.opt.cmdheight = 0
 vim.opt.swapfile = false
-vim.opt.wrap = true
-vim.opt.cursorline = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.clipboard = "unnamedplus"
-vim.opt.cmdheight = 0
 
--- Make buffer readonly
-vim.api.nvim_create_autocmd("BufReadPost", {
-  once = true,
-  callback = function()
-    vim.bo.modifiable = false
-  end,
-})
+-- Read layout file
+local layout_file = vim.env.WEZTERM_COPY_LAYOUT
+local layout = nil
 
--- Jump to viewport position after all initialization is complete
+if layout_file then
+  local f = io.open(layout_file, "r")
+  if f then
+    layout = vim.json.decode(f:read "*a")
+    f:close()
+  end
+end
+
+-- Create floating windows for each pane
 vim.api.nvim_create_autocmd("VimEnter", {
   once = true,
   callback = function()
     vim.schedule(function()
-      vim.cmd "normal! Gzb"
+      if not layout or not layout.panes or #layout.panes == 0 then
+        return
+      end
+
+      -- Background window: dark empty buffer for gaps between panes
+      local bg_buf = vim.api.nvim_get_current_buf()
+      vim.bo[bg_buf].buftype = "nofile"
+      vim.wo.winhighlight = "Normal:WinSeparator"
+
+      local active_win = nil
+      for _, p in ipairs(layout.panes) do
+        local buf = vim.fn.bufadd(p.file)
+        vim.fn.bufload(buf)
+        vim.bo[buf].modifiable = false
+        vim.bo[buf].readonly = true
+        vim.bo[buf].swapfile = false
+
+        local win = vim.api.nvim_open_win(buf, false, {
+          relative = "editor",
+          row = p.top,
+          col = p.left,
+          width = p.width,
+          height = p.height,
+          style = "minimal",
+          border = "none",
+          focusable = true,
+        })
+
+        vim.wo[win].wrap = true
+        vim.wo[win].cursorline = true
+
+        vim.api.nvim_set_current_win(win)
+        vim.cmd "normal! Gzb"
+
+        p.win_id = win
+        if p.is_active then
+          active_win = win
+        end
+      end
+
+      if active_win then
+        vim.api.nvim_set_current_win(active_win)
+      end
     end)
   end,
 })
@@ -94,12 +133,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- Cleanup temp file on exit
+-- Cleanup all temp files on exit
 vim.api.nvim_create_autocmd("VimLeave", {
   callback = function()
-    local f = vim.fn.expand "%:p"
-    if f:match "/wezterm%-copy%-" then
-      os.remove(f)
+    if layout and layout.panes then
+      for _, p in ipairs(layout.panes) do
+        os.remove(p.file)
+      end
+    end
+    if layout_file then
+      os.remove(layout_file)
     end
   end,
 })
