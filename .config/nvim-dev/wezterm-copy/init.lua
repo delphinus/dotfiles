@@ -52,22 +52,28 @@ vim.opt.ruler = false
 vim.opt.showcmd = false
 vim.opt.showmode = false
 vim.opt.swapfile = false
+vim.opt.wrap = true
 vim.opt.cursorline = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.clipboard = "unnamedplus"
+vim.opt.cmdheight = 0
 
--- Make buffer readonly and jump to viewport position
+-- Make buffer readonly
 vim.api.nvim_create_autocmd("BufReadPost", {
   once = true,
   callback = function()
     vim.bo.modifiable = false
-    local line = tonumber(vim.env.WEZTERM_COPY_LINE)
-    if line then
-      local max_line = vim.api.nvim_buf_line_count(0)
-      vim.api.nvim_win_set_cursor(0, { math.min(line, max_line), 0 })
-      vim.cmd "normal! zt"
-    end
+  end,
+})
+
+-- Jump to viewport position after all initialization is complete
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    vim.schedule(function()
+      vim.cmd "normal! Gzb"
+    end)
   end,
 })
 

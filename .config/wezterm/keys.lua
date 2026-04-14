@@ -186,18 +186,10 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     f:write(text)
     f:close()
 
-    -- Count lines in the captured text
-    local total_lines = 1
-    for _ in text:gmatch "\n" do
-      total_lines = total_lines + 1
-    end
-
-    -- Calculate approximate viewport top line
+    -- TODO: scroll offset detection is unreliable on the alternate screen
+    -- (e.g. Neovim) because the dimensions API returns bogus values.
+    -- For now, always use 0 (assumes the viewport is at the bottom).
     local scroll_offset = 0
-    if dims.scrollback_rows and dims.physical_top and dims.scrollback_top then
-      scroll_offset = dims.scrollback_rows - (dims.physical_top - dims.scrollback_top)
-    end
-    local viewport_line = math.max(1, total_lines - dims.viewport_rows - scroll_offset)
 
     local caller_tab_idx = 0
     for _, info in ipairs(window:mux_window():tabs_with_info()) do
@@ -213,10 +205,9 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
         args = {
           const.fish, "-c", ([=[
             set -x NVIM_APPNAME nvim-dev/wezterm-copy
-            set -x WEZTERM_COPY_LINE %d
             nvim -R %s
             wezterm cli activate-tab --tab-index %d
-          ]=]):format(viewport_line, tmpfile, caller_tab_idx),
+          ]=]):format(tmpfile, caller_tab_idx),
         },
       },
       pane
