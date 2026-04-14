@@ -1,3 +1,4 @@
+local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if vim.uv.fs_stat(lazypath) then
   vim.opt.rtp:prepend(lazypath)
@@ -50,9 +51,10 @@ if vim.env.EDITPROMPT then
 end
 
 require("lazy").setup({
-  { "nvim-lua/plenary.nvim" },
+  { "nvim-lua/plenary.nvim", dir = shared .. "/plenary.nvim" },
   {
     "vim-denops/denops.vim",
+    dir = shared .. "/denops.vim",
     init = function()
       vim.g["denops#server#deno_args"] = { "-q", "--no-lock", "--unstable-kv", "-A" }
     end,
@@ -60,9 +62,10 @@ require("lazy").setup({
 
   {
     "vim-skk/skkeleton",
+    dir = shared .. "/skkeleton",
     dependencies = {
       "vim-denops/denops.vim",
-      { "delphinus/skkeleton_indicator.nvim", opts = { fadeOutMs = 0 } },
+      { "delphinus/skkeleton_indicator.nvim", dir = shared .. "/skkeleton_indicator.nvim", opts = { fadeOutMs = 0 } },
     },
     lazy = false,
     keys = {
@@ -109,13 +112,14 @@ require("lazy").setup({
 
   {
     "hrsh7th/nvim-cmp",
+    dir = shared .. "/nvim-cmp",
     dependencies = {
-      "delphinus/cmp-wezterm",
-      "hrsh7th/cmp-emoji",
-      "lukas-reineke/cmp-rg",
-      "octaltree/cmp-look",
-      "uga-rosa/cmp-skkeleton",
-      { "delphinus/cmp-async-path", option = { show_hidden_files_by_default = true } },
+      { "delphinus/cmp-wezterm", dir = shared .. "/cmp-wezterm" },
+      { "hrsh7th/cmp-emoji", dir = shared .. "/cmp-emoji" },
+      { "lukas-reineke/cmp-rg", dir = shared .. "/cmp-rg" },
+      { "octaltree/cmp-look", dir = shared .. "/cmp-look" },
+      { "uga-rosa/cmp-skkeleton", dir = shared .. "/cmp-skkeleton" },
+      { "delphinus/cmp-async-path", dir = shared .. "/cmp-async-path", option = { show_hidden_files_by_default = true } },
     },
     config = function()
       local cmp = require "cmp"
@@ -208,17 +212,27 @@ require("lazy").setup({
   },
 
   {
-    "yuki-yano/fuzzy-motion.vim",
-    dependencies = {
-      "vim-denops/denops.vim",
-      "lambdalisue/kensaku.vim",
+    "delphinus/luamigemo",
+    dir = shared .. "/luamigemo",
+  },
+  {
+    "folke/flash.nvim",
+    dir = shared .. "/flash.nvim",
+    keys = { { "s", function() require("flash").jump() end, mode = { "n", "x" }, desc = "Flash (migemo)" } },
+    opts = {
+      labels = "HJKLASDFGYUIOPQWERTNMZXCVB",
+      search = {
+        mode = function(str)
+          if str == "" then
+            return str
+          elseif #str < 2 then
+            return [[\c]] .. str .. [[\|\%#.]]
+          end
+          local migemo = require "luamigemo"
+          return [[\c]] .. migemo.query(str, migemo.RXOP_VIM)
+        end,
+      },
     },
-    keys = { { "s", "<Cmd>FuzzyMotion<CR>", mode = { "n", "x" } } },
-    lazy = false,
-    init = function()
-      vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
-      vim.g.fuzzy_motion_matchers = "kensaku,fzf"
-    end,
   },
 }, { lazy = false })
 
