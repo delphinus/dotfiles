@@ -1634,7 +1634,14 @@ return {
   },
 
   {
-    "folke/flash.nvim",
+    -- NOTE: フォーク版を使用。labeler:skip() が migemo の長大な正規表現で
+    -- 極端に遅くなる問題を回避するパッチを含む (pat_len>100 で skip bypass)。
+    -- labels が大文字なので skip bypass の副作用（ラベル文字と検索拡張の
+    -- 衝突）は問題にならない。小文字 labels にする場合は要注意。
+    -- 上流の関連 PR: https://github.com/folke/flash.nvim/pull/479
+    -- (skip() を可視範囲に限定するアプローチ。マージされればフォーク不要になる)
+    "delphinus/flash.nvim",
+    branch = "fix/skip-label-filtering-for-long-patterns",
     dependencies = { { "delphinus/luamigemo", version = "*" } },
     keys = {
       {
