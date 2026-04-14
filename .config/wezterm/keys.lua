@@ -254,7 +254,8 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "9", mods = "CMD", action = act.ActivateTab(8) },
     { key = "!", mods = "SHIFT|CMD", action = move_to_new_tab },
     { key = "=", mods = "CMD", action = act.IncreaseFontSize },
-    { key = "[", mods = "CMD", action = act.ActivateCopyMode },
+    -- default: act.ActivateCopyMode
+    { key = "[", mods = "CMD", action = screen_copy },
     { key = "[", mods = "SHIFT|CMD", action = act.ActivateTabRelative(-1) },
     { key = "]", mods = "CMD", action = act.PasteFrom "Clipboard" },
     { key = "]", mods = "SHIFT|CMD", action = act.ActivateTabRelative(1) },
@@ -286,7 +287,6 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "v", mods = "SHIFT|CMD", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
     { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
     { key = "y", mods = "CMD", action = copy_last_command_output },
-    { key = "y", mods = "SHIFT|CMD", action = screen_copy },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
     { key = "Enter", mods = "CTRL", action = act.SendString "\x1b[13;5u" },
     { key = "Enter", mods = "CMD", action = act.SendString "\x1b[13;9u" },
