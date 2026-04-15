@@ -171,82 +171,6 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     })
   end)
 
-  local screen_copy = wezterm.action_callback(function(window, pane)
-    local tab = pane:tab()
-    local panes_info = tab:panes_with_info()
-    local timestamp = tostring(os.time())
-
-    -- If a pane is zoomed, capture only that pane
-    for _, info in ipairs(panes_info) do
-      if info.is_zoomed then
-        panes_info = { info }
-        break
-      end
-    end
-
-    local layout = { panes = {} }
-    for _, info in ipairs(panes_info) do
-      local p = info.pane
-      local dims = p:get_dimensions()
-      local total_rows = dims.scrollback_rows + dims.viewport_rows
-      local text = p:get_logical_lines_as_text(total_rows)
-
-      -- get_logical_lines_as_text() prepends a newline; strip it
-      if text:sub(1, 1) == "\n" then
-        text = text:sub(2)
-      end
-
-      local tmpfile = "/tmp/wezterm-copy-" .. timestamp .. "-" .. tostring(p:pane_id())
-      local f = io.open(tmpfile, "w")
-      if not f then
-        wezterm.log_error("Failed to create temp file for pane " .. tostring(p:pane_id()))
-        return
-      end
-      f:write(text)
-      f:close()
-
-      table.insert(layout.panes, {
-        file = tmpfile,
-        left = info.left,
-        top = info.top,
-        width = info.width,
-        height = info.height,
-        is_active = info.is_active,
-      })
-    end
-
-    local layout_file = "/tmp/wezterm-copy-layout-" .. timestamp .. ".json"
-    local lf = io.open(layout_file, "w")
-    if not lf then
-      wezterm.log_error "Failed to create layout file"
-      return
-    end
-    lf:write(wezterm.json_encode(layout))
-    lf:close()
-
-    local caller_tab_idx = 0
-    for _, info in ipairs(window:mux_window():tabs_with_info()) do
-      if info.is_active then
-        caller_tab_idx = info.index
-        break
-      end
-    end
-
-    window:perform_action(
-      act.SpawnCommandInNewTab {
-        domain = "CurrentPaneDomain",
-        args = {
-          const.fish, "-c", ([=[
-            set -x NVIM_APPNAME nvim-dev/wezterm-copy
-            set -x WEZTERM_COPY_LAYOUT %s
-            nvim
-            wezterm cli activate-tab --tab-index %d
-          ]=]):format(layout_file, caller_tab_idx),
-        },
-      },
-      pane
-    )
-  end)
 
   local paste_or_forward_image = wezterm.action_callback(function(window, pane)
     if pane:get_user_vars().editprompt then
@@ -279,8 +203,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "9", mods = "CMD", action = act.ActivateTab(8) },
     { key = "!", mods = "SHIFT|CMD", action = move_to_new_tab },
     { key = "=", mods = "CMD", action = act.IncreaseFontSize },
-    -- default: act.ActivateCopyMode
-    { key = "[", mods = "CMD", action = screen_copy },
+    -- default: act.ActivateCopyMode (now handled by snatch.wezterm plugin)
     { key = "[", mods = "SHIFT|CMD", action = act.ActivateTabRelative(-1) },
     { key = "]", mods = "CMD", action = act.PasteFrom "Clipboard" },
     { key = "]", mods = "SHIFT|CMD", action = act.ActivateTabRelative(1) },

@@ -43,6 +43,13 @@ if ok and tls_conf then
   -- config.tls_servers = json.tls_servers
 end
 
+local snatch = wezterm.plugin.require "https://github.com/delphinus/snatch.wezterm"
+snatch.apply_to_config(config, {
+  key = "[",
+  mods = "CMD",
+  shell = const.fish,
+})
+
 colors(config)
 keys(config)
 key_tables(config)
