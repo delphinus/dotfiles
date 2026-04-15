@@ -43,19 +43,11 @@ if ok and tls_conf then
   -- config.tls_servers = json.tls_servers
 end
 
-local snatch = wezterm.plugin.require "https://github.com/delphinus/snatch.wezterm"
-
 colors(config)
 keys(config)
 key_tables(config)
 status_bar(config)
 tab_title(config)
-
-snatch.apply_to_config(config, {
-  key = "[",
-  mods = "CMD",
-  shell = const.fish,
-})
 
 wezterm.on("user-var-changed", function(window, pane, name, value)
   local overrides = window:get_config_overrides() or {}

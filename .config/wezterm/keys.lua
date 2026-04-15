@@ -2,6 +2,7 @@
 local wezterm = require "wezterm"
 local act = wezterm.action
 local const = require "const"
+local snatch = wezterm.plugin.require "https://github.com/delphinus/snatch.wezterm"
 
 return function(config)
   local open_with = act.QuickSelectArgs {
@@ -203,7 +204,8 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "9", mods = "CMD", action = act.ActivateTab(8) },
     { key = "!", mods = "SHIFT|CMD", action = move_to_new_tab },
     { key = "=", mods = "CMD", action = act.IncreaseFontSize },
-    -- default: act.ActivateCopyMode (now handled by snatch.wezterm plugin)
+    -- default: act.ActivateCopyMode
+    { key = "[", mods = "CMD", action = snatch.action { shell = const.fish } },
     { key = "[", mods = "SHIFT|CMD", action = act.ActivateTabRelative(-1) },
     { key = "]", mods = "CMD", action = act.PasteFrom "Clipboard" },
     { key = "]", mods = "SHIFT|CMD", action = act.ActivateTabRelative(1) },
