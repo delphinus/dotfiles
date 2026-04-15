@@ -602,6 +602,7 @@ return {
 
   {
     "hrsh7th/vim-searchx",
+    enabled = false,
     fn = { "searchx#*" },
     init = function()
       local km = vim.keymap
@@ -952,6 +953,7 @@ return {
 
   {
     "mawkler/demicolon.nvim",
+    enabled = false,
     keys = { "f", "F", "t", "T", ";", "," },
     dependencies = {
       { "nvim-treesitter/nvim-treesitter", branch = "main" },
@@ -1647,8 +1649,32 @@ return {
       {
         "s",
         lazy_require("flash").jump(),
-        mode = { "n", "x" },
+        mode = { "n", "x", "o" },
         desc = "Flash (migemo)",
+      },
+      {
+        "S",
+        lazy_require("flash").treesitter(),
+        mode = { "n", "x", "o" },
+        desc = "Flash Treesitter",
+      },
+      {
+        "r",
+        lazy_require("flash").remote(),
+        mode = "o",
+        desc = "Remote Flash",
+      },
+      {
+        "R",
+        lazy_require("flash").treesitter_search(),
+        mode = { "o", "x" },
+        desc = "Treesitter Search",
+      },
+      {
+        "<C-s>",
+        lazy_require("flash").toggle(),
+        mode = "c",
+        desc = "Toggle Flash Search",
       },
     },
     init = function()
