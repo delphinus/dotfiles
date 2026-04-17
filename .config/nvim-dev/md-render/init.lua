@@ -59,6 +59,17 @@ require("lazy").setup({
     end,
   },
 
+  -- nvim-treesitter (parsers for code block highlighting in md-render)
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter").setup()
+      require("nvim-treesitter").install { "python", "lua", "bash", "ruby" }
+    end,
+  },
+
   -- md-render.nvim (local dev copy)
   {
     dir = vim.fn.expand "~/.local/share/nvim/lazy/md-render.nvim",
