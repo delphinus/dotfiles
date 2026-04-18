@@ -51,6 +51,7 @@
     force=yes
   with_items:
     - .hishtory/config.bash
+    - .hishtory/config.fish
     - .hishtory/config.zsh
 
 - name: make dotfiles symlink
