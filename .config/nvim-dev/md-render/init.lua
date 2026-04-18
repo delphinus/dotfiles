@@ -16,12 +16,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  { "folke/tokyonight.nvim", opts = {} },
-
   -- telescope.nvim
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/telescope.nvim",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", dir = vim.fn.expand "~/.local/share/nvim/lazy/plenary.nvim" },
+    },
     cmd = "Telescope",
     keys = {
       { "<leader>ff", "<cmd>Telescope md_render find_files<cr>", desc = "Find files (md-render)" },
@@ -41,6 +42,7 @@ require("lazy").setup({
   -- snacks.nvim
   {
     "folke/snacks.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/snacks.nvim",
     lazy = false,
     keys = {
       { "<leader>sf", function() Snacks.picker.files() end, desc = "Find files (snacks)" },
@@ -62,6 +64,7 @@ require("lazy").setup({
   -- nvim-treesitter (parsers for code block highlighting in md-render)
   {
     "nvim-treesitter/nvim-treesitter",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/nvim-treesitter",
     lazy = false,
     build = ":TSUpdate",
     config = function()
@@ -73,7 +76,9 @@ require("lazy").setup({
   -- md-render.nvim (local dev copy)
   {
     dir = vim.fn.expand "~/.local/share/nvim/lazy/md-render.nvim",
-    dependencies = { "delphinus/budoux.lua" },
+    dependencies = {
+      { "delphinus/budoux.lua", dir = vim.fn.expand "~/.local/share/nvim/lazy/budoux.lua" },
+    },
     cmd = { "MdRender", "MdRenderDemo", "MdRenderTab", "MdRenderPager" },
   },
 }, {
@@ -81,4 +86,4 @@ require("lazy").setup({
   change_detection = { enabled = false },
 })
 
-vim.cmd.colorscheme "tokyonight"
+vim.cmd.colorscheme "catppuccin"
