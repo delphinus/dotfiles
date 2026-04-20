@@ -602,7 +602,7 @@ return {
 
   {
     "hrsh7th/vim-searchx",
-    enabled = false,
+    dependencies = { { "delphinus/luamigemo", version = "*" } },
     fn = { "searchx#*" },
     init = function()
       local km = vim.keymap
@@ -658,7 +658,10 @@ return {
             return input:sub(2)
           end
           -- If the input contains spaces, it tries fuzzy matching.
-          local converted = vim.iter(vim.split(input, " ")):map(vim.fn["kensaku#query"]):totable()
+          local migemo = require "luamigemo"
+          local converted = vim.iter(vim.split(input, " ")):map(function(s)
+            return migemo.query(s, migemo.RXOP_VIM)
+          end):totable()
           return table.concat(converted, [[.\{-}]])
         end,
       }
