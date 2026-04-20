@@ -1709,4 +1709,23 @@ return {
       },
     },
   },
+
+  {
+    "hong4rc/copy-path.nvim",
+    keys = { "<Leader>fP" },
+    cmd = {
+      "CopyPath",
+      "CopyPathFull",
+      "CopyPathName",
+      "CopyPathStem",
+      "CopyPathExt",
+      "CopyPathDir",
+      "CopyPathDirRel",
+      "CopyPathLine",
+      "CopyPathLineFull",
+      "CopyPathGitHub",
+      "CopyPathGitHubLine",
+    },
+    opts = {},
+  },
 }
