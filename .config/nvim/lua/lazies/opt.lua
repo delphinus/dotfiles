@@ -600,73 +600,78 @@ return {
     },
   },
 
-  {
-    "hrsh7th/vim-searchx",
-    dependencies = { { "delphinus/luamigemo", version = "*" } },
-    fn = { "searchx#*" },
-    init = function()
-      local km = vim.keymap
-      local searchx = function(name)
-        return function(opt)
-          return function()
-            require("lazy").load { plugins = { "vim-searchx" } }
-            local f = vim.fn["searchx#" .. name]
-            return opt and f(opt) or f()
-          end
+  (function()
+    local function searchx(name)
+      return function(opt)
+        return function()
+          require("lazy").load { plugins = { "vim-searchx" } }
+          local f = vim.fn["searchx#" .. name]
+          return opt and f(opt) or f()
         end
       end
+    end
 
-      -- Overwrite / and ?.
-      km.set({ "n", "x" }, "?", searchx "start" { dir = 0, desc = "Start vim-searchx to the top" })
-      km.set({ "n", "x" }, "/", searchx "start" { dir = 1, desc = "Start vim-searchx to the bottom" })
-      km.set("c", "<A-;>", searchx "select"(), { desc = "searchx#select" })
+    return {
+      "hrsh7th/vim-searchx",
+      dependencies = { { "delphinus/luamigemo", version = "*" } },
+      fn = { "searchx#*" },
+      keys = {
+        -- Overwrite / and ?.
+        { "?", searchx "start" { dir = 0 }, desc = "[vim-searchx] Start search to the top", mode = { "n", "x" } },
+        { "/", searchx "start" { dir = 1 }, desc = "[vim-searchx] Start search to the bottom", mode = { "n", "x" } },
+        { "<A-;>", searchx "select"(), desc = "[vim-searchx] Determine search words", mode = "c" },
 
-      -- Move to next/prev match.
-      km.set({ "n", "x" }, "N", searchx "prev"(), { desc = "searchx#prev" })
-      km.set({ "n", "x" }, "n", searchx "next"(), { desc = "searchx#next" })
-      km.set({ "c" }, "<A-N>", searchx "prev"(), { desc = "searchx#prev" })
-      km.set({ "c" }, "<A-n>", searchx "next"(), { desc = "searchx#next" })
+        -- Move to next/prev match.
+        { "N", searchx "prev"(), desc = "searchx#prev", mode = { "n", "x" } },
+        { "n", searchx "next"(), desc = "searchx#next", mode = { "n", "x" } },
+        { "<A-N>", searchx "prev"(), desc = "searchx#prev", mode = "c" },
+        { "<A-n>", searchx "next"(), desc = "searchx#next", mode = "c" },
 
-      -- Clear highlights
-      km.set("n", "<Esc><Esc>", searchx "clear"(), { desc = "searchx#clear" })
-
-      palette "searchx" {
-        nord = function(_)
-          vim.api.nvim_set_hl(0, "SearchxMarker", { link = "DiffChange" })
-          vim.api.nvim_set_hl(0, "SearchxMarkerCurrent", { link = "WarningMsg" })
-        end,
-      }
-    end,
-    config = function()
-      vim.g.searchx = {
-        -- Auto jump if the recent input matches to any marker.
-        auto_accept = true,
-        -- The scrolloff value for moving to next/prev.
-        scrolloff = vim.o.scrolloff,
-        -- To enable scrolling animation.,
-        scrolltime = 0,
-        -- Marker characters.
-        markers = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
-        -- To enable auto nohlsearch after cursor is moved
-        nohlsearch = { jump = true },
-        convert = function(input)
-          -- If the input does not contain iskeyword characters, it deals with
-          -- the input as "very magic".
-          if not vim.regex([[\k]]):match_str(input) then
-            return [[\V]] .. input
-          elseif input:match "^%." then
-            return input:sub(2)
-          end
-          -- If the input contains spaces, it tries fuzzy matching.
-          local migemo = require "luamigemo"
-          local converted = vim.iter(vim.split(input, " ")):map(function(s)
-            return migemo.query(s, migemo.RXOP_VIM)
-          end):totable()
-          return table.concat(converted, [[.\{-}]])
-        end,
-      }
-    end,
-  },
+        -- Clear highlights
+        { "<Esc><Esc>", searchx "clear"(), { desc = "searchx#clear", mode = "n" } },
+      },
+      init = function()
+        palette "searchx" {
+          nord = function(_)
+            vim.api.nvim_set_hl(0, "SearchxMarker", { link = "DiffChange" })
+            vim.api.nvim_set_hl(0, "SearchxMarkerCurrent", { link = "WarningMsg" })
+          end,
+        }
+      end,
+      config = function()
+        vim.g.searchx = {
+          -- Auto jump if the recent input matches to any marker.
+          auto_accept = true,
+          -- The scrolloff value for moving to next/prev.
+          scrolloff = vim.o.scrolloff,
+          -- To enable scrolling animation.,
+          scrolltime = 0,
+          -- Marker characters.
+          markers = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
+          -- To enable auto nohlsearch after cursor is moved
+          nohlsearch = { jump = true },
+          convert = function(input)
+            -- If the input does not contain iskeyword characters, it deals with
+            -- the input as "very magic".
+            if not vim.regex([[\k]]):match_str(input) then
+              return [[\V]] .. input
+            elseif input:match "^%." then
+              return input:sub(2)
+            end
+            -- If the input contains spaces, it tries fuzzy matching.
+            local migemo = require "luamigemo"
+            local converted = vim
+              .iter(vim.split(input, " "))
+              :map(function(s)
+                return migemo.query(s, migemo.RXOP_VIM)
+              end)
+              :totable()
+            return table.concat(converted, [[.\{-}]])
+          end,
+        }
+      end,
+    }
+  end)(),
 
   { "delphinus/characterize.nvim", opts = {} },
 
