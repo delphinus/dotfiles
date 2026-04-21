@@ -1,27 +1,257 @@
-#!/usr/bin/perl -0777 -pl
-# remove Obsidian header
-s/^---$ .*? ^---$//msx;
-# remove the title
-s/^#.*$//m;
-# convert quotes from Qiita style to GFM one
-s[
-    ^\s*>\s\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]$
-    \n
-    ((?:^[\ \t]*>[\ \t]*.*$ \n)+)
-][
-    ($head, $content) = ($1, $2);
-    $result = ":::note " . +{
-        NOTE => 'info',
-        TIP => 'info',
-        IMPORTANT => 'warn',
-        WARNING => 'warn',
-        CAUTION => 'alert',
-    }->{$head} . "\n";
-    while ($content =~ /[ \t]*>[ \t]*(.*)/g) {
-        $result .= "\n$1";
-    }
-    "\n$result\n\n:::\n";
-]egmx;
-# remove blank lines
-s/\A(?:^$ \n)+//mx;
-s/(?:^$ \n)+\z//mx;
+#!/usr/bin/env python3
+"""Convert an Obsidian Markdown note into Qiita-flavored Markdown.
+
+Usage:
+    md_to_qiita <file.md>
+
+Pipeline applied to the input file:
+
+  1. Strip the YAML frontmatter block at the top.
+  2. Strip the first H1 heading (Qiita stores the title separately).
+  3. Convert GFM/Obsidian callouts to Qiita ``:::note`` blocks.
+       NOTE / TIP / INFO              -> :::note info
+       IMPORTANT / WARNING            -> :::note warn
+       CAUTION                        -> :::note alert
+       Anything else (e.g. QUOTE)     -> plain ``>`` quote
+  4. Replace Obsidian wiki-link embeds (``![[name]]`` / ``![[name|alt]]``)
+     with URLs declared elsewhere in the document via HTML comments of
+     the form::
+
+         <!-- name: https://example.com/uploaded -->
+
+     - Image extensions are emitted as
+       ``<img width="N" alt="..." src="URL">`` where ``N`` is half the
+       source pixel width (Retina). The width is obtained from the local
+       file via the macOS ``sips`` tool. If the local file cannot be
+       found or ``sips`` fails, falls back to ``![alt](URL)``.
+     - Video extensions are emitted as a bare URL on its own line so
+       Qiita can auto-expand X / Twitter links.
+     - Missing entries are left as ``![[name]]`` and reported on stderr.
+
+The result is printed to stdout and copied to the macOS clipboard via
+``pbcopy`` (skip with ``--no-clipboard``).
+"""
+
+from __future__ import annotations
+
+import argparse
+import html
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+IMAGE_EXTS = {
+    ".png", ".jpg", ".jpeg", ".gif", ".webp",
+    ".avif", ".svg", ".tiff", ".bmp",
+}
+VIDEO_EXTS = {".mp4", ".webm", ".mov", ".avi", ".mkv", ".m4v", ".ogv"}
+
+CALLOUT_MAP = {
+    "NOTE": "info",
+    "TIP": "info",
+    "INFO": "info",
+    "IMPORTANT": "warn",
+    "WARNING": "warn",
+    "CAUTION": "alert",
+}
+
+FRONTMATTER_RE = re.compile(r"\A---\n.*?\n---\n+", re.DOTALL)
+TITLE_RE = re.compile(r"^# .*\n+", re.MULTILINE)
+
+URL_COMMENT_RE = re.compile(
+    r"^[ \t]*<!--\s*(?P<name>.+?)\s*:\s*(?P<url>https?://\S+)\s*-->[ \t]*\n?",
+    re.MULTILINE,
+)
+
+WIKILINK_RE = re.compile(
+    r"!\[\[(?P<name>[^\]|]+?)(?:\|(?P<alt>[^\]]*))?\]\]"
+)
+
+CALLOUT_RE = re.compile(
+    r"""
+    ^[ \t]*>[ \t]*\[!(?P<kind>[A-Za-z]+)\][-+]?[ \t]*\n
+    (?P<body>(?:^[ \t]*>[ \t]?.*\n)*)
+    """,
+    re.MULTILINE | re.VERBOSE,
+)
+
+
+def strip_quote_prefix(body: str) -> str:
+    out: list[str] = []
+    for line in body.splitlines():
+        m = re.match(r"^[ \t]*>[ \t]?(.*)$", line)
+        out.append(m.group(1) if m else line)
+    return "\n".join(out)
+
+
+def convert_callout(match: "re.Match[str]") -> str:
+    kind = match.group("kind").upper()
+    body = strip_quote_prefix(match.group("body")).rstrip()
+    qiita_kind = CALLOUT_MAP.get(kind)
+    if qiita_kind is None:
+        # Obsidian-only types (QUOTE, EXAMPLE, ...) become a plain quote.
+        if not body:
+            return ""
+        quoted = "\n".join(f"> {ln}" if ln else ">" for ln in body.splitlines())
+        return quoted + "\n"
+    return f":::note {qiita_kind}\n{body}\n:::\n"
+
+
+def parse_url_comments(text: str) -> dict[str, str]:
+    table: dict[str, str] = {}
+    for m in URL_COMMENT_RE.finditer(text):
+        table[m.group("name").strip()] = m.group("url").strip()
+    return table
+
+
+def find_local_file(name: str, source_dir: Path) -> Path | None:
+    """Search for a file matching ``name`` near the source markdown file.
+
+    Search order:
+      1. Same directory as the source file, walking up parents.
+      2. If an Obsidian vault root (``.obsidian/``) is found while walking,
+         do a recursive search beneath it.
+    """
+    seen: set[Path] = set()
+    current = source_dir.resolve()
+    vault_root: Path | None = None
+    for _ in range(10):
+        if current in seen:
+            break
+        seen.add(current)
+        candidate = current / name
+        if candidate.is_file():
+            return candidate
+        if (current / ".obsidian").is_dir():
+            vault_root = current
+            break
+        if current.parent == current:
+            break
+        current = current.parent
+    if vault_root is not None:
+        for found in vault_root.rglob(name):
+            if found.is_file():
+                return found
+    return None
+
+
+def get_image_width(path: Path) -> int | None:
+    """Return image pixel width via macOS ``sips``. None on failure."""
+    try:
+        result = subprocess.run(
+            ["sips", "-g", "pixelWidth", str(path)],
+            capture_output=True, text=True, check=True, timeout=10,
+        )
+    except (subprocess.SubprocessError, OSError):
+        return None
+    for line in result.stdout.splitlines():
+        line = line.strip()
+        if line.startswith("pixelWidth:"):
+            try:
+                return int(line.split(":", 1)[1].strip())
+            except ValueError:
+                return None
+    return None
+
+
+def replace_wikilinks(
+    text: str, urls: dict[str, str], source_dir: Path
+) -> tuple[str, list[str], list[str]]:
+    missing: list[str] = []
+    no_width: list[str] = []
+
+    def repl(match: "re.Match[str]") -> str:
+        name = match.group("name").strip()
+        alt = (match.group("alt") or "").strip() or name
+        url = urls.get(name)
+        if url is None:
+            missing.append(name)
+            return match.group(0)
+        ext = Path(name).suffix.lower()
+        if ext in VIDEO_EXTS:
+            return f"\n\n{url}\n\n"
+        local = find_local_file(name, source_dir)
+        width = get_image_width(local) if local else None
+        if width is not None:
+            half = max(width // 2, 1)
+            esc_alt = html.escape(alt, quote=True)
+            esc_url = html.escape(url, quote=True)
+            return f'<img width="{half}" alt="{esc_alt}" src="{esc_url}">'
+        no_width.append(name)
+        return f"![{alt}]({url})"
+
+    return WIKILINK_RE.sub(repl, text), missing, no_width
+
+
+def normalize_blank_lines(text: str) -> str:
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip("\n") + "\n"
+
+
+def copy_to_clipboard(text: str) -> None:
+    subprocess.run(["pbcopy"], input=text, text=True, check=True)
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(
+        description="Convert an Obsidian note to Qiita Markdown.",
+    )
+    ap.add_argument("file", type=Path, help="path to the source Markdown file")
+    ap.add_argument(
+        "--no-clipboard",
+        action="store_true",
+        help="do not copy the result to the macOS clipboard",
+    )
+    args = ap.parse_args()
+
+    if not args.file.is_file():
+        print(f"error: {args.file}: no such file", file=sys.stderr)
+        return 1
+
+    text = args.file.read_text(encoding="utf-8")
+
+    text = FRONTMATTER_RE.sub("", text)
+    text = TITLE_RE.sub("", text, count=1)
+
+    urls = parse_url_comments(text)
+    text = URL_COMMENT_RE.sub("", text)
+
+    text = CALLOUT_RE.sub(convert_callout, text)
+    text, missing, no_width = replace_wikilinks(text, urls, args.file.parent)
+
+    text = normalize_blank_lines(text)
+
+    sys.stdout.write(text)
+
+    if not args.no_clipboard:
+        copy_to_clipboard(text)
+
+    for name in missing:
+        print(
+            f"warning: no <!-- {name}: URL --> comment found for ![[{name}]]",
+            file=sys.stderr,
+        )
+    for name in no_width:
+        print(
+            f"warning: could not determine width for {name} "
+            "(local file not found or sips failed); fell back to ![alt](url)",
+            file=sys.stderr,
+        )
+    if not args.no_clipboard:
+        parts = []
+        if missing:
+            parts.append(f"{len(missing)} missing")
+        if no_width:
+            parts.append(f"{len(no_width)} no-width")
+        suffix = f" ({', '.join(parts)})" if parts else ""
+        print(
+            f"copied {len(text)} chars to clipboard{suffix}",
+            file=sys.stderr,
+        )
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
