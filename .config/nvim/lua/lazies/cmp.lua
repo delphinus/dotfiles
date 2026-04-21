@@ -13,7 +13,8 @@ local function c(p)
 end
 
 local function ic(p)
-  p.event = { "InsertEnter", "CmdlineEnter" }
+  -- p.event = { "InsertEnter", "CmdlineEnter" }
+  p.event = { "InsertEnter" }
   return p
 end
 
@@ -21,7 +22,7 @@ return {
   { "hrsh7th/cmp-nvim-lua", ft = "lua" },
   { "mtoohey31/cmp-fish", ft = "fish" },
 
-  c { "hrsh7th/cmp-cmdline" },
+  -- c { "hrsh7th/cmp-cmdline" },
   ic { "delphinus/cmp-async-path" },
 
   i { "delphinus/cmp-ctags" },
@@ -305,15 +306,15 @@ return {
           },
         },
       }
-      if not vim.env.LIGHT then
-        cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
-        cmp.setup.cmdline(":", {
-          sources = cmp.config.sources(
-            { { name = "async_path" } },
-            { { name = "cmdline" }, { name = "ghq" }, { name = "git" } }
-          ),
-        })
-      end
+      -- if not vim.env.LIGHT then
+      --   cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
+      --   cmp.setup.cmdline(":", {
+      --     sources = cmp.config.sources(
+      --       { { name = "async_path" } },
+      --       { { name = "cmdline" }, { name = "ghq" }, { name = "git" } }
+      --     ),
+      --   })
+      -- end
 
       cmp.setup.filetype({ "markdown" }, {
         sources = vim
