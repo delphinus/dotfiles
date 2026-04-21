@@ -321,5 +321,11 @@ return {
       vim.o.cmdheight = 0
       require("vim._core.ui2").enable {}
     end,
+    config = function()
+      local tc = require "tiny-cmdline"
+      tc.setup {
+        on_reposition = vim.env.CMP and nil or tc.adapters.blink,
+      }
+    end,
   },
 }

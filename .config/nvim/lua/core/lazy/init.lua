@@ -14,8 +14,17 @@ else
 end
 
 local use_minimal = not not vim.env.MINIMAL or vim.env.USER == "root"
-local definitions = use_minimal and { "minimal", "cmp" }
-  or { "minimal", "start", "opt", "cmp", "lsp", "telescope", "skkeleton" }
+local cmp_module = vim.env.CMP and "cmp" or "blink"
+
+-- Shim missing nvim-cmp internals so blink.compat-loaded cmp sources
+-- (cmp-look, cmp-wezterm) don't blow up on top-level requires.
+if cmp_module == "blink" then
+  package.preload["cmp.utils.debug"] = function()
+    return { log = function() end, flag = false }
+  end
+end
+local definitions = use_minimal and { "minimal", cmp_module }
+  or { "minimal", "start", "opt", cmp_module, "lsp", "telescope", "skkeleton" }
 local plugins = {}
 for _, name in ipairs(definitions) do
   table.insert(plugins, require("lazies." .. name))

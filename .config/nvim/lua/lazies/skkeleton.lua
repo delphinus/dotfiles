@@ -1,8 +1,23 @@
 local utils = require "core.utils"
 local lazy_require = require "lazy_require"
 
+local use_cmp = not not vim.env.CMP
+
+local skkeleton_keys = {
+  { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
+  { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
+  { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
+}
+if use_cmp then
+  table.insert(
+    skkeleton_keys,
+    { "<C-x><C-o>", lazy_require("cmp").complete(), mode = { "i" }, desc = "Complete by nvim-cmp" }
+  )
+end
+
 return {
-  { "uga-rosa/cmp-skkeleton", event = { "InsertEnter", "CmdlineEnter" } },
+  { "uga-rosa/cmp-skkeleton", enabled = use_cmp, event = { "InsertEnter", "CmdlineEnter" } },
+  { "Xantibody/blink-cmp-skkeleton", enabled = not use_cmp },
 
   {
     "willelz/skk-tutorial.vim",
@@ -19,166 +34,38 @@ return {
   {
     "vim-skk/skkeleton",
     lazy = false,
-    keys = {
-      -- Use these mappings in Karabiner-Elements
-      { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
-      { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
-      { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
-      { "<C-x><C-o>", lazy_require("cmp").complete(), mode = { "i" }, desc = "Complete by nvim-cmp" },
-    },
-    dependencies = {
-      "denops.vim",
-    },
+    keys = skkeleton_keys,
+    dependencies = { "denops.vim" },
 
     config = function()
-      local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
-      local karabiner_exists = not not vim.uv.fs_stat(karabiner_cli)
-      if karabiner_exists then
-        local group = vim.api.nvim_create_augroup("skkeleton_callbacks", {})
+      if use_cmp then
+        require("core.skkeleton_cmp").setup()
+      else
+        -- skkeleton#map sets a buffer-local <nowait> <CR> that shadows blink's
+        -- global mapping. Re-override after enable to delegate to blink when
+        -- its menu is visible.
+        local group = vim.api.nvim_create_augroup("skkeleton_blink_cr", {})
         vim.api.nvim_create_autocmd("User", {
-          desc = "Set up skkeleton settings with nvim-cmp",
           group = group,
-          pattern = "skkeleton-enable-pre",
+          pattern = "skkeleton-enable-post",
           callback = function()
-            local compare = require "cmp.config.compare"
-            local types = require "cmp.types"
-            require("cmp").setup.buffer {
-              formatting = { fields = { types.cmp.ItemField.Abbr } },
-              sources = { { name = "skkeleton", keyword_pattern = [=[\V\[ーぁ-ゔァ-ヴｦ-ﾟ]]=] } },
-              sorting = {
-                priority_weight = 2,
-                comparators = {
-                  compare.recently_used,
-                  compare.order,
-                },
-              },
-            }
+            vim.keymap.set("i", "<CR>", function()
+              local ok, blink = pcall(require, "blink.cmp")
+              if ok and blink.is_visible() then
+                blink.select_and_accept()
+                return
+              end
+              vim.fn["skkeleton#handle"]("handleKey", { key = "<CR>" })
+            end, { buffer = true, nowait = true, desc = "blink + skkeleton <CR>" })
           end,
         })
         vim.api.nvim_create_autocmd("User", {
-          desc = "Restore the default settings for nvim-cmp",
           group = group,
           pattern = "skkeleton-disable-pre",
           callback = function()
-            require("cmp").setup.buffer {}
+            pcall(vim.keymap.del, "i", "<CR>", { buffer = true })
           end,
         })
-
-        ---@async
-        ---@param cmds string[][]
-        ---@return string[]
-        local function async_systems(cmds)
-          local async = require "plenary.async"
-          local async_system = async.wrap(vim.system, 3)
-          local results = vim.tbl_map(
-            function(v)
-              return v[1]
-            end,
-            async.util.join(vim.tbl_map(function(cmd)
-              return function()
-                return async_system(cmd)
-              end
-            end, cmds))
-          ) --[[@as vim.SystemCompleted[] ]]
-          local stdouts = {}
-          for j, job in ipairs(results) do
-            if job.code ~= 0 then
-              vim.notify(
-                ("command execution failed => cmd: %s, err => %s"):format(cmds[j][1], job.stderr),
-                vim.log.levels.ERROR
-              )
-            end
-            table.insert(stdouts, job.stdout or "")
-          end
-          return stdouts
-        end
-
-        ---@async
-        ---@param val number
-        local function async_karabiner(val)
-          async_systems { { karabiner_cli, "--set-variables", vim.json.encode { neovim_in_insert_mode = val } } }
-        end
-
-        ---@param f async function
-        ---@return function
-        local function void(f)
-          return function(...)
-            require("plenary.async").void(f)(...)
-          end
-        end
-
-        ---@param val number
-        ---@return async fun()
-        local function set_karabiner(val)
-          return function()
-            void(async_karabiner)(val)
-          end
-        end
-
-        ---@async
-        local function async_mode_karabiner()
-          local is_in_insert = not not require("plenary.async").api.nvim_get_mode().mode:match "[icrR]"
-          async_karabiner(is_in_insert and 1 or 0)
-        end
-
-        vim.api.nvim_create_autocmd(
-          { "InsertEnter", "CmdlineEnter" },
-          { group = group, callback = set_karabiner(1), desc = "Enable Karabiner-Elements settings for skkeleton" }
-        )
-        vim.api.nvim_create_autocmd(
-          { "InsertLeave", "CmdlineLeave", "FocusLost" },
-          { group = group, callback = set_karabiner(0), desc = "Disable Karabiner-Elements settings for skkeleton" }
-        )
-        vim.api.nvim_create_autocmd("FocusGained", {
-          group = group,
-          callback = void(async_mode_karabiner),
-          desc = "Enable/Disable Karabiner-Elements settings for skkeleton",
-        })
-
-        ---@async
-        ---@return number?
-        local function wezterm_frontmost_pane()
-          local results = async_systems {
-            {
-              "osascript",
-              "-e",
-              'tell application "System Events" to get the unix id of first process whose frontmost is true',
-            },
-            { "wezterm", "cli", "list-clients", "--format", "json" },
-          }
-          local frontmost_pid = tonumber(results[1], 10)
-          local wezterms = vim.json.decode(results[2])
-          for _, wezterm in ipairs(wezterms) do
-            if wezterm.pid == frontmost_pid then
-              return wezterm.focused_pane_id
-            end
-          end
-        end
-
-        local running = false
-        assert(vim.uv.new_timer()):start(
-          500,
-          500,
-          vim.schedule_wrap(void(function()
-            if running then
-              return
-            end
-            running = true
-            local pane_var = vim.uv.os_getenv "WEZTERM_PANE"
-            if not pane_var then
-              running = false
-              return
-            end
-            local wezterm_pane = tonumber(pane_var, 10)
-            local pane = wezterm_frontmost_pane()
-            if not pane then
-              async_karabiner(0)
-            elseif pane == wezterm_pane then
-              async_mode_karabiner()
-            end
-            running = false
-          end))
-        )
       end
 
       vim.fn["skkeleton#config"] {
@@ -189,14 +76,6 @@ return {
         sources = { "skk_server" }, -- use yaskkserv2
         skkServerResEnc = "utf-8",
         databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
-        -- markerHenkan = "󰇆",
-        -- markerHenkanSelect = "󱨉",
-        -- markerHenkan = "󰽤",
-        -- markerHenkanSelect = "󰽢",
-        -- markerHenkan = "󰜌",
-        -- markerHenkanSelect = "󰜋",
-        -- markerHenkan = "󰝣",
-        -- markerHenkanSelect = "󰄮",
       }
       vim.fn["skkeleton#register_kanatable"]("rom", {
         ["("] = { "（", "" },
