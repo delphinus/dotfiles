@@ -104,10 +104,22 @@ return {
             components = {
               label = {
                 text = function(ctx)
-                  return require("colorful-menu").blink_components_text(ctx)
+                  local text = require("colorful-menu").blink_components_text(ctx)
+                  if ctx.label_detail and ctx.label_detail ~= "" and not text:find(ctx.label_detail, 1, true) then
+                    text = text .. " " .. ctx.label_detail
+                  end
+                  return text
                 end,
                 highlight = function(ctx)
-                  return require("colorful-menu").blink_components_highlight(ctx)
+                  local highlights = require("colorful-menu").blink_components_highlight(ctx)
+                  local text = require("colorful-menu").blink_components_text(ctx)
+                  if ctx.label_detail and ctx.label_detail ~= "" and not text:find(ctx.label_detail, 1, true) then
+                    table.insert(
+                      highlights,
+                      { #text + 1, #text + 1 + #ctx.label_detail, group = "BlinkCmpLabelDetail" }
+                    )
+                  end
+                  return highlights
                 end,
               },
             },

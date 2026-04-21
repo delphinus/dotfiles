@@ -160,6 +160,38 @@ require("lazy").setup({
     ---@type blink.cmp.Config
     opts = {
       appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = "mono" },
+      completion = {
+        menu = {
+          draw = {
+            components = {
+              label = {
+                text = function(ctx)
+                  if ctx.label_detail and ctx.label_detail ~= "" then
+                    return ctx.label .. " " .. ctx.label_detail
+                  end
+                  return ctx.label
+                end,
+                highlight = function(ctx)
+                  local label = ctx.label
+                  local highlights = {
+                    { 0, #label, group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel" },
+                  }
+                  if ctx.label_detail and ctx.label_detail ~= "" then
+                    table.insert(
+                      highlights,
+                      { #label + 1, #label + 1 + #ctx.label_detail, group = "BlinkCmpLabelDetail" }
+                    )
+                  end
+                  for _, idx in ipairs(ctx.label_matched_indices) do
+                    table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
+                  end
+                  return highlights
+                end,
+              },
+            },
+          },
+        },
+      },
       sources = {
         default = function()
           local ok, skk = pcall(require, "blink-cmp-skkeleton")
