@@ -1,4 +1,11 @@
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
+
+-- Shim missing nvim-cmp internals so blink.compat-loaded cmp sources
+-- (cmp-look, cmp-wezterm) don't blow up on top-level requires.
+package.preload["cmp.utils.debug"] = function()
+  return { log = function() end, flag = false }
+end
+
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if vim.uv.fs_stat(lazypath) then
   vim.opt.rtp:prepend(lazypath)
@@ -12,14 +19,17 @@ if vim.env.EDITPROMPT then
   io.write "\x1b]1337;SetUserVar=editprompt=MQ==\x07"
   function find_sibling_pane()
     local my_pane = vim.env.WEZTERM_PANE
-    if not my_pane then return nil end
-    local obj = vim.system(
-      { "wezterm", "cli", "list", "--format", "json" },
-      { text = true }
-    ):wait()
-    if obj.code ~= 0 then return nil end
+    if not my_pane then
+      return nil
+    end
+    local obj = vim.system({ "wezterm", "cli", "list", "--format", "json" }, { text = true }):wait()
+    if obj.code ~= 0 then
+      return nil
+    end
     local ok, panes = pcall(vim.json.decode, obj.stdout)
-    if not ok then return nil end
+    if not ok then
+      return nil
+    end
     local my_id = tonumber(my_pane)
     local my_tab
     for _, p in ipairs(panes) do
@@ -28,7 +38,9 @@ if vim.env.EDITPROMPT then
         break
       end
     end
-    if not my_tab then return nil end
+    if not my_tab then
+      return nil
+    end
     for _, p in ipairs(panes) do
       if p.tab_id == my_tab and p.pane_id ~= my_id then
         return tostring(p.pane_id)
@@ -43,10 +55,7 @@ if vim.env.EDITPROMPT then
       vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
       return
     end
-    vim.system(
-      { "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, key },
-      { text = true }
-    )
+    vim.system({ "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, key }, { text = true })
   end
 end
 
@@ -75,6 +84,32 @@ require("lazy").setup({
       { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
     },
     config = function()
+      -- skkeleton#map sets a buffer-local <nowait> <CR> that shadows blink's
+      -- global mapping. Re-override after enable to delegate to blink when
+      -- its menu is visible.
+      local cr_group = vim.api.nvim_create_augroup("skkeleton_blink_cr", {})
+      vim.api.nvim_create_autocmd("User", {
+        group = cr_group,
+        pattern = "skkeleton-enable-post",
+        callback = function()
+          vim.keymap.set("i", "<CR>", function()
+            local ok, blink = pcall(require, "blink.cmp")
+            if ok and blink.is_visible() then
+              blink.select_and_accept()
+              return
+            end
+            vim.fn["skkeleton#handle"]("handleKey", { key = "<CR>" })
+          end, { buffer = true, nowait = true, desc = "blink + skkeleton <CR>" })
+        end,
+      })
+      vim.api.nvim_create_autocmd("User", {
+        group = cr_group,
+        pattern = "skkeleton-disable-pre",
+        callback = function()
+          pcall(vim.keymap.del, "i", "<CR>", { buffer = true })
+        end,
+      })
+
       vim.fn["skkeleton#config"] {
         userDictionary = vim.fs.normalize "~/Documents/skk-jisyo.utf8",
         eggLikeNewline = true,
@@ -111,104 +146,81 @@ require("lazy").setup({
   },
 
   {
-    "hrsh7th/nvim-cmp",
-    dir = shared .. "/nvim-cmp",
+    "saghen/blink.cmp",
+    dir = shared .. "/blink.cmp",
     dependencies = {
+      { "saghen/blink.compat", dir = shared .. "/blink.compat", opts = {} },
+      { "Xantibody/blink-cmp-skkeleton", dir = shared .. "/blink-cmp-skkeleton" },
       { "delphinus/cmp-wezterm", dir = shared .. "/cmp-wezterm" },
       { "hrsh7th/cmp-emoji", dir = shared .. "/cmp-emoji" },
       { "lukas-reineke/cmp-rg", dir = shared .. "/cmp-rg" },
       { "octaltree/cmp-look", dir = shared .. "/cmp-look" },
-      { "uga-rosa/cmp-skkeleton", dir = shared .. "/cmp-skkeleton" },
-      { "delphinus/cmp-async-path", dir = shared .. "/cmp-async-path", option = { show_hidden_files_by_default = true } },
     },
-    config = function()
-      local cmp = require "cmp"
-      local types = require "cmp.types"
-      cmp.setup {
-        sources = {
-          { name = "wezterm", keyword_length = 2, option = {} },
-          { name = "async_path" },
-          { name = "rg", keyword_length = 4, option = { debounce = 0 } },
-          { name = "emoji" },
-          { name = "look", keyword_length = 4, option = { convert_case = true, loud = true } },
-        },
-        mapping = {
-          ["<CR>"] = cmp.mapping.confirm { select = false },
-          ["<C-n>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif send_key_to_pane then
-              send_key_to_pane("\x1b[B")
-            else
-              fallback()
-            end
-          end, { "i", "c" }),
-          ["<C-p>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif send_key_to_pane then
-              send_key_to_pane("\x1b[A")
-            else
-              fallback()
-            end
-          end, { "i", "c" }),
-          ["<A-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-          ["<A-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-          ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
-        },
-        formatting = {
-          format = function(entry, vim_item)
-            vim_item.menu = ({
-              wezterm = "[W]",
-              async_path = "[P]",
-              rg = "[R]",
-              emoji = "[E]",
-              look = "[L]",
-            })[entry.source.name]
-            return vim_item
-          end,
-        },
-        sorting = {
-          priority_weight = 2,
-          comparators = {
-            cmp.config.compare.offset,
-            cmp.config.compare.exact,
-            -- cmp.config.compare.scopes,
-            cmp.config.compare.score,
-            cmp.config.compare.recently_used,
-            cmp.config.compare.locality,
-            cmp.config.compare.kind,
-            -- cmp.config.compare.sort_text,
-            cmp.config.compare.length,
-            cmp.config.compare.order,
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = "mono" },
+      sources = {
+        default = function()
+          local ok, skk = pcall(require, "blink-cmp-skkeleton")
+          if ok and skk.is_enabled() then
+            return { "skkeleton" }
+          end
+          return { "wezterm", "path", "rg", "emoji", "look" }
+        end,
+        providers = {
+          path = { opts = { show_hidden_files_by_default = true } },
+          wezterm = { name = "wezterm", module = "blink.compat.source", min_keyword_length = 2 },
+          rg = { name = "rg", module = "blink.compat.source", min_keyword_length = 4 },
+          emoji = { name = "emoji", module = "blink.compat.source" },
+          look = {
+            name = "look",
+            module = "blink.compat.source",
+            min_keyword_length = 4,
+            opts = { convert_case = true, loud = true },
           },
+          skkeleton = { name = "skkeleton", module = "blink-cmp-skkeleton" },
         },
-      }
-
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "skkeleton-enable-pre",
-        callback = function()
-          cmp.setup.buffer {
-            formatting = { fields = { types.cmp.ItemField.Abbr } },
-            sources = { { name = "skkeleton", keyword_pattern = [=[\V\[ーぁ-ゔァ-ヴｦ-ﾟ]]=] } },
-            sorting = {
-              priority_weight = 2,
-              comparators = {
-                cmp.config.compare.recently_used,
-                cmp.config.compare.order,
-              },
-            },
-          }
-        end,
-      })
-
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "skkeleton-disable-pre",
-        callback = function()
-          cmp.setup.buffer {}
-        end,
-      })
-    end,
+      },
+      keymap = {
+        preset = "default",
+        ["<CR>"] = { "select_and_accept", "fallback" },
+        ["<C-n>"] = {
+          function(cmp)
+            if cmp.is_visible() then
+              cmp.select_next()
+              return true
+            elseif send_key_to_pane then
+              send_key_to_pane "\x1b[B"
+              return true
+            end
+          end,
+          "fallback",
+        },
+        ["<C-p>"] = {
+          function(cmp)
+            if cmp.is_visible() then
+              cmp.select_prev()
+              return true
+            elseif send_key_to_pane then
+              send_key_to_pane "\x1b[A"
+              return true
+            end
+          end,
+          "fallback",
+        },
+        ["<A-u>"] = { "scroll_documentation_up", "fallback" },
+        ["<A-d>"] = { "scroll_documentation_down", "fallback" },
+        ["<C-e>"] = { "hide", "fallback" },
+        ["<Space>"] = {}, -- let skkeleton handle Space
+      },
+      cmdline = {
+        completion = {
+          menu = { auto_show = true },
+          list = { selection = { preselect = false, auto_insert = true } },
+        },
+      },
+    },
   },
 
   {
@@ -218,7 +230,16 @@ require("lazy").setup({
   {
     "folke/flash.nvim",
     dir = shared .. "/flash.nvim",
-    keys = { { "s", function() require("flash").jump() end, mode = { "n", "x" }, desc = "Flash (migemo)" } },
+    keys = {
+      {
+        "s",
+        function()
+          require("flash").jump()
+        end,
+        mode = { "n", "x" },
+        desc = "Flash (migemo)",
+      },
+    },
     opts = {
       labels = "HJKLASDFGYUIOPQWERTNMZXCVB",
       search = {
@@ -248,19 +269,15 @@ if vim.env.EDITPROMPT then
         vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
         return
       end
-      vim.system(
-        { "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, "\r" },
-        { text = true },
-        function()
-          vim.schedule(function()
-            vim.cmd "startinsert"
-          end)
-        end
-      )
+      vim.system({ "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, "\r" }, { text = true }, function()
+        vim.schedule(function()
+          vim.cmd "startinsert"
+        end)
+      end)
       return
     end
     -- @ で終わる場合はスペースを付ける（editprompt の processContent と同じ）
-    if content:match("@[^\n]*$") then
+    if content:match "@[^\n]*$" then
       content = content .. " "
     end
     local target = find_sibling_pane()
@@ -290,7 +307,10 @@ if vim.env.EDITPROMPT then
                 vim.cmd "silent write"
                 vim.cmd "startinsert"
               else
-                vim.notify("editprompt failed to send Enter: " .. (obj2.stderr or "unknown error"), vim.log.levels.ERROR)
+                vim.notify(
+                  "editprompt failed to send Enter: " .. (obj2.stderr or "unknown error"),
+                  vim.log.levels.ERROR
+                )
               end
             end)
           end
