@@ -55,7 +55,7 @@ return {
                 blink.select_and_accept()
                 return
               end
-              vim.fn["skkeleton#handle"]("handleKey", { key = "<CR>" })
+              vim.fn["skkeleton#handle"]("handleKey", { key = vim.keycode "<CR>" })
             end, { buffer = true, nowait = true, desc = "blink + skkeleton <CR>" })
           end,
         })
