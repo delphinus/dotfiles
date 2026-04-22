@@ -1,2 +1,2 @@
 #!/bin/bash
-exec env MINIMAL=1 nvim -R +'set nolist nonu nornu buftype=nofile cc=' +BaleiaColorizeStartup "$@"
+exec env NVIM_APPNAME=nvim-dev/skkeleton nvim -R +'set nolist nonu nornu buftype=nofile cc=' +BaleiaColorizeStartup "$@"
