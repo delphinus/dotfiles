@@ -9,7 +9,6 @@ local default_sources = {
   "lazydev",
   "wezterm",
   "ripgrep",
-  "treesitter",
   "ghq",
   "digraphs",
   "git",
@@ -87,7 +86,6 @@ return {
 
   -- nvim-cmp source plugins, surfaced via blink.compat
   { "delphinus/cmp-ghq" },
-  { "ray-x/cmp-treesitter" },
   { "mtoohey31/cmp-fish" },
   { "dmitmel/cmp-digraphs" },
   -- blink-cmp-git is upstream-blocked on GitHub Enterprise host support; keep
@@ -191,7 +189,6 @@ return {
             min_keyword_length = 4,
             opts = { dictionary_files = { "/usr/share/dict/words" } },
           },
-          treesitter = { name = "treesitter", module = "blink.compat.source" },
           fish = { name = "fish", module = "blink.compat.source" },
           ghq = { name = "ghq", module = "blink.compat.source" },
           digraphs = { name = "digraphs", module = "blink.compat.source", min_keyword_length = 1 },
