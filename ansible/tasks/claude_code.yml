@@ -1,0 +1,15 @@
+---
+- name: prepare claude config dir
+  file: path=~/.claude state=directory
+
+- name: symlink claude-code shared files from iCloud Drive
+  file: >-
+    src='{{ ansible_facts["env"]["HOME"] }}/Library/Mobile Documents/com~apple~CloudDocs/claude-code/{{ item.src }}'
+    dest='~/.claude/{{ item.dest }}'
+    state=link
+    force=yes
+  with_items:
+    - { src: 'CLAUDE.md', dest: 'CLAUDE.md' }
+    - { src: 'scripts', dest: 'scripts' }
+
+# vim:se et:
