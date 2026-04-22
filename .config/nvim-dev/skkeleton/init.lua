@@ -145,9 +145,9 @@ require("lazy").setup({
     dependencies = {
       { "Xantibody/blink-cmp-skkeleton", dir = shared .. "/blink-cmp-skkeleton" },
       { "delphinus/cmp-wezterm", dir = shared .. "/cmp-wezterm" },
-      { "mikavilpas/blink-ripgrep.nvim", version = "*" },
-      { "moyiz/blink-emoji.nvim" },
-      { "Kaiser-Yang/blink-cmp-dictionary" },
+      { "mikavilpas/blink-ripgrep.nvim", dir = shared .. "/blink-ripgrep.nvim" },
+      { "moyiz/blink-emoji.nvim", dir = shared .. "/blink-emoji.nvim" },
+      { "Kaiser-Yang/blink-cmp-dictionary", dir = shared .. "/blink-cmp-dictionary" },
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
