@@ -259,6 +259,99 @@ require("lazy").setup({
     "delphinus/luamigemo",
     dir = shared .. "/luamigemo",
   },
+
+  {
+    "delphinus/cellwidths.nvim",
+    dir = shared .. "/cellwidths.nvim",
+    config = function()
+      vim.opt.listchars = {
+        tab = "▓░",
+        trail = "↔",
+        eol = "⏎",
+        extends = "‥",
+        precedes = "←",
+        nbsp = "␣",
+      }
+      vim.opt.fillchars = {
+        diff = "░",
+        eob = "‣",
+        fold = "░",
+        foldopen = "▾",
+        foldsep = "│",
+        foldclose = "▸",
+      }
+      require("cellwidths").setup {
+        name = "user/custom",
+        fallback = function(cw)
+          cw.load "sfmono_square"
+          cw.add { 0xf0000, 0x10ffff, 2 }
+          return cw
+        end,
+      }
+    end,
+  },
+
+  {
+    "m00qek/baleia.nvim",
+    dir = shared .. "/baleia.nvim",
+    cmd = { "BaleiaColorize", "BaleiaColorizeStartup" },
+    config = function()
+      local baleia
+      vim.api.nvim_create_user_command("BaleiaColorize", function()
+        if not baleia then
+          baleia = require("baleia").setup {}
+        end
+        baleia.once(vim.api.nvim_get_current_buf())
+      end, {})
+      vim.api.nvim_create_user_command("BaleiaColorizeStartup", function()
+        vim.api.nvim_create_autocmd("VimEnter", { command = "BaleiaColorize" })
+      end, {})
+    end,
+  },
+
+  {
+    "rhysd/committia.vim",
+    dir = shared .. "/committia.vim",
+    ft = { "gitcommit" },
+    init = function()
+      vim.g.committia_hooks = {
+        ---@class CommittiaInfo
+        ---@field vcs string vcs type (e.g. 'git')
+        ---@field edit_winnr integer winnr of edit window
+        ---@field edit_bufnr integer bufnr of edit window
+        ---@field diff_winnr integer winnr of diff window
+        ---@field diff_bufnr integer bufnr of diff window
+        ---@field status_winnr integer winnr of status window
+        ---@field status_bufnr integer bufnr of status window
+
+        ---@param info CommittiaInfo
+        edit_open = function(info)
+          vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+            once = true,
+            pattern = { "COMMIT_EDITMSG", "MERGE_MSG" },
+            callback = function()
+              local winid = vim.fn.win_getid(info.edit_winnr)
+              -- HACK: move cursor to top left because it starts on the 2nd line for some reason.
+              vim.api.nvim_win_set_cursor(winid, { 1, 0 })
+              local first_line = vim.api.nvim_buf_get_lines(info.edit_bufnr, 0, 1, false)[1]
+              if first_line == "" then
+                vim.cmd.startinsert()
+              end
+            end,
+          })
+          vim.keymap.set("i", "<A-D>", [[<Plug>(committia-scroll-diff-down-half)]], { buffer = true })
+          vim.keymap.set("i", "<A-U>", [[<Plug>(committia-scroll-diff-up-half)]], { buffer = true })
+        end,
+      }
+    end,
+    config = function()
+      local bufname = vim.fs.basename(vim.api.nvim_buf_get_name(0))
+      if bufname == "COMMIT_EDITMSG" or bufname == "MERGE_MSG" then
+        vim.fn["committia#open"] "git"
+      end
+    end,
+  },
+
   {
     "folke/flash.nvim",
     dir = shared .. "/flash.nvim",
@@ -288,6 +381,8 @@ require("lazy").setup({
     },
   },
 }, { lazy = false })
+
+vim.cmd.colorscheme "catppuccin"
 
 if vim.env.EDITPROMPT then
   local function editprompt_send()
