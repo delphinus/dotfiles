@@ -1,11 +1,5 @@
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 
--- Shim missing nvim-cmp internals so blink.compat-loaded cmp sources
--- (cmp-look, cmp-wezterm) don't blow up on top-level requires.
-package.preload["cmp.utils.debug"] = function()
-  return { log = function() end, flag = false }
-end
-
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if vim.uv.fs_stat(lazypath) then
   vim.opt.rtp:prepend(lazypath)
@@ -149,12 +143,11 @@ require("lazy").setup({
     "saghen/blink.cmp",
     dir = shared .. "/blink.cmp",
     dependencies = {
-      { "saghen/blink.compat", dir = shared .. "/blink.compat", opts = {} },
       { "Xantibody/blink-cmp-skkeleton", dir = shared .. "/blink-cmp-skkeleton" },
       { "delphinus/cmp-wezterm", dir = shared .. "/cmp-wezterm" },
-      { "hrsh7th/cmp-emoji", dir = shared .. "/cmp-emoji" },
-      { "lukas-reineke/cmp-rg", dir = shared .. "/cmp-rg" },
-      { "octaltree/cmp-look", dir = shared .. "/cmp-look" },
+      { "mikavilpas/blink-ripgrep.nvim", version = "*" },
+      { "moyiz/blink-emoji.nvim" },
+      { "Kaiser-Yang/blink-cmp-dictionary" },
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -198,18 +191,53 @@ require("lazy").setup({
           if ok and skk.is_enabled() then
             return { "skkeleton" }
           end
-          return { "wezterm", "path", "rg", "emoji", "look" }
+          if not vim.in_fast_event() then
+            -- 直近のトークンが /, ~/, ./, ../, $VAR/ で始まる時のみ path 文脈とみなす。
+            -- github.com/foo のような単語+/ は対象外にする。
+            local line = vim.api.nvim_get_current_line()
+            local col = vim.api.nvim_win_get_cursor(0)[2]
+            local last = (line:sub(1, col):match "(%S+)$" or ""):gsub("^[\"'`]", "")
+            if
+              last:match "^/"
+              or last:match "^~/"
+              or last:match "^%.%.?/"
+              or last:match "^%$[%w_]+/"
+              or last:match "^%$%{[%w_]+%}/"
+            then
+              return { "path" }
+            end
+          end
+          return { "wezterm", "path", "ripgrep", "emoji", "dictionary" }
         end,
         providers = {
           path = { opts = { show_hidden_files_by_default = true } },
-          wezterm = { name = "wezterm", module = "blink.compat.source", min_keyword_length = 2 },
-          rg = { name = "rg", module = "blink.compat.source", min_keyword_length = 4 },
-          emoji = { name = "emoji", module = "blink.compat.source" },
-          look = {
-            name = "look",
-            module = "blink.compat.source",
+          wezterm = { name = "wezterm", module = "blink-cmp-wezterm", min_keyword_length = 2 },
+          ripgrep = {
+            name = "Ripgrep",
+            module = "blink-ripgrep",
+            opts = {
+              prefix_min_len = 4,
+              backend = {
+                use = "ripgrep",
+                ripgrep = {
+                  context_size = 5,
+                  max_filesize = "1M",
+                  search_casing = "--ignore-case",
+                },
+              },
+            },
+          },
+          emoji = {
+            name = "Emoji",
+            module = "blink-emoji",
+            score_offset = 15,
+            opts = { insert = true, trigger = function() return { ":" } end },
+          },
+          dictionary = {
+            name = "Dict",
+            module = "blink-cmp-dictionary",
             min_keyword_length = 4,
-            opts = { convert_case = true, loud = true },
+            opts = { dictionary_files = { "/usr/share/dict/words" } },
           },
           skkeleton = { name = "skkeleton", module = "blink-cmp-skkeleton" },
         },
