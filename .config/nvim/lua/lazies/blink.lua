@@ -90,7 +90,6 @@ return {
   { "ray-x/cmp-treesitter" },
   { "mtoohey31/cmp-fish" },
   { "dmitmel/cmp-digraphs" },
-  { "hrsh7th/cmp-nvim-lua" },
   -- blink-cmp-git is upstream-blocked on GitHub Enterprise host support; keep
   -- petertriho/cmp-git via blink.compat until that lands.
   {
@@ -152,7 +151,6 @@ return {
       sources = {
         default = with_skk(default_sources),
         per_filetype = {
-          lua = with_skk(vim.list_extend(vim.deepcopy(default_sources), { "nvim_lua" })),
           fish = with_skk(vim.list_extend(vim.deepcopy(default_sources), { "fish" })),
           markdown = with_skk(markdown_sources),
         },
@@ -204,7 +202,6 @@ return {
             score_offset = 15,
             opts = { insert = true },
           },
-          nvim_lua = { name = "nvim_lua", module = "blink.compat.source" },
           skkeleton = { name = "skkeleton", module = "blink-cmp-skkeleton" },
         },
       },

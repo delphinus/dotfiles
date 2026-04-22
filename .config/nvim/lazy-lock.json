@@ -29,7 +29,6 @@
   "cmp-ghq": { "branch": "main", "commit": "e7dc3f603459dfc7b3bdf6e78c0d2b4979b38e52" },
   "cmp-git": { "branch": "main", "commit": "b24309c386c9666c549a1abaedd4956541676d06" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "cbc7b02bb99fae35cb42f514762b89b5126651ef" },
-  "cmp-nvim-lua": { "branch": "main", "commit": "e3a22cb071eb9d6508a156306b102c45cd2d573d" },
   "cmp-skkeleton": { "branch": "main", "commit": "2c268a407e9e843abd03c6fa77485541a4ddcd9a" },
   "cmp-treesitter": { "branch": "master", "commit": "958fcfa0d8ce46d215e19cc3992c542f576c4123" },
   "cmp-wezterm": { "branch": "main", "commit": "e6f75fd2e9f1a50e28f350ca62b6322ac185de33" },
