@@ -9,7 +9,6 @@ local default_sources = {
   "lazydev",
   "wezterm",
   "ripgrep",
-  "ctags",
   "treesitter",
   "ghq",
   "digraphs",
@@ -87,7 +86,6 @@ return {
   { "MahanRahmati/blink-nerdfont.nvim" },
 
   -- nvim-cmp source plugins, surfaced via blink.compat
-  { "delphinus/cmp-ctags" },
   { "delphinus/cmp-ghq" },
   { "ray-x/cmp-treesitter" },
   { "mtoohey31/cmp-fish" },
@@ -195,7 +193,6 @@ return {
             min_keyword_length = 4,
             opts = { dictionary_files = { "/usr/share/dict/words" } },
           },
-          ctags = { name = "ctags", module = "blink.compat.source" },
           treesitter = { name = "treesitter", module = "blink.compat.source" },
           fish = { name = "fish", module = "blink.compat.source" },
           ghq = { name = "ghq", module = "blink.compat.source" },

@@ -70,6 +70,7 @@ return {
               -- NOTE: cmake-language-server does not support Python 3.14
               -- "cmake",
               "copilot",
+              "ctags-lsp",
               "cssls",
               "denols",
               "docker_compose_language_service",
@@ -150,6 +151,10 @@ return {
       })
 
       vim.lsp.config("*", { capabilities = require("cmp_nvim_lsp").default_capabilities() })
+
+      -- ctags-lsp is not in nvim-lspconfig nor mason-lspconfig's mappings,
+      -- so enable it explicitly. The server config lives in lsp/ctags_lsp.lua.
+      vim.lsp.enable "ctags_lsp"
 
       -- NOTE: call here because this function sets LspAttach autocmd
       vim.lsp.on_type_formatting.enable()

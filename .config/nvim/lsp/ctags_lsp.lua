@@ -1,0 +1,40 @@
+---@type vim.lsp.Config
+return {
+  cmd = { "ctags-lsp" },
+  -- ctags-lsp does not declare its own filetypes; pick the languages we
+  -- actually want tag-based completion in. Markdown is intentionally omitted
+  -- (matches the previous cmp-ctags exclusion in nvim-cmp).
+  filetypes = {
+    "applescript",
+    "c",
+    "cpp",
+    "cs",
+    "css",
+    "dockerfile",
+    "fish",
+    "go",
+    "html",
+    "java",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "lua",
+    "perl",
+    "php",
+    "python",
+    "ruby",
+    "rust",
+    "scss",
+    "sh",
+    "swift",
+    "tcl",
+    "terraform",
+    "typescript",
+    "typescriptreact",
+    "vim",
+    "vue",
+    "yaml",
+    "zsh",
+  },
+  root_markers = { ".git", "tags", ".tags" },
+}

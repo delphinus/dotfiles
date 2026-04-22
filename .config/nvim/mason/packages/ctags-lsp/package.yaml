@@ -1,0 +1,38 @@
+---
+name: ctags-lsp
+description: |
+  An LSP wrapper around universal-ctags providing code completion,
+  go-to-definition, and document/workspace symbols. "Better than nothing"
+  for languages that lack a dedicated language server.
+homepage: https://github.com/netmute/ctags-lsp
+licenses:
+  - MIT
+languages:
+  - Generic
+categories:
+  - LSP
+
+source:
+  id: pkg:github/netmute/ctags-lsp@v0.11.0
+  asset:
+    - target: darwin_arm64
+      file: ctags-lsp_Darwin_arm64.tar.gz
+      bin: ctags-lsp
+    - target: darwin_x64
+      file: ctags-lsp_Darwin_x86_64.tar.gz
+      bin: ctags-lsp
+    - target: linux_arm64
+      file: ctags-lsp_Linux_arm64.tar.gz
+      bin: ctags-lsp
+    - target: linux_x64
+      file: ctags-lsp_Linux_x86_64.tar.gz
+      bin: ctags-lsp
+    - target: win_arm64
+      file: ctags-lsp_Windows_arm64.zip
+      bin: ctags-lsp.exe
+    - target: win_x64
+      file: ctags-lsp_Windows_x86_64.zip
+      bin: ctags-lsp.exe
+
+bin:
+  ctags-lsp: "{{source.asset.bin}}"
