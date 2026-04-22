@@ -84,6 +84,7 @@ return {
   { "mikavilpas/blink-ripgrep.nvim", version = "*" },
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
+  { "MahanRahmati/blink-nerdfont.nvim" },
 
   -- nvim-cmp source plugins, surfaced via blink.compat
   { "delphinus/cmp-ctags" },
@@ -92,7 +93,8 @@ return {
   { "mtoohey31/cmp-fish" },
   { "dmitmel/cmp-digraphs" },
   { "hrsh7th/cmp-nvim-lua" },
-  { "chrisgrieser/cmp-nerdfont" },
+  -- blink-cmp-git is upstream-blocked on GitHub Enterprise host support; keep
+  -- petertriho/cmp-git via blink.compat until that lands.
   {
     "petertriho/cmp-git",
     opts = function()
@@ -199,7 +201,12 @@ return {
           ghq = { name = "ghq", module = "blink.compat.source" },
           digraphs = { name = "digraphs", module = "blink.compat.source", min_keyword_length = 1 },
           git = { name = "git", module = "blink.compat.source" },
-          nerdfont = { name = "nerdfont", module = "blink.compat.source" },
+          nerdfont = {
+            name = "Nerd Fonts",
+            module = "blink-nerdfont",
+            score_offset = 15,
+            opts = { insert = true },
+          },
           nvim_lua = { name = "nvim_lua", module = "blink.compat.source" },
           skkeleton = { name = "skkeleton", module = "blink-cmp-skkeleton" },
         },
