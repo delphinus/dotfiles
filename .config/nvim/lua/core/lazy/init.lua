@@ -13,7 +13,6 @@ else
   load(vim.fn.system "curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua")()
 end
 
-local use_minimal = not not vim.env.MINIMAL or vim.env.USER == "root"
 local cmp_module = vim.env.CMP and "cmp" or "blink"
 
 -- Shim missing nvim-cmp internals so blink.compat-loaded cmp sources
@@ -23,8 +22,7 @@ if cmp_module == "blink" then
     return { log = function() end, flag = false }
   end
 end
-local definitions = use_minimal and { "minimal", cmp_module }
-  or { "minimal", "start", "opt", cmp_module, "lsp", "telescope", "skkeleton" }
+local definitions = { "minimal", "start", "opt", cmp_module, "lsp", "telescope", "skkeleton" }
 local plugins = {}
 for _, name in ipairs(definitions) do
   table.insert(plugins, require("lazies." .. name))
