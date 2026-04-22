@@ -1,6 +1,3 @@
 {
-  "blink-cmp-dictionary": { "branch": "master", "commit": "35142bba869b869715e91a99d2f46bcf93fca4ae" },
-  "blink-emoji.nvim": { "branch": "master", "commit": "dff709139ad5389fb55ebab026e75278a12b325a" },
-  "blink-ripgrep.nvim": { "branch": "main", "commit": "68ba39ed06b2ac4a15c77427eb4ce53fae11a534" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" }
 }
