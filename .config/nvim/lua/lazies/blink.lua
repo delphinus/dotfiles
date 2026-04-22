@@ -8,13 +8,13 @@ local default_sources = {
   "buffer",
   "lazydev",
   "wezterm",
-  "rg",
+  "ripgrep",
   "ctags",
   "treesitter",
   "ghq",
   "digraphs",
   "git",
-  "look",
+  "dictionary",
   "emoji",
   "nerdfont",
 }
@@ -26,11 +26,11 @@ local markdown_sources = {
   "buffer",
   "lazydev",
   "wezterm",
-  "rg",
+  "ripgrep",
   "ghq",
   "digraphs",
   "git",
-  "look",
+  "dictionary",
   "emoji",
   "nerdfont",
 }
@@ -40,10 +40,30 @@ local function is_skk_enabled()
   return ok and skk.is_enabled()
 end
 
+-- True if the token before cursor starts with a path-marker (/, ~/, ./, ../,
+-- $VAR/, ${VAR}/). This mirrors blink.cmp の path source の lib.dirname() and
+-- intentionally excludes URL/namespace strings like "github.com/foo/bar".
+local function in_path_context()
+  if vim.in_fast_event() then
+    return false
+  end
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2]
+  local last = (line:sub(1, col):match "(%S+)$" or ""):gsub("^[\"'`]", "")
+  return last:match "^/" ~= nil
+    or last:match "^~/" ~= nil
+    or last:match "^%.%.?/" ~= nil
+    or last:match "^%$[%w_]+/" ~= nil
+    or last:match "^%$%{[%w_]+%}/" ~= nil
+end
+
 local function with_skk(fallback)
   return function()
     if is_skk_enabled() then
       return { "skkeleton" }
+    end
+    if in_path_context() then
+      return { "path" }
     end
     return fallback
   end
@@ -59,17 +79,19 @@ return {
 
   { "saghen/blink.compat", version = "*", opts = {} },
 
+  -- Native blink.cmp sources
+  { "delphinus/cmp-wezterm" }, -- v1.1.0+ exposes a native blink-cmp-wezterm module
+  { "mikavilpas/blink-ripgrep.nvim", version = "*" },
+  { "moyiz/blink-emoji.nvim" },
+  { "Kaiser-Yang/blink-cmp-dictionary" },
+
   -- nvim-cmp source plugins, surfaced via blink.compat
-  { "delphinus/cmp-wezterm" },
   { "delphinus/cmp-ctags" },
   { "delphinus/cmp-ghq" },
   { "ray-x/cmp-treesitter" },
   { "mtoohey31/cmp-fish" },
-  { "octaltree/cmp-look" },
   { "dmitmel/cmp-digraphs" },
   { "hrsh7th/cmp-nvim-lua" },
-  { "lukas-reineke/cmp-rg" },
-  { "hrsh7th/cmp-emoji" },
   { "chrisgrieser/cmp-nerdfont" },
   {
     "petertriho/cmp-git",
@@ -143,21 +165,40 @@ return {
           buffer = {
             opts = { get_bufnrs = vim.api.nvim_list_bufs },
           },
-          wezterm = { name = "wezterm", module = "blink.compat.source", min_keyword_length = 2 },
-          rg = { name = "rg", module = "blink.compat.source", min_keyword_length = 4 },
+          wezterm = { name = "wezterm", module = "blink-cmp-wezterm", min_keyword_length = 2 },
+          ripgrep = {
+            name = "Ripgrep",
+            module = "blink-ripgrep",
+            opts = {
+              prefix_min_len = 4,
+              backend = {
+                use = "ripgrep",
+                ripgrep = {
+                  context_size = 5,
+                  max_filesize = "1M",
+                  search_casing = "--ignore-case",
+                },
+              },
+            },
+          },
+          emoji = {
+            name = "Emoji",
+            module = "blink-emoji",
+            score_offset = 15,
+            opts = { insert = true, trigger = function() return { ":" } end },
+          },
+          dictionary = {
+            name = "Dict",
+            module = "blink-cmp-dictionary",
+            min_keyword_length = 4,
+            opts = { dictionary_files = { "/usr/share/dict/words" } },
+          },
           ctags = { name = "ctags", module = "blink.compat.source" },
           treesitter = { name = "treesitter", module = "blink.compat.source" },
           fish = { name = "fish", module = "blink.compat.source" },
           ghq = { name = "ghq", module = "blink.compat.source" },
           digraphs = { name = "digraphs", module = "blink.compat.source", min_keyword_length = 1 },
           git = { name = "git", module = "blink.compat.source" },
-          look = {
-            name = "look",
-            module = "blink.compat.source",
-            min_keyword_length = 4,
-            opts = { convert_case = true, loud = true },
-          },
-          emoji = { name = "emoji", module = "blink.compat.source" },
           nerdfont = { name = "nerdfont", module = "blink.compat.source" },
           nvim_lua = { name = "nvim_lua", module = "blink.compat.source" },
           skkeleton = { name = "skkeleton", module = "blink-cmp-skkeleton" },

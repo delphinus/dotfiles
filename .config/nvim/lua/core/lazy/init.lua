@@ -16,7 +16,8 @@ end
 local cmp_module = vim.env.CMP and "cmp" or "blink"
 
 -- Shim missing nvim-cmp internals so blink.compat-loaded cmp sources
--- (cmp-look, cmp-wezterm) don't blow up on top-level requires.
+-- (cmp-ctags, cmp-treesitter, cmp-fish, cmp-ghq, cmp-digraphs, cmp-git,
+-- cmp-nvim-lua, cmp-nerdfont) don't blow up on top-level requires.
 if cmp_module == "blink" then
   package.preload["cmp.utils.debug"] = function()
     return { log = function() end, flag = false }
