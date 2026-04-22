@@ -449,6 +449,7 @@ if vim.env.EDITPROMPT then
   vim.keymap.set("n", "<Space>x", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   vim.keymap.set("i", "<C-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   vim.keymap.set("i", "<D-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
+  vim.keymap.set("i", "<S-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   local function forward_when_empty(lhs, raw_key)
     vim.keymap.set("i", lhs, function()
       local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
