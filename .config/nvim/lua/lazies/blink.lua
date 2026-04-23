@@ -133,7 +133,7 @@ return {
   { "mikavilpas/blink-ripgrep.nvim", version = "*" },
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
-  { "delphinus/blink-cmp-digraphs" },
+  { "delphinus/blink-cmp-digraphs", version = "*" },
   -- Pinned to delphinus' fork while
   -- https://github.com/Kaiser-Yang/blink-cmp-git/pull/68 (fix for ssh:// remote
   -- URL parsing) is awaiting upstream review. Drop the branch pin and switch
