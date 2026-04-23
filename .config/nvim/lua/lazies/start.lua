@@ -260,7 +260,7 @@ return {
       },
       numhl = true,
       current_line_blame = true,
-      current_line_blame_opts = { delay = 100 },
+      current_line_blame_opts = { delay = 500 },
       -- word_diff = true,
       on_attach = function(bufnr)
         local basename = vim.fs.basename(vim.api.nvim_buf_get_name(bufnr))
