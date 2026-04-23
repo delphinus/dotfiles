@@ -27,7 +27,7 @@
   "characterize.nvim": { "branch": "main", "commit": "484480b62a8c46db8c25fb3fbfa1dcc8974bb874" },
   "cmp-digraphs": { "branch": "master", "commit": "5efc1f0078d7c5f3ea1c8e3aad04da3fd6e081a9" },
   "cmp-fish": { "branch": "main", "commit": "3a23492e2aead05522a9887ec685d70e8c987323" },
-  "cmp-ghq": { "branch": "main", "commit": "e7dc3f603459dfc7b3bdf6e78c0d2b4979b38e52" },
+  "cmp-ghq": { "branch": "main", "commit": "774d1bcd6cad445d85855ff7652b88421c41b4ee" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "cbc7b02bb99fae35cb42f514762b89b5126651ef" },
   "cmp-skkeleton": { "branch": "main", "commit": "2c268a407e9e843abd03c6fa77485541a4ddcd9a" },
   "cmp-wezterm": { "branch": "main", "commit": "f163fcd8c51a7cdf5a0b7c1ce7556b7ddd16f04a" },

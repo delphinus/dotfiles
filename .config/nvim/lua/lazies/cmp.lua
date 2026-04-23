@@ -51,7 +51,7 @@ return {
   },
   i { "saadparwaiz1/cmp_luasnip" },
 
-  i { "delphinus/cmp-ghq" },
+  i { "delphinus/cmp-ghq", version = "*" },
 
   { "onsails/lspkind-nvim" },
   { "xzbdmw/colorful-menu.nvim" },

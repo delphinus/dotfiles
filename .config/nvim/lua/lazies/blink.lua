@@ -129,6 +129,7 @@ return {
 
   -- Native blink.cmp sources
   { "delphinus/cmp-wezterm" }, -- v1.1.0+ exposes a native blink-cmp-wezterm module
+  { "delphinus/cmp-ghq", version = "*" }, -- v1.1.0+ exposes a native blink-cmp-ghq module
   { "mikavilpas/blink-ripgrep.nvim", version = "*" },
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
@@ -140,7 +141,6 @@ return {
   { "MahanRahmati/blink-nerdfont.nvim" },
 
   -- nvim-cmp source plugins, surfaced via blink.compat
-  { "delphinus/cmp-ghq" },
   { "mtoohey31/cmp-fish" },
   { "dmitmel/cmp-digraphs" },
 
@@ -236,7 +236,7 @@ return {
             opts = { dictionary_files = { "/usr/share/dict/words" } },
           },
           fish = { name = "fish", module = "blink.compat.source" },
-          ghq = { name = "ghq", module = "blink.compat.source" },
+          ghq = { name = "ghq", module = "blink-cmp-ghq" },
           digraphs = { name = "digraphs", module = "blink.compat.source", min_keyword_length = 1 },
           git = {
             name = "Git",
