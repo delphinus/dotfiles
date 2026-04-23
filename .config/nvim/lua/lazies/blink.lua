@@ -67,6 +67,56 @@ local function with_skk(fallback)
   end
 end
 
+local function ghe_hosts()
+  if not vim.env.GITHUB_ENTERPRISE_HOST then
+    return {}
+  end
+  return vim.split(vim.env.GITHUB_ENTERPRISE_HOST, ",", { trimempty = true })
+end
+
+local function matched_ghe_host()
+  local hosts = ghe_hosts()
+  if #hosts == 0 then
+    return nil
+  end
+  local ok, utils = pcall(require, "blink-cmp-git.utils")
+  if not ok then
+    return nil
+  end
+  local url = utils.get_repo_remote_url()
+  if not url or url == "" then
+    return nil
+  end
+  for _, host in ipairs(hosts) do
+    if url:find(host, 1, true) then
+      return host
+    end
+  end
+  return nil
+end
+
+-- Wrap blink-cmp-git's default github feature so that GHE hosts listed in
+-- $GITHUB_ENTERPRISE_HOST are recognized as enabled and `gh` is invoked with
+-- --hostname to target the right instance.
+local function github_feature_override(feature)
+  return {
+    enable = function()
+      local default = require("blink-cmp-git.default.github")[feature]
+      return default.enable() or matched_ghe_host() ~= nil
+    end,
+    get_command_args = function(command, token)
+      local default = require("blink-cmp-git.default.github")[feature]
+      local args = default.get_command_args(command, token)
+      local host = matched_ghe_host()
+      if host and command ~= "curl" then
+        table.insert(args, "--hostname")
+        table.insert(args, host)
+      end
+      return args
+    end,
+  }
+end
+
 return {
   { "rafamadriz/friendly-snippets" },
   { "xzbdmw/colorful-menu.nvim" },
@@ -82,21 +132,17 @@ return {
   { "mikavilpas/blink-ripgrep.nvim", version = "*" },
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
+  -- Pinned to delphinus' fork while
+  -- https://github.com/Kaiser-Yang/blink-cmp-git/pull/68 (fix for ssh:// remote
+  -- URL parsing) is awaiting upstream review. Drop the branch pin and switch
+  -- back to Kaiser-Yang/blink-cmp-git once that PR is merged.
+  { "delphinus/blink-cmp-git", branch = "fix/parse-ssh-url" },
   { "MahanRahmati/blink-nerdfont.nvim" },
 
   -- nvim-cmp source plugins, surfaced via blink.compat
   { "delphinus/cmp-ghq" },
   { "mtoohey31/cmp-fish" },
   { "dmitmel/cmp-digraphs" },
-  -- blink-cmp-git is upstream-blocked on GitHub Enterprise host support; keep
-  -- petertriho/cmp-git via blink.compat until that lands.
-  {
-    "petertriho/cmp-git",
-    opts = function()
-      return vim.env.GITHUB_ENTERPRISE_HOST and { github = { hosts = vim.split(vim.env.GITHUB_ENTERPRISE_HOST, ",") } }
-        or {}
-    end,
-  },
 
   {
     "saghen/blink.cmp",
@@ -192,7 +238,19 @@ return {
           fish = { name = "fish", module = "blink.compat.source" },
           ghq = { name = "ghq", module = "blink.compat.source" },
           digraphs = { name = "digraphs", module = "blink.compat.source", min_keyword_length = 1 },
-          git = { name = "git", module = "blink.compat.source" },
+          git = {
+            name = "Git",
+            module = "blink-cmp-git",
+            opts = {
+              git_centers = {
+                github = {
+                  issue = github_feature_override "issue",
+                  pull_request = github_feature_override "pull_request",
+                  mention = github_feature_override "mention",
+                },
+              },
+            },
+          },
           nerdfont = {
             name = "Nerd Fonts",
             module = "blink-nerdfont",
