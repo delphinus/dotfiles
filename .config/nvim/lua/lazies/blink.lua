@@ -207,10 +207,11 @@ return {
           buffer = {
             opts = { get_bufnrs = vim.api.nvim_list_bufs },
           },
-          wezterm = { name = "wezterm", module = "blink-cmp-wezterm", min_keyword_length = 2 },
+          wezterm = { name = "wezterm", module = "blink-cmp-wezterm", min_keyword_length = 2, async = true },
           ripgrep = {
             name = "Ripgrep",
             module = "blink-ripgrep",
+            async = true,
             opts = {
               prefix_min_len = 4,
               backend = {
@@ -233,10 +234,11 @@ return {
             name = "Dict",
             module = "blink-cmp-dictionary",
             min_keyword_length = 4,
+            async = true,
             opts = { dictionary_files = { "/usr/share/dict/words" } },
           },
-          fish = { name = "fish", module = "blink.compat.source" },
-          ghq = { name = "ghq", module = "blink-cmp-ghq" },
+          fish = { name = "fish", module = "blink.compat.source", async = true },
+          ghq = { name = "ghq", module = "blink-cmp-ghq", async = true },
           digraphs = {
             name = "Digraphs",
             module = "blink-cmp-digraphs",
@@ -248,6 +250,7 @@ return {
           git = {
             name = "Git",
             module = "blink-cmp-git",
+            async = true,
             opts = {
               git_centers = {
                 github = {
