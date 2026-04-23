@@ -133,6 +133,7 @@ return {
   { "mikavilpas/blink-ripgrep.nvim", version = "*" },
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
+  { "delphinus/blink-cmp-digraphs" },
   -- Pinned to delphinus' fork while
   -- https://github.com/Kaiser-Yang/blink-cmp-git/pull/68 (fix for ssh:// remote
   -- URL parsing) is awaiting upstream review. Drop the branch pin and switch
@@ -142,7 +143,6 @@ return {
 
   -- nvim-cmp source plugins, surfaced via blink.compat
   { "mtoohey31/cmp-fish" },
-  { "dmitmel/cmp-digraphs" },
 
   {
     "saghen/blink.cmp",
@@ -237,7 +237,14 @@ return {
           },
           fish = { name = "fish", module = "blink.compat.source" },
           ghq = { name = "ghq", module = "blink-cmp-ghq" },
-          digraphs = { name = "digraphs", module = "blink.compat.source", min_keyword_length = 1 },
+          digraphs = {
+            name = "Digraphs",
+            module = "blink-cmp-digraphs",
+            -- Allow invocation when no keyword chars are present (e.g. typing
+            -- "->" or "+-") so trigger characters alone fire the source.
+            min_keyword_length = 0,
+            score_offset = 50,
+          },
           git = {
             name = "Git",
             module = "blink-cmp-git",
