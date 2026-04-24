@@ -185,6 +185,12 @@ return {
       },
       snippets = { preset = "luasnip" },
       completion = {
+        -- Don't break undo on accept. blink.cmp's default treats each accept
+        -- as a discrete operation (so `u` rewinds one accept at a time), but
+        -- the trade-off is that `u` to revert to the file's initial state
+        -- requires many presses. Match nvim-cmp's behavior so an i...<Esc>
+        -- session is one undo unit; use `:earlier 1f` for "back to file open".
+        accept = { create_undo_point = false },
         menu = {
           draw = {
             columns = {
