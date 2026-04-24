@@ -79,6 +79,44 @@ local function matched_ghe_host()
   return nil
 end
 
+-- Per-source single-letter icons used in the menu's kind_icon column for
+-- sources whose default kind icon carries no useful information. Sources not
+-- listed here (lsp, lazydev, snippets, path, buffer, ...) keep blink.cmp's
+-- default kind icon.
+local source_letters = {
+  wezterm = "W",
+  ripgrep = "R",
+  ghq = "Q",
+  digraphs = "D",
+  git = "G",
+  dictionary = "K",
+  emoji = "E",
+  nerdfont = "N",
+  fish = "F",
+  skkeleton = "J",
+}
+
+-- Per-source highlight group used both for the kind_icon override above and
+-- for the source_name column on the right of the menu. Reuses Vim standard
+-- syntax groups so colors come from the active colorscheme.
+local source_groups = {
+  lsp = "Type",
+  path = "Directory",
+  snippets = "Special",
+  buffer = "Comment",
+  lazydev = "Function",
+  wezterm = "Constant",
+  ripgrep = "Number",
+  ghq = "String",
+  digraphs = "Identifier",
+  git = "WarningMsg",
+  dictionary = "Keyword",
+  emoji = "Statement",
+  nerdfont = "Operator",
+  fish = "Macro",
+  skkeleton = "Tag",
+}
+
 -- Wrap blink-cmp-git's default github feature so that GHE hosts listed in
 -- $GITHUB_ENTERPRISE_HOST are recognized as enabled and `gh` is invoked with
 -- --hostname to target the right instance.
@@ -149,8 +187,29 @@ return {
       completion = {
         menu = {
           draw = {
-            columns = { { "kind_icon" }, { "label", "label_description", gap = 1 } },
+            columns = {
+              { "kind_icon" },
+              { "label", "label_description", gap = 1 },
+              { "source_name", gap = 1 },
+            },
             components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  local letter = source_letters[ctx.source_id]
+                  if letter then
+                    return letter .. ctx.icon_gap
+                  end
+                  return ctx.kind_icon .. ctx.icon_gap
+                end,
+                highlight = function(ctx)
+                  local hl = source_groups[ctx.source_id]
+                  if hl then
+                    return { { group = hl, priority = 20000 } }
+                  end
+                  return { { group = ctx.kind_hl, priority = 20000 } }
+                end,
+              },
               label = {
                 text = function(ctx)
                   local text = require("colorful-menu").blink_components_text(ctx)
@@ -169,6 +228,15 @@ return {
                     )
                   end
                   return highlights
+                end,
+              },
+              source_name = {
+                width = { max = 12 },
+                text = function(ctx)
+                  return ctx.source_name
+                end,
+                highlight = function(ctx)
+                  return source_groups[ctx.source_id] or "BlinkCmpSource"
                 end,
               },
             },
@@ -211,7 +279,12 @@ return {
             name = "Emoji",
             module = "blink-emoji",
             score_offset = 15,
-            opts = { insert = true, trigger = function() return { ":" } end },
+            opts = {
+              insert = true,
+              trigger = function()
+                return { ":" }
+              end,
+            },
           },
           dictionary = {
             name = "Dict",
@@ -241,6 +314,22 @@ return {
                   pull_request = github_feature_override "pull_request",
                   mention = github_feature_override "mention",
                 },
+              },
+              -- Restrict commit-hash completion (`:` trigger) to commit
+              -- message contexts so it doesn't pollute every buffer.
+              -- Within those contexts, also override configure_score_offset
+              -- to a no-op: blink-cmp-git's default assigns per-item offsets
+              -- up to (N - 1), which would still drown out emoji items even
+              -- when both sources are enabled.
+              commit = {
+                enable = function()
+                  return vim.tbl_contains({ "gitcommit", "octo" }, vim.bo.filetype)
+                end,
+                configure_score_offset = function(items)
+                  for i = 1, #items do
+                    items[i].score_offset = 0
+                  end
+                end,
               },
             },
           },
