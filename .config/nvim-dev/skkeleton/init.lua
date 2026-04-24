@@ -1,5 +1,11 @@
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 
+-- Borrow shared blink.cmp helpers / providers from the main nvim config so we
+-- don't duplicate ~200 lines. The main config lives at ~/.config/nvim and
+-- exposes blink_shared at lua/blink_shared.lua.
+package.path = vim.env.HOME .. "/.config/nvim/lua/?.lua;" .. package.path
+local blink_shared = require "blink_shared"
+
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if vim.uv.fs_stat(lazypath) then
   vim.opt.rtp:prepend(lazypath)
@@ -145,18 +151,27 @@ require("lazy").setup({
     dependencies = {
       { "Xantibody/blink-cmp-skkeleton", dir = shared .. "/blink-cmp-skkeleton" },
       { "delphinus/cmp-wezterm", dir = shared .. "/cmp-wezterm" },
+      { "delphinus/cmp-ghq", dir = shared .. "/cmp-ghq" },
       { "mikavilpas/blink-ripgrep.nvim", dir = shared .. "/blink-ripgrep.nvim" },
       { "moyiz/blink-emoji.nvim", dir = shared .. "/blink-emoji.nvim" },
       { "Kaiser-Yang/blink-cmp-dictionary", dir = shared .. "/blink-cmp-dictionary" },
+      { "delphinus/blink-cmp-digraphs", dir = shared .. "/blink-cmp-digraphs" },
+      { "delphinus/blink-cmp-git", dir = shared .. "/blink-cmp-git" },
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = "mono" },
       completion = {
+        accept = { create_undo_point = false },
         menu = {
           draw = {
-            components = {
+            columns = {
+              { "kind_icon" },
+              { "label", "label_description", gap = 1 },
+              { "source_name", gap = 1 },
+            },
+            components = vim.tbl_extend("force", blink_shared.menu_components(), {
               label = {
                 text = function(ctx)
                   if ctx.label_detail and ctx.label_detail ~= "" then
@@ -181,9 +196,10 @@ require("lazy").setup({
                   return highlights
                 end,
               },
-            },
+            }),
           },
         },
+        documentation = { auto_show = true, auto_show_delay_ms = 200 },
       },
       sources = {
         default = function()
@@ -191,56 +207,14 @@ require("lazy").setup({
           if ok and skk.is_enabled() then
             return { "skkeleton" }
           end
-          if not vim.in_fast_event() then
-            -- 直近のトークンが /, ~/, ./, ../, $VAR/ で始まる時のみ path 文脈とみなす。
-            -- github.com/foo のような単語+/ は対象外にする。
-            local line = vim.api.nvim_get_current_line()
-            local col = vim.api.nvim_win_get_cursor(0)[2]
-            local last = (line:sub(1, col):match "(%S+)$" or ""):gsub("^[\"'`]", "")
-            if
-              last:match "^/"
-              or last:match "^~/"
-              or last:match "^%.%.?/"
-              or last:match "^%$[%w_]+/"
-              or last:match "^%$%{[%w_]+%}/"
-            then
-              return { "path" }
-            end
+          if blink_shared.in_path_context() then
+            return { "path" }
           end
-          return { "wezterm", "path", "ripgrep", "emoji", "dictionary" }
+          return { "buffer", "path", "wezterm", "ghq", "digraphs", "git", "ripgrep", "dictionary", "emoji" }
         end,
-        providers = {
+        providers = vim.tbl_extend("force", blink_shared.providers(), {
           path = { opts = { show_hidden_files_by_default = true } },
-          wezterm = { name = "wezterm", module = "blink-cmp-wezterm", min_keyword_length = 2 },
-          ripgrep = {
-            name = "Ripgrep",
-            module = "blink-ripgrep",
-            opts = {
-              prefix_min_len = 4,
-              backend = {
-                use = "ripgrep",
-                ripgrep = {
-                  context_size = 5,
-                  max_filesize = "1M",
-                  search_casing = "--ignore-case",
-                },
-              },
-            },
-          },
-          emoji = {
-            name = "Emoji",
-            module = "blink-emoji",
-            score_offset = 15,
-            opts = { insert = true, trigger = function() return { ":" } end },
-          },
-          dictionary = {
-            name = "Dict",
-            module = "blink-cmp-dictionary",
-            min_keyword_length = 4,
-            opts = { dictionary_files = { "/usr/share/dict/words" } },
-          },
-          skkeleton = { name = "skkeleton", module = "blink-cmp-skkeleton" },
-        },
+        }),
       },
       fuzzy = {
         -- skkeleton 由来の候補は blink.cmp の fuzzy score / frecency を無視し、
