@@ -301,7 +301,19 @@ return {
             -- Allow invocation when no keyword chars are present (e.g. typing
             -- "->" or "+-") so trigger characters alone fire the source.
             min_keyword_length = 0,
-            score_offset = 50,
+            -- Boost only when the user has typed both characters of a digraph
+            -- (e.g. "Ye", "oe"). On a single-char prefix (e.g. just ":"),
+            -- leave the boost off so we don't drown out emoji / commit on the
+            -- shared `:` trigger.
+            transform_items = function(ctx, items)
+              local col = ctx.cursor[2]
+              local prefix = ctx.line:sub(math.max(1, col - 1), col)
+              local boost = #prefix >= 2 and 50 or 0
+              for _, item in ipairs(items) do
+                item.score_offset = (item.score_offset or 0) + boost
+              end
+              return items
+            end,
           },
           git = {
             name = "Git",
@@ -315,20 +327,27 @@ return {
                   mention = github_feature_override "mention",
                 },
               },
-              -- Restrict commit-hash completion (`:` trigger) to commit
-              -- message contexts so it doesn't pollute every buffer.
-              -- Within those contexts, also override configure_score_offset
-              -- to a no-op: blink-cmp-git's default assigns per-item offsets
-              -- up to (N - 1), which would still drown out emoji items even
-              -- when both sources are enabled.
+              -- Override the commit feature so it:
+              -- 1. Uses `;` instead of the default `:` trigger. The default
+              --    collides with emoji / nerdfont / digraphs on `:` and the
+              --    commit hashes get drowned out. `;` is rare in real code
+              --    and dedicates the trigger to commit completion.
+              -- 2. Also activates in GHE repos (default only checks github.com).
+              -- 3. Limits `git log` to the most recent 100 commits so pre-cache
+              --    stays fast in large repos (Ayanokoji has 3000+).
               commit = {
+                triggers = { ";" },
                 enable = function()
-                  return vim.tbl_contains({ "gitcommit", "octo" }, vim.bo.filetype)
+                  local default = require("blink-cmp-git.default.commit").enable
+                  return default() or matched_ghe_host() ~= nil
                 end,
-                configure_score_offset = function(items)
-                  for i = 1, #items do
-                    items[i].score_offset = 0
+                get_command_args = function(command, token)
+                  local default = require("blink-cmp-git.default.commit").get_command_args
+                  local args = default(command, token)
+                  if command == "git" then
+                    table.insert(args, "-100")
                   end
+                  return args
                 end,
               },
             },
