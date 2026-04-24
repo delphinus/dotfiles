@@ -17,22 +17,6 @@ local default_sources = {
   "nerdfont",
 }
 
-local markdown_sources = {
-  "lsp",
-  "path",
-  "snippets",
-  "buffer",
-  "lazydev",
-  "wezterm",
-  "ripgrep",
-  "ghq",
-  "digraphs",
-  "git",
-  "dictionary",
-  "emoji",
-  "nerdfont",
-}
-
 local function is_skk_enabled()
   local ok, skk = pcall(require, "blink-cmp-skkeleton")
   return ok and skk.is_enabled()
@@ -196,7 +180,6 @@ return {
         default = with_skk(default_sources),
         per_filetype = {
           fish = with_skk(vim.list_extend(vim.deepcopy(default_sources), { "fish" })),
-          markdown = with_skk(markdown_sources),
         },
         providers = {
           lazydev = {
