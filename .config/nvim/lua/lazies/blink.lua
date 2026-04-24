@@ -2,6 +2,8 @@
 local lazy_require = require "lazy_require"
 local shared = require "blink_shared"
 
+shared.setup_profiler()
+
 local default_sources = {
   "lsp",
   "path",
@@ -161,6 +163,8 @@ return {
       keymap = {
         preset = "default",
         ["<CR>"] = { "select_and_accept", "fallback" },
+        -- macOS の IME 切り替えと被るため `<C-Space>` 代わりの手動トリガー。
+        ["<C-,>"] = { "show", "fallback" },
         ["<C-n>"] = { "select_next", "fallback" },
         ["<C-p>"] = { "select_prev", "fallback" },
         ["<A-u>"] = { "scroll_documentation_up", "fallback" },

@@ -147,6 +147,12 @@ end
 -- with custom opts) via vim.tbl_extend.
 function M.providers()
   return {
+    -- Boost LSP above source-flooding providers (ghq returns ~800 items,
+    -- buffer can return ~400, wezterm 100+, etc.). Without this, an empty-
+    -- prefix LSP query like `vim.|` ranks LSP items in the noise and the
+    -- menu's visible top-N is dominated by other sources. lazydev sits at
+    -- score_offset = 100 so it stays above LSP for require()-style paths.
+    lsp = { score_offset = 50 },
     buffer = { opts = { get_bufnrs = vim.api.nvim_list_bufs } },
     wezterm = { name = "wezterm", module = "blink-cmp-wezterm", min_keyword_length = 2, async = true },
     ghq = { name = "ghq", module = "blink-cmp-ghq", async = true },
@@ -243,6 +249,158 @@ function M.providers()
     },
     skkeleton = { name = "skkeleton", module = "blink-cmp-skkeleton" },
   }
+end
+
+-- Register `:BlinkProf` and `:BlinkProfPath` user commands. The profiler
+-- monkey-patches each blink.cmp source provider's `get_completions` to record
+-- per-source latency and item counts. Call once during config load; the
+-- patching is lazy and only kicks in when the user runs `:BlinkProf`.
+function M.setup_profiler()
+  local prof = { on = false, log = {}, wrapped = {} }
+
+  local function wrap_module(id, mod)
+    if prof.wrapped[id] or type(mod.get_completions) ~= "function" then
+      return
+    end
+    prof.wrapped[id] = true
+    local orig = mod.get_completions
+    mod.get_completions = function(self, ctx, cb)
+      if not prof.on then
+        return orig(self, ctx, cb)
+      end
+      local t0 = vim.uv.hrtime()
+      local kw = ctx.line:sub(ctx.bounds.start_col, ctx.cursor[2])
+      return orig(self, ctx, function(resp)
+        local dt = (vim.uv.hrtime() - t0) / 1e6
+        table.insert(prof.log, {
+          id = id,
+          ms = dt,
+          kw = kw,
+          n = (resp and resp.items) and #resp.items or 0,
+        })
+        cb(resp)
+      end)
+    end
+  end
+
+  local function arm()
+    local lib = require "blink.cmp.sources.lib"
+    for id, prov in pairs(lib.providers) do
+      if prov and prov.module then
+        wrap_module(id, prov.module)
+      end
+    end
+    if not lib._blink_prof_patched then
+      lib._blink_prof_patched = true
+      local orig = lib.get_provider_by_id
+      lib.get_provider_by_id = function(pid)
+        local prov = orig(pid)
+        if prov and prov.module then
+          wrap_module(pid, prov.module)
+        end
+        return prov
+      end
+    end
+  end
+
+  vim.api.nvim_create_user_command("BlinkProfPath", function(opts)
+    local dir = vim.fn.expand(opts.args ~= "" and opts.args or "%:p:h")
+    local t0 = vim.uv.hrtime()
+    vim.uv.fs_scandir(dir, function(err, req)
+      local t_open = (vim.uv.hrtime() - t0) / 1e6
+      if err or not req then
+        vim.schedule(function()
+          vim.notify("scandir error: " .. tostring(err))
+        end)
+        return
+      end
+      local count = 0
+      while vim.uv.fs_scandir_next(req) do
+        count = count + 1
+      end
+      local t_walk = (vim.uv.hrtime() - t0) / 1e6
+      local t_sched = vim.uv.hrtime()
+      vim.schedule(function()
+        local t_lat = (vim.uv.hrtime() - t_sched) / 1e6
+        vim.notify(
+          string.format(
+            "%s\n  scandir open : %.2fms\n  walk %d entries: %.2fms\n  schedule lat : %.2fms",
+            dir,
+            t_open,
+            count,
+            t_walk - t_open,
+            t_lat
+          )
+        )
+      end)
+    end)
+  end, { nargs = "?", complete = "dir" })
+
+  vim.api.nvim_create_user_command("BlinkProf", function(opts)
+    local arg = opts.args
+    if arg == "off" then
+      prof.on = false
+      vim.notify("BlinkProf OFF (" .. #prof.log .. " entries logged)")
+    elseif arg == "clear" then
+      prof.log = {}
+      vim.notify "BlinkProf log cleared"
+    elseif arg == "dump" then
+      local sums = {}
+      for _, e in ipairs(prof.log) do
+        local s = sums[e.id] or { n = 0, total = 0, max = 0, items = 0 }
+        s.n = s.n + 1
+        s.total = s.total + e.ms
+        s.max = math.max(s.max, e.ms)
+        s.items = s.items + e.n
+        sums[e.id] = s
+      end
+      local rows = {}
+      for id, s in pairs(sums) do
+        table.insert(rows, { id = id, s = s })
+      end
+      table.sort(rows, function(a, b)
+        return a.s.total > b.s.total
+      end)
+      local lines = {
+        string.format("%-15s %5s  %9s  %7s  %8s  %6s", "source", "calls", "total(ms)", "avg(ms)", "max(ms)", "items"),
+      }
+      for _, r in ipairs(rows) do
+        table.insert(
+          lines,
+          string.format(
+            "%-15s %5d  %9.1f  %7.2f  %8.2f  %6d",
+            r.id,
+            r.s.n,
+            r.s.total,
+            r.s.total / r.s.n,
+            r.s.max,
+            r.s.items
+          )
+        )
+      end
+      table.insert(lines, "")
+      table.insert(lines, "slowest single calls:")
+      local sorted = vim.deepcopy(prof.log)
+      table.sort(sorted, function(a, b)
+        return a.ms > b.ms
+      end)
+      for i = 1, math.min(10, #sorted) do
+        local e = sorted[i]
+        table.insert(lines, string.format("  %7.2fms  %-12s  items=%d  kw=%q", e.ms, e.id, e.n, e.kw))
+      end
+      vim.notify(table.concat(lines, "\n"))
+    else
+      arm()
+      prof.on = true
+      prof.log = {}
+      vim.notify "BlinkProf ON"
+    end
+  end, {
+    nargs = "?",
+    complete = function()
+      return { "off", "clear", "dump" }
+    end,
+  })
 end
 
 return M

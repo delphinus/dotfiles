@@ -237,6 +237,8 @@ require("lazy").setup({
       keymap = {
         preset = "default",
         ["<CR>"] = { "select_and_accept", "fallback" },
+        -- macOS の IME 切り替えと被るため `<C-Space>` 代わりの手動トリガー。
+        ["<C-,>"] = { "show", "fallback" },
         ["<C-n>"] = {
           function(cmp)
             if cmp.is_visible() then
@@ -404,137 +406,7 @@ require("lazy").setup({
 
 vim.cmd.colorscheme "catppuccin"
 
-do
-  local prof = { on = false, log = {}, wrapped = {} }
-
-  local function wrap_module(id, mod)
-    if prof.wrapped[id] or type(mod.get_completions) ~= "function" then
-      return
-    end
-    prof.wrapped[id] = true
-    local orig = mod.get_completions
-    mod.get_completions = function(self, ctx, cb)
-      if not prof.on then
-        return orig(self, ctx, cb)
-      end
-      local t0 = vim.uv.hrtime()
-      local kw = ctx.line:sub(ctx.bounds.start_col, ctx.cursor[2])
-      return orig(self, ctx, function(resp)
-        local dt = (vim.uv.hrtime() - t0) / 1e6
-        table.insert(prof.log, {
-          id = id,
-          ms = dt,
-          kw = kw,
-          n = (resp and resp.items) and #resp.items or 0,
-        })
-        cb(resp)
-      end)
-    end
-  end
-
-  local function arm()
-    local lib = require "blink.cmp.sources.lib"
-    for id, prov in pairs(lib.providers) do
-      if prov and prov.module then
-        wrap_module(id, prov.module)
-      end
-    end
-    if not lib._blink_prof_patched then
-      lib._blink_prof_patched = true
-      local orig = lib.get_provider_by_id
-      lib.get_provider_by_id = function(pid)
-        local prov = orig(pid)
-        if prov and prov.module then
-          wrap_module(pid, prov.module)
-        end
-        return prov
-      end
-    end
-  end
-
-  vim.api.nvim_create_user_command("BlinkProfPath", function(opts)
-    local dir = vim.fn.expand(opts.args ~= "" and opts.args or "%:p:h")
-    local t0 = vim.uv.hrtime()
-    vim.uv.fs_scandir(dir, function(err, req)
-      local t_open = (vim.uv.hrtime() - t0) / 1e6
-      if err or not req then
-        vim.schedule(function()
-          vim.notify("scandir error: " .. tostring(err))
-        end)
-        return
-      end
-      local count = 0
-      while vim.uv.fs_scandir_next(req) do
-        count = count + 1
-      end
-      local t_walk = (vim.uv.hrtime() - t0) / 1e6
-      local t_sched = vim.uv.hrtime()
-      vim.schedule(function()
-        local t_lat = (vim.uv.hrtime() - t_sched) / 1e6
-        vim.notify(string.format(
-          "%s\n  scandir open : %.2fms\n  walk %d entries: %.2fms\n  schedule lat : %.2fms",
-          dir, t_open, count, t_walk - t_open, t_lat
-        ))
-      end)
-    end)
-  end, { nargs = "?", complete = "dir" })
-
-  vim.api.nvim_create_user_command("BlinkProf", function(opts)
-    local arg = opts.args
-    if arg == "off" then
-      prof.on = false
-      vim.notify("BlinkProf OFF (" .. #prof.log .. " entries logged)")
-    elseif arg == "clear" then
-      prof.log = {}
-      vim.notify "BlinkProf log cleared"
-    elseif arg == "dump" then
-      local sums = {}
-      for _, e in ipairs(prof.log) do
-        local s = sums[e.id] or { n = 0, total = 0, max = 0, items = 0 }
-        s.n = s.n + 1
-        s.total = s.total + e.ms
-        s.max = math.max(s.max, e.ms)
-        s.items = s.items + e.n
-        sums[e.id] = s
-      end
-      local rows = {}
-      for id, s in pairs(sums) do
-        table.insert(rows, { id = id, s = s })
-      end
-      table.sort(rows, function(a, b)
-        return a.s.total > b.s.total
-      end)
-      local lines = { string.format("%-15s %5s  %9s  %7s  %8s  %6s", "source", "calls", "total(ms)", "avg(ms)", "max(ms)", "items") }
-      for _, r in ipairs(rows) do
-        table.insert(
-          lines,
-          string.format("%-15s %5d  %9.1f  %7.2f  %8.2f  %6d", r.id, r.s.n, r.s.total, r.s.total / r.s.n, r.s.max, r.s.items)
-        )
-      end
-      table.insert(lines, "")
-      table.insert(lines, "slowest single calls:")
-      local sorted = vim.deepcopy(prof.log)
-      table.sort(sorted, function(a, b)
-        return a.ms > b.ms
-      end)
-      for i = 1, math.min(10, #sorted) do
-        local e = sorted[i]
-        table.insert(lines, string.format("  %7.2fms  %-12s  items=%d  kw=%q", e.ms, e.id, e.n, e.kw))
-      end
-      vim.notify(table.concat(lines, "\n"))
-    else
-      arm()
-      prof.on = true
-      prof.log = {}
-      vim.notify "BlinkProf ON"
-    end
-  end, {
-    nargs = "?",
-    complete = function()
-      return { "off", "clear", "dump" }
-    end,
-  })
-end
+blink_shared.setup_profiler()
 
 if vim.env.EDITPROMPT then
   local function editprompt_send()
