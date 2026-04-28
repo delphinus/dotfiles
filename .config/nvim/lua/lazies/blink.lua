@@ -54,11 +54,7 @@ return {
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
   { "delphinus/blink-cmp-digraphs", version = "*" },
-  -- Pinned to delphinus' fork while
-  -- https://github.com/Kaiser-Yang/blink-cmp-git/pull/68 (fix for ssh:// remote
-  -- URL parsing) is awaiting upstream review. Drop the branch pin and switch
-  -- back to Kaiser-Yang/blink-cmp-git once that PR is merged.
-  { "delphinus/blink-cmp-git", branch = "fix/parse-ssh-url" },
+  { "Kaiser-Yang/blink-cmp-git" },
   { "MahanRahmati/blink-nerdfont.nvim" },
 
   -- nvim-cmp source plugins, surfaced via blink.compat
