@@ -15,7 +15,6 @@ end
 
 set -l paths \
     ~/.asdf/shims \
-    $homebrew_path/opt/asdf/libexec/bin \
     ~/bin \
     ~/.luarocks/bin \
     ~/.cargo/bin \
@@ -159,7 +158,6 @@ set gcsdk_path $homebrew_path/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 test -d $gcsdk_path; and source "$gcsdk_path/path.fish.inc"
 
 type -q direnv; and direnv hook fish | source
-type -q asdf; and source $homebrew_path/opt/asdf/libexec/asdf.fish
 
 if type -q luarocks
     set luarocks_path (type -P luarocks)
