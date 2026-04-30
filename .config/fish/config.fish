@@ -259,7 +259,7 @@ set -x HISHTORY_SERVER https://hishtory.delphinus.dev
 source ~/.hishtory/config.fish
 # config.fish はコマンド置換内で getColorSupport を実行するため isatty が
 # 失敗し _hishtory_tui_color=4 (Ascii) になる。環境変数から再判定して上書き。
-if string match -qi -- 'truecolor' '24bit' $COLORTERM
+if string match -qi -- truecolor 24bit $COLORTERM
     set -gx _hishtory_tui_color 1
 else if string match -q -- '*256color*' $TERM
     set -gx _hishtory_tui_color 2
