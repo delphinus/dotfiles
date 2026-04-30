@@ -303,6 +303,7 @@ return {
         branch = "feat/md-render-toggle",
         -- version = "*",
         dependencies = { "delphinus/budoux.lua" },
+        cmd = { "MdRender", "MdRenderTab", "MdRenderToggle", "MdRenderAuto", "MdRenderPager", "MdRenderDemo" },
         keys = {
           { "<M-P>", "<Plug>(md-render-preview)", desc = "Markdown preview (toggle)" },
           { "<M-T>", "<Plug>(md-render-preview-tab)", desc = "Markdown preview (tab)" },

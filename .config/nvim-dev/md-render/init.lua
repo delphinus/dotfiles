@@ -45,8 +45,20 @@ require("lazy").setup({
     dir = vim.fn.expand "~/.local/share/nvim/lazy/snacks.nvim",
     lazy = false,
     keys = {
-      { "<leader>sf", function() Snacks.picker.files() end, desc = "Find files (snacks)" },
-      { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep (snacks)" },
+      {
+        "<leader>sf",
+        function()
+          Snacks.picker.files()
+        end,
+        desc = "Find files (snacks)",
+      },
+      {
+        "<leader>sg",
+        function()
+          Snacks.picker.grep()
+        end,
+        desc = "Grep (snacks)",
+      },
     },
     opts = function()
       local preview = require("md-render.snacks").preview()
@@ -75,11 +87,12 @@ require("lazy").setup({
 
   -- md-render.nvim (local dev copy)
   {
+    "delphinus/md-render.nvim",
     dir = vim.fn.expand "~/.local/share/nvim/lazy/md-render.nvim",
     dependencies = {
       { "delphinus/budoux.lua", dir = vim.fn.expand "~/.local/share/nvim/lazy/budoux.lua" },
     },
-    cmd = { "MdRender", "MdRenderDemo", "MdRenderTab", "MdRenderPager" },
+    cmd = { "MdRender", "MdRenderTab", "MdRenderToggle", "MdRenderAuto", "MdRenderPager", "MdRenderDemo" },
   },
 }, {
   install = { missing = false },
