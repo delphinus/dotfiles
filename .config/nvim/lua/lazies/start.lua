@@ -308,6 +308,7 @@ return {
           { "<M-P>", "<Plug>(md-render-preview)", desc = "Markdown preview (toggle)" },
           { "<M-T>", "<Plug>(md-render-preview-tab)", desc = "Markdown preview (tab)" },
           { "<M-D>", "<Plug>(md-render-demo)", desc = "Markdown render demo" },
+          { "<M-S>", "<Cmd>vert MdRenderSplit<CR>", desc = "Open Markdown Preview" },
         },
       },
     },
