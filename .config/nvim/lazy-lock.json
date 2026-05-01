@@ -77,7 +77,7 @@
   "mason-lspconfig.nvim": { "branch": "main", "commit": "0c2823e0418f3d9230ff8b201c976e84de1cb401" },
   "mason-tool-installer.nvim": { "branch": "main", "commit": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc" },
   "mason.nvim": { "branch": "main", "commit": "cb8445f8ce85d957416c106b780efd51c6298f89" },
-  "md-render.nvim": { "branch": "feat/md-render-toggle", "commit": "6ed741e48e6d5ff75cd35a4cfc01191764f6e7d7" },
+  "md-render.nvim": { "branch": "feat/md-render-toggle", "commit": "0e0b88a6e5a4c1468fe5a1c2e129ddc1eeaef1b9" },
   "moody.nvim": { "branch": "main", "commit": "263f5f89277f40932c1cd7aca010bd38256fda17" },
   "moonscript-vim": { "branch": "master", "commit": "715c96c7c3b02adc507f84bf5754985460afc426" },
   "nerdy.nvim": { "branch": "main", "commit": "97b0914dece80204a777f04c94b9980da0f7ac88" },
