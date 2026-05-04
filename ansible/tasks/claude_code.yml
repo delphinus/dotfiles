@@ -12,4 +12,10 @@
     - { src: 'CLAUDE.md', dest: 'CLAUDE.md' }
     - { src: 'scripts', dest: 'scripts' }
 
+- name: render ~/.claude/settings.json
+  template:
+    src: claude_settings.json.j2
+    dest: ~/.claude/settings.json
+    mode: '0644'
+
 # vim:se et:

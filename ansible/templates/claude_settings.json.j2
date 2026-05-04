@@ -1,0 +1,5 @@
+{%- set base = lookup('file', dotfiles_dir + '/.claude/settings.json') | from_json -%}
+{%- if ansible_hostname in secret_office.hostnames -%}
+{%- set _ = base.update({'env': secret_claude_code_env}) -%}
+{%- endif -%}
+{{ base | to_nice_json(indent=2, sort_keys=False, ensure_ascii=False) }}

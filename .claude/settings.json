@@ -1,0 +1,90 @@
+{
+  "model": "claude-opus-4-7[1m]",
+  "alwaysThinkingEnabled": true,
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks notify 'Claude Code' 'ユーザー確認が必要です'"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks notify 'Claude Code' '待機中です'"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks notify 'Claude Code' 'パーミッションが必要です'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks save"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks save",
+            "timeout": 120,
+            "statusMessage": "Obsidian にセッションを保存中..."
+          },
+          {
+            "type": "command",
+            "command": "claude-code-hooks notify 'Claude Code' 'セッションの保存が完了しました'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks notify 'Claude Code' '作業が完了しました'"
+          },
+          {
+            "type": "command",
+            "command": "claude-code-hooks save"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks save"
+          }
+        ]
+      }
+    ]
+  }
+}
