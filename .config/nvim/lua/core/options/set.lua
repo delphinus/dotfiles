@@ -109,7 +109,7 @@ local my_tabline_path = require "f_meta" {
   function()
     if vim.bo.filetype == "help" then
       return "ヘルプ"
-      -- TODO: vim.opt has no 'previewwindow'?
+    -- TODO: vim.opt has no 'previewwindow'?
     elseif vim.wo.previewwindow then
       return "プレビュー"
     elseif vim.bo.buftype == "terminal" then
@@ -269,52 +269,42 @@ vim.ui.open = (function(original)
   end
 end)(vim.ui.open)
 
-vim.diagnostic.config {
-  float = {
-    format = function(diagnostic)
+-- Defer to LspAttach so that startup does not pay for `require "vim.diagnostic"`.
+vim.api.nvim_create_autocmd("LspAttach", {
+  once = true,
+  group = vim.api.nvim_create_augroup("set_diagnostic_config", {}),
+  callback = function()
+    local function format(diagnostic)
       local source = diagnostic.source
         or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
       if source then
         return ("[%s] %s"):format(source, diagnostic.message)
       end
       return diagnostic.message
-    end,
-  },
-  signs = function(_, b)
-    ---@diagnostic disable-next-line: return-type-mismatch
-    return vim.bo[b].filetype ~= "markdown"
-        and {
-          text = {
-            [vim.diagnostic.severity.ERROR] = "●",
-            [vim.diagnostic.severity.WARN] = "○",
-            [vim.diagnostic.severity.INFO] = "■",
-            [vim.diagnostic.severity.HINT] = "□",
-          },
-        }
-      or false
+    end
+    vim.diagnostic.config {
+      float = { format = format },
+      signs = function(_, b)
+        ---@diagnostic disable-next-line: return-type-mismatch
+        return vim.bo[b].filetype ~= "markdown"
+            and {
+              text = {
+                [vim.diagnostic.severity.ERROR] = "●",
+                [vim.diagnostic.severity.WARN] = "○",
+                [vim.diagnostic.severity.INFO] = "■",
+                [vim.diagnostic.severity.HINT] = "□",
+              },
+            }
+          or false
+      end,
+      virtual_text = { format = format },
+      virtual_lines = {
+        severity = vim.diagnostic.severity.INFO,
+        format = format,
+      },
+    }
   end,
-  virtual_text = {
-    format = function(diagnostic)
-      local source = diagnostic.source
-        or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
-      if source then
-        return ("[%s] %s"):format(source, diagnostic.message)
-      end
-      return diagnostic.message
-    end,
-  },
-  virtual_lines = {
-    severity = vim.diagnostic.severity.INFO,
-    format = function(diagnostic)
-      local source = diagnostic.source
-        or diagnostic.user_data and diagnostic.user_data.lsp and diagnostic.user_data.lsp.server_name
-      if source then
-        return ("[%s] %s"):format(source, diagnostic.message)
-      end
-      return diagnostic.message
-    end,
-  },
-}
+})
 
 -- -- ref https://github.com/cpea2506/relative-toggle.nvim
 -- local group = vim.api.nvim_create_augroup("relative-toggle", {})
