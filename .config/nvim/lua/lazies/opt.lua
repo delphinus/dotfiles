@@ -1180,6 +1180,10 @@ return {
 
     return {
       "folke/snacks.nvim",
+      -- Use the personal fork until snacks#2846 (nil-hole fix) and the
+      -- chrome trace export feature land upstream.
+      url = "https://github.com/delphinus/snacks.nvim.git",
+      branch = "personal",
       init = function()
         vim.api.nvim_create_user_command(
           "DismissNotification",
