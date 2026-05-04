@@ -310,6 +310,20 @@ return {
           { "<M-D>", "<Plug>(md-render-demo)", desc = "Markdown render demo" },
           { "<M-S>", "<Cmd>vert MdRenderSplit<CR>", desc = "Open Markdown Preview" },
         },
+        config = function()
+          -- Override MdRenderShadowCursor with a muted plum bg so the
+          -- unfocused side's matching line is visible without competing
+          -- with the focused side's CursorLine. Re-apply on ColorScheme
+          -- so theme reloads don't drop it.
+          local function apply()
+            vim.api.nvim_set_hl(0, "MdRenderShadowCursor", { bg = "#4a3a55" })
+          end
+          apply()
+          vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("md_render_shadow_override", { clear = true }),
+            callback = apply,
+          })
+        end,
       },
     },
     version = "*",
