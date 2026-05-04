@@ -871,14 +871,14 @@ return {
 
   {
     "rachartier/tiny-devicons-auto-colors.nvim",
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("tiny-devicons-auto-colors").setup { colors = palette.list }
     end,
   },
 
-  { "folke/ts-comments.nvim", event = "VeryLazy", opts = {} },
+  { "folke/ts-comments.nvim", event = { "BufReadPost", "BufNewFile" }, opts = {} },
 
   {
     "NStefan002/screenkey.nvim",
