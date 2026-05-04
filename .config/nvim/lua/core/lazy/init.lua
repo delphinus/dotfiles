@@ -2,8 +2,17 @@ if vim.env.PROF then
   local snacks = vim.fn.stdpath "data" .. "/lazy/snacks.nvim"
   vim.opt.runtimepath:append(snacks)
   require("snacks.profiler").startup {
-    startup = { "VeryLazy" },
+    startup = { event = "User", pattern = "DashboardLoaded" },
+    -- defaults はグリフ後に空白付き。lazy.setup より前なので plugin spec の opts は反映されない
+    icons = require "core.profiler_icons",
   }
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "SnacksProfilerLoaded",
+    once = true,
+    callback = function()
+      Snacks.profiler.export { path = "/tmp/snacks_trace.json" }
+    end,
+  })
 end
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"

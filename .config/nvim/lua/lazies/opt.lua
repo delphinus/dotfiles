@@ -1211,18 +1211,7 @@ return {
           },
         },
         profiler = {
-          icons = {
-            time = "",
-            pct = "",
-            count = "",
-            require = "󰋺",
-            modname = "󰆼",
-            plugin = "",
-            autocmd = "⚡",
-            file = "",
-            fn = "󰊕",
-            status = "󰈸",
-          },
+          icons = require "core.profiler_icons",
         },
         input = { enabled = true },
         picker = {
