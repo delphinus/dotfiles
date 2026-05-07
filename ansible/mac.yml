@@ -13,7 +13,7 @@
       sudo: true
     - file: >-
         path=/opt/homebrew-cask
-        owner={{ ansible_user_id }}
+        owner={{ ansible_facts['user_id'] }}
         group=staff
         state=directory
       sudo: true

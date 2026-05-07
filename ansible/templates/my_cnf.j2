@@ -4,7 +4,7 @@ prompt='\\u: [\\d] \\r:\\m \\P> '
 auto-rehash
 show-warnings
 pager  = grcat ~/.grcat
-{% if ansible_hostname in secret_office.mysqld_multi_host %}
+{% if ansible_facts['hostname'] in secret_office.mysqld_multi_host %}
 
 [mysqld_multi]
 mysqld     = /usr/local/opt/mysql56/bin/mysqld_safe

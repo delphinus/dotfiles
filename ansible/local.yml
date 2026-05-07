@@ -11,8 +11,8 @@
     - include: tasks/terminfo.yml
     - include: tasks/pip.yml
     - include: tasks/homebrew.yml
-      when: ansible_system == 'Darwin'
+      when: ansible_facts['system'] == 'Darwin'
     - include_tasks: tasks/secrets_office.yml
-      when: ansible_hostname in secret_office.hostnames
+      when: ansible_facts['hostname'] in secret_office.hostnames
 
 # vim:se ft=yaml.ansible:

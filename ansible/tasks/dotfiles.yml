@@ -124,7 +124,7 @@
 
 - git: >-
     repo=https://{{ item }}
-    dest=~/.go/src/{{ item }}
+    dest=~/git/{{ item }}
   with_items:
     - github.com/takaaki-kasai/git-foresta
 
@@ -145,14 +145,14 @@
 
 - git: >-
     repo=https://{{ item }}
-    dest=~/.go/src/{{ item }}
+    dest=~/git/{{ item }}
   with_items:
     - github.com/delphinus/iterm2-imap-status
   when: ansible_facts["system"] == 'Darwin'
 
 # - name: set up IMAP status component in iTerm2 dir
 #   file: >-
-#     src=~/.go/src/github.com/delphinus/iterm2-imap-status/imap_status.py
+#     src=~/git/github.com/delphinus/iterm2-imap-status/imap_status.py
 #     dest='~/Library/Application Support/iTerm2/Scripts/Autolaunch/imap_status.py'
 #     state=link
 #     force=yes
