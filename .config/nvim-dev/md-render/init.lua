@@ -31,7 +31,11 @@ require("lazy").setup({
     dir = shared .. "/skkeleton",
     dependencies = {
       "vim-denops/denops.vim",
-      { "delphinus/skkeleton_indicator.nvim", dir = shared .. "/skkeleton_indicator.nvim", opts = { fadeOutMs = 0 } },
+      {
+        "delphinus/skkeleton_indicator.nvim",
+        dir = shared .. "/skkeleton_indicator.nvim",
+        opts = { fadeOutMs = 0, alwaysShown = false },
+      },
     },
     lazy = false,
     keys = {
