@@ -40,7 +40,7 @@ return {
         },
       },
 
-      { "williamboman/mason-lspconfig.nvim", opts = {} },
+      { "williamboman/mason-lspconfig.nvim", version = "*", opts = {} },
 
       {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
