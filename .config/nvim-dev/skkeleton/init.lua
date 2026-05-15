@@ -12,6 +12,7 @@ if vim.uv.fs_stat(lazypath) then
 else
   load(vim.fn.system "curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua")()
 end
+vim.opt.cmdheight = 0
 
 local find_sibling_pane, send_key_to_pane
 if vim.env.EDITPROMPT then
