@@ -176,6 +176,10 @@ return {
     "LumaKernel/nvim-visual-eof.lua",
     event = { "BufRead", "BufNewFile" },
     init = function()
+      local tokyonight_visual_eof = function(colors)
+        vim.api.nvim_set_hl(0, "VisualEOL", { fg = colors.green })
+        vim.api.nvim_set_hl(0, "VisualNoEOL", { fg = colors.red })
+      end
       palette "visual_eof" {
         nord = function(colors)
           vim.api.nvim_set_hl(0, "VisualEOL", { fg = colors.green })
@@ -185,6 +189,8 @@ return {
           vim.api.nvim_set_hl(0, "VisualEOL", { fg = colors.green })
           vim.api.nvim_set_hl(0, "VisualNoEOL", { fg = colors.red })
         end,
+        ["tokyonight-storm"] = tokyonight_visual_eof,
+        ["tokyonight-day"] = tokyonight_visual_eof,
       }
     end,
     opts = {
@@ -287,12 +293,19 @@ return {
     event = { "VeryLazy" },
     dependencies = { "folke/snacks.nvim" },
     init = function()
+      local tokyonight_noice = function(colors)
+        vim.api.nvim_set_hl(0, "NoiceLspProgressSpinner", { fg = colors.fg })
+        vim.api.nvim_set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
+        vim.api.nvim_set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
+      end
       palette "noice" {
         nord = function(colors)
           vim.api.nvim_set_hl(0, "NoiceLspProgressSpinner", { fg = colors.white })
           vim.api.nvim_set_hl(0, "NoiceLspProgressTitle", { fg = colors.orange })
           vim.api.nvim_set_hl(0, "NoiceLspProgressClient", { fg = colors.yellow })
         end,
+        ["tokyonight-storm"] = tokyonight_noice,
+        ["tokyonight-day"] = tokyonight_noice,
       }
       vim.api.nvim_create_user_command("NoiceRedirect", function(cmd)
         require("noice").redirect(cmd.args)
@@ -344,6 +357,9 @@ return {
     event = { "BufNewFile", "BufRead", "FocusLost", "CursorHold" },
     wants = { "nvim-treesitter" },
     init = function()
+      local tokyonight_context_vt = function(colors)
+        vim.api.nvim_set_hl(0, "ContextVt", { fg = colors.comment })
+      end
       palette "context_vt" {
         nord = function(colors)
           vim.api.nvim_set_hl(0, "ContextVt", { fg = colors.context })
@@ -351,6 +367,8 @@ return {
         sweetie = function(colors)
           vim.api.nvim_set_hl(0, "ContextVt", { fg = colors.dark_grey })
         end,
+        ["tokyonight-storm"] = tokyonight_context_vt,
+        ["tokyonight-day"] = tokyonight_context_vt,
       }
     end,
     opts = {
@@ -901,6 +919,16 @@ return {
     "svampkorg/moody.nvim",
     event = { "ModeChanged" },
     init = function()
+      local tokyonight_moody = function(colors)
+        vim.api.nvim_set_hl(0, "NormalMoody", { fg = colors.blue })
+        vim.api.nvim_set_hl(0, "InsertMoody", { fg = colors.orange })
+        vim.api.nvim_set_hl(0, "VisualMoody", { fg = colors.magenta })
+        vim.api.nvim_set_hl(0, "CommandMoody", { fg = colors.green })
+        vim.api.nvim_set_hl(0, "ReplaceMoody", { fg = colors.red })
+        vim.api.nvim_set_hl(0, "SelectMoody", { fg = colors.purple })
+        vim.api.nvim_set_hl(0, "TerminalMoody", { fg = colors.cyan })
+        vim.api.nvim_set_hl(0, "TerminalNormalMoody", { fg = colors.cyan })
+      end
       palette "moody" {
         sweetie = function(colors)
           vim.api.nvim_set_hl(0, "NormalMoody", { fg = colors.blue })
@@ -912,9 +940,30 @@ return {
           vim.api.nvim_set_hl(0, "TerminalMoody", { fg = colors.cyan })
           vim.api.nvim_set_hl(0, "TerminalNormalMoody", { fg = colors.cyan })
         end,
+        ["tokyonight-storm"] = tokyonight_moody,
+        ["tokyonight-day"] = tokyonight_moody,
       }
     end,
     opts = { disabled_filetypes = { "TelescopePrompt" } },
+    config = function(_, opts)
+      -- moody.math.bg is hardcoded to "#000000", so its blends always darken
+      -- toward black. On light backgrounds Visual / CursorLine end up dark.
+      -- Register before moody.setup so our ColorScheme autocmd fires before
+      -- moody's own setup_ns_and_hlgroups handler.
+      local sync_moody_bg = function()
+        local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
+        if normal and normal.bg then
+          require("moody.math").bg = string.format("#%06x", normal.bg)
+        end
+      end
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        desc = "Sync moody.math.bg with Normal bg before moody recomputes",
+        group = vim.api.nvim_create_augroup("moody_bg_sync", {}),
+        callback = sync_moody_bg,
+      })
+      sync_moody_bg()
+      require("moody").setup(opts)
+    end,
   },
 
   { "Kicamon/markdown-table-mode.nvim", ft = { "markdown" }, opts = {} },
@@ -1567,6 +1616,20 @@ return {
         },
       },
       init = function()
+        local tokyonight_undo_glow = function(colors)
+          vim.api.nvim_set_hl(0, "UgUndo", { bg = colors.bg_red })
+          vim.api.nvim_set_hl(0, "UgRedo", { bg = colors.bg_green })
+          vim.api.nvim_set_hl(0, "UgYank", { bg = colors.bg_yellow })
+          vim.api.nvim_set_hl(0, "UgPaste", { bg = colors.bg_cyan })
+          vim.api.nvim_set_hl(0, "UgSearch", { bg = colors.bg_purple })
+          vim.api.nvim_set_hl(0, "UgComment", { bg = colors.bg_orange })
+          vim.api.nvim_set_hl(0, "UgCursor", { bg = colors.bg_magenta })
+        end
+        palette "undo_glow" {
+          ["tokyonight-storm"] = tokyonight_undo_glow,
+          ["tokyonight-day"] = tokyonight_undo_glow,
+        }
+
         vim.api.nvim_create_autocmd(
           "TextYankPost",
           { desc = "Highlight when yanking (copying) text", callback = undo_glow.yank() }
@@ -1680,6 +1743,10 @@ return {
       },
     },
     init = function()
+      local tokyonight_flash = function(colors)
+        -- tokyonight already covers FlashBackdrop / FlashLabel.
+        vim.api.nvim_set_hl(0, "FlashMatch", { fg = colors.cyan })
+      end
       palette "flash" {
         nord = function(colors)
           vim.api.nvim_set_hl(0, "FlashBackdrop", { fg = colors.gray })
@@ -1691,6 +1758,8 @@ return {
           vim.api.nvim_set_hl(0, "FlashLabel", { fg = colors.red, bold = true })
           vim.api.nvim_set_hl(0, "FlashMatch", { fg = colors.cyan })
         end,
+        ["tokyonight-storm"] = tokyonight_flash,
+        ["tokyonight-day"] = tokyonight_flash,
       }
     end,
     opts = {

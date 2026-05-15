@@ -65,6 +65,10 @@ return {
   {
     "fdschmidt93/telescope-egrepify.nvim",
     init = function()
+      local tokyonight_egrepify = function(colors)
+        api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
+        api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
+      end
       palette "egrepify" {
         nord = function(colors)
           api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
@@ -74,6 +78,8 @@ return {
           api.set_hl(0, "EgrepifyFile", { fg = colors.orange })
           api.set_hl(0, "EgrepifyLnum", { fg = colors.green })
         end,
+        ["tokyonight-storm"] = tokyonight_egrepify,
+        ["tokyonight-day"] = tokyonight_egrepify,
       }
     end,
   },
@@ -85,6 +91,13 @@ return {
     cmd = { "Telescope" },
 
     init = function()
+      local tokyonight_telescope = function(colors)
+        -- tokyonight already covers TelescopeBorder/Normal/PromptBorder/PromptTitle/ResultsComment.
+        -- Only fill in the gaps for matching and selection.
+        api.set_hl(0, "TelescopeMatching", { fg = colors.magenta })
+        api.set_hl(0, "TelescopeSelection", { fg = colors.blue })
+        api.set_hl(0, "TelescopeSelectionCaret", { fg = colors.blue })
+      end
       palette "telescope" {
         nord = function(colors)
           api.set_hl(0, "TelescopeMatching", { fg = colors.magenta })
@@ -94,6 +107,8 @@ return {
           api.set_hl(0, "TelescopeSelection", { fg = colors.blue })
           api.set_hl(0, "TelescopeSelectionCaret", { fg = colors.blue })
         end,
+        ["tokyonight-storm"] = tokyonight_telescope,
+        ["tokyonight-day"] = tokyonight_telescope,
       }
 
       local core = require "core.telescope"

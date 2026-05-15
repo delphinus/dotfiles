@@ -114,6 +114,12 @@ return {
     },
 
     init = function()
+      local tokyonight_lspconfig = function(colors)
+        vim.api.nvim_set_hl(0, "LspBorderTop", { fg = colors.border, bg = colors.dark_black })
+        vim.api.nvim_set_hl(0, "LspBorderLeft", { fg = colors.border, bg = colors.black })
+        vim.api.nvim_set_hl(0, "LspBorderRight", { fg = colors.border, bg = colors.black })
+        vim.api.nvim_set_hl(0, "LspBorderBottom", { fg = colors.border, bg = colors.dark_black })
+      end
       palette "lspconfig" {
         nord = function(colors)
           vim.api.nvim_set_hl(0, "DiagnosticError", { fg = colors.red })
@@ -129,6 +135,8 @@ return {
           vim.api.nvim_set_hl(0, "LspBorderRight", { fg = colors.border, bg = colors.black })
           vim.api.nvim_set_hl(0, "LspBorderBottom", { fg = colors.border, bg = colors.dark_black })
         end,
+        ["tokyonight-storm"] = tokyonight_lspconfig,
+        ["tokyonight-day"] = tokyonight_lspconfig,
       }
     end,
 

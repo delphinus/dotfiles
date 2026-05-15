@@ -233,6 +233,14 @@ return {
       },
     },
     init = function()
+      local tokyonight_gitsigns = function(colors)
+        -- tokyonight already covers GitSignsAdd/Change/Delete; only fill the rest.
+        vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = colors.brighter_black })
+        vim.api.nvim_set_hl(0, "GitSignsAddInline", { bg = colors.bg_green })
+        vim.api.nvim_set_hl(0, "GitSignsChangeInline", { bg = colors.bg_yellow })
+        vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
+        vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
+      end
       palette "gitsigns" {
         nord = function(colors)
           vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = colors.green })
@@ -244,6 +252,8 @@ return {
           vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { bg = colors.bg_red })
           vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = colors.magenta })
         end,
+        ["tokyonight-storm"] = tokyonight_gitsigns,
+        ["tokyonight-day"] = tokyonight_gitsigns,
       }
     end,
     ---@type Gitsigns.Config
@@ -277,6 +287,12 @@ return {
       vim.g.fuzzy_motion_labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", "")
       vim.g.fuzzy_motion_matchers = "kensaku,fzf"
 
+      local tokyonight_fuzzy_motion = function(colors)
+        vim.api.nvim_set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
+        vim.api.nvim_set_hl(0, "FuzzyMotionChar", { fg = colors.red })
+        vim.api.nvim_set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
+        vim.api.nvim_set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
+      end
       palette "fuzzy_motion" {
         nord = function(colors)
           vim.api.nvim_set_hl(0, "FuzzyMotionShade", { fg = colors.gray })
@@ -290,6 +306,8 @@ return {
           vim.api.nvim_set_hl(0, "FuzzyMotionSubChar", { fg = colors.yellow })
           vim.api.nvim_set_hl(0, "FuzzyMotionMatch", { fg = colors.cyan })
         end,
+        ["tokyonight-storm"] = tokyonight_fuzzy_motion,
+        ["tokyonight-day"] = tokyonight_fuzzy_motion,
       }
     end,
   },

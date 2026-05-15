@@ -162,6 +162,15 @@ return {
     event = { "CmdlineEnter", "InsertEnter" },
 
     init = function()
+      local tokyonight_skkeleton = function(colors)
+        vim.api.nvim_set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.bg, bold = true })
+        vim.api.nvim_set_hl(0, "SkkeletonIndicatorHira", { fg = colors.bg, bg = colors.green, bold = true })
+        vim.api.nvim_set_hl(0, "SkkeletonIndicatorKata", { fg = colors.bg, bg = colors.yellow, bold = true })
+        vim.api.nvim_set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.bg, bg = colors.magenta, bold = true })
+        vim.api.nvim_set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.bg, bg = colors.cyan, bold = true })
+        vim.api.nvim_set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.fg, bg = colors.red, bold = true })
+        require("skkeleton_indicator").setup { fadeOutMs = 0 }
+      end
       palette "skkeleton_indicator" {
         nord = function(colors)
           vim.api.nvim_set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
@@ -185,6 +194,8 @@ return {
           vim.api.nvim_set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.black, bg = colors.red, bold = true })
           require("skkeleton_indicator").setup { fadeOutMs = 0 }
         end,
+        ["tokyonight-storm"] = tokyonight_skkeleton,
+        ["tokyonight-day"] = tokyonight_skkeleton,
       }
     end,
   },
