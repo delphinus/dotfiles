@@ -10,6 +10,13 @@ end
 
 require("lazy").setup {
   {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "ruicsh/termite.nvim",
     commit = "60184a1eaec3bf3f8f404eed4ee69b30f38cfe54",
     opts = {
@@ -22,3 +29,5 @@ require("lazy").setup {
     },
   },
 }
+
+vim.cmd.colorscheme "tokyonight"

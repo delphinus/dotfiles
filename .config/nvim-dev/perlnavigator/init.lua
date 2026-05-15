@@ -17,6 +17,13 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
   {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "neovim/nvim-lspconfig",
     config = function()
       require("lspconfig").perlnavigator.setup {
@@ -33,3 +40,5 @@ require("lazy").setup {
   { "williamboman/mason-lspconfig.nvim", opts = {} },
   { "williamboman/mason.nvim", opts = {} },
 }
+
+vim.cmd.colorscheme "tokyonight"

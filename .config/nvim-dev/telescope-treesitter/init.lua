@@ -21,6 +21,13 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugin specification
 require("lazy").setup({
   {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "nvim-lua/plenary.nvim",
   },
   {
@@ -72,6 +79,8 @@ require("lazy").setup({
 vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.relativenumber = true
+
+vim.cmd.colorscheme "tokyonight"
 
 -- Create a test file with some content
 vim.api.nvim_create_autocmd("VimEnter", {

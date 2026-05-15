@@ -9,6 +9,13 @@ end
 
 require("lazy").setup {
   {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "folke/snacks.nvim",
     init = function()
       require("snacks").setup {
@@ -22,15 +29,25 @@ require("lazy").setup {
     event = "BufReadPre",
     init = function()
       -- load the session for the current directory
-      vim.keymap.set("n", "<leader>qs", function() require("persistence").load() end)
+      vim.keymap.set("n", "<leader>qs", function()
+        require("persistence").load()
+      end)
       -- select a session to load
-      vim.keymap.set("n", "<leader>qS", function() require("persistence").select() end)
+      vim.keymap.set("n", "<leader>qS", function()
+        require("persistence").select()
+      end)
       -- load the last session
-      vim.keymap.set("n", "<leader>ql", function() require("persistence").load({ last = true }) end)
+      vim.keymap.set("n", "<leader>ql", function()
+        require("persistence").load { last = true }
+      end)
       -- stop Persistence => session won't be saved on exit
-      vim.keymap.set("n", "<leader>qd", function() require("persistence").stop() end)
+      vim.keymap.set("n", "<leader>qd", function()
+        require("persistence").stop()
+      end)
     end,
     opts = {},
   },
 }
+
+vim.cmd.colorscheme "tokyonight"
 -- :restart , \ql

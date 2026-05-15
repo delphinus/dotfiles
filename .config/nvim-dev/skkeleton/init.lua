@@ -402,9 +402,18 @@ require("lazy").setup({
       },
     },
   },
+
+  -- tokyonight (local clone shared with main config)
+  {
+    "folke/tokyonight.nvim",
+    dir = shared .. "/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
 }, { lazy = false })
 
-vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "tokyonight"
 
 blink_shared.setup_profiler()
 

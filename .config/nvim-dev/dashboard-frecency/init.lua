@@ -19,6 +19,13 @@ local start = get_t()
 
 require("lazy").setup {
   {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "nvim-telescope/telescope-frecency.nvim",
     opts = { debug = not not vim.env.DEBUG },
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -53,3 +60,5 @@ vim.api.nvim_create_autocmd("User", {
     end
   end,
 })
+
+vim.cmd.colorscheme "tokyonight"

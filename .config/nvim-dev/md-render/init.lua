@@ -177,9 +177,18 @@ require("lazy").setup({
     },
     cmd = { "MdRender", "MdRenderTab", "MdRenderToggle", "MdRenderAuto", "MdRenderPager", "MdRenderDemo" },
   },
+
+  -- tokyonight (local clone shared with main config)
+  {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
 }, {
   install = { missing = false },
   change_detection = { enabled = false },
 })
 
-vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "tokyonight"

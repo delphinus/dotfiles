@@ -7,9 +7,18 @@ end
 
 require("lazy").setup {
   {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "lewis6991/gitsigns.nvim",
     event = { "FocusLost", "CursorHold" },
     lazy = true,
     opts = { current_line_blame = true },
   },
 }
+
+vim.cmd.colorscheme "tokyonight"

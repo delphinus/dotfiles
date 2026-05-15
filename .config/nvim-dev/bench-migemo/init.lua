@@ -20,6 +20,13 @@ local kensaku_dict = vim.env.HOME .. "/.cache/kensaku.vim/migemo-compact-dict"
 local bench_dict_path = vim.uv.fs_stat(kensaku_dict) and kensaku_dict or nil
 
 require("lazy").setup {
+  {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
   { "vim-denops/denops.vim" },
   { "lambdalisue/kensaku.vim" },
   { "delphinus/luamigemo", dir = vim.env.HOME .. "/.local/share/nvim/lazy/luamigemo" },
@@ -237,3 +244,5 @@ vim.api.nvim_create_user_command("BenchMigemo", function()
   package.loaded["luamigemo"] = nil
   require("luamigemo").get(bench_dict_path)
 end, {})
+
+vim.cmd.colorscheme "tokyonight"

@@ -7,6 +7,13 @@ end
 
 require("lazy").setup {
   {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "folke/snacks.nvim",
     opts = {},
     keys = {
@@ -27,3 +34,5 @@ require("lazy").setup {
     },
   },
 }
+
+vim.cmd.colorscheme "tokyonight"

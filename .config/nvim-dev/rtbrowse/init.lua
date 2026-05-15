@@ -7,6 +7,13 @@ end
 
 require("lazy").setup {
   {
+    "folke/tokyonight.nvim",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "Telescope" },
@@ -25,3 +32,5 @@ require("lazy").setup {
     },
   },
 }
+
+vim.cmd.colorscheme "tokyonight"

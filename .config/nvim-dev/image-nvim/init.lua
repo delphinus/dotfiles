@@ -5,18 +5,27 @@
 --           luarocks --local --lua-version=5.1 install magick
 
 -- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
-  vim.fn.system({
-    "git", "clone", "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git", "--branch=stable",
+  vim.fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
     lazypath,
-  })
+  }
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  { "folke/tokyonight.nvim", opts = {} },
+  {
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/tokyonight.nvim",
+    name = "tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
   {
     "3rd/image.nvim",
     opts = {
@@ -38,4 +47,4 @@ require("lazy").setup({
   change_detection = { enabled = false },
 })
 
-vim.cmd.colorscheme("tokyonight")
+vim.cmd.colorscheme "tokyonight"
