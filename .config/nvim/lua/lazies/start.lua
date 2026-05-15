@@ -308,6 +308,52 @@ return {
           { "<M-D>", "<Plug>(md-render-demo)", desc = "Markdown render demo" },
           { "<M-S>", "<Cmd>vert MdRenderSplit<CR>", desc = "Open Markdown Preview" },
         },
+        init = function()
+          palette "sweetie" {
+            nord = function(_)
+              vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = "#88C0D0", bold = true })
+              vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = "#A3BE8C", bold = true })
+              vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = "#EBCB8B", bold = true })
+              vim.api.nvim_set_hl(0, "@markup.heading.4.markdown", { fg = "#D08770", bold = true })
+              vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { fg = "#B48EAD", bold = true })
+              vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = "#ECEFF4", bold = true })
+            end,
+            sweetie = function(colors)
+              vim.api.nvim_set_hl(0, "RenderMarkdownCode", { link = "CursorLine" })
+              if colors.is_dark then
+                vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = colors.blue, bg = "#303948", bold = true })
+                vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = colors.green, bg = "#2b3324", bold = true })
+                vim.api.nvim_set_hl(
+                  0,
+                  "@markup.heading.3.markdown",
+                  { fg = colors.yellow, bg = "#3e3924", bold = true }
+                )
+                vim.api.nvim_set_hl(
+                  0,
+                  "@markup.heading.4.markdown",
+                  { fg = colors.orange, bg = "#3e332a", bold = true }
+                )
+                vim.api.nvim_set_hl(
+                  0,
+                  "@markup.heading.5.markdown",
+                  { fg = colors.magenta, bg = "#37223e", bold = true }
+                )
+                vim.api.nvim_set_hl(
+                  0,
+                  "@markup.heading.6.markdown",
+                  { fg = colors.violet, bg = "#261C39", bold = true }
+                )
+              else
+                vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = "#194064", bg = "#bee0ff", bold = true })
+                vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = "#255517", bg = "#d1ffc3", bold = true })
+                vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = "#695c18", bg = "#fff3b9", bold = true })
+                vim.api.nvim_set_hl(0, "@markup.heading.4.markdown", { fg = "#834e20", bg = "#e2d5c9", bold = true })
+                vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { fg = "#751c5e", bg = "#e2cbdc", bold = true })
+                vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = "#54307c", bg = "#c4a9e2", bold = true })
+              end
+            end,
+          }
+        end,
         config = function()
           -- Override MdRenderShadowCursor with a muted plum bg so the
           -- unfocused side's matching line is visible without competing
