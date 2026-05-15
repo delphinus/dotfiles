@@ -138,6 +138,7 @@
   "tiny-cmdline.nvim": { "branch": "main", "commit": "ad58747b955d0743ccfd56e97da1a4c1fac89f58" },
   "tiny-devicons-auto-colors.nvim": { "branch": "main", "commit": "51f548421f8a74680eff27d283c9d5ea6e8d0074" },
   "todo-comments.nvim": { "branch": "main", "commit": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668" },
+  "tokyonight.nvim": { "branch": "main", "commit": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6" },
   "trace-pr.nvim": { "branch": "main", "commit": "40a7afa3d697d7a5971e92540690ac6f909a9236" },
   "treesj": { "branch": "main", "commit": "5fa4e7ba3517f8fe743bb4488f9e9c7ce83330fc" },
   "trouble.nvim": { "branch": "main", "commit": "bd67efe408d4816e25e8491cc5ad4088e708a69a" },

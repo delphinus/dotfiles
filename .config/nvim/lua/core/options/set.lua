@@ -74,7 +74,7 @@ local is_light = vim.env.COLORFGBG == "11;15"
 if is_light then
   vim.g.background = "light"
 end
-local scheme = "sweetie"
+local scheme = "tokyonight-storm"
 api.create_autocmd("VimEnter", {
   desc = "Run ColorScheme autocmds in VimEnter",
   group = api.create_augroup("set_colorscheme", {}),

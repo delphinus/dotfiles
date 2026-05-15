@@ -93,6 +93,12 @@ return {
   { "NTBBloodbath/sweetie.nvim" },
 
   {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+  },
+
+  {
     "rhysd/committia.vim",
     ft = { "gitcommit" },
     init = function()
