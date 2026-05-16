@@ -160,3 +160,56 @@ api.create_autocmd({ "FileType", "BufWinEnter" }, {
     end
   end,
 })
+
+-- In lazy.nvim spec files: tag `"user/repo"` strings with an extmark carrying
+-- both a URL highlight and an `url` field. gx picks the URL up via
+-- `vim.ui._get_urls()` (which reads extmark URLs), and the TUI emits OSC 8
+-- hyperlinks so terminals (iTerm2 / WezTerm Cmd+Click etc.) handle the click.
+local plugin_ns = vim.api.nvim_create_namespace "lazy_spec_plugin"
+local plugin_pat = [[^["']([%w._-]+/[%w._-]+)["']$]]
+
+local function highlight_plugin_names(buf)
+  if not vim.api.nvim_buf_is_valid(buf) then
+    return
+  end
+  local ok, parser = pcall(vim.treesitter.get_parser, buf, "lua")
+  if not ok or not parser then
+    return
+  end
+  vim.api.nvim_buf_clear_namespace(buf, plugin_ns, 0, -1)
+  local tree = parser:parse()[1]
+  if not tree then
+    return
+  end
+  local query = vim.treesitter.query.parse("lua", "(string) @str")
+  for _, node in query:iter_captures(tree:root(), buf) do
+    local repo = vim.treesitter.get_node_text(node, buf):match(plugin_pat)
+    if repo then
+      local sr, sc, er, ec = node:range()
+      vim.api.nvim_buf_set_extmark(buf, plugin_ns, sr, sc, {
+        end_row = er,
+        end_col = ec,
+        hl_group = "@string.special.url",
+        url = "https://github.com/" .. repo,
+      })
+    end
+  end
+end
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  desc = "Highlight `user/repo` as a clickable GitHub link in lazy.nvim spec files",
+  group = vim.api.nvim_create_augroup("lazy_spec_link", {}),
+  pattern = {
+    "*/.config/nvim/lua/lazies/*.lua",
+    "*/.config/nvim-dev/*/init.lua",
+  },
+  callback = function(args)
+    highlight_plugin_names(args.buf)
+    vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
+      buffer = args.buf,
+      callback = function()
+        highlight_plugin_names(args.buf)
+      end,
+    })
+  end,
+})
