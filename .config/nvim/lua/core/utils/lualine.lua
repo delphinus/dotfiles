@@ -291,7 +291,7 @@ function Lualine:theme(colors)
       },
     }
   end
-  return ""
+  return "auto"
 end
 
 return Lualine.new()
