@@ -613,7 +613,7 @@ return {
   },
 
   {
-    "epwalsh/obsidian.nvim",
+    "obsidian-nvim/obsidian.nvim",
     keys = {
       { "<Leader>c", "<Cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle check box" },
       { "<Leader>oc", "<Cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle check box" },
