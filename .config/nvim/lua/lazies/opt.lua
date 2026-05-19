@@ -1061,7 +1061,7 @@ return {
               desc = "Open Obsidian Quick Note ",
               group = "DiffChange",
               key = "o",
-              action = "ObsidianQuickNote",
+              action = "Obsidian quick_note",
             },
             {
               desc = "Open Lazy UI",

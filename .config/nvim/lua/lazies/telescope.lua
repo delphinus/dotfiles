@@ -595,8 +595,12 @@ return {
 
   {
     "delphinus/obsidian-kensaku.nvim",
-    cmd = { "ObsidianKensaku", "ObsidianQuickKensaku" },
-    dependencies = { "delphinus/luamigemo", version = "*" },
+    version = "^3.1",
+    cmd = "Obsidian",
+    dependencies = {
+      "obsidian-nvim/obsidian.nvim",
+      { "delphinus/luamigemo", version = "*" },
+    },
     opts = {
       picker = "egrepify",
       previewer = function()
@@ -615,93 +619,86 @@ return {
   {
     "obsidian-nvim/obsidian.nvim",
     keys = {
-      { "<Leader>c", "<Cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle check box" },
-      { "<Leader>oc", "<Cmd>ObsidianToggleCheckbox<CR>", desc = "Toggle check box" },
-      { "<Leader>od", "<Cmd>ObsidianDailies<CR>", desc = "Open daily notes" },
-      { "<Leader>om", "<Cmd>ObsidianTomorrow<CR>", desc = "Open tomorrow's note" },
-      { "<Leader>on", "<Cmd>ObsidianNew<CR>", desc = "Create a new note" },
-      { "<Leader>oo", "<Cmd>ObsidianQuickNote<CR>", desc = "Open Quick Note" },
-      { "<Leader>oq", "<Cmd>ObsidianQuickKensaku<CR>", desc = "Switch notes quickly" },
-      { "<Leader>os", "<Cmd>ObsidianKensaku<CR>", desc = "Search Obsidian notes" },
-      { "<Leader>ot", "<Cmd>ObsidianToday<CR>", desc = "Open today's note" },
-      { "<Leader>oy", "<Cmd>ObsidianYesterday<CR>", desc = "Open yesterday's note" },
+      { "<Leader>c", "<Cmd>Obsidian toggle_checkbox<CR>", desc = "Toggle check box" },
+      { "<Leader>oc", "<Cmd>Obsidian toggle_checkbox<CR>", desc = "Toggle check box" },
+      { "<Leader>od", "<Cmd>Obsidian dailies<CR>", desc = "Open daily notes" },
+      { "<Leader>om", "<Cmd>Obsidian tomorrow<CR>", desc = "Open tomorrow's note" },
+      { "<Leader>on", "<Cmd>Obsidian new<CR>", desc = "Create a new note" },
+      { "<Leader>oo", "<Cmd>Obsidian quick_note<CR>", desc = "Open Quick Note" },
+      { "<Leader>oq", "<Cmd>Obsidian quick_kensaku<CR>", desc = "Switch notes quickly" },
+      { "<Leader>os", "<Cmd>Obsidian kensaku<CR>", desc = "Search Obsidian notes" },
+      { "<Leader>ot", "<Cmd>Obsidian today<CR>", desc = "Open today's note" },
+      { "<Leader>oy", "<Cmd>Obsidian yesterday<CR>", desc = "Open yesterday's note" },
     },
-    cmd = {
-      "ObsidianBacklinks",
-      "ObsidianDailies",
-      "ObsidianExtractNote",
-      "ObsidianFollowLink",
-      "ObsidianLink",
-      "ObsidianLinkNew",
-      "ObsidianNew",
-      "ObsidianOpen",
-      "ObsidianPasteImg",
-      "ObsidianQuickSwitch",
-      "ObsidianRename",
-      "ObsidianSearch",
-      "ObsidianTags",
-      "ObsidianTemplate",
-      "ObsidianToday",
-      "ObsidianToggleCheckbox",
-      "ObsidianTomorrow",
-      "ObsidianWorkspace",
-      "ObsidianYesterday",
-
-      "ObsidianQuickNote",
-    },
+    cmd = { "Obsidian" },
     ft = "markdown",
-    opts = {
-      workspaces = {
-        { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" },
-        { name = "public", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Public" },
-      },
-      daily_notes = { folder = "日記" },
-      ---@param title? string
-      ---@return string
-      note_id_func = function(title)
-        local purified
-        if title then
-          purified = title:lower():gsub("[^-a-z0-9]+", "-"):gsub("^-+", ""):gsub("-+$", ""):gsub("-+", "-")
-          if purified:match "^-*$" then
-            purified = nil
-          end
-        end
-        if not purified then
-          purified = ""
-          for _ = 1, 4 do
-            purified = purified .. string.char(math.random(65, 90))
-          end
-        end
-        return os.date "%Y%m%d-%H%M%S-" .. purified
-      end,
-      ---@module 'obsidian'
-      ---@param spec { id: string, dir: obsidian.Path, title: string|? }
-      ---@return string|obsidian.Path The full path to the new note.
-      note_path_func = function(spec)
-        local path
-        local filename = spec.title
-        if not filename or filename == "Quick Note" then
-          path = spec.dir / spec.id
-        else
-          filename = vim.fn.substitute(filename, [=[[ 　]]=], "-", "g")
-          filename = vim.fn.substitute(filename, [=[['"\\/:]]=], "", "g")
-          filename = filename:lower()
-          path = spec.dir / (os.date "%Y%m%d-%H%M%S-" .. filename)
-        end
-        return path:with_suffix ".md"
-      end,
-      ---@return string
-      image_name_func = function()
-        return tostring(os.date "%Y%m%d-%H%M%S-")
-      end,
-      callbacks = {
-        post_setup = function(client)
-          require "obsidian-kensaku"(client)
+    opts = (function()
+      -- The obsidian-nvim fork no longer hands `title` to note_path_func, so
+      -- note_id_func stashes it here and note_path_func reads it back. Safe
+      -- because Note._resolve_id_path calls the two synchronously in order.
+      local stashed_title = nil
 
-          vim.api.nvim_create_user_command("ObsidianQuickNote", function()
-            local path = client:create_note { id = "00000000-000000-quick-note", title = "Quick Note" }
-            client:open_note(path, {
-              callback = function(bufnr)
+      return {
+        legacy_commands = false,
+        workspaces = {
+          { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" },
+          { name = "public", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Public" },
+        },
+        daily_notes = { folder = "日記" },
+        ---@param title? string
+        ---@return string
+        note_id_func = function(title)
+          stashed_title = title
+          local purified
+          if title then
+            purified = title:lower():gsub("[^-a-z0-9]+", "-"):gsub("^-+", ""):gsub("-+$", ""):gsub("-+", "-")
+            if purified:match "^-*$" then
+              purified = nil
+            end
+          end
+          if not purified then
+            purified = ""
+            for _ = 1, 4 do
+              purified = purified .. string.char(math.random(65, 90))
+            end
+          end
+          return os.date "%Y%m%d-%H%M%S-" .. purified
+        end,
+        ---@module 'obsidian'
+        ---@param spec { id: string, dir: obsidian.Path }
+        ---@return string|obsidian.Path The full path to the new note.
+        note_path_func = function(spec)
+          local title = stashed_title
+          stashed_title = nil
+          if title then
+            local filename = vim.fn.substitute(title, [=[[ 　]]=], "-", "g")
+            filename = vim.fn.substitute(filename, [=[['"\\/:]]=], "", "g")
+            filename = filename:lower()
+            local timestamp = spec.id:match "^%d+%-%d+"
+            if timestamp then
+              return (spec.dir / (timestamp .. "-" .. filename)):with_suffix ".md"
+            end
+          end
+          return (spec.dir / tostring(spec.id)):with_suffix ".md"
+        end,
+        ---@return string
+        image_name_func = function()
+          return tostring(os.date "%Y%m%d-%H%M%S-")
+        end,
+        callbacks = {
+          post_setup = function()
+            require("obsidian.commands").register("quick_note", {
+              nargs = 0,
+              func = function()
+                local Note = require "obsidian.note"
+                local api = require "obsidian.api"
+                local note = Note.create {
+                  id = "00000000-000000-quick-note",
+                  title = "Quick Note",
+                  verbatim = true,
+                  should_write = true,
+                }
+                local bufnr = api.open_note(tostring(note.path))
                 vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, {
                   "",
                   "----",
@@ -712,10 +709,10 @@ return {
                 vim.cmd.normal "G"
               end,
             })
-          end, { nargs = 0, desc = "Open Obsidian quick note" })
-        end,
-      },
-      ui = { enable = false },
-    },
+          end,
+        },
+        ui = { enable = false },
+      }
+    end)(),
   },
 }
