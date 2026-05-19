@@ -1648,10 +1648,14 @@ return {
             ---@type UndoGlow.CommandOpts
             local opts = { animation = { animation_type = "slide" } }
 
+            -- メインモジュールを先に require して、lazy.nvim の opts 経由の setup() を
+            -- 起動させる。サブモジュール (undo-glow.utils) を先に触ると setup が走らず
+            -- config.animation が nil のまま vim.schedule のハイライト処理が落ちる。
+            local ug = require "undo-glow"
             opts = require("undo-glow.utils").merge_command_opts("UgCursor", opts)
             local pos = require("undo-glow.utils").get_current_cursor_row()
 
-            require("undo-glow").highlight_region(vim.tbl_extend("force", opts, {
+            ug.highlight_region(vim.tbl_extend("force", opts, {
               s_row = pos.s_row,
               s_col = pos.s_col,
               e_row = pos.e_row,
