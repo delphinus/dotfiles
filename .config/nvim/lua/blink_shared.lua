@@ -153,7 +153,13 @@ function M.providers()
     -- menu's visible top-N is dominated by other sources. lazydev sits at
     -- score_offset = 100 so it stays above LSP for require()-style paths.
     lsp = { score_offset = 50 },
-    buffer = { opts = { get_bufnrs = vim.api.nvim_list_bufs } },
+    buffer = {
+      opts = {
+        get_bufnrs = function()
+          return vim.iter(vim.api.nvim_list_bufs()):filter(vim.api.nvim_buf_is_loaded):totable()
+        end,
+      },
+    },
     wezterm = { name = "wezterm", module = "blink-cmp-wezterm", min_keyword_length = 2, async = true },
     ghq = { name = "ghq", module = "blink-cmp-ghq", async = true },
     ripgrep = {
