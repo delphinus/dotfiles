@@ -594,19 +594,12 @@ return {
   },
 
   {
+    -- Loaded as a dependency of obsidian.nvim and initialized from its
+    -- post_setup. Having `cmd = "Obsidian"` on both plugins triggers a
+    -- lazy.nvim handler.del race that deletes the real :Obsidian command.
     "delphinus/obsidian-kensaku.nvim",
-    version = "^3.1",
-    cmd = "Obsidian",
-    dependencies = {
-      "obsidian-nvim/obsidian.nvim",
-      { "delphinus/luamigemo", version = "*" },
-    },
-    opts = {
-      picker = "egrepify",
-      previewer = function()
-        return require("md-render.telescope").previewer()
-      end,
-    },
+    version = "^3.2",
+    dependencies = { { "delphinus/luamigemo", version = "*" } },
   },
   {
     -- "oflisback/obsidian-bridge.nvim",
@@ -632,6 +625,7 @@ return {
     },
     cmd = { "Obsidian" },
     ft = "markdown",
+    dependencies = { "delphinus/obsidian-kensaku.nvim" },
     opts = (function()
       -- The obsidian-nvim fork no longer hands `title` to note_path_func, so
       -- note_id_func stashes it here and note_path_func reads it back. Safe
@@ -687,6 +681,12 @@ return {
         end,
         callbacks = {
           post_setup = function()
+            require("obsidian-kensaku").setup {
+              picker = "egrepify",
+              previewer = function()
+                return require("md-render.telescope").previewer()
+              end,
+            }
             require("obsidian.commands").register("quick_note", {
               nargs = 0,
               func = function()
