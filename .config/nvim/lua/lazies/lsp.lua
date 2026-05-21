@@ -197,7 +197,7 @@ return {
     },
   },
 
-  { "AbaoFromCUG/nvim-treesitter-endwise", branch = "main" },
+  { "RRethy/nvim-treesitter-endwise" },
 
   {
     "nvim-treesitter/nvim-treesitter",
@@ -248,6 +248,35 @@ return {
 
     build = ":TSUpdate",
     opts = {},
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    dependencies = {
+      { "nvim-treesitter/nvim-treesitter", branch = "main" },
+    },
+    keys = (function()
+      local function sel(query)
+        return function()
+          require("nvim-treesitter-textobjects.select").select_textobject(query, "textobjects")
+        end
+      end
+      return {
+        { "af", sel "@function.outer", mode = { "x", "o" }, desc = "Select a function" },
+        { "if", sel "@function.inner", mode = { "x", "o" }, desc = "Select inner function" },
+        { "ac", sel "@class.outer", mode = { "x", "o" }, desc = "Select a class" },
+        { "ic", sel "@class.inner", mode = { "x", "o" }, desc = "Select inner class" },
+        { "aa", sel "@parameter.outer", mode = { "x", "o" }, desc = "Select a parameter" },
+        { "ia", sel "@parameter.inner", mode = { "x", "o" }, desc = "Select inner parameter" },
+      }
+    end)(),
+    opts = {
+      select = {
+        lookahead = true,
+        include_surrounding_whitespace = false,
+      },
+    },
   },
 
   {
