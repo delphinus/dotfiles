@@ -213,3 +213,83 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     })
   end,
 })
+
+-- Dedent yank: yank then strip the common leading indent from the target
+-- register so the result pastes flush against the left margin. Useful for
+-- copying a function/`{}` block out of a deeply nested context. Honors a
+-- register prefix like `"*\yaf` so the dedented text lands in the clipboard.
+-- For charwise selections that start mid-line (e.g. `@function.outer` capturing
+-- `function() ... end` out of `callback = function() ... end`), the first line
+-- in the register loses its leading whitespace because the selection began at
+-- a column past it. Compensate by treating the first line's effective indent
+-- as start_col + (its own remaining leading ws); strip accordingly.
+local function dedent_register(regname, start_col)
+  regname = (regname ~= nil and regname ~= "") and regname or '"'
+  start_col = start_col or 0
+  local info = vim.fn.getreginfo(regname)
+  local lines = info.regcontents
+  if not lines or #lines == 0 then
+    return
+  end
+  local min = vim.iter(lines):enumerate():fold(math.huge, function(acc, i, l)
+    if not l:match "%S" then
+      return acc
+    end
+    return math.min(acc, #(l:match "^%s*") + (i == 1 and start_col or 0))
+  end)
+  if min == math.huge or min == 0 then
+    return
+  end
+  lines = vim.iter(lines)
+    :enumerate()
+    :map(function(i, l)
+      local strip = i == 1 and math.max(0, min - start_col) or min
+      return l:sub(strip + 1)
+    end)
+    :totable()
+  vim.fn.setreg(regname, lines, info.regtype)
+end
+
+-- v:register is set when <Leader>y is pressed but may be reset by the time
+-- the operator callback fires after the motion completes, so stash it here.
+local pending_reg
+
+---@param motion "line"|"char"|"block"
+function _G._dedent_yank_op(motion)
+  local r = (pending_reg ~= nil and pending_reg ~= "") and pending_reg or '"'
+  pending_reg = nil
+  local prefix = r == '"' and "" or ('"' .. r)
+  local cmd = motion == "line" and ("'[V']" .. prefix .. "y") or ("`[v`]" .. prefix .. "y")
+  vim.cmd("normal! " .. cmd)
+  local start_col = 0
+  if motion == "char" then
+    local _, col = unpack(vim.api.nvim_buf_get_mark(0, "["))
+    start_col = col
+  end
+  dedent_register(r, start_col)
+end
+
+vim.keymap.set("n", "<Leader>y", function()
+  pending_reg = vim.v.register
+  vim.o.operatorfunc = "v:lua._dedent_yank_op"
+  return "g@"
+end, { expr = true, desc = "Yank (dedented)" })
+
+vim.keymap.set("n", "<Leader>Y", function()
+  pending_reg = vim.v.register
+  vim.o.operatorfunc = "v:lua._dedent_yank_op"
+  return "g@_"
+end, { expr = true, desc = "Yank line (dedented)" })
+
+vim.keymap.set("x", "<Leader>y", function()
+  local r = (vim.v.register ~= "" and vim.v.register) or '"'
+  local prefix = r == '"' and "" or ('"' .. r)
+  local was_charwise = vim.fn.mode() == "v"
+  vim.cmd("normal! gv" .. prefix .. "y")
+  local start_col = 0
+  if was_charwise then
+    local _, col = unpack(vim.api.nvim_buf_get_mark(0, "["))
+    start_col = col
+  end
+  dedent_register(r, start_col)
+end, { desc = "Yank (dedented)" })
