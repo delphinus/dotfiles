@@ -69,7 +69,7 @@ return {
       end
 
       vim.fn["skkeleton#config"] {
-        userDictionary = vim.fs.normalize "~/Documents/skk-jisyo.utf8",
+        userDictionary = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo/skk-jisyo.utf8",
         eggLikeNewline = true,
         immediatelyCancel = false,
         registerConvertResult = true,
