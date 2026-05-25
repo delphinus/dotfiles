@@ -108,6 +108,111 @@ M.source_groups = {
   skkeleton = "Tag",
 }
 
+-- カタカナ U+30A1..U+30F6 をひらがなにずらして返す。
+-- ー (U+30FC) や記号類、漢字、ASCII はそのまま素通し。
+local function kata_to_hira(s)
+  return (
+    s:gsub("[\xE3][\x82-\x83][\x80-\xBF]", function(ch)
+      local cp = vim.fn.char2nr(ch)
+      if cp >= 0x30A1 and cp <= 0x30F6 then
+        return vim.fn.nr2char(cp - 0x60)
+      end
+      return ch
+    end)
+  )
+end
+
+-- frizbee は UTF-8 を理解しないバイト単位 subsequence matcher なので、入力
+-- ひらがなが label のカタカナや漢字と「先頭 1 byte だけ」「2 byte だけ」一致
+-- して中途半端に光ってしまう。skkeleton 項目では辞書 key 全体 (item.data.kana,
+-- 例 "おねがいします") と label (例 "お願いします") を文字単位で整列させ、各
+-- label char が読みのどの範囲を担当するかを決定 → 入力の prefix
+-- (item.filterText, 例 "おねがいし") がその範囲を完全に覆っていれば光らせる。
+-- 整列のルール:
+--   * 各 label char をひらがな化したものが「読みの残り」と一致したら、その
+--     位置を端点として確定 (kp = j+1 に進める)。
+--   * 一致しない char (漢字、ASCII 等) は pending に積み、次に揃った hira/kata
+--     が見つかった時点で「前回の確定位置 .. 今回の j-1」を pending 全体に割り
+--     当てる (連続する漢字は同じ範囲を共有する保守的な扱い)。
+--   * 末尾に残った pending は読みの末尾まで覆うとみなす。
+-- これにより、漢字も「自分が担当する読み区間がユーザ入力に完全に含まれている」
+-- 場合だけ光る。逆に半端な入力 ("おね" だけで「願」がまだ "ねが" の "ね" しか
+-- 来ていない等) では光らない、保守的な挙動になる。
+local function skk_label_match_ranges(item)
+  if not (item and item.label and item.filterText and item.filterText ~= "") then
+    return {}
+  end
+  local full_kana = item.data and item.data.kana
+  if not full_kana or full_kana == "" then
+    return {}
+  end
+  local label_chars = vim.fn.split(item.label, "\\zs")
+  local fk_chars = vim.fn.split(kata_to_hira(full_kana), "\\zs")
+  local typed_n = vim.fn.strchars(item.filterText)
+
+  local start_pos, end_pos = {}, {}
+  local pending = {}
+  local kp = 1
+  for i, ch in ipairs(label_chars) do
+    local norm = kata_to_hira(ch)
+    local j
+    for m = kp, #fk_chars do
+      if fk_chars[m] == norm then
+        j = m
+        break
+      end
+    end
+    if j then
+      for _, ki in ipairs(pending) do
+        start_pos[ki] = kp
+        end_pos[ki] = j - 1
+      end
+      pending = {}
+      start_pos[i], end_pos[i] = j, j
+      kp = j + 1
+    else
+      table.insert(pending, i)
+    end
+  end
+  for _, ki in ipairs(pending) do
+    start_pos[ki] = kp
+    end_pos[ki] = #fk_chars
+  end
+
+  local ranges, byte_pos = {}, 0
+  for i, ch in ipairs(label_chars) do
+    -- start > end means this char covers zero kana (e.g. ラベル中の余計な
+    -- 記号や読みに含まれない文字)。読みを担当していないのでハイライト対象外。
+    if start_pos[i] and end_pos[i] and start_pos[i] <= end_pos[i] and end_pos[i] <= typed_n then
+      table.insert(ranges, { byte_pos, byte_pos + #ch })
+    end
+    byte_pos = byte_pos + #ch
+  end
+  return ranges
+end
+
+-- label.highlight コールバック本体を包む wrapper。skkeleton 項目について
+-- だけ ctx.label_matched_indices を一時的に空にして inner を呼ぶことで、
+-- inner (および colorful-menu) が出してくる frizbee 由来の誤
+-- BlinkCmpLabelMatch を抑止し、その後で正しい文字単位の range を追加する。
+-- skkeleton 以外の項目では完全な no-op として振る舞う。
+function M.with_skk_label_match(ctx, inner)
+  local is_skk = ctx.item and ctx.item.data and ctx.item.data.skkeleton
+  local saved
+  if is_skk then
+    saved = ctx.label_matched_indices
+    ctx.label_matched_indices = {}
+  end
+  local highlights = inner(ctx)
+  if is_skk then
+    ctx.label_matched_indices = saved
+    for _, r in ipairs(skk_label_match_ranges(ctx.item)) do
+      table.insert(highlights, { r[1], r[2], group = "BlinkCmpLabelMatch" })
+    end
+  end
+  return highlights
+end
+
 -- Returns blink.cmp menu draw components (kind_icon override + source_name)
 -- that color each candidate by its source. The caller can merge with its own
 -- `label` component (e.g. for colorful-menu integration).

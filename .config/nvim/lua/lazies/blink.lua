@@ -102,15 +102,17 @@ return {
                   return text
                 end,
                 highlight = function(ctx)
-                  local highlights = require("colorful-menu").blink_components_highlight(ctx)
-                  local text = require("colorful-menu").blink_components_text(ctx)
-                  if ctx.label_detail and ctx.label_detail ~= "" and not text:find(ctx.label_detail, 1, true) then
-                    table.insert(
-                      highlights,
-                      { #text + 1, #text + 1 + #ctx.label_detail, group = "BlinkCmpLabelDetail" }
-                    )
-                  end
-                  return highlights
+                  return shared.with_skk_label_match(ctx, function(c)
+                    local highlights = require("colorful-menu").blink_components_highlight(c)
+                    local text = require("colorful-menu").blink_components_text(c)
+                    if c.label_detail and c.label_detail ~= "" and not text:find(c.label_detail, 1, true) then
+                      table.insert(
+                        highlights,
+                        { #text + 1, #text + 1 + #c.label_detail, group = "BlinkCmpLabelDetail" }
+                      )
+                    end
+                    return highlights
+                  end)
                 end,
               },
             }),

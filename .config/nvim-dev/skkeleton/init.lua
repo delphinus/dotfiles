@@ -181,20 +181,22 @@ require("lazy").setup({
                   return ctx.label
                 end,
                 highlight = function(ctx)
-                  local label = ctx.label
-                  local highlights = {
-                    { 0, #label, group = ctx.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel" },
-                  }
-                  if ctx.label_detail and ctx.label_detail ~= "" then
-                    table.insert(
-                      highlights,
-                      { #label + 1, #label + 1 + #ctx.label_detail, group = "BlinkCmpLabelDetail" }
-                    )
-                  end
-                  for _, idx in ipairs(ctx.label_matched_indices) do
-                    table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
-                  end
-                  return highlights
+                  return blink_shared.with_skk_label_match(ctx, function(c)
+                    local label = c.label
+                    local highlights = {
+                      { 0, #label, group = c.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel" },
+                    }
+                    if c.label_detail and c.label_detail ~= "" then
+                      table.insert(
+                        highlights,
+                        { #label + 1, #label + 1 + #c.label_detail, group = "BlinkCmpLabelDetail" }
+                      )
+                    end
+                    for _, idx in ipairs(c.label_matched_indices) do
+                      table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
+                    end
+                    return highlights
+                  end)
                 end,
               },
             }),
