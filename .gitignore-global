@@ -3,3 +3,5 @@
 /.ruby-version
 /.vscode
 /_worktree
+
+**/.claude/settings.local.json
