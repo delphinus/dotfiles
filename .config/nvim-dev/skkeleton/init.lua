@@ -150,7 +150,9 @@ require("lazy").setup({
     "saghen/blink.cmp",
     dir = shared .. "/blink.cmp",
     dependencies = {
-      { "Xantibody/blink-cmp-skkeleton", dir = shared .. "/blink-cmp-skkeleton" },
+      -- フォーク経由 (saghen/frizbee#64 panic 回避 patch)。詳細は
+      -- .config/nvim/lua/lazies/skkeleton.lua の TODO 参照。
+      { "delphinus/blink-cmp-skkeleton", dir = shared .. "/blink-cmp-skkeleton" },
       { "delphinus/cmp-wezterm", dir = shared .. "/cmp-wezterm" },
       { "delphinus/cmp-ghq", dir = shared .. "/cmp-ghq" },
       { "mikavilpas/blink-ripgrep.nvim", dir = shared .. "/blink-ripgrep.nvim" },
