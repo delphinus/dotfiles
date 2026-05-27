@@ -18,4 +18,33 @@
     dest: ~/.claude/settings.json
     mode: '0644'
 
+# Claude Code reads MCP server config from ~/.claude.json (NOT
+# ~/.claude/settings.json). The file also holds Claude-managed state
+# (numStartups, projects, etc.) so we read-merge-write instead of
+# rendering from scratch.
+- name: patch mcpServers into ~/.claude.json
+  when:
+    - ansible_facts['os_family'] == 'Darwin'
+    - ansible_facts['hostname'] in secret_office.hostnames
+  block:
+    - name: read current ~/.claude.json
+      ansible.builtin.slurp:
+        src: '{{ ansible_facts["env"]["HOME"] }}/.claude.json'
+      register: claude_json_raw
+
+    - name: write ~/.claude.json with mcpServers patched
+      ansible.builtin.copy:
+        dest: '{{ ansible_facts["env"]["HOME"] }}/.claude.json'
+        mode: '0600'
+        content: >-
+          {{
+            (claude_json_raw.content | b64decode | from_json)
+            | combine({
+                "mcpServers":
+                  ((claude_json_raw.content | b64decode | from_json).mcpServers | default({}))
+                  | combine(secret_mcp_servers, recursive=False),
+              })
+            | to_nice_json(indent=2, sort_keys=False, ensure_ascii=False)
+          }}
+
 # vim:se et:
