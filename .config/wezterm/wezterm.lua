@@ -2,7 +2,6 @@
 local wezterm = require "wezterm"
 local colors = require "colors"
 local const = require "const"
-local focus_editprompt = require "focus_editprompt"
 local keys = require "keys"
 local key_tables = require "key_tables"
 local status_bar = require "status_bar"
@@ -49,7 +48,6 @@ keys(config)
 key_tables(config)
 status_bar(config)
 tab_title(config)
-focus_editprompt()
 
 wezterm.on("user-var-changed", function(window, pane, name, value)
   local overrides = window:get_config_overrides() or {}
