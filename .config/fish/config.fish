@@ -13,6 +13,10 @@ else
     set homebrew_path /usr/local
 end
 
+# 非公式 tap の formula/cask/command は明示的に trust したものだけロードする
+# (信頼済みは `brew trust` / ~/.homebrew/trust.json で管理)
+set -gx HOMEBREW_REQUIRE_TAP_TRUST 1
+
 set -l paths \
     ~/.asdf/shims \
     ~/bin \
