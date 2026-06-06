@@ -4,6 +4,16 @@ local ProgressBar = require "progress_bar"
 
 local progress_bar = ProgressBar.new(8)
 
+-- Claude Code の状態 (claude-code-hooks tabcolor がセットする user var claude_state)
+-- に応じたタブ背景色。値が無い / "default" のときは塗らない。
+local STATE_BG = {
+  startup = "#7dcfff", -- 起動時
+  thinking = "#bb9af7", -- 思考中
+  idle = "#9ece6a", -- 待機中
+  waiting = "#e0af68", -- 入力待ち
+}
+local STATE_FG = "#1a1b26" -- 塗ったときの前景 (暗色)
+
 local function tab_title(tab_info)
   local title = tab_info.tab_title
   if title and #title > 0 then
@@ -44,9 +54,16 @@ return function(config)
   wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local progress = tab.active_pane.progress or "None"
     local title = tab_title(tab)
-    local elements = {
-      { Text = string.format("%d: ", tab.tab_index + 1) },
-    }
+
+    local claude_state = tab.active_pane.user_vars.claude_state
+    local bg = claude_state and STATE_BG[claude_state]
+
+    local elements = {}
+    if bg then
+      table.insert(elements, { Background = { Color = bg } })
+      table.insert(elements, { Foreground = { Color = STATE_FG } })
+    end
+    table.insert(elements, { Text = string.format("%d: ", tab.tab_index + 1) })
 
     if progress ~= "None" then
       local color = config.colors.ansi[3]
@@ -66,7 +83,7 @@ return function(config)
 
       table.insert(elements, { Foreground = { Color = color } })
       table.insert(elements, { Text = status })
-      table.insert(elements, { Foreground = "Default" })
+      table.insert(elements, { Foreground = bg and { Color = STATE_FG } or "Default" })
     end
 
     table.insert(elements, { Text = " " .. title .. " " })
