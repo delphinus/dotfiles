@@ -4,8 +4,9 @@ local ProgressBar = require "progress_bar"
 
 local progress_bar = ProgressBar.new(8)
 
--- Claude Code の状態 (claude-code-hooks tabcolor がセットする user var claude_state)
--- に応じたタブ背景色。値が無い / "default" のときは塗らない。
+-- Claude Code の状態に応じたタブ背景色。claude-code-hooks tabcolor が各ペインの
+-- user var claude_state をセットし、ここでタブ内の全ペインを走査して塗る。
+-- 値が無い / "default" のときは塗らない。
 local STATE_BG = {
   startup = "#7dcfff", -- 起動時
   thinking = "#bb9af7", -- 思考中
@@ -13,6 +14,19 @@ local STATE_BG = {
   waiting = "#e0af68", -- 入力待ち
 }
 local STATE_FG = "#1a1b26" -- 塗ったときの前景 (暗色)
+
+-- タブ内のいずれかのペインに claude_state が立っていれば、その色を返す。
+-- (claude のペインがアクティブとは限らないので active_pane だけ見ない)
+local function claude_bg(tab)
+  for _, p in ipairs(tab.panes) do
+    local uv = p.user_vars
+    local s = uv and uv.claude_state
+    if s and STATE_BG[s] then
+      return STATE_BG[s]
+    end
+  end
+  return nil
+end
 
 local function tab_title(tab_info)
   local title = tab_info.tab_title
@@ -55,8 +69,7 @@ return function(config)
     local progress = tab.active_pane.progress or "None"
     local title = tab_title(tab)
 
-    local claude_state = tab.active_pane.user_vars.claude_state
-    local bg = claude_state and STATE_BG[claude_state]
+    local bg = claude_bg(tab)
 
     local elements = {}
     if bg then
