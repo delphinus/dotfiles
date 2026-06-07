@@ -13,11 +13,15 @@ local STATE_BG = {
   idle = "#9ece6a", -- 待機中
   waiting = "#e0af68", -- 入力待ち
 }
-local STATE_FG = "#1a1b26" -- 塗ったときの前景 (暗色)
+local FG_DARK = "#1a1b26" -- 明るい背景に乗せる前景 (暗色)
+local FG_LIGHT = "#c0caf5" -- 暗い背景に乗せる前景 (明色)
 
--- タブ内のいずれかのペインに claude_state が立っていれば、その色を返す。
+-- 非アクティブタブの背景をどれだけ暗くするか (0..1, 大きいほど暗い)。
+local INACTIVE_DARKEN = 0.25
+
+-- タブ内のいずれかのペインに claude_state が立っていれば、その状態色 (hex) を返す。
 -- (claude のペインがアクティブとは限らないので active_pane だけ見ない)
-local function claude_bg(tab)
+local function claude_hex(tab)
   for _, p in ipairs(tab.panes) do
     local uv = p.user_vars
     local s = uv and uv.claude_state
@@ -26,6 +30,22 @@ local function claude_bg(tab)
     end
   end
   return nil
+end
+
+-- 状態色を受け取り、アクティブなら原色のまま、非アクティブなら暗くして返す。
+-- あわせて、加工後の背景の明度から読みやすい前景色を選ぶ。
+local function claude_colors(tab)
+  local hex = claude_hex(tab)
+  if not hex then
+    return nil, nil
+  end
+  local c = wezterm.color.parse(hex)
+  if not tab.is_active then
+    c = c:darken(INACTIVE_DARKEN)
+  end
+  local _, _, l = c:hsla()
+  local fg = l > 0.4 and FG_DARK or FG_LIGHT
+  return tostring(c), fg
 end
 
 local function tab_title(tab_info)
@@ -69,12 +89,12 @@ return function(config)
     local progress = tab.active_pane.progress or "None"
     local title = tab_title(tab)
 
-    local bg = claude_bg(tab)
+    local bg, fg = claude_colors(tab)
 
     local elements = {}
     if bg then
       table.insert(elements, { Background = { Color = bg } })
-      table.insert(elements, { Foreground = { Color = STATE_FG } })
+      table.insert(elements, { Foreground = { Color = fg } })
     end
     table.insert(elements, { Text = string.format("%d: ", tab.tab_index + 1) })
 
@@ -96,7 +116,7 @@ return function(config)
 
       table.insert(elements, { Foreground = { Color = color } })
       table.insert(elements, { Text = status })
-      table.insert(elements, { Foreground = bg and { Color = STATE_FG } or "Default" })
+      table.insert(elements, { Foreground = bg and { Color = fg } or "Default" })
     end
 
     table.insert(elements, { Text = " " .. title .. " " })
