@@ -57,7 +57,7 @@ return function(config)
       local sec = meta.since_last_response_ms / 1000
       for i, value in ipairs {
         { Foreground = { Color = config.colors.ansi[7] } },
-        { Text = ("%s %.2f"):format(wezterm.nerdfonts "md_airplane_clock", sec) },
+        { Text = ("%s %.2f"):format(wezterm.nerdfonts.md_airplane_clock, sec) },
       } do
         table.insert(elements, 3 + i, value)
       end
