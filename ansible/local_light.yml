@@ -7,8 +7,6 @@
 
   tasks:
     - include_tasks: tasks/dotfiles.yml
-    - include_tasks: tasks/aquaskk.yml
-      when: ansible_facts['os_family'] == 'Darwin'
     - include_tasks:
         file: tasks/claude_code.yml
         apply:
