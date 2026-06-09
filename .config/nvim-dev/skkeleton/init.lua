@@ -111,8 +111,17 @@ require("lazy").setup({
         end,
       })
 
+      -- 補完候補の並び順学習 (getRanks) を永続化する。デフォルト ("") では
+      -- denops プロセスのメモリ内にしか乗らず、再起動・別インスタンスで失われる。
+      -- nvim / nvim-dev でランクを共有したいので stdpath ("state") (NVIM_APPNAME
+      -- 依存) ではなく固定パスにする。Deno.writeTextFile は親ディレクトリを
+      -- 作らないので Lua 側で先に掘っておく。
+      local rank_file = vim.fs.normalize "~/.local/state/skkeleton/completion-rank.json"
+      vim.fn.mkdir(vim.fs.dirname(rank_file), "p")
+
       vim.fn["skkeleton#config"] {
         userDictionary = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo/skk-jisyo.utf8",
+        completionRankFile = rank_file,
         eggLikeNewline = true,
         immediatelyCancel = false,
         registerConvertResult = true,
