@@ -1,5 +1,7 @@
 {%- set base = lookup('file', dotfiles_dir + '/.claude/settings.json') | from_json -%}
 {%- if ansible_facts['hostname'] in secret_office.hostnames -%}
 {%- set _ = base.update({'env': secret_claude_code_env}) -%}
+{%- set _ = base.update({'enabledPlugins': (base.enabledPlugins | default({})) | combine(secret_claude_code_settings.enabledPlugins | default({}))}) -%}
+{%- set _ = base.update({'extraKnownMarketplaces': (base.extraKnownMarketplaces | default({})) | combine(secret_claude_code_settings.extraKnownMarketplaces | default({}))}) -%}
 {%- endif -%}
 {{ base | to_nice_json(indent=2, sort_keys=False, ensure_ascii=False) }}

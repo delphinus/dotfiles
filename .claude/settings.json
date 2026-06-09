@@ -1,15 +1,91 @@
 {
-  "model": "claude-opus-4-7[1m]",
-  "alwaysThinkingEnabled": true,
-  "enabledPlugins": {
-    "frontend-design@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true
+  "model": "claude-opus-4-8[1m]",
+  "permissions": {
+    "allow": [
+      "mcp__atlassian__confluence_child_pages",
+      "mcp__atlassian__confluence_get_page",
+      "mcp__atlassian__confluence_get_space",
+      "mcp__atlassian__confluence_list_attachments",
+      "mcp__atlassian__confluence_list_comments",
+      "mcp__atlassian__confluence_list_labels",
+      "mcp__atlassian__confluence_list_restrictions",
+      "mcp__atlassian__confluence_list_spaces",
+      "mcp__atlassian__confluence_page_history",
+      "mcp__atlassian__confluence_search",
+      "mcp__atlassian__jira_board_issues",
+      "mcp__atlassian__jira_dev_status",
+      "mcp__atlassian__jira_get_filter",
+      "mcp__atlassian__jira_get_issue",
+      "mcp__atlassian__jira_get_project",
+      "mcp__atlassian__jira_get_subtasks",
+      "mcp__atlassian__jira_list_attachments",
+      "mcp__atlassian__jira_list_boards",
+      "mcp__atlassian__jira_list_comments",
+      "mcp__atlassian__jira_list_components",
+      "mcp__atlassian__jira_list_filters",
+      "mcp__atlassian__jira_list_link_types",
+      "mcp__atlassian__jira_list_projects",
+      "mcp__atlassian__jira_list_versions",
+      "mcp__atlassian__jira_list_worklogs",
+      "mcp__atlassian__jira_myself",
+      "mcp__atlassian__jira_search",
+      "mcp__atlassian__jira_search_users",
+      "mcp__atlassian__jira_sprint_issues",
+      "mcp__atlassian__jira_sprint_list",
+      "mcp__mcp-obsidian__obsidian_batch_get_file_contents",
+      "mcp__mcp-obsidian__obsidian_complex_search",
+      "mcp__mcp-obsidian__obsidian_get_file_contents",
+      "mcp__mcp-obsidian__obsidian_get_periodic_note",
+      "mcp__mcp-obsidian__obsidian_get_recent_changes",
+      "mcp__mcp-obsidian__obsidian_get_recent_periodic_notes",
+      "mcp__mcp-obsidian__obsidian_list_files_in_dir",
+      "mcp__mcp-obsidian__obsidian_list_files_in_vault",
+      "mcp__mcp-obsidian__obsidian_simple_search",
+      "mcp__plugin_slack-read_slack-read__*"
+    ],
+    "ask": [
+      "mcp__atlassian__confluence_add_comment",
+      "mcp__atlassian__confluence_add_labels",
+      "mcp__atlassian__confluence_add_restriction",
+      "mcp__atlassian__confluence_copy_page",
+      "mcp__atlassian__confluence_create_page",
+      "mcp__atlassian__confluence_delete_comment",
+      "mcp__atlassian__confluence_delete_page",
+      "mcp__atlassian__confluence_move_page",
+      "mcp__atlassian__confluence_remove_label",
+      "mcp__atlassian__confluence_remove_restriction",
+      "mcp__atlassian__confluence_reply_comment",
+      "mcp__atlassian__confluence_update_comment",
+      "mcp__atlassian__confluence_update_page",
+      "mcp__atlassian__jira_add_comment",
+      "mcp__atlassian__jira_add_worklog",
+      "mcp__atlassian__jira_create_issue",
+      "mcp__atlassian__jira_delete_comment",
+      "mcp__atlassian__jira_delete_issue",
+      "mcp__atlassian__jira_epic_add_issues",
+      "mcp__atlassian__jira_epic_remove_issues",
+      "mcp__atlassian__jira_link_issues",
+      "mcp__atlassian__jira_remove_link",
+      "mcp__atlassian__jira_sprint_add_issues",
+      "mcp__atlassian__jira_sprint_create",
+      "mcp__atlassian__jira_sprint_update",
+      "mcp__atlassian__jira_transition_issue",
+      "mcp__atlassian__jira_update_comment",
+      "mcp__atlassian__jira_update_issue",
+      "mcp__mcp-obsidian__obsidian_append_content",
+      "mcp__mcp-obsidian__obsidian_delete_file",
+      "mcp__mcp-obsidian__obsidian_patch_content"
+    ]
   },
   "hooks": {
     "Notification": [
       {
         "matcher": "permission_prompt",
         "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks tabcolor waiting"
+          },
           {
             "type": "command",
             "command": "claude-code-hooks notify 'Claude Code' 'ユーザー確認が必要です'"
@@ -19,6 +95,10 @@
       {
         "matcher": "idle_prompt",
         "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks tabcolor idle"
+          },
           {
             "type": "command",
             "command": "claude-code-hooks notify 'Claude Code' '待機中です'"
@@ -31,6 +111,10 @@
         "hooks": [
           {
             "type": "command",
+            "command": "claude-code-hooks tabcolor waiting"
+          },
+          {
+            "type": "command",
             "command": "claude-code-hooks notify 'Claude Code' 'パーミッションが必要です'"
           }
         ]
@@ -41,6 +125,10 @@
         "hooks": [
           {
             "type": "command",
+            "command": "claude-code-hooks tabcolor thinking"
+          },
+          {
+            "type": "command",
             "command": "claude-code-hooks save"
           }
         ]
@@ -49,6 +137,10 @@
     "SessionEnd": [
       {
         "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks tabcolor default"
+          },
           {
             "type": "command",
             "command": "claude-code-hooks save",
@@ -62,9 +154,23 @@
         ]
       }
     ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks tabcolor startup"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-hooks tabcolor idle"
+          },
           {
             "type": "command",
             "command": "claude-code-hooks notify 'Claude Code' '作業が完了しました'"
@@ -81,10 +187,20 @@
         "hooks": [
           {
             "type": "command",
+            "command": "claude-code-hooks tabcolor thinking"
+          },
+          {
+            "type": "command",
             "command": "claude-code-hooks save"
           }
         ]
       }
     ]
-  }
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "tui": "fullscreen"
 }
