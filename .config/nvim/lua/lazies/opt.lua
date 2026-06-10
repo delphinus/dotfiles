@@ -1586,7 +1586,7 @@ return {
         { "u", undo_glow.undo(), mode = "n", desc = "Undo with highlight", noremap = true },
         { "U", undo_glow.redo(), mode = "n", desc = "Redo with highlight", noremap = true },
         { "p", undo_glow.paste_below(), mode = "n", desc = "Paste below with highlight", noremap = true },
-        { "P", undo_glow.paste_above(), mode = "n", esc = "Paste above with highlight", noremap = true },
+        { "P", undo_glow.paste_above(), mode = "n", desc = "Paste above with highlight", noremap = true },
         {
           "gc",
           function()
