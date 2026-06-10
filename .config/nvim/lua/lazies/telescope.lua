@@ -88,6 +88,8 @@ return {
     "nvim-telescope/telescope.nvim",
     -- "delphinus/telescope.nvim",
     -- branch = "feat/cache-man-pages",
+    -- TODO: trying plenary removal locally (telescope-frecency.nvim#340 / telescope.nvim#3647). Revert when done.
+    branch = "feat/neoplen",
     cmd = { "Telescope" },
 
     init = function()

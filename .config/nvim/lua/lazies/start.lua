@@ -168,6 +168,8 @@ return {
   non_lazy {
     "nvim-telescope/telescope-frecency.nvim",
     -- version = "*",
+    -- TODO: trying plenary removal locally (PR #343). Revert when done.
+    branch = "switch-to-neoplen",
     ---@module 'frecency'
     ---@type FrecencyOpts
     opts = {
