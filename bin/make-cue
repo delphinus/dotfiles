@@ -21,6 +21,9 @@
     make-cue -l [number] [filename]
     # add dummy placeholder tracks
 
+    make-cue -d [filename]
+    # treat trailing (MM:SS) as each track's duration and accumulate
+
     make-cue -e [filename]
     # no dry-run
 
@@ -48,6 +51,7 @@ my %opt = (
 GetOptions(
     \%opt, qw(
     clipboard|c
+    duration|d
     execute|e
     intro|i
     placeholder|l=i
@@ -102,7 +106,12 @@ sub parse_input($input = '') {
             };
         }
 
-        (my $line = $b) =~ m{
+        (my $line = $b) =~ s/[\r\n]+$//;
+        my $duration;
+        if ($opt{duration} && $line =~ s/\s*\((\d?\d):(\d\d)\)\s*$//) {
+            $duration = $1 * 60 + $2;
+        }
+        $line =~ m{
             ^
             (?:
                 \d+[.)]?
@@ -165,6 +174,7 @@ sub parse_input($input = '') {
                 time => !defined $+{minute} ? undef : sprintf('%02d:%02d:00', ($+{hour} // 0) * 60 + $+{minute}, $+{second}),
                 artist => $artist,
                 title => $title,
+                duration => $duration,
             };
         } elsif ($opt{verbose}) {
             warn "cannot parse line: $line\n";
@@ -180,6 +190,14 @@ sub parse_input($input = '') {
             artist => '',
             title => 'Outro',
         };
+    }
+
+    if ($opt{duration}) {
+        my $accum = 0;
+        for my $track ($tracks->@*) {
+            $track->{time} = sprintf '%02d:%02d:00', $accum / 60, $accum % 60;
+            $accum += $track->{duration} // 0;
+        }
     }
 
     for my $track ($tracks->@*) {
