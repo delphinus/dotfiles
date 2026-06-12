@@ -3,5 +3,8 @@
 {%- set _ = base.update({'env': secret_claude_code_env}) -%}
 {%- set _ = base.update({'enabledPlugins': (base.enabledPlugins | default({})) | combine(secret_claude_code_settings.enabledPlugins | default({}))}) -%}
 {%- set _ = base.update({'extraKnownMarketplaces': (base.extraKnownMarketplaces | default({})) | combine(secret_claude_code_settings.extraKnownMarketplaces | default({}))}) -%}
+{%- set _secret_perms = secret_claude_code_settings.permissions | default({}) -%}
+{%- set _ = base.permissions.update({'allow': (base.permissions.allow | default([])) + (_secret_perms.allow | default([]))}) -%}
+{%- set _ = base.permissions.update({'ask': (base.permissions.ask | default([])) + (_secret_perms.ask | default([]))}) -%}
 {%- endif -%}
 {{ base | to_nice_json(indent=2, sort_keys=False, ensure_ascii=False) }}
