@@ -26,6 +26,9 @@
 - name: prepare kitty config dir
   file: path=~/.config/kitty state=directory
 
+- name: prepare ccstatusline config dir
+  file: path=~/.config/ccstatusline state=directory
+
 - name: prepare goneovim config dir
   file: path=~/.config/goneovim state=directory
 
@@ -69,6 +72,7 @@
     - .config/alacritty
     - .config/bat/config
     - .config/bpytop/bpytop.conf
+    - .config/ccstatusline/settings.json
     - .config/efm-langserver
     - .config/ghostty/config
     - .config/fish
