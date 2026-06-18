@@ -11,6 +11,7 @@
   with_items:
     - { src: 'CLAUDE.md', dest: 'CLAUDE.md' }
     - { src: 'scripts', dest: 'scripts' }
+    - { src: 'skills', dest: 'skills' }
 
 - name: render ~/.claude/settings.json
   template:

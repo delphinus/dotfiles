@@ -1,5 +1,10 @@
 #!/bin/bash -eux
+# dotfiles の Ansible プレイブックを実行する。
+#
+# secrets.yml は 1Password (vault Private, document ansible/vars/secrets.yml) が
+# 単一の真実で git 管理外。実行のたびに取得して配置し、終了時 (成功・失敗とも)
+# に削除する。op が未サインインなら `op signin` してから再実行する。
 cd ~/git/dotfiles/ansible
-sops -d vars/encrypted.secrets.yml > vars/secrets.yml
+trap 'rm -f vars/secrets.yml' EXIT
+op document get ansible/vars/secrets.yml --account my.1password.com --vault Private > vars/secrets.yml
 ansible-playbook -c local ~/git/dotfiles/ansible/local_light.yml
-rm vars/secrets.yml
