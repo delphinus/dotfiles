@@ -110,6 +110,14 @@
             "command": "claude-code-hooks notify 'Claude Code' '待機中です'"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Waiting # notchbar-agents-claude-hook"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
@@ -126,6 +134,16 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Working # notchbar-agents-claude-hook"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "hooks": [
@@ -136,6 +154,24 @@
           {
             "type": "command",
             "command": "claude-code-hooks save"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Auto # notchbar-agents-claude-hook"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" ToolFail # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -156,6 +192,10 @@
           {
             "type": "command",
             "command": "claude-code-hooks notify 'Claude Code' 'セッションの保存が完了しました'"
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Ended # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -166,6 +206,10 @@
           {
             "type": "command",
             "command": "claude-code-hooks tabcolor startup"
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Idle # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -184,6 +228,10 @@
           {
             "type": "command",
             "command": "claude-code-hooks save"
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Idle # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -198,6 +246,10 @@
           {
             "type": "command",
             "command": "claude-code-hooks save"
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Working # notchbar-agents-claude-hook"
           }
         ]
       }
