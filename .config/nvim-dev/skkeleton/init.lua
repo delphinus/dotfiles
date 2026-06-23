@@ -231,22 +231,9 @@ require("lazy").setup({
         }),
       },
       fuzzy = {
-        -- skkeleton 由来の候補は blink.cmp の fuzzy score / frecency を無視し、
-        -- skkeleton 自身が付与した data.rank (Date.now() か負のグローバル順) で
-        -- 並べる。skkeleton 以外の組み合わせでは nil を返して 'score' に委譲。
-        sorts = {
-          function(a, b)
-            if not (a.data and a.data.skkeleton and b.data and b.data.skkeleton) then
-              return nil
-            end
-            if a.data.rank == b.data.rank then
-              return nil
-            end
-            return a.data.rank > b.data.rank
-          end,
-          "score",
-          "sort_text",
-        },
+        -- skkeleton ON 時のみ data.rank で Lua sort、OFF 時は文字列 sort のみで
+        -- blink の Rust sort 最適化を効かせる。詳細は blink_shared.fuzzy_sorts。
+        sorts = blink_shared.fuzzy_sorts,
       },
       keymap = {
         preset = "default",

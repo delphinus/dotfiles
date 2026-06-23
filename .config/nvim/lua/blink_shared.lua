@@ -213,6 +213,38 @@ function M.with_skk_label_match(ctx, inner)
   return highlights
 end
 
+-- skkeleton 由来の候補は data.rank (skkeleton が付与する Date.now() か負の
+-- グローバル順) で並べたいので Lua コンパレータが要る。skkeleton 以外では
+-- nil を返して 'score' に委譲する。
+local function skk_rank_sort(a, b)
+  if not (a.data and a.data.skkeleton and b.data and b.data.skkeleton) then
+    return nil
+  end
+  if a.data.rank == b.data.rank then
+    return nil
+  end
+  return a.data.rank > b.data.rank
+end
+
+-- 静的に使い回す (毎回テーブルを作らない)。blink は sorts_list を読み取り専用
+-- に扱うので共有しても安全。
+local SORTS_WITH_SKK = { skk_rank_sort, "score", "sort_text" }
+local SORTS_DEFAULT = { "score", "sort_text" }
+
+-- blink.cmp の fuzzy.sorts に「関数」として渡す動的ソート定義。blink は補完の
+-- たびにこれを呼ぶ (fuzzy/init.lua: type(config.fuzzy.sorts) == 'function')。
+-- skkeleton 補完中だけ Lua コンパレータ入りのリストを返し、それ以外は文字列
+-- だけのリストを返す。後者では blink の Rust 側 sort 最適化 (sort_in_rust) が
+-- 効く。sorts に Lua 関数が 1 つでも混ざると毎回 Lua の table.sort に落ちるた
+-- め、skkeleton 用関数を常時置いておく書き方では OFF 時も最適化が効かなかった。
+function M.fuzzy_sorts()
+  local ok, skk = pcall(require, "blink-cmp-skkeleton")
+  if ok and skk.is_enabled() then
+    return SORTS_WITH_SKK
+  end
+  return SORTS_DEFAULT
+end
+
 -- Returns blink.cmp menu draw components (kind_icon override + source_name)
 -- that color each candidate by its source. The caller can merge with its own
 -- `label` component (e.g. for colorful-menu integration).
