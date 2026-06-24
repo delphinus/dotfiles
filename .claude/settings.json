@@ -115,7 +115,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh' Waiting # notchbar-agents-claude-hook"
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Waiting # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -139,7 +139,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh' Working # notchbar-agents-claude-hook"
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Working # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -161,7 +161,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh' Auto # notchbar-agents-claude-hook"
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Auto # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -171,7 +171,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh' ToolFail # notchbar-agents-claude-hook"
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" ToolFail # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -195,7 +195,7 @@
           },
           {
             "type": "command",
-            "command": "'$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh' Ended # notchbar-agents-claude-hook"
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Ended # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -209,7 +209,7 @@
           },
           {
             "type": "command",
-            "command": "'$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh' Idle # notchbar-agents-claude-hook"
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Idle # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -231,7 +231,7 @@
           },
           {
             "type": "command",
-            "command": "'$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh' Idle # notchbar-agents-claude-hook"
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Idle # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -249,7 +249,7 @@
           },
           {
             "type": "command",
-            "command": "'$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh' Working # notchbar-agents-claude-hook"
+            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Working # notchbar-agents-claude-hook"
           }
         ]
       }
