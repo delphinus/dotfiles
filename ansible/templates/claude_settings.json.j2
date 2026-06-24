@@ -1,4 +1,5 @@
-{%- set base = lookup('file', dotfiles_dir + '/.claude/settings.json') | from_json -%}
+{#- Bartender Pro (Top Shelf) は実 home の絶対パスでフック導入を検出するため、base 内の $HOME を実パスに置換してから JSON 化する -#}
+{%- set base = lookup('file', dotfiles_dir + '/.claude/settings.json') | replace('$HOME', lookup('env', 'HOME')) | from_json -%}
 {%- if ansible_facts['hostname'] in secret_office.hostnames -%}
 {%- set _ = base.update({'env': secret_claude_code_env}) -%}
 {%- set _ = base.update({'enabledPlugins': (base.enabledPlugins | default({})) | combine(secret_claude_code_settings.enabledPlugins | default({}))}) -%}
