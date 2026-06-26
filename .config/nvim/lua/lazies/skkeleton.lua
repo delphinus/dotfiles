@@ -17,7 +17,9 @@ end
 
 return {
   { "uga-rosa/cmp-skkeleton", enabled = use_cmp, event = { "InsertEnter", "CmdlineEnter" } },
-  { "Xantibody/blink-cmp-skkeleton", enabled = not use_cmp },
+  -- 補完取得を非同期化した自前ブランチ (Xantibody#19) を使用中。マージされたら
+  -- branch 指定を外して "Xantibody/blink-cmp-skkeleton" に戻す。
+  { "delphinus/blink-cmp-skkeleton", branch = "feat/async-completion", enabled = not use_cmp },
 
   {
     "willelz/skk-tutorial.vim",

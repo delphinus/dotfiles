@@ -159,7 +159,9 @@ require("lazy").setup({
     "saghen/blink.cmp",
     dir = shared .. "/blink.cmp",
     dependencies = {
-      { "Xantibody/blink-cmp-skkeleton", dir = shared .. "/blink-cmp-skkeleton" },
+      -- 実体は主設定 (lua/lazies/skkeleton.lua) が feat/async-completion
+      -- (Xantibody#19) で管理。ここは dir 共有で同じチェックアウトを使う。
+      { "delphinus/blink-cmp-skkeleton", branch = "feat/async-completion", dir = shared .. "/blink-cmp-skkeleton" },
       { "delphinus/cmp-wezterm", dir = shared .. "/cmp-wezterm" },
       { "delphinus/cmp-ghq", dir = shared .. "/cmp-ghq" },
       { "mikavilpas/blink-ripgrep.nvim", dir = shared .. "/blink-ripgrep.nvim" },
