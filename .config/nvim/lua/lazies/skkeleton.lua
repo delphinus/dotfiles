@@ -17,9 +17,7 @@ end
 
 return {
   { "uga-rosa/cmp-skkeleton", enabled = use_cmp, event = { "InsertEnter", "CmdlineEnter" } },
-  -- TODO: フォーク経由で saghen/frizbee#64 由来の panic 回避 patch を適用中。
-  -- upstream に PR を出してマージされたら Xantibody/blink-cmp-skkeleton に戻す。
-  { "delphinus/blink-cmp-skkeleton", enabled = not use_cmp },
+  { "Xantibody/blink-cmp-skkeleton", enabled = not use_cmp },
 
   {
     "willelz/skk-tutorial.vim",
