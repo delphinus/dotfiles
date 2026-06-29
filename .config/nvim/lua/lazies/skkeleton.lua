@@ -34,7 +34,10 @@ return {
   },
 
   {
-    "vim-skk/skkeleton",
+    -- skk_server のソケット応答混線 (補完と変換が同じ接続を奪い合い応答がズレる)
+    -- を直す自前ブランチ。マージされたら "vim-skk/skkeleton" に戻す。
+    "delphinus/skkeleton",
+    branch = "fix/skk-server-serialize-requests",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
@@ -77,6 +80,11 @@ return {
       -- 作らないので Lua 側で先に掘っておく。
       local rank_file = vim.fs.normalize "~/.local/state/skkeleton/completion-rank.json"
       vim.fn.mkdir(vim.fs.dirname(rank_file), "p")
+
+      -- blink-cmp-skkeleton の補完取得を診断するためのログ出力先 (skk_server の
+      -- ソケット応答ズレ調査用)。補完が出なくなったら再起動せずにこのファイルを
+      -- 確認する。原因特定後に削除予定。
+      vim.g.blink_cmp_skkeleton_debug_file = vim.fs.normalize "~/.local/state/skkeleton/blink-skk-debug.log"
 
       vim.fn["skkeleton#config"] {
         userDictionary = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo/skk-jisyo.utf8",
