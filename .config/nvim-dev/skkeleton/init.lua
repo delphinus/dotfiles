@@ -131,6 +131,8 @@ require("lazy").setup({
         immediatelyCancel = false,
         registerConvertResult = true,
         sources = { "skk_server" },
+        -- yaskkserv2 を --midashi-utf8 で起動しているため、見出しも UTF-8 で送る。
+        skkServerReqEnc = "utf-8",
         skkServerResEnc = "utf-8",
         databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
         -- markerHenkan = "󰇆",
