@@ -19,7 +19,9 @@ return function(config)
         direction = "Down",
         command = {
           args = {
-            const.fish, "-c", [=[
+            const.fish,
+            "-c",
+            [=[
               set target_pane (wezterm cli list --format json | jq -r --argjson me $WEZTERM_PANE '[.[] | select(.pane_id == $me)][0].tab_id as $tab | [.[] | select(.tab_id == $tab and .pane_id != $me)][0].pane_id')
               if test -z "$target_pane" -o "$target_pane" = null
                 echo "Could not find sibling pane"; read; exit 1
@@ -45,7 +47,9 @@ return function(config)
         direction = "Right",
         command = {
           args = {
-            const.fish, "-c", ([[
+            const.fish,
+            "-c",
+            ([[
               set my_pane $WEZTERM_PANE
               set tty (wezterm cli list --format json | python3 -c "
 import sys, json
@@ -79,14 +83,14 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
 
     -- Split into lines
     local lines = {}
-    for line in text:gmatch("([^\n]*)\n?") do
+    for line in text:gmatch "([^\n]*)\n?" do
       if line ~= "" or #lines > 0 then
         table.insert(lines, line)
       end
     end
 
     if #lines == 0 then
-      wezterm.log_info("コピーする内容がありません")
+      wezterm.log_info "コピーする内容がありません"
       return
     end
 
@@ -94,7 +98,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     -- Search from bottom to top
     local prompt_indices = {}
     for i = #lines, 1, -1 do
-      if lines[i]:match("❯❯❯") or lines[i]:match("❮❮❮") then
+      if lines[i]:match "❯❯❯" or lines[i]:match "❮❮❮" then
         table.insert(prompt_indices, i)
         if #prompt_indices >= 2 then
           break
@@ -111,7 +115,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
       end
       local fallback_text = table.concat(fallback_lines, "\n")
       window:copy_to_clipboard(fallback_text)
-      wezterm.log_info("直前の出力をコピーしました (最大50行)")
+      wezterm.log_info "直前の出力をコピーしました (最大50行)"
       return
     end
 
@@ -123,7 +127,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
 
     -- Extract command from the prompt line
     local prompt_line = lines[prev_prompt_idx]
-    local command = prompt_line:match("❯❯❯%s*(.*)$") or prompt_line:match("❮❮❮%s*(.*)$")
+    local command = prompt_line:match "❯❯❯%s*(.*)$" or prompt_line:match "❮❮❮%s*(.*)$"
 
     -- Output lines are from the line after prev_prompt to the line before recent_prompt
     local output_start = prev_prompt_idx + 1
@@ -145,7 +149,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     end
 
     if #result_lines == 0 then
-      wezterm.log_info("コピーする内容がありません")
+      wezterm.log_info "コピーする内容がありません"
       return
     end
 
@@ -165,13 +169,12 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     end)
 
     -- 2. Fallback: Use macOS notification center
-    wezterm.background_child_process({
+    wezterm.background_child_process {
       "osascript",
       "-e",
       string.format('display notification "%s" with title "WezTerm"', message),
-    })
+    }
   end)
-
 
   local paste_or_forward_image = wezterm.action_callback(function(window, pane)
     if pane:get_user_vars().editprompt then
@@ -187,6 +190,34 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
       end
     end
     window:perform_action(act.PasteFrom "Clipboard", pane)
+  end)
+
+  -- Claude Code の選択プロンプトを賢く確定する。
+  -- 画面に出ている番号付き選択肢 (1. / 2. / 3. ...) を数え、
+  --   * 3 択以上 (Yes / Yes + α / No) なら ↓ を 1 回送って真ん中 (option 2) を選んでから Enter
+  --   * それ未満 (Yes / No、あるいはメニューでない) ならそのまま Enter
+  -- Enter は ⌘Enter と同じ CSI-u シーケンスを送るので、Claude Code 側では通常の確定として扱われる。
+  local smart_confirm = wezterm.action_callback(function(window, pane)
+    local enter = "\x1b[13;9u" -- ⌘Enter と同じ
+    local ok, text = pcall(function()
+      return pane:get_lines_as_text()
+    end)
+    if ok and text then
+      -- 選択肢行 (先頭が空白・枠線・❯ 等の非英数字のみ、続けて "N. ") から番号を集める。
+      -- 先頭に英字が来る散文 (例: "Step 1.") は弾く。
+      local opts = {}
+      for line in text:gmatch "[^\n]+" do
+        local n = line:match "^[^%w]-(%d+)%.%s"
+        if n then
+          opts[tonumber(n)] = true
+        end
+      end
+      -- 1. と 2. が揃っていれば選択メニューとみなす。3. もあれば 3 択以上。
+      if opts[1] and opts[2] and opts[3] then
+        window:perform_action(act.SendKey { key = "DownArrow" }, pane)
+      end
+    end
+    window:perform_action(act.SendString(enter), pane)
   end)
 
   config.keys = {
@@ -238,8 +269,8 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
     { key = "y", mods = "CMD", action = copy_last_command_output },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
-    { key = "Enter", mods = "CTRL", action = act.SendString "\x1b[13;5u" },
+    { key = "Enter", mods = "CTRL", action = smart_confirm },
     { key = "Enter", mods = "CMD", action = act.SendString "\x1b[13;9u" },
-    { key = "Enter", mods = "SHIFT", action = act.SendString "\x1b[13;2u" },
+    { key = "Enter", mods = "SHIFT", action = smart_confirm },
   }
 end
