@@ -192,34 +192,6 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     window:perform_action(act.PasteFrom "Clipboard", pane)
   end)
 
-  -- Claude Code の選択プロンプトを賢く確定する。
-  -- 画面に出ている番号付き選択肢 (1. / 2. / 3. ...) を数え、
-  --   * 3 択以上 (Yes / Yes + α / No) なら ↓ を 1 回送って真ん中 (option 2) を選んでから Enter
-  --   * それ未満 (Yes / No、あるいはメニューでない) ならそのまま Enter
-  -- Enter は ⌘Enter と同じ CSI-u シーケンスを送るので、Claude Code 側では通常の確定として扱われる。
-  local smart_confirm = wezterm.action_callback(function(window, pane)
-    local enter = "\x1b[13;9u" -- ⌘Enter と同じ
-    local ok, text = pcall(function()
-      return pane:get_lines_as_text()
-    end)
-    if ok and text then
-      -- 選択肢行 (先頭が空白・枠線・❯ 等の非英数字のみ、続けて "N. ") から番号を集める。
-      -- 先頭に英字が来る散文 (例: "Step 1.") は弾く。
-      local opts = {}
-      for line in text:gmatch "[^\n]+" do
-        local n = line:match "^[^%w]-(%d+)%.%s"
-        if n then
-          opts[tonumber(n)] = true
-        end
-      end
-      -- 1. と 2. が揃っていれば選択メニューとみなす。3. もあれば 3 択以上。
-      if opts[1] and opts[2] and opts[3] then
-        window:perform_action(act.SendKey { key = "DownArrow" }, pane)
-      end
-    end
-    window:perform_action(act.SendString(enter), pane)
-  end)
-
   config.keys = {
     { key = "-", mods = "CMD", action = act.DecreaseFontSize },
     { key = "0", mods = "CMD", action = act.ResetFontSize },
@@ -269,8 +241,8 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
     { key = "y", mods = "CMD", action = copy_last_command_output },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
-    { key = "Enter", mods = "CTRL", action = smart_confirm },
+    { key = "Enter", mods = "CTRL", action = act.SendString "\x1b[13;5u" },
     { key = "Enter", mods = "CMD", action = act.SendString "\x1b[13;9u" },
-    { key = "Enter", mods = "SHIFT", action = smart_confirm },
+    { key = "Enter", mods = "SHIFT", action = act.SendString "\x1b[13;2u" },
   }
 end
