@@ -544,6 +544,14 @@ if vim.env.EDITPROMPT then
   vim.keymap.set("i", "<C-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   vim.keymap.set("i", "<D-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
   vim.keymap.set("i", "<S-CR>", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
+  -- HHKB の Fn+Enter は WezTerm が keypad-enter (kitty PUA 57414) として送るので
+  -- <kEnter> になる。<C-CR> と同じ確定用途に割り当てる。
+  vim.keymap.set(
+    "i",
+    "<kEnter>",
+    editprompt_send,
+    { silent = true, desc = "Send buffer content to editprompt (HHKB Fn+Enter)" }
+  )
   local function forward_when_empty(lhs, raw_key)
     vim.keymap.set("i", lhs, function()
       local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)

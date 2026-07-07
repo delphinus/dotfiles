@@ -245,8 +245,9 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "Enter", mods = "CMD", action = act.SendString "\x1b[13;9u" },
     { key = "Enter", mods = "SHIFT", action = act.SendString "\x1b[13;2u" },
     -- HHKB の Fn+Enter は keypad_enter (macOS kVK_ANSI_KeypadEnter) として届く。
-    -- ⌃Enter と同じ CSI-u を送り、editprompt (nvim-dev/skkeleton) の
-    -- editprompt_send (<C-CR>) を発火させる。
-    { key = "phys:KeypadEnter", action = act.SendString "\x1b[13;5u" },
+    -- kitty プロトコルの keypad-enter (PUA 57414) をそのまま送る。Neovim では
+    -- <kEnter> として <CR>/<C-CR> と区別でき、editprompt が確定操作に割り当てる。
+    -- fish 等 CSI u 対応シェルでは通常の Enter にフォールバックする。
+    { key = "phys:KeypadEnter", action = act.SendString "\x1b[57414u" },
   }
 end
