@@ -59,20 +59,22 @@ api.create_user_command("CleanUpStartUpTime", function()
   vim.cmd "g/sourcing nvim_exec2() called/d"
 end, { desc = "Clean up --startuptime result" })
 
--- echo a string for map definitions from an input key
+-- echo the map-ready name of an input key (e.g. <C-CR>, <Esc>)
 api.create_user_command("GetChar", function()
-  -- TODO: does not redraw??
-  vim.cmd.redraw()
   print "Press any key:"
-  local c = fn.getchar()
-  while c == [[\<CursorHold]] do
+  local s = fn.getcharstr()
+  -- print in the next loop so the message survives the post-getchar redraw
+  -- (getchar 直後の print は再描画で消えることがあるため schedule で出す)
+  vim.schedule(function()
     vim.cmd.redraw()
-    print "Press any key:"
-    c = fn.getchar()
-  end
-  vim.cmd.redraw()
-  print(([[Raw: '%s' | Char: '%s']]):format(c, fn.nr2char(c)))
-end, { desc = "Echo a string for map definitions from an input key" })
+    -- keytrans() gives the mapping-ready name. strtrans() keeps the byte view
+    -- printable: raw K_SPECIAL/control bytes (e.g. <C-CR> = <80><fc>^D^M) would
+    -- otherwise crash the message UI. NOTE: getchar()/getcharstr() fold <kEnter>
+    -- into <CR>; only the mapping engine tells them apart, so test keypad keys
+    -- with an actual :inoremap.
+    print(([[Key: '%s' | bytes: %s]]):format(fn.keytrans(s), fn.strtrans(s)))
+  end)
+end, { desc = "Echo the map-ready name of an input key" })
 
 api.create_user_command("Dump", function(opts)
   local obj = assert(load("return " .. opts.args))()
