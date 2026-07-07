@@ -244,5 +244,9 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "Enter", mods = "CTRL", action = act.SendString "\x1b[13;5u" },
     { key = "Enter", mods = "CMD", action = act.SendString "\x1b[13;9u" },
     { key = "Enter", mods = "SHIFT", action = act.SendString "\x1b[13;2u" },
+    -- HHKB の Fn+Enter は keypad_enter (macOS kVK_ANSI_KeypadEnter) として届く。
+    -- ⌃Enter と同じ CSI-u を送り、editprompt (nvim-dev/skkeleton) の
+    -- editprompt_send (<C-CR>) を発火させる。
+    { key = "phys:KeypadEnter", action = act.SendString "\x1b[13;5u" },
   }
 end
