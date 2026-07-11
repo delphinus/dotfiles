@@ -28,6 +28,13 @@
               "bundle_identifiers": [
                 "com.tinyspeck.slackmacgap"
               ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -55,6 +62,13 @@
               "type": "frontmost_application_if",
               "bundle_identifiers": [
                 "com.tinyspeck.slackmacgap"
+              ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
               ]
             }
           ]

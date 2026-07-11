@@ -29,6 +29,15 @@
                 "value": 0
               }
             }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
+            }
           ]
         }
       ]
@@ -52,6 +61,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -71,6 +87,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -90,6 +113,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -109,6 +139,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -128,6 +165,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -147,6 +191,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -166,6 +217,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -185,6 +243,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -204,6 +269,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -223,6 +295,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -242,6 +321,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -261,6 +347,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         }
@@ -285,6 +378,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -304,6 +404,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -323,6 +430,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -342,6 +456,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -361,6 +482,13 @@
               "type": "variable_if",
               "name": "tab_as_trigger_key",
               "value": 1
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         }

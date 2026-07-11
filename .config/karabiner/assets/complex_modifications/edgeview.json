@@ -25,6 +25,13 @@
               "bundle_identifiers": [
                 "com.djhan.EdgeView-3"
               ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -48,6 +55,13 @@
               "type": "frontmost_application_if",
               "bundle_identifiers": [
                 "com.djhan.EdgeView-3"
+              ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
               ]
             }
           ]
@@ -73,6 +87,13 @@
               "bundle_identifiers": [
                 "com.djhan.EdgeView-3"
               ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -97,6 +118,13 @@
               "bundle_identifiers": [
                 "com.djhan.EdgeView-3"
               ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -120,6 +148,13 @@
               "type": "frontmost_application_if",
               "bundle_identifiers": [
                 "com.djhan.EdgeView-3"
+              ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
               ]
             }
           ]
@@ -149,6 +184,13 @@
               "bundle_identifiers": [
                 "com.djhan.EdgeView-3"
               ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         },
@@ -176,6 +218,13 @@
               "type": "frontmost_application_if",
               "bundle_identifiers": [
                 "com.djhan.EdgeView-3"
+              ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
               ]
             }
           ]

@@ -82,4 +82,16 @@ my $json = {
     ],
 };
 
+# Parallels Desktop (VM ウィンドウ / Coherence ゲストアプリ) が前面のときは
+# これらのショートカットを無効化する。全 manipulator の conditions に付与する。
+my $parallels_cond = {
+    type => 'frontmost_application_unless',
+    bundle_identifiers => ['^com\.parallels\.desktop\.console$', '^com\.parallels\.winapp\.'],
+};
+for my $rule (@{$json->{rules}}) {
+    for my $m (@{$rule->{manipulators}}) {
+        push @{$m->{conditions}}, $parallels_cond;
+    }
+}
+
 print JSON::PP->new->utf8(1)->indent(1)->space_after(1)->indent_length(2)->canonical(1)->encode($json);

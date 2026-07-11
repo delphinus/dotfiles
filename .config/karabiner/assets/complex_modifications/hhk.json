@@ -43,6 +43,13 @@
                 "^org\\.alacritty$",
                 "^com\\.github\\.wez\\.wezterm$"
               ]
+            },
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.parallels\\.desktop\\.console$",
+                "^com\\.parallels\\.winapp\\."
+              ]
             }
           ]
         }
