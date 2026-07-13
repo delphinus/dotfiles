@@ -1794,4 +1794,10 @@ return {
     },
     opts = {},
   },
+
+  {
+    "justinmk/guh.nvim",
+    cmd = { "Guh" },
+    dependencies = { "barrettruth/diffs.nvim" },
+  },
 }

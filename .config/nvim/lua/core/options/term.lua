@@ -17,12 +17,18 @@ local function terminal_autocmd(event)
 end
 
 terminal_autocmd "TermOpen" {
-  callback = function()
-    vim.opt.scrolloff = 0
-    vim.opt.number = false
-    vim.opt.relativenumber = false
-    vim.opt.cursorline = false
-    vim.opt.signcolumn = "no"
+  callback = function(a)
+    -- Skip unlisted helper terminals (e.g. guh.nvim spawns hidden `term://…gh`
+    -- buffers); their startinsert leaks into the real window and traps it in
+    -- Terminal-Insert mode.
+    if not vim.bo[a.buf].buflisted then
+      return
+    end
+    vim.opt_local.scrolloff = 0
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+    vim.wo.cursorline = false
+    vim.wo.signcolumn = "no"
     vim.cmd.startinsert()
   end,
   desc = "Set default options for terminals",
