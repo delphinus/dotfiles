@@ -6,6 +6,32 @@ local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 package.path = vim.env.HOME .. "/.config/nvim/lua/?.lua;" .. package.path
 local blink_shared = require "blink_shared"
 
+-- The menu label component. Defined once so blink_shared.with_skk_reading can
+-- wrap it to append the reading for skkeleton items.
+local label_component = {
+  text = function(ctx)
+    if ctx.label_detail and ctx.label_detail ~= "" then
+      return ctx.label .. " " .. ctx.label_detail
+    end
+    return ctx.label
+  end,
+  highlight = function(ctx)
+    return blink_shared.with_skk_label_match(ctx, function(c)
+      local label = c.label
+      local highlights = {
+        { 0, #label, group = c.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel" },
+      }
+      if c.label_detail and c.label_detail ~= "" then
+        table.insert(highlights, { #label + 1, #label + 1 + #c.label_detail, group = "BlinkCmpLabelDetail" })
+      end
+      for _, idx in ipairs(c.label_matched_indices) do
+        table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
+      end
+      return highlights
+    end)
+  end,
+}
+
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if vim.uv.fs_stat(lazypath) then
   vim.opt.rtp:prepend(lazypath)
@@ -190,33 +216,10 @@ require("lazy").setup({
               { "label", "label_description", gap = 1 },
               { "source_name", gap = 1 },
             },
+            -- skkeleton 項目は読みを label に追記し source_name を空にする
+            -- (詳細は blink_shared.with_skk_reading / menu_components)。
             components = vim.tbl_extend("force", blink_shared.menu_components(), {
-              label = {
-                text = function(ctx)
-                  if ctx.label_detail and ctx.label_detail ~= "" then
-                    return ctx.label .. " " .. ctx.label_detail
-                  end
-                  return ctx.label
-                end,
-                highlight = function(ctx)
-                  return blink_shared.with_skk_label_match(ctx, function(c)
-                    local label = c.label
-                    local highlights = {
-                      { 0, #label, group = c.deprecated and "BlinkCmpLabelDeprecated" or "BlinkCmpLabel" },
-                    }
-                    if c.label_detail and c.label_detail ~= "" then
-                      table.insert(
-                        highlights,
-                        { #label + 1, #label + 1 + #c.label_detail, group = "BlinkCmpLabelDetail" }
-                      )
-                    end
-                    for _, idx in ipairs(c.label_matched_indices) do
-                      table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
-                    end
-                    return highlights
-                  end)
-                end,
-              },
+              label = blink_shared.with_skk_reading(label_component),
             }),
           },
         },

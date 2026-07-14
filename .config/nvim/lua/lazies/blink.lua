@@ -37,6 +37,29 @@ local function with_skk(fallback)
   end
 end
 
+-- The menu label component (colorful-menu integration + skk label match).
+-- Defined once so blink_shared.with_skk_reading can wrap it to append the
+-- reading for skkeleton items.
+local label_component = {
+  text = function(ctx)
+    local text = require("colorful-menu").blink_components_text(ctx)
+    if ctx.label_detail and ctx.label_detail ~= "" and not text:find(ctx.label_detail, 1, true) then
+      text = text .. " " .. ctx.label_detail
+    end
+    return text
+  end,
+  highlight = function(ctx)
+    return shared.with_skk_label_match(ctx, function(c)
+      local highlights = require("colorful-menu").blink_components_highlight(c)
+      local text = require("colorful-menu").blink_components_text(c)
+      if c.label_detail and c.label_detail ~= "" and not text:find(c.label_detail, 1, true) then
+        table.insert(highlights, { #text + 1, #text + 1 + #c.label_detail, group = "BlinkCmpLabelDetail" })
+      end
+      return highlights
+    end)
+  end,
+}
+
 return {
   { "rafamadriz/friendly-snippets" },
   { "xzbdmw/colorful-menu.nvim" },
@@ -92,29 +115,10 @@ return {
               { "label", "label_description", gap = 1 },
               { "source_name", gap = 1 },
             },
+            -- skkeleton 項目は読みを label に追記し source_name を空にする
+            -- (詳細は blink_shared.with_skk_reading / menu_components)。
             components = vim.tbl_extend("force", shared.menu_components(), {
-              label = {
-                text = function(ctx)
-                  local text = require("colorful-menu").blink_components_text(ctx)
-                  if ctx.label_detail and ctx.label_detail ~= "" and not text:find(ctx.label_detail, 1, true) then
-                    text = text .. " " .. ctx.label_detail
-                  end
-                  return text
-                end,
-                highlight = function(ctx)
-                  return shared.with_skk_label_match(ctx, function(c)
-                    local highlights = require("colorful-menu").blink_components_highlight(c)
-                    local text = require("colorful-menu").blink_components_text(c)
-                    if c.label_detail and c.label_detail ~= "" and not text:find(c.label_detail, 1, true) then
-                      table.insert(
-                        highlights,
-                        { #text + 1, #text + 1 + #c.label_detail, group = "BlinkCmpLabelDetail" }
-                      )
-                    end
-                    return highlights
-                  end)
-                end,
-              },
+              label = shared.with_skk_reading(label_component),
             }),
           },
         },

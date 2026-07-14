@@ -269,13 +269,51 @@ function M.menu_components()
     },
     source_name = {
       width = { max = 12 },
+      -- skkeleton 項目では source 名 ("skkeleton") を出さない。左端アイコンが既に
+      -- "J" で skkeleton を示しており冗長なうえ、これを空にすることで label の
+      -- fill による余白が右端 (見えない位置) に流れ、メニューが横に間延びしない。
       text = function(ctx)
+        if ctx.item.data and ctx.item.data.skkeleton then
+          return ""
+        end
         return ctx.source_name
       end,
       highlight = function(ctx)
         return M.source_groups[ctx.source_id] or "BlinkCmpSource"
       end,
     },
+  }
+end
+
+-- Wrap a label component so skkeleton items show their reading (見出し) appended
+-- to the label text, e.g. "安  やす". Putting the reading inside the label (rather
+-- than a separate right-aligned column) keeps the menu compact: the filling
+-- label pads to the right with the reading already included, so there is no gap
+-- between the kanji and its reading. Same 表層形 under different readings
+-- (安 → やす / やすし / やすまる) becomes distinguishable. Non-skkeleton items
+-- pass through untouched, so LSP etc. are unaffected.
+function M.with_skk_reading(component)
+  local function reading(ctx)
+    if ctx.item.data and ctx.item.data.skkeleton and ctx.item.data.kana and ctx.item.data.kana ~= "" then
+      return "  " .. ctx.item.data.kana
+    end
+    return nil
+  end
+  return {
+    text = function(ctx)
+      local base = component.text(ctx) or ""
+      local r = reading(ctx)
+      return r and (base .. r) or base
+    end,
+    highlight = function(ctx)
+      local highlights = component.highlight(ctx) or {}
+      local r = reading(ctx)
+      if r then
+        local base = component.text(ctx) or ""
+        table.insert(highlights, { #base, #base + #r, group = "BlinkCmpLabelDescription" })
+      end
+      return highlights
+    end,
   }
 end
 
@@ -390,7 +428,38 @@ function M.providers()
         },
       },
     },
-    skkeleton = { name = "skkeleton", module = "blink-cmp-skkeleton" },
+    skkeleton = {
+      name = "skkeleton",
+      module = "blink-cmp-skkeleton",
+      -- 同じ読み・同じ表層形の候補が複数辞書から違う文字列で返ることがある
+      -- (例: user 辞書の "安" と yaskkserv2 の "安;姓")。skkeleton は完全一致
+      -- でしか重複排除しないので両方残り、注釈 (;…) を落とした表示ラベルが同じ
+      -- になって「安 やす」が 2 行出る。ここで (読み + 表示ラベル) で畳む。
+      -- items は plugin 側で rank 降順に並んでいるため最初の 1 件 (= 最上位) を
+      -- 残し、注釈由来の documentation は残す方に移植する。
+      transform_items = function(_, items)
+        local seen = {}
+        local out = {}
+        for _, item in ipairs(items) do
+          local data = item.data
+          if data and data.skkeleton then
+            local key = (data.kana or "") .. "\0" .. (item.label or "")
+            local prev = seen[key]
+            if prev then
+              if not prev.documentation and item.documentation then
+                prev.documentation = item.documentation
+              end
+            else
+              seen[key] = item
+              out[#out + 1] = item
+            end
+          else
+            out[#out + 1] = item
+          end
+        end
+        return out
+      end,
+    },
   }
 end
 
