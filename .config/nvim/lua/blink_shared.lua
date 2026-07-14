@@ -285,32 +285,86 @@ function M.menu_components()
   }
 end
 
--- Wrap a label component so skkeleton items show their reading (見出し) appended
--- to the label text, e.g. "安  やす". Putting the reading inside the label (rather
--- than a separate right-aligned column) keeps the menu compact: the filling
--- label pads to the right with the reading already included, so there is no gap
--- between the kanji and its reading. Same 表層形 under different readings
--- (安 → やす / やすし / やすまる) becomes distinguishable. Non-skkeleton items
--- pass through untouched, so LSP etc. are unaffected.
+-- skkeleton 補完メニューで読み (見出し) を候補 label のうしろに出すときの
+-- レイアウト設定。表示桁 (全角=2, 半角=1) で数える。
+--  * label が SKK_LABEL_MIN_W 未満なら空白で右詰めパディングしてから区切りを
+--    置くので、短い候補どうしでは読みの開始位置が揃う (printf "%-Ns  " 相当)。
+--  * label が SKK_LABEL_MIN_W 以上なら区切りだけ空けて読みを続ける。
+--  * 読みが SKK_READING_MAX_W を超えたら … で打ち切る。
+-- 区切りには記号を置かず、読みを SKK_READING_HL で色分けして候補と区別する
+-- (全角スペースはフォントによって幅がずれるため半角スペース 2 個を使う)。
+local SKK_LABEL_MIN_W = 10 -- 読みの開始位置を揃える最小フィールド幅 (表示桁)
+local SKK_READING_MAX_W = 12 -- 読みの最大表示幅。超過分は … で省略
+local SKK_SEP = "  " -- 候補と読みの間隔 (半角スペース 2 個)
+-- 読みのハイライトグループ。候補 (BlinkCmpLabel) と色で区別するのが目的。
+-- Comment は colorscheme が必ず定義する薄い二次色で、区切り記号を置かずとも
+-- 読みが視覚的に分離する。好みで "NonText" や独自グループに変えてよい
+-- (BlinkCmpLabelDescription は未定義だと無色になり区別が付かない)。
+local SKK_READING_HL = "Comment"
+
+-- Truncate `s` to at most `max_w` display columns, appending "…" if cut.
+local function skk_truncate(s, max_w)
+  if vim.api.nvim_strwidth(s) <= max_w then
+    return s
+  end
+  local ellipsis = "…"
+  local budget = max_w - vim.api.nvim_strwidth(ellipsis)
+  local acc, w = {}, 0
+  for _, ch in ipairs(vim.fn.split(s, "\\zs")) do
+    local cw = vim.api.nvim_strwidth(ch)
+    if w + cw > budget then
+      break
+    end
+    acc[#acc + 1] = ch
+    w = w + cw
+  end
+  return table.concat(acc) .. ellipsis
+end
+
+-- Layout the reading appended to a skk `label`: returns the appended suffix
+-- (padding + separator + truncated reading), the byte offset where the reading
+-- starts (relative to the label), and the reading string itself. Deterministic
+-- from (label, kana) so text() and highlight() agree without recomputing the
+-- (potentially expensive) colorful-menu label text a second time.
+local function skk_reading_layout(label, kana)
+  local pad = math.max(0, SKK_LABEL_MIN_W - vim.api.nvim_strwidth(label))
+  local reading = skk_truncate(kana, SKK_READING_MAX_W)
+  local lead = string.rep(" ", pad) .. SKK_SEP
+  return lead .. reading, #label + #lead, reading
+end
+
+-- Wrap a label component so skkeleton items show their reading (見出し) after the
+-- label (see skk_reading_layout for the spacing rules). Putting the reading in
+-- the label text (rather than a separate right-aligned column) keeps the menu
+-- compact; the filling label pads to the far right (invisible) after the reading.
+-- Same 表層形 under different readings (安 → やす / やすし / やすまる) becomes
+-- distinguishable. Non-skkeleton items pass through untouched (LSP unaffected).
 function M.with_skk_reading(component)
-  local function reading(ctx)
-    if ctx.item.data and ctx.item.data.skkeleton and ctx.item.data.kana and ctx.item.data.kana ~= "" then
-      return "  " .. ctx.item.data.kana
+  local function kana_of(ctx)
+    local d = ctx.item and ctx.item.data
+    if d and d.skkeleton and d.kana and d.kana ~= "" then
+      return d.kana
     end
     return nil
   end
   return {
     text = function(ctx)
       local base = component.text(ctx) or ""
-      local r = reading(ctx)
-      return r and (base .. r) or base
+      local kana = kana_of(ctx)
+      if not kana then
+        return base
+      end
+      -- base (colorful text) equals ctx.label for skk items (no label_detail),
+      -- so width/offset computed from ctx.label match the displayed base.
+      local suffix = skk_reading_layout(ctx.label or base, kana)
+      return base .. suffix
     end,
     highlight = function(ctx)
       local highlights = component.highlight(ctx) or {}
-      local r = reading(ctx)
-      if r then
-        local base = component.text(ctx) or ""
-        table.insert(highlights, { #base, #base + #r, group = "BlinkCmpLabelDescription" })
+      local kana = kana_of(ctx)
+      if kana then
+        local _, start, reading = skk_reading_layout(ctx.label or "", kana)
+        table.insert(highlights, { start, start + #reading, group = SKK_READING_HL })
       end
       return highlights
     end,
