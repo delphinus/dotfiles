@@ -86,6 +86,10 @@ abbr ta 'tig --all'
 abbr nv 'nvr -cc split'
 abbr mdless 'env NVIM_APPNAME=nvim-dev/md-render nvim +MdRenderPager'
 
+function codediff --description 'nvim (nvim-dev/codediff) を起動し引数をそのまま :CodeDiff に渡す'
+    env NVIM_APPNAME=nvim-dev/codediff nvim -c "CodeDiff $argv"
+end
+
 type -q hub; and alias git hub
 if type -q gdircolors
     abbr dircolors gdircolors
