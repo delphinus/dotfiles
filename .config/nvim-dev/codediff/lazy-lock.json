@@ -1,0 +1,7 @@
+{
+  "codediff.nvim": { "branch": "main", "commit": "7608f3b436ce1f84a4888f75e53079caa981a2e9" },
+  "flash.nvim": { "branch": "fix/skip-label-filtering-for-long-patterns", "commit": "2c9da9b752ba98be7eccc2b42aa14cc3c8bbaf89" },
+  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "luamigemo": { "branch": "main", "commit": "570beb0b73f27b190b9eff8c81be0ded6d865202" },
+  "nui.nvim": { "branch": "main", "commit": "de740991c12411b663994b2860f1a4fd0937c130" }
+}
