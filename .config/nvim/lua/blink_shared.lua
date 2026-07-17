@@ -395,6 +395,39 @@ function M.providers()
       name = "Ripgrep",
       module = "blink-ripgrep",
       async = true,
+      -- CJK には単語境界が無く、rg が組み立てる `<prefix>[\w_-]+` の \w は Rust
+      -- 正規表現で既定 Unicode 対応なので仮名・漢字・助詞まで 1 語として飲み込む。
+      -- 結果「Confluenceページから作業履歴を振り返り」のように行末まで拾われ、
+      -- 純粋な "Confluence" が候補に出ない。ここで各候補を先頭の ASCII 単語
+      -- ([A-Za-z0-9_-] の連なり) だけに切り詰め、同じ語に畳む。日本語を rg で
+      -- 補完する道は塞がるが、元々フレーズごと拾って壊れており日本語入力は
+      -- skkeleton が担うので実害は無い。
+      --
+      -- これは source プロバイダ層 (blink 内部の `n`) の変換で、fuzzy に入る前に
+      -- 候補リストを書き換えるだけ。fuzzy.sorts の Rust sort 最適化 (M.fuzzy_sorts,
+      -- sort_in_rust) は fuzzy.sorts が全部文字列かだけで決まり transform_items は
+      -- 参照されないので、この最適化はそのまま効く。
+      transform_items = function(_, items)
+        local seen, out = {}, {}
+        for _, item in ipairs(items) do
+          local word = (item.label or ""):match "^[%w_-]+"
+          if word then
+            word = (word:gsub("%-+$", "")) -- 末尾に残る余分な - を落とす
+          end
+          if word and word ~= "" then
+            if not seen[word] then
+              seen[word] = true
+              item.label = word
+              item.insertText = word
+              item.filterText = word
+              out[#out + 1] = item
+            end
+          else
+            out[#out + 1] = item
+          end
+        end
+        return out
+      end,
       opts = {
         prefix_min_len = 4,
         backend = {
