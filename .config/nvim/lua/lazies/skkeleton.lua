@@ -34,10 +34,7 @@ return {
   },
 
   {
-    -- skk_server のソケット応答混線 (補完と変換が同じ接続を奪い合い応答がズレる)
-    -- を直す自前ブランチ。マージされたら "vim-skk/skkeleton" に戻す。
-    "delphinus/skkeleton",
-    branch = "fix/skk-server-serialize-requests",
+    "vim-skk/skkeleton",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
