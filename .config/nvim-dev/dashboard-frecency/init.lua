@@ -33,11 +33,16 @@ require("lazy").setup {
   { "nvim-telescope/telescope.nvim", cmd = { "Telescope" } },
   {
     "delphinus/dashboard-nvim",
-    branch = "feat/mru-list-fn",
+    -- list_fn is now merged into master along with the upstream sync
+    -- (shortcuts_left_side / letter_list), so track master instead of the
+    -- old feat/mru-list-fn branch.
+    branch = "master",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
     opts = {
       theme = "hyper",
+      shortcuts_left_side = true,
+      letter_list = "fdsahlgeruiwotyqpcvmnxbz",
       config = {
         mru = {
           list_fn = function()

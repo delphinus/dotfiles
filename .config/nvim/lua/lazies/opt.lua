@@ -1038,6 +1038,12 @@ return {
       local ignore_dirs = vim.split(vim.env.IGNORE_DIRS or "", ",", { trimempty = true })
       return {
         theme = "hyper",
+        -- put the hotkey on the left of each entry so long paths that
+        -- overflow the window never hide it.
+        shortcuts_left_side = true,
+        -- assign hotkeys in QWERTY comfort order (home row first, then top,
+        -- then bottom row); j/k stay free for cursor movement.
+        letter_list = "fdsahlgeruiwotyqpcvmnxbz",
         config = {
           week_header = { enable = true },
           shortcut = {

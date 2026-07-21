@@ -29,7 +29,12 @@ require("lazy").setup {
     "nvimdev/dashboard-nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = { "VimEnter" },
-    opts = { theme = "hyper", config = { mru = {} } },
+    opts = {
+      theme = "hyper",
+      shortcuts_left_side = true,
+      letter_list = "fdsahlgeruiwotyqpcvmnxbz",
+      config = { mru = {} },
+    },
   },
 }
 
