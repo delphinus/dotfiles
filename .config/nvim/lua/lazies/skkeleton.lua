@@ -34,40 +34,22 @@ return {
   },
 
   {
-    "vim-skk/skkeleton",
+    -- blink.cmp を補完エンジンとして認識させる分岐を足した自前ブランチを使用中。
+    -- s:complete_info() / handleCompleteKey に blink.cmp 対応を入れており、
+    -- eggLikeNewline 有効時の <CR> 確定が効くようになる。upstream にマージ
+    -- されたら branch 指定を外して "vim-skk/skkeleton" に戻す。
+    "delphinus/skkeleton",
+    branch = "feat/blink-cmp-support",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
 
     config = function()
+      -- blink 使用時の <CR> 確定は delphinus/skkeleton の blink.cmp 分岐
+      -- (feat/blink-cmp-support) が skkeleton 本体で面倒を見るため、以前ここに
+      -- あった buffer-local <CR> 張り替えハックは不要になった。
       if use_cmp then
         require("core.skkeleton_cmp").setup()
-      else
-        -- skkeleton#map sets a buffer-local <nowait> <CR> that shadows blink's
-        -- global mapping. Re-override after enable to delegate to blink when
-        -- its menu is visible.
-        local group = vim.api.nvim_create_augroup("skkeleton_blink_cr", {})
-        vim.api.nvim_create_autocmd("User", {
-          group = group,
-          pattern = "skkeleton-enable-post",
-          callback = function()
-            vim.keymap.set("i", "<CR>", function()
-              local ok, blink = pcall(require, "blink.cmp")
-              if ok and blink.is_visible() then
-                blink.select_and_accept()
-                return
-              end
-              vim.fn["skkeleton#handle"]("handleKey", { key = vim.keycode "<CR>" })
-            end, { buffer = true, nowait = true, desc = "blink + skkeleton <CR>" })
-          end,
-        })
-        vim.api.nvim_create_autocmd("User", {
-          group = group,
-          pattern = "skkeleton-disable-pre",
-          callback = function()
-            pcall(vim.keymap.del, "i", "<CR>", { buffer = true })
-          end,
-        })
       end
 
       -- 補完候補の並び順学習 (getRanks) を永続化する。デフォルト ("") では
