@@ -637,7 +637,10 @@ return {
       return {
         legacy_commands = false,
         workspaces = {
-          { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" },
+          (function()
+            return vim.env.IGNORE_DIRS
+              or { name = "default", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes" }
+          end)(),
           { name = "public", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Public" },
         },
         daily_notes = { folder = "日記" },
