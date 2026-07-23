@@ -1711,6 +1711,11 @@ return {
     -- 衝突）は問題にならない。小文字 labels にする場合は要注意。
     -- 上流の関連 PR: https://github.com/folke/flash.nvim/pull/479
     -- (skip() を可視範囲に限定するアプローチ。マージされればフォーク不要になる)
+    --
+    -- さらに同ブランチには Neovim 0.13 対応も入れてある。0.13 (neovim#39485)
+    -- で search_match_lines / search_match_endcol が SearchState 構造体に移り、
+    -- flash の FFI が dlsym で symbol not found になる問題を hacks.lua で回避。
+    -- 上流の関連 PR: https://github.com/folke/flash.nvim/pull/492
     "delphinus/flash.nvim",
     branch = "fix/skip-label-filtering-for-long-patterns",
     dependencies = { { "delphinus/luamigemo", version = "*" } },
