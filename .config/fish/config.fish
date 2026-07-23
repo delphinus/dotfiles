@@ -100,6 +100,20 @@ end
 
 test "$fish_key_bindings" != fish_hybrid_key_bindings; and fish_hybrid_key_bindings
 
+# IGNORE_DIRS が立っている端末では ghq のメインルートを ~/git ではなく
+# ~/git/github.com に絞り、~/git 配下の他ホストを ghq 系 (telescope-ghq /
+# cmp-ghq / fzf_ghq) から見えなくする。telescope-frecency.nvim / obsidian.nvim
+# は各自 IGNORE_DIRS を参照済み。
+# --on-variable なので、起動後に set -x / set -e IGNORE_DIRS しても即追従する。
+# 先に GHQ_ROOT を消してから ghq root --all を読むことで、常に git-config の
+# 実 root (メイン先頭) から再計算する (二重適用・順序ずれを防ぐ)。
+function __ghq_apply_ignore_dirs --on-variable IGNORE_DIRS
+    set -e GHQ_ROOT
+    set -q IGNORE_DIRS
+    and set -gx GHQ_ROOT (ghq root --all | string replace "$HOME/git" "$HOME/git/github.com" | string join ":")
+end
+__ghq_apply_ignore_dirs
+
 set FZF_DEFAULT_OPTS '--border --inline-info --prompt="❯❯❯ " --height=40%'
 bind \c] fzf_ghq
 bind -M insert \c] fzf_ghq

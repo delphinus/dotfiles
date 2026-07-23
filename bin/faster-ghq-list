@@ -2,8 +2,17 @@
 tmpfile=$(mktemp)
 ghq root --all > "$tmpfile"
 
+# IGNORE_DIRS が立つ端末では GHQ_ROOT のメインルートが 1 段深いパスに絞られ
+# (config.fish 参照)、repo が 1 段浅くなる (host/user/repo → user/repo) ので
+# メインルートの探索深さを 2 に切り替える。
+if [ -n "$IGNORE_DIRS" ]; then
+  main_depth=2
+else
+  main_depth=3
+fi
+
 {
-  head -n1 "$tmpfile" | xargs -I{} find {} -mindepth 3 -maxdepth 3 -type d 2>/dev/null
+  head -n1 "$tmpfile" | xargs -I{} find {} -mindepth "$main_depth" -maxdepth "$main_depth" -type d 2>/dev/null
   tail -n3 "$tmpfile" | xargs -I{} find {} -mindepth 1 -maxdepth 1 -type d 2>/dev/null
 }
 
