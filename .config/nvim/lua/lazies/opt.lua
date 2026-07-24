@@ -1812,4 +1812,21 @@ return {
     cmd = { "Guh" },
     dependencies = { "barrettruth/diffs.nvim" },
   },
+
+  {
+    "atusy/jab.nvim",
+    dependencies = { { "delphinus/luamigemo", version = "*" } },
+    keys = {
+      {
+        "s",
+        function()
+          return require("jab").jab_win {
+            labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
+          }
+        end,
+        mode = { "n", "x", "o" },
+        expr = true,
+      },
+    },
+  },
 }
