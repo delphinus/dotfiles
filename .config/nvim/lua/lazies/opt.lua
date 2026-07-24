@@ -1704,6 +1704,12 @@ return {
     },
   },
 
+  -- flash.nvim は jab.nvim に置き換えたため enabled = false で無効化。
+  -- jab.nvim には無い以下の機能は移行できないので、参考のため設定は残す:
+  --   S     treesitter()          treesitter ノードを選択
+  --   r     remote() (o)          オペレータ待機中のリモート操作
+  --   R     treesitter_search()   treesitter 検索
+  --   <C-s> toggle() (c)          コマンドライン検索中のラベル表示の切り替え
   {
     enabled = false,
     -- NOTE: フォーク版を使用。labeler:skip() が migemo の長大な正規表現で
@@ -1816,17 +1822,9 @@ return {
   {
     "atusy/jab.nvim",
     dependencies = { { "delphinus/luamigemo", version = "*" } },
-    keys = {
-      {
-        "s",
-        function()
-          return require("jab").jab_win {
-            labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
-          }
-        end,
-        mode = { "n", "x", "o" },
-        expr = true,
-      },
-    },
+    -- キー定義は nvim-dev の各 config と共有 (lua/jab_shared.lua)。
+    -- treesitter/remote/toggle は jab に無いため移行していない
+    -- (上の enabled = false の flash ブロック参照)。
+    keys = require("jab_shared").keys,
   },
 }

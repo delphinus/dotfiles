@@ -5,6 +5,9 @@ else
   load(vim.fn.system "curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua")()
 end
 
+-- メイン nvim config の共有モジュール (jab.nvim のキー定義) を借りる。
+package.path = vim.env.HOME .. "/.config/nvim/lua/?.lua;" .. package.path
+
 -- less のようにノーマルモードの q で終了する (未保存でも破棄して終了)
 vim.keymap.set("n", "q", "<Cmd>quitall!<CR>")
 
@@ -53,6 +56,21 @@ require("lazy").setup {
     end,
   },
   {
+    "atusy/jab.nvim",
+    dependencies = { { "delphinus/luamigemo", version = "*" } },
+    -- キー定義はメイン config と共有 (lua/jab_shared.lua)。以下の flash 専用機能は
+    -- jab に無いため移行できず、下の enabled = false の flash ブロックに残す:
+    --   S     treesitter()          treesitter ノードを選択
+    --   r     remote() (o)          オペレータ待機中のリモート操作
+    --   R     treesitter_search()   treesitter 検索
+    --   <C-s> toggle() (c)          コマンドライン検索中のラベル表示の切り替え
+    keys = require("jab_shared").keys,
+  },
+
+  -- 移行前の flash.nvim 設定。enabled = false で無効化しつつ参考に残す
+  -- (S/r/R/<C-s> は jab に無い機能)。
+  {
+    enabled = false,
     -- メイン config と同じくフォーク版を使用 (長大な migemo 正規表現で
     -- labeler:skip() が遅くなる問題を回避するパッチを含む)。
     "delphinus/flash.nvim",
@@ -119,5 +137,5 @@ require("lazy").setup {
 
 vim.cmd.colorscheme "tokyonight"
 
--- tokyonight は FlashBackdrop / FlashLabel を持つが FlashMatch は補う
-vim.api.nvim_set_hl(0, "FlashMatch", { fg = require("tokyonight.colors").setup().cyan })
+-- jab.nvim はハイライトを設定できず、ラベル = Error・マッチ = CurSearch・
+-- backdrop = Comment を固定で使う。flash 用の FlashMatch 設定は不要になった。

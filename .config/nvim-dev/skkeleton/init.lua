@@ -386,6 +386,16 @@ require("lazy").setup({
   },
 
   {
+    "atusy/jab.nvim",
+    dir = shared .. "/jab.nvim",
+    dependencies = { { "delphinus/luamigemo", dir = shared .. "/luamigemo" } },
+    -- キー定義はメイン config と共有 (lua/jab_shared.lua)。
+    keys = require("jab_shared").keys,
+  },
+
+  -- 移行前の flash.nvim 設定。enabled = false で無効化しつつ参考に残す。
+  {
+    enabled = false,
     "folke/flash.nvim",
     dir = shared .. "/flash.nvim",
     keys = {
