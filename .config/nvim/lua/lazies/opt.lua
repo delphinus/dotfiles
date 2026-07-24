@@ -1547,6 +1547,12 @@ return {
         end
       end, { nargs = 0, desc = "Open GitHub code diff" })
     end,
+    config = function()
+      -- 差分行に重なるコメントだけを明るくする (詳細は
+      -- lua/codediff_bright_comment.lua)。差分行でないコンテキスト行のコメントや
+      -- 通常の編集バッファには影響しない。
+      require("codediff_bright_comment").setup()
+    end,
   },
 
   (function()

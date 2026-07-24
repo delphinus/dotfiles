@@ -137,5 +137,10 @@ require("lazy").setup {
 
 vim.cmd.colorscheme "tokyonight"
 
+-- 差分行に重なるコメントだけを明るくする (メイン config と共有。詳細は
+-- lua/codediff_bright_comment.lua)。package.path でメイン config の lua/ を
+-- 通してあるのでそのまま require できる。
+require("codediff_bright_comment").setup()
+
 -- jab.nvim はハイライトを設定できず、ラベル = Error・マッチ = CurSearch・
 -- backdrop = Comment を固定で使う。flash 用の FlashMatch 設定は不要になった。
