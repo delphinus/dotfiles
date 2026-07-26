@@ -8,6 +8,11 @@ end
 -- メイン nvim config の共有モジュール (jab.nvim のキー定義) を借りる。
 package.path = vim.env.HOME .. "/.config/nvim/lua/?.lua;" .. package.path
 
+-- 差分バッファのタブ幅。codediff は git リビジョン側 (codediff://) の filetype を
+-- 意図的に空のままにし FileType autocmd も発火させないため、ftplugin/FileType では
+-- 効かない。左右両方で揃えるには global の tabstop を設定するのが確実。
+vim.opt.tabstop = 4
+
 -- less のようにノーマルモードの q で終了する (未保存でも破棄して終了)
 vim.keymap.set("n", "q", "<Cmd>quitall!<CR>")
 
