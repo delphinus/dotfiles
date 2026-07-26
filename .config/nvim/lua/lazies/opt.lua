@@ -1826,7 +1826,11 @@ return {
   },
 
   {
-    "atusy/jab.nvim",
+    -- multi_window 対応 (jab_win をタブ内全ウィンドウ対象にする) の PR を
+    -- atusy/jab.nvim へ出すまでの間、自分の fork のブランチを使う。
+    -- マージされたら "atusy/jab.nvim" (branch 無し) に戻す。
+    "delphinus/jab.nvim",
+    branch = "feat/multi-window",
     dependencies = { { "delphinus/luamigemo", version = "*" } },
     -- キー定義は nvim-dev の各 config と共有 (lua/jab_shared.lua)。
     -- treesitter/remote/toggle は jab に無いため移行していない

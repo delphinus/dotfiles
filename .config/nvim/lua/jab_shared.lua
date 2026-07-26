@@ -12,12 +12,11 @@
 -- flash.nvim にあった treesitter() / remote() / treesitter_search() / toggle()
 -- は jab に無いため移行していない。
 --
--- 既知の制限 (flash との差。いずれも jab 側の改修が要る upstream 事項で、
--- 将来 issue/PR にまとめる候補):
---   1. jab_win (s) は現在のウィンドウ 1 つだけが対象。flash.jump は既定で
---      タブページ内の全可視ウィンドウにラベルを付けて別ウィンドウへも飛べた。
---      jab は nvim_tabpage_list_wins を使わず単一ウィンドウ固定 (init.lua の
---      opts.win = nvim_get_current_win / search_inwindow が 1 window のみ走査)。
+-- 既知の制限 (flash との差):
+--   1. (解決済み) jab_win (s) を multi_window = true でタブ内の全可視ウィンドウ
+--      対象にできるようになった (delphinus/jab.nvim feat/multi-window)。下の
+--      keys で有効化済み。buffer 単位でまとめてラベル付けし、カレント優先で
+--      ラベルを割り当て、別ウィンドウへも飛べる (operator 待機中は 1 window)。
 --   2. jab_win は可視ウィンドウを上から下へ走査してラベルを頭から割り当て、
 --      ラベル在庫が尽きたら打ち切る。カーソルからの距離順ではないので、
 --      マッチが多いとカーソル近傍 (下側) にラベルが付かないことがある。
@@ -52,7 +51,8 @@ M.keys = {
     "s",
     function()
       return require("jab").jab_win {
-        labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVB", ""),
+        labels = vim.split("HJKLASDFGYUIOPQWERTNMZXCVBhjklasdfgyuiopqwertnmzxcvb", ""),
+        multi_window = true, -- タブ内の全可視ウィンドウを対象にする (flash.jump 相当)
       }
     end,
     mode = { "n", "x", "o" },

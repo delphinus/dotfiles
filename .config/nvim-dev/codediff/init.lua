@@ -56,7 +56,10 @@ require("lazy").setup {
     end,
   },
   {
-    "atusy/jab.nvim",
+    -- multi_window 対応の PR がマージされるまで自分の fork ブランチを使う
+    -- (メイン config の opt.lua と同じ。マージ後 "atusy/jab.nvim" に戻す)。
+    "delphinus/jab.nvim",
+    branch = "feat/multi-window",
     dependencies = { { "delphinus/luamigemo", version = "*" } },
     -- キー定義はメイン config と共有 (lua/jab_shared.lua)。以下の flash 専用機能は
     -- jab に無いため移行できず、下の enabled = false の flash ブロックに残す:
