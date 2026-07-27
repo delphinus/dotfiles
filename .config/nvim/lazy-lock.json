@@ -65,7 +65,7 @@
   "incline.nvim": { "branch": "main", "commit": "debd628e9395f7a9da57bdc31ce75ca6b40a880b" },
   "inspect-extmarks.nvim": { "branch": "main", "commit": "2fc20a9e91932b8e4aba37c86313d034b25a04e8" },
   "inspecthi.vim": { "branch": "main", "commit": "b282d2529597250de0b1df67c49c214636bb38c1" },
-  "jab.nvim": { "branch": "feat/multi-window", "commit": "6521b51ebb30e0202b2b8425e0c2381a15964d3b" },
+  "jab.nvim": { "branch": "feat/multi-window", "commit": "209c63b6f8fee2e939e2a5b0d707e74b96d10fbf" },
   "jira.vim": { "branch": "master", "commit": "d6e103c7be68d241417e9c720aabb65f7c80a072" },
   "kensaku.vim": { "branch": "main", "commit": "67727c8cc81f45b3c3abc600ecfef6fba620eb88" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
