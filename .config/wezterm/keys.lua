@@ -209,6 +209,8 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "=", mods = "CMD", action = act.IncreaseFontSize },
     -- default: act.ActivateCopyMode
     { key = "[", mods = "CMD", action = snatch.action { shell = const.fish } },
+    -- 再現精度の確認用。撮影前後のスクリーンショットを並べた画像を開く。
+    { key = "[", mods = "CTRL|CMD", action = snatch.action { shell = const.fish, screenshot = true } },
     { key = "[", mods = "SHIFT|CMD", action = act.ActivateTabRelative(-1) },
     { key = "]", mods = "CMD", action = act.PasteFrom "Clipboard" },
     { key = "]", mods = "SHIFT|CMD", action = act.ActivateTabRelative(1) },
