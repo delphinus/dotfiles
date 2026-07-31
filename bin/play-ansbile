@@ -10,6 +10,35 @@
 cd ~/git/dotfiles/ansible
 trap 'rm -f vars/secrets.yml' EXIT
 op document get ansible/vars/secrets.yml --account my.1password.com --vault Private > vars/secrets.yml
+
+# 取得が途中で切れていないか検証してから流す。op が不調なときに部分的な内容を
+# 返すことがあり (実測: 2 回連続で別々の位置で切れ、`'secret_office' is
+# undefined` 等でプレイブックが中断した)、その場合でも exit code は 0 で、
+# YAML としては読めてしまう。変数が欠けたまま走ると、途中まで適用してから
+# 落ちる・不完全な設定ファイルを書く、といった中途半端な状態になりうる。
+# ファイル全体に散らばる番兵キーの存在で切り詰めを検出する。
+python3 - <<'PY'
+import sys, yaml
+
+with open('vars/secrets.yml') as fh:
+    body = fh.read()
+if len(body) < 10000:
+    sys.exit(f'secrets.yml が小さすぎる ({len(body)} バイト)。取得が不完全な可能性がある')
+try:
+    doc = yaml.safe_load(body)
+except yaml.YAMLError as e:
+    sys.exit(f'secrets.yml が YAML として壊れている: {e}')
+
+# ファイルの先頭・中間・末尾に散らばるキーを選んである。
+sentinels = ['ansible_become_pass', 'secret_office', 'secret_aws_vault_op_vault_id',
+             'secret_zshrc_local', 'secret_config_files']
+missing = [k for k in sentinels if k not in doc]
+if missing:
+    sys.exit(f'secrets.yml の取得が不完全 (欠けているキー: {", ".join(missing)})。'
+             '1Password の状態を確認して再実行する')
+print(f'secrets.yml 検証 OK ({len(body)} バイト, {len(doc)} キー)')
+PY
+
 ansible-playbook -c local ~/git/dotfiles/ansible/local_light.yml
 
 mkdir -p ~/.local/state/daily-sync
