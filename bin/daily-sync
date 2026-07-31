@@ -1,0 +1,562 @@
+#!/usr/bin/env bash
+# 複数端末のツール・設定のバージョンを毎日揃えるための launchd ジョブ本体。
+#
+# 方針: 無人でできることは全部やる。無人でできないこと (1Password の対話認証が
+# 要る play-ansbile、sudo が要る LaunchDaemon の入れ替え等) は「差分があるとき
+# だけ」通知して人間に渡す。勝手には実行しない。
+#
+#   daily-sync             通常実行 (1 日 1 回まで)
+#   daily-sync --force     当日既に実行済みでも走らせる
+#   daily-sync --dry-run   変更を伴う操作をスキップして検知だけ行う
+#
+# ログ:   ~/Library/Logs/daily-sync.log
+# 状態:   ~/.local/state/daily-sync/
+# 設定:   ~/.config/daily-sync/env  (secrets.yml 経由で Ansible が配置)
+#
+# このスクリプト自身が play-ansbile で置き換わる可能性があるため、全体を main()
+# に入れて末尾で呼ぶ。bash はスクリプトを逐次読みするので、こうしないと実行中に
+# 中身が入れ替わったときに壊れる。
+
+set -uo pipefail
+
+# brew --repo は ruby の起動を伴い 1 回 300ms 程度かかるので使い回す。
+BREW_REPO="$(brew --repo 2>/dev/null)" || BREW_REPO=""
+readonly BREW_REPO
+
+readonly STATE_DIR="$HOME/.local/state/daily-sync"
+readonly LAST_RUN="$STATE_DIR/last-run"
+readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
+readonly ENV_FILE="$HOME/.config/daily-sync/env"
+readonly DOTFILES="$HOME/git/dotfiles"
+readonly SKK_JISYO="$HOME/git/github.com/delphinus/skk-jisyo"
+readonly VAULT="${DAILY_SYNC_VAULT:-$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes}"
+readonly SNAPSHOT_DIR="$VAULT/端末状態"
+# play-ansbile を最後に流してから、新着コミットが無くても流し直すまでの日数。
+readonly ANSIBLE_MAX_AGE_DAYS=14
+# スナップショットがこの日数より古い端末は「休眠」として差分比較から外す。
+readonly SNAPSHOT_STALE_DAYS=7
+
+FORCE=0
+DRY_RUN=0
+# 人間の対応が要る事項と、実行中に起きた失敗。どちらも空なら通知を出さない。
+ACTIONS=()
+FAILURES=()
+
+log() { printf '%s %s\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$*"; }
+section() { printf '\n%s ==== %s ====\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$*"; }
+action() { ACTIONS+=("$1"); log "ACTION: $1"; }
+failure() { FAILURES+=("$1"); log "FAIL: $1"; }
+
+host_name() { scutil --get LocalHostName 2>/dev/null || hostname -s; }
+
+# 1 ステップの失敗で全体を止めない。失敗は記録して次へ進む。
+run_step() {
+    local label="$1"
+    shift
+    section "$label"
+    if "$@"; then
+        return 0
+    fi
+    failure "$label に失敗 (詳細はログ参照)"
+    return 1
+}
+
+# --- 実行ガード ---------------------------------------------------------
+
+already_ran_today() {
+    [[ -f "$LAST_RUN" ]] || return 1
+    [[ "$(cat "$LAST_RUN" 2>/dev/null)" == "$(date '+%Y-%m-%d')" ]]
+}
+
+# --- Homebrew -----------------------------------------------------------
+
+# mycrons tap は head を HTTPS 化済み。古い端末に残る SSH remote を直す。
+# launchd 配下では 1Password SSH agent が使えず、SSH のままだと HEAD を
+# 取得できないため。
+normalize_tap_remotes() {
+    local tap_dir url
+    for tap_dir in "$BREW_REPO/Library/Taps/delphinus"/homebrew-*; do
+        [[ -d "$tap_dir/.git" ]] || continue
+        url="$(git -C "$tap_dir" remote get-url origin 2>/dev/null)" || continue
+        case "$url" in
+            git@github.com:*)
+                local https_url="https://github.com/${url#git@github.com:}"
+                log "tap remote を HTTPS に変更: $(basename "$tap_dir") ($url -> $https_url)"
+                ((DRY_RUN)) || git -C "$tap_dir" remote set-url origin "$https_url"
+                ;;
+        esac
+    done
+    return 0
+}
+
+# linked keg が HEAD- で始まる formula のみを返す。versioned keg と HEAD keg が
+# 両方 Cellar に残っている formula (utf8proc 等) を誤って HEAD へ切り替えない
+# ように、brew list --versions の grep ではなく linked keg で判定する。
+head_formulae() {
+    brew info --json=v2 --installed 2>/dev/null |
+        jq -r '.formulae[] | select(.linked_keg // "" | startswith("HEAD")) | .full_name'
+}
+
+# formula 名とバージョンの一覧。アップグレード前後の差分検出に使う。
+formula_versions() {
+    brew info --json=v2 --installed 2>/dev/null |
+        jq -r '.formulae[] | "\(.full_name)\t\(.linked_keg // .installed[0].version // "")"' | sort
+}
+
+# formula の定義が HOMEBREW_OP を要求するか。tap のソースを直接見る。
+# brew cat でも取れるが 1 回あたり数百 ms かかるので、ローカルの tap を読む。
+formula_needs_homebrew_op() {
+    local full_name="$1"
+    case "$full_name" in
+        */*/*) ;;
+        *) return 1 ;; # tap 外 (homebrew/core 等) は該当しない
+    esac
+    local user="${full_name%%/*}"
+    local rest="${full_name#*/}"
+    local repo="${rest%%/*}"
+    local name="${rest#*/}"
+    local tap_dir="$BREW_REPO/Library/Taps/$user/homebrew-$repo"
+    local rb
+    for rb in "$tap_dir/$name.rb" "$tap_dir/Formula/$name.rb"; do
+        [[ -f "$rb" ]] && { grep -q 'HOMEBREW_OP' "$rb"; return $?; }
+    done
+    return 1
+}
+
+brew_update() {
+    ((DRY_RUN)) && { log "(dry-run) brew update をスキップ"; return 0; }
+    brew update
+}
+
+brew_upgrade_versioned() {
+    ((DRY_RUN)) && { log "(dry-run) brew upgrade をスキップ"; return 0; }
+    brew upgrade
+}
+
+# brew upgrade は --fetch-HEAD を付けないと HEAD インストールの formula を
+# 一切見ない (brew outdated にすら出ない)。ここが端末間ドリフトの主因だった。
+#
+# 通常の upgrade と分けるのは、HOMEBREW_OP 未設定などで mycrons 側が失敗しても
+# bottle 系の upgrade を巻き込ませないため。
+brew_upgrade_head() {
+    local -a formulae=()
+    local line
+    while IFS= read -r line; do
+        [[ -n "$line" ]] && formulae+=("$line")
+    done < <(head_formulae)
+    if ((${#formulae[@]} == 0)); then
+        log "HEAD インストールの formula は無し"
+        return 0
+    fi
+    log "HEAD 対象 ${#formulae[@]} 件: ${formulae[*]}"
+
+    # mycrons の formula の一部は install 時に HOMEBREW_OP (1Password サービス
+    # アカウントトークン) を要求する。焼き込み (inreplace) と install 時の
+    # op 参照の両方があり、無いまま走らせると必ず失敗する。
+    # トークンを要求しない formula (add_timestamp 等) は更新できるので、
+    # tap の formula 定義を見て要求するものだけを外す。
+    if [[ -z "${HOMEBREW_OP:-}" ]]; then
+        local -a filtered=()
+        local f skipped=0
+        for f in "${formulae[@]}"; do
+            if formula_needs_homebrew_op "$f"; then
+                ((skipped++))
+            else
+                filtered+=("$f")
+            fi
+        done
+        if ((skipped > 0)); then
+            action "HOMEBREW_OP が未設定のため formula ${skipped} 件をスキップした。${ENV_FILE} を配置するために play-ansbile が必要"
+            formulae=("${filtered[@]}")
+        fi
+    fi
+
+    ((${#formulae[@]} == 0)) && return 0
+    ((DRY_RUN)) && { log "(dry-run) brew upgrade --fetch-HEAD をスキップ"; return 0; }
+    brew upgrade --fetch-HEAD "${formulae[@]}"
+}
+
+# --- アップグレード後に人手が要るものの検知 ------------------------------
+#
+# 当初は各 formula の post_install に寄せる方針だったが、実際に調べると
+#   - claude-code-hooks: hooks は Ansible が settings.json に入れており、
+#     post_install で setup を走らせると play-ansbile と互いに書き換え合う
+#   - buffalo-timemachine: /Library/LaunchDaemons への配置に root が要る
+# ため post_install には寄せられない。検知して通知する方式にしている。
+
+# claude-code-hooks が新しい hook を追加したのに dotfiles の
+# .claude/settings.json が追随していない場合を検出する。
+check_claude_code_hooks() {
+    local prefix shipped
+    prefix="$(brew --prefix claude-code-hooks 2>/dev/null)" || prefix=""
+    shipped="$prefix/share/claude-code-hooks/hooks.json"
+    [[ -n "$prefix" && -f "$shipped" ]] || { log "claude-code-hooks 未インストール。スキップ"; return 0; }
+    local settings="$HOME/.claude/settings.json"
+    [[ -f "$settings" ]] || { log "$settings が無い。スキップ"; return 0; }
+
+    local query='to_entries[] | .key as $e | .value[] | .hooks[] | "\($e)\t\(.command)"'
+    local missing
+    missing="$(comm -23 \
+        <(jq -r "$query" "$shipped" | sort) \
+        <(jq -r ".hooks | $query" "$settings" | sort))" || return 1
+
+    if [[ -n "$missing" ]]; then
+        log "settings.json に無い hook:"
+        printf '  %s\n' "$missing"
+        action "claude-code-hooks が新しい hook を追加した。dotfiles の .claude/settings.json に反映が必要 (詳細はログ)"
+    else
+        log "claude-code-hooks の hook はすべて settings.json に存在"
+    fi
+    return 0
+}
+
+# buffalo-timemachine の LaunchDaemon は root 権限で /Library/LaunchDaemons に
+# 置く必要があり brew では更新されない。中身がずれたら sudo コマンドを案内する。
+check_buffalo_launchdaemon() {
+    local prefix shipped
+    prefix="$(brew --prefix buffalo-timemachine 2>/dev/null)" || prefix=""
+    shipped="$prefix/share/buffalo-timemachine/com.delphinus.buffalo-tm-thin-compact.plist"
+    local installed=/Library/LaunchDaemons/com.delphinus.buffalo-tm-thin-compact.plist
+    [[ -n "$prefix" && -f "$shipped" ]] || { log "buffalo-timemachine 未インストール。スキップ"; return 0; }
+    if [[ ! -f "$installed" ]]; then
+        log "LaunchDaemon 未配置 (意図的に無効化しているなら無視してよい)"
+        return 0
+    fi
+    if cmp -s "$shipped" "$installed"; then
+        log "buffalo-timemachine の LaunchDaemon は最新と一致"
+    else
+        action "buffalo-timemachine の LaunchDaemon が古い。sudo launchctl bootout system/com.delphinus.buffalo-tm-thin-compact && sudo cp '$shipped' /Library/LaunchDaemons/ && sudo launchctl bootstrap system $installed"
+    fi
+    return 0
+}
+
+# launchd のジョブが生きているか。skk-jisyo は自前で 30 分毎に同期し、setup の
+# 再実行も bin/ensure-setup がやるので、ここでは死活だけ見る (同期はしない)。
+check_launchd_jobs() {
+    local uid label
+    uid="$(id -u)"
+    for label in com.delphinus.skk-sync com.delphinus.yaskkserv2-dict com.delphinus.yaskkserv2-watchdog; do
+        if launchctl print "gui/$uid/$label" >/dev/null 2>&1; then
+            log "launchd OK: $label"
+        else
+            action "launchd ジョブ $label がロードされていない"
+        fi
+    done
+
+    # skk-sync は 30 分間隔。ログが長時間更新されていなければ止まっている。
+    local skk_log="$HOME/Library/Logs/skk-sync.log"
+    if [[ -f "$skk_log" ]]; then
+        local age=$(( ($(date +%s) - $(stat -f %m "$skk_log")) / 60 ))
+        if ((age > 120)); then
+            action "skk-sync のログが ${age} 分更新されていない。$SKK_JISYO/bin/setup の再実行を検討"
+        else
+            log "skk-sync のログは ${age} 分前に更新済み"
+        fi
+    fi
+    return 0
+}
+
+# --- dotfiles (play-ansbile は実行しない) --------------------------------
+#
+# play-ansbile は 1Password の対話認証が要るため launchd 配下では完走できない。
+# 新着があるかどうかだけ判定して、実行はユーザに委ねる。
+
+check_dotfiles() {
+    local head_sha stamped_sha stamp_date pending=0
+
+    if ((DRY_RUN)); then
+        log "(dry-run) git fetch をスキップ"
+    else
+        git -C "$DOTFILES" fetch --prune --quiet origin || return 1
+    fi
+
+    local upstream
+    upstream="$(git -C "$DOTFILES" rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)" || upstream=""
+    if [[ -n "$upstream" ]]; then
+        local behind ahead
+        behind="$(git -C "$DOTFILES" rev-list --count "HEAD..$upstream" 2>/dev/null || echo 0)"
+        ahead="$(git -C "$DOTFILES" rev-list --count "$upstream..HEAD" 2>/dev/null || echo 0)"
+        if ((behind > 0)); then
+            log "$upstream に新着 ${behind} 件。pull する"
+            if ((DRY_RUN)); then
+                log "(dry-run) pull をスキップ"
+            elif git -C "$DOTFILES" merge --ff-only --quiet "$upstream"; then
+                pending=1
+            else
+                action "dotfiles が fast-forward できない (ローカルで分岐している)。手動で解消が必要"
+            fi
+        fi
+        ((ahead > 0)) && log "ローカルが $upstream より ${ahead} 件先行 (push 待ち)"
+    fi
+
+    if [[ -n "$(git -C "$DOTFILES" status --porcelain 2>/dev/null)" ]]; then
+        log "作業ツリーに未コミットの変更あり"
+        pending=1
+    fi
+
+    head_sha="$(git -C "$DOTFILES" rev-parse HEAD 2>/dev/null || echo unknown)"
+    if [[ -f "$ANSIBLE_STAMP" ]]; then
+        stamp_date=""
+        stamped_sha=""
+        read -r stamp_date stamped_sha < "$ANSIBLE_STAMP" || true
+        if [[ "$head_sha" != "$stamped_sha" ]]; then
+            log "play-ansbile 実行時の dotfiles (${stamped_sha:0:12}) と現在 (${head_sha:0:12}) がずれている"
+            pending=1
+        fi
+        local stamp_epoch age_days
+        stamp_epoch="$(date -j -f '%Y-%m-%dT%H:%M:%S%z' "$stamp_date" +%s 2>/dev/null || echo 0)"
+        if ((stamp_epoch > 0)); then
+            age_days=$(( ($(date +%s) - stamp_epoch) / 86400 ))
+            log "play-ansbile の最終実行: $stamp_date (${age_days} 日前)"
+            ((age_days > ANSIBLE_MAX_AGE_DAYS)) && pending=1
+        fi
+    else
+        log "play-ansbile の実行記録が無い"
+        pending=1
+    fi
+
+    ((pending)) && action "dotfiles が未反映。実行してください: $DOTFILES/bin/play-ansbile"
+    return 0
+}
+
+# --- 端末間スナップショットと差分 ----------------------------------------
+#
+# iCloud で同期される Obsidian vault に、端末ごとに 1 ファイルだけ書く。
+# ファイルを共有しないので iCloud の競合解決が走る余地が無い。
+
+write_snapshot() {
+    mkdir -p "$SNAPSHOT_DIR" || return 1
+    local host out
+    host="$(host_name)"
+    out="$SNAPSHOT_DIR/${host}.json"
+
+    local dotfiles_head dotfiles_dirty skk_head last_ansible self_sha
+    dotfiles_head="$(git -C "$DOTFILES" rev-parse HEAD 2>/dev/null || echo unknown)"
+    [[ -n "$(git -C "$DOTFILES" status --porcelain 2>/dev/null)" ]] && dotfiles_dirty=true || dotfiles_dirty=false
+    skk_head="$(git -C "$SKK_JISYO" rev-parse HEAD 2>/dev/null || echo unknown)"
+    last_ansible="$(cut -d' ' -f1 "$ANSIBLE_STAMP" 2>/dev/null || echo null)"
+    self_sha="$(shasum -a 256 "${BASH_SOURCE[0]}" 2>/dev/null | cut -c1-12 || echo unknown)"
+
+    ((DRY_RUN)) && { log "(dry-run) スナップショットの書き出しをスキップ"; return 0; }
+
+    brew info --json=v2 --installed 2>/dev/null | jq \
+        --arg host "$host" \
+        --arg at "$(date '+%Y-%m-%dT%H:%M:%S%z')" \
+        --arg macos "$(sw_vers -productVersion)" \
+        --arg dotfiles_head "$dotfiles_head" \
+        --argjson dotfiles_dirty "$dotfiles_dirty" \
+        --arg skk_head "$skk_head" \
+        --arg last_ansible "$last_ansible" \
+        --arg self_sha "$self_sha" \
+        '{
+            hostname: $host,
+            generated_at: $at,
+            macos: $macos,
+            daily_sync_sha: $self_sha,
+            dotfiles: { head: $dotfiles_head, dirty: $dotfiles_dirty, last_ansible: $last_ansible },
+            skk_jisyo_head: $skk_head,
+            formulae: ([.formulae[] | { key: .full_name, value: (.linked_keg // .installed[0].version // "") }] | from_entries),
+            casks: ([.casks[] | { key: .token, value: ((.installed // "") | tostring) }] | from_entries)
+        }' > "$out" || return 1
+
+    log "スナップショットを書き出した: $out"
+    return 0
+}
+
+# 全端末のスナップショットを突き合わせ、自端末と食い違う項目を列挙する。
+# HEAD-<sha> は大小比較ができないので「どちらが新しい」ではなく「不一致」と
+# して報告する。両端末で daily-sync が回っていれば一致するのが正常。
+compare_snapshots() {
+    [[ -d "$SNAPSHOT_DIR" ]] || { log "スナップショットが無い"; return 0; }
+    local host report
+    host="$(host_name)"
+    report="$SNAPSHOT_DIR/差分レポート.md"
+
+    local -a others=()
+    local f
+    for f in "$SNAPSHOT_DIR"/*.json; do
+        [[ -f "$f" ]] || continue
+        [[ "$(basename "$f" .json)" == "$host" ]] && continue
+        others+=("$f")
+    done
+
+    if ((${#others[@]} == 0)); then
+        log "比較対象の他端末が無い (この端末が最初の 1 台)"
+        return 0
+    fi
+
+    ((DRY_RUN)) && { log "(dry-run) 差分レポートの生成をスキップ"; return 0; }
+
+    # 全端末の JSON を jq に slurp して 1 本のクエリで処理する。
+    # $mine が自端末、$active が比較対象、$dormant が休眠端末。
+    local jq_prelude='
+        ($now | tonumber) as $now
+        | (($stale_days | tonumber) * 86400) as $stale
+        | (map(select(.hostname == $me)) | .[0]) as $mine
+        | (map(select(.hostname != $me))
+           | map(. + { age: ($now - (.generated_at | strptime("%Y-%m-%dT%H:%M:%S%z") | mktime)) })) as $rest
+        | ([$rest[] | select(.age <  $stale)]) as $active
+        | ([$rest[] | select(.age >= $stale)]) as $dormant
+        | ($active | map(. as $o
+            | $mine.formulae | to_entries
+            | map(select($o.formulae[.key] != null and $o.formulae[.key] != .value))) | add // []) as $all_diffs'
+
+    local body count
+    body="$(jq -s -r \
+        --arg me "$host" \
+        --arg stale_days "$SNAPSHOT_STALE_DAYS" \
+        --arg now "$(date +%s)" \
+        "$jq_prelude"'
+         | [ "# 端末バージョン差分レポート", "",
+             "- 生成: \($mine.generated_at) (\($mine.hostname))",
+             "- 比較対象: \($active | length) 台 (休眠 \($dormant | length) 台)", "",
+             "> このファイルは daily-sync が自動生成する。手で編集しても次回上書きされる。", "" ]
+           + ([ $active[] as $o
+                | ($mine.formulae | to_entries | map(select($o.formulae[.key] != null and $o.formulae[.key] != .value))) as $diff
+                | ($o.formulae | to_entries | map(select($mine.formulae[.key] == null))) as $only_other
+                | ($mine.formulae | to_entries | map(select($o.formulae[.key] == null))) as $only_me
+                | [ "## vs \($o.hostname)", "", "- スナップショット: \($o.generated_at)", "" ]
+                  + (if ($diff | length) > 0
+                     then [ "### バージョン不一致", "", "| formula | \($mine.hostname) | \($o.hostname) |", "|---|---|---|" ]
+                          + ($diff | map("| \(.key) | \(.value) | \($o.formulae[.key]) |")) + [""]
+                     else [] end)
+                  + (if ($only_other | length) > 0
+                     then [ "### この端末に無い formula", "" ] + ($only_other | map("- \(.key) (\(.value))")) + [""]
+                     else [] end)
+                  + (if ($only_me | length) > 0
+                     then [ "### \($o.hostname) に無い formula", "" ] + ($only_me | map("- \(.key) (\(.value))")) + [""]
+                     else [] end)
+                  + (if $mine.dotfiles.head != $o.dotfiles.head
+                     then [ "### dotfiles", "", "- \($mine.hostname): \($mine.dotfiles.head[0:12])", "- \($o.hostname): \($o.dotfiles.head[0:12])", "" ]
+                     else [] end)
+              ] | add // [])
+           + (if ($dormant | length) > 0
+              then [ "## 休眠端末 (\($stale_days) 日以上スナップショットが更新されていない)", "" ]
+                   + ($dormant | map("- \(.hostname) (最終: \(.generated_at))")) + [""]
+              else [] end)
+           | join("\n")' \
+        "$SNAPSHOT_DIR"/*.json)" || return 1
+
+    printf '%s\n' "$body" > "$report" || return 1
+    log "差分レポートを更新した: $report"
+
+    count="$(jq -s -r \
+        --arg me "$host" \
+        --arg stale_days "$SNAPSHOT_STALE_DAYS" \
+        --arg now "$(date +%s)" \
+        "$jq_prelude"' | $all_diffs | length' \
+        "$SNAPSHOT_DIR"/*.json)" || count=0
+    if ((count > 0)); then
+        action "他端末とバージョンが食い違う formula が ${count} 件ある。$report を確認"
+    else
+        log "他端末とのバージョン不一致は無し"
+    fi
+    return 0
+}
+
+# --- 通知 ---------------------------------------------------------------
+#
+# 毎日「異常なし」が飛ぶと読まなくなるので、要対応か失敗があるときだけ出す。
+
+notify() {
+    ((${#ACTIONS[@]} + ${#FAILURES[@]} == 0)) && { log "要対応なし。通知は出さない"; return 0; }
+
+    local title="daily-sync"
+    local message=""
+    ((${#FAILURES[@]} > 0)) && message+="失敗 ${#FAILURES[@]} 件: ${FAILURES[0]}"$'\n'
+    ((${#ACTIONS[@]} > 0)) && message+="要対応 ${#ACTIONS[@]} 件: ${ACTIONS[0]}"
+
+    if command -v terminal-notifier >/dev/null 2>&1; then
+        terminal-notifier -title "$title" -message "$message" \
+            -execute "open -a Console $HOME/Library/Logs/daily-sync.log" >/dev/null 2>&1 || true
+    fi
+    return 0
+}
+
+print_summary() {
+    section "サマリ"
+    if ((${#ACTIONS[@]} > 0)); then
+        log "要対応 ${#ACTIONS[@]} 件:"
+        printf '  - %s\n' "${ACTIONS[@]}"
+    fi
+    if ((${#FAILURES[@]} > 0)); then
+        log "失敗 ${#FAILURES[@]} 件:"
+        printf '  - %s\n' "${FAILURES[@]}"
+    fi
+    ((${#ACTIONS[@]} + ${#FAILURES[@]} == 0)) && log "すべて正常"
+    return 0
+}
+
+# --- main ---------------------------------------------------------------
+
+main() {
+    while (($#)); do
+        case "$1" in
+            --force) FORCE=1 ;;
+            --dry-run) DRY_RUN=1 ;;
+            -h | --help)
+                sed -n '2,20p' "${BASH_SOURCE[0]}"
+                return 0
+                ;;
+            *)
+                printf 'unknown option: %s\n' "$1" >&2
+                return 2
+                ;;
+        esac
+        shift
+    done
+
+    mkdir -p "$STATE_DIR"
+
+    if already_ran_today && ! ((FORCE)); then
+        log "本日は実行済み。--force で強制実行できる"
+        return 0
+    fi
+
+    section "daily-sync 開始 ($(host_name))"
+
+    # HOMEBREW_OP など。Ansible が secrets.yml 経由で配置する。
+    if [[ -f "$ENV_FILE" ]]; then
+        # shellcheck disable=SC1090
+        source "$ENV_FILE"
+        log "$ENV_FILE を読み込んだ"
+    else
+        log "$ENV_FILE が無い (mycrons の更新はスキップされる)"
+    fi
+
+    local before after
+    before="$(formula_versions)"
+
+    run_step "tap remote の正規化" normalize_tap_remotes
+    run_step "brew update" brew_update
+    run_step "brew upgrade (bottle 系)" brew_upgrade_versioned
+    run_step "brew upgrade --fetch-HEAD (HEAD 系)" brew_upgrade_head
+
+    section "更新された formula"
+    after="$(formula_versions)"
+    local changed
+    changed="$(comm -13 <(printf '%s\n' "$before") <(printf '%s\n' "$after"))"
+    if [[ -n "$changed" ]]; then
+        printf '%s\n' "$changed" | while IFS=$'\t' read -r name ver; do
+            log "  $name -> $ver"
+        done
+    else
+        log "  変更なし"
+    fi
+
+    run_step "claude-code-hooks の hook 差分確認" check_claude_code_hooks
+    run_step "buffalo-timemachine の LaunchDaemon 確認" check_buffalo_launchdaemon
+    run_step "launchd ジョブの死活確認" check_launchd_jobs
+    run_step "dotfiles の新着確認" check_dotfiles
+    run_step "スナップショットの書き出し" write_snapshot
+    run_step "端末間の差分比較" compare_snapshots
+
+    print_summary
+    notify
+
+    ((DRY_RUN)) || date '+%Y-%m-%d' > "$LAST_RUN"
+    section "daily-sync 終了"
+    return 0
+}
+
+main "$@"

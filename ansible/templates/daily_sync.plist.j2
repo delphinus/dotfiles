@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.delphinus.daily-sync</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>{{ ansible_facts["env"]["HOME"] }}/git/dotfiles/bin/daily-sync</string>
+	</array>
+	{#- 在席が見込める時刻に寄せる。sudo や 1Password の対話が要る「要対応」
+	    通知に、その場で気付けるようにするため。:00 / :30 を避けて分散させる。
+	    スリープ中に逃した回は復帰時に発火する。 -#}
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Hour</key>
+		<integer>9</integer>
+		<key>Minute</key>
+		<integer>47</integer>
+	</dict>
+	{#- RunAtLoad は付けない。ログインの度に brew upgrade が走ると重い。
+	    日付ガード (~/.local/state/daily-sync/last-run) もあるが、そもそも
+	    起動契機を増やさない。 -#}
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+		<key>HOME</key>
+		<string>{{ ansible_facts["env"]["HOME"] }}</string>
+	</dict>
+	{#- brew の HEAD ビルド (neovim 等) は数分かかる。低優先度で回して
+	    フォアグラウンドの作業を邪魔しない。 -#}
+	<key>LowPriorityIO</key>
+	<true/>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>StandardOutPath</key>
+	<string>{{ ansible_facts["env"]["HOME"] }}/Library/Logs/daily-sync.log</string>
+	<key>StandardErrorPath</key>
+	<string>{{ ansible_facts["env"]["HOME"] }}/Library/Logs/daily-sync.log</string>
+</dict>
+</plist>

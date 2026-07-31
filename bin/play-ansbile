@@ -4,7 +4,16 @@
 # secrets.yml は 1Password (vault Private, document ansible/vars/secrets.yml) が
 # 単一の真実で git 管理外。実行のたびに取得して配置し、終了時 (成功・失敗とも)
 # に削除する。op が未サインインなら `op signin` してから再実行する。
+#
+# 成功したら実行時刻と適用時の dotfiles HEAD を記録する。daily-sync がこれを
+# 見て「dotfiles は更新されたのにプレイブックが流されていない」を検出する。
 cd ~/git/dotfiles/ansible
 trap 'rm -f vars/secrets.yml' EXIT
 op document get ansible/vars/secrets.yml --account my.1password.com --vault Private > vars/secrets.yml
 ansible-playbook -c local ~/git/dotfiles/ansible/local_light.yml
+
+mkdir -p ~/.local/state/daily-sync
+printf '%s %s\n' \
+    "$(date '+%Y-%m-%dT%H:%M:%S%z')" \
+    "$(git -C ~/git/dotfiles rev-parse HEAD)" \
+    > ~/.local/state/daily-sync/last-ansible

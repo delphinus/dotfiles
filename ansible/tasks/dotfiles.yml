@@ -165,4 +165,38 @@
 - name: make .ptignore file
   template: src=ptignore.j2 dest=~/.ptignore
 
+# daily-sync: 毎日 brew の更新 (HEAD 系含む) を回し、無人でできないことだけを
+# 通知するジョブ。詳細は bin/daily-sync の先頭コメント参照。
+- name: set up daily-sync LaunchAgent
+  when: ansible_facts["system"] == 'Darwin'
+  block:
+    - name: ensure ~/Library/LaunchAgents exists
+      file:
+        path: ~/Library/LaunchAgents
+        state: directory
+        mode: "0755"
+
+    - name: make daily-sync LaunchAgent
+      template:
+        src: daily_sync.plist.j2
+        dest: ~/Library/LaunchAgents/com.delphinus.daily-sync.plist
+        mode: "0644"
+      register: daily_sync_plist
+
+    # plist を書き換えただけでは launchd は読み直さないので、変更時のみ
+    # bootout してから bootstrap する。未ロード時の bootout は失敗するため
+    # 無視する (failed_when: false)。
+    - name: unload daily-sync LaunchAgent
+      command: launchctl bootout gui/{{ ansible_facts["user_uid"] }}/com.delphinus.daily-sync
+      when: daily_sync_plist is changed
+      failed_when: false
+      changed_when: true
+
+    - name: load daily-sync LaunchAgent
+      command: >-
+        launchctl bootstrap gui/{{ ansible_facts["user_uid"] }}
+        {{ ansible_facts["env"]["HOME"] }}/Library/LaunchAgents/com.delphinus.daily-sync.plist
+      when: daily_sync_plist is changed
+      changed_when: true
+
 # vim:se et:
