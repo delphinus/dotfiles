@@ -173,7 +173,21 @@ brew_upgrade_head() {
 
     ((${#formulae[@]} == 0)) && return 0
     ((DRY_RUN)) && { log "(dry-run) brew upgrade --fetch-HEAD をスキップ"; return 0; }
-    brew upgrade --fetch-HEAD "${formulae[@]}"
+
+    # まとめて渡すと 1 本の失敗で残りが巻き添えになるので 1 本ずつ実行する。
+    # brew の起動コストが formula 数だけかかるが、失敗を名指しできる方が重要。
+    local -a failed=()
+    local f
+    for f in "${formulae[@]}"; do
+        brew upgrade --fetch-HEAD "$f" || failed+=("$f")
+    done
+
+    # ここで自分で failure を記録するので、呼び出し側 (run_step) に汎用の
+    # 失敗を二重記録させないよう 0 を返す。
+    if ((${#failed[@]} > 0)); then
+        failure "HEAD 更新に失敗した formula (${#failed[@]} 件): ${failed[*]}"
+    fi
+    return 0
 }
 
 # --- アップグレード後に人手が要るものの検知 ------------------------------
