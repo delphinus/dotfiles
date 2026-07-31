@@ -57,6 +57,20 @@ failure() { FAILURES+=("$1"); log "FAIL: $1"; }
 
 host_name() { scutil --get LocalHostName 2>/dev/null || hostname -s; }
 
+# `brew info --json=v2 --installed` は環境によっては 1 回で数分かかる
+# (実測 6 分)。HEAD 対象の抽出・更新前後の比較・リンク切れ検出・スナップショット
+# と 5 箇所で必要になるので、1 度取ってファイルに置き、以降は読み直す。
+BREW_INFO_CACHE=""
+cleanup() { [[ -n "$BREW_INFO_CACHE" ]] && rm -f "$BREW_INFO_CACHE"; }
+trap cleanup EXIT
+
+refresh_brew_info() {
+    [[ -n "$BREW_INFO_CACHE" ]] || BREW_INFO_CACHE="$(mktemp -t daily-sync-brew)"
+    brew info --json=v2 --installed > "$BREW_INFO_CACHE" 2>/dev/null
+}
+
+brew_info() { cat "$BREW_INFO_CACHE" 2>/dev/null; }
+
 # timeout(1) 越しに実行する。時間切れなら 124 を返す (coreutils の規約)。
 # timeout が無い環境ではそのまま実行する。
 with_timeout() {
@@ -131,13 +145,13 @@ normalize_tap_remotes() {
 # 両方 Cellar に残っている formula (utf8proc 等) を誤って HEAD へ切り替えない
 # ように、brew list --versions の grep ではなく linked keg で判定する。
 head_formulae() {
-    brew info --json=v2 --installed 2>/dev/null |
+    brew_info |
         jq -r '.formulae[] | select(.linked_keg // "" | startswith("HEAD")) | .full_name'
 }
 
 # formula 名とバージョンの一覧。アップグレード前後の差分検出に使う。
 formula_versions() {
-    brew info --json=v2 --installed 2>/dev/null |
+    brew_info |
         jq -r '.formulae[] | "\(.full_name)\t\(.linked_keg // .installed[0].version // "")"' | sort
 }
 
@@ -222,7 +236,7 @@ repair_unlinked() {
         else
             broken+=("$full")
         fi
-    done < <(brew info --json=v2 --installed 2>/dev/null |
+    done < <(brew_info |
         jq -r '.formulae[] | select((.linked_keg // "") == "" and (.installed | length) > 0)
                | "\(.name)\t\(.full_name)"')
 
@@ -518,7 +532,7 @@ write_snapshot() {
 
     ((DRY_RUN)) && { log "(dry-run) スナップショットの書き出しをスキップ"; return 0; }
 
-    brew info --json=v2 --installed 2>/dev/null | jq \
+    brew_info | jq \
         --arg host "$host" \
         --arg at "$(date '+%Y-%m-%dT%H:%M:%S%z')" \
         --arg macos "$(sw_vers -productVersion)" \
@@ -710,12 +724,17 @@ main() {
     fi
 
     local before after
+    refresh_brew_info
     before="$(formula_versions)"
 
     run_step "tap remote の正規化" normalize_tap_remotes
     run_step "brew update" brew_update
     run_step "brew upgrade (bottle 系)" brew_upgrade_versioned
     run_step "brew upgrade --fetch-HEAD (HEAD 系)" brew_upgrade_head
+
+    # ここから先は upgrade 後の状態を見る。リンク切れの検出も比較もこの
+    # キャッシュを使うので、復旧より前に取り直す。
+    refresh_brew_info
     run_step "リンクが外れた formula の復旧" repair_unlinked
 
     section "更新された formula"
