@@ -19,11 +19,13 @@
 
 set -uo pipefail
 
-# brew の 1 コマンドあたりの上限。到達できないホストから fetch しようとする
-# formula があると ssh が無応答のまま何十分も居座り、無人ジョブが永久に終わら
-# なくなる (実測: 到達不能になった GHE への git clone が 17 分以上ハングした)。
-# neovim の HEAD ビルドは数分かかるので、それを越える値にしておく。
-readonly BREW_TIMEOUT="${DAILY_SYNC_BREW_TIMEOUT:-900}"
+# brew の 1 コマンドあたりの上限。無人ジョブが永久に終わらなくなるのを防ぐ
+# 最後の砦であって、通常の失敗検出には使わない。
+#
+# ネットワーク待ちは brew_run の ConnectTimeout / agent 外しの方で数秒で落ちる
+# ので、この値は「正当に長いビルド」を基準に決める。neovim の HEAD ビルドは
+# 負荷の高いときに 15 分を超える (実測で 900 秒では足りずビルドを殺していた)。
+readonly BREW_TIMEOUT="${DAILY_SYNC_BREW_TIMEOUT:-2400}"
 
 # brew --repo は ruby の起動を伴い 1 回 300ms 程度かかるので使い回す。
 BREW_REPO="$(brew --repo 2>/dev/null)" || BREW_REPO=""
@@ -336,7 +338,7 @@ brew_upgrade_head() {
     done
 
     if ((${#timed_out[@]} > 0)); then
-        failure "HEAD 更新がタイムアウトした formula (${#timed_out[@]} 件): ${timed_out[*]} — 到達できない remote を見ている可能性がある"
+        failure "HEAD 更新が ${BREW_TIMEOUT} 秒で打ち切られた formula (${#timed_out[@]} 件): ${timed_out[*]} — ビルドが長すぎるか remote に到達できていない。DAILY_SYNC_BREW_TIMEOUT で上限を変えられる"
     fi
     if ((${#failed[@]} > 0)); then
         failure "HEAD 更新に失敗した formula (${#failed[@]} 件): ${failed[*]}"
