@@ -665,6 +665,70 @@ notify() {
         terminal-notifier -title "$title" -message "$message" \
             -execute "open -a Console $HOME/Library/Logs/daily-sync.log" >/dev/null 2>&1 || true
     fi
+
+    notify_slack
+    return 0
+}
+
+# Slack へは macOS 通知と同じ条件で送るが、内容は全件入れる。通知センターは
+# 長文を切るので先頭 1 件に絞っているのに対し、Slack は複数端末の状況を並べて
+# 後から追える台帳になるため、絞る理由が無い。
+#
+# 隔離中の formula は「送ると決まったとき」だけ添える。これ自体を送信条件に
+# すると、1 本壊れている間ずっと毎日届いて読まれなくなる。
+notify_slack() {
+    local url="${DAILY_SYNC_SLACK_WEBHOOK:-}"
+    if [[ -z "$url" ]]; then
+        log "DAILY_SYNC_SLACK_WEBHOOK が未設定。Slack 通知はスキップ"
+        return 0
+    fi
+    ((DRY_RUN)) && { log "(dry-run) Slack 通知をスキップ"; return 0; }
+
+    local text="" color="#daa038" # 要対応のみなら橙、失敗があれば赤
+    local item
+    if ((${#FAILURES[@]} > 0)); then
+        color="#d63333"
+        text+="*失敗 ${#FAILURES[@]} 件*"$'\n'
+        for item in "${FAILURES[@]}"; do text+="• ${item}"$'\n'; done
+    fi
+    if ((${#ACTIONS[@]} > 0)); then
+        text+="*要対応 ${#ACTIONS[@]} 件*"$'\n'
+        for item in "${ACTIONS[@]}"; do text+="• ${item}"$'\n'; done
+    fi
+    if [[ -s "$(quarantine_file)" ]]; then
+        text+="*隔離中 (${QUARANTINE_DAYS} 日後に自動再挑戦)*"$'\n'
+        while IFS=$'\t' read -r name since reason; do
+            text+="• ${name} (${since} 以降, ${reason})"$'\n'
+        done < "$(quarantine_file)"
+    fi
+
+    local payload
+    payload="$(jq -n \
+        --arg color "$color" \
+        --arg text "$text" \
+        --arg host "$(host_name)" \
+        --arg time "$(date '+%Y-%m-%d %H:%M:%S')" \
+        '{attachments: [{
+            color: $color,
+            title: ":arrows_counterclockwise: daily-sync",
+            text: $text,
+            mrkdwn_in: ["text"],
+            fields: [
+                {title: "Host", value: $host, short: true},
+                {title: "Time", value: $time, short: true}
+            ]
+        }]}')" || { log "Slack ペイロードの生成に失敗"; return 0; }
+
+    # 通知の失敗で daily-sync 自体を失敗扱いにはしない (ログには残す)。
+    local rc
+    with_timeout 30 curl -sS -X POST -H 'Content-Type: application/json' \
+        --data "$payload" "$url" -o /dev/null
+    rc=$?
+    if ((rc == 0)); then
+        log "Slack に通知した"
+    else
+        log "WARN: Slack への通知に失敗 (curl rc=$rc)"
+    fi
     return 0
 }
 
