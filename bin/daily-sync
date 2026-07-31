@@ -41,6 +41,8 @@ readonly SNAPSHOT_DIR="$VAULT/端末状態"
 readonly ANSIBLE_MAX_AGE_DAYS=14
 # スナップショットがこの日数より古い端末は「休眠」として差分比較から外す。
 readonly SNAPSHOT_STALE_DAYS=7
+# 更新に失敗した formula を再挑戦するまでの日数。
+readonly QUARANTINE_DAYS=7
 
 FORCE=0
 DRY_RUN=0
@@ -74,9 +76,14 @@ with_timeout() {
 # clone が 17 分以上ハング。agent を外すと 8 秒で "Repository not found")。
 # launchd 配下には元々 agent が無いので、こうすると手動実行と本番の挙動が揃う。
 # tap は全て HTTPS 化済みなので、正当な fetch で agent を要するものは無い。
+# HOMEBREW_NO_AUTO_UPDATE は明示的に brew update を済ませた後の upgrade 用。
+# 付けないと upgrade のたびに auto-update が走り、実行が長引くほど再度その
+# 間隔を超えて再々実行される悪循環になる (実測: 1 回の実行が 40 分を超えた)。
 brew_run() {
     with_timeout "$1" env -u SSH_AUTH_SOCK \
         GIT_SSH_COMMAND='ssh -o BatchMode=yes -o ConnectTimeout=10' \
+        HOMEBREW_NO_AUTO_UPDATE=1 \
+        HOMEBREW_NO_ENV_HINTS=1 \
         "${@:2}"
 }
 
@@ -154,6 +161,77 @@ formula_needs_homebrew_op() {
     return 1
 }
 
+# --- 隔離 (quarantine) --------------------------------------------------
+#
+# 恒久的に壊れている formula を毎日叩き続けると、実行時間を食い潰した上に
+# 同じ失敗通知が毎日出て読まれなくなる。一度失敗したものは一定期間スキップし、
+# サマリには「隔離中」として出し続けて存在は見えるようにする。
+#
+# 形式: <formula>\t<失敗日 YYYY-MM-DD>\t<理由>
+
+quarantine_file() { printf '%s\n' "$STATE_DIR/quarantine"; }
+
+quarantined_since() {
+    local f="$1" line
+    [[ -f "$(quarantine_file)" ]] || return 1
+    line="$(grep -F "$(printf '%s\t' "$f")" "$(quarantine_file)" 2>/dev/null | head -1)" || return 1
+    [[ -n "$line" ]] || return 1
+    printf '%s\n' "$line" | cut -f2
+}
+
+quarantine_add() {
+    local f="$1" reason="$2" tmp
+    tmp="$(mktemp)"
+    [[ -f "$(quarantine_file)" ]] &&
+        grep -vF "$(printf '%s\t' "$f")" "$(quarantine_file)" > "$tmp" 2>/dev/null
+    printf '%s\t%s\t%s\n' "$f" "$(date '+%Y-%m-%d')" "$reason" >> "$tmp"
+    mv "$tmp" "$(quarantine_file)"
+}
+
+quarantine_remove() {
+    local f="$1" tmp
+    [[ -f "$(quarantine_file)" ]] || return 0
+    tmp="$(mktemp)"
+    grep -vF "$(printf '%s\t' "$f")" "$(quarantine_file)" > "$tmp" 2>/dev/null
+    mv "$tmp" "$(quarantine_file)"
+}
+
+# 隔離期間内か。期間を過ぎたら再挑戦させる (formula が直っているかもしれない)。
+quarantine_active() {
+    local f="$1" since epoch age
+    since="$(quarantined_since "$f")" || return 1
+    epoch="$(date -j -f '%Y-%m-%d' "$since" +%s 2>/dev/null)" || return 1
+    age=$(( ($(date +%s) - epoch) / 86400 ))
+    ((age < QUARANTINE_DAYS))
+}
+
+# アップグレードに失敗した formula は linked keg を失ったまま放置されることが
+# ある (実測: install が例外で落ち、/opt/homebrew/bin/mydns が消えて DNS 更新
+# ジョブが動かなくなった)。Cellar に keg が残っていれば貼り直す。
+repair_unlinked() {
+    # Cellar のディレクトリは短い名前、brew link に渡すのは full_name。
+    local -a broken=()
+    local name full keg
+    while IFS=$'\t' read -r name full; do
+        [[ -n "$name" ]] || continue
+        keg="$(ls -1 "$(brew --cellar)/$name" 2>/dev/null | tail -1)" || continue
+        [[ -n "$keg" ]] || continue
+        log "リンクが外れている: $full → $keg を貼り直す"
+        if brew link --overwrite "$full" >/dev/null 2>&1; then
+            log "  復旧した"
+        else
+            broken+=("$full")
+        fi
+    done < <(brew info --json=v2 --installed 2>/dev/null |
+        jq -r '.formulae[] | select((.linked_keg // "") == "" and (.installed | length) > 0)
+               | "\(.name)\t\(.full_name)"')
+
+    if ((${#broken[@]} > 0)); then
+        failure "リンクを復旧できなかった formula: ${broken[*]} — brew link --overwrite を手で試す"
+    fi
+    return 0
+}
+
 brew_update() {
     ((DRY_RUN)) && { log "(dry-run) brew update をスキップ"; return 0; }
     brew_run "$BREW_TIMEOUT" brew update
@@ -207,32 +285,54 @@ brew_upgrade_head() {
     ((${#formulae[@]} == 0)) && return 0
     ((DRY_RUN)) && { log "(dry-run) brew upgrade --fetch-HEAD をスキップ"; return 0; }
 
+    # 隔離中のものを外す。
+    local -a targets=() held=()
+    local f
+    for f in "${formulae[@]}"; do
+        if quarantine_active "$f"; then
+            held+=("$f ($(quarantined_since "$f") から)")
+        else
+            targets+=("$f")
+        fi
+    done
+    if ((${#held[@]} > 0)); then
+        log "隔離中のためスキップ (${#held[@]} 件): ${held[*]}"
+    fi
+    ((${#targets[@]} == 0)) && { log "更新対象なし"; return 0; }
+
     # まとめて渡すと 1 本の失敗で残りが巻き添えになるので 1 本ずつ実行する。
     # brew の起動コストが formula 数だけかかるが、失敗を名指しできる方が重要。
     local -a failed=() timed_out=()
-    local f rc
-    for f in "${formulae[@]}"; do
+    local rc
+    for f in "${targets[@]}"; do
         brew_run "$BREW_TIMEOUT" brew upgrade --fetch-HEAD "$f"
         rc=$?
         case $rc in
-            0) ;;
+            0) quarantine_remove "$f" ;;
             124 | 137)
                 log "$f が ${BREW_TIMEOUT} 秒でタイムアウトした"
                 timed_out+=("$f")
+                quarantine_add "$f" "timeout"
                 ;;
-            *) failed+=("$f") ;;
+            *)
+                failed+=("$f")
+                quarantine_add "$f" "exit=$rc"
+                ;;
         esac
     done
 
     if ((${#timed_out[@]} > 0)); then
         failure "HEAD 更新がタイムアウトした formula (${#timed_out[@]} 件): ${timed_out[*]} — 到達できない remote を見ている可能性がある"
     fi
-
-    # ここで自分で failure を記録するので、呼び出し側 (run_step) に汎用の
-    # 失敗を二重記録させないよう 0 を返す。
     if ((${#failed[@]} > 0)); then
         failure "HEAD 更新に失敗した formula (${#failed[@]} 件): ${failed[*]}"
     fi
+    if ((${#failed[@]} + ${#timed_out[@]} > 0)); then
+        log "上記は ${QUARANTINE_DAYS} 日間スキップする (期間後に自動で再挑戦)"
+    fi
+
+    # ここで自分で failure を記録するので、呼び出し側 (run_step) に汎用の
+    # 失敗を二重記録させないよう 0 を返す。
     return 0
 }
 
@@ -554,6 +654,12 @@ notify() {
 
 print_summary() {
     section "サマリ"
+    if [[ -s "$(quarantine_file)" ]]; then
+        log "隔離中の formula ($(wc -l < "$(quarantine_file)" | tr -d ' ') 件、${QUARANTINE_DAYS} 日後に自動再挑戦):"
+        while IFS=$'\t' read -r name since reason; do
+            log "  - $name ($since 以降, $reason)"
+        done < "$(quarantine_file)"
+    fi
     if ((${#ACTIONS[@]} > 0)); then
         log "要対応 ${#ACTIONS[@]} 件:"
         printf '  - %s\n' "${ACTIONS[@]}"
@@ -610,6 +716,7 @@ main() {
     run_step "brew update" brew_update
     run_step "brew upgrade (bottle 系)" brew_upgrade_versioned
     run_step "brew upgrade --fetch-HEAD (HEAD 系)" brew_upgrade_head
+    run_step "リンクが外れた formula の復旧" repair_unlinked
 
     section "更新された formula"
     after="$(formula_versions)"
