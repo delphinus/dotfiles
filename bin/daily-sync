@@ -19,6 +19,12 @@
 
 set -uo pipefail
 
+# brew の 1 コマンドあたりの上限。到達できないホストから fetch しようとする
+# formula があると ssh が無応答のまま何十分も居座り、無人ジョブが永久に終わら
+# なくなる (実測: 到達不能になった GHE への git clone が 17 分以上ハングした)。
+# neovim の HEAD ビルドは数分かかるので、それを越える値にしておく。
+readonly BREW_TIMEOUT="${DAILY_SYNC_BREW_TIMEOUT:-900}"
+
 # brew --repo は ruby の起動を伴い 1 回 300ms 程度かかるので使い回す。
 BREW_REPO="$(brew --repo 2>/dev/null)" || BREW_REPO=""
 readonly BREW_REPO
@@ -48,6 +54,31 @@ action() { ACTIONS+=("$1"); log "ACTION: $1"; }
 failure() { FAILURES+=("$1"); log "FAIL: $1"; }
 
 host_name() { scutil --get LocalHostName 2>/dev/null || hostname -s; }
+
+# timeout(1) 越しに実行する。時間切れなら 124 を返す (coreutils の規約)。
+# timeout が無い環境ではそのまま実行する。
+with_timeout() {
+    local secs="$1"
+    shift
+    if command -v timeout >/dev/null 2>&1; then
+        timeout --kill-after=30 "$secs" "$@"
+    else
+        "$@"
+    fi
+}
+
+# brew を無人実行向けの条件で回す。
+#
+# SSH_AUTH_SOCK を外すのは、到達できない remote を見ている formula があると
+# ssh が agent への問い合わせで無応答のまま居座るため (実測: 廃止済み GHE への
+# clone が 17 分以上ハング。agent を外すと 8 秒で "Repository not found")。
+# launchd 配下には元々 agent が無いので、こうすると手動実行と本番の挙動が揃う。
+# tap は全て HTTPS 化済みなので、正当な fetch で agent を要するものは無い。
+brew_run() {
+    with_timeout "$1" env -u SSH_AUTH_SOCK \
+        GIT_SSH_COMMAND='ssh -o BatchMode=yes -o ConnectTimeout=10' \
+        "${@:2}"
+}
 
 # 1 ステップの失敗で全体を止めない。失敗は記録して次へ進む。
 run_step() {
@@ -125,12 +156,14 @@ formula_needs_homebrew_op() {
 
 brew_update() {
     ((DRY_RUN)) && { log "(dry-run) brew update をスキップ"; return 0; }
-    brew update
+    brew_run "$BREW_TIMEOUT" brew update
 }
 
 brew_upgrade_versioned() {
     ((DRY_RUN)) && { log "(dry-run) brew upgrade をスキップ"; return 0; }
-    brew upgrade
+    # bottle 系はまとめてよい (HEAD の fetch を伴わないので巻き添えが起きにくく、
+    # 依存解決も一括の方が正しい)。全体としての上限だけ掛ける。
+    brew_run "$((BREW_TIMEOUT * 2))" brew upgrade
 }
 
 # brew upgrade は --fetch-HEAD を付けないと HEAD インストールの formula を
@@ -176,11 +209,24 @@ brew_upgrade_head() {
 
     # まとめて渡すと 1 本の失敗で残りが巻き添えになるので 1 本ずつ実行する。
     # brew の起動コストが formula 数だけかかるが、失敗を名指しできる方が重要。
-    local -a failed=()
-    local f
+    local -a failed=() timed_out=()
+    local f rc
     for f in "${formulae[@]}"; do
-        brew upgrade --fetch-HEAD "$f" || failed+=("$f")
+        brew_run "$BREW_TIMEOUT" brew upgrade --fetch-HEAD "$f"
+        rc=$?
+        case $rc in
+            0) ;;
+            124 | 137)
+                log "$f が ${BREW_TIMEOUT} 秒でタイムアウトした"
+                timed_out+=("$f")
+                ;;
+            *) failed+=("$f") ;;
+        esac
     done
+
+    if ((${#timed_out[@]} > 0)); then
+        failure "HEAD 更新がタイムアウトした formula (${#timed_out[@]} 件): ${timed_out[*]} — 到達できない remote を見ている可能性がある"
+    fi
 
     # ここで自分で failure を記録するので、呼び出し側 (run_step) に汎用の
     # 失敗を二重記録させないよう 0 を返す。
