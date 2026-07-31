@@ -7,6 +7,7 @@
     "refreshInterval": 10
   },
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
       "mcp__atlassian__confluence_child_pages",
       "mcp__atlassian__confluence_get_page",
