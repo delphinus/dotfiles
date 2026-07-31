@@ -321,13 +321,32 @@ check_launchd_jobs() {
 # play-ansbile は 1Password の対話認証が要るため launchd 配下では完走できない。
 # 新着があるかどうかだけ判定して、実行はユーザに委ねる。
 
+# dotfiles の remote は SSH (git@github.com:delphinus/dotfiles-private) だが、
+# launchd 配下からは 1Password SSH agent に届かないことがある (実測:
+# "communication with agent failed" → "Permission denied (publickey)")。
+# fetch は HTTPS 経由で行う。osxkeychain の credential helper は launchd 配下
+# でも効くことを確認済み。remote 設定自体は変えないので、ユーザが手で叩く
+# push/pull は従来どおり SSH のまま。
+fetch_dotfiles() {
+    local url branch
+    url="$(git -C "$DOTFILES" remote get-url origin 2>/dev/null)" || return 1
+    branch="$(git -C "$DOTFILES" rev-parse --abbrev-ref HEAD 2>/dev/null)" || return 1
+    case "$url" in
+        git@github.com:*) url="https://github.com/${url#git@github.com:}" ;;
+    esac
+    # 追跡ref を直接更新するので、この後の @{upstream} 比較はそのまま使える。
+    env -u SSH_AUTH_SOCK GIT_TERMINAL_PROMPT=0 \
+        git -C "$DOTFILES" fetch --prune --quiet "$url" \
+        "+refs/heads/$branch:refs/remotes/origin/$branch"
+}
+
 check_dotfiles() {
     local head_sha stamped_sha stamp_date pending=0
 
     if ((DRY_RUN)); then
         log "(dry-run) git fetch をスキップ"
     else
-        git -C "$DOTFILES" fetch --prune --quiet origin || return 1
+        fetch_dotfiles || return 1
     fi
 
     local upstream
