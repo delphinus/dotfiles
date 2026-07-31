@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+# regroup-zips - 「<epoch>-<name>[(【　]<...>.zip」形式の zip 群を <name> ごとにまとめ直す。
+#
+# 各元 zip を展開し、中の画像を解像度そのままで heic に変換 (sips) してから、
+# <out_dir>/<name>.zip として再圧縮する。元 zip / 元ディレクトリは触らない。
+# <name> 単位で逐次保存するので、グループが揃った時点で即 zip がディスクに書かれる。
+#
+# usage: regroup-zips [-o <out_dir>] [-j <jobs>] [<src_dir>]
+#        src_dir 既定: カレントディレクトリ
+#        out_dir 既定: <src_dir 絶対パス>-regrouped
+#        jobs    既定: sysctl -n hw.ncpu (= 物理 + 論理コア数)
+set -euo pipefail
+shopt -s nullglob
+
+out_dir=""
+jobs=""
+while getopts ":o:j:h" opt; do
+  case "$opt" in
+    o) out_dir="$OPTARG" ;;
+    j) jobs="$OPTARG" ;;
+    h) sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    \?) printf 'usage: regroup-zips [-o <out_dir>] [-j <jobs>] [<src_dir>]\n' >&2; exit 2 ;;
+  esac
+done
+shift $((OPTIND - 1))
+[[ -z "$jobs" ]] && jobs="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
+
+src_dir="${1:-.}"
+if [[ ! -d "$src_dir" ]]; then
+  printf 'error: %s is not a directory\n' "$src_dir" >&2
+  exit 1
+fi
+src_dir_abs="$(cd "$src_dir" && pwd)"
+[[ -z "$out_dir" ]] && out_dir="${src_dir_abs}-regrouped"
+
+for cmd in unzip zip sips; do
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    printf 'error: %s is not installed\n' "$cmd" >&2
+    exit 1
+  fi
+done
+
+work_dir="$(mktemp -d -t regroup-zips.XXXXXX)"
+trap 'rm -rf -- "$work_dir"' EXIT
+
+mkdir -p -- "$out_dir"
+out_dir_abs="$(cd "$out_dir" && pwd)"
+
+# パターン: <epoch>-<name><sep><...>.zip
+# sep: `(`, `【`, 全角スペース (U+3000)
+# name は最初の区切り文字直前まで (非貪欲)。bash 拡張正規表現に `.*?` は無いので
+# 負の文字クラスで等価表現する。`[[ ]]` のパーサが文字クラス内の `(` で誤動作するため
+# 正規表現は変数経由で渡す。
+zip_re='^([0-9]+)-([^(【　]*)[(【　].*\.zip$'
+
+# extract_and_convert: 元 zip 1 個を展開し、中のファイルを heic 化して <work>/grouped/<name>/ に置く。
+extract_and_convert() {
+  local zipfile="$1" name="$2"
+  local base; base="$(basename -- "$zipfile")"
+  local dest_dir="$work_dir/grouped/$name"
+  mkdir -p -- "$dest_dir"
+
+  printf 'extract: %s  (name=%s)\n' "$base" "$name"
+
+  local tmp_extract; tmp_extract="$(mktemp -d -p "$work_dir" extract.XXXXXX)"
+  unzip -q -- "$zipfile" -d "$tmp_extract"
+
+  # 通常ファイル (再帰) を heic に変換。__MACOSX/ と .DS_Store はノイズなので除外。
+  local queue; queue="$(mktemp -p "$work_dir" queue.XXXXXX)"
+  local f rel fname stem ext_lc target
+  while IFS= read -r -d '' f; do
+    rel="${f#"$tmp_extract"/}"
+    case "$rel" in
+      __MACOSX/*|*/__MACOSX/*) continue ;;
+    esac
+    fname="$(basename -- "$f")"
+    [[ "$fname" == ".DS_Store" ]] && continue
+    stem="${fname%.*}"
+    ext_lc="$(printf '%s' "${fname##*.}" | tr '[:upper:]' '[:lower:]')"
+    target="$dest_dir/${stem}.heic"
+    if [[ -e "$target" ]]; then
+      printf '  warn: %s already exists, skip %s\n' "$target" "$f" >&2
+      continue
+    fi
+    if [[ "$ext_lc" == "heic" || "$ext_lc" == "heif" ]]; then
+      printf '  copy:    %s -> %s\n' "$rel" "${stem}.heic"
+      mv -- "$f" "$target"
+    else
+      # NUL 区切りで <src>\0<dst>\0 を並べてあとで xargs に流す。
+      printf '%s\0%s\0' "$f" "$target" >> "$queue"
+    fi
+  done < <(find "$tmp_extract" -type f -print0)
+
+  # 並列に sips で heic 化。各ワーカは開始時にファイル名を表示する。
+  if [[ -s "$queue" ]]; then
+    xargs -0 -n 2 -P "$jobs" sh -c '
+      src="$1"; dst="$2"
+      printf "  convert: %s\n" "$(basename "$dst")"
+      if ! sips -s format heic "$src" --out "$dst" >/dev/null 2>&1; then
+        printf "  warn: failed to convert %s\n" "$src" >&2
+        rm -f -- "$dst"
+      fi
+    ' sh < "$queue"
+  fi
+
+  rm -rf -- "$tmp_extract"
+  rm -f -- "$queue"
+}
+
+# pack_group: <work>/grouped/<name>/ を <out_dir>/<name>.zip に圧縮し、作業ディレクトリを削除する。
+pack_group() {
+  local name="$1"
+  local target="$out_dir_abs/${name}.zip"
+  printf 'pack:    %s.zip\n' "$name"
+  (cd "$work_dir/grouped" && zip -rq "$target" "$name")
+  rm -rf -- "$work_dir/grouped/$name"
+}
+
+# 1) 入力 zip を走査して name 単位の manifest を作る (TAB 区切り)。
+manifest="$work_dir/manifest.tsv"
+: > "$manifest"
+unmatched=0
+for zipfile in "$src_dir_abs"/*.zip; do
+  base="$(basename -- "$zipfile")"
+  if [[ ! "$base" =~ $zip_re ]]; then
+    printf 'skip: %s does not match pattern\n' "$base" >&2
+    unmatched=$((unmatched + 1))
+    continue
+  fi
+  printf '%s\t%s\n' "${BASH_REMATCH[2]}" "$zipfile" >> "$manifest"
+done
+
+# 2) name でソートして、グループが切り替わるたびにそれまでの分を pack する。
+LC_ALL=C sort -o "$manifest" "$manifest"
+
+processed=0
+zipped=0
+existed=0
+current_name=""
+skip_current=false
+
+while IFS=$'\t' read -r name zipfile; do
+  if [[ "$name" != "$current_name" ]]; then
+    # 直前グループを締める
+    if [[ -n "$current_name" && "$skip_current" != "true" ]]; then
+      pack_group "$current_name"
+      zipped=$((zipped + 1))
+    fi
+    current_name="$name"
+    # 出力 zip がもうあるならグループ丸ごとスキップ (展開もしない)
+    if [[ -e "$out_dir_abs/${name}.zip" ]]; then
+      printf 'warn: %s.zip already exists in %s, skip group\n' "$name" "$out_dir_abs" >&2
+      existed=$((existed + 1))
+      skip_current=true
+    else
+      skip_current=false
+    fi
+  fi
+  if [[ "$skip_current" != "true" ]]; then
+    extract_and_convert "$zipfile" "$name"
+    processed=$((processed + 1))
+  fi
+done < "$manifest"
+
+# 最後のグループを締める
+if [[ -n "$current_name" && "$skip_current" != "true" ]]; then
+  pack_group "$current_name"
+  zipped=$((zipped + 1))
+fi
+
+printf 'done: %d zips processed (%d unmatched), %d new zips in %s (%d groups skipped as existing)\n' \
+  "$processed" "$unmatched" "$zipped" "$out_dir_abs" "$existed"
