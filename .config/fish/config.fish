@@ -40,8 +40,14 @@ set -l paths \
     ~/Library/Application\ Support/Coursier/bin \
     $homebrew_path/sbin \
     $homebrew_path/bin \
-    /usr/local/bin
+    /usr/local/bin \
+    ~/.local/opt/neovim-fallback/bin
 # ↑/usr/local/bin is included both in Homebrew of both arm & x86 version
+#
+# neovim-fallback は daily-sync が毎日置き換える「更新前の nvim」。Homebrew は
+# HEAD のビルド前に旧 keg を unlink するので、5〜15 分のビルド中は
+# $homebrew_path/bin/nvim が存在しない。そこを埋めるためのものなので、必ず
+# $homebrew_path/bin より後ろに置くこと (通常はこちらが勝ってはいけない)。
 
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 

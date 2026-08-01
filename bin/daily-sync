@@ -37,6 +37,9 @@ readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
 readonly ENV_FILE="$HOME/.config/daily-sync/env"
 readonly DOTFILES="$HOME/git/dotfiles"
 readonly SKK_JISYO="$HOME/git/github.com/delphinus/skk-jisyo"
+# HEAD ビルド中に nvim が消えるのを埋めるための退避先。config.fish が PATH の
+# 末尾に足している。消さずに毎日上書きする。
+readonly NVIM_FALLBACK="$HOME/.local/opt/neovim-fallback"
 readonly VAULT="${DAILY_SYNC_VAULT:-$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Notes}"
 readonly SNAPSHOT_DIR="$VAULT/端末状態"
 # play-ansbile を最後に流してから、新着コミットが無くても流し直すまでの日数。
@@ -349,6 +352,72 @@ brew_upgrade_head() {
 
     # ここで自分で failure を記録するので、呼び出し側 (run_step) に汎用の
     # 失敗を二重記録させないよう 0 を返す。
+    return 0
+}
+
+# --- neovim の退避 --------------------------------------------------------
+#
+# neovim は HEAD を追いかけているので、upstream の master が動いた日は必ず
+# ソースビルドが走る (実測: 直近 30 日のうち 30 日でコミットあり)。そして
+# Homebrew は install.rb で
+#
+#   # first we unlink the currently active keg for this formula otherwise it is
+#   # possible for the existing build to interfere with the build we are about to
+#   # do! Seriously, it happens!
+#   kegs.each(&:unlink) if kegs.present?
+#
+# と、ビルドを始める前に旧 keg を unlink する。つまりビルドに掛かる 5〜15 分の
+# 間ずっと /opt/homebrew/bin/nvim が存在しない。MacBook では蓋を開けた直後に
+# このジョブが走るので、作業開始と重なって nvim が起動できなくなる。
+#
+# そこで更新前の keg を PATH の末尾にあるディレクトリへ複製しておく。brew の
+# nvim があるときはそちらが勝ち、消えている間だけ複製版が拾われる。nvim は
+# $VIMRUNTIME を自分のバイナリからの相対で解決するので、keg を丸ごと複製すれば
+# 自己完結して動く。APFS の clonefile を使うので実コストはほぼゼロ (実測
+# 0.6 秒、物理ブロックの追加消費なし)。
+#
+# bottle 系の更新の後、HEAD 系の更新の前に走らせる。この順なら複製元の keg は
+# まだ手付かずで、かつ疎通確認は依存が更新された後の状態 (= 複製版が実際に
+# 使われる状況) で行える。
+snapshot_nvim_fallback() {
+    local keg
+    keg="$(brew --prefix neovim 2>/dev/null)" || {
+        log "neovim 未インストール。スキップ"
+        return 0
+    }
+    keg="$(readlink -f "$keg" 2>/dev/null)" || {
+        log "neovim の keg を解決できない。スキップ"
+        return 0
+    }
+    [[ -x "$keg/bin/nvim" ]] || {
+        log "$keg/bin/nvim が無い。スキップ"
+        return 0
+    }
+    ((DRY_RUN)) && { log "(dry-run) 退避をスキップ"; return 0; }
+
+    local tmp="$NVIM_FALLBACK.new"
+    mkdir -p "$(dirname "$NVIM_FALLBACK")" || return 1
+    rm -rf "$tmp"
+    # -c は APFS の clonefile。非対応のファイルシステムでは通常コピーに落とす。
+    if ! cp -Rc "$keg" "$tmp" 2>/dev/null && ! cp -R "$keg" "$tmp"; then
+        rm -rf "$tmp"
+        failure "neovim の退避に失敗した"
+        return 0
+    fi
+
+    # 依存 dylib の soname が変わっていると複製版も dyld エラーで起動できない
+    # (nvim が名前に版番号を含む形で参照しているのは実質 tree-sitter だけで、
+    # その minor 更新のとき。実測で 7 か月に 1 回程度)。壊れたものを PATH に
+    # 置くと command not found より分かりにくいので、前回の退避を残す。
+    if ! "$tmp/bin/nvim" --version >/dev/null 2>&1; then
+        rm -rf "$tmp"
+        action "neovim の退避版が起動できないため退避を見送った (依存 dylib の soname 変更の可能性)。今回のビルド中は nvim が使えない"
+        return 0
+    fi
+
+    rm -rf "$NVIM_FALLBACK"
+    mv "$tmp" "$NVIM_FALLBACK"
+    log "退避した: $NVIM_FALLBACK ($("$NVIM_FALLBACK/bin/nvim" --version | head -1))"
     return 0
 }
 
@@ -838,6 +907,7 @@ main() {
     run_step "tap remote の正規化" normalize_tap_remotes
     run_step "brew update" brew_update
     run_step "brew upgrade (bottle 系)" brew_upgrade_versioned
+    run_step "neovim の退避" snapshot_nvim_fallback
     run_step "brew upgrade --fetch-HEAD (HEAD 系)" brew_upgrade_head
 
     # ここから先は upgrade 後の状態を見る。リンク切れの検出も比較もこの
