@@ -447,7 +447,6 @@ Temporary Items
 /.tmux/resurrect
 /ansible/hosts
 /ansible/vars/secrets.yml
-/ansible/vars/secrets.yml.gz
 /bin/local_perl.sh
 /history.sqlite
 /iterm2/imap_status.py
