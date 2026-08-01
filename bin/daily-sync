@@ -621,8 +621,26 @@ filter_ansible_relevant() {
     grep -E -f <(ansible_relevant_patterns) 2>/dev/null || true
 }
 
+# 標準入力のパス一覧を ACTION の文言用に 1 行へ畳む。Slack には ACTION しか
+# 出ないので原因をここに載せるが、長すぎると読まれないので 3 件で打ち切る。
+summarize_paths() {
+    local -a paths=()
+    local p out n
+    while IFS= read -r p; do
+        [[ -n "$p" ]] && paths+=("$p")
+    done
+    n=${#paths[@]}
+    ((n == 0)) && return 0
+    out="$(printf '%s, ' "${paths[@]:0:3}")"
+    out="${out%, }"
+    ((n > 3)) && out="$out 他 $((n - 3)) 件"
+    printf '%s' "$out"
+}
+
 check_dotfiles() {
-    local head_sha stamped_sha stamp_date pending=0 fetched=1
+    local head_sha stamped_sha stamp_date fetched=1
+    # 未反映と判断した理由。件数が要対応かどうかの判定を兼ねる。
+    local -a reasons=()
 
     if ((DRY_RUN)); then
         log "(dry-run) git fetch をスキップ"
@@ -644,7 +662,7 @@ check_dotfiles() {
             if ((DRY_RUN)); then
                 log "(dry-run) pull をスキップ"
             elif git -C "$DOTFILES" merge --ff-only --quiet "$upstream"; then
-                pending=1
+                reasons+=("新着 ${behind} 件を pull した")
             else
                 action "dotfiles が fast-forward できない (ローカルで分岐している)。手動で解消が必要"
             fi
@@ -658,7 +676,7 @@ check_dotfiles() {
         relevant="$(printf '%s\n' "$dirty" | filter_ansible_relevant)"
         if [[ -n "$relevant" ]]; then
             log "作業ツリーに未コミットの変更あり (play-ansbile に関係するもの: $(printf '%s' "$relevant" | tr '\n' ' '))"
-            pending=1
+            reasons+=("未コミット: $(printf '%s\n' "$relevant" | summarize_paths)")
         else
             log "作業ツリーに未コミットの変更あり (いずれも play-ansbile に関係しない)"
         fi
@@ -675,12 +693,12 @@ check_dotfiles() {
                 # rebase / force-push / クローンし直しで記録した commit が
                 # 手元に無い。差分を取れないので従来どおり要対応にする。
                 log "play-ansbile 実行時の commit (${stamped_sha:0:12}) が手元に無い。差分を判定できない"
-                pending=1
+                reasons+=("実行時の commit ${stamped_sha:0:12} が手元に無く差分を判定できない")
             else
                 changed="$(git -C "$DOTFILES" diff --name-only "$stamped_sha..HEAD" 2>/dev/null | filter_ansible_relevant)"
                 if [[ -n "$changed" ]]; then
                     log "play-ansbile 実行時 (${stamped_sha:0:12}) 以降に関係する変更あり: $(printf '%s' "$changed" | tr '\n' ' ')"
-                    pending=1
+                    reasons+=("$(printf '%s\n' "$changed" | summarize_paths)")
                 else
                     log "play-ansbile 実行時 (${stamped_sha:0:12}) から進んでいるが、関係する変更は無い"
                 fi
@@ -691,14 +709,20 @@ check_dotfiles() {
         if ((stamp_epoch > 0)); then
             age_days=$((($(date +%s) - stamp_epoch) / 86400))
             log "play-ansbile の最終実行: $stamp_date (${age_days} 日前)"
-            ((age_days > ANSIBLE_MAX_AGE_DAYS)) && pending=1
+            if ((age_days > ANSIBLE_MAX_AGE_DAYS)); then
+                reasons+=("最終実行から ${age_days} 日経過 (上限 ${ANSIBLE_MAX_AGE_DAYS} 日)")
+            fi
         fi
     else
         log "play-ansbile の実行記録が無い"
-        pending=1
+        reasons+=("実行記録が無い")
     fi
 
-    ((pending)) && action "dotfiles が未反映。実行してください: $DOTFILES/bin/play-ansbile"
+    if ((${#reasons[@]} > 0)); then
+        local why
+        why="$(printf '%s / ' "${reasons[@]}")"
+        action "dotfiles が未反映 (${why% / })。実行してください: $DOTFILES/bin/play-ansbile"
+    fi
     return 0
 }
 
