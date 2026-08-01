@@ -597,6 +597,30 @@ fetch_dotfiles() {
     return 0
 }
 
+# play-ansbile を流し直す必要がある変更かどうかを判定するためのパターン。
+#
+# プレイブックが repo の「ファイルの中身」を読むのは以下だけ:
+#   - ansible/ 配下 (プレイブック本体・templates・vars・copy: の src)
+#   - template が lookup('file', dotfiles_dir + '...') で読むファイル
+# それ以外は state=link で配置されるので編集した瞬間に反映済みだし、bin/ に
+# 至っては repo のパスが直接 PATH と LaunchAgent から使われている。つまり
+# 変わっても流し直す必要が無い。
+#
+# 列挙漏れは構造的に起きない。プレイブックが新しく repo のファイルを読むには
+# 必ず ansible/ 配下の編集が要り、その編集自体が ^ansible/ に当たるため。
+# 唯一の隙間は「lookup を追加したコミットの後で、参照先だけを変えるコミット」
+# なので、lookup のパスはハードコードせず毎回 templates から抽出する。
+ansible_relevant_patterns() {
+    printf '^ansible/\n'
+    grep -rhoE "dotfiles_dir *\+ *'/[^']+'" "$DOTFILES/ansible/templates/" 2>/dev/null |
+        sed -e "s/.*'\/\(.*\)'/\1/" -e 's/[].[^$*\\]/\\&/g' -e 's/^/^/' -e 's/$/$/'
+}
+
+# 標準入力のパス一覧のうち、play-ansbile に関係するものだけを出力する。
+filter_ansible_relevant() {
+    grep -E -f <(ansible_relevant_patterns) 2>/dev/null || true
+}
+
 check_dotfiles() {
     local head_sha stamped_sha stamp_date pending=0 fetched=1
 
@@ -628,9 +652,16 @@ check_dotfiles() {
         ((ahead > 0)) && log "ローカルが $upstream より ${ahead} 件先行 (push 待ち)"
     fi
 
-    if [[ -n "$(git -C "$DOTFILES" status --porcelain 2>/dev/null)" ]]; then
-        log "作業ツリーに未コミットの変更あり"
-        pending=1
+    local dirty relevant
+    dirty="$(git -C "$DOTFILES" status --porcelain 2>/dev/null | awk '{print $NF}')"
+    if [[ -n "$dirty" ]]; then
+        relevant="$(printf '%s\n' "$dirty" | filter_ansible_relevant)"
+        if [[ -n "$relevant" ]]; then
+            log "作業ツリーに未コミットの変更あり (play-ansbile に関係するもの: $(printf '%s' "$relevant" | tr '\n' ' '))"
+            pending=1
+        else
+            log "作業ツリーに未コミットの変更あり (いずれも play-ansbile に関係しない)"
+        fi
     fi
 
     head_sha="$(git -C "$DOTFILES" rev-parse HEAD 2>/dev/null || echo unknown)"
@@ -639,8 +670,21 @@ check_dotfiles() {
         stamped_sha=""
         read -r stamp_date stamped_sha <"$ANSIBLE_STAMP" || true
         if [[ "$head_sha" != "$stamped_sha" ]]; then
-            log "play-ansbile 実行時の dotfiles (${stamped_sha:0:12}) と現在 (${head_sha:0:12}) がずれている"
-            pending=1
+            local changed
+            if ! git -C "$DOTFILES" cat-file -e "${stamped_sha}^{commit}" 2>/dev/null; then
+                # rebase / force-push / クローンし直しで記録した commit が
+                # 手元に無い。差分を取れないので従来どおり要対応にする。
+                log "play-ansbile 実行時の commit (${stamped_sha:0:12}) が手元に無い。差分を判定できない"
+                pending=1
+            else
+                changed="$(git -C "$DOTFILES" diff --name-only "$stamped_sha..HEAD" 2>/dev/null | filter_ansible_relevant)"
+                if [[ -n "$changed" ]]; then
+                    log "play-ansbile 実行時 (${stamped_sha:0:12}) 以降に関係する変更あり: $(printf '%s' "$changed" | tr '\n' ' ')"
+                    pending=1
+                else
+                    log "play-ansbile 実行時 (${stamped_sha:0:12}) から進んでいるが、関係する変更は無い"
+                fi
+            fi
         fi
         local stamp_epoch age_days
         stamp_epoch="$(date -j -f '%Y-%m-%dT%H:%M:%S%z' "$stamp_date" +%s 2>/dev/null || echo 0)"
