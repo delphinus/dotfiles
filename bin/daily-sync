@@ -440,9 +440,29 @@ check_launchd_jobs() {
 # dotfiles の remote は SSH (git@github.com:delphinus/dotfiles-private) だが、
 # launchd 配下からは 1Password SSH agent に届かないことがある (実測:
 # "communication with agent failed" → "Permission denied (publickey)")。
-# fetch は HTTPS 経由で行う。osxkeychain の credential helper は launchd 配下
-# でも効くことを確認済み。remote 設定自体は変えないので、ユーザが手で叩く
+# fetch は HTTPS 経由で行う。remote 設定自体は変えないので、ユーザが手で叩く
 # push/pull は従来どおり SSH のまま。
+#
+# 認証は gh のトークンを credential helper 経由で渡す。当初は osxkeychain 任せ
+# にしていたが、そこに github.com のエントリは無く (2026-08-01 実測)、private
+# リポジトリなので "could not read Username for 'https://github.com'" で必ず
+# 落ちていた。
+#
+# git は credential.helper を複数登録して順に試すので、まず空値でチェーンを
+# 切ってから自前の helper だけを積む。helper 先頭の ! は「シェルコマンドとして
+# 解釈せよ」という git の記法。git は helper を get/store/erase のいずれかの
+# 引数で呼ぶので、get のときだけ応答する。
+#
+# --user delphinus は必須。github.com には業務アカウントも同居していて active
+# account はどれか 1 つなので、明示しないと業務アカウントのトークンで private
+# リポジトリを叩きにいく。トークンをコマンドライン引数に置かない (ps から
+# 見えてしまう) ため、http.extraHeader ではなく helper 方式にしている。
+readonly GH_CREDENTIAL_HELPER='!f() {
+    [ "$1" = get ] || exit 0
+    printf "username=x-access-token\npassword=%s\n" \
+        "$(gh auth token --hostname github.com --user delphinus)"
+}; f'
+
 fetch_dotfiles() {
     local url branch
     url="$(git -C "$DOTFILES" remote get-url origin 2>/dev/null)" || return 1
@@ -450,24 +470,46 @@ fetch_dotfiles() {
     case "$url" in
         git@github.com:*) url="https://github.com/${url#git@github.com:}" ;;
     esac
+
+    if ! command -v gh >/dev/null 2>&1; then
+        failure "gh が見つからないため dotfiles を fetch できない"
+        return 1
+    fi
+    if ! gh auth token --hostname github.com --user delphinus >/dev/null 2>&1; then
+        failure "gh が delphinus でログインしていないため dotfiles を fetch できない。gh auth login --hostname github.com が必要"
+        return 1
+    fi
+
     # 追跡ref を直接更新するので、この後の @{upstream} 比較はそのまま使える。
-    env -u SSH_AUTH_SOCK GIT_TERMINAL_PROMPT=0 \
-        git -C "$DOTFILES" fetch --prune --quiet "$url" \
-        "+refs/heads/$branch:refs/remotes/origin/$branch"
+    local err
+    if ! err="$(env -u SSH_AUTH_SOCK GIT_TERMINAL_PROMPT=0 \
+        git -C "$DOTFILES" \
+        -c "credential.helper=" \
+        -c "credential.helper=$GH_CREDENTIAL_HELPER" \
+        fetch --prune --quiet "$url" \
+        "+refs/heads/$branch:refs/remotes/origin/$branch" 2>&1)"; then
+        [[ -n "$err" ]] && log "$err"
+        failure "dotfiles の fetch に失敗した (詳細はログ参照)"
+        return 1
+    fi
+    return 0
 }
 
 check_dotfiles() {
-    local head_sha stamped_sha stamp_date pending=0
+    local head_sha stamped_sha stamp_date pending=0 fetched=1
 
     if ((DRY_RUN)); then
         log "(dry-run) git fetch をスキップ"
-    else
-        fetch_dotfiles || return 1
+    elif ! fetch_dotfiles; then
+        # 具体的な失敗理由は fetch_dotfiles 側が積んでいる。追跡 ref が古い
+        # ままなので新着判定だけ飛ばし、ローカル側の確認は続ける。
+        log "fetch できなかったので新着判定はスキップする"
+        fetched=0
     fi
 
     local upstream
     upstream="$(git -C "$DOTFILES" rev-parse --abbrev-ref '@{upstream}' 2>/dev/null)" || upstream=""
-    if [[ -n "$upstream" ]]; then
+    if ((fetched)) && [[ -n "$upstream" ]]; then
         local behind ahead
         behind="$(git -C "$DOTFILES" rev-list --count "HEAD..$upstream" 2>/dev/null || echo 0)"
         ahead="$(git -C "$DOTFILES" rev-list --count "$upstream..HEAD" 2>/dev/null || echo 0)"
