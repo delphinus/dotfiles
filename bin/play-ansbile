@@ -5,39 +5,28 @@
 # 単一の真実で git 管理外。実行のたびに取得して配置し、終了時 (成功・失敗とも)
 # に削除する。op が未サインインなら `op signin` してから再実行する。
 #
+# 平文はコミットしないが、内容の SHA256 だけは ansible/vars/secrets.yml.sha256
+# としてコミットする。これが無いと secrets.yml の変更が git 差分に現れず、
+# daily-sync が他の端末に「流し直しが要る」と伝えられない。取得・検証・ハッシュ
+# 更新の実体は bin/secrets-lib.sh にあり、bin/edit-secrets と共有している。
+#
 # 成功したら実行時刻と適用時の dotfiles HEAD を記録する。daily-sync がこれを
 # 見て「dotfiles は更新されたのにプレイブックが流されていない」を検出する。
 cd ~/git/dotfiles/ansible
+# shellcheck source-path=SCRIPTDIR source=secrets-lib.sh
+source ~/git/dotfiles/bin/secrets-lib.sh
+
 trap 'rm -f vars/secrets.yml' EXIT
-op document get ansible/vars/secrets.yml --account my.1password.com --vault Private > vars/secrets.yml
+fetch_secrets vars/secrets.yml
 
-# 取得が途中で切れていないか検証してから流す。op が不調なときに部分的な内容を
-# 返すことがあり (実測: 2 回連続で別々の位置で切れ、`'secret_office' is
-# undefined` 等でプレイブックが中断した)、その場合でも exit code は 0 で、
-# YAML としては読めてしまう。変数が欠けたまま走ると、途中まで適用してから
-# 落ちる・不完全な設定ファイルを書く、といった中途半端な状態になりうる。
-# ファイル全体に散らばる番兵キーの存在で切り詰めを検出する。
-python3 - <<'PY'
-import sys, yaml
+# 取得が途中で切れていないか検証してから流す。
+validate_secrets vars/secrets.yml
 
-with open('vars/secrets.yml') as fh:
-    body = fh.read()
-if len(body) < 10000:
-    sys.exit(f'secrets.yml が小さすぎる ({len(body)} バイト)。取得が不完全な可能性がある')
-try:
-    doc = yaml.safe_load(body)
-except yaml.YAMLError as e:
-    sys.exit(f'secrets.yml が YAML として壊れている: {e}')
-
-# ファイルの先頭・中間・末尾に散らばるキーを選んである。
-sentinels = ['ansible_become_pass', 'secret_office', 'secret_aws_vault_op_vault_id',
-             'secret_zshrc_local', 'secret_config_files']
-missing = [k for k in sentinels if k not in doc]
-if missing:
-    sys.exit(f'secrets.yml の取得が不完全 (欠けているキー: {", ".join(missing)})。'
-             '1Password の状態を確認して再実行する')
-print(f'secrets.yml 検証 OK ({len(body)} バイト, {len(doc)} キー)')
-PY
+# ハッシュの更新は検証を通った後に行う (切り詰められた内容のハッシュは配らない)。
+# プレイブックの成否とは独立に「1Password の中身が変わった」事実を残したいので、
+# ansible-playbook より前に置く。適用に失敗した場合はハッシュだけが未コミットの
+# 変更として残り、daily-sync が要対応として拾う。
+update_secrets_hash vars/secrets.yml
 
 ansible-playbook -c local ~/git/dotfiles/ansible/local_light.yml
 
@@ -45,4 +34,4 @@ mkdir -p ~/.local/state/daily-sync
 printf '%s %s\n' \
     "$(date '+%Y-%m-%dT%H:%M:%S%z')" \
     "$(git -C ~/git/dotfiles rev-parse HEAD)" \
-    > ~/.local/state/daily-sync/last-ansible
+    >~/.local/state/daily-sync/last-ansible
