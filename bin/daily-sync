@@ -57,8 +57,14 @@ FAILURES=()
 
 log() { printf '%s %s\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$*"; }
 section() { printf '\n%s ==== %s ====\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$*"; }
-action() { ACTIONS+=("$1"); log "ACTION: $1"; }
-failure() { FAILURES+=("$1"); log "FAIL: $1"; }
+action() {
+    ACTIONS+=("$1")
+    log "ACTION: $1"
+}
+failure() {
+    FAILURES+=("$1")
+    log "FAIL: $1"
+}
 
 host_name() { scutil --get LocalHostName 2>/dev/null || hostname -s; }
 
@@ -71,7 +77,7 @@ trap cleanup EXIT
 
 refresh_brew_info() {
     [[ -n "$BREW_INFO_CACHE" ]] || BREW_INFO_CACHE="$(mktemp -t daily-sync-brew)"
-    brew info --json=v2 --installed > "$BREW_INFO_CACHE" 2>/dev/null
+    brew info --json=v2 --installed >"$BREW_INFO_CACHE" 2>/dev/null
 }
 
 brew_info() { cat "$BREW_INFO_CACHE" 2>/dev/null; }
@@ -175,7 +181,10 @@ formula_needs_homebrew_op() {
     local tap_dir="$BREW_REPO/Library/Taps/$user/homebrew-$repo"
     local rb
     for rb in "$tap_dir/$name.rb" "$tap_dir/Formula/$name.rb"; do
-        [[ -f "$rb" ]] && { grep -q 'HOMEBREW_OP' "$rb"; return $?; }
+        [[ -f "$rb" ]] && {
+            grep -q 'HOMEBREW_OP' "$rb"
+            return $?
+        }
     done
     return 1
 }
@@ -202,8 +211,8 @@ quarantine_add() {
     local f="$1" reason="$2" tmp
     tmp="$(mktemp)"
     [[ -f "$(quarantine_file)" ]] &&
-        grep -vF "$(printf '%s\t' "$f")" "$(quarantine_file)" > "$tmp" 2>/dev/null
-    printf '%s\t%s\t%s\n' "$f" "$(date '+%Y-%m-%d')" "$reason" >> "$tmp"
+        grep -vF "$(printf '%s\t' "$f")" "$(quarantine_file)" >"$tmp" 2>/dev/null
+    printf '%s\t%s\t%s\n' "$f" "$(date '+%Y-%m-%d')" "$reason" >>"$tmp"
     mv "$tmp" "$(quarantine_file)"
 }
 
@@ -211,7 +220,7 @@ quarantine_remove() {
     local f="$1" tmp
     [[ -f "$(quarantine_file)" ]] || return 0
     tmp="$(mktemp)"
-    grep -vF "$(printf '%s\t' "$f")" "$(quarantine_file)" > "$tmp" 2>/dev/null
+    grep -vF "$(printf '%s\t' "$f")" "$(quarantine_file)" >"$tmp" 2>/dev/null
     mv "$tmp" "$(quarantine_file)"
 }
 
@@ -220,7 +229,7 @@ quarantine_active() {
     local f="$1" since epoch age
     since="$(quarantined_since "$f")" || return 1
     epoch="$(date -j -f '%Y-%m-%d' "$since" +%s 2>/dev/null)" || return 1
-    age=$(( ($(date +%s) - epoch) / 86400 ))
+    age=$((($(date +%s) - epoch) / 86400))
     ((age < QUARANTINE_DAYS))
 }
 
@@ -252,12 +261,18 @@ repair_unlinked() {
 }
 
 brew_update() {
-    ((DRY_RUN)) && { log "(dry-run) brew update をスキップ"; return 0; }
+    ((DRY_RUN)) && {
+        log "(dry-run) brew update をスキップ"
+        return 0
+    }
     brew_run "$BREW_TIMEOUT" brew update
 }
 
 brew_upgrade_versioned() {
-    ((DRY_RUN)) && { log "(dry-run) brew upgrade をスキップ"; return 0; }
+    ((DRY_RUN)) && {
+        log "(dry-run) brew upgrade をスキップ"
+        return 0
+    }
     # bottle 系はまとめてよい (HEAD の fetch を伴わないので巻き添えが起きにくく、
     # 依存解決も一括の方が正しい)。全体としての上限だけ掛ける。
     brew_run "$((BREW_TIMEOUT * 2))" brew upgrade
@@ -302,7 +317,10 @@ brew_upgrade_head() {
     fi
 
     ((${#formulae[@]} == 0)) && return 0
-    ((DRY_RUN)) && { log "(dry-run) brew upgrade --fetch-HEAD をスキップ"; return 0; }
+    ((DRY_RUN)) && {
+        log "(dry-run) brew upgrade --fetch-HEAD をスキップ"
+        return 0
+    }
 
     # 隔離中のものを外す。
     local -a targets=() held=()
@@ -317,7 +335,10 @@ brew_upgrade_head() {
     if ((${#held[@]} > 0)); then
         log "隔離中のためスキップ (${#held[@]} 件): ${held[*]}"
     fi
-    ((${#targets[@]} == 0)) && { log "更新対象なし"; return 0; }
+    ((${#targets[@]} == 0)) && {
+        log "更新対象なし"
+        return 0
+    }
 
     # まとめて渡すと 1 本の失敗で残りが巻き添えになるので 1 本ずつ実行する。
     # brew の起動コストが formula 数だけかかるが、失敗を名指しできる方が重要。
@@ -393,7 +414,10 @@ snapshot_nvim_fallback() {
         log "$keg/bin/nvim が無い。スキップ"
         return 0
     }
-    ((DRY_RUN)) && { log "(dry-run) 退避をスキップ"; return 0; }
+    ((DRY_RUN)) && {
+        log "(dry-run) 退避をスキップ"
+        return 0
+    }
 
     local tmp="$NVIM_FALLBACK.new"
     mkdir -p "$(dirname "$NVIM_FALLBACK")" || return 1
@@ -435,9 +459,15 @@ check_claude_code_hooks() {
     local prefix shipped
     prefix="$(brew --prefix claude-code-hooks 2>/dev/null)" || prefix=""
     shipped="$prefix/share/claude-code-hooks/hooks.json"
-    [[ -n "$prefix" && -f "$shipped" ]] || { log "claude-code-hooks 未インストール。スキップ"; return 0; }
+    [[ -n "$prefix" && -f "$shipped" ]] || {
+        log "claude-code-hooks 未インストール。スキップ"
+        return 0
+    }
     local settings="$HOME/.claude/settings.json"
-    [[ -f "$settings" ]] || { log "$settings が無い。スキップ"; return 0; }
+    [[ -f "$settings" ]] || {
+        log "$settings が無い。スキップ"
+        return 0
+    }
 
     local query='to_entries[] | .key as $e | .value[] | .hooks[] | "\($e)\t\(.command)"'
     local missing
@@ -462,7 +492,10 @@ check_buffalo_launchdaemon() {
     prefix="$(brew --prefix buffalo-timemachine 2>/dev/null)" || prefix=""
     shipped="$prefix/share/buffalo-timemachine/com.delphinus.buffalo-tm-thin-compact.plist"
     local installed=/Library/LaunchDaemons/com.delphinus.buffalo-tm-thin-compact.plist
-    [[ -n "$prefix" && -f "$shipped" ]] || { log "buffalo-timemachine 未インストール。スキップ"; return 0; }
+    [[ -n "$prefix" && -f "$shipped" ]] || {
+        log "buffalo-timemachine 未インストール。スキップ"
+        return 0
+    }
     if [[ ! -f "$installed" ]]; then
         log "LaunchDaemon 未配置 (意図的に無効化しているなら無視してよい)"
         return 0
@@ -491,7 +524,7 @@ check_launchd_jobs() {
     # skk-sync は 30 分間隔。ログが長時間更新されていなければ止まっている。
     local skk_log="$HOME/Library/Logs/skk-sync.log"
     if [[ -f "$skk_log" ]]; then
-        local age=$(( ($(date +%s) - $(stat -f %m "$skk_log")) / 60 ))
+        local age=$((($(date +%s) - $(stat -f %m "$skk_log")) / 60))
         if ((age > 120)); then
             action "skk-sync のログが ${age} 分更新されていない。$SKK_JISYO/bin/setup の再実行を検討"
         else
@@ -604,7 +637,7 @@ check_dotfiles() {
     if [[ -f "$ANSIBLE_STAMP" ]]; then
         stamp_date=""
         stamped_sha=""
-        read -r stamp_date stamped_sha < "$ANSIBLE_STAMP" || true
+        read -r stamp_date stamped_sha <"$ANSIBLE_STAMP" || true
         if [[ "$head_sha" != "$stamped_sha" ]]; then
             log "play-ansbile 実行時の dotfiles (${stamped_sha:0:12}) と現在 (${head_sha:0:12}) がずれている"
             pending=1
@@ -612,7 +645,7 @@ check_dotfiles() {
         local stamp_epoch age_days
         stamp_epoch="$(date -j -f '%Y-%m-%dT%H:%M:%S%z' "$stamp_date" +%s 2>/dev/null || echo 0)"
         if ((stamp_epoch > 0)); then
-            age_days=$(( ($(date +%s) - stamp_epoch) / 86400 ))
+            age_days=$((($(date +%s) - stamp_epoch) / 86400))
             log "play-ansbile の最終実行: $stamp_date (${age_days} 日前)"
             ((age_days > ANSIBLE_MAX_AGE_DAYS)) && pending=1
         fi
@@ -643,7 +676,10 @@ write_snapshot() {
     last_ansible="$(cut -d' ' -f1 "$ANSIBLE_STAMP" 2>/dev/null || echo null)"
     self_sha="$(shasum -a 256 "${BASH_SOURCE[0]}" 2>/dev/null | cut -c1-12 || echo unknown)"
 
-    ((DRY_RUN)) && { log "(dry-run) スナップショットの書き出しをスキップ"; return 0; }
+    ((DRY_RUN)) && {
+        log "(dry-run) スナップショットの書き出しをスキップ"
+        return 0
+    }
 
     brew_info | jq \
         --arg host "$host" \
@@ -663,7 +699,7 @@ write_snapshot() {
             skk_jisyo_head: $skk_head,
             formulae: ([.formulae[] | { key: .full_name, value: (.linked_keg // .installed[0].version // "") }] | from_entries),
             casks: ([.casks[] | { key: .token, value: ((.installed // "") | tostring) }] | from_entries)
-        }' > "$out" || return 1
+        }' >"$out" || return 1
 
     log "スナップショットを書き出した: $out"
     return 0
@@ -673,7 +709,10 @@ write_snapshot() {
 # HEAD-<sha> は大小比較ができないので「どちらが新しい」ではなく「不一致」と
 # して報告する。両端末で daily-sync が回っていれば一致するのが正常。
 compare_snapshots() {
-    [[ -d "$SNAPSHOT_DIR" ]] || { log "スナップショットが無い"; return 0; }
+    [[ -d "$SNAPSHOT_DIR" ]] || {
+        log "スナップショットが無い"
+        return 0
+    }
     local host report
     host="$(host_name)"
     report="$SNAPSHOT_DIR/差分レポート.md"
@@ -691,7 +730,10 @@ compare_snapshots() {
         return 0
     fi
 
-    ((DRY_RUN)) && { log "(dry-run) 差分レポートの生成をスキップ"; return 0; }
+    ((DRY_RUN)) && {
+        log "(dry-run) 差分レポートの生成をスキップ"
+        return 0
+    }
 
     # 全端末の JSON を jq に slurp して 1 本のクエリで処理する。
     # $mine が自端末、$active が比較対象、$dormant が休眠端末。
@@ -743,7 +785,7 @@ compare_snapshots() {
            | join("\n")' \
         "$SNAPSHOT_DIR"/*.json)" || return 1
 
-    printf '%s\n' "$body" > "$report" || return 1
+    printf '%s\n' "$body" >"$report" || return 1
     log "差分レポートを更新した: $report"
 
     count="$(jq -s -r \
@@ -765,7 +807,10 @@ compare_snapshots() {
 # 毎日「異常なし」が飛ぶと読まなくなるので、要対応か失敗があるときだけ出す。
 
 notify() {
-    ((${#ACTIONS[@]} + ${#FAILURES[@]} == 0)) && { log "要対応なし。通知は出さない"; return 0; }
+    ((${#ACTIONS[@]} + ${#FAILURES[@]} == 0)) && {
+        log "要対応なし。通知は出さない"
+        return 0
+    }
 
     local title="daily-sync"
     local message=""
@@ -793,7 +838,10 @@ notify_slack() {
         log "DAILY_SYNC_SLACK_WEBHOOK が未設定。Slack 通知はスキップ"
         return 0
     fi
-    ((DRY_RUN)) && { log "(dry-run) Slack 通知をスキップ"; return 0; }
+    ((DRY_RUN)) && {
+        log "(dry-run) Slack 通知をスキップ"
+        return 0
+    }
 
     local text="" color="#daa038" # 要対応のみなら橙、失敗があれば赤
     local item
@@ -810,7 +858,7 @@ notify_slack() {
         text+="*隔離中 (${QUARANTINE_DAYS} 日後に自動再挑戦)*"$'\n'
         while IFS=$'\t' read -r name since reason; do
             text+="• ${name} (${since} 以降, ${reason})"$'\n'
-        done < "$(quarantine_file)"
+        done <"$(quarantine_file)"
     fi
 
     local payload
@@ -828,7 +876,10 @@ notify_slack() {
                 {title: "Host", value: $host, short: true},
                 {title: "Time", value: $time, short: true}
             ]
-        }]}')" || { log "Slack ペイロードの生成に失敗"; return 0; }
+        }]}')" || {
+        log "Slack ペイロードの生成に失敗"
+        return 0
+    }
 
     # 通知の失敗で daily-sync 自体を失敗扱いにはしない (ログには残す)。
     local rc
@@ -846,10 +897,10 @@ notify_slack() {
 print_summary() {
     section "サマリ"
     if [[ -s "$(quarantine_file)" ]]; then
-        log "隔離中の formula ($(wc -l < "$(quarantine_file)" | tr -d ' ') 件、${QUARANTINE_DAYS} 日後に自動再挑戦):"
+        log "隔離中の formula ($(wc -l <"$(quarantine_file)" | tr -d ' ') 件、${QUARANTINE_DAYS} 日後に自動再挑戦):"
         while IFS=$'\t' read -r name since reason; do
             log "  - $name ($since 以降, $reason)"
-        done < "$(quarantine_file)"
+        done <"$(quarantine_file)"
     fi
     if ((${#ACTIONS[@]} > 0)); then
         log "要対応 ${#ACTIONS[@]} 件:"
@@ -937,7 +988,7 @@ main() {
     print_summary
     notify
 
-    ((DRY_RUN)) || date '+%Y-%m-%d' > "$LAST_RUN"
+    ((DRY_RUN)) || date '+%Y-%m-%d' >"$LAST_RUN"
     section "daily-sync 終了"
     return 0
 }
