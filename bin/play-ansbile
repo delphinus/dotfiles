@@ -35,3 +35,7 @@ printf '%s %s\n' \
     "$(date '+%Y-%m-%dT%H:%M:%S%z')" \
     "$(git -C ~/git/dotfiles rev-parse HEAD)" \
     >~/.local/state/daily-sync/last-ansible
+
+# ハッシュのコミットは最後に回す。git 側の不調でプレイブックの適用が
+# 妨げられないようにするため (ファイル自体は上で書けている)。
+commit_secrets_hash

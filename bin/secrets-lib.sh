@@ -83,6 +83,58 @@ update_secrets_hash() {
     fi
     printf '%s\n' "$new" >"$hash_file"
     echo "secrets.yml のハッシュを更新した: ${old:-(記録なし)} -> $new"
-    echo "他の端末に伝えるためコミットしてください:"
-    echo "  git -C $dotfiles add $rel && git -C $dotfiles commit -m 'ansible: secrets.yml を更新'"
+}
+
+# ハッシュファイルをコミットして push する。
+#
+# 生成物なので人間がコミット文を考える価値が無く、案内を出すだけにしていたら
+# 未コミットのまま残って daily-sync に催促され続けた (実測)。他の端末へ伝わって
+# 初めて意味を持つ仕組みなので、push まで自動でやる。
+#
+# ただしユーザのリポジトリを勝手に触るので、安全に判断できるときだけにする:
+#   - master にいて、rebase / merge の途中でないこと
+#   - コミットするのはハッシュファイルのパスだけ (git commit -- <path>)。
+#     index に積んである作業中の変更を巻き込まない
+#
+# git 側の不調で呼び出し元を失敗させない。ハッシュファイル自体は書けているので、
+# コミットできなくても次の daily-sync が未コミットとして拾ってくれる。
+commit_secrets_hash() {
+    local dotfiles rel branch git_dir
+    dotfiles="${DOTFILES_DIR:-$HOME/git/dotfiles}"
+    rel='ansible/vars/secrets.yml.sha256'
+
+    # 追跡済みで変更無し、かつ未追跡でもないなら何もすることが無い。
+    if git -C "$dotfiles" diff --quiet HEAD -- "$rel" 2>/dev/null &&
+        [[ -z "$(git -C "$dotfiles" ls-files --others --exclude-standard -- "$rel" 2>/dev/null)" ]]; then
+        return 0
+    fi
+
+    branch="$(git -C "$dotfiles" symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+    if [[ "$branch" != master ]]; then
+        echo "master ではない (${branch:-detached HEAD}) ため $rel は自動コミットしない。手でコミットしてください"
+        return 0
+    fi
+
+    git_dir="$(git -C "$dotfiles" rev-parse --git-dir 2>/dev/null || true)"
+    if [[ -n "$git_dir" ]] &&
+        { [[ -e "$dotfiles/$git_dir/MERGE_HEAD" ]] ||
+            [[ -d "$dotfiles/$git_dir/rebase-merge" ]] ||
+            [[ -d "$dotfiles/$git_dir/rebase-apply" ]]; }; then
+        echo "merge / rebase の途中なので $rel は自動コミットしない。手でコミットしてください"
+        return 0
+    fi
+
+    if ! git -C "$dotfiles" add -- "$rel" ||
+        ! git -C "$dotfiles" commit --quiet -m 'ansible: secrets.yml を更新' -- "$rel"; then
+        echo "$rel のコミットに失敗した。手でコミットしてください"
+        return 0
+    fi
+    echo "コミットした: $rel"
+
+    if git -C "$dotfiles" push --quiet origin master 2>/dev/null; then
+        echo "push した"
+    else
+        echo "push に失敗した (remote が進んでいる等)。手で push してください"
+    fi
+    return 0
 }
