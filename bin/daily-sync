@@ -278,6 +278,48 @@ brew_upgrade_versioned() {
     brew_run "$((BREW_TIMEOUT * 2))" brew upgrade
 }
 
+# --fetch-HEAD を付けても HEAD の更新を取りこぼすこと (= 無言で凍結すること) が
+# あるので、判定の materials を先に最新化しておく。
+#
+# GitHub の formula では Homebrew はローカルのクローンではなく GitHub API で
+# 最新コミットを判定する (utils/github.rb の GitHub.last_commit)。手順は
+# 「ETag から full sha を取る → 7 文字に切り詰める → その短縮 sha が一意か API に
+# 問い合わせる」で、最後が 200 以外なら nil を返す。ところが GitHub は短縮 sha を
+# fork network 全体のオブジェクトに対して解決するため (neovim は fork 7000 超)、
+# 7 文字はしばしば曖昧になり 422 が返る。Homebrew 自身のコメントが「これを API の
+# 失敗と区別できない」と認めており、どちらの場合も nil になる。
+#
+# nil のときのフォールバック先がキャッシュされたクローンのローカル HEAD で、
+# そこは前回ビルドした sha のまま止まっている。結果 installed と一致して「最新」に
+# なる (実測 2026-08-02: upstream が 8 コミット先なのに未検出。ローカルでは
+# 7 文字で一意なのに API は 422 を返していた)。
+#
+# フォールバック先を先に進めておけば、API 経路が失敗しても正しく検出される。
+refresh_head_caches() {
+    local f dir branch before after
+    for f in "$@"; do
+        dir="$(brew --cache --HEAD "$f" 2>/dev/null)" || continue
+        [[ -d "$dir/.git" ]] || continue
+        branch="$(git -C "$dir" symbolic-ref --quiet --short HEAD 2>/dev/null)" || continue
+        before="$(git -C "$dir" rev-parse --short HEAD 2>/dev/null)" || continue
+
+        # 到達できない remote で居座らないよう brew_run と同じ条件で回す。
+        if ! with_timeout 120 env -u SSH_AUTH_SOCK GIT_TERMINAL_PROMPT=0 \
+            git -C "$dir" fetch --quiet origin 2>/dev/null; then
+            log "$f: キャッシュの fetch に失敗。判定は Homebrew に任せる"
+            continue
+        fi
+        # ff できないときは触らない (Homebrew がビルド時に整えるので任せる)。
+        git -C "$dir" merge --ff-only --quiet "origin/$branch" 2>/dev/null || true
+
+        after="$(git -C "$dir" rev-parse --short HEAD 2>/dev/null)" || continue
+        if [[ "$before" != "$after" ]]; then
+            log "$f: キャッシュを進めた ($before -> $after)"
+        fi
+    done
+    return 0
+}
+
 # brew upgrade は --fetch-HEAD を付けないと HEAD インストールの formula を
 # 一切見ない (brew outdated にすら出ない)。ここが端末間ドリフトの主因だった。
 #
@@ -339,6 +381,8 @@ brew_upgrade_head() {
         log "更新対象なし"
         return 0
     }
+
+    refresh_head_caches "${targets[@]}"
 
     # まとめて渡すと 1 本の失敗で残りが巻き添えになるので 1 本ずつ実行する。
     # brew の起動コストが formula 数だけかかるが、失敗を名指しできる方が重要。
