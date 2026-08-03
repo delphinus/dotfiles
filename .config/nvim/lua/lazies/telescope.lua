@@ -486,7 +486,10 @@ return {
               },
             },
             theme = "ivy",
-            hijack_netrw = true,
+            -- ディレクトリを開いたときは runtime の nvim.dir に任せる。true だと
+            -- extension 読み込み後の BufEnter でディレクトリバッファを掴んで
+            -- picker を開いてしまい、nvim.dir と競合する。
+            hijack_netrw = false,
             dir_icon_hl = "Directory",
             icon_width = 2,
             respect_gitignore = false,

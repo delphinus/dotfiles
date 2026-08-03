@@ -101,6 +101,11 @@ require("lazy").setup(plugins, {
   concurrency = vim.env.LIGHT and 10 or 50,
   checker = { enabled = false },
   dev = { path = "~/git/github.com/delphinus" },
+  -- runtime の plugin/dir.lua (nvim.dir) を使うため netrw を止める。core は
+  -- plugin/*.vim → plugin/*.lua の順に読むので dir.lua が FileExplorer augroup を
+  -- clear して勝つが、lazy.nvim は .vim と .lua を混ぜて名前順に読むため
+  -- dir.lua → netrwPlugin.vim となり、netrw が FileExplorer を張り直してしまう。
+  performance = { rtp = { disabled_plugins = { "netrwPlugin" } } },
   ui = {
     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
     icons = {
