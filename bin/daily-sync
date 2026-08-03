@@ -937,9 +937,26 @@ notify() {
     ((${#FAILURES[@]} > 0)) && message+="失敗 ${#FAILURES[@]} 件: ${FAILURES[0]}"$'\n'
     ((${#ACTIONS[@]} > 0)) && message+="要対応 ${#ACTIONS[@]} 件: ${ACTIONS[0]}"
 
+    # terminal-notifier があればそれを使う。クリックで Console を開けるのは
+    # こちらだけなので優先する。
+    #
+    # 無い端末のために osascript へ落とす。terminal-notifier は formula 一覧の
+    # 全部入り (tasks/homebrew.yml) にしか入っておらず、play-ansbile が流す
+    # local_light.yml では入らないので、業務用 Mac には無い (実測)。通知のためだけに
+    # 全端末へ formula を 1 本増やしたくないが、通知が消えるのも困る、という
+    # 折衷。osascript は macOS 標準なので依存が増えない。
+    #
+    # 本文は -e に埋め込まず argv で渡す。ACTION の文言には formula 名やパスが
+    # そのまま入るため、引用符やバックスラッシュが AppleScript の構文を壊す。
     if command -v terminal-notifier >/dev/null 2>&1; then
         terminal-notifier -title "$title" -message "$message" \
             -execute "open -a Console $HOME/Library/Logs/daily-sync.log" >/dev/null 2>&1 || true
+    else
+        osascript \
+            -e 'on run argv' \
+            -e 'display notification (item 1 of argv) with title (item 2 of argv)' \
+            -e 'end run' \
+            -- "$message" "$title" >/dev/null 2>&1 || true
     fi
 
     notify_slack
