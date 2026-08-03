@@ -34,6 +34,26 @@ put_secrets() {
         --file-name "$SECRETS_FILE_NAME"
 }
 
+# 検証に使う python を選ぶ。PyYAML が要るが、PATH の python3 に入っているとは
+# 限らない (実測: asdf で入れた素の python が shim で先に来ていて
+# ModuleNotFoundError になった)。ここで落ちると secrets.yml を配れず
+# play-ansbile が一切流せなくなるので、端末ごとに pip install させるのではなく
+# ansible 自身の python にフォールバックする。ansible は play-ansbile の前提で、
+# その venv には必ず PyYAML が入っている。
+secrets_python() {
+    local py
+    if python3 -c 'import yaml' 2>/dev/null; then
+        printf 'python3\n'
+        return 0
+    fi
+    py="$(command -v ansible-playbook 2>/dev/null)" || return 1
+    # Homebrew の ansible は venv の python を shebang に書いている。
+    py="$(sed -n '1s/^#!//p' "$py" 2>/dev/null)"
+    [[ -n "$py" && -x "$py" ]] || return 1
+    "$py" -c 'import yaml' 2>/dev/null || return 1
+    printf '%s\n' "$py"
+}
+
 # 取得・編集した内容が壊れていないか検証する。
 #
 # op が不調なときに部分的な内容を返すことがあり (実測: 2 回連続で別々の位置で
@@ -42,7 +62,12 @@ put_secrets() {
 # 存在で切り詰めを検出する。編集後にも掛けることで、壊した YAML を 1Password に
 # push してしまう事故も防ぐ。
 validate_secrets() {
-    python3 - "$1" <<'PY'
+    local py
+    if ! py="$(secrets_python)"; then
+        echo 'PyYAML を持つ python が見つからない (python3 にも ansible の venv にも無い)' >&2
+        return 1
+    fi
+    "$py" - "$1" <<'PY'
 import sys, yaml
 
 path = sys.argv[1]
