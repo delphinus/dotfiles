@@ -8,7 +8,10 @@
       - coreutils
       - delphinus/ghg/ghg
       - diff-so-fancy
-      - docker
+      # docker は入れない。Docker Desktop が同じ CLI と補完を持っており、
+      # Homebrew prefix に張った補完の symlink が formula 側とぶつかって
+      # brew upgrade が毎回 link エラーで落ちる (実測)。CLI はデーモンと版を
+      # 揃えたいので Docker Desktop 側に一本化する。
       - exa
       - gibo
       - git
