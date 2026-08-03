@@ -236,6 +236,13 @@ quarantine_active() {
 # アップグレードに失敗した formula は linked keg を失ったまま放置されることが
 # ある (実測: install が例外で落ち、/opt/homebrew/bin/mydns が消えて DNS 更新
 # ジョブが動かなくなった)。Cellar に keg が残っていれば貼り直す。
+#
+# keg-only は除外する。リンクされていないのが正常な状態なので、含めると毎回
+# 全件が「壊れている」ように見える (実測: 新しい端末で 17 件が候補になった)。
+# しかも brew link は keg-only を拒否しても exit 0 を返すため、ログには
+# 「復旧した」と出て気付けない。実害もあり、versioned な keg-only
+# (openssl@4, openssl@1.1, mysql@8.4, mysql-client@8.4) は --force 無しでも
+# 実際に張られてしまい、意図して外してある lib と bin を勝手に載せる (実測)。
 repair_unlinked() {
     # Cellar のディレクトリは短い名前、brew link に渡すのは full_name。
     local -a broken=()
@@ -251,7 +258,8 @@ repair_unlinked() {
             broken+=("$full")
         fi
     done < <(brew_info |
-        jq -r '.formulae[] | select((.linked_keg // "") == "" and (.installed | length) > 0)
+        jq -r '.formulae[] | select((.linked_keg // "") == "" and (.installed | length) > 0
+                                    and (.keg_only // false) == false)
                | "\(.name)\t\(.full_name)"')
 
     if ((${#broken[@]} > 0)); then
