@@ -1,5 +1,11 @@
 -- HACK: Command to launch `perl` should be changed in accordance with its root dir
-local lines = vim.fn.readfile(vim.fs.normalize(vim.env.OFFICE_ENVRC))
+--
+-- OFFICE_ENVRC は ~/.env (1Password Environments) を読むプロセスにしか入らない。
+-- 素のシェルから起動した nvim では未設定なので、そのまま vim.fs.normalize に
+-- 渡すと "path: expected string, got nil" で mason-lspconfig の setup ごと落ちる。
+-- 未設定・ファイル無しのときは perlEnv 無しで動かす。
+local envrc = vim.env.OFFICE_ENVRC and vim.fs.normalize(vim.env.OFFICE_ENVRC)
+local lines = envrc and vim.uv.fs_stat(envrc) and vim.fn.readfile(envrc) or {}
 local env = vim.iter(lines):fold({}, function(a, b)
   local key, value = b:match "^export ([^=]+)='(.*)'$"
   if key and value then
