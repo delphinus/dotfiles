@@ -34,6 +34,9 @@ readonly BREW_REPO
 readonly STATE_DIR="$HOME/.local/state/daily-sync"
 readonly LAST_RUN="$STATE_DIR/last-run"
 readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
+# sudo を要求すると分かった cask の token 一覧 (1 行 1 件)。一度掴んだら
+# 二度と無人では通せないので、以降は試行せず通知だけ出す。
+readonly SUDO_CASKS_FILE="$STATE_DIR/sudo-casks"
 readonly ENV_FILE="$HOME/.config/daily-sync/env"
 readonly DOTFILES="$HOME/git/dotfiles"
 readonly SKK_JISYO="$HOME/git/github.com/delphinus/skk-jisyo"
@@ -283,7 +286,13 @@ brew_upgrade_versioned() {
     }
     # bottle 系はまとめてよい (HEAD の fetch を伴わないので巻き添えが起きにくく、
     # 依存解決も一括の方が正しい)。全体としての上限だけ掛ける。
-    brew_run "$((BREW_TIMEOUT * 2))" brew upgrade
+    #
+    # --formula を明示するのは cask を巻き込まないため。引数なしの brew upgrade は
+    # cask も対象にするので、sudo を要求する cask が 1 件混ざるだけで全体が
+    # 非ゼロで終わり、formula 側が全て成功していても「brew upgrade に失敗」と
+    # しか分からなくなる (実測 2026-08-04: docker-desktop で 4 件の formula 更新が
+    # 失敗扱いに埋もれた)。cask は brew_upgrade_casks で個別に扱う。
+    brew_run "$((BREW_TIMEOUT * 2))" brew upgrade --formula
 }
 
 # --fetch-HEAD を付けても HEAD の更新を取りこぼすこと (= 無言で凍結すること) が
@@ -425,6 +434,131 @@ brew_upgrade_head() {
 
     # ここで自分で failure を記録するので、呼び出し側 (run_step) に汎用の
     # 失敗を二重記録させないよう 0 を返す。
+    return 0
+}
+
+# --- cask ---------------------------------------------------------------
+#
+# cask には無人では通せないものがある。docker-desktop は更新の前段で
+# /Library/PrivilegedHelperTools 配下の特権ヘルパーを消すため sudo を要求し、
+# launchd 配下では端末が無いので必ず失敗する (実測 2026-08-04)。
+#
+#   sudo: a terminal is required to read the password
+#
+# SUDO_ASKPASS を渡せば Homebrew は sudo に -A を付ける (system_command.rb) が、
+# 毎朝パスワードダイアログが出るのは無人ジョブの趣旨に反するので採らない。
+# sudoers の NOPASSWD も、cask が任意パスへ sudo rm -rf を投げる以上、実質
+# パスワード無しの root になるので採らない。「無人でできないことは通知して
+# 人間に渡す」に倒す。
+#
+# どの cask が sudo を要るかは定義から静的には分からない (uninstall stanza が
+# 特権パスを触るか次第) ので、一度実行して掴んだら SUDO_CASKS_FILE に覚えて
+# 以降は試行しない。試行を続けると毎日 400MB 超をダウンロードしては捨てる
+# ことになるため。手で上げれば brew outdated から消えるので通知も止まる。
+readonly SUDO_REQUIRED_RE='a terminal is required to read the password|sudo: a password is required|sudo: no tty present'
+
+sudo_cask_known() { grep -qxF "$1" "$SUDO_CASKS_FILE" 2>/dev/null; }
+
+sudo_cask_add() {
+    sudo_cask_known "$1" && return 0
+    printf '%s\n' "$1" >>"$SUDO_CASKS_FILE"
+}
+
+# cask の「現在 → 最新」。brew_info キャッシュは upgrade 前に取ったものなので、
+# この段階でも installed 側は更新前の値が残っている。
+cask_version_pair() {
+    local pair
+    pair="$(brew_info | jq -r --arg t "$1" \
+        '.casks[] | select(.token == $t) | "\(.installed // "?") → \(.version // "?")"')"
+    [[ -n "$pair" ]] && printf ' (%s)' "$pair"
+    return 0
+}
+
+brew_upgrade_casks() {
+    local -a outdated=()
+    local line
+    while IFS= read -r line; do
+        [[ -n "$line" ]] && outdated+=("$line")
+    done < <(brew_run 300 brew outdated --cask --quiet 2>/dev/null)
+
+    if ((${#outdated[@]} == 0)); then
+        log "更新対象の cask は無し"
+        return 0
+    fi
+    log "cask 対象 ${#outdated[@]} 件: ${outdated[*]}"
+
+    # 既知の sudo 必須ものと隔離中のものを試行対象から外す。
+    local -a targets=() needs_sudo=() held=()
+    local c
+    for c in "${outdated[@]}"; do
+        if sudo_cask_known "$c"; then
+            needs_sudo+=("$c")
+        elif quarantine_active "cask:$c"; then
+            held+=("$c ($(quarantined_since "cask:$c") から)")
+        else
+            targets+=("$c")
+        fi
+    done
+    ((${#held[@]} > 0)) && log "隔離中のためスキップ (${#held[@]} 件): ${held[*]}"
+
+    # bash 3.2 では set -u 下で空配列の "${a[@]}" が unbound variable になるため、
+    # 展開する前に必ず件数で守る (既存の HEAD 系と同じ約束)。
+    if ((${#targets[@]} == 0)); then
+        log "試行する cask は無し"
+    elif ((DRY_RUN)); then
+        log "(dry-run) brew upgrade --cask をスキップ: ${targets[*]}"
+    else
+        # formula の HEAD 系と同じく 1 件ずつ実行する。1 本の失敗で残りを
+        # 巻き添えにせず、失敗したものを名指しできるようにするため。
+        local -a failed=() timed_out=()
+        local out rc
+        for c in "${targets[@]}"; do
+            out="$(brew_run "$BREW_TIMEOUT" brew upgrade --cask "$c" 2>&1)"
+            rc=$?
+            printf '%s\n' "$out"
+            case $rc in
+                0) quarantine_remove "cask:$c" ;;
+                124 | 137)
+                    log "$c が ${BREW_TIMEOUT} 秒でタイムアウトした"
+                    timed_out+=("$c")
+                    quarantine_add "cask:$c" "timeout"
+                    ;;
+                *)
+                    if grep -qE "$SUDO_REQUIRED_RE" <<<"$out"; then
+                        log "$c は sudo を要求した。以降は試行せず通知に回す"
+                        sudo_cask_add "$c"
+                        needs_sudo+=("$c")
+                    else
+                        failed+=("$c")
+                        quarantine_add "cask:$c" "exit=$rc"
+                    fi
+                    ;;
+            esac
+        done
+
+        if ((${#timed_out[@]} > 0)); then
+            failure "cask の更新が ${BREW_TIMEOUT} 秒で打ち切られた (${#timed_out[@]} 件): ${timed_out[*]}"
+        fi
+        if ((${#failed[@]} > 0)); then
+            failure "cask の更新に失敗 (${#failed[@]} 件): ${failed[*]}"
+        fi
+        if ((${#failed[@]} + ${#timed_out[@]} > 0)); then
+            log "上記は ${QUARANTINE_DAYS} 日間スキップする (期間後に自動で再挑戦)"
+        fi
+    fi
+
+    # 1 件ずつ action にすると要対応の件数が cask の数だけ膨らみ、macOS の通知
+    # (先頭 1 件しか載せられない) で 2 件目以降が見えなくなる。1 行に列挙して、
+    # そのまま貼れる 1 本のコマンドを添える。
+    if ((${#needs_sudo[@]} > 0)); then
+        local list=""
+        for c in "${needs_sudo[@]}"; do
+            list+="${list:+, }$c$(cask_version_pair "$c")"
+        done
+        action "sudo が要るため更新できなかった cask ${#needs_sudo[@]} 件: ${list}。手で実行してください: brew upgrade --cask ${needs_sudo[*]}"
+    fi
+
+    # 失敗は自分で記録するので、run_step に二重記録させない。
     return 0
 }
 
@@ -1034,7 +1168,7 @@ notify_slack() {
 print_summary() {
     section "サマリ"
     if [[ -s "$(quarantine_file)" ]]; then
-        log "隔離中の formula ($(wc -l <"$(quarantine_file)" | tr -d ' ') 件、${QUARANTINE_DAYS} 日後に自動再挑戦):"
+        log "隔離中 ($(wc -l <"$(quarantine_file)" | tr -d ' ') 件、${QUARANTINE_DAYS} 日後に自動再挑戦。cask: 付きは cask):"
         while IFS=$'\t' read -r name since reason; do
             log "  - $name ($since 以降, $reason)"
         done <"$(quarantine_file)"
@@ -1097,6 +1231,9 @@ main() {
     run_step "brew upgrade (bottle 系)" brew_upgrade_versioned
     run_step "neovim の退避" snapshot_nvim_fallback
     run_step "brew upgrade --fetch-HEAD (HEAD 系)" brew_upgrade_head
+    # formula を全て片付けてから cask に入る。cask は巨大なダウンロードを伴う
+    # ことがあり、先に置くと neovim の退避が無用に遅れる。
+    run_step "brew upgrade (cask)" brew_upgrade_casks
 
     # ここから先は upgrade 後の状態を見る。リンク切れの検出も比較もこの
     # キャッシュを使うので、復旧より前に取り直す。
