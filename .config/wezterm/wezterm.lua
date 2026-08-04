@@ -4,6 +4,7 @@ local colors = require "colors"
 local const = require "const"
 local keys = require "keys"
 local key_tables = require "key_tables"
+local open_uri = require "open_uri"
 local status_bar = require "status_bar"
 local tab_title = require "tab_title"
 
@@ -46,6 +47,7 @@ end
 colors(config)
 keys(config)
 key_tables(config)
+open_uri(config)
 status_bar(config)
 tab_title(config)
 
