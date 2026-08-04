@@ -10,14 +10,28 @@
 	</array>
 	{#- 在席が見込める時刻に寄せる。sudo や 1Password の対話が要る「要対応」
 	    通知に、その場で気付けるようにするため。:00 / :30 を避けて分散させる。
-	    スリープ中に逃した回は復帰時に発火する。 -#}
+
+	    2 枠あるのは電源オフ対策。スリープ中に逃した回は復帰時に発火するが、
+	    「発火時刻に電源が落ちていた回」は補われず次の枠まで飛ぶ (Apple の
+	    Daemons and Services Programming Guide "Effects of Sleeping and
+	    Powering Off")。午前を丸ごと落としていても拾えるよう昼前にもう 1 枠
+	    置く。当日実行済みなら日付ガード (~/.local/state/daily-sync/last-run)
+	    で即抜けるので、2 回目の負荷はほぼ無い。 -#}
 	<key>StartCalendarInterval</key>
-	<dict>
-		<key>Hour</key>
-		<integer>9</integer>
-		<key>Minute</key>
-		<integer>47</integer>
-	</dict>
+	<array>
+		<dict>
+			<key>Hour</key>
+			<integer>9</integer>
+			<key>Minute</key>
+			<integer>47</integer>
+		</dict>
+		<dict>
+			<key>Hour</key>
+			<integer>11</integer>
+			<key>Minute</key>
+			<integer>47</integer>
+		</dict>
+	</array>
 	{#- RunAtLoad は付けない。ログインの度に brew upgrade が走ると重い。
 	    日付ガード (~/.local/state/daily-sync/last-run) もあるが、そもそも
 	    起動契機を増やさない。 -#}
