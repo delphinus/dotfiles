@@ -423,7 +423,7 @@ brew_upgrade_head() {
     done
 
     if ((${#timed_out[@]} > 0)); then
-        failure "HEAD 更新が ${BREW_TIMEOUT} 秒で打ち切られた formula (${#timed_out[@]} 件): ${timed_out[*]} — ビルドが長すぎるか remote に到達できていない。DAILY_SYNC_BREW_TIMEOUT で上限を変えられる"
+        failure "HEAD 更新が ${BREW_TIMEOUT} 秒で打ち切られた formula (${#timed_out[@]} 件): ${timed_out[*]} — ビルドが長すぎる / CPU を絞られている (launchd の ProcessType や Low Power Mode) / remote に到達できていない のどれか。DAILY_SYNC_BREW_TIMEOUT で上限を変えられる"
     fi
     if ((${#failed[@]} > 0)); then
         failure "HEAD 更新に失敗した formula (${#failed[@]} 件): ${failed[*]}"

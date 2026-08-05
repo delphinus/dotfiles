@@ -42,12 +42,20 @@
 		<key>HOME</key>
 		<string>{{ ansible_facts["env"]["HOME"] }}</string>
 	</dict>
-	{#- brew の HEAD ビルド (neovim 等) は数分かかる。低優先度で回して
-	    フォアグラウンドの作業を邪魔しない。 -#}
+	{#- brew の HEAD ビルド (neovim 等) は数分かかる。フォアグラウンドの作業を
+	    邪魔しないよう譲るが、譲り方は Nice と I/O だけに留める。
+
+	    ProcessType = Background は付けない。これは nice 値ではなく darwin
+	    background (PRIO_DARWIN_BG) 相当の QoS クランプで、子プロセスまで
+	    継承する。Apple Silicon では E コアにしかスケジュールされなくなり、
+	    この機体 (M1 Max = P8 + E2) だと neovim の HEAD ビルドが 2400 秒でも
+	    終わらなかった (2026-07-31 は 900 秒、2026-08-01 は 2400 秒で打ち切り。
+	    どちらも本体の cmake --build 中に kill されている)。前面で流したときは
+	    数分で終わるので、遅いのはビルドではなくスケジューリングの側。 -#}
 	<key>LowPriorityIO</key>
 	<true/>
-	<key>ProcessType</key>
-	<string>Background</string>
+	<key>Nice</key>
+	<integer>5</integer>
 	<key>StandardOutPath</key>
 	<string>{{ ansible_facts["env"]["HOME"] }}/Library/Logs/daily-sync.log</string>
 	<key>StandardErrorPath</key>
