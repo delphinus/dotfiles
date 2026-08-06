@@ -71,6 +71,16 @@ failure() {
 
 host_name() { scutil --get LocalHostName 2>/dev/null || hostname -s; }
 
+# 端末の起動時刻 (epoch)。kern.boottime は
+#   { sec = 1785975703, usec = 98284 } Thu Aug  6 09:21:43 2026
+# の形で返るので sec だけ取る。取れなければ何も出力しない。
+#
+# 先頭に錨を打つのが肝。`.*sec = ` と書くと貪欲マッチが usec の方に届いて
+# usec 値を epoch として返す (実測: 98284 = 1970-01-02 になった)。
+boot_epoch() {
+    sysctl -n kern.boottime 2>/dev/null | sed -nE 's/^\{ sec = ([0-9]+).*/\1/p'
+}
+
 # `brew info --json=v2 --installed` は環境によっては 1 回で数分かかる
 # (実測 6 分)。HEAD 対象の抽出・更新前後の比較・リンク切れ検出・スナップショット
 # と 5 箇所で必要になるので、1 度取ってファイルに置き、以降は読み直す。
@@ -708,13 +718,32 @@ check_launchd_jobs() {
     done
 
     # skk-sync は 30 分間隔。ログが長時間更新されていなければ止まっている。
+    #
+    # 経過時間の起点はログの mtime と端末の起動時刻の遅い方にする。mtime だけを
+    # 見ると電源オフを挟んだ朝は必ず誤検知する。止まっていたのは端末であって
+    # ジョブではないのに、前回シャットダウンからの時間がそのまま「更新されて
+    # いない時間」に化けるため (実測 2026-08-06: 08-04 の夕方に電源を落として
+    # 翌々朝に起動したところ、起動 6 分後の実行が「2369 分更新されていない」と
+    # 報告した)。
+    #
+    # skk-sync の plist は RunAtLoad=false + StartInterval=1800 なので、起動
+    # 直後は最大 30 分発火しない。閾値の 120 分はこの猶予を十分含む。
     local skk_log="$HOME/Library/Logs/skk-sync.log"
     if [[ -f "$skk_log" ]]; then
-        local age=$((($(date +%s) - $(stat -f %m "$skk_log")) / 60))
+        local mtime boot since origin age
+        mtime="$(stat -f %m "$skk_log")"
+        boot="$(boot_epoch)"
+        since="$mtime"
+        origin="ログの最終更新"
+        if [[ -n "$boot" ]] && ((boot > mtime)); then
+            since="$boot"
+            origin="端末の起動"
+        fi
+        age=$((($(date +%s) - since) / 60))
         if ((age > 120)); then
-            action "skk-sync のログが ${age} 分更新されていない。$SKK_JISYO/bin/setup の再実行を検討"
+            action "skk-sync が${origin}から ${age} 分動いていない。$SKK_JISYO/bin/setup の再実行を検討"
         else
-            log "skk-sync のログは ${age} 分前に更新済み"
+            log "skk-sync は正常 (${origin}から ${age} 分)"
         fi
     fi
     return 0
