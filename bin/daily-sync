@@ -11,7 +11,8 @@
 #
 # ログ:   ~/Library/Logs/daily-sync.log
 # 状態:   ~/.local/state/daily-sync/
-# 設定:   ~/.config/daily-sync/env  (secrets.yml 経由で Ansible が配置)
+# 設定:   ~/.config/daily-sync/env      (secrets.yml 経由で Ansible が配置)
+# 拡張:   ~/.config/daily-sync/jobs.d/  (別リポジトリのジョブを symlink で置く)
 #
 # このスクリプト自身が play-ansbile で置き換わる可能性があるため、全体を main()
 # に入れて末尾で呼ぶ。bash はスクリプトを逐次読みするので、こうしないと実行中に
@@ -38,6 +39,9 @@ readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
 # 二度と無人では通せないので、以降は試行せず通知だけ出す。
 readonly SUDO_CASKS_FILE="$STATE_DIR/sudo-casks"
 readonly ENV_FILE="$HOME/.config/daily-sync/env"
+readonly JOBS_DIR="$HOME/.config/daily-sync/jobs.d"
+# 追加ジョブ 1 本あたりの上限。ソースビルドを伴うものを想定して長めに取る。
+readonly JOB_TIMEOUT="${DAILY_SYNC_JOB_TIMEOUT:-3600}"
 readonly DOTFILES="$HOME/git/dotfiles"
 readonly SKK_JISYO="$HOME/git/github.com/delphinus/skk-jisyo"
 # HEAD ビルド中に nvim が消えるのを埋めるための退避先。config.fish が PATH の
@@ -638,6 +642,81 @@ snapshot_nvim_fallback() {
     rm -rf "$NVIM_FALLBACK"
     mv "$tmp" "$NVIM_FALLBACK"
     log "退避した: $NVIM_FALLBACK ($("$NVIM_FALLBACK/bin/nvim" --version | head -1))"
+    return 0
+}
+
+# --- 追加ジョブ -----------------------------------------------------------
+#
+# $JOBS_DIR の実行可能ファイルを名前順に走らせる汎用の拡張点。
+#
+# 置いてある理由は、daily-sync に載せたいが dotfiles には置けない仕事がある
+# ため。dotfiles は public にもミラーしているので、特定の環境にしか無いものを
+# ここへ直接書くわけにいかない。ジョブの実体は別のリポジトリに持たせ、その
+# setup が jobs.d へ symlink を張る (skk-jisyo と同じ「クローンして setup」)。
+#
+# ディレクトリが無ければ何もしない。関係の無い端末は素通りする。
+#
+# ジョブ側の規約:
+#   - 標準出力・標準エラーはそのままログへ流す。
+#   - `ACTION: ` で始まる行は要対応、`FAIL: ` で始まる行は失敗として、
+#     daily-sync のサマリと通知に畳み込む。ジョブは daily-sync の内部構造を
+#     知らなくてよく、行を吐くだけでよい。
+#   - 自前で FAIL: を出したなら 0 で終わってよい。非 0 で終わったのに FAIL:
+#     を 1 行も出していないときだけ、こちら側で汎用の失敗を記録する
+#     (両方やると同じ事故が 2 件に見える)。
+run_extra_jobs() {
+    if [[ ! -d "$JOBS_DIR" ]]; then
+        log "$JOBS_DIR が無い。スキップ"
+        return 0
+    fi
+
+    local job name line rc rcfile reported found=0
+    for job in "$JOBS_DIR"/*; do
+        # symlink の先が消えていることがあるので -x で実体まで見る。
+        [[ -f "$job" && -x "$job" ]] || continue
+        found=1
+        name="$(basename "$job")"
+        log "--- $name ---"
+        ((DRY_RUN)) && {
+            log "(dry-run) スキップ"
+            continue
+        }
+
+        # パイプで受けると読み側が subshell になり、ACTIONS/FAILURES への追加が
+        # 親に残らない。プロセス置換で受ける。終了ステータスは配管を通らないので
+        # 一時ファイルで持ち帰る。
+        rcfile="$(mktemp -t daily-sync-job)"
+        reported=0
+        while IFS= read -r line; do
+            case "$line" in
+                'ACTION: '*)
+                    action "${line#ACTION: }"
+                    ;;
+                'FAIL: '*)
+                    failure "${line#FAIL: }"
+                    reported=1
+                    ;;
+                *) log "  $line" ;;
+            esac
+        done < <(
+            with_timeout "$JOB_TIMEOUT" "$job" 2>&1
+            printf '%s' "$?" >"$rcfile"
+        )
+        rc="$(cat "$rcfile" 2>/dev/null)" || rc=""
+        rm -f "$rcfile"
+
+        case "${rc:-0}" in
+            0) ;;
+            124 | 137)
+                failure "$name が ${JOB_TIMEOUT} 秒でタイムアウトした"
+                ;;
+            *)
+                ((reported)) || failure "$name が失敗した (exit=$rc)"
+                ;;
+        esac
+    done
+
+    ((found)) || log "実行可能なジョブが無い"
     return 0
 }
 
@@ -1280,6 +1359,10 @@ main() {
     else
         log "  変更なし"
     fi
+
+    # brew を片付けてから。ジョブにはソースビルドを伴うものがあり、先に置くと
+    # formula の更新がその分遅れる。
+    run_step "追加ジョブ" run_extra_jobs
 
     run_step "claude-code-hooks の hook 差分確認" check_claude_code_hooks
     run_step "buffalo-timemachine の LaunchDaemon 確認" check_buffalo_launchdaemon
