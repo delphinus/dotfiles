@@ -20,10 +20,15 @@ return {
   -- skkeleton の completionBackend (vim-skk/skkeleton#249) に backend 定義を
   -- 登録する自前ブランチを使用中。upstream (Xantibody) に入ったら branch 指定を
   -- 外して "Xantibody/blink-cmp-skkeleton" に戻す。
+  -- event が要る。これが無いと「blink.cmp が候補ソースを計算する時に require
+  -- される」まで読み込まれず、skkeleton の backend 登録が <C-j> に間に合わない
+  -- (skkeleton が native にフォールバックして警告を出す)。blink.cmp 本体と同じ
+  -- タイミングで載せる。
   {
     "delphinus/blink-cmp-skkeleton",
     branch = "feat/skkeleton-completion-backend",
     enabled = not use_cmp,
+    event = { "InsertEnter", "CmdlineEnter" },
   },
 
   {
