@@ -17,7 +17,14 @@ end
 
 return {
   { "uga-rosa/cmp-skkeleton", enabled = use_cmp, event = { "InsertEnter", "CmdlineEnter" } },
-  { "Xantibody/blink-cmp-skkeleton", enabled = not use_cmp },
+  -- skkeleton の completionBackend (vim-skk/skkeleton#249) に backend 定義を
+  -- 登録する自前ブランチを使用中。upstream (Xantibody) に入ったら branch 指定を
+  -- 外して "Xantibody/blink-cmp-skkeleton" に戻す。
+  {
+    "delphinus/blink-cmp-skkeleton",
+    branch = "feat/skkeleton-completion-backend",
+    enabled = not use_cmp,
+  },
 
   {
     "willelz/skk-tutorial.vim",
@@ -32,20 +39,20 @@ return {
   },
 
   {
-    -- blink.cmp を補完エンジンとして認識させる分岐を足した自前ブランチを使用中。
-    -- s:complete_info() / handleCompleteKey に blink.cmp 対応を入れており、
-    -- eggLikeNewline 有効時の <CR> 確定が効くようになる。upstream にマージ
-    -- されたら branch 指定を外して "vim-skk/skkeleton" に戻す。
+    -- 補完エンジン連携を登録制にした自前ブランチを使用中 (vim-skk/skkeleton#249
+    -- の提案 B)。skkeleton#register_completion_backend() で補完エンジンを登録し、
+    -- completionBackend で選ぶと eggLikeNewline 有効時の <CR> 確定が効く。
+    -- blink.cmp 用の backend 定義は blink-cmp-skkeleton 側が登録する。
+    -- upstream にマージされたら branch 指定を外して "vim-skk/skkeleton" に戻す。
     "delphinus/skkeleton",
-    branch = "feat/blink-cmp-support",
+    branch = "feat/completion-backend",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
 
     config = function()
-      -- blink 使用時の <CR> 確定は delphinus/skkeleton の blink.cmp 分岐
-      -- (feat/blink-cmp-support) が skkeleton 本体で面倒を見るため、以前ここに
-      -- あった buffer-local <CR> 張り替えハックは不要になった。
+      -- blink 使用時の <CR> 確定は skkeleton 本体の completionBackend が面倒を
+      -- 見るため、以前ここにあった buffer-local <CR> 張り替えハックは不要。
       if use_cmp then
         require("core.skkeleton_cmp").setup()
       end
@@ -66,6 +73,7 @@ return {
       vim.fn["skkeleton#config"] {
         userDictionary = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo/skk-jisyo.utf8",
         completionRankFile = rank_file,
+        completionBackend = use_cmp and "nvim-cmp" or "blink.cmp",
         eggLikeNewline = true,
         immediatelyCancel = false,
         registerConvertResult = true,

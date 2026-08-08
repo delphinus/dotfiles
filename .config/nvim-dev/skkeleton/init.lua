@@ -111,31 +111,10 @@ require("lazy").setup({
       { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
     },
     config = function()
-      -- skkeleton#map sets a buffer-local <nowait> <CR> that shadows blink's
-      -- global mapping. Re-override after enable to delegate to blink when
-      -- its menu is visible.
-      local cr_group = vim.api.nvim_create_augroup("skkeleton_blink_cr", {})
-      vim.api.nvim_create_autocmd("User", {
-        group = cr_group,
-        pattern = "skkeleton-enable-post",
-        callback = function()
-          vim.keymap.set("i", "<CR>", function()
-            local ok, blink = pcall(require, "blink.cmp")
-            if ok and blink.is_visible() then
-              blink.select_and_accept()
-              return
-            end
-            vim.fn["skkeleton#handle"]("handleKey", { key = vim.keycode "<CR>" })
-          end, { buffer = true, nowait = true, desc = "blink + skkeleton <CR>" })
-        end,
-      })
-      vim.api.nvim_create_autocmd("User", {
-        group = cr_group,
-        pattern = "skkeleton-disable-pre",
-        callback = function()
-          pcall(vim.keymap.del, "i", "<CR>", { buffer = true })
-        end,
-      })
+      -- 以前はここに buffer-local な <CR> 張り替えハックがあったが、skkeleton
+      -- 側の completionBackend (vim-skk/skkeleton#249) に置き換えた。
+      -- blink-cmp-skkeleton が backend 定義を登録し、下の completionBackend で
+      -- それを選ぶと eggLikeNewline の <CR> 確定が本体側で処理される。
 
       -- 補完候補の並び順学習 (getRanks) を永続化する。デフォルト ("") では
       -- denops プロセスのメモリ内にしか乗らず、再起動・別インスタンスで失われる。
@@ -153,6 +132,7 @@ require("lazy").setup({
       vim.fn["skkeleton#config"] {
         userDictionary = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo/skk-jisyo.utf8",
         completionRankFile = rank_file,
+        completionBackend = "blink.cmp",
         eggLikeNewline = true,
         immediatelyCancel = false,
         registerConvertResult = true,
