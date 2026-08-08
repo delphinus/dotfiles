@@ -1,0 +1,5 @@
+{
+  "ddc-ui-native": { "branch": "main", "commit": "7b946489962453c485b894c18dd8e81057dd8098" },
+  "ddc.vim": { "branch": "main", "commit": "4499af05e93d90697793a3b3850e4f470999fe04" },
+  "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" }
+}

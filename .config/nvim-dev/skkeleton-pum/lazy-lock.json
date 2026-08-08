@@ -1,0 +1,6 @@
+{
+  "ddc-ui-pum": { "branch": "main", "commit": "0679df221520576d07add3cf4219d478db110801" },
+  "ddc.vim": { "branch": "main", "commit": "4499af05e93d90697793a3b3850e4f470999fe04" },
+  "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" },
+  "pum.vim": { "branch": "main", "commit": "28183eeef35023f2b940c1a3ddebc01a06a8e519" }
+}
