@@ -5,7 +5,17 @@ Host {{ h.host }}
 
 {% endfor -%}
 
+{#- lan_host を持つホストは、同じ LAN にいるときだけその IP へ直結し、外からは
+    通常の Host ブロック (Cloudflare Access が張った localhost のポート等) に
+    落ちる。ssh_config は最初に得た値が勝つので Match を Host より前に出す。
+    判定の中身は bin/ssh-lan-direct 参照。 #}
 {% for h in secret_ssh.hosts -%}
+{% if 'lan_host' in h -%}
+Match host {{ h.name }} exec "{{ dotfiles_dir }}/bin/ssh-lan-direct {{ h.lan_host }} {{ h.lan_port | default(22) }}"
+  Hostname {{ h.lan_host }}
+  Port {{ h.lan_port | default(22) }}
+
+{% endif -%}
 Host {{ h.name }}
 {% if 'host' in h %}  Hostname {{ h.host }}
 {% endif -%}

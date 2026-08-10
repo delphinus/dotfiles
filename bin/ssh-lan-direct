@@ -1,0 +1,58 @@
+#!/bin/sh
+# ssh_config の `Match host <name> exec` から呼ばれ、指定したホストが「今いる
+# LAN の中」に直接いるかを判定する。
+#
+#   exit 0 … LAN 内。Match ブロックの Hostname / Port (= LAN の IP) が採用される
+#   exit 1 … LAN 外。後続の Host ブロック (= Cloudflare Access が張っている
+#            localhost のポート) にフォールバックする
+#
+# ssh_config は最初に得た値が勝つので、Match ブロックを Host ブロックより前に
+# 置いておけば、この判定だけで接続先が自動的に切り替わる。呼ぶ側は場所を問わず
+# `ssh <name>` と書けばよい。
+#
+# 判定を 2 段にしてあるのは、外出先での ssh 起動を遅くしないため:
+#
+#   1. 自分の NIC が同じ /24 のアドレスを持っているか (数十 ms、通信しない)
+#   2. 実際に TCP が張れるか (1 秒上限)
+#
+# 外にいるときは 1 で落ちるので追加コストはほぼ 0。同じ /24 を使う別の
+# ネットワーク (カフェ等) に繋いだときだけ 2 が最大 1 秒かかる。
+#
+# usage: ssh-lan-direct <ip> [port]
+
+set -u
+
+host="${1:-}"
+port="${2:-22}"
+if [ -z "$host" ]; then
+    echo "usage: $(basename "$0") <ip> [port]" >&2
+    exit 2
+fi
+
+# 1. 同じ /24 のアドレスを自分が持っているか。
+#    ifconfig は `inet 192.168.10.111 netmask ...`、ip(8) は
+#    `inet 192.168.10.111/24` と出すので、どちらも `inet <prefix>` で拾える。
+prefix="${host%.*}."
+if command -v ifconfig >/dev/null 2>&1; then
+    addrs="$(ifconfig 2>/dev/null)"
+elif command -v ip >/dev/null 2>&1; then
+    addrs="$(ip -4 addr show 2>/dev/null)"
+else
+    exit 1
+fi
+case "$addrs" in
+    *"inet $prefix"*) ;;
+    *) exit 1 ;;
+esac
+
+# 2. 実際に届くか。macOS の nc は接続タイムアウトが -G で、-w は効かない
+#    (実測: 到達不能アドレスに -w 1 を付けても 4 秒かかった)。それ以外の nc は
+#    -G を持たないので -w を使う。
+case "$(uname -s)" in
+    Darwin) timeout_opt='-G 1' ;;
+    *) timeout_opt='-w 1' ;;
+esac
+
+command -v nc >/dev/null 2>&1 || exit 1
+# shellcheck disable=SC2086 # timeout_opt はフラグと値の 2 語に分けたい
+exec nc -z $timeout_opt "$host" "$port" >/dev/null 2>&1
