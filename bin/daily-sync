@@ -35,9 +35,9 @@ readonly BREW_REPO
 readonly STATE_DIR="$HOME/.local/state/daily-sync"
 readonly LAST_RUN="$STATE_DIR/last-run"
 readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
-# sudo を要求すると分かった cask の token 一覧 (1 行 1 件)。一度掴んだら
-# 二度と無人では通せないので、以降は試行せず通知だけ出す。
-readonly SUDO_CASKS_FILE="$STATE_DIR/sudo-casks"
+# sudo を要求すると分かった cask の記録先だった。今は quarantine の
+# reason=sudo に一本化してあり、残っていれば migrate_sudo_casks が取り込む。
+readonly OLD_SUDO_CASKS_FILE="$STATE_DIR/sudo-casks"
 readonly ENV_FILE="$HOME/.config/daily-sync/env"
 readonly JOBS_DIR="$HOME/.config/daily-sync/jobs.d"
 # 追加ジョブ 1 本あたりの上限。ソースビルドを伴うものを想定して長めに取る。
@@ -55,6 +55,10 @@ readonly ANSIBLE_MAX_AGE_DAYS=14
 readonly SNAPSHOT_STALE_DAYS=7
 # 更新に失敗した formula を再挑戦するまでの日数。
 readonly QUARANTINE_DAYS=7
+# sudo が要ると分かった cask を再評価するまでの日数。失敗と違って直る見込みが
+# 薄い一方、cask 側の仕様変更で不要になることはあるので、長めに取って期限は
+# 付ける (期限無しにすると、不要になった後も永久に手動リストに居座る)。
+readonly QUARANTINE_SUDO_DAYS=30
 
 FORCE=0
 DRY_RUN=0
@@ -224,6 +228,14 @@ quarantined_since() {
     printf '%s\n' "$line" | cut -f2
 }
 
+quarantine_reason() {
+    local f="$1" line
+    [[ -f "$(quarantine_file)" ]] || return 1
+    line="$(grep -F "$(printf '%s\t' "$f")" "$(quarantine_file)" 2>/dev/null | head -1)" || return 1
+    [[ -n "$line" ]] || return 1
+    printf '%s\n' "$line" | cut -f3
+}
+
 quarantine_add() {
     local f="$1" reason="$2" tmp
     tmp="$(mktemp)"
@@ -242,12 +254,21 @@ quarantine_remove() {
 }
 
 # 隔離期間内か。期間を過ぎたら再挑戦させる (formula が直っているかもしれない)。
+# reason=sudo だけは期間が別 (QUARANTINE_SUDO_DAYS)。
 quarantine_active() {
-    local f="$1" since epoch age
+    local f="$1" since epoch age days
     since="$(quarantined_since "$f")" || return 1
     epoch="$(date -j -f '%Y-%m-%d' "$since" +%s 2>/dev/null)" || return 1
     age=$((($(date +%s) - epoch) / 86400))
-    ((age < QUARANTINE_DAYS))
+    days="$QUARANTINE_DAYS"
+    [[ "$(quarantine_reason "$f" 2>/dev/null)" == sudo ]] && days="$QUARANTINE_SUDO_DAYS"
+    ((age < days))
+}
+
+# 「無人では通せないと学習済み」か。失敗として隔離されているものとは扱いが
+# 違い、FAIL ではなく「手で実行してください」の通知に回す。
+quarantine_sudo() {
+    [[ "$(quarantine_reason "$1" 2>/dev/null)" == sudo ]] && quarantine_active "$1"
 }
 
 # アップグレードに失敗した formula は linked keg を失ったまま放置されることが
@@ -465,17 +486,120 @@ brew_upgrade_head() {
 # パスワード無しの root になるので採らない。「無人でできないことは通知して
 # 人間に渡す」に倒す。
 #
-# どの cask が sudo を要るかは定義から静的には分からない (uninstall stanza が
-# 特権パスを触るか次第) ので、一度実行して掴んだら SUDO_CASKS_FILE に覚えて
-# 以降は試行しない。試行を続けると毎日 400MB 超をダウンロードしては捨てる
-# ことになるため。手で上げれば brew outdated から消えるので通知も止まる。
+# しかも失敗の仕方は端末によって違う。sudo に pam_tid (Touch ID) を入れて
+# ある端末では、端末が無くても即エラーにならず認証ダイアログを出したまま待ち
+# 続ける (実測 2026-08-10: ある端末で macskk が BREW_TIMEOUT の 2400 秒を
+# 使い切って timeout 扱いになった。同じ日に別の端末では 2 秒でエラーになって
+# いる)。ハングは出力に何も残さないので、「一度踏んで学習する」だけの設計では
+# この端末で永久に取りこぼす。
+#
+# そこで cask 定義から root が要るかを先に判定し、要ると分かるものは試行せず
+# 通知に回す。Homebrew が upgrade を通せなくなるほど確実に sudo を使うのは
+# 以下 (Homebrew 4.6 で確認):
+#
+#   pkg      /usr/sbin/installer          cask/artifact/pkg.rb
+#   pkgutil  Pkg#uninstall                cask/pkg.rb
+#   kext     kextstat / kextunload        cask/artifact/abstract_uninstall.rb
+#   delete   xargs /bin/rm                同上
+#
+# delete は「消す対象が実在するときだけ sudo」ではない。each_resolved_path は
+# glob の結果が空でも yield し、uninstall_delete はそのまま run! するので、
+# パスが 1 本も無くても sudo は起動する (実測のログにも引数の無い
+# `sudo ... /usr/bin/xargs -0 -- /bin/rm --` が残っている)。しかも run! なので
+# 失敗すれば upgrade ごと落ちる。実在判定はせず一律で弾く。
+#
+# launchctl と rmdir は入れていない。launchctl は sudo で probe するだけで
+# must_succeed: false なので、それ自体では upgrade を止めない。rmdir も
+# gain_permissions 経由で非 sudo を先に試す。先回りで弾くと通るはずの更新まで
+# 止めることになるので、これらはタイムアウトの診断にだけ使う。
+#
+# 静的判定をすり抜けたもの (アプリの所有権次第で sudo に切り替わる経路が
+# cask/artifact/moved.rb などにある) は、従来どおり一度踏んで学習する。学習先は
+# quarantine の reason=sudo。試行を続けると毎日 400MB 超をダウンロードしては
+# 捨てることになるため。手で上げれば brew outdated から消えるので通知も止まる。
 readonly SUDO_REQUIRED_RE='a terminal is required to read the password|sudo: a password is required|sudo: no tty present'
+# 出力の途中で固まったとき「sudo 待ちだった」と判断するための目印。
+readonly SUDO_MARKER_RE='which may request your password|Uninstalling packages with'
 
-sudo_cask_known() { grep -qxF "$1" "$SUDO_CASKS_FILE" 2>/dev/null; }
+# 旧 sudo-casks からの移行。専用ファイルは廃止して quarantine に畳んだ。
+migrate_sudo_casks() {
+    local c migrated=0
+    [[ -f "$OLD_SUDO_CASKS_FILE" ]] || return 0
+    ((DRY_RUN)) && {
+        log "(dry-run) 旧 sudo-casks の移行をスキップ"
+        return 0
+    }
+    while IFS= read -r c; do
+        [[ -n "$c" ]] || continue
+        quarantine_active "cask:$c" || {
+            quarantine_add "cask:$c" "sudo"
+            migrated=$((migrated + 1))
+        }
+    done <"$OLD_SUDO_CASKS_FILE"
+    rm -f "$OLD_SUDO_CASKS_FILE"
+    log "旧 sudo-casks を quarantine (reason=sudo) に移行した (${migrated} 件)"
+}
 
-sudo_cask_add() {
-    sudo_cask_known "$1" && return 0
-    printf '%s\n' "$1" >>"$SUDO_CASKS_FILE"
+# cask 定義の走査。いずれも brew_info キャッシュを読むだけなので brew の起動は
+# 伴わない。artifacts の要素は {"pkg": [...]} や {"uninstall": [{...}]} の形。
+cask_has_artifact() {
+    brew_info | jq -e --arg t "$1" --arg k "$2" \
+        '[ .casks[] | select(.token == $t) | .artifacts[]?
+           | select(type == "object") | has($k) ] | any' >/dev/null 2>&1
+}
+
+# uninstall / zap に現れるディレクティブ名 (pkgutil, delete, launchctl ...)。
+cask_uninstall_directives() {
+    brew_info | jq -r --arg t "$1" \
+        '.casks[] | select(.token == $t) | .artifacts[]?
+         | select(type == "object") | (.uninstall // .zap // empty)
+         | .[]? | select(type == "object") | keys[]?' 2>/dev/null
+}
+
+cask_has_directive() {
+    local t="$1" want="$2" d
+    while IFS= read -r d; do
+        [[ "$d" == "$want" ]] && return 0
+    done < <(cask_uninstall_directives "$t")
+    return 1
+}
+
+# 無人では通せないと定義から分かる cask か。通せない理由を表示用に出力する。
+cask_root_required() {
+    local t="$1" d
+    cask_has_artifact "$t" pkg && {
+        printf 'pkg\n'
+        return 0
+    }
+    for d in pkgutil delete kext; do
+        cask_has_directive "$t" "$d" && {
+            printf 'uninstall %s\n' "$d"
+            return 0
+        }
+    done
+    return 1
+}
+
+# sudo に触れうるか。確実ではないので先回りの除外には使わず、タイムアウトの
+# 原因が sudo 待ちかを判断するときにだけ使う (launchctl や rmdir を含む)。
+cask_touches_sudo() {
+    local t="$1" d
+    while IFS= read -r d; do
+        case "$d" in
+            pkgutil | delete | kext | launchctl | rmdir | script | early_script) return 0 ;;
+        esac
+    done < <(cask_uninstall_directives "$t")
+    cask_has_artifact "$t" pkg
+}
+
+# 打ち切られた upgrade が sudo 待ちだったか。出力に目印があれば確定。無くても
+# インストール段に入った後で止まっていて、かつ定義が sudo に触れるなら sudo と
+# 見なす。ダウンロード段 (==> Fetching downloads) で止まっただけのものを
+# 巻き込まないよう、==> Upgrading まで進んでいることを条件にする。
+cask_timed_out_on_sudo() {
+    local t="$1" out="$2"
+    grep -qE "$SUDO_MARKER_RE" <<<"$out" && return 0
+    grep -q '==> Upgrading' <<<"$out" && cask_touches_sudo "$t"
 }
 
 # cask の「現在 → 最新」。brew_info キャッシュは upgrade 前に取ったものなので、
@@ -489,6 +613,8 @@ cask_version_pair() {
 }
 
 brew_upgrade_casks() {
+    migrate_sudo_casks
+
     local -a outdated=()
     local line
     while IFS= read -r line; do
@@ -501,11 +627,15 @@ brew_upgrade_casks() {
     fi
     log "cask 対象 ${#outdated[@]} 件: ${outdated[*]}"
 
-    # 既知の sudo 必須ものと隔離中のものを試行対象から外す。
+    # root が要ると分かるものと隔離中のものを試行対象から外す。
     local -a targets=() needs_sudo=() held=()
-    local c
+    local c why
     for c in "${outdated[@]}"; do
-        if sudo_cask_known "$c"; then
+        if why="$(cask_root_required "$c")"; then
+            log "$c は root を要する ($why)。試行せず通知に回す"
+            needs_sudo+=("$c")
+        elif quarantine_sudo "cask:$c"; then
+            log "$c は $(quarantined_since "cask:$c") に sudo を要求した。試行せず通知に回す"
             needs_sudo+=("$c")
         elif quarantine_active "cask:$c"; then
             held+=("$c ($(quarantined_since "cask:$c") から)")
@@ -533,14 +663,23 @@ brew_upgrade_casks() {
             case $rc in
                 0) quarantine_remove "cask:$c" ;;
                 124 | 137)
-                    log "$c が ${BREW_TIMEOUT} 秒でタイムアウトした"
-                    timed_out+=("$c")
-                    quarantine_add "cask:$c" "timeout"
+                    # pam_tid が入っていると sudo はエラーを返さずダイアログを
+                    # 出したまま待つので、ハングは sudo 待ちのことがある。
+                    # timeout のまま置くと 7 日ごとに 40 分溶かし続ける。
+                    if cask_timed_out_on_sudo "$c" "$out"; then
+                        log "$c は sudo 待ちで固まったと判断した。以降は試行せず通知に回す"
+                        quarantine_add "cask:$c" "sudo"
+                        needs_sudo+=("$c")
+                    else
+                        log "$c が ${BREW_TIMEOUT} 秒でタイムアウトした"
+                        timed_out+=("$c")
+                        quarantine_add "cask:$c" "timeout"
+                    fi
                     ;;
                 *)
                     if grep -qE "$SUDO_REQUIRED_RE" <<<"$out"; then
                         log "$c は sudo を要求した。以降は試行せず通知に回す"
-                        sudo_cask_add "$c"
+                        quarantine_add "cask:$c" "sudo"
                         needs_sudo+=("$c")
                     else
                         failed+=("$c")
@@ -1234,7 +1373,7 @@ notify_slack() {
         for item in "${ACTIONS[@]}"; do text+="• ${item}"$'\n'; done
     fi
     if [[ -s "$(quarantine_file)" ]]; then
-        text+="*隔離中 (${QUARANTINE_DAYS} 日後に自動再挑戦)*"$'\n'
+        text+="*隔離中 (${QUARANTINE_DAYS} 日後、sudo は ${QUARANTINE_SUDO_DAYS} 日後に自動再挑戦)*"$'\n'
         while IFS=$'\t' read -r name since reason; do
             text+="• ${name} (${since} 以降, ${reason})"$'\n'
         done <"$(quarantine_file)"
@@ -1276,7 +1415,7 @@ notify_slack() {
 print_summary() {
     section "サマリ"
     if [[ -s "$(quarantine_file)" ]]; then
-        log "隔離中 ($(wc -l <"$(quarantine_file)" | tr -d ' ') 件、${QUARANTINE_DAYS} 日後に自動再挑戦。cask: 付きは cask):"
+        log "隔離中 ($(wc -l <"$(quarantine_file)" | tr -d ' ') 件、${QUARANTINE_DAYS} 日後、sudo は ${QUARANTINE_SUDO_DAYS} 日後に自動再挑戦。cask: 付きは cask):"
         while IFS=$'\t' read -r name since reason; do
             log "  - $name ($since 以降, $reason)"
         done <"$(quarantine_file)"
