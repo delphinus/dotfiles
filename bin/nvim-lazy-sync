@@ -1,0 +1,147 @@
+#!/bin/bash
+# Neovim のプラグイン更新 (:Lazy sync) を「レビューしてからコミットする」形に
+# するための道具。判断はしないで、判断材料を JSON で揃えるところまでをやる。
+#
+#   nvim-lazy-sync state    今どういう状態か (未コミットの lock 差分・パーサ)
+#   nvim-lazy-sync run      headless で sync し、TSUpdate を待ち切る
+#   nvim-lazy-sync report   lock の新旧差分を解析する
+#   nvim-lazy-sync health   更新後の nvim が正気か確かめる
+#
+# 全部 stdout に JSON を吐く。読むのは人間ではなく Claude (skill: nvim-plugin-sync)。
+#
+# なぜ lock の差分だけでは足りないか:
+#
+#   - treesitter のパーサ (323 個) は lock に載らない。`build = ":TSUpdate"` は
+#     非同期なので、headless では完了を待たずに nvim が終了してしまう。
+#   - lazy の build フック (markdown-preview の yarn / op.nvim の go build /
+#     CopilotChat の luarocks) は失敗しても headless では画面に出ない。
+#   - denops (skkeleton 等) は deno のモジュールキャッシュを起動時に取り直す。
+#     ここが死ぬと SKK が丸ごと使えなくなる。
+#
+# ここはその 3 つを明示的に面倒見る。
+
+set -uo pipefail
+
+readonly LOCK=".config/nvim/lazy-lock.json"
+# TSUpdate の上限。全 323 言語を引き直す最悪ケースを想定して長めに取る。
+readonly TS_TIMEOUT="${NVIM_LAZY_TS_TIMEOUT:-1800000}"
+# denops の起動待ち。deno がモジュールを取り直す初回は数十秒かかる。
+readonly DENOPS_TIMEOUT="${NVIM_LAZY_DENOPS_TIMEOUT:-60000}"
+
+BIN_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+readonly BIN_DIR
+REPO="${NVIM_LAZY_REPO:-$(dirname -- "$BIN_DIR")}"
+readonly REPO
+
+die() {
+    echo "nvim-lazy-sync: $*" >&2
+    exit 1
+}
+
+usage() {
+    sed -n '2,20p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//' >&2
+    exit 2
+}
+
+command -v nvim >/dev/null 2>&1 || die "nvim not found"
+[[ -f "$REPO/$LOCK" ]] || die "not a dotfiles checkout: $REPO/$LOCK が無い"
+
+# lock に未コミットの差分があるか。あれば「ユーザが手で :Lazy sync した後」、
+# 無ければ「これから sync する」と解釈する。
+lock_dirty() {
+    ! git -C "$REPO" diff --quiet HEAD -- "$LOCK"
+}
+
+cmd_state() {
+    local dirty analysis
+    if lock_dirty; then dirty=true; else dirty=false; fi
+
+    # 差分が無いときは HEAD 同士の比較になり changed=0 になるだけで害は無い。
+    # パーサの状態はどちらの経路でも知りたいので、常に解析を通す。
+    analysis="$(nvim -l "$BIN_DIR/nvim-lazy-analyze.lua" --repo "$REPO" 2>/dev/null)" \
+        || die "analyze に失敗した"
+
+    jq -n \
+        --argjson dirty "$dirty" \
+        --argjson analysis "$analysis" \
+        --arg head "$(git -C "$REPO" rev-parse --short HEAD)" \
+        --arg branch "$(git -C "$REPO" rev-parse --abbrev-ref HEAD)" \
+        '{
+            lock_dirty: $dirty,
+            source: (if $dirty then "manual" else "none" end),
+            head: $head,
+            branch: $branch,
+            treesitter: $analysis.treesitter,
+            pending: $analysis.summary
+        }'
+}
+
+cmd_run() {
+    local out log rc
+    out="$(mktemp -t nvim-lazy-run.XXXXXX)"
+    log="$(mktemp -t nvim-lazy-log.XXXXXX)"
+    # shellcheck disable=SC2064 # 今の値で trap を固定したい
+    trap "rm -f '$out' '$log'" EXIT
+
+    # -c 'luafile' を使うのは、user config を読ませないと lazy の API に
+    # 手が届かないため (`nvim -l` は config を読まない)。
+    NVIM_LAZY_OUT="$out" NVIM_LAZY_TS_TIMEOUT="$TS_TIMEOUT" \
+        nvim --headless -c "luafile $BIN_DIR/nvim-lazy-run.lua" >"$log" 2>&1
+    rc=$?
+
+    if [[ ! -s "$out" ]]; then
+        jq -n --arg log "$(tail -c 4000 "$log")" --argjson rc "$rc" \
+            '{ok: false, error: "nvim-lazy-run.lua が結果を書かずに終了した", exit_code: $rc, log: $log}'
+        return 1
+    fi
+
+    jq -n \
+        --slurpfile result "$out" \
+        --argjson rc "$rc" \
+        --arg log "$(tail -c 4000 "$log")" \
+        '$result[0] + {ok: ($rc == 0), exit_code: $rc, log: $log}'
+}
+
+cmd_report() {
+    nvim -l "$BIN_DIR/nvim-lazy-analyze.lua" --repo "$REPO" "$@" \
+        || die "analyze に失敗した"
+}
+
+# 更新後の nvim がまともに起動するか。lock の差分をいくら読んでも
+# 「起動しなくなった」「パーサが壊れた」は分からないので、実際に立ち上げる。
+cmd_health() {
+    local out log rc
+    out="$(mktemp -t nvim-lazy-health.XXXXXX)"
+    log="$(mktemp -t nvim-lazy-hlog.XXXXXX)"
+    # shellcheck disable=SC2064
+    trap "rm -f '$out' '$log'" EXIT
+
+    NVIM_LAZY_OUT="$out" NVIM_LAZY_DENOPS_TIMEOUT="$DENOPS_TIMEOUT" \
+        nvim --headless -c "luafile $BIN_DIR/nvim-lazy-health.lua" >"$log" 2>&1
+    rc=$?
+
+    if [[ ! -s "$out" ]]; then
+        jq -n --arg log "$(tail -c 4000 "$log")" --argjson rc "$rc" \
+            '{ok: false, error: "nvim-lazy-health.lua が結果を書かずに終了した", exit_code: $rc, log: $log}'
+        return 1
+    fi
+
+    # stderr に何か出ていれば、それ自体が起動が汚れている証拠。
+    jq -n \
+        --slurpfile result "$out" \
+        --argjson rc "$rc" \
+        --arg log "$(tail -c 4000 "$log")" \
+        '$result[0] + {
+            startup: {ok: ($rc == 0 and ($log | length) == 0), exit_code: $rc, log: $log}
+        }'
+}
+
+command -v jq >/dev/null 2>&1 || die "jq not found"
+
+case "${1:-}" in
+    state) shift; cmd_state "$@" ;;
+    run) shift; cmd_run "$@" ;;
+    report) shift; cmd_report "$@" ;;
+    health) shift; cmd_health "$@" ;;
+    *) usage ;;
+esac
