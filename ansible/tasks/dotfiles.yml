@@ -57,6 +57,18 @@
     - .hishtory/config.fish
     - .hishtory/config.zsh
 
+# bash / zsh は対話シェルとして使っていないのに、rc ファイルが「存在する」だけで
+# インストーラの追記先にされる。LM Studio の lms bootstrap は
+# .profile / .bashrc / .bash_profile / .zshrc / config.fish / .cshrc / .tcshrc を
+# 順に見て、存在してかつ ~/.lmstudio/bin の絶対パスを含まないものへ PATH 行を
+# 追記する (存在しないファイルは黙って飛ばす)。symlink 先が repo なので、これが
+# 毎回 dotfiles の差分として現れていた。配るのをやめれば追記先が消える。
+- name: remove dotfiles symlinks no longer distributed
+  file: path=~/{{ item }} state=absent
+  with_items:
+    - .bashrc
+    - .zshrc
+
 - name: make dotfiles symlink
   file: >-
     src={{ '/'.join([dotfiles_dir, item]) }}
@@ -64,8 +76,6 @@
     state=link
     force=yes
   with_items:
-    - .bashrc
-    - .zshrc
     - .zprofile
     - .asdfrc
     - .config/1Password/ssh
