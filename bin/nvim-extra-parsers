@@ -69,13 +69,32 @@ os.exit((ok and type(t) == "table" and t[arg[2]]) and 0 or 1)
 LUA
 }
 
-# 認証は任意。無くても public なら引けるが、あると rate limit が緩くなる。
-# gh の active account に依存したくないので gh コマンドは使わない
-# (github.com には業務アカウントも同居しているため)。
-gh_api() {
-    local url="$1"
+# API 認証は任意。無くても public リポジトリは引けるが、未認証は 60 req/h
+# なので取りこぼすことがある。
+#
+# トークンは $GITHUB_TOKEN、無ければ gh から借りる。gh を使うときは必ず
+# --user で明示する。github.com には業務アカウントも同居していて、active
+# account がそちらに向いていることがあるため (素の `gh auth token` はその
+# ときのアカウントのトークンを返してしまう)。--user 指定は active account を
+# 切り替えないので副作用も無い。
+GH_TOKEN_CACHE=""
+gh_token() {
     if [[ -n "${GITHUB_TOKEN:-}" ]]; then
-        curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" \
+        echo "$GITHUB_TOKEN"
+        return 0
+    fi
+    if [[ -z "$GH_TOKEN_CACHE" ]] && command -v gh >/dev/null 2>&1; then
+        GH_TOKEN_CACHE="$(gh auth token --hostname github.com \
+            --user "${NVIM_EXTRA_PARSERS_GH_USER:-delphinus}" 2>/dev/null)"
+    fi
+    echo "$GH_TOKEN_CACHE"
+}
+
+gh_api() {
+    local url="$1" token
+    token="$(gh_token)"
+    if [[ -n "$token" ]]; then
+        curl -sfL -H "Authorization: Bearer $token" \
             -H 'Accept: application/vnd.github+json' "$url"
     else
         curl -sfL -H 'Accept: application/vnd.github+json' "$url"
@@ -102,7 +121,7 @@ asset_url() {
 # パーサとクエリを一時領域に組み立ててから検証し、通ったものだけ本番に入れる。
 # 壊れたクエリをそのまま置くと、色が消えるだけで原因が分かりにくい。
 install_lang() {
-    local lang="$1" repo="$2" tag="$3" queries="$4"
+    local lang="$1" repo="$2" tag="$3" queries="$4" queries_ref="$5"
     local work url sum stage
     work="$(mktemp -d)"
     # shellcheck disable=SC2064
@@ -135,10 +154,26 @@ install_lang() {
         echo "tree-sitter build に失敗" >&2
         return 1
     }
-    local q
+    # クエリはリリース資産に同梱されているのが基本。古いリリースだと入って
+    # いないことがある (hlsplaylist 0.0.5 は resources を含まない) ので、その
+    # ときだけ queries_ref で指定した ref から取る。
+    # 欠けたまま進めない。黙って飛ばすと「色が出ない」だけの分かりにくい壊れ方をする。
+    local q missing=""
     for q in $queries; do
-        [[ -f "$pkg/queries/$q.scm" ]] && cp "$pkg/queries/$q.scm" "$stage/queries/$lang/"
+        if [[ -f "$pkg/queries/$q.scm" ]]; then
+            cp "$pkg/queries/$q.scm" "$stage/queries/$lang/"
+        elif [[ -n "$queries_ref" ]] &&
+            curl -sfL -o "$stage/queries/$lang/$q.scm" \
+                "https://raw.githubusercontent.com/$repo/$queries_ref/queries/$q.scm"; then
+            :
+        else
+            missing="$missing $q"
+        fi
     done
+    if [[ -n "$missing" ]]; then
+        echo "クエリが取得できない:$missing (リリース資産にも queries_ref にも無い)" >&2
+        return 1
+    fi
 
     # 検証: パーサが読めるか、各クエリがそのパーサに対して妥当か。
     # query.get はノード名をパーサに突き合わせて parse するので、ここを
@@ -146,7 +181,11 @@ install_lang() {
     local verdict
     # shellcheck disable=SC2086 # queries は語に分けて渡したい
     verdict="$(nvim -l /dev/stdin "$stage" "$lang" $queries <<'LUA' 2>&1
-vim.opt.rtp:append(arg[1])
+-- append ではなく置き換える。`nvim -l` は init.lua を読まないが
+-- 'runtimepath' の既定には ~/.config/nvim も site も入っているので、
+-- append だと「既に入っている古いクエリ」を拾って誤合格する
+-- (実際にそれで hlsplaylist を壊した)。見るのはこれから入れるものだけ。
+vim.opt.rtp = { arg[1], vim.env.VIMRUNTIME }
 local lang = arg[2]
 local ok = pcall(vim.treesitter.language.add, lang)
 if not ok then
@@ -180,13 +219,25 @@ LUA
     echo "$sum"
 }
 
+# 手元に揃っているか。.so だけ見ると、クエリが欠けた状態を「導入済み」と
+# 誤認する (色が出ないだけなので気付きにくい)。要求したクエリまで全部見る。
+installed_ok() {
+    local lang="$1" queries="$2" q
+    [[ -f "$DEST/parser/$lang.so" ]] || return 1
+    for q in $queries; do
+        [[ -f "$DEST/queries/$lang/$q.scm" ]] || return 1
+    done
+    return 0
+}
+
 # 1 言語ぶんの処理。結果を JSON オブジェクトで返す。
 process() {
-    local lang="$1" mode="$2" spec repo tag queries want sum installed_tag newest
+    local lang="$1" mode="$2" spec repo tag queries queries_ref want sum installed_tag newest
     spec="$(jq -c --arg l "$lang" '.[$l]' "$CONFIG")"
     repo="$(jq -r '.repo' <<<"$spec")"
     tag="$(jq -r '.tag' <<<"$spec")"
     queries="$(jq -r '(.queries // ["highlights","injections"]) | join(" ")' <<<"$spec")"
+    queries_ref="$(jq -r '.queries_ref // ""' <<<"$spec")"
 
     # 上流 (nvim-treesitter) が復帰していたら、この仕組みは役目を終えている。
     if registry_has "$lang"; then
@@ -213,7 +264,7 @@ process() {
         # latest が引けないことがある (未認証の GitHub API は 60 req/h)。
         # そのときは「更新なし」と嘘をつかず null で不明と伝える。
         jq -n --arg l "$lang" --arg p "$tag" --arg i "${installed_tag:-}" --arg n "${newest:-}" \
-            --argjson present "$([[ -f "$DEST/parser/$lang.so" ]] && echo true || echo false)" '{
+            --argjson present "$(installed_ok "$lang" "$queries" && echo true || echo false)" '{
                 lang: $l, status: "managed", pinned: $p,
                 installed: (if $i == "" then null else $i end),
                 latest: (if $n == "" then null else $n end),
@@ -224,7 +275,7 @@ process() {
         return 0
     fi
 
-    if [[ "$installed_tag" == "$want" && -f "$DEST/parser/$lang.so" ]]; then
+    if [[ "$installed_tag" == "$want" ]] && installed_ok "$lang" "$queries"; then
         jq -n --arg l "$lang" --arg t "$want" \
             '{lang: $l, status: "up-to-date", tag: $t}'
         return 0
@@ -232,7 +283,7 @@ process() {
 
     local errfile
     errfile="$(mktemp)"
-    if ! sum="$(install_lang "$lang" "$repo" "$want" "$queries" 2>"$errfile")"; then
+    if ! sum="$(install_lang "$lang" "$repo" "$want" "$queries" "$queries_ref" 2>"$errfile")"; then
         jq -n --arg l "$lang" --arg t "$want" --arg e "$(tr -d '\r' <"$errfile" | tail -c 2000)" \
             '{lang: $l, status: "failed", tag: $t, error: $e}'
         rm -f "$errfile"

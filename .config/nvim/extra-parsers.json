@@ -1,8 +1,15 @@
 {
+  "hlsplaylist": {
+    "repo": "Freed-Wu/tree-sitter-hlsplaylist",
+    "_comment": "0.0.5 (2024-08) はリリース資産にも git タグにも queries/ が無い (後から追加された) ので、クエリだけ別 ref から取る。以降のコミットは CI とパッケージングだけで文法は変わっていない",
+    "tag": "0.0.5",
+    "queries_ref": "5e027d41fe80d99edc1a5e15aab397ea59495e5d",
+    "queries": ["highlights", "injections"]
+  },
   "tmux": {
     "repo": "Freed-Wu/tree-sitter-tmux",
-    "tag": "0.1.4",
     "_comment": "上流の textobjects / context / schema は 0.1.4 のパーサと噛み合わない (body / string ノードが無い) ので入れない",
+    "tag": "0.1.4",
     "queries": ["highlights", "injections", "folds"]
   }
 }
