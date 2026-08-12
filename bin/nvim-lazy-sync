@@ -23,6 +23,7 @@
 set -uo pipefail
 
 readonly LOCK=".config/nvim/lazy-lock.json"
+readonly EXTRA=".config/nvim/extra-parsers.json"
 # TSUpdate の上限。全 323 言語を引き直す最悪ケースを想定して長めに取る。
 readonly TS_TIMEOUT="${NVIM_LAZY_TS_TIMEOUT:-1800000}"
 # denops の起動待ち。deno がモジュールを取り直す初回は数十秒かかる。
@@ -52,6 +53,16 @@ lock_dirty() {
     ! git -C "$REPO" diff --quiet HEAD -- "$LOCK"
 }
 
+# nvim-treesitter のレジストリから外れた言語のパーサ (詳細は nvim-extra-parsers)。
+# lazy-lock.json とは別系統なので、ここで合流させる。
+extra_parsers() {
+    if [[ ! -f "$REPO/$EXTRA" || ! -x "$BIN_DIR/nvim-extra-parsers" ]]; then
+        echo null
+        return 0
+    fi
+    NVIM_LAZY_REPO="$REPO" "$BIN_DIR/nvim-extra-parsers" "$1" 2>/dev/null || echo null
+}
+
 cmd_state() {
     local dirty analysis
     if lock_dirty; then dirty=true; else dirty=false; fi
@@ -64,6 +75,7 @@ cmd_state() {
     jq -n \
         --argjson dirty "$dirty" \
         --argjson analysis "$analysis" \
+        --argjson extra "$(extra_parsers state)" \
         --arg head "$(git -C "$REPO" rev-parse --short HEAD)" \
         --arg branch "$(git -C "$REPO" rev-parse --abbrev-ref HEAD)" \
         '{
@@ -72,6 +84,7 @@ cmd_state() {
             head: $head,
             branch: $branch,
             treesitter: $analysis.treesitter,
+            extra_parsers: $extra,
             pending: $analysis.summary
         }'
 }
@@ -95,16 +108,25 @@ cmd_run() {
         return 1
     fi
 
+    # レジストリ外のパーサも一緒に最新へ。上流 (nvim-treesitter) が復帰していれば
+    # 何もせず superseded と報告するので、その時点でこの工程は外してよい。
+    local extra
+    extra="$(extra_parsers update)"
+
     jq -n \
         --slurpfile result "$out" \
         --argjson rc "$rc" \
+        --argjson extra "$extra" \
         --arg log "$(tail -c 4000 "$log")" \
-        '$result[0] + {ok: ($rc == 0), exit_code: $rc, log: $log}'
+        '$result[0] + {ok: ($rc == 0), exit_code: $rc, extra_parsers: $extra, log: $log}'
 }
 
 cmd_report() {
-    nvim -l "$BIN_DIR/nvim-lazy-analyze.lua" --repo "$REPO" "$@" \
+    local analysis
+    analysis="$(nvim -l "$BIN_DIR/nvim-lazy-analyze.lua" --repo "$REPO" "$@")" \
         || die "analyze に失敗した"
+    jq -n --argjson a "$analysis" --argjson e "$(extra_parsers state)" \
+        '$a + {extra_parsers: $e}'
 }
 
 # 更新後の nvim がまともに起動するか。lock の差分をいくら読んでも

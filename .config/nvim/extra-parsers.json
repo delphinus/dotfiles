@@ -1,0 +1,8 @@
+{
+  "tmux": {
+    "repo": "Freed-Wu/tree-sitter-tmux",
+    "tag": "0.1.4",
+    "_comment": "上流の textobjects / context / schema は 0.1.4 のパーサと噛み合わない (body / string ノードが無い) ので入れない",
+    "queries": ["highlights", "injections", "folds"]
+  }
+}

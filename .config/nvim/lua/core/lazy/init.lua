@@ -132,3 +132,13 @@ require("lazy").setup(plugins, {
     },
   },
 })
+
+-- nvim-treesitter のレジストリから外れた言語のパーサ置き場 (bin/nvim-extra-parsers
+-- が作る)。site/parser/ ではなくここに置くのは、nvim-treesitter の
+-- get_installed() が site/parser/ と site/queries/ を直接走査していて、
+-- レジストリに無い言語がそこにあると :TSUpdate のたびに
+-- "Parser not available for language ..." を吐くため。runtimepath に足せば
+-- Neovim 本体はパーサもクエリも見付けるが、nvim-treesitter からは見えない。
+--
+-- lazy.setup() が runtimepath を作り直すので、必ずその後で足す。
+vim.opt.rtp:append(vim.fn.stdpath "data" .. "/extra-parsers")

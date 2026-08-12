@@ -1,0 +1,293 @@
+#!/usr/bin/env bash
+# nvim-treesitter のレジストリから外れた Tree-sitter パーサを自前で管理する。
+#
+#   nvim-extra-parsers state    現状と、上流の新しいリリースの有無
+#   nvim-extra-parsers sync     .config/nvim/extra-parsers.json のピンどおりに入れる
+#   nvim-extra-parsers update   最新リリースまでピンを進めて入れる
+#
+# 全部 stdout に JSON を吐く。nvim-lazy-sync から呼ばれる。
+#
+# なぜ要るか:
+#
+#   nvim-treesitter の main は `<url>/archive/<revision>.tar.gz` (= git ツリーの
+#   source archive) を取って、中の生成済み src/parser.c をコンパイルする。
+#   上流が「生成物は git に置かずパッケージレジストリで配る」方針に変えると、
+#   この経路だけが死んでレジストリから落とされる。実例が tmux で、2026-07-15 に
+#   hlsplaylist / muttrc / zathurarc ごと drop された。
+#
+#   ただし生成物は失われていない。リリースの tarball (npm の .tgz) には
+#   src/parser.c も queries/ もそのまま入っている。ここから取って `tree-sitter
+#   build` するのがこのスクリプト。
+#
+# なぜ site/parser/ に置かないか:
+#
+#   nvim-treesitter の config.get_installed() は site/parser/ と site/queries/ を
+#   直接走査する。レジストリに無い言語がそこにあると :TSUpdate のたびに
+#   "Parser not available for language ..." を吐く。別ディレクトリに置いて
+#   runtimepath に足せば、Neovim 本体からは見えて nvim-treesitter からは見えない。
+#   runtimepath への追加は lua/core/lazy/init.lua の末尾にある。
+#
+# 上流が復帰したら:
+#
+#   nvim-treesitter のレジストリにその言語が戻った時点で superseded として
+#   何もしなくなり、state / sync がそう報告する。報告が出たら
+#   extra-parsers.json のエントリを消し、下の DEST から当該言語を消して、
+#   :TSInstall <lang> に戻せばよい。この仕組み自体が不要になる。
+
+set -uo pipefail
+
+readonly CONFIG_REL=".config/nvim/extra-parsers.json"
+readonly DEST="${NVIM_EXTRA_PARSERS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/extra-parsers}"
+# nvim-treesitter のレジストリ定義。差し替えられるのは superseded 経路を
+# 試すためで、通常はいじらない。
+readonly NT_PARSERS="${NVIM_TS_PARSERS:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy/nvim-treesitter/lua/nvim-treesitter/parsers.lua}"
+
+BIN_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+readonly BIN_DIR
+REPO="${NVIM_LAZY_REPO:-$(dirname -- "$BIN_DIR")}"
+readonly REPO
+readonly CONFIG="$REPO/$CONFIG_REL"
+
+die() {
+    echo "nvim-extra-parsers: $*" >&2
+    exit 1
+}
+
+for c in nvim jq curl tar shasum; do
+    command -v "$c" >/dev/null 2>&1 || die "$c not found"
+done
+[[ -f "$CONFIG" ]] || die "$CONFIG が無い"
+
+# nvim-treesitter のレジストリに載っている言語。dofile で読めるのは
+# parsers.lua が素のテーブルを返すため (require ではないので rtp は不要)。
+registry_has() {
+    local lang="$1"
+    [[ -f "$NT_PARSERS" ]] || return 1
+    nvim -l /dev/stdin "$NT_PARSERS" "$lang" <<'LUA' >/dev/null 2>&1
+local ok, t = pcall(dofile, arg[1])
+os.exit((ok and type(t) == "table" and t[arg[2]]) and 0 or 1)
+LUA
+}
+
+# 認証は任意。無くても public なら引けるが、あると rate limit が緩くなる。
+# gh の active account に依存したくないので gh コマンドは使わない
+# (github.com には業務アカウントも同居しているため)。
+gh_api() {
+    local url="$1"
+    if [[ -n "${GITHUB_TOKEN:-}" ]]; then
+        curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H 'Accept: application/vnd.github+json' "$url"
+    else
+        curl -sfL -H 'Accept: application/vnd.github+json' "$url"
+    fi
+}
+
+latest_tag() {
+    gh_api "https://api.github.com/repos/$1/releases/latest" | jq -r '.tag_name // empty'
+}
+
+# 資産名は <リポジトリ名>-<tag>.tgz が慣例。外れていたら API で引き直す。
+asset_url() {
+    local repo="$1" tag="$2" name url
+    name="${repo##*/}"
+    url="https://github.com/$repo/releases/download/$tag/$name-$tag.tgz"
+    if curl -sfI -o /dev/null "$url"; then
+        echo "$url"
+        return 0
+    fi
+    gh_api "https://api.github.com/repos/$repo/releases/tags/$tag" |
+        jq -r '.assets[] | select(.name | endswith(".tgz")) | .browser_download_url' | head -1
+}
+
+# パーサとクエリを一時領域に組み立ててから検証し、通ったものだけ本番に入れる。
+# 壊れたクエリをそのまま置くと、色が消えるだけで原因が分かりにくい。
+install_lang() {
+    local lang="$1" repo="$2" tag="$3" queries="$4"
+    local work url sum stage
+    work="$(mktemp -d)"
+    # shellcheck disable=SC2064
+    trap "rm -rf '$work'" RETURN
+
+    url="$(asset_url "$repo" "$tag")"
+    [[ -n "$url" ]] || {
+        echo "リリース資産が見付からない: $repo $tag" >&2
+        return 1
+    }
+    curl -sfL -o "$work/src.tgz" "$url" || {
+        echo "ダウンロードに失敗: $url" >&2
+        return 1
+    }
+    sum="$(shasum -a 256 "$work/src.tgz" | cut -d' ' -f1)"
+
+    tar xzf "$work/src.tgz" -C "$work" || {
+        echo "展開に失敗" >&2
+        return 1
+    }
+    local pkg="$work/package"
+    [[ -f "$pkg/src/parser.c" ]] || {
+        echo "src/parser.c がリリース資産に入っていない" >&2
+        return 1
+    }
+
+    stage="$work/stage"
+    mkdir -p "$stage/parser" "$stage/queries/$lang"
+    (cd "$pkg" && tree-sitter build -o "$stage/parser/$lang.so") || {
+        echo "tree-sitter build に失敗" >&2
+        return 1
+    }
+    local q
+    for q in $queries; do
+        [[ -f "$pkg/queries/$q.scm" ]] && cp "$pkg/queries/$q.scm" "$stage/queries/$lang/"
+    done
+
+    # 検証: パーサが読めるか、各クエリがそのパーサに対して妥当か。
+    # query.get はノード名をパーサに突き合わせて parse するので、ここを
+    # 通れば「.so とクエリの版が噛み合っている」ことまで確かめられる。
+    local verdict
+    # shellcheck disable=SC2086 # queries は語に分けて渡したい
+    verdict="$(nvim -l /dev/stdin "$stage" "$lang" $queries <<'LUA' 2>&1
+vim.opt.rtp:append(arg[1])
+local lang = arg[2]
+local ok = pcall(vim.treesitter.language.add, lang)
+if not ok then
+  io.write("parser を読み込めない")
+  os.exit(1)
+end
+local bad = {}
+for i = 3, #arg do
+  local okq, q = pcall(vim.treesitter.query.get, lang, arg[i])
+  if not okq then
+    bad[#bad + 1] = arg[i] .. " (" .. tostring(q) .. ")"
+  elseif not q then
+    bad[#bad + 1] = arg[i] .. " (見付からない)"
+  end
+end
+if #bad > 0 then
+  io.write("クエリが不正: " .. table.concat(bad, ", "))
+  os.exit(1)
+end
+os.exit(0)
+LUA
+)" || {
+        echo "検証に失敗: $verdict" >&2
+        return 1
+    }
+
+    mkdir -p "$DEST/parser" "$DEST/queries"
+    rm -rf "${DEST:?}/queries/$lang"
+    cp "$stage/parser/$lang.so" "$DEST/parser/$lang.so"
+    cp -R "$stage/queries/$lang" "$DEST/queries/$lang"
+    echo "$sum"
+}
+
+# 1 言語ぶんの処理。結果を JSON オブジェクトで返す。
+process() {
+    local lang="$1" mode="$2" spec repo tag queries want sum installed_tag newest
+    spec="$(jq -c --arg l "$lang" '.[$l]' "$CONFIG")"
+    repo="$(jq -r '.repo' <<<"$spec")"
+    tag="$(jq -r '.tag' <<<"$spec")"
+    queries="$(jq -r '(.queries // ["highlights","injections"]) | join(" ")' <<<"$spec")"
+
+    # 上流 (nvim-treesitter) が復帰していたら、この仕組みは役目を終えている。
+    if registry_has "$lang"; then
+        jq -n --arg l "$lang" --arg t "$tag" '{
+            lang: $l, status: "superseded", pinned: $t,
+            note: "nvim-treesitter のレジストリに復帰した。extra-parsers.json のエントリと \($l) のパーサ・クエリを消して :TSInstall \($l) に戻せる"
+        }'
+        return 0
+    fi
+
+    newest="$(latest_tag "$repo")"
+    want="$tag"
+    if [[ "$mode" == update ]]; then
+        if [[ -n "$newest" ]]; then
+            want="$newest"
+        else
+            # 最新版が引けないときはピンのまま進める。黙って「最新です」とは言わない。
+            echo "nvim-extra-parsers: $lang の最新リリースを取得できなかった (rate limit?)。ピン $tag のまま続行する" >&2
+        fi
+    fi
+
+    installed_tag="$(jq -r --arg l "$lang" '.[$l].tag // empty' "$DEST/.state.json" 2>/dev/null)"
+    if [[ "$mode" == state ]]; then
+        # latest が引けないことがある (未認証の GitHub API は 60 req/h)。
+        # そのときは「更新なし」と嘘をつかず null で不明と伝える。
+        jq -n --arg l "$lang" --arg p "$tag" --arg i "${installed_tag:-}" --arg n "${newest:-}" \
+            --argjson present "$([[ -f "$DEST/parser/$lang.so" ]] && echo true || echo false)" '{
+                lang: $l, status: "managed", pinned: $p,
+                installed: (if $i == "" then null else $i end),
+                latest: (if $n == "" then null else $n end),
+                parser_present: $present,
+                in_sync: ($present and $i == $p),
+                update_available: (if $n == "" then null else $n != $p end)
+            }'
+        return 0
+    fi
+
+    if [[ "$installed_tag" == "$want" && -f "$DEST/parser/$lang.so" ]]; then
+        jq -n --arg l "$lang" --arg t "$want" \
+            '{lang: $l, status: "up-to-date", tag: $t}'
+        return 0
+    fi
+
+    local errfile
+    errfile="$(mktemp)"
+    if ! sum="$(install_lang "$lang" "$repo" "$want" "$queries" 2>"$errfile")"; then
+        jq -n --arg l "$lang" --arg t "$want" --arg e "$(tr -d '\r' <"$errfile" | tail -c 2000)" \
+            '{lang: $l, status: "failed", tag: $t, error: $e}'
+        rm -f "$errfile"
+        return 1
+    fi
+    rm -f "$errfile"
+
+    # 手元の状態 (何をどの版で入れたか) を記録する。
+    local tmp
+    tmp="$(mktemp)"
+    jq --arg l "$lang" --arg t "$want" --arg s "$sum" \
+        '.[$l] = {tag: $t, sha256: $s}' \
+        "$DEST/.state.json" 2>/dev/null >"$tmp" ||
+        jq -n --arg l "$lang" --arg t "$want" --arg s "$sum" \
+            '{($l): {tag: $t, sha256: $s}}' >"$tmp"
+    mv "$tmp" "$DEST/.state.json"
+
+    # ピンを git 側に書き戻す。lazy-lock.json と同じで、差分を見てから
+    # コミットするのが前提。
+    if [[ "$want" != "$tag" ]]; then
+        tmp="$(mktemp)"
+        jq --arg l "$lang" --arg t "$want" '.[$l].tag = $t' "$CONFIG" >"$tmp" && mv "$tmp" "$CONFIG"
+    fi
+
+    jq -n --arg l "$lang" --arg f "$tag" --arg t "$want" --arg s "$sum" \
+        --argjson q "$(jq -c '(.queries // ["highlights","injections"])' <<<"$spec")" \
+        '{lang: $l, status: (if $f == $t then "installed" else "updated" end),
+          from: $f, tag: $t, sha256: $s, queries: $q}'
+}
+
+run_all() {
+    local mode="$1" lang results=() rc=0
+    while read -r lang; do
+        [[ -n "$lang" ]] || continue
+        if [[ "$mode" != state ]]; then
+            command -v tree-sitter >/dev/null 2>&1 || die "tree-sitter CLI not found"
+        fi
+        results+=("$(process "$lang" "$mode")") || rc=1
+    done < <(jq -r 'keys[]' "$CONFIG")
+
+    if [[ ${#results[@]} -eq 0 ]]; then
+        jq -n --arg dir "$DEST" '{dir: $dir, parsers: [], superseded: []}'
+        return 0
+    fi
+    printf '%s\n' "${results[@]}" | jq -s --arg dir "$DEST" \
+        '{dir: $dir, parsers: ., superseded: [.[] | select(.status == "superseded") | .lang]}'
+    return $rc
+}
+
+case "${1:-}" in
+    state) run_all state ;;
+    sync) run_all sync ;;
+    update) run_all update ;;
+    *)
+        sed -n '2,8p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//' >&2
+        exit 2
+        ;;
+esac

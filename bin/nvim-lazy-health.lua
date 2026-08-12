@@ -23,8 +23,6 @@ if not out_path or out_path == "" then
   vim.cmd "cquit 2"
 end
 
-local PARSER_DIR = vim.fn.stdpath "data" .. "/site/parser"
-
 vim.api.nvim_create_autocmd("VimEnter", {
   once = true,
   callback = function()
@@ -51,13 +49,16 @@ vim.api.nvim_create_autocmd("VimEnter", {
     -- 2. パーサを 1 つずつ dlopen する。TSUpdate が途中で殺されたときに
     --    残る「中途半端な .so」は、読み込んで初めて分かる。
     do
-      local langs = {}
-      if vim.uv.fs_stat(PARSER_DIR) then
-        for name, kind in vim.fs.dir(PARSER_DIR) do
-          local lang = name:match "^(.+)%.so$"
-          if lang and kind == "file" then
-            langs[#langs + 1] = lang
-          end
+      -- site/parser/ を直に読まず 'runtimepath' 全体から集める。
+      -- nvim-treesitter の管轄外に置いたパーサ (extra-parsers。詳細は
+      -- bin/nvim-extra-parsers) も対象にするため。Neovim 本体のパーサ探索も
+      -- これと同じ経路なので、実際に使われるものと一致する。
+      local langs, seen = {}, {}
+      for _, path in ipairs(vim.api.nvim_get_runtime_file("parser/*.so", true)) do
+        local lang = vim.fn.fnamemodify(path, ":t:r")
+        if lang ~= "" and not seen[lang] then
+          seen[lang] = true
+          langs[#langs + 1] = lang
         end
       end
       table.sort(langs)
