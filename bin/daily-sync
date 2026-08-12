@@ -602,12 +602,24 @@ cask_timed_out_on_sudo() {
     grep -q '==> Upgrading' <<<"$out" && cask_touches_sudo "$t"
 }
 
-# cask の「現在 → 最新」。brew_info キャッシュは upgrade 前に取ったものなので、
-# この段階でも installed 側は更新前の値が残っている。
+# `brew outdated --cask --verbose` の生の出力。1 行が
+#
+#   docker-desktop (4.85.0,235549) != 4.86.0,236216
+#
+# の形で「現在 != 最新」を持つ。cask_version_pair の材料。
+CASK_OUTDATED=""
+
+# cask の「現在 → 最新」。
+#
+# brew_info キャッシュは使えない。main() が refresh_brew_info を呼ぶのは
+# brew update より前なので、キャッシュの .version は「更新前に知っていた最新」=
+# インストール済みの版そのものになり、両側が同じ版に見える (実測 2026-08-12:
+# 実際は 4.85.0 → 4.86.0 なのに "4.85.0,235549 → 4.85.0,235549" と通知した)。
+# outdated 判定に使った出力をそのまま材料にすれば、この段差は生じない。
 cask_version_pair() {
     local pair
-    pair="$(brew_info | jq -r --arg t "$1" \
-        '.casks[] | select(.token == $t) | "\(.installed // "?") → \(.version // "?")"')"
+    pair="$(printf '%s\n' "$CASK_OUTDATED" |
+        awk -v t="$1" -F' \\(|\\) != ' '$1 == t { print $2 " → " $3; exit }')"
     [[ -n "$pair" ]] && printf ' (%s)' "$pair"
     return 0
 }
@@ -615,11 +627,15 @@ cask_version_pair() {
 brew_upgrade_casks() {
     migrate_sudo_casks
 
+    # --quiet ではなく --verbose で取り、token は 1 列目から拾う。版の情報を
+    # 捨てないためで、対象の集合はどちらのフラグでも変わらない。
+    CASK_OUTDATED="$(brew_run 300 brew outdated --cask --verbose 2>/dev/null)"
+
     local -a outdated=()
     local line
     while IFS= read -r line; do
-        [[ -n "$line" ]] && outdated+=("$line")
-    done < <(brew_run 300 brew outdated --cask --quiet 2>/dev/null)
+        [[ -n "$line" ]] && outdated+=("${line%% *}")
+    done <<<"$CASK_OUTDATED"
 
     if ((${#outdated[@]} == 0)); then
         log "更新対象の cask は無し"
