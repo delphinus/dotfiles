@@ -8,8 +8,8 @@
   },
   "tmux": {
     "repo": "Freed-Wu/tree-sitter-tmux",
-    "_comment": "上流の textobjects / context / schema は 0.1.4 のパーサと噛み合わない (body / string ノードが無い) ので入れない",
+    "_comment": "context / schema は消費するプラグインが手元に無いので入れない。前は「textobjects / context / schema は 0.1.4 のパーサと噛み合わない」と書いていたが、それは検証が site/parser/ に残った古い .so を拾っていたせいの誤判定だった (rtp 隔離を入れる前の話)。6 つとも 0.1.4 のパーサに対して妥当",
     "tag": "0.1.4",
-    "queries": ["highlights", "injections", "folds"]
+    "queries": ["highlights", "injections", "folds", "textobjects"]
   }
 }

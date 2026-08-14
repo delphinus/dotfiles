@@ -27,6 +27,19 @@
 #   runtimepath に足せば、Neovim 本体からは見えて nvim-treesitter からは見えない。
 #   runtimepath への追加は lua/core/lazy/init.lua の末尾にある。
 #
+# site/ に残る前任者を消すこと:
+#
+#   移行前に nvim-treesitter が入れた .so が site/parser/ に残る。site/ は
+#   runtimepath で extra-parsers より前に来るので、Neovim は古い方を掴む。
+#   一方クエリはこちらの新しい方が使われる (site/queries/<lang> は上流の
+#   runtime/queries/<lang> への symlink で、言語が drop された時点で切れて
+#   いるため)。結果、パーサだけ古くクエリだけ新しいという食い違いが起き、
+#   ノード名が解決できずクエリが丸ごとエラーになる。レガシー syntax が
+#   色を付け続けるので気付きにくい。実例が tmux で、0.1.4 のクエリが参照する
+#   (body) ノードを 2025-10-30 ビルドの古い .so が持っておらず、highlights と
+#   injections が両方死んでいた。だから sync / update のたびに site/ 側の
+#   同名パーサと切れた symlink を消す (shadow_removed で報告する)。
+#
 # 上流が復帰したら:
 #
 #   nvim-treesitter のレジストリにその言語が戻った時点で superseded として
@@ -41,6 +54,8 @@ readonly DEST="${NVIM_EXTRA_PARSERS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/nv
 # nvim-treesitter のレジストリ定義。差し替えられるのは superseded 経路を
 # 試すためで、通常はいじらない。
 readonly NT_PARSERS="${NVIM_TS_PARSERS:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy/nvim-treesitter/lua/nvim-treesitter/parsers.lua}"
+# nvim-treesitter が入れる先。ここに残った同名の .so が DEST を隠す。
+readonly SITE="${NVIM_SITE_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site}"
 
 BIN_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 readonly BIN_DIR
@@ -219,6 +234,42 @@ LUA
     echo "$sum"
 }
 
+# site/ に残っていて DEST を隠しているもの。冒頭の「site/ に残る前任者を
+# 消すこと」参照。クエリの symlink は切れていても runtimepath 上は先に
+# 見付かるため、無害に見えて実は解決順を狂わせる。両方まとめて見る。
+# parser-info/<lang>.revision も一緒に見る。これは nvim-treesitter が
+# 「この言語を入れた」と記録する台帳で、.so を消してもここが残ると
+# 導入済みとして数え続けられる (bin/nvim-lazy-analyze.lua はこれを読む)。
+shadow_paths() {
+    local lang="$1" p
+    for p in "$SITE/parser/$lang.so" "$SITE/queries/$lang" "$SITE/parser-info/$lang.revision"; do
+        # 切れた symlink は -e が偽になるので -L も見る。
+        if [[ -e "$p" || -L "$p" ]]; then
+            echo "$p"
+        fi
+    done
+}
+
+# 隠しているものを消して、消した場所を JSON 配列で返す。
+# ただし実ディレクトリ (symlink ではない queries/<lang>) は自前で置いた
+# クエリかもしれないので消さず、警告だけ出す。
+purge_shadow() {
+    local lang="$1" p removed=()
+    while read -r p; do
+        [[ -n "$p" ]] || continue
+        if [[ -d "$p" && ! -L "$p" ]]; then
+            echo "nvim-extra-parsers: $p は実ディレクトリなので消さない ($DEST/queries/$lang を隠している可能性がある)" >&2
+            continue
+        fi
+        if rm -rf "$p"; then
+            removed+=("$p")
+        else
+            echo "nvim-extra-parsers: $p を消せなかった" >&2
+        fi
+    done < <(shadow_paths "$lang")
+    printf '%s\n' ${removed[@]+"${removed[@]}"} | jq -Rsc 'split("\n") | map(select(. != ""))'
+}
+
 # 手元に揃っているか。.so だけ見ると、クエリが欠けた状態を「導入済み」と
 # 誤認する (色が出ないだけなので気付きにくい)。要求したクエリまで全部見る。
 installed_ok() {
@@ -264,20 +315,24 @@ process() {
         # latest が引けないことがある (未認証の GitHub API は 60 req/h)。
         # そのときは「更新なし」と嘘をつかず null で不明と伝える。
         jq -n --arg l "$lang" --arg p "$tag" --arg i "${installed_tag:-}" --arg n "${newest:-}" \
-            --argjson present "$(installed_ok "$lang" "$queries" && echo true || echo false)" '{
+            --argjson present "$(installed_ok "$lang" "$queries" && echo true || echo false)" \
+            --argjson shadow "$(shadow_paths "$lang" | jq -Rsc 'split("\n") | map(select(. != ""))')" '{
                 lang: $l, status: "managed", pinned: $p,
                 installed: (if $i == "" then null else $i end),
                 latest: (if $n == "" then null else $n end),
                 parser_present: $present,
                 in_sync: ($present and $i == $p),
-                update_available: (if $n == "" then null else $n != $p end)
+                update_available: (if $n == "" then null else $n != $p end),
+                shadowed: $shadow
             }'
         return 0
     fi
 
+    # 版が合っていても shadow は起こりうる (site/ 側は別経路で増える) ので、
+    # 導入を飛ばす経路でも必ず掃除する。
     if [[ "$installed_tag" == "$want" ]] && installed_ok "$lang" "$queries"; then
-        jq -n --arg l "$lang" --arg t "$want" \
-            '{lang: $l, status: "up-to-date", tag: $t}'
+        jq -n --arg l "$lang" --arg t "$want" --argjson sh "$(purge_shadow "$lang")" \
+            '{lang: $l, status: "up-to-date", tag: $t, shadow_removed: $sh}'
         return 0
     fi
 
@@ -308,10 +363,13 @@ process() {
         jq --arg l "$lang" --arg t "$want" '.[$l].tag = $t' "$CONFIG" >"$tmp" && mv "$tmp" "$CONFIG"
     fi
 
+    # 掃除は導入が通ってから。先に消すと、導入に失敗したときに古い方まで
+    # 失って言語ごとハイライトが無くなる。
     jq -n --arg l "$lang" --arg f "$tag" --arg t "$want" --arg s "$sum" \
         --argjson q "$(jq -c '(.queries // ["highlights","injections"])' <<<"$spec")" \
+        --argjson sh "$(purge_shadow "$lang")" \
         '{lang: $l, status: (if $f == $t then "installed" else "updated" end),
-          from: $f, tag: $t, sha256: $s, queries: $q}'
+          from: $f, tag: $t, sha256: $s, queries: $q, shadow_removed: $sh}'
 }
 
 run_all() {
