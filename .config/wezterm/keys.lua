@@ -183,7 +183,21 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
         local tab = pane:tab()
         for _, p in ipairs(tab:panes()) do
           if p:pane_id() ~= pane:pane_id() then
-            window:perform_action(act.PasteFrom "Clipboard", p)
+            -- PasteFrom はクリップボードのテキストしか運べないので、画像には使えない。
+            -- Claude Code は ^V を受けると自分でクリップボードから画像を読むため、
+            -- 生の ^V (0x16) をそのままペインへ流し込む。
+            p:send_text "\x16"
+            -- toast_notification だけだと通知センターの許可が無いときに黙って落ちるので、
+            -- 上の copy_command_output と同じく osascript にもフォールバックする。
+            local msg = "🖼 画像を Claude Code へ貼り付けました"
+            pcall(function()
+              window:toast_notification("WezTerm", msg, nil, 2000)
+            end)
+            wezterm.background_child_process {
+              "osascript",
+              "-e",
+              string.format('display notification "%s" with title "WezTerm"', msg),
+            }
             return
           end
         end
