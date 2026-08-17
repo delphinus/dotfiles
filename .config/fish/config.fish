@@ -18,7 +18,7 @@ end
 set -gx HOMEBREW_REQUIRE_TAP_TRUST 1
 
 set -l paths \
-    ~/.asdf/shims \
+    ~/.local/share/mise/shims \
     ~/bin \
     ~/.luarocks/bin \
     ~/.cargo/bin \
@@ -41,13 +41,34 @@ set -l paths \
     $homebrew_path/sbin \
     $homebrew_path/bin \
     /usr/local/bin \
-    ~/.local/opt/neovim-fallback/bin
+    ~/.local/opt/neovim-fallback/bin \
+    ~/.asdf/shims
 # ↑/usr/local/bin is included both in Homebrew of both arm & x86 version
 #
 # neovim-fallback は daily-sync が毎日置き換える「更新前の nvim」。Homebrew は
 # HEAD のビルド前に旧 keg を unlink するので、5〜15 分のビルド中は
 # $homebrew_path/bin/nvim が存在しない。そこを埋めるためのものなので、必ず
 # $homebrew_path/bin より後ろに置くこと (通常はこちらが勝ってはいけない)。
+#
+# 末尾の ~/.asdf/shims は移行期間だけの後始末用。asdf 時代に各ランタイムへ
+# グローバルインストールしたコマンド (fj-api-* / fj-gittag / editprompt /
+# na-tools / buf / ogen / bctl / busted など) は mise には引き継がれないので、
+# 一番後ろに置いて拾えるようにしてある。mise の shim が先にあるので node 等の
+# 言語本体がこちらに落ちることは無い。asdf の版解決は ~/.tool-versions
+# (dotfiles 管理外) が担っており、mise は ~/.config/mise/config.toml の方を
+# 優先するので競合しない (実測)。
+#
+# 使っているものを mise 側へ入れ直し終えたら、この行と ~/.tool-versions と
+# asdf 本体 (brew uninstall asdf; rm -rf ~/.asdf) をまとめて消す。
+#
+# mise の shim (旧 ~/.asdf/shims) を先頭に置くのは、fish 以外の子プロセスの
+# ためだけ。fish 自身は Homebrew が配る
+# $homebrew_path/share/fish/vendor_conf.d/mise-activate.fish が
+# `mise activate fish` を流すので、実体の bin が PATH の前に来て shim は使わない。
+# だが zsh や launchd から起動したプロセス (Claude Code の Bash ツールなど) は
+# activate を通らず、fish から継承した PATH を持ったまま cd するだけなので、
+# shim が無いと版の切り替えが効かなくなる。fish_user_paths は universal 変数で
+# 非対話 fish にも効くため、ここに置いておけば両方が満たせる。
 
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 

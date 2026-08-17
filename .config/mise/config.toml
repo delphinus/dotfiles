@@ -1,0 +1,30 @@
+# mise のグローバル設定 (旧 asdf)。~/.config/mise/ ごと symlink される。
+#
+# [tools] は asdf 時代の ~/.tool-versions から移したもの。~/.tool-versions は
+# mise も読むが、mise はこれを「グローバル設定」ではなく「cwd から親へ辿って
+# 見つかる設定」として扱うため、$HOME の外 (/tmp 等) に cd すると一切効かない
+# (実測)。asdf の ~/.tool-versions はどこでも効いていたので、真のグローバル
+# 設定であるこのファイルに置いて挙動を揃える。
+#
+# 版を変えるときは `mise use -g <tool>@<version>` でよい。このファイルが直接
+# 書き換わるので、dotfiles の差分として見えるようになっている。
+
+[tools]
+node = "24.11.1"
+ruby = "3.4.7"
+go = "1.24.11"
+lua = "5.1.5"
+python = "3.14.1"
+perl = "5.42.0"
+
+[settings]
+# asdf の `legacy_version_file = yes` (~/.asdfrc) 相当。
+#
+# mise は .nvmrc / .node-version / .ruby-version のような言語ごとの版ファイルを
+# 既定で「全部無視する」(実測。asdf と逆で opt-in)。仕事のリポジトリには
+# .tool-versions を置かずこちらだけ持っているものがあるので、扱うツールを
+# 明示して有効化する。
+#
+# perl / lua にこの種の版ファイルの慣習は無いが、列挙しておいても害は無いので
+# [tools] と揃えておく。
+idiomatic_version_file_enable_tools = ["node", "ruby", "python", "go", "perl", "lua"]

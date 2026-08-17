@@ -35,7 +35,8 @@ put_secrets() {
 }
 
 # 検証に使う python を選ぶ。PyYAML が要るが、PATH の python3 に入っているとは
-# 限らない (実測: asdf で入れた素の python が shim で先に来ていて
+# 限らない (実測: バージョンマネージャ (asdf / 現 mise) の shim 経由の素の
+# python が PATH の先に来ていて
 # ModuleNotFoundError になった)。ここで落ちると secrets.yml を配れず
 # play-ansbile が一切流せなくなるので、端末ごとに pip install させるのではなく
 # ansible 自身の python にフォールバックする。ansible は play-ansbile の前提で、

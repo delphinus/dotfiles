@@ -4,28 +4,35 @@
 # なぜ要るか:
 #
 #   Homebrew の tree-sitter は #!/usr/bin/env node のスクリプトで、起動に
-#   node が要る。~/.asdfrc は legacy_version_file = yes なので、asdf は
-#   カレントディレクトリの .nvmrc / .node-version を拾って版を決める。
+#   node が要る。~/.config/mise/config.toml で
+#   idiomatic_version_file_enable_tools に node を入れている (asdf 時代の
+#   ~/.asdfrc の legacy_version_file = yes 相当) ので、mise はカレント
+#   ディレクトリの .nvmrc / .node-version を拾って版を決める。
 #   ところが nvim-treesitter が文法を展開する ~/.cache/nvim/tree-sitter-*/
 #   には上流が同梱した .nvmrc が入っていることがあり (2026-08 時点で 10 個中
 #   8 個。dart と prisma は中身が "22")、そこに書かれた版が手元に無いと
-#   asdf は完全一致で解決できず、こう言って死ぬ:
+#   困ったことになる。
+#
+#   asdf 時代はここで完全一致に失敗して死んでいた:
 #
 #     No version is set for command node
 #     Consider adding one of the following versions in your config file at
 #     .../tree-sitter-dart/.tool-versions
 #
 #   結果 `tree-sitter build` が起動すらできず、:TSUpdate がその言語だけ
-#   静かに失敗する (dart が実際にこうなっていた)。~/.tool-versions の
-#   `nodejs system` に届いていないだけなので、それを明示して呼び直す。
+#   静かに失敗していた (dart が実際にこうなっていた)。mise は
+#   not_found_auto_install が既定で true なので死にはしないが、代わりに
+#   パーサのキャッシュディレクトリごとに要らない node を勝手に入れ始める。
+#   どちらにせよ避けたいので、グローバルの版で呼び直す。
 #
-# なぜ .nvmrc を消す・legacy_version_file を切るのではないのか:
+# なぜ .nvmrc を消す・設定側で切るのではないのか:
 #
 #   .nvmrc はパーサを取り直すたびに上流から復活するので消しても戻る。
-#   legacy_version_file はよその (仕事の) リポジトリで効かせたい設定なので、
-#   グローバルに切ると関係無いところに波及する。ここだけ塞ぐのが一番狭い。
+#   idiomatic_version_file_enable_tools はよその (仕事の) リポジトリで
+#   効かせたい設定なので、グローバルに切ると関係無いところに波及する。
+#   ここだけ塞ぐのが一番狭い。
 #
-# ASDF_NODEJS_VERSION が既に指定されているときは尊重する。
+# MISE_NODE_VERSION で版が明示されているときは尊重する。
 
 set -euo pipefail
 
@@ -48,4 +55,10 @@ if [[ -z "$real" ]]; then
     exit 127
 fi
 
-exec env ASDF_NODEJS_VERSION="${ASDF_NODEJS_VERSION:-system}" "$real" "$@"
+if [[ -n "${MISE_NODE_VERSION:-}" ]]; then
+    exec "$real" "$@"
+fi
+
+# 空文字を渡すと「有効にするツールは無し」になり、.nvmrc / .node-version が
+# 無視されてグローバル (~/.config/mise/config.toml) の node に落ちる。
+exec env MISE_IDIOMATIC_VERSION_FILE_ENABLE_TOOLS= "$real" "$@"

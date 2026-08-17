@@ -63,9 +63,16 @@
 # 順に見て、存在してかつ ~/.lmstudio/bin の絶対パスを含まないものへ PATH 行を
 # 追記する (存在しないファイルは黙って飛ばす)。symlink 先が repo なので、これが
 # 毎回 dotfiles の差分として現れていた。配るのをやめれば追記先が消える。
+#
+# .asdfrc はツール管理を asdf から mise へ移したときに不要になった。設定は
+# ~/.config/mise/config.toml に移してある (legacy_version_file = yes は
+# settings.idiomatic_version_file_enable_tools が相当)。asdf 本体と ~/.asdf は
+# しばらく残すが、この rc を配り続けると mise と二重に効いているように見えて
+# 紛らわしいので消す。
 - name: remove dotfiles symlinks no longer distributed
   file: path=~/{{ item }} state=absent
   with_items:
+    - .asdfrc
     - .bashrc
     - .zshrc
 
@@ -77,7 +84,6 @@
     force=yes
   with_items:
     - .zprofile
-    - .asdfrc
     - .config/1Password/ssh
     - .config/alacritty
     - .config/bat/config
@@ -91,6 +97,7 @@
     - .config/ipython
     - .config/karabiner/assets/complex_modifications
     - .config/kitty/kitty.conf
+    - .config/mise
     - .config/nvim
     - .config/nvim-dev
     - .config/peco
