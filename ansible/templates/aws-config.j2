@@ -1,2 +1,21 @@
-{{- lookup('env', 'AWS_CONFIG') | b64decode -}}
-{#- se:ft=conf.jinja: #}
+{# ~/.aws/config。profile の中身 (アカウント ID・SSO の start URL・IAM の         #}
+{# ユーザ名) は社外に出したくないので secrets.yml (1Password) の secret_aws に    #}
+{# 置き、INI の構造だけをここに置く。settings は素の key/value をそのまま並べる  #}
+{# だけにしてあるので、AWS 側に新しいキーが増えても secrets.yml だけで足りる。   #}
+{% for session in secret_aws.sso_sessions | default([]) %}
+[sso-session {{ session.name }}]
+{% for key, value in session.settings.items() %}
+{{ key }} = {{ value }}
+{% endfor %}
+
+{% endfor %}
+{% for profile in secret_aws.profiles | default([]) %}
+[profile {{ profile.name }}]
+{% for key, value in profile.settings.items() %}
+{{ key }} = {{ value }}
+{% endfor %}
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
+{# vim: se ft=conf.jinja: #}
