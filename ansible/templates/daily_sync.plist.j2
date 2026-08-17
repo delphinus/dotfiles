@@ -18,7 +18,11 @@
 	    Daemons and Services Programming Guide "Effects of Sleeping and
 	    Powering Off")。午前を丸ごと落としていても拾えるよう昼前にもう 1 枠
 	    置く。当日実行済みなら日付ガード (~/.local/state/daily-sync/last-run)
-	    で即抜けるので、2 回目の負荷はほぼ無い。 -#}
+	    で即抜けるので、2 回目の負荷はほぼ無い。
+
+	    電源オフの穴は起動時の枠 (com.delphinus.daily-sync-boot) でも塞いで
+	    あるが、こちらの 2 枠目は残す。起動直後にネットワークが上がらず中止
+	    した回 (last-run を書かずに抜ける) を拾う先が要るため。 -#}
 	<key>StartCalendarInterval</key>
 	<array>
 		<dict>
@@ -34,9 +38,12 @@
 			<integer>47</integer>
 		</dict>
 	</array>
-	{#- RunAtLoad は付けない。ログインの度に brew upgrade が走ると重い。
-	    日付ガード (~/.local/state/daily-sync/last-run) もあるが、そもそも
-	    起動契機を増やさない。 -#}
+	{#- こちらに RunAtLoad は付けない。この plist は play-ansbile が書き換える
+	    たびに bootstrap し直されるので、付けるとプレイブックの実行中に
+	    daily-sync が走り出す (dotfiles の反映が終わる前に見に行くので
+	    「未反映」の誤報も出る)。起動契機は別ラベルの
+	    com.delphinus.daily-sync-boot に分けてあり、そちらは --at-boot で
+	    「この起動セッションで実行済みか」を見るのでロードだけでは走らない。 -#}
 	<key>EnvironmentVariables</key>
 	<dict>
 		<key>PATH</key>

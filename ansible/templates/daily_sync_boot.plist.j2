@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.delphinus.daily-sync-boot</string>
+	{#- 端末の起動契機の 1 枠。定時の枠 (daily_sync.plist.j2) では
+	    「発火時刻に電源が落ちていた回」が補われず次の枠まで飛ぶ (Apple の
+	    Daemons and Services Programming Guide "Effects of Sleeping and
+	    Powering Off")。落としていた端末を上げた日に、その日の 1 回を最初に
+	    確実に走らせるための枠。
+
+	    定時の plist に RunAtLoad を足すのではなく別ラベルにしてあるのは、
+	    launchd が起動契機ごとに別の引数を渡せないため。起動時にだけ要る
+	    「この起動で実行済みか」の判定を --at-boot で分けたい。
+
+	    厳密には「起動」ではなく gui ドメインがロードされる契機 (= ログイン)
+	    で発火する。ログアウトを跨がない普段の使い方では起動と一致する。 -#}
+	<key>ProgramArguments</key>
+	<array>
+		<string>{{ ansible_facts["env"]["HOME"] }}/git/dotfiles/bin/daily-sync</string>
+		<string>--at-boot</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	{#- RunAtLoad は「起動」ではなく「ロード」で発火するので、play-ansbile が
+	    この plist を入れ替えて bootstrap し直すたびにも走る。--at-boot は
+	    kern.boottime を記録して同じ起動セッションでの 2 回目を弾くので、
+	    その場合は即座に抜ける。多重起動は daily-sync 側のロックが防ぐ
+	    (起動直後に定時の枠と重なりうる。例: 8:40 に起動 → 8:47 の枠)。 -#}
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+		<key>HOME</key>
+		<string>{{ ansible_facts["env"]["HOME"] }}</string>
+	</dict>
+	{#- 譲り方は定時の枠と揃える。ProcessType = Background を付けない理由も
+	    同じ (daily_sync.plist.j2 のコメント参照)。ログイン直後は特に前面の
+	    処理と競合するので、Nice と I/O だけは必ず譲る。 -#}
+	<key>LowPriorityIO</key>
+	<true/>
+	<key>Nice</key>
+	<integer>5</integer>
+	{#- ログは定時の枠と同じファイルに寄せる。実行の履歴を 1 本で追いたいため。
+	    ロックがあるので 2 つのジョブの出力が混ざることは無い。 -#}
+	<key>StandardOutPath</key>
+	<string>{{ ansible_facts["env"]["HOME"] }}/Library/Logs/daily-sync.log</string>
+	<key>StandardErrorPath</key>
+	<string>{{ ansible_facts["env"]["HOME"] }}/Library/Logs/daily-sync.log</string>
+</dict>
+</plist>

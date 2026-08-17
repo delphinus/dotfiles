@@ -209,4 +209,28 @@
       when: daily_sync_plist is changed
       changed_when: true
 
+    # 起動 (ログイン) 契機の枠。定時の枠と引数が違う (--at-boot) ので、
+    # 同じジョブには相乗りできず別ラベルにしてある。
+    - name: make daily-sync-boot LaunchAgent
+      template:
+        src: daily_sync_boot.plist.j2
+        dest: ~/Library/LaunchAgents/com.delphinus.daily-sync-boot.plist
+        mode: "0644"
+      register: daily_sync_boot_plist
+
+    - name: unload daily-sync-boot LaunchAgent
+      command: launchctl bootout gui/{{ ansible_facts["user_uid"] }}/com.delphinus.daily-sync-boot
+      when: daily_sync_boot_plist is changed
+      failed_when: false
+      changed_when: true
+
+    # bootstrap で RunAtLoad が発火するが、--at-boot が同じ起動セッションでの
+    # 2 回目を弾くので、プレイブックの実行中に daily-sync が走り出すことは無い。
+    - name: load daily-sync-boot LaunchAgent
+      command: >-
+        launchctl bootstrap gui/{{ ansible_facts["user_uid"] }}
+        {{ ansible_facts["env"]["HOME"] }}/Library/LaunchAgents/com.delphinus.daily-sync-boot.plist
+      when: daily_sync_boot_plist is changed
+      changed_when: true
+
 # vim:se et:

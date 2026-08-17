@@ -8,6 +8,7 @@
 #   daily-sync             通常実行 (1 日 1 回まで)
 #   daily-sync --force     当日既に実行済みでも走らせる
 #   daily-sync --dry-run   変更を伴う操作をスキップして検知だけ行う
+#   daily-sync --at-boot   起動時の枠。この起動セッションで未実行のときだけ走る
 #
 # ログ:   ~/Library/Logs/daily-sync.log
 # 状態:   ~/.local/state/daily-sync/
@@ -34,6 +35,10 @@ readonly BREW_REPO
 
 readonly STATE_DIR="$HOME/.local/state/daily-sync"
 readonly LAST_RUN="$STATE_DIR/last-run"
+# 起動時の枠 (--at-boot) が「この起動セッションは扱った」と記録する先。
+# 中身は kern.boottime の epoch。
+readonly LAST_BOOT="$STATE_DIR/last-boot"
+readonly LOCK_DIR="$STATE_DIR/lock"
 readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
 # sudo を要求すると分かった cask の記録先だった。今は quarantine の
 # reason=sudo に一本化してあり、残っていれば migrate_sudo_casks が取り込む。
@@ -62,6 +67,8 @@ readonly QUARANTINE_SUDO_DAYS=30
 
 FORCE=0
 DRY_RUN=0
+AT_BOOT=0
+LOCK_HELD=0
 # 人間の対応が要る事項と、実行中に起きた失敗。どちらも空なら通知を出さない。
 ACTIONS=()
 FAILURES=()
@@ -93,7 +100,10 @@ boot_epoch() {
 # (実測 6 分)。HEAD 対象の抽出・更新前後の比較・リンク切れ検出・スナップショット
 # と 5 箇所で必要になるので、1 度取ってファイルに置き、以降は読み直す。
 BREW_INFO_CACHE=""
-cleanup() { [[ -n "$BREW_INFO_CACHE" ]] && rm -f "$BREW_INFO_CACHE"; }
+cleanup() {
+    [[ -n "$BREW_INFO_CACHE" ]] && rm -f "$BREW_INFO_CACHE"
+    release_lock
+}
 trap cleanup EXIT
 
 refresh_brew_info() {
@@ -150,6 +160,107 @@ run_step() {
 already_ran_today() {
     [[ -f "$LAST_RUN" ]] || return 1
     [[ "$(cat "$LAST_RUN" 2>/dev/null)" == "$(date '+%Y-%m-%d')" ]]
+}
+
+# 多重起動の防止。
+#
+# 定時の枠 (com.delphinus.daily-sync) と起動時の枠
+# (com.delphinus.daily-sync-boot) はラベルが別なので、launchd のラベル単位の
+# 排他が効かない。起動が定時の枠と近いと 2 本同時に走りうる (例: 8:40 に起動
+# して 8:47 の枠に重なる)。brew を並行に回すと互いの lock で失敗するだけで、
+# 得るものが無い。手で叩いたときにも同じことが起きる。
+#
+# mkdir の atomicity に頼る。flock(1) は macOS に無い。
+acquire_lock() {
+    if mkdir "$LOCK_DIR" 2>/dev/null; then
+        printf '%s\n' "$$" >"$LOCK_DIR/pid"
+        LOCK_HELD=1
+        return 0
+    fi
+    # 保持者が生きていれば譲る。居なければ kill された残骸なので奪う
+    # (BREW_TIMEOUT で打ち切られた回や、実行中の再起動で残る)。
+    local pid
+    pid="$(cat "$LOCK_DIR/pid" 2>/dev/null)" || pid=""
+    if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+        return 1
+    fi
+    log "残骸のロックを掃除する (pid=${pid:-unknown} は不在)"
+    rm -rf "$LOCK_DIR"
+    mkdir "$LOCK_DIR" 2>/dev/null || return 1
+    printf '%s\n' "$$" >"$LOCK_DIR/pid"
+    LOCK_HELD=1
+    return 0
+}
+
+release_lock() {
+    ((LOCK_HELD)) || return 0
+    rm -rf "$LOCK_DIR"
+    LOCK_HELD=0
+    return 0
+}
+
+# この起動セッションで既に起動時の枠を扱ったか (--at-boot 用)。
+#
+# RunAtLoad は「起動」ではなく「エージェントのロード」で発火するので、
+# play-ansbile が plist を入れ替えて bootstrap し直すたびにも走る。全部を
+# 本実行にすると、プレイブックの実行中に brew upgrade が始まり、しかも
+# dotfiles の反映が終わる前に check_dotfiles が走って「未反映」を誤報する。
+# kern.boottime を記録しておき、同じ起動セッションの 2 回目以降は抜ける。
+#
+# 記録が無いときも走らせない。この枠が入って最初のロードは「起動直後」とは
+# 限らない (play-ansbile がロードした瞬間) ため。記録だけ作って次の起動から
+# 効かせる。その日の分は定時の枠が拾うので取りこぼしにはならない。
+boot_session_handled() {
+    local boot recorded
+    boot="$(boot_epoch)"
+    if [[ -z "$boot" ]]; then
+        log "kern.boottime を読めない。起動時の枠は見送る"
+        return 0
+    fi
+    recorded="$(cat "$LAST_BOOT" 2>/dev/null)" || recorded=""
+
+    if [[ "$recorded" == "$boot" ]]; then
+        log "この起動セッション ($(date -r "$boot" '+%Y-%m-%dT%H:%M:%S%z')) では扱い済み"
+        return 0
+    fi
+
+    ((DRY_RUN)) || printf '%s\n' "$boot" >"$LAST_BOOT"
+    if [[ -z "$recorded" ]]; then
+        log "起動セッションの記録が無い。記録だけ作り、今回は走らせない"
+        return 0
+    fi
+    log "新しい起動セッション ($(date -r "$boot" '+%Y-%m-%dT%H:%M:%S%z')) を検出した"
+    return 1
+}
+
+# --- ネットワークの待ち ---------------------------------------------------
+#
+# 起動直後は経路がまだ上がっていないことがある。待たずに走ると brew が軒並み
+# 失敗するだけでなく、main() が最後に last-run を書くので「失敗した回」で
+# その日の枠を食い潰す。疎通するまで待ち、駄目なら last-run を書かずに諦めて
+# 後続の枠に任せる。
+#
+# 判定は実際に HTTPS を張って行う。scutil -r は経路があれば Reachable を返す
+# ので、キャプティブポータルや DNS だけ死んでいる状態を見抜けない。
+readonly NETWORK_WAIT="${DAILY_SYNC_NETWORK_WAIT:-300}"
+
+network_up() {
+    curl -sS --max-time 5 -o /dev/null https://github.com >/dev/null 2>&1
+}
+
+wait_for_network() {
+    network_up && return 0
+    log "ネットワークに疎通しない。最大 ${NETWORK_WAIT} 秒待つ"
+    local waited=0
+    while ((waited < NETWORK_WAIT)); do
+        sleep 10
+        waited=$((waited + 10))
+        if network_up; then
+            log "疎通を確認した (${waited} 秒待った)"
+            return 0
+        fi
+    done
+    return 1
 }
 
 # --- Homebrew -----------------------------------------------------------
@@ -943,7 +1054,11 @@ check_buffalo_launchdaemon() {
 check_launchd_jobs() {
     local uid label
     uid="$(id -u)"
-    for label in com.delphinus.skk-sync com.delphinus.yaskkserv2-dict com.delphinus.yaskkserv2-watchdog; do
+    # daily-sync 自身の 2 枠も見る。定時と起動時でラベルが別なので、片方が
+    # 走っていれば他方の脱落に気付ける (自分が動いている以上「全く動かない」
+    # ことは無いが、片肺になっていると起動時や定時の取りこぼしが静かに戻る)。
+    for label in com.delphinus.daily-sync com.delphinus.daily-sync-boot \
+        com.delphinus.skk-sync com.delphinus.yaskkserv2-dict com.delphinus.yaskkserv2-watchdog; do
         if launchctl print "gui/$uid/$label" >/dev/null 2>&1; then
             log "launchd OK: $label"
         else
@@ -1455,8 +1570,9 @@ main() {
         case "$1" in
             --force) FORCE=1 ;;
             --dry-run) DRY_RUN=1 ;;
+            --at-boot) AT_BOOT=1 ;;
             -h | --help)
-                sed -n '2,20p' "${BASH_SOURCE[0]}"
+                sed -n '2,21p' "${BASH_SOURCE[0]}"
                 return 0
                 ;;
             *)
@@ -1468,6 +1584,15 @@ main() {
     done
 
     mkdir -p "$STATE_DIR"
+
+    if ! acquire_lock; then
+        log "他の daily-sync が実行中 (pid=$(cat "$LOCK_DIR/pid" 2>/dev/null))。今回は見送る"
+        return 0
+    fi
+
+    if ((AT_BOOT)) && ! ((FORCE)) && boot_session_handled; then
+        return 0
+    fi
 
     if already_ran_today && ! ((FORCE)); then
         log "本日は実行済み。--force で強制実行できる"
@@ -1483,6 +1608,16 @@ main() {
         log "$ENV_FILE を読み込んだ"
     else
         log "$ENV_FILE が無い (mycrons の更新はスキップされる)"
+    fi
+
+    # 疎通しないうちは何もしない。last-run を書かずに抜けるので、後続の枠
+    # (定時の 2 枠目や翌日) が改めて拾う。
+    if ! wait_for_network; then
+        failure "ネットワークに疎通しないため中止した (${NETWORK_WAIT} 秒待った)"
+        print_summary
+        notify
+        section "daily-sync 中止"
+        return 0
     fi
 
     local before after
