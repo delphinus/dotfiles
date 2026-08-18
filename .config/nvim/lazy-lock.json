@@ -91,6 +91,7 @@
   "nvim-keycastr": { "branch": "main", "commit": "d494e6ef5b551ffabe8f47d80f233353cd0d8034" },
   "nvim-lspconfig": { "branch": "master", "commit": "6fc041976833841cc9d991f45193533fe2a2e09b" },
   "nvim-plantuml": { "branch": "main", "commit": "495ef5cced787f103fb01b3fb705bbc447f1fac9" },
+  "nvim-scrollview": { "branch": "main", "commit": "b9e6ee00e9e20330b426fbec47812c2213d371ca" },
   "nvim-surround": { "branch": "main", "commit": "8b47db616ef658b8fc27e61db2896aa2f40134de" },
   "nvim-treesitter": { "branch": "main", "commit": "074aa4422bf029908338e855d0c0f71470a971bb" },
   "nvim-treesitter-endwise": { "branch": "master", "commit": "8fe8a95630f4f2c72a87ba1927af649e0bfaa244" },
