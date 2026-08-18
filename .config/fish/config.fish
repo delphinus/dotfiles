@@ -41,8 +41,7 @@ set -l paths \
     $homebrew_path/sbin \
     $homebrew_path/bin \
     /usr/local/bin \
-    ~/.local/opt/neovim-fallback/bin \
-    ~/.asdf/shims
+    ~/.local/opt/neovim-fallback/bin
 # ↑/usr/local/bin is included both in Homebrew of both arm & x86 version
 #
 # neovim-fallback は daily-sync が毎日置き換える「更新前の nvim」。Homebrew は
@@ -50,7 +49,7 @@ set -l paths \
 # $homebrew_path/bin/nvim が存在しない。そこを埋めるためのものなので、必ず
 # $homebrew_path/bin より後ろに置くこと (通常はこちらが勝ってはいけない)。
 #
-# 末尾の ~/.asdf/shims は移行期間だけの後始末用。asdf 時代に各ランタイムへ
+# 末尾に足す ~/.asdf/shims は移行期間だけの後始末用。asdf 時代に各ランタイムへ
 # グローバルインストールしたコマンド (fj-api-* / fj-gittag / editprompt /
 # na-tools / buf / ogen / bctl / busted など) は mise には引き継がれないので、
 # 一番後ろに置いて拾えるようにしてある。mise の shim が先にあるので node 等の
@@ -58,8 +57,11 @@ set -l paths \
 # (dotfiles 管理外) が担っており、mise は ~/.config/mise/config.toml の方を
 # 優先するので競合しない (実測)。
 #
-# 使っているものを mise 側へ入れ直し終えたら、この行と ~/.tool-versions と
-# asdf 本体 (brew uninstall asdf; rm -rf ~/.asdf) をまとめて消す。
+# ディレクトリの有無で判定するのは、端末ごとに独立して asdf を捨てられるように
+# するため。自宅の Mac は捨てた (2026-08-18) ので足されず、まだ asdf のみの
+# もう一台では従来どおり足される。全端末の移行が済んだら下の 1 行と
+# この段落ごと消す。各端末での後始末は
+# `brew uninstall asdf; rm -rf ~/.asdf ~/.tool-versions`。
 #
 # mise の shim (旧 ~/.asdf/shims) を先頭に置くのは、fish 以外の子プロセスの
 # ためだけ。fish 自身は Homebrew が配る
@@ -69,6 +71,8 @@ set -l paths \
 # activate を通らず、fish から継承した PATH を持ったまま cd するだけなので、
 # shim が無いと版の切り替えが効かなくなる。fish_user_paths は universal 変数で
 # 非対話 fish にも効くため、ここに置いておけば両方が満たせる。
+
+test -d ~/.asdf/shims; and set -a paths ~/.asdf/shims
 
 test "$paths" != "$fish_user_paths"; and set -U fish_user_paths $paths
 
