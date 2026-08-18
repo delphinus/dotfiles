@@ -410,6 +410,35 @@ return {
     opts = { char = "⡂", exclude = { filetypes = { "lazy", "markdown" } } },
   },
 
+  {
+    "dstein64/nvim-scrollview",
+    event = { "BufReadPost", "BufNewFile" },
+    init = function()
+      -- signs_on_startup / on_startup は plugin/scrollview.vim が
+      -- timer_start(0) で走らせる scrollview#Initialize() が読むだけなので、
+      -- setup() ではなく init で vim.g に置く。
+      vim.g.scrollview_excluded_filetypes = { "TelescopePrompt", "dashboard", "lazy", "noice", "notify", "trouble" }
+      -- telescope や blink の補完メニューにバーが透けてくるのを防ぐ。
+      vim.g.scrollview_hide_on_float_intersect = true
+      vim.g.scrollview_signs_on_startup = {
+        "conflicts",
+        "diagnostics",
+        "keywords",
+        "loclist",
+        "marks",
+        "quickfix",
+        "search",
+      }
+      -- 1 行に複数グループのサインが重なると本文側へはみ出すので絞る。
+      vim.g.scrollview_signs_max_per_row = 2
+    end,
+    config = function()
+      -- gitsigns 連携は本体ではなく contrib なので明示的に呼ぶ。gitsigns.setup()
+      -- より後である必要があるが、gitsigns は non_lazy なので満たされている。
+      require("scrollview.contrib.gitsigns").setup()
+    end,
+  },
+
   { "delphinus/eaw.nvim" },
 
   {
