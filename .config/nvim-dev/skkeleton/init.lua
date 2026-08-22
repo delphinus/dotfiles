@@ -40,7 +40,7 @@ else
 end
 vim.opt.cmdheight = 0
 
-local find_sibling_pane, send_key_to_pane
+local find_sibling_pane, send_key_to_pane, target_pane, hide_self
 if vim.env.EDITPROMPT then
   -- WezTerm にこのペインが editprompt であることを伝える
   io.write "\x1b]1337;SetUserVar=editprompt=MQ==\x07"
@@ -76,13 +76,38 @@ if vim.env.EDITPROMPT then
     return nil
   end
 
-  function send_key_to_pane(key)
-    local target = find_sibling_pane()
+  -- 送信先 (Claude Code) のペイン id。毎回 wezterm cli list を叩かずに済むよう
+  -- 一度引いたら覚えておく。ペインの並びは editprompt を開いている間変わらない。
+  local target
+  function target_pane()
     if not target then
+      target = find_sibling_pane()
+    end
+    return target
+  end
+
+  -- 送信し終えたら相方 (Claude Code) を zoom して自分を覆い隠す。ペインは
+  -- そのまま残るので、Cmd-e で unzoom すれば続きから書ける。対になる実装は
+  -- ~/.config/wezterm/keys.lua の toggle_editprompt。
+  function hide_self()
+    local target_id = target_pane()
+    if not target_id then
+      return
+    end
+    -- zoom の前にフォーカスを移しておかないと、覆い隠された側にキー入力が
+    -- 残ってしまう。順序が要るので完了を待って繋ぐ。
+    vim.system({ "wezterm", "cli", "activate-pane", "--pane-id", target_id }, {}, function()
+      vim.system { "wezterm", "cli", "zoom-pane", "--pane-id", target_id, "--zoom" }
+    end)
+  end
+
+  function send_key_to_pane(key)
+    local target_id = target_pane()
+    if not target_id then
       vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
       return
     end
-    vim.system({ "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, key }, { text = true })
+    vim.system({ "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target_id, key }, { text = true })
   end
 end
 
@@ -458,9 +483,10 @@ if vim.env.EDITPROMPT then
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local content = table.concat(lines, "\n")
     if content == "" then
-      -- バッファが空 = メッセージ送信ではなくメニュー確定。兄弟ペイン (Claude Code)
+      -- バッファが空 = メッセージ送信ではなくメニュー確定。送信先 (Claude Code)
       -- の選択肢を読み、3 択以上なら ↓ で真ん中 (option 2) を選んでから Enter する。
-      local target = find_sibling_pane()
+      -- このルートはリモコン代わりの操作なので、送信後もペインは退避しない。
+      local target = target_pane()
       if not target then
         vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
         return
@@ -494,7 +520,7 @@ if vim.env.EDITPROMPT then
     if content:match "@[^\n]*$" then
       content = content .. " "
     end
-    local target = find_sibling_pane()
+    local target = target_pane()
     if not target then
       vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
       return
@@ -520,6 +546,9 @@ if vim.env.EDITPROMPT then
                 vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
                 vim.cmd "silent write"
                 vim.cmd "startinsert"
+                -- 送信し終えたら用済みなので引っ込む。次に Cmd-e を押せば
+                -- この nvim がそのまま戻ってくる。
+                hide_self()
               else
                 vim.notify(
                   "editprompt failed to send Enter: " .. (obj2.stderr or "unknown error"),
