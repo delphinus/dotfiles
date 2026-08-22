@@ -26,7 +26,13 @@ config.initial_rows = 80
 config.macos_window_background_blur = 20
 config.native_macos_fullscreen_mode = true
 config.quick_select_patterns = { const.regex.url, const.regex.tag, const.regex.path, const.regex.file }
-config.use_fancy_tab_bar = true
+-- タブ幅の上限。タブが少ないときはここまで広がる。多いときは tab_title.lua が
+-- ステータスの幅を差し引いてここより狭く絞る ([[tab_bar_metrics]] 参照)。
+config.tab_max_width = 28
+-- fancy タブバーはタブ幅を「全幅 ÷ タブ数」でしか制限せず、右ステータスの領域を
+-- 予約しないため、タブが増えるとステータスの左側が押し出されて消える。retro なら
+-- tab_max_width が上限として効き、溢れる場合は均等に縮む。
+config.use_fancy_tab_bar = false
 config.warn_about_missing_glyphs = false
 config.window_background_opacity = 0.96
 config.window_close_confirmation = "NeverPrompt"

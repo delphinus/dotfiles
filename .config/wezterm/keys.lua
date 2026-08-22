@@ -330,8 +330,11 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     -- 再現精度の確認用。撮影前後のスクリーンショットを並べた画像を開く。
     { key = "[", mods = "CTRL|CMD", action = snatch.action { shell = const.fish, screenshot = true } },
     { key = "[", mods = "SHIFT|CMD", action = act.ActivateTabRelative(-1) },
+    -- タブバーはドラッグでの並べ替えに対応していないので、タブの移動はここから。
+    { key = "[", mods = "CTRL|SHIFT|CMD", action = act.MoveTabRelative(-1) },
     { key = "]", mods = "CMD", action = act.PasteFrom "Clipboard" },
     { key = "]", mods = "SHIFT|CMD", action = act.ActivateTabRelative(1) },
+    { key = "]", mods = "CTRL|SHIFT|CMD", action = act.MoveTabRelative(1) },
     { key = "`", mods = "CMD", action = act.ActivateWindowRelative(1) },
     { key = "c", mods = "CMD", action = act.CopyTo "Clipboard" },
     { key = "c", mods = "SHIFT|CMD", action = act.CharSelect },

@@ -2,6 +2,7 @@
 local wezterm = require "wezterm"
 local Battery = require "battery"
 local Timemachine = require "timemachine"
+local metrics = require "tab_bar_metrics"
 
 local function key_table(config, window)
   local name = window:active_key_table()
@@ -90,6 +91,20 @@ return function(config)
     end
     table.insert(elements, { Background = { Color = config.colors.tab_bar.background } })
     table.insert(elements, 1, { Text = " " })
+
+    -- タブ幅を決めるのに要るので、確定したステータスの幅とウィンドウの桁数を
+    -- tab_title.lua へ渡す ([[tab_bar_metrics]] 参照)。
+    local status_width = 0
+    for _, e in ipairs(elements) do
+      if type(e) == "table" and e.Text then
+        status_width = status_width + wezterm.column_width(e.Text)
+      end
+    end
+    local ok, size = pcall(function()
+      return window:active_tab():get_size()
+    end)
+    metrics.publish(ok and size and size.cols or nil, status_width)
+
     window:set_right_status(wezterm.format(elements))
   end)
 end
