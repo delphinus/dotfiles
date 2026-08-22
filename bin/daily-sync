@@ -40,6 +40,9 @@ readonly LAST_RUN="$STATE_DIR/last-run"
 readonly LAST_BOOT="$STATE_DIR/last-boot"
 readonly LOCK_DIR="$STATE_DIR/lock"
 readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
+# 前回の実行で検出した端末間の版の不一致。今回のものと突き合わせて「固着して
+# いるか」を判定するために持ち越す。形式は compare_snapshots のコメント参照。
+readonly DIFF_STATE="$STATE_DIR/snapshot-diff"
 # sudo を要求すると分かった cask の記録先だった。今は quarantine の
 # reason=sudo に一本化してあり、残っていれば migrate_sudo_casks が取り込む。
 readonly OLD_SUDO_CASKS_FILE="$STATE_DIR/sudo-casks"
@@ -1337,17 +1340,64 @@ write_snapshot() {
     return 0
 }
 
-# 全端末のスナップショットを突き合わせ、自端末と食い違う項目を列挙する。
-# HEAD-<sha> は大小比較ができないので「どちらが新しい」ではなく「不一致」と
-# して報告する。両端末で daily-sync が回っていれば一致するのが正常。
+# 全端末の JSON を jq に slurp した上で共通に使う束縛。$mine が自端末、
+# $active が比較対象、$dormant が休眠端末。write_snapshot が失敗していると
+# $mine が null になるので、最後の select で弾いて後続を空にする。
+#
+# compare_snapshots と write_diff_report で 4 回使うので、定数に置いて --arg も
+# 揃える (CASK_OUTDATED と同じく、素直にグローバルで共有する)。
+readonly JQ_SNAPSHOT_PRELUDE='
+    ($now | tonumber) as $now
+    | (($stale_days | tonumber) * 86400) as $stale
+    | (map(select(.hostname == $me)) | .[0]) as $mine
+    | (map(select(.hostname != $me))
+       | map(. + { age: ($now - (.generated_at | strptime("%Y-%m-%dT%H:%M:%S%z") | mktime)) })) as $rest
+    | ([$rest[] | select(.age <  $stale)]) as $active
+    | ([$rest[] | select(.age >= $stale)]) as $dormant
+    | select($mine != null)'
+JQ_SNAP_ARGS=()
+
+# 全端末のスナップショットを突き合わせる。
+#
+# 通知するのは「固着している不一致」だけに絞る。版が違うだけの状態は毎日必ず
+# 生じるので、それを通知条件にすると 100% 発火して読まれなくなる (実測
+# 2026-08-03〜08-22 の 20 日間、1 日も欠かさず発火していた。件数も 1〜32 件を
+# 無秩序に往復するだけで収束しない)。理由は 2 つある:
+#
+#   - HEAD 追従の formula (neovim 等) は端末ごとにビルド時刻が違えば sha が
+#     必ず違う。upstream はほぼ毎日動くので、これは drift ではなく正常な状態。
+#     大小比較もできないので比較から外す。
+#   - bottle の更新は日中に降ってくる。先に走った端末が 1 日だけ古く見えるが、
+#     翌日には自然に揃う。つまり素の不一致件数が測っているのは端末間の乖離
+#     ではなく「2 台の実行時刻の間に Homebrew が何本更新を出したか」でしかない。
+#
+# そこで前回の不一致を $DIFF_STATE に持ち越し、
+#
+#   (1) 相手の版が前回と同じまま、かつ
+#   (2) 相手はその後 daily-sync を回している (generated_at が動いている)
+#
+# の両方を満たすものだけを固着と見なす。相手が回ったのに版が動いていない =
+# 相手側で更新が止まっている、という判定になる。単なる 1 日遅れは相手の版が
+# 翌日には動くので (1) で落ちるし、電源が入っていない端末は (2) で落ちる。
+#
+# 逆向き (自端末が遅れている) は見ない。それは brew outdated と隔離リストが
+# 直接教えてくれるもので、他端末との比較で回り道する必要が無い。
+#
+# $DIFF_STATE の形式は 1 行 1 不一致の TSV:
+#   <相手のホスト名>\t<相手の generated_at>\t<formula>\t<自端末の版>\t<相手の版>
 compare_snapshots() {
     [[ -d "$SNAPSHOT_DIR" ]] || {
         log "スナップショットが無い"
         return 0
     }
-    local host report
+    local host report legacy
     host="$(host_name)"
-    report="$SNAPSHOT_DIR/差分レポート.md"
+    # 端末ごとに別ファイルにする。1 本を共有していた頃は、各端末が自分視点で
+    # 上書きし合うため、通知を出した端末とファイルの中身が食い違っていた
+    # (実測 2026-08-22: 08:49 にこの端末が「6 件」と通知した後、08:54 に別の
+    # 端末が自分視点で上書きし、その 6 件はどこにも残らなかった)。
+    report="$SNAPSHOT_DIR/差分レポート-${host}.md"
+    legacy="$SNAPSHOT_DIR/差分レポート.md"
 
     local -a others=()
     local f
@@ -1367,70 +1417,166 @@ compare_snapshots() {
         return 0
     }
 
-    # 全端末の JSON を jq に slurp して 1 本のクエリで処理する。
-    # $mine が自端末、$active が比較対象、$dormant が休眠端末。
-    local jq_prelude='
-        ($now | tonumber) as $now
-        | (($stale_days | tonumber) * 86400) as $stale
-        | (map(select(.hostname == $me)) | .[0]) as $mine
-        | (map(select(.hostname != $me))
-           | map(. + { age: ($now - (.generated_at | strptime("%Y-%m-%dT%H:%M:%S%z") | mktime)) })) as $rest
-        | ([$rest[] | select(.age <  $stale)]) as $active
-        | ([$rest[] | select(.age >= $stale)]) as $dormant
-        | ($active | map(. as $o
-            | $mine.formulae | to_entries
-            | map(select($o.formulae[.key] != null and $o.formulae[.key] != .value))) | add // []) as $all_diffs'
+    if [[ -f "$legacy" ]]; then
+        rm -f "$legacy"
+        log "端末ごとのファイルに分けたので、共有していた $legacy を削除した"
+    fi
 
-    local body count
-    body="$(jq -s -r \
-        --arg me "$host" \
-        --arg stale_days "$SNAPSHOT_STALE_DAYS" \
-        --arg now "$(date +%s)" \
-        "$jq_prelude"'
-         | [ "# 端末バージョン差分レポート", "",
-             "- 生成: \($mine.generated_at) (\($mine.hostname))",
-             "- 比較対象: \($active | length) 台 (休眠 \($dormant | length) 台)", "",
-             "> このファイルは daily-sync が自動生成する。手で編集しても次回上書きされる。", "" ]
-           + ([ $active[] as $o
-                | ($mine.formulae | to_entries | map(select($o.formulae[.key] != null and $o.formulae[.key] != .value))) as $diff
-                | ($o.formulae | to_entries | map(select($mine.formulae[.key] == null))) as $only_other
-                | ($mine.formulae | to_entries | map(select($o.formulae[.key] == null))) as $only_me
-                | [ "## vs \($o.hostname)", "", "- スナップショット: \($o.generated_at)", "" ]
-                  + (if ($diff | length) > 0
-                     then [ "### バージョン不一致", "", "| formula | \($mine.hostname) | \($o.hostname) |", "|---|---|---|" ]
-                          + ($diff | map("| \(.key) | \(.value) | \($o.formulae[.key]) |")) + [""]
-                     else [] end)
-                  + (if ($only_other | length) > 0
-                     then [ "### この端末に無い formula", "" ] + ($only_other | map("- \(.key) (\(.value))")) + [""]
-                     else [] end)
-                  + (if ($only_me | length) > 0
-                     then [ "### \($o.hostname) に無い formula", "" ] + ($only_me | map("- \(.key) (\(.value))")) + [""]
-                     else [] end)
-                  + (if $mine.dotfiles.head != $o.dotfiles.head
-                     then [ "### dotfiles", "", "- \($mine.hostname): \($mine.dotfiles.head[0:12])", "- \($o.hostname): \($o.dotfiles.head[0:12])", "" ]
-                     else [] end)
-              ] | add // [])
-           + (if ($dormant | length) > 0
-              then [ "## 休眠端末 (\($stale_days) 日以上スナップショットが更新されていない)", "" ]
-                   + ($dormant | map("- \(.hostname) (最終: \(.generated_at))")) + [""]
-              else [] end)
-           | join("\n")' \
-        "$SNAPSHOT_DIR"/*.json)" || return 1
+    JQ_SNAP_ARGS=(-s -r
+        --arg me "$host"
+        --arg stale_days "$SNAPSHOT_STALE_DAYS"
+        --arg now "$(date +%s)")
 
-    printf '%s\n' "$body" >"$report" || return 1
-    log "差分レポートを更新した: $report"
+    # --- 今回の不一致 (HEAD 追従は除外) ---
+    local cur persist_f watch_f
+    cur="$(mktemp -t daily-sync-diff)"
+    persist_f="$(mktemp -t daily-sync-diff)"
+    watch_f="$(mktemp -t daily-sync-diff)"
+    if ! jq "${JQ_SNAP_ARGS[@]}" "$JQ_SNAPSHOT_PRELUDE"'
+         | $active[] as $o
+         | ($mine.formulae | to_entries[])
+         | select($o.formulae[.key] != null and $o.formulae[.key] != .value)
+         | select((((.value | startswith("HEAD"))
+                    or ($o.formulae[.key] | startswith("HEAD")))) | not)
+         | [$o.hostname, $o.generated_at, .key, .value, $o.formulae[.key]] | @tsv' \
+        "$SNAPSHOT_DIR"/*.json | sort >"$cur"; then
+        rm -f "$cur" "$persist_f" "$watch_f"
+        return 1
+    fi
 
-    count="$(jq -s -r \
-        --arg me "$host" \
-        --arg stale_days "$SNAPSHOT_STALE_DAYS" \
-        --arg now "$(date +%s)" \
-        "$jq_prelude"' | $all_diffs | length' \
-        "$SNAPSHOT_DIR"/*.json)" || count=0
-    if ((count > 0)); then
-        action "他端末とバージョンが食い違う formula が ${count} 件ある。$report を確認"
+    # --- 前回との突き合わせ ---
+    #
+    # 突き合わせの鍵は (相手のホスト, formula, 相手の版) の 3 つ組。相手の版を
+    # 鍵に含めるのが肝で、これで「毎日更新される formula に 1 日遅れているだけ」
+    # の状態は鍵が毎日変わって落ちる。generated_at は鍵に入れず値として持ち、
+    # 「前回と違う = 相手はその後実行した」の判定に使う。
+    #
+    # 2 ファイル目かどうかの判定に定番の NR == FNR は使えない。1 ファイル目が
+    # 空だと 2 ファイル目の 1 行目でも NR == FNR が成立し、その行が前回分として
+    # 食われる。初回 (記録が空) に不一致の 1 件目だけ静かに消えることになる。
+    [[ -f "$DIFF_STATE" ]] || : >"$DIFF_STATE"
+    awk -F'\t' -v prev_file="$DIFF_STATE" '
+        FILENAME == prev_file { prev[$1 FS $3 FS $5] = $2; next }
+        { k = $1 FS $3 FS $5; if (k in prev && prev[k] != $2) print }
+    ' "$DIFF_STATE" "$cur" >"$persist_f"
+    # 固着に至らなかったもの。「なぜ通知が来ないのか」を追えるようにレポートには
+    # 残すが、通知はしない。persist_f は cur の部分集合を同じ順で出すので
+    # comm に渡せる (どちらも sort 済み)。
+    comm -23 "$cur" "$persist_f" >"$watch_f"
+    cp "$cur" "$DIFF_STATE"
+
+    local persistent watching
+    persistent="$(cat "$persist_f")"
+    watching="$(cat "$watch_f")"
+    rm -f "$cur" "$persist_f" "$watch_f"
+
+    local dormant_list
+    dormant_list="$(jq "${JQ_SNAP_ARGS[@]}" "$JQ_SNAPSHOT_PRELUDE"'
+         | $dormant[] | [.hostname, .generated_at] | @tsv' \
+        "$SNAPSHOT_DIR"/*.json)" || dormant_list=""
+
+    write_diff_report "$host" "$report" "${#others[@]}" \
+        "$persistent" "$watching" "$dormant_list" ||
+        failure "差分レポートの書き出しに失敗した ($report)"
+
+    # --- 通知 ---
+    if [[ -n "$persistent" ]]; then
+        local n list
+        n="$(printf '%s\n' "$persistent" | wc -l | tr -d ' ')"
+        list="$(awk -F'\t' -v me="$host" '
+            { printf "%s%s の %s が %s のまま (%s は %s)", sep, $1, $3, $5, me, $4; sep = ", " }
+            END { print "" }' <<<"$persistent")"
+        action "他端末で更新が止まっている formula が ${n} 件: ${list}。詳細: $report"
+    elif [[ -n "$watching" ]]; then
+        log "固着している不一致は無し (今回の不一致 $(printf '%s\n' "$watching" | wc -l | tr -d ' ') 件はいずれも経過観察)"
     else
         log "他端末とのバージョン不一致は無し"
     fi
+
+    if [[ -n "$dormant_list" ]]; then
+        local dn dlist
+        dn="$(printf '%s\n' "$dormant_list" | wc -l | tr -d ' ')"
+        dlist="$(awk -F'\t' '{ printf "%s%s (最終 %s)", sep, $1, $2; sep = ", " } END { print "" }' <<<"$dormant_list")"
+        action "daily-sync が ${SNAPSHOT_STALE_DAYS} 日以上動いていない端末が ${dn} 台: ${dlist}"
+    fi
+    return 0
+}
+
+# 差分レポートの本文を書く。
+#
+# 「この端末に無い formula」の類は先頭に置かない。自宅の端末は
+# tasks/homebrew.yml の全部入り、業務用は local_light.yml なので、この差は
+# 設計どおりで永久に一致しない。それが 350 行あってレポートの大半を占めると、
+# 開いた瞬間に読む気が失せる (実測: 393 行中、通知に対応するのは 2 行だった)。
+# 参考情報として末尾に送る。
+write_diff_report() {
+    local me="$1" report="$2" n_others="$3"
+    local persistent="$4" watching="$5" dormant_list="$6"
+
+    # TSV の列は <相手> <相手の generated_at> <formula> <自端末の版> <相手の版>。
+    local tsv_to_rows='{ printf "| %s | %s | %s | %s |\n", $3, $4, $1, $5 }'
+
+    {
+        printf '# 端末バージョン差分レポート (%s)\n\n' "$me"
+        printf -- '- 生成: %s (%s 視点)\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$me"
+        printf -- '- 比較対象: %s 台\n\n' "$n_others"
+        printf '> このファイルは daily-sync が端末ごとに自動生成する。手で編集しても次回上書きされる。\n'
+        printf '> HEAD 追従の formula (neovim 等) は毎日 sha が変わるため比較から除外している。\n\n'
+
+        printf '## 固着している不一致\n\n'
+        if [[ -n "$persistent" ]]; then
+            printf '相手側も daily-sync を回しているのに版が前回から動いていない = 相手の更新が止まっている。\n\n'
+            printf '| formula | %s | 相手 | 相手の版 |\n|---|---|---|---|\n' "$me"
+            awk -F'\t' "$tsv_to_rows" <<<"$persistent"
+            printf '\n'
+        else
+            printf '無し。\n\n'
+        fi
+
+        if [[ -n "$watching" ]]; then
+            printf '## 経過観察中の不一致\n\n'
+            printf '今回検出したが、まだ 1 回目か相手が未実行のため通知していない。通常は翌日には解消する。\n\n'
+            printf '| formula | %s | 相手 | 相手の版 |\n|---|---|---|---|\n' "$me"
+            awk -F'\t' "$tsv_to_rows" <<<"$watching"
+            printf '\n'
+        fi
+
+        if [[ -n "$dormant_list" ]]; then
+            printf '## 休眠端末 (%s 日以上スナップショットが更新されていない)\n\n' "$SNAPSHOT_STALE_DAYS"
+            awk -F'\t' '{ printf "- %s (最終: %s)\n", $1, $2 }' <<<"$dormant_list"
+            printf '\n'
+        fi
+
+        # dotfiles の HEAD 不一致は check_dotfiles が理由付きで別に通知するので、
+        # ここでは状況の一覧に留める。
+        jq "${JQ_SNAP_ARGS[@]}" "$JQ_SNAPSHOT_PRELUDE"'
+            | ([ $active[] | select(.dotfiles.head != $mine.dotfiles.head) ]) as $behind
+            | if ($behind | length) == 0 then empty
+              else [ "## dotfiles の HEAD 不一致", "",
+                     "- \($mine.hostname): \($mine.dotfiles.head[0:12])" ]
+                   + ($behind | map("- \(.hostname): \(.dotfiles.head[0:12])")) + [""]
+                   | join("\n")
+              end' "$SNAPSHOT_DIR"/*.json
+
+        printf '## 参考: 端末固有の formula\n\n'
+        printf '全部入り (tasks/homebrew.yml) と local_light.yml の差なので、一致しないのが正常。\n\n'
+        jq "${JQ_SNAP_ARGS[@]}" "$JQ_SNAPSHOT_PRELUDE"'
+            | [ $active[] as $o
+                | ($o.formulae | to_entries | map(select($mine.formulae[.key] == null))) as $only_other
+                | ($mine.formulae | to_entries | map(select($o.formulae[.key] == null))) as $only_me
+                | [ "### vs \($o.hostname) (スナップショット: \($o.generated_at))", "" ]
+                  + (if ($only_other | length) > 0
+                     then [ "この端末に無い (\($only_other | length) 件): "
+                            + ($only_other | map(.key) | join(", ")), "" ]
+                     else [] end)
+                  + (if ($only_me | length) > 0
+                     then [ "\($o.hostname) に無い (\($only_me | length) 件): "
+                            + ($only_me | map(.key) | join(", ")), "" ]
+                     else [] end)
+              ] | add // [] | join("\n")' "$SNAPSHOT_DIR"/*.json
+    } >"$report" || return 1
+
+    log "差分レポートを更新した: $report"
     return 0
 }
 
