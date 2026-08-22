@@ -13,27 +13,96 @@ return function(config)
     end),
   }
 
-  local editprompt = wezterm.action_callback(function(window, pane)
-    window:perform_action(
-      act.SplitPane {
-        direction = "Down",
-        command = {
-          args = {
-            const.fish,
-            "-c",
-            [=[
-              set target_pane (wezterm cli list --format json | jq -r --argjson me $WEZTERM_PANE '[.[] | select(.pane_id == $me)][0].tab_id as $tab | [.[] | select(.tab_id == $tab and .pane_id != $me)][0].pane_id')
-              if test -z "$target_pane" -o "$target_pane" = null
-                echo "Could not find sibling pane"; read; exit 1
-              end
-              exec editprompt open -e 'nvim +"se laststatus=0" +startinsert' -E NVIM_APPNAME=nvim-dev/skkeleton -m wezterm -t $target_pane --always-copy
-            ]=],
-          },
-        },
-        size = { Cells = 10 },
+  -- editprompt (Claude Code への入力ペイン) は Cmd-e でトグルする。使わない間は
+  -- 相方 (Claude Code) のペインを zoom して覆い隠すだけで、editprompt ペイン
+  -- 自体はタブに残したままにする。nvim も denops も生きているので出し直しは
+  -- 一瞬で済むし、隠している間は Claude Code がタブ一杯に広がる。
+  --
+  -- 当初はペインを別ワークスペースのウィンドウへ退避していたが、
+  -- MuxPane:move_to_new_window でも wezterm cli move-pane-to-new-tab でも
+  -- WezTerm ごと落ちた (2 回とも再現)。zoom ならペインの所属を一切動かさない。
+  local editprompt_cells = 10
+  -- zoom とフォーカス移動は対象を pane id で名指しできる CLI で行う。GUI から
+  -- 起動されると PATH が最小限のことがあるので app bundle 内の実体を優先する。
+  local wezterm_cli = wezterm.executable_dir .. "/wezterm"
+  if #wezterm.glob(wezterm_cli) == 0 then
+    wezterm_cli = "wezterm"
+  end
+
+  local spawn_editprompt = act.SplitPane {
+    direction = "Down",
+    command = {
+      args = {
+        const.fish,
+        "-c",
+        [=[
+          set target_pane (wezterm cli list --format json | jq -r --argjson me $WEZTERM_PANE '[.[] | select(.pane_id == $me)][0].tab_id as $tab | [.[] | select(.tab_id == $tab and .pane_id != $me)][0].pane_id')
+          if test -z "$target_pane" -o "$target_pane" = null
+            echo "Could not find sibling pane"; read; exit 1
+          end
+          exec editprompt open -e 'nvim +"se laststatus=0" +startinsert' -E NVIM_APPNAME=nvim-dev/skkeleton -m wezterm -t $target_pane --always-copy
+        ]=],
       },
-      pane
-    )
+    },
+    size = { Cells = editprompt_cells },
+  }
+
+  -- CLI 呼び出しを順番に流す。background_child_process は投げっぱなしで順序を
+  -- 保証しないので、前段の完了を待たせたいものは sh の && に任せる。
+  local function cli_chain(cmds)
+    local parts = {}
+    for i, cmd in ipairs(cmds) do
+      local words = { ("'%s' cli"):format(wezterm_cli) }
+      for _, a in ipairs(cmd) do
+        table.insert(words, tostring(a))
+      end
+      parts[i] = table.concat(words, " ")
+    end
+    wezterm.background_child_process { "/bin/sh", "-c", table.concat(parts, " && ") }
+  end
+
+  -- このタブの editprompt ペインと相方、および zoom 中のペインを返す。user var
+  -- editprompt は nvim 側 (~/.config/nvim-dev/skkeleton/init.lua) が起動時に立てる。
+  local function editprompt_layout(pane)
+    local tab = pane:tab()
+    if not tab then
+      return nil
+    end
+    local ep, main, zoomed
+    for _, info in ipairs(tab:panes_with_info()) do
+      if info.is_zoomed then
+        zoomed = info.pane:pane_id()
+      end
+      if info.pane:get_user_vars().editprompt then
+        ep = info.pane:pane_id()
+      elseif not main or info.pane:pane_id() == pane:pane_id() then
+        -- 相方が複数居るときは、いま居るペインを優先して相方とみなす。
+        main = info.pane:pane_id()
+      end
+    end
+    return ep, main, zoomed
+  end
+
+  local toggle_editprompt = wezterm.action_callback(function(window, pane)
+    local ep, main, zoomed = editprompt_layout(pane)
+    if not ep then
+      -- 初回。zoom したままだと split しても見えないので解除してから開く。
+      window:perform_action(act.Multiple { act.SetPaneZoomState(false), spawn_editprompt }, pane)
+    elseif not main then
+      cli_chain { { "activate-pane", "--pane-id", ep } }
+    elseif zoomed == main then
+      -- 隠れている → 出して editprompt へフォーカスする。
+      cli_chain {
+        { "zoom-pane", "--pane-id", main, "--unzoom" },
+        { "activate-pane", "--pane-id", ep },
+      }
+    else
+      -- 出ている → 相方を zoom して覆い隠す。
+      cli_chain {
+        { "activate-pane", "--pane-id", main },
+        { "zoom-pane", "--pane-id", main, "--zoom" },
+      }
+    end
   end)
 
   local move_to_new_tab = wezterm.action_callback(function(_, pane)
@@ -231,7 +300,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "`", mods = "CMD", action = act.ActivateWindowRelative(1) },
     { key = "c", mods = "CMD", action = act.CopyTo "Clipboard" },
     { key = "c", mods = "SHIFT|CMD", action = act.CharSelect },
-    { key = "e", mods = "CMD", action = editprompt },
+    { key = "e", mods = "CMD", action = toggle_editprompt },
     { key = "f", mods = "CMD", action = act.Search { CaseSensitiveString = "" } },
     { key = "f", mods = "SHIFT|CMD", action = act.ToggleFullScreen },
     { key = "h", mods = "CMD", action = act.HideApplication },
