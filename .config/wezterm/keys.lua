@@ -61,7 +61,7 @@ return function(config)
     wezterm.background_child_process { "/bin/sh", "-c", table.concat(parts, " && ") }
   end
 
-  -- このタブの editprompt ペインと相方、および zoom 中のペインを返す。user var
+  -- このタブの editprompt ペインと相方、zoom 中のペイン、ペイン数を返す。user var
   -- editprompt は nvim 側 (~/.config/nvim-dev/skkeleton/init.lua) が起動時に立てる。
   local function editprompt_layout(pane)
     local tab = pane:tab()
@@ -69,7 +69,8 @@ return function(config)
       return nil
     end
     local ep, main, zoomed
-    for _, info in ipairs(tab:panes_with_info()) do
+    local infos = tab:panes_with_info()
+    for _, info in ipairs(infos) do
       if info.is_zoomed then
         zoomed = info.pane:pane_id()
       end
@@ -80,7 +81,7 @@ return function(config)
         main = info.pane:pane_id()
       end
     end
-    return ep, main, zoomed
+    return ep, main, zoomed, #infos
   end
 
   local toggle_editprompt = wezterm.action_callback(function(window, pane)
@@ -103,6 +104,40 @@ return function(config)
         { "zoom-pane", "--pane-id", main, "--zoom" },
       }
     end
+  end)
+
+  -- ⌘W。Claude Code 側を閉じるときは editprompt も道連れにする。片方だけ残ると
+  -- タブが消えず、閉じるのに 2 回押す羽目になるため。ペインがちょうど 2 枚の
+  -- ときだけにして、自分で足した 3 枚目を閉じただけで巻き添えにしないようにする。
+  local close_pane = wezterm.action_callback(function(window, pane)
+    local ep, _, _, count = editprompt_layout(pane)
+    if ep and count == 2 and ep ~= pane:pane_id() then
+      cli_chain { { "kill-pane", "--pane-id", ep } }
+    end
+    window:perform_action(act.CloseCurrentPane { confirm = false }, pane)
+  end)
+
+  -- 相方が居なくなって 1 枚だけ取り残された editprompt ペインを閉じる。上の
+  -- close_pane が拾えるのは ⌘W の経路だけで、Claude Code 自身が終了した
+  -- (/exit や ^D、クラッシュ) ときはこちらが始末する。editprompt ペインは必ず
+  -- split で作られるので、タブに 1 枚きりなら相方を失った証拠とみなしてよい。
+  local function reap_orphan_editprompt(window)
+    local ok, mux_window = pcall(function()
+      return window:mux_window()
+    end)
+    if not ok or not mux_window then
+      return
+    end
+    for _, tab in ipairs(mux_window:tabs()) do
+      local panes = tab:panes()
+      if #panes == 1 and panes[1]:get_user_vars().editprompt then
+        cli_chain { { "kill-pane", "--pane-id", panes[1]:pane_id() } }
+      end
+    end
+  end
+
+  wezterm.on("update-status", function(window)
+    reap_orphan_editprompt(window)
   end)
 
   local move_to_new_tab = wezterm.action_callback(function(_, pane)
@@ -323,7 +358,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
     { key = "u", mods = "SHIFT|CMD", action = open_with },
     { key = "v", mods = "CMD", action = paste_or_forward_image },
     { key = "v", mods = "SHIFT|CMD", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
-    { key = "w", mods = "CMD", action = act.CloseCurrentPane { confirm = false } },
+    { key = "w", mods = "CMD", action = close_pane },
     { key = "y", mods = "CMD", action = copy_last_command_output },
     { key = "z", mods = "SHIFT|CMD", action = act.TogglePaneZoomState },
     { key = "Enter", mods = "CTRL", action = act.SendString "\x1b[13;5u" },
