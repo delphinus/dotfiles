@@ -75,7 +75,7 @@ end
 -- Per-source single-letter icons for the menu's kind_icon column. Sources not
 -- listed here keep blink.cmp's default kind icon.
 M.source_letters = {
-  wezterm = "W",
+  pane = "W",
   ripgrep = "R",
   ghq = "Q",
   digraphs = "D",
@@ -96,7 +96,7 @@ M.source_groups = {
   snippets = "Special",
   buffer = "Comment",
   lazydev = "Function",
-  wezterm = "Constant",
+  pane = "Constant",
   ripgrep = "Number",
   ghq = "String",
   digraphs = "Identifier",
@@ -389,7 +389,7 @@ function M.providers()
         end,
       },
     },
-    wezterm = { name = "wezterm", module = "blink-cmp-wezterm", min_keyword_length = 2, async = true },
+    pane = { name = "pane", module = "blink-cmp-pane", min_keyword_length = 2, async = true },
     ghq = { name = "ghq", module = "blink-cmp-ghq", async = true },
     ripgrep = {
       name = "Ripgrep",
