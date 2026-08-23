@@ -40,44 +40,61 @@ else
 end
 vim.opt.cmdheight = 0
 
-local find_sibling_pane, send_key_to_pane, target_pane, hide_self
+local find_sibling_pane, send_key_to_pane, send_text_to_pane, target_pane, hide_self
 if vim.env.EDITPROMPT then
-  -- WezTerm にこのペインが editprompt であることを伝える
+  -- kitty にこのウィンドウが editprompt であることを伝える。~/.config/kitty/
+  -- editprompt.py は launch --var でも立てているが、手で起動したときにも効くよう
+  -- ここでも送っておく。
   io.write "\x1b]1337;SetUserVar=editprompt=MQ==\x07"
+
+  -- スワップファイルを作らない。ここは送信すれば消える下書き用のスクラッチで、
+  -- 内容は送信時にファイルへ書き出しているので復旧の価値が無い。逆に、相方を
+  -- 閉じたときの後始末 (close_pane.py / watcher.py) はこの nvim を kill するため、
+  -- 残ったスワップが次回起動時に E325 の警告を出してしまう。
+  -- 旧 editprompt バイナリは毎回一意な一時パスを使っていたので警告こそ出な
+  -- かったが、代わりにスワップが延々と溜まり続けていた。
+  vim.opt.swapfile = false
+
+  -- 自分のウィンドウ id。WEZTERM_PANE は見ない。WezTerm のシェルから kitty を
+  -- 起動すると環境変数が漏れて継承され、送信先が WezTerm 側のペインに化ける。
+  local function my_window_id()
+    return tonumber(vim.env.KITTY_WINDOW_ID or "", 10)
+  end
+
   function find_sibling_pane()
-    local my_pane = vim.env.WEZTERM_PANE
-    if not my_pane then
+    local me = my_window_id()
+    if not me then
       return nil
     end
-    local obj = vim.system({ "wezterm", "cli", "list", "--format", "json" }, { text = true }):wait()
+    local obj = vim.system({ "kitten", "@", "ls" }, { text = true }):wait()
     if obj.code ~= 0 then
       return nil
     end
-    local ok, panes = pcall(vim.json.decode, obj.stdout)
+    local ok, os_windows = pcall(vim.json.decode, obj.stdout)
     if not ok then
       return nil
     end
-    local my_id = tonumber(my_pane)
-    local my_tab
-    for _, p in ipairs(panes) do
-      if p.pane_id == my_id then
-        my_tab = p.tab_id
-        break
-      end
-    end
-    if not my_tab then
-      return nil
-    end
-    for _, p in ipairs(panes) do
-      if p.tab_id == my_tab and p.pane_id ~= my_id then
-        return tostring(p.pane_id)
+    for _, os_window in ipairs(os_windows) do
+      for _, tab in ipairs(os_window.tabs or {}) do
+        local others, found_me = {}, false
+        for _, w in ipairs(tab.windows or {}) do
+          if w.id == me then
+            found_me = true
+          elseif not (w.user_vars or {}).editprompt then
+            -- 相方が editprompt を名乗っていたら選ばない。
+            table.insert(others, w.id)
+          end
+        end
+        if found_me then
+          return others[1] and tostring(others[1]) or nil
+        end
       end
     end
     return nil
   end
 
-  -- 送信先 (Claude Code) のペイン id。毎回 wezterm cli list を叩かずに済むよう
-  -- 一度引いたら覚えておく。ペインの並びは editprompt を開いている間変わらない。
+  -- 送信先 (Claude Code) のウィンドウ id。毎回 kitten @ ls を叩かずに済むよう
+  -- 一度引いたら覚えておく。並びは editprompt を開いている間変わらない。
   local target
   function target_pane()
     if not target then
@@ -86,28 +103,42 @@ if vim.env.EDITPROMPT then
     return target
   end
 
-  -- 送信し終えたら相方 (Claude Code) を zoom して自分を覆い隠す。ペインは
-  -- そのまま残るので、Cmd-e で unzoom すれば続きから書ける。対になる実装は
-  -- ~/.config/wezterm/keys.lua の toggle_editprompt。
+  -- 送信し終えたら相方 (Claude Code) を全面に出して自分を覆い隠す。ウィンドウは
+  -- そのまま残るので、Cmd-e で戻せば続きから書ける。kitty に zoom は無いが
+  -- stack レイアウトがアクティブなウィンドウだけを映すので同じことになる。
+  -- 対になる実装は ~/.config/kitty/editprompt.py。
   function hide_self()
     local target_id = target_pane()
     if not target_id then
       return
     end
-    -- zoom の前にフォーカスを移しておかないと、覆い隠された側にキー入力が
-    -- 残ってしまう。順序が要るので完了を待って繋ぐ。
-    vim.system({ "wezterm", "cli", "activate-pane", "--pane-id", target_id }, {}, function()
-      vim.system { "wezterm", "cli", "zoom-pane", "--pane-id", target_id, "--zoom" }
+    -- stack はアクティブなウィンドウを映すので、先にフォーカスを移しておかないと
+    -- editprompt が映ったままになる。順序が要るので完了を待って繋ぐ。
+    vim.system({ "kitten", "@", "focus-window", "--match", "id:" .. target_id }, {}, function()
+      vim.system { "kitten", "@", "goto-layout", "stack" }
     end)
   end
 
-  function send_key_to_pane(key)
+  -- 生のバイト列をそのまま相方へ流す。位置引数の TEXT は kitty がエスケープを
+  -- 解釈するうえに複数引数をスペースで連結してしまうので、本文にもキーにも
+  -- 使えない。--stdin は「解釈せずそのまま送る」経路。
+  -- bracketed paste は kitty の既定が disable なので wezterm の --no-paste 相当。
+  function send_text_to_pane(text, on_exit)
     local target_id = target_pane()
     if not target_id then
       vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
-      return
+      return false
     end
-    vim.system({ "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target_id, key }, { text = true })
+    vim.system(
+      { "kitten", "@", "send-text", "--match", "id:" .. target_id, "--stdin" },
+      { stdin = text, text = true },
+      on_exit
+    )
+    return true
+  end
+
+  function send_key_to_pane(key)
+    send_text_to_pane(key)
   end
 end
 
@@ -200,7 +231,7 @@ require("lazy").setup({
       -- 実体は主設定 (lua/lazies/skkeleton.lua) が feat/async-completion
       -- (Xantibody#19) で管理。ここは dir 共有で同じチェックアウトを使う。
       { "delphinus/blink-cmp-skkeleton", branch = "feat/async-completion", dir = shared .. "/blink-cmp-skkeleton" },
-      { "delphinus/cmp-wezterm", dir = shared .. "/cmp-wezterm" },
+      { "delphinus/cmp-pane", dir = shared .. "/cmp-pane" },
       { "delphinus/cmp-ghq", dir = shared .. "/cmp-ghq" },
       { "mikavilpas/blink-ripgrep.nvim", dir = shared .. "/blink-ripgrep.nvim" },
       { "moyiz/blink-emoji.nvim", dir = shared .. "/blink-emoji.nvim" },
@@ -239,7 +270,7 @@ require("lazy").setup({
           if blink_shared.in_path_context() then
             return { "path" }
           end
-          return { "buffer", "path", "wezterm", "ghq", "digraphs", "git", "ripgrep", "dictionary", "emoji" }
+          return { "buffer", "path", "pane", "ghq", "digraphs", "git", "ripgrep", "dictionary", "emoji" }
         end,
         providers = vim.tbl_extend("force", blink_shared.providers(), {
           path = { opts = { show_hidden_files_by_default = true } },
@@ -464,7 +495,7 @@ if vim.env.EDITPROMPT then
   end
 
   -- 確定した選択肢を ccstatusline 用のキャッシュへ書く。キーは対象 (Claude Code)
-  -- ペインの id。ccstatusline は $WEZTERM_PANE でここを読みステータスラインに出す。
+  -- ウィンドウの id。ccstatusline は $KITTY_WINDOW_ID でここを読みステータスラインに出す。
   local confirm_dir = vim.env.HOME .. "/.cache/ccstatusline-smart-confirm"
   local function write_selection(target, chosen, label)
     pcall(function()
@@ -492,7 +523,7 @@ if vim.env.EDITPROMPT then
         return
       end
       local keys = "\r"
-      local obj = vim.system({ "wezterm", "cli", "get-text", "--pane-id", target }, { text = true }):wait()
+      local obj = vim.system({ "kitten", "@", "get-text", "--match", "id:" .. target }, { text = true }):wait()
       if obj.code == 0 and obj.stdout then
         local labels, highlighted = detect_menu(obj.stdout)
         -- 1. と 2. が揃っていれば選択メニューとみなす。
@@ -509,7 +540,7 @@ if vim.env.EDITPROMPT then
           write_selection(target, chosen, labels[chosen])
         end
       end
-      vim.system({ "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, keys }, { text = true }, function()
+      send_text_to_pane(keys, function()
         vim.schedule(function()
           vim.cmd "startinsert"
         end)
@@ -520,46 +551,30 @@ if vim.env.EDITPROMPT then
     if content:match "@[^\n]*$" then
       content = content .. " "
     end
-    local target = target_pane()
-    if not target then
-      vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
-      return
-    end
-    -- send-text でテキストを送信し、続けて Enter を送る
-    vim.system(
-      { "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, "--", content },
-      { text = true },
-      function(obj)
-        if obj.code ~= 0 then
-          vim.schedule(function()
-            vim.notify("editprompt failed: " .. (obj.stderr or "unknown error"), vim.log.levels.ERROR)
-          end)
-          return
-        end
-        -- Enter キーを送る
-        vim.system(
-          { "wezterm", "cli", "send-text", "--no-paste", "--pane-id", target, "\r" },
-          { text = true },
-          function(obj2)
-            vim.schedule(function()
-              if obj2.code == 0 then
-                vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-                vim.cmd "silent write"
-                vim.cmd "startinsert"
-                -- 送信し終えたら用済みなので引っ込む。次に Cmd-e を押せば
-                -- この nvim がそのまま戻ってくる。
-                hide_self()
-              else
-                vim.notify(
-                  "editprompt failed to send Enter: " .. (obj2.stderr or "unknown error"),
-                  vim.log.levels.ERROR
-                )
-              end
-            end)
-          end
-        )
+    -- 本文を送信し、続けて Enter を送る。本文には改行もバックスラッシュも来るので
+    -- 必ず --stdin 経由 (send_text_to_pane) で生のまま渡す。
+    send_text_to_pane(content, function(obj)
+      if obj.code ~= 0 then
+        vim.schedule(function()
+          vim.notify("editprompt failed: " .. (obj.stderr or "unknown error"), vim.log.levels.ERROR)
+        end)
+        return
       end
-    )
+      send_text_to_pane("\r", function(obj2)
+        vim.schedule(function()
+          if obj2.code == 0 then
+            vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+            vim.cmd "silent write"
+            vim.cmd "startinsert"
+            -- 送信し終えたら用済みなので引っ込む。次に Cmd-e を押せば
+            -- この nvim がそのまま戻ってくる。
+            hide_self()
+          else
+            vim.notify("editprompt failed to send Enter: " .. (obj2.stderr or "unknown error"), vim.log.levels.ERROR)
+          end
+        end)
+      end)
+    end)
   end
 
   vim.keymap.set("n", "<Space>x", editprompt_send, { silent = true, desc = "Send buffer content to editprompt" })
