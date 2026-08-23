@@ -1,0 +1,31 @@
+#!/opt/homebrew/bin/fish -l
+#
+# OSC 8 の file:// リンクを Neovim の新しいタブで開く。
+# ~/.config/kitty/open-actions.conf から呼ばれる。WezTerm 側の open_uri.lua に相当。
+#
+# 使い方: kitty-open-file <path> [fragment]
+#   fragment が `L42` / `42` の形ならその行に飛ぶ。
+#
+# kitty は open-actions の引数を字句分割した後に ${FILE_PATH} を各引数へ展開する
+# ので、パスに空白や引用符が入っていても 1 引数として届く。open_uri.lua が要して
+# いた自前のクォート処理は不要 (逆に `fish -c "... '$path' ..."` の形で埋め込むと
+# シェルに解釈されてしまうので、こうしてスクリプトに argv で渡している)。
+#
+# ログインシェル (-l) 経由なのは、GUI から起動した kitty の貧弱な PATH をそのまま
+# 継承すると deno (denops) や direnv が見つからず nvim が起動時に警告を出すため。
+# また絶対パスではなく `nvim` を呼ぶことで、CSI u を有効にする fish 関数
+# (~/.config/fish/functions/nvim.fish) も通常のタブと同じように通る。
+
+set -l path $argv[1]
+if test -z "$path"
+    echo "usage: kitty-open-file <path> [fragment]" >&2
+    exit 1
+end
+
+set -l opts
+set -l line (string match -rg '^L?(\d+)$' -- "$argv[2]")
+if test -n "$line"
+    set opts "+$line"
+end
+
+nvim $opts $path
