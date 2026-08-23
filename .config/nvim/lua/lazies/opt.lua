@@ -1866,4 +1866,23 @@ return {
     -- (上の enabled = false の flash ブロック参照)。
     keys = require("jab_shared").keys,
   },
+
+  {
+    -- kitty の scrollback を Neovim で開く。WezTerm 時代の snatch.wezterm
+    -- (タブ内の全ペインをフロートで再現して jab で飛ぶ) の置き換えとして試用中。
+    -- 対象は単一ペインだが、本体設定で開くので jab.nvim + luamigemo の s が
+    -- そのまま効く。kitty 側の map は ~/.config/kitty/keys.conf を参照。
+    "mikesmithgh/kitty-scrollback.nvim",
+    version = "*",
+    lazy = true,
+    cmd = {
+      "KittyScrollbackGenerateKittens",
+      "KittyScrollbackCheckHealth",
+      "KittyScrollbackGenerateCommandLineEditing",
+    },
+    event = { "User KittyScrollbackLaunch" },
+    config = function()
+      require("kitty-scrollback").setup()
+    end,
+  },
 }
