@@ -60,23 +60,28 @@ local function async_mode_karabiner()
 end
 
 ---@async
----@return number?
-local function wezterm_frontmost_pane()
-  local results = async_systems {
-    {
-      "osascript",
-      "-e",
-      'tell application "System Events" to get the unix id of first process whose frontmost is true',
-    },
-    { "wezterm", "cli", "list-clients", "--format", "json" },
-  }
-  local frontmost_pid = tonumber(results[1], 10)
-  local wezterms = vim.json.decode(results[2])
-  for _, wezterm in ipairs(wezterms) do
-    if wezterm.pid == frontmost_pid then
-      return wezterm.focused_pane_id
+---@return number? いま実際に見られている kitty のウィンドウ id
+local function kitty_focused_window()
+  -- kitty は OS ウィンドウにも各ペインにも is_focused を持っている。前者が
+  -- 「kitty が最前面のアプリか」を含んでいるので、WezTerm 版で要った osascript
+  -- でのフロントモスト判定 (500ms ごとに 1 プロセス) が丸ごと不要になる。
+  local results = async_systems { { "kitten", "@", "ls" } }
+  local ok, os_windows = pcall(vim.json.decode, results[1])
+  if not ok or type(os_windows) ~= "table" then
+    return nil
+  end
+  for _, os_window in ipairs(os_windows) do
+    if os_window.is_focused then
+      for _, tab in ipairs(os_window.tabs or {}) do
+        for _, window in ipairs(tab.windows or {}) do
+          if window.is_focused then
+            return window.id
+          end
+        end
+      end
     end
   end
+  return nil
 end
 
 function M.setup()
@@ -138,16 +143,17 @@ function M.setup()
         return
       end
       running = true
-      local pane_var = vim.uv.os_getenv "WEZTERM_PANE"
-      if not pane_var then
+      local window_var = vim.uv.os_getenv "KITTY_WINDOW_ID"
+      if not window_var then
         running = false
         return
       end
-      local wezterm_pane = tonumber(pane_var, 10)
-      local pane = wezterm_frontmost_pane()
-      if not pane then
+      local my_window = tonumber(window_var, 10)
+      local focused = kitty_focused_window()
+      if not focused then
+        -- kitty が最前面でない。IME の設定は落としておく。
         async_karabiner(0)
-      elseif pane == wezterm_pane then
+      elseif focused == my_window then
         async_mode_karabiner()
       end
       running = false

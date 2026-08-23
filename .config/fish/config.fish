@@ -273,7 +273,19 @@ set -gx NOTIFY_ON_COMMAND_DURATION 5000
 function fish_right_prompt
     set -f check_neovim
     if test -n "$CMD_DURATION"; and test $CMD_DURATION -gt $NOTIFY_ON_COMMAND_DURATION
-        if type -q wezterm; and test -n "$WEZTERM_PANE"
+        # このペインを実際に見ているなら通知しない (下の nvim 判定へ回す)。
+        if test -n "$KITTY_WINDOW_ID"; and type -q kitten; and type -q jq
+            # kitty は OS ウィンドウにもペインにも is_focused を持っている。前者が
+            # 「kitty が最前面か」、後者が「そのタブでフォーカスされているか」なので、
+            # 両方立っていて自分と一致すれば見られている。WezTerm 版で要った
+            # osascript でのフロントモスト判定は不要。
+            set -l focused (kitten @ ls 2>/dev/null | jq --argjson me "$KITTY_WINDOW_ID" '
+                [.[] | select(.is_focused) | .tabs[] | .windows[]
+                 | select(.is_focused and .id == $me)] | length' 2>/dev/null)
+            if test "$focused" = 1
+                set -f check_neovim 1
+            end
+        else if type -q wezterm; and test -n "$WEZTERM_PANE"
             set -l active_pid (osascript -e 'tell application "System Events" to get the unix id of first process whose frontmost is true')
             set -l active_pane (wezterm cli list-clients --format json | /usr/bin/ruby -r json -e 'puts JSON.parse($<.read).find{|x|x["pid"]=='$active_pid'}&.[]"focused_pane_id"')
             if test -n "$active_pane"; and test $WEZTERM_PANE -eq $active_pane
