@@ -10,7 +10,7 @@ local default_sources = {
   "snippets",
   "buffer",
   "lazydev",
-  "wezterm",
+  "pane",
   "ripgrep",
   "ghq",
   "digraphs",
@@ -71,7 +71,7 @@ return {
   { "saghen/blink.compat", version = "*", opts = {} },
 
   -- Native blink.cmp sources
-  { "delphinus/cmp-wezterm" }, -- v1.1.0+ exposes a native blink-cmp-wezterm module
+  { "delphinus/cmp-pane" }, -- v1.1.0+ exposes a native blink-cmp-pane module
   { "delphinus/cmp-ghq", version = "*" }, -- v1.1.0+ exposes a native blink-cmp-ghq module
   { "mikavilpas/blink-ripgrep.nvim", version = "*" },
   { "moyiz/blink-emoji.nvim" },
