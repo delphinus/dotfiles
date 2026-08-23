@@ -23,9 +23,6 @@
 - name: prepare ghostty config dir
   file: path=~/.config/ghostty state=directory
 
-- name: prepare kitty config dir
-  file: path=~/.config/kitty state=directory
-
 - name: prepare ccstatusline config dir
   file: path=~/.config/ccstatusline state=directory
 
@@ -96,7 +93,7 @@
     - .config/goneovim/settings.toml
     - .config/ipython
     - .config/karabiner/assets/complex_modifications
-    - .config/kitty/kitty.conf
+    - .config/kitty
     - .config/mise
     - .config/nvim
     - .config/nvim-dev
