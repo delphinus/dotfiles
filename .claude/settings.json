@@ -39,6 +39,13 @@
       "mcp__atlassian__jira_search_users",
       "mcp__atlassian__jira_sprint_issues",
       "mcp__atlassian__jira_sprint_list",
+      "mcp__chrome-devtools__get_console_message",
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__select_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__wait_for",
       "mcp__mcp-obsidian__obsidian_batch_get_file_contents",
       "mcp__mcp-obsidian__obsidian_complex_search",
       "mcp__mcp-obsidian__obsidian_get_file_contents",
@@ -97,6 +104,23 @@
       "mcp__mcp-obsidian__obsidian_append_content",
       "mcp__mcp-obsidian__obsidian_delete_file",
       "mcp__mcp-obsidian__obsidian_patch_content"
+    ],
+    "deny": [
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__close_page",
+      "mcp__chrome-devtools__drag",
+      "mcp__chrome-devtools__evaluate_script",
+      "mcp__chrome-devtools__fill",
+      "mcp__chrome-devtools__fill_form",
+      "mcp__chrome-devtools__handle_dialog",
+      "mcp__chrome-devtools__hover",
+      "mcp__chrome-devtools__lighthouse_audit",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__new_page",
+      "mcp__chrome-devtools__press_key",
+      "mcp__chrome-devtools__take_heapsnapshot",
+      "mcp__chrome-devtools__type_text",
+      "mcp__chrome-devtools__upload_file"
     ]
   },
   "hooks": {
