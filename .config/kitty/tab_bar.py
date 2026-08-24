@@ -122,6 +122,36 @@ def _progress_prefix(tab):
 #: }}}
 
 
+#: タブ名 {{{
+
+
+def _title(tab):
+    """editprompt にフォーカスしている間も、タブ名を相方 (Claude Code) のものに保つ。
+
+    kitty のタブ名はアクティブなウィンドウのタイトルそのもの (Tab.title は
+    active_window の title_changed でしか動かない) なので、⌘E で editprompt へ
+    移った瞬間にタブが "fish" になる。editprompt は相方への入力欄でしかないので、
+    タブバーには相方のタイトル (Claude Code が出す会話の要約) を出し続けたい。
+
+    相方のタイトルは editprompt に居る間も更新され続ける。タブバーは時計のための
+    毎秒の再描画 (_ensure_timer) で dirty になるので、ここで拾い直せば追従する。
+    """
+    real = get_boss().tab_for_id(tab.tab_id)
+    # kitten @ set-tab-title で名前が付いていれば、そちらが窓のタイトルより強い。
+    if real is None or real.name:
+        return tab.title
+    active = real.active_window
+    if active is None or not active.user_vars.get("editprompt"):
+        return tab.title
+    for window in real.windows:
+        if window.id != active.id and not window.user_vars.get("editprompt"):
+            return window.title
+    return tab.title
+
+
+#: }}}
+
+
 #: 右ステータス {{{
 
 
@@ -276,6 +306,13 @@ def _tab_length(draw_data, screen, max_tab_length):
 
 
 def draw_tab(draw_data, screen, tab, before, max_tab_length, index, is_last, extra_data):
+    # 採寸パス (for_layout) でも同じ名前にしておく。ここで食い違うと、幅を測った
+    # ときと描いたときでタイトルの長さが変わってチップの幅が合わなくなる。
+    try:
+        tab = tab._replace(title=_title(tab))
+    except Exception:
+        pass
+
     prefix = _progress_prefix(tab)
     if prefix:
         # kitty.conf 側のテンプレートを尊重したまま、タイトルの直前へ差し込む。
