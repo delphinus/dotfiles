@@ -44,8 +44,10 @@ def _format(percent, state, remaining):
     if state == "unknown":
         icon = SUSPENDED
     else:
-        # pmset の "finishing charge" も充電中として扱う。
-        charging = "charging" in state and "not charging" not in state
+        # pmset が返すのは charging / discharging / charged / AC attached /
+        # finishing charge など。部分一致で見ると discharging が charging を含んで
+        # しまうので完全一致で判定する。finishing charge も充電中として扱う。
+        charging = state in ("charging", "finishing charge")
         icon = (CHARGING if charging else NORMAL)[min(percent // 10, 10)]
     elapsed = " 残り %d:%02d" % remaining if remaining else ""
     return "%s %d%%%s" % (icon, percent, elapsed), _severity(percent, charging)
