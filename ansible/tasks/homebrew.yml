@@ -21,6 +21,7 @@
       - hub
       - jq
       - macvim
+      - moreutils
       - mycli
       - neovim
       - peco
