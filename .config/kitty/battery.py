@@ -40,6 +40,7 @@ def _read():
 
 
 def _format(percent, state, remaining):
+    charging = False
     if state == "unknown":
         icon = SUSPENDED
     else:
@@ -47,12 +48,24 @@ def _format(percent, state, remaining):
         charging = "charging" in state and "not charging" not in state
         icon = (CHARGING if charging else NORMAL)[min(percent // 10, 10)]
     elapsed = " 残り %d:%02d" % remaining if remaining else ""
-    return "%s  %d%%%s" % (icon, percent, elapsed)
+    return "%s %d%%%s" % (icon, percent, elapsed), _severity(percent, charging)
+
+
+def _severity(percent, charging):
+    """残量の深刻度。充電中は減らないので常に ok。表示色は tab_bar.py が決める。"""
+    if charging:
+        return "ok"
+    if percent < 15:
+        return "critical"
+    if percent < 30:
+        return "warn"
+    return "ok"
 
 
 # バッテリーの残量は秒単位で変わるものではないので、更新は控えめでよい。
 _poller = poller.Poller("battery", 30, _read)
 
 
-def text():
+def status():
+    """(表示文字列, 深刻度) の組。まだ読めていない / バッテリーが無ければ None。"""
     return _poller.get()
