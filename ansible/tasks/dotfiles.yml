@@ -91,6 +91,7 @@
     - .config/fish
     - .config/gocode
     - .config/goneovim/settings.toml
+    - .config/grc
     - .config/ipython
     - .config/karabiner/assets/complex_modifications
     - .config/kitty
