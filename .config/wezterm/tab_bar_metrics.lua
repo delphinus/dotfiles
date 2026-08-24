@@ -32,7 +32,10 @@ function M.tab_width(tab_count, ceiling)
     return ceiling
   end
   local usable = M.cols - M.status_width - NEW_TAB_WIDTH - GUTTER
-  return math.max(math.min(math.floor(usable / tab_count), ceiling), MIN_TAB_WIDTH)
+  -- 下限も ceiling で頭打ちにする。そうしないとタブが極端に多いとき (tabbar.rs の
+  -- 上限が MIN_TAB_WIDTH を下回るとき) にチップが上限を超え、右から機械的に
+  -- 切られて右キャップが消える。
+  return math.max(math.min(math.floor(usable / tab_count), ceiling), math.min(MIN_TAB_WIDTH, ceiling))
 end
 
 return M
