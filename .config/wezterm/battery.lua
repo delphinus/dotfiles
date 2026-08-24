@@ -12,7 +12,22 @@ Battery.new = function()
   return setmetatable({ enabled = not is_nan(wezterm.battery_info()[1].state_of_charge) }, { __index = Battery })
 end
 
+-- 残量に応じた深刻度。充電中は減らないので常に ok。
+---@param info wezterm.BatteryInfo
+---@return "ok"|"warn"|"critical"
+local function severity(info)
+  if info.state == "Charging" or info.state == "Full" then
+    return "ok"
+  elseif info.state_of_charge < 0.15 then
+    return "critical"
+  elseif info.state_of_charge < 0.3 then
+    return "warn"
+  end
+  return "ok"
+end
+
 ---@return string?
+---@return ("ok"|"warn"|"critical")?
 function Battery:text()
   if not self.enabled then
     return
@@ -55,7 +70,7 @@ function Battery:text()
     or glyphs[info.state == "Charging" and "charging" or "normal"][amount + 1]
   local elapsed = info.time_to_empty or info.time_to_full
   local time = elapsed and (" 残り %d:%02d"):format(f(elapsed / 3600), f(elapsed % 3600 / 60)) or ""
-  return ("%s  %.0f%%%s"):format(icon, info.state_of_charge * 100, time)
+  return ("%s %.0f%%%s"):format(icon, info.state_of_charge * 100, time), severity(info)
 end
 
 return Battery
