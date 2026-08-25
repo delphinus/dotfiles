@@ -56,7 +56,7 @@ def _commify(value, unit=False):
 
 
 def _status():
-    out = poller.run(["/bin/sh", "-c", "%s status | tail -n +2 | %s -convert json -o - -- -" % (TMUTIL, PLUTIL)])
+    out = yield ["/bin/sh", "-c", "%s status | tail -n +2 | %s -convert json -o - -- -" % (TMUTIL, PLUTIL)]
     if not out:
         return None
     try:
@@ -66,7 +66,7 @@ def _status():
 
 
 def _latest_backup():
-    out = poller.run([TMUTIL, "latestbackup"], timeout=30)
+    out = yield [TMUTIL, "latestbackup"]
     if not out:
         return ""
     m = _LATEST.search(out)
@@ -122,15 +122,15 @@ def _running_text(info):
 
 
 def _read():
-    dest = poller.run([TMUTIL, "destinationinfo"], timeout=30)
+    dest = yield [TMUTIL, "destinationinfo"]
     if dest is None or "No destinations configured" in dest:
         return None
-    info = _status()
+    info = yield from _status()
     if info is None:
         return None
     running = info.get("Running") or (info.get("LastReport") or {}).get("Running")
     if running != "1":
-        return _latest_backup()
+        return (yield from _latest_backup())
     return _running_text(info)
 
 

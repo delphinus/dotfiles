@@ -30,9 +30,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # 読み直しに際して、ここから import する兄弟モジュールは sys.modules に残るため
 # 古いままになる。
 # battery.py などを直しても反映されない、という分かりにくい状態を避けるため、
-# 読み込む前に落としておく。poller も含めて全部落とす。世代の登録簿は poller が
-# モジュールの外 (sys の私有キー) に持っているので、読み直しても前の世代の
-# スレッドはきちんと止まる。
+# 読み込む前に落としておく。poller も含めて全部落とす。ポーラーの状態は poller が
+# モジュールの外 (sys の私有キー) に持っているので、読み直しても最後に取れた値と
+# 進行中のコマンドはそのまま引き継がれる。
 for _stale in ("battery", "timemachine", "progress_bar", "poller"):
     sys.modules.pop(_stale, None)
 

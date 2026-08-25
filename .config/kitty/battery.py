@@ -18,7 +18,7 @@ _LINE = re.compile(r"(\d+)%;\s*([^;]+);\s*(?:(\d+):(\d\d))?")
 
 
 def _read():
-    out = poller.run(["/usr/bin/pmset", "-g", "batt"], timeout=5)
+    out = yield ["/usr/bin/pmset", "-g", "batt"]
     if not out:
         return None
     for line in out.splitlines():
