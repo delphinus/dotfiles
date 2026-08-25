@@ -32,13 +32,15 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # battery.py などを直しても反映されない、という分かりにくい状態を避けるため、
 # 読み込む前に落としておく。poller も含めて全部落とす。ポーラーの状態は poller が
 # モジュールの外 (sys の私有キー) に持っているので、読み直しても最後に取れた値と
-# 進行中のコマンドはそのまま引き継がれる。
-for _stale in ("battery", "timemachine", "progress_bar", "poller"):
+# 進行中のコマンドはそのまま引き継がれる。toggles も同じ持ち方なので、隠した項目は
+# リロードしても隠れたままになる。
+for _stale in ("battery", "timemachine", "progress_bar", "poller", "toggles"):
     sys.modules.pop(_stale, None)
 
 import battery  # noqa: E402
 import progress_bar  # noqa: E402
 import timemachine  # noqa: E402
+import toggles  # noqa: E402
 from kitty.fast_data_types import add_timer, get_boss, get_options, wcswidth  # noqa: E402
 from kitty.progress import ProgressState  # noqa: E402
 from kitty.tab_bar import as_rgb, draw_tab_with_powerline  # noqa: E402
@@ -183,9 +185,12 @@ def _segments(draw_data):
     out = []
     # window:tab:pane は普段使わない補助情報なので、暗い色に落として目を引かせない。
     out.append((DROP_IDS, _ids(draw_data.os_window_id), muted))
-    text = timemachine.text()
-    if text:
-        out.append((DROP_TIMEMACHINE, text, _color(2)))
+    # 隠しているあいだは text() を呼ばない。poller は呼ばれたときにしか次のコマンドを
+    # 投げないので、これで tmutil ごと止まる (⌘⇧T / status_toggle.py 参照)。
+    if toggles.enabled("timemachine"):
+        text = timemachine.text()
+        if text:
+            out.append((DROP_TIMEMACHINE, text, _color(2)))
     status = battery.status()
     if status:
         text, level = status
