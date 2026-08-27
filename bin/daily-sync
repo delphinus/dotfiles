@@ -67,6 +67,8 @@ readonly QUARANTINE_DAYS=7
 # 薄い一方、cask 側の仕様変更で不要になることはあるので、長めに取って期限は
 # 付ける (期限無しにすると、不要になった後も永久に手動リストに居座る)。
 readonly QUARANTINE_SUDO_DAYS=30
+# 起動しっぱなしの nvim が古い keg を掴んだままこの日数を超えたら通知する。
+readonly NVIM_KEG_PIN_WARN_DAYS=7
 
 FORCE=0
 DRY_RUN=0
@@ -138,11 +140,14 @@ with_timeout() {
 # HOMEBREW_NO_AUTO_UPDATE は明示的に brew update を済ませた後の upgrade 用。
 # 付けないと upgrade のたびに auto-update が走り、実行が長引くほど再度その
 # 間隔を超えて再々実行される悪循環になる (実測: 1 回の実行が 40 分を超えた)。
+# HOMEBREW_NO_CLEANUP_FORMULAE は起動中の nvim から runtime を奪わせないため。
+# 理由と後始末は prune_nvim_kegs のコメント参照。
 brew_run() {
     with_timeout "$1" env -u SSH_AUTH_SOCK \
         GIT_SSH_COMMAND='ssh -o BatchMode=yes -o ConnectTimeout=10' \
         HOMEBREW_NO_AUTO_UPDATE=1 \
         HOMEBREW_NO_ENV_HINTS=1 \
+        HOMEBREW_NO_CLEANUP_FORMULAE=neovim \
         "${@:2}"
 }
 
@@ -911,6 +916,96 @@ snapshot_nvim_fallback() {
     rm -rf "$NVIM_FALLBACK"
     mv "$tmp" "$NVIM_FALLBACK"
     log "退避した: $NVIM_FALLBACK ($("$NVIM_FALLBACK/bin/nvim" --version | head -1))"
+    return 0
+}
+
+# --- 古い neovim keg の掃除 ------------------------------------------------
+#
+# snapshot_nvim_fallback が埋めるのは「ビルド中に nvim を起動できない」方で、
+# 既に起動している nvim は別の壊れ方をする。nvim は $VIMRUNTIME を自分の
+# バイナリからの相対で解決するので、参照先は keg の実パスに固定される。
+# brew upgrade は既定で直後に cleanup を掛けて旧 keg を丸ごと消す
+# (Cleanup.install_formula_clean!。ログには "Removing: .../Cellar/neovim/
+# HEAD-xxxxxxx... (2,176 files, 30.5MB)" と残る) ため、起動中の nvim は
+# runtime を失う。
+#
+# 厄介なのは即死しないこと。読み込み済みの Lua はメモリに残るので、しばらくは
+# 動いているように見え、遅延 require されるモジュールに触れた瞬間に初めて
+# 落ちる (実測 2026-08-27: 前日から開いていた nvim で、LspAttach 時に
+# vim.lsp.inlay_hint が vim.range を require して "module 'vim.range' not
+# found"。traceback には既に消えた keg のパスが出るので原因も分かりにくい)。
+# neovim は HEAD を追っていて毎日ビルドが走るので、nvim を開いたまま日を跨ぐと
+# ほぼ毎日踏む。
+#
+# そこで brew_run で HOMEBREW_NO_CLEANUP_FORMULAE=neovim を渡して旧 keg を
+# 消させず、代わりにここで「どのプロセスも掴んでいない keg だけ」を消す。
+# 掴まれている keg は残すので、nvim を開いたままでも壊れない。
+#
+# 放置すると 1 日 30MB ずつ溜まるように見えるが、実際に残るのは起動中の nvim が
+# 参照している版だけで、そのプロセスが終われば翌日の実行で消える。それでも
+# 何週間も開きっぱなしだと居座るので、NVIM_KEG_PIN_WARN_DAYS を超えたら通知して
+# 再起動を促す。
+#
+# 起動中の nvim が掴んでいる keg の名前 (HEAD-xxxxxxx) を列挙する。nvim は
+# 自分のバイナリを mmap したままなので、lsof の n レコードに keg のパスが出る。
+# 引数は Cellar 内の neovim ディレクトリ。
+nvim_kegs_in_use() {
+    lsof -c nvim -Fn 2>/dev/null | sed -n "s|^n$1/\([^/]*\)/.*|\1|p" | sort -u
+}
+
+prune_nvim_kegs() {
+    local cellar current
+    cellar="$(brew --cellar 2>/dev/null)/neovim"
+    [[ -d "$cellar" ]] || {
+        log "neovim の Cellar が無い。スキップ"
+        return 0
+    }
+    current="$(readlink -f "$(brew --prefix neovim 2>/dev/null)" 2>/dev/null)" || current=""
+    current="${current##*/}"
+    # 現行の keg を特定できないまま消すと、生きている keg を消しかねない。
+    [[ -n "$current" && -d "$cellar/$current" ]] || {
+        log "現行の keg を特定できない。安全のため何もしない"
+        return 0
+    }
+
+    local -a in_use=()
+    local line
+    while IFS= read -r line; do
+        [[ -n "$line" ]] && in_use+=("$line")
+    done < <(nvim_kegs_in_use "$cellar")
+
+    local keg name used u age pinned=0 pruned=0
+    for keg in "$cellar"/*; do
+        [[ -d "$keg" ]] || continue
+        name="${keg##*/}"
+        [[ "$name" == "$current" ]] && continue
+
+        used=0
+        # bash 3.2 では set -u 下で空配列の展開が落ちるので件数で守る。
+        if ((${#in_use[@]} > 0)); then
+            for u in "${in_use[@]}"; do
+                [[ "$u" == "$name" ]] && {
+                    used=1
+                    break
+                }
+            done
+        fi
+
+        if ((used)); then
+            age=$((($(date +%s) - $(stat -f %m "$keg")) / 86400))
+            log "使用中のため残す: $name (${age} 日前)"
+            pinned=$((pinned + 1))
+            ((age >= NVIM_KEG_PIN_WARN_DAYS)) &&
+                action "起動しっぱなしの nvim が ${age} 日前の keg ($name) を掴んでいる。その nvim を再起動すると古い keg を片付けられる"
+            continue
+        fi
+
+        log "使われていない古い keg を削除: $name"
+        ((DRY_RUN)) || rm -rf "$keg"
+        pruned=$((pruned + 1))
+    done
+
+    ((pinned + pruned)) || log "現行以外の keg は無し"
     return 0
 }
 
@@ -1775,6 +1870,7 @@ main() {
     run_step "brew upgrade (bottle 系)" brew_upgrade_versioned
     run_step "neovim の退避" snapshot_nvim_fallback
     run_step "brew upgrade --fetch-HEAD (HEAD 系)" brew_upgrade_head
+    run_step "古い neovim keg の掃除" prune_nvim_kegs
     # formula を全て片付けてから cask に入る。cask は巨大なダウンロードを伴う
     # ことがあり、先に置くと neovim の退避が無用に遅れる。
     run_step "brew upgrade (cask)" brew_upgrade_casks
