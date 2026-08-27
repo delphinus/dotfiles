@@ -192,6 +192,10 @@ require("lazy").setup({
         eggLikeNewline = true,
         immediatelyCancel = false,
         registerConvertResult = true,
+        -- 1 回目の <Space> から候補一覧を出す (macSKK の inlineCandidateCount = 0
+        -- 相当)。既定の 4 は 5 回目から。0 にすると最初からページ送りになるので、
+        -- 候補選択は selectCandidateKeys (asdfjkl) で行う。
+        showCandidatesCount = 0,
         sources = { "skk_server" },
         -- yaskkserv2 を --midashi-utf8 で起動しているため、見出しも UTF-8 で送る。
         skkServerReqEnc = "utf-8",
