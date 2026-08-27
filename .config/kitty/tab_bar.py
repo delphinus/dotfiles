@@ -9,6 +9,11 @@
 # 落とした表示 (kitty に対応する概念が無い):
 #   - SSH ドメイン名 … kitty に mux ドメインが無い (リモートは kitten ssh + tmux)
 #   - is_tardy の遅延表示 … mux クライアントの応答遅れを示す WezTerm 固有の指標
+#
+# 落とした表示 (使っていなかった):
+#   - window:tab:pane … タブ番号は tab_title_template の {index} が既にタブチップに
+#     出しており、OS ウィンドウ id とペイン id は `kitten @ --match` を手で打つとき
+#     にしか要らなかった
 
 import os
 import sys
@@ -34,18 +39,19 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # モジュールの外 (sys の私有キー) に持っているので、読み直しても最後に取れた値と
 # 進行中のコマンドはそのまま引き継がれる。toggles も同じ持ち方なので、隠した項目は
 # リロードしても隠れたままになる。
-for _stale in ("battery", "timemachine", "progress_bar", "poller", "toggles"):
+for _stale in ("battery", "gcal", "running", "timemachine", "progress_bar", "poller", "toggles"):
     sys.modules.pop(_stale, None)
 
 import battery  # noqa: E402
+import gcal  # noqa: E402
 import progress_bar  # noqa: E402
+import running  # noqa: E402
 import timemachine  # noqa: E402
 import toggles  # noqa: E402
 from kitty.fast_data_types import add_timer, get_boss, get_options, wcswidth  # noqa: E402
 from kitty.progress import ProgressState  # noqa: E402
 from kitty.tab_bar import as_rgb, draw_tab_with_powerline  # noqa: E402
 
-WINDOW = "\U000f05af"  # md-window_maximize
 CLOCK = "\U000f0150"  # md-clock_outline
 MODE = "\U000f04eb"  # md-table
 
@@ -64,11 +70,8 @@ MODE_BG = {"resize": 5}
 # バッテリーの深刻度に対応する ansi の番号。battery.py は色を知らない。
 BATTERY_FG = {"ok": 3, "warn": 4, "critical": 2}
 
-# 右ステータスの項目を落とす順 (小さいものから落ちる)。KEEP は落とさない。
-DROP_IDS = 1
-DROP_TIMEMACHINE = 2
-DROP_BATTERY = 3
-KEEP = 99
+# 次の予定の切迫度に対応する ansi の番号。gcal.py は色を知らない。
+CALENDAR_FG = {"later": 7, "soon": 4}
 
 # 最後のタブと右ステータスの間に必ず残す余白。
 GUTTER = 2
@@ -157,49 +160,45 @@ def _title(tab):
 #: 右ステータス {{{
 
 
-def _ids(os_window_id):
-    """<OS ウィンドウ>:<タブ>:<ペイン>。WezTerm の window_id:tab_id:pane_id と同じ位置付け。"""
-    tm = get_boss().os_window_map.get(os_window_id)
-    tab = tm.active_tab if tm else None
-    window = tab.active_window if tab else None
-    return "%s %d:%d:%d" % (
-        WINDOW,
-        os_window_id,
-        tab.id if tab else 0,
-        window.id if window else 0,
-    )
-
-
 def _clock():
     """時計。%b はロケールで "8月" になってしまうので使わず、8/24 11:11:32 の形で出す。"""
     return time.strftime("%-m/%d %H:%M:%S")
 
 
 def _segments(draw_data):
-    """左から並べる項目。(優先度, テキスト, 前景) で、幅が足りないと優先度の低い順に落ちる。
+    """左から並べる項目 (テキスト, 前景)。幅が足りないと左から順に落ちる。
 
     大事なものほど右へ置く。場所が無くなるのは左端 (タブが押してくる側) なので、
     並び順と落ちる順が一致していれば、狭まるにつれて左から素直に減っていく。
+    末尾の時計だけは落とさない (_fit() 参照)。
     """
     muted = as_rgb(int(draw_data.inactive_fg))
     out = []
-    # window:tab:pane は普段使わない補助情報なので、暗い色に落として目を引かせない。
-    out.append((DROP_IDS, _ids(draw_data.os_window_id), muted))
     # 隠しているあいだは status() を呼ばない。poller は呼ばれたときにしか次のコマンドを
     # 投げないので、これで tmutil ごと止まる (⌘⇧T / status_toggle.py 参照)。
     if toggles.enabled("timemachine"):
         tm = timemachine.status()
         if tm:
             text, state = tm
-            # 走っていないときは最後のバックアップ時刻が出ているだけなので、
-            # window:tab:pane と同じ暗さに落として目を引かせない。動いている
-            # 間だけ色を持たせる。
-            out.append((DROP_TIMEMACHINE, text, _color(2) if state == "running" else muted))
+            # 走っていないときは最後のバックアップ時刻が出ているだけなので、暗い色に
+            # 落として目を引かせない。動いている間だけ色を持たせる。
+            out.append((text, _color(2) if state == "running" else muted))
+    # 長く走っているコマンド。外部コマンドを使わないのでトグルは付けていない。
+    command = running.status(draw_data.os_window_id)
+    if command:
+        out.append((command, muted))
     status = battery.status()
     if status:
         text, level = status
-        out.append((DROP_BATTERY, text, _color(BATTERY_FG[level])))
-    out.append((KEEP, "%s %s" % (CLOCK, _clock()), _color(5)))
+        out.append((text, _color(BATTERY_FG[level])))
+    # 予定も隠しているあいだは google-calendar-cli を走らせない (⌘⇧G)。画面共有で
+    # 予定名を映したくないときに落とせる。
+    if toggles.enabled("calendar"):
+        event = gcal.status()
+        if event:
+            text, level = event
+            out.append((text, _color(CALENDAR_FG[level])))
+    out.append(("%s %s" % (CLOCK, _clock()), _color(5)))
     return out
 
 
@@ -207,7 +206,7 @@ def _cells(draw_data, segments):
     """(テキスト, 前景, 背景) の並び。色は解決済みの rgb で、背景 None は地の色。"""
     muted = as_rgb(int(draw_data.inactive_fg))
     out = [(" ", muted, None)]
-    for index, (_priority, text, fg) in enumerate(segments):
+    for index, (text, fg) in enumerate(segments):
         if index:
             out.append((SEPARATOR, _bright(1), None))
         out.append((text, fg, None))
@@ -230,16 +229,19 @@ def _full_width(draw_data):
 
 
 def _fit(draw_data, budget):
-    """budget 桁に収まるまで優先度の低い項目を落とした cells。時計すら入らなければ None。"""
+    """budget 桁に収まるまで左の項目から落とした cells。時計すら入らなければ None。
+
+    _segments() の並び順がそのまま優先度なので、落とす順を別に持たない。項目を
+    足すときは並べたい位置に挿すだけでよい。
+    """
     segments = _segments(draw_data)
     while True:
         cells = _cells(draw_data, segments)
         if _width(cells) <= budget:
             return cells
-        droppable = [s for s in segments if s[0] != KEEP]
-        if not droppable:
+        if len(segments) <= 1:
             return None
-        segments.remove(min(droppable, key=lambda s: s[0]))
+        segments.pop(0)
 
 
 def _draw_right_status(draw_data, screen):
