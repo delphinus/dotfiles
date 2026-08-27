@@ -925,6 +925,17 @@ return {
     end,
   },
 
+  {
+    -- nvim.dir (runtime の plugin/dir.lua) の一覧にアイコンを出す。実装は
+    -- lua/dir_icons.lua。FileType は一覧の描画 (DirReadPost) より先に発火するので、
+    -- ft で引っ張れば最初に開いたディレクトリから間に合う。
+    "nvim-tree/nvim-web-devicons",
+    ft = "directory",
+    config = function()
+      require("dir_icons").setup()
+    end,
+  },
+
   { "folke/ts-comments.nvim", event = { "BufReadPost", "BufNewFile" }, opts = {} },
 
   {
