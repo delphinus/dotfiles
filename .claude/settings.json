@@ -70,7 +70,22 @@
       "mcp__obsidian-mcp__get_outgoing_links_tool",
       "mcp__obsidian-mcp__find_broken_links_tool",
       "mcp__obsidian-mcp__find_orphaned_notes_tool",
-      "mcp__plugin_slack-read_slack-read__*"
+      "mcp__plugin_slack-read_slack-read__*",
+      "Bash(bun ~/.claude/scripts/web-fetch.ts *)",
+      "Bash(ffprobe *)",
+      "Bash(stylua --check *)",
+      "Bash(gh search *)",
+      "Bash(launchctl print *)",
+      "Bash(launchctl list *)",
+      "Bash(ghq list *)",
+      "Bash(codesign -d *)",
+      "Bash(pmset -g *)",
+      "Bash(defaults read *)",
+      "Bash(luacheck *)",
+      "Bash(tmutil status)",
+      "Bash(tmutil listlocalsnapshots *)",
+      "Bash(brew list *)",
+      "Bash(brew info *)"
     ],
     "ask": [
       "mcp__atlassian__confluence_add_comment",
