@@ -7,7 +7,7 @@
 # 並べ替え、中クリックで閉じる、空き領域のダブルクリックで新しいタブ)、自前で
 # 描いた領域にアクションを結び付ける口が無い。ボタンの代わりにキーで叩く。
 #
-# 隠している間は tab_bar.py が timemachine.text() を呼ばないので、tmutil も走らなく
+# 隠している間は tab_bar.py が timemachine.status() を呼ばないので、tmutil も走らなく
 # なる (poller は呼ばれたときにしか次のコマンドを投げない)。
 
 import sys

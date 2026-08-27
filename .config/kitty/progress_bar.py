@@ -1,5 +1,6 @@
 # ブロック文字による進捗バー。WezTerm の progress_bar.lua の移植。
-# タブの OSC 9;4 表示 (tab_bar.py) と TimeMachine (timemachine.py) が使う。
+# タブの OSC 9;4 表示 (tab_bar.py) が使う。TimeMachine (timemachine.py) も元は
+# 使っていたが、進捗をアイコン (円グラフ) で示すようにしたので今は使わない。
 
 GLYPHS = "▏▎▍▌▋▊▉█"
 

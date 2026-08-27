@@ -185,12 +185,16 @@ def _segments(draw_data):
     out = []
     # window:tab:pane は普段使わない補助情報なので、暗い色に落として目を引かせない。
     out.append((DROP_IDS, _ids(draw_data.os_window_id), muted))
-    # 隠しているあいだは text() を呼ばない。poller は呼ばれたときにしか次のコマンドを
+    # 隠しているあいだは status() を呼ばない。poller は呼ばれたときにしか次のコマンドを
     # 投げないので、これで tmutil ごと止まる (⌘⇧T / status_toggle.py 参照)。
     if toggles.enabled("timemachine"):
-        text = timemachine.text()
-        if text:
-            out.append((DROP_TIMEMACHINE, text, _color(2)))
+        tm = timemachine.status()
+        if tm:
+            text, state = tm
+            # 走っていないときは最後のバックアップ時刻が出ているだけなので、
+            # window:tab:pane と同じ暗さに落として目を引かせない。動いている
+            # 間だけ色を持たせる。
+            out.append((DROP_TIMEMACHINE, text, _color(2) if state == "running" else muted))
     status = battery.status()
     if status:
         text, level = status
