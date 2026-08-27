@@ -83,8 +83,12 @@ return {
         immediatelyCancel = false,
         -- 1 回目の <Space> から候補一覧を出す (macSKK の inlineCandidateCount = 0
         -- 相当)。既定の 4 は 5 回目から。0 にすると最初からページ送りになるので、
-        -- 候補選択は selectCandidateKeys (asdfjkl) で行う。
+        -- 候補選択は selectCandidateKeys で行う。
         showCandidatesCount = 0,
+        -- 候補の確定キー。既定の asdfjkl は ▼ 中に打った仮名が候補を確定させて
+        -- しまうので、macSKK 既定の "123456789" に倣って数字にする。skkeleton は
+        -- 7 文字固定なので 1〜7 まで。
+        selectCandidateKeys = "1234567",
         registerConvertResult = true,
         sources = { "skk_server" }, -- use yaskkserv2
         -- yaskkserv2 を --midashi-utf8 で起動しているため、見出しも UTF-8 で送る。
