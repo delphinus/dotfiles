@@ -1,0 +1,62 @@
+#!/opt/homebrew/bin/fish -l
+#
+# 選んだ / 踏んだものを、それが何であるかに応じて開き分ける。WezTerm の open_with に相当。
+#
+# 使い方: kitty-open-match <path or url> [fragment]
+#   fragment は `L42` / `42` の形なら nvim でその行に飛ぶ。
+#
+# 呼ばれ方は 2 つあり、どちらも判定をここに集める:
+#
+#   ~/.config/kitty/keys.conf     ⇧⌘U (hints) が選んだ文字列を --program として渡す。
+#                                 ⌘U と同じ候補なので URL とは限らず、パスも
+#                                 `ABC-1234` のようなタグも `v1.2.3` も来る。
+#   ~/.config/kitty/open-actions.conf
+#                                 OSC 8 の file:// リンクを踏んだとき。パスと
+#                                 fragment に分解済みのものが来る。
+#
+# 振り分け:
+#
+#   https?://…         既定のブラウザ (open)
+#   バイナリのファイル 既定のアプリ (open)。画像や PDF を nvim へ渡しても
+#                      `<89>PNG^M` のように化けて出るだけで読めない
+#   その他の在るパス   nvim の新しいタブ。起動の作法は bin/kitty-open-file に委ねる
+#   それ以外           何もしない。⌘U のパターンはタグやバージョン番号のような
+#                      「コピーしたいが開けはしない」文字列も拾うので、黙って捨てる
+#
+# カレントディレクトリはどちらの経路でも元のウィンドウの cwd になる (hints は cwd を
+# 渡して起動し、open-actions.conf 側は launch --cwd=current)。相対パスはこれで解決し、
+# nvim を開くタブにも同じ cwd を渡す。
+#
+# ログインシェル (-l) 経由なのは bin/kitty-open-file と同じ事情。GUI から起動した
+# kitty の PATH をそのまま継承すると kitten が見つからない。
+
+set -l match $argv[1]
+if test -z "$match"
+    echo "usage: kitty-open-match <path or url> [fragment]" >&2
+    exit 1
+end
+
+if string match -qr '^https?://' -- $match
+    open $match
+    exit
+end
+
+# `~/…` は展開しておく。この形は ⌘U のパスパターンが素通しで拾う。
+set -l path (string replace -r '^~' $HOME -- $match)
+if not test -e $path
+    exit
+end
+
+# nvim で読めないものだけ既定のアプリへ逃がす。判定は file の mime-encoding だが、
+# ディレクトリ (nvim.dir が一覧を出す) と空ファイルもこれが binary と答えるので、
+# -f と -s で先に除ける。
+if test -f $path; and test -s $path; and test (file --mime-encoding -b -- $path) = binary
+    open $path
+    exit
+end
+
+set -l cmd (dirname (status filename))/kitty-open-file $path
+if test -n "$argv[2]"
+    set -a cmd $argv[2]
+end
+kitten @ launch --type=tab --cwd=(pwd) $cmd
