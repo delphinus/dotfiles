@@ -231,9 +231,15 @@ require("lazy").setup({
     "saghen/blink.cmp",
     dir = shared .. "/blink.cmp",
     dependencies = {
-      -- 実体は主設定 (lua/lazies/skkeleton.lua) が feat/async-completion
-      -- (Xantibody#19) で管理。ここは dir 共有で同じチェックアウトを使う。
-      { "delphinus/blink-cmp-skkeleton", branch = "feat/async-completion", dir = shared .. "/blink-cmp-skkeleton" },
+      -- 実体は主設定 (lua/lazies/skkeleton.lua) が feat/learn-on-implicit-confirm
+      -- で管理。ここは dir 共有で同じチェックアウトを使うので、branch は「今どれを
+      -- 見ているか」の記録でしかない (lazy は dir 指定のプラグインを fetch しない)。
+      -- 主設定側でブランチを切り替えたらここも合わせる。
+      {
+        "delphinus/blink-cmp-skkeleton",
+        branch = "feat/learn-on-implicit-confirm",
+        dir = shared .. "/blink-cmp-skkeleton",
+      },
       { "delphinus/cmp-pane", dir = shared .. "/cmp-pane" },
       { "delphinus/cmp-ghq", dir = shared .. "/cmp-ghq" },
       { "mikavilpas/blink-ripgrep.nvim", dir = shared .. "/blink-ripgrep.nvim" },
