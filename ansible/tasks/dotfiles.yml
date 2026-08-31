@@ -180,6 +180,32 @@
 - name: make .ptignore file
   template: src=ptignore.j2 dest=~/.ptignore
 
+# delphinus/kitty の kitty は Nerd Font のセル幅パッチを当てた自前ビルド。
+# Homebrew には formula から .app を配置する仕組みが無い (brew linkapps は
+# 削除済みで、cask だけが /Applications を触る) ので、ここで張る。opt パスは
+# バージョンに依らないので張り直しは要らない。
+- name: link kitty.app into ~/Applications
+  when: ansible_facts["system"] == 'Darwin'
+  block:
+    - name: check whether delphinus/kitty/kitty is installed
+      stat:
+        path: /opt/homebrew/opt/kitty/kitty.app
+      register: kitty_app
+
+    - name: ensure ~/Applications exists
+      file:
+        path: ~/Applications
+        state: directory
+        mode: "0755"
+      when: kitty_app.stat.exists
+
+    - name: make kitty.app symlink
+      file: >-
+        src=/opt/homebrew/opt/kitty/kitty.app
+        dest=~/Applications/kitty.app
+        state=link
+      when: kitty_app.stat.exists
+
 # daily-sync: 毎日 brew の更新 (HEAD 系含む) を回し、無人でできないことだけを
 # 通知するジョブ。詳細は bin/daily-sync の先頭コメント参照。
 - name: set up daily-sync LaunchAgent
