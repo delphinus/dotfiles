@@ -10,12 +10,15 @@
 // を JS へ書き直したもの。未使用だった C-x ストロークと VSCode 用の 3 ルールは
 // 落としてある (要るときは上流から取り直す)。
 //
-// 書き直した理由: ダウンロードした JSON を手で書き換えていくと、46 件の除外
-// リストが 15 箇所へ複製されたまま散らばる。実際 wezterm (2024-05) と ghostty
-// (2026-04) の追加が別々のコピーに入り、片方は一度も有効にならなかった。
+// 書き直した理由: ダウンロードした JSON を手で書き換えていくと、除外リストが
+// 15 箇所へ複製されたまま散らばる。実際コピーが 2 つ (1692495936.json と
+// emacs.json) に分かれ、端末ごとに別々のコピーを取り込んでいたため、
+// wezterm / ghostty / 画面共有 / Parallels の除外がそれぞれ片方にしか
+// 入っていなかった。このファイルは両方の意図の和集合になっている。
 //
-// Karabiner-Elements 16.2.0 以降が必要。ECMAScript 5.1 (Duktape) のみ。
-// require() は使えないのでこのファイルは単体で完結させる。
+// 必要バージョン: assets へ .js を置いて読ませるには 16.2.0 以降。
+// karabiner.json 側へ eval_js として埋め込むだけなら 16.0.0 以降で動く。
+// ECMAScript 5.1 (Duktape) のみ。require() は使えないので単体で完結させる。
 // 検証: karabiner_cli --lint-complex-modifications emacs.js
 
 function main() {
@@ -69,11 +72,32 @@ function main() {
     '^com\\.microsoft\\.VSCode$',
     '^com\\.github\\.wez\\.wezterm$',
     '^com\\.mitchellh\\.ghostty$',
+    // 画面共有の先にあるキーボードへそのまま送るため。
+    '^com\\.apple\\.ScreenSharing$',
   ]
 
+  // WezTerm はバンドル ID で拾えないことがあるので実行ファイルでも見る。
+  var EXCLUDED_FILE_PATHS = ['/opt/homebrew/bin/wezterm-gui']
+
   var unlessExcluded = [
-    { type: 'frontmost_application_unless', bundle_identifiers: EXCLUDED_APPS },
+    {
+      type: 'frontmost_application_unless',
+      bundle_identifiers: EXCLUDED_APPS,
+      file_paths: EXCLUDED_FILE_PATHS,
+    },
   ]
+
+  // EXCLUDED_APPS には Parallels が入っているが、下の Office / Eclipse /
+  // キーボード種別で分岐する manipulator はそのリストを使わない。VM の中の
+  // 操作に干渉させないよう、そこだけ個別に除外する。
+  var unlessParallels = {
+    type: 'frontmost_application_unless',
+    bundle_identifiers: [
+      '^com\\.parallels\\.desktop\\.console$',
+      '^com\\.parallels\\.winapp\\.',
+    ],
+  }
+
   // macOS が既定で control+a / control+e を行頭・行末にしてくれないアプリ。
   var ifMsOffice = [
     {
@@ -84,15 +108,20 @@ function main() {
         '^com\\.microsoft\\.Word$',
       ],
     },
+    unlessParallels,
   ]
   var ifEclipse = [
     {
       type: 'frontmost_application_if',
       bundle_identifiers: ['^org\\.eclipse\\.platform\\.ide$'],
     },
+    unlessParallels,
   ]
-  var ifAnsiOrIso = [{ type: 'keyboard_type_if', keyboard_types: ['ansi', 'iso'] }]
-  var ifJis = [{ type: 'keyboard_type_if', keyboard_types: ['jis'] }]
+  var ifAnsiOrIso = [
+    { type: 'keyboard_type_if', keyboard_types: ['ansi', 'iso'] },
+    unlessParallels,
+  ]
+  var ifJis = [{ type: 'keyboard_type_if', keyboard_types: ['jis'] }, unlessParallels]
 
   // to のイベント 1 つぶん。
   function key(keyCode, modifiers) {
@@ -151,8 +180,10 @@ function main() {
     // control+[ を Escape に。JIS では ] が同じ位置に来る。
     map('open_bracket', CONTROL, ['caps_lock'], [key('escape')], ifAnsiOrIso),
     map('close_bracket', CONTROL, ['caps_lock'], [key('escape')], ifJis),
-    // control+m だけは除外アプリでも効かせる (上流の設計どおり conditions なし)。
-    map('m', CONTROL, ['caps_lock', 'shift', 'option'], [key('return_or_enter')]),
+    // control+m は除外アプリでも効かせる (端末では ctrl+M が元々 CR なので
+    // 変換しても実害が無い、という上流の設計)。Parallels だけは VM 側へ
+    // そのまま渡したいので外す。
+    map('m', CONTROL, ['caps_lock', 'shift', 'option'], [key('return_or_enter')], [unlessParallels]),
     map('b', CONTROL, ['caps_lock', 'shift', 'option'], [key('left_arrow')], unlessExcluded),
     map('f', CONTROL, ['caps_lock', 'shift', 'option'], [key('right_arrow')], unlessExcluded),
     map('n', CONTROL, ['caps_lock', 'shift', 'option'], [key('down_arrow')], unlessExcluded),
