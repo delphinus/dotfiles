@@ -315,7 +315,9 @@ require("lazy").setup({
         },
         ["<A-u>"] = { "scroll_documentation_up", "fallback" },
         ["<A-d>"] = { "scroll_documentation_down", "fallback" },
-        ["<C-e>"] = { "hide", "fallback" },
+        -- cancel は hide と違い auto_insert で入ったテキストを巻き戻す。SKK の
+        -- ▼ 取り消しと同じ意味になり、blink-cmp-skkeleton の自動確定学習も走らない。
+        ["<C-e>"] = { "cancel", "fallback" },
         ["<Space>"] = {}, -- let skkeleton handle Space
       },
       cmdline = {
