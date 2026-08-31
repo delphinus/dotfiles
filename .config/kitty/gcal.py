@@ -1,7 +1,13 @@
-# 次の予定。google-calendar-cli を poller で叩いて、今日これから始まる予定のうち
-# 直近のものを出す。
+# 今いちばん気に掛けるべき予定。google-calendar-cli を poller で叩いて、今日の予定
+# から一つだけ選んで出す。
 #
-#   󰃰 14:00 定例 あと 25分
+#   󰃰 14:00 定例 あと 25分     … これから始まる。開始までのカウントダウン
+#   󰃰 ~15:00 定例 残り 25分    … 開催中。終了までのカウントダウン
+#
+# 選び方は MeetingBar.app の既定 (ongoingEventVisibility = showTenMinBeforeNext) に
+# 倣う (_pick 参照)。開催中の予定は終わるまで出し続け、次の予定が近付いたらそちらへ
+# 譲る。始まった途端に消えていた頃は「今出ている会議が何時までか」を思い出すのに
+# カレンダーを開き直す羽目になっていた。
 #
 # 認証は ~/.config/google-calendar-cli/ に置いてある (dotfiles の
 # secret_config_files が全端末へ配っている)。ログインしていない端末ではコマンドが
@@ -23,9 +29,19 @@ CLI = os.path.expanduser("~/.go/bin/google-calendar-cli")
 ICON = "\U000f00f0"  # md-calendar_clock
 
 # これより先の予定は出さない。朝のうちから夕方の予定を出しても行動は変わらない。
+# 開催中の予定は「開始まで」が負になるので、この網には掛からない。
 LOOKAHEAD = 4 * 3600
 
-# 残りがこれを切ったら色を変える (tab_bar.py が "soon" を見る)。
+# 開催中の予定は残りがこれを切ったら引っ込める。終わりかけの数十秒まで粘っても
+# 動きようがないし、"残り 0分" が出るのも嬉しくない。MeetingBar も候補を
+# 「終了が 1 分より先」で切っている。
+ENDING = 60
+
+# 開催中の予定より、これだけの内に始まる次の予定を優先する。MeetingBar の
+# showTenMinBeforeNext (既定) と同じ幅。
+SWITCH = 10 * 60
+
+# 開始までがこれを切ったら色を変える (tab_bar.py が "soon" を見る)。
 SOON = 10 * 60
 
 # 予定名を切り詰める桁数。
@@ -56,7 +72,7 @@ def _clip(text):
 
 
 def _event(item):
-    """ステータスに出す予定なら (開始時刻の epoch 秒, 名前)。出さないものは None。"""
+    """ステータスに出す予定なら (開始, 終了, 名前)。時刻は epoch 秒。出さないものは None。"""
     if item.get("status") == "cancelled":
         return None
     if item.get("eventType") in NOT_EVENTS:
@@ -73,7 +89,14 @@ def _event(item):
         at = datetime.datetime.fromisoformat(start).timestamp()
     except (TypeError, ValueError):
         return None
-    return at, item.get("summary") or "(名称未設定)"
+    end = (item.get("end") or {}).get("dateTime")
+    try:
+        until = datetime.datetime.fromisoformat(end).timestamp()
+    except (TypeError, ValueError):
+        # 終了時刻を読めない予定は幅の無い点として扱う。_pick() の網に掛かって
+        # 始まった時点で消えるので、この機能を足す前と同じ振る舞いになる。
+        until = at
+    return at, until, item.get("summary") or "(名称未設定)"
 
 
 def _read():
@@ -89,13 +112,46 @@ def _read():
     return [event for event in (_event(item) for item in items) if event]
 
 
-def _left(secs):
+def _pick(events, now):
+    """今この瞬間に出す予定。無ければ None。
+
+    MeetingBar の EventSelection.nextEvent (showTenMinBeforeNext) と同じ選び方:
+
+    1. 開催中の予定と、これから始まる予定を開始順に並べる
+    2. 先頭を選ぶ (= 開催中のものがあればそれ、無ければ直近のもの)
+    3. 選んだのが開催中の予定で、次が SWITCH 以内に始まるならそちらへ譲る。
+       譲った先も開催中 (予定が重なっている) ならさらに次へ譲る
+
+    3 の条件に「選んだのが開催中」を足したのは MeetingBar との違い。あちらは
+    そこを見ないので、10 分の内に 2 つ始まる朝に、まだ始まっていない手前の予定を
+    飛ばして後ろのものを出してしまう。開催中の予定を退ける理由が「そろそろ次へ
+    移れ」である以上、退けられるのは既に始まっているものだけでよい。
+    """
+    # 開催中のものは残りが ENDING を切ったら落とす。これから始まるものは終了時刻を
+    # 見るまでもない (必ず先にある)。
+    live = sorted(
+        event for event in events if event[0] - now <= LOOKAHEAD and (event[0] > now or event[1] - now > ENDING)
+    )
+    if not live:
+        return None
+    chosen = live[0]
+    for event in live[1:]:
+        if chosen[0] > now or event[0] - now >= SWITCH:
+            break
+        chosen = event
+    return chosen
+
+
+def _hhmm(at):
+    return time.strftime("%H:%M", time.localtime(at))
+
+
+def _span(secs):
+    """カウントダウンの数値部分。"""
     minutes = int(secs // 60)
-    if minutes < 1:
-        return "まもなく"
     if minutes < 60:
-        return "あと %d分" % minutes
-    return "あと %d:%02d" % (minutes // 60, minutes % 60)
+        return "%d分" % minutes
+    return "%d:%02d" % (minutes // 60, minutes % 60)
 
 
 # 予定は分単位でしか動かないので、取り直しは控えめでよい。カウントダウンは取れた
@@ -104,8 +160,11 @@ _poller = poller.Poller("gcal", 60, _read)
 
 
 def status():
-    """(表示文字列, "soon" | "later") の組。次の予定が無ければ None。表示色は
-    tab_bar.py が決める。
+    """(表示文字列, "now" | "soon" | "later") の組。出す予定が無ければ None。
+    表示色は tab_bar.py が決める。
+
+    開催中の予定は開始ではなく終了を指して "~15:00 … 残り 25分" と出す。始まって
+    しまえば知りたいのは「いつ終わるか」であって、開始時刻はもう役に立たない。
 
     --today なので日付を跨ぐ予定は拾えない。夜中に翌朝の予定が出ないのは承知の上
     (その時間に見せたい情報でもない)。
@@ -114,12 +173,12 @@ def status():
     if not events:
         return None
     now = time.time()
-    # 始まってしまった予定は出さない。その中に居るか遅れているかのどちらかで、
-    # 会議のあいだ中ステータスに残しても仕方がない。
-    coming = [event for event in events if 0 < event[0] - now <= LOOKAHEAD]
-    if not coming:
+    chosen = _pick(events, now)
+    if not chosen:
         return None
-    at, summary = min(coming)
+    at, until, summary = chosen
+    if at <= now:
+        return "%s ~%s %s 残り %s" % (ICON, _hhmm(until), _clip(summary), _span(until - now)), "now"
     left = at - now
-    text = "%s %s %s %s" % (ICON, time.strftime("%H:%M", time.localtime(at)), _clip(summary), _left(left))
-    return text, ("soon" if left <= SOON else "later")
+    ahead = "まもなく" if left < 60 else "あと %s" % _span(left)
+    return "%s %s %s %s" % (ICON, _hhmm(at), _clip(summary), ahead), ("soon" if left <= SOON else "later")

@@ -71,7 +71,11 @@ MODE_BG = {"resize": 5}
 BATTERY_FG = {"ok": 3, "warn": 4, "critical": 2}
 
 # 次の予定の切迫度に対応する ansi の番号。gcal.py は色を知らない。
-CALENDAR_FG = {"later": 7, "soon": 4}
+#
+# 開催中 ("now") に緑を当てると左隣のバッテリーと被る。あちらは残量 30% 以上か
+# 充電中がずっと緑 (BATTERY_FG の "ok") なので、事実上いつも隣に緑が居ることになる。
+# 右ステータスで他に使っていない色は紫だけなので、そこへ逃がす。
+CALENDAR_FG = {"later": 7, "now": 6, "soon": 4}
 
 # 最後のタブと右ステータスの間に必ず残す余白。
 GUTTER = 2
