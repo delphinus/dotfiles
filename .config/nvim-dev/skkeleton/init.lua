@@ -180,11 +180,6 @@ require("lazy").setup({
       local rank_file = vim.fs.normalize "~/.local/state/skkeleton/completion-rank.json"
       vim.fn.mkdir(vim.fs.dirname(rank_file), "p")
 
-      -- blink-cmp-skkeleton の補完取得を診断するためのログ出力先 (skk_server の
-      -- ソケット応答ズレ調査用)。補完が出なくなったら再起動せずにこのファイルを
-      -- 確認する。原因特定後に削除予定。main nvim と別ファイルにして混線を防ぐ。
-      vim.g.blink_cmp_skkeleton_debug_file = vim.fs.normalize "~/.local/state/skkeleton/blink-skk-debug-dev.log"
-
       vim.fn["skkeleton#config"] {
         userDictionary = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo/skk-jisyo.utf8",
         completionRankFile = rank_file,
