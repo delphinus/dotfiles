@@ -181,7 +181,7 @@ def _title(tab):
 
 def _clock():
     """時計。%b はロケールで "8月" になってしまうので使わず、8/24 11:11:32 の形で出す。"""
-    return time.strftime("%-m/%d %H:%M:%S")
+    return time.strftime("%-m/%-d %H:%M:%S")
 
 
 # 右ステータスの一項目。name はクリックの当たり判定に使う名前で、payload は押した
