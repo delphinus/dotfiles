@@ -242,6 +242,10 @@
           },
           {
             "type": "command",
+            "command": "claude-code-hooks stamp --clear"
+          },
+          {
+            "type": "command",
             "command": "claude-code-hooks save",
             "timeout": 120,
             "statusMessage": "Obsidian にセッションを保存中..."
@@ -263,6 +267,10 @@
           {
             "type": "command",
             "command": "claude-code-hooks tabcolor startup"
+          },
+          {
+            "type": "command",
+            "command": "claude-code-hooks stamp"
           },
           {
             "type": "command",

@@ -7,9 +7,32 @@
 # (^D / /exit / クラッシュ) はそちらを通らない。WezTerm 版は update-status の
 # たびに全タブを走査するポーリングだったが、kitty には on_close があるので
 # イベントで拾える。
+#
+# ついでに、翌朝レイアウトを復元するための書き出し (session_state.py) もここから
+# 蹴る。Claude Code のタブが増減するのは「刻印が付いたとき」と「ウィンドウが
+# 閉じたとき」だけなので、その 2 つを見ていれば足りる。
+
+import os
+import sys
+
+# watcher は runpy.run_path で読まれる。これは tab_bar.py と違ってスクリプトの
+# ディレクトリを sys.path に積まないので (実測)、兄弟モジュールを import する前に
+# 自分で積む。tab_bar.py:28 と同じ処置。どちらが先に読まれるかは保証が無いので、
+# あちらに任せない。
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import session_state  # noqa: E402
+
+
+def on_set_user_var(boss, window, data):
+    # claude-code-hooks stamp が session id を書いた = Claude Code のタブが
+    # 増えた (または別の会話に変わった)。
+    if data.get("key") == session_state.CLAUDE_SESSION_VAR and data.get("value"):
+        session_state.schedule()
 
 
 def on_close(boss, window, data):
+    session_state.schedule()
     tab = boss.tab_for_id(window.tab_id)
     if tab is None:
         return
