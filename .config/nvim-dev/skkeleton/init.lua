@@ -40,7 +40,7 @@ else
 end
 vim.opt.cmdheight = 0
 
-local find_sibling_pane, send_key_to_pane, send_text_to_pane, target_pane, hide_self
+local find_sibling_pane, send_text_to_pane, target_pane, hide_self
 if vim.env.EDITPROMPT then
   -- kitty にこのウィンドウが editprompt であることを伝える。~/.config/kitty/
   -- editprompt.py は launch --var でも立てているが、手で起動したときにも効くよう
@@ -135,10 +135,6 @@ if vim.env.EDITPROMPT then
       on_exit
     )
     return true
-  end
-
-  function send_key_to_pane(key)
-    send_text_to_pane(key)
   end
 end
 
@@ -295,30 +291,8 @@ require("lazy").setup({
         ["<CR>"] = { "select_and_accept", "fallback" },
         -- macOS の IME 切り替えと被るため `<C-Space>` 代わりの手動トリガー。
         ["<C-,>"] = { "show", "fallback" },
-        ["<C-n>"] = {
-          function(cmp)
-            if cmp.is_visible() then
-              cmp.select_next()
-              return true
-            elseif send_key_to_pane then
-              send_key_to_pane "\x1b[B"
-              return true
-            end
-          end,
-          "fallback",
-        },
-        ["<C-p>"] = {
-          function(cmp)
-            if cmp.is_visible() then
-              cmp.select_prev()
-              return true
-            elseif send_key_to_pane then
-              send_key_to_pane "\x1b[A"
-              return true
-            end
-          end,
-          "fallback",
-        },
+        ["<C-n>"] = { "select_next", "fallback" },
+        ["<C-p>"] = { "select_prev", "fallback" },
         ["<A-u>"] = { "scroll_documentation_up", "fallback" },
         ["<A-d>"] = { "scroll_documentation_down", "fallback" },
         -- cancel は hide と違い auto_insert で入ったテキストを巻き戻す。SKK の
@@ -486,78 +460,16 @@ vim.cmd.colorscheme "tokyonight"
 blink_shared.setup_profiler()
 
 if vim.env.EDITPROMPT then
-  -- 兄弟ペイン (Claude Code) の画面テキストから番号付き選択肢を検出する。
-  -- 行頭が空白・枠線・❯ 等の非英数字のみ、続けて "N. label" のものを拾い、
-  -- 番号 → ラベルの表と、現在強調中 (❯) の番号を返す。散文 (例: "Step 1.") は弾く。
-  local function detect_menu(text)
-    local labels, highlighted = {}, nil
-    for line in text:gmatch "[^\n]+" do
-      local pre, n, label = line:match "^([^%w]-)(%d+)%.%s(.*)$"
-      if n then
-        n = tonumber(n)
-        label = label:gsub("%s*│%s*$", ""):gsub("%s+$", "")
-        labels[n] = label
-        if pre:find("❯", 1, true) then
-          highlighted = n
-        end
-      end
-    end
-    return labels, highlighted
-  end
-
-  -- 確定した選択肢を ccstatusline 用のキャッシュへ書く。キーは対象 (Claude Code)
-  -- ウィンドウの id。ccstatusline は $KITTY_WINDOW_ID でここを読みステータスラインに出す。
-  local confirm_dir = vim.env.HOME .. "/.cache/ccstatusline-smart-confirm"
-  local function write_selection(target, chosen, label)
-    pcall(function()
-      vim.fn.mkdir(confirm_dir, "p")
-      local f = io.open(confirm_dir .. "/" .. target, "w")
-      if f then
-        f:write(string.format("%d\t%d. %s", os.time(), chosen, label or ""))
-        f:close()
-      end
-    end)
-  end
-
   local function editprompt_send()
-    vim.cmd "stopinsert"
-    vim.cmd "update"
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local content = table.concat(lines, "\n")
     if content == "" then
-      -- バッファが空 = メッセージ送信ではなくメニュー確定。送信先 (Claude Code)
-      -- の選択肢を読み、3 択以上なら ↓ で真ん中 (option 2) を選んでから Enter する。
-      -- このルートはリモコン代わりの操作なので、送信後もペインは退避しない。
-      local target = target_pane()
-      if not target then
-        vim.notify("editprompt: could not find sibling pane", vim.log.levels.ERROR)
-        return
-      end
-      local keys = "\r"
-      local obj = vim.system({ "kitten", "@", "get-text", "--match", "id:" .. target }, { text = true }):wait()
-      if obj.code == 0 and obj.stdout then
-        local labels, highlighted = detect_menu(obj.stdout)
-        -- 1. と 2. が揃っていれば選択メニューとみなす。
-        if labels[1] and labels[2] then
-          local chosen
-          if labels[3] then
-            -- 3 択以上: ↓ を送って option 2 を確定。
-            chosen = 2
-            keys = "\x1b[B\r" -- ↓ then Enter
-          else
-            -- 2 択: いま強調されている選択肢 (無ければ option 1) をそのまま確定。
-            chosen = highlighted or 1
-          end
-          write_selection(target, chosen, labels[chosen])
-        end
-      end
-      send_text_to_pane(keys, function()
-        vim.schedule(function()
-          vim.cmd "startinsert"
-        end)
-      end)
+      -- 空のまま送ると相方に生の Enter が飛ぶだけなので何もしない。相方の操作は
+      -- ⌘E で行き来して直接やる。
       return
     end
+    vim.cmd "stopinsert"
+    vim.cmd "update"
     -- @ で終わる場合はスペースを付ける（editprompt の processContent と同じ）
     if content:match "@[^\n]*$" then
       content = content .. " "
@@ -600,17 +512,4 @@ if vim.env.EDITPROMPT then
     editprompt_send,
     { silent = true, desc = "Send buffer content to editprompt (HHKB Fn+Enter)" }
   )
-  local function forward_when_empty(lhs, raw_key)
-    vim.keymap.set("i", lhs, function()
-      local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-      if table.concat(lines, "\n") == "" then
-        send_key_to_pane(raw_key)
-      else
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(lhs, true, false, true), "n", false)
-      end
-    end, { silent = true, desc = "Send " .. lhs .. " to sibling pane when buffer is empty" })
-  end
-  forward_when_empty("<C-u>", "\x15")
-  forward_when_empty("<Up>", "\x1b[A")
-  forward_when_empty("<Down>", "\x1b[B")
 end

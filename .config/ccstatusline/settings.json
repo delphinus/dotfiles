@@ -33,18 +33,6 @@
         "id": "7",
         "type": "git-changes",
         "color": "yellow"
-      },
-      {
-        "id": "8",
-        "type": "separator"
-      },
-      {
-        "id": "9",
-        "type": "custom-command",
-        "commandPath": "f=\"$HOME/.cache/ccstatusline-smart-confirm/$KITTY_WINDOW_ID\"; [ -n \"$KITTY_WINDOW_ID\" ] && [ -f \"$f\" ] && { t=$(cut -f1 \"$f\"); [ $(($(date +%s)-t)) -lt 60 ] && printf '✓ %s' \"$(cut -f2- \"$f\")\"; }; true",
-        "timeout": 500,
-        "maxWidth": 60,
-        "color": "green"
       }
     ],
     [],
