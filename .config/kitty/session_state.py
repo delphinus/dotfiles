@@ -87,7 +87,7 @@ def _tab(title, cwd, command):
 def render(boss):
     """今のレイアウトを kitty のセッションファイルの中身として組み立てる。
 
-    Claude Code のタブが 1 つも無ければ空文字列を返す。
+    先頭は常に固定の nvim タブで、そのあとに Claude Code の会話が並ぶ。
     """
     chunks = []
     for tab in boss.all_tabs:
@@ -99,12 +99,11 @@ def render(boss):
             _tab(tab.title, window.cwd_of_child, f"claude --resume {session_id}")
         )
 
-    if not chunks:
-        return ""
-
-    # 固定の nvim タブは Claude Code のタブがあるときだけ足す。書き出さない回
-    # (会話が 1 つも無い) に空でないファイルを作ると、下の「前回の内容を残す」
-    # 判定を素通りしてしまう。
+    # 会話が 1 つも無くても nvim タブだけのファイルを書く。会話を終えた
+    # (`stamp --clear`) ことをここで反映しないと、終わった会話の id がファイルに
+    # 居座って翌朝復元されてしまう。以前はここで空を返して前回の内容を残していたが、
+    # それが「⌃D で終えたはずの会話が戻ってくる」の正体だった。書き出しを止める
+    # 必要がある局面 (kitty の終了処理中) は save() の quit ガードが見ている。
     chunks.insert(0, _tab(FIRST_TAB_CMD, FIRST_TAB_CWD, FIRST_TAB_CMD))
 
     header = (
@@ -129,8 +128,8 @@ def save(boss=None):
         # kitty の内部 API が変わっても、本業 (ターミナルとして動くこと) は止めない。
         return
 
-    # Claude Code のタブが 1 つも無いときは前回の内容を残す。全部閉じた直後に空で
-    # 上書きするより、昨日のタブが余分に復元されるほうが取り返しがつく。
+    # render() は最低でも nvim タブを返すので、通常ここは通らない。念のための保険で、
+    # 空を書いて復元するものを消してしまうことだけは避ける。
     if not body:
         return
 

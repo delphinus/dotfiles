@@ -25,10 +25,24 @@ import session_state  # noqa: E402
 
 
 def on_set_user_var(boss, window, data):
-    # claude-code-hooks stamp が session id を書いた = Claude Code のタブが
-    # 増えた (または別の会話に変わった)。
-    if data.get("key") == session_state.CLAUDE_SESSION_VAR and data.get("value"):
+    if data.get("key") != session_state.CLAUDE_SESSION_VAR:
+        return
+    if data.get("value"):
+        # claude-code-hooks stamp が session id を書いた = Claude Code のタブが
+        # 増えた (または別の会話に変わった)。急がないのでまとめ書きに任せる。
         session_state.schedule()
+    else:
+        # SessionEnd の `stamp --clear` で刻印が消えた = 会話が終わった。ここは
+        # DEBOUNCE を待たずに書く。⌃D で終えた直後に ⌘Q することがあり、待つと
+        # 書き出す前に kitty が落ちて、終わった会話が翌朝復元されてしまう。
+        #
+        # window.user_vars は watcher を呼ぶ前に更新されている (kitty の
+        # window.py の set_user_var) ので、今の状態をそのまま書いてよい。
+        #
+        # /clear と /resume も SessionEnd を通るため、一瞬 nvim だけのファイルに
+        # なり、直後の SessionStart の刻印で書き直されるまで 10 秒空く。どちらも
+        # 使わない運用なので、⌃D を取りこぼさないほうを採る。
+        session_state.save(boss)
 
 
 def on_close(boss, window, data):
