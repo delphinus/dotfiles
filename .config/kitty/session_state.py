@@ -10,15 +10,20 @@
 # claude-code-hooks の SessionStart (`claude-code-hooks stamp`) がウィンドウの
 # user var claude_session に書き込んでいる。ここはそれを読むだけ。
 #
-# 復元するのは Claude Code のウィンドウだけにする。理由が 2 つある:
+# 最初のタブだけは「復元」ではなく固定で nvim を開く。どのみち毎朝ここで nvim を
+# 起動するので、前夜に何が走っていたかを見て再現するより確実で、書き出しの内容にも
+# 依存しない。バッファまで戻したいときは dashboard の l (Load the last session) で
+# persistence.nvim のセッションを読む。
+#
+# 2 つ目以降のタブに Claude Code の会話を並べる。それ以外は復元しない:
 #
 #   * editprompt の相方ペインは戻さない。バッファ名がウィンドウ id 由来
 #     (editprompt.py の prompt-$KITTY_WINDOW_ID.md) で、id は kitty を起動し直すと
 #     1 から振り直される。復元しても中身が噛み合わないうえ、editprompt.py の
 #     _prune が「生きていないウィンドウのバッファ」として消しに掛かる。⌘E で
 #     張り直せばよい。
-#   * nvim やシェルだけのタブも戻さない。何が走っていたかを再現するのは当たらない
-#     推測になるし、cwd だけ戻したタブが増えても嬉しくない。
+#   * 素のシェルや、その他のコマンドが走っていたタブも戻さない。ssh や tail のように
+#     翌朝勝手に走り出すと困るものが混ざるし、cwd だけ戻したタブが増えても嬉しくない。
 
 import os
 import shlex
@@ -44,6 +49,10 @@ SESSION_FILE = os.path.expanduser("~/.local/state/kitty/session.conf")
 # exec で置き換えてしまうと、会話を閉じた瞬間にタブごと消えて驚く。
 FISH = "/opt/homebrew/bin/fish"
 
+# 先頭に必ず置くタブ。cwd もコマンドも固定で、書き出しの内容を見ない。
+FIRST_TAB_CWD = os.path.expanduser("~")
+FIRST_TAB_CMD = "nvim"
+
 # 書き出しをまとめる間隔 (秒)。タイマーは常に 1 本しか持たない。glfw のタイマー枠は
 # 128 本しかなく (tab_bar.py の _redraw_tab_bar に同じ注意書きがある)、イベントごとに
 # add_timer すると溢れて以後どのタイマーも動かなくなる。
@@ -61,6 +70,20 @@ def _claude_window(tab):
     return None
 
 
+def _tab(title, cwd, command):
+    """タブ 1 つぶんのセッションファイルの断片を組み立てる。"""
+    # タブ名は付けない。new_tab に名前を渡すとその文字列で固定され、Claude Code が
+    # OSC 2 で流してくる会話のタイトルを追わなくなる。人が読む用の手掛かりは
+    # コメントで足りる (セッションファイルの # 行は読み飛ばされる)。
+    lines = [f"# {title}", "new_tab"]
+    if cwd:
+        lines.append(f"cd {cwd}")
+    # launch の引数だけは kitty 側で展開されず shlex で分割されるので、ここで
+    # 引用しておく。
+    lines.append("launch " + shlex.join([FISH, "-l", "-C", command]))
+    return "\n".join(lines)
+
+
 def render(boss):
     """今のレイアウトを kitty のセッションファイルの中身として組み立てる。
 
@@ -72,26 +95,17 @@ def render(boss):
         if found is None:
             continue
         window, session_id = found
-
-        # タブ名は付けない。new_tab に名前を渡すとその文字列で固定され、Claude Code
-        # が OSC 2 で流してくる会話のタイトルを追わなくなる。人が読む用の手掛かりは
-        # コメントで足りる (セッションファイルの # 行は読み飛ばされる)。
-        lines = [f"# {tab.title}", "new_tab"]
-
-        cwd = window.cwd_of_child
-        if cwd:
-            lines.append(f"cd {cwd}")
-
-        # launch の引数だけは kitty 側で展開されず shlex で分割されるので、ここで
-        # 引用しておく。
-        lines.append(
-            "launch "
-            + shlex.join([FISH, "-l", "-C", f"claude --resume {session_id}"])
+        chunks.append(
+            _tab(tab.title, window.cwd_of_child, f"claude --resume {session_id}")
         )
-        chunks.append("\n".join(lines))
 
     if not chunks:
         return ""
+
+    # 固定の nvim タブは Claude Code のタブがあるときだけ足す。書き出さない回
+    # (会話が 1 つも無い) に空でないファイルを作ると、下の「前回の内容を残す」
+    # 判定を素通りしてしまう。
+    chunks.insert(0, _tab(FIRST_TAB_CMD, FIRST_TAB_CWD, FIRST_TAB_CMD))
 
     header = (
         "# kitty の startup_session。session_state.py が自動生成する。\n"
