@@ -15,6 +15,8 @@
 #     出しており、OS ウィンドウ id とペイン id は `kitten @ --match` を手で打つとき
 #     にしか要らなかった
 
+import collections
+import importlib
 import os
 import sys
 import time
@@ -39,13 +41,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # モジュールの外 (sys の私有キー) に持っているので、読み直しても最後に取れた値と
 # 進行中のコマンドはそのまま引き継がれる。toggles も同じ持ち方なので、隠した項目は
 # リロードしても隠れたままになる。
-for _stale in ("battery", "gcal", "running", "timemachine", "progress_bar", "poller", "toggles"):
+for _stale in ("battery", "gcal", "meeting", "running", "timemachine", "progress_bar", "poller", "status_click", "toggles"):
     sys.modules.pop(_stale, None)
 
 import battery  # noqa: E402
 import gcal  # noqa: E402
 import progress_bar  # noqa: E402
 import running  # noqa: E402
+import status_click  # noqa: E402
 import timemachine  # noqa: E402
 import toggles  # noqa: E402
 from kitty.fast_data_types import add_timer, get_boss, get_options, wcswidth  # noqa: E402
@@ -97,6 +100,18 @@ _TIMER_KEY = "_kitty_tab_bar_clock_timer"
 
 
 def _redraw_tab_bar(_unused_timer_id):
+    # 会議が始まったらオーバーレイで知らせる (meeting.tick)。描画関数ではなく
+    # ここから呼ぶ理由と、タイミングの決め方は向こうのコメントに書いてある。
+    #
+    # モジュールは呼ぶたびに sys.modules から引き直す。このコールバックは最初に
+    # 読まれた世代のものが残り続ける (_ensure_timer) ので、冒頭の import で束縛
+    # したものを使うと meeting.py を直しても ⌘⇧R で反映されない。
+    #
+    # 知らせは飾りなので、失敗しても再描画は止めない。
+    try:
+        importlib.import_module("meeting").tick()
+    except Exception:
+        pass
     for tm in get_boss().all_tab_managers:
         tm.mark_tab_bar_dirty()
 
@@ -169,8 +184,17 @@ def _clock():
     return time.strftime("%-m/%d %H:%M:%S")
 
 
+# 右ステータスの一項目。name はクリックの当たり判定に使う名前で、payload は押した
+# ときに使う値 (予定なら会議の URL)。何に反応するかは status_click.ACTIONS が決める。
+Segment = collections.namedtuple("Segment", "name text fg payload")
+
+# 実際に描く一片。項目のほかに区切り線やモードのチップも混ざるので、それらは
+# name を持たない (押しても何も起きない)。
+Cell = collections.namedtuple("Cell", "text fg bg name payload")
+
+
 def _segments(draw_data):
-    """左から並べる項目 (テキスト, 前景)。幅が足りないと左から順に落ちる。
+    """左から並べる項目。幅が足りないと左から順に落ちる。
 
     大事なものほど右へ置く。場所が無くなるのは左端 (タブが押してくる側) なので、
     並び順と落ちる順が一致していれば、狭まるにつれて左から素直に減っていく。
@@ -186,45 +210,47 @@ def _segments(draw_data):
             text, state = tm
             # 走っていないときは最後のバックアップ時刻が出ているだけなので、暗い色に
             # 落として目を引かせない。動いている間だけ色を持たせる。
-            out.append((text, _color(2) if state == "running" else muted))
+            out.append(Segment("timemachine", text, _color(2) if state == "running" else muted, None))
     # 長く走っているコマンド。外部コマンドを使わないのでトグルは付けていない。
     command = running.status(draw_data.os_window_id)
     if command:
-        out.append((command, muted))
+        out.append(Segment("running", command, muted, None))
     status = battery.status()
     if status:
         text, level = status
-        out.append((text, _color(BATTERY_FG[level])))
+        out.append(Segment("battery", text, _color(BATTERY_FG[level]), None))
     # 予定も隠しているあいだは google-calendar-cli を走らせない (⌘⇧G)。画面共有で
     # 予定名を映したくないときに落とせる。
     if toggles.enabled("calendar"):
         event = gcal.status()
         if event:
-            text, level = event
-            out.append((text, _color(CALENDAR_FG[level])))
-    out.append(("%s %s" % (CLOCK, _clock()), _color(5)))
+            text, level, chosen = event
+            # 押したら会議に入れるよう URL を持たせる。持たない予定 (対面など) では
+            # None のままで、その場合クリックは何も起こさない。
+            out.append(Segment("calendar", text, _color(CALENDAR_FG[level]), chosen.url))
+    out.append(Segment("clock", "%s %s" % (CLOCK, _clock()), _color(5), None))
     return out
 
 
 def _cells(draw_data, segments):
-    """(テキスト, 前景, 背景) の並び。色は解決済みの rgb で、背景 None は地の色。"""
+    """描く一片の並び。色は解決済みの rgb で、背景 None は地の色。"""
     muted = as_rgb(int(draw_data.inactive_fg))
-    out = [(" ", muted, None)]
-    for index, (text, fg) in enumerate(segments):
+    out = [Cell(" ", muted, None, None, None)]
+    for index, segment in enumerate(segments):
         if index:
-            out.append((SEPARATOR, _bright(1), None))
-        out.append((text, fg, None))
+            out.append(Cell(SEPARATOR, _bright(1), None, None, None))
+        out.append(Cell(segment.text, segment.fg, None, segment.name, segment.payload))
     # キーボードモードは状態を強く示すものなので、他と違って背景を塗ったチップにする。
     mode = get_boss().mappings.current_keyboard_mode_name
     if mode:
-        out.append((" %s %s " % (MODE, mode), _color(1), _color(MODE_BG.get(mode, 6))))
-    out.append((" ", muted, None))
+        out.append(Cell(" %s %s " % (MODE, mode), _color(1), _color(MODE_BG.get(mode, 6)), None, None))
+    out.append(Cell(" ", muted, None, None, None))
     return out
 
 
 def _width(cells):
     """日本語も nerdfont も 2 桁を占めるので、コードポイント数ではなく表示幅で測る。"""
-    return sum(wcswidth(c[0]) for c in cells)
+    return sum(wcswidth(cell.text) for cell in cells)
 
 
 def _full_width(draw_data):
@@ -249,6 +275,9 @@ def _fit(draw_data, budget):
 
 
 def _draw_right_status(draw_data, screen):
+    # 何も描かずに戻る道が複数あるので、先に当たり判定を消しておく。残しておくと
+    # 前回描いた場所を押したときに反応してしまう。
+    status_click.record(draw_data.os_window_id, ())
     # ここは描画パスなので、例外を投げるとタブバーごと出なくなる。ステータスは
     # 飾りなので、組み立てに失敗したら黙って諦める。
     try:
@@ -260,15 +289,23 @@ def _draw_right_status(draw_data, screen):
         # 意味を成さない断片が残っていた (tab_bar_metrics.lua の冒頭コメント) が、
         # ここまで来たら出さない。
         return
-    screen.cursor.x = screen.columns - _width(cells)
+    x = screen.columns - _width(cells)
+    screen.cursor.x = x
     # 直前に描いたタブの属性が cursor に残るので明示的に落とす。
     screen.cursor.bold = False
     screen.cursor.italic = False
     default_bg = as_rgb(int(draw_data.default_bg))
-    for text, fg, bg in cells:
-        screen.cursor.fg = fg
-        screen.cursor.bg = bg if bg else default_bg
-        screen.draw(text)
+    spans = []
+    for cell in cells:
+        screen.cursor.fg = cell.fg
+        screen.cursor.bg = cell.bg if cell.bg else default_bg
+        screen.draw(cell.text)
+        width = wcswidth(cell.text)
+        if cell.name:
+            spans.append((x, x + width, cell.name, cell.payload))
+        x += width
+    # 描いた場所を覚えておく。クリックの当たり判定はこれを見る。
+    status_click.record(draw_data.os_window_id, tuple(spans))
 
 
 #: }}}
@@ -367,3 +404,7 @@ def draw_tab(draw_data, screen, tab, before, max_tab_length, index, is_last, ext
 
 # モジュールの読み込みは設定リロードごとに 1 回なので、ここで張り直す。
 _ensure_timer()
+
+# 右ステータスをクリックできるようにする。差し替えは一度きりで、二回目以降は
+# 何もしない (status_click.install)。
+status_click.install()

@@ -16,12 +16,14 @@
 # モジュール名を calendar.py にしないのは、tab_bar.py が設定ディレクトリを
 # sys.path の先頭に挿すため、標準ライブラリの calendar を隠してしまうから。
 
+import collections
 import datetime
 import json
 import os
 import time
 import unicodedata
 
+import meeting
 import poller
 
 CLI = os.path.expanduser("~/.go/bin/google-calendar-cli")
@@ -47,6 +49,10 @@ SOON = 10 * 60
 # 予定名を切り詰める桁数。
 MAX_WIDTH = 16
 
+# 開始からこれだけの間を「今始まった」とみなす (due 参照)。スリープから戻ったときに、
+# とっくに始まっていた会議で叩き起こされないための窓。
+GRACE = 120
+
 # 予定ではない飾り。workingLocation は終日の「オフィス」「在宅」で、放っておくと
 # 一日中これが「次の予定」になる。
 NOT_EVENTS = ("workingLocation", "birthday", "fromGmail", "focusTime")
@@ -71,8 +77,14 @@ def _clip(text):
     return out + "…"
 
 
+# ステータスに出す予定。時刻は epoch 秒。id は Google Calendar のもので、繰り返しの
+# 回ごとに別になるため「一度知らせたか」の目印に使える (meeting.tick 参照)。
+# url は会議に入るリンクで、持たない予定 (対面など) では None。
+Event = collections.namedtuple("Event", "id at until summary url")
+
+
 def _event(item):
-    """ステータスに出す予定なら (開始, 終了, 名前)。時刻は epoch 秒。出さないものは None。"""
+    """ステータスに出す予定なら Event。出さないものは None。"""
     if item.get("status") == "cancelled":
         return None
     if item.get("eventType") in NOT_EVENTS:
@@ -96,7 +108,7 @@ def _event(item):
         # 終了時刻を読めない予定は幅の無い点として扱う。_pick() の網に掛かって
         # 始まった時点で消えるので、この機能を足す前と同じ振る舞いになる。
         until = at
-    return at, until, item.get("summary") or "(名称未設定)"
+    return Event(item.get("id") or start, at, until, item.get("summary") or "(名称未設定)", meeting.url_for(item))
 
 
 def _read():
@@ -128,15 +140,18 @@ def _pick(events, now):
     移れ」である以上、退けられるのは既に始まっているものだけでよい。
     """
     # 開催中のものは残りが ENDING を切ったら落とす。これから始まるものは終了時刻を
-    # 見るまでもない (必ず先にある)。
+    # 見るまでもない (必ず先にある)。並べ替えは開始時刻だけで決める。Event を丸ごと
+    # 比べると、開始も終了も名前も同じ予定が二つあったとき url の None と文字列を
+    # 比べて落ちる。
     live = sorted(
-        event for event in events if event[0] - now <= LOOKAHEAD and (event[0] > now or event[1] - now > ENDING)
+        (event for event in events if event.at - now <= LOOKAHEAD and (event.at > now or event.until - now > ENDING)),
+        key=lambda event: event.at,
     )
     if not live:
         return None
     chosen = live[0]
     for event in live[1:]:
-        if chosen[0] > now or event[0] - now >= SWITCH:
+        if chosen.at > now or event.at - now >= SWITCH:
             break
         chosen = event
     return chosen
@@ -160,8 +175,11 @@ _poller = poller.Poller("gcal", 60, _read)
 
 
 def status():
-    """(表示文字列, "now" | "soon" | "later") の組。出す予定が無ければ None。
+    """(表示文字列, "now" | "soon" | "later", 予定) の組。出す予定が無ければ None。
     表示色は tab_bar.py が決める。
+
+    予定そのものも返すのは、クリックで会議に入れるようにするため (status_click)。
+    表示と押し先を別々に引くと、境目をまたいだ瞬間に食い違いうる。
 
     開催中の予定は開始ではなく終了を指して "~15:00 … 残り 25分" と出す。始まって
     しまえば知りたいのは「いつ終わるか」であって、開始時刻はもう役に立たない。
@@ -176,9 +194,25 @@ def status():
     chosen = _pick(events, now)
     if not chosen:
         return None
-    at, until, summary = chosen
+    at, until, summary = chosen.at, chosen.until, chosen.summary
     if at <= now:
-        return "%s ~%s %s 残り %s" % (ICON, _hhmm(until), _clip(summary), _span(until - now)), "now"
+        return "%s ~%s %s 残り %s" % (ICON, _hhmm(until), _clip(summary), _span(until - now)), "now", chosen
     left = at - now
     ahead = "まもなく" if left < 60 else "あと %s" % _span(left)
-    return "%s %s %s %s" % (ICON, _hhmm(at), _clip(summary), ahead), ("soon" if left <= SOON else "later")
+    return "%s %s %s %s" % (ICON, _hhmm(at), _clip(summary), ahead), ("soon" if left <= SOON else "later"), chosen
+
+
+def due(now):
+    """今まさに始まった予定を開始順に。無ければ空。
+
+    poller のキャッシュを見るだけで、取り直しの周期は status() と共有している。
+    ここから呼ばれても google-calendar-cli の実行回数は増えない。
+
+    status() と違って一つに絞らないのは、予定が重なっている朝に後ろのものを
+    黙って捨てないため。どれを知らせるか (と、二枚重ねない加減) は
+    meeting.tick() が決める。
+    """
+    events = _poller.get()
+    if not events:
+        return []
+    return sorted((event for event in events if 0 <= now - event.at <= GRACE), key=lambda event: event.at)
