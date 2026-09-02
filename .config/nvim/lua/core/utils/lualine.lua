@@ -42,7 +42,21 @@ function Lualine:config()
       disabled_filetypes = { statusline = { "dashboard" } },
     },
     sections = {
-      lualine_a = { { "mode", fmt = self:no_ellipsis_tr { 80, 4 } } },
+      lualine_a = {
+        { "mode", fmt = self:no_ellipsis_tr { 80, 4 } },
+        -- Multicursor session: how many extra cursors are live in this buffer.
+        -- Never truncated -- it is the thing that keeps a scrolled-away session visible.
+        {
+          function()
+            -- nf-md-cursor_default (U+F01C0)
+            return ("󰇀 %d"):format(require("core.utils.mcursor").count())
+          end,
+          cond = function()
+            return require("core.utils.mcursor").active()
+          end,
+          color = { fg = colors.black, bg = colors.bright_red },
+        },
+      },
       lualine_b = { { require "core.utils.lualine.filename" } },
       lualine_c = { { require("ghsigns.lualine").component(), fmt = self:tr { { 80, 0 }, { 90, 10 } } } },
       lualine_x = {
