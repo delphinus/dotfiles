@@ -163,6 +163,12 @@ require("lazy").setup({
       { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
     },
     config = function()
+      -- 左右の ⌘ 単体押しでかな・英数を切り替える Karabiner 連携。主設定と同じ
+      -- モジュールを使う (package.path に ~/.config/nvim/lua を足してある)。
+      -- editprompt (NVIM_APPNAME=nvim-dev/skkeleton) で日本語を打つのはここなので、
+      -- 主設定だけでなくこちらでも有効にしないと ⌘ が macSKK 側へ抜ける。
+      require("core.skkeleton_karabiner").setup()
+
       -- 以前はここに buffer-local な <CR> 張り替えハックがあったが、skkeleton
       -- 側の completionBackend (vim-skk/skkeleton#249) に置き換えた。
       -- blink-cmp-skkeleton が backend 定義を登録し、下の completionBackend で

@@ -61,6 +61,10 @@ return {
     dependencies = { "denops.vim" },
 
     config = function()
+      -- 左右の ⌘ 単体押しでかな・英数を切り替えるための Karabiner 連携。補完
+      -- エンジンに依らず常に要る (CMP=1 の時だけ有効になっていて壊れていた)。
+      require("core.skkeleton_karabiner").setup()
+
       -- blink 使用時の <CR> 確定は skkeleton 本体の completionBackend が面倒を
       -- 見るため、以前ここにあった buffer-local <CR> 張り替えハックは不要。
       if use_cmp then
