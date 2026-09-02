@@ -22,6 +22,12 @@ return {
   non_lazy {
     "tpope/vim-unimpaired",
     --"delphinus/vim-unimpaired",
+    init = function()
+      -- "[C" / "]C" は "[y" / "]y" (string encode/decode) の別名なので、
+      -- multicursor の |[C| |]C| (前/次のカーソルへジャンプ) に譲る。
+      vim.g.nremap = { ["[C"] = "", ["]C"] = "" }
+      vim.g.xremap = { ["[C"] = "", ["]C"] = "" }
+    end,
     config = function()
       local km = vim.keymap
       km.set("n", "[w", [[<Cmd>colder<CR>]])
@@ -224,7 +230,8 @@ return {
         desc = "gitsigns.setloclist",
       },
       {
-        "gQ",
+        -- "gQ" は multicursor の復元に取られたので "g<C-q>" へ。
+        "g<C-q>",
         "<Cmd>Gitsigns setqflist all<CR>",
         desc = 'gitsigns.setqflist "all"',
       },
