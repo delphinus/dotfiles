@@ -100,7 +100,7 @@
   "nvim-web-devicons": { "branch": "master", "commit": "5f032a85be210cd1c6ac98861eb3b187ff3bd5eb" },
   "nvim_context_vt": { "branch": "master", "commit": "74c5ec8786426c5458e1a9f6b8b2fd6977ba01ab" },
   "obsidian-bridge.nvim": { "branch": "fix/nfc-normalization-macos", "commit": "22502ab6e67235435ae163c29b4dc375c3197f0d" },
-  "obsidian-kensaku.nvim": { "branch": "main", "commit": "97340101b11751d5fdc8492e041a9b66c08e875b" },
+  "obsidian-kensaku.nvim": { "branch": "main", "commit": "ee1584fc24e6eaf31234227c0cfec235f32391a8" },
   "obsidian.nvim": { "branch": "main", "commit": "67848b7602bc40f5fdb2f58d0db4e399f0f58030" },
   "octo.nvim": { "branch": "master", "commit": "af2411604b51cb4a0f3e2de50b1b7cacc2581c48" },
   "op.nvim": { "branch": "master", "commit": "563d651a73452f65690d5f05dd0882768844d2ae" },
