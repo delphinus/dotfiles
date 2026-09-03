@@ -416,11 +416,30 @@ return {
   },
 
   non_lazy {
-    "zaakiy/line-justice.nvim",
+    "delphinus/bokeh.nvim",
+    dev = true,
     dependencies = { "luukvbaal/statuscol.nvim" },
+    init = function()
+      -- :colorscheme はハイライトを全部消すので、bokeh がフェードの起点にする
+      -- Gutter* を張り直してから設定し直す。light/dark で色も amount も変わる
+      -- ので refresh() ではなく setup() を呼ぶ。palette の登録を config の
+      -- setup() より先に済ませておけば、bokeh 自身の ColorScheme ハンドラと
+      -- 実行順が前後しても最後にここで辻褄が合う。
+      palette "bokeh" {
+        function()
+          local gutter = require "core.utils.gutter"
+          gutter.highlights()
+          require("bokeh").setup(gutter.bokeh_opts())
+        end,
+      }
+    end,
     config = function()
-      local lj = require "line-justice"
-      lj.setup()
+      local gutter = require "core.utils.gutter"
+      gutter.highlights()
+      -- target は指定しない = Normal の背景色へ溶かす。line-justice は中間グレー
+      -- へ脱色していたので、暗い背景ではコントラスト比が 5.9:1 → 5.8:1 とほぼ
+      -- 変わらず、フェードが実質効いていなかった。
+      require("bokeh").setup(gutter.bokeh_opts())
 
       local builtin = require "statuscol.builtin"
       require("statuscol").setup {
@@ -430,7 +449,7 @@ return {
           { sign = { namespace = { "gitsigns" }, maxwidth = 1, colwidth = 1, auto = true }, click = "v:lua.ScSa" },
           { sign = { namespace = { "diagnostic/signs" }, maxwidth = 2, auto = true }, click = "v:lua.ScSa" },
           { sign = { name = { ".*" }, maxwidth = 2, colwidth = 1, auto = true, wrap = true }, click = "v:lua.ScSa" },
-          { text = { lj.segment }, click = "v:lua.ScLa" },
+          { text = { gutter.segment }, click = "v:lua.ScLa" },
         },
       }
     end,
