@@ -417,7 +417,6 @@ return {
 
   non_lazy {
     "delphinus/bokeh.nvim",
-    dev = true,
     dependencies = { "luukvbaal/statuscol.nvim" },
     init = function()
       -- :colorscheme はハイライトを全部消すので、bokeh がフェードの起点にする
