@@ -46,7 +46,7 @@ end, { desc = "Open/Close quickfix window" })
 
 vim.keymap.set(
   "n",
-  "QQ",
+  "qQ",
   when_not_qf(function()
     local loclist = fn.getloclist(0, { size = 0, winid = 0 })
     silent "cclose"
@@ -66,7 +66,7 @@ end, { desc = "Clear quickfix window" })
 
 vim.keymap.set(
   "n",
-  "QC",
+  "qC",
   when_not_qf(function()
     vim.notify "clear location list"
     fn.setloclist(0, {})
