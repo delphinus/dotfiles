@@ -22,7 +22,7 @@
   "blink-ripgrep.nvim": { "branch": "main", "commit": "5ed7bac817777994cb80abccd052b73eb844166c" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
   "blink.compat": { "branch": "main", "commit": "2ed6d9a28b07fa6f3bface818470605f8896408c" },
-  "bokeh.nvim": { "branch": "main", "commit": "767da82bb74e270e482696352b6c187b8dfca975" },
+  "bokeh.nvim": { "branch": "main", "commit": "12214d23e1413f72d19f463b1c8c8d6f4c051c5b" },
   "budoux.lua": { "branch": "main", "commit": "7f23658b127b9a74aae5b388fefcd997be30cbfc" },
   "capture.vim": { "branch": "master", "commit": "857ee11cfe1193948d3d45dcb8d511fded8533fb" },
   "cellwidths.nvim": { "branch": "main", "commit": "ba81c95fc449df9e9c36b32fd04067d8637796e8" },
