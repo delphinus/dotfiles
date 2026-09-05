@@ -38,8 +38,8 @@ _MEET = re.compile(r"https://meet\.google\.com/[a-z]{3}-[a-z]{4}-[a-z]{3}")
 # 閉じ括弧や句点がそのまま続いていることがある。
 _TRAILING = ".,;:!?)]}>\"'、。」』"
 
-# 同じ時刻に複数の予定が始まったとき、オーバーレイを二枚重ねない。一枚目を閉じた
-# ころに次が出る。
+# 次の知らせを出すまでの間隔。同じ時刻に複数の予定が始まっても、一枚目を読む間は
+# 差し替えない。
 COOLDOWN = 60
 
 # 知らせた予定を覚えておく時間。予定 id は繰り返しの回ごとに別なので、放って
@@ -49,7 +49,9 @@ FORGET = 24 * 3600
 # 覚え先は poller や toggles と同じく sys の私有キー。設定リロードでこのモジュールは
 # 読み直されるので、モジュール変数に持つと ⌘⇧R のたびに知らせ直してしまう。
 # kitty の再起動では忘れるが、出し直しが起きるのは gcal.GRACE の間だけなので許容する。
-_state = sys.__dict__.setdefault("_kitty_meeting_alert", {"seen": {}, "quiet_until": 0.0})
+_state = sys.__dict__.setdefault("_kitty_meeting_alert", {"seen": {}, "quiet_until": 0.0, "window_id": 0})
+# 私有キーはモジュールより長生きなので、キーを足した版を後から読み込むことがある。
+_state.setdefault("window_id", 0)
 
 
 def url_for(item):
@@ -114,6 +116,31 @@ def _argv(url):
     return ["/usr/bin/open", url]
 
 
+def _dismiss(boss):
+    """出しっぱなしのオーバーレイを閉じ、それが覆っていたウィンドウを返す。
+
+    閉じずに放っておくと、次の予定の知らせがその上に重なる。オーバーレイは
+    ウィンドウグループの積み重ねなので、上の一枚を Esc で消しても下に古い知らせが
+    残る (これが「二重」に見える正体)。新しく出す前に必ず一枚に戻す。
+
+    差し替え先を active_window 任せにしないのは、閉じるのが非同期 (child_monitor
+    への予約) で、この直後はまだ古いオーバーレイが active なままだから。そこへ
+    重ねると結局入れ子になる。覆っていた素のウィンドウを親として返し、呼び出し側で
+    明示的に指定する。
+    """
+    wid = _state.get("window_id") or 0
+    _state["window_id"] = 0
+    # ウィンドウ id は使い回されないので、既に閉じられていれば単に見付からない。
+    window = boss.window_id_map.get(wid) if wid else None
+    if window is None:
+        return None
+    parent = window.overlay_parent
+    # 殺されたキッテンは結果を返さないので handle_result は呼ばれない
+    # (boss.on_kitten_finish が data None で素通りする)。会議が勝手に開くことはない。
+    boss.mark_window_for_close(window)
+    return parent
+
+
 def tick():
     """始まった予定を一件だけオーバーレイで知らせる。tab_bar.py の毎秒タイマーから。
 
@@ -138,7 +165,11 @@ def tick():
             continue
         seen[event.id] = now
         _state["quiet_until"] = now + COOLDOWN
-        get_boss().run_kitten(
-            "meeting_alert.py", str(int(event.at)), str(int(event.until)), event.url or "", event.summary
+        boss = get_boss()
+        overlay = boss.run_kitten_with_metadata(
+            "meeting_alert.py",
+            (str(int(event.at)), str(int(event.until)), event.url or "", event.summary),
+            window=_dismiss(boss),
         )
+        _state["window_id"] = getattr(overlay, "id", 0) or 0
         return
