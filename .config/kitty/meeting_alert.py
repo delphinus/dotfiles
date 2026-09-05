@@ -15,13 +15,16 @@
 #
 # ただし何かのキーで消えると、気付かないまま閉じてしまいかねない。受け付けるのは
 # Enter (参加) と Esc / q (閉じる) だけにして、それ以外は握り潰す。
+#
+# キーの行はクリックでも押せる。マウスを掴むと選択やリンクの ctrl+クリックが効かな
+# くなるが、読み上げて閉じるだけの画面なので惜しくない。
 
 import sys
 import time
 
 from kittens.tui.handler import Handler, result_handler
-from kittens.tui.loop import Loop
-from kittens.tui.operations import styled
+from kittens.tui.loop import Loop, MouseButton
+from kittens.tui.operations import MouseTracking, styled
 from kitty.constants import config_dir
 from kitty.fast_data_types import wcswidth
 from kitty.key_encoding import EventType
@@ -51,6 +54,9 @@ def _span(secs):
 
 
 class Alert(Handler):
+    # ボタン (press + release) だけ受け取る。移動やドラッグは要らない。
+    mouse_tracking = MouseTracking.buttons_only
+
     def __init__(self, at, until, url, summary):
         self.at = at
         self.until = until
@@ -60,6 +66,10 @@ class Alert(Handler):
         # handle_result に渡る。
         self.chosen = None
         self.done = False
+        # 行番号 → (左端, 右端, 押されたときの処理)。draw_screen が毎回作り直す。
+        # 中央寄せなのでウィンドウの大きさで動く。描いた場所をそのまま覚えるのが
+        # 確実で、当たり判定を別に計算し直すと画面とずれる。
+        self.hits = {}
 
     def initialize(self):
         self.cmd.set_cursor_visible(False)
@@ -89,14 +99,25 @@ class Alert(Handler):
         if key_event.type is EventType.RELEASE:
             return
         if key_event.matches("enter") or key_event.matches("kp_enter"):
-            self.chosen = self.url or None
-            self.close()
+            self.join()
         elif key_event.matches("esc"):
             self.close()
 
     def on_text(self, text, in_bracketed_paste=False):
         if text.lower() == "q":
             self.close()
+
+    def on_click(self, mouse_event):
+        # 中ボタンの貼り付けや右クリックで会議に入ってしまわないよう、左だけ見る。
+        if not mouse_event.buttons & MouseButton.LEFT:
+            return
+        hit = self.hits.get(mouse_event.cell_y)
+        if hit and hit[0] <= mouse_event.cell_x < hit[1]:
+            hit[2]()
+
+    def join(self):
+        self.chosen = self.url or None
+        self.close()
 
     def on_interrupt(self):
         self.close()
@@ -115,27 +136,36 @@ class Alert(Handler):
             return
         self.cmd.clear_screen()
         lines = self._lines()
-        for _ in range(max(0, (self.screen_size.rows - len(lines)) // 2)):
+        self.hits = {}
+        top = max(0, (self.screen_size.rows - len(lines)) // 2)
+        for _ in range(top):
             self.print()
-        for plain, rendered in lines:
+        for row, (plain, rendered, action) in enumerate(lines, top):
             # styled() が挟むエスケープは幅を持たないので、余白は素のテキストで測る。
-            self.print(" " * max(0, (self.screen_size.cols - wcswidth(plain)) // 2) + rendered)
+            width = wcswidth(plain)
+            left = max(0, (self.screen_size.cols - width) // 2)
+            self.print(" " * left + rendered)
+            if action is not None:
+                self.hits[row] = (left, left + width, action)
 
     def _lines(self):
+        """(素のテキスト, 描くもの, クリックで起きること) の並び。"""
         head = "  %s  会議が始まりました  " % ICON
         when = "%s – %s" % (_hhmm(self.at), _hhmm(self.until))
         left = "残り %s" % _span(self.until - time.time())
         out = [
-            (head, styled(head, fg="red", bold=True, reverse=True)),
-            ("", ""),
-            (self.summary, styled(self.summary, bold=True)),
-            ("%s  %s" % (when, left), styled(when, dim=True) + "  " + styled(left, fg="yellow")),
-            ("", ""),
+            (head, styled(head, fg="red", bold=True, reverse=True), None),
+            ("", "", None),
+            (self.summary, styled(self.summary, bold=True), None),
+            ("%s  %s" % (when, left), styled(when, dim=True) + "  " + styled(left, fg="yellow"), None),
+            ("", "", None),
         ]
+        # キーの行は行まるごとを当たり判定にする。"Enter" の 5 桁を狙わせるより、
+        # 説明ごと押せたほうが速い。
         if self.url:
             tail = "  参加する (%s)" % meeting.label(self.url)
-            out.append(("Enter" + tail, styled("Enter", fg="green", bold=True) + tail))
-        out.append(("Esc    閉じる", styled("Esc", fg="blue", bold=True) + "    閉じる"))
+            out.append(("Enter" + tail, styled("Enter", fg="green", bold=True) + tail, self.join))
+        out.append(("Esc    閉じる", styled("Esc", fg="blue", bold=True) + "    閉じる", self.close))
         return out
 
     #: }}}
