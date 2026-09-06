@@ -163,6 +163,15 @@ function M.segment(args)
     return ""
   end
 
+  -- 'number' も 'relativenumber' も無いウィンドウでは、行番号列そのものを畳む。
+  -- ヘルプは Neovim 自身が `nonu nornu` で開き、quickfix とターミナルは
+  -- after/ftplugin/qf.lua と core/options/term.lua がそうしている。そこで
+  -- ここだけ番号を描き続けてしまうのを防ぐ。statuscol.nvim の builtin.lnumfunc
+  -- も同じ判定をしている。折り返し行のインジケータより手前で返すこと。
+  if not (args.nu or args.rnu) then
+    return ""
+  end
+
   local width = #commify(vim.api.nvim_buf_line_count(args.buf))
 
   -- 折り返し行・仮想行にはインジケータだけを、ガター全体の中央に置く。
