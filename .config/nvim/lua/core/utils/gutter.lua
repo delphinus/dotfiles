@@ -6,6 +6,9 @@
 ---
 ---   [mark 1][gap 1][absolute col_w][sep 1][relative 3][trailing 1]
 ---
+--- 'number' と 'relativenumber' は列ごとに効く。片方だけを切ると、組み込みの
+--- 番号列と同じくその列 (と間の区切り) ごと畳まれ、ガターの幅も縮む。
+---
 --- 相対行番号の色は BokehFadeAbove* / BokehFadeBelow* が付ける。`:Bokeh off`
 --- でフェードを切ると bokeh.hl() が空文字列を返すので、下の静的な色に落ちる。
 local M = {}
@@ -16,9 +19,9 @@ local INDICATOR = "│"
 --- 相対行番号の桁数。これを超える距離は右 3 桁だけ出す。
 local REL_WIDTH = 3
 
---- ガター全体の幅は「絶対行番号の幅 + 6」。内訳は mark 1 + gap 1 + sep 1 +
---- relative 3 + trailing 1。
-local EXTRA_WIDTH = 6
+--- 行番号以外が使う桁数。mark 1 + gap 1 + trailing 1。絶対列・相対列はどちらも
+--- 出ないことがあるので、幅は M.segment() で組み立てる。
+local FRAME_WIDTH = 3
 
 --- 色は line-justice の Horizon テーマ (カーソルより上が青い空、下が緑の大地) を
 --- 引き継ぐ。個々のカラースキームには追従しない。
@@ -172,11 +175,14 @@ function M.segment(args)
     return ""
   end
 
-  local width = #commify(vim.api.nvim_buf_line_count(args.buf))
+  -- 絶対列は行数ぶんの桁を取り、相対列は REL_WIDTH で固定。区切りの 1 桁は
+  -- 2 列が並ぶときだけ要るので、相対列の幅に畳み込んでおく。
+  local abs_width = args.nu and #commify(vim.api.nvim_buf_line_count(args.buf)) or 0
+  local rel_width = args.rnu and (REL_WIDTH + (args.nu and 1 or 0)) or 0
 
   -- 折り返し行・仮想行にはインジケータだけを、ガター全体の中央に置く。
   if args.virtnum ~= 0 then
-    return "%#GutterWrapped#" .. centre(INDICATOR, width + EXTRA_WIDTH)
+    return "%#GutterWrapped#" .. centre(INDICATOR, abs_width + rel_width + FRAME_WIDTH)
   end
 
   local mark = marks_for(args.buf)[args.lnum]
@@ -185,35 +191,44 @@ function M.segment(args)
   local on_cursor = args.relnum == 0
   local below = not on_cursor and args.lnum > vim.api.nvim_win_get_cursor(args.win)[1]
 
-  local abs_hl
-  if on_cursor then
-    abs_hl = "%#GutterCursor#"
-  else
-    abs_hl = below and "%#GutterAbsoluteBelow#" or "%#GutterAbsoluteAbove#"
-  end
+  local parts = { mark_col, " " }
 
-  -- 距離フェードは bokeh に任せる。カーソル行と `:Bokeh off` のときは空が返る
-  -- ので、そのまま静的な色へ落ちる。
-  local rel_hl = require("bokeh").hl(args)
-  if rel_hl == "" then
+  if args.nu then
+    local abs_hl
     if on_cursor then
-      rel_hl = "%#GutterCursor#"
+      abs_hl = "%#GutterCursor#"
     else
-      rel_hl = below and "%#GutterRelativeBelow#" or "%#GutterRelativeAbove#"
+      abs_hl = below and "%#GutterAbsoluteBelow#" or "%#GutterAbsoluteAbove#"
     end
+    local abs = commify(args.lnum)
+    parts[#parts + 1] = abs_hl
+    parts[#parts + 1] = (" "):rep(math.max(0, abs_width - #abs)) .. abs
   end
 
-  local abs = commify(args.lnum)
-  abs = (" "):rep(math.max(0, width - #abs)) .. abs
+  if args.rnu then
+    -- 距離フェードは bokeh に任せる。カーソル行と `:Bokeh off` のときは空が
+    -- 返るので、そのまま静的な色へ落ちる。
+    local rel_hl = require("bokeh").hl(args)
+    if rel_hl == "" then
+      if on_cursor then
+        rel_hl = "%#GutterCursor#"
+      else
+        rel_hl = below and "%#GutterRelativeBelow#" or "%#GutterRelativeAbove#"
+      end
+    end
 
-  -- カーソル行の相対列は空にする ("0" は出さない)。
-  local rel = on_cursor and "" or commify(args.relnum)
-  if #rel > REL_WIDTH then
-    rel = rel:sub(-REL_WIDTH)
+    -- 絶対列があるならカーソル行の相対列は空にする ("0" は出さない)。絶対列が
+    -- 無いと行番号が 1 つも出なくなるので、そのときは組み込みと同じく 0 を出す。
+    local rel = on_cursor and (args.nu and "" or "0") or commify(args.relnum)
+    if #rel > REL_WIDTH then
+      rel = rel:sub(-REL_WIDTH)
+    end
+    parts[#parts + 1] = rel_hl
+    parts[#parts + 1] = (" "):rep(math.max(0, rel_width - #rel)) .. rel
   end
-  rel = " " .. (" "):rep(math.max(0, REL_WIDTH - #rel)) .. rel
 
-  return mark_col .. " " .. abs_hl .. abs .. rel_hl .. rel .. " "
+  parts[#parts + 1] = " "
+  return table.concat(parts)
 end
 
 return M
