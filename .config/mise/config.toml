@@ -35,3 +35,15 @@ perl = "5.42.0"
 # perl / lua にこの種の版ファイルの慣習は無いが、列挙しておいても害は無いので
 # [tools] と揃えておく。
 idiomatic_version_file_enable_tools = ["node", "ruby", "python", "go", "perl", "lua"]
+
+[settings.go]
+# `go install` の出力先を $GOPATH/bin (= ~/.go/bin) に戻す。
+#
+# mise は既定で GOBIN を「今使っている go のインストールディレクトリ」
+# (~/.local/share/mise/installs/go/<version>/bin) に向ける。そこへ入れると
+# `mise use -g go@<新版>` した瞬間に入れたバイナリが消える。asdf 時代に
+# ~/.asdf/installs/golang/<version>/bin へグローバルインストールしたものが
+# asdf を捨てるときに全部道連れになったのと同じ罠なので、塞いでおく。
+#
+# ~/.go/bin は config.fish の $paths に入っているので PATH は変わらない。
+set_gobin = false
