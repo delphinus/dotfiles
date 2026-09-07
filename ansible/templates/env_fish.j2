@@ -1,0 +1,23 @@
+{#
+  端末のどこでも効かせたい環境変数 (fish 版)。secrets.yml の secret_env が唯一の
+  出どころで、POSIX 版 env_sh.j2 と同じ内容を吐く。
+
+  conf.d に置くのは、fish が対話・非対話を問わず自動で source するため。
+  config.fish は先頭で `not status is-interactive; and exit 0` するので、
+  そちらに書くと非対話 fish に効かない。
+
+  以前は 1Password Environments が ~/.env を書き、config.fish がそれを ~/.envrc に
+  変換して direnv に $HOME で読ませていた。op env に書き込み API が無く自動化
+  できないうえ、変換が一度きりで値の更新が反映されず、~/.env が FIFO だったため
+  ~/.envrc を消すと fish の起動がブロックする状態だった。secrets.yml に寄せて
+  bin/edit-secrets で編集できるようにし、その経路ごと畳んである。
+
+  平文を含むので mode は 0600。~/.config/fish はリポジトリへの symlink なので
+  .gitignore にも入れること。
+-#}
+# ansible/templates/env_fish.j2 が生成。手で編集しても play-ansbile で戻る。
+# 値の変更は bin/edit-secrets で secrets.yml の secret_env を直す。
+{% for key, value in secret_env | dictsort %}
+set -gx {{ key }} '{{ value | string | replace('\\', '\\\\') | replace("'", "\\'") }}'
+{% endfor %}
+{# vim: se ft=fish.jinja: #}

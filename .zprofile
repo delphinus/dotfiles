@@ -52,6 +52,18 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
 fi
 
 #
+# Environment
+#
+
+# 端末のどこでも効かせたい環境変数。ansible が secrets.yml の secret_env から
+# 生成する (fish 側は ~/.config/fish/conf.d/00-env.fish が同じ内容を持つ)。
+# zsh を対話シェルとして使ってはいないが、Claude Code の Bash ツールのように
+# fish を経由せず起動される sh 系プロセスがあるので、こちらにも要る。
+if [[ -f "$HOME/.config/env.sh" ]]; then
+  source "$HOME/.config/env.sh"
+fi
+
+#
 # Less
 #
 

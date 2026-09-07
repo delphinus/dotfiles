@@ -424,8 +424,8 @@ Temporary Items
 
 ### custom ignore
 /.config/fish/completions/luarocks.fish
+/.config/fish/conf.d/00-env.fish
 /.config/fish/conf.d/aws-vault.fish
-/.config/fish/config-local.fish
 /.config/fish/fish_variables
 /.config/fish/functions/tm.fish
 /.config/git

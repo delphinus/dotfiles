@@ -66,12 +66,29 @@
 # settings.idiomatic_version_file_enable_tools が相当)。asdf 本体と ~/.asdf は
 # しばらく残すが、この rc を配り続けると mise と二重に効いているように見えて
 # 紛らわしいので消す。
+#
+# .envrc / .env は 1Password Environments を使っていた頃の経路。$HOME に direnv を
+# 効かせて「どこでも効く環境変数」を作っていたが、conf.d/00-env.fish と
+# ~/.config/env.sh (どちらも secrets.yml の secret_env 由来) に置き換えた。
+# .env は名前付きパイプで、残しておくと書き手がいないまま cat でブロックする。
+#
+# .config/fish/config-local.fish はどこからも source されていなかった (fish が
+# 自動で読むのは conf.d だけ)。中身も lookup('env', 'DEFAULT_API_CONFIG') 由来の
+# 空文字で、FJ_API_CONFIG は secret_env 側が正しい値を持っている。
+#
+# .config/direnv/direnv.toml は dotfiles 側に実体が無いリンク切れ。ansible が
+# 張っていたものではなく手作りの残骸。direnv 自体はプロジェクトごとの .envrc で
+# 使い続けるが、設定ファイルは要らない。
 - name: remove dotfiles symlinks no longer distributed
   file: path=~/{{ item }} state=absent
   with_items:
     - .asdfrc
     - .bashrc
     - .zshrc
+    - .envrc
+    - .env
+    - .config/fish/config-local.fish
+    - .config/direnv/direnv.toml
 
 - name: make dotfiles symlink
   file: >-

@@ -3,13 +3,15 @@ BIN_DIR=/opt/homebrew/bin
 if ! [[ -d $BIN_DIR ]]; then
   BIN_DIR=/usr/local/bin
 fi
-OP=$BIN_DIR/op
 TMUX=$BIN_DIR/tmux
 FISH=$BIN_DIR/fish
 export SHELL=$BIN_DIR/fish
 
+# 以前は `op run --env-file ~/.1password-env` で包んでいたが、その env ファイルは
+# もう存在しない (1Password Environments を畳んだときに消えた)。環境変数は fish が
+# conf.d/00-env.fish で自分で読むので、包む必要が無い。
 if [[ -x $TMUX ]]; then
-  $TMUX a -d || $OP run --env-file "$HOME/.1password-env" -- $TMUX
+  $TMUX a -d || $TMUX
 else
   exec $FISH -l
 fi

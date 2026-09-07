@@ -1,0 +1,17 @@
+{#
+  端末のどこでも効かせたい環境変数 (POSIX 版)。secrets.yml の secret_env が唯一の
+  出どころで、fish 版 env_fish.j2 と同じ内容を吐く。
+
+  .zprofile から source する。zsh を対話シェルとして使ってはいないが、Claude Code
+  の Bash ツールのように「fish を経由せず起動される sh 系プロセス」があるので、
+  fish 版だけだとそこに値が渡らない。
+
+  ~/.config は symlink を個別に張っているだけの実ディレクトリなので、ここに置く
+  ぶんにはリポジトリを汚さない。平文を含むので mode は 0600。
+-#}
+# ansible/templates/env_sh.j2 が生成。手で編集しても play-ansbile で戻る。
+# 値の変更は bin/edit-secrets で secrets.yml の secret_env を直す。
+{% for key, value in secret_env | dictsort %}
+export {{ key }}='{{ value | string | replace("'", "'\\''") }}'
+{% endfor %}
+{# vim: se ft=sh.jinja: #}

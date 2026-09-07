@@ -1,4 +1,7 @@
-{% set ghe_hosts = lookup('env', 'GITHUB_ENTERPRISE_HOST') -%}
+{# GHE のホストは secrets.yml の secret_env が持つ。以前は起動元シェルの環境変数を
+   lookup('env', ...) で読んでいたが、素の環境から流すと空になり insteadOf が
+   丸ごと欠けた設定が生成される。 -#}
+{% set ghe_hosts = secret_env.GITHUB_ENTERPRISE_HOST | default('') -%}
 {% if ghe_hosts != '' -%}
 {%   for item in ghe_hosts.split(',') -%}
 [url "git@{{ item }}:"]

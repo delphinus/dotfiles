@@ -229,20 +229,10 @@ if type -q luarocks
     end
 end
 
-# load variables from 1Password env
-for envrc in ~/.envrc
-    set -l env (string replace -r '(?<=\.env)rc$' '' $envrc)
-    if ! test -e $envrc
-        for line in (cat $env)
-            if string match -qr '^[^#]' -- $line
-                set kv (string match -gr '^([^=]+)=(.*)$' -- $line)
-                if test (count $kv) -eq 2
-                    echo "export $kv[1]='$kv[2]'" >>$envrc
-                end
-            end
-        end
-    end
-end
+# 「どこでも効かせたい環境変数」はここには無い。conf.d/00-env.fish
+# (ansible が secrets.yml の secret_env から生成) が持っている。conf.d なら
+# 非対話 fish にも効くので、上の `not status is-interactive; and exit 0` を
+# 通らずに済む。POSIX 側は ~/.config/env.sh を .zprofile が source する。
 
 set -x NEXTWORD_DATA_PATH ~/.cache/nextword-data-large
 
