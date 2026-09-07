@@ -74,13 +74,19 @@ return {
       -- 補完候補の並び順学習 (getRanks) を永続化する。デフォルト ("") では
       -- denops プロセスのメモリ内にしか乗らず、再起動・別インスタンスで失われる。
       -- nvim / nvim-dev でランクを共有したいので stdpath ("state") (NVIM_APPNAME
-      -- 依存) ではなく固定パスにする。Deno.writeTextFile は親ディレクトリを
-      -- 作らないので Lua 側で先に掘っておく。
-      local rank_file = vim.fs.normalize "~/.local/state/skkeleton/completion-rank.json"
-      vim.fn.mkdir(vim.fs.dirname(rank_file), "p")
+      -- 依存) ではなく固定パスにする。
+      --
+      -- 置き場所は userDictionary と同じ skk-jisyo レポジトリ。以前は
+      -- ~/.local/state/skkeleton/ に置いていたが、それだと端末ごとに独立して
+      -- しまい、仕事の Mac で覚えた語が自宅の Mac の補完で埋もれる (実測で共通
+      -- 1361 語のうち隣接ペアの 49% が逆順だった)。レポジトリに置けば git-crypt
+      -- と merge driver にそのまま乗り、bin/merge-completion-rank が 3-way で
+      -- マージする。MacSKK 側のランクは辞書の行順そのものなので無関係。
+      local skk_repo = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo"
+      local rank_file = skk_repo .. "/completion-rank.json"
 
       vim.fn["skkeleton#config"] {
-        userDictionary = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo/skk-jisyo.utf8",
+        userDictionary = skk_repo .. "/skk-jisyo.utf8",
         completionRankFile = rank_file,
         completionBackend = use_cmp and "nvim-cmp" or "blink.cmp",
         eggLikeNewline = true,
