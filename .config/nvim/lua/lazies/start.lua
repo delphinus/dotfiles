@@ -175,6 +175,8 @@ return {
     "nvim-telescope/telescope-frecency.nvim",
     -- version = "*",
     -- TODO: trying plenary removal locally (PR #343). Revert when done.
+    -- このブランチの間は起動中の DB warm-up が telescope (と octo) を道連れにする。
+    -- そのぶん colorscheme を lazies/minimal.lua の tokyonight で当てている。
     branch = "switch-to-neoplen",
     ---@module 'frecency'
     ---@type FrecencyOpts

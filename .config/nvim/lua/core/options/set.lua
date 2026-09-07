@@ -70,19 +70,17 @@ vim.opt.foldlevelstart = 99
 -- ColorScheme {{{
 vim.opt.termguicolors = true
 
-local is_light = vim.env.COLORFGBG == "11;15"
-if is_light then
-  vim.g.background = "light"
-end
-local scheme = "tokyonight-storm"
+-- :colorscheme を当てるのは tokyonight.nvim の config (lua/lazies/minimal.lua)。
+-- core.options は lazy.setup の後に走るので、ここで当てたのでは lazy.setup 中に
+-- config が走るプラグイン (frecency → neoplen → telescope → octo) に間に合わず、
+-- palette.colors が vim.g.colors_name = nil を掴んでしまう。
 api.create_autocmd("VimEnter", {
   desc = "Run ColorScheme autocmds in VimEnter",
   group = api.create_augroup("set_colorscheme", {}),
   callback = function()
-    api.exec_autocmds("ColorScheme", { pattern = scheme })
+    api.exec_autocmds("ColorScheme", { pattern = vim.g.colors_name })
   end,
 })
-pcall(vim.cmd.colorscheme, scheme)
 -- }}}
 
 -- Title {{{

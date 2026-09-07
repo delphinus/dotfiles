@@ -96,6 +96,25 @@ return {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
+    config = function()
+      -- lazy.setup の最中に config が走るプラグインが palette.colors を読む
+      -- (frecency の DB 起動 → neoplen → telescope → octo)。palette は
+      -- vim.g.colors_name から色を引くので、core.options ではなく priority が
+      -- 一番高いここで当てて、start プラグインより先に colors_name を立てる。
+      -- init は全プラグインぶんが start ロードより前に走るので、palette の
+      -- ColorScheme ハンドラはここで漏れなく発火する。
+      --
+      -- telescope が起動中に引き摺られるのは frecency の async が telescope 同梱の
+      -- neoplen だからで、これは暫定の姿。async を frecency 側に持てば (vim.async か
+      -- 自前 vendor の二本立て = ノートの C 案) 起動中に telescope は読まれなくなり、
+      -- colorscheme は core.options へ戻してよくなる。戻す判断はノートを見ること。
+      -- Obsidian: [[20260907-132051-telescope-frecency.nvim-async-バックエンド二本立ての方針]]
+      -- nvim-telescope/telescope-frecency.nvim#340 / neovim/neovim#34473
+      if vim.env.COLORFGBG == "11;15" then
+        vim.g.background = "light"
+      end
+      vim.cmd.colorscheme "tokyonight-storm"
+    end,
   },
 
   {
