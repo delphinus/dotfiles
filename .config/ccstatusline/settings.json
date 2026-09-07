@@ -3,6 +3,27 @@
   "lines": [
     [
       {
+        "id": "8",
+        "type": "custom-command",
+        "color": "blue",
+        "commandPath": "~/git/dotfiles/bin/ccstatusline-cwd"
+      },
+      {
+        "id": "9",
+        "type": "separator"
+      },
+      {
+        "id": "10",
+        "type": "custom-command",
+        "color": "brightWhite",
+        "bold": true,
+        "commandPath": "~/git/dotfiles/bin/ccstatusline-ai-title --max 70 --reserve 130"
+      },
+      {
+        "id": "11",
+        "type": "separator"
+      },
+      {
         "id": "1",
         "type": "model",
         "color": "cyan"

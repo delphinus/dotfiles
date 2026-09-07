@@ -1,0 +1,47 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use utf8;
+use JSON::PP ();
+
+# ccstatusline の custom-command widget から呼ぶ。ステータスラインに
+# 「今どこで作業しているか」を出すためのもの。
+#
+# 出したいのはリポジトリの識別子なので、深いパスは末尾 2 階層だけを裸で出す:
+#
+#   ~/git/github.com/delphinus/dotfiles     -> delphinus/dotfiles
+#   ~/git/example.net/acme/images           -> acme/images
+#   ~/claude-scratch                        -> ~/claude-scratch
+#   /tmp                                    -> /tmp
+#
+# 組み込みの current-working-dir widget では代用できない。あちらは segments を
+# 指定すると必ず ~/.../ を前置する (ccstatusline.js の CurrentWorkingDirWidget)。
+#
+# 浅いパスをそのまま出すのは、~/claude-scratch のようにホーム直下で作業する
+# ときに delphinus/dotfiles 相当の情報が無く、縮めても何も得しないため。
+# 階層数の数え方は組み込み widget に合わせて ~ も 1 階層として数える。
+#
+# 入力は statusLine の JSON (stdin)。cwd だけ使う。
+# 引数に階層数を渡すと既定の 2 を上書きできる。
+
+binmode STDOUT, ':encoding(UTF-8)';
+
+my $segments = shift;
+$segments = 2 unless defined $segments && $segments =~ /\A[1-9][0-9]*\z/;
+
+my $input = do { local $/; <STDIN> } // '';
+exit 0 unless length $input;
+
+my $data = eval { JSON::PP->new->utf8->decode($input) } or exit 0;
+my $cwd = $data->{cwd};
+exit 0 unless defined $cwd && length $cwd;
+
+my $home = $ENV{HOME};
+if (defined $home && length $home) {
+    # ~ 自身と、その配下だけを縮める。~foo のような別ディレクトリは対象外。
+    $cwd =~ s{\A\Q$home\E(?=/|\z)}{~};
+}
+
+my @parts = grep { length } split m{/+}, $cwd;
+
+print +(@parts > $segments ? join('/', @parts[-$segments .. -1]) : $cwd), "\n";

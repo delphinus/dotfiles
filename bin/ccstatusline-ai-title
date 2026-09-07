@@ -1,0 +1,106 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use utf8;
+use JSON::PP ();
+
+# ccstatusline の custom-command widget から呼ぶ。ステータスラインに
+# 「今どのタスクのセッションか」を出すためのもの。
+#
+# Claude Code は会話の要約を自動で付けており (transcript の ai-title レコード)、
+# それを端末のタイトルにも流している。kitty のタブ名はアクティブウィンドウの
+# タイトルそのもの (.config/kitty/tab_bar.py の _title() 参照) なので、
+# ここで同じ ai-title を拾えばタブと完全に同じ文字列になる。
+#
+# ccstatusline の session-name widget では代用できない。あちらが読むのは
+# /rename で明示的に付けた custom-title だけで、自動タイトルは拾わない。
+#
+# 入力は statusLine の JSON (stdin)。transcript_path と terminal_width を使う。
+#
+#   --max N      出す最大の表示幅 (既定 70。実測した ai-title の最長が 78 桁)
+#   --reserve N  同じ行で他が使う幅 (既定 130)。flexMode が削る 40 桁を含む
+#
+# 行が溢れると ccstatusline は行末を切る。タイトルを先頭に置いているので、
+# 放っておくと右にある git やモデルの情報が消える。そこで溢れる前にこちらから
+# 詰める: 実際に使える幅は terminal_width - reserve なので、それと --max の
+# 小さい方に収める。幅が足りなければ何も出さずに消える (中途半端な数文字を
+# 出すより、他の情報を残すほうが役に立つ)。
+
+binmode STDOUT, ':encoding(UTF-8)';
+
+my ($max_width, $reserve) = (70, 130);
+while (@ARGV) {
+    my $arg = shift @ARGV;
+    if    ($arg eq '--max')     { $max_width = shift @ARGV }
+    elsif ($arg eq '--reserve') { $reserve   = shift @ARGV }
+}
+for ($max_width, $reserve) {
+    $_ = undef unless defined $_ && /\A[0-9]+\z/;
+}
+$max_width //= 70;
+$reserve   //= 130;
+
+my $input = do { local $/; <STDIN> } // '';
+exit 0 unless length $input;
+
+my $data = eval { JSON::PP->new->utf8->decode($input) } or exit 0;
+my $path = $data->{transcript_path} or exit 0;
+
+open my $fh, '<:encoding(UTF-8)', $path or exit 0;
+
+# ai-title は会話が進むたびに追記されるので、最後のものが今のタイトル。
+# JSON のデコードは候補行だけに絞る (transcript は数 MB になりうる)。
+my $title;
+while (my $line = <$fh>) {
+    next unless $line =~ /"type"\s*:\s*"ai-title"/;
+    my $rec = eval { JSON::PP->new->decode($line) } or next;
+    next unless ($rec->{type} // '') eq 'ai-title';
+    my $t = $rec->{aiTitle};
+    $title = $t if defined $t && length $t;
+}
+close $fh;
+
+exit 0 unless defined $title;
+
+# ccstatusline 側にも maxWidth はあるが、あちらは JS の String#length で
+# 数えるので和字が 1 桁扱いになり、日本語のタイトルだと倍の幅を食う。
+# 表示幅で詰めたいのでこちらで面倒を見る。
+my $limit = $max_width;
+if (defined(my $cols = $data->{terminal_width})) {
+    my $avail = $cols - $reserve;
+    # 数文字だけ出しても読めないので、そのくらいしか無いなら諦める。
+    exit 0 if $avail < 8;
+    $limit = $avail if $avail < $limit;
+}
+
+print truncate_to_width($title, $limit), "\n";
+
+sub char_width {
+    my ($c) = @_;
+    return 2 if $c =~ /\p{East_Asian_Width=Wide}|\p{East_Asian_Width=Fullwidth}/;
+    return 0 if $c =~ /\p{Mn}|\p{Me}/;
+    return 1;
+}
+
+sub truncate_to_width {
+    my ($str, $limit) = @_;
+
+    my @chars = split //, $str;
+    my $total = 0;
+    $total += char_width($_) for @chars;
+    return $str if $total <= $limit;
+
+    # 省略記号ぶんを空けて詰める。
+    my $ellipsis = '…';
+    my $budget = $limit - char_width($ellipsis);
+    return $ellipsis if $budget <= 0;
+
+    my ($out, $width) = ('', 0);
+    for my $c (@chars) {
+        my $w = char_width($c);
+        last if $width + $w > $budget;
+        $out .= $c;
+        $width += $w;
+    }
+    return $out . $ellipsis;
+}
