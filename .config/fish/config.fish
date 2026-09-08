@@ -36,13 +36,20 @@ set -l paths \
     $homebrew_path/opt/perl/bin \
     $homebrew_path/opt/libiconv/bin \
     $homebrew_path/opt/rakudo-star/share/perl6/site/bin \
-    /Applications/Xcode.app/Contents/Developer/usr/bin \
     ~/Library/Application\ Support/Coursier/bin \
     $homebrew_path/sbin \
     $homebrew_path/bin \
+    /Applications/Xcode.app/Contents/Developer/usr/bin \
     /usr/local/bin \
     ~/.local/opt/neovim-fallback/bin
 # ↑/usr/local/bin is included both in Homebrew of both arm & x86 version
+#
+# Xcode の Developer/usr/bin は $homebrew_path/bin より後ろに置くこと。ここには
+# git / git-shell / git-upload-pack / scalar が入っていて、前に出すと Homebrew の
+# git を隠す (brew install git が「shadowed by ...」と警告するのはこれ)。
+# Apple の git は Homebrew より数世代古く、2026-09-08 時点で 2.50.1 と 2.55.0。
+# config-based hooks (hook.<name>.command / .event) は 2.54.0 からなので、
+# 隠されたままだと .gitconfig に書いたフックが黙って無効になる。
 #
 # neovim-fallback は daily-sync が毎日置き換える「更新前の nvim」。Homebrew は
 # HEAD のビルド前に旧 keg を unlink するので、5〜15 分のビルド中は
