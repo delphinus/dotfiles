@@ -9,7 +9,8 @@
 #
 #   ~/.config/kitty/keys.conf     ⇧⌘U (hints) が選んだ文字列を --program として渡す。
 #                                 ⌘U と同じ候補なので URL とは限らず、パスも
-#                                 `ABC-1234` のようなタグも `v1.2.3` も来る。
+#                                 `ABC-1234` のようなタグも `v1.2.3` も
+#                                 `2b819d1c` のようなハッシュも来る。
 #   ~/.config/kitty/open-actions.conf
 #                                 OSC 8 の file:// リンクを踏んだとき。パスと
 #                                 fragment に分解済みのものが来る。
