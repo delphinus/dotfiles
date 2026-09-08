@@ -149,6 +149,9 @@ require("lazy").setup({
   },
 
   {
+    -- 実体は主設定 (lua/lazies/skkeleton.lua) が
+    -- test/completion-backend+kakutei-undo で管理。ここは dir 共有で同じ
+    -- チェックアウトを使うので、主設定側でブランチを切り替えたらここも合わせる。
     "vim-skk/skkeleton",
     dir = shared .. "/skkeleton",
     dependencies = {
@@ -211,6 +214,17 @@ require("lazy").setup({
         -- markerHenkan = "󰝣",
         -- markerHenkanSelect = "󰄮",
       }
+      -- 確定アンドゥ (vim-skk/skkeleton#165)。候補を選び間違えて確定した時に、
+      -- 読みから打ち直さず ▼ の状態へ戻して選び直す。確定した文字列がカーソル
+      -- 直前に残っている時だけ効き、それ以外では何も起きない。
+      -- <C-z> は挿入モードでは未使用なので何も奪わない (<C-u> は「入力した文字を
+      -- 全消し」に使われている)。macSKK のトグル変換もどき (fixNextCandidate) も
+      -- 同じ ⌃Z に割り当てている。
+      -- mapped_keys に足さないとバッファローカルなマッピングが張られず、キーが
+      -- skkeleton まで届かない (既定のリストは英数字と記号、<BS> 等のみ)。
+      vim.g["skkeleton#mapped_keys"] = vim.list_extend(vim.g["skkeleton#mapped_keys"], { "<C-z>" })
+      vim.fn["skkeleton#register_keymap"]("input", "<C-z>", "kakuteiUndo")
+
       vim.fn["skkeleton#register_kanatable"]("rom", {
         ["("] = { "（", "" },
         [")"] = { "）", "" },

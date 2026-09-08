@@ -49,13 +49,16 @@ return {
   },
 
   {
-    -- 補完エンジン連携を登録制にした自前ブランチを使用中 (vim-skk/skkeleton#249
-    -- の提案 B)。skkeleton#register_completion_backend() で補完エンジンを登録し、
-    -- completionBackend で選ぶと eggLikeNewline 有効時の <CR> 確定が効く。
-    -- blink.cmp 用の backend 定義は blink-cmp-skkeleton 側が登録する。
+    -- 自前ブランチを使用中。以下 2 つを載せた統合ブランチ:
+    --   feat/completion-backend  補完エンジン連携を登録制にする (vim-skk/skkeleton#249
+    --     の提案 B)。skkeleton#register_completion_backend() で補完エンジンを登録し、
+    --     completionBackend で選ぶと eggLikeNewline 有効時の <CR> 確定が効く。
+    --     blink.cmp 用の backend 定義は blink-cmp-skkeleton 側が登録する。
+    --   feature/kakutei-undo     確定アンドゥ (vim-skk/skkeleton#165)。下の
+    --     register_keymap で <C-z> に割り当てている。
     -- upstream にマージされたら branch 指定を外して "vim-skk/skkeleton" に戻す。
     "delphinus/skkeleton",
-    branch = "feat/completion-backend",
+    branch = "test/completion-backend+kakutei-undo",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
@@ -106,6 +109,17 @@ return {
         skkServerResEnc = "utf-8",
         databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
       }
+      -- 確定アンドゥ (vim-skk/skkeleton#165)。候補を選び間違えて確定した時に、
+      -- 読みから打ち直さず ▼ の状態へ戻して選び直す。確定した文字列がカーソル
+      -- 直前に残っている時だけ効き、それ以外では何も起きない。
+      -- <C-z> は挿入モードでは未使用なので何も奪わない (<C-u> は「入力した文字を
+      -- 全消し」に使われている)。macSKK のトグル変換もどき (fixNextCandidate) も
+      -- 同じ ⌃Z に割り当てている。
+      -- mapped_keys に足さないとバッファローカルなマッピングが張られず、キーが
+      -- skkeleton まで届かない (既定のリストは英数字と記号、<BS> 等のみ)。
+      vim.g["skkeleton#mapped_keys"] = vim.list_extend(vim.g["skkeleton#mapped_keys"], { "<C-z>" })
+      vim.fn["skkeleton#register_keymap"]("input", "<C-z>", "kakuteiUndo")
+
       vim.fn["skkeleton#register_kanatable"]("rom", {
         ["("] = { "（", "" },
         [")"] = { "）", "" },
