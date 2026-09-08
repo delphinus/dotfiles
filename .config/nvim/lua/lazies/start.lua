@@ -138,8 +138,8 @@ return {
       vim.api.nvim_create_autocmd("BufWinEnter", {
         group = vim.api.nvim_create_augroup("auto_fmt_on_bufwinenter", {}),
         callback = function(ev)
-          -- NOTE: stylua and lua_ls conflict on formatting Lua files. So we
-          -- use ALE for stylua.
+          -- NOTE: stylua and emmylua_ls conflict on formatting Lua files. So
+          -- we use ALE for stylua.
           if vim.bo[ev.buf].filetype == "lua" then
             require("auto_fmt").off(ev.buf)
           end

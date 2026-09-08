@@ -5,7 +5,7 @@ return {
   -- candidates instead of the spec-conformant `{ items = {} }`. blink.cmp's
   -- process_response treats `vim.NIL` as truthy, then `ipairs(vim.NIL)`
   -- errors and bubbles up via async.task.all, discarding LSP responses
-  -- from ALL clients (including lua_ls). Normalize the response here so
+  -- from ALL clients (including emmylua_ls). Normalize the response here so
   -- blink.cmp never sees NIL items from this server.
   on_init = function(client)
     local orig_request = client.request
