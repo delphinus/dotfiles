@@ -110,6 +110,14 @@
 	required = true
 [include]
 	path = .gitconfig_local
+# 禁止語チェックのフックを dotfiles のクローンにだけ効かせる。remote URL で
+# 判定するのは、~/git/dotfiles が symlink で gitdir: が実パスとしか照合せず、
+# ふだん使うパスでは一致しないため (2026-09-08 に実測)。private と public の
+# 2 本あるのは、どちらか一方しか remote に無い端末でも効かせるため。
+[includeIf "hasconfig:remote.*.url:git@github.com:delphinus/dotfiles-private"]
+	path = ~/git/dotfiles/.gitconfig-hooks
+[includeIf "hasconfig:remote.*.url:git@github.com:delphinus/dotfiles"]
+	path = ~/git/dotfiles/.gitconfig-hooks
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f

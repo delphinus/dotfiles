@@ -1,0 +1,27 @@
+# Config-based hooks (Git 2.54+) for this repository only.
+#
+# Pulled in from .gitconfig via `includeIf hasconfig:remote.*.url:`, so these
+# fire only in the dotfiles clone -- not in every repo on the machine. The
+# match is on the remote URL rather than `gitdir:` on purpose: ~/git/dotfiles
+# is a symlink to ~/git/github.com/delphinus/dotfiles, and `gitdir:` compares
+# against the resolved path, so the path everyone actually types would never
+# match (measured 2026-09-08).
+#
+# Because both this file and the scripts it points at are tracked, a plain
+# `git pull` is enough to update them on another machine. Nothing has to be
+# written into .git/hooks, which git never tracks.
+#
+# Requires Git 2.54.0 or newer. On older Git these keys are unknown config and
+# are ignored *silently*, which is why ansible still installs shims into
+# .git/hooks; those shims stand down as soon as `git hook list` reports the
+# hooks below. See ansible/templates/git_hooks_*.j2.
+
+[hook "gitleaks-staged"]
+	event = pre-commit
+	command = ~/git/dotfiles/bin/gitleaks-pre-commit
+
+[hook "gitleaks-message"]
+	event = commit-msg
+	command = ~/git/dotfiles/bin/gitleaks-commit-msg
+
+# vim:se noet:

@@ -1,44 +1,17 @@
 #!/bin/bash
-# Block commits whose *message* contains prohibited words.
+# Transitional shim. The check itself lives in
+# ~/git/dotfiles/bin/gitleaks-commit-msg and is registered as a config-based
+# hook (`hook.gitleaks-message.*`) in .gitconfig-hooks, which .gitconfig pulls
+# in for this repo only.
 #
-# The pre-commit hook runs `gitleaks git --pre-commit --staged`, which only ever
-# sees `git diff --staged`. At that point the message does not exist yet, so a
-# prohibited word that appears solely in the commit message slips through even
-# when the word is registered in GIT_PROHIBITED_WORDS. This hook closes that gap
-# with the same generated config.
-#
-# Only the message itself is scanned. The scissors block that `git commit -v`
-# appends is cut first, and comment lines are dropped: that part is the staged
-# diff, which pre-commit already checked *with* path context. Feeding it here
-# would re-check it without any path, so the config's `[allowlist] paths` (e.g.
-# ansible/vars/secrets.yml) would no longer apply and legitimate commits would
-# be rejected.
-#
-# Bypass: SKIP_GITLEAKS=1 git commit ...
+# See git_hooks_pre-commit.j2 for why this shim exists and when to delete it.
 
 set -eu
 
-if [ "${SKIP_GITLEAKS:-0}" = "1" ]; then
+if git hook list commit-msg 2>/dev/null | grep -qx gitleaks-message; then
   exit 0
 fi
 
-if ! git remote -v | grep -Eq '^.+\s+(git@github\.com:|https?://github\.com/).+\(push\)$'; then
-  exit 0
-fi
-
-config="$HOME/.config/gitleaks/dotfiles.toml"
-if [ ! -r "$config" ]; then
-  echo "commit-msg: $config not found; skipping prohibited words check" >&2
-  exit 0
-fi
-
-if ! command -v gitleaks >/dev/null 2>&1; then
-  echo "commit-msg: gitleaks not installed; skipping prohibited words check" >&2
-  exit 0
-fi
-
-sed '/^#.*-\{2,\} >8 -\{2,\}/,$d' "$1" |
-  git stripspace --strip-comments |
-  gitleaks stdin --no-banner --redact --config "$config"
+exec "$HOME/git/dotfiles/bin/gitleaks-commit-msg" "$@"
 
 #{# vim:se ft=sh.jinja: #}
