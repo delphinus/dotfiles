@@ -18,6 +18,8 @@
 # 振り分け:
 #
 #   https?://…         既定のブラウザ (open)
+#   ディレクトリ       Finder (open)。「フォルダを開く」で欲しいのは nvim の
+#                      ファイル一覧ではなく Finder のウィンドウ
 #   バイナリのファイル 既定のアプリ (open)。画像や PDF を nvim へ渡しても
 #                      `<89>PNG^M` のように化けて出るだけで読めない
 #   その他の在るパス   nvim の新しいタブ。起動の作法は bin/kitty-open-file に委ねる
@@ -48,9 +50,15 @@ if not test -e $path
     exit
 end
 
+# ディレクトリは Finder へ。file:// のリンクでフォルダを踏んだときに nvim の
+# ファイル一覧が新しいタブで開くのは意図と違う。
+if test -d $path
+    open $path
+    exit
+end
+
 # nvim で読めないものだけ既定のアプリへ逃がす。判定は file の mime-encoding だが、
-# ディレクトリ (nvim.dir が一覧を出す) と空ファイルもこれが binary と答えるので、
-# -f と -s で先に除ける。
+# 空ファイルもこれが binary と答えるので、-s で先に除ける (ディレクトリは上で処理済み)。
 if test -f $path; and test -s $path; and test (file --mime-encoding -b -- $path) = binary
     open $path
     exit
