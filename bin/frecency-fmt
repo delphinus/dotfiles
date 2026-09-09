@@ -1,0 +1,22 @@
+#!/bin/bash
+# frecency スコア付きの行を fzf に食わせる形に整える。
+#
+#   入力: "<score><区切り><path>" の行。区切りは空白でも TAB でもよいので、
+#         zoxide query --list --score の出力と faster-ghq-list の中間形式の
+#         どちらもそのまま渡せる。
+#   出力: "<薄いグレーのスコア><TAB><path>"
+#
+# スコアの桁は zoxide の表示 (幅 6・小数 1 桁) に合わせてある。数値でないもの
+# (zoxide が無い環境の "-" 等) はそのまま右揃えで出す。
+# fzf 側は --ansi --delimiter='\t' --nth=2.. で受ける (__frecency_fzf_opts 参照)。
+exec awk '
+  {
+    score = $1
+    sub(/^[[:space:]]*[^[:space:]]+[[:space:]]+/, "")
+    if (score + 0 == score) {
+      printf "\033[38;5;244m%6.1f\033[0m\t%s\n", score, $0
+    } else {
+      printf "\033[38;5;244m%6s\033[0m\t%s\n", score, $0
+    }
+  }
+'

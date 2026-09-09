@@ -1,4 +1,11 @@
 #!/bin/bash
+# --score: frecency スコアを "  848.0<TAB>/path" の形で前置して出す (fzf 表示用)。
+# 既定はパスのみ (Telescope の ghq extension が読むため形を変えない)。
+show_score=
+if [ "$1" = "--score" ]; then
+  show_score=1
+fi
+
 tmpfile=$(mktemp)
 ghq root --all > "$tmpfile"
 
@@ -11,9 +18,45 @@ else
   main_depth=3
 fi
 
+# zoxide の frecency スコア降順に並べ替える。スコアが無い (一度も cd していない)
+# リポジトリは 0 点扱いで後ろに回し、その中はパスの昇順にする (find の readdir 順は
+# APFS ではハッシュ順 = 実質ランダムなので、並びが毎回変わらないようにする)。
+# zoxide が無ければパスの昇順のみ。
+sort_by_frecency() {
+  if ! command -v zoxide > /dev/null 2>&1; then
+    if [ -n "$show_score" ]; then
+      sed 's/^/-\t/' | sort -t$'\t' -k2,2 | "$(dirname "$0")/frecency-fmt"
+    else
+      sort
+    fi
+    return
+  fi
+
+  # zoxide の出力は " 848.0 /path/to/dir" 形式。パスに空白を含みうるので、
+  # スコアと区切りの空白だけを削って残り全部をパスとして扱う。
+  # なお ~/git/dotfiles のような symlink 経由で cd した履歴は実体パスとは別の
+  # エントリになるため、そちらのスコアは拾えない。
+  awk '
+    NR == FNR {
+      score = $1
+      sub(/^[[:space:]]*[^[:space:]]+[[:space:]]+/, "")
+      db[$0] = score
+      next
+    }
+    { print ($0 in db ? db[$0] : 0) "\t" $0 }
+  ' <(zoxide query --list --score) - \
+    | sort -t$'\t' -k1,1nr -k2,2 \
+    | if [ -n "$show_score" ]; then
+      # 表示の整形 (グレー・桁揃え) は fzf_z と共有する。
+      "$(dirname "$0")/frecency-fmt"
+    else
+      cut -f2-
+    fi
+}
+
 {
   head -n1 "$tmpfile" | xargs -I{} find {} -mindepth "$main_depth" -maxdepth "$main_depth" -type d 2>/dev/null
   tail -n3 "$tmpfile" | xargs -I{} find {} -mindepth 1 -maxdepth 1 -type d 2>/dev/null
-}
+} | sort_by_frecency
 
 rm "$tmpfile"
