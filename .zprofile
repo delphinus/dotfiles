@@ -1,3 +1,7 @@
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:/Users/jinnouchi.yasushi/.docker/bin"
+# End of Docker Desktop section.
+
 #
 # Executes commands at login pre-zshrc.
 #

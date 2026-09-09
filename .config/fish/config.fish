@@ -1,3 +1,7 @@
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:/Users/jinnouchi.yasushi/.docker/bin"
+# End of Docker Desktop section.
+
 not status is-interactive; and exit 0
 
 set -l homebrew_path
