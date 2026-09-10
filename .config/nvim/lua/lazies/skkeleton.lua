@@ -17,13 +17,16 @@ end
 
 return {
   { "uga-rosa/cmp-skkeleton", enabled = use_cmp, event = { "InsertEnter", "CmdlineEnter" } },
-  -- 自前ブランチを使用中。2 つの機能が積んである:
+  -- 自前ブランチを使用中。3 つの機能が積んである:
   --   feat/skkeleton-completion-backend  skkeleton の completionBackend
   --     (vim-skk/skkeleton#249) に backend 定義を登録する
   --   feat/learn-on-implicit-confirm     ↑の上。候補を選んだまま打ち続けて確定
   --     した分を学習する (他の SKK 実装と同じ自動確定)。これが無いと <CR> を
   --     押さない限り候補の順位が永久に上がらない
-  -- upstream (Xantibody) に両方入ったら branch 指定を外して
+  --   feat/kakutei-undo-inserted         ↑の上。completeCallback にバッファへ
+  --     挿入した文字列を渡す。これが無いと補完による確定を kakuteiUndo で
+  --     取り消せない
+  -- upstream (Xantibody) に全部入ったら branch 指定を外して
   -- "Xantibody/blink-cmp-skkeleton" に戻す。
   -- event が要る。これが無いと「blink.cmp が候補ソースを計算する時に require
   -- される」まで読み込まれず、skkeleton の backend 登録が <C-j> に間に合わない
@@ -31,7 +34,7 @@ return {
   -- タイミングで載せる。
   {
     "delphinus/blink-cmp-skkeleton",
-    branch = "feat/learn-on-implicit-confirm",
+    branch = "feat/kakutei-undo-inserted",
     enabled = not use_cmp,
     event = { "InsertEnter", "CmdlineEnter" },
   },

@@ -247,13 +247,13 @@ require("lazy").setup({
     "saghen/blink.cmp",
     dir = shared .. "/blink.cmp",
     dependencies = {
-      -- 実体は主設定 (lua/lazies/skkeleton.lua) が feat/learn-on-implicit-confirm
+      -- 実体は主設定 (lua/lazies/skkeleton.lua) が feat/kakutei-undo-inserted
       -- で管理。ここは dir 共有で同じチェックアウトを使うので、branch は「今どれを
       -- 見ているか」の記録でしかない (lazy は dir 指定のプラグインを fetch しない)。
       -- 主設定側でブランチを切り替えたらここも合わせる。
       {
         "delphinus/blink-cmp-skkeleton",
-        branch = "feat/learn-on-implicit-confirm",
+        branch = "feat/kakutei-undo-inserted",
         dir = shared .. "/blink-cmp-skkeleton",
       },
       { "delphinus/cmp-pane", dir = shared .. "/cmp-pane" },
