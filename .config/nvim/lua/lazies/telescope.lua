@@ -620,10 +620,12 @@ return {
       { "<Leader>c", "<Cmd>Obsidian toggle_checkbox<CR>", desc = "Toggle check box" },
       { "<Leader>oc", "<Cmd>Obsidian toggle_checkbox<CR>", desc = "Toggle check box" },
       { "<Leader>od", "<Cmd>Obsidian dailies<CR>", desc = "Open daily notes" },
+      { "<Leader>oi", "<Cmd>Obsidian unique_note<CR>", desc = "Create an untitled note" },
       { "<Leader>om", "<Cmd>Obsidian tomorrow<CR>", desc = "Open tomorrow's note" },
       { "<Leader>on", "<Cmd>Obsidian new<CR>", desc = "Create a new note" },
       { "<Leader>oo", "<Cmd>Obsidian quick_note<CR>", desc = "Open Quick Note" },
       { "<Leader>oq", "<Cmd>Obsidian quick_kensaku<CR>", desc = "Switch notes quickly" },
+      { "<Leader>or", "<Cmd>Obsidian retitle<CR>", desc = "Name an untitled note after its heading" },
       { "<Leader>os", "<Cmd>Obsidian kensaku<CR>", desc = "Search Obsidian notes" },
       { "<Leader>ot", "<Cmd>Obsidian today<CR>", desc = "Open today's note" },
       { "<Leader>oy", "<Cmd>Obsidian yesterday<CR>", desc = "Open yesterday's note" },
@@ -637,6 +639,27 @@ return {
       -- because Note._resolve_id_path calls the two synchronously in order.
       local stashed_title = nil
 
+      --- The ASCII slug that goes into the `id` frontmatter. Returns nil when
+      --- the title has nothing left after purification (e.g. all CJK).
+      ---@param title string
+      ---@return string?
+      local function purify(title)
+        local purified = title:lower():gsub("[^-a-z0-9]+", "-"):gsub("^-+", ""):gsub("-+$", ""):gsub("-+", "-")
+        if purified:match "^-*$" then
+          return nil
+        end
+        return purified
+      end
+
+      --- The file name part, which keeps CJK and only drops what breaks paths.
+      ---@param title string
+      ---@return string
+      local function filenamify(title)
+        local filename = vim.fn.substitute(title, [=[[ 　]]=], "-", "g")
+        filename = vim.fn.substitute(filename, [=[['"\\/:]]=], "", "g")
+        return filename:lower()
+      end
+
       return {
         legacy_commands = false,
         workspaces = {
@@ -647,22 +670,20 @@ return {
           { name = "public", path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Public" },
         },
         daily_notes = { folder = "日記" },
+        templates = { folder = "テンプレート" },
+        -- Mirrors the Obsidian app's "Unique note creator" (folder / format /
+        -- template), so `:Obsidian unique_note` and the app's command produce
+        -- the same `<timestamp>.md` from the same template.
+        unique_note = { format = "YYYYMMDD-HHmmss", template = "無題ノート.md" },
         ---@param title? string
         ---@return string
         note_id_func = function(title)
           stashed_title = title
-          local purified
-          if title then
-            purified = title:lower():gsub("[^-a-z0-9]+", "-"):gsub("^-+", ""):gsub("-+$", ""):gsub("-+", "-")
-            if purified:match "^-*$" then
-              purified = nil
-            end
-          end
+          local purified = title and purify(title)
           if not purified then
-            purified = ""
-            for _ = 1, 4 do
-              purified = purified .. string.char(math.random(65, 90))
-            end
+            -- No usable title: fall back to the timestamp-only id of a unique
+            -- note rather than inventing a random suffix.
+            return require("obsidian.unique").new_unique_id() or os.date "%Y%m%d-%H%M%S"
           end
           return os.date "%Y%m%d-%H%M%S-" .. purified
         end,
@@ -673,12 +694,9 @@ return {
           local title = stashed_title
           stashed_title = nil
           if title then
-            local filename = vim.fn.substitute(title, [=[[ 　]]=], "-", "g")
-            filename = vim.fn.substitute(filename, [=[['"\\/:]]=], "", "g")
-            filename = filename:lower()
             local timestamp = spec.id:match "^%d+%-%d+"
             if timestamp then
-              return (spec.dir / (timestamp .. "-" .. filename)):with_suffix ".md"
+              return (spec.dir / (timestamp .. "-" .. filenamify(title))):with_suffix ".md"
             end
           end
           return (spec.dir / tostring(spec.id)):with_suffix ".md"
@@ -715,6 +733,94 @@ return {
                   "",
                 })
                 vim.cmd.normal "G"
+              end,
+            })
+            -- Name a note that was created untitled (`:Obsidian unique_note`,
+            -- or the Obsidian app's unique note creator). File name, `id` and
+            -- `aliases` follow the same rules as note_path_func /
+            -- note_id_func, and links pointing here are rewritten.
+            require("obsidian.commands").register("retitle", {
+              -- "*" rather than "?": the dispatcher joins fargs with a space,
+              -- and "?" would reject any title that contains one.
+              nargs = "*",
+              func = function(data)
+                local Note = require "obsidian.note"
+                local log = require "obsidian.log"
+                local bufnr = vim.api.nvim_get_current_buf()
+                local note = Note.from_buffer(bufnr)
+                local body_start = note.frontmatter_end_line or 0
+
+                --- The first level 1 heading of the body, if any.
+                ---@return string? text, integer? row 0-indexed
+                local function heading()
+                  local lines = vim.api.nvim_buf_get_lines(bufnr, body_start, body_start + 50, false)
+                  for i, line in ipairs(lines) do
+                    if line == "#" or line:match "^#%s" then
+                      return vim.trim(line:sub(2)), body_start + i - 1
+                    end
+                  end
+                end
+
+                local h1, h1_row = heading()
+                local title = vim.trim(data.args or "")
+                if title == "" then
+                  title = h1 or ""
+                end
+                if title == "" then
+                  title = vim.trim(vim.fn.input "Title: ")
+                end
+                if title == "" then
+                  return log.warn "Aborted"
+                end
+
+                local timestamp = (note.path and note.path.stem or ""):match "^%d+%-%d+" or os.date "%Y%m%d-%H%M%S"
+                local new_stem = timestamp .. "-" .. filenamify(title)
+                local purified = purify(title)
+                local new_id = purified and (timestamp .. "-" .. purified) or timestamp
+
+                if h1_row then
+                  vim.api.nvim_buf_set_lines(bufnr, h1_row, h1_row + 1, false, { "# " .. title })
+                else
+                  vim.api.nvim_buf_set_lines(bufnr, body_start, body_start, false, { "", "# " .. title })
+                end
+
+                ---@param buf integer
+                local function apply(buf)
+                  local renamed = Note.from_buffer(buf)
+                  renamed.id = new_id
+                  renamed.aliases = { title }
+                  renamed:update_frontmatter(buf)
+                  vim.cmd "silent! write"
+                end
+
+                if note.path and note.path.stem == new_stem then
+                  return apply(bufnr)
+                end
+
+                -- `Note.rename` finishes in a scheduled callback of its own
+                -- which overwrites `id` with the new file stem. Applying our
+                -- own frontmatter before that lands corrupts it, so wait for
+                -- the buffer to show that it has run.
+                note:rename(new_stem, {}, function(err)
+                  if err then
+                    return
+                  end
+                  local function wait(tries)
+                    local buf = vim.api.nvim_get_current_buf()
+                    local renamed = Note.from_buffer(buf)
+                    if renamed.path and renamed.path.stem == new_stem and renamed.id == new_stem then
+                      return apply(buf)
+                    elseif tries <= 0 then
+                      return log.warn("renamed to " .. new_stem .. ", but id/aliases were left as they were")
+                    end
+                    vim.schedule(function()
+                      wait(tries - 1)
+                    end)
+                  end
+                  vim.schedule(function()
+                    wait(10)
+                  end)
+                end)
               end,
             })
           end,
