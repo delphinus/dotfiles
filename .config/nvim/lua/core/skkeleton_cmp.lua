@@ -1,5 +1,10 @@
 -- nvim-cmp (CMP=1) 使用時だけの skkeleton 連携。Karabiner-Elements 連携は
 -- 補完エンジンと無関係なので core.skkeleton_karabiner に分けてある。
+--
+-- completionBackend の "nvim-cmp" をここで登録しないこと。定義は追従すべき
+-- エンジンの側に置く方針 (vim-skk/skkeleton#253) なので、cmp-skkeleton が
+-- skkeleton-enable-pre で登録する (uga-rosa/cmp-skkeleton#4)。blink 側で
+-- blink-cmp-skkeleton がやっているのと同じ形。
 local M = {}
 
 function M.setup()

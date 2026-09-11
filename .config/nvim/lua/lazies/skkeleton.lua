@@ -16,7 +16,21 @@ if use_cmp then
 end
 
 return {
-  { "uga-rosa/cmp-skkeleton", enabled = use_cmp, event = { "InsertEnter", "CmdlineEnter" } },
+  -- 自前ブランチを使用中。feat/register-completion-backend が nvim-cmp を
+  -- skkeleton の補完バックエンドとして登録する (uga-rosa/cmp-skkeleton#4)。
+  -- skkeleton 本体から nvim-cmp / pum.vim の backend 定義が外れた
+  -- (vim-skk/skkeleton#253) ぶんの受け皿で、これが無いと completionBackend の
+  -- "nvim-cmp" が native にフォールバックし、eggLikeNewline の <CR> で補完候補を
+  -- 確定できない。blink 側で blink-cmp-skkeleton がやっているのと同じこと。
+  -- upstream にマージされたら branch 指定を外して "uga-rosa/cmp-skkeleton" に戻す。
+  -- fork のレポジトリ名が cmp-skkeleton2 なので、name でプラグイン名を元に揃える。
+  {
+    "delphinus/cmp-skkeleton2",
+    name = "cmp-skkeleton",
+    branch = "feat/register-completion-backend",
+    enabled = use_cmp,
+    event = { "InsertEnter", "CmdlineEnter" },
+  },
   -- 自前ブランチを使用中。3 つの機能が積んである:
   --   feat/skkeleton-completion-backend  skkeleton の completionBackend
   --     (vim-skk/skkeleton#249) に backend 定義を登録する
