@@ -66,16 +66,14 @@ return {
   },
 
   {
-    -- 自前ブランチを使用中。以下 2 つを載せた統合ブランチ:
-    --   feat/completion-backend  補完エンジン連携を登録制にする (vim-skk/skkeleton#249
-    --     の提案 B)。skkeleton#register_completion_backend() で補完エンジンを登録し、
-    --     completionBackend で選ぶと eggLikeNewline 有効時の <CR> 確定が効く。
-    --     blink.cmp 用の backend 定義は blink-cmp-skkeleton 側が登録する。
-    --   feature/kakutei-undo     確定アンドゥ (vim-skk/skkeleton#165)。下の
-    --     register_keymap で <C-z> に割り当てている。
+    -- 自前ブランチを使用中。確定アンドゥ (vim-skk/skkeleton#165)。下の
+    -- register_keymap で <C-z> に割り当てている。
+    -- 補完エンジン連携の登録制 (vim-skk/skkeleton#253) は upstream にマージ
+    -- されたので、以前の統合ブランチ (test/completion-backend+kakutei-undo) は
+    -- 不要になった。このブランチは main の最新に載っている。
     -- upstream にマージされたら branch 指定を外して "vim-skk/skkeleton" に戻す。
     "delphinus/skkeleton",
-    branch = "test/completion-backend+kakutei-undo",
+    branch = "feature/kakutei-undo-invalidation",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
