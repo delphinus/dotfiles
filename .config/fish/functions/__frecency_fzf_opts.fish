@@ -2,12 +2,18 @@ function __frecency_fzf_opts --description 'Shared fzf options for the frecency-
     # "<グレーのスコア><TAB><path>" の行 (bin/frecency-fmt の出力) を frecency 降順
     # のまま見せるためのオプション一式。fzf_ghq (⌃]) と fzf_z (⌃T) で共有する。
     #
-    #   --no-sort      入力の並び (= frecency 降順) を fzf のスコア順ソートで
-    #                  壊さない。fuzzy matching は絞り込みとしてそのまま効く
+    #   --tiebreak=index
+    #                  マッチスコアが同点なら入力順 (= frecency 降順) を採る。
+    #                  クエリが空なら全部同点なので frecency 降順そのものになる。
+    #                  ここを --no-sort にすると fzf がマッチスコアを一切見なく
+    #                  なり、「ゆるく fuzzy マッチしただけの高スコア項目」が
+    #                  「部分一致している低スコア項目」より必ず上に来てしまう
+    #                  (実例: "scr" で md-render.nvim (256) が claude-scratch
+    #                  (64) を押し退ける。.local/share の s/c/r を拾っている)
     #   --nth=2..      検索対象をパスだけに限る (スコアの数字にマッチさせない)
     #   --accept-nth=2 選択したらパスだけを返す
     #   --ansi         スコアのグレー表示を解釈させる
-    set -l opts --no-sort --ansi --delimiter='\t' --nth=2.. --accept-nth=2
+    set -l opts --tiebreak=index --ansi --delimiter='\t' --nth=2.. --accept-nth=2
 
     # 以下は zoxide 0.10.0 が query --interactive で fzf に渡している値をそのまま
     # 持ってきたもの。⌃T の見た目が元々こうだったので、それに合わせている。
