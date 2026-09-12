@@ -161,9 +161,11 @@ require("lazy").setup({
     lazy = false,
     keys = {
       -- Use these mappings in Karabiner-Elements
-      { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
-      { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
-      { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
+      -- "t" (ターミナルモード) も張る。skkeleton#map() は有効化した時の mode() を
+      -- 見てキーを張るので、端末で使うには端末で有効化する必要がある。
+      { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l", "t" } },
+      { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l", "t" } },
+      { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l", "t" } },
     },
     config = function()
       -- 左右の ⌘ 単体押しでかな・英数を切り替える Karabiner 連携。主設定と同じ

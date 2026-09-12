@@ -3,10 +3,16 @@ local lazy_require = require "lazy_require"
 
 local use_cmp = not not vim.env.CMP
 
+-- "t" (ターミナルモード) も張る。skkeleton は <Plug> を noremap! と tnoremap の
+-- 2 系統で定義しており (plugin/skkeleton.vim)、skkeleton#map() は有効化した時の
+-- mode() を見てキーを張るので、端末で使うには端末で有効化する必要がある。挿入
+-- モードで有効化した状態は inoremap なので端末には効かない。
+-- なお端末モードでは補完が無効で、入力は端末アプリへの送信 (<BS> を送ってから
+-- 書き直す) で再現されるため、アプリによっては表示が崩れる。
 local skkeleton_keys = {
-  { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
-  { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
-  { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
+  { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l", "t" } },
+  { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l", "t" } },
+  { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l", "t" } },
 }
 if use_cmp then
   table.insert(
