@@ -39,6 +39,9 @@ readonly LAST_RUN="$STATE_DIR/last-run"
 # 中身は kern.boottime の epoch。
 readonly LAST_BOOT="$STATE_DIR/last-boot"
 readonly LOCK_DIR="$STATE_DIR/lock"
+# 前回の daily-sync 時点での skk-sync の launchd runs カウンタ。差分で「あれから
+# 1 度でも発火したか」を見る。詳細は check_skk_sync のコメント。
+readonly SKK_RUNS="$STATE_DIR/skk-sync-runs"
 readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
 # 前回の実行で検出した端末間の版の不一致。今回のものと突き合わせて「固着して
 # いるか」を判定するために持ち越す。形式は compare_snapshots のコメント参照。
@@ -1149,6 +1152,7 @@ check_buffalo_launchdaemon() {
 
 # launchd のジョブが生きているか。skk-jisyo は自前で 30 分毎に同期し、setup の
 # 再実行も bin/ensure-setup がやるので、ここでは死活だけ見る (同期はしない)。
+# skk-sync だけは死活の先まで見たいので check_skk_sync に切り出してある。
 check_launchd_jobs() {
     local uid label
     uid="$(id -u)"
@@ -1157,42 +1161,108 @@ check_launchd_jobs() {
     # ことは無いが、片肺になっていると起動時や定時の取りこぼしが静かに戻る)。
     for label in com.delphinus.daily-sync com.delphinus.daily-sync-boot \
         com.delphinus.skk-sync com.delphinus.yaskkserv2-dict com.delphinus.yaskkserv2-watchdog; do
-        if launchctl print "gui/$uid/$label" >/dev/null 2>&1; then
-            log "launchd OK: $label"
-        else
+        local print_out code
+        if ! print_out="$(launchctl print "gui/$uid/$label" 2>/dev/null)"; then
             action "launchd ジョブ $label がロードされていない"
+            continue
+        fi
+        log "launchd OK: $label"
+        # 直近の終了コードも見る。ロードされていることと仕事ができていることは
+        # 別で、毎回落ちているジョブもここまでは「OK」に見えてしまう。走行中は
+        # このキーが出ないことがあるので、数値が取れたときだけ判定する。
+        code="$(printf '%s\n' "$print_out" |
+            sed -nE 's/^[[:space:]]*last exit code = ([0-9]+)$/\1/p' | head -1)"
+        if [[ -n "$code" ]] && ((code != 0)); then
+            action "launchd ジョブ $label の前回の終了コードが $code"
         fi
     done
 
-    # skk-sync は 30 分間隔。ログが長時間更新されていなければ止まっている。
-    #
-    # 経過時間の起点はログの mtime と端末の起動時刻の遅い方にする。mtime だけを
-    # 見ると電源オフを挟んだ朝は必ず誤検知する。止まっていたのは端末であって
-    # ジョブではないのに、前回シャットダウンからの時間がそのまま「更新されて
-    # いない時間」に化けるため (実測 2026-08-06: 08-04 の夕方に電源を落として
-    # 翌々朝に起動したところ、起動 6 分後の実行が「2369 分更新されていない」と
-    # 報告した)。
-    #
-    # skk-sync の plist は RunAtLoad=false + StartInterval=1800 なので、起動
-    # 直後は最大 30 分発火しない。閾値の 120 分はこの猶予を十分含む。
-    local skk_log="$HOME/Library/Logs/skk-sync.log"
-    if [[ -f "$skk_log" ]]; then
-        local mtime boot since origin age
-        mtime="$(stat -f %m "$skk_log")"
-        boot="$(boot_epoch)"
-        since="$mtime"
-        origin="ログの最終更新"
-        if [[ -n "$boot" ]] && ((boot > mtime)); then
-            since="$boot"
-            origin="端末の起動"
-        fi
-        age=$((($(date +%s) - since) / 60))
-        if ((age > 120)); then
-            action "skk-sync が${origin}から ${age} 分動いていない。$SKK_JISYO/bin/setup の再実行を検討"
-        else
-            log "skk-sync は正常 (${origin}から ${age} 分)"
-        fi
+    check_skk_sync
+    return 0
+}
+
+# skk-sync (辞書同期) の健康診断。「発火しているか」と「成功しているか」を
+# 別々に見る。
+#
+# 分けて見るのが肝。発火の有無だけでは「30 分おきに起動してはいるが毎回エラーで
+# 落ちている」を取り逃す。実測 2026-09-09〜09-10: git-crypt の heal 対象から
+# completion-rank.json が漏れていて 75 回の実行が全部 ERROR になり、辞書が 2 日間
+# 1 度も同期されなかったが、ジョブは 30 分おきに起動してログを更新し続けたので、
+# ここは両日とも「正常」と報告していた。
+check_skk_sync() {
+    check_skk_sync_fired
+    check_skk_sync_succeeded
+    return 0
+}
+
+# 1. 発火しているか。launchd の runs カウンタを日をまたいで持ち越し、前回の
+#    daily-sync から 1 度でも増えたかを見る。
+#
+# 以前はログの mtime の古さ (120 分) で見ていたが、StartInterval のジョブは
+# スリープ中に発火しないので、蓋を閉じたまま使う端末ではログが数時間空くのが
+# 正常な状態になり、誤検知が止まらなかった (実測 2026-09-12: 07:01 の次の実行が
+# 12:56 で「133 分動いていない」と報告したが、そのあいだ端末が本当に起きていた
+# のは数分だけだった。8/27 と 8/30 の警告も同じ)。
+#
+# 「経過時間の起点にウェイク時刻を足す」案は測って捨てた。この端末は蓋を閉じた
+# まま使うので、実際に使用中でも pmset 上は DarkWake のままで「最後の Wake」が
+# 数時間前を指す (実測 2026-09-12: 15:03:55 のウェイクは DarkWake としか記録され
+# ず、その後 17 分間ずっと対話的に使っても Wake の記録が出なかった)。
+# kern.waketime も DarkWake で更新されるので同じ理由で使えない。時計を起点にする
+# 方式そのものが、この端末では成立しない。
+#
+# runs は launchd がジョブをロードし直すと 0 に戻る (再起動、play-ansbile の
+# bootstrap)。減っていたらロードし直されたものとして数え直す。
+check_skk_sync_fired() {
+    local uid runs prev
+    uid="$(id -u)"
+    runs="$(launchctl print "gui/$uid/com.delphinus.skk-sync" 2>/dev/null |
+        sed -nE 's/^[[:space:]]*runs = ([0-9]+)$/\1/p' | head -1)"
+    if [[ -z "$runs" ]]; then
+        log "skk-sync の runs を読めない。発火の判定は見送る"
+        return 0
     fi
+    prev="$(cat "$SKK_RUNS" 2>/dev/null)" || prev=""
+    ((DRY_RUN)) || printf '%s\n' "$runs" >"$SKK_RUNS"
+
+    if [[ -z "$prev" ]]; then
+        log "skk-sync の runs を記録した ($runs)。発火の判定は次回から"
+    elif ((runs < prev)); then
+        log "skk-sync がロードし直されている (runs $prev → $runs)。発火の判定は次回から"
+    elif ((runs == prev)); then
+        action "skk-sync が前回の daily-sync 以降 1 度も発火していない (runs=$runs のまま)。$SKK_JISYO/bin/setup の再実行を検討"
+    else
+        log "skk-sync は発火している (前回から $((runs - prev)) 回)"
+    fi
+    return 0
+}
+
+# 2. 成功しているか。
+check_skk_sync_succeeded() {
+    local skk_log="$HOME/Library/Logs/skk-sync.log"
+    [[ -f "$skk_log" ]] || return 0
+
+    # skk-sync は復帰不能な失敗を `ERROR:`、1 回ぶんの完走を `sync done` として
+    # 書く。ログは追記専用なので、日時を解釈せず行番号の大小だけで新旧を判定
+    # できる (タイムゾーンをまたいでも壊れない)。最後の ERROR が最後の完走より
+    # 後にあるなら、そこから先はずっと失敗しているということ。
+    local err_ln ok_ln fails last_ok msg
+    err_ln="$(grep -n 'ERROR:' "$skk_log" | tail -1 | cut -d: -f1)"
+    ok_ln="$(grep -n 'sync done' "$skk_log" | tail -1 | cut -d: -f1)"
+    if [[ -z "$err_ln" ]] || { [[ -n "$ok_ln" ]] && ((ok_ln > err_ln)); }; then
+        log "skk-sync は同期に成功している"
+        return 0
+    fi
+
+    fails="$(awk -v from="${ok_ln:-0}" 'NR > from && /ERROR:/ { n++ } END { print n + 0 }' "$skk_log")"
+    if [[ -n "$ok_ln" ]]; then
+        last_ok="$(sed -n "${ok_ln}p" "$skk_log" | cut -d' ' -f1)"
+    else
+        last_ok="記録なし"
+    fi
+    # 行頭のタイムスタンプと `ERROR: ` を落として本文だけ通知に載せる。
+    msg="$(sed -n "${err_ln}p" "$skk_log" | sed -E 's/^[^ ]+ ERROR: //')"
+    action "skk-sync が ${fails} 回続けて同期に失敗している (最後の成功: ${last_ok})。直近のエラー: ${msg}"
     return 0
 }
 
