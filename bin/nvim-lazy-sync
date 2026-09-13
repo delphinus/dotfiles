@@ -24,6 +24,8 @@ set -uo pipefail
 
 readonly LOCK=".config/nvim/lazy-lock.json"
 readonly EXTRA=".config/nvim/extra-parsers.json"
+# lazy が clone を置く場所。stale_refspecs だけがここを直接読む。
+readonly LAZY_DIR="${NVIM_LAZY_PLUGIN_DIR:-$HOME/.local/share/nvim/lazy}"
 # TSUpdate の上限。全 323 言語を引き直す最悪ケースを想定して長めに取る。
 readonly TS_TIMEOUT="${NVIM_LAZY_TS_TIMEOUT:-1800000}"
 # denops の起動待ち。deno がモジュールを取り直す初回は数十秒かかる。
@@ -63,6 +65,67 @@ extra_parsers() {
     NVIM_LAZY_REPO="$REPO" "$BIN_DIR/nvim-extra-parsers" "$1" 2>/dev/null || echo null
 }
 
+# 消えたブランチの refspec が残っていないか。
+#
+# branch を指定したプラグインに対し、lazy は clone の remote.origin.fetch へ
+# 明示 refspec (+refs/heads/<branch>:refs/remotes/origin/<branch>) を積む。
+# ところが pin を別のブランチへ移しても古い行は消さない。そのブランチが remote
+# 側で消えると、git は「解決できない refspec が 1 本でもあれば fetch 全体を
+# 失敗させる」ので、
+#
+#   fatal: couldn't find remote ref refs/heads/<消えたブランチ>
+#
+# となって以後そのプラグインは 1 コミットも進まなくなる。**lazy はこの失敗を
+# 握り潰す** (task_errors にも出ない) 上、sync のたびに手元の HEAD を lock へ
+# 書くので、放っておくと他の端末で進めた pin を巻き戻すコミットを作ってしまう。
+# 2026-09-13 に skkeleton がこれで 1 か月凍っていた (#253 のマージで
+# feat/completion-backend が消えたのが引き金)。
+#
+# 明示 refspec を持つ clone (今は 4 つ) だけを remote のブランチ一覧と突き合わ
+# せる。ネットワークを使うので、対象を増やさないこと。
+refspec_check_one() {
+    local plugin="$1" dir="$2" heads spec branch pinned
+    if ! heads="$(git -C "$dir" ls-remote --heads origin 2>/dev/null)"; then
+        jq -n --arg p "$plugin" \
+            '{plugin: $p, error: "ls-remote に失敗した (到達不能 / 認証)"}'
+        return 0
+    fi
+    pinned="$(jq -r --arg p "$plugin" '.[$p].branch // ""' "$REPO/$LOCK")"
+    while IFS= read -r spec; do
+        [[ -n "$spec" ]] || continue
+        branch="${spec#+}"
+        branch="${branch%%:*}"
+        branch="${branch#refs/heads/}"
+        awk -v b="refs/heads/$branch" '$2 == b { found = 1 } END { exit !found }' \
+            <<<"$heads" && continue
+        jq -n --arg p "$plugin" --arg b "$branch" \
+            --argjson pinned "$([[ "$branch" == "$pinned" ]] && echo true || echo false)" \
+            '{plugin: $p, missing_branch: $b, pinned: $pinned}'
+    done < <(git -C "$dir" config --get-all remote.origin.fetch |
+        grep -v ':refs/remotes/origin/\*$' | sort -u)
+}
+
+stale_refspecs() {
+    [[ -d "$LAZY_DIR" ]] || {
+        echo '[]'
+        return 0
+    }
+    local tmp dir plugin
+    tmp="$(mktemp -d -t nvim-lazy-refspec)"
+    for dir in "$LAZY_DIR"/*/; do
+        dir="${dir%/}"
+        [[ -e "$dir/.git" ]] || continue
+        # 明示 refspec を持たない clone (大多数) はそもそもこの事故を起こさない。
+        git -C "$dir" config --get-all remote.origin.fetch 2>/dev/null |
+            grep -qv ':refs/remotes/origin/\*$' || continue
+        plugin="${dir##*/}"
+        refspec_check_one "$plugin" "$dir" >"$tmp/$plugin.json" &
+    done
+    wait
+    cat "$tmp"/*.json 2>/dev/null | jq -s '.'
+    rm -rf "$tmp"
+}
+
 cmd_state() {
     local dirty analysis
     if lock_dirty; then dirty=true; else dirty=false; fi
@@ -76,6 +139,7 @@ cmd_state() {
         --argjson dirty "$dirty" \
         --argjson analysis "$analysis" \
         --argjson extra "$(extra_parsers state)" \
+        --argjson stale "$(stale_refspecs)" \
         --arg head "$(git -C "$REPO" rev-parse --short HEAD)" \
         --arg branch "$(git -C "$REPO" rev-parse --abbrev-ref HEAD)" \
         '{
@@ -85,6 +149,7 @@ cmd_state() {
             branch: $branch,
             treesitter: $analysis.treesitter,
             extra_parsers: $extra,
+            stale_refspecs: $stale,
             pending: $analysis.summary
         }'
 }
@@ -125,8 +190,11 @@ cmd_report() {
     local analysis
     analysis="$(nvim -l "$BIN_DIR/nvim-lazy-analyze.lua" --repo "$REPO" "$@")" \
         || die "analyze に失敗した"
+    # downgrade / unknown が出るのはここなので、その原因になる refspec の腐りも
+    # 同じ出力に載せる。state を見ずに report だけ読む経路でも気付けるように。
     jq -n --argjson a "$analysis" --argjson e "$(extra_parsers state)" \
-        '$a + {extra_parsers: $e}'
+        --argjson stale "$(stale_refspecs)" \
+        '$a + {extra_parsers: $e, stale_refspecs: $stale}'
 }
 
 # 更新後の nvim がまともに起動するか。lock の差分をいくら読んでも
