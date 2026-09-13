@@ -58,6 +58,22 @@
 [url "git@github.com:"]
 	pushInsteadOf = "git://github.com/"
 	pushInsteadOf = "https://github.com/"
+# private なリポジトリを HTTPS で取るときの認証を gh の token に一本化する。
+#
+# Homebrew の git は自分の etc/gitconfig で credential.helper = osxkeychain を
+# 立てるが、keychain の項目 (github.com / delphinus) の ACL が信頼しているのは
+# Xcode 付属のヘルパーなので、Homebrew 側のヘルパーから読むと確認ダイアログが
+# 出る。無人の launchd (daily-sync) では誰も答えられず、fetch がハングするか
+# -128 (userCanceled) で落ちる。2026-09-08 に brew install git を入れて
+# Homebrew の git に切り替わったことで顕在化し、private tap (buffalo /
+# mycrons / pannonia) の更新が毎日失敗していた。
+#
+# credential.helper は多値なので、空の値で先に積まれた osxkeychain を捨ててから
+# gh のヘルパーだけを積む。PATH を前置するのは、brew の外の素の環境から呼ばれた
+# ときに gh を見付けられるようにするため (launchd の PATH には無いことがある)。
+[credential "https://github.com"]
+	helper =
+	helper = !PATH=/opt/homebrew/bin:/usr/local/bin:$PATH gh auth git-credential
 [user]
 	email = me@delphinus.dev
 	name = delphinus
