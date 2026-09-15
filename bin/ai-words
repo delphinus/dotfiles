@@ -188,41 +188,49 @@ function maskCode(src, spec) {
   return out.join('')
 }
 
-// textlint の指摘を {line, col, word, message} の配列で返す。
-function lintFile(file) {
+// 起動のたびに kuromoji の辞書を読むので、textlint は 1 回にまとめる。
+// argv が長くなりすぎないよう、この数ずつ分けて呼ぶ。
+const LINT_BATCH = 200
+
+// 複数のファイルを lint し、実パス -> 指摘[] の Map を返す。
+function lintFiles(files) {
+  const map = new Map()
+  if (!files.length) return map
   if (!fs.existsSync(TEXTLINT)) {
     throw new Error(
       `textlint が見つからない: ${TEXTLINT}\n` +
         'ansible (play-ansbile) を流すか、~/.local/share/claude-textlint で npm ci してください。',
     )
   }
-  // --no-textlintrc は -c と併用できない (ルールが 0 件になる)。
-  // -c を渡せば対象ファイル側の .textlintrc は探索されない。
-  const r = spawnSync(TEXTLINT, ['-c', CONFIG, '-f', 'json', file], {
-    encoding: 'utf8',
-    maxBuffer: 64 * 1024 * 1024,
-  })
-  // textlint は指摘があると exit 1。stdout に JSON が出ていれば成功とみなす。
-  const out = (r.stdout || '').trim()
-  if (!out) {
-    const why = (r.stderr || '').trim() || `exit ${r.status}`
-    throw new Error(`textlint の実行に失敗した: ${why}`)
-  }
-  const results = JSON.parse(out)
-  const found = []
-  for (const f of results) {
-    for (const m of f.messages || []) {
-      // メッセージは `"焼く" (焼き込む) は…` の形。先頭の引用符の中だけを取る。
-      const w = /^[""「"](.+?)[""」"]/.exec(m.message)
-      found.push({
-        line: m.line,
-        col: m.column,
-        word: w ? w[1] : '',
-        message: m.message,
-      })
+  for (let i = 0; i < files.length; i += LINT_BATCH) {
+    const batch = files.slice(i, i + LINT_BATCH)
+    // --no-textlintrc は -c と併用できない (ルールが 0 件になる)。
+    // -c を渡せば対象ファイル側の .textlintrc は探索されない。
+    const r = spawnSync(TEXTLINT, ['-c', CONFIG, '-f', 'json', ...batch], {
+      encoding: 'utf8',
+      maxBuffer: 256 * 1024 * 1024,
+    })
+    // textlint は指摘があると exit 1。stdout に JSON が出ていれば成功とみなす。
+    const out = (r.stdout || '').trim()
+    if (!out) {
+      const why = (r.stderr || '').trim() || `exit ${r.status}`
+      throw new Error(`textlint の実行に失敗した: ${why}`)
+    }
+    for (const f of JSON.parse(out)) {
+      const found = []
+      for (const m of f.messages || []) {
+        // メッセージは `"焼く" (焼き込む) は…` の形。先頭の引用符の中だけを取る。
+        const w = /^[""「"](.+?)[""」"]/.exec(m.message)
+        found.push({ line: m.line, col: m.column, word: w ? w[1] : '', message: m.message })
+      }
+      map.set(fs.realpathSync(f.filePath), found)
     }
   }
-  return found
+  return map
+}
+
+function lintFile(file) {
+  return lintFiles([file]).get(fs.realpathSync(file)) || []
 }
 
 function lintText(text, kind = 'md') {
@@ -302,7 +310,7 @@ function report(groups, { forHook = false } = {}) {
     `textlint (ai-words-ja): ${total} 件`,
     ...lines,
     'AI が書いた日本語に出やすい語です。言い換えを検討してください。',
-    ...(forHook ? ['意図した語であれば、本文を変えずにもう一度同じ呼び出しをすれば通ります。'] : []),
+    ...(forHook ? ['意図した語であれば、内容を変えずにもう一度同じ操作をすれば通ります。'] : []),
   ].join('\n')
 }
 
@@ -434,6 +442,30 @@ function extractGhBodies(command) {
   return { bodies, heredoc: false }
 }
 
+// gh pr create --base <branch> があればそれを PR の宛先とみなす。
+// 無ければ null を返し、呼び出し側が origin/HEAD から決める。
+function ghPrBase(command) {
+  const tokens = tokenize(command)
+  if (!tokens) return null
+  for (let i = 0; i < tokens.length; i += 1) {
+    const t = tokens[i].text
+    if (t === '--base' || t === '-B') {
+      const v = tokens[i + 1]
+      if (v && !v.sep && !v.opaque && v.text) return `origin/${v.text}`
+    } else if (t.startsWith('--base=') && !tokens[i].opaque) {
+      return `origin/${t.slice('--base='.length)}`
+    }
+  }
+  return null
+}
+
+// 同じ指摘の集合なら「見せたうえで押し切った」とみなすための鍵。
+function digest(groups) {
+  return groups
+    .map(([label, found]) => `${label}:${found.map((f) => `${f.line}:${f.col}:${f.word}`).join(',')}`)
+    .join('|')
+}
+
 // ------------------------------------------------- MCP ツールの本文フィールド
 
 // ツール名の末尾 (サーバ名を除いた部分) ごとに、見るフィールドと書式。
@@ -495,6 +527,79 @@ function addedLines(root, base, file) {
   return lines
 }
 
+// 差分を集めて lint する。textlint の起動を 1 回に抑えるため、対象を全部
+// 揃えてからまとめて掛ける (ファイルごとに起動すると 40 ファイルで 13 秒かかった)。
+// 戻りは { groups: [[rel, abs, 指摘[]]], files, skipped } か、比較できなければ null。
+function collectDiff(root, base, { full = false } = {}) {
+  const names = git(['diff', '--name-only', '--diff-filter=ACMR', base, '--'], root)
+  if (names === null) return null
+  // git add 前の新規ファイルも見る。PR に入る前に直したいので。
+  const untracked = git(['ls-files', '--others', '--exclude-standard'], root) || ''
+  const newFiles = new Set(untracked.split('\n').filter(Boolean))
+  const files = [...new Set([...names.split('\n').filter(Boolean), ...newFiles])]
+
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-words-diff-'))
+  try {
+    const targets = []
+    let skipped = 0
+    for (const rel of files) {
+      const abs = path.join(root, rel)
+      let src
+      try {
+        src = fs.readFileSync(abs, 'utf8')
+      } catch {
+        continue // 消えたファイルやバイナリ
+      }
+      const ext = path.extname(abs).toLowerCase()
+      if (LINTABLE_EXT.has(ext)) {
+        targets.push({ rel, abs, target: abs })
+        continue
+      }
+      const spec = specForFile(abs, src)
+      if (!spec) {
+        skipped += 1
+        continue
+      }
+      if (!hasJapanese(src)) continue
+      const masked = maskCode(src, spec)
+      if (!hasJapanese(masked)) continue
+      const target = path.join(tmp, `${targets.length}.txt`)
+      fs.writeFileSync(target, masked)
+      targets.push({ rel, abs, target })
+    }
+
+    const found = lintFiles(targets.map((t) => t.target))
+    const groups = []
+    for (const t of targets) {
+      let hits = found.get(fs.realpathSync(t.target)) || []
+      if (!hits.length) continue
+      // 未追跡のファイルは全行が「足した行」
+      if (!full && !newFiles.has(t.rel)) {
+        const added = addedLines(root, base, t.rel)
+        if (added) hits = hits.filter((f) => added.has(f.line))
+      }
+      if (hits.length) groups.push([t.rel, t.abs, hits])
+    }
+    return { groups, files, skipped }
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true })
+  }
+}
+
+// cwd から見た git リポジトリのルートと、比較先を決める。
+function resolveRepo(cwd, baseArg, { quiet = false } = {}) {
+  const rootOut = git(['rev-parse', '--show-toplevel'], cwd)
+  if (!rootOut) return { error: 'git リポジトリの中で実行してください' }
+  const root = rootOut.trim()
+  if (baseArg) return { root, base: baseArg }
+  const d = defaultBase(root)
+  if (!d) return { root, error: '比較先が決められない。BASE を明示してください' }
+  if (!quiet) {
+    process.stderr.write(`ai-words: ${d.via} との分岐点 (${d.base.slice(0, 7)}) と比べます\n`)
+  }
+  return { root, base: d.base }
+}
+
 function runDiff(argv) {
   let full = false
   let baseArg = null
@@ -506,57 +611,18 @@ function runDiff(argv) {
     } else baseArg = a
   }
 
-  const rootOut = git(['rev-parse', '--show-toplevel'])
-  if (!rootOut) {
-    process.stderr.write('ai-words: git リポジトリの中で実行してください\n')
+  const { root, base, error } = resolveRepo(process.cwd(), baseArg)
+  if (error) {
+    process.stderr.write(`ai-words: ${error}\n`)
     process.exit(3)
   }
-  const root = rootOut.trim()
 
-  let base = baseArg
-  if (!base) {
-    const d = defaultBase(root)
-    if (!d) {
-      process.stderr.write('ai-words: 比較先が決められない。BASE を明示してください\n')
-      process.exit(3)
-    }
-    base = d.base
-    process.stderr.write(`ai-words: ${d.via} との分岐点 (${base.slice(0, 7)}) と比べます\n`)
-  }
-
-  const names = git(['diff', '--name-only', '--diff-filter=ACMR', base, '--'], root)
-  if (names === null) {
+  const result = collectDiff(root, base, { full })
+  if (!result) {
     process.stderr.write(`ai-words: ${base} と比較できませんでした\n`)
     process.exit(3)
   }
-  // git add 前の新規ファイルも見る。PR に入る前に直したいので。
-  const untracked = git(['ls-files', '--others', '--exclude-standard'], root) || ''
-  const newFiles = new Set(untracked.split('\n').filter(Boolean))
-  const files = [...new Set([...names.split('\n').filter(Boolean), ...newFiles])]
-
-  const groups = []
-  let skipped = 0
-  for (const rel of files) {
-    const abs = path.join(root, rel)
-    if (!fs.existsSync(abs)) continue
-    let found
-    try {
-      found = lintPath(abs)
-    } catch {
-      continue
-    }
-    if (found === null) {
-      skipped += 1
-      continue
-    }
-    if (!found.length) continue
-    // 未追跡のファイルは全行が「足した行」
-    if (!full && !newFiles.has(rel)) {
-      const added = addedLines(root, base, rel)
-      if (added) found = found.filter((f) => added.has(f.line))
-    }
-    if (found.length) groups.push([rel, abs, found])
-  }
+  const { groups, files, skipped } = result
 
   const total = groups.reduce((n, [, , g]) => n + g.length, 0)
   if (!total) {
@@ -646,14 +712,26 @@ function runHook() {
     // --body-file の場合はコマンド文字列に日本語が無いので、ここで日本語を見ない。
     // 本文ごとの判定は lintText がやる。
     if (!/\bgh\b/.test(command)) process.exit(0)
-    const { bodies } = extractGhBodies(command)
     const groups = []
+
+    // PR の本文
+    const { bodies } = extractGhBodies(command)
     for (const b of bodies) {
       const found = lintText(b.text, b.kind)
       if (found.length) groups.push([b.label, found])
     }
+
+    // gh pr create のときは、PR に入るコードと文書も見る
+    if (/\bgh\s+pr\s+create\b/.test(command)) {
+      const { root, base } = resolveRepo(ev.cwd, ghPrBase(command), { quiet: true })
+      if (root && base) {
+        const result = collectDiff(root, base)
+        for (const [rel, , found] of result?.groups || []) groups.push([rel, found])
+      }
+    }
+
     if (!groups.length) process.exit(0)
-    if (seenBefore(`bash:${command}`)) process.exit(0)
+    if (seenBefore(`bash:${command}:${digest(groups)}`)) process.exit(0)
     hookDeny(report(groups, { forHook: true }))
   }
 
