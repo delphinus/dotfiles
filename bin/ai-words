@@ -2,6 +2,7 @@
 // ai-words - AI が書いた日本語に出やすい語を textlint で指摘する。
 //
 //   ai-words [FILE...]        ファイルを lint する (- で標準入力、--ext で書式指定)
+//   ai-words diff [BASE]      ブランチ差分のうち、足した行だけを lint する
 //   ai-words hook             Claude Code のフックとして動く (標準入力にフックの JSON)
 //
 // textlint 本体と設定は ~/.local/share/claude-textlint に置いてある
@@ -26,9 +27,13 @@ const LINTABLE_EXT = new Set(['.md', '.markdown', '.html', '.xhtml', '.txt'])
 
 const usage = `使い方:
   ai-words [--ext EXT] [FILE...]   ファイル (または - で標準入力) を lint する
+  ai-words diff [BASE] [--full]    ブランチ差分を lint する
   ai-words hook                    Claude Code のフックとして動く
 
   --ext EXT   標準入力の書式。md (既定) / html / txt / jira
+  --full      diff で、足した行だけでなくファイル全体を見る
+
+BASE を省くと origin/HEAD との merge-base を使う。未コミットの変更も含める。
 `
 
 // ---------------------------------------------------------------- lint core
@@ -457,6 +462,126 @@ function mcpTargets(toolName, input) {
   return out
 }
 
+// ------------------------------------------------------------------ diff
+
+function git(args, cwd) {
+  const r = spawnSync('git', args, { encoding: 'utf8', cwd, maxBuffer: 1 << 28 })
+  if (r.status !== 0) return null
+  return r.stdout
+}
+
+// PR の宛先になるブランチとの分岐点。
+function defaultBase(root) {
+  const head = git(['symbolic-ref', '--short', 'refs/remotes/origin/HEAD'], root)
+  const candidates = [head && head.trim(), 'origin/main', 'origin/master', 'main', 'master']
+  for (const c of candidates) {
+    if (!c) continue
+    const mb = git(['merge-base', 'HEAD', c], root)
+    if (mb) return { base: mb.trim(), via: c }
+  }
+  return null
+}
+
+// git diff のハンクから、足した行 (= 右側の行番号) を集める。
+function addedLines(root, base, file) {
+  const out = git(['diff', '-U0', base, '--', file], root)
+  if (!out) return null
+  const lines = new Set()
+  for (const m of out.matchAll(/^@@ -\S+ \+(\d+)(?:,(\d+))? @@/gm)) {
+    const start = Number(m[1])
+    const count = m[2] === undefined ? 1 : Number(m[2])
+    for (let i = 0; i < count; i += 1) lines.add(start + i)
+  }
+  return lines
+}
+
+function runDiff(argv) {
+  let full = false
+  let baseArg = null
+  for (const a of argv) {
+    if (a === '--full') full = true
+    else if (a === '-h' || a === '--help') {
+      process.stdout.write(usage)
+      process.exit(0)
+    } else baseArg = a
+  }
+
+  const rootOut = git(['rev-parse', '--show-toplevel'])
+  if (!rootOut) {
+    process.stderr.write('ai-words: git リポジトリの中で実行してください\n')
+    process.exit(3)
+  }
+  const root = rootOut.trim()
+
+  let base = baseArg
+  if (!base) {
+    const d = defaultBase(root)
+    if (!d) {
+      process.stderr.write('ai-words: 比較先が決められない。BASE を明示してください\n')
+      process.exit(3)
+    }
+    base = d.base
+    process.stderr.write(`ai-words: ${d.via} との分岐点 (${base.slice(0, 7)}) と比べます\n`)
+  }
+
+  const names = git(['diff', '--name-only', '--diff-filter=ACMR', base, '--'], root)
+  if (names === null) {
+    process.stderr.write(`ai-words: ${base} と比較できませんでした\n`)
+    process.exit(3)
+  }
+  // git add 前の新規ファイルも見る。PR に入る前に直したいので。
+  const untracked = git(['ls-files', '--others', '--exclude-standard'], root) || ''
+  const newFiles = new Set(untracked.split('\n').filter(Boolean))
+  const files = [...new Set([...names.split('\n').filter(Boolean), ...newFiles])]
+
+  const groups = []
+  let skipped = 0
+  for (const rel of files) {
+    const abs = path.join(root, rel)
+    if (!fs.existsSync(abs)) continue
+    let found
+    try {
+      found = lintPath(abs)
+    } catch {
+      continue
+    }
+    if (found === null) {
+      skipped += 1
+      continue
+    }
+    if (!found.length) continue
+    // 未追跡のファイルは全行が「足した行」
+    if (!full && !newFiles.has(rel)) {
+      const added = addedLines(root, base, rel)
+      if (added) found = found.filter((f) => added.has(f.line))
+    }
+    if (found.length) groups.push([rel, abs, found])
+  }
+
+  const total = groups.reduce((n, [, , g]) => n + g.length, 0)
+  if (!total) {
+    process.stdout.write(
+      `textlint (ai-words-ja): 指摘なし (${files.length} ファイルの差分, 対象外 ${skipped})\n`,
+    )
+    process.exit(0)
+  }
+
+  // 指摘のある行そのものを添える。PR を出す前に開かずに直せるように。
+  const out = []
+  for (const [rel, abs, found] of groups) {
+    const src = fs.readFileSync(abs, 'utf8').split('\n')
+    out.push(rel)
+    for (const f of found) {
+      const text = (src[f.line - 1] || '').trim()
+      out.push(`  ${String(f.line).padStart(5)}:${String(f.col).padEnd(3)} ${f.word}\t${text.slice(0, 100)}`)
+    }
+  }
+  out.push('')
+  out.push(`${groups.length} ファイル / ${total} 件${full ? '' : ' (足した行のみ)'}`)
+  process.stdout.write(`${out.join('\n')}\n`)
+  process.exit(1)
+}
+
 // ------------------------------------------------------------------ hook
 
 function hookDeny(reason) {
@@ -595,6 +720,7 @@ function runCli(argv) {
 const [sub, ...rest] = process.argv.slice(2)
 try {
   if (sub === 'hook') runHook()
+  else if (sub === 'diff') runDiff(rest)
   else runCli(sub === undefined ? [] : [sub, ...rest])
 } catch (e) {
   // フックとして動いているときに落ちても作業は止めない。
