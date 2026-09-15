@@ -72,20 +72,33 @@ function M.github_feature_override(feature)
   }
 end
 
--- Per-source single-letter icons for the menu's kind_icon column. Sources not
--- listed here keep blink.cmp's default kind icon.
-M.source_letters = {
-  pane = "W",
-  ripgrep = "R",
-  ghq = "Q",
-  digraphs = "D",
-  git = "G",
-  dictionary = "K",
-  emoji = "E",
-  nerdfont = "N",
-  fish = "F",
-  skkeleton = "J",
+-- Per-source icons for the menu's kind_icon column. Sources not listed here
+-- keep blink.cmp's default kind icon — LSP 等は項目ごとの kind (Function /
+-- Variable …) が出るので、source 単位のアイコンで潰さない。
+--
+-- 幅はすべて 2 桁になる (cellwidths の設定で U+F0000 以降が 2、sfmono_square
+-- プリセットで U+E000 台も 2)。以前の ASCII 1 文字から 1 桁広がるが、LSP 補完
+-- では元々 kind アイコンで 2 桁だったので、そちらに揃う形になる。
+-- グリフ名は Nerd Fonts のもの。手元の SF Mono Square に収録済みであることは
+-- フォントの cmap を読んで確認した。
+M.source_icons = {
+  pane = "󰞷", -- md-console_line
+  ripgrep = "󰍉", -- md-magnify
+  ghq = "", -- oct-repo
+  digraphs = "󰌌", -- md-keyboard
+  git = "", -- dev-git (ghq と系統を変えて見分けを付ける)
+  dictionary = "󰘝", -- md-book_alphabet
+  emoji = "󰇲", -- md-emoticon_outline
+  nerdfont = "", -- cod-symbol_misc
+  fish = "󰈺", -- md-fish
+  skkeleton = "󱌱", -- md-ideogram_cjk (送りなし。送りありは下の SKK_OKURIARI_ICON)
 }
+
+-- 送りあり候補だけ別のグリフを出す。送りなし (漢字だけで確定する) と送りあり
+-- (漢字 + 送り仮名) が同じ表層形になることがあり (「あたり /当り/」と
+-- 「あたr /当;大当り/」→ どちらも「当り」)、読みが違うので重複排除も効かない。
+-- 左端の形と、読み側の送りあり記法 (skk_readings) の 2 つで区別する。
+local SKK_OKURIARI_ICON = "󱌴" -- md-syllabary_hiragana
 
 -- Per-source highlight group used both for the kind_icon override and the
 -- source_name column. Reuses Vim standard syntax groups so colors track the
@@ -122,6 +135,109 @@ local function kata_to_hira(s)
   )
 end
 
+-- skkeleton 項目の「読み」を 2 通り返す。
+--   display  メニューに出す読み。送りありは SKK の記法で「あた*り」。
+--   plain    照合に使う読み。送り仮名まで仮名で繋いだ「あたり」。
+-- 送りあり候補の data.kana は辞書の見出し (「あたr」) で、末尾が送り仮名の
+-- ローマ字になっている。そのままでは読みとして不自然なうえ送りなしとの違いも
+-- 分かりにくいので、見出しから末尾のローマ字を落とした「あた」に、送り仮名
+-- 「り」を継ぐ。送り仮名は label (挿入される文字列「当り」) から候補本体
+-- (data.word の最初の `;` まで = 「当」) を引いた残り。組み立てに失敗したら
+-- 見出しをそのまま使う (両方とも nil を返さない)。
+-- 送りなし項目と skkeleton 以外の項目では nil, nil。
+--- @return string|nil display
+--- @return string|nil plain
+local function skk_readings(item)
+  local data = item and item.data
+  if not (data and data.skkeleton and data.kana and data.kana ~= "") then
+    return nil, nil
+  end
+  if data.henkan_type ~= "okuriari" then
+    return data.kana, data.kana
+  end
+  -- %a は C ロケールの isalpha なので、仮名 (>= 0x80 のバイト) には当たらない。
+  local stem = data.kana:match "^(.-)%a+$"
+  local candidate = (data.word or ""):match "^[^;]*"
+  local okuri
+  if candidate ~= "" and item.label and vim.startswith(item.label, candidate) then
+    okuri = item.label:sub(#candidate + 1)
+  end
+  if stem and stem ~= "" and okuri and okuri ~= "" then
+    return stem .. "*" .. okuri, stem .. okuri
+  end
+  return data.kana, data.kana
+end
+
+-- 送りあり候補が必ず最後尾に沈むのを、グループ単位の並べ替えで引き上げる。
+--
+-- skkeleton は [送りなし: 読みに前方一致する見出し全部 × その候補] のうしろに
+-- [送りあり: 分割ごと] を連結して返す。送りなしは前方一致なので、「あたり」で
+-- 36 件 (見出し 20 個。「あたりやのぶたろう」まで含む) になり、送りあり候補は
+-- 37 行目から始まる。メニューは 10 行なので 1 画面目には絶対に出てこない。
+-- 辞書の量の問題ではなく (SKK-JISYO.L だけでも 26 件)、連結順の問題。
+--
+--   1. 読みが入力と完全一致する送りなし  「あたり」    → 当たり / 辺り …
+--   2. 最も深い分割の送りあり            「あた*り」   → 辺り / 当り …
+--   3. 見出しが伸びた送りなし            「あたりがね」→ 当り鉦 …
+--   4. 浅い分割の送りあり                「あ*たり」   → 会たり … (雑音寄り)
+--
+-- グループ内の順番 (skkeleton の学習ランク順) はそのまま保ち、sortText だけを
+-- 振り直す。skkeleton 項目は filterText が全部同じで score が並ぶため、blink は
+-- sort_text で順序を決める。よってこれだけで効く。
+--
+-- 入力の読みは「最も深い分割の送りあり候補の読み」から取る (送りあり候補の読み
+-- は入力と完全に一致する)。送りあり候補が 1 つも無ければ並べ替えない。
+local function skk_regroup(items)
+  local deepest_len, reading
+  local meta = {}
+  for i, item in ipairs(items) do
+    local data = item.data
+    if data and data.skkeleton then
+      local _, plain = skk_readings(item)
+      local okuriari = data.henkan_type == "okuriari"
+      local stem_len = 0
+      if okuriari then
+        stem_len = vim.fn.strchars(data.kana:match "^(.-)%a+$" or "")
+        if not deepest_len or stem_len > deepest_len then
+          deepest_len, reading = stem_len, plain
+        end
+      end
+      meta[i] = { plain = plain, okuriari = okuriari, stem_len = stem_len }
+    end
+  end
+  if not reading then
+    return items
+  end
+
+  local order = {}
+  for i, item in ipairs(items) do
+    local m = meta[i]
+    local group
+    if not m then
+      -- このプロバイダは skkeleton 項目しか返さないので実際には通らない。
+      group = 1
+    elseif m.okuriari then
+      group = m.stem_len == deepest_len and 2 or 4
+    else
+      group = m.plain == reading and 1 or 3
+    end
+    order[#order + 1] = { item = item, group = group, index = i }
+  end
+  table.sort(order, function(a, b)
+    if a.group ~= b.group then
+      return a.group < b.group
+    end
+    return a.index < b.index
+  end)
+
+  local out = {}
+  for i, entry in ipairs(order) do
+    entry.item.sortText = string.format("%010d", i)
+    out[i] = entry.item
+  end
+  return out
+end
+
 -- frizbee は UTF-8 を理解しないバイト単位 subsequence matcher なので、入力
 -- ひらがなが label のカタカナや漢字と「先頭 1 byte だけ」「2 byte だけ」一致
 -- して中途半端に光ってしまう。skkeleton 項目では辞書 key 全体 (item.data.kana,
@@ -142,7 +258,9 @@ local function skk_label_match_ranges(item)
   if not (item and item.label and item.filterText and item.filterText ~= "") then
     return {}
   end
-  local full_kana = item.data and item.data.kana
+  -- 送りあり候補は見出し (「あたr」) ではなく送り仮名まで仮名で繋いだ読み
+  -- (「あたり」) で整列する。label の「り」は見出しの "r" とは一致しない。
+  local _, full_kana = skk_readings(item)
   if not full_kana or full_kana == "" then
     return {}
   end
@@ -253,9 +371,13 @@ function M.menu_components()
     kind_icon = {
       ellipsis = false,
       text = function(ctx)
-        local letter = M.source_letters[ctx.source_id]
-        if letter then
-          return letter .. ctx.icon_gap
+        local icon = M.source_icons[ctx.source_id]
+        if icon then
+          local data = ctx.item.data
+          if data and data.skkeleton and data.henkan_type == "okuriari" then
+            icon = SKK_OKURIARI_ICON
+          end
+          return icon .. ctx.icon_gap
         end
         return ctx.kind_icon .. ctx.icon_gap
       end,
@@ -340,12 +462,9 @@ end
 -- Same 表層形 under different readings (安 → やす / やすし / やすまる) becomes
 -- distinguishable. Non-skkeleton items pass through untouched (LSP unaffected).
 function M.with_skk_reading(component)
+  -- 送りありは「あた*り」、送りなしは見出しそのまま (skk_readings 参照)。
   local function kana_of(ctx)
-    local d = ctx.item and ctx.item.data
-    if d and d.skkeleton and d.kana and d.kana ~= "" then
-      return d.kana
-    end
-    return nil
+    return (skk_readings(ctx.item))
   end
   return {
     text = function(ctx)
@@ -544,7 +663,8 @@ function M.providers()
             out[#out + 1] = item
           end
         end
-        return out
+        -- 畳んだあとに、送りあり候補を 1 画面目の近くへ引き上げる (skk_regroup)。
+        return skk_regroup(out)
       end,
     },
   }
