@@ -1,5 +1,22 @@
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 
+-- skkeleton の completionOkuriMaxLength (補完で送り仮名とみなす長さの上限) を
+-- 試すための worktree。ブランチは feat/completion-okuri-max-length。
+--
+-- 端末ごとに作る必要があるので、無い端末では共有チェックアウトに戻す。
+-- skkeleton#config() は未知のキーを渡されると setConfig が throw して
+-- 設定全体が失敗するため、worktree を使っているときだけこの設定を渡すこと。
+--
+-- 他の端末で試すには:
+--   git -C ~/.local/share/nvim/lazy/skkeleton fetch delphinus
+--   git -C ~/.local/share/nvim/lazy/skkeleton worktree add \
+--     ~/.local/share/claude-worktrees/skkeleton-okuri-limit \
+--     delphinus/feat/completion-okuri-max-length
+-- 試し終わったら worktree を消すだけで元の挙動に戻る。
+local okuri_worktree = vim.env.HOME .. "/.local/share/claude-worktrees/skkeleton-okuri-limit"
+local use_okuri_worktree = vim.uv.fs_stat(okuri_worktree .. "/denops") ~= nil
+local skkeleton_dir = use_okuri_worktree and okuri_worktree or shared .. "/skkeleton"
+
 -- Borrow shared blink.cmp helpers / providers from the main nvim config so we
 -- don't duplicate ~200 lines. The main config lives at ~/.config/nvim and
 -- exposes blink_shared at lua/blink_shared.lua.
@@ -149,11 +166,12 @@ require("lazy").setup({
   },
 
   {
-    -- 実体は主設定 (lua/lazies/skkeleton.lua) が
-    -- test/completion-backend+kakutei-undo で管理。ここは dir 共有で同じ
-    -- チェックアウトを使うので、主設定側でブランチを切り替えたらここも合わせる。
+    -- 通常は主設定 (lua/lazies/skkeleton.lua) と dir を共有する。
+    -- 上の worktree があるときだけ nvim-dev をそちらへ向け、無ければ共有
+    -- チェックアウトに戻る。主設定は常に共有側を見るので、普段の日本語入力は
+    -- 影響を受けない。
     "vim-skk/skkeleton",
-    dir = shared .. "/skkeleton",
+    dir = skkeleton_dir,
     dependencies = {
       "vim-denops/denops.vim",
       { "delphinus/skkeleton_indicator.nvim", dir = shared .. "/skkeleton_indicator.nvim", opts = { fadeOutMs = 0 } },
@@ -191,7 +209,7 @@ require("lazy").setup({
       local skk_repo = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo"
       local rank_file = skk_repo .. "/completion-rank.json"
 
-      vim.fn["skkeleton#config"] {
+      local skk_config = {
         userDictionary = skk_repo .. "/skk-jisyo.utf8",
         completionRankFile = rank_file,
         completionBackend = "blink.cmp",
@@ -220,6 +238,21 @@ require("lazy").setup({
         -- markerHenkan = "󰝣",
         -- markerHenkanSelect = "󰄮",
       }
+
+      -- 補完で送り仮名とみなす長さの上限 (0 = 制限なし、従来の挙動)。
+      -- 制限が無いと読みを全ての位置で切るので、「きんようびのよてい」では
+      -- 「き」+「んようびのよてい」まで試し、見出し「きn」の候補 14 個が
+      -- 「気んようびのよてい」… として補完一覧を埋める。2 にすると
+      -- 「かんがえ」+「かた」は残したままそれが消える。上限値が妥当かを
+      -- 確かめるための試用中。
+      -- パッチを持たない skkeleton に渡すと setConfig が throw して
+      -- skkeleton#config() 全体が失敗するので、worktree を使うときだけ渡す。
+      if use_okuri_worktree then
+        skk_config.completionOkuriMaxLength = 2
+      end
+
+      vim.fn["skkeleton#config"](skk_config)
+
       -- 確定アンドゥ (vim-skk/skkeleton#165)。候補を選び間違えて確定した時に、
       -- 読みから打ち直さず ▼ の状態へ戻して選び直す。確定した文字列がカーソル
       -- 直前に残っている時だけ効き、それ以外では何も起きない。
