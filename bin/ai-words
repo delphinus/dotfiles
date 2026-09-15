@@ -43,7 +43,7 @@ function hasJapanese(s) {
   return /[぀-ヿ㐀-鿿豈-﫿ｦ-ﾟ]/.test(s)
 }
 
-// Jira の wiki markup にはコメント構文が無いので、コード記法だけ潰してから
+// Jira の wiki markup にはコメント構文が無いので、コード記法だけ空白に置き換えてから
 // プレーンテキストとして掛ける。行と桁がずれないよう同じ長さの空白で埋める。
 function maskJiraMarkup(text) {
   const blank = (m) => m.replace(/[^\n]/g, ' ')
@@ -61,14 +61,14 @@ function extFor(kind) {
 
 // ------------------------------------------------- ソースコードのコメント
 
-// textlint はコードの構造を解さないので、コメント以外を同じ長さの空白で潰してから
+// textlint はコードの構造を解さないので、コメント以外を同じ長さの空白に置き換えてから
 // プレーンテキストとして掛ける。行と桁が元のファイルと一致するので、指摘を
 // そのままエディタで開ける。
 //
 // line       行コメントの開始。bol が真なら行頭 (空白を除く) のときだけ認める
 // block      [開始, 終了] の組
 // strings    [開始, 終了] の組。この中はコメントと見なさない
-// noEscape   バックスラッシュによるエスケープが効かない文字列の開始記号
+// noEscape   バックスラッシュによるエスケープを解釈しない文字列の開始記号
 const COMMENT_SPECS = [
   {
     exts: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.go', '.rs', '.java', '.kt',
@@ -219,7 +219,7 @@ function lintFiles(files) {
     for (const f of JSON.parse(out)) {
       const found = []
       for (const m of f.messages || []) {
-        // メッセージは `"焼く" (焼き込む) は…` の形。先頭の引用符の中だけを取る。
+        // メッセージは `"語" (別形) は…` の形。先頭の引用符の中だけを取る。
         const w = /^[""「"](.+?)[""」"]/.exec(m.message)
         found.push({ line: m.line, col: m.column, word: w ? w[1] : '', message: m.message })
       }
@@ -432,7 +432,7 @@ function extractGhBodies(command) {
               kind: ext === '.html' || ext === '.xhtml' ? 'html' : 'md',
             })
           } catch {
-            /* 読めないファイルは黙って飛ばす */
+            /* 読めないファイルは飛ばす */
           }
         }
         if (!inline) i += 1
@@ -801,7 +801,7 @@ try {
   else if (sub === 'diff') runDiff(rest)
   else runCli(sub === undefined ? [] : [sub, ...rest])
 } catch (e) {
-  // フックとして動いているときに落ちても作業は止めない。
+  // フックとして動いているときに異常終了しても作業は止めない。
   process.stderr.write(`ai-words: ${e.message}\n`)
   process.exit(sub === 'hook' ? 0 : 3)
 }
