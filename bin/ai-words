@@ -459,6 +459,46 @@ function ghPrBase(command) {
   return null
 }
 
+// gh の --repo / -R から owner/name を取り出す。
+function ghRepoFlag(command) {
+  const tokens = tokenize(command)
+  if (!tokens) return null
+  for (let i = 0; i < tokens.length; i += 1) {
+    const t = tokens[i]
+    if (t.opaque || t.sep) continue
+    let value = null
+    if (t.text === '--repo' || t.text === '-R') {
+      const v = tokens[i + 1]
+      if (v && !v.sep && !v.opaque && v.text) value = v.text
+    } else if (t.text.startsWith('--repo=')) {
+      value = t.text.slice('--repo='.length)
+    }
+    if (!value) continue
+    // host/owner/name の形も来るので、末尾 2 つだけ見る。
+    const parts = value.replace(/\.git$/, '').split('/').filter(Boolean)
+    if (parts.length >= 2) return parts.slice(-2).join('/').toLowerCase()
+  }
+  return null
+}
+
+// remote の URL から owner/name を取り出す。git@host:owner/name.git と
+// https://host/owner/name(.git) の両方を見る。
+function remoteSlugs(root) {
+  const out = git(['remote', '-v'], root) || ''
+  const slugs = new Set()
+  for (const line of out.split('\n')) {
+    const url = line.split(/\s+/)[1]
+    if (!url) continue
+    const path_ = url
+      .replace(/\.git$/, '')
+      .replace(/^[^@]+@[^:]+:/, '')
+      .replace(/^[a-z+]+:\/\/[^/]+\//i, '')
+    const parts = path_.split('/').filter(Boolean)
+    if (parts.length >= 2) slugs.add(parts.slice(-2).join('/').toLowerCase())
+  }
+  return slugs
+}
+
 // 同じ指摘の集合なら「見せたうえで押し切った」とみなすための鍵。
 function digest(groups) {
   return groups
@@ -724,7 +764,18 @@ function runHook() {
     // gh pr create のときは、PR に入るコードと文書も見る
     if (/\bgh\s+pr\s+create\b/.test(command)) {
       const { root, base } = resolveRepo(ev.cwd, ghPrBase(command), { quiet: true })
-      if (root && base) {
+      // --repo で別のリポジトリへ出す場合、作業ディレクトリはその PR とは
+      // 無関係なことがある (別リポジトリのディレクトリから gh を叩いたとき)。
+      // そのまま差分を見ると縁もゆかりも無いリポジトリを lint して止めるので、
+      // remote が --repo と噛み合わないときは差分チェックだけ飛ばす。本文の
+      // チェックは残す。
+      const wanted = ghRepoFlag(command)
+      const mismatched = root && wanted && !remoteSlugs(root).has(wanted)
+      if (mismatched) {
+        process.stderr.write(
+          `ai-words: --repo (${wanted}) と作業ディレクトリのリポジトリが違うので、差分のチェックは飛ばします\n`,
+        )
+      } else if (root && base) {
         const result = collectDiff(root, base)
         for (const [rel, , found] of result?.groups || []) groups.push([rel, found])
       }
