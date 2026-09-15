@@ -182,13 +182,17 @@ require("lazy").setup({
       -- 補完候補の並び順学習 (getRanks) を永続化する。デフォルト ("") では
       -- denops プロセスのメモリ内にしか乗らず、再起動・別インスタンスで失われる。
       -- nvim / nvim-dev でランクを共有したいので stdpath ("state") (NVIM_APPNAME
-      -- 依存) ではなく固定パスにする。Deno.writeTextFile は親ディレクトリを
-      -- 作らないので Lua 側で先に掘っておく。
-      local rank_file = vim.fs.normalize "~/.local/state/skkeleton/completion-rank.json"
-      vim.fn.mkdir(vim.fs.dirname(rank_file), "p")
+      -- 依存) ではなく固定パスにする。
+      --
+      -- 置き場所は userDictionary と同じ skk-jisyo レポジトリで、主設定
+      -- (lua/lazies/skkeleton.lua) と同じパスを指す。2026-09-15 まで
+      -- ~/.local/state/skkeleton/ のままでこちらだけ移行から漏れており、
+      -- editprompt で覚えた語が主設定の補完に出てこなかった。
+      local skk_repo = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo"
+      local rank_file = skk_repo .. "/completion-rank.json"
 
       vim.fn["skkeleton#config"] {
-        userDictionary = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo/skk-jisyo.utf8",
+        userDictionary = skk_repo .. "/skk-jisyo.utf8",
         completionRankFile = rank_file,
         completionBackend = "blink.cmp",
         eggLikeNewline = true,

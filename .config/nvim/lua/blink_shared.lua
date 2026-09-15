@@ -331,22 +331,32 @@ function M.with_skk_label_match(ctx, inner)
   return highlights
 end
 
--- skkeleton 由来の候補は data.rank (skkeleton が付与する Date.now() か負の
--- グローバル順) で並べたいので Lua コンパレータが要る。skkeleton 以外では
--- nil を返して 'score' に委譲する。
-local function skk_rank_sort(a, b)
+-- skkeleton 由来の候補は skkeleton が決めた順 (= sortText。順位学習と
+-- skk_regroup のグループ分けを写したもの) で並べたいので、Lua コンパレータを
+-- 'score' より前に置く。
+--
+-- score に委ねると学習が反映されない。blink の score には frecency のボーナスが
+-- 乗っており、これは accept のたびに fuzzy.access() が記録する「その候補を確定
+-- した回数」だからである。同じ読みの候補は filterText が同一で素点が並ぶため、
+-- 差が付くのはこのボーナスだけになり、「いつも <CR> で確定している語」が先頭に
+-- 固定されて、skkeleton 側でいくら学習しても順番が動かない。
+--
+-- 以前は data.rank を見ていたが、プラグインが getCompleteItems へ切り替えた
+-- ときに rank を渡さなくなり、このコンパレータは常に nil を返す (= 何もしない)
+-- 状態になっていた。skkeleton 以外の項目では今までどおり nil を返す。
+local function skk_order_sort(a, b)
   if not (a.data and a.data.skkeleton and b.data and b.data.skkeleton) then
     return nil
   end
-  if a.data.rank == b.data.rank then
+  if a.sortText == nil or b.sortText == nil or a.sortText == b.sortText then
     return nil
   end
-  return a.data.rank > b.data.rank
+  return a.sortText < b.sortText
 end
 
 -- 静的に使い回す (毎回テーブルを作らない)。blink は sorts_list を読み取り専用
 -- に扱うので共有しても安全。
-local SORTS_WITH_SKK = { skk_rank_sort, "score", "sort_text" }
+local SORTS_WITH_SKK = { skk_order_sort, "score", "sort_text" }
 local SORTS_DEFAULT = { "score", "sort_text" }
 
 -- blink.cmp の fuzzy.sorts に「関数」として渡す動的ソート定義。blink は補完の
