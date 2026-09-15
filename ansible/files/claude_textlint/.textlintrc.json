@@ -1,0 +1,15 @@
+{
+  "plugins": {
+    "html": true
+  },
+  "filters": {
+    "comments": true
+  },
+  "rules": {
+    "preset-ai-words-ja": {
+      "no-ai-words": {
+        "allows": []
+      }
+    }
+  }
+}

@@ -189,6 +189,24 @@
             "type": "command",
             "if": "Bash(gh *)",
             "command": "claude-code-hooks gh-guard"
+          },
+          {
+            "type": "command",
+            "if": "Bash(gh *)",
+            "command": "\"$HOME/git/dotfiles/bin/ai-words\" hook",
+            "statusMessage": "AI っぽい語を確認中",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__atlassian__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/git/dotfiles/bin/ai-words\" hook",
+            "statusMessage": "AI っぽい語を確認中",
+            "timeout": 30
           }
         ]
       },
@@ -202,6 +220,17 @@
       }
     ],
     "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/git/dotfiles/bin/ai-words\" hook",
+            "statusMessage": "AI っぽい語を確認中",
+            "timeout": 30
+          }
+        ]
+      },
       {
         "hooks": [
           {

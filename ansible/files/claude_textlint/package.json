@@ -1,0 +1,12 @@
+{
+  "name": "claude-textlint",
+  "version": "1.0.0",
+  "private": true,
+  "description": "textlint runtime for bin/ai-words (AI っぽい日本語の検出)",
+  "dependencies": {
+    "textlint": "^15.8.0",
+    "textlint-filter-rule-comments": "^1.2.2",
+    "textlint-plugin-html": "^1.0.1",
+    "textlint-rule-preset-ai-words-ja": "^1.2.0"
+  }
+}

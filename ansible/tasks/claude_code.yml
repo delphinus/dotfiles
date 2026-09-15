@@ -19,6 +19,40 @@
     dest: ~/.claude/settings.json
     mode: '0644'
 
+# bin/ai-words 用の textlint 一式。node_modules を含むので iCloud 配下
+# (~/.claude/scripts は iCloud への symlink) には置かない。
+- name: prepare claude-textlint dir
+  file: path=~/.local/share/claude-textlint state=directory
+
+- name: place claude-textlint manifest
+  copy:
+    src: 'claude_textlint/{{ item }}'
+    dest: '~/.local/share/claude-textlint/{{ item }}'
+    mode: '0644'
+  with_items:
+    - package.json
+    - package-lock.json
+  register: claude_textlint_manifest
+
+# 指摘したくない語 (allows) を足していく先。手元で育てるものなので上書きしない。
+- name: place claude-textlint config (初回のみ)
+  copy:
+    src: claude_textlint/.textlintrc.json
+    dest: ~/.local/share/claude-textlint/.textlintrc.json
+    mode: '0644'
+    force: false
+
+- name: check claude-textlint node_modules
+  stat:
+    path: '{{ ansible_facts["env"]["HOME"] }}/.local/share/claude-textlint/node_modules/.bin/textlint'
+  register: claude_textlint_installed
+
+- name: npm ci for claude-textlint
+  command:
+    cmd: npm ci --no-audit --no-fund
+    chdir: '{{ ansible_facts["env"]["HOME"] }}/.local/share/claude-textlint'
+  when: claude_textlint_manifest.changed or not claude_textlint_installed.stat.exists
+
 # Claude Code reads MCP server config from ~/.claude.json (NOT
 # ~/.claude/settings.json). The file also holds Claude-managed state
 # (numStartups, projects, etc.) so we read-merge-write instead of

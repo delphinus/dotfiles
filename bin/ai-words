@@ -1,0 +1,449 @@
+#!/usr/bin/env node
+// ai-words - AI が書いた日本語に出やすい語を textlint で指摘する。
+//
+//   ai-words [FILE...]        ファイルを lint する (- で標準入力、--ext で書式指定)
+//   ai-words hook             Claude Code のフックとして動く (標準入力にフックの JSON)
+//
+// textlint 本体と設定は ~/.local/share/claude-textlint に置いてある
+// (ansible/tasks/claude_code.yml が ansible/files/claude_textlint から作る)。
+// 指摘したくない語は そこの .textlintrc.json の allows に足す。
+
+import { spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+
+const RUNTIME = path.join(os.homedir(), '.local/share/claude-textlint')
+const TEXTLINT = path.join(RUNTIME, 'node_modules/.bin/textlint')
+const CONFIG = path.join(RUNTIME, '.textlintrc.json')
+const STATE_DIR = path.join(os.tmpdir(), 'claude-ai-words')
+const STATE_TTL_MS = 6 * 60 * 60 * 1000
+
+// 拡張子ごとに textlint のプラグインが決まる。md は組み込みの markdown、
+// html は textlint-plugin-html、txt は組み込みの text。
+const LINTABLE_EXT = new Set(['.md', '.markdown', '.html', '.xhtml', '.txt'])
+
+const usage = `使い方:
+  ai-words [--ext EXT] [FILE...]   ファイル (または - で標準入力) を lint する
+  ai-words hook                    Claude Code のフックとして動く
+
+  --ext EXT   標準入力の書式。md (既定) / html / txt / jira
+`
+
+// ---------------------------------------------------------------- lint core
+
+function hasJapanese(s) {
+  // ひらがな・カタカナ・漢字・半角カナ
+  return /[぀-ヿ㐀-鿿豈-﫿ｦ-ﾟ]/.test(s)
+}
+
+// Jira の wiki markup にはコメント構文が無いので、コード記法だけ潰してから
+// プレーンテキストとして掛ける。行と桁がずれないよう同じ長さの空白で埋める。
+function maskJiraMarkup(text) {
+  const blank = (m) => m.replace(/[^\n]/g, ' ')
+  return text
+    .replace(/\{code(?::[^}]*)?\}[\s\S]*?\{code\}/g, blank)
+    .replace(/\{noformat\}[\s\S]*?\{noformat\}/g, blank)
+    .replace(/\{\{[^}\n]*\}\}/g, blank)
+}
+
+function extFor(kind) {
+  if (kind === 'html') return '.html'
+  if (kind === 'jira' || kind === 'txt' || kind === 'text') return '.txt'
+  return '.md'
+}
+
+// textlint の指摘を {line, col, word, message} の配列で返す。
+function lintFile(file) {
+  if (!fs.existsSync(TEXTLINT)) {
+    throw new Error(
+      `textlint が見つからない: ${TEXTLINT}\n` +
+        'ansible (play-ansbile) を流すか、~/.local/share/claude-textlint で npm ci してください。',
+    )
+  }
+  // --no-textlintrc は -c と併用できない (ルールが 0 件になる)。
+  // -c を渡せば対象ファイル側の .textlintrc は探索されない。
+  const r = spawnSync(TEXTLINT, ['-c', CONFIG, '-f', 'json', file], {
+    encoding: 'utf8',
+    maxBuffer: 64 * 1024 * 1024,
+  })
+  // textlint は指摘があると exit 1。stdout に JSON が出ていれば成功とみなす。
+  const out = (r.stdout || '').trim()
+  if (!out) {
+    const why = (r.stderr || '').trim() || `exit ${r.status}`
+    throw new Error(`textlint の実行に失敗した: ${why}`)
+  }
+  const results = JSON.parse(out)
+  const found = []
+  for (const f of results) {
+    for (const m of f.messages || []) {
+      const w = /[""「]?"?(.+?)"?[""」]? は/.exec(m.message)
+      found.push({
+        line: m.line,
+        col: m.column,
+        word: w ? w[1] : '',
+        message: m.message,
+      })
+    }
+  }
+  return found
+}
+
+function lintText(text, kind = 'md') {
+  if (!hasJapanese(text)) return []
+  const body = kind === 'jira' ? maskJiraMarkup(text) : text
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-words-'))
+  const file = path.join(dir, `body${extFor(kind)}`)
+  try {
+    fs.writeFileSync(file, body)
+    return lintFile(file)
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true })
+  }
+}
+
+// -------------------------------------------------------- 同じ文面の再実行
+
+// 一度指摘した文面をそのまま出し直してきたら「意図した言い回し」とみなして通す。
+// これが無いと、言い換えようのない語を含む本文で延々と差し戻すことになる。
+function seenBefore(key) {
+  const h = createHash('sha256').update(key).digest('hex').slice(0, 32)
+  const f = path.join(STATE_DIR, `${h}.txt`)
+  try {
+    fs.mkdirSync(STATE_DIR, { recursive: true })
+    sweepState()
+    if (fs.existsSync(f)) return true
+    fs.writeFileSync(f, '')
+  } catch {
+    // 状態を持てなくても lint は続ける (常に指摘する側に倒れる)
+  }
+  return false
+}
+
+function sweepState() {
+  const now = Date.now()
+  for (const name of fs.readdirSync(STATE_DIR)) {
+    const p = path.join(STATE_DIR, name)
+    try {
+      if (now - fs.statSync(p).mtimeMs > STATE_TTL_MS) fs.rmSync(p, { force: true })
+    } catch {
+      /* 無視 */
+    }
+  }
+}
+
+// ------------------------------------------------------------------ 整形
+
+function report(groups, { forHook = false } = {}) {
+  const lines = []
+  let total = 0
+  for (const [label, found] of groups) {
+    for (const f of found) {
+      const where = label ? `${label} ${f.line}:${f.col}` : `${f.line}:${f.col}`
+      lines.push(`  ${where}\t${f.word}`)
+      total += 1
+    }
+  }
+  return [
+    `textlint (ai-words-ja): ${total} 件`,
+    ...lines,
+    'AI が書いた日本語に出やすい語です。言い換えを検討してください。',
+    ...(forHook ? ['意図した語であれば、本文を変えずにもう一度同じ呼び出しをすれば通ります。'] : []),
+  ].join('\n')
+}
+
+// ---------------------------------------------------- シェルコマンドの分解
+
+// gh の --body を取り出すためだけの簡易トークナイザ。
+// $(...) と `...` と変数は「中身の分からないもの」として印を付けて返す。
+function tokenize(cmd) {
+  const tokens = []
+  let cur = null
+  const push = (text, opaque) => {
+    if (cur === null) cur = { text: '', opaque: false }
+    cur.text += text
+    if (opaque) cur.opaque = true
+  }
+  const flush = () => {
+    if (cur !== null) tokens.push(cur)
+    cur = null
+  }
+  let i = 0
+  while (i < cmd.length) {
+    const c = cmd[i]
+    if (c === '\\') {
+      push(cmd[i + 1] ?? '', false)
+      i += 2
+    } else if (c === "'") {
+      const end = cmd.indexOf("'", i + 1)
+      if (end < 0) return null
+      push(cmd.slice(i + 1, end), false)
+      i = end + 1
+    } else if (c === '"') {
+      let j = i + 1
+      let buf = ''
+      let opaque = false
+      while (j < cmd.length && cmd[j] !== '"') {
+        if (cmd[j] === '\\') {
+          buf += cmd[j + 1] ?? ''
+          j += 2
+        } else if (cmd[j] === '$' || cmd[j] === '`') {
+          opaque = true
+          buf += cmd[j]
+          j += 1
+        } else {
+          buf += cmd[j]
+          j += 1
+        }
+      }
+      if (j >= cmd.length) return null
+      push(buf, opaque)
+      i = j + 1
+    } else if (c === '$' || c === '`') {
+      push(c, true)
+      i += 1
+    } else if (/\s/.test(c)) {
+      flush()
+      // 改行やセミコロンなどの区切りは、後段でコマンド単位に割るために残す
+      if (c === '\n') tokens.push({ text: '\n', sep: true })
+      i += 1
+    } else if (c === ';' || c === '|' || c === '&') {
+      flush()
+      tokens.push({ text: c, sep: true })
+      i += 1
+    } else {
+      push(c, false)
+      i += 1
+    }
+  }
+  flush()
+  return tokens
+}
+
+// 短縮形の -F は gh api では別の意味 (フィールド指定) なので見ない。
+const BODY_FLAGS = new Set(['--body', '-b', '--notes'])
+const BODY_FILE_FLAGS = new Set(['--body-file', '--notes-file'])
+
+// gh のサブコマンドから本文らしき文字列を集める。
+function extractGhBodies(command) {
+  if (/<<-?\s*['"]?\w+/.test(command)) return { bodies: [], heredoc: true }
+  const tokens = tokenize(command)
+  if (!tokens) return { bodies: [], heredoc: false }
+
+  const bodies = []
+  let segment = []
+  const segments = []
+  for (const t of tokens) {
+    if (t.sep) {
+      if (segment.length) segments.push(segment)
+      segment = []
+    } else {
+      segment.push(t)
+    }
+  }
+  if (segment.length) segments.push(segment)
+
+  for (const seg of segments) {
+    if (seg[0]?.text !== 'gh') continue
+    for (let i = 1; i < seg.length; i += 1) {
+      const t = seg[i]
+      const eq = t.text.indexOf('=')
+      let flag = t.text
+      let inline = null
+      if (t.text.startsWith('--') && eq > 0) {
+        flag = t.text.slice(0, eq)
+        inline = { text: t.text.slice(eq + 1), opaque: t.opaque }
+      }
+      if (BODY_FLAGS.has(flag)) {
+        const v = inline ?? seg[i + 1]
+        if (v && !v.opaque && v.text) bodies.push({ label: flag, text: v.text, kind: 'md' })
+        if (!inline) i += 1
+      } else if (BODY_FILE_FLAGS.has(flag)) {
+        const v = inline ?? seg[i + 1]
+        if (v && !v.opaque && v.text) {
+          try {
+            const p = v.text.replace(/^~/, os.homedir())
+            const ext = path.extname(p).toLowerCase()
+            bodies.push({
+              label: path.basename(p),
+              text: fs.readFileSync(p, 'utf8'),
+              kind: ext === '.html' || ext === '.xhtml' ? 'html' : 'md',
+            })
+          } catch {
+            /* 読めないファイルは黙って飛ばす */
+          }
+        }
+        if (!inline) i += 1
+      }
+    }
+  }
+  return { bodies, heredoc: false }
+}
+
+// ------------------------------------------------- MCP ツールの本文フィールド
+
+// ツール名の末尾 (サーバ名を除いた部分) ごとに、見るフィールドと書式。
+const MCP_FIELDS = {
+  confluence_create_page: [['title', 'txt'], ['body', 'html']],
+  confluence_update_page: [['title', 'txt'], ['body', 'html']],
+  confluence_add_comment: [['body', 'html']],
+  confluence_update_comment: [['body', 'html']],
+  confluence_reply_comment: [['body', 'html']],
+  jira_add_comment: [['body', 'jira']],
+  jira_update_comment: [['body', 'jira']],
+  jira_create_issue: [['summary', 'txt'], ['description', 'jira']],
+  jira_update_issue: [['summary', 'txt'], ['description', 'jira']],
+}
+
+function mcpTargets(toolName, input) {
+  // mcp__<サーバ名>__<ツール名> から末尾のツール名だけを取る
+  const short = toolName.split('__').slice(2).join('__')
+  const spec = short && MCP_FIELDS[short]
+  if (!spec) return []
+  const out = []
+  for (const [field, kind] of spec) {
+    const v = input?.[field]
+    if (typeof v === 'string' && v.trim()) out.push({ label: field, text: v, kind })
+  }
+  return out
+}
+
+// ------------------------------------------------------------------ hook
+
+function hookDeny(reason) {
+  process.stdout.write(
+    JSON.stringify({
+      hookSpecificOutput: {
+        hookEventName: 'PreToolUse',
+        permissionDecision: 'deny',
+        permissionDecisionReason: reason,
+      },
+    }),
+  )
+  process.exit(0)
+}
+
+function runHook() {
+  let raw = ''
+  try {
+    raw = fs.readFileSync(0, 'utf8')
+  } catch {
+    process.exit(0)
+  }
+  let ev
+  try {
+    ev = JSON.parse(raw)
+  } catch {
+    process.exit(0)
+  }
+
+  const event = ev.hook_event_name
+  const tool = ev.tool_name || ''
+  const input = ev.tool_input || {}
+
+  // ---- 2. Write / Edit で書いた Markdown・HTML (PostToolUse)
+  if (event === 'PostToolUse' && (tool === 'Write' || tool === 'Edit')) {
+    const file = input.file_path
+    if (!file) process.exit(0)
+    const ext = path.extname(file).toLowerCase()
+    if (!LINTABLE_EXT.has(ext)) process.exit(0)
+    if (file.includes('/node_modules/') || file.includes('/.git/')) process.exit(0)
+
+    let text
+    try {
+      text = fs.readFileSync(file, 'utf8')
+    } catch {
+      process.exit(0)
+    }
+    if (!hasJapanese(text)) process.exit(0)
+
+    const found = lintFile(file)
+    if (!found.length) process.exit(0)
+    if (seenBefore(`file:${file}:${text}`)) process.exit(0)
+
+    process.stderr.write(`${report([[path.basename(file), found]], { forHook: true })}\n`)
+    process.exit(2)
+  }
+
+  // ---- 3. gh 経由で外へ出る本文 (PreToolUse)
+  if (event === 'PreToolUse' && tool === 'Bash') {
+    const command = input.command || ''
+    // --body-file の場合はコマンド文字列に日本語が無いので、ここで日本語を見ない。
+    // 本文ごとの判定は lintText がやる。
+    if (!/\bgh\b/.test(command)) process.exit(0)
+    const { bodies } = extractGhBodies(command)
+    const groups = []
+    for (const b of bodies) {
+      const found = lintText(b.text, b.kind)
+      if (found.length) groups.push([b.label, found])
+    }
+    if (!groups.length) process.exit(0)
+    if (seenBefore(`bash:${command}`)) process.exit(0)
+    hookDeny(report(groups, { forHook: true }))
+  }
+
+  // ---- 4. MCP 経由で外へ出る本文 (PreToolUse)
+  if (event === 'PreToolUse' && tool.startsWith('mcp__')) {
+    const targets = mcpTargets(tool, input)
+    if (!targets.length) process.exit(0)
+    const groups = []
+    const keyParts = [tool]
+    for (const t of targets) {
+      keyParts.push(t.label, t.text)
+      const found = lintText(t.text, t.kind)
+      if (found.length) groups.push([t.label, found])
+    }
+    if (!groups.length) process.exit(0)
+    if (seenBefore(`mcp:${keyParts.join(' ')}`)) process.exit(0)
+    hookDeny(report(groups, { forHook: true }))
+  }
+
+  process.exit(0)
+}
+
+// ------------------------------------------------------------------- CLI
+
+function runCli(argv) {
+  let kind = 'md'
+  const files = []
+  for (let i = 0; i < argv.length; i += 1) {
+    const a = argv[i]
+    if (a === '--ext') {
+      kind = argv[i + 1]
+      i += 1
+    } else if (a === '-h' || a === '--help') {
+      process.stdout.write(usage)
+      process.exit(0)
+    } else {
+      files.push(a)
+    }
+  }
+  if (!files.length) files.push('-')
+
+  const groups = []
+  for (const f of files) {
+    if (f === '-') {
+      groups.push(['(stdin)', lintText(fs.readFileSync(0, 'utf8'), kind)])
+    } else {
+      groups.push([path.basename(f), lintFile(f)])
+    }
+  }
+  const total = groups.reduce((n, [, g]) => n + g.length, 0)
+  if (!total) {
+    process.stdout.write('textlint (ai-words-ja): 指摘なし\n')
+    process.exit(0)
+  }
+  process.stdout.write(`${report(groups)}\n`)
+  process.exit(1)
+}
+
+const [sub, ...rest] = process.argv.slice(2)
+try {
+  if (sub === 'hook') runHook()
+  else runCli(sub === undefined ? [] : [sub, ...rest])
+} catch (e) {
+  // フックとして動いているときに落ちても作業は止めない。
+  process.stderr.write(`ai-words: ${e.message}\n`)
+  process.exit(sub === 'hook' ? 0 : 3)
+}
