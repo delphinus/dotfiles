@@ -1,18 +1,13 @@
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 
--- skkeleton の completionOkuriMaxLength (補完で送り仮名とみなす長さの上限) を
--- 試すための worktree。ブランチは feat/completion-okuri-max-length。
+-- ここだけ別のブランチを試すための worktree。共有チェックアウト (主設定が
+-- 管理) は 2026-09-15 から feat/completion-okuri-max-length に載っているので、
+-- 普段はこの worktree は無く、下の skkeleton_dir は共有側に落ちる。
 --
--- 端末ごとに作る必要があるので、無い端末では共有チェックアウトに戻す。
--- skkeleton#config() は未知のキーを渡されると setConfig が throw して
--- 設定全体が失敗するため、worktree を使っているときだけこの設定を渡すこと。
---
--- 他の端末で試すには:
---   git -C ~/.local/share/nvim/lazy/skkeleton fetch delphinus
+-- 共有側と違うものを試したくなったら:
 --   git -C ~/.local/share/nvim/lazy/skkeleton worktree add \
---     ~/.local/share/claude-worktrees/skkeleton-okuri-limit \
---     delphinus/feat/completion-okuri-max-length
--- 試し終わったら worktree を消すだけで元の挙動に戻る。
+--     ~/.local/share/claude-worktrees/skkeleton-okuri-limit <ブランチ>
+-- 試し終わったら worktree を消すだけで共有側に戻る。
 local okuri_worktree = vim.env.HOME .. "/.local/share/claude-worktrees/skkeleton-okuri-limit"
 local use_okuri_worktree = vim.uv.fs_stat(okuri_worktree .. "/denops") ~= nil
 local skkeleton_dir = use_okuri_worktree and okuri_worktree or shared .. "/skkeleton"
@@ -239,16 +234,12 @@ require("lazy").setup({
         -- markerHenkanSelect = "󰄮",
       }
 
-      -- 補完で送り仮名とみなす長さの上限 (0 = 制限なし、従来の挙動)。
-      -- 制限が無いと読みを全ての位置で切るので、「きんようびのよてい」では
-      -- 「き」+「んようびのよてい」まで試し、見出し「きn」の候補 14 個が
-      -- 「気んようびのよてい」… として補完一覧を埋める。2 にすると
-      -- 「かんがえ」+「かた」は残したままそれが消える。上限値が妥当かを
-      -- 確かめるための試用中。
-      -- パッチを持たない skkeleton に渡すと setConfig が throw して
-      -- skkeleton#config() 全体が失敗するので、worktree を使うときだけ渡す。
-      if use_okuri_worktree then
-        skk_config.completionOkuriMaxLength = 2
+      -- 補完で送り仮名とみなす長さの上限 (0 = 制限なし、従来の挙動)。主設定と
+      -- 同じ判定・同じ値を使う。worktree の有無ではなくチェックアウトの中身を
+      -- 見るので、共有チェックアウトがブランチに載っているときにも効く。
+      local okuri_limit = require "core.skkeleton_okuri_limit"
+      if okuri_limit.supported(skkeleton_dir) then
+        skk_config.completionOkuriMaxLength = okuri_limit.max_length
       end
 
       vim.fn["skkeleton#config"](skk_config)

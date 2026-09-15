@@ -77,17 +77,26 @@ return {
   },
 
   {
-    -- 確定アンドゥ (vim-skk/skkeleton#257) が 2026-09-14 に upstream へマージ
-    -- されたので、自前ブランチをやめて本家に戻した。下の register_keymap で
-    -- <C-z> に割り当てている。補完エンジン連携の登録制 (同 #253) も入っている。
-    -- 手元のクローン (~/.local/share/nvim/lazy/skkeleton) は origin を
-    -- vim-skk に向け直し、fork は remote `delphinus` として残してある。
-    "vim-skk/skkeleton",
+    -- 自前ブランチ feat/completion-okuri-max-length を使用中。補完で送り仮名と
+    -- みなす長さの上限 (completionOkuriMaxLength) を足すもので、下の
+    -- core.skkeleton_okuri_limit で値を渡している。upstream にマージされたら
+    -- branch 指定を外して "vim-skk/skkeleton" に戻す。
+    -- 確定アンドゥ (vim-skk/skkeleton#257) は 2026-09-14 に upstream へマージ
+    -- 済みで、このブランチは main の上に乗っている。補完エンジン連携の登録制
+    -- (同 #253) も同様。下の register_keymap で <C-z> に割り当てている。
+    -- 手元のクローン (~/.local/share/nvim/lazy/skkeleton) は origin を fork
+    -- (delphinus/skkeleton) に向けておくこと。lazy.nvim は spec の URL と
+    -- origin が食い違うとディレクトリを消して clone し直すので、vim-skk を
+    -- 向いたままの端末では worktree ごと消える:
+    --   git -C ~/.local/share/nvim/lazy/skkeleton remote rename origin vim-skk
+    --   git -C ~/.local/share/nvim/lazy/skkeleton remote rename delphinus origin
+    "delphinus/skkeleton",
+    branch = "feat/completion-okuri-max-length",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
 
-    config = function()
+    config = function(plugin)
       -- 左右の ⌘ 単体押しでかな・英数を切り替えるための Karabiner 連携。補完
       -- エンジンに依らず常に要る (CMP=1 の時だけ有効になっていて壊れていた)。
       require("core.skkeleton_karabiner").setup()
@@ -112,7 +121,7 @@ return {
       local skk_repo = vim.fs.normalize "~/git/github.com/delphinus/skk-jisyo"
       local rank_file = skk_repo .. "/completion-rank.json"
 
-      vim.fn["skkeleton#config"] {
+      local skk_config = {
         userDictionary = skk_repo .. "/skk-jisyo.utf8",
         completionRankFile = rank_file,
         completionBackend = use_cmp and "nvim-cmp" or "blink.cmp",
@@ -133,6 +142,17 @@ return {
         skkServerResEnc = "utf-8",
         databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
       }
+
+      -- 補完で送り仮名とみなす長さの上限。fork のブランチにしか無いオプション
+      -- なので、チェックアウトが持っているときだけ渡す (判定の理由はモジュール
+      -- 側のコメント)。
+      local okuri_limit = require "core.skkeleton_okuri_limit"
+      if okuri_limit.supported(plugin.dir) then
+        skk_config.completionOkuriMaxLength = okuri_limit.max_length
+      end
+
+      vim.fn["skkeleton#config"](skk_config)
+
       -- 確定アンドゥ (vim-skk/skkeleton#165)。候補を選び間違えて確定した時に、
       -- 読みから打ち直さず ▼ の状態へ戻して選び直す。確定した文字列がカーソル
       -- 直前に残っている時だけ効き、それ以外では何も起きない。
