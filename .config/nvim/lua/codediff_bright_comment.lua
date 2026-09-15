@@ -7,8 +7,9 @@
 -- バッファには一切影響しない。
 --
 -- treesitter の @comment / @comment.* キャプチャを使うので言語非依存 (parser が
--- あり、コメントが @comment 系で捕捉される言語すべてで効く)。Python の docstring
--- のように文字列扱い (@string.documentation) のものは対象外。
+-- あり、コメントが @comment 系で捕捉される言語すべてで効く)。injection された
+-- 言語のコメントも拾う。Python の docstring のように文字列扱い
+-- (@string.documentation) のものは対象外。
 --
 -- サンドボックス (nvim-dev/codediff) とメイン config の両方から setup() を呼ぶ。
 
@@ -94,16 +95,27 @@ local function repaint(buf)
   if not ok or not parser then
     return
   end
-  local trees = parser:parse()
-  local query = vim.treesitter.query.get(parser:lang(), "highlights")
-  if not trees or not query then
+  -- injection された言語のコメントも対象にする (YAML の `run: |` に埋まった bash、
+  -- Markdown のコードフェンス等)。トップレベルのツリーだけを見ると、そこが
+  -- まるごと文字列 / block_scalar 扱いになり 1 つも拾えない。
+  if not pcall(parser.parse, parser, true) then
     return
   end
 
   -- `///` は @comment と @comment.documentation の両方で捕捉されるため、
   -- 同一範囲への二重塗りを避ける。
   local seen = {}
-  for _, tree in ipairs(trees) do
+  parser:for_each_tree(function(tree, ltree)
+    -- コメント本文に対する injection (TODO / NOTE 等を捕捉する `comment` parser)
+    -- は、親のツリーが既にコメント全体を塗っているので見ない。
+    local lang = ltree:lang()
+    if lang == "comment" then
+      return
+    end
+    local query = vim.treesitter.query.get(lang, "highlights")
+    if not query then
+      return
+    end
     for id, node in query:iter_captures(tree:root(), buf, 0, -1) do
       local name = query.captures[id]
       if name == "comment" or name:sub(1, 8) == "comment." then
@@ -129,7 +141,7 @@ local function repaint(buf)
         end
       end
     end
-  end
+  end)
 end
 
 --- @param opts? { lift?: number } lift: Comment を Normal fg へ寄せる割合 (既定 0.5)
