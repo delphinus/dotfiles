@@ -37,7 +37,8 @@ return {
     enabled = use_cmp,
     event = { "InsertEnter", "CmdlineEnter" },
   },
-  -- 自前ブランチを使用中。3 つの機能が積んである:
+  -- 自前の統合ブランチ (test/kakutei-undo+okuriari) を使用中。upstream
+  -- (Xantibody/main) の上に 4 つの機能が積んである:
   --   feat/skkeleton-completion-backend  skkeleton の completionBackend
   --     (vim-skk/skkeleton#249) に backend 定義を登録する
   --   feat/learn-on-implicit-confirm     ↑の上。候補を選んだまま打ち続けて確定
@@ -46,6 +47,10 @@ return {
   --   feat/kakutei-undo-inserted         ↑の上。completeCallback にバッファへ
   --     挿入した文字列を渡す。これが無いと補完による確定を kakuteiUndo で
   --     取り消せない
+  --   feat/okuriari-completion           ↑の上。getCompleteItems に切り替えて
+  --     送りありの候補も出す (ddc の skkeleton_okuri ソース相当)。skkeleton
+  --     3.0.0 以降が要る
+  -- PR は各ブランチから出す。この統合ブランチからは出さない。
   -- upstream (Xantibody) に全部入ったら branch 指定を外して
   -- "Xantibody/blink-cmp-skkeleton" に戻す。
   -- event が要る。これが無いと「blink.cmp が候補ソースを計算する時に require
@@ -54,7 +59,7 @@ return {
   -- タイミングで載せる。
   {
     "delphinus/blink-cmp-skkeleton",
-    branch = "feat/kakutei-undo-inserted",
+    branch = "test/kakutei-undo+okuriari",
     enabled = not use_cmp,
     event = { "InsertEnter", "CmdlineEnter" },
   },
