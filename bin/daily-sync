@@ -33,6 +33,11 @@ readonly BREW_TIMEOUT="${DAILY_SYNC_BREW_TIMEOUT:-2400}"
 BREW_REPO="$(brew --repo 2>/dev/null)" || BREW_REPO=""
 readonly BREW_REPO
 
+# --prefix は --repo と一致するとは限らない (Intel Mac では /usr/local と
+# /usr/local/Homebrew に分かれる)。opt の symlink を読むのに使う。
+BREW_PREFIX="$(brew --prefix 2>/dev/null)" || BREW_PREFIX=""
+readonly BREW_PREFIX
+
 readonly STATE_DIR="$HOME/.local/state/daily-sync"
 readonly LAST_RUN="$STATE_DIR/last-run"
 # 起動時の枠 (--at-boot) が「この起動セッションは扱った」と記録する先。
@@ -309,13 +314,13 @@ formula_versions() {
         jq -r '.formulae[] | "\(.full_name)\t\(.linked_keg // .installed[0].version // "")"' | sort
 }
 
-# formula の定義が HOMEBREW_OP を要求するか。tap のソースを直接見る。
+# tap 内の formula 定義 (.rb) のパス。tap 外 (homebrew/core 等) では何も返さない。
 # brew cat でも取れるが 1 回あたり数百 ms かかるので、ローカルの tap を読む。
-formula_needs_homebrew_op() {
+tap_formula_path() {
     local full_name="$1"
     case "$full_name" in
         */*/*) ;;
-        *) return 1 ;; # tap 外 (homebrew/core 等) は該当しない
+        *) return 1 ;;
     esac
     local user="${full_name%%/*}"
     local rest="${full_name#*/}"
@@ -325,11 +330,137 @@ formula_needs_homebrew_op() {
     local rb
     for rb in "$tap_dir/$name.rb" "$tap_dir/Formula/$name.rb"; do
         [[ -f "$rb" ]] && {
-            grep -q 'HOMEBREW_OP' "$rb"
-            return $?
+            printf '%s\n' "$rb"
+            return 0
         }
     done
     return 1
+}
+
+# formula の定義が HOMEBREW_OP を要求するか。
+formula_needs_homebrew_op() {
+    local rb
+    rb="$(tap_formula_path "$1")" || return 1
+    grep -q 'HOMEBREW_OP' "$rb"
+}
+
+# --- HEAD インストールの revision ドリフト --------------------------------
+#
+# HEAD インストールの keg は HEAD-<sha>_<revision> という名前になる。Homebrew は
+# HEAD keg の新旧を **sha だけ** で判定するので、tap 側で revision を上げても
+# brew outdated には出ない (--fetch-HEAD を付けても同じ。2026-09-15 に確認)。
+#
+# 自分の tap の formula は、上流のコミットを固定したまま formula だけを直すことが
+# ある (upstream 未取り込みのパッチを patch :DATA で当てる等)。この場合 sha は動か
+# ないので、上の判定では永久に拾われない。実際 yaskkserv2 で、パッチを当てた端末と
+# 当たっていない端末に分かれた。
+#
+# そこで自分の tap の HEAD インストールに限り、keg の revision と formula の
+# revision を直接比べて、formula 側が新しければ再ビルドする。brew reinstall は
+# HEAD インストールを HEAD のまま作り直すので、sha は動かず revision だけ上がる。
+keg_revision() {
+    local keg="$1"
+    local rev
+    rev="$(printf '%s' "$keg" | sed -n 's/.*_\([0-9][0-9]*\)$/\1/p')"
+    printf '%s\n' "${rev:-0}"
+}
+
+formula_revision() {
+    local rb
+    rb="$(tap_formula_path "$1")" || {
+        printf '0\n'
+        return 0
+    }
+    local rev
+    rev="$(sed -n 's/^[[:space:]]*revision[[:space:]]\{1,\}\([0-9][0-9]*\).*/\1/p' "$rb" | head -1)"
+    printf '%s\n' "${rev:-0}"
+}
+
+brew_reinstall_head_revision_drift() {
+    local -a targets=()
+    local full_name name keg krev frev
+    # 対象の一覧はキャッシュで足りるが、keg は opt の symlink から取り直す。
+    # 直前の brew upgrade --fetch-HEAD で入れ替わっているとキャッシュは古く、
+    # 上がったばかりのものをもう一度ソースビルドしてしまう。
+    while IFS= read -r full_name; do
+        [[ -n "$full_name" ]] || continue
+        tap_formula_path "$full_name" >/dev/null || continue # 自分の tap のものだけ
+        name="${full_name##*/}"
+        keg="$(basename "$(readlink "$BREW_PREFIX/opt/$name" 2>/dev/null)" 2>/dev/null)"
+        [[ "$keg" == HEAD-* ]] || continue
+        krev="$(keg_revision "$keg")"
+        frev="$(formula_revision "$full_name")"
+        if ((frev > krev)); then
+            log "$full_name: keg ($keg) の revision $krev < formula の revision $frev — 再ビルドする"
+            targets+=("$full_name")
+        fi
+    done < <(head_formulae)
+
+    if ((${#targets[@]} == 0)); then
+        log "revision ドリフトは無し"
+        return 0
+    fi
+    ((DRY_RUN)) && {
+        log "(dry-run) brew reinstall をスキップ: ${targets[*]}"
+        return 0
+    }
+
+    local f rc=0
+    for f in "${targets[@]}"; do
+        quarantine_active "$f" && {
+            log "隔離中のためスキップ: $f"
+            continue
+        }
+        if brew_run "$((BREW_TIMEOUT * 2))" brew reinstall "$f"; then
+            action "$f を revision 更新のため再ビルドした"
+        else
+            failure "$f の再ビルドに失敗"
+            rc=1
+        fi
+    done
+    return "$rc"
+}
+
+# --- 更新された formula のサービス再起動 ----------------------------------
+#
+# brew upgrade / reinstall は起動中のサービスを入れ替えない (Homebrew の
+# upgrade.rb にその処理が無く、daily-sync でも触っていなかった)。keg を新しく
+# しても古いプロセスが動き続けるので、毎晩電源を落とす端末は翌朝の起動で直る
+# ものの、常時起動の端末では古いバイナリのまま残る。
+#
+# 引数は formula_versions の差分 (<full_name>\t<version> の行) をそのまま渡す。
+restart_changed_services() {
+    local changed="$1"
+    [[ -n "$changed" ]] || {
+        log "更新された formula が無いので再起動不要"
+        return 0
+    }
+
+    local running
+    running="$(brew services list --json 2>/dev/null |
+        jq -r '.[] | select(.status == "started") | .name')" || running=""
+    [[ -n "$running" ]] || {
+        log "起動中の brew services は無し"
+        return 0
+    }
+
+    local full_name name rc=0
+    while IFS=$'\t' read -r full_name _; do
+        [[ -n "$full_name" ]] || continue
+        name="${full_name##*/}"
+        grep -qxF "$name" <<<"$running" || continue
+        ((DRY_RUN)) && {
+            log "(dry-run) brew services restart $name をスキップ"
+            continue
+        }
+        if brew_run "$BREW_TIMEOUT" brew services restart "$full_name"; then
+            action "$name のサービスを再起動した (keg が更新されたため)"
+        else
+            failure "$name のサービス再起動に失敗"
+            rc=1
+        fi
+    done <<<"$changed"
+    return "$rc"
 }
 
 # --- 隔離 (quarantine) --------------------------------------------------
@@ -1940,6 +2071,7 @@ main() {
     run_step "brew upgrade (bottle 系)" brew_upgrade_versioned
     run_step "neovim の退避" snapshot_nvim_fallback
     run_step "brew upgrade --fetch-HEAD (HEAD 系)" brew_upgrade_head
+    run_step "HEAD の revision ドリフト解消" brew_reinstall_head_revision_drift
     run_step "古い neovim keg の掃除" prune_nvim_kegs
     # formula を全て片付けてから cask に入る。cask は巨大なダウンロードを伴う
     # ことがあり、先に置くと neovim の退避が無用に遅れる。
@@ -1961,6 +2093,8 @@ main() {
     else
         log "  変更なし"
     fi
+
+    run_step "更新された formula のサービス再起動" restart_changed_services "$changed"
 
     # brew を片付けてから。ジョブにはソースビルドを伴うものがあり、先に置くと
     # formula の更新がその分遅れる。
