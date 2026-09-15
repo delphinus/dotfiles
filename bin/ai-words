@@ -20,6 +20,7 @@ const TEXTLINT = path.join(RUNTIME, 'node_modules/.bin/textlint')
 const CONFIG = path.join(RUNTIME, '.textlintrc.json')
 const STATE_DIR = path.join(os.tmpdir(), 'claude-ai-words')
 const STATE_TTL_MS = 6 * 60 * 60 * 1000
+const OVERRIDE_LOG = path.join(os.homedir(), '.local/state/ai-words/overrides.log')
 
 // 拡張子ごとに textlint のプラグインが決まる。md は組み込みの markdown、
 // html は textlint-plugin-html、txt は組み込みの text。
@@ -292,6 +293,40 @@ function sweepState() {
       /* 無視 */
     }
   }
+}
+
+// seenBefore() が通す側に倒れたとき、そのままだと何も出さずに終わる。
+// 「意図した語なので残した」という判断がどこにも現れないと、ユーザは後から
+// 本文に残った語を見ても、直し忘れなのか意図なのか区別できない。Claude が
+// 口頭で伝えるかどうかに任せず、通知とログを必ず残す。
+function announceOverride(groups) {
+  const words = []
+  const places = []
+  for (const [label, found] of groups) {
+    for (const f of found) {
+      if (f.word && !words.includes(f.word)) words.push(f.word)
+      places.push(`${label || '(不明)'} ${f.line}:${f.col} ${f.word}`)
+    }
+  }
+  const labels = [...new Set(groups.map(([l]) => l).filter(Boolean))]
+  const summary = `${labels.join(', ') || '(不明)'}: ${words.join('・')}`
+
+  try {
+    fs.mkdirSync(path.dirname(OVERRIDE_LOG), { recursive: true })
+    fs.appendFileSync(OVERRIDE_LOG, `${new Date().toISOString()}\t${places.join('\t')}\n`)
+  } catch {
+    // ログを残せなくても通知は出す
+  }
+  // 通知はユーザに直接届く唯一の手段だが、失敗しても作業は止めない。
+  try {
+    spawnSync('claude-code-hooks', ['notify', 'ai-words', `意図した語として通した: ${summary}`], {
+      stdio: 'ignore',
+      timeout: 5000,
+    })
+  } catch {
+    /* 無視 */
+  }
+  process.stdout.write(`ai-words: 意図した語として通した: ${summary}\n`)
 }
 
 // ------------------------------------------------------------------ 整形
@@ -740,9 +775,13 @@ function runHook() {
 
     const found = lintPath(file)
     if (!found || !found.length) process.exit(0)
-    if (seenBefore(`file:${file}:${text}`)) process.exit(0)
+    const groups = [[path.basename(file), found]]
+    if (seenBefore(`file:${file}:${text}`)) {
+      announceOverride(groups)
+      process.exit(0)
+    }
 
-    process.stderr.write(`${report([[path.basename(file), found]], { forHook: true })}\n`)
+    process.stderr.write(`${report(groups, { forHook: true })}\n`)
     process.exit(2)
   }
 
@@ -782,7 +821,10 @@ function runHook() {
     }
 
     if (!groups.length) process.exit(0)
-    if (seenBefore(`bash:${command}:${digest(groups)}`)) process.exit(0)
+    if (seenBefore(`bash:${command}:${digest(groups)}`)) {
+      announceOverride(groups)
+      process.exit(0)
+    }
     hookDeny(report(groups, { forHook: true }))
   }
 
@@ -798,7 +840,10 @@ function runHook() {
       if (found.length) groups.push([t.label, found])
     }
     if (!groups.length) process.exit(0)
-    if (seenBefore(`mcp:${keyParts.join(' ')}`)) process.exit(0)
+    if (seenBefore(`mcp:${keyParts.join(' ')}`)) {
+      announceOverride(groups)
+      process.exit(0)
+    }
     hookDeny(report(groups, { forHook: true }))
   }
 
