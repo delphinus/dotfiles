@@ -77,14 +77,12 @@ return {
   },
 
   {
-    -- 自前ブランチを使用中。確定アンドゥ (vim-skk/skkeleton#165)。下の
-    -- register_keymap で <C-z> に割り当てている。
-    -- 補完エンジン連携の登録制 (vim-skk/skkeleton#253) は upstream にマージ
-    -- されたので、以前の統合ブランチ (test/completion-backend+kakutei-undo) は
-    -- 不要になった。このブランチは main の最新に載っている。
-    -- upstream にマージされたら branch 指定を外して "vim-skk/skkeleton" に戻す。
-    "delphinus/skkeleton",
-    branch = "feature/kakutei-undo-invalidation",
+    -- 確定アンドゥ (vim-skk/skkeleton#257) が 2026-09-14 に upstream へマージ
+    -- されたので、自前ブランチをやめて本家に戻した。下の register_keymap で
+    -- <C-z> に割り当てている。補完エンジン連携の登録制 (同 #253) も入っている。
+    -- 手元のクローン (~/.local/share/nvim/lazy/skkeleton) は origin を
+    -- vim-skk に向け直し、fork は remote `delphinus` として残してある。
+    "vim-skk/skkeleton",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
