@@ -54,6 +54,135 @@ function extFor(kind) {
   return '.md'
 }
 
+// ------------------------------------------------- ソースコードのコメント
+
+// textlint はコードの構造を解さないので、コメント以外を同じ長さの空白で潰してから
+// プレーンテキストとして掛ける。行と桁が元のファイルと一致するので、指摘を
+// そのままエディタで開ける。
+//
+// line       行コメントの開始。bol が真なら行頭 (空白を除く) のときだけ認める
+// block      [開始, 終了] の組
+// strings    [開始, 終了] の組。この中はコメントと見なさない
+// noEscape   バックスラッシュによるエスケープが効かない文字列の開始記号
+const COMMENT_SPECS = [
+  {
+    exts: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.go', '.rs', '.java', '.kt',
+           '.kts', '.swift', '.scala', '.c', '.h', '.cc', '.cpp', '.hpp', '.cs', '.php',
+           '.dart', '.zig', '.jsonc', '.json5'],
+    line: [{ mark: '//' }],
+    block: [['/*', '*/']],
+    strings: [['"', '"'], ["'", "'"], ['`', '`']],
+  },
+  { exts: ['.css', '.scss', '.less'], line: [], block: [['/*', '*/']], strings: [['"', '"'], ["'", "'"]] },
+  {
+    exts: ['.py'],
+    line: [{ mark: '#' }],
+    // docstring は実装上ただの文字列だが、読み手にとっては文書なので対象に含める
+    block: [['"""', '"""'], ["'''", "'''"]],
+    strings: [['"', '"'], ["'", "'"]],
+  },
+  {
+    exts: ['.rb', '.rake', '.gemspec'],
+    line: [{ mark: '#' }],
+    block: [['=begin', '=end']],
+    strings: [['"', '"'], ["'", "'"]],
+  },
+  {
+    exts: ['.sh', '.bash', '.zsh', '.fish', '.pl', '.pm', '.t', '.yaml', '.yml', '.toml',
+           '.tf', '.tfvars', '.conf', '.ini', '.gitconfig', '.dockerfile', '.env'],
+    line: [{ mark: '#' }],
+    block: [],
+    strings: [['"', '"'], ["'", "'"]],
+    noEscape: ["'"],
+  },
+  { exts: ['.lua'], line: [{ mark: '--' }], block: [['--[[', ']]'], ['[[', ']]']], strings: [['"', '"'], ["'", "'"]] },
+  // Vim script の " は文字列とも区別が付かないので、行頭のものだけコメントとみなす
+  { exts: ['.vim'], line: [{ mark: '"', bol: true }, { mark: '#', bol: true }], block: [], strings: [["'", "'"]] },
+  { exts: ['.sql'], line: [{ mark: '--' }], block: [['/*', '*/']], strings: [["'", "'"]] },
+]
+
+const COMMENT_EXT = new Map()
+for (const spec of COMMENT_SPECS) for (const e of spec.exts) COMMENT_EXT.set(e, spec)
+
+// 拡張子の無い実行スクリプト (~/git/dotfiles/bin にたくさんある) は shebang で見分ける。
+const SHEBANG_EXT = [
+  [/\b(node|bun|deno)\b/, '.js'],
+  [/\bpython[\d.]*\b/, '.py'],
+  [/\bruby\b/, '.rb'],
+  [/\bperl\b/, '.pl'],
+  [/\b(bash|zsh|sh|fish)\b/, '.sh'],
+]
+
+function specForFile(file, head) {
+  const ext = path.extname(file).toLowerCase()
+  if (ext) return COMMENT_EXT.get(ext)
+  if (!head?.startsWith('#!')) return undefined
+  const line = head.slice(0, head.indexOf('\n') + 1 || head.length)
+  for (const [re, e] of SHEBANG_EXT) if (re.test(line)) return COMMENT_EXT.get(e)
+  return undefined
+}
+
+function maskCode(src, spec) {
+  const out = new Array(src.length)
+  for (let i = 0; i < src.length; i += 1) out[i] = src[i] === '\n' ? '\n' : ' '
+  const keep = (from, to) => {
+    for (let i = from; i < to && i < src.length; i += 1) out[i] = src[i]
+  }
+  const atBol = (i) => {
+    for (let j = i - 1; j >= 0; j -= 1) {
+      if (src[j] === '\n') return true
+      if (src[j] !== ' ' && src[j] !== '\t') return false
+    }
+    return true
+  }
+
+  let i = 0
+  outer: while (i < src.length) {
+    // ブロックコメント (--[[ を -- より先に見るため block を先に判定する)
+    for (const [open, close] of spec.block) {
+      if (src.startsWith(open, i)) {
+        const end = src.indexOf(close, i + open.length)
+        const stop = end < 0 ? src.length : end + close.length
+        // Lua の [[ ]] は長い文字列で、コメントではない
+        if (!(open === '[[' && spec.exts.includes('.lua'))) keep(i + open.length, end < 0 ? src.length : end)
+        i = stop
+        continue outer
+      }
+    }
+    // 行コメント
+    for (const l of spec.line) {
+      if (src.startsWith(l.mark, i) && (!l.bol || atBol(i))) {
+        // シェルの # は語頭のときだけ (例: ${#foo} や色指定の #fff を避ける)
+        if (l.mark === '#' && !l.bol && i > 0 && !/[\s;|&(]/.test(src[i - 1])) break
+        const nl = src.indexOf('\n', i)
+        const end = nl < 0 ? src.length : nl
+        keep(i + l.mark.length, end)
+        i = end
+        continue outer
+      }
+    }
+    // 文字列はまたぐ
+    let skipped = false
+    for (const [open, close] of spec.strings) {
+      if (src.startsWith(open, i)) {
+        const escapable = !(spec.noEscape || []).includes(open)
+        let j = i + open.length
+        while (j < src.length) {
+          if (escapable && src[j] === '\\') j += 2
+          else if (src.startsWith(close, j)) break
+          else if (src[j] === '\n' && open !== '`') break // 行をまたぐ文字列は諦める
+          else j += 1
+        }
+        i = j + (src.startsWith(close, j) ? close.length : 0)
+        skipped = true
+        break
+      }
+    }
+    if (!skipped) i += 1
+  }
+  return out.join('')
+}
+
 // textlint の指摘を {line, col, word, message} の配列で返す。
 function lintFile(file) {
   if (!fs.existsSync(TEXTLINT)) {
@@ -78,7 +207,8 @@ function lintFile(file) {
   const found = []
   for (const f of results) {
     for (const m of f.messages || []) {
-      const w = /[""「]?"?(.+?)"?[""」]? は/.exec(m.message)
+      // メッセージは `"焼く" (焼き込む) は…` の形。先頭の引用符の中だけを取る。
+      const w = /^[""「"](.+?)[""」"]/.exec(m.message)
       found.push({
         line: m.line,
         col: m.column,
@@ -93,14 +223,32 @@ function lintFile(file) {
 function lintText(text, kind = 'md') {
   if (!hasJapanese(text)) return []
   const body = kind === 'jira' ? maskJiraMarkup(text) : text
+  return lintBuffer(body, extFor(kind))
+}
+
+function lintBuffer(body, ext) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-words-'))
-  const file = path.join(dir, `body${extFor(kind)}`)
+  const file = path.join(dir, `body${ext}`)
   try {
     fs.writeFileSync(file, body)
     return lintFile(file)
   } finally {
     fs.rmSync(dir, { recursive: true, force: true })
   }
+}
+
+// 拡張子を見て、文書はそのまま、ソースコードはコメントだけ取り出して lint する。
+// 対象外の拡張子なら null を返す。
+function lintPath(file) {
+  const ext = path.extname(file).toLowerCase()
+  if (LINTABLE_EXT.has(ext)) return lintFile(file)
+  const src = fs.readFileSync(file, 'utf8')
+  const spec = specForFile(file, src)
+  if (!spec) return null
+  if (!hasJapanese(src)) return []
+  const masked = maskCode(src, spec)
+  if (!hasJapanese(masked)) return []
+  return lintBuffer(masked, '.txt')
 }
 
 // -------------------------------------------------------- 同じ文面の再実行
@@ -342,12 +490,13 @@ function runHook() {
   const tool = ev.tool_name || ''
   const input = ev.tool_input || {}
 
-  // ---- 2. Write / Edit で書いた Markdown・HTML (PostToolUse)
+  // ---- 2. Write / Edit で書いた文書とコード (PostToolUse)
   if (event === 'PostToolUse' && (tool === 'Write' || tool === 'Edit')) {
     const file = input.file_path
     if (!file) process.exit(0)
     const ext = path.extname(file).toLowerCase()
-    if (!LINTABLE_EXT.has(ext)) process.exit(0)
+    // 拡張子が無いものは shebang を見るので、ここでは弾かない
+    if (ext && !LINTABLE_EXT.has(ext) && !COMMENT_EXT.has(ext)) process.exit(0)
     if (file.includes('/node_modules/') || file.includes('/.git/')) process.exit(0)
 
     let text
@@ -358,8 +507,8 @@ function runHook() {
     }
     if (!hasJapanese(text)) process.exit(0)
 
-    const found = lintFile(file)
-    if (!found.length) process.exit(0)
+    const found = lintPath(file)
+    if (!found || !found.length) process.exit(0)
     if (seenBefore(`file:${file}:${text}`)) process.exit(0)
 
     process.stderr.write(`${report([[path.basename(file), found]], { forHook: true })}\n`)
@@ -426,7 +575,12 @@ function runCli(argv) {
     if (f === '-') {
       groups.push(['(stdin)', lintText(fs.readFileSync(0, 'utf8'), kind)])
     } else {
-      groups.push([path.basename(f), lintFile(f)])
+      const found = lintPath(f)
+      if (found === null) {
+        process.stderr.write(`ai-words: 対象外の拡張子なので飛ばす: ${f}\n`)
+      } else {
+        groups.push([path.basename(f), found])
+      }
     }
   }
   const total = groups.reduce((n, [, g]) => n + g.length, 0)
