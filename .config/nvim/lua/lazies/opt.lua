@@ -417,7 +417,19 @@ return {
       -- signs_on_startup / on_startup は plugin/scrollview.vim が
       -- timer_start(0) で走らせる scrollview#Initialize() が読むだけなので、
       -- setup() ではなく init で vim.g に置く。
-      vim.g.scrollview_excluded_filetypes = { "TelescopePrompt", "dashboard", "lazy", "noice", "notify", "trouble" }
+      vim.g.scrollview_excluded_filetypes = {
+        "TelescopePrompt",
+        -- codediff の nui パネル (ファイル一覧・履歴・キーヘルプ)。差分ペイン
+        -- 側には出したいので、そちらの filetype は除外しない。
+        "codediff-explorer",
+        "codediff-help",
+        "codediff-history",
+        "dashboard",
+        "lazy",
+        "noice",
+        "notify",
+        "trouble",
+      }
       -- telescope や blink の補完メニューにバーが透けてくるのを防ぐ。
       vim.g.scrollview_hide_on_float_intersect = true
       vim.g.scrollview_signs_on_startup = {
@@ -1592,6 +1604,9 @@ return {
       -- lua/codediff_bright_comment.lua)。差分行でないコンテキスト行のコメントや
       -- 通常の編集バッファには影響しない。
       require("codediff_bright_comment").setup()
+      -- 差分行の位置を nvim-scrollview のバーに出す (詳細は
+      -- lua/codediff_scrollview_signs.lua)。
+      require("codediff_scrollview_signs").setup()
     end,
   },
 

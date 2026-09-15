@@ -41,6 +41,27 @@ require("lazy").setup {
     opts = { keymaps = { view = { quit = false } } },
   },
   {
+    -- メイン config の clone をそのまま流用する。差分は左右 2 ペインのどちらも
+    -- 画面に収まらないことが多いので、位置が分かるバーを出す。
+    "dstein64/nvim-scrollview",
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/nvim-scrollview",
+    lazy = false,
+    init = function()
+      -- signs_on_startup / on_startup は plugin/scrollview.vim が
+      -- timer_start(0) で走らせる scrollview#Initialize() が読むだけなので、
+      -- setup() ではなく init で vim.g に置く (メイン config と同じ事情)。
+      -- codediff の nui パネル (ファイル一覧・履歴・キーヘルプ) は対象外。
+      vim.g.scrollview_excluded_filetypes = { "codediff-explorer", "codediff-help", "codediff-history" }
+      vim.g.scrollview_hide_on_float_intersect = true
+      -- このサンドボックスには LSP も gitsigns も quickfix も無いので、
+      -- 組み込みサインで意味があるのは検索とマークだけ。差分のサインは
+      -- codediff_scrollview_signs が独自の群として登録する。
+      vim.g.scrollview_signs_on_startup = { "marks", "search" }
+      -- 1 行に複数グループのサインが重なると本文側へはみ出すので絞る。
+      vim.g.scrollview_signs_max_per_row = 2
+    end,
+  },
+  {
     -- メイン config が使う nvim-treesitter (main ブランチ) をそのまま流用する。
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
@@ -150,6 +171,10 @@ vim.cmd.colorscheme "tokyonight"
 -- lua/codediff_bright_comment.lua)。package.path でメイン config の lua/ を
 -- 通してあるのでそのまま require できる。
 require("codediff_bright_comment").setup()
+
+-- 差分行の位置を nvim-scrollview のバーに出す (同じくメイン config と共有。
+-- 詳細は lua/codediff_scrollview_signs.lua)。
+require("codediff_scrollview_signs").setup()
 
 -- jab.nvim はハイライトを設定できず、ラベル = Error・マッチ = CurSearch・
 -- backdrop = Comment を固定で使う。flash 用の FlashMatch 設定は不要になった。
