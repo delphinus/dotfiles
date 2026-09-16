@@ -122,9 +122,19 @@ cleanup() {
 }
 trap cleanup EXIT
 
+# brew が落ちるとキャッシュが空になり、以降の消費側は「1 本も入っていない」と
+# 読む。jq は空入力を無出力 + exit 0 で返すので、write_snapshot は 0 バイトの
+# スナップショットを成功として書いてしまい、端末間の比較が誰にも気付かれないまま
+# 空振りする (実測 2026-09-16: Xcode のライセンス未同意で brew が全滅した 2 台が、
+# 両方とも 0 バイトのスナップショットを「書き出した」と記録していた)。空のまま
+# 先へ進ませず、ここで失敗として拾う。
 refresh_brew_info() {
     [[ -n "$BREW_INFO_CACHE" ]] || BREW_INFO_CACHE="$(mktemp -t daily-sync-brew)"
-    brew info --json=v2 --installed >"$BREW_INFO_CACHE" 2>/dev/null
+    local err
+    err="$(brew info --json=v2 --installed 2>&1 >"$BREW_INFO_CACHE")"
+    [[ -s "$BREW_INFO_CACHE" ]] && return 0
+    failure "brew info を取れなかった。brew を読む判定は今回すべて当てにならない${err:+ (${err%%$'\n'*})}"
+    return 1
 }
 
 brew_info() { cat "$BREW_INFO_CACHE" 2>/dev/null; }
@@ -1632,7 +1642,14 @@ write_snapshot() {
         return 0
     }
 
-    brew_info | jq \
+    # 一時ファイルに作ってから置き換える。`>"$out"` で直に書くと、jq が何も
+    # 出さなくても out は truncate 済みで、前回の内容まで失う (実測 2026-09-16:
+    # iCloud への書き込みが TCC で EPERM になった回と、brew が落ちて中身が空に
+    # なった回の両方で、他端末から見える JSON が 0 バイトになった)。
+    local tmp
+    tmp="$(mktemp -t daily-sync-snapshot)" || return 1
+
+    if ! brew_info | jq \
         --arg host "$host" \
         --arg at "$(date '+%Y-%m-%dT%H:%M:%S%z')" \
         --arg macos "$(sw_vers -productVersion)" \
@@ -1650,8 +1667,23 @@ write_snapshot() {
             skk_jisyo_head: $skk_head,
             formulae: ([.formulae[] | { key: .full_name, value: (.linked_keg // .installed[0].version // "") }] | from_entries),
             casks: ([.casks[] | { key: .token, value: ((.installed // "") | tostring) }] | from_entries)
-        }' >"$out" || return 1
+        }' >"$tmp"; then
+        rm -f "$tmp"
+        return 1
+    fi
 
+    # jq は入力が空でも無出力 + exit 0 を返すので、中身を見るまで成否が分から
+    # ない。0 バイトを置くくらいなら古いスナップショットを残す方が良い。
+    if [[ ! -s "$tmp" ]]; then
+        rm -f "$tmp"
+        log "スナップショットが空になった (brew info のキャッシュが空)。前回の内容を残す"
+        return 1
+    fi
+
+    if ! mv "$tmp" "$out"; then
+        rm -f "$tmp"
+        return 1
+    fi
     log "スナップショットを書き出した: $out"
     return 0
 }
