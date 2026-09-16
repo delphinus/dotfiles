@@ -1,14 +1,17 @@
--- 補完で送り仮名とみなす長さの上限 (skkeleton の completionOkuriMaxLength)。
--- fork のブランチ feat/completion-okuri-max-length にしか無いので、主設定と
--- nvim-dev で同じ判定を共有する。
+-- 補完の送りありで語幹とみなす部分の下限 (skkeleton の
+-- completionOkuriMinStemLength)。fork のブランチ
+-- feat/completion-okuri-min-stem-length (と、それを含む統合ブランチ) にしか
+-- 無いので、主設定と nvim-dev で同じ判定を共有する。
 --
--- 上限が無いと読みを全ての位置で切って送りあり変換として引くため、
--- 「きんようびのよてい」では「き」+「んようびのよてい」まで試し、見出し
--- 「きn」の候補が「気んようびのよてい」… として補完一覧を埋める。
+-- 下限が無いと読みを全ての位置で切って送りあり変換として引くため、語幹 1 文字の
+-- 見出しに当たる。「あくせ」では「あ」+「くせ」で見出し「あk」を引き、その候補が
+-- 「開くせ」「空くせ」… として補完一覧を埋め、送りなしの「アクセス」を一覧の外へ
+-- 押し出す。
 local M = {}
 
--- 試用中の上限。きつすぎる (長い活用形の補完が欲しい) なら 3、緩すぎるなら 1。
-M.max_length = 2
+-- 試用中の下限。きつすぎる (語幹 1 文字の候補も欲しい) なら 0、緩すぎるなら 3。
+-- 送り仮名 1 文字の組 (「あ」+「く」→「開く」) は語幹が短くても常に残る。
+M.min_stem_length = 2
 
 -- そのチェックアウトがこのオプションを持っているか。持たない skkeleton に渡すと
 -- setConfig が unknown option で throw し、skkeleton#config() が丸ごと失敗して
@@ -23,7 +26,7 @@ function M.supported(dir)
   end
   local src = f:read "a"
   f:close()
-  return src:find("completionOkuriMaxLength", 1, true) ~= nil
+  return src:find("completionOkuriMinStemLength", 1, true) ~= nil
 end
 
 return M

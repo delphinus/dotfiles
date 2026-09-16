@@ -1,8 +1,8 @@
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 
 -- ここだけ別のブランチを試すための worktree。共有チェックアウト (主設定が
--- 管理) は 2026-09-15 から feat/completion-okuri-max-length に載っているので、
--- 普段はこの worktree は無く、下の skkeleton_dir は共有側に落ちる。
+-- 管理) は 2026-09-16 から test/okuri-min-stem+kakutei-undo-implicit に載って
+-- いるので、普段はこの worktree は無く、下の skkeleton_dir は共有側に落ちる。
 --
 -- 共有側と違うものを試したくなったら:
 --   git -C ~/.local/share/nvim/lazy/skkeleton worktree add \
@@ -234,12 +234,12 @@ require("lazy").setup({
         -- markerHenkanSelect = "󰄮",
       }
 
-      -- 補完で送り仮名とみなす長さの上限 (0 = 制限なし、従来の挙動)。主設定と
-      -- 同じ判定・同じ値を使う。worktree の有無ではなくチェックアウトの中身を
-      -- 見るので、共有チェックアウトがブランチに載っているときにも効く。
+      -- 補完の送りありで語幹とみなす部分の下限 (0 = 制限なし、従来の挙動)。
+      -- 主設定と同じ判定・同じ値を使う。worktree の有無ではなくチェックアウトの
+      -- 中身を見るので、共有チェックアウトがブランチに載っているときにも効く。
       local okuri_limit = require "core.skkeleton_okuri_limit"
       if okuri_limit.supported(skkeleton_dir) then
-        skk_config.completionOkuriMaxLength = okuri_limit.max_length
+        skk_config.completionOkuriMinStemLength = okuri_limit.min_stem_length
       end
 
       vim.fn["skkeleton#config"](skk_config)

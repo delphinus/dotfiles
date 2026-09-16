@@ -77,13 +77,18 @@ return {
   },
 
   {
-    -- 自前ブランチ feat/completion-okuri-max-length を使用中。補完で送り仮名と
-    -- みなす長さの上限 (completionOkuriMaxLength) を足すもので、下の
-    -- core.skkeleton_okuri_limit で値を渡している。upstream にマージされたら
-    -- branch 指定を外して "vim-skk/skkeleton" に戻す。
+    -- 自前の統合ブランチ (test/okuri-min-stem+kakutei-undo-implicit) を使用中。
+    -- upstream (vim-skk/main) の上に 2 つ積んである:
+    --   feat/completion-okuri-min-stem-length  補完の送りありで語幹の長さの下限
+    --     (completionOkuriMinStemLength) を足す。下の core.skkeleton_okuri_limit
+    --     で値を渡している。PR は未提出
+    --   fix/kakutei-undo-implicit-kakutei      打ち続けて確定した変換も確定
+    --     アンドゥで取り消せるようにする (vim-skk/skkeleton#258)
+    -- PR は各ブランチから出す。この統合ブランチからは出さない。
+    -- upstream に全部入ったら branch 指定を外して "vim-skk/skkeleton" に戻す。
     -- 確定アンドゥ (vim-skk/skkeleton#257) は 2026-09-14 に upstream へマージ
-    -- 済みで、このブランチは main の上に乗っている。補完エンジン連携の登録制
-    -- (同 #253) も同様。下の register_keymap で <C-z> に割り当てている。
+    -- 済みで、この統合ブランチは main の上に乗っている。補完エンジン連携の
+    -- 登録制 (同 #253) も同様。下の register_keymap で <C-z> に割り当てている。
     -- 手元のクローン (~/.local/share/nvim/lazy/skkeleton) は origin を fork
     -- (delphinus/skkeleton) に向けておくこと。lazy.nvim は spec の URL と
     -- origin が食い違うとディレクトリを消して clone し直すので、vim-skk を
@@ -91,7 +96,7 @@ return {
     --   git -C ~/.local/share/nvim/lazy/skkeleton remote rename origin vim-skk
     --   git -C ~/.local/share/nvim/lazy/skkeleton remote rename delphinus origin
     "delphinus/skkeleton",
-    branch = "feat/completion-okuri-max-length",
+    branch = "test/okuri-min-stem+kakutei-undo-implicit",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
@@ -143,12 +148,12 @@ return {
         databasePath = vim.fn.stdpath "data" .. "/skkeleton.db",
       }
 
-      -- 補完で送り仮名とみなす長さの上限。fork のブランチにしか無いオプション
-      -- なので、チェックアウトが持っているときだけ渡す (判定の理由はモジュール
-      -- 側のコメント)。
+      -- 補完の送りありで語幹とみなす部分の下限。fork のブランチにしか無い
+      -- オプションなので、チェックアウトが持っているときだけ渡す (判定の理由は
+      -- モジュール側のコメント)。
       local okuri_limit = require "core.skkeleton_okuri_limit"
       if okuri_limit.supported(plugin.dir) then
-        skk_config.completionOkuriMaxLength = okuri_limit.max_length
+        skk_config.completionOkuriMinStemLength = okuri_limit.min_stem_length
       end
 
       vim.fn["skkeleton#config"](skk_config)

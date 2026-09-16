@@ -1,4 +1,4 @@
--- skkeleton の completionOkuriMaxLength を native completefunc で試す環境。
+-- skkeleton の completionOkuriMinStemLength を native completefunc で試す環境。
 --
 --   NVIM_APPNAME=nvim-dev/skkeleton-okuri-completefunc nvim
 --
@@ -15,10 +15,10 @@
 -- pre-edit (▽おく*r) では候補の先頭が欠けるので、読みは最後までひらがなで
 -- 入れる。
 --
--- 上限は挿入モードのまま切り替えられるので、同じ読みで前後を比べられる:
+-- 下限は挿入モードのまま切り替えられるので、同じ読みで前後を比べられる:
 --
---   :call skkeleton#config(#{ completionOkuriMaxLength: 0 })   " 制限なし
---   :call skkeleton#config(#{ completionOkuriMaxLength: 2 })   " 送り仮名 2 文字まで
+--   :call skkeleton#config(#{ completionOkuriMinStemLength: 0 })  " 制限なし
+--   :call skkeleton#config(#{ completionOkuriMinStemLength: 2 })  " 語幹 2 文字以上
 --
 -- 辞書は L 辞書のみ。ユーザー辞書はこの NVIM_APPNAME 専用の場所に作るので、
 -- 普段使っている ~/.skkeleton は汚れない。skk_server もデータベースも使わない。
@@ -80,7 +80,7 @@ require("lazy").setup {
       vim.fn["skkeleton#config"] {
         globalDictionaries = { dict },
         userDictionary = vim.fn.stdpath "state" .. "/skkeleton/userjisyo",
-        completionOkuriMaxLength = 2,
+        completionOkuriMinStemLength = 2,
         completionBackend = "native",
         eggLikeNewline = true,
       }
