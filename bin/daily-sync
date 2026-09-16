@@ -44,9 +44,10 @@ readonly LAST_RUN="$STATE_DIR/last-run"
 # 中身は kern.boottime の epoch。
 readonly LAST_BOOT="$STATE_DIR/last-boot"
 readonly LOCK_DIR="$STATE_DIR/lock"
-# 前回の daily-sync 時点での skk-sync の launchd runs カウンタ。差分で「あれから
-# 1 度でも発火したか」を見る。詳細は check_skk_sync のコメント。
-readonly SKK_RUNS="$STATE_DIR/skk-sync-runs"
+# 前回の daily-sync を走らせたときの起動セッション (kern.boottime の epoch)。
+# 「そのセッションのあいだに skk-sync が 1 度でも発火したか」を見るのに使う。
+# 詳細は check_skk_sync_fired のコメント。
+readonly SKK_SEEN_BOOT="$STATE_DIR/skk-sync-seen-boot"
 readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
 # 前回の実行で検出した端末間の版の不一致。今回のものと突き合わせて「固着して
 # いるか」を判定するために持ち越す。形式は compare_snapshots のコメント参照。
@@ -60,6 +61,8 @@ readonly JOBS_DIR="$HOME/.config/daily-sync/jobs.d"
 readonly JOB_TIMEOUT="${DAILY_SYNC_JOB_TIMEOUT:-3600}"
 readonly DOTFILES="$HOME/git/dotfiles"
 readonly SKK_JISYO="$HOME/git/github.com/delphinus/skk-jisyo"
+# skk-sync の launchd ジョブの StandardOutPath。発火と成功の両方をここから見る。
+readonly SKK_LOG="$HOME/Library/Logs/skk-sync.log"
 # HEAD ビルド中に nvim が消えるのを埋めるための退避先。config.fish が PATH の
 # 末尾に足している。消さずに毎日上書きする。
 readonly NVIM_FALLBACK="$HOME/.local/opt/neovim-fallback"
@@ -1326,51 +1329,68 @@ check_skk_sync() {
     return 0
 }
 
-# 1. 発火しているか。launchd の runs カウンタを日をまたいで持ち越し、前回の
-#    daily-sync から 1 度でも増えたかを見る。
+# 1. 発火しているか。前回の daily-sync を走らせた起動セッションのあいだに、
+#    skk-sync がログを 1 行でも伸ばしたかを見る。
 #
-# 以前はログの mtime の古さ (120 分) で見ていたが、StartInterval のジョブは
-# スリープ中に発火しないので、蓋を閉じたまま使う端末ではログが数時間空くのが
-# 正常な状態になり、誤検知が止まらなかった (実測 2026-09-12: 07:01 の次の実行が
-# 12:56 で「133 分動いていない」と報告したが、そのあいだ端末が本当に起きていた
-# のは数分だけだった。8/27 と 8/30 の警告も同じ)。
+# 以前は launchd の runs カウンタを日をまたいで持ち越していたが、再起動をまたぐ
+# と原理的に成立しないので捨てた。runs はジョブをロードし直すと 0 に戻る一方、
+# shutdown 直前の値を採る機会が無いまま launchd ごと消える。当日 1 本目の
+# daily-sync は daily-sync-boot が起動の 1〜2 分後に走らせ (定時の枠は
+# already_ran_today で弾かれる)、skk-sync の初回発火は StartInterval の 30 分後
+# なので、毎晩電源を落とす端末では観測値が毎朝 0 と 0 になり、必ず誤検知した
+# (実測 2026-09-16: 09:50:58 起動 → 09:53 に daily-sync → 10:23 に skk-sync 初回)。
 #
-# 「経過時間の起点にウェイク時刻を足す」案は測って捨てた。この端末は蓋を閉じた
+# 再起動をまたいで残る発火の記録は skk-sync 自身のログだけ。空振りのときも
+# `active (idle=...); skipping` を書くので 1 回の発火が必ず 1 行になり、ログの
+# mtime が最後に発火した時刻そのものになる。
+#
+# 経過時間ではなく起動セッションを単位にするのが肝。StartInterval のジョブは
+# スリープ中に発火しないので、「N 分ログが伸びていない」は蓋を閉じたまま使う
+# 端末では正常な状態でも成立してしまい、誤検知が止まらなかった (実測 2026-09-12:
+# 07:01 の次の実行が 12:56 で「133 分動いていない」と報告したが、そのあいだ端末が
+# 本当に起きていたのは数分だけだった。8/27 と 8/30 の警告も同じ)。
+#
+# 「経過時間の起点にウェイク時刻を足す」案も測って捨てた。この端末は蓋を閉じた
 # まま使うので、実際に使用中でも pmset 上は DarkWake のままで「最後の Wake」が
 # 数時間前を指す (実測 2026-09-12: 15:03:55 のウェイクは DarkWake としか記録され
 # ず、その後 17 分間ずっと対話的に使っても Wake の記録が出なかった)。
 # kern.waketime も DarkWake で更新されるので同じ理由で使えない。時計を起点にする
 # 方式そのものが、この端末では成立しない。
 #
-# runs は launchd がジョブをロードし直すと 0 に戻る (再起動、play-ansbile の
-# bootstrap)。減っていたらロードし直されたものとして数え直す。
+# 残る誤検知は「前回のセッションが丸ごと StartInterval より短かった」場合だけで、
+# それは次のセッションで自然に解消する。
 check_skk_sync_fired() {
-    local uid runs prev
-    uid="$(id -u)"
-    runs="$(launchctl print "gui/$uid/com.delphinus.skk-sync" 2>/dev/null |
-        sed -nE 's/^[[:space:]]*runs = ([0-9]+)$/\1/p' | head -1)"
-    if [[ -z "$runs" ]]; then
-        log "skk-sync の runs を読めない。発火の判定は見送る"
+    local boot prev_boot last_fire
+    boot="$(boot_epoch)"
+    if [[ -z "$boot" ]]; then
+        log "kern.boottime を読めない。発火の判定は見送る"
         return 0
     fi
-    prev="$(cat "$SKK_RUNS" 2>/dev/null)" || prev=""
-    ((DRY_RUN)) || printf '%s\n' "$runs" >"$SKK_RUNS"
+    last_fire="$(stat -f %m "$SKK_LOG" 2>/dev/null)" || last_fire=""
+    if [[ -z "$last_fire" ]]; then
+        log "skk-sync のログを読めない。発火の判定は見送る"
+        return 0
+    fi
+    prev_boot="$(cat "$SKK_SEEN_BOOT" 2>/dev/null)" || prev_boot=""
+    ((DRY_RUN)) || printf '%s\n' "$boot" >"$SKK_SEEN_BOOT"
 
-    if [[ -z "$prev" ]]; then
-        log "skk-sync の runs を記録した ($runs)。発火の判定は次回から"
-    elif ((runs < prev)); then
-        log "skk-sync がロードし直されている (runs $prev → $runs)。発火の判定は次回から"
-    elif ((runs == prev)); then
-        action "skk-sync が前回の daily-sync 以降 1 度も発火していない (runs=$runs のまま)。$SKK_JISYO/bin/setup の再実行を検討"
+    if [[ -z "$prev_boot" ]]; then
+        log "起動セッションを記録した。発火の判定は次回の起動から"
+    elif ((prev_boot == boot)); then
+        # 同じセッションで 2 回目 (--force や手動実行)。前回の判定から起動を
+        # またいでいないので、新しく言えることは無い。
+        log "前回の daily-sync と同じ起動セッション。発火の判定は次回の起動から"
+    elif ((last_fire >= prev_boot)); then
+        log "skk-sync は発火している (最後の発火: $(date -r "$last_fire" '+%Y-%m-%dT%H:%M:%S%z'))"
     else
-        log "skk-sync は発火している (前回から $((runs - prev)) 回)"
+        action "skk-sync が前回の起動セッション ($(date -r "$prev_boot" '+%Y-%m-%dT%H:%M:%S%z') 以降) で 1 度も発火していない (最後の発火: $(date -r "$last_fire" '+%Y-%m-%dT%H:%M:%S%z'))。$SKK_JISYO/bin/setup の再実行を検討"
     fi
     return 0
 }
 
 # 2. 成功しているか。
 check_skk_sync_succeeded() {
-    local skk_log="$HOME/Library/Logs/skk-sync.log"
+    local skk_log="$SKK_LOG"
     [[ -f "$skk_log" ]] || return 0
 
     # skk-sync は復帰不能な失敗を `ERROR:`、1 回ぶんの完走を `sync done` として
