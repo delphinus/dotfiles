@@ -185,10 +185,16 @@ end
 -- 振り直す。skkeleton 項目は filterText が全部同じで score が並ぶため、blink は
 -- sort_text で順序を決める。よってこれだけで効く。
 --
--- 入力の読みは「最も深い分割の送りあり候補の読み」から取る (送りあり候補の読み
--- は入力と完全に一致する)。送りあり候補が 1 つも無ければ並べ替えない。
+-- 入力の読みは送りあり候補の読みから取る (どの分割でも、語幹に送り仮名を繋いだ
+-- ものは入力と一致する)。送りあり候補が 1 つも無ければ並べ替えない。
+--
+-- グループ 2 は「読みを 1 文字だけ残して切った分割」= 語幹が「読みの長さ - 1」の
+-- ものに限る。実在する候補のうち最も深いものを 2 に入れると、深い分割が辞書に
+-- 当たらなかったときに浅い分割が繰り上がってしまう。「あくせ」では「あく」+「せ」
+-- (見出し あくs) が 0 件なので、本来 4 に落ちるはずの「あ」+「くせ」(あk の 15
+-- 候補「開くせ」…) が 2 に座り、グループ 3 の「アクセス」を 1 画面目から追い出す。
 local function skk_regroup(items)
-  local deepest_len, reading
+  local reading, reading_len
   local meta = {}
   for i, item in ipairs(items) do
     local data = item.data
@@ -198,8 +204,11 @@ local function skk_regroup(items)
       local stem_len = 0
       if okuriari then
         stem_len = vim.fn.strchars(data.kana:match "^(.-)%a+$" or "")
-        if not deepest_len or stem_len > deepest_len then
-          deepest_len, reading = stem_len, plain
+        -- 読みの組み立てに失敗した項目は plain が見出し (「あk」) のままなので、
+        -- 末尾がローマ字のものは読みとして採らない。
+        if not reading and plain and not plain:match "%a$" then
+          reading = plain
+          reading_len = vim.fn.strchars(plain)
         end
       end
       meta[i] = { plain = plain, okuriari = okuriari, stem_len = stem_len }
@@ -217,7 +226,7 @@ local function skk_regroup(items)
       -- このプロバイダは skkeleton 項目しか返さないので実際には通らない。
       group = 1
     elseif m.okuriari then
-      group = m.stem_len == deepest_len and 2 or 4
+      group = m.stem_len == reading_len - 1 and 2 or 4
     else
       group = m.plain == reading and 1 or 3
     end
