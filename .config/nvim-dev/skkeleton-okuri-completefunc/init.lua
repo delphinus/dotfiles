@@ -22,8 +22,8 @@
 --
 -- 辞書は L 辞書のみ。ユーザー辞書はこの NVIM_APPNAME 専用の場所に作るので、
 -- 普段使っている ~/.skkeleton は汚れない。skk_server もデータベースも使わない。
--- nvim-dev/skkeleton-completefunc から派生したが、あちらは #251 用の worktree を
--- 見に行くので別にしてある。
+-- 元は nvim-dev/skkeleton-completefunc から派生したもの。あちらは #251 専用の
+-- worktree を見ていたが、#251 が upstream に入ったので 2026-09-19 に消した。
 
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 

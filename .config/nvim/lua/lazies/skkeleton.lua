@@ -77,18 +77,17 @@ return {
   },
 
   {
-    -- 自前の統合ブランチ (test/okuri-min-stem+kakutei-undo-implicit) を使用中。
-    -- upstream (vim-skk/main) の上に 2 つ積んである:
+    -- 自前のブランチ (feat/completion-okuri-min-stem-length) を使用中。upstream
+    -- (vim-skk/main) の上に 1 つだけ積んである:
     --   feat/completion-okuri-min-stem-length  補完の送りありで語幹の長さの下限
     --     (completionOkuriMinStemLength) を足す。下の core.skkeleton_okuri_limit
     --     で値を渡している。PR は未提出
-    --   fix/kakutei-undo-implicit-kakutei      打ち続けて確定した変換も確定
-    --     アンドゥで取り消せるようにする (vim-skk/skkeleton#258)
-    -- PR は各ブランチから出す。この統合ブランチからは出さない。
-    -- upstream に全部入ったら branch 指定を外して "vim-skk/skkeleton" に戻す。
-    -- 確定アンドゥ (vim-skk/skkeleton#257) は 2026-09-14 に upstream へマージ
-    -- 済みで、この統合ブランチは main の上に乗っている。補完エンジン連携の
-    -- 登録制 (同 #253) も同様。下の register_keymap で <C-z> に割り当てている。
+    -- upstream に入ったら branch 指定を外して "vim-skk/skkeleton" に戻す。
+    -- 以前は複数の自前ブランチを束ねた統合ブランチを指していたが、中身が upstream
+    -- へ全部入ったので 2026-09-19 に畳んだ。打ち続けて確定した変換の確定アンドゥ
+    -- (vim-skk/skkeleton#258) が 2026-09-17、確定アンドゥ本体 (同 #257) が
+    -- 2026-09-14、補完エンジン連携の登録制 (同 #253) が 2026-09-10 のマージ。
+    -- 確定アンドゥは下の register_keymap で <C-z> に割り当てている。
     -- 手元のクローン (~/.local/share/nvim/lazy/skkeleton) は origin を fork
     -- (delphinus/skkeleton) に向けておくこと。lazy.nvim は spec の URL と
     -- origin が食い違うとディレクトリを消して clone し直すので、vim-skk を
@@ -96,7 +95,7 @@ return {
     --   git -C ~/.local/share/nvim/lazy/skkeleton remote rename origin vim-skk
     --   git -C ~/.local/share/nvim/lazy/skkeleton remote rename delphinus origin
     "delphinus/skkeleton",
-    branch = "test/okuri-min-stem+kakutei-undo-implicit",
+    branch = "feat/completion-okuri-min-stem-length",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },
