@@ -16,7 +16,7 @@
   "blink-cmp-dictionary": { "branch": "master", "commit": "898a958cece34da20524d04ebc032a92a9565643" },
   "blink-cmp-digraphs": { "branch": "main", "commit": "a38f31535bf59918d2a5a2bfc9b5bd97c4579826" },
   "blink-cmp-git": { "branch": "master", "commit": "d3f2a9067ab028e779d08e61bf0b054939011316" },
-  "blink-cmp-skkeleton": { "branch": "test/kakutei-undo+okuriari", "commit": "0a96b5a2a6522180bf2ff8073cc50ade3853c7e7" },
+  "blink-cmp-skkeleton": { "branch": "test/kakutei-undo+okuriari", "commit": "0002e949e8be225d2d6f4d35f4ad4afe7e913e34" },
   "blink-emoji.nvim": { "branch": "master", "commit": "dff709139ad5389fb55ebab026e75278a12b325a" },
   "blink-nerdfont.nvim": { "branch": "main", "commit": "e5034457a0a3f3444c0a48af8f5d7db0ad02a204" },
   "blink-ripgrep.nvim": { "branch": "main", "commit": "5ed7bac817777994cb80abccd052b73eb844166c" },
