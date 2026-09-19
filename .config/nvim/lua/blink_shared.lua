@@ -176,14 +176,22 @@ end
 -- 37 行目から始まる。メニューは 10 行なので 1 画面目には絶対に出てこない。
 -- 辞書の量の問題ではなく (SKK-JISYO.L だけでも 26 件)、連結順の問題。
 --
---   1. 読みが入力と完全一致する送りなし  「あたり」    → 当たり / 辺り …
+--   1. 確定したことのある送りなし、および読みが入力と完全一致する送りなし
+--                                        「あたり」    → 当たり / 辺り …
 --   2. 最も深い分割の送りあり            「あた*り」   → 辺り / 当り …
---   3. 見出しが伸びた送りなし            「あたりがね」→ 当り鉦 …
+--   3. 残りの送りなし (見出しが伸びたもの)「あたりがね」→ 当り鉦 …
 --   4. 浅い分割の送りあり                「あ*たり」   → 会たり … (雑音寄り)
 --
 -- グループ内の順番 (skkeleton の学習ランク順) はそのまま保ち、sortText だけを
 -- 振り直す。skkeleton 項目は filterText が全部同じで score が並ぶため、blink は
 -- sort_text で順序を決める。よってこれだけで効く。
+--
+-- グループ 1 に「確定したことのある候補」(data.rank が付いているもの) を含める。
+-- skkeleton は読みに前方一致する見出しを全部返すので、学習した語の見出しは入力
+-- より長いことが多い。完全一致だけをグループ 1 にすると、「とうろ」で 5 件の稀語
+-- (当路・塘路・凍露…) が上を占め、何度確定しても「登録」(見出し「とうろく」) が
+-- その下に居座る。ランクの有無は blink-cmp-skkeleton が skkeleton の getRanks から
+-- 運んでくる。
 --
 -- 入力の読みは送りあり候補の読みから取る (どの分割でも、語幹に送り仮名を繋いだ
 -- ものは入力と一致する)。送りあり候補が 1 つも無ければ並べ替えない。
@@ -211,7 +219,7 @@ local function skk_regroup(items)
           reading_len = vim.fn.strchars(plain)
         end
       end
-      meta[i] = { plain = plain, okuriari = okuriari, stem_len = stem_len }
+      meta[i] = { plain = plain, okuriari = okuriari, stem_len = stem_len, ranked = data.rank ~= nil }
     end
   end
   if not reading then
@@ -228,7 +236,7 @@ local function skk_regroup(items)
     elseif m.okuriari then
       group = m.stem_len == reading_len - 1 and 2 or 4
     else
-      group = m.plain == reading and 1 or 3
+      group = (m.ranked or m.plain == reading) and 1 or 3
     end
     order[#order + 1] = { item = item, group = group, index = i }
   end
