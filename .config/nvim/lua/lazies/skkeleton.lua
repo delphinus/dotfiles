@@ -78,7 +78,7 @@ return {
 
   {
     -- 自前の統合ブランチ (test/okuri-min-stem+kakutei-undo-typing-on) を使用中。
-    -- upstream (vim-skk/main) の上に 2 つ積んである:
+    -- upstream (vim-skk/main) の上に 3 つ積んである:
     --   feat/completion-okuri-min-stem-length  補完の送りありで語幹の長さの下限
     --     (completionOkuriMinStemLength) を足す。下の core.skkeleton_okuri_limit
     --     で値を渡している。PR は未提出
@@ -86,6 +86,11 @@ return {
     --     使えるようにする。今までは確定文字列がカーソル直前に残っている必要が
     --     あり、<BS> で消してからでないと取り消せなかった。PR は未提出だが、
     --     vim-skk/skkeleton#257 で「別 PR で出してほしい」と言われている分
+    --   feat/kakutei-undo-return-point         ↑の上。選び直した候補を確定した
+    --     後、カーソルを確定アンドゥを押した位置へ戻す。↑でカーソルが飛ぶよう
+    --     になったぶんの後始末。ddskk の
+    --     skk-undo-kakutei-return-previous-point 相当。あちらは無効な状態から
+    --     始まるが、こちらはオプションにせず常に有効。PR は未提出
     -- PR は各ブランチから出す。この統合ブランチからは出さない。
     -- upstream に全部入ったら branch 指定を外して "vim-skk/skkeleton" に戻す。
     -- 打ち続けて確定した変換の確定アンドゥ (vim-skk/skkeleton#258) が 2026-09-17、
