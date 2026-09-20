@@ -1,7 +1,7 @@
 -- 補完の送りありで語幹とみなす部分の下限 (skkeleton の
 -- completionOkuriMinStemLength)。fork のブランチ
--- feat/completion-okuri-min-stem-length にしか無いので、主設定と nvim-dev で
--- 同じ判定を共有する。
+-- feat/completion-okuri-min-stem-length (と、それを含む統合ブランチ) にしか
+-- 無いので、主設定と nvim-dev で同じ判定を共有する。
 --
 -- 下限が無いと読みを全ての位置で切って送りあり変換として引くため、語幹 1 文字の
 -- 見出しに当たる。「あくせ」では「あ」+「くせ」で見出し「あk」を引き、その候補が
