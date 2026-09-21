@@ -1,0 +1,10 @@
+# tab-change を短くしたもの。同梱の tab-change.pipeline と同じ内容で、
+# animation_stop (= 演出の長さ、ミリ秒) だけ 600 から縮めてある。
+startgroup
+    animation_start tab-change
+    animation_stop 250
+    animation_curve ease-out
+    animation_step 16
+    # ANIMATION_TYPE は 0=FADE 1=WIPE 2=BLINDS 3=IRIS。同梱の既定は 1 (WIPE)。
+    shaders tab-change
+endgroup

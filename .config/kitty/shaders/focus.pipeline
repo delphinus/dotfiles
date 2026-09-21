@@ -1,0 +1,20 @@
+# 非アクティブなペインを暗くする。kitty 同梱の dim-inactive-windows.pipeline を
+# 下敷きに、タブバーを対象から外して減光を弱めたもの。kitty.conf の
+# custom_shaders から名前で参照する。
+startgroup
+    # 静的な効果なので、アクティブなウィンドウが変わったときだけ描き直す。既定の
+    # 50ms 間隔で描き直させる必要は無い。
+    animation_step 0
+    # focus-highlight は本来アクティブ側を一瞬光らせるもので、増光と縁取りは
+    # フェードして消える前提の値になっている。静止させるなら邪魔なので落とす
+    # (同梱の dim-inactive-windows.pipeline と同じ)。
+    var float HIGHLIGHT_INTENSITY = 0
+    var float BORDER_WIDTH = 0
+    # タブバー (tab_bar.py が描くステータスバー) を効果の外に置く。これが false
+    # だとアクティブなペインの外側すべてが対象になり、タブバーまで暗くなる。
+    var bool DIM_CENTRAL_AREA_ONLY = true
+    # 非アクティブ側が保つ色の割合。シェーダ側の既定は 0.3 (= 7 割が黒に寄る) で
+    # 暗すぎた。
+    var float INACTIVE_DIM = 0.6
+    shaders focus-highlight
+endgroup
