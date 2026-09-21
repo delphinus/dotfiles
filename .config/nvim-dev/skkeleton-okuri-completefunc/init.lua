@@ -1,10 +1,22 @@
--- skkeleton の completionOkuriMinStemLength を native completefunc で試す環境。
+-- skkeleton の completionOkuriMinStemLength と確定アンドゥ (<C-z>) を、native
+-- completefunc で試す環境。
 --
 --   NVIM_APPNAME=nvim-dev/skkeleton-okuri-completefunc nvim
 --
 -- ddc.vim も blink.cmp も載せない。候補を出すのは skkeleton#completefunc() だけ
 -- で、送りなしと送りありの候補をまとめて返す。挿入モードで読みを入れてから
--- <C-x><C-u> で補完する。
+-- <C-x><C-u> で補完する。補完エンジンを挟まないので、確定アンドゥまわりの挙動が
+-- blink.cmp に固有のものかどうかをここで判別できる。
+--
+-- 確定アンドゥを試す手順 (L 辞書に かく /各/ と かくい /各位/ がある):
+--
+--   1. Kaku と打って ▽かく にする
+--   2. <C-x><C-u> で補完を開き、各位 を選んで <C-y> で確定する
+--   3. <C-z> で ▼各位 に戻す
+--   4. <C-g> で ▽かくい、<C-h> で ▽かく にする
+--   5. <C-x><C-u> で補完を開き、各 を選んで、確定せずに J を押す
+--
+-- 5 でカーソルが「各」の直後へ飛んだら駄目。各▽j の末尾に留まれば正しい。
 --
 -- <F2> で出し方を切り替えられる (挿入モードのままでも押せる):
 --
@@ -83,7 +95,14 @@ require("lazy").setup {
         completionOkuriMinStemLength = 2,
         completionBackend = "native",
         eggLikeNewline = true,
+        -- ▼ から ▽ へ戻せるようにする。確定アンドゥを試すのに要る。
+        immediatelyCancel = false,
       }
+
+      -- 確定アンドゥ (<C-z>)。補完で確定した分も取り消せる。取り消した後に
+      -- 選び直して確定すると、カーソルは <C-z> を押した位置へ戻る。
+      vim.g["skkeleton#mapped_keys"] = vim.list_extend(vim.g["skkeleton#mapped_keys"], { "<C-z>" })
+      vim.fn["skkeleton#register_keymap"]("input", "<C-z>", "kakuteiUndo")
 
       -- 自動 ('complete' の F フラグ + 'autocomplete') かどうか。<F2> で切り替える。
       local auto = false
