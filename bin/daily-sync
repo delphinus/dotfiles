@@ -1555,7 +1555,11 @@ check_dotfiles() {
             if ((DRY_RUN)); then
                 log "(dry-run) pull をスキップ"
             elif git -C "$DOTFILES" merge --ff-only --quiet "$upstream"; then
-                reasons+=("新着 ${behind} 件を pull した")
+                # pull したこと自体は理由にしない。play-ansbile が要るかどうかは
+                # 下の stamp 比較が新着ぶんも込みで判定する。ここで積むと、
+                # ansible/ に無関係な commit (nvim の pin 等) を拾っただけでも
+                # ACTION が出てしまう (2026-09-22 に自宅 Mac で誤検知)。
+                log "pull した。play-ansbile が要るかは下の stamp 比較で判定する"
             else
                 action "dotfiles が fast-forward できない (ローカルで分岐している)。手動で解消が必要"
             fi
