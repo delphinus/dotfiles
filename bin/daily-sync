@@ -596,6 +596,28 @@ brew_upgrade_versioned() {
     brew_run "$((BREW_TIMEOUT * 2))" brew upgrade --formula
 }
 
+# brew upgrade --fetch-HEAD が private な tap の fetch で認証できなかったか。
+#
+# Homebrew 2026-09-21 の c9bfdc37eb (Extend sandboxing to package processing) で
+# ダウンロードのサンドボックスに資格情報パスの deny リストが入り、そこに
+# ~/Library/Keychains が含まれる。git の credential helper は osxkeychain も
+# gh auth git-credential も keychain を引くので、サンドボックスの中では
+# どちらも資格情報を返せない。GIT_TERMINAL_PROMPT=0 なので入力も求められず
+# 「could not read Username」で落ちる。
+#
+# ~/.config/gh の deny だけなら Homebrew 自身が allow で打ち消している
+# (download_strategy/git_download_strategy.rb の allow_fetch_credentials)。
+# 残っているのは keychain の方で、こちらに逃げ道は無い。サンドボックスの
+# 無効化スイッチも廃止済み (HOMEBREW_NO_SANDBOX は既に無い)。
+#
+# 手元で直せないものを毎週 FAIL として通知しても読み飛ばすだけなので、
+# 隔離はしつつ通知には載せない。上流が直れば隔離の期限切れで自然に通る。
+head_fetch_unauthorized() {
+    local out="$1"
+    grep -qF "could not read Username" "$out" 2>/dev/null &&
+        grep -qF "sandbox-exec" "$out" 2>/dev/null
+}
+
 # --fetch-HEAD を付けても HEAD の更新を取りこぼすこと (= 無言で凍結すること) が
 # あるので、判定の materials を先に最新化しておく。
 #
@@ -704,11 +726,16 @@ brew_upgrade_head() {
 
     # まとめて渡すと 1 本の失敗で残りが巻き添えになるので 1 本ずつ実行する。
     # brew の起動コストが formula 数だけかかるが、失敗を名指しできる方が重要。
-    local -a failed=() timed_out=()
-    local rc
+    #
+    # 出力はいったんファイルに落としてからログへ流す。private な tap の
+    # 認証切れ (head_fetch_unauthorized) を本文で見分けるため。
+    local -a failed=() timed_out=() unauthorized=()
+    local rc out
+    out="$(mktemp)"
     for f in "${targets[@]}"; do
-        brew_run "$BREW_TIMEOUT" brew upgrade --fetch-HEAD "$f"
+        brew_run "$BREW_TIMEOUT" brew upgrade --fetch-HEAD "$f" >"$out" 2>&1
         rc=$?
+        cat "$out"
         case $rc in
             0) quarantine_remove "$f" ;;
             124 | 137)
@@ -717,19 +744,29 @@ brew_upgrade_head() {
                 quarantine_add "$f" "timeout"
                 ;;
             *)
-                failed+=("$f")
-                quarantine_add "$f" "exit=$rc"
+                if head_fetch_unauthorized "$out"; then
+                    unauthorized+=("$f")
+                    quarantine_add "$f" "sandbox"
+                else
+                    failed+=("$f")
+                    quarantine_add "$f" "exit=$rc"
+                fi
                 ;;
         esac
     done
+    rm -f "$out"
 
     if ((${#timed_out[@]} > 0)); then
         failure "HEAD 更新が ${BREW_TIMEOUT} 秒で打ち切られた formula (${#timed_out[@]} 件): ${timed_out[*]} — ビルドが長すぎる / CPU を絞られている (launchd の ProcessType や Low Power Mode) / remote に到達できていない のどれか。DAILY_SYNC_BREW_TIMEOUT で上限を変えられる"
     fi
+    if ((${#unauthorized[@]} > 0)); then
+        log "Homebrew のサンドボックスが keychain を読めず認証できなかった formula (${#unauthorized[@]} 件): ${unauthorized[*]}"
+        log "  → 既知の上流の問題 (Homebrew c9bfdc37eb)。こちらでできることは無いので通知には載せない"
+    fi
     if ((${#failed[@]} > 0)); then
         failure "HEAD 更新に失敗した formula (${#failed[@]} 件): ${failed[*]}"
     fi
-    if ((${#failed[@]} + ${#timed_out[@]} > 0)); then
+    if ((${#failed[@]} + ${#timed_out[@]} + ${#unauthorized[@]} > 0)); then
         log "上記は ${QUARANTINE_DAYS} 日間スキップする (期間後に自動で再挑戦)"
     fi
 
