@@ -77,25 +77,18 @@ return {
   },
 
   {
-    -- 自前の統合ブランチ (test/okuri-min-stem+kakutei-undo-typing-on) を使用中。
-    -- upstream (vim-skk/main) の上に 3 つ積んである:
+    -- 自前の統合ブランチ (test/okuri-min-stem) を使用中。upstream
+    -- (vim-skk/main) の上に 1 つだけ積んである:
     --   feat/completion-okuri-min-stem-length  補完の送りありで語幹の長さの下限
     --     (completionOkuriMinStemLength) を足す。下の core.skkeleton_okuri_limit
     --     で値を渡している。PR は未提出
-    --   feat/kakutei-undo-after-more-input     続きを打った後でも確定アンドゥを
-    --     使えるようにする。今までは確定文字列がカーソル直前に残っている必要が
-    --     あり、<BS> で消してからでないと取り消せなかった。PR は未提出だが、
-    --     vim-skk/skkeleton#257 で「別 PR で出してほしい」と言われている分
-    --   feat/kakutei-undo-return-point         ↑の上。選び直した候補を確定した
-    --     後、カーソルを確定アンドゥを押した位置へ戻す。↑でカーソルが飛ぶよう
-    --     になったぶんの後始末。ddskk の
-    --     skk-undo-kakutei-return-previous-point 相当。あちらは無効な状態から
-    --     始まるが、こちらはオプションにせず常に有効。PR は未提出
     -- PR は各ブランチから出す。この統合ブランチからは出さない。
     -- upstream に全部入ったら branch 指定を外して "vim-skk/skkeleton" に戻す。
-    -- 打ち続けて確定した変換の確定アンドゥ (vim-skk/skkeleton#258) が 2026-09-17、
-    -- 確定アンドゥ本体 (同 #257) が 2026-09-14、補完エンジン連携の登録制
-    -- (同 #253) が 2026-09-10 にマージ済みで、統合ブランチは main の上に乗る。
+    -- 確定アンドゥまわりは全て upstream に入った。確定アンドゥ本体
+    -- (vim-skk/skkeleton#257) が 2026-09-14、打ち続けて確定した変換の確定アンドゥ
+    -- (同 #258) が 2026-09-17、続きを打った後でも取り消せるようにする分 (同 #260)
+    -- と、選び直した後にカーソルを戻す分 (同 #261) が 2026-09-22、補完エンジン
+    -- 連携の登録制 (同 #253) が 2026-09-10 にマージ済み。
     -- 確定アンドゥは下の register_keymap で <C-z> に割り当てている。
     -- 手元のクローン (~/.local/share/nvim/lazy/skkeleton) は origin を fork
     -- (delphinus/skkeleton) に向けておくこと。lazy.nvim は spec の URL と
@@ -104,7 +97,7 @@ return {
     --   git -C ~/.local/share/nvim/lazy/skkeleton remote rename origin vim-skk
     --   git -C ~/.local/share/nvim/lazy/skkeleton remote rename delphinus origin
     "delphinus/skkeleton",
-    branch = "test/okuri-min-stem+kakutei-undo-typing-on",
+    branch = "test/okuri-min-stem",
     lazy = false,
     keys = skkeleton_keys,
     dependencies = { "denops.vim" },

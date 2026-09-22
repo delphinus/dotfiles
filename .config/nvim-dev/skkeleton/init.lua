@@ -1,8 +1,8 @@
 local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 
 -- ここだけ別のブランチを試すための worktree。共有チェックアウト (主設定が
--- 管理) は 2026-09-20 から test/okuri-min-stem+kakutei-undo-typing-on に載って
--- いるので、普段はこの worktree は無く、下の skkeleton_dir は共有側に落ちる。
+-- 管理) は 2026-09-22 から test/okuri-min-stem に載っているので、普段はこの
+-- worktree は無く、下の skkeleton_dir は共有側に落ちる。
 --
 -- 共有側と違うものを試したくなったら:
 --   git -C ~/.local/share/nvim/lazy/skkeleton worktree add \
