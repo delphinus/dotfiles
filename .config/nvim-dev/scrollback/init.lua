@@ -38,13 +38,75 @@ vim.opt.clipboard = "unnamedplus"
 -- paste_window.yank_register (既定は無名レジスタ) へのヤンクならペースト
 -- ウィンドウを開く。つまり素の y は「クリップボードに入る (clipboard=unnamedplus)
 -- が、ペーストウィンドウも開いて閉じるまで戻れない」になっていた。拾って閉じる
--- のが大半なので、素の y を "+y にしてそのまま kitty へ戻す。
+-- のが大半なので、素の y はクリップボードに入れてそのまま kitty へ戻す。
 --
--- 編集してから kitty に送りたいときだけ gy でオプトインする。ペースト
--- ウィンドウ用のレジスタを無名から "p へ移してあるので、y と衝突しない。
+-- 編集してから kitty に送りたいときだけ gy でオプトインする。
+--
+-- どちらも行頭の共通インデントを除いてから渡す。Claude Code の画面は左に 2 桁
+-- の余白があり、そのまま拾うと貼り付け先で邪魔になる。プラグインの TextYankPost
+-- はヤンクした内容 (v:event.regcontents) をそのまま使い、書き換える口が無いので、
+-- y は "c、gy は "p へヤンクさせてプラグインの判定 ("+ と yank_register) から
+-- 外し、下の TextYankPost で整形してからクリップボード / ペーストウィンドウへ
+-- 送る。yank_register_enabled は setup() で切ってある。
 --
 -- マッピングは scrollback バッファ限定 (buffer local)。ペーストウィンドウの中で
 -- y を押したら quitall する、という事故を避ける。
+local REG_CLIPBOARD = "c"
+local REG_PASTE = "p"
+
+-- 空白だけの行を除いた各行の、行頭の空白の最小値だけ全行から削る。
+-- 文字単位のヤンクを行の途中から始めた場合、1 行目は字下げを含まないので
+-- 最小値の計算から外す (含めると常に 0 になって何も削れない)。
+local function dedent(lines, regtype)
+  local first = 1
+  if regtype == "v" and vim.fn.col "'[" > 1 then
+    first = 2
+  end
+  local min
+  for i = first, #lines do
+    local line = lines[i]
+    if line:find "%S" then
+      local indent = #line:match "^%s*"
+      if not min or indent < min then
+        min = indent
+      end
+    end
+  end
+  if not min or min == 0 then
+    return lines
+  end
+  return vim.tbl_map(function(line)
+    return line:sub(math.min(#line:match "^%s*", min) + 1)
+  end, lines)
+end
+
+-- プラグインが "p (yank_register) へのヤンクで行っていた処理と同じ。行末の空白を
+-- 削り、ペーストウィンドウの最後の空でない行の後ろに空行を挟んで足す。
+local function send_to_paste_window(lines)
+  lines = vim.tbl_map(function(line)
+    return (line:gsub("%s+$", ""))
+  end, lines)
+  require("kitty-scrollback.windows").open_paste_window()
+  local bufnr = vim.iter(vim.api.nvim_list_bufs()):find(function(b)
+    return vim.api.nvim_buf_get_name(b):match "%.ksb_pastebuf$" ~= nil
+  end)
+  if not bufnr then
+    return
+  end
+  local current = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+  local lastline = 0
+  for i = #current, 1, -1 do
+    if current[i]:find "%S" then
+      lastline = i
+      break
+    end
+  end
+  if lastline > 0 then
+    table.insert(lines, 1, "")
+  end
+  vim.api.nvim_buf_set_lines(bufnr, lastline, lastline, false, lines)
+end
+
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("ScrollbackYank", {}),
   pattern = "kitty-scrollback",
@@ -52,13 +114,34 @@ vim.api.nvim_create_autocmd("FileType", {
     local function map(mode, lhs, rhs)
       vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf })
     end
-    map({ "n", "x" }, "y", '"+y')
-    map({ "n", "x" }, "gy", '"py')
+    map({ "n", "x" }, "y", '"' .. REG_CLIPBOARD .. "y")
+    map({ "n", "x" }, "gy", '"' .. REG_PASTE .. "y")
     -- Y は Neovim の既定 (n: y$ / x: linewise) に合わせる。
-    map("n", "Y", '"+y$')
-    map("x", "Y", '"+Y')
-    map("n", "gY", '"py$')
-    map("x", "gY", '"pY')
+    map("n", "Y", '"' .. REG_CLIPBOARD .. "y$")
+    map("x", "Y", '"' .. REG_CLIPBOARD .. "Y")
+    map("n", "gY", '"' .. REG_PASTE .. "y$")
+    map("x", "gY", '"' .. REG_PASTE .. "Y")
+
+    vim.api.nvim_create_autocmd("TextYankPost", {
+      group = vim.api.nvim_create_augroup("ScrollbackYankDedent", {}),
+      buffer = ev.buf,
+      callback = function()
+        local event = vim.v.event
+        if event.operator ~= "y" then
+          return
+        end
+        local lines = dedent(event.regcontents, event.regtype)
+        if event.regname == REG_CLIPBOARD then
+          vim.fn.setreg("+", lines, event.regtype)
+          -- プラグインの close_after_yank と同じく、次のループで閉じる。
+          vim.defer_fn(require("kitty-scrollback.util").quitall, 0)
+        elseif event.regname == REG_PASTE then
+          vim.schedule(function()
+            send_to_paste_window(lines)
+          end)
+        end
+      end,
+    })
   end,
 })
 
@@ -154,9 +237,9 @@ require("lazy").setup({
           end
           return {
             paste_window = {
-              -- 既定は無名レジスタ = 素の y でペーストウィンドウが開く。上の
-              -- FileType autocmd の gy (= "py) からだけ開くように移す。
-              yank_register = "p",
+              -- 既定は無名レジスタへのヤンクでペーストウィンドウが開く。上の
+              -- TextYankPost が gy から開くので、プラグイン側では開かせない。
+              yank_register_enabled = false,
             },
             callbacks = { after_setup = paint_frame },
             scrollback_columns = columns,
