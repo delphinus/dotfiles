@@ -660,6 +660,73 @@ refresh_head_caches() {
     return 0
 }
 
+# --- Homebrew の sandbox が download lock を書けない件の回避 ---------------
+#
+# 上流の不具合。ソースからビルドするときの fetch フェーズは sandbox の中で走る
+# のに、書き込みを許しているのが HOMEBREW_TEMP と HOMEBREW_CACHE だけで、
+# download lock の置き場である HOMEBREW_LOCKS が抜けている
+# (Library/Homebrew/formula_installer.rb の run_fetch)。ロックを取るのは
+# 「実際にダウンロードするとき」だけなので、**キャッシュに無い resource が
+# 1 つでもあると必ず落ちる**:
+#
+#   Errno::EPERM: ... /opt/homebrew/var/homebrew/locks/<sha>--<file>.incomplete.download.lock
+#
+# カーネルログには Sandbox ... deny(1) file-write-create として出る。
+# HOMEBREW_AVOID_NESTED_SANDBOXING は「外側にも sandbox があり、かつ非標準
+# prefix」のときしか効かない (sandbox.rb の avoid_nested_sandboxing?) ので
+# 逃げ道にならない。2026-09-24 に Homebrew 7.0.6-38-g27af95f で踏んだ。
+#
+# neovim の HEAD は treesitter のパーサを resource として取るため、パーサの版が
+# 上がった直後と brew cleanup がキャッシュを刈った直後に必ず当たる。ここで先に
+# キャッシュへ置いてしまえば sandbox の中では何も取りに行かない。
+#
+# **上流が直ったらこの関数ごと消す。** キャッシュのファイル名は
+# <URL の sha256>--<GitHub archive の tarball 名> で、これは Homebrew の
+# 命名をこちらで再現しているだけなので、外れても余計なファイルが 1 つ残るだけ
+# (ビルドは今と同じように失敗する) で済むようにしてある。
+seed_neovim_resource_cache() {
+    local src deps downloads var url key sha name ver target tmp got seeded=0
+    src="$(brew --cache --HEAD neovim 2>/dev/null)" || return 0
+    deps="$src/cmake.deps/deps.txt"
+    [[ -f "$deps" ]] || return 0
+    downloads="$(brew --cache 2>/dev/null)/downloads"
+    [[ -d "$downloads" ]] || return 0
+
+    while read -r var url _; do
+        # formula 側が resource にするのは /TREESITTER_[^_]+_URL/ だけ。
+        # TREESITTER_LUA_WASM_URL のような 2 語のものは対象外なので揃える。
+        [[ "$var" =~ ^TREESITTER_[^_]+_URL$ ]] || continue
+        key="${var%_URL}_SHA256"
+        sha="$(awk -v k="$key" '$1 == k { print $2; exit }' "$deps")"
+        [[ -n "$sha" ]] || continue
+        [[ "$url" =~ ^https://github\.com/[^/]+/([^/]+)/archive/v?([^/]+)\.tar\.gz$ ]] || continue
+        name="${BASH_REMATCH[1]}"
+        ver="${BASH_REMATCH[2]}"
+        target="$downloads/$(printf '%s' "$url" | shasum -a 256 | cut -d' ' -f1)--$name-$ver.tar.gz"
+        [[ -e "$target" ]] && continue
+
+        tmp="$(mktemp "$downloads/.seed.XXXXXX")" || continue
+        if ! with_timeout 120 curl -fsSL -o "$tmp" "$url"; then
+            rm -f "$tmp"
+            log "neovim: $name-$ver を取得できなかった。ビルドは Homebrew に任せる"
+            continue
+        fi
+        got="$(shasum -a 256 "$tmp" | cut -d' ' -f1)"
+        if [[ "$got" != "$sha" ]]; then
+            rm -f "$tmp"
+            log "neovim: $name-$ver の sha256 が deps.txt と違う。置かずに捨てた"
+            continue
+        fi
+        chmod 644 "$tmp"
+        mv "$tmp" "$target"
+        ((seeded++))
+    done <"$deps"
+
+    ((seeded > 0)) &&
+        log "neovim: sandbox 内では落とせない resource ${seeded} 件をキャッシュへ先置きした"
+    return 0
+}
+
 # brew upgrade は --fetch-HEAD を付けないと HEAD インストールの formula を
 # 一切見ない (brew outdated にすら出ない)。ここが端末間ドリフトの主因だった。
 #
@@ -723,6 +790,14 @@ brew_upgrade_head() {
     }
 
     refresh_head_caches "${targets[@]}"
+
+    # キャッシュを進めた後でなければ、見る deps.txt が前回ビルドした版のものに
+    # なる。上流が直ったら seed_neovim_resource_cache ごと消す。
+    for f in "${targets[@]}"; do
+        if [[ "$f" == neovim ]]; then
+            seed_neovim_resource_cache
+        fi
+    done
 
     # まとめて渡すと 1 本の失敗で残りが巻き添えになるので 1 本ずつ実行する。
     # brew の起動コストが formula 数だけかかるが、失敗を名指しできる方が重要。
