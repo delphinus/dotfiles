@@ -5,6 +5,18 @@ Host {{ h.host }}
 
 {% endfor -%}
 
+{#- Homebrew の HEAD 取得専用 (vars/main.yml の brew_deploy_repos 参照)。
+    Host * の IdentityAgent より前に置いて agent を切る。 #}
+{% for r in brew_deploy_repos -%}
+Host github-brew-{{ r }}
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/brew-deploy-homebrew-{{ r }}
+  IdentitiesOnly yes
+  IdentityAgent none
+
+{% endfor -%}
+
 {#- lan_host を持つホストは、同じ LAN にいるときだけその IP へ直結し、外からは
     通常の Host ブロック (Cloudflare Access が張った localhost のポート等) に
     落ちる。ssh_config は最初に得た値が勝つので Match を Host より前に出す。

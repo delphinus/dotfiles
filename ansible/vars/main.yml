@@ -82,3 +82,13 @@ python_modules:
 python_modules_with_compiling:
   - pygit2
 task_rc_dir: '{{ "/usr/local/opt/task/share/doc/task/rc" if ansible_facts["system"] == "Darwin" else "/usr/local/share/doc/task/rc" }}'
+
+# Homebrew の HEAD formula を取得する private tap。Homebrew のダウンロードの
+# サンドボックスが ~/Library/Keychains を塞ぐので HTTPS では認証できず、
+# 1Password の SSH agent は画面ロック中 (daily-sync の朝の回) に Touch ID を
+# 求めて通らない。そこでリポジトリごとの read-only deploy key を ~/.ssh に置き、
+# formula の head を ssh://git@github-brew-<repo>/... に向ける。
+# 鍵は 1Password (Private) の brew-deploy-homebrew-<repo> にある。
+brew_deploy_repos:
+  - mycrons
+  - buffalo
