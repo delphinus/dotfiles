@@ -1,6 +1,6 @@
 #!/bin/bash
 # Neovim のプラグイン更新 (:Lazy sync) を「レビューしてからコミットする」形に
-# するための道具。判断はしないで、判断材料を JSON で揃えるところまでをやる。
+# するための補助。判断はしないで、判断材料を JSON で揃えるところまでをやる。
 #
 #   nvim-lazy-sync state    今どういう状態か (未コミットの lock 差分・パーサ)
 #   nvim-lazy-sync run      headless で sync し、TSUpdate を待ち切る
@@ -115,7 +115,7 @@ stale_refspecs() {
     for dir in "$LAZY_DIR"/*/; do
         dir="${dir%/}"
         [[ -e "$dir/.git" ]] || continue
-        # 明示 refspec を持たない clone (大多数) はそもそもこの事故を起こさない。
+        # 明示 refspec を持たない clone (大多数) はそもそもこの問題を起こさない。
         git -C "$dir" config --get-all remote.origin.fetch 2>/dev/null |
             grep -qv ':refs/remotes/origin/\*$' || continue
         plugin="${dir##*/}"
@@ -131,7 +131,7 @@ cmd_state() {
     if lock_dirty; then dirty=true; else dirty=false; fi
 
     # 差分が無いときは HEAD 同士の比較になり changed=0 になるだけで害は無い。
-    # パーサの状態はどちらの経路でも知りたいので、常に解析を通す。
+    # パーサの状態はどちらの場合も知りたいので、常に解析を通す。
     analysis="$(nvim -l "$BIN_DIR/nvim-lazy-analyze.lua" --repo "$REPO" 2>/dev/null)" \
         || die "analyze に失敗した"
 
@@ -191,14 +191,14 @@ cmd_report() {
     analysis="$(nvim -l "$BIN_DIR/nvim-lazy-analyze.lua" --repo "$REPO" "$@")" \
         || die "analyze に失敗した"
     # downgrade / unknown が出るのはここなので、その原因になる refspec の腐りも
-    # 同じ出力に載せる。state を見ずに report だけ読む経路でも気付けるように。
+    # 同じ出力に載せる。state を見ずに report だけ読む使い方でも気付けるように。
     jq -n --argjson a "$analysis" --argjson e "$(extra_parsers state)" \
         --argjson stale "$(stale_refspecs)" \
         '$a + {extra_parsers: $e, stale_refspecs: $stale}'
 }
 
 # 更新後の nvim がまともに起動するか。lock の差分をいくら読んでも
-# 「起動しなくなった」「パーサが壊れた」は分からないので、実際に立ち上げる。
+# 「起動しなくなった」「パーサが読めなくなった」は分からないので、実際に立ち上げる。
 cmd_health() {
     local out log rc
     out="$(mktemp -t nvim-lazy-health.XXXXXX)"

@@ -1,9 +1,9 @@
--- lazy-lock.json の新旧を突き合わせ、プラグインごとの更新内容を JSON で吐く。
+-- lazy-lock.json の新旧を照らし合わせ、プラグインごとの更新内容を JSON で吐く。
 --
 -- 判断はしない。判断材料を揃えるところまでが仕事で、「この更新を取り込んで
 -- いいか」は人間 (と Claude) が読んで決める。
 --
--- `nvim -l` で走らせるので user config は読まれない。解析に config は要らない
+-- `nvim -l` で動かすので user config は読まれない。解析に config は要らない
 -- うえ、lazy.setup() は 'runtimepath' を作り替えるので、読ませない方が副作用が
 -- 無い。逆に言うと lazy.nvim の API はここでは使えないので、プラグインの
 -- クローン先 (stdpath("data") .. "/lazy") を直接触る。
@@ -117,7 +117,7 @@ end
 local old_lock = read_lock_at(ref)
 local new_lock = read_lock_worktree()
 
------------------------------------------------------------------- 解析の部品
+------------------------------------------------------------------ 解析の下請け
 
 ---@param tag string?
 ---@return { major: integer, minor: integer, patch: integer }?
@@ -147,7 +147,8 @@ local function tag_of(dir, sha)
   return nil
 end
 
--- semver 的に「壊れうる」上げ方か。0.x は minor がメジャー相当なのでそこも見る。
+-- semver 的に「非互換を含みうる」上げ方か。0.x は minor がメジャー相当なので
+-- そこも見る。
 local function breaking_bump(old_tag, new_tag)
   local o, n = semver(old_tag), semver(new_tag)
   if not o or not n then
@@ -320,7 +321,7 @@ for _, c in ipairs(changed) do
     item.branch_changed = { from = c.prev.branch, to = c.curr.branch }
   end
   -- 既定ブランチ以外を追いかけているものは、upstream の force push や
-  -- ブランチ削除で静かに壊れる。目立たせておく。
+  -- ブランチ削除で、何の知らせも無いまま追従が止まる。目立たせておく。
   if c.curr.branch ~= "main" and c.curr.branch ~= "master" then
     item.tracking_branch = true
   end
@@ -420,7 +421,7 @@ local function treesitter_state()
   -- site/queries/<lang> は「プラグインの runtime/queries/<lang> への symlink」
   -- として張られる。upstream が言語をレジストリから外すとき queries も一緒に
   -- 消すので、リンクだけが残って切れる。パーサ (.so) は無事なままなので
-  -- 「読み込めるのにハイライトが出ない」という分かりにくい壊れ方をする。
+  -- 「読み込めるのにハイライトが出ない」という分かりにくい症状になる。
   -- 実例: 2026-07-15 に tmux / hlsplaylist / muttrc / zathurarc がこうなった。
   local dangling = {}
   local qdir = SITE .. "/queries"

@@ -1,4 +1,4 @@
--- 設定を読み込んだ headless nvim の中で走る、自動化フローの「実行」部分。
+-- 設定を読み込んだ headless nvim の中で動く、自動化フローの「実行」部分。
 -- `:Lazy sync` を回し、そのままでは取りこぼす後始末までやってから結果を返す。
 --
 -- なぜ独立したファイルなのか: `nvim -l` は user config を読まないので lazy の
@@ -83,7 +83,7 @@ result.sync = { ok = ok, error = not ok and tostring(err) or nil }
 
 ------------------------------------------------------- 2. lazy のタスク失敗を拾う
 
--- headless では :Lazy の画面が出ないので、失敗しても黙って通り過ぎる。
+-- headless では :Lazy の画面が出ないので、失敗しても何も言わずに通り過ぎる。
 -- markdown-preview の yarn / op.nvim の go build / CopilotChat の luarocks は
 -- ここでしか落ちたことが分からない。
 do

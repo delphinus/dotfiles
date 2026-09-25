@@ -21,7 +21,7 @@
 #
 #   結果 `tree-sitter build` が起動すらできず、:TSUpdate がその言語だけ
 #   静かに失敗していた (dart が実際にこうなっていた)。mise は
-#   not_found_auto_install が既定で true なので死にはしないが、代わりに
+#   not_found_auto_install の初期値が true なので死にはしないが、代わりに
 #   パーサのキャッシュディレクトリごとに要らない node を勝手に入れ始める。
 #   どちらにせよ避けたいので、グローバルの版で呼び直す。
 #
@@ -29,7 +29,7 @@
 #
 #   .nvmrc はパーサを取り直すたびに上流から復活するので消しても戻る。
 #   idiomatic_version_file_enable_tools はよその (仕事の) リポジトリで
-#   効かせたい設定なので、グローバルに切ると関係無いところに波及する。
+#   有効にしたい設定なので、グローバルに切ると関係無いところに波及する。
 #   ここだけ塞ぐのが一番狭い。
 #
 # MISE_NODE_VERSION で版が明示されているときは尊重する。
@@ -60,5 +60,5 @@ if [[ -n "${MISE_NODE_VERSION:-}" ]]; then
 fi
 
 # 空文字を渡すと「有効にするツールは無し」になり、.nvmrc / .node-version が
-# 無視されてグローバル (~/.config/mise/config.toml) の node に落ちる。
+# 無視されてグローバル (~/.config/mise/config.toml) の node が使われる。
 exec env MISE_IDIOMATIC_VERSION_FILE_ENABLE_TOOLS= "$real" "$@"

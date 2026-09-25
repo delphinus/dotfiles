@@ -17,7 +17,7 @@ use JSON::PP ();
 #
 # 入力は statusLine の JSON (stdin)。transcript_path と terminal_width を使う。
 #
-#   --max N      出す最大の表示幅 (既定 70。実測した ai-title の最長が 78 桁)
+#   --max N      出す最大の表示幅 (既定 70。手元で数えた ai-title の最長が 78 桁)
 #   --reserve N  同じ行で他が使う幅 (既定 130)。flexMode が削る 40 桁を含む
 #
 # 行が溢れると ccstatusline は行末を切る。タイトルを先頭に置いているので、

@@ -1,15 +1,15 @@
 -- 更新後の Neovim が正気かを、実際に起動して確かめる。
--- lock の差分をいくら読んでも「起動しなくなった」「パーサが壊れた」は
+-- lock の差分をいくら読んでも「起動しなくなった」「パーサが読めなくなった」は
 -- 分からないので、ここだけは動かして見る。
 --
 -- 呼ぶのは nvim-lazy-sync health。結果は $NVIM_LAZY_OUT に JSON で書く。
 --
--- 中身を VimEnter に載せているのは、`-c` が VimEnter より前に走るため
+-- 中身を VimEnter に載せているのは、`-c` が VimEnter より前に動くため
 -- (:help startup の 19 番が -c、22 番が VimEnter)。denops は VimEnter で
 -- サーバを起こすので、-c の中で待っても必ず "stopped" になる。
 --
 -- ファイルは開かない。BufReadPost で nvim-lspconfig が起き、その config が
--- mason-tool-installer の check_install() を呼ぶため、開いた瞬間に LSP の
+-- mason-tool-installer の check_install() を呼ぶため、開いたとたんに LSP の
 -- インストールが走り出す。すぐ落とすプロセスでそれを始めると中途半端な
 -- 状態を残しかねない。
 --
@@ -52,7 +52,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
       -- site/parser/ を直に読まず 'runtimepath' 全体から集める。
       -- nvim-treesitter の管轄外に置いたパーサ (extra-parsers。詳細は
       -- bin/nvim-extra-parsers) も対象にするため。Neovim 本体のパーサ探索も
-      -- これと同じ経路なので、実際に使われるものと一致する。
+      -- これと同じ探し方なので、実際に使われるものと一致する。
       local langs, seen = {}, {}
       for _, path in ipairs(vim.api.nvim_get_runtime_file("parser/*.so", true)) do
         local lang = vim.fn.fnamemodify(path, ":t:r")

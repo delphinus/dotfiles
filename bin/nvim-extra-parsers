@@ -12,7 +12,7 @@
 #   nvim-treesitter の main は `<url>/archive/<revision>.tar.gz` (= git ツリーの
 #   source archive) を取って、中の生成済み src/parser.c をコンパイルする。
 #   上流が「生成物は git に置かずパッケージレジストリで配る」方針に変えると、
-#   この経路だけが死んでレジストリから落とされる。実例が tmux で、2026-07-15 に
+#   この取り方だけが死んでレジストリから落とされる。実例が tmux で、2026-07-15 に
 #   hlsplaylist / muttrc / zathurarc ごと drop された。
 #
 #   ただし生成物は失われていない。リリースの tarball (npm の .tgz) には
@@ -51,7 +51,7 @@ set -uo pipefail
 
 readonly CONFIG_REL=".config/nvim/extra-parsers.json"
 readonly DEST="${NVIM_EXTRA_PARSERS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/extra-parsers}"
-# nvim-treesitter のレジストリ定義。差し替えられるのは superseded 経路を
+# nvim-treesitter のレジストリ定義。差し替えられるのは superseded の分岐を
 # 試すためで、通常はいじらない。
 readonly NT_PARSERS="${NVIM_TS_PARSERS:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy/nvim-treesitter/lua/nvim-treesitter/parsers.lua}"
 # nvim-treesitter が入れる先。ここに残った同名の .so が DEST を隠す。
@@ -134,7 +134,7 @@ asset_url() {
 }
 
 # パーサとクエリを一時領域に組み立ててから検証し、通ったものだけ本番に入れる。
-# 壊れたクエリをそのまま置くと、色が消えるだけで原因が分かりにくい。
+# 噛み合わないクエリをそのまま置くと、色が消えるだけで原因が分かりにくい。
 install_lang() {
     local lang="$1" repo="$2" tag="$3" queries="$4" queries_ref="$5"
     local work url sum stage
@@ -172,7 +172,7 @@ install_lang() {
     # クエリはリリース資産に同梱されているのが基本。古いリリースだと入って
     # いないことがある (hlsplaylist 0.0.5 は resources を含まない) ので、その
     # ときだけ queries_ref で指定した ref から取る。
-    # 欠けたまま進めない。黙って飛ばすと「色が出ない」だけの分かりにくい壊れ方をする。
+    # 欠けたまま進めない。何も言わずに飛ばすと「色が出ない」だけで原因が分からなくなる。
     local q missing=""
     for q in $queries; do
         if [[ -f "$pkg/queries/$q.scm" ]]; then
@@ -191,7 +191,7 @@ install_lang() {
     fi
 
     # 検証: パーサが読めるか、各クエリがそのパーサに対して妥当か。
-    # query.get はノード名をパーサに突き合わせて parse するので、ここを
+    # query.get はノード名をパーサと照らして parse するので、ここを
     # 通れば「.so とクエリの版が噛み合っている」ことまで確かめられる。
     local verdict
     # shellcheck disable=SC2086 # queries は語に分けて渡したい
@@ -305,7 +305,7 @@ process() {
         if [[ -n "$newest" ]]; then
             want="$newest"
         else
-            # 最新版が引けないときはピンのまま進める。黙って「最新です」とは言わない。
+            # 最新版が引けないときはピンのまま進める。何も言わずに「最新です」とはしない。
             echo "nvim-extra-parsers: $lang の最新リリースを取得できなかった (rate limit?)。ピン $tag のまま続行する" >&2
         fi
     fi
@@ -328,8 +328,8 @@ process() {
         return 0
     fi
 
-    # 版が合っていても shadow は起こりうる (site/ 側は別経路で増える) ので、
-    # 導入を飛ばす経路でも必ず掃除する。
+    # 版が合っていても shadow は起こりうる (site/ 側は別の口から増える) ので、
+    # 導入を飛ばすときでも必ず掃除する。
     if [[ "$installed_tag" == "$want" ]] && installed_ok "$lang" "$queries"; then
         jq -n --arg l "$lang" --arg t "$want" --argjson sh "$(purge_shadow "$lang")" \
             '{lang: $l, status: "up-to-date", tag: $t, shadow_removed: $sh}'

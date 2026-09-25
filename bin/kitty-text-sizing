@@ -14,7 +14,7 @@
 #
 # s は基準フォントサイズ (kitty.conf の font_size) の倍数なので、⌘+ で基準を
 # 変えれば追従する。非対応の端末は OSC 66 を無視して素のテキストとして出すだけ
-# なので、流しても壊れない。
+# なので、流しても問題ない。
 #
 # 仕様: https://sw.kovidgoyal.net/kitty/text-sizing-protocol/
 

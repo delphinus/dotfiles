@@ -35,7 +35,7 @@ put_secrets() {
 }
 
 # 検証に使う python を選ぶ。PyYAML が要るが、PATH の python3 に入っているとは
-# 限らない (実測: バージョンマネージャ (asdf / 現 mise) の shim 経由の素の
+# 限らない (バージョンマネージャ (asdf / 現 mise) の shim 経由の素の
 # python が PATH の先に来ていて
 # ModuleNotFoundError になった)。ここで落ちると secrets.yml を配れず
 # play-ansbile が一切流せなくなるので、端末ごとに pip install させるのではなく
@@ -55,13 +55,13 @@ secrets_python() {
     printf '%s\n' "$py"
 }
 
-# 取得・編集した内容が壊れていないか検証する。
+# 取得・編集した内容が欠けていないか検証する。
 #
-# op が不調なときに部分的な内容を返すことがあり (実測: 2 回連続で別々の位置で
+# op が不調なときに部分的な内容を返すことがあり (2 回連続で別々の位置で
 # 切れ、`'secret_office' is undefined` 等でプレイブックが中断した)、その場合でも
 # exit code は 0 で、YAML としては読めてしまう。ファイル全体に散らばる番兵キーの
 # 存在で切り詰めを検出する。編集後にも掛けることで、壊した YAML を 1Password に
-# push してしまう事故も防ぐ。
+# push してしまうのも防ぐ。
 validate_secrets() {
     local py
     if ! py="$(secrets_python)"; then
@@ -114,8 +114,8 @@ update_secrets_hash() {
 # ハッシュファイルをコミットして push する。
 #
 # 生成物なので人間がコミット文を考える価値が無く、案内を出すだけにしていたら
-# 未コミットのまま残って daily-sync に催促され続けた (実測)。他の端末へ伝わって
-# 初めて意味を持つ仕組みなので、push まで自動でやる。
+# 未コミットのまま残って daily-sync に催促され続けたことがある。他の端末へ
+# 伝わって初めて意味を持つ仕組みなので、push まで自動でやる。
 #
 # ただしユーザのリポジトリを勝手に触るので、安全に判断できるときだけにする:
 #   - master にいて、rebase / merge の途中でないこと

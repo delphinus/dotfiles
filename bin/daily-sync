@@ -6,9 +6,9 @@
 # だけ」通知して人間に渡す。勝手には実行しない。
 #
 #   daily-sync             通常実行 (1 日 1 回まで)
-#   daily-sync --force     当日既に実行済みでも走らせる
+#   daily-sync --force     当日既に実行済みでも実行する
 #   daily-sync --dry-run   変更を伴う操作をスキップして検知だけ行う
-#   daily-sync --at-boot   起動時の枠。この起動セッションで未実行のときだけ走る
+#   daily-sync --at-boot   起動時の枠。この起動セッションで未実行のときだけ動く
 #
 # ログ:   ~/Library/Logs/daily-sync.log
 # 状態:   ~/.local/state/daily-sync/
@@ -17,7 +17,7 @@
 #
 # このスクリプト自身が play-ansbile で置き換わる可能性があるため、全体を main()
 # に入れて末尾で呼ぶ。bash はスクリプトを逐次読みするので、こうしないと実行中に
-# 中身が入れ替わったときに壊れる。
+# 中身が入れ替わったときに誤動作する。
 
 set -uo pipefail
 
@@ -26,7 +26,7 @@ set -uo pipefail
 #
 # ネットワーク待ちは brew_run の ConnectTimeout / agent 外しの方で数秒で落ちる
 # ので、この値は「正当に長いビルド」を基準に決める。neovim の HEAD ビルドは
-# 負荷の高いときに 15 分を超える (実測で 900 秒では足りずビルドを殺していた)。
+# 負荷の高いときに 15 分を超える (900 秒では足りずビルドを殺していた)。
 readonly BREW_TIMEOUT="${DAILY_SYNC_BREW_TIMEOUT:-2400}"
 
 # brew --repo は ruby の起動を伴い 1 回 300ms 程度かかるので使い回す。
@@ -44,12 +44,12 @@ readonly LAST_RUN="$STATE_DIR/last-run"
 # 中身は kern.boottime の epoch。
 readonly LAST_BOOT="$STATE_DIR/last-boot"
 readonly LOCK_DIR="$STATE_DIR/lock"
-# 前回の daily-sync を走らせたときの起動セッション (kern.boottime の epoch)。
+# 前回 daily-sync を実行したときの起動セッション (kern.boottime の epoch)。
 # 「そのセッションのあいだに skk-sync が 1 度でも発火したか」を見るのに使う。
 # 詳細は check_skk_sync_fired のコメント。
 readonly SKK_SEEN_BOOT="$STATE_DIR/skk-sync-seen-boot"
 readonly ANSIBLE_STAMP="$STATE_DIR/last-ansible"
-# 前回の実行で検出した端末間の版の不一致。今回のものと突き合わせて「固着して
+# 前回の実行で検出した端末間の版の不一致。今回のものと照らし合わせて「固着して
 # いるか」を判定するために持ち越す。形式は compare_snapshots のコメント参照。
 readonly DIFF_STATE="$STATE_DIR/snapshot-diff"
 # sudo を要求すると分かった cask の記録先だった。今は quarantine の
@@ -107,13 +107,13 @@ host_name() { scutil --get LocalHostName 2>/dev/null || hostname -s; }
 # の形で返るので sec だけ取る。取れなければ何も出力しない。
 #
 # 先頭に錨を打つのが肝。`.*sec = ` と書くと貪欲マッチが usec の方に届いて
-# usec 値を epoch として返す (実測: 98284 = 1970-01-02 になった)。
+# usec 値を epoch として返す (98284 = 1970-01-02 になった)。
 boot_epoch() {
     sysctl -n kern.boottime 2>/dev/null | sed -nE 's/^\{ sec = ([0-9]+).*/\1/p'
 }
 
 # `brew info --json=v2 --installed` は環境によっては 1 回で数分かかる
-# (実測 6 分)。HEAD 対象の抽出・更新前後の比較・リンク切れ検出・スナップショット
+# (手元では 6 分)。HEAD 対象の抽出・更新前後の比較・リンク切れ検出・スナップショット
 # と 5 箇所で必要になるので、1 度取ってファイルに置き、以降は読み直す。
 BREW_INFO_CACHE=""
 cleanup() {
@@ -125,7 +125,7 @@ trap cleanup EXIT
 # brew が落ちるとキャッシュが空になり、以降の消費側は「1 本も入っていない」と
 # 読む。jq は空入力を無出力 + exit 0 で返すので、write_snapshot は 0 バイトの
 # スナップショットを成功として書いてしまい、端末間の比較が誰にも気付かれないまま
-# 空振りする (実測 2026-09-16: Xcode のライセンス未同意で brew が全滅した 2 台が、
+# 空振りする (2026-09-16: Xcode のライセンス未同意で brew が全滅した 2 台が、
 # 両方とも 0 バイトのスナップショットを「書き出した」と記録していた)。空のまま
 # 先へ進ませず、ここで失敗として拾う。
 refresh_brew_info() {
@@ -154,13 +154,13 @@ with_timeout() {
 # brew を無人実行向けの条件で回す。
 #
 # SSH_AUTH_SOCK を外すのは、到達できない remote を見ている formula があると
-# ssh が agent への問い合わせで無応答のまま居座るため (実測: 廃止済み GHE への
+# ssh が agent への問い合わせで無応答のまま居座るため (廃止済み GHE への
 # clone が 17 分以上ハング。agent を外すと 8 秒で "Repository not found")。
 # launchd 配下には元々 agent が無いので、こうすると手動実行と本番の挙動が揃う。
 # tap は全て HTTPS 化済みなので、正当な fetch で agent を要するものは無い。
 # HOMEBREW_NO_AUTO_UPDATE は明示的に brew update を済ませた後の upgrade 用。
-# 付けないと upgrade のたびに auto-update が走り、実行が長引くほど再度その
-# 間隔を超えて再々実行される悪循環になる (実測: 1 回の実行が 40 分を超えた)。
+# 付けないと upgrade のたびに auto-update が動き、実行が長引くほど再度その
+# 間隔を超えて再々実行される悪循環になる (1 回の実行が 40 分を超えた)。
 # HOMEBREW_NO_CLEANUP_FORMULAE は起動中の nvim から runtime を奪わせないため。
 # 理由と後始末は prune_nvim_kegs のコメント参照。
 brew_run() {
@@ -195,7 +195,7 @@ already_ran_today() {
 #
 # 定時の枠 (com.delphinus.daily-sync) と起動時の枠
 # (com.delphinus.daily-sync-boot) はラベルが別なので、launchd のラベル単位の
-# 排他が効かない。起動が定時の枠と近いと 2 本同時に走りうる (例: 8:40 に起動
+# 排他が働かない。起動が定時の枠と近いと 2 本同時に動きうる (例: 8:40 に起動
 # して 8:47 の枠に重なる)。brew を並行に回すと互いの lock で失敗するだけで、
 # 得るものが無い。手で叩いたときにも同じことが起きる。
 #
@@ -231,14 +231,14 @@ release_lock() {
 # この起動セッションで既に起動時の枠を扱ったか (--at-boot 用)。
 #
 # RunAtLoad は「起動」ではなく「エージェントのロード」で発火するので、
-# play-ansbile が plist を入れ替えて bootstrap し直すたびにも走る。全部を
+# play-ansbile が plist を入れ替えて bootstrap し直すたびにも動く。全部を
 # 本実行にすると、プレイブックの実行中に brew upgrade が始まり、しかも
-# dotfiles の反映が終わる前に check_dotfiles が走って「未反映」を誤報する。
+# dotfiles の反映が終わる前に check_dotfiles が動いて「未反映」を誤報する。
 # kern.boottime を記録しておき、同じ起動セッションの 2 回目以降は抜ける。
 #
-# 記録が無いときも走らせない。この枠が入って最初のロードは「起動直後」とは
-# 限らない (play-ansbile がロードした瞬間) ため。記録だけ作って次の起動から
-# 効かせる。その日の分は定時の枠が拾うので取りこぼしにはならない。
+# 記録が無いときも実行しない。この枠が入って最初のロードは「起動直後」とは
+# 限らない (play-ansbile がロードした直後) ため。記録だけ作って次の起動から
+# 有効にする。その日の分は定時の枠が拾うので取りこぼしにはならない。
 boot_session_handled() {
     local boot recorded
     boot="$(boot_epoch)"
@@ -264,12 +264,12 @@ boot_session_handled() {
 
 # --- ネットワークの待ち ---------------------------------------------------
 #
-# 起動直後は経路がまだ上がっていないことがある。待たずに走ると brew が軒並み
+# 起動直後はまだ疎通しないことがある。待たずに動くと brew が軒並み
 # 失敗するだけでなく、main() が最後に last-run を書くので「失敗した回」で
 # その日の枠を食い潰す。疎通するまで待ち、駄目なら last-run を書かずに諦めて
 # 後続の枠に任せる。
 #
-# 判定は実際に HTTPS を張って行う。scutil -r は経路があれば Reachable を返す
+# 判定は実際に HTTPS を張って行う。scutil -r は届く道があれば Reachable を返す
 # ので、キャプティブポータルや DNS だけ死んでいる状態を見抜けない。
 readonly NETWORK_WAIT="${DAILY_SYNC_NETWORK_WAIT:-300}"
 
@@ -478,7 +478,7 @@ restart_changed_services() {
 
 # --- 隔離 (quarantine) --------------------------------------------------
 #
-# 恒久的に壊れている formula を毎日叩き続けると、実行時間を食い潰した上に
+# 恒久的に失敗する formula を毎日叩き続けると、実行時間を食い潰した上に
 # 同じ失敗通知が毎日出て読まれなくなる。一度失敗したものは一定期間スキップし、
 # サマリには「隔離中」として出し続けて存在は見えるようにする。
 #
@@ -538,15 +538,15 @@ quarantine_sudo() {
 }
 
 # アップグレードに失敗した formula は linked keg を失ったまま放置されることが
-# ある (実測: install が例外で落ち、/opt/homebrew/bin/mydns が消えて DNS 更新
+# ある (install が例外で落ち、/opt/homebrew/bin/mydns が消えて DNS 更新
 # ジョブが動かなくなった)。Cellar に keg が残っていれば貼り直す。
 #
 # keg-only は除外する。リンクされていないのが正常な状態なので、含めると毎回
-# 全件が「壊れている」ように見える (実測: 新しい端末で 17 件が候補になった)。
+# 全件が異常に見える (新しい端末で 17 件が候補になった)。
 # しかも brew link は keg-only を拒否しても exit 0 を返すため、ログには
 # 「復旧した」と出て気付けない。実害もあり、versioned な keg-only
 # (openssl@4, openssl@1.1, mysql@8.4, mysql-client@8.4) は --force 無しでも
-# 実際に張られてしまい、意図して外してある lib と bin を勝手に載せる (実測)。
+# 実際に張られてしまい、意図して外してある lib と bin を勝手に載せる (実際に起きた)。
 repair_unlinked() {
     # Cellar のディレクトリは短い名前、brew link に渡すのは full_name。
     local -a broken=()
@@ -589,9 +589,9 @@ brew_upgrade_versioned() {
     # 依存解決も一括の方が正しい)。全体としての上限だけ掛ける。
     #
     # --formula を明示するのは cask を巻き込まないため。引数なしの brew upgrade は
-    # cask も対象にするので、sudo を要求する cask が 1 件混ざるだけで全体が
+    # cask も対象にするので、sudo を要求する cask が 1 件あるだけで全体が
     # 非ゼロで終わり、formula 側が全て成功していても「brew upgrade に失敗」と
-    # しか分からなくなる (実測 2026-08-04: docker-desktop で 4 件の formula 更新が
+    # しか分からなくなる (2026-08-04: docker-desktop で 4 件の formula 更新が
     # 失敗扱いに埋もれた)。cask は brew_upgrade_casks で個別に扱う。
     brew_run "$((BREW_TIMEOUT * 2))" brew upgrade --formula
 }
@@ -631,10 +631,10 @@ head_fetch_unauthorized() {
 #
 # nil のときのフォールバック先がキャッシュされたクローンのローカル HEAD で、
 # そこは前回ビルドした sha のまま止まっている。結果 installed と一致して「最新」に
-# なる (実測 2026-08-02: upstream が 8 コミット先なのに未検出。ローカルでは
+# なる (2026-08-02: upstream が 8 コミット先なのに未検出。ローカルでは
 # 7 文字で一意なのに API は 422 を返していた)。
 #
-# フォールバック先を先に進めておけば、API 経路が失敗しても正しく検出される。
+# フォールバック先を先に進めておけば、API 側が失敗しても正しく検出される。
 refresh_head_caches() {
     local f dir branch before after
     for f in "$@"; do
@@ -662,7 +662,7 @@ refresh_head_caches() {
 
 # --- Homebrew の sandbox が download lock を書けない件の回避 ---------------
 #
-# 上流の不具合。ソースからビルドするときの fetch フェーズは sandbox の中で走る
+# 上流の不具合。ソースからビルドするときの fetch フェーズは sandbox の中で動く
 # のに、書き込みを許しているのが HOMEBREW_TEMP と HOMEBREW_CACHE だけで、
 # download lock の置き場である HOMEBREW_LOCKS が抜けている
 # (Library/Homebrew/formula_installer.rb の run_fetch)。ロックを取るのは
@@ -673,7 +673,7 @@ refresh_head_caches() {
 #
 # カーネルログには Sandbox ... deny(1) file-write-create として出る。
 # HOMEBREW_AVOID_NESTED_SANDBOXING は「外側にも sandbox があり、かつ非標準
-# prefix」のときしか効かない (sandbox.rb の avoid_nested_sandboxing?) ので
+# prefix」のときしか働かない (sandbox.rb の avoid_nested_sandboxing?) ので
 # 逃げ道にならない。2026-09-24 に Homebrew 7.0.6-38-g27af95f で踏んだ。
 #
 # neovim の HEAD は treesitter のパーサを resource として取るため、パーサの版が
@@ -746,7 +746,7 @@ brew_upgrade_head() {
 
     # mycrons の formula の一部は install 時に HOMEBREW_OP (1Password サービス
     # アカウントトークン) を要求する。焼き込み (inreplace) と install 時の
-    # op 参照の両方があり、無いまま走らせると必ず失敗する。
+    # op 参照の両方があり、無いまま実行すると必ず失敗する。
     # トークンを要求しない formula (add_timestamp 等) は更新できるので、
     # tap の formula 定義を見て要求するものだけを外す。
     if [[ -z "${HOMEBREW_OP:-}" ]]; then
@@ -854,7 +854,7 @@ brew_upgrade_head() {
 #
 # cask には無人では通せないものがある。docker-desktop は更新の前段で
 # /Library/PrivilegedHelperTools 配下の特権ヘルパーを消すため sudo を要求し、
-# launchd 配下では端末が無いので必ず失敗する (実測 2026-08-04)。
+# launchd 配下では端末が無いので必ず失敗する (2026-08-04 に踏んだ)。
 #
 #   sudo: a terminal is required to read the password
 #
@@ -866,7 +866,7 @@ brew_upgrade_head() {
 #
 # しかも失敗の仕方は端末によって違う。sudo に pam_tid (Touch ID) を入れて
 # ある端末では、端末が無くても即エラーにならず認証ダイアログを出したまま待ち
-# 続ける (実測 2026-08-10: ある端末で macskk が BREW_TIMEOUT の 2400 秒を
+# 続ける (2026-08-10: ある端末で macskk が BREW_TIMEOUT の 2400 秒を
 # 使い切って timeout 扱いになった。同じ日に別の端末では 2 秒でエラーになって
 # いる)。ハングは出力に何も残さないので、「一度踏んで学習する」だけの設計では
 # この端末で永久に取りこぼす。
@@ -882,7 +882,7 @@ brew_upgrade_head() {
 #
 # delete は「消す対象が実在するときだけ sudo」ではない。each_resolved_path は
 # glob の結果が空でも yield し、uninstall_delete はそのまま run! するので、
-# パスが 1 本も無くても sudo は起動する (実測のログにも引数の無い
+# パスが 1 本も無くても sudo は起動する (手元のログにも引数の無い
 # `sudo ... /usr/bin/xargs -0 -- /bin/rm --` が残っている)。しかも run! なので
 # 失敗すれば upgrade ごと落ちる。実在判定はせず一律で弾く。
 #
@@ -891,7 +891,7 @@ brew_upgrade_head() {
 # gain_permissions 経由で非 sudo を先に試す。先回りで弾くと通るはずの更新まで
 # 止めることになるので、これらはタイムアウトの診断にだけ使う。
 #
-# 静的判定をすり抜けたもの (アプリの所有権次第で sudo に切り替わる経路が
+# 静的判定をすり抜けたもの (アプリの所有権次第で sudo に切り替わる分岐が
 # cask/artifact/moved.rb などにある) は、従来どおり一度踏んで学習する。学習先は
 # quarantine の reason=sudo。試行を続けると毎日 400MB 超をダウンロードしては
 # 捨てることになるため。手で上げれば brew outdated から消えるので通知も止まる。
@@ -991,7 +991,7 @@ CASK_OUTDATED=""
 #
 # brew_info キャッシュは使えない。main() が refresh_brew_info を呼ぶのは
 # brew update より前なので、キャッシュの .version は「更新前に知っていた最新」=
-# インストール済みの版そのものになり、両側が同じ版に見える (実測 2026-08-12:
+# インストール済みの版そのものになり、両側が同じ版に見える (2026-08-12:
 # 実際は 4.85.0 → 4.86.0 なのに "4.85.0,235549 → 4.85.0,235549" と通知した)。
 # outdated 判定に使った出力をそのまま材料にすれば、この段差は生じない。
 cask_version_pair() {
@@ -1059,7 +1059,7 @@ brew_upgrade_casks() {
                 124 | 137)
                     # pam_tid が入っていると sudo はエラーを返さずダイアログを
                     # 出したまま待つので、ハングは sudo 待ちのことがある。
-                    # timeout のまま置くと 7 日ごとに 40 分溶かし続ける。
+                    # timeout のまま置くと 7 日ごとに 40 分無駄にし続ける。
                     if cask_timed_out_on_sudo "$c" "$out"; then
                         log "$c は sudo 待ちで固まったと判断した。以降は試行せず通知に回す"
                         quarantine_add "cask:$c" "sudo"
@@ -1112,7 +1112,7 @@ brew_upgrade_casks() {
 # --- neovim の退避 --------------------------------------------------------
 #
 # neovim は HEAD を追いかけているので、upstream の master が動いた日は必ず
-# ソースビルドが走る (実測: 直近 30 日のうち 30 日でコミットあり)。そして
+# ソースビルドが始まる (直近 30 日のうち 30 日でコミットあり)。そして
 # Homebrew は install.rb で
 #
 #   # first we unlink the currently active keg for this formula otherwise it is
@@ -1122,15 +1122,15 @@ brew_upgrade_casks() {
 #
 # と、ビルドを始める前に旧 keg を unlink する。つまりビルドに掛かる 5〜15 分の
 # 間ずっと /opt/homebrew/bin/nvim が存在しない。MacBook では蓋を開けた直後に
-# このジョブが走るので、作業開始と重なって nvim が起動できなくなる。
+# このジョブが動くので、作業開始と重なって nvim が起動できなくなる。
 #
 # そこで更新前の keg を PATH の末尾にあるディレクトリへ複製しておく。brew の
 # nvim があるときはそちらが勝ち、消えている間だけ複製版が拾われる。nvim は
 # $VIMRUNTIME を自分のバイナリからの相対で解決するので、keg を丸ごと複製すれば
-# 自己完結して動く。APFS の clonefile を使うので実コストはほぼゼロ (実測
+# 自己完結して動く。APFS の clonefile を使うので実コストはほぼゼロ (手元で
 # 0.6 秒、物理ブロックの追加消費なし)。
 #
-# bottle 系の更新の後、HEAD 系の更新の前に走らせる。この順なら複製元の keg は
+# bottle 系の更新の後、HEAD 系の更新の前に実行する。この順なら複製元の keg は
 # まだ手付かずで、かつ疎通確認は依存が更新された後の状態 (= 複製版が実際に
 # 使われる状況) で行える。
 snapshot_nvim_fallback() {
@@ -1164,7 +1164,7 @@ snapshot_nvim_fallback() {
 
     # 依存 dylib の soname が変わっていると複製版も dyld エラーで起動できない
     # (nvim が名前に版番号を含む形で参照しているのは実質 tree-sitter だけで、
-    # その minor 更新のとき。実測で 7 か月に 1 回程度)。壊れたものを PATH に
+    # その minor 更新のとき。7 か月に 1 回程度)。動かないものを PATH に
     # 置くと command not found より分かりにくいので、前回の退避を残す。
     if ! "$tmp/bin/nvim" --version >/dev/null 2>&1; then
         rm -rf "$tmp"
@@ -1181,24 +1181,24 @@ snapshot_nvim_fallback() {
 # --- 古い neovim keg の掃除 ------------------------------------------------
 #
 # snapshot_nvim_fallback が埋めるのは「ビルド中に nvim を起動できない」方で、
-# 既に起動している nvim は別の壊れ方をする。nvim は $VIMRUNTIME を自分の
+# 既に起動している nvim は別の形で動かなくなる。nvim は $VIMRUNTIME を自分の
 # バイナリからの相対で解決するので、参照先は keg の実パスに固定される。
-# brew upgrade は既定で直後に cleanup を掛けて旧 keg を丸ごと消す
+# brew upgrade は放っておくと直後に cleanup を掛けて旧 keg を丸ごと消す
 # (Cleanup.install_formula_clean!。ログには "Removing: .../Cellar/neovim/
 # HEAD-xxxxxxx... (2,176 files, 30.5MB)" と残る) ため、起動中の nvim は
 # runtime を失う。
 #
 # 厄介なのは即死しないこと。読み込み済みの Lua はメモリに残るので、しばらくは
-# 動いているように見え、遅延 require されるモジュールに触れた瞬間に初めて
-# 落ちる (実測 2026-08-27: 前日から開いていた nvim で、LspAttach 時に
+# 動いているように見え、遅延 require されるモジュールに触れたときに初めて
+# 落ちる (2026-08-27: 前日から開いていた nvim で、LspAttach 時に
 # vim.lsp.inlay_hint が vim.range を require して "module 'vim.range' not
 # found"。traceback には既に消えた keg のパスが出るので原因も分かりにくい)。
-# neovim は HEAD を追っていて毎日ビルドが走るので、nvim を開いたまま日を跨ぐと
+# neovim は HEAD を追っていて毎日ビルドが始まるので、nvim を開いたまま日を跨ぐと
 # ほぼ毎日踏む。
 #
 # そこで brew_run で HOMEBREW_NO_CLEANUP_FORMULAE=neovim を渡して旧 keg を
 # 消させず、代わりにここで「どのプロセスも掴んでいない keg だけ」を消す。
-# 掴まれている keg は残すので、nvim を開いたままでも壊れない。
+# 掴まれている keg は残すので、nvim を開いたままでも問題ない。
 #
 # 放置すると 1 日 30MB ずつ溜まるように見えるが、実際に残るのは起動中の nvim が
 # 参照している版だけで、そのプロセスが終われば翌日の実行で消える。それでも
@@ -1270,14 +1270,14 @@ prune_nvim_kegs() {
 
 # --- 追加ジョブ -----------------------------------------------------------
 #
-# $JOBS_DIR の実行可能ファイルを名前順に走らせる汎用の拡張点。
+# $JOBS_DIR の実行可能ファイルを名前順に実行する汎用の拡張点。
 #
 # 置いてある理由は、daily-sync に載せたいが dotfiles には置けない仕事がある
 # ため。dotfiles は public にもミラーしているので、特定の環境にしか無いものを
 # ここへ直接書くわけにいかない。ジョブの実体は別のリポジトリに持たせ、その
 # setup が jobs.d へ symlink を張る (skk-jisyo と同じ「クローンして setup」)。
 #
-# ディレクトリが無ければ何もしない。関係の無い端末は素通りする。
+# ディレクトリが無ければ何もしない。関係の無い端末は何もせず次へ進む。
 #
 # ジョブ側の規約:
 #   - 標準出力・標準エラーはそのままログへ流す。
@@ -1286,7 +1286,7 @@ prune_nvim_kegs() {
 #     知らなくてよく、行を吐くだけでよい。
 #   - 自前で FAIL: を出したなら 0 で終わってよい。非 0 で終わったのに FAIL:
 #     を 1 行も出していないときだけ、こちら側で汎用の失敗を記録する
-#     (両方やると同じ事故が 2 件に見える)。
+#     (両方やると同じ失敗が 2 件に見える)。
 run_extra_jobs() {
     if [[ ! -d "$JOBS_DIR" ]]; then
         log "$JOBS_DIR が無い。スキップ"
@@ -1347,7 +1347,7 @@ run_extra_jobs() {
 #
 # 当初は各 formula の post_install に寄せる方針だったが、実際に調べると
 #   - claude-code-hooks: hooks は Ansible が settings.json に入れており、
-#     post_install で setup を走らせると play-ansbile と互いに書き換え合う
+#     post_install で setup を実行すると play-ansbile と互いに書き換え合う
 #   - buffalo-timemachine: /Library/LaunchDaemons への配置に root が要る
 # ため post_install には寄せられない。検知して通知する方式にしている。
 
@@ -1407,13 +1407,13 @@ check_buffalo_launchdaemon() {
 }
 
 # launchd のジョブが生きているか。skk-jisyo は自前で 30 分毎に同期し、setup の
-# 再実行も bin/ensure-setup がやるので、ここでは死活だけ見る (同期はしない)。
-# skk-sync だけは死活の先まで見たいので check_skk_sync に切り出してある。
+# 再実行も bin/ensure-setup がやるので、ここでは生きているかだけ見る (同期はしない)。
+# skk-sync だけはその先まで見たいので check_skk_sync に切り出してある。
 check_launchd_jobs() {
     local uid label
     uid="$(id -u)"
     # daily-sync 自身の 2 枠も見る。定時と起動時でラベルが別なので、片方が
-    # 走っていれば他方の脱落に気付ける (自分が動いている以上「全く動かない」
+    # 動いていれば他方の脱落に気付ける (自分が動いている以上「全く動かない」
     # ことは無いが、片肺になっていると起動時や定時の取りこぼしが静かに戻る)。
     for label in com.delphinus.daily-sync com.delphinus.daily-sync-boot \
         com.delphinus.skk-sync com.delphinus.yaskkserv2-dict com.delphinus.yaskkserv2-watchdog; do
@@ -1441,7 +1441,7 @@ check_launchd_jobs() {
 # 別々に見る。
 #
 # 分けて見るのが肝。発火の有無だけでは「30 分おきに起動してはいるが毎回エラーで
-# 落ちている」を取り逃す。実測 2026-09-09〜09-10: git-crypt の heal 対象から
+# 落ちている」を取り逃す。2026-09-09〜09-10 の例: git-crypt の heal 対象から
 # completion-rank.json が漏れていて 75 回の実行が全部 ERROR になり、辞書が 2 日間
 # 1 度も同期されなかったが、ジョブは 30 分おきに起動してログを更新し続けたので、
 # ここは両日とも「正常」と報告していた。
@@ -1451,16 +1451,16 @@ check_skk_sync() {
     return 0
 }
 
-# 1. 発火しているか。前回の daily-sync を走らせた起動セッションのあいだに、
+# 1. 発火しているか。前回 daily-sync を実行した起動セッションのあいだに、
 #    skk-sync がログを 1 行でも伸ばしたかを見る。
 #
 # 以前は launchd の runs カウンタを日をまたいで持ち越していたが、再起動をまたぐ
 # と原理的に成立しないので捨てた。runs はジョブをロードし直すと 0 に戻る一方、
 # shutdown 直前の値を採る機会が無いまま launchd ごと消える。当日 1 本目の
-# daily-sync は daily-sync-boot が起動の 1〜2 分後に走らせ (定時の枠は
+# daily-sync は daily-sync-boot が起動の 1〜2 分後に実行し (定時の枠は
 # already_ran_today で弾かれる)、skk-sync の初回発火は StartInterval の 30 分後
 # なので、毎晩電源を落とす端末では観測値が毎朝 0 と 0 になり、必ず誤検知した
-# (実測 2026-09-16: 09:50:58 起動 → 09:53 に daily-sync → 10:23 に skk-sync 初回)。
+# (2026-09-16: 09:50:58 起動 → 09:53 に daily-sync → 10:23 に skk-sync 初回)。
 #
 # 再起動をまたいで残る発火の記録は skk-sync 自身のログだけ。空振りのときも
 # `active (idle=...); skipping` を書くので 1 回の発火が必ず 1 行になり、ログの
@@ -1468,13 +1468,13 @@ check_skk_sync() {
 #
 # 経過時間ではなく起動セッションを単位にするのが肝。StartInterval のジョブは
 # スリープ中に発火しないので、「N 分ログが伸びていない」は蓋を閉じたまま使う
-# 端末では正常な状態でも成立してしまい、誤検知が止まらなかった (実測 2026-09-12:
+# 端末では正常な状態でも成立してしまい、誤検知が止まらなかった (2026-09-12:
 # 07:01 の次の実行が 12:56 で「133 分動いていない」と報告したが、そのあいだ端末が
 # 本当に起きていたのは数分だけだった。8/27 と 8/30 の警告も同じ)。
 #
 # 「経過時間の起点にウェイク時刻を足す」案も測って捨てた。この端末は蓋を閉じた
 # まま使うので、実際に使用中でも pmset 上は DarkWake のままで「最後の Wake」が
-# 数時間前を指す (実測 2026-09-12: 15:03:55 のウェイクは DarkWake としか記録され
+# 数時間前を指す (2026-09-12: 15:03:55 のウェイクは DarkWake としか記録され
 # ず、その後 17 分間ずっと対話的に使っても Wake の記録が出なかった)。
 # kern.waketime も DarkWake で更新されるので同じ理由で使えない。時計を起点にする
 # 方式そのものが、この端末では成立しない。
@@ -1517,7 +1517,7 @@ check_skk_sync_succeeded() {
 
     # skk-sync は復帰不能な失敗を `ERROR:`、1 回ぶんの完走を `sync done` として
     # 書く。ログは追記専用なので、日時を解釈せず行番号の大小だけで新旧を判定
-    # できる (タイムゾーンをまたいでも壊れない)。最後の ERROR が最後の完走より
+    # できる (タイムゾーンをまたいでも狂わない)。最後の ERROR が最後の完走より
     # 後にあるなら、そこから先はずっと失敗しているということ。
     local err_ln ok_ln fails last_ok msg
     err_ln="$(grep -n 'ERROR:' "$skk_log" | tail -1 | cut -d: -f1)"
@@ -1545,13 +1545,13 @@ check_skk_sync_succeeded() {
 # 新着があるかどうかだけ判定して、実行はユーザに委ねる。
 
 # dotfiles の remote は SSH (git@github.com:delphinus/dotfiles-private) だが、
-# launchd 配下からは 1Password SSH agent に届かないことがある (実測:
+# launchd 配下からは 1Password SSH agent に届かないことがある (実例:
 # "communication with agent failed" → "Permission denied (publickey)")。
 # fetch は HTTPS 経由で行う。remote 設定自体は変えないので、ユーザが手で叩く
 # push/pull は従来どおり SSH のまま。
 #
 # 認証は gh のトークンを credential helper 経由で渡す。当初は osxkeychain 任せ
-# にしていたが、そこに github.com のエントリは無く (2026-08-01 実測)、private
+# にしていたが、そこに github.com のエントリは無く (2026-08-01 に確認)、private
 # リポジトリなので "could not read Username for 'https://github.com'" で必ず
 # 落ちていた。
 #
@@ -1607,11 +1607,11 @@ fetch_dotfiles() {
 # プレイブックが repo の「ファイルの中身」を読むのは以下だけ:
 #   - ansible/ 配下 (プレイブック本体・templates・vars・copy: の src)
 #   - template が lookup('file', dotfiles_dir + '...') で読むファイル
-# それ以外は state=link で配置されるので編集した瞬間に反映済みだし、bin/ に
+# それ以外は state=link で配置されるので編集した時点で反映済みだし、bin/ に
 # 至っては repo のパスが直接 PATH と LaunchAgent から使われている。つまり
 # 変わっても流し直す必要が無い。
 #
-# 列挙漏れは構造的に起きない。プレイブックが新しく repo のファイルを読むには
+# 列挙の抜けは構造的に起きない。プレイブックが新しく repo のファイルを読むには
 # 必ず ansible/ 配下の編集が要り、その編集自体が ^ansible/ に当たるため。
 # 唯一の隙間は「lookup を追加したコミットの後で、参照先だけを変えるコミット」
 # なので、lookup のパスはハードコードせず毎回 templates から抽出する。
@@ -1738,7 +1738,7 @@ check_dotfiles() {
 # --- 端末間スナップショットと差分 ----------------------------------------
 #
 # iCloud で同期される Obsidian vault に、端末ごとに 1 ファイルだけ書く。
-# ファイルを共有しないので iCloud の競合解決が走る余地が無い。
+# ファイルを共有しないので iCloud の競合解決が起きる余地が無い。
 
 write_snapshot() {
     mkdir -p "$SNAPSHOT_DIR" || return 1
@@ -1759,7 +1759,7 @@ write_snapshot() {
     }
 
     # 一時ファイルに作ってから置き換える。`>"$out"` で直に書くと、jq が何も
-    # 出さなくても out は truncate 済みで、前回の内容まで失う (実測 2026-09-16:
+    # 出さなくても out は truncate 済みで、前回の内容まで失う (2026-09-16:
     # iCloud への書き込みが TCC で EPERM になった回と、brew が落ちて中身が空に
     # なった回の両方で、他端末から見える JSON が 0 バイトになった)。
     local tmp
@@ -1821,17 +1821,17 @@ readonly JQ_SNAPSHOT_PRELUDE='
     | select($mine != null)'
 JQ_SNAP_ARGS=()
 
-# 全端末のスナップショットを突き合わせる。
+# 全端末のスナップショットを照らし合わせる。
 #
 # 通知するのは「固着している不一致」だけに絞る。版が違うだけの状態は毎日必ず
-# 生じるので、それを通知条件にすると 100% 発火して読まれなくなる (実測
-# 2026-08-03〜08-22 の 20 日間、1 日も欠かさず発火していた。件数も 1〜32 件を
+# 生じるので、それを通知条件にすると 100% 発火して読まれなくなる
+# (2026-08-03〜08-22 の 20 日間、1 日も欠かさず発火していた。件数も 1〜32 件を
 # 無秩序に往復するだけで収束しない)。理由は 2 つある:
 #
 #   - HEAD 追従の formula (neovim 等) は端末ごとにビルド時刻が違えば sha が
 #     必ず違う。upstream はほぼ毎日動くので、これは drift ではなく正常な状態。
 #     大小比較もできないので比較から外す。
-#   - bottle の更新は日中に降ってくる。先に走った端末が 1 日だけ古く見えるが、
+#   - bottle の更新は日中に降ってくる。先に実行した端末が 1 日だけ古く見えるが、
 #     翌日には自然に揃う。つまり素の不一致件数が測っているのは端末間の乖離
 #     ではなく「2 台の実行時刻の間に Homebrew が何本更新を出したか」でしかない。
 #
@@ -1858,7 +1858,7 @@ compare_snapshots() {
     host="$(host_name)"
     # 端末ごとに別ファイルにする。1 本を共有していた頃は、各端末が自分視点で
     # 上書きし合うため、通知を出した端末とファイルの中身が食い違っていた
-    # (実測 2026-08-22: 08:49 にこの端末が「6 件」と通知した後、08:54 に別の
+    # (2026-08-22: 08:49 にこの端末が「6 件」と通知した後、08:54 に別の
     # 端末が自分視点で上書きし、その 6 件はどこにも残らなかった)。
     report="$SNAPSHOT_DIR/差分レポート-${host}.md"
     legacy="$SNAPSHOT_DIR/差分レポート.md"
@@ -1908,16 +1908,16 @@ compare_snapshots() {
         return 1
     fi
 
-    # --- 前回との突き合わせ ---
+    # --- 前回との比較 ---
     #
-    # 突き合わせの鍵は (相手のホスト, formula, 相手の版) の 3 つ組。相手の版を
+    # 比較の鍵は (相手のホスト, formula, 相手の版) の 3 つ組。相手の版を
     # 鍵に含めるのが肝で、これで「毎日更新される formula に 1 日遅れているだけ」
     # の状態は鍵が毎日変わって落ちる。generated_at は鍵に入れず値として持ち、
     # 「前回と違う = 相手はその後実行した」の判定に使う。
     #
-    # 2 ファイル目かどうかの判定に定番の NR == FNR は使えない。1 ファイル目が
+    # 2 ファイル目かどうかの判定によく使う NR == FNR は使えない。1 ファイル目が
     # 空だと 2 ファイル目の 1 行目でも NR == FNR が成立し、その行が前回分として
-    # 食われる。初回 (記録が空) に不一致の 1 件目だけ静かに消えることになる。
+    # 食われる。初回 (記録が空) に不一致の 1 件目だけ何も出ないまま消えることになる。
     [[ -f "$DIFF_STATE" ]] || : >"$DIFF_STATE"
     awk -F'\t' -v prev_file="$DIFF_STATE" '
         FILENAME == prev_file { prev[$1 FS $3 FS $5] = $2; next }
@@ -1971,7 +1971,7 @@ compare_snapshots() {
 # 「この端末に無い formula」の類は先頭に置かない。自宅の端末は
 # tasks/homebrew.yml の全部入り、業務用は local_light.yml なので、この差は
 # 設計どおりで永久に一致しない。それが 350 行あってレポートの大半を占めると、
-# 開いた瞬間に読む気が失せる (実測: 393 行中、通知に対応するのは 2 行だった)。
+# 開いたとたんに読む気が失せる (393 行中、通知に対応するのは 2 行だった)。
 # 参考情報として末尾に送る。
 write_diff_report() {
     local me="$1" report="$2" n_others="$3"
@@ -2064,7 +2064,7 @@ notify() {
     #
     # 無い端末のために osascript へ落とす。terminal-notifier は formula 一覧の
     # 全部入り (tasks/homebrew.yml) にしか入っておらず、play-ansbile が流す
-    # local_light.yml では入らないので、業務用 Mac には無い (実測)。通知のためだけに
+    # local_light.yml では入らないので、業務用 Mac には無い (確認済み)。通知のためだけに
     # 全端末へ formula を 1 本増やしたくないが、通知が消えるのも困る、という
     # 折衷。osascript は macOS 標準なので依存が増えない。
     #
@@ -2090,7 +2090,7 @@ notify() {
 # 後から追える台帳になるため、絞る理由が無い。
 #
 # 隔離中の formula は「送ると決まったとき」だけ添える。これ自体を送信条件に
-# すると、1 本壊れている間ずっと毎日届いて読まれなくなる。
+# すると、1 本失敗し続ける間ずっと毎日届いて読まれなくなる。
 notify_slack() {
     local url="${DAILY_SYNC_SLACK_WEBHOOK:-}"
     if [[ -z "$url" ]]; then
