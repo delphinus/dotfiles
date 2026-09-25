@@ -2,7 +2,7 @@ local shared = vim.env.HOME .. "/.local/share/nvim/lazy"
 
 -- ここだけ別のブランチを試すための worktree。共有チェックアウト (主設定が
 -- 管理) は 2026-09-22 から test/okuri-min-stem に載っているので、普段はこの
--- worktree は無く、下の skkeleton_dir は共有側に落ちる。
+-- worktree は無く、下の skkeleton_dir は共有側を指す。
 --
 -- 共有側と違うものを試したくなったら:
 --   git -C ~/.local/share/nvim/lazy/skkeleton worktree add \
@@ -55,7 +55,7 @@ vim.opt.cmdheight = 0
 local find_sibling_pane, send_text_to_pane, target_pane, hide_self
 if vim.env.EDITPROMPT then
   -- kitty にこのウィンドウが editprompt であることを伝える。~/.config/kitty/
-  -- editprompt.py は launch --var でも立てているが、手で起動したときにも効くよう
+  -- editprompt.py は launch --var でも立てているが、手で起動したときにも要るので
   -- ここでも送っておく。
   io.write "\x1b]1337;SetUserVar=editprompt=MQ==\x07"
 
@@ -133,7 +133,7 @@ if vim.env.EDITPROMPT then
 
   -- 生のバイト列をそのまま相方へ流す。位置引数の TEXT は kitty がエスケープを
   -- 解釈するうえに複数引数をスペースで連結してしまうので、本文にもキーにも
-  -- 使えない。--stdin は「解釈せずそのまま送る」経路。
+  -- 使えない。--stdin なら解釈せずそのまま送れる。
   -- bracketed paste は kitty の既定が disable なので wezterm の --no-paste 相当。
   function send_text_to_pane(text, on_exit)
     local target_id = target_pane()
@@ -236,7 +236,7 @@ require("lazy").setup({
 
       -- 補完の送りありで語幹とみなす部分の下限 (0 = 制限なし、従来の挙動)。
       -- 主設定と同じ判定・同じ値を使う。worktree の有無ではなくチェックアウトの
-      -- 中身を見るので、共有チェックアウトがブランチに載っているときにも効く。
+      -- 中身を見るので、共有チェックアウトがブランチに載っているときにも有効。
       local okuri_limit = require "core.skkeleton_okuri_limit"
       if okuri_limit.supported(skkeleton_dir) then
         skk_config.completionOkuriMinStemLength = okuri_limit.min_stem_length
@@ -246,7 +246,7 @@ require("lazy").setup({
 
       -- 確定アンドゥ (vim-skk/skkeleton#165)。候補を選び間違えて確定した時に、
       -- 読みから打ち直さず ▼ の状態へ戻して選び直す。確定した文字列がカーソル
-      -- 直前に残っている時だけ効き、それ以外では何も起きない。
+      -- 直前に残っている時だけ反応し、それ以外では何も起きない。
       -- <C-z> は挿入モードでは未使用なので何も奪わない (<C-u> は「入力した文字を
       -- 全消し」に使われている)。macSKK のトグル変換もどき (fixNextCandidate) も
       -- 同じ ⌃Z に割り当てている。
@@ -333,7 +333,7 @@ require("lazy").setup({
       },
       fuzzy = {
         -- skkeleton ON 時のみ data.rank で Lua sort、OFF 時は文字列 sort のみで
-        -- blink の Rust sort 最適化を効かせる。詳細は blink_shared.fuzzy_sorts。
+        -- blink の Rust sort 最適化を有効にする。詳細は blink_shared.fuzzy_sorts。
         sorts = blink_shared.fuzzy_sorts,
       },
       keymap = {
@@ -346,7 +346,7 @@ require("lazy").setup({
         ["<A-u>"] = { "scroll_documentation_up", "fallback" },
         ["<A-d>"] = { "scroll_documentation_down", "fallback" },
         -- cancel は hide と違い auto_insert で入ったテキストを巻き戻す。SKK の
-        -- ▼ 取り消しと同じ意味になり、blink-cmp-skkeleton の自動確定学習も走らない。
+        -- ▼ 取り消しと同じ意味になり、blink-cmp-skkeleton の自動確定学習も起きない。
         ["<C-e>"] = { "cancel", "fallback" },
         ["<Space>"] = {}, -- let skkeleton handle Space
       },

@@ -1,7 +1,7 @@
 -- kitty の scrollback を Neovim で読むための最小構成。
 -- ~/.config/kitty/keys.conf が NVIM_APPNAME=nvim-dev/scrollback で起動する。
 --
--- 本体の設定 (~/.config/nvim) でも動くが、scrollback は「開いた瞬間に読んで拾って
+-- 本体の設定 (~/.config/nvim) でも動くが、scrollback は「開いたらすぐ読んで拾って
 -- 閉じる」ものなので、LSP・補完・各種 UI プラグインの autocmd を通したくない。
 -- 欲しいのは配色と jab (migemo であいまいジャンプ) だけ。
 --
@@ -50,7 +50,7 @@ vim.opt.clipboard = "unnamedplus"
 -- 送る。yank_register_enabled は setup() で切ってある。
 --
 -- マッピングは scrollback バッファ限定 (buffer local)。ペーストウィンドウの中で
--- y を押したら quitall する、という事故を避ける。
+-- y を押したら quitall する、という間違いを避ける。
 local REG_CLIPBOARD = "c"
 local REG_PASTE = "p"
 
@@ -163,7 +163,7 @@ local function paint_frame(kitty_data)
   if not window_id then
     return
   end
-  -- 飾りなので失敗しても黙って進む (remote control が無い環境でも壊さない)。
+  -- 飾りなので失敗しても何も言わずに進む (remote control が無い環境でも困らない)。
   pcall(vim.system, {
     kitty_data.kitty_path,
     "@",
@@ -185,7 +185,7 @@ require("lazy").setup({
   },
   {
     -- 本体と同じく multi_window 対応の fork を使う。ここでは可視ウィンドウが
-    -- 1 枚なので multi_window は効かないが、キー定義を共有するために揃えておく。
+    -- 1 枚なので multi_window は無意味だが、キー定義を共有するために揃えておく。
     "delphinus/jab.nvim",
     dir = shared .. "/jab.nvim",
     dependencies = { { "delphinus/luamigemo", dir = shared .. "/luamigemo" } },
@@ -194,16 +194,16 @@ require("lazy").setup({
   {
     -- 起動そのものは kitty-scrollback.nvim の kitten が渡す --cmd が行う
     -- (rtp を足して User KittyScrollbackLaunch を発火する)。ここで lazy に
-    -- 載せているのは setup() を通して設定を効かせるため。
+    -- 載せているのは setup() を通して設定を渡すため。
     "mikesmithgh/kitty-scrollback.nvim",
     dir = shared .. "/kitty-scrollback.nvim",
     event = { "User KittyScrollbackLaunch" },
     config = function()
-      -- 起動を速くするための間引き。⌘[ から本文が出るまでを実測 (scrollback
-      -- 2081 行) すると 282ms 掛かっていて、内訳は プロセス起動 66 / nvim の
+      -- 起動を速くするための間引き。⌘[ から本文が出るまでを測ると (scrollback
+      -- 2081 行) 282ms 掛かっていて、内訳は プロセス起動 66 / nvim の
       -- 設定 19 / kitty @ get-colors 27 / ローディング窓の開閉 67 / 本文の
       -- 流し込み 72 / kitty @ signal-child 27 (単位 ms)。kitty への remote
-      -- control は 1 往復 25-40ms 掛かるので、要らない往復を落とすのが一番効く。
+      -- control は 1 往復 25-40ms 掛かるので、要らない往復を落とすのが一番速い。
       -- 下の 2 つで 209ms になった。
       --
       -- get-colors は端末バッファの ANSI パレット (terminal_color_N) と選択範囲
@@ -219,7 +219,7 @@ require("lazy").setup({
 
       -- setup() が取るのは「名前付き config の表」で、index 1 だけが特別扱いで
       -- 全 config (keys.conf が --config で指定する ksb_builtin_* も含む) に
-      -- 適用される。素の opts を渡しても効かない。関数を置くと kitty から
+      -- 適用される。素の opts を渡しても読まれない。関数を置くと kitty から
       -- 渡ってきた kitty_data を見て opts を組み立てられる。
       require("kitty-scrollback").setup {
         function(kitty_data)
@@ -227,7 +227,7 @@ require("lazy").setup({
           -- columns を広げてから戻す、というもの。長い行が窓幅で折り返されるのを
           -- 防ぐためにあるが、scrollback は元の窓の幅で折り返された状態で入って
           -- いるので、元の窓より広げても得るものが無い。広げると columns の変更と
-          -- 復帰で全画面の再描画が 2 回走る。
+          -- 復帰で全画面の再描画が 2 回起きる。
           local columns = kitty_data.columns
           if vim.o.columns >= columns then
             -- columns を触らずに済むなら、その後始末として nvim 自身へ SIGWINCH

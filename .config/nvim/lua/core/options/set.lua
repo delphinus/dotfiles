@@ -71,8 +71,8 @@ vim.opt.foldlevelstart = 99
 vim.opt.termguicolors = true
 
 -- :colorscheme を当てるのは tokyonight.nvim の config (lua/lazies/minimal.lua)。
--- core.options は lazy.setup の後に走るので、ここで当てたのでは lazy.setup 中に
--- config が走るプラグイン (frecency → neoplen → telescope → octo) に間に合わず、
+-- core.options は lazy.setup の後に読まれるので、ここで当てたのでは lazy.setup 中に
+-- config が動くプラグイン (frecency → neoplen → telescope → octo) に間に合わず、
 -- palette.colors が vim.g.colors_name = nil を掴んでしまう。
 api.create_autocmd("VimEnter", {
   desc = "Run ColorScheme autocmds in VimEnter",

@@ -415,7 +415,7 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     init = function()
       -- signs_on_startup / on_startup は plugin/scrollview.vim が
-      -- timer_start(0) で走らせる scrollview#Initialize() が読むだけなので、
+      -- timer_start(0) で呼ぶ scrollview#Initialize() が読むだけなので、
       -- setup() ではなく init で vim.g に置く。
       vim.g.scrollview_excluded_filetypes = {
         "TelescopePrompt",
@@ -1925,7 +1925,7 @@ return {
     -- kitty の scrollback を Neovim で開く。WezTerm 時代の snatch.wezterm
     -- (タブ内の全ペインをフロートで再現して jab で飛ぶ) の置き換えとして試用中。
     -- 対象は単一ペインだが、本体設定で開くので jab.nvim + luamigemo の s が
-    -- そのまま効く。kitty 側の map は ~/.config/kitty/keys.conf を参照。
+    -- そのまま使える。kitty 側の map は ~/.config/kitty/keys.conf を参照。
     "mikesmithgh/kitty-scrollback.nvim",
     version = "*",
     lazy = true,

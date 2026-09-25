@@ -7,7 +7,7 @@
 -- バッファには一切影響しない。
 --
 -- treesitter の @comment / @comment.* キャプチャを使うので言語非依存 (parser が
--- あり、コメントが @comment 系で捕捉される言語すべてで効く)。injection された
+-- あり、コメントが @comment 系で捕捉される言語すべてで動く)。injection された
 -- 言語のコメントも拾う。Python の docstring のように文字列扱い
 -- (@string.documentation) のものは対象外。
 --

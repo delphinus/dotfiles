@@ -111,7 +111,7 @@ function M.setup()
   local scrollview = require "scrollview"
   -- autoload/scrollview.vim (g:scrollview_* の既定値とサイン群の初期化) は
   -- plugin/scrollview.vim が timer_start(0) で呼ぶ。サンドボックスのように
-  -- 起動中の -c "CodeDiff ..." からここへ来ると、まだ走っていないことがある。
+  -- 起動中の -c "CodeDiff ..." からここへ来ると、まだ動いていないことがある。
   -- Initialize() は初回だけ autoload を読み込む no-op なので、先に叩いておく。
   vim.fn["scrollview#Initialize"]()
 

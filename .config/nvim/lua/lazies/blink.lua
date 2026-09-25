@@ -146,7 +146,7 @@ return {
       },
       fuzzy = {
         -- skkeleton ON 時のみ data.rank で Lua sort、OFF 時は文字列 sort のみで
-        -- blink の Rust sort 最適化を効かせる。詳細は blink_shared.fuzzy_sorts。
+        -- blink の Rust sort 最適化を有効にする。詳細は blink_shared.fuzzy_sorts。
         sorts = shared.fuzzy_sorts,
       },
       keymap = {
@@ -159,7 +159,7 @@ return {
         ["<A-u>"] = { "scroll_documentation_up", "fallback" },
         ["<A-d>"] = { "scroll_documentation_down", "fallback" },
         -- cancel は hide と違い auto_insert で入ったテキストを巻き戻す。SKK の
-        -- ▼ 取り消しと同じ意味になり、blink-cmp-skkeleton の自動確定学習も走らない。
+        -- ▼ 取り消しと同じ意味になり、blink-cmp-skkeleton の自動確定学習も起きない。
         ["<C-e>"] = { "cancel", "fallback" },
         ["<C-f>"] = { "snippet_forward", "fallback" },
         ["<C-b>"] = { "snippet_backward", "fallback" },

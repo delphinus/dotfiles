@@ -6,7 +6,7 @@
 -- skkeleton 以外の補完ソースは載せない。候補を出すのは skkeleton 同梱の ddc
 -- ソース (denops/@ddc-sources/skkeleton{,_okuri}) で、UI だけ ddc-ui-native に
 -- 任せて Vim 本体の pum に出す。skkeleton から見えるのは complete_info() な
--- ので、これで native バックエンドの経路をそのまま踏める。
+-- ので、これで native バックエンドの分岐をそのまま踏める。
 --
 -- skkeleton 本体は ~/.local/share/nvim/lazy/skkeleton の作業ツリーを dir 指定
 -- で共有する (nvim-dev/skkeleton と同じ)。ddc まわりはこの NVIM_APPNAME 専用の

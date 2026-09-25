@@ -6,7 +6,7 @@
 -- skkeleton 以外の補完ソースは載せない。候補は skkeleton 同梱の ddc ソース
 -- (denops/@ddc-sources/skkeleton{,_okuri}) だけが出し、UI は ddc-ui-pum 経由で
 -- pum.vim が描画する。skkeleton から見えるのは pum#visible() /
--- pum#complete_info() なので、pum.vim バックエンドの経路をそのまま踏める。
+-- pum#complete_info() なので、pum.vim バックエンドの分岐をそのまま踏める。
 --
 -- 候補の選択には pum#map#select_relative() を使う (insert_relative だと候補を
 -- 直接バッファへ挿し込んでしまい、skkeleton の pre-edit (▽…) と噛み合わない)。

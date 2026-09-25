@@ -97,11 +97,11 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      -- lazy.setup の最中に config が走るプラグインが palette.colors を読む
+      -- lazy.setup の最中に config が動くプラグインが palette.colors を読む
       -- (frecency の DB 起動 → neoplen → telescope → octo)。palette は
       -- vim.g.colors_name から色を引くので、core.options ではなく priority が
       -- 一番高いここで当てて、start プラグインより先に colors_name を立てる。
-      -- init は全プラグインぶんが start ロードより前に走るので、palette の
+      -- init は全プラグインぶんが start ロードより前に呼ばれるので、palette の
       -- ColorScheme ハンドラはここで漏れなく発火する。
       --
       -- telescope が起動中に引き摺られるのは frecency の async が telescope 同梱の

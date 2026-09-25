@@ -6,7 +6,7 @@ local use_cmp = not not vim.env.CMP
 -- "t" (ターミナルモード) も張る。skkeleton は <Plug> を noremap! と tnoremap の
 -- 2 系統で定義しており (plugin/skkeleton.vim)、skkeleton#map() は有効化した時の
 -- mode() を見てキーを張るので、端末で使うには端末で有効化する必要がある。挿入
--- モードで有効化した状態は inoremap なので端末には効かない。
+-- モードで有効化した状態は inoremap なので端末には届かない。
 -- なお端末モードでは補完が無効で、入力は端末アプリへの送信 (<BS> を送ってから
 -- 書き直す) で再現されるため、アプリによっては表示が崩れる。
 local skkeleton_keys = {
@@ -104,7 +104,7 @@ return {
 
     config = function(plugin)
       -- 左右の ⌘ 単体押しでかな・英数を切り替えるための Karabiner 連携。補完
-      -- エンジンに依らず常に要る (CMP=1 の時だけ有効になっていて壊れていた)。
+      -- エンジンに依らず常に要る (CMP=1 の時だけ有効になっていて動いていなかった)。
       require("core.skkeleton_karabiner").setup()
 
       -- blink 使用時の <CR> 確定は skkeleton 本体の completionBackend が面倒を
@@ -120,7 +120,7 @@ return {
       --
       -- 置き場所は userDictionary と同じ skk-jisyo レポジトリ。以前は
       -- ~/.local/state/skkeleton/ に置いていたが、それだと端末ごとに独立して
-      -- しまい、仕事の Mac で覚えた語が自宅の Mac の補完で埋もれる (実測で共通
+      -- しまい、仕事の Mac で覚えた語が自宅の Mac の補完で埋もれる (共通
       -- 1361 語のうち隣接ペアの 49% が逆順だった)。レポジトリに置けば git-crypt
       -- と merge driver にそのまま乗り、bin/merge-completion-rank が 3-way で
       -- マージする。MacSKK 側のランクは辞書の行順そのものなので無関係。
@@ -161,7 +161,7 @@ return {
 
       -- 確定アンドゥ (vim-skk/skkeleton#165)。候補を選び間違えて確定した時に、
       -- 読みから打ち直さず ▼ の状態へ戻して選び直す。確定した文字列がカーソル
-      -- 直前に残っている時だけ効き、それ以外では何も起きない。
+      -- 直前に残っている時だけ反応し、それ以外では何も起きない。
       -- <C-z> は挿入モードでは未使用なので何も奪わない (<C-u> は「入力した文字を
       -- 全消し」に使われている)。macSKK のトグル変換もどき (fixNextCandidate) も
       -- 同じ ⌃Z に割り当てている。

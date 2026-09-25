@@ -10,7 +10,7 @@ package.path = vim.env.HOME .. "/.config/nvim/lua/?.lua;" .. package.path
 
 -- 差分バッファのタブ幅。codediff は git リビジョン側 (codediff://) の filetype を
 -- 意図的に空のままにし FileType autocmd も発火させないため、ftplugin/FileType では
--- 効かない。左右両方で揃えるには global の tabstop を設定するのが確実。
+-- 反映されない。左右両方で揃えるには global の tabstop を設定するのが確実。
 vim.opt.tabstop = 4
 
 -- less のようにノーマルモードの q で終了する (未保存でも破棄して終了)
@@ -48,7 +48,7 @@ require("lazy").setup {
     lazy = false,
     init = function()
       -- signs_on_startup / on_startup は plugin/scrollview.vim が
-      -- timer_start(0) で走らせる scrollview#Initialize() が読むだけなので、
+      -- timer_start(0) で呼ぶ scrollview#Initialize() が読むだけなので、
       -- setup() ではなく init で vim.g に置く (メイン config と同じ事情)。
       -- codediff の nui パネル (ファイル一覧・履歴・キーヘルプ) は対象外。
       vim.g.scrollview_excluded_filetypes = { "codediff-explorer", "codediff-help", "codediff-history" }

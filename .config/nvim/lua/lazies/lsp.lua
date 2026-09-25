@@ -254,7 +254,7 @@ return {
       -- filetypes.lua で json に寄せているが、json は末尾カンマで parse
       -- エラーになる (コメントは通る)。jsonc で末尾カンマを書けるのは
       -- 主な理由の一つなので、両方許す json5 に寄せ直す。
-      -- 上流の登録はプラグイン読み込み時に走るので、必ずその後で上書きする
+      -- 上流の登録はプラグイン読み込み時に行われるので、必ずその後で上書きする
       -- (init や spec の init に置くと後から巻き戻される)。
       vim.treesitter.language.register("json5", "jsonc")
     end,

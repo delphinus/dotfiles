@@ -74,7 +74,7 @@ end
 
 -- Per-source icons for the menu's kind_icon column. Sources not listed here
 -- keep blink.cmp's default kind icon — LSP 等は項目ごとの kind (Function /
--- Variable …) が出るので、source 単位のアイコンで潰さない。
+-- Variable …) が出るので、source 単位のアイコンで上書きしない。
 --
 -- 幅はすべて 2 桁になる (cellwidths の設定で U+F0000 以降が 2、sfmono_square
 -- プリセットで U+E000 台も 2)。以前の ASCII 1 文字から 1 桁広がるが、LSP 補完
@@ -96,7 +96,7 @@ M.source_icons = {
 
 -- 送りあり候補だけ別のグリフを出す。送りなし (漢字だけで確定する) と送りあり
 -- (漢字 + 送り仮名) が同じ表層形になることがあり (「あたり /当り/」と
--- 「あたr /当;大当り/」→ どちらも「当り」)、読みが違うので重複排除も効かない。
+-- 「あたr /当;大当り/」→ どちらも「当り」)、読みが違うので重複排除も働かない。
 -- 左端の形と、読み側の送りあり記法 (skk_readings) の 2 つで区別する。
 local SKK_OKURIARI_ICON = "󱌴" -- md-syllabary_hiragana
 
@@ -137,7 +137,7 @@ end
 
 -- skkeleton 項目の「読み」を 2 通り返す。
 --   display  メニューに出す読み。送りありは SKK の記法で「あた*り」。
---   plain    照合に使う読み。送り仮名まで仮名で繋いだ「あたり」。
+--   plain    比較に使う読み。送り仮名まで仮名で繋いだ「あたり」。
 -- 送りあり候補の data.kana は辞書の見出し (「あたr」) で、末尾が送り仮名の
 -- ローマ字になっている。そのままでは読みとして不自然なうえ送りなしとの違いも
 -- 分かりにくいので、見出しから末尾のローマ字を落とした「あた」に、送り仮名
@@ -184,7 +184,7 @@ end
 --
 -- グループ内の順番 (skkeleton の学習ランク順) はそのまま保ち、sortText だけを
 -- 振り直す。skkeleton 項目は filterText が全部同じで score が並ぶため、blink は
--- sort_text で順序を決める。よってこれだけで効く。
+-- sort_text で順序を決める。よってこれだけで足りる。
 --
 -- グループ 1 に「確定したことのある候補」(data.rank が付いているもの) を含める。
 -- skkeleton は読みに前方一致する見出しを全部返すので、学習した語の見出しは入力
@@ -199,7 +199,7 @@ end
 -- グループ 2 は「読みを 1 文字だけ残して切った分割」= 語幹が「読みの長さ - 1」の
 -- ものに限る。実在する候補のうち最も深いものを 2 に入れると、深い分割が辞書に
 -- 当たらなかったときに浅い分割が繰り上がってしまう。「あくせ」では「あく」+「せ」
--- (見出し あくs) が 0 件なので、本来 4 に落ちるはずの「あ」+「くせ」(あk の 15
+-- (見出し あくs) が 0 件なので、本来 4 に入るはずの「あ」+「くせ」(あk の 15
 -- 候補「開くせ」…) が 2 に座り、グループ 3 の「アクセス」を 1 画面目から追い出す。
 local function skk_regroup(items)
   local reading, reading_len
@@ -380,8 +380,8 @@ local SORTS_DEFAULT = { "score", "sort_text" }
 -- たびにこれを呼ぶ (fuzzy/init.lua: type(config.fuzzy.sorts) == 'function')。
 -- skkeleton 補完中だけ Lua コンパレータ入りのリストを返し、それ以外は文字列
 -- だけのリストを返す。後者では blink の Rust 側 sort 最適化 (sort_in_rust) が
--- 効く。sorts に Lua 関数が 1 つでも混ざると毎回 Lua の table.sort に落ちるた
--- め、skkeleton 用関数を常時置いておく書き方では OFF 時も最適化が効かなかった。
+-- 働く。sorts に Lua 関数が 1 つでも入ると毎回 Lua の table.sort になるため、
+-- skkeleton 用関数を常時置いておく書き方では OFF 時も最適化されなかった。
 function M.fuzzy_sorts()
   local ok, skk = pcall(require, "blink-cmp-skkeleton")
   if ok and skk.is_enabled() then
@@ -546,13 +546,13 @@ function M.providers()
       -- 結果「Confluenceページから作業履歴を振り返り」のように行末まで拾われ、
       -- 純粋な "Confluence" が候補に出ない。ここで各候補を先頭の ASCII 単語
       -- ([A-Za-z0-9_-] の連なり) だけに切り詰め、同じ語に畳む。日本語を rg で
-      -- 補完する道は塞がるが、元々フレーズごと拾って壊れており日本語入力は
+      -- 補完する道は塞がるが、元々フレーズごと拾って役に立たず日本語入力は
       -- skkeleton が担うので実害は無い。
       --
       -- これは source プロバイダ層 (blink 内部の `n`) の変換で、fuzzy に入る前に
       -- 候補リストを書き換えるだけ。fuzzy.sorts の Rust sort 最適化 (M.fuzzy_sorts,
       -- sort_in_rust) は fuzzy.sorts が全部文字列かだけで決まり transform_items は
-      -- 参照されないので、この最適化はそのまま効く。
+      -- 参照されないので、この最適化はそのまま働く。
       transform_items = function(_, items)
         local seen, out = {}, {}
         for _, item in ipairs(items) do

@@ -8,7 +8,7 @@
 -- ここでその変数を nvim 側のモードに追随させる。補完エンジンが nvim-cmp か
 -- blink.cmp かとは無関係なので、core.skkeleton_cmp とは別モジュールにして
 -- 常に setup() すること (両者を混ぜて CMP=1 の時だけ有効にしてしまい、既定の
--- blink.cmp では ⌘ 単体押しが効かなくなっていた)。
+-- blink.cmp では ⌘ 単体押しが反応しなくなっていた)。
 local M = {}
 
 local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
@@ -92,7 +92,7 @@ local function kitty_focused_window()
   --
   -- ただし **タブを先に絞らないと正しい答えが出ない**。kitty は OS ウィンドウが
   -- フォーカスされていると、そのウィンドウの *全タブ* のアクティブなウィンドウに
-  -- is_focused = true を立てる (実測: タブが 6 つあると is_focused なウィンドウが
+  -- is_focused = true を立てる (タブが 6 つあると is_focused なウィンドウが
   -- 6 つ返る)。実際に見えている 1 つを区別できるのはタブの is_focused だけ。
   -- タブを見ずに最初の is_focused を拾うと、常に先頭タブのウィンドウ id を
   -- 返してしまい、そこに居る nvim が「自分が見られている」と誤認する。
@@ -176,7 +176,7 @@ function M.setup()
         -- 見られているのは nvim でない kitty ウィンドウ (シェル、Claude Code 等)。
         -- 変数を 1 に上げた nvim が下がるとは限らないので、ここで落としておく。
         -- 具体例: kitty の editprompt は送信後に自分を隠すだけで終了しないため、
-        -- 挿入モードのまま裏に残り、誰も 0 に戻さないと ⌘ が効かなくなる。
+        -- 挿入モードのまま裏に残り、誰も 0 に戻さないと ⌘ が反応しなくなる。
         async_karabiner(0)
       end
       -- 上以外 (自分ではない別の nvim が見られている) は、その nvim が自分の

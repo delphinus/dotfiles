@@ -437,9 +437,9 @@ return {
     config = function()
       local gutter = require "core.utils.gutter"
       gutter.highlights()
-      -- target は指定しない = Normal の背景色へ溶かす。line-justice は中間グレー
+      -- target は指定しない = Normal の背景色へ寄せる。line-justice は中間グレー
       -- へ脱色していたので、暗い背景ではコントラスト比が 5.9:1 → 5.8:1 とほぼ
-      -- 変わらず、フェードが実質効いていなかった。
+      -- 変わらず、フェードが実質見えていなかった。
       require("bokeh").setup(gutter.bokeh_opts())
 
       local builtin = require "statuscol.builtin"
