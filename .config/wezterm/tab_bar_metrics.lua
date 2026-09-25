@@ -3,10 +3,10 @@
 -- WezTerm はタブの幅を決めるときに右ステータスの領域を予約しない
 -- (wezterm-gui/src/tabbar.rs の available_cells がタブ数と新規タブボタンしか
 -- 引いていない)。溢れた右ステータスは remove_cell(0) で左から削られるので、
--- タブが増えると battery や TimeMachine の表示が黙って消える。
+-- タブが増えると battery や TimeMachine の表示が何も言わず消える。
 --
 -- format-tab-title はウィンドウ幅も右ステータスの幅も受け取らないため、
--- 両方を知っている update-status (status_bar.lua) 側から実測値をここへ書き、
+-- 両方を知っている update-status (status_bar.lua) 側から測った値をここへ書き、
 -- tab_title.lua がそれを見て自分でタブ幅を絞る。
 local M = {
   cols = nil, -- ウィンドウの桁数。まだ measure していなければ nil
@@ -26,7 +26,7 @@ function M.publish(cols, status_width)
 end
 
 -- タブ 1 枚に割り当ててよい桁数。ceiling (= tab_max_width) を超えない範囲で、
--- ステータスを削らずに済む幅を返す。実測値がまだ無ければ ceiling をそのまま返す。
+-- ステータスを削らずに済む幅を返す。測った値がまだ無ければ ceiling をそのまま返す。
 function M.tab_width(tab_count, ceiling)
   if not M.cols or tab_count < 1 then
     return ceiling

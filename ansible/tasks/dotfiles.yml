@@ -58,17 +58,17 @@
 # インストーラの追記先にされる。LM Studio の lms bootstrap は
 # .profile / .bashrc / .bash_profile / .zshrc / config.fish / .cshrc / .tcshrc を
 # 順に見て、存在してかつ ~/.lmstudio/bin の絶対パスを含まないものへ PATH 行を
-# 追記する (存在しないファイルは黙って飛ばす)。symlink 先が repo なので、これが
+# 追記する (存在しないファイルは何も言わず飛ばす)。symlink 先が repo なので、これが
 # 毎回 dotfiles の差分として現れていた。配るのをやめれば追記先が消える。
 #
 # .asdfrc はツール管理を asdf から mise へ移したときに不要になった。設定は
 # ~/.config/mise/config.toml に移してある (legacy_version_file = yes は
 # settings.idiomatic_version_file_enable_tools が相当)。asdf 本体と ~/.asdf は
-# しばらく残すが、この rc を配り続けると mise と二重に効いているように見えて
+# しばらく残すが、この rc を配り続けると mise と二重に適用されているように見えて
 # 紛らわしいので消す。
 #
-# .envrc / .env は 1Password Environments を使っていた頃の経路。$HOME に direnv を
-# 効かせて「どこでも効く環境変数」を作っていたが、conf.d/00-env.fish と
+# .envrc / .env は 1Password Environments を使っていた頃の名残。$HOME に direnv を
+# 適用して「どこでも通る環境変数」を作っていたが、conf.d/00-env.fish と
 # ~/.config/env.sh (どちらも secrets.yml の secret_env 由来) に置き換えた。
 # .env は名前付きパイプで、残しておくと書き手がいないまま cat でブロックする。
 #

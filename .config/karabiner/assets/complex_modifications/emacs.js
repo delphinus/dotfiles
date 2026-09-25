@@ -24,7 +24,7 @@
 function main() {
   // Emacs 風のキーバインドを送らないアプリ。Emacs 本体、端末エミュレータ、
   // VM / リモートデスクトップのクライアント、Vim 系など、同じキーを自前で
-  // 解釈するもの。ここへ足せば全 manipulator に一度で効く。
+  // 解釈するもの。ここへ足せば全 manipulator に一度で反映される。
   var EXCLUDED_APPS = [
     '^org\\.gnu\\.Emacs$',
     '^org\\.gnu\\.AquamacsEmacs$',
@@ -98,7 +98,7 @@ function main() {
     ],
   }
 
-  // macOS が既定で control+a / control+e を行頭・行末にしてくれないアプリ。
+  // macOS が標準で control+a / control+e を行頭・行末にしてくれないアプリ。
   var ifMsOffice = [
     {
       type: 'frontmost_application_if',
@@ -180,7 +180,7 @@ function main() {
     // control+[ を Escape に。JIS では ] が同じ位置に来る。
     map('open_bracket', CONTROL, ['caps_lock'], [key('escape')], ifAnsiOrIso),
     map('close_bracket', CONTROL, ['caps_lock'], [key('escape')], ifJis),
-    // control+m は除外アプリでも効かせる (端末では ctrl+M が元々 CR なので
+    // control+m は除外アプリでも通す (端末では ctrl+M が元々 CR なので
     // 変換しても実害が無い、という上流の設計)。Parallels だけは VM 側へ
     // そのまま渡したいので外す。
     map('m', CONTROL, ['caps_lock', 'shift', 'option'], [key('return_or_enter')], [unlessParallels]),

@@ -118,7 +118,7 @@ return function(config)
   end)
 
   -- 相方が居なくなって 1 枚だけ取り残された editprompt ペインを閉じる。上の
-  -- close_pane が拾えるのは ⌘W の経路だけで、Claude Code 自身が終了した
+  -- close_pane が拾えるのは ⌘W のときだけで、Claude Code 自身が終了した
   -- (/exit や ^D、クラッシュ) ときはこちらが始末する。editprompt ペインは必ず
   -- split で作られるので、タブに 1 枚きりなら相方を失った証拠とみなしてよい。
   local function reap_orphan_editprompt(window)
@@ -291,7 +291,7 @@ print(sibs[0]['tty_name'].replace('/dev/','') if sibs else '')
             -- Claude Code は ^V を受けると自分でクリップボードから画像を読むため、
             -- 生の ^V (0x16) をそのままペインへ流し込む。
             p:send_text "\x16"
-            -- toast_notification だけだと通知センターの許可が無いときに黙って落ちるので、
+            -- toast_notification だけだと通知センターの許可が無いときに何も出ないので、
             -- 上の copy_command_output と同じく osascript にもフォールバックする。
             local msg = "🖼 画像を Claude Code へ貼り付けました"
             pcall(function()

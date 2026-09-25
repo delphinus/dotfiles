@@ -14,7 +14,7 @@ function prefix_timestamp -d "Prefix each line of stdin with a timestamp and the
     # (NTP の補正やサマータイムで経過秒が飛ばないように)。
     #
     # 色付けは端末に出すときだけ。ファイルやパイプに落とすときに
-    # エスケープが混ざると困るし、grcat は python なので stdout が
+    # エスケープが入ると困るし、grcat は python なので stdout が
     # 端末でないとブロックバッファして追従が流れてこなくなる。
     if isatty stdout; and command -s grcat > /dev/null
         command ts -i -m '%.s' | command ts $fmt | command grcat conf.ts

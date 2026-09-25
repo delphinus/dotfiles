@@ -31,7 +31,7 @@ config.quick_select_patterns = { const.regex.url, const.regex.tag, const.regex.p
 config.tab_max_width = 28
 -- fancy タブバーはタブ幅を「全幅 ÷ タブ数」でしか制限せず、右ステータスの領域を
 -- 予約しないため、タブが増えるとステータスの左側が押し出されて消える。retro なら
--- tab_max_width が上限として効き、溢れる場合は均等に縮む。
+-- tab_max_width が上限として働き、溢れる場合は均等に縮む。
 config.use_fancy_tab_bar = false
 config.warn_about_missing_glyphs = false
 config.window_background_opacity = 0.96

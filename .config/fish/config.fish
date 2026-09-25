@@ -53,7 +53,7 @@ set -l paths \
 # git を隠す (brew install git が「shadowed by ...」と警告するのはこれ)。
 # Apple の git は Homebrew より数世代古く、2026-09-08 時点で 2.50.1 と 2.55.0。
 # config-based hooks (hook.<name>.command / .event) は 2.54.0 からなので、
-# 隠されたままだと .gitconfig に書いたフックが黙って無効になる。
+# 隠されたままだと .gitconfig に書いたフックが何も言わず無効になる。
 #
 # neovim-fallback は daily-sync が毎日置き換える「更新前の nvim」。Homebrew は
 # HEAD のビルド前に旧 keg を unlink するので、5〜15 分のビルド中は
@@ -64,9 +64,9 @@ set -l paths \
 # グローバルインストールしたコマンド (fj-api-* / fj-gittag / editprompt /
 # na-tools / buf / ogen / bctl / busted など) は mise には引き継がれないので、
 # 一番後ろに置いて拾えるようにしてある。mise の shim が先にあるので node 等の
-# 言語本体がこちらに落ちることは無い。asdf の版解決は ~/.tool-versions
+# 言語本体がこちらに回ることは無い。asdf の版解決は ~/.tool-versions
 # (dotfiles 管理外) が担っており、mise は ~/.config/mise/config.toml の方を
-# 優先するので競合しない (実測)。
+# 優先するので競合しない (確認済み)。
 #
 # ディレクトリの有無で判定するのは、端末ごとに独立して asdf を捨てられるように
 # するため。自宅の Mac は捨てた (2026-08-18) ので足されず、まだ asdf のみの
@@ -80,8 +80,8 @@ set -l paths \
 # `mise activate fish` を流すので、実体の bin が PATH の前に来て shim は使わない。
 # だが zsh や launchd から起動したプロセス (Claude Code の Bash ツールなど) は
 # activate を通らず、fish から継承した PATH を持ったまま cd するだけなので、
-# shim が無いと版の切り替えが効かなくなる。fish_user_paths は universal 変数で
-# 非対話 fish にも効くため、ここに置いておけば両方が満たせる。
+# shim が無いと版の切り替えができなくなる。fish_user_paths は universal 変数で
+# 非対話 fish にも届くため、ここに置いておけば両方が満たせる。
 
 test -d ~/.asdf/shims; and set -a paths ~/.asdf/shims
 
@@ -240,9 +240,9 @@ if type -q luarocks
     end
 end
 
-# 「どこでも効かせたい環境変数」はここには無い。conf.d/00-env.fish
+# 「どこでも通したい環境変数」はここには無い。conf.d/00-env.fish
 # (ansible が secrets.yml の secret_env から生成) が持っている。conf.d なら
-# 非対話 fish にも効くので、上の `not status is-interactive; and exit 0` を
+# 非対話 fish にも届くので、上の `not status is-interactive; and exit 0` を
 # 通らずに済む。POSIX 側は ~/.config/env.sh を .zprofile が source する。
 
 set -x NEXTWORD_DATA_PATH ~/.cache/nextword-data-large

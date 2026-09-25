@@ -2,8 +2,8 @@
 #
 # [tools] は asdf 時代の ~/.tool-versions から移したもの。~/.tool-versions は
 # mise も読むが、mise はこれを「グローバル設定」ではなく「cwd から親へ辿って
-# 見つかる設定」として扱うため、$HOME の外 (/tmp 等) に cd すると一切効かない
-# (実測)。asdf の ~/.tool-versions はどこでも効いていたので、真のグローバル
+# 見つかる設定」として扱うため、$HOME の外 (/tmp 等) に cd すると一切読まれない
+# (確認済み)。asdf の ~/.tool-versions はどこでも読まれていたので、真のグローバル
 # 設定であるこのファイルに置いて挙動を揃える。
 #
 # 版を変えるときは `mise use -g <tool>@<version>` でよい。このファイルが直接
@@ -11,7 +11,7 @@
 #
 # node / go は自宅の Mac で Homebrew 版 (node 26.7.0 / go 1.26.6) を使っていた
 # ものを mise の shim が隠してしまうため、そちらに合わせて上げた。ここはあくまで
-# グローバルの既定で、プロジェクトは .tool-versions / .nvmrc 側が勝つ。
+# グローバルの初期値で、プロジェクトは .tool-versions / .nvmrc 側が勝つ。
 #
 # lua だけは最新 (5.5.1) にせず 5.1.5 のまま。Neovim (LuaJIT) が 5.1 互換で、
 # プラグインの busted テストもそれに揃えているため。
@@ -28,7 +28,7 @@ perl = "5.42.0"
 # asdf の `legacy_version_file = yes` (~/.asdfrc) 相当。
 #
 # mise は .nvmrc / .node-version / .ruby-version のような言語ごとの版ファイルを
-# 既定で「全部無視する」(実測。asdf と逆で opt-in)。仕事のリポジトリには
+# 何もしないと「全部無視する」(asdf と逆で opt-in)。仕事のリポジトリには
 # .tool-versions を置かずこちらだけ持っているものがあるので、扱うツールを
 # 明示して有効化する。
 #
@@ -39,9 +39,9 @@ idiomatic_version_file_enable_tools = ["node", "ruby", "python", "go", "perl", "
 [settings.go]
 # `go install` の出力先を $GOPATH/bin (= ~/.go/bin) に戻す。
 #
-# mise は既定で GOBIN を「今使っている go のインストールディレクトリ」
+# mise は何もしないと GOBIN を「今使っている go のインストールディレクトリ」
 # (~/.local/share/mise/installs/go/<version>/bin) に向ける。そこへ入れると
-# `mise use -g go@<新版>` した瞬間に入れたバイナリが消える。asdf 時代に
+# `mise use -g go@<新版>` したとたん入れたバイナリが消える。asdf 時代に
 # ~/.asdf/installs/golang/<version>/bin へグローバルインストールしたものが
 # asdf を捨てるときに全部道連れになったのと同じ罠なので、塞いでおく。
 #
