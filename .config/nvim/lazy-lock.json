@@ -169,7 +169,7 @@
   "vim-flog": { "branch": "master", "commit": "676198e8d43b3eef380b01aea2535826574fba28" },
   "vim-fold-cycle": { "branch": "master", "commit": "23a87f3eb12b1b9d8927207353b0f7a5454d1c0b" },
   "vim-fugitive": { "branch": "master", "commit": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0" },
-  "vim-ingo-library": { "branch": "master", "commit": "18adf54012ce8e015df01e379752d5c4d15c9bb5" },
+  "vim-ingo-library": { "branch": "master", "commit": "2a533b740863530a7052d7203fdac253891501fc" },
   "vim-mustache-handlebars": { "branch": "master", "commit": "0153fe03a919add2d6cf2d41b2d5b6e1188bc0e0" },
   "vim-plugin-AnsiEsc": { "branch": "master", "commit": "690f820d20b6e3a79ba20499874eb7333aa4ca5c" },
   "vim-prettyprint": { "branch": "master", "commit": "d6060d2b1ff1cff71714e126addd3b10883ade12" },
