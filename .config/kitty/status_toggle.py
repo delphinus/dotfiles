@@ -7,7 +7,7 @@
 # 並べ替え、中クリックで閉じる、空き領域のダブルクリックで新しいタブ)、自前で
 # 描いた領域にアクションを結び付ける口が無い。ボタンの代わりにキーで叩く。
 #
-# 隠している間は tab_bar.py が timemachine.status() を呼ばないので、tmutil も走らなく
+# 隠している間は tab_bar.py が timemachine.status() を呼ばないので、tmutil も動かなく
 # なる (poller は呼ばれたときにしか次のコマンドを投げない)。
 
 import sys
@@ -18,7 +18,7 @@ from kitty.constants import config_dir
 # 兄弟モジュール (toggles) を import する前に、置いてあるディレクトリを sys.path へ
 # 足す。tab_bar.py の冒頭と同じ事情。ただしキッテンは runpy ではなく「ソースを読んで
 # exec」で読み込まれるため __file__ が無く (kittens/runner.py の
-# import_kitten_main_module)、自分の場所は config_dir から引く。
+# import_kitten_main_module)、自分の場所は config_dir から取る。
 if config_dir not in sys.path:
     sys.path.insert(0, config_dir)
 

@@ -31,7 +31,7 @@ from kitty.key_encoding import EventType
 
 # キッテンは runpy ではなくソースを読んで exec する形で読み込まれるため __file__ が
 # 無い (kittens/runner.py の import_kitten_main_module)。兄弟モジュールを import
-# する前に、置いてある場所を config_dir から引いて sys.path へ足す。
+# する前に、置いてある場所を config_dir から取って sys.path へ足す。
 # status_toggle.py の冒頭と同じ事情。
 if config_dir not in sys.path:
     sys.path.insert(0, config_dir)

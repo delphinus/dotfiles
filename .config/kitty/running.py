@@ -1,27 +1,27 @@
-# 長く走っているコマンドと、その経過時間。
+# 長く動いているコマンドと、その経過時間。
 #
-#   󰔟 docker 2:14      … 見ているタブで走っている
-#   󰔟 3: docker 2:14   … 別のタブ (⌘3) で走っている
+#   󰔟 docker 2:14      … 見ているタブで動いている
+#   󰔟 3: docker 2:14   … 別のタブ (⌘3) で動いている
 #
 # OSC 9;4 で進捗を出すコマンド (Claude Code など) はタブのバーが見せてくれるが、
-# make や docker build のように何も言わないものは、走っているのか終わったのかが
+# make や docker build のように何も言わないものは、動いているのか終わったのかが
 # タブを覗くまで分からない。
 #
 # 外部コマンドは要らない。シェル統合 (OSC 133) が握っているコマンドの開始時刻を
 # kitty がウィンドウごとに持っているので、それを読むだけで済む:
 #
-#   window.last_cmd_output_start_time … 走り出した monotonic の時刻。プロンプトに
-#                                       戻ると 0.0 に落ちる (Window.handle_cmd_end)
+#   window.last_cmd_output_start_time … 動き出した monotonic の時刻。プロンプトに
+#                                       戻ると 0.0 に戻る (Window.handle_cmd_end)
 #   window.last_cmd_cmdline           … シェルが報告したコマンドライン
 #
-# 後者はコマンドが終わっても最後の値が残るので、走っているかどうかの判定は必ず
+# 後者はコマンドが終わっても最後の値が残るので、動いているかどうかの判定は必ず
 # 前者で行う。
 
 import os
 
 # 経過時間は必ず kitty の monotonic() で測る。標準ライブラリの time.monotonic() は
 # 原点が違う (システム起動から / kitty の起動から) ので、混ぜると last_cmd_output_-
-# start_time との差が桁違いになる (実測で 35 秒のコマンドが 110:37:12 と出た)。
+# start_time との差が桁違いになる (35 秒のコマンドが 110:37:12 と出た)。
 from kitty.fast_data_types import get_boss, monotonic
 
 ICON = "\U000f051f"  # md-timer_sand
@@ -29,7 +29,7 @@ ICON = "\U000f051f"  # md-timer_sand
 # これより短いものは出さない。すぐ終わるコマンドで点滅させても読めない。
 THRESHOLD = 30
 
-# 走っているのではなく「開いている」もの。名前で弾くのは、代替画面を使わずに
+# 動いているのではなく「開いている」もの。名前で弾くのは、代替画面を使わずに
 # 居座り続けるものだけでよい (nvim・ページャ・top の類は下の
 # is_using_alternate_linebuf で落ちる)。
 IGNORE = frozenset(
@@ -74,11 +74,11 @@ def _elapsed(secs):
 
 
 def _running(window, now):
-    """このウィンドウで長く走っているものがあれば (開始時刻, 名前)。無ければ None。"""
+    """このウィンドウで長く動いているものがあれば (開始時刻, 名前)。無ければ None。"""
     start = getattr(window, "last_cmd_output_start_time", 0.0) or 0.0
     if not start or now - start < THRESHOLD:
         return None
-    # 代替画面を使っているものは、走っているのではなく開いている (nvim、less、
+    # 代替画面を使っているものは、動いているのではなく開いている (nvim、less、
     # top、lazygit、ページャ越しの git log)。読んでいるあいだ中ステータスに
     # 出しても仕方がない。
     #
@@ -115,7 +115,7 @@ def status(os_window_id):
                 continue
             start, name = found
             if best is None or start > best[0]:
-                # 目の前で走っているものにタブ番号は要らない。別のタブに居るとき
+                # 目の前で動いているものにタブ番号は要らない。別のタブに居るとき
                 # だけ、⌘1..9 で飛べる番号を添える。
                 best = (start, name, None if tab is active else index)
     if best is None:

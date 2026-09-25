@@ -38,7 +38,7 @@ def handle_result(args, answer, target_window_id, boss):
     if sibling is None:
         return
 
-    # 前面で走っているプロセスがあればそれを、無ければウィンドウのシェルを追う。
+    # 前面で動いているプロセスがあればそれを、無ければウィンドウのシェルを追う。
     pids = [p["pid"] for p in sibling.child.foreground_processes if p.get("pid")]
     pid = min(pids) if pids else sibling.child.pid
     if not pid:

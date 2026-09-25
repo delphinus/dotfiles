@@ -3,7 +3,7 @@
 # WezTerm の keys.lua reap_orphan_editprompt の移植。相方 (Claude Code) が居なく
 # なって 1 枚だけ取り残された editprompt ペインを閉じる。
 #
-# close_pane.py が拾えるのは ⌘W の経路だけで、Claude Code 自身が終了したとき
+# close_pane.py が拾えるのは ⌘W のときだけで、Claude Code 自身が終了したとき
 # (^D / /exit / クラッシュ) はそちらを通らない。WezTerm 版は update-status の
 # たびに全タブを走査するポーリングだったが、kitty には on_close があるので
 # イベントで拾える。
@@ -16,7 +16,7 @@ import os
 import sys
 
 # watcher は runpy.run_path で読まれる。これは tab_bar.py と違ってスクリプトの
-# ディレクトリを sys.path に積まないので (実測)、兄弟モジュールを import する前に
+# ディレクトリを sys.path に積まないので、兄弟モジュールを import する前に
 # 自分で積む。tab_bar.py:28 と同じ処置。どちらが先に読まれるかは保証が無いので、
 # あちらに任せない。
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

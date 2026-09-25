@@ -28,7 +28,7 @@ BROWSER = "Google Chrome"
 BROWSER_APP = "/Applications/Google Chrome.app"
 
 # Zoom の招待 URL。Meet と違って構造化データでは来ず、location か description に
-# 生で入っている (直近 6 週間 156 件の実測で location 30 件 / description 36 件)。
+# 生で入っている (直近 6 週間 156 件を数えて location 30 件 / description 36 件)。
 _ZOOM = re.compile(r"https://[\w.-]*zoom\.us/(?:j|my)/[^\s<>\"']+")
 
 # 本文から拾う Meet。会議コードの形 (xxx-yyyy-zzz) でだけ見る。
@@ -136,7 +136,7 @@ def _dismiss(boss):
         return None
     parent = window.overlay_parent
     # 殺されたキッテンは結果を返さないので handle_result は呼ばれない
-    # (boss.on_kitten_finish が data None で素通りする)。会議が勝手に開くことはない。
+    # (boss.on_kitten_finish が data None で何もせず抜ける)。会議が勝手に開くことはない。
     boss.mark_window_for_close(window)
     return parent
 

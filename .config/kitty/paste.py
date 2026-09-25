@@ -30,7 +30,7 @@ def _clipboard_has_image():
 
 
 def _notify(message):
-    # 端末組み込みの通知は許可が無いと黙って落ちるので、WezTerm 版で実際に頼りに
+    # 端末組み込みの通知は許可が無いと何も出ないので、WezTerm 版で実際に頼りに
     # なっていた osascript を使う。
     import subprocess
 

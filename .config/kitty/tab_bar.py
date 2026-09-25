@@ -24,7 +24,7 @@ import time
 # このファイルは kitty から runpy.run_path で実行される。run_path は対象ファイルの
 # ディレクトリを sys.path に足さないので、兄弟モジュールを import する前に自分で
 # 足す。これを忘れると ImportError になり、kitty は例外を握り潰して既定の
-# draw_tab_with_fade に落ちる (タブバーが黙って素の見た目に戻る)。
+# draw_tab_with_fade に切り替わる (タブバーが何も言わず素の見た目に戻る)。
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # kitty は設定リロード (load_config_file) のたびにこのファイルを読み直す。ただし
@@ -87,7 +87,7 @@ MIN_TAB_LENGTH = 12
 
 
 def _color(index):
-    """WezTerm の ansi[index] (1 始まり) と同じ色を kitty のパレットから引く。"""
+    """WezTerm の ansi[index] (1 始まり) と同じ色を kitty のパレットから取る。"""
     return as_rgb(int(getattr(get_options(), _ANSI[index - 1])))
 
 
@@ -103,7 +103,7 @@ def _redraw_tab_bar(_unused_timer_id):
     # 会議が始まったらオーバーレイで知らせる (meeting.tick)。描画関数ではなく
     # ここから呼ぶ理由と、タイミングの決め方は向こうのコメントに書いてある。
     #
-    # モジュールは呼ぶたびに sys.modules から引き直す。このコールバックは最初に
+    # モジュールは呼ぶたびに sys.modules から取り直す。このコールバックは最初に
     # 読まれた世代のものが残り続ける (_ensure_timer) ので、冒頭の import で束縛
     # したものを使うと meeting.py を直しても ⌘⇧R で反映されない。
     #
@@ -154,7 +154,7 @@ def _title(tab):
 
     kitty のタブ名はアクティブなウィンドウのタイトルそのもの (Tab.title は
     active_window の title_changed でしか動かない) なので、⌘E で editprompt へ
-    移った瞬間にタブが "fish" になる。editprompt は相方への入力欄でしかないので、
+    移ったとたんタブが "fish" になる。editprompt は相方への入力欄でしかないので、
     タブバーには相方のタイトル (Claude Code が出す会話の要約) を出し続けたい。
 
     相方のタイトルは editprompt に居る間も更新され続ける。タブバーは時計のための
@@ -188,7 +188,7 @@ def _clock():
 # ときに使う値 (予定なら会議の URL)。何に反応するかは status_click.ACTIONS が決める。
 Segment = collections.namedtuple("Segment", "name text fg payload")
 
-# 実際に描く一片。項目のほかに区切り線やモードのチップも混ざるので、それらは
+# 実際に描く一片。項目のほかに区切り線やモードのチップも含むので、それらは
 # name を持たない (押しても何も起きない)。
 Cell = collections.namedtuple("Cell", "text fg bg name payload")
 
@@ -208,10 +208,10 @@ def _segments(draw_data):
         tm = timemachine.status()
         if tm:
             text, state = tm
-            # 走っていないときは最後のバックアップ時刻が出ているだけなので、暗い色に
+            # 動いていないときは最後のバックアップ時刻が出ているだけなので、暗い色に
             # 落として目を引かせない。動いている間だけ色を持たせる。
             out.append(Segment("timemachine", text, _color(2) if state == "running" else muted, None))
-    # 長く走っているコマンド。外部コマンドを使わないのでトグルは付けていない。
+    # 長く動いているコマンド。外部コマンドを使わないのでトグルは付けていない。
     command = running.status(draw_data.os_window_id)
     if command:
         out.append(Segment("running", command, muted, None))
@@ -219,7 +219,7 @@ def _segments(draw_data):
     if status:
         text, level = status
         out.append(Segment("battery", text, _color(BATTERY_FG[level]), None))
-    # 予定も隠しているあいだは google-calendar-cli を走らせない (⌘⇧G)。画面共有で
+    # 予定も隠しているあいだは google-calendar-cli を呼ばない (⌘⇧G)。画面共有で
     # 予定名を映したくないときに落とせる。
     if toggles.enabled("calendar"):
         event = gcal.status()
@@ -279,13 +279,13 @@ def _draw_right_status(draw_data, screen):
     # 前回描いた場所を押したときに反応してしまう。
     status_click.record(draw_data.os_window_id, ())
     # ここは描画パスなので、例外を投げるとタブバーごと出なくなる。ステータスは
-    # 飾りなので、組み立てに失敗したら黙って諦める。
+    # 飾りなので、組み立てに失敗したら何も出さずに諦める。
     try:
         cells = _fit(draw_data, screen.columns - screen.cursor.x - GUTTER)
     except Exception:
         return
     if not cells:
-        # 時計すら入らない。WezTerm では右ステータスが左から黙って削られて
+        # 時計すら入らない。WezTerm では右ステータスが左から無言で削られて
         # 意味を成さない断片が残っていた (tab_bar_metrics.lua の冒頭コメント) が、
         # ここまで来たら出さない。
         return
@@ -341,10 +341,10 @@ def _tab_length(draw_data, screen, max_tab_length):
     kitty はタブ幅を決めるときに右ステータスの領域を予約しない (TabBar.update() は
     columns // タブ数 でしか頭を抑えない) ので、タブが増えるとステータスを描く場所が
     無くなって丸ごと消える。WezTerm と違って draw_tab() がタブ 1 枚の幅を握って
-    いるので、実測値を publish して回す必要はなく、ここで絞れば済む。
+    いるので、測った値を publish して回す必要はなく、ここで絞れば済む。
 
     draw_tab_with_powerline() はタイトルを削って 1 枚を概ね max_tab_length 桁に
-    収めるので、タブ数で割った値をそのまま渡してよい。ただしタブを潰しすぎても
+    収めるので、タブ数で割った値をそのまま渡してよい。ただしタブを狭めすぎても
     本末転倒なので MIN_TAB_LENGTH までしか譲らない (そこから先は _fit() が
     優先度の低い項目を落とす)。
     """

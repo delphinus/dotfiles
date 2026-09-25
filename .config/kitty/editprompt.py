@@ -26,7 +26,7 @@ EDITPROMPT_BIAS = 15
 # 受け付けないため、ここでは通さずに nvim を直接起動する。
 #
 # ファイル名は必ずウィンドウごとに分ける。固定パスを共有すると、タブごとに開いた
-# editprompt が同じファイルを掴み、片方が送信時に書き出した瞬間に、下書きを持った
+# editprompt が同じファイルを掴み、片方が送信時に書き出したとたん、下書きを持った
 # まま裏で待っている側が checktime で W12 (ファイルもバッファも変わった) を出す。
 BUFFER_DIR = os.path.expanduser("~/.cache/kitty-editprompt")
 BUFFER_GLOB = "prompt-*.md"

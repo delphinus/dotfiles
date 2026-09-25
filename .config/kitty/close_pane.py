@@ -1,6 +1,6 @@
 # WezTerm の keys.lua close_pane (Cmd-W) を kitty へ移したもの。
 #
-# kitty の cmd+w は既定で close_tab で、ペイン 1 枚のつもりで押すとタブごと消える。
+# kitty の cmd+w は既定が close_tab で、ペイン 1 枚のつもりで押すとタブごと消える。
 # WezTerm と同じ「いまのペインだけ閉じる」に戻す。確認ダイアログは出さない
 # (WezTerm 側も CloseCurrentPane { confirm = false } だった)。
 #

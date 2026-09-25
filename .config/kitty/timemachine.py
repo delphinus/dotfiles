@@ -90,7 +90,7 @@ def _remaining(info):
         secs = int(float(secs))
     except (TypeError, ValueError):
         return ""
-    # 分未満は "残り 0:00" になって壊れて見えるだけなので出さない。
+    # 分未満は "残り 0:00" になって不格好なだけなので出さない。
     if secs < 60:
         return ""
     return " 残り %d:%02d" % (secs // 3600, secs % 3600 // 60)

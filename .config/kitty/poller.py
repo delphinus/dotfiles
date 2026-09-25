@@ -6,7 +6,7 @@
 #
 # 最初は「別スレッドで叩いてキャッシュを返す」形にしていたが、これは成立しない。
 # kitty のプロセスでは Python のスレッドがほとんど進まないため (メインループが
-# GIL を握ったままで、スレッド側は数秒に一度しか動けない。実測で別スレッドの
+# GIL を握ったままで、スレッド側は数秒に一度しか動けない。別スレッドの
 # time.sleep(0.25) が 18.7 秒かかった)、subprocess.run(timeout=...) の timeout が
 # 壁時計で先に切れてしまう。数十 ms で終わるはずの tmutil / pmset が軒並み
 # TimeoutExpired になり、値が永久に None のまま = ステータスに何も出ない、という
@@ -39,7 +39,7 @@ import time
 _live = sys.__dict__.setdefault("_kitty_poller_states", {})
 
 # コマンドが返らないまま居座るのを防ぐ。tmutil はバックアップ先がネットワーク越し
-# だと十数秒かかることがある (実測でマウントし直しに 26 秒) ので長めに取る。
+# だと十数秒かかることがある (マウントし直しに 26 秒かかった) ので長めに取る。
 TIMEOUT = 60
 
 
@@ -92,7 +92,7 @@ def _pump(state):
 
 
 def _reap(state, code):
-    """走らせていたコマンドの後始末。成功していれば stdout、それ以外は None。"""
+    """呼んでいたコマンドの後始末。成功していれば stdout、それ以外は None。"""
     out = state["out"]
     state["proc"] = None
     state["out"] = None
