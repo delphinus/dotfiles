@@ -59,6 +59,8 @@ return {
     end,
   },
 
+  { "delphinus/md-rich-copy.nvim", cmd = { "MdRichCopy" } },
+
   {
     "npxbr/glow.nvim",
     cmd = { "Glow", "GlowInstall" },
