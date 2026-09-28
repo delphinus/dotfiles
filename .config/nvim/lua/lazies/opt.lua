@@ -59,7 +59,7 @@ return {
     end,
   },
 
-  { "delphinus/md-rich-copy.nvim", cmd = { "MdRichCopy" } },
+  { "delphinus/md-rich-copy.nvim", version = "*", cmd = { "MdRichCopy" } },
 
   {
     "npxbr/glow.nvim",
