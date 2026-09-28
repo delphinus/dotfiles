@@ -126,21 +126,24 @@ M.source_icons = {
 -- 標準のハイライトグループを借りて colorscheme に追従させる。グリフはどれも
 -- SF Mono Square の cmap にあることを確認した。
 -- ここに無い kind は source 単位のアイコンを使う。
+-- グリフは私用領域 (U+F4xx) の文字で、エディタやツールによってはエラーも出ずに
+-- 消える (一度それで空文字になった)。書き換えたら見た目ではなくコードポイントで
+-- 確かめる。
 M.git_kinds = {
-  Commit = { icon = "", hl = "WarningMsg" }, -- oct-git_commit
-  Mention = { icon = "", hl = "WarningMsg" }, -- oct-mention
-  openIssue = { icon = "", hl = "DiagnosticOk" }, -- oct-issue_opened
-  reopenedIssue = { icon = "", hl = "DiagnosticOk" }, -- oct-issue_reopened
-  completedIssue = { icon = "", hl = "Statement" }, -- oct-issue_closed
-  closedIssue = { icon = "", hl = "Statement" }, -- oct-issue_closed
-  not_plannedIssue = { icon = "", hl = "Comment" }, -- oct-skip
-  duplicateIssue = { icon = "", hl = "Comment" }, -- oct-duplicate
-  lockedIssue = { icon = "", hl = "DiagnosticWarn" }, -- oct-lock
-  openPR = { icon = "", hl = "DiagnosticOk" }, -- oct-git_pull_request
-  draftPR = { icon = "", hl = "Comment" }, -- oct-git_pull_request_draft
-  mergedPR = { icon = "", hl = "Statement" }, -- oct-git_merge
-  closedPR = { icon = "", hl = "DiagnosticError" }, -- oct-git_pull_request_closed
-  lockedPR = { icon = "", hl = "DiagnosticWarn" }, -- oct-lock
+  Commit = { icon = "", hl = "WarningMsg" }, -- oct-git_commit
+  Mention = { icon = "", hl = "WarningMsg" }, -- oct-mention
+  openIssue = { icon = "", hl = "DiagnosticOk" }, -- oct-issue_opened
+  reopenedIssue = { icon = "", hl = "DiagnosticOk" }, -- oct-issue_reopened
+  completedIssue = { icon = "", hl = "Statement" }, -- oct-issue_closed
+  closedIssue = { icon = "", hl = "Statement" }, -- oct-issue_closed
+  not_plannedIssue = { icon = "", hl = "Comment" }, -- oct-skip
+  duplicateIssue = { icon = "", hl = "Comment" }, -- oct-duplicate
+  lockedIssue = { icon = "", hl = "DiagnosticWarn" }, -- oct-lock
+  openPR = { icon = "", hl = "DiagnosticOk" }, -- oct-git_pull_request
+  draftPR = { icon = "", hl = "Comment" }, -- oct-git_pull_request_draft
+  mergedPR = { icon = "", hl = "Statement" }, -- oct-git_merge
+  closedPR = { icon = "", hl = "DiagnosticError" }, -- oct-git_pull_request_closed
+  lockedPR = { icon = "", hl = "DiagnosticWarn" }, -- oct-lock
 }
 
 -- 送りあり候補だけ別のグリフを出す。送りなし (漢字だけで確定する) と送りあり
@@ -462,8 +465,7 @@ function M.menu_components()
         return ctx.kind_icon .. ctx.icon_gap
       end,
       highlight = function(ctx)
-        local git_kind = ctx.source_id == "git" and M.git_kinds[ctx.kind]
-        local hl = git_kind and git_kind.hl or M.source_groups[ctx.source_id]
+        local hl = M.source_groups[ctx.source_id]
         if hl then
           return { { group = hl, priority = 20000 } }
         end
@@ -689,6 +691,13 @@ function M.providers()
           acc[name] = kind.icon
           return acc
         end),
+        -- blink-cmp-git は git 項目の kind_icon.highlight を自前の関数に差し替える
+        -- ので、menu_components 側で色を返しても使われない。色はここで渡す。
+        -- nil を返すと blink-cmp-git の既定 (BlinkCmpGitKindIcon<kind>) に戻る。
+        kind_icon_highlight = function(ctx)
+          local kind = M.git_kinds[ctx.kind]
+          return kind and kind.hl
+        end,
         git_centers = {
           github = {
             issue = M.github_feature_override "issue",
