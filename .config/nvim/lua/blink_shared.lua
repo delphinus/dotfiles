@@ -50,18 +50,43 @@ function M.matched_ghe_host()
   return nil
 end
 
+-- issue / pull_request の一覧 API に付けるクエリ。API の既定は open だけの
+-- 30 件なので、closed / merged も含めて最近更新された 100 件 (per_page の上限)
+-- を取る。pulls は sort が created 以外だと direction の既定が asc になるので
+-- desc を明示する。issues は PR も混ぜて返し blink-cmp-git が PR を除くため、
+-- Issue の候補は 100 件より少なくなる。
+local GITHUB_LIST_QUERY = "?state=all&per_page=100&sort=updated&direction=desc"
+
+-- 状態ごとの kind 名。アイコンと色は M.git_kinds で引く。
+-- state_reason は completed / not_planned / reopened / duplicate のほか null
+-- (古い Issue) がありうるので、無ければ state (open / closed) を使う。
+local github_kind_names = {
+  issue = function(item)
+    return item.locked and "lockedIssue" or (item.state_reason or item.state) .. "Issue"
+  end,
+  pull_request = function(item)
+    return item.locked and "lockedPR" or item.draft and "draftPR" or item.merged_at and "mergedPR" or item.state .. "PR"
+  end,
+}
+
 -- Wrap blink-cmp-git's default github feature so that GHE hosts listed in
 -- $GITHUB_ENTERPRISE_HOST are recognized as enabled and `gh` is invoked with
--- --hostname to target the right instance.
+-- --hostname to target the right instance. issue / pull_request additionally
+-- fetch every state (GITHUB_LIST_QUERY) and get a per-state kind name.
 function M.github_feature_override(feature)
   return {
     enable = function()
       local default = require("blink-cmp-git.default.github")[feature]
       return default.enable() or M.matched_ghe_host() ~= nil
     end,
+    get_kind_name = github_kind_names[feature],
     get_command_args = function(command, token)
       local default = require("blink-cmp-git.default.github")[feature]
       local args = default.get_command_args(command, token)
+      -- 既定の引数は API のエンドポイントで終わる (--hostname はこの後に足す)。
+      if github_kind_names[feature] then
+        args[#args] = args[#args] .. GITHUB_LIST_QUERY
+      end
       local host = M.matched_ghe_host()
       if host and command ~= "curl" then
         table.insert(args, "--hostname")
@@ -92,6 +117,30 @@ M.source_icons = {
   nerdfont = "", -- cod-symbol_misc
   fish = "󰈺", -- md-fish
   skkeleton = "󱌱", -- md-ideogram_cjk (送りなし。送りありは下の SKK_OKURIARI_ICON)
+}
+
+-- git source は項目ごとに kind (Issue / PR の状態、Commit、Mention) が違うので、
+-- source 単位の M.source_icons ではなく kind 単位で出し分ける。GitHub の画面と
+-- 同じグリフ (octicons) と色分け (open = 緑、merged / completed = 紫、
+-- closed PR = 赤、draft / not planned = 灰) に揃える。色は source_groups と同様に
+-- 標準のハイライトグループを借りて colorscheme に追従させる。グリフはどれも
+-- SF Mono Square の cmap にあることを確認した。
+-- ここに無い kind は source 単位のアイコンを使う。
+M.git_kinds = {
+  Commit = { icon = "", hl = "WarningMsg" }, -- oct-git_commit
+  Mention = { icon = "", hl = "WarningMsg" }, -- oct-mention
+  openIssue = { icon = "", hl = "DiagnosticOk" }, -- oct-issue_opened
+  reopenedIssue = { icon = "", hl = "DiagnosticOk" }, -- oct-issue_reopened
+  completedIssue = { icon = "", hl = "Statement" }, -- oct-issue_closed
+  closedIssue = { icon = "", hl = "Statement" }, -- oct-issue_closed
+  not_plannedIssue = { icon = "", hl = "Comment" }, -- oct-skip
+  duplicateIssue = { icon = "", hl = "Comment" }, -- oct-duplicate
+  lockedIssue = { icon = "", hl = "DiagnosticWarn" }, -- oct-lock
+  openPR = { icon = "", hl = "DiagnosticOk" }, -- oct-git_pull_request
+  draftPR = { icon = "", hl = "Comment" }, -- oct-git_pull_request_draft
+  mergedPR = { icon = "", hl = "Statement" }, -- oct-git_merge
+  closedPR = { icon = "", hl = "DiagnosticError" }, -- oct-git_pull_request_closed
+  lockedPR = { icon = "", hl = "DiagnosticWarn" }, -- oct-lock
 }
 
 -- 送りあり候補だけ別のグリフを出す。送りなし (漢字だけで確定する) と送りあり
@@ -398,6 +447,10 @@ function M.menu_components()
     kind_icon = {
       ellipsis = false,
       text = function(ctx)
+        local git_kind = ctx.source_id == "git" and M.git_kinds[ctx.kind]
+        if git_kind then
+          return git_kind.icon .. ctx.icon_gap
+        end
         local icon = M.source_icons[ctx.source_id]
         if icon then
           local data = ctx.item.data
@@ -409,7 +462,8 @@ function M.menu_components()
         return ctx.kind_icon .. ctx.icon_gap
       end,
       highlight = function(ctx)
-        local hl = M.source_groups[ctx.source_id]
+        local git_kind = ctx.source_id == "git" and M.git_kinds[ctx.kind]
+        local hl = git_kind and git_kind.hl or M.source_groups[ctx.source_id]
         if hl then
           return { { group = hl, priority = 20000 } }
         end
@@ -629,6 +683,12 @@ function M.providers()
       module = "blink-cmp-git",
       async = true,
       opts = {
+        -- kind 名を blink の CompletionItemKind に登録させるために渡す。登録
+        -- されていない kind 名は kind = 0 (Unknown) になり、ctx.kind で引けない。
+        kind_icons = vim.iter(M.git_kinds):fold({}, function(acc, name, kind)
+          acc[name] = kind.icon
+          return acc
+        end),
         git_centers = {
           github = {
             issue = M.github_feature_override "issue",
