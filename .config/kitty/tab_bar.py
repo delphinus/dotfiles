@@ -41,9 +41,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # モジュールの外 (sys の私有キー) に持っているので、読み直しても最後に取れた値と
 # 進行中のコマンドはそのまま引き継がれる。toggles も同じ持ち方なので、隠した項目は
 # リロードしても隠れたままになる。
-for _stale in ("battery", "gcal", "meeting", "running", "timemachine", "progress_bar", "poller", "status_click", "toggles"):
+for _stale in ("aux_panes", "battery", "gcal", "meeting", "running", "timemachine", "progress_bar", "poller", "status_click", "toggles"):
     sys.modules.pop(_stale, None)
 
+import aux_panes  # noqa: E402
 import battery  # noqa: E402
 import gcal  # noqa: E402
 import progress_bar  # noqa: E402
@@ -150,7 +151,8 @@ def _progress_prefix(tab):
 
 
 def _title(tab):
-    """editprompt にフォーカスしている間も、タブ名を相方 (Claude Code) のものに保つ。
+    """補助ペイン (editprompt / codediff) にフォーカスしている間も、タブ名を相方
+    (Claude Code) のものに保つ。
 
     kitty のタブ名はアクティブなウィンドウのタイトルそのもの (Tab.title は
     active_window の title_changed でしか動かない) なので、⌘E で editprompt へ
@@ -165,10 +167,10 @@ def _title(tab):
     if real is None or real.name:
         return tab.title
     active = real.active_window
-    if active is None or not active.user_vars.get("editprompt"):
+    if active is None or not aux_panes.is_aux(active):
         return tab.title
     for window in real.windows:
-        if window.id != active.id and not window.user_vars.get("editprompt"):
+        if window.id != active.id and not aux_panes.is_aux(window):
             return window.title
     return tab.title
 

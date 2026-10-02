@@ -4,11 +4,19 @@
 # WezTerm と同じ「いまのペインだけ閉じる」に戻す。確認ダイアログは出さない
 # (WezTerm 側も CloseCurrentPane { confirm = false } だった)。
 #
-# あわせて、Claude Code 側を閉じるときは editprompt も道連れにする。片方だけ残ると
-# タブが消えず、閉じるのに 2 回押す羽目になるため。ウィンドウがちょうど 2 枚の
-# ときだけにして、自分で足した 3 枚目を閉じただけで巻き添えにしないようにする。
+# あわせて、Claude Code 側を閉じるときは補助ペイン (editprompt / codediff) も
+# 道連れにする。補助ペインだけ残るとタブが消えず、閉じるのに何度も押す羽目になる
+# ため。残りが全部補助ペインのときだけにして、自分で足した別のペインがあるときは
+# 巻き添えにしないようにする。
+
+import importlib
 
 from kittens.tui.handler import result_handler
+
+import aux_panes
+
+# 理由は editprompt.py の同じ箇所を参照。
+aux_panes = importlib.reload(aux_panes)
 
 
 def main(args):
@@ -22,9 +30,8 @@ def handle_result(args, answer, target_window_id, boss):
         return
     tab = boss.tab_for_id(window.tab_id)
     if tab is not None:
-        windows = list(tab.windows)
-        if len(windows) == 2:
-            for w in windows:
-                if w.id != target_window_id and w.user_vars.get("editprompt"):
-                    boss.mark_window_for_close(w)
+        others = [w for w in tab.windows if w.id != target_window_id]
+        if not aux_panes.is_aux(window) and others and all(aux_panes.is_aux(w) for w in others):
+            for w in others:
+                boss.mark_window_for_close(w)
     boss.mark_window_for_close(window)

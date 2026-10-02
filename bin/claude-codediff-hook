@@ -1,0 +1,23 @@
+#!/bin/bash
+# Claude Code の PostToolUse フック。編集したファイルのリポジトリで、kitty の
+# codediff.nvim ペインを開く (~/.config/kitty/codediff.py)。
+#
+# Claude Code 本体の diff パネル (/diff) は claude を起動したディレクトリの git
+# しか見ないので、別の場所に作った worktree の変更は映らない。こちらは編集された
+# ファイルの側からリポジトリを決めるので、どこで作業していても追従する。
+#
+# 既に同じリポジトリを映していれば何もしない。⌘D で閉じたあとも、同じリポジトリの
+# あいだは開き直さない (判断は codediff.py 側で行う)。
+
+# kitty の外 (WezTerm、ssh 先、Claude Code デスクトップ等) では何もしない。
+[[ -n $KITTY_WINDOW_ID && -n $KITTY_LISTEN_ON ]] || exit 0
+
+file=$(jq -r '.tool_input.file_path // .tool_input.notebook_path // empty')
+[[ -n $file ]] || exit 0
+
+root=$(git -C "$(dirname "$file")" rev-parse --show-toplevel 2>/dev/null) || exit 0
+
+# --match を使うと、指定したウィンドウではなくアクティブなウィンドウが kitten に
+# 渡ってしまう。--self なら $KITTY_WINDOW_ID (= Claude Code のウィンドウ) が渡る。
+kitten @ action --self --no-response kitten codediff.py auto "$root" >/dev/null 2>&1
+exit 0

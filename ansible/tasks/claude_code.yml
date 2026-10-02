@@ -82,4 +82,41 @@
             | to_nice_json(indent=2, sort_keys=False, ensure_ascii=False)
           }}
 
+
+# Claude Code 本体の diff パネル (/diff) を勝手に開かせない。diffSidebarOpen が
+# 未設定だと、端末の幅が足りていれば編集のたびに自動で開く。ただし claude を
+# 起動したディレクトリの git しか見ないので、別の場所に作った worktree で作業して
+# いると空のまま場所だけ取る。代わりに kitty で codediff.nvim のペインを出す
+# (bin/claude-codediff-hook / .config/kitty/codediff.py)。
+#
+# /diff で手動で開くことはできる。開いたパネルを閉じると Claude Code 自身も false を
+# 書き込むので、このタスクが役に立つのは新しい端末と、開いたまま閉じなかったとき。
+- name: disable auto-opening of the Claude Code diff panel
+  when: ansible_facts['os_family'] == 'Darwin'
+  block:
+    - name: check ~/.claude.json
+      ansible.builtin.stat:
+        path: '{{ ansible_facts["env"]["HOME"] }}/.claude.json'
+      register: claude_json_stat
+
+    - name: read current ~/.claude.json
+      ansible.builtin.slurp:
+        src: '{{ ansible_facts["env"]["HOME"] }}/.claude.json'
+      register: claude_json_raw_diff
+      when: claude_json_stat.stat.exists
+
+    - name: write ~/.claude.json with diffSidebarOpen false
+      ansible.builtin.copy:
+        dest: '{{ ansible_facts["env"]["HOME"] }}/.claude.json'
+        mode: '0600'
+        content: >-
+          {{
+            (claude_json_raw_diff.content | b64decode | from_json)
+            | combine({"diffSidebarOpen": false})
+            | to_nice_json(indent=2, sort_keys=False, ensure_ascii=False)
+          }}
+      when:
+        - claude_json_stat.stat.exists
+        - (claude_json_raw_diff.content | b64decode | from_json).diffSidebarOpen | default(none) != false
+
 # vim:se et:

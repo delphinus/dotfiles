@@ -1,7 +1,7 @@
 # 全ウィンドウに掛かる watcher。kitty.conf の `watcher` で登録する。
 #
 # WezTerm の keys.lua reap_orphan_editprompt の移植。相方 (Claude Code) が居なく
-# なって 1 枚だけ取り残された editprompt ペインを閉じる。
+# なって取り残された補助ペイン (editprompt / codediff) を閉じる。
 #
 # close_pane.py が拾えるのは ⌘W のときだけで、Claude Code 自身が終了したとき
 # (^D / /exit / クラッシュ) はそちらを通らない。WezTerm 版は update-status の
@@ -21,7 +21,12 @@ import sys
 # あちらに任せない。
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+import aux_panes  # noqa: E402
 import session_state  # noqa: E402
+
+# codediff.py が見る user var。:qa などで codediff を手で閉じたら、同じ
+# リポジトリのあいだはフックで開き直さない。
+CODEDIFF_OFF_VAR = "codediff_off"
 
 
 def on_set_user_var(boss, window, data):
@@ -53,12 +58,21 @@ def on_close(boss, window, data):
     # on_close は Window.destroy() の先頭で呼ばれ、この時点で閉じるウィンドウが
     # まだタブに残っていることがある。id で明示的に除く。
     remaining = [w for w in tab.windows if w.id != window.id]
-    if len(remaining) != 1:
+    root = window.user_vars.get(aux_panes.CODEDIFF_VAR)
+    if root:
+        main, editprompt, _ = aux_panes.find(tab)
+        if main is not None:
+            main.user_vars[CODEDIFF_OFF_VAR] = root
+            # editprompt を 1 行に縮めて隠していたら、codediff.py の _close と
+            # 同じく stack で隠す形へ戻す。⌘D で閉じたときは _close が済ませて
+            # いるので、ここに来るのは :qa などで閉じたときだけ。
+            if editprompt is not None and editprompt.user_vars.get(aux_panes.EDITPROMPT_SQUEEZED_VAR):
+                aux_panes.unsqueeze_editprompt(tab, main, editprompt, None)
+                aux_panes.hide_editprompt(tab, main, editprompt, None)
+    if not remaining or not all(aux_panes.is_aux(w) for w in remaining):
         return
-    orphan = remaining[0]
-    if not orphan.user_vars.get("editprompt"):
-        return
-    # editprompt ペインは必ず split で作られるので、タブに 1 枚きりで残っていれば
+    # 補助ペインは必ず split で作られるので、タブに補助ペインしか残っていなければ
     # 相方を失った証拠とみなしてよい。mark_window_for_close は child monitor に
     # 予約するだけなので、destroy() の途中から呼んでも再入にはならない。
-    boss.mark_window_for_close(orphan)
+    for orphan in remaining:
+        boss.mark_window_for_close(orphan)

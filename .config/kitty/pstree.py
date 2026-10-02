@@ -5,9 +5,15 @@
 # python でこねて tty を引き、`ps -t <tty>` から一番若い PID を選ぶ、という
 # 遠回りをしていた。kitty は各ウィンドウの pid をそのまま持っているので不要。
 
+import importlib
 import os
 
 from kittens.tui.handler import result_handler
+
+import aux_panes
+
+# 理由は editprompt.py の同じ箇所を参照。
+aux_panes = importlib.reload(aux_panes)
 
 PSTREE = os.path.expanduser("~/git/github.com/delphinus/dotfiles/bin/simple-pstree")
 
@@ -29,10 +35,10 @@ def handle_result(args, answer, target_window_id, boss):
     if tab is None:
         return
 
-    # 相方 = 同じタブの、自分でも editprompt でもないウィンドウ。
+    # 相方 = 同じタブの、自分でも補助ペイン (editprompt / codediff) でもないウィンドウ。
     sibling = None
     for w in tab.windows:
-        if w.id != target_window_id and not w.user_vars.get("editprompt"):
+        if w.id != target_window_id and not aux_panes.is_aux(w):
             sibling = w
             break
     if sibling is None:

@@ -12,15 +12,23 @@
 #
 # no-UI kitten (画面を奪わずに Boss を触るだけ) として動く。WezTerm の
 # wezterm.action_callback に相当する仕組み。
+#
+# codediff (codediff.py) のペインが同じタブにあるときは、stack にすると codediff
+# まで隠れてしまうので、隠し方を変える。詳細は aux_panes.py。
 
 import glob
+import importlib
 import os
 
 from kittens.tui.handler import result_handler
 
-# editprompt ウィンドウが取る割合 (%)。WezTerm の size = { Cells = 10 } に対し、
-# 80 行のウィンドウで概ね同じ高さになる値。
-EDITPROMPT_BIAS = 15
+import aux_panes
+
+# kitten は押すたびに exec し直されるが、import した aux_panes は sys.modules に
+# 残ったままになる。読み直しておかないと、aux_panes.py を直しても kitty を再起動
+# するまで反映されない。
+aux_panes = importlib.reload(aux_panes)
+from aux_panes import FISH
 
 # バッファのファイル置き場。editprompt バイナリの --mux は tmux と wezterm しか
 # 受け付けないため、ここでは通さずに nvim を直接起動する。
@@ -31,22 +39,9 @@ EDITPROMPT_BIAS = 15
 BUFFER_DIR = os.path.expanduser("~/.cache/kitty-editprompt")
 BUFFER_GLOB = "prompt-*.md"
 
-FISH = "/opt/homebrew/bin/fish"
-
 
 def main(args):
     pass
-
-
-def _find(tab):
-    """タブ内の editprompt ウィンドウと相方を返す。"""
-    editprompt = sibling = None
-    for window in tab.windows:
-        if window.user_vars.get("editprompt"):
-            editprompt = window
-        elif sibling is None:
-            sibling = window
-    return editprompt, sibling
 
 
 def _prune(boss):
@@ -73,17 +68,20 @@ def _prune(boss):
                 pass
 
 
-def _spawn(boss, tab):
+def _spawn(boss, tab, main, codediff):
     os.makedirs(BUFFER_DIR, exist_ok=True)
     _prune(boss)
     # stack のままだと split しても見えないので splits に戻してから開く。
     tab.goto_layout("splits")
+    # codediff にフォーカスしているときに押しても、codediff ではなく相方を割る。
+    near = [f"--next-to=id:{main.id}", f"--source-window=id:{main.id}"] if main else []
     # nvim を直接起動すると GUI から起動した kitty の貧弱な PATH を継承して
     # deno (denops) や direnv が見つからないので、通常のウィンドウと同じく
     # fish のログインシェル経由で起動して PATH を揃える (open_uri.lua と同じ理由)。
     boss.launch(
         "--location=hsplit",
-        f"--bias={EDITPROMPT_BIAS}",
+        *near,
+        f"--bias={aux_panes.editprompt_bias(main, codediff) if main else aux_panes.EDITPROMPT_BIAS}",
         "--cwd=current",
         "--var", "editprompt=1",
         "--env", "EDITPROMPT=1",
@@ -97,24 +95,18 @@ def _spawn(boss, tab):
 
 @result_handler(no_ui=True)
 def handle_result(args, answer, target_window_id, boss):
-    tab = boss.active_tab
+    tab = aux_panes.tab_of(boss, target_window_id) or boss.active_tab
     if tab is None:
         return
-    editprompt, sibling = _find(tab)
+    main, editprompt, codediff = aux_panes.find(tab)
 
     if editprompt is None:
         # 初回。
-        _spawn(boss, tab)
-    elif sibling is None:
+        _spawn(boss, tab, main, codediff)
+    elif main is None:
         # 相方が居ない。editprompt へフォーカスするだけ。
         tab.set_active_window(editprompt)
-    elif tab.current_layout.name == "stack":
-        # 隠れている → 出して editprompt へフォーカスする。
-        tab.goto_layout("splits")
-        tab.set_active_window(editprompt)
+    elif aux_panes.editprompt_hidden(tab, editprompt):
+        aux_panes.show_editprompt(tab, main, editprompt, codediff)
     else:
-        # 出ている → 相方をアクティブにしてから stack にして覆い隠す。
-        # 順序が要る。stack はアクティブなウィンドウを映すので、先に相方へ
-        # 移しておかないと editprompt が映ったままになる。
-        tab.set_active_window(sibling)
-        tab.goto_layout("stack")
+        aux_panes.hide_editprompt(tab, main, editprompt, codediff)
