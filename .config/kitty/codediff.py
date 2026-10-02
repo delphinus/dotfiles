@@ -65,12 +65,27 @@ def _git_root(path):
 
 
 def _root_for(main):
-    """⌘D で開くときのリポジトリ。フックが教えてくれたものを優先する。"""
+    """⌘D で開くときのリポジトリ。フックが教えてくれたものを優先する。
+
+    どちらも git リポジトリでなければ None。codediff は git リポジトリでないと
+    何も開かず、素の nvim が残るだけになる。
+    """
     root = main.user_vars.get(ROOT_VAR)
     if root:
         return root
-    cwd = main.cwd_of_child or main.child.cwd
-    return _git_root(cwd) or cwd
+    return _git_root(main.cwd_of_child or main.child.cwd)
+
+
+def _notify(message):
+    # paste.py の _notify と同じ理由で osascript を使う。
+    try:
+        subprocess.Popen(
+            ["osascript", "-e", f'display notification "{message}" with title "codediff"'],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except OSError:
+        pass
 
 
 def _spawn(boss, tab, main, editprompt, root):
@@ -88,7 +103,10 @@ def _spawn(boss, tab, main, editprompt, root):
         # フックは Claude Code が裏のタブで動いているときにも来る。手元の作業から
         # フォーカスを奪わない。
         "--keep-focus",
-        FISH, "-l", "-c", "exec nvim +CodeDiff +tabonly",
+        # :CodeDiffWatch は nvim の設定 (lua/codediff_watch.lua) で足したもの。素の
+        # :CodeDiff は変更が無いと何も開かず、その後の変更も追わない。! で起動時の
+        # 空のタブを閉じる。
+        FISH, "-l", "-c", "exec nvim '+CodeDiffWatch!'",
     ])
     codediff = launch(boss, opts, args, target_tab=tab)
     if codediff is None:
@@ -154,5 +172,9 @@ def handle_result(args, answer, target_window_id, boss):
     if codediff is not None:
         _close(boss, tab, main, editprompt, codediff)
     else:
+        root = _root_for(main)
+        if root is None:
+            _notify("git リポジトリが見つかりません。Claude Code がファイルを編集すると、そのリポジトリで開きます。")
+            return
         main.user_vars.pop(OFF_VAR, None)
-        _spawn(boss, tab, main, editprompt, _root_for(main))
+        _spawn(boss, tab, main, editprompt, root)
