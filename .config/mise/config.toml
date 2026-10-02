@@ -34,7 +34,14 @@ perl = "5.42.0"
 #
 # perl / lua にこの種の版ファイルの慣習は無いが、列挙しておいても害は無いので
 # [tools] と揃えておく。
-idiomatic_version_file_enable_tools = ["node", "ruby", "python", "go", "perl", "lua"]
+#
+# go だけは入れない。mise は go.mod の `go` 行も版の指定として読むが、これは
+# Go にとっては「動く最低版」でしかない。手元に無い古い版を要求されて
+# `missing: go@1.25.5` のような警告が出るうえ、mise 自身もこの読み方を非推奨に
+# している (2026.11.0 で廃止予定)。asdf 時代は golang プラグインを入れておらず
+# go.mod を読むことは無かったので、外せばそのときと同じ挙動になる。特定の版で
+# ビルドしたいリポジトリは go.mod の `toolchain` 行に書けば、Go が自分で取ってくる。
+idiomatic_version_file_enable_tools = ["node", "ruby", "python", "perl", "lua"]
 
 [settings.go]
 # `go install` の出力先を $GOPATH/bin (= ~/.go/bin) に戻す。
