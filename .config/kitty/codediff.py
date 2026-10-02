@@ -8,9 +8,10 @@
 # 呼び出し方は 2 通り。
 #
 #   ⌘D (toggle): 出ていれば閉じ、出ていなければ開く。
-#   フック (auto <root>): Claude Code の PostToolUse から、編集したファイルの
-#       リポジトリのルートを渡して呼ぶ (bin/claude-codediff-hook)。まだ出ていな
-#       ければ開く。別のリポジトリを映していれば開き直す。
+#   フック (auto <root>): Claude Code がファイルを変更したあと (Write / Edit の
+#       ほか Bash も)、そのリポジトリのルートを渡して呼ぶ
+#       (bin/claude-codediff-hook)。まだ出ていなければ開く。別のリポジトリを
+#       映していれば開き直す。
 #
 # ⌘D や :qa で閉じたら、同じリポジトリのあいだはフックで開き直さない (相方の
 # user var codediff_off に覚えておく)。別のリポジトリを編集したら、また開く。
@@ -104,7 +105,8 @@ def _spawn(boss, tab, main, editprompt, root):
         # フォーカスを奪わない。
         "--keep-focus",
         # :CodeDiffWatch は nvim の設定 (lua/codediff_watch.lua) で足したもの。素の
-        # :CodeDiff は変更が無いと何も開かず、その後の変更も追わない。! で起動時の
+        # :CodeDiff は変更が無いと何も開かず、その後の変更も追わない。比べる相手は
+        # デフォルトブランチとの分岐点なので、コミット済みの変更も残る。! で起動時の
         # 空のタブを閉じる。
         FISH, "-l", "-c", "exec nvim '+CodeDiffWatch!'",
     ])

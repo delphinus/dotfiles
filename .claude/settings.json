@@ -196,6 +196,11 @@
             "command": "\"$HOME/git/dotfiles/bin/ai-words\" hook",
             "statusMessage": "AI っぽい語を確認中",
             "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/git/dotfiles/bin/claude-codediff-hook\"",
+            "timeout": 5
           }
         ]
       },
@@ -232,12 +237,13 @@
         ]
       },
       {
-        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|Bash",
         "hooks": [
           {
             "type": "command",
             "command": "\"$HOME/git/dotfiles/bin/claude-codediff-hook\"",
-            "timeout": 10
+            "async": true,
+            "timeout": 30
           }
         ]
       },
@@ -263,6 +269,17 @@
       }
     ],
     "PostToolUseFailure": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/git/dotfiles/bin/claude-codediff-hook\"",
+            "async": true,
+            "timeout": 30
+          }
+        ]
+      },
       {
         "hooks": [
           {

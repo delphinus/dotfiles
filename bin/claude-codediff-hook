@@ -1,10 +1,22 @@
 #!/bin/bash
-# Claude Code の PostToolUse フック。編集したファイルのリポジトリで、kitty の
-# codediff.nvim ペインを開く (~/.config/kitty/codediff.py)。
+# Claude Code のフック。Claude Code が変更したリポジトリで、kitty の codediff.nvim
+# ペインを開く (~/.config/kitty/codediff.py)。
 #
 # Claude Code 本体の diff パネル (/diff) は claude を起動したディレクトリの git
-# しか見ないので、別の場所に作った worktree の変更は映らない。こちらは編集された
+# しか見ないので、別の場所に作った worktree の変更は映らない。こちらは変更された
 # ファイルの側からリポジトリを決めるので、どこで作業していても追従する。
+#
+# 変更の見つけ方はツールによって違う。
+#
+#   Write / Edit など (PostToolUse): フックの入力に file_path があるので、その
+#       リポジトリを開く。
+#   Bash (PreToolUse → PostToolUse): コマンド文字列からは作業先が分からない
+#       (cd "$W" のように変数を使うことが多い)。実行前に目印のファイルを置き、
+#       実行後に worktree の置き場所でそれより新しいものを探して、一番新しく
+#       変わったもののリポジトリを開く。worktree で作業する運用 (CLAUDE.md の
+#       「作業は worktree で行い…」) に頼っているので、ghq のクローンを直接
+#       書き換えた場合は拾えない。claude を起動したディレクトリが git
+#       リポジトリなら、そこも探す。
 #
 # 既に同じリポジトリを映していれば何もしない。⌘D で閉じたあとも、同じリポジトリの
 # あいだは開き直さない (判断は codediff.py 側で行う)。
@@ -12,10 +24,64 @@
 # kitty の外 (WezTerm、ssh 先、Claude Code デスクトップ等) では何もしない。
 [[ -n $KITTY_WINDOW_ID && -n $KITTY_LISTEN_ON ]] || exit 0
 
-file=$(jq -r '.tool_input.file_path // .tool_input.notebook_path // empty')
-[[ -n $file ]] || exit 0
+WORKTREES=$HOME/.local/share/claude-worktrees
 
-root=$(git -C "$(dirname "$file")" rev-parse --show-toplevel 2>/dev/null) || exit 0
+input=$(cat)
+# 区切りはタブにしない。タブは IFS の空白扱いで、空の欄があると詰められて
+# 後ろの欄がずれる。
+IFS=$'\x1f' read -r event tool tool_use_id cwd file < <(
+  jq -r '[.hook_event_name, .tool_name, .tool_use_id // "", .cwd // "",
+          .tool_input.file_path // .tool_input.notebook_path // ""] | join("\u001f")' <<<"$input"
+)
+
+# Bash の 1 回ごとに目印を分ける。PostToolUse は async で動くので、次の Bash の
+# PreToolUse と重なることがある。目印を共有すると、探す前に上書きされてしまう。
+marker_dir=${TMPDIR:-/tmp}/claude-codediff
+marker=$marker_dir/${tool_use_id:-none}
+
+# 目印より新しく変わったもののうち、一番新しいもののパスを返す。
+newest_change() {
+  local -a dirs=()
+  [[ -d $WORKTREES ]] && dirs+=("$WORKTREES")
+  local top
+  if top=$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null); then
+    dirs+=("$top")
+  fi
+  ((${#dirs[@]})) || return 1
+  # 中身を見ないディレクトリは刈り込む。ファイルを消すと親ディレクトリの mtime が
+  # 変わるので、ディレクトリも候補に含める (git rm だけの変更も拾える)。
+  find "${dirs[@]}" -mindepth 1 \
+    \( -name .git -o -name node_modules -o -name .venv -o -name vendor \
+       -o -name .terraform -o -name __pycache__ -o -name .cache \) -prune \
+    -o -newer "$marker" -print0 2>/dev/null |
+    xargs -0 stat -f '%m %N' 2>/dev/null |
+    sort -rn | head -1 | cut -d' ' -f2-
+}
+
+case $event:$tool in
+  PreToolUse:Bash)
+    mkdir -p "$marker_dir" && touch "$marker"
+    exit 0
+    ;;
+  # 失敗したコマンドでもファイルは変わっていることがある。目印の後始末も兼ねて
+  # PostToolUseFailure でも探す。
+  PostToolUse:Bash | PostToolUseFailure:Bash)
+    [[ -f $marker ]] || exit 0
+    path=$(newest_change)
+    rm -f "$marker"
+    [[ -n $path ]] || exit 0
+    [[ -d $path ]] || path=$(dirname "$path")
+    ;;
+  PostToolUse:*)
+    [[ -n $file ]] || exit 0
+    path=$(dirname "$file")
+    ;;
+  *)
+    exit 0
+    ;;
+esac
+
+root=$(git -C "$path" rev-parse --show-toplevel 2>/dev/null) || exit 0
 
 # --match を使うと、指定したウィンドウではなくアクティブなウィンドウが kitten に
 # 渡ってしまう。--self なら $KITTY_WINDOW_ID (= Claude Code のウィンドウ) が渡る。
