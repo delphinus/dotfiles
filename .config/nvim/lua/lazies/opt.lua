@@ -1601,7 +1601,8 @@ return {
         end
       end, { nargs = 0, desc = "Open GitHub code diff" })
       -- 変更が無くても explorer を開いて待ち受ける (詳細は lua/codediff_watch.lua)。
-      -- kitty の codediff ペインが使う。中で codediff のモジュールを require した
+      -- kitty の codediff ペインは nvim-dev/codediff の側で同じものを使う。
+      -- 中で codediff のモジュールを require した
       -- 時点で lazy.nvim がプラグインを読み込む。
       require("codediff_watch").setup()
     end,

@@ -33,8 +33,13 @@ require("lazy").setup {
     opts = {},
   },
   {
+    -- メイン config の clone をそのまま流用する。:CodeDiffWatch
+    -- (lua/codediff_watch.lua) や下の共有モジュールは codediff の内部 API を
+    -- 呼ぶので、メインとバージョンがずれると動かない。ビルド済みの
+    -- libvscode_diff もメイン側の clone にある。
     "esmuellert/codediff.nvim",
-    dependencies = { "MunifTanjim/nui.nvim" },
+    dir = vim.fn.expand "~/.local/share/nvim/lazy/codediff.nvim",
+    dependencies = { { "MunifTanjim/nui.nvim", dir = vim.fn.expand "~/.local/share/nvim/lazy/nui.nvim" } },
     cmd = { "CodeDiff" },
     -- codediff は diff タブに独自の q (タブを閉じる) を張るので無効化し、
     -- less のように「q でどこからでも nvim ごと終了」を global の q に任せる。
@@ -175,6 +180,11 @@ require("codediff_bright_comment").setup()
 -- 差分行の位置を nvim-scrollview のバーに出す (同じくメイン config と共有。
 -- 詳細は lua/codediff_scrollview_signs.lua)。
 require("codediff_scrollview_signs").setup()
+
+-- 変更が無くても explorer を開いて待ち受ける :CodeDiffWatch (同じくメイン config と
+-- 共有。詳細は lua/codediff_watch.lua)。kitty の codediff ペイン
+-- (~/.config/kitty/codediff.py) がこれで起動する。
+require("codediff_watch").setup()
 
 -- jab.nvim はハイライトを設定できず、ラベル = Error・マッチ = CurSearch・
 -- backdrop = Comment を固定で使う。flash 用の FlashMatch 設定は不要になった。

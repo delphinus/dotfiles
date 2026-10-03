@@ -108,7 +108,11 @@ def _spawn(boss, tab, main, editprompt, root):
         # :CodeDiff は変更が無いと何も開かず、その後の変更も追わない。比べる相手は
         # デフォルトブランチとの分岐点なので、コミット済みの変更も残る。! で起動時の
         # 空のタブを閉じる。
-        FISH, "-l", "-c", "exec nvim '+CodeDiffWatch!'",
+        #
+        # nvim はメインの設定ではなく、codediff だけを積んだ nvim-dev/codediff で
+        # 起動する (fish の codediff 関数と同じもの)。フックのたびに起動し直すので
+        # 軽いほうがよい。q で nvim ごと終わる (= ⌘D で閉じたのと同じ扱いになる)。
+        FISH, "-l", "-c", "exec env NVIM_APPNAME=nvim-dev/codediff nvim '+CodeDiffWatch!'",
     ])
     codediff = launch(boss, opts, args, target_tab=tab)
     if codediff is None:
