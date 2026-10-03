@@ -145,6 +145,21 @@ def _close(boss, tab, main, editprompt, codediff):
     boss.mark_window_for_close(codediff)
 
 
+def _replace(boss, tab, main, editprompt, codediff, root):
+    """別のリポジトリを映している codediff を閉じて、root で開き直す。
+
+    _close は通さない。手で閉じたのではないので OFF_VAR を書いてはいけない。
+    書くと、元のリポジトリに戻ってきたときにフックが開き直さなくなる。
+    watcher.py の on_close も codediff の user var を見て OFF_VAR を書き、
+    editprompt を stack で隠す形へ戻そうとするので、閉じる前に外しておく。
+    """
+    codediff.user_vars.pop(CODEDIFF_VAR, None)
+    if tab.active_window is codediff:
+        tab.set_active_window(main)
+    boss.mark_window_for_close(codediff)
+    _spawn(boss, tab, main, editprompt, root)
+
+
 @result_handler(no_ui=True)
 def handle_result(args, answer, target_window_id, boss):
     tab = aux_panes.tab_of(boss, target_window_id)
@@ -162,13 +177,10 @@ def handle_result(args, answer, target_window_id, boss):
         main.user_vars[ROOT_VAR] = root
         if main.user_vars.get(OFF_VAR) == root:
             return
-        if codediff is not None:
-            if codediff.user_vars.get(CODEDIFF_VAR) == root:
-                return
-            # 別のリポジトリを映している。閉じて開き直す。閉じたことで OFF_VAR が
-            # 古いリポジトリに書き換わるが、新しいリポジトリとは一致しないので害は無い。
-            _close(boss, tab, main, editprompt, codediff)
-        _spawn(boss, tab, main, editprompt, root)
+        if codediff is None:
+            _spawn(boss, tab, main, editprompt, root)
+        elif codediff.user_vars.get(CODEDIFF_VAR) != root:
+            _replace(boss, tab, main, editprompt, codediff, root)
         return
 
     if codediff is not None:
