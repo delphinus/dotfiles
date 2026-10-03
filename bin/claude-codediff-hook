@@ -10,13 +10,22 @@
 #
 #   Write / Edit など (PostToolUse): フックの入力に file_path があるので、その
 #       リポジトリを開く。
-#   Bash (PreToolUse → PostToolUse): コマンド文字列からは作業先が分からない
+#   Bash (PreToolUse → PostToolUse): コマンド文字列だけでは作業先が決まらない
 #       (cd "$W" のように変数を使うことが多い)。実行前に目印のファイルを置き、
-#       実行後に worktree の置き場所でそれより新しいものを探して、一番新しく
+#       実行後に worktree の置き場所でそれより新しいものを探して、新しく
 #       変わったもののリポジトリを開く。worktree で作業する運用 (CLAUDE.md の
 #       「作業は worktree で行い…」) に頼っているので、ghq のクローンを直接
 #       書き換えた場合は拾えない。claude を起動したディレクトリが git
 #       リポジトリなら、そこも探す。
+#
+#       worktree の置き場所は全セッションで共有しているので、変わったものが
+#       このセッションの変更とは限らない。別のタブの Claude Code が同じ時間に
+#       書き換えたものを拾うと、そのタブの差分がこちらにも映ってしまう。そこで
+#       コマンド文字列が指しているものだけを採る。worktree の中なら worktree の
+#       名前、起動したディレクトリのリポジトリならファイル名 (ディレクトリなら
+#       その名前) がコマンドに含まれていること。変数を使っていても、同じ
+#       コマンドの中で W=~/.local/share/claude-worktrees/<名前> と書いている
+#       はずなので名前は残る (Bash の呼び出しをまたいで変数は残らない)。
 #
 # 既に同じリポジトリを映していれば何もしない。⌘D で閉じたあとも、同じリポジトリの
 # あいだは開き直さない (判断は codediff.py 側で行う)。
@@ -39,15 +48,17 @@ IFS=$'\x1f' read -r event tool tool_use_id cwd file < <(
 marker_dir=${TMPDIR:-/tmp}/claude-codediff
 marker=$marker_dir/${tool_use_id:-none}
 
-# 目印より新しく変わったもののうち、一番新しいもののパスを返す。
+# 目印より新しく変わったもののうち、このセッションのコマンドが指している
+# 一番新しいもののパスを返す。
 newest_change() {
   local -a dirs=()
   [[ -d $WORKTREES ]] && dirs+=("$WORKTREES")
-  local top
+  local top="" command
   if top=$(git -C "$cwd" rev-parse --show-toplevel 2>/dev/null); then
     dirs+=("$top")
   fi
   ((${#dirs[@]})) || return 1
+  command=$(jq -r '.tool_input.command // ""' <<<"$input")
   # 中身を見ないディレクトリは刈り込む。ファイルを消すと親ディレクトリの mtime が
   # 変わるので、ディレクトリも候補に含める (git rm だけの変更も拾える)。
   find "${dirs[@]}" -mindepth 1 \
@@ -55,7 +66,23 @@ newest_change() {
        -o -name .terraform -o -name __pycache__ -o -name .cache \) -prune \
     -o -newer "$marker" -print0 2>/dev/null |
     xargs -0 stat -f '%m %N' 2>/dev/null |
-    sort -rn | head -1 | cut -d' ' -f2-
+    sort -rn | cut -d' ' -f2- |
+    while IFS= read -r path; do
+      # 起動したディレクトリのリポジトリが worktree の中にあることもあるので、
+      # こちらを先に見る。
+      if [[ -n $top && $path == "$top"/* ]]; then
+        name=${path##*/}
+      elif [[ $path == "$WORKTREES"/* ]]; then
+        name=${path#"$WORKTREES"/}
+        name=${name%%/*}
+      else
+        continue
+      fi
+      if [[ $command == *"$name"* ]]; then
+        printf '%s\n' "$path"
+        break
+      fi
+    done
 }
 
 case $event:$tool in
