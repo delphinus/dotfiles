@@ -29,6 +29,9 @@
 - name: prepare goneovim config dir
   file: path=~/.config/goneovim state=directory
 
+- name: prepare pip config dir
+  file: path=~/.config/pip state=directory
+
 - name: prepare 1Password directory
   file: >-
     path=~/.config/1Password
@@ -116,6 +119,7 @@
     - .config/nvim
     - .config/nvim-dev
     - .config/peco
+    - .config/pip/pip.conf
     - .config/powerline
     - .config/ranger
     - .config/vifm/colors/nord.vifm

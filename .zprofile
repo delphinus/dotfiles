@@ -93,4 +93,3 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
-export PIP_UPLOADED_PRIOR_TO=P7D
