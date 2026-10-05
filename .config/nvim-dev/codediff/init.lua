@@ -188,3 +188,115 @@ require("codediff_watch").setup()
 
 -- jab.nvim はハイライトを設定できず、ラベル = Error・マッチ = CurSearch・
 -- backdrop = Comment を固定で使う。flash 用の FlashMatch 設定は不要になった。
+
+-- 既定の statusline には codediff:///<root>///<commit>/<path> という長いバッファ名が
+-- そのまま出て、どのファイルなのか見分けにくい。比較元/比較先・リビジョン・
+-- ファイル名だけを出す。ファイル名を先に置き、ディレクトリは後ろに薄く添える。
+do
+  local function define_hl()
+    local removed = vim.api.nvim_get_hl(0, { name = "diffRemoved", link = false })
+    local added = vim.api.nvim_get_hl(0, { name = "diffAdded", link = false })
+    local comment = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
+    -- 比較元/比較先のラベルは差分行と同じ赤/緑で塗る。それ以外は fg だけ指定し、
+    -- 背景は StatusLine / StatusLineNC から引き継がせる。
+    vim.api.nvim_set_hl(0, "CodeDiffStlOriginal", { fg = removed.fg, bg = removed.bg, bold = true })
+    vim.api.nvim_set_hl(0, "CodeDiffStlModified", { fg = added.fg, bg = added.bg, bold = true })
+    vim.api.nvim_set_hl(0, "CodeDiffStlFile", { bold = true })
+    vim.api.nvim_set_hl(0, "CodeDiffStlDim", { fg = comment.fg })
+  end
+  define_hl()
+  vim.api.nvim_create_autocmd("ColorScheme", { callback = define_hl })
+
+  local function escape(s)
+    return (s:gsub("%%", "%%%%"))
+  end
+
+  -- nil は git 管理外のファイル同士の比較なので何も出さない。
+  local function revision_label(rev)
+    if rev == nil then
+      return nil
+    elseif rev == "WORKING" then
+      return "作業ツリー"
+    elseif rev == "STAGED" then
+      return "ステージ"
+    end
+    local hash, parent = rev:match "^(%x+)(%^?)$"
+    if hash and #hash > 7 then
+      return hash:sub(1, 7) .. parent
+    end
+    return rev
+  end
+
+  local function relative_path(name, git_root)
+    if vim.startswith(name, "codediff:///") then
+      local _, _, filepath = require("codediff.core.virtual_file").parse_url(name)
+      if filepath then
+        return filepath
+      end
+    end
+    if git_root and vim.startswith(name, git_root .. "/") then
+      return name:sub(#git_root + 2)
+    end
+    return vim.fn.fnamemodify(name, ":~:.")
+  end
+
+  function _G.codediff_statusline()
+    local win = vim.g.statusline_winid
+    local buf = vim.api.nvim_win_get_buf(win)
+    local ft = vim.bo[buf].filetype
+    if ft == "codediff-explorer" then
+      return " Files"
+    elseif ft == "codediff-history" then
+      return " History"
+    end
+
+    local lifecycle = package.loaded["codediff.ui.lifecycle"]
+    local tab = vim.api.nvim_win_get_tabpage(win)
+    local ctx = lifecycle and lifecycle.get_git_context(tab)
+    local orig_win, mod_win = nil, nil
+    if lifecycle then
+      orig_win, mod_win = lifecycle.get_windows(tab)
+    end
+
+    local name = vim.api.nvim_buf_get_name(buf)
+    if name == "" then
+      return " [No Name]"
+    end
+
+    local parts = {}
+    local rev
+    if ctx and win == orig_win then
+      table.insert(parts, "%#CodeDiffStlOriginal# 比較元 %*")
+      rev = revision_label(ctx.original_revision)
+    elseif ctx and win == mod_win then
+      table.insert(parts, "%#CodeDiffStlModified# 比較先 %*")
+      rev = revision_label(ctx.modified_revision)
+    end
+    -- explorer から開いた作業ツリー側は revision が nil のままなので、
+    -- 実ファイルを開いていれば作業ツリーとみなす。
+    if
+      not rev
+      and ctx
+      and ctx.git_root
+      and (win == orig_win or win == mod_win)
+      and not vim.startswith(name, "codediff:///")
+    then
+      rev = "作業ツリー"
+    end
+    if rev then
+      table.insert(parts, " " .. escape(rev) .. " ")
+    end
+
+    local path = relative_path(name, ctx and ctx.git_root)
+    local tail = vim.fn.fnamemodify(path, ":t")
+    local dir = vim.fn.fnamemodify(path, ":h")
+    table.insert(parts, " %#CodeDiffStlFile#" .. escape(tail) .. "%*")
+    if dir ~= "." then
+      table.insert(parts, " %#CodeDiffStlDim#" .. escape(dir) .. "/%*")
+    end
+    table.insert(parts, " %m%r%=%l/%L ")
+    return table.concat(parts)
+  end
+
+  vim.o.statusline = "%!v:lua.codediff_statusline()"
+end
