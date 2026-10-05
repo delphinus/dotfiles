@@ -21,7 +21,7 @@ node = "26.7.0"
 ruby = "3.4.7"
 go = "1.26.6"
 lua = "5.1.5"
-python = "3.14.1"
+python = "3.14.8"
 perl = "5.42.0"
 
 [settings]
