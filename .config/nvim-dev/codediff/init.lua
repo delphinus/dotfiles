@@ -197,6 +197,13 @@ do
     local removed = vim.api.nvim_get_hl(0, { name = "diffRemoved", link = false })
     local added = vim.api.nvim_get_hl(0, { name = "diffAdded", link = false })
     local comment = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
+    -- どのペインがアクティブかは要らないので、非アクティブ側もアクティブ側と同じ
+    -- 色にする。ただし StatusLine と StatusLineNC の属性が完全に一致すると、
+    -- カレントウィンドウの余白が '^' で埋められる。見た目に影響しない nocombine を
+    -- 足して別の属性にしておく。
+    local stl = vim.api.nvim_get_hl(0, { name = "StatusLine", link = false })
+    stl.nocombine = true
+    vim.api.nvim_set_hl(0, "StatusLineNC", stl)
     -- 比較元/比較先のラベルは差分行と同じ赤/緑で塗る。それ以外は fg だけ指定し、
     -- 背景は StatusLine / StatusLineNC から引き継がせる。
     vim.api.nvim_set_hl(0, "CodeDiffStlOriginal", { fg = removed.fg, bg = removed.bg, bold = true })
