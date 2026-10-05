@@ -1587,7 +1587,10 @@ return {
   },
 
   {
-    "esmuellert/codediff.nvim",
+    -- マウスホイールのスクロール同期の修正 (esmuellert/codediff.nvim#570) を使う
+    -- ため fork を見る。マージされたら "esmuellert/codediff.nvim" に戻す。
+    "delphinus/codediff.nvim",
+    branch = "fix/mouse-scroll-unfocused-pane",
     dependencies = { "MunifTanjim/nui.nvim" },
     cmd = { "CodeDiff" },
     init = function()
