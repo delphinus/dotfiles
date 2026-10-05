@@ -116,8 +116,17 @@ local function resolve_base(git_root, arg)
   end
   -- デフォルトブランチ上で作業しているなら分岐点 = HEAD。Status Mode のほうが
   -- staged / unstaged を分けて見せてくれるので、そちらにする。
+  --
+  -- ただし、デフォルトブランチから切ったばかりでまだコミットの無いブランチも
+  -- 分岐点 = HEAD になる。比べる相手は起動時に決めたまま変わらないので、ここで
+  -- Status Mode にすると、最初のコミットで一覧が空になる。別のブランチにいる
+  -- なら、差分が無くても分岐点と比べる。detached HEAD はブランチが無いので
+  -- Status Mode のままにする。
   if mb == git_out(git_root, { "rev-parse", "HEAD" }) then
-    return nil
+    local branch = git_out(git_root, { "symbolic-ref", "--quiet", "--short", "HEAD" })
+    if not branch or branch == base:gsub("^origin/", "") then
+      return nil
+    end
   end
   return mb
 end
