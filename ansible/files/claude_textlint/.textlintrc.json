@@ -8,6 +8,7 @@
   "rules": {
     "preset-ai-words-ja": {
       "no-ai-words": {
+        "dictionaryPath": "./ai-words.json",
         "allows": []
       }
     }

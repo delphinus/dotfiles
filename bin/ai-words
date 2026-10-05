@@ -8,6 +8,7 @@
 // textlint 本体と設定は ~/.local/share/claude-textlint に置いてある
 // (ansible/tasks/claude_code.yml が ansible/files/claude_textlint から作る)。
 // 指摘したくない語は そこの .textlintrc.json の allows に足す。
+// 足して指摘したい語は ansible/files/claude_textlint/ai-words.json に書く。
 
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'

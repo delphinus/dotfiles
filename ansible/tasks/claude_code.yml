@@ -34,6 +34,13 @@
     - package-lock.json
   register: claude_textlint_manifest
 
+# プリセットの辞書に足して指摘したい語。こちらは全端末で揃えるので上書きする。
+- name: place claude-textlint extra dictionary
+  copy:
+    src: claude_textlint/ai-words.json
+    dest: ~/.local/share/claude-textlint/ai-words.json
+    mode: '0644'
+
 # 指摘したくない語 (allows) を足していく先。手元で育てるものなので上書きしない。
 - name: place claude-textlint config (初回のみ)
   copy:
@@ -41,6 +48,26 @@
     dest: ~/.local/share/claude-textlint/.textlintrc.json
     mode: '0644'
     force: false
+
+# 上の初回配布より前に作られた設定にも、手元の allows を残したまま
+# 追加の辞書 (dictionaryPath) を読ませる。
+- name: read claude-textlint config
+  slurp:
+    src: '{{ ansible_facts["env"]["HOME"] }}/.local/share/claude-textlint/.textlintrc.json'
+  register: claude_textlint_config_raw
+
+- name: point claude-textlint config at the extra dictionary
+  vars:
+    claude_textlint_config: '{{ claude_textlint_config_raw.content | b64decode | from_json }}'
+  copy:
+    dest: ~/.local/share/claude-textlint/.textlintrc.json
+    mode: '0644'
+    content: >-
+      {{ claude_textlint_config | combine({'rules': {'preset-ai-words-ja': {'no-ai-words':
+      {'dictionaryPath': './ai-words.json'}}}}, recursive=True) | to_nice_json(indent=2, ensure_ascii=False) }}
+  when: >-
+    (claude_textlint_config.rules['preset-ai-words-ja']['no-ai-words'] | default({})).dictionaryPath
+    | default('') != './ai-words.json'
 
 - name: check claude-textlint node_modules
   stat:
