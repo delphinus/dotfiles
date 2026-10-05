@@ -175,7 +175,7 @@ require("lazy").setup({
     dependencies = {
       { "delphinus/budoux.lua", dir = vim.fn.expand "~/.local/share/nvim/lazy/budoux.lua" },
     },
-    cmd = { "MdRender", "MdRenderTab", "MdRenderToggle", "MdRenderAuto", "MdRenderPager", "MdRenderDemo" },
+    cmd = { "MdRender" },
   },
 
   -- tokyonight (local clone shared with main config)

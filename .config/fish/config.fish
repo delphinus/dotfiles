@@ -126,7 +126,7 @@ abbr gfa 'git foresta --all | less'
 abbr l. 'l -d .*'
 abbr ta 'tig --all'
 abbr nv 'nvr -cc split'
-abbr md 'env NVIM_APPNAME=nvim-dev/md-render nvim +MdRenderPager'
+abbr md 'env NVIM_APPNAME=nvim-dev/md-render nvim "+MdRender pager"'
 
 function codediff --description 'nvim (nvim-dev/codediff) を起動し引数をそのまま :CodeDiff に渡す'
     env NVIM_APPNAME=nvim-dev/codediff nvim -c "CodeDiff $argv"
