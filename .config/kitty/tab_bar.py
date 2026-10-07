@@ -149,30 +149,61 @@ def _progress_prefix(tab):
 
 #: タブ名 {{{
 
+# Neovim が開いているファイル名を置く user var。~/.config/nvim/lua/core/options/
+# kitty.lua の VAR と揃えること。
+NVIM_FILE_VAR = "nvim_file"
+
+
+def _nvim_file(window):
+    """このウィンドウの Neovim が開いているファイル名。Neovim でなければ None。
+
+    user var は Neovim が終わるときに消していくが、落ちたときや kill されたときは
+    残ってしまう。Neovim は代替画面で動くので、そこから戻っていれば (シェルの
+    プロンプトに居れば) もう Neovim ではないとみなす。前面のプロセス名を見るほうが
+    確実だが、毎秒の再描画のたびに全タブでプロセス表を引くことになる。
+    """
+    name = window.user_vars.get(NVIM_FILE_VAR)
+    if not name:
+        return None
+    try:
+        if not window.screen.is_using_alternate_linebuf():
+            return None
+    except Exception:
+        pass
+    return name
+
 
 def _title(tab):
-    """補助ペイン (editprompt / codediff) にフォーカスしている間も、タブ名を相方
-    (Claude Code) のものに保つ。
+    """タブ名。kitty が付けるもの (アクティブなウィンドウのタイトル) から 2 点変える。
 
-    kitty のタブ名はアクティブなウィンドウのタイトルそのもの (Tab.title は
-    active_window の title_changed でしか動かない) なので、⌘E で editprompt へ
-    移ったとたんタブが "fish" になる。editprompt は相方への入力欄でしかないので、
-    タブバーには相方のタイトル (Claude Code が出す会話の要約) を出し続けたい。
+    1. そのウィンドウで Neovim が動いていれば、開いているバッファーのファイル名に
+       する。nvim は 'title' を切っているので、放っておくと起動したコマンドの
+       名前 ("nvim" や kitty-open-file のコマンドライン) が出たままになる。
 
-    相方のタイトルは editprompt に居る間も更新され続ける。タブバーは時計のための
-    毎秒の再描画 (_ensure_timer) で dirty になるので、ここで拾い直せば追従する。
+    2. 補助ペイン (editprompt / codediff) にフォーカスしている間も、タブ名を相方
+       (Claude Code) のものに保つ。kitty のタブ名はアクティブなウィンドウのタイトル
+       そのもの (Tab.title は active_window の title_changed でしか動かない) なので、
+       ⌘E で editprompt へ移ったとたんタブが "fish" になる。editprompt は相方への
+       入力欄でしかないので、タブバーには相方のタイトル (Claude Code が出す会話の
+       要約) を出し続けたい。
+
+    相方のタイトルも Neovim のファイル名も、フォーカスと関係なく更新され続ける。
+    タブバーは時計のための毎秒の再描画 (_ensure_timer) で dirty になるので、
+    ここで拾い直せば追従する。
     """
     real = get_boss().tab_for_id(tab.tab_id)
     # kitten @ set-tab-title で名前が付いていれば、そちらが窓のタイトルより強い。
     if real is None or real.name:
         return tab.title
     active = real.active_window
-    if active is None or not aux_panes.is_aux(active):
+    if active is None:
         return tab.title
-    for window in real.windows:
-        if window.id != active.id and not aux_panes.is_aux(window):
-            return window.title
-    return tab.title
+    shown = active
+    if aux_panes.is_aux(active):
+        shown = next((w for w in real.windows if w.id != active.id and not aux_panes.is_aux(w)), None)
+        if shown is None:
+            return tab.title
+    return _nvim_file(shown) or (tab.title if shown is active else shown.title)
 
 
 #: }}}
