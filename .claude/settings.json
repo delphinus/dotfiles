@@ -316,6 +316,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "\"$HOME/git/dotfiles/bin/safari-js-check\"",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Ended # notchbar-agents-claude-hook"
           }
         ]

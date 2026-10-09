@@ -1,0 +1,42 @@
+#!/bin/bash
+# Claude Code の SessionEnd フック。Safari の「Apple Events からの JavaScript を
+# 許可」が ON のまま残っていたら、macOS の通知で知らせる。
+#
+# Claude Code から Safari のタブを読むときは、この設定を ON にして osascript の
+# do JavaScript を使う。ON にすると、オートメーションの許可を持つどのアプリも
+# ログイン済みのページで JS を実行できるようになるので、使い終わったら OFF に
+# 戻したい。ただし設定はサンドボックスの中にあり、外から書き換えるには
+# フルディスクアクセスが、設定画面のチェックボックスを押すにはアクセシビリティの
+# 許可が要る。どちらもターミナルに与えるには広すぎるので、自動では戻さず、
+# 戻し忘れを知らせるだけにしている。
+#
+# 判定には do JavaScript "1" そのものを使う。OFF なら Safari が決まった文言の
+# エラーを返すので、権限を足さずに見分けられる。お気に入りのページのように
+# JS を受け付けないタブでは別のエラーになるので、判定がつくまで各ウィンドウの
+# 表示中のタブを順に試す。
+
+# tell application "Safari" は Safari が起動していないと起動してしまう
+pgrep -xq Safari || exit 0
+
+state=$(osascript <<'APPLESCRIPT' 2>/dev/null
+tell application "Safari"
+	with timeout of 5 seconds
+		repeat with w in windows
+			try
+				do JavaScript "1" in current tab of w
+				return "on"
+			on error msg
+				if msg contains "Allow JavaScript from Apple Events" then return "off"
+			end try
+		end repeat
+	end timeout
+end tell
+return "unknown"
+APPLESCRIPT
+)
+
+if [[ $state == on ]]; then
+	# claude-code-hooks notify は元のペインにフォーカスがあると通知を出さないので使わない
+	osascript -e 'display notification "設定 → デベロッパで OFF に戻してください" with title "Safari: Apple Events からの JavaScript が ON のままです" sound name "Funk"'
+fi
+exit 0
