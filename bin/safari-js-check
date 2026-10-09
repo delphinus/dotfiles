@@ -14,6 +14,11 @@
 # エラーを返すので、権限を足さずに見分けられる。お気に入りのページのように
 # JS を受け付けないタブでは別のエラーになるので、判定がつくまで各ウィンドウの
 # 表示中のタブを順に試す。
+#
+# 通知は macos/safari-js-check のアプリから出す。クリックすると Safari の設定
+# 画面が開く。アプリは初回と、ソースが更新されたときにここでビルドする
+# (Xcode の swiftc が要る)。ビルドできなければ、クリックしても何も起きない
+# osascript の通知で代わりに知らせる。
 
 # tell application "Safari" は Safari が起動していないと起動してしまう
 pgrep -xq Safari || exit 0
@@ -35,8 +40,36 @@ return "unknown"
 APPLESCRIPT
 )
 
-if [[ $state == on ]]; then
-	# claude-code-hooks notify は元のペインにフォーカスがあると通知を出さないので使わない
-	osascript -e 'display notification "設定 → デベロッパで OFF に戻してください" with title "Safari: Apple Events からの JavaScript が ON のままです" sound name "Funk"'
+[[ $state == on ]] || exit 0
+
+src=$(dirname "$(realpath "$0")")/../macos/safari-js-check
+app=$HOME/.local/share/safari-js-check/safari-js-check.app
+exe=$app/Contents/MacOS/safari-js-check
+
+build_app() {
+	local iconset
+	iconset=$(mktemp -d)/AppIcon.iconset
+	rm -rf "$app"
+	mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources" &&
+		cp "$src/Info.plist" "$app/Contents/Info.plist" &&
+		swift "$src/icon.swift" "$iconset" &&
+		iconutil -c icns "$iconset" -o "$app/Contents/Resources/AppIcon.icns" &&
+		swiftc -O -o "$exe" "$src/main.swift" &&
+		codesign --force --sign - "$app" &&
+		# クリックされたときに macOS がこのアプリを起動できるよう登録する
+		/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$app"
+	local ok=$?
+	rm -rf "$(dirname "$iconset")"
+	return $ok
+}
+
+if [[ ! -x $exe || $src/main.swift -nt $exe || $src/icon.swift -nt $exe || $src/Info.plist -nt $exe ]]; then
+	build_app >&2 || rm -rf "$app"
 fi
+
+if [[ -x $exe ]] && "$exe" notify; then
+	exit 0
+fi
+# claude-code-hooks notify は元のペインにフォーカスがあると通知を出さないので使わない
+osascript -e 'display notification "設定 → デベロッパで OFF に戻してください" with title "Safari: Apple Events からの JavaScript が ON のままです" sound name "Funk"'
 exit 0

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.delphinus.safari-js-check</string>
+    <key>CFBundleName</key>
+    <string>safari-js-check</string>
+    <key>CFBundleExecutable</key>
+    <string>safari-js-check</string>
+    <key>CFBundleVersion</key>
+    <string>2</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSUserNotificationAlertStyle</key>
+    <string>alert</string>
+    <key>NSAppleEventsUsageDescription</key>
+    <string>通知をクリックしたときに Safari の設定画面を開くために使います。</string>
+</dict>
+</plist>
