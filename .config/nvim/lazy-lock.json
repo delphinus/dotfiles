@@ -15,7 +15,7 @@
   "bento.nvim": { "branch": "main", "commit": "3a944910987f552b41fce22fbb7eed0bf0a6f1eb" },
   "blink-cmp-dictionary": { "branch": "master", "commit": "898a958cece34da20524d04ebc032a92a9565643" },
   "blink-cmp-digraphs": { "branch": "main", "commit": "f0a38d87589eb7581e693f7549681c3281d4ad48" },
-  "blink-cmp-git": { "branch": "feat/github-enterprise-host", "commit": "442a94add1bc7781eeefa2d709d01e3f5ad0bcf2" },
+  "blink-cmp-git": { "branch": "master", "commit": "52fae6028287b5c2663f26e60a9db00ff647c4d3" },
   "blink-cmp-skkeleton": { "branch": "test/kakutei-undo+okuriari", "commit": "0002e949e8be225d2d6f4d35f4ad4afe7e913e34" },
   "blink-emoji.nvim": { "branch": "master", "commit": "dff709139ad5389fb55ebab026e75278a12b325a" },
   "blink-nerdfont.nvim": { "branch": "main", "commit": "e5034457a0a3f3444c0a48af8f5d7db0ad02a204" },

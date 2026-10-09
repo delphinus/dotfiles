@@ -70,9 +70,10 @@ local github_kind_names = {
 }
 
 -- Wrap blink-cmp-git's default github feature so that GHE hosts listed in
--- $GITHUB_ENTERPRISE_HOST are recognized as enabled and `gh` is invoked with
--- --hostname to target the right instance. issue / pull_request additionally
--- fetch every state (GITHUB_LIST_QUERY) and get a per-state kind name.
+-- $GITHUB_ENTERPRISE_HOST are recognized as enabled. blink-cmp-git itself
+-- passes --hostname to `gh` for the host of the remote URL. issue /
+-- pull_request additionally fetch every state (GITHUB_LIST_QUERY) and get a
+-- per-state kind name.
 function M.github_feature_override(feature)
   return {
     enable = function()
@@ -83,14 +84,9 @@ function M.github_feature_override(feature)
     get_command_args = function(command, token)
       local default = require("blink-cmp-git.default.github")[feature]
       local args = default.get_command_args(command, token)
-      -- 既定の引数は API のエンドポイントで終わる (--hostname はこの後に足す)。
+      -- 既定の引数は API のエンドポイントで終わる。
       if github_kind_names[feature] then
         args[#args] = args[#args] .. GITHUB_LIST_QUERY
-      end
-      local host = M.matched_ghe_host()
-      if host and command ~= "curl" then
-        table.insert(args, "--hostname")
-        table.insert(args, host)
       end
       return args
     end,

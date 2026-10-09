@@ -77,9 +77,7 @@ return {
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
   { "delphinus/blink-cmp-digraphs", version = "*" },
-  -- GHE でメンションのドキュメント取得が 404 になるのを直した fork のブランチ。
-  -- https://github.com/Kaiser-Yang/blink-cmp-git/pull/72 がマージされたら戻す。
-  { "delphinus/blink-cmp-git", branch = "feat/github-enterprise-host" },
+  { "Kaiser-Yang/blink-cmp-git" },
   { "MahanRahmati/blink-nerdfont.nvim" },
 
   -- nvim-cmp source plugins, surfaced via blink.compat

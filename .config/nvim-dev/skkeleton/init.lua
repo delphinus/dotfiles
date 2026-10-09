@@ -292,7 +292,7 @@ require("lazy").setup({
       { "moyiz/blink-emoji.nvim", dir = shared .. "/blink-emoji.nvim" },
       { "Kaiser-Yang/blink-cmp-dictionary", dir = shared .. "/blink-cmp-dictionary" },
       { "delphinus/blink-cmp-digraphs", dir = shared .. "/blink-cmp-digraphs" },
-      { "delphinus/blink-cmp-git", dir = shared .. "/blink-cmp-git" },
+      { "Kaiser-Yang/blink-cmp-git", dir = shared .. "/blink-cmp-git" },
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
