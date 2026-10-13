@@ -58,6 +58,8 @@ from kitty.tab_bar import as_rgb, draw_tab_with_powerline  # noqa: E402
 
 CLOCK = "\U000f0150"  # md-clock_outline
 MODE = "\U000f04eb"  # md-table
+PREV_TAB = "\U000f0141"  # md-chevron_left
+NEXT_TAB = "\U000f0142"  # md-chevron_right
 
 # 項目の区切り。地の色より一段明るいだけの細線にして、区切り自体は目立たせない。
 SEPARATOR = " │ "
@@ -218,7 +220,8 @@ def _clock():
 
 
 # 右ステータスの一項目。name はクリックの当たり判定に使う名前で、payload は押した
-# ときに使う値 (予定なら会議の URL)。何に反応するかは status_click.ACTIONS が決める。
+# ときに使う値 (予定なら会議の URL、タブの切り替えボタンなら移る向き)。何に反応する
+# かは status_click.ACTIONS が決める。
 Segment = collections.namedtuple("Segment", "name text fg payload")
 
 # 実際に描く一片。項目のほかに区切り線やモードのチップも含むので、それらは
@@ -231,7 +234,8 @@ def _segments(draw_data):
 
     大事なものほど右へ置く。場所が無くなるのは左端 (タブが押してくる側) なので、
     並び順と落ちる順が一致していれば、狭まるにつれて左から素直に減っていく。
-    末尾の時計だけは落とさない (_fit() 参照)。
+    末尾の時計だけは落とさない (_fit() 参照)。タブの切り替えボタンは項目ではなく
+    _cells() が足すので、こちらも落ちない。
     """
     muted = as_rgb(int(draw_data.inactive_fg))
     out = []
@@ -265,6 +269,25 @@ def _segments(draw_data):
     return out
 
 
+def _tab_buttons(draw_data):
+    """左右のタブへ切り替えるボタン。タブが 1 つしか無ければ出さない。
+
+    右ステータスの右端に置く。タブの直後に置くとタブの数や幅で、ステータスの左端に
+    置くと予定の長さで場所が動いてしまう。右端なら常に同じ位置を押せる。
+
+    押しやすいよう両脇に空白を付けて、その空白ごと当たり判定に含める。
+    """
+    tm = get_boss().os_window_map.get(draw_data.os_window_id)
+    if tm is None or len(tuple(tm.tabs_to_be_shown_in_tab_bar)) < 2:
+        return []
+    fg = _color(8)
+    return [
+        Cell(SEPARATOR, _bright(1), None, None, None),
+        Cell(" %s " % PREV_TAB, fg, None, "tab", -1),
+        Cell(" %s " % NEXT_TAB, fg, None, "tab", 1),
+    ]
+
+
 def _cells(draw_data, segments):
     """描く一片の並び。色は解決済みの rgb で、背景 None は地の色。"""
     muted = as_rgb(int(draw_data.inactive_fg))
@@ -277,7 +300,11 @@ def _cells(draw_data, segments):
     mode = get_boss().mappings.current_keyboard_mode_name
     if mode:
         out.append(Cell(" %s %s " % (MODE, mode), _color(1), _color(MODE_BG.get(mode, 6)), None, None))
-    out.append(Cell(" ", muted, None, None, None))
+    buttons = _tab_buttons(draw_data)
+    out.extend(buttons)
+    # ボタンは自前で空白を持っているので、右端の余白は足さない。
+    if not buttons:
+        out.append(Cell(" ", muted, None, None, None))
     return out
 
 

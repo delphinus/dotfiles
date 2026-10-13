@@ -1,5 +1,6 @@
-# 右ステータスの項目をクリックできるようにする。今のところ押せるのは予定だけで、
-# 押すと会議に入る (meeting.open_url)。
+# 右ステータスの項目をクリックできるようにする。押せるのは次の 2 つ:
+#   - 予定 … 会議に入る (meeting.open_url)
+#   - 右端の ‹ › … 左右のタブへ切り替える (tab_bar.py の _tab_buttons())
 #
 # kitty のタブバーには、自前で描いた領域にアクションを結び付ける口が無い。受け取る
 # マウス操作は TabManager.handle_tab_bar_mouse (kitty の tabs.py) に直書きされていて
@@ -64,16 +65,21 @@ def hit(tm, x, y):
     return None
 
 
-def _join(url):
+def _join(_tm, url):
     # 会議の URL を持たない予定 (対面など) では何もしない。クリックは飲み込むので、
     # ダブルクリックで新しいタブが開くことはない。
     if url:
         meeting.open_url(url)
 
 
-# 押せる項目と、押したときにすること。ここに無い名前 (時計、バッテリー等) は
-# 素通しする。
-ACTIONS = {"calendar": _join}
+def _switch_tab(tm, delta):
+    # 端まで行くと反対の端へ回る (kitty の next_tab の挙動)。
+    tm.next_tab(delta)
+
+
+# 押せる項目と、押したときにすること。ハンドラは押されたタブバーの TabManager と
+# payload を受け取る。ここに無い名前 (時計、バッテリー等) は素通しする。
+ACTIONS = {"calendar": _join, "tab": _switch_tab}
 
 
 def dispatch(tm, x, y, button, action):
@@ -93,7 +99,7 @@ def dispatch(tm, x, y, button, action):
     # 押した時点では何もしないが、kitty にも渡さない。渡すと press と release が
     # 揃って「空き領域のダブルクリック = 新しいタブ」に数えられてしまう。
     if action == GLFW_RELEASE:
-        handler(found[1])
+        handler(tm, found[1])
     return True
 
 
