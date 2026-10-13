@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# kitty.app を手元のコード署名用証明書で署名し直す。署名済みなら何もしない。
+#
+# 何のためか: delphinus/homebrew-kitty の kitty はアドホック署名なので、署名の
+# 要件 (designated requirement) に cdhash しか書けない。画面収録などの
+# プライバシーの許可は、許可した時点のこの要件と一緒に記録されるので、ビルドが
+# 変わるたびに外れる (システム設定には ON のまま出続けるが、確かめる段階で拒否
+# される)。証明書で署名すれば要件が「識別子 + 証明書」になり、アップグレード
+# しても外れない。
+#
+# 証明書は端末ごとにキーチェーンアクセスの証明書アシスタントで作る (名前は
+# CERT_NAME、固有名のタイプは自己署名ルート、証明書のタイプはコード署名)。
+# 信頼の設定は変えなくてよい。証明書が無い端末では何もせずに終わる。
+#
+# タップは公開リポジトリなので、端末に依存するこの処理は formula に入れずに
+# ここに置き、daily-sync が brew upgrade の後で呼ぶ。手で upgrade したときは
+# 直後にこれを叩けばよい。署名し直したあと、許可が有効になるのは kitty を
+# 起動し直してからになる。
+#
+# 出力の 1 行目: signed: … (署名した) / skip: … (何もしなかった)
+
+set -euo pipefail
+
+readonly CERT_NAME="delphinus local code signing"
+readonly IDENTIFIER="net.kovidgoyal.kitty"
+readonly KEYCHAIN="$HOME/Library/Keychains/login.keychain-db"
+
+app="$(brew --prefix)/opt/kitty/kitty.app"
+exe="$app/Contents/MacOS/kitty"
+if [[ ! -x "$exe" ]]; then
+    echo "skip: kitty が入っていない ($app)"
+    exit 0
+fi
+
+# 証明書の SHA-1。designated requirement の certificate leaf と同じ値になる。
+cert_sha1="$(security find-certificate -c "$CERT_NAME" -Z "$KEYCHAIN" 2>/dev/null |
+    awk '/^SHA-1 hash:/ { print tolower($3); exit }')" || cert_sha1=""
+if [[ -z "$cert_sha1" ]]; then
+    echo "skip: 証明書 \"$CERT_NAME\" が無い"
+    exit 0
+fi
+
+requirement="$(codesign -d -r- "$exe" 2>&1 | sed -n 's/^designated => //p')"
+if [[ "$requirement" == "identifier \"$IDENTIFIER\" and certificate leaf = H\"$cert_sha1\"" ]]; then
+    echo "skip: 署名済み"
+    exit 0
+fi
+
+# 実行ファイルだけを署名する。kitty は動作中に Contents/Resources へ .pyc を
+# 書き足すので、アプリ全体に封をするとすぐに署名が合わなくなる。
+#
+# 動いている kitty のバイナリを書き換えるとそのプロセスが落ちうるので、コピーを
+# 署名して mv で差し替える (動いているプロセスは古い inode を掴んだまま)。
+tmp="$(dirname "$exe")/.kitty.signing"
+trap 'rm -f "$tmp"' EXIT
+cp "$exe" "$tmp"
+codesign --force --sign "$CERT_NAME" --keychain "$KEYCHAIN" --identifier "$IDENTIFIER" "$tmp" 2>/dev/null
+mv -f "$tmp" "$exe"
+echo "signed: $exe ($(readlink "$(brew --prefix)/opt/kitty"))"

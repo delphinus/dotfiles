@@ -476,6 +476,31 @@ restart_changed_services() {
     return "$rc"
 }
 
+# --- kitty の署名 --------------------------------------------------------
+#
+# delphinus/homebrew-kitty の kitty はアドホック署名で入るので、upgrade のたびに
+# 画面収録などのプライバシーの許可が外れる。手元の証明書で署名し直して、許可が
+# 次のビルドにも引き継がれるようにする。理由と前提 (証明書の作り方) は
+# bin/kitty-sign-local の冒頭を参照。
+#
+# 更新があったときだけでなく毎回呼ぶ。署名済みなら何もしないので安いし、
+# 手で upgrade して署名し忘れた分もここで拾える。
+sign_kitty() {
+    ((DRY_RUN)) && {
+        log "(dry-run) kitty の署名をスキップ"
+        return 0
+    }
+    local out
+    out="$("$DOTFILES/bin/kitty-sign-local" 2>&1)" || {
+        log "$out"
+        return 1
+    }
+    log "$out"
+    if [[ "$out" == signed:* ]]; then
+        action "kitty を手元の証明書で署名し直した。画面収録などの許可は kitty を起動し直すと有効になる"
+    fi
+}
+
 # --- 隔離 (quarantine) --------------------------------------------------
 #
 # 恒久的に失敗する formula を毎日叩き続けると、実行時間を食い潰した上に
@@ -2263,6 +2288,7 @@ main() {
     fi
 
     run_step "更新された formula のサービス再起動" restart_changed_services "$changed"
+    run_step "kitty の署名" sign_kitty
 
     # brew を片付けてから。ジョブにはソースビルドを伴うものがあり、先に置くと
     # formula の更新がその分遅れる。
