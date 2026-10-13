@@ -235,7 +235,7 @@ def _segments(draw_data):
     大事なものほど右へ置く。場所が無くなるのは左端 (タブが押してくる側) なので、
     並び順と落ちる順が一致していれば、狭まるにつれて左から素直に減っていく。
     末尾の時計だけは落とさない (_fit() 参照)。タブの切り替えボタンは項目ではなく
-    _cells() が足すので、こちらも落ちない。
+    _cells() が時計の手前に足すので、時計と一緒に残る。
     """
     muted = as_rgb(int(draw_data.inactive_fg))
     out = []
@@ -272,19 +272,26 @@ def _segments(draw_data):
 def _tab_buttons(draw_data):
     """左右のタブへ切り替えるボタン。タブが 1 つしか無ければ出さない。
 
-    右ステータスの右端に置く。タブの直後に置くとタブの数や幅で、ステータスの左端に
-    置くと予定の長さで場所が動いてしまう。右端なら常に同じ位置を押せる。
+    時計のすぐ左に置く。時計は幅が変わらないので、ここなら常に同じ位置を押せる。
+    タブの直後に置くとタブの数や幅で、ステータスの左端に置くと予定の長さで場所が
+    動いてしまう。右端は macOS のウィンドウの角丸に掛かって欠けるので避けた。
 
-    押しやすいよう両脇に空白を付けて、その空白ごと当たり判定に含める。
+    押せる場所だと分かるよう背景を塗ったチップにし、押しやすいよう両脇に空白を
+    付けて、その空白ごと当たり判定に含める。右の空白を 1 つ多くしているのは、
+    kitty が私用領域のアイコン (Nerd Font) の直後の空白をアイコンの描画に使う
+    ため。左右 2 つずつにすると、見た目では右の空白が 1 つ減って矢印が右に寄る。
     """
     tm = get_boss().os_window_map.get(draw_data.os_window_id)
     if tm is None or len(tuple(tm.tabs_to_be_shown_in_tab_bar)) < 2:
         return []
-    fg = _color(8)
+    fg, bg = _color(8), _bright(1)
+    muted = as_rgb(int(draw_data.inactive_fg))
     return [
-        Cell(SEPARATOR, _bright(1), None, None, None),
-        Cell(" %s " % PREV_TAB, fg, None, "tab", -1),
-        Cell(" %s " % NEXT_TAB, fg, None, "tab", 1),
+        Cell(" ", muted, None, None, None),
+        Cell("  %s   " % PREV_TAB, fg, bg, "tab", -1),
+        Cell(" ", muted, None, None, None),
+        Cell("  %s   " % NEXT_TAB, fg, bg, "tab", 1),
+        Cell(" ", muted, None, None, None),
     ]
 
 
@@ -292,19 +299,19 @@ def _cells(draw_data, segments):
     """描く一片の並び。色は解決済みの rgb で、背景 None は地の色。"""
     muted = as_rgb(int(draw_data.inactive_fg))
     out = [Cell(" ", muted, None, None, None)]
+    buttons = _tab_buttons(draw_data)
     for index, segment in enumerate(segments):
-        if index:
+        # タブの切り替えボタンは時計の手前に、区切り線の代わりに挟む。
+        if segment.name == "clock" and buttons:
+            out.extend(buttons)
+        elif index:
             out.append(Cell(SEPARATOR, _bright(1), None, None, None))
         out.append(Cell(segment.text, segment.fg, None, segment.name, segment.payload))
     # キーボードモードは状態を強く示すものなので、他と違って背景を塗ったチップにする。
     mode = get_boss().mappings.current_keyboard_mode_name
     if mode:
         out.append(Cell(" %s %s " % (MODE, mode), _color(1), _color(MODE_BG.get(mode, 6)), None, None))
-    buttons = _tab_buttons(draw_data)
-    out.extend(buttons)
-    # ボタンは自前で空白を持っているので、右端の余白は足さない。
-    if not buttons:
-        out.append(Cell(" ", muted, None, None, None))
+    out.append(Cell(" ", muted, None, None, None))
     return out
 
 
