@@ -68,4 +68,5 @@ set -l cmd (dirname (status filename))/kitty-open-file $path
 if test -n "$argv[2]"
     set -a cmd $argv[2]
 end
-kitten @ launch --type=tab --cwd=(pwd) $cmd
+# --location=after で、末尾ではなくいまのタブ (リンクを踏んだタブ) のすぐ右に開く。
+kitten @ launch --type=tab --location=after --cwd=(pwd) $cmd
