@@ -444,21 +444,29 @@ end
 --   今日 9:05 / 昨日 17:24 / 一昨日 17:24 / 2026/10/11 17:24 / 明日 9:05 / 明後日 9:05
 local FINDER_RELATIVE_DAYS = { [-2] = "明後日", [-1] = "明日", [0] = "今日", [1] = "昨日", [2] = "一昨日" }
 
-function M.finder_date(sec, now)
-  local t = os.date("*t", sec)
-  local n = os.date("*t", now)
-  -- 正午どうしで引けば夏時間の切り替えがあっても日数がずれない
+-- sec の日付が now の日付の何日前か (未来なら負)。正午どうしで引けば夏時間の
+-- 切り替えがあっても日数がずれない
+local function days_ago(sec, now)
   local function noon(d)
     return os.time { year = d.year, month = d.month, day = d.day, hour = 12 }
   end
-  local days = math.floor((noon(n) - noon(t)) / 86400 + 0.5)
+  return math.floor((noon(os.date("*t", now)) - noon(os.date("*t", sec))) / 86400 + 0.5)
+end
+
+function M.finder_date(sec, now)
+  local t = os.date("*t", sec)
   local time = ("%d:%02d"):format(t.hour, t.min)
-  local rel = FINDER_RELATIVE_DAYS[days]
+  local rel = FINDER_RELATIVE_DAYS[days_ago(sec, now)]
   if rel then
     return rel .. " " .. time
   end
   return ("%04d/%02d/%02d %s"):format(t.year, t.month, t.day, time)
 end
+
+-- 更新時刻の色。相対表記 (今日・昨日・一昨日など) になる最近のものだけ色を付け、
+-- 最近いじったファイルを見分けやすくする。それより前は目立たせない。
+local PATH_MTIME_RECENT_HL = "Special"
+local PATH_MTIME_OLD_HL = "Comment"
 
 -- path ソースの候補の更新時刻を引く。メニューは打鍵のたびに絞り込み後の全候補
 -- (最大 completion.list.max_items 件) を描き直すので、結果を item.data に
@@ -488,7 +496,13 @@ function M.menu_components()
         end
         return ctx.label_description
       end,
-      highlight = "BlinkCmpLabelDescription",
+      highlight = function(ctx)
+        if ctx.source_id == "path" and ctx.item.data and ctx.item.data.mtime then
+          local recent = FINDER_RELATIVE_DAYS[days_ago(ctx.item.data.mtime)] ~= nil
+          return recent and PATH_MTIME_RECENT_HL or PATH_MTIME_OLD_HL
+        end
+        return "BlinkCmpLabelDescription"
+      end,
     },
     kind_icon = {
       ellipsis = false,
