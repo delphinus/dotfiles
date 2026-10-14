@@ -438,11 +438,58 @@ function M.fuzzy_sorts()
   return SORTS_DEFAULT
 end
 
+-- Finder の「変更日」と同じ表記 (ja_JP、日付 medium + 時刻 short、相対日付あり) に
+-- する。NSDateFormatter の出力に合わせてあり、相対表記はカレンダーの日付の差で決まる
+-- (24 時間前かどうかではない)。時は 0 埋めせず、月日は 0 埋めする。
+--   今日 9:05 / 昨日 17:24 / 一昨日 17:24 / 2026/10/11 17:24 / 明日 9:05 / 明後日 9:05
+local FINDER_RELATIVE_DAYS = { [-2] = "明後日", [-1] = "明日", [0] = "今日", [1] = "昨日", [2] = "一昨日" }
+
+function M.finder_date(sec, now)
+  local t = os.date("*t", sec)
+  local n = os.date("*t", now)
+  -- 正午どうしで引けば夏時間の切り替えがあっても日数がずれない
+  local function noon(d)
+    return os.time { year = d.year, month = d.month, day = d.day, hour = 12 }
+  end
+  local days = math.floor((noon(n) - noon(t)) / 86400 + 0.5)
+  local time = ("%d:%02d"):format(t.hour, t.min)
+  local rel = FINDER_RELATIVE_DAYS[days]
+  if rel then
+    return rel .. " " .. time
+  end
+  return ("%04d/%02d/%02d %s"):format(t.year, t.month, t.day, time)
+end
+
+-- path ソースの候補の更新時刻を引く。メニューは打鍵のたびに絞り込み後の全候補
+-- (最大 completion.list.max_items 件) を描き直すので、結果を item.data に
+-- 覚えておき、同じ補完の間は stat し直さない。候補は補完を開くたびに作り直される
+-- ので、次の補完では引き直される。
+local function path_mtime(item)
+  local data = item.data
+  if data.mtime == nil then
+    local st = vim.uv.fs_stat(data.full_path)
+    data.mtime = st and st.mtime.sec or false
+  end
+  return data.mtime or nil
+end
+
 -- Returns blink.cmp menu draw components (kind_icon override + source_name)
 -- that color each candidate by its source. The caller can merge with its own
 -- `label` component (e.g. for colorful-menu integration).
 function M.menu_components()
   return {
+    -- path ソースの候補には Finder と同じ表記で更新時刻を出す
+    label_description = {
+      width = { max = 30 },
+      text = function(ctx)
+        if ctx.source_id == "path" and ctx.item.data and ctx.item.data.full_path then
+          local mtime = path_mtime(ctx.item)
+          return mtime and M.finder_date(mtime) or ""
+        end
+        return ctx.label_description
+      end,
+      highlight = "BlinkCmpLabelDescription",
+    },
     kind_icon = {
       ellipsis = false,
       text = function(ctx)
