@@ -1,5 +1,5 @@
-# 今いちばん気に掛けるべき予定。google-calendar-cli を poller で叩いて、今日の予定
-# から一つだけ選んで出す。
+# 今いちばん気に掛けるべき予定。gcal.ts を poller で叩いて、今日の予定から一つだけ
+# 選んで出す。
 #
 #   󰃰 14:00 定例 あと 25分     … これから始まる。開始までのカウントダウン
 #   󰃰 ~15:00 定例 残り 25分    … 開催中。終了までのカウントダウン
@@ -9,9 +9,10 @@
 # 譲る。始まった途端に消えていた頃は「今出ている会議が何時までか」を思い出すのに
 # カレンダーを開き直す羽目になっていた。
 #
-# 認証は ~/.config/google-calendar-cli/ に置いてある (dotfiles の
-# secret_config_files が全端末へ配っている)。ログインしていない端末ではコマンドが
-# 失敗するだけで、poller の値が None のままになるのでステータスには何も出ない。
+# 認証はカレンダー専用の gcloud ADC (~/.config/gcloud-calendar)。作り方は gcal.ts の
+# 冒頭にある。ADC の無い端末ではコマンドが失敗するだけで、poller の値が None のままに
+# なるのでステータスには何も出ない。以前は google-calendar-cli を叩いていたが、認証に
+# 使っていた OAuth アプリが 2026-10 に削除されて動かなくなった。
 #
 # モジュール名を calendar.py にしないのは、tab_bar.py が設定ディレクトリを
 # sys.path の先頭に挿すため、標準ライブラリの calendar を隠してしまうから。
@@ -20,13 +21,18 @@ import collections
 import datetime
 import json
 import os
+import shutil
 import time
 import unicodedata
 
 import meeting
 import poller
 
-CLI = os.path.expanduser("~/.go/bin/google-calendar-cli")
+GCAL = os.path.expanduser("~/.claude/scripts/gcal.ts")
+
+# kitty の環境の PATH に Homebrew が入っていないこともあるので、見つからなければ
+# 決め打ちする。
+BUN = shutil.which("bun") or "/opt/homebrew/bin/bun"
 
 ICON = "\U000f00f0"  # md-calendar_clock
 
@@ -112,7 +118,7 @@ def _event(item):
 
 
 def _read():
-    out = yield [CLI, "events", "list", "--today", "-o", "json"]
+    out = yield [BUN, GCAL, "list", "--today", "-o", "json"]
     if not out:
         return None
     try:
@@ -206,7 +212,7 @@ def due(now):
     """今まさに始まった予定を開始順に。無ければ空。
 
     poller のキャッシュを見るだけで、取り直しの周期は status() と共有している。
-    ここから呼ばれても google-calendar-cli の実行回数は増えない。
+    ここから呼ばれても gcal.ts の実行回数は増えない。
 
     status() と違って一つに絞らないのは、予定が重なっている朝に後ろのものを
     何も言わずに捨てないため。どれを知らせるか (と、二枚重ねない加減) は
