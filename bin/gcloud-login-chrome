@@ -1,0 +1,123 @@
+#!/bin/bash
+# gcloud のログインを、専用プロファイルの Chrome の小さなウィンドウで行わせる。
+#
+#   gcloud-login-chrome gcloud auth application-default login --scopes=...
+#
+# 素のまま gcloud auth ... login を実行すると、既定ブラウザの最後に使ったウィンドウに
+# 認証のタブが開き、作業中の画面に割り込んでくる。そこで $BROWSER (と PATH 上の open) を
+# shim に差し替え、--user-data-dir を固定した Chrome を別のプロセスとして起動する。
+#
+# - プロファイルは残すので、Google のログインセッションと拡張機能 (1Password) は次回に
+#   引き継がれる。Google の再認証はパスワードと 2 要素を毎回求めてくるので、1Password が
+#   使えないと手打ちになる。拡張機能の導入とデスクトップアプリの承認は初回に手で行う。
+# - ウィンドウを閉じる (Chrome を終了する) と gcloud はコールバックを待ち続けて終わらない
+#   ので、Chrome が消えたら gcloud を止める。
+# - gcloud が終わったら Chrome を終了する。ただし別のログインが同じ Chrome を使っている
+#   あいだは残す (カレンダー用と Vertex AI 用の ADC は同じ再認証のポリシーで、ほぼ同時に
+#   切れる)。
+#
+# Chrome が無ければ何もせず、引数のコマンドをそのまま実行する。
+#
+# 以前は check-gcloud-adc (Swift 製の常駐アプリ) が同じことをしていた。その頃の
+# プロファイルが残っていれば引き継ぐ。
+
+chrome="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+[[ -x $chrome ]] || exec "$@"
+
+state=${XDG_CACHE_HOME:-$HOME/.cache}/gcloud-login-chrome
+profile=$state/browser-profile
+old=${XDG_CACHE_HOME:-$HOME/.cache}/check-gcloud-adc/browser-profile
+if [[ ! -d $profile && -d $old ]]; then
+  mkdir -p "$state" && mv "$old" "$profile" && rmdir "${old%/*}" 2> /dev/null
+fi
+mkdir -p "$profile" "$state/sessions"
+
+# 1Password 拡張がデスクトップアプリと話すための native messaging の manifest は、既定の
+# Chrome の場所にしか置かれない。専用プロファイルからも引けるよう、ファイル単位で
+# symlink を張る (ディレクトリは Chrome が先に作ってしまう)。
+hosts="$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts"
+mkdir -p "$profile/NativeMessagingHosts"
+for manifest in "$hosts"/*.json; do
+  [[ -e $manifest ]] || continue
+  target=$profile/NativeMessagingHosts/${manifest##*/}
+  [[ -e $target ]] || ln -s "$manifest" "$target"
+done
+
+# マウスのある画面の中央に 600x800 で出す。Chrome の --window-position は主画面の左上が
+# 原点で下向きが正、NSScreen は主画面の左下が原点で上向きが正なので変換する。
+geometry=$(osascript -l JavaScript -e '
+  ObjC.import("AppKit");
+  const screens = $.NSScreen.screens, mouse = $.NSEvent.mouseLocation;
+  const primaryTop = screens.objectAtIndex(0).frame.origin.y + screens.objectAtIndex(0).frame.size.height;
+  let target = screens.objectAtIndex(0);
+  for (let i = 0; i < screens.count; i++) {
+    const f = screens.objectAtIndex(i).frame;
+    if (mouse.x >= f.origin.x && mouse.x < f.origin.x + f.size.width && mouse.y >= f.origin.y && mouse.y < f.origin.y + f.size.height) target = screens.objectAtIndex(i);
+  }
+  const v = target.visibleFrame;
+  const w = Math.min(600, Math.max(320, v.size.width - 80)), h = Math.min(800, Math.max(320, v.size.height - 80));
+  const x = v.origin.x + (v.size.width - w) / 2, top = v.origin.y + (v.size.height + h) / 2;
+  [Math.round(w), Math.round(h), Math.round(x), Math.round(primaryTop - top)].join(" ");
+' 2> /dev/null)
+window=()
+if read -r w h x y <<< "$geometry" && [[ -n $y ]]; then
+  window=(--window-size="$w,$h" --window-position="$x,$y")
+fi
+
+shim=$(mktemp -d "${TMPDIR:-/tmp}/gcloud-login-chrome.XXXXXX")
+{
+  printf '#!/bin/bash\n'
+  printf 'url=\n'
+  printf 'for a in "$@"; do case $a in http://* | https://*) url=$a ;; esac; done\n'
+  # URL でないもの (ファイルを開く等) は素の open に流す。
+  printf '[[ -n $url ]] || exec /usr/bin/open "$@"\n'
+  printf '%q --user-data-dir=%q --no-first-run --no-default-browser-check --no-service-autorun --hide-crash-restore-bubble' "$chrome" "$profile"
+  printf ' %q' "${window[@]}"
+  printf ' --new-window "$url" > /dev/null 2>&1 &\n'
+} > "$shim/open-url"
+chmod 700 "$shim/open-url"
+ln -s open-url "$shim/open"
+
+# Chrome の本体の pid。ヘルパー (--type=...) を除いた、このプロファイルのプロセス。
+chrome_pid() {
+  local pid
+  for pid in $(pgrep -f -- "--user-data-dir=$profile"); do
+    ps -o command= -p "$pid" | grep -q -- --type= || { echo "$pid"; return; }
+  done
+}
+
+touch "$state/sessions/$$"
+
+cleanup() {
+  [[ -n $watcher ]] && kill "$watcher" 2> /dev/null
+  rm -rf "$shim" "$state/sessions/$$"
+  # 最後のリダイレクトを取りこぼさないよう少し待ってから閉じる。
+  sleep 1
+  local pid
+  if [[ -z $(ls -A "$state/sessions") ]] && pid=$(chrome_pid) && [[ -n $pid ]]; then
+    kill -TERM "$pid" 2> /dev/null
+  fi
+}
+
+# Chrome が出てきたあと消えたら (ウィンドウを閉じて終了されたら)、gcloud を止める。
+watch() {
+  local pid n=0
+  until pid=$(chrome_pid) && [[ -n $pid ]]; do
+    ((n++ < 60)) || return 0 # ブラウザが使われなかった
+    sleep 1
+  done
+  while kill -0 "$pid" 2> /dev/null; do sleep 2; done
+  pkill -TERM -P $$ 2> /dev/null
+}
+
+BROWSER=$shim/open-url PATH=$shim:$PATH "$@" &
+child=$!
+watch &
+watcher=$!
+trap 'kill -TERM $child 2> /dev/null' TERM INT HUP
+wait $child
+status=$?
+# trap で抜けた wait のあと、子が終わるのを待つ。
+wait $child 2> /dev/null
+cleanup
+exit $status

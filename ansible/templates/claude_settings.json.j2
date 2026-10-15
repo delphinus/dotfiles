@@ -10,8 +10,9 @@
 {%- set _ = base.update({'env': secret_claude_code_env}) -%}
 {#- Vertex AI の認証 (既定の ADC) が切れたら Claude Code がこのコマンドで再認証する。
     素の login はスコープを cloud-platform だけに戻して meet-notes や Drive への書き込みを壊すので、
-    ADC を使うスキルが要るスコープ一式を必ず付ける。 -#}
-{%- set _ = base.update({'gcpAuthRefresh': 'gcloud auth application-default login --scopes=' + [
+    ADC を使うスキルが要るスコープ一式を必ず付ける。
+    作業中のブラウザに割り込まないよう、bin/gcloud-login-chrome で専用の Chrome のウィンドウを開く。 -#}
+{%- set _ = base.update({'gcpAuthRefresh': (dotfiles_dir | expanduser) + '/bin/gcloud-login-chrome gcloud auth application-default login --scopes=' + [
       'openid',
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/cloud-platform',
