@@ -159,14 +159,6 @@
             "command": "claude-code-hooks notify 'Claude Code' '待機中です'"
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Waiting # notchbar-agents-claude-hook"
-          }
-        ]
       }
     ],
     "PermissionRequest": [
@@ -216,14 +208,6 @@
             "timeout": 30
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Working # notchbar-agents-claude-hook"
-          }
-        ]
       }
     ],
     "PostToolUse": [
@@ -260,14 +244,6 @@
             "command": "claude-code-hooks save"
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Auto # notchbar-agents-claude-hook"
-          }
-        ]
       }
     ],
     "PostToolUseFailure": [
@@ -279,14 +255,6 @@
             "command": "\"$HOME/git/dotfiles/bin/claude-codediff-hook\"",
             "async": true,
             "timeout": 30
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" ToolFail # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -322,14 +290,6 @@
             "timeout": 60
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Ended # notchbar-agents-claude-hook"
-          }
-        ]
       }
     ],
     "SessionStart": [
@@ -342,14 +302,6 @@
           {
             "type": "command",
             "command": "claude-code-hooks stamp"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Idle # notchbar-agents-claude-hook"
           }
         ]
       }
@@ -370,14 +322,6 @@
             "command": "claude-code-hooks save"
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Idle # notchbar-agents-claude-hook"
-          }
-        ]
       }
     ],
     "UserPromptSubmit": [
@@ -390,14 +334,6 @@
           {
             "type": "command",
             "command": "claude-code-hooks save"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/Library/Application Support/Bartender/NotchBar/AgentStatus/hooks/claude-event-hook.sh\" Working # notchbar-agents-claude-hook"
           }
         ]
       }
