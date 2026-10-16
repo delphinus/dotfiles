@@ -1,0 +1,339 @@
+#!/usr/bin/env bun
+// gcal: 自分の Google カレンダーの予定を読む。google-calendar-cli の代わり。
+//
+// google-calendar-cli は組織のプロジェクトに各自が作った OAuth アプリで認証していたが、
+// そのアプリが 2026-10 に一斉に削除されて使えなくなった。gcloud (Google 所有のクライアント) の
+// ADC で Calendar API を直接呼ぶ。ADC はカレンダー専用のもの (~/.config/gcloud-calendar、
+// スコープ calendar.events) を使う。calendar.events は予定の読み書きだけで、カレンダーの一覧
+// (calendarList) は読めない。
+//
+// ADC を gcloud のクライアントで取ると、Calendar API は quota project が無いと 403 を返す。
+// 使うプロジェクトは ~/.config/gcal/config.json の quota_project に書く (業務のプロジェクトなので
+// リポジトリには置かず、secrets.yml の secret_config_files で配っている)。
+//
+// Usage:
+//   gcal list [--today | --week | --date <YYYY-MM-DD> | --from <日時> --to <日時>]
+//             [--calendar <id>] [--query <text>] [-o table|json]
+//   gcal get <event-id> [--calendar <id>]
+//
+//   list の既定は --today。--week は今日から 7 日分。--from / --to は日付 (YYYY-MM-DD、ローカル時刻の 0 時)
+//   か RFC3339。繰り返しの予定は個々の回に展開し、開始時刻順に並べる。
+//   -o json は Calendar API の Event リソースの配列をそのまま出す (google-calendar-cli の
+//   `events list -o json` と同じ形)。get は常に JSON。
+//
+// ADC が無いか失効しているときは、次のコマンドで作り直す (ブラウザで仕事のアカウントを選ぶ):
+//   CLOUDSDK_CONFIG=~/.config/gcloud-calendar gcloud auth application-default login \
+//     --scopes=openid,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/calendar.events
+//
+// 組織のポリシーで gcloud に定期的な再認証が課されているので、ADC はいずれ失効する。トークンの取得が
+// 認証のエラーで落ちたときは、このコマンドを裏で起動して専用の Chrome のウィンドウを開く (Claude Code の
+// gcpAuthRefresh と同じ形)。kitty のタブバーが毎分呼ぶので、起動したログインが生きている
+// あいだと、起動から RELOGIN_INTERVAL のあいだは起動し直さない (relogin 参照)。
+
+import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+
+const CALENDAR_API = "https://www.googleapis.com/calendar/v3";
+const CONFIG_FILE = join(homedir(), ".config", "gcal", "config.json");
+const GCLOUD_CONFIG = join(homedir(), ".config", "gcloud-calendar");
+const SCOPES =
+  "openid,https://www.googleapis.com/auth/userinfo.email," +
+  "https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/calendar.events";
+const LOGIN_CMD = `CLOUDSDK_CONFIG=~/.config/gcloud-calendar gcloud auth application-default login --scopes=${SCOPES}`;
+const LOGIN_ARGS = ["auth", "application-default", "login", `--scopes=${SCOPES}`];
+// 裏で起動したログインの pid を書いておく。
+const RELOGIN_PID = join(GCLOUD_CONFIG, "relogin.pid");
+// ブラウザを閉じられたログインは終わらずに待ち続けるので、これだけ経ったら止めて起動し直す。
+// 放っておかれたときに、毎分ブラウザを開き直さないための間隔でもある。
+const RELOGIN_INTERVAL = 30 * 60 * 1000;
+// 再認証で直るエラー。ネットワークの断などでブラウザを開いても仕方がないので、これ以外では起動しない。
+const AUTH_ERROR = /credentials were not found|reauth|invalid_grant|RefreshError/i;
+
+type Json = Record<string, any>;
+
+// ---------------------------------------------------------------- args
+
+function usage(code: number): never {
+  console.error(
+    [
+      "Usage: gcal list [--today | --week | --date <YYYY-MM-DD> | --from <日時> --to <日時>]",
+      "                  [--calendar <id>] [--query <text>] [-o table|json]",
+      "       gcal get <event-id> [--calendar <id>]",
+    ].join("\n"),
+  );
+  process.exit(code);
+}
+
+const argv = process.argv.slice(2);
+const command = argv.shift();
+if (command === "-h" || command === "--help") usage(0);
+if (command !== "list" && command !== "get") usage(2);
+
+const opts = {
+  range: "today" as "today" | "week" | "date" | "custom",
+  date: "",
+  from: "",
+  to: "",
+  calendar: "primary",
+  query: "",
+  output: "table" as "table" | "json",
+  eventId: "",
+};
+
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  const next = () => {
+    const v = argv[++i];
+    if (v === undefined) usage(2);
+    return v;
+  };
+  switch (a) {
+    case "-h":
+    case "--help":
+      usage(0);
+    case "--today":
+      opts.range = "today";
+      break;
+    case "--week":
+      opts.range = "week";
+      break;
+    case "--date":
+      opts.range = "date";
+      opts.date = next();
+      break;
+    case "--from":
+      opts.range = "custom";
+      opts.from = next();
+      break;
+    case "--to":
+      opts.range = "custom";
+      opts.to = next();
+      break;
+    case "--calendar":
+      opts.calendar = next();
+      break;
+    case "--query":
+      opts.query = next();
+      break;
+    case "-o":
+    case "--output":
+      opts.output = next() as typeof opts.output;
+      if (opts.output !== "table" && opts.output !== "json") usage(2);
+      break;
+    default:
+      if (command === "get" && !a.startsWith("-") && !opts.eventId) opts.eventId = a;
+      else usage(2);
+  }
+}
+if (command === "get" && !opts.eventId) usage(2);
+if (opts.range === "custom" && (!opts.from || !opts.to)) usage(2);
+
+// ---------------------------------------------------------------- time range
+
+/** YYYY-MM-DD をローカル時刻の 0 時として解釈する。RFC3339 ならそのまま。 */
+function parseTime(s: string): Date {
+  const d = /^\d{4}-\d{2}-\d{2}$/.test(s) ? new Date(`${s}T00:00:00`) : new Date(s);
+  if (Number.isNaN(d.getTime())) {
+    console.error(`gcal: 日時として解釈できません: ${s}`);
+    process.exit(2);
+  }
+  return d;
+}
+
+function addDays(d: Date, days: number): Date {
+  const r = new Date(d);
+  r.setDate(r.getDate() + days);
+  return r;
+}
+
+function range(): [Date, Date] {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  switch (opts.range) {
+    case "today":
+      return [today, addDays(today, 1)];
+    case "week":
+      return [today, addDays(today, 7)];
+    case "date": {
+      const d = parseTime(opts.date);
+      return [d, addDays(d, 1)];
+    }
+    case "custom":
+      return [parseTime(opts.from), parseTime(opts.to)];
+  }
+}
+
+// ---------------------------------------------------------------- API
+
+// GOOGLE_APPLICATION_CREDENTIALS があると gcloud は CLOUDSDK_CONFIG より先にそちらを読み、
+// calendar.events を持たない別の ADC のトークンを返すので外す。
+//
+// gcloud は PATH 上の python3 で動く。kitty の PATH は /usr/bin:/bin:... だけなので macOS 標準の
+// Python 3.9 を掴み、3.9 を切り捨てた gcloud (589.0.0 で確認) は起動すらしない。指定が無ければ
+// Homebrew の python3 を渡す。
+const HOMEBREW_PYTHON = "/opt/homebrew/bin/python3";
+
+function gcloudEnv(): Record<string, string | undefined> {
+  const { GOOGLE_APPLICATION_CREDENTIALS: _ignored, ...env } = process.env;
+  if (!env.CLOUDSDK_PYTHON && existsSync(HOMEBREW_PYTHON)) env.CLOUDSDK_PYTHON = HOMEBREW_PYTHON;
+  return { ...env, CLOUDSDK_CONFIG: GCLOUD_CONFIG };
+}
+
+// kitty のタブバーからも呼ばれる。その環境の PATH に Homebrew が無いこともあるので決め打ちで補う。
+const GCLOUD = Bun.which("gcloud") ?? "/opt/homebrew/bin/gcloud";
+const LOGIN_CHROME = join(homedir(), "git", "dotfiles", "bin", "gcloud-login-chrome");
+
+function alive(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ログインを裏で起動する。起動したら true、起動を見送ったら false。
+function relogin(): boolean {
+  if (existsSync(RELOGIN_PID)) {
+    const pid = Number(readFileSync(RELOGIN_PID, "utf8"));
+    if (Date.now() - statSync(RELOGIN_PID).mtimeMs < RELOGIN_INTERVAL) return false;
+    if (pid > 0 && alive(pid)) process.kill(pid);
+  }
+  // 作業中のブラウザに割り込まないよう、dotfiles の gcloud-login-chrome で専用の Chrome の
+  // ウィンドウを開く。無い端末では既定のブラウザで開く。
+  const argv = existsSync(LOGIN_CHROME) ? [LOGIN_CHROME, GCLOUD, ...LOGIN_ARGS] : [GCLOUD, ...LOGIN_ARGS];
+  // stdin を閉じておけば、gcloud が何か尋ねても既定の答えで進む。gcal が先に終わっても
+  // (kitty の poller に止められても) ログインは残る。
+  const proc = Bun.spawn(argv, { env: gcloudEnv(), stdin: "ignore", stdout: "ignore", stderr: "ignore" });
+  proc.unref();
+  writeFileSync(RELOGIN_PID, String(proc.pid));
+  return true;
+}
+
+function accessToken(): string {
+  const run = () =>
+    Bun.spawnSync([GCLOUD, "auth", "application-default", "print-access-token"], {
+      env: gcloudEnv(),
+      stdout: "pipe",
+      stderr: "pipe",
+    });
+  let r = run();
+  // トークンの更新が Context Aware Access に一時的に弾かれることがある (2026-10-14 に 1 回、
+  // 直後の再実行では通った)。そのときだけ少し待って 1 回やり直す。
+  if (r.exitCode !== 0 && r.stderr.toString().includes("Context Aware Access")) {
+    Bun.sleepSync(3000);
+    r = run();
+  }
+  const token = r.stdout.toString().trim();
+  if (r.exitCode !== 0 || !token) {
+    const stderr = r.stderr.toString().trim();
+    const hint = !AUTH_ERROR.test(stderr)
+      ? `ADC が無いか失効しているなら、次のコマンドで作ってください:\n  ${LOGIN_CMD}`
+      : relogin()
+        ? "再認証のためにブラウザを開きました。仕事のアカウントを選んでください。"
+        : `再認証のログインを起動済みです。ブラウザが見当たらなければ、次のコマンドで作ってください:\n  ${LOGIN_CMD}`;
+    console.error(`gcal: カレンダー用の ADC からトークンを取得できませんでした: ${stderr}\n${hint}`);
+    process.exit(1);
+  }
+  return token;
+}
+
+function quotaProject(): string {
+  let project: unknown;
+  try {
+    project = JSON.parse(readFileSync(CONFIG_FILE, "utf8")).quota_project;
+  } catch {}
+  if (typeof project !== "string" || !project) {
+    console.error(`gcal: ${CONFIG_FILE} の quota_project を読めません (dotfiles の play-ansbile で配られます)`);
+    process.exit(1);
+  }
+  return project;
+}
+
+const QUOTA_PROJECT = quotaProject();
+
+async function call(url: string, token: string): Promise<Json> {
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}`, "x-goog-user-project": QUOTA_PROJECT },
+    signal: AbortSignal.timeout(30_000),
+  });
+  const body = await res.text();
+  if (!res.ok) {
+    let message = body.slice(0, 300);
+    try {
+      message = JSON.parse(body).error?.message ?? message;
+    } catch {}
+    const hint = body.includes("USER_PROJECT_DENIED")
+      ? `\n${QUOTA_PROJECT} で serviceusage.services.use の権限が要ります`
+      : res.status === 401 || res.status === 403
+        ? `\nADC の作り直しが要るかもしれません:\n  ${LOGIN_CMD}`
+        : "";
+    console.error(`gcal: Calendar API エラー (HTTP ${res.status}): ${message}${hint}`);
+    process.exit(1);
+  }
+  return JSON.parse(body);
+}
+
+function eventsUrl(eventId?: string): string {
+  const base = `${CALENDAR_API}/calendars/${encodeURIComponent(opts.calendar)}/events`;
+  return eventId ? `${base}/${encodeURIComponent(eventId)}` : base;
+}
+
+async function listEvents(token: string): Promise<Json[]> {
+  const [from, to] = range();
+  const items: Json[] = [];
+  let pageToken = "";
+  do {
+    const q = new URLSearchParams({
+      timeMin: from.toISOString(),
+      timeMax: to.toISOString(),
+      singleEvents: "true",
+      orderBy: "startTime",
+      maxResults: "2500",
+    });
+    if (opts.query) q.set("q", opts.query);
+    if (pageToken) q.set("pageToken", pageToken);
+    const data = await call(`${eventsUrl()}?${q}`, token);
+    items.push(...(data.items ?? []));
+    pageToken = data.nextPageToken ?? "";
+  } while (pageToken);
+  return items;
+}
+
+// ---------------------------------------------------------------- output
+
+function hhmm(s: string): string {
+  const d = new Date(s);
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+function when(e: Json): string {
+  if (e.start?.date) return `${e.start.date} 終日`;
+  const s = new Date(e.start.dateTime);
+  const day = `${s.getFullYear()}-${String(s.getMonth() + 1).padStart(2, "0")}-${String(s.getDate()).padStart(2, "0")}`;
+  return `${day} ${hhmm(e.start.dateTime)}-${hhmm(e.end.dateTime)}`;
+}
+
+/** 自分の出欠 (attendees が無い = 自分だけの予定)。 */
+function myResponse(e: Json): string {
+  const self = (e.attendees ?? []).find((a: Json) => a.self);
+  return self?.responseStatus ?? "-";
+}
+
+function table(items: Json[]): string {
+  if (items.length === 0) return "(予定なし)";
+  return items
+    .map((e) => [when(e), myResponse(e), e.summary ?? "(名称未設定)", e.id].join("\t"))
+    .join("\n");
+}
+
+// ---------------------------------------------------------------- main
+
+const token = accessToken();
+if (command === "get") {
+  console.log(JSON.stringify(await call(eventsUrl(opts.eventId), token), null, 2));
+} else {
+  const items = await listEvents(token);
+  console.log(opts.output === "json" ? JSON.stringify(items, null, 2) : table(items));
+}

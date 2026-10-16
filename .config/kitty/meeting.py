@@ -149,7 +149,7 @@ def tick():
     いなくても回るので、タブが 1 枚で bar が隠れている間も知らせは出る。
 
     予定は gcal の poller のキャッシュから読む。取り直しの周期は右ステータスと
-    共有しているので、ここが増えても gcal.ts の実行回数は変わらない。
+    共有しているので、ここが増えても gcal の実行回数は変わらない。
     """
     import gcal
     from kitty.fast_data_types import get_boss

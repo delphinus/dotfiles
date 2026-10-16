@@ -256,7 +256,7 @@ def _segments(draw_data):
     if status:
         text, level = status
         out.append(Segment("battery", text, _color(BATTERY_FG[level]), None))
-    # 予定も隠しているあいだは gcal.ts を呼ばない (⌘⇧G)。画面共有で
+    # 予定も隠しているあいだは gcal を呼ばない (⌘⇧G)。画面共有で
     # 予定名を映したくないときに落とせる。
     if toggles.enabled("calendar"):
         event = gcal.status()
