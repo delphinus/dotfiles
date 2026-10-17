@@ -181,40 +181,12 @@ return {
     event = { "CmdlineEnter", "InsertEnter" },
 
     init = function()
-      local tokyonight_skkeleton = function(colors)
-        vim.api.nvim_set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.bg, bold = true })
-        vim.api.nvim_set_hl(0, "SkkeletonIndicatorHira", { fg = colors.bg, bg = colors.green, bold = true })
-        vim.api.nvim_set_hl(0, "SkkeletonIndicatorKata", { fg = colors.bg, bg = colors.yellow, bold = true })
-        vim.api.nvim_set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.bg, bg = colors.magenta, bold = true })
-        vim.api.nvim_set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.bg, bg = colors.cyan, bold = true })
-        vim.api.nvim_set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.fg, bg = colors.red, bold = true })
-        require("skkeleton_indicator").setup { fadeOutMs = 0 }
-      end
+      -- 色は nvim-dev/skkeleton と共有している (理由はモジュール側のコメント)。
       palette "skkeleton_indicator" {
-        nord = function(colors)
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
-          vim.api.nvim_set_hl(
-            0,
-            "SkkeletonIndicatorHankata",
-            { fg = colors.dark_black, bg = colors.magenta, bold = true }
-          )
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.white, bg = colors.red, bold = true })
+        function()
+          require("skkeleton_indicator_colors").apply()
           require("skkeleton_indicator").setup { fadeOutMs = 0 }
         end,
-        sweetie = function(colors)
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.bg, bold = true })
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorHira", { fg = colors.bg, bg = colors.green, bold = true })
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorKata", { fg = colors.bg, bg = colors.yellow, bold = true })
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.bg, bg = colors.magenta, bold = true })
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.bg, bg = colors.cyan, bold = true })
-          vim.api.nvim_set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.black, bg = colors.red, bold = true })
-          require("skkeleton_indicator").setup { fadeOutMs = 0 }
-        end,
-        ["tokyonight-storm"] = tokyonight_skkeleton,
-        ["tokyonight-day"] = tokyonight_skkeleton,
       }
     end,
   },

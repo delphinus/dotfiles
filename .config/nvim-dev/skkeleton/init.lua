@@ -505,6 +505,15 @@ require("lazy").setup({
   },
 }, { lazy = false })
 
+-- skkeleton_indicator の色は主設定と共有する (lua/skkeleton_indicator_colors.lua)。
+-- :hi clear で消えるので、colorscheme より先に ColorScheme で当て直すよう張る。
+vim.api.nvim_create_autocmd("ColorScheme", {
+  desc = "Apply skkeleton_indicator colors shared with the main config",
+  callback = function()
+    require("skkeleton_indicator_colors").apply()
+  end,
+})
+
 vim.cmd.colorscheme "tokyonight"
 
 blink_shared.setup_profiler()
