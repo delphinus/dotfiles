@@ -44,8 +44,9 @@ const LOGIN_CMD = `CLOUDSDK_CONFIG=~/.config/gcloud-calendar gcloud auth applica
 const LOGIN_ARGS = ["auth", "application-default", "login", `--scopes=${SCOPES}`];
 // 裏で起動したログインの pid を書いておく。
 const RELOGIN_PID = join(GCLOUD_CONFIG, "relogin.pid");
-// ブラウザを閉じられたログインは終わらずに待ち続けるので、これだけ経ったら止めて起動し直す。
-// 放っておかれたときに、毎分ブラウザを開き直さないための間隔でもある。
+// 前回の起動からこれだけ経つまでは起動し直さない。放っておかれたときに、毎分ブラウザを
+// 開き直さないための間隔。素の gcloud で開いたログインはブラウザを閉じられても終わらずに
+// 待ち続けるので、これだけ経ったら止めて起動し直す。
 const RELOGIN_INTERVAL = 30 * 60 * 1000;
 // 再認証で直るエラー。ネットワークの断などでブラウザを開いても仕方がないので、これ以外では起動しない。
 const AUTH_ERROR = /credentials were not found|reauth|invalid_grant|RefreshError/i;
@@ -183,6 +184,8 @@ function gcloudEnv(): Record<string, string | undefined> {
 // kitty のタブバーからも呼ばれる。その環境の PATH に Homebrew が無いこともあるので決め打ちで補う。
 const GCLOUD = Bun.which("gcloud") ?? "/opt/homebrew/bin/gcloud";
 const LOGIN_CHROME = join(homedir(), "git", "dotfiles", "bin", "gcloud-login-chrome");
+// gcloud-login-chrome は Chrome が無ければ素の gcloud をそのまま実行する。
+const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 function alive(pid: number): boolean {
   try {
@@ -198,7 +201,13 @@ function relogin(): boolean {
   if (existsSync(RELOGIN_PID)) {
     const pid = Number(readFileSync(RELOGIN_PID, "utf8"));
     if (Date.now() - statSync(RELOGIN_PID).mtimeMs < RELOGIN_INTERVAL) return false;
-    if (pid > 0 && alive(pid)) process.kill(pid);
+    if (pid > 0 && alive(pid)) {
+      // gcloud-login-chrome はウィンドウを閉じられると自分で終わるので、生きていればまだ
+      // ウィンドウが開いている。止めて起動し直すと、Chrome が残ったままウィンドウだけが
+      // 1 枚ずつ増えていく (止めた側が Chrome を終了する前に、新しい側が使い始めるため)。
+      if (existsSync(LOGIN_CHROME) && existsSync(CHROME)) return false;
+      process.kill(pid);
+    }
   }
   // 作業中のブラウザに割り込まないよう、dotfiles の gcloud-login-chrome で専用の Chrome の
   // ウィンドウを開く。無い端末では既定のブラウザで開く。
