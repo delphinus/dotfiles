@@ -22,6 +22,7 @@
 #                      ファイル一覧ではなく Finder のウィンドウ
 #   バイナリのファイル 既定のアプリ (open)。画像や PDF を nvim へ渡しても
 #                      `<89>PNG^M` のように化けて出るだけで読めない
+#   .cue               cue-edit をブラウザで開く (クローンがある端末だけ)
 #   その他の在るパス   nvim の新しいタブ。起動の作法は bin/kitty-open-file に委ねる
 #   それ以外           何もしない。⌘U のパターンはタグやバージョン番号のような
 #                      「コピーしたいが開けはしない」文字列も拾うので、何も言わずに捨てる
@@ -61,6 +62,18 @@ end
 # 空ファイルもこれが binary と答えるので、-s で先に除ける (ディレクトリは上で処理済み)。
 if test -f $path; and test -s $path; and test (file --mime-encoding -b -- $path) = binary
     open $path
+    exit
+end
+
+# cue シートは cue-edit (delphinus/cue-edit) でブラウザに開く。分割点の追い込みに使う
+# もので、music-download / youtube-mix-cue スキルが cue を file:// で示すのはこのため。
+# cue-edit はページを閉じると自分で終わるサーバなので、切り離して起動するだけでよい。
+# 出力はデコードの失敗などを追えるよう $TMPDIR のログに残す。
+# クローンが無い端末では、ほかのテキストと同じく nvim で開く。
+set -l cue_edit ~/git/github.com/delphinus/cue-edit/cue-edit.ts
+if string match -qir '\.cue$' -- $path; and test -f $cue_edit
+    nohup bun $cue_edit $path >>$TMPDIR/cue-edit.log 2>&1 &
+    disown
     exit
 end
 
