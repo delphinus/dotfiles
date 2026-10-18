@@ -118,7 +118,7 @@
   "screenkey.nvim": { "branch": "dev", "commit": "357ed2dcd0c71b41faf56d8e446c7858b3f96c74" },
   "skk-tutorial.vim": { "branch": "main", "commit": "5d1171ac66cf9cd04c7538f16c846f2f2e83bb51" },
   "skkdict.vim": { "branch": "master", "commit": "786effb02b40aaa5dce560aebb8323c572a9ca1e" },
-  "skkeleton": { "branch": "test/okuri-min-stem", "commit": "bb118664d37451e927c3e3300a69517db14b1a63" },
+  "skkeleton": { "branch": "test/okuri-min-stem", "commit": "4be9e7608df1ca435f9ac7e1a3b63edc164358c4" },
   "skkeleton_indicator.nvim": { "branch": "v2", "commit": "b3e5379db47ed86a2f0f6fd9ae2c30a0e8119c23" },
   "snacks.nvim": { "branch": "personal", "commit": "0951ebef2a84e23e62e9d5a52b14864616642e14" },
   "sqlite.lua": { "branch": "master", "commit": "50092d60feb242602d7578398c6eb53b4a8ffe7b" },
