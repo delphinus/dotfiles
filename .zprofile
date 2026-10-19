@@ -93,3 +93,13 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
+
+#
+# pip のクールダウン
+#
+
+# 本体は ~/.config/pip/pip.conf の uploaded-prior-to で、シェルを問わず効く。
+# 同じ値をここにも置くのは、勤務先が jamf で配っているスクリプト
+# (SupplyChainAttackProtectScript) がこの行の有無だけを見て、無ければ足し直す
+# ため。消すと毎回 .zprofile に差分が出る。
+export PIP_UPLOADED_PRIOR_TO=P7D
