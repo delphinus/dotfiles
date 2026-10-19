@@ -115,6 +115,7 @@
     - .config/ipython
     - .config/karabiner/assets/complex_modifications
     - .config/kitty
+    - .config/lesskey
     - .config/mise
     - .config/nvim
     - .config/nvim-dev
