@@ -32,6 +32,14 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.clipboard = "unnamedplus"
 
+-- 'background' を明示して端末の背景色からの推測を止める。下の paint_frame が
+-- overlay の既定背景色を明るい橙に変えると、kitty が mode 2031 で色の変化を
+-- 知らせ、nvim は OSC 11 を問い直して 'background' を light に切り替える
+-- (nvim 0.13-dev で OSC 11 のハンドラが起動後も残るようになった)。tokyonight
+-- はそれを受けて day に変わってしまう。colorscheme 側が vim.o で入れた値は
+-- 「ユーザの設定」と見なされず上書きされるので、init.lua で入れる必要がある。
+vim.o.background = "dark"
+
 -- ヤンクの既定を「クリップボードに入れて kitty に戻る」にする。
 --
 -- kitty-scrollback.nvim は TextYankPost を見ていて、"+ へのヤンクなら quitall、
@@ -153,24 +161,48 @@ vim.api.nvim_create_autocmd("FileType", {
 -- 背景色だけ差し替えれば本文の見た目は一切変わらず、周囲 8px だけが色付く。
 -- 今は既定背景色が tokyonight-storm の背景 (#24283b) と同じなので枠が見えない。
 --
+-- ただしこれが見えるのは、タブに見えているペインが 1 つのときだけ。複数あると
+-- kitty は帯をウィンドウではなく kitty 全体の既定背景色で塗るので、橙にならない。
+-- そのときは代わりに本文の背景 (KittyScrollbackNvimNormal) に橙を薄く混ぜる。
+-- stack レイアウト (⌘⇧Z のズーム) は他のペインが隠れているので 1 つと数える。
+--
 -- 塗るのは kitten が作った overlay ウィンドウ (KITTY_WINDOW_ID) だけ。nvim を
 -- 閉じると overlay ごと消えるので、色を戻す後始末は要らない。kitty_data の
 -- window_id は scrollback 元のウィンドウなので、こちらを塗ってはいけない。
 local FRAME_COLOR = "#ff9e64" -- tokyonight-storm の orange
+local TINT_ALPHA = 0.12
+
+local function tint_background()
+  local normal = vim.api.nvim_get_hl(0, { name = "KittyScrollbackNvimNormal", link = false })
+  if not normal.bg then
+    return
+  end
+  local bg = require("kitty-scrollback.util").blend(FRAME_COLOR, ("#%06x"):format(normal.bg), TINT_ALPHA)
+  -- プラグインは default = true で定義するので、ColorScheme で定義し直されても
+  -- ここで入れた値は上書きされない。
+  vim.api.nvim_set_hl(0, "KittyScrollbackNvimNormal", { fg = normal.fg, bg = bg })
+end
 
 local function paint_frame(kitty_data)
   local window_id = vim.env.KITTY_WINDOW_ID
   if not window_id then
     return
   end
+  local kitty = kitty_data.kitty_path
+  local match = "--match=id:" .. window_id
   -- 飾りなので失敗しても何も言わずに進む (remote control が無い環境でも困らない)。
-  pcall(vim.system, {
-    kitty_data.kitty_path,
-    "@",
-    "set-colors",
-    "--match=id:" .. window_id,
-    "background=" .. FRAME_COLOR,
-  })
+  pcall(vim.system, { kitty, "@", "ls", match }, { text = true }, function(ls)
+    local ok, data = pcall(vim.json.decode, ls.stdout or "")
+    local tab = ok and vim.tbl_get(data, 1, "tabs", 1)
+    if not tab then
+      return
+    end
+    if tab.layout == "stack" or #tab.groups <= 1 then
+      pcall(vim.system, { kitty, "@", "set-colors", match, "background=" .. FRAME_COLOR })
+    else
+      vim.schedule(tint_background)
+    end
+  end)
 end
 
 require("lazy").setup({
