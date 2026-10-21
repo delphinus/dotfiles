@@ -14,7 +14,11 @@
 #   ので、Chrome が消えたら gcloud を止める。
 # - gcloud が終わったら Chrome を終了する。ただし別のログインが同じ Chrome を使っている
 #   あいだは残す (カレンダー用と Vertex AI 用の ADC は同じ再認証のポリシーで、ほぼ同時に
-#   切れる)。
+#   切れる)。そのときは終わったログインのウィンドウだけを閉じる。閉じないと、完了画面の
+#   ウィンドウが手前に残って、後ろにある別のログインのウィンドウが見えない。
+# - ウィンドウを個別に閉じるため、Chrome を --remote-debugging-port=0 で起動し、CDP で
+#   タブを閉じる。起動オプションで開けた CDP は接続の許可を求めないので、Chrome が
+#   動いているあいだ (ログインの最中だけ) は手元のプロセスからこのプロファイルを操作できる。
 #
 # Chrome が無ければ何もせず、引数のコマンドをそのまま実行する。
 #
@@ -71,7 +75,9 @@ shim=$(mktemp -d "${TMPDIR:-/tmp}/gcloud-login-chrome.XXXXXX")
   printf 'for a in "$@"; do case $a in http://* | https://*) url=$a ;; esac; done\n'
   # URL でないもの (ファイルを開く等) は素の open に流す。
   printf '[[ -n $url ]] || exec /usr/bin/open "$@"\n'
-  printf '%q --user-data-dir=%q --no-first-run --no-default-browser-check --no-service-autorun --hide-crash-restore-bubble' "$chrome" "$profile"
+  # gcloud が待ち受けるポート。終わったときに、このログインのタブを探すのに使う。
+  printf '%s\n' '[[ $url =~ redirect_uri=http%3A%2F%2Flocalhost%3A([0-9]+) ]] && echo "${BASH_REMATCH[1]}" > "${0%/*}/port"'
+  printf '%q --user-data-dir=%q --remote-debugging-port=0 --no-first-run --no-default-browser-check --no-service-autorun --hide-crash-restore-bubble' "$chrome" "$profile"
   printf ' %q' "${window[@]}"
   printf ' --new-window "$url" > /dev/null 2>&1 &\n'
 } > "$shim/open-url"
@@ -86,16 +92,38 @@ chrome_pid() {
   done
 }
 
+# gcloud が待ち受けていたポートを向いたタブを CDP で閉じる。完了画面
+# (http://localhost:<port>/?...) と、途中で終わったときの Google の画面 (redirect_uri に
+# エンコードされたポートが入っている) の両方を拾う。
+close_tabs() {
+  local port=$1 cdp list id
+  [[ -n $port ]] && cdp=$(head -1 "$profile/DevToolsActivePort" 2> /dev/null) && [[ -n $cdp ]] || return
+  list=$(curl -s --max-time 2 "http://127.0.0.1:$cdp/json/list") || return
+  for id in $(osascript -l JavaScript -e '
+    function run([list, port]) {
+      const re = new RegExp(`localhost(:|%3A|%253A)${port}(?![0-9])`, "i");
+      return JSON.parse(list).filter(t => t.type === "page" && re.test(t.url)).map(t => t.id).join("\n");
+    }' "$list" "$port" 2> /dev/null); do
+    curl -s --max-time 2 "http://127.0.0.1:$cdp/json/close/$id" > /dev/null
+  done
+}
+
 touch "$state/sessions/$$"
 
 cleanup() {
   [[ -n $watcher ]] && kill "$watcher" 2> /dev/null
+  local port
+  port=$(cat "$shim/port" 2> /dev/null)
   rm -rf "$shim" "$state/sessions/$$"
   # 最後のリダイレクトを取りこぼさないよう少し待ってから閉じる。
   sleep 1
   local pid
-  if [[ -z $(ls -A "$state/sessions") ]] && pid=$(chrome_pid) && [[ -n $pid ]]; then
-    kill -TERM "$pid" 2> /dev/null
+  if pid=$(chrome_pid) && [[ -n $pid ]]; then
+    if [[ -z $(ls -A "$state/sessions") ]]; then
+      kill -TERM "$pid" 2> /dev/null
+    else
+      close_tabs "$port"
+    fi
   fi
 }
 
