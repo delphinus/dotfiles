@@ -1,1 +1,1 @@
-zoxide init fish | source
+__source_cached zoxide (type -P zoxide) -- zoxide init fish

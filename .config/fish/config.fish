@@ -6,8 +6,7 @@ not status is-interactive; and exit 0
 
 set -l homebrew_path
 if test -d /opt/homebrew
-    set -l tmp (echo $PATH | grep /opt/homebrew)
-    if test -z $tmp
+    if not string match -q '/opt/homebrew/*' $PATH
         # avoid the homebrew bin path to set above all of paths
         /opt/homebrew/bin/brew shellenv | grep -v fish_add_path | source
     end
@@ -135,7 +134,7 @@ end
 type -q hub; and alias git hub
 if type -q gdircolors
     abbr dircolors gdircolors
-    eval (gdircolors -c ~/.dir_colors)
+    __source_cached dircolors (type -P gdircolors) ~/.dir_colors -- gdircolors -c ~/.dir_colors
 else
     eval (dircolors -c ~/.dir_colors)
 end
@@ -217,10 +216,14 @@ set -x PYTHONPATH \
     $homebrew_path/Cellar/fontforge/*/lib/python3.9/site-packages
 set -x MYPYPATH $PYTHONPATH
 
-set gcsdk_path $homebrew_path/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
-test -d $gcsdk_path; and source "$gcsdk_path/path.fish.inc"
+# Google Cloud SDK が配る path.fish.inc は bin を PATH に足すだけだが、
+# SDK のディレクトリへ cd して戻るので、そのたびに mise と zoxide の
+# PWD フックが走り、起動が 0.2 秒ほど遅くなる。同じことを直接やる。
+set -l gcsdk_bin $homebrew_path/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin
+test -d $gcsdk_bin; and not contains $gcsdk_bin $PATH; and set -gx PATH $gcsdk_bin $PATH
 
-type -q direnv; and direnv hook fish | source
+# direnv のフックは Homebrew の vendor_conf.d/direnv.fish が入れるので、
+# ここでは足さない (足すと 2 回流れる)。
 
 if type -q luarocks
     set luarocks_path (type -P luarocks)
@@ -321,16 +324,22 @@ set -gx PATH $PATH /Users/jinnouchi.yasushi/.lmstudio/bin
 
 # hishtory settings
 set -x HISHTORY_SERVER https://hishtory.delphinus.dev
-source ~/.hishtory/config.fish
-# config.fish はコマンド置換内で getColorSupport を実行するため isatty が
-# 失敗し _hishtory_tui_color=4 (Ascii) になる。環境変数から再判定して上書き。
+# ~/.hishtory/config.fish は source しない。hishtory を 4 回起動して
+# 0.15 秒ほどかかるうえ、そのうち getColorSupport (コマンド置換の中なので
+# isatty が失敗して常に Ascii になる) は下で上書きし、completion は
+# Homebrew の vendor_completions.d/hishtory.fish と重複し、
+# config-get enable-control-r は下で bind を決め打ちしているので要らない。
+# 残りの履歴を記録するフックは conf.d/hishtory.fish に写してある。
 if string match -qi -- truecolor 24bit $COLORTERM
     set -gx _hishtory_tui_color 1
 else if string match -q -- '*256color*' $TERM
     set -gx _hishtory_tui_color 2
 else if string match -q -- '*color*' $TERM
     set -gx _hishtory_tui_color 3
+else
+    set -gx _hishtory_tui_color 4
 end
+bind \cr __hishtory_on_control_r
 bind -M insert \cr __hishtory_on_control_r
 bind \cx\cr __hishtory_tquery_all_columns
 bind -M insert \cx\cr __hishtory_tquery_all_columns
