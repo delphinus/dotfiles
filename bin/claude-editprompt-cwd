@@ -1,13 +1,25 @@
 #!/bin/bash
-# Claude Code の SessionStart / CwdChanged フック。Claude Code の作業ディレクトリを
-# ~/.cache/kitty-editprompt/cwd-<kitty のウィンドウ id> に書き出す。
+# Claude Code の SessionStart / CwdChanged フック。Claude Code が作業している
+# ディレクトリを ~/.cache/kitty-editprompt/cwd-<kitty のウィンドウ id> に書き出す。
 #
 # kitty の editprompt (~/.config/kitty/editprompt.py) は、起動したときの
 # ディレクトリで nvim を開き、送信後も閉じずに使い回す。Claude Code がセッションの
-# 途中で cd したり worktree に入ったりしても nvim の cwd は変わらないので、
-# blink-cmp-git が古いリポジトリの git の情報 (コミット、Issue、PR、メンション)
-# を出し続ける。editprompt の nvim (~/.config/nvim-dev/skkeleton/init.lua)
-# はこのファイルを読んで :cd する。
+# 途中で別のリポジトリへ移っても nvim の cwd は変わらないので、blink-cmp-git が
+# 古いリポジトリの git の情報 (コミット、Issue、PR、メンション) を出し続ける。
+# editprompt の nvim (~/.config/nvim-dev/skkeleton/init.lua) はこのファイルを
+# 読んで :cd する。
+#
+# CwdChanged は Bash ツールのコマンドが終わったとき、シェルの pwd が変わって
+# いれば発火する。その pwd が許可されたディレクトリ (起動したディレクトリと
+# additionalDirectories) の外なら、Claude Code は直後に起動したディレクトリへ
+# 戻すが、戻すときは発火しない。~/claude-scratch で起動したセッションでは
+# リポジトリへの cd がいつもこれに当たるので、ここに書くのは Claude Code の本当の
+# cwd ではなく「最後に cd した先」になる。補完に欲しいのは作業中のリポジトリの
+# ほうなので、これで構わない。ただし /tmp のような寄り道まで追うと補完が外れる
+# ので、CwdChanged では git リポジトリの中へ移ったときだけ書く。
+#
+# SessionStart では無条件に書く。同じウィンドウで前のセッションが残した
+# リポジトリを、新しいセッションが引き継がないようにするため。
 #
 # ファイル名は Claude Code が動いているウィンドウの id で決める。editprompt の
 # nvim は送信先として同じ id を知っている。
@@ -15,8 +27,11 @@
 [[ -n $KITTY_WINDOW_ID ]] || exit 0
 
 # SessionStart は cwd、CwdChanged は new_cwd に入っている。
-dir=$(jq -r '.new_cwd // .cwd // empty')
+IFS=$'\t' read -r event dir < <(jq -r '[.hook_event_name, .new_cwd // .cwd // ""] | @tsv')
 [[ -n $dir ]] || exit 0
+if [[ $event == CwdChanged ]]; then
+  git -C "$dir" rev-parse --git-dir >/dev/null 2>&1 || exit 0
+fi
 
 out=~/.cache/kitty-editprompt
 mkdir -p "$out"
