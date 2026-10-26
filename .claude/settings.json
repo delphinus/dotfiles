@@ -328,6 +328,20 @@
           {
             "type": "command",
             "command": "claude-code-hooks stamp"
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/git/dotfiles/bin/claude-editprompt-cwd\""
+          }
+        ]
+      }
+    ],
+    "CwdChanged": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/git/dotfiles/bin/claude-editprompt-cwd\""
           }
         ]
       }

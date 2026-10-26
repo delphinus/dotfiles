@@ -37,7 +37,10 @@ from aux_panes import FISH
 # editprompt が同じファイルを掴み、片方が送信時に書き出したとたん、下書きを持った
 # まま裏で待っている側が checktime で W12 (ファイルもバッファも変わった) を出す。
 BUFFER_DIR = os.path.expanduser("~/.cache/kitty-editprompt")
-BUFFER_GLOB = "prompt-*.md"
+# 下書き (prompt-<id>.md) と、相方の Claude Code の作業ディレクトリ (cwd-<id>)。
+# 後者は Claude Code のフック (~/git/dotfiles/bin/claude-editprompt-cwd) が書き、
+# editprompt の nvim がそれに :cd で追従する。どちらも id はウィンドウのもの。
+BUFFER_FILES = (("prompt-", ".md"), ("cwd-", ""))
 
 
 def main(args):
@@ -55,17 +58,18 @@ def _prune(boss):
     except Exception:
         # kitty の内部 API が変わっても本題 (editprompt を開く) は止めない。
         return
-    for path in glob.glob(os.path.join(BUFFER_DIR, BUFFER_GLOB)):
-        name = os.path.basename(path)
-        try:
-            window_id = int(name[len("prompt-") : -len(".md")])
-        except ValueError:
-            continue
-        if window_id not in alive:
+    for prefix, suffix in BUFFER_FILES:
+        for path in glob.glob(os.path.join(BUFFER_DIR, f"{prefix}*{suffix}")):
+            name = os.path.basename(path)
             try:
-                os.remove(path)
-            except OSError:
-                pass
+                window_id = int(name[len(prefix) : len(name) - len(suffix)])
+            except ValueError:
+                continue
+            if window_id not in alive:
+                try:
+                    os.remove(path)
+                except OSError:
+                    pass
 
 
 def _spawn(boss, tab, main, codediff):

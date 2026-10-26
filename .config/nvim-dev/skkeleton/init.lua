@@ -148,6 +148,46 @@ if vim.env.EDITPROMPT then
     )
     return true
   end
+
+  -- 相方 (Claude Code) の作業ディレクトリに :cd で追従する。この nvim は起動時の
+  -- ディレクトリのまま使い回されるので、Claude Code が途中で cd したり worktree
+  -- に入ったりすると、blink-cmp-git が古いリポジトリのコミットや Issue を出し
+  -- 続ける (ripgrep や path の補完も同じ)。ディレクトリは Claude Code のフック
+  -- (~/git/dotfiles/bin/claude-editprompt-cwd) が書き出している。
+  local function follow_claude_cwd()
+    local target_id = target_pane()
+    if not target_id then
+      return false
+    end
+    local f = io.open(vim.env.HOME .. "/.cache/kitty-editprompt/cwd-" .. target_id)
+    if not f then
+      return false
+    end
+    local dir = f:read "*l"
+    f:close()
+    if not dir or dir == vim.fn.getcwd() or vim.fn.isdirectory(dir) == 0 then
+      return false
+    end
+    vim.cmd.cd(vim.fn.fnameescape(dir))
+    return true
+  end
+
+  local group = vim.api.nvim_create_augroup("editprompt_follow_cwd", {})
+  -- blink-cmp-git は InsertEnter でリポジトリが変わったかを見てキャッシュを
+  -- 読み直す。この autocmd は blink-cmp-git より先に作られるので、先に :cd
+  -- しておけばそのまま拾われる。
+  vim.api.nvim_create_autocmd("InsertEnter", { group = group, callback = follow_claude_cwd })
+  -- 送信後は挿入モードのまま隠れるので、Cmd-e で戻ってきても InsertEnter は
+  -- 起きない。フォーカスが戻ったときにも追従し、挿入モードなら blink-cmp-git の
+  -- InsertEnter だけを流して読み直させる。
+  vim.api.nvim_create_autocmd("FocusGained", {
+    group = group,
+    callback = function()
+      if follow_claude_cwd() and vim.api.nvim_get_mode().mode:sub(1, 1) == "i" then
+        pcall(vim.api.nvim_exec_autocmds, "InsertEnter", { group = "blink-cmp-git-autocmd" })
+      end
+    end,
+  })
 end
 
 require("lazy").setup({

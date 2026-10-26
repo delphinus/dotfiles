@@ -1,0 +1,25 @@
+#!/bin/bash
+# Claude Code の SessionStart / CwdChanged フック。Claude Code の作業ディレクトリを
+# ~/.cache/kitty-editprompt/cwd-<kitty のウィンドウ id> に書き出す。
+#
+# kitty の editprompt (~/.config/kitty/editprompt.py) は、起動したときの
+# ディレクトリで nvim を開き、送信後も閉じずに使い回す。Claude Code がセッションの
+# 途中で cd したり worktree に入ったりしても nvim の cwd は変わらないので、
+# blink-cmp-git が古いリポジトリの git の情報 (コミット、Issue、PR、メンション)
+# を出し続ける。editprompt の nvim (~/.config/nvim-dev/skkeleton/init.lua)
+# はこのファイルを読んで :cd する。
+#
+# ファイル名は Claude Code が動いているウィンドウの id で決める。editprompt の
+# nvim は送信先として同じ id を知っている。
+
+[[ -n $KITTY_WINDOW_ID ]] || exit 0
+
+# SessionStart は cwd、CwdChanged は new_cwd に入っている。
+dir=$(jq -r '.new_cwd // .cwd // empty')
+[[ -n $dir ]] || exit 0
+
+out=~/.cache/kitty-editprompt
+mkdir -p "$out"
+# 書きかけを読まれないよう、別名で書いてから置き換える。
+printf '%s\n' "$dir" >"$out/cwd-$KITTY_WINDOW_ID.tmp" &&
+  mv -f "$out/cwd-$KITTY_WINDOW_ID.tmp" "$out/cwd-$KITTY_WINDOW_ID"
