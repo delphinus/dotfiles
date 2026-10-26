@@ -18,7 +18,12 @@ local karabiner_cli = "/Library/Application Support/org.pqrs/Karabiner-Elements/
 ---@return string[]
 local function async_systems(cmds)
   local async = require "plenary.async"
-  local async_system = async.wrap(vim.system, 3)
+  -- vim.system の on_exit は fast event の中で呼ばれるので、そのまま再開すると
+  -- 以降の処理も fast event のままになり、下の vim.notify が E5560 で落ちる。
+  -- 落ちるとタイマー側の running が true のまま残り、同期が止まってしまう。
+  local async_system = async.wrap(function(cmd, cb)
+    vim.system(cmd, {}, vim.schedule_wrap(cb))
+  end, 2)
   local results = vim.tbl_map(
     function(v)
       return v[1]
