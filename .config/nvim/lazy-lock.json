@@ -1,5 +1,4 @@
 {
-  "CopilotChat.nvim": { "branch": "main", "commit": "004ced055d8db59561cfcddc5f141ccd8d5a033b" },
   "HiColors": { "branch": "master", "commit": "415a5bdf23ed45e0c47159bfae5e5f1352c419cf" },
   "JpFormat.vim": { "branch": "master", "commit": "02736fc184e15efa8a233caaec037aabb90ad706" },
   "LuaSnip": { "branch": "master", "commit": "0abc8f390b278c3b4aabc4c004ac8a088b65cf24" },

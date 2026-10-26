@@ -84,8 +84,7 @@ result.sync = { ok = ok, error = not ok and tostring(err) or nil }
 ------------------------------------------------------- 2. lazy のタスク失敗を拾う
 
 -- headless では :Lazy の画面が出ないので、失敗しても何も言わずに通り過ぎる。
--- markdown-preview の yarn / op.nvim の go build / CopilotChat の luarocks は
--- ここでしか落ちたことが分からない。
+-- markdown-preview の yarn / op.nvim の go build はここでしか落ちたことが分からない。
 do
   local errors, warnings = {}, {}
   local okc, Config = pcall(require, "lazy.core.config")

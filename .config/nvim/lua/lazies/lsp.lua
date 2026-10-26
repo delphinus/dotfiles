@@ -70,7 +70,6 @@ return {
               "clangd",
               -- NOTE: cmake-language-server does not support Python 3.14
               -- "cmake",
-              "copilot",
               "ctags-lsp",
               "cssls",
               "denols",

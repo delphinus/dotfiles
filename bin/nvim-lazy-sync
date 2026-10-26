@@ -13,8 +13,8 @@
 #
 #   - treesitter のパーサ (323 個) は lock に載らない。`build = ":TSUpdate"` は
 #     非同期なので、headless では完了を待たずに nvim が終了してしまう。
-#   - lazy の build フック (markdown-preview の yarn / op.nvim の go build /
-#     CopilotChat の luarocks) は失敗しても headless では画面に出ない。
+#   - lazy の build フック (markdown-preview の yarn / op.nvim の go build) は
+#     失敗しても headless では画面に出ない。
 #   - denops (skkeleton 等) は deno のモジュールキャッシュを起動時に取り直す。
 #     ここが死ぬと SKK が丸ごと使えなくなる。
 #

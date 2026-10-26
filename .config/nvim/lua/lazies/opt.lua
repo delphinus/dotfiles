@@ -1366,7 +1366,6 @@ return {
                 Collapsed = "",
                 Constant = "󰏿",
                 Constructor = "",
-                Copilot = "",
                 Enum = "",
                 EnumMember = "",
                 Event = "",
@@ -1521,25 +1520,6 @@ return {
   {
     "h3pei/trace-pr.nvim",
     cmd = { "TracePR" },
-    opts = {},
-  },
-
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    cmd = {
-      "CopilotChat",
-      "CopilotChatOpen",
-      "CopilotChatClose",
-      "CopilotChatToggle",
-      "CopilotChatStop",
-      "CopilotChatReset",
-      "CopilotChatSave",
-      "CopilotChatLoad",
-      "CopilotChatPrompts",
-      "CopilotChatModels",
-      "CopilotChatAgents",
-    },
-    build = "make tiktoken",
     opts = {},
   },
 
