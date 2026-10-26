@@ -77,7 +77,9 @@ return {
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
   { "delphinus/blink-cmp-digraphs", version = "*" },
-  { "Kaiser-Yang/blink-cmp-git" },
+  -- :BlinkCmpGitReloadCache が kill('TERM') で落ちる件の修正が upstream に入るまで
+  -- fork のブランチを使う (https://github.com/Kaiser-Yang/blink-cmp-git/pull/73)。
+  { "delphinus/blink-cmp-git", branch = "fix/kill-signal-name" },
   { "MahanRahmati/blink-nerdfont.nvim" },
 
   -- nvim-cmp source plugins, surfaced via blink.compat
