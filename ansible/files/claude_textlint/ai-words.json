@@ -3,6 +3,10 @@
     {
       "message": "\"窓\" は避けたい表現です。",
       "tokens": [{ "pos": "名詞", "basic_form": "窓" }]
+    },
+    {
+      "message": "\"版\" は避けたい表現です。",
+      "tokens": [{ "pos": "名詞", "basic_form": "版" }]
     }
   ]
 }
