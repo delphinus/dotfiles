@@ -152,6 +152,45 @@ def fps(v):
         return "-"
 
 
+# ffmpeg の demuxer 名 (format_name) からコンテナの通称へ。demuxer は似た形式をまとめて
+# 読むので (mp3 は MP2 も、mov は MP4・M4A・3GP も読む)、そのままの名前だと紛らわしい
+CONTAINERS = {
+    "mp3": "MP3",
+    "flac": "FLAC",
+    "wav": "WAV",
+    "aiff": "AIFF",
+    "ogg": "Ogg",
+    "aac": "AAC (ADTS)",
+    "caf": "CAF",
+    "wv": "WavPack",
+    "ape": "APE",
+    "dsf": "DSF",
+    "avi": "AVI",
+    "asf": "ASF",
+    "mpegts": "MPEG-TS",
+    "mpeg": "MPEG-PS",
+    "flv": "FLV",
+}
+# 1 つの demuxer で読む形式は拡張子で見分ける
+CONTAINERS_BY_EXT = {
+    "mov,mp4,m4a,3gp,3g2,mj2": (
+        {".mp4": "MP4", ".m4v": "MP4", ".m4a": "M4A", ".m4b": "M4A", ".mov": "QuickTime", ".3gp": "3GP", ".3g2": "3GP"},
+        "MP4",
+    ),
+    "matroska,webm": ({".webm": "WebM", ".mka": "Matroska"}, "Matroska"),
+}
+
+
+def container(fmt, path):
+    name = fmt.get("format_name", "")
+    if name in CONTAINERS:
+        return CONTAINERS[name]
+    if name in CONTAINERS_BY_EXT:
+        by_ext, default = CONTAINERS_BY_EXT[name]
+        return by_ext.get(os.path.splitext(path)[1].lower(), default)
+    return fmt.get("format_long_name") or name or "-"
+
+
 def probe(path, out, n):
     """ffprobe とカバーアートの取り出しを同時に実行する。カバーアートのファイル名 (無ければ None) も返す"""
     cover = os.path.join(out, f"cover-{n}")
@@ -242,7 +281,7 @@ def card(path, out, n):
         stats += stat("全体", kbps(fmt.get("bit_rate")), "kbps")
     else:
         stats += stat("ビットレート", kbps(fmt.get("bit_rate")), "kbps", accent=True)
-    stats += stat("形式", fmt.get("format_long_name") or fmt.get("format_name") or "-", small=True)
+    stats += stat("コンテナ", container(fmt, path), small=True)
 
     rows = []
     for s in streams:
