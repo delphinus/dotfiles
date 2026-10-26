@@ -228,6 +228,32 @@
         state=link
       when: kitty_app.stat.exists
 
+# Finder のクイックアクション「メディア情報」。音声・動画を選んで呼ぶと、長さ・
+# ビットレート・タグ・カバーアートを小さなウインドウに出す。中身は
+# macos/media-info/media-info.py で、build-workflow.py がそれを埋め込んだ
+# ~/Library/Services/メディア情報.workflow を作る。ffmpeg (ffprobe) は Homebrew で
+# 入れておく (無ければウインドウにその旨を出す)。
+- name: set up media-info Quick Action
+  when: ansible_facts["system"] == 'Darwin'
+  block:
+    # 既にあるディレクトリのパーミッションは変えない (mode を付けない)
+    - name: ensure ~/Library/Services exists
+      file:
+        path: ~/Library/Services
+        state: directory
+
+    - name: build media-info Quick Action
+      command: >-
+        /usr/bin/python3 -I {{ dotfiles_dir }}/macos/media-info/build-workflow.py
+        {{ dotfiles_dir }}/macos/media-info/media-info.py
+      register: media_info_workflow
+      changed_when: media_info_workflow.stdout == 'changed'
+
+    # サービスの一覧は pbs が持っており、ファイルを書き換えただけでは読み直さない
+    - name: refresh Services registry
+      command: /System/Library/CoreServices/pbs -update
+      when: media_info_workflow is changed
+
 # daily-sync: 毎日 brew の更新 (HEAD 系含む) を回し、無人でできないことだけを
 # 通知するジョブ。詳細は bin/daily-sync の先頭コメント参照。
 - name: set up daily-sync LaunchAgent
