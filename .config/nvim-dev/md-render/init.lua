@@ -39,9 +39,6 @@ require("lazy").setup({
     },
     lazy = false,
     keys = {
-      -- Use these mappings in Karabiner-Elements
-      { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
-      { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
       { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
     },
     config = function()

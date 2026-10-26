@@ -10,8 +10,6 @@ local use_cmp = not not vim.env.CMP
 -- なお端末モードでは補完が無効で、入力は端末アプリへの送信 (<BS> を送ってから
 -- 書き直す) で再現されるため、アプリによっては表示が崩れる。
 local skkeleton_keys = {
-  { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l", "t" } },
-  { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l", "t" } },
   { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l", "t" } },
 }
 if use_cmp then
@@ -103,10 +101,6 @@ return {
     dependencies = { "denops.vim" },
 
     config = function(plugin)
-      -- 左右の ⌘ 単体押しでかな・英数を切り替えるための Karabiner 連携。補完
-      -- エンジンに依らず常に要る (CMP=1 の時だけ有効になっていて動いていなかった)。
-      require("core.skkeleton_karabiner").setup()
-
       -- blink 使用時の <CR> 確定は skkeleton 本体の completionBackend が面倒を
       -- 見るため、以前ここにあった buffer-local <CR> 張り替えハックは不要。
       if use_cmp then

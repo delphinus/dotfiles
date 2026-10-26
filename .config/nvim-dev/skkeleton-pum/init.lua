@@ -52,8 +52,6 @@ require("lazy").setup {
       { "delphinus/skkeleton_indicator.nvim", dir = shared .. "/skkeleton_indicator.nvim", opts = { fadeOutMs = 0 } },
     },
     keys = {
-      { "<A-j>", "<Plug>(skkeleton-disable)", mode = { "i", "c", "l" } },
-      { "<A-J>", "<Plug>(skkeleton-enable)", mode = { "i", "c", "l" } },
       { "<C-j>", "<Plug>(skkeleton-toggle)", mode = { "i", "c", "l" } },
     },
     config = function()
