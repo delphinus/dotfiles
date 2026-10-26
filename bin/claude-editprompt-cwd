@@ -1,5 +1,6 @@
 #!/bin/bash
-# Claude Code の SessionStart / CwdChanged フック。Claude Code が作業している
+# Claude Code の SessionStart / CwdChanged / PostToolUse (EnterWorktree と
+# ExitWorktree) フック。Claude Code が作業している
 # ディレクトリを ~/.cache/kitty-editprompt/cwd-<kitty のウィンドウ id> に書き出す。
 #
 # kitty の editprompt (~/.config/kitty/editprompt.py) は、起動したときの
@@ -18,15 +19,20 @@
 # ほうなので、これで構わない。ただし /tmp のような寄り道まで追うと補完が外れる
 # ので、CwdChanged では git リポジトリの中へ移ったときだけ書く。
 #
-# SessionStart では無条件に書く。同じウィンドウで前のセッションが残した
-# リポジトリを、新しいセッションが引き継がないようにするため。
+# EnterWorktree / ExitWorktree はセッションの cwd を移すが、CwdChanged は発火
+# しない。移った後もコマンドは worktree で始まるので cd も起きず、そのままでは
+# 追従できない。PostToolUse の cwd には移った後のディレクトリが入っているので、
+# それを書く。
+#
+# SessionStart と PostToolUse では無条件に書く。SessionStart は、同じウィンドウで
+# 前のセッションが残したリポジトリを新しいセッションが引き継がないようにするため。
 #
 # ファイル名は Claude Code が動いているウィンドウの id で決める。editprompt の
 # nvim は送信先として同じ id を知っている。
 
 [[ -n $KITTY_WINDOW_ID ]] || exit 0
 
-# SessionStart は cwd、CwdChanged は new_cwd に入っている。
+# SessionStart と PostToolUse は cwd、CwdChanged は new_cwd に入っている。
 IFS=$'\t' read -r event dir < <(jq -r '[.hook_event_name, .new_cwd // .cwd // ""] | @tsv')
 [[ -n $dir ]] || exit 0
 if [[ $event == CwdChanged ]]; then

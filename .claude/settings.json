@@ -270,6 +270,15 @@
             "command": "claude-code-hooks save"
           }
         ]
+      },
+      {
+        "matcher": "EnterWorktree|ExitWorktree",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/git/dotfiles/bin/claude-editprompt-cwd\""
+          }
+        ]
       }
     ],
     "PostToolUseFailure": [
