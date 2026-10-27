@@ -77,9 +77,12 @@ return {
   { "moyiz/blink-emoji.nvim" },
   { "Kaiser-Yang/blink-cmp-dictionary" },
   { "delphinus/blink-cmp-digraphs", version = "*" },
-  -- :BlinkCmpGitReloadCache が kill('TERM') で落ちる件の修正が upstream に入るまで
-  -- fork のブランチを使う (https://github.com/Kaiser-Yang/blink-cmp-git/pull/73)。
-  { "delphinus/blink-cmp-git", branch = "fix/kill-signal-name" },
+  -- 次の 2 つの修正が upstream に入るまで、両方をマージした fork のブランチを使う。
+  -- - :BlinkCmpGitReloadCache が kill('TERM') で落ちる
+  --   (https://github.com/Kaiser-Yang/blink-cmp-git/pull/73, fix/kill-signal-name)
+  -- - カレントディレクトリが消えた Neovim で InsertEnter のたびにエラーになる
+  --   (https://github.com/Kaiser-Yang/blink-cmp-git/pull/74, fix/deleted-cwd)
+  { "delphinus/blink-cmp-git", branch = "local/combined" },
   { "MahanRahmati/blink-nerdfont.nvim" },
 
   -- nvim-cmp source plugins, surfaced via blink.compat
