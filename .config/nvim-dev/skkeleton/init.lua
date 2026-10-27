@@ -495,6 +495,14 @@ require("lazy").setup({
     keys = require("jab_shared").keys,
   },
 
+  {
+    "jinh0/eyeliner.nvim",
+    dir = shared .. "/eyeliner.nvim",
+    -- キー定義・ハイライトはメイン config と共有 (lua/eyeliner_shared.lua)。
+    keys = require("eyeliner_shared").keys,
+    config = require("eyeliner_shared").config,
+  },
+
   -- 移行前の flash.nvim 設定。enabled = false で無効化しつつ参考に残す。
   {
     enabled = false,

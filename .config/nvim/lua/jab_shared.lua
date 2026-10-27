@@ -5,9 +5,11 @@
 --
 -- flash.nvim からの移行。対応関係:
 --   s        jab_win()  flash.jump() 相当のウィンドウ内インクリメンタル検索 (migemo)
---   f/F/t/T             jab 独自の label hint 付き・dot-repeat 対応モーション
---                       (flash では素の f/F/t/T のままだった)。count 指定時
---                       (例: 1fx) は組込みの f/F/t/T に委ねる (下の fmotion 参照)。
+--
+-- f/F/t/T は jab には割り当てず、組込みのままにしている。jab の f は候補が
+-- 2 つ以上あると最寄りでもラベル入力を求め、; / , でも繰り返せなかったため。
+-- 代わりにメイン config と nvim-dev/skkeleton では eyeliner.nvim で f 一発で
+-- 届く文字を示す (lua/eyeliner_shared.lua 参照)。
 --
 -- flash.nvim にあった treesitter() / remote() / treesitter_search() / toggle()
 -- は jab に無いため移行していない。
@@ -25,25 +27,6 @@
 
 local M = {}
 
--- f/F/t/T 用のマッピングを作る。count を明示したとき (例: 1fx / 2fx) は
--- 組込みの f/F/t/T にフォールバックする。jab は f 系を完全に置き換えるが、
--- たまに素の挙動 (特に ; / , での繰り返し) が欲しいので、カウント指定時だけ
--- native に委ねる。参考:
--- https://blog.atusy.net/2025/10/03/switch-to-native-mapping-with-count/
-local function fmotion(key)
-  return {
-    key,
-    function()
-      if vim.v.count > 0 then
-        return key
-      end
-      return require("jab")[key]()
-    end,
-    mode = { "n", "x", "o" },
-    expr = true,
-  }
-end
-
 -- lazy.nvim の keys 用リスト。プラグイン本体の指定 (name / dir / dependencies)
 -- は config ごとに異なるので、共通なのはこのキー定義だけ。
 M.keys = {
@@ -58,10 +41,6 @@ M.keys = {
     mode = { "n", "x", "o" },
     expr = true,
   },
-  fmotion "f",
-  fmotion "F",
-  fmotion "t",
-  fmotion "T",
 }
 
 return M

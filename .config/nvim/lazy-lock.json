@@ -47,6 +47,7 @@
   "eaw.nvim": { "branch": "main", "commit": "215e1acef4bf4cb8659566bcd72dbad8a3af8fa6" },
   "ejs-syntax": { "branch": "master", "commit": "0e704c523dacfda547215b5936067869e79103c4" },
   "emcl.nvim": { "branch": "main", "commit": "895b6d87c0645f2b6b9b5fc4de574fe98f73c0e6" },
+  "eyeliner.nvim": { "branch": "main", "commit": "8f197eb30cecdf4c2cc9988a5eecc6bc34c0c7d6" },
   "f_meta.nvim": { "branch": "main", "commit": "74bafa8bb564df37234f3ab289ce3e462ed722f5" },
   "fastaction.nvim": { "branch": "main", "commit": "3f0b6de0853fe47ba47339056332c431134155b9" },
   "flash.nvim": { "branch": "fix/skip-label-filtering-for-long-patterns", "commit": "6bbc4742300da985fe564d7dac2d043e15fc4de4" },

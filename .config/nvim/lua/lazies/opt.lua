@@ -1912,6 +1912,14 @@ return {
   },
 
   {
+    -- f/F/t/T を押したとき f 一発で届く文字に色を付ける。設定は nvim-dev の
+    -- skkeleton config と共有 (lua/eyeliner_shared.lua)。
+    "jinh0/eyeliner.nvim",
+    keys = require("eyeliner_shared").keys,
+    config = require("eyeliner_shared").config,
+  },
+
+  {
     -- kitty の scrollback を Neovim で開く。WezTerm 時代の snatch.wezterm
     -- (タブ内の全ペインをフロートで再現して jab で飛ぶ) の置き換えとして試用中。
     -- 対象は単一ペインだが、本体設定で開くので jab.nvim + luamigemo の s が
