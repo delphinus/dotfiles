@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Chizu を fork (delphinus/chizu) の取り込み用ブランチからビルドし、~/Applications/Chizu.app に入れる。
+#
+# 何のためか: chizu-userscript が使う chizu-http(s): の受け渡しは、azu/chizu に PR を出している
+# (https://github.com/azu/chizu/pull/3)。取り込まれてリリースされるまでは、PR のブランチをまとめた
+# fork の local-build ブランチを手元でビルドして使う。リリースに入ったら、README の手順でリリースの zip に
+# 戻し、このスクリプトは消す。
+#
+# 署名には kitty-sign-local と同じ証明書 (CERT_NAME) を使う。アドホック署名だと署名の要件に cdhash
+# しか書けず、ビルドし直すたびに Chrome のデータへのアクセス許可 (システム設定のファイルとフォルダ)
+# が外れる。証明書で署名すれば要件が「識別子 + 証明書」になり、ビルドし直しても外れない。証明書が
+# 無い端末ではアドホック署名にする。証明書の作り方は kitty-sign-local の冒頭を参照。
+#
+# 署名の要件が変わったとき (リリースの zip やアドホック署名のビルドから入れ替えたとき) は、古い許可の
+# 記録が新しいビルドに当てはまらない (スイッチをオンにしても、次に読むときにオフに戻る)。tccutil で
+# 消しておくと、次に読むときに macOS が通知を出すので、そこかシステム設定で許可し直す。
+#
+# ソースは CHIZU_FORK_DIR (既定 ~/.cache/chizu-fork) に専用の clone を置く。ghq のクローンには
+# 触らない。前回入れたものと同じコミットなら何もしない (--force でビルドし直す)。
+#
+# Usage: chizu-install-fork [--force]
+
+set -euo pipefail
+
+readonly REPO="https://github.com/delphinus/chizu.git"
+readonly BRANCH="${CHIZU_FORK_BRANCH:-local-build}"
+readonly SRC="${CHIZU_FORK_DIR:-$HOME/.cache/chizu-fork}"
+readonly CERT_NAME="delphinus local code signing"
+readonly KEYCHAIN="$HOME/Library/Keychains/login.keychain-db"
+readonly APP="$HOME/Applications/Chizu.app"
+readonly STAMP="$SRC/.installed-commit"
+
+force=false
+case "${1:-}" in
+    --force) force=true ;;
+    "") ;;
+    *) echo "Usage: chizu-install-fork [--force]" >&2; exit 2 ;;
+esac
+
+if [[ -d "$SRC/.git" ]]; then
+    git -C "$SRC" fetch --quiet origin "$BRANCH"
+    git -C "$SRC" checkout --quiet --force --detach FETCH_HEAD
+else
+    git clone --quiet --branch "$BRANCH" "$REPO" "$SRC"
+fi
+commit="$(git -C "$SRC" rev-parse HEAD)"
+
+if ! $force && [[ -d "$APP" && -f "$STAMP" && "$(cat "$STAMP")" == "$commit" ]]; then
+    echo "skip: ${commit:0:7} は入れ済み"
+    exit 0
+fi
+
+identity=-
+if security find-certificate -c "$CERT_NAME" "$KEYCHAIN" >/dev/null 2>&1; then
+    identity="$CERT_NAME"
+else
+    echo "warn: 証明書 \"$CERT_NAME\" が無いのでアドホック署名にする (ビルドし直すたびに許可が外れる)" >&2
+fi
+
+before="$(codesign -d -r- "$APP" 2>&1 | sed -n 's/^\(# \)\{0,1\}designated => //p')" || before=""
+
+# 動いている Chizu を入れ替えると古いプロセスがリンクを受け取り続けるので、先に終わらせる。
+pkill -x chizu || true
+(cd "$SRC" && CHIZU_SIGNING_IDENTITY="$identity" scripts/install-app.sh >/dev/null)
+echo "$commit" >"$STAMP"
+
+after="$(codesign -d -r- "$APP" 2>&1 | sed -n 's/^\(# \)\{0,1\}designated => //p')"
+if [[ -n "$before" && "$before" != "$after" ]]; then
+    tccutil reset SystemPolicyAppDataDetailed dev.azu.chizu >/dev/null
+    echo "note: 署名が変わったので Chrome のデータへのアクセス許可を消した。次に Chrome へ振り分けると拒否されて通知が出るので、そこかシステム設定のファイルとフォルダで許可する"
+fi
+echo "installed: ${commit:0:7} ($BRANCH, signed by $([[ $identity == - ]] && echo ad-hoc || echo "$identity"))"
