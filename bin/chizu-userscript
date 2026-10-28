@@ -3,7 +3,7 @@
 //
 // ブラウザは自分の中で開くリンクを macOS の既定ブラウザ (Chizu) に渡さない。そこでページ内のクリックと
 // window.open を横取りし、http(s): を chizu-http(s): に書き換えて開く。Chizu は接頭辞を外して同じ設定で
-// 振り分ける (https://github.com/azu/chizu/pull/3 。取り込まれるまでは chizu-install-fork で入れる)。
+// 振り分ける (https://github.com/azu/chizu/pull/3 。v1.2.0 以降のリリースに入っている。chizu-install で入れる)。
 //
 // 設定のルールを上から順に評価し、最初に合ったルールの行き先が「今のブラウザ以外」のときだけ渡す。
 // どのルールにも合わないリンクは渡さない (default へは回さず、そのブラウザで開く)。こうすると Chizu の

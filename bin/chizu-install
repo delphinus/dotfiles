@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Chizu (azu/chizu) の最新リリースを ~/Applications/Chizu.app に入れる。README の Install の手順と同じ。
+#
+# 以前は chizu-http(s): の受け渡し (https://github.com/azu/chizu/pull/3) が取り込まれるまで、fork を手元で
+# ビルドして入れていた。v1.2.0 で取り込まれたので、リリースの zip に戻した。
+#
+# リリースは Chizu の固定の証明書で署名されている。fork のビルド (kitty-sign-local の証明書やアドホック
+# 署名) から入れ替えると署名の要件が変わり、古い許可の記録が新しいビルドに当てはまらない (スイッチを
+# オンにしても、次に読むときにオフに戻る)。そのときは tccutil で消しておく。次に Chrome へ振り分けると
+# macOS が通知を出すので、そこかシステム設定のファイルとフォルダで許可し直す。
+#
+# 入れ済みの版が最新のリリースと同じなら何もしない (--force で入れ直す)。
+#
+# Usage: chizu-install [--force]
+
+set -euo pipefail
+
+readonly REPO="azu/chizu"
+readonly ASSET="chizu-macos-arm64.zip"
+readonly APP="$HOME/Applications/Chizu.app"
+readonly LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
+
+force=false
+case "${1:-}" in
+    --force) force=true ;;
+    "") ;;
+    *) echo "Usage: chizu-install [--force]" >&2; exit 2 ;;
+esac
+
+# releases/latest は最新のタグへリダイレクトするので、API を叩かずに版が分かる。
+tag="$(curl -fsSI -o /dev/null -w '%{redirect_url}' "https://github.com/$REPO/releases/latest")"
+tag="${tag##*/}"
+latest="${tag#v}"
+if [[ -z "$latest" ]]; then
+    echo "error: 最新のリリースが分からない" >&2
+    exit 1
+fi
+
+installed="$(defaults read "$APP/Contents/Info.plist" CFBundleShortVersionString 2>/dev/null || true)"
+if ! $force && [[ "$installed" == "$latest" ]]; then
+    echo "skip: $latest は入れ済み"
+    exit 0
+fi
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+base="https://github.com/$REPO/releases/download/$tag"
+curl -fsSL "$base/$ASSET" -o "$tmp/$ASSET"
+curl -fsSL "$base/$ASSET.sha256" -o "$tmp/$ASSET.sha256"
+(cd "$tmp" && shasum -a 256 -c "$ASSET.sha256" >/dev/null)
+
+before="$(codesign -d -r- "$APP" 2>&1 | sed -n 's/^\(# \)\{0,1\}designated => //p')" || before=""
+
+# 動いている Chizu を入れ替えると古いプロセスがリンクを受け取り続けるので、先に終わらせる。
+pkill -x chizu || true
+rm -rf "$APP"
+mkdir -p "$(dirname "$APP")"
+ditto -x -k "$tmp/$ASSET" "$(dirname "$APP")"
+xattr -dr com.apple.quarantine "$APP"
+"$LSREGISTER" -f "$APP"
+# 初めて入れたときだけ既定のブラウザにする。macOS の確認のダイアログが出る。
+if [[ -z "$installed" ]]; then
+    "$APP/Contents/MacOS/chizu" default set
+fi
+
+after="$(codesign -d -r- "$APP" 2>&1 | sed -n 's/^\(# \)\{0,1\}designated => //p')"
+if [[ -n "$before" && "$before" != "$after" ]]; then
+    tccutil reset SystemPolicyAppDataDetailed dev.azu.chizu >/dev/null
+    echo "note: 署名が変わったので Chrome のデータへのアクセス許可を消した。次に Chrome へ振り分けると拒否されて通知が出るので、そこかシステム設定のファイルとフォルダで許可する"
+fi
+echo "installed: $latest${installed:+ (was $installed)}"
