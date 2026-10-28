@@ -1,0 +1,171 @@
+#!/usr/bin/env bun
+// chizu-userscript: Chizu の設定から、ブラウザ内のリンクを Chizu へ渡す Tampermonkey 用スクリプトを作る。
+//
+// ブラウザは自分の中で開くリンクを macOS の既定ブラウザ (Chizu) に渡さない。そこでページ内のクリックと
+// window.open を横取りし、http(s): を chizu-http(s): に書き換えて開く。Chizu は接頭辞を外して同じ設定で
+// 振り分ける (https://github.com/azu/chizu/pull/3 。取り込まれるまでは chizu-install-fork で入れる)。
+//
+// 設定のルールを上から順に評価し、最初に合ったルールの行き先が「今のブラウザ以外」のときだけ渡す。
+// どのルールにも合わないリンクは渡さない (default へは回さず、そのブラウザで開く)。こうすると Chizu の
+// 判定と食い違わず、同じブラウザへ送り返す往復も起きない。
+//
+// 開いたばかりのタブ (履歴が 1 件) で渡すべきページを読み込んだときも、Chizu に渡してそのタブを閉じる。
+// 中継の URL を経由するリンクやスクリプトで開いたタブが残らないようにするため。
+//
+// ブラウザ側で評価できるのは host / pathPrefix / urlContains の条件だけ。urlRegex (ICU と JS で文法が違う)
+// と sourceBundleID (ブラウザからは分からない) を含むルールは飛ばし、標準エラーに出す。
+// Chrome のプロファイルはページから判別できないので、行き先が Chrome ならプロファイルによらず渡さない。
+//
+// Usage:
+//   chizu-userscript [--config <file>] | pbcopy
+//
+//   出力を Tampermonkey (Safari と Chrome の両方) の新規スクリプトに貼る。設定を変えたら作り直して貼り直す。
+
+import { readFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+
+// userscript から判別できるブラウザだけを扱う。
+const BROWSERS: Record<string, string> = {
+  "com.apple.Safari": "safari",
+  "com.google.Chrome": "chrome",
+};
+
+type When = {
+  urlContains?: string;
+  urlRegex?: string;
+  host?: string;
+  pathPrefix?: string;
+  sourceBundleID?: string;
+};
+type Rule = { name: string; when: When; destination: { bundleID: string } };
+
+function parseArgs(argv: string[]): string {
+  let config = join(homedir(), ".config", "chizu", "config.jsonc");
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === "--config" && argv[i + 1]) {
+      config = argv[++i];
+    } else {
+      console.error("Usage: chizu-userscript [--config <file>]");
+      process.exit(2);
+    }
+  }
+  return config;
+}
+
+// Chizu と同じく、文字列の外にある // と /* */ のコメントと末尾のカンマだけを取り除く。
+function stripJsonc(text: string): string {
+  let out = "";
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (c === '"') {
+      let j = i + 1;
+      while (j < text.length && text[j] !== '"') j += text[j] === "\\" ? 2 : 1;
+      out += text.slice(i, j + 1);
+      i = j;
+    } else if (c === "/" && text[i + 1] === "/") {
+      while (i < text.length && text[i] !== "\n") i++;
+      out += "\n";
+    } else if (c === "/" && text[i + 1] === "*") {
+      const end = text.indexOf("*/", i + 2);
+      if (end < 0) throw new Error("unterminated comment");
+      i = end + 1;
+    } else if (c === ",") {
+      let j = i + 1;
+      while (j < text.length && /\s/.test(text[j])) j++;
+      if (text[j] !== "}" && text[j] !== "]") out += c;
+    } else {
+      out += c;
+    }
+  }
+  return out;
+}
+
+const configPath = parseArgs(process.argv.slice(2));
+const config = JSON.parse(stripJsonc(readFileSync(configPath, "utf8"))) as { rules?: Rule[] };
+
+const rules: { name: string; when: When; browser: string | null }[] = [];
+for (const rule of config.rules ?? []) {
+  const { urlRegex, sourceBundleID, ...when } = rule.when;
+  if (urlRegex !== undefined || sourceBundleID !== undefined) {
+    console.error(`skip: "${rule.name}" uses urlRegex or sourceBundleID`);
+    continue;
+  }
+  rules.push({ name: rule.name, when, browser: BROWSERS[rule.destination.bundleID] ?? null });
+}
+
+const runtime = (rules: typeof rulesForScript) => {
+  const ua = navigator.userAgent;
+  const current = /Chrome\//.test(ua) && (navigator as any).userAgentData?.brands?.some((b: any) => b.brand === "Google Chrome")
+    ? "chrome"
+    : /Safari\//.test(ua) && !/Chrome\/|Chromium\//.test(ua)
+      ? "safari"
+      : null;
+  if (!current) return;
+
+  // Chizu と同じ条件の意味: urlContains と host は大文字小文字を区別せず、pathPrefix は区別する。
+  const shouldHandOff = (url: URL) => {
+    if (url.protocol !== "http:" && url.protocol !== "https:") return false;
+    for (const rule of rules) {
+      const w = rule.when;
+      if (w.urlContains !== undefined && !url.href.toLowerCase().includes(w.urlContains.toLowerCase())) continue;
+      if (w.host !== undefined && url.hostname.toLowerCase() !== w.host.toLowerCase()) continue;
+      if (w.pathPrefix !== undefined && !url.pathname.startsWith(w.pathPrefix)) continue;
+      return rule.browser !== current;
+    }
+    return false;
+  };
+  const handOff = (value: string | URL | undefined | null) => {
+    if (!value) return false;
+    let url: URL;
+    try {
+      url = new URL(String(value), location.href);
+    } catch {
+      return false;
+    }
+    if (!shouldHandOff(url)) return false;
+    location.href = `chizu-${url.href}`;
+    return true;
+  };
+
+  // 中継の URL やスクリプトで開いたタブは、クリックの時点では行き先が分からない。開いたばかりのタブ
+  // (履歴が 1 件) で渡すべきページを読み込んだら、Chizu に渡してタブを閉じる。すぐ閉じると Chrome の
+  // 確認ダイアログごと消えるので、別のブラウザが前面に出てこのタブが背面に回ってから閉じる。
+  if (window.top === window && history.length === 1 && shouldHandOff(new URL(location.href))) {
+    const close = () => window.close();
+    window.addEventListener("blur", close, { once: true });
+    document.addEventListener("visibilitychange", () => document.hidden && close());
+    window.stop();
+    location.href = `chizu-${location.href}`;
+    return;
+  }
+
+  const onClick = (event: MouseEvent) => {
+    if (event.button > 1) return;
+    const anchor = (event.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
+    if (anchor && handOff(anchor.href)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  };
+  window.addEventListener("click", onClick, true);
+  window.addEventListener("auxclick", onClick, true);
+
+  const open = window.open;
+  window.open = function (url?: string | URL, ...rest: any[]) {
+    return handOff(url) ? null : open.call(window, url, ...rest);
+  } as typeof window.open;
+};
+const rulesForScript = rules;
+
+console.log(`// ==UserScript==
+// @name         Chizu handoff
+// @namespace    https://github.com/azu/chizu
+// @version      ${new Date().toISOString().slice(0, 19).replace(/[-:T]/g, "")}
+// @description  Hand off links that Chizu routes to another browser. Generated by chizu-userscript; do not edit.
+// @match        *://*/*
+// @run-at       document-start
+// @grant        none
+// ==/UserScript==
+
+(${runtime.toString()})(${JSON.stringify(rules, null, 2)});`);
