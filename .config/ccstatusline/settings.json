@@ -17,7 +17,7 @@
         "type": "custom-command",
         "color": "brightWhite",
         "bold": true,
-        "commandPath": "~/git/dotfiles/bin/ccstatusline-ai-title --max 70 --reserve 130"
+        "commandPath": "~/git/dotfiles/bin/ccstatusline-ai-title --max 70 --reserve 157"
       },
       {
         "id": "11",
@@ -36,6 +36,25 @@
         "id": "3",
         "type": "context-length",
         "color": "brightBlack"
+      },
+      {
+        "id": "12",
+        "type": "separator"
+      },
+      {
+        "id": "13",
+        "type": "cache-timer",
+        "color": "brightCyan",
+        "rawValue": true
+      },
+      {
+        "id": "14",
+        "type": "separator"
+      },
+      {
+        "id": "15",
+        "type": "cache-hit-rate",
+        "color": "green"
       },
       {
         "id": "4",
