@@ -1892,10 +1892,7 @@ return {
   {
     "justinmk/guh.nvim",
     cmd = { "Guh" },
-    -- diffs.nvim は 2026-10-31 に GitHub から消える。作者の Forgejo が新しい
-    -- 置き場所なので url で直に指定する (GitHub から入れていると起動時に
-    -- 移行を促す警告が出る)。
-    dependencies = { { url = "https://forge.barrettruth.com/barrettruth/diffs.nvim" } },
+    dependencies = { "barrettruth/diffs.nvim" },
   },
 
   {
