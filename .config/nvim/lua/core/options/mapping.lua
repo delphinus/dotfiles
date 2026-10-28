@@ -14,6 +14,10 @@ vim.keymap.set("n", "_", "<C-w>_")
 
 vim.keymap.set("n", "ZA", "<Cmd>qa<CR>")
 
+-- skkeleton の確定アンドゥ (挿入モードの <C-z>) のつもりでノーマルモードで押すと
+-- サスペンドしてしまうので無効にする。必要なら :suspend を使う。
+vim.keymap.set("n", "<C-z>", "<Nop>")
+
 -- https://twitter.com/uvrub/status/1341036672364945408
 vim.keymap.set("i", "<CR>", "<C-g>u<CR>", { silent = true })
 

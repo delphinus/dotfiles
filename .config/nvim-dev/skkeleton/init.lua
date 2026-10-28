@@ -52,6 +52,10 @@ else
 end
 vim.opt.cmdheight = 0
 
+-- skkeleton の確定アンドゥ (挿入モードの <C-z>) のつもりでノーマルモードで押すと
+-- サスペンドしてしまうので無効にする。必要なら :suspend を使う。
+vim.keymap.set("n", "<C-z>", "<Nop>")
+
 local find_sibling_pane, send_text_to_pane, target_pane, hide_self
 if vim.env.EDITPROMPT then
   -- kitty にこのウィンドウが editprompt であることを伝える。~/.config/kitty/
