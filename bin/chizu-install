@@ -9,7 +9,7 @@
 # オンにしても、次に読むときにオフに戻る)。そのときは tccutil で消しておく。次に Chrome へ振り分けると
 # macOS が通知を出すので、そこかシステム設定のファイルとフォルダで許可し直す。
 #
-# 入れ済みの版が最新のリリースと同じなら何もしない (--force で入れ直す)。
+# 入っているバージョンが最新のリリースと同じなら何もしない (--force で入れ直す)。
 #
 # Usage: chizu-install [--force]
 
@@ -27,7 +27,7 @@ case "${1:-}" in
     *) echo "Usage: chizu-install [--force]" >&2; exit 2 ;;
 esac
 
-# releases/latest は最新のタグへリダイレクトするので、API を叩かずに版が分かる。
+# releases/latest は最新のタグへリダイレクトするので、API を叩かずにバージョンが分かる。
 tag="$(curl -fsSI -o /dev/null -w '%{redirect_url}' "https://github.com/$REPO/releases/latest")"
 tag="${tag##*/}"
 latest="${tag#v}"
@@ -58,9 +58,11 @@ mkdir -p "$(dirname "$APP")"
 ditto -x -k "$tmp/$ASSET" "$(dirname "$APP")"
 xattr -dr com.apple.quarantine "$APP"
 "$LSREGISTER" -f "$APP"
-# 初めて入れたときだけ既定のブラウザにする。macOS の確認のダイアログが出る。
+# 初めて入れたときだけ既定のブラウザにする。macOS の確認のダイアログが出る。Chizu はダイアログに
+# 答える前に結果を確かめるので、切り替えが成功していても「OSStatus error 0」で失敗扱いになる。
 if [[ -z "$installed" ]]; then
-    "$APP/Contents/MacOS/chizu" default set
+    "$APP/Contents/MacOS/chizu" default set ||
+        echo "note: ダイアログで \"Chizu\" を使用を選ぶ。切り替わったかは chizu default status で確かめる"
 fi
 
 after="$(codesign -d -r- "$APP" 2>&1 | sed -n 's/^\(# \)\{0,1\}designated => //p')"
