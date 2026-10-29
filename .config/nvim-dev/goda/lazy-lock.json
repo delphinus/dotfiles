@@ -1,0 +1,6 @@
+{
+  "goda-cmp.vim": { "branch": "main", "commit": "8b2f6e71a4bb37521fce030a0c06d1554964ac41" },
+  "goda.vim": { "branch": "main", "commit": "b76cd47141f639c9fe0726baa62e453b76178aea" },
+  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "pum.vim": { "branch": "main", "commit": "ad96cdd07ccd78fbbe27607630f0c1cf70b3a9c0" }
+}
